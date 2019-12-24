@@ -1,0 +1,50 @@
+{
+  "name": "goodearth-fe",
+  "version": "1.0.0",
+  "description": "Goodearth Frontend Application",
+  "main": "index.js",
+  "author": "Tushar Srivastava<tushar1404@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "storybook": "start-storybook"
+  },
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
+    "@storybook/react": "^5.2.8",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.17.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "node-sass": "^4.13.0",
+    "prettier": "^1.19.1",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.1.1",
+    "webpack": "^4.41.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{jsx,tsx,ts,js,css,scss,json,md}": [
+      "prettier --write",
+      "eslint",
+      "git add"
+    ]
+  }
+}
