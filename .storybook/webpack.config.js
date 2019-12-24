@@ -4,7 +4,10 @@ const path = require("path");
 module.exports = async ({ config, mode }) => {
   // `mode` has a value of 'DEVELOPMENT' or 'PRODUCTION'
 
-  config.module.rules.push({ test: /\.(ts|tsx)$/, loader: "ts-loader" });
+  config.module.rules.push({
+    test: /\.(ts|tsx)$/,
+    loader: "ts-loader"
+  });
   config.module.rules.push({
     test: /\.scss/,
     include: path.resolve(__dirname, "../"),
