@@ -1,0 +1,64 @@
+@import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
+.dropdown-menu-container {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+
+  &.open {
+    overflow: unset;
+  }
+}
+.label {
+  @include hdr-curr();
+  display: inline-block;
+  line-height: $dropdown-label-height;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.menu {
+  display: none;
+  min-width: 130px;
+  background: $grey;
+  position: absolute;
+  top: $dropdown-label-height;
+
+  &.right {
+    right: 0;
+  }
+
+  &.left {
+    left: 0;
+  }
+}
+
+.open {
+  .menu {
+    display: block;
+  }
+
+  .label {
+    color: $cerise;
+  }
+}
+
+.menu-item {
+  line-height: 40px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: normal;
+  padding: 0 10px;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+  letter-spacing: 0.1em;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    color: $cerise;
+  }
+}

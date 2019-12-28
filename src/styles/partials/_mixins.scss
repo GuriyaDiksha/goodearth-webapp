@@ -1,0 +1,604 @@
+@import "functions";
+
+@mixin hdr-cat {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #464646;
+  font-family: $font-Header;
+  letter-spacing: 2px;
+}
+
+@mixin menu-heading {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #000;
+  font-family: $font-Lato;
+}
+
+@mixin menu-copy {
+  font-size: 12px;
+  text-transform: capitalize;
+  font-family: $font-Lato;
+  letter-spacing: 0.09em;
+  color: #000;
+}
+
+@mixin hdr-curr {
+  font-weight: bold;
+  font-style: normal;
+  font-size: 12px;
+  font-family: $font-Lato;
+  letter-spacing: 0.1em;
+  color: tint(#000, 20%);
+}
+
+@mixin hdr-dd-copy {
+  font-weight: bold;
+  font-style: normal;
+  font-size: 9px;
+  text-transform: uppercase;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  color: tint(#000, 20%);
+}
+
+@mixin ftr-heading-white {
+  font-weight: bold;
+  font-style: normal;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  color: $white;
+}
+
+@mixin ftr-heading-80blk {
+  @include ftr-copy-white-desktop;
+  color: tint(#000, 20%);
+  font-size: 14px;
+  line-height: 44px;
+}
+
+@mixin ftr-copy-white {
+  font-size: 10px;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  color: $white;
+}
+
+@mixin ftr-copy-white-desktop {
+  @include hdr-curr;
+  color: $white;
+}
+
+@mixin ftr-copy-70blk {
+  @include ftr-copy-white-desktop;
+  text-transform: capitalize;
+  color: tint(#000, 30%);
+}
+
+@mixin txt-field-default {
+  font-style: italic;
+  font-size: 15px;
+  color: tint(#000, 40%);
+}
+
+@mixin menu-cat-mobile {
+  @include hdr-cat;
+  color: #000;
+}
+
+@mixin menu-cat-green {
+  @include menu-cat-mobile;
+  color: #b7dbd2;
+}
+
+@mixin menu-subcopy {
+  font-family: $font-Lato;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: tint(#000, 30%);
+  font-weight: 400;
+}
+
+@mixin menu-subcopy-cerise {
+  @include menu-subcopy;
+  color: $cerise;
+}
+
+@mixin txt-field-default {
+  ::-webkit-input-placeholder {
+    @content;
+  }
+  :-moz-placeholder {
+    @content;
+  }
+  ::-moz-placeholder {
+    @content;
+  }
+  :-ms-input-placeholder {
+    @content;
+  }
+}
+
+/**********************************************  PLP   ******************************************************/
+
+@mixin plp_subhdr_dd {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  color: $cerise;
+  text-transform: uppercase;
+}
+
+/*@mixin plp_coll_name_mob {
+    font-size: 10px;
+    font-family: $font-Amiri;
+    letter-spacing: 1px;
+    color: tint(#000, 50%);
+    text-transform: uppercase;
+  }
+  
+  @mixin plp_prod_name_mob {
+    font-size: 12px;
+    font-family: $font-Amiri;
+  }
+  */
+@mixin plp_subhdr_dd_copy {
+  font-size: 12px;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  color: tint(#000, 20%);
+}
+
+@mixin plp_subhdr_open_mob {
+  font-size: 14px;
+  font-family: $font-Lato;
+  color: tint(#000, 50%);
+}
+
+/*@mixin plp_coll_name_desktop {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: tint(#000, 50%);
+    font-family: $font-Amiri;
+  }
+  
+  @mixin plp_prod_name_desktop {
+    font-size: 16px;
+    font-family: $font-Amiri;
+  }*/
+
+@mixin plp_prod_quantity {
+  font-size: 10px;
+  color: tint(#000, 40%);
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+}
+
+@mixin plp_breadcrumbs {
+  color: tint(#000, 50%);
+  letter-spacing: 1px;
+  font-family: $font-Lato;
+}
+
+@mixin plp_cat_cerise {
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: $cerise;
+  font-family: $font-Lato;
+}
+
+@mixin plp_filter_cat {
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #000;
+}
+
+@mixin plp_filter_copy {
+  font-family: $font-Lato;
+  font-size: 12px;
+  color: tint(#000, 40%);
+}
+
+@mixin plp_filter_sub {
+  font-family: $font-Lato;
+  font-size: 9px;
+  color: tint(#000, 60%);
+  font-weight: 300;
+}
+
+@mixin plp_filter_copy_cerise {
+  color: $cerise;
+}
+
+@mixin plp_filter_copy_underline {
+  font-family: $font-Lato;
+  font-size: 12px;
+  color: tint(#000, 30%);
+}
+
+/**********************************************  PDP   ******************************************************/
+
+@mixin pdp_coll_name {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: tint(#000, 60%);
+  letter-spacing: 2px;
+  font-family: $font-Amiri;
+  line-height: 30px;
+}
+
+@mixin pdp_prod_name {
+  font-size: 22px;
+  color: #000;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+}
+
+@mixin pdp_spec {
+  font-family: $font-Lato;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: tint(#000, 70%);
+  letter-spacing: 2px;
+}
+
+@mixin cta_white {
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+}
+
+@mixin pdp_copy_head {
+  font-size: 13px;
+  font-family: $font-Lato;
+  text-transform: uppercase;
+  color: tint(#000, 50%);
+  letter-spacing: 1px;
+}
+
+@mixin pdp_copy_body {
+  font-size: 14px;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+  color: tint(#000, 50%);
+  text-transform: none;
+  line-height: 20px;
+  margin-top: 15px;
+}
+
+@mixin plp_prod_name_mob {
+  font-size: 16px;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+  color: #000;
+  text-transform: capitalize;
+}
+
+@mixin plp_prod_name_desktop {
+  font-size: 16px;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+  color: #000;
+  text-transform: capitalize;
+}
+
+@mixin plp_prod_price_desktop {
+  font-size: 16px;
+  font-family: $font-Amiri;
+  color: #000;
+}
+
+@mixin plp_prod_price_mob {
+  font-size: 12px;
+  font-family: $font-Amiri;
+  color: #000;
+}
+
+@mixin plp_coll_name_desktop {
+  font-size: 12px;
+  font-family: $font-Amiri;
+  color: tint(#000, 50%);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@mixin plp_coll_name_mob {
+  font-size: 10px;
+  font-family: $font-Amiri;
+  color: tint(#000, 50%);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@mixin plp_filter_copy {
+  font-size: 12px;
+  color: tint(#000, 40%);
+}
+
+@mixin curveBtnLink {
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: $font-Amiri;
+  letter-spacing: 1px;
+}
+
+/*******************************  Login  **************************/
+
+@mixin c10-L-R {
+  font-size: 12px;
+  font-family: $font-Lato;
+  color: tint(#000, 40%);
+  letter-spacing: 1px;
+}
+
+@mixin c22-A-I {
+  font-size: 25px;
+  font-family: $font-Amiri;
+  //font-style: italic;
+}
+
+@mixin font28 {
+  font-size: 28px;
+  font-family: $font-Amiri;
+  text-transform: capitalize;
+}
+
+@mixin placeholder {
+  &.placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-webkit-input-placeholder {
+    @content;
+  }
+}
+
+@mixin error-msg {
+  font-size: 10px !important;
+  font-style: italic;
+  color: rgb(171, 30, 86) !important;
+  font-weight: bold;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  //padding-bottom: 10px;
+  //margin-top: -5px;
+  text-transform: lowercase;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+  &.cc-error-msg {
+    line-height: 15px;
+    margin-top: 5px;
+  }
+}
+
+@mixin cerise-btn {
+  background-color: rgb(171, 30, 86);
+  color: #fff;
+  letter-spacing: 2px;
+  font-family: $font-Lato;
+  text-transform: uppercase;
+  line-height: 52px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  a {
+    color: #fff;
+    display: inline-block;
+    width: 100%;
+  }
+}
+@mixin cerise-btn-trans {
+  color: $cerise;
+  letter-spacing: 2px;
+  font-family: $font-Lato;
+  text-transform: uppercase;
+  line-height: 50px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  border: 1px solid $cerise;
+  border-radius: 0;
+  a {
+    color: $cerise;
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+@mixin pdp_breadcrumbs {
+  font-size: 12px;
+  color: tint(#000, 60%);
+}
+
+@mixin more-details {
+  font-family: $font-Lato;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: tint(#000, 20%);
+}
+
+@mixin sticky-top {
+  position: fixed;
+  width: 100%;
+  z-index: 9;
+  background-color: $white;
+  left: 0;
+  top: $header-height;
+}
+
+@mixin minimumWidth {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $bp-xlarge;
+}
+
+@mixin cta-curly {
+  background: url("/static/img/category/icons_cta-curly-outline-ceriz.svg")
+    no-repeat;
+  font-weight: bold;
+  width: 208px;
+  height: 61px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  a {
+    color: $cerise;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+    text-transform: uppercase;
+    width: 100%;
+    line-height: 61px;
+    letter-spacing: 1px;
+  }
+  &:hover {
+    background: url("/static/img/category/icons_cta-curly-fill-ceriz.svg")
+      no-repeat;
+    a {
+      color: $white;
+    }
+  }
+}
+
+@mixin cta-shop-the-look {
+  color: $cerise;
+  font-family: $font-Lato;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+@mixin shop-the-look {
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+}
+
+@mixin small {
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-family: $font-Amiri;
+  text-transform: capitalize;
+  color: tint(#000, 30%);
+}
+
+@mixin success-msg {
+  font-family: $font-Lato;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 10px;
+  color: tint(#000, 30%);
+  background-color: rgb(170, 216, 199);
+  line-height: 42px;
+  width: 100%;
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+@mixin bottom-shadow {
+  -webkit-box-shadow: 0 10px 5px -6px tint(#000, 90%);
+  box-shadow: 0 10px 5px -6px tint(#000, 90%);
+}
+
+@mixin transition($what, $time, $how) {
+  -webkit-transition: $what $time $how;
+  transition: $what $time $how;
+}
+
+@mixin arrows($top, $right, $bottom, $left) {
+  padding: 10px;
+  border-width: $top $right $bottom $left;
+}
+@mixin transform($transforms) {
+  transform: $transforms;
+  -webkit-transform: $transforms;
+}
+@mixin abc($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+
+@mixin arrowbottom {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
+}
+
+@mixin arrowright {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 7px solid $cerise;
+}
+@mixin arrowrightsmall {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid $cerise;
+}
+
+@mixin truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 0px rgba(255, 255, 255, 0);
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(128, 128, 128, 0.3);
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(128, 128, 128, 0.5);
+  }
+  &::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+@mixin scrollbar-default {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+$list: $grey 92%, $white 8%;
+
+@mixin gradient($direction, $list) {
+  background: -webkit-linear-gradient($direction, $list);
+  background: -moz-linear-gradient($direction, $list);
+  background: -o-linear-gradient($direction, $list);
+  background: linear-gradient($direction, $list);
+}

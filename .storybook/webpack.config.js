@@ -3,7 +3,10 @@ const path = require("path");
 // Export a function. Accept the base config as the only param.
 module.exports = async ({ config, mode }) => {
   // `mode` has a value of 'DEVELOPMENT' or 'PRODUCTION'
-
+  if (!config.resolve) {
+    config.resolve = {};
+  }
+  config.resolve.extensions = [".ts", ".js", ".json", ".tsx", ".scss"];
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
     loader: "ts-loader"
@@ -17,7 +20,7 @@ module.exports = async ({ config, mode }) => {
         loader: "css-loader",
         options: {
           modules: {
-            localIdentName: "[name]_[local]--[hash:base64:5]"
+            localIdentName: "[path]_[name]_[local]"
           },
           importLoaders: 0,
           localsConvention: "camelCase",

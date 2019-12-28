@@ -4,19 +4,24 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: "eslint:recommended",
-  globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
-  },
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
+  ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
+    useJSXTextNode: true,
+    ecmaVersion: 6,
+    sourceType: "module",
     ecmaFeatures: {
+      modules: true,
       jsx: true
-    },
-    ecmaVersion: 2018,
-    sourceType: "module"
+    }
   },
   plugins: ["react", "@typescript-eslint"],
-  rules: {}
+  rules: {
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
+  }
 };

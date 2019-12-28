@@ -1,0 +1,22 @@
+$font-Header: "HeaderFont", "Trebuchet MS", "geneva";
+$font-Lato: "LatoFont", "Helvetica", "Arial";
+$font-Amiri: "Baskerville", "Amiri", "Serif";
+
+$border: 1px solid tint(#000, 80%);
+$bp-xlarge: 120em; //breakpoint 1920px
+
+// Colors
+$light-bg: tint(#000, 95%);
+$cerise: #ab1e56;
+$white: #fff;
+$default: #000;
+$lgtDefault: #333;
+$summerGreen: #8cb8aa;
+$grey: #f9f8f5;
+
+// Dropdown menu
+$dropdown-label-height: 32px;
+
+// Heights
+$header-height: 50px;
+$main-header: 84px;
