@@ -55,8 +55,8 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "post-merge": "generateFonts",
-      "post-checkout": "generateFonts"
+      "post-merge": "npm run generateFonts",
+      "post-checkout": "npm run generateFonts"
     }
   },
   "lint-staged": {
