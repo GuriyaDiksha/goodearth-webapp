@@ -1,0 +1,2452 @@
+{
+    "count": 169,
+    "next": "https://www.goodearth.in/myapi/search/?category_shop=Apparel+%3E+Womens+Uppers+%3E+Kurtas&currency=INR&page=2&page_size=20&source=plp",
+    "previous": null,
+    "results": {
+        "banner": "",
+        "breadcrumb": [
+            {
+                "url": "/",
+                "depth": 0,
+                "name": "Home"
+            },
+            {
+                "url": "/category_landing/women_1/",
+                "depth": 1,
+                "name": "Apparel"
+            },
+            {
+                "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel > Womens Uppers",
+                "depth": 2,
+                "name": "Womens Uppers"
+            },
+            {
+                "url": null,
+                "depth": 2,
+                "name": "Kurtas"
+            }
+        ],
+        "facets": {
+            "price_inr": [
+                [
+                    "7200",
+                    12
+                ],
+                [
+                    "12500",
+                    10
+                ],
+                [
+                    "16500",
+                    8
+                ],
+                [
+                    "8500",
+                    8
+                ],
+                [
+                    "4800",
+                    7
+                ],
+                [
+                    "6500",
+                    7
+                ],
+                [
+                    "24500",
+                    6
+                ],
+                [
+                    "7800",
+                    6
+                ],
+                [
+                    "9000",
+                    6
+                ],
+                [
+                    "9500",
+                    6
+                ],
+                [
+                    "14000",
+                    5
+                ],
+                [
+                    "21500",
+                    5
+                ],
+                [
+                    "25500",
+                    5
+                ],
+                [
+                    "10500",
+                    4
+                ],
+                [
+                    "15500",
+                    4
+                ],
+                [
+                    "18500",
+                    4
+                ],
+                [
+                    "26500",
+                    4
+                ],
+                [
+                    "11500",
+                    3
+                ],
+                [
+                    "19000",
+                    3
+                ],
+                [
+                    "19500",
+                    3
+                ],
+                [
+                    "26000",
+                    3
+                ],
+                [
+                    "27500",
+                    3
+                ],
+                [
+                    "5500",
+                    3
+                ],
+                [
+                    "7000",
+                    3
+                ],
+                [
+                    "125000",
+                    2
+                ],
+                [
+                    "13500",
+                    2
+                ],
+                [
+                    "14500",
+                    2
+                ],
+                [
+                    "17000",
+                    2
+                ],
+                [
+                    "17500",
+                    2
+                ],
+                [
+                    "22500",
+                    2
+                ],
+                [
+                    "29000",
+                    2
+                ],
+                [
+                    "32000",
+                    2
+                ],
+                [
+                    "32500",
+                    2
+                ],
+                [
+                    "38500",
+                    2
+                ],
+                [
+                    "8000",
+                    2
+                ],
+                [
+                    "11000",
+                    1
+                ],
+                [
+                    "12400",
+                    1
+                ],
+                [
+                    "13000",
+                    1
+                ],
+                [
+                    "18000",
+                    1
+                ],
+                [
+                    "20500",
+                    1
+                ],
+                [
+                    "22000",
+                    1
+                ],
+                [
+                    "25200",
+                    1
+                ],
+                [
+                    "26000",
+                    1
+                ],
+                [
+                    "28000",
+                    1
+                ],
+                [
+                    "29500",
+                    1
+                ],
+                [
+                    "30000",
+                    1
+                ],
+                [
+                    "37500",
+                    1
+                ],
+                [
+                    "30500",
+                    1
+                ],
+                [
+                    "34000",
+                    1
+                ],
+                [
+                    "36000",
+                    1
+                ],
+                [
+                    "37000",
+                    1
+                ],
+                [
+                    "37500",
+                    1
+                ],
+                [
+                    "38000",
+                    1
+                ],
+                [
+                    "39500",
+                    1
+                ],
+                [
+                    "65000",
+                    1
+                ],
+                [
+                    "7500",
+                    1
+                ],
+                [
+                    "9800",
+                    1
+                ]
+            ],
+            "current_color": [
+                [
+                    "000000-Blacks",
+                    46
+                ],
+                [
+                    "00425B-Blues",
+                    24
+                ],
+                [
+                    "FBFCFC-Whites",
+                    22
+                ],
+                [
+                    "7DC094-Greens",
+                    21
+                ],
+                [
+                    "C63870-Pinks",
+                    21
+                ],
+                [
+                    "D7CCC8-Natural",
+                    18
+                ],
+                [
+                    "B12027-Reds",
+                    11
+                ],
+                [
+                    "A67C47-Metallic",
+                    3
+                ],
+                [
+                    "FFFFFF-Multi",
+                    2
+                ]
+            ],
+            "category_product_type_mapping": {
+                "Apparel > Accessories > Bags & Potlis": [],
+                "Apparel > Womens Wraps > Saris": [],
+                "Apparel > MEN": [],
+                "Apparel > Womens Lowers > Shorts": [],
+                "Apparel > Sustain Summer Sale": [],
+                "Apparel > TM": [],
+                "Apparel > Womens Uppers > Tops": [],
+                "Apparel > Womens Lowers > Pants": [],
+                "Apparel > Womens Uppers > Dresses & Tunics": [],
+                "Apparel > The Velvet Edit": [],
+                "Apparel > Womens Uppers > Overlays": [],
+                "Apparel > Accessories > Footwear": [],
+                "Apparel > Womens Uppers > Kurtas": [],
+                "Apparel > Womens Lowers > Farshis": [],
+                "Apparel > Sustain Summer Sale > First Time On Sale": [],
+                "Apparel > Large Casual": [],
+                "Apparel > Accessories": [],
+                "Apparel > Womens Wraps": [],
+                "Apparel > Sustain Summer Sale > Sale - 10% Off": [],
+                "Apparel > Womens Lowers": [],
+                "Apparel > Womens Wraps > Scarves": [],
+                "Apparel > Womens Lowers > Lehengas": [],
+                "Apparel > Rozana": [],
+                "Apparel > Sustain Summer Sale > Sale - Exclusively Online": [],
+                "Apparel > Essentials": [],
+                "Apparel > Womens Wraps > Odhanis": [],
+                "Apparel > Winter Wishlist": [],
+                "Apparel > Womens Uppers": [],
+                "Apparel > chanderi": [],
+                "Apparel > Festive Feeling": []
+            },
+            "category_shop_detail": [
+                {
+                    "url": "/catalogue/category/women/florals_139/",
+                    "children": [],
+                    "name": " TM",
+                    "sequence": "1.10"
+                },
+                {
+                    "url": "/catalogue/category/women/men_172/",
+                    "children": [],
+                    "name": " MEN",
+                    "sequence": "1.2"
+                },
+                {
+                    "url": "/catalogue/category/women/rozana_142/",
+                    "children": [],
+                    "name": " Rozana",
+                    "sequence": "1.3"
+                },
+                {
+                    "url": "/catalogue/category/women/festive-feeling-apparel_171/",
+                    "children": [],
+                    "name": " Festive Feeling",
+                    "sequence": "1.6"
+                },
+                {
+                    "url": "/catalogue/category/women/all-things-winter_176/",
+                    "children": [],
+                    "name": " Winter Wishlist",
+                    "sequence": "1.9"
+                },
+                {
+                    "url": "/catalogue/category/women/uppers_3/",
+                    "children": [
+                        {
+                            "url": "/catalogue/category/women/uppers_3/",
+                            "name": " Kurtas",
+                            "sequence": "2.2"
+                        },
+                        {
+                            "url": "/catalogue/category/women/uppers_3/",
+                            "name": " Tops",
+                            "sequence": "2.3"
+                        },
+                        {
+                            "url": "/catalogue/category/women/uppers_3/",
+                            "name": " Dresses & Tunics",
+                            "sequence": "2.4"
+                        },
+                        {
+                            "url": "/catalogue/category/women/uppers_3/",
+                            "name": " Overlays",
+                            "sequence": "2.5"
+                        }
+                    ],
+                    "name": " Womens Uppers",
+                    "sequence": "2.1"
+                },
+                {
+                    "url": "/catalogue/category/women/bottoms_12/",
+                    "children": [
+                        {
+                            "url": "/catalogue/category/women/bottoms_12/",
+                            "name": " Farshis",
+                            "sequence": "3.2"
+                        },
+                        {
+                            "url": "/catalogue/category/women/bottoms_12/",
+                            "name": " Pants",
+                            "sequence": "3.3"
+                        },
+                        {
+                            "url": "/catalogue/category/women/bottoms_12/",
+                            "name": " Lehengas",
+                            "sequence": "3.4"
+                        },
+                        {
+                            "url": "/catalogue/category/women/bottoms_12/",
+                            "name": " Shorts",
+                            "sequence": "3.5"
+                        }
+                    ],
+                    "name": " Womens Lowers",
+                    "sequence": "3.1"
+                },
+                {
+                    "url": "/catalogue/category/women/wraps_18/",
+                    "children": [
+                        {
+                            "url": "/catalogue/category/women/wraps_18/",
+                            "name": " Odhanis",
+                            "sequence": "4.2"
+                        },
+                        {
+                            "url": "/catalogue/category/women/wraps_18/",
+                            "name": " Scarves",
+                            "sequence": "4.3"
+                        },
+                        {
+                            "url": "/catalogue/category/women/wraps_18/",
+                            "name": " Saris",
+                            "sequence": "4.4"
+                        }
+                    ],
+                    "name": " Womens Wraps",
+                    "sequence": "4.1"
+                },
+                {
+                    "url": "/catalogue/category/women/accessories_23/",
+                    "children": [
+                        {
+                            "url": "/catalogue/category/women/accessories_23/",
+                            "name": " Footwear",
+                            "sequence": "4.7"
+                        },
+                        {
+                            "url": "/catalogue/category/women/accessories_23/",
+                            "name": " Bags & Potlis",
+                            "sequence": "4.8"
+                        }
+                    ],
+                    "name": " Accessories",
+                    "sequence": "4.6"
+                }
+            ],
+            "available_size": [
+                [
+                    "1",
+                    134
+                ],
+                [
+                    "2",
+                    134
+                ],
+                [
+                    "3",
+                    117
+                ],
+                [
+                    "4",
+                    79
+                ],
+                [
+                    "p",
+                    43
+                ],
+                [
+                    "free size",
+                    13
+                ],
+                [
+                    "free large",
+                    11
+                ],
+                [
+                    "free small",
+                    11
+                ],
+                [
+                    "m-l",
+                    9
+                ],
+                [
+                    "s-m",
+                    5
+                ],
+                [
+                    "l",
+                    2
+                ],
+                [
+                    "l-xl",
+                    2
+                ],
+                [
+                    "m",
+                    2
+                ],
+                [
+                    "s",
+                    2
+                ],
+                [
+                    "xs-s",
+                    2
+                ],
+                [
+                    "xl",
+                    1
+                ]
+            ],
+            "category_shop": [
+                [
+                    "Apparel > TM",
+                    "1.10",
+                    60
+                ],
+                [
+                    "Apparel > MEN",
+                    "1.2",
+                    52
+                ],
+                [
+                    "Apparel > Rozana",
+                    "1.3",
+                    108
+                ],
+                [
+                    "Apparel > Festive Feeling",
+                    "1.6",
+                    98
+                ],
+                [
+                    "Apparel > Winter Wishlist",
+                    "1.9",
+                    57
+                ],
+                [
+                    "Apparel > Womens Uppers",
+                    "2.1",
+                    307
+                ],
+                [
+                    "Apparel > Womens Uppers > Kurtas",
+                    "2.2",
+                    169
+                ],
+                [
+                    "Apparel > Womens Uppers > Tops",
+                    "2.3",
+                    44
+                ],
+                [
+                    "Apparel > Womens Uppers > Dresses & Tunics",
+                    "2.4",
+                    38
+                ],
+                [
+                    "Apparel > Womens Uppers > Overlays",
+                    "2.5",
+                    56
+                ],
+                [
+                    "Apparel > Womens Lowers",
+                    "3.1",
+                    137
+                ],
+                [
+                    "Apparel > Womens Lowers > Farshis",
+                    "3.2",
+                    45
+                ],
+                [
+                    "Apparel > Womens Lowers > Pants",
+                    "3.3",
+                    65
+                ],
+                [
+                    "Apparel > Womens Lowers > Lehengas",
+                    "3.4",
+                    21
+                ],
+                [
+                    "Apparel > Womens Lowers > Shorts",
+                    "3.5",
+                    6
+                ],
+                [
+                    "Apparel > Womens Wraps",
+                    "4.1",
+                    102
+                ],
+                [
+                    "Apparel > Womens Wraps > Odhanis",
+                    "4.2",
+                    67
+                ],
+                [
+                    "Apparel > Womens Wraps > Scarves",
+                    "4.3",
+                    17
+                ],
+                [
+                    "Apparel > Womens Wraps > Saris",
+                    "4.4",
+                    25
+                ],
+                [
+                    "Apparel > Accessories",
+                    "4.6",
+                    39
+                ],
+                [
+                    "Apparel > Accessories > Footwear",
+                    "4.7",
+                    12
+                ],
+                [
+                    "Apparel > Accessories > Bags & Potlis",
+                    "4.8",
+                    7
+                ]
+            ]
+        },
+        "data": [
+            {
+                "title": "Mingora Raza Buti Silk Kurta (Emerald)",
+                "id": "catalogue.product.21831",
+                "image": [
+                    "/media/images/product/Large/I00197786-1577179463.jpg",
+                    "/media/images/product/Large/I00197786_S-1576570793.jpg"
+                ],
+                "url": "/catalogue/mingora-raza-buti-silk-kurta-emerald_21831/",
+                "color": [
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens"
+                ],
+                "size": [
+                    "p",
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197790",
+                    "I00197789",
+                    "I00197788",
+                    "I00197787",
+                    "I00197786"
+                ],
+                "child": [
+                    {
+                        "size": "P",
+                        "stock": "2",
+                        "sku": "I00197786",
+                        "price_inr": "13500",
+                        "price_usd": "255",
+                        "price_gbp": "180"
+                    },
+                    {
+                        "size": "1",
+                        "stock": "2",
+                        "sku": "I00197787",
+                        "price_inr": "13500",
+                        "price_usd": "255",
+                        "price_gbp": "180"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00197788",
+                        "price_inr": "13500",
+                        "price_usd": "255",
+                        "price_gbp": "180"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00197789",
+                        "price_inr": "13500",
+                        "price_usd": "255",
+                        "price_gbp": "180"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00197790",
+                        "price_inr": "13500",
+                        "price_usd": "255",
+                        "price_gbp": "180"
+                    }
+                ],
+                "price_usd": "255",
+                "price_inr": "13500",
+                "price_gbp": "180",
+                "original_price_usd": "255",
+                "original_price_inr": "13500",
+                "original_price_gbp": "180",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Aniqa Silk Velvet Kurta",
+                "id": "catalogue.product.21866",
+                "image": [
+                    "/media/images/product/Large/I00197814-1577179595.jpg",
+                    "/media/images/product/Large/I00197814_S-1576571326.jpg"
+                ],
+                "url": "/catalogue/mingora-aniqa-silk-velvet-kurta_21866/",
+                "color": [
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Living > Velvet Edit|1.2",
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Living > Velvet Edit:/catalogue/category/living/velvet-edit_158/:1.2",
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197817",
+                    "I00197816",
+                    "I00197815",
+                    "I00197814"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00197814",
+                        "price_inr": "19500",
+                        "price_usd": "365",
+                        "price_gbp": "255"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00197815",
+                        "price_inr": "19500",
+                        "price_usd": "365",
+                        "price_gbp": "255"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "0",
+                        "sku": "I00197816",
+                        "price_inr": "19500",
+                        "price_usd": "365",
+                        "price_gbp": "255"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00197817",
+                        "price_inr": "19500",
+                        "price_usd": "365",
+                        "price_gbp": "255"
+                    }
+                ],
+                "price_usd": "365",
+                "price_inr": "19500",
+                "price_gbp": "255",
+                "original_price_usd": "365",
+                "original_price_inr": "19500",
+                "original_price_gbp": "255",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": true,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Kamal Silk Kaftan",
+                "id": "catalogue.product.21843",
+                "image": [
+                    "/media/images/product/Large/I00197796-1577179502.jpg",
+                    "/media/images/product/Large/I00197796_S-1576570939.jpg"
+                ],
+                "url": "/catalogue/mingora-kamal-silk-kaftan_21843/",
+                "color": [
+                    "000000-Blacks",
+                    "000000-Blacks"
+                ],
+                "size": [
+                    "free small",
+                    "free large"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197797",
+                    "I00197796"
+                ],
+                "child": [
+                    {
+                        "size": "Free Small",
+                        "stock": "3",
+                        "sku": "I00197796",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "Free Large",
+                        "stock": "2",
+                        "sku": "I00197797",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    }
+                ],
+                "price_usd": "235",
+                "price_inr": "12500",
+                "price_gbp": "165",
+                "original_price_usd": "235",
+                "original_price_inr": "12500",
+                "original_price_gbp": "165",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Faiza Silk Velvet Kurta",
+                "id": "catalogue.product.21871",
+                "image": [
+                    "/media/images/product/Large/I00197818-1577179612.jpg",
+                    "/media/images/product/Large/I00197818_S-1576571389.jpg"
+                ],
+                "url": "/catalogue/mingora-faiza-silk-velvet-kurta_21871/",
+                "color": [
+                    "C63870-Pinks",
+                    "C63870-Pinks",
+                    "C63870-Pinks",
+                    "C63870-Pinks"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Living > Velvet Edit|1.2",
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Living > Velvet Edit:/catalogue/category/living/velvet-edit_158/:1.2",
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197821",
+                    "I00197820",
+                    "I00197819",
+                    "I00197818"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "2",
+                        "sku": "I00197818",
+                        "price_inr": "26000",
+                        "price_usd": "485",
+                        "price_gbp": "340"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00197819",
+                        "price_inr": "26000",
+                        "price_usd": "485",
+                        "price_gbp": "340"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00197820",
+                        "price_inr": "26000",
+                        "price_usd": "485",
+                        "price_gbp": "340"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "0",
+                        "sku": "I00197821",
+                        "price_inr": "26000",
+                        "price_usd": "485",
+                        "price_gbp": "340"
+                    }
+                ],
+                "price_usd": "485",
+                "price_inr": "26000",
+                "price_gbp": "340",
+                "original_price_usd": "485",
+                "original_price_inr": "26000",
+                "original_price_gbp": "340",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Buta Farah Silk Velvet Kurta",
+                "id": "catalogue.product.21881",
+                "image": [
+                    "/media/images/product/Large/I00197826-1577179655.jpg",
+                    "/media/images/product/Large/I00197826_S-1576571647.jpg"
+                ],
+                "url": "/catalogue/mingora-buta-farah-silk-velvet-kurta_21881/",
+                "color": [
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Living > Velvet Edit|1.2",
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Living > Velvet Edit:/catalogue/category/living/velvet-edit_158/:1.2",
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197829",
+                    "I00197828",
+                    "I00197827",
+                    "I00197826"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00197826",
+                        "price_inr": "22500",
+                        "price_usd": "420",
+                        "price_gbp": "295"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00197827",
+                        "price_inr": "22500",
+                        "price_usd": "420",
+                        "price_gbp": "295"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "0",
+                        "sku": "I00197828",
+                        "price_inr": "22500",
+                        "price_usd": "420",
+                        "price_gbp": "295"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "0",
+                        "sku": "I00197829",
+                        "price_inr": "22500",
+                        "price_usd": "420",
+                        "price_gbp": "295"
+                    }
+                ],
+                "price_usd": "420",
+                "price_inr": "22500",
+                "price_gbp": "295",
+                "original_price_usd": "420",
+                "original_price_inr": "22500",
+                "original_price_gbp": "295",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Silk Velvet Phiran",
+                "id": "catalogue.product.21876",
+                "image": [
+                    "/media/images/product/Large/I00197822-1577179636.jpg",
+                    "/media/images/product/Large/I00197822_S-1576571579.jpg"
+                ],
+                "url": "/catalogue/mingora-silk-velvet-phiran_21876/",
+                "color": [
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Living > Velvet Edit|1.2",
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Living > Velvet Edit:/catalogue/category/living/velvet-edit_158/:1.2",
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197825",
+                    "I00197824",
+                    "I00197823",
+                    "I00197822"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "2",
+                        "sku": "I00197822",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00197823",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00197824",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00197825",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    }
+                ],
+                "price_usd": "400",
+                "price_inr": "21500",
+                "price_gbp": "280",
+                "original_price_usd": "400",
+                "original_price_inr": "21500",
+                "original_price_gbp": "280",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Farah Silk Kurta",
+                "id": "catalogue.product.21846",
+                "image": [
+                    "/media/images/product/Large/I00197798-1577179520.jpg",
+                    "/media/images/product/Large/I00197798_S-1576571012.jpg"
+                ],
+                "url": "/catalogue/mingora-farah-silk-velvet-kurta_21846/",
+                "color": [
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Living > Velvet Edit|1.2",
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Living > Velvet Edit:/catalogue/category/living/velvet-edit_158/:1.2",
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197801",
+                    "I00197800",
+                    "I00197799",
+                    "I00197798"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00197798",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "1",
+                        "sku": "I00197799",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "0",
+                        "sku": "I00197800",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "0",
+                        "sku": "I00197801",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    }
+                ],
+                "price_usd": "235",
+                "price_inr": "12500",
+                "price_gbp": "165",
+                "original_price_usd": "235",
+                "original_price_inr": "12500",
+                "original_price_gbp": "165",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Silk Potli Choga",
+                "id": "catalogue.product.21861",
+                "image": [
+                    "/media/images/product/Large/I00197810-1577179578.jpg",
+                    "/media/images/product/Large/I00197810_S-1576571237.jpg"
+                ],
+                "url": "/catalogue/mingora-silk-potli-choga_21861/",
+                "color": [
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197813",
+                    "I00197812",
+                    "I00197811",
+                    "I00197810"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00197810",
+                        "price_inr": "20500",
+                        "price_usd": "385",
+                        "price_gbp": "270"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00197811",
+                        "price_inr": "20500",
+                        "price_usd": "385",
+                        "price_gbp": "270"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00197812",
+                        "price_inr": "20500",
+                        "price_usd": "385",
+                        "price_gbp": "270"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00197813",
+                        "price_inr": "20500",
+                        "price_usd": "385",
+                        "price_gbp": "270"
+                    }
+                ],
+                "price_usd": "385",
+                "price_inr": "20500",
+                "price_gbp": "270",
+                "original_price_usd": "385",
+                "original_price_inr": "20500",
+                "original_price_gbp": "270",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mingora Raza Silk Kurta",
+                "id": "catalogue.product.21837",
+                "image": [
+                    "/media/images/product/Large/I00197791-1577179482.jpg",
+                    "/media/images/product/Large/I00197791_S-1576570875.jpg"
+                ],
+                "url": "/catalogue/mingora-raza-silk-kurta_21837/",
+                "color": [
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks"
+                ],
+                "size": [
+                    "p",
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197795",
+                    "I00197794",
+                    "I00197793",
+                    "I00197792",
+                    "I00197791"
+                ],
+                "child": [
+                    {
+                        "size": "P",
+                        "stock": "1",
+                        "sku": "I00197791",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "1",
+                        "stock": "2",
+                        "sku": "I00197792",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "1",
+                        "sku": "I00197793",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00197794",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00197795",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    }
+                ],
+                "price_usd": "235",
+                "price_inr": "12500",
+                "price_gbp": "165",
+                "original_price_usd": "235",
+                "original_price_inr": "12500",
+                "original_price_gbp": "165",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mingora"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Raisa Beyza Silk Kurta",
+                "id": "catalogue.product.21668",
+                "image": [
+                    "/media/images/product/Large/I00197878-1574413377.jpg",
+                    "/media/images/product/Large/I00197878_S-1574413301.jpg"
+                ],
+                "url": "/catalogue/raisa-beyza-silk-kurta_21668/",
+                "color": [
+                    "00425B-Blues",
+                    "00425B-Blues",
+                    "00425B-Blues"
+                ],
+                "size": [
+                    "p",
+                    "1",
+                    "2"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197880",
+                    "I00197879",
+                    "I00197878"
+                ],
+                "child": [
+                    {
+                        "size": "P",
+                        "stock": "1",
+                        "sku": "I00197878",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "1",
+                        "stock": "2",
+                        "sku": "I00197879",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "1",
+                        "sku": "I00197880",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    }
+                ],
+                "price_usd": "310",
+                "price_inr": "16500",
+                "price_gbp": "215",
+                "original_price_usd": "310",
+                "original_price_inr": "16500",
+                "original_price_gbp": "215",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Raisa"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Raisa Arela Silk Choga",
+                "id": "catalogue.product.21740",
+                "image": [
+                    "/media/images/product/Large/I00198331-1574416686.jpg",
+                    "/media/images/product/Large/I00198331_S-1574416681.jpg"
+                ],
+                "url": "/catalogue/raisa-arela-silk-choga_21740/",
+                "color": [
+                    "FFFFFF-Multi",
+                    "FFFFFF-Multi",
+                    "FFFFFF-Multi",
+                    "FFFFFF-Multi"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00198334",
+                    "I00198333",
+                    "I00198332",
+                    "I00198331"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "3",
+                        "sku": "I00198331",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00198332",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "0",
+                        "sku": "I00198333",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "0",
+                        "sku": "I00198334",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    }
+                ],
+                "price_usd": "310",
+                "price_inr": "16500",
+                "price_gbp": "215",
+                "original_price_usd": "310",
+                "original_price_inr": "16500",
+                "original_price_gbp": "215",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Raisa"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Raisa Tairi Silk Kurta",
+                "id": "catalogue.product.21690",
+                "image": [
+                    "/media/images/product/Large/I00197895-1574414777.jpg",
+                    "/media/images/product/Large/I00197895_S-1574414772.jpg"
+                ],
+                "url": "/catalogue/raisa-tairi-silk-kurta_21690/",
+                "color": [
+                    "B12027-Reds",
+                    "B12027-Reds",
+                    "B12027-Reds"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197897",
+                    "I00197896",
+                    "I00197895"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "3",
+                        "sku": "I00197895",
+                        "price_inr": "9500",
+                        "price_usd": "185",
+                        "price_gbp": "130"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00197896",
+                        "price_inr": "9500",
+                        "price_usd": "185",
+                        "price_gbp": "130"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00197897",
+                        "price_inr": "9500",
+                        "price_usd": "185",
+                        "price_gbp": "130"
+                    }
+                ],
+                "price_usd": "185",
+                "price_inr": "9500",
+                "price_gbp": "130",
+                "original_price_usd": "185",
+                "original_price_inr": "9500",
+                "original_price_gbp": "130",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Raisa"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Raisa Zenaida Silk Kalidar Kurta",
+                "id": "catalogue.product.21685",
+                "image": [
+                    "/media/images/product/Large/I00197891-1574414710.jpg",
+                    "/media/images/product/Large/I00197891_S-1574414707.jpg"
+                ],
+                "url": "/catalogue/raisa-zenaida-silk-kalidar-kurta_21685/",
+                "color": [
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks"
+                ],
+                "size": [
+                    "p",
+                    "1",
+                    "2",
+                    "3"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00197894",
+                    "I00197893",
+                    "I00197892",
+                    "I00197891"
+                ],
+                "child": [
+                    {
+                        "size": "P",
+                        "stock": "0",
+                        "sku": "I00197891",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00197892",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "1",
+                        "sku": "I00197893",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00197894",
+                        "price_inr": "16500",
+                        "price_usd": "310",
+                        "price_gbp": "215"
+                    }
+                ],
+                "price_usd": "310",
+                "price_inr": "16500",
+                "price_gbp": "215",
+                "original_price_usd": "310",
+                "original_price_inr": "16500",
+                "original_price_gbp": "215",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Raisa"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mithali Fahari Chanderi Tissue Kurta",
+                "id": "catalogue.product.21105",
+                "image": [
+                    "/media/images/product/Large/I00194562-1571122747.jpg",
+                    "/media/images/product/Large/I00194562_S-1571122742.jpg"
+                ],
+                "url": "/catalogue/mithali-fahari-chanderi-tissue-kurta_21105/",
+                "color": [
+                    "A67C47-Metallic",
+                    "A67C47-Metallic",
+                    "A67C47-Metallic",
+                    "A67C47-Metallic"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Festive Feeling|1.6",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Festive Feeling:/catalogue/category/women/festive-feeling-apparel_171/:1.6",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00194565",
+                    "I00194564",
+                    "I00194563",
+                    "I00194562"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "0",
+                        "sku": "I00194562",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "1",
+                        "sku": "I00194563",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00194564",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00194565",
+                        "price_inr": "12500",
+                        "price_usd": "235",
+                        "price_gbp": "165"
+                    }
+                ],
+                "price_usd": "235",
+                "price_inr": "12500",
+                "price_gbp": "165",
+                "original_price_usd": "235",
+                "original_price_inr": "12500",
+                "original_price_gbp": "165",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mithali"
+                ],
+                "is_new": true,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mithali Aarna Silk Kurta",
+                "id": "catalogue.product.21095",
+                "image": [
+                    "/media/images/product/Large/I00194554-1571122526.jpg",
+                    "/media/images/product/Large/I00194554_S-1571122520.jpg"
+                ],
+                "url": "/catalogue/mithali-aarna-silk-kurta_21095/",
+                "color": [
+                    "000000-Blacks",
+                    "000000-Blacks",
+                    "000000-Blacks"
+                ],
+                "size": [
+                    "p",
+                    "1",
+                    "2"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00194556",
+                    "I00194555",
+                    "I00194554"
+                ],
+                "child": [
+                    {
+                        "size": "P",
+                        "stock": "2",
+                        "sku": "I00194554",
+                        "price_inr": "25500",
+                        "price_usd": "475",
+                        "price_gbp": "335"
+                    },
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00194555",
+                        "price_inr": "25500",
+                        "price_usd": "475",
+                        "price_gbp": "335"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00194556",
+                        "price_inr": "25500",
+                        "price_usd": "475",
+                        "price_gbp": "335"
+                    }
+                ],
+                "price_usd": "475",
+                "price_inr": "25500",
+                "price_gbp": "335",
+                "original_price_usd": "475",
+                "original_price_inr": "25500",
+                "original_price_gbp": "335",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mithali"
+                ],
+                "is_new": true,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mithali Saanvi Silk Kurta",
+                "id": "catalogue.product.21115",
+                "image": [
+                    "/media/images/product/Large/I00194570-1571123504.jpg",
+                    "/media/images/product/Large/I00194570_S-1571123498.jpg"
+                ],
+                "url": "/catalogue/mithali-saanvi-silk-kurta_21115/",
+                "color": [
+                    "A67C47-Metallic",
+                    "A67C47-Metallic",
+                    "A67C47-Metallic"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Festive Feeling|1.6",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Festive Feeling:/catalogue/category/women/festive-feeling-apparel_171/:1.6",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00194572",
+                    "I00194571",
+                    "I00194570"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "2",
+                        "sku": "I00194570",
+                        "price_inr": "25500",
+                        "price_usd": "475",
+                        "price_gbp": "335"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00194571",
+                        "price_inr": "25500",
+                        "price_usd": "475",
+                        "price_gbp": "335"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00194572",
+                        "price_inr": "25500",
+                        "price_usd": "475",
+                        "price_gbp": "335"
+                    }
+                ],
+                "price_usd": "475",
+                "price_inr": "25500",
+                "price_gbp": "335",
+                "original_price_usd": "475",
+                "original_price_inr": "25500",
+                "original_price_gbp": "335",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mithali"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mithali Yutika Masaba Silk Kurta",
+                "id": "catalogue.product.21119",
+                "image": [
+                    "/media/images/product/Large/I00194573-1571123569.jpg",
+                    "/media/images/product/Large/I00194573_S-1571123563.jpg"
+                ],
+                "url": "/catalogue/mithali-yutika-masaba-silk-kurta_21119/",
+                "color": [
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00194576",
+                    "I00194575",
+                    "I00194574",
+                    "I00194573"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "0",
+                        "sku": "I00194573",
+                        "price_inr": "14000",
+                        "price_usd": "265",
+                        "price_gbp": "185"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "0",
+                        "sku": "I00194574",
+                        "price_inr": "14000",
+                        "price_usd": "265",
+                        "price_gbp": "185"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "0",
+                        "sku": "I00194575",
+                        "price_inr": "14000",
+                        "price_usd": "265",
+                        "price_gbp": "185"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00194576",
+                        "price_inr": "14000",
+                        "price_usd": "265",
+                        "price_gbp": "185"
+                    }
+                ],
+                "price_usd": "265",
+                "price_inr": "14000",
+                "price_gbp": "185",
+                "original_price_usd": "265",
+                "original_price_inr": "14000",
+                "original_price_gbp": "185",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mithali"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Mithali Hiral Mushroo Kurta",
+                "id": "catalogue.product.21110",
+                "image": [
+                    "/media/images/product/Large/I00194566-1571123439.jpg",
+                    "/media/images/product/Large/I00194566_S-1571123433.jpg"
+                ],
+                "url": "/catalogue/mithali-hiral-mushroo-kurta_21110/",
+                "color": [
+                    "B12027-Reds",
+                    "B12027-Reds",
+                    "B12027-Reds",
+                    "B12027-Reds"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00194569",
+                    "I00194568",
+                    "I00194567",
+                    "I00194566"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00194566",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00194567",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "2",
+                        "sku": "I00194568",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00194569",
+                        "price_inr": "21500",
+                        "price_usd": "400",
+                        "price_gbp": "280"
+                    }
+                ],
+                "price_usd": "400",
+                "price_inr": "21500",
+                "price_gbp": "280",
+                "original_price_usd": "400",
+                "original_price_inr": "21500",
+                "original_price_gbp": "280",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Mithali"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Naadia Tikona Farah Silk Velvet Kurta",
+                "id": "catalogue.product.20749",
+                "image": [
+                    "/media/images/product/Large/I00196931-1570784974.jpg",
+                    "/media/images/product/Large/I00196931_S-1570784967.jpg"
+                ],
+                "url": "/catalogue/naadia-tikona-farah-silk-velvet-muslin-kurta_20749/",
+                "color": [
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens",
+                    "7DC094-Greens"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Living > Velvet Edit|1.2",
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Living > Velvet Edit:/catalogue/category/living/velvet-edit_158/:1.2",
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00196934",
+                    "I00196933",
+                    "I00196932",
+                    "I00196931"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "1",
+                        "sku": "I00196931",
+                        "price_inr": "24500",
+                        "price_usd": "455",
+                        "price_gbp": "320"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "1",
+                        "sku": "I00196932",
+                        "price_inr": "24500",
+                        "price_usd": "455",
+                        "price_gbp": "320"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "0",
+                        "sku": "I00196933",
+                        "price_inr": "24500",
+                        "price_usd": "455",
+                        "price_gbp": "320"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "0",
+                        "sku": "I00196934",
+                        "price_inr": "24500",
+                        "price_usd": "455",
+                        "price_gbp": "320"
+                    }
+                ],
+                "price_usd": "455",
+                "price_inr": "24500",
+                "price_gbp": "320",
+                "original_price_usd": "455",
+                "original_price_inr": "24500",
+                "original_price_gbp": "320",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Naadia"
+                ],
+                "is_new": false,
+                "sales_badge_image": null
+            },
+            {
+                "title": "Naadia Bagh Silk Velvet Choga",
+                "id": "catalogue.product.20782",
+                "image": [
+                    "/media/images/product/Large/I00196957-1570701433.jpg",
+                    "/media/images/product/Large/I00196957_S-1570701431.jpg"
+                ],
+                "url": "/catalogue/naadia-bagh-silk-velvet-muslin-choga_20782/",
+                "color": [
+                    "C63870-Pinks",
+                    "C63870-Pinks",
+                    "C63870-Pinks",
+                    "C63870-Pinks"
+                ],
+                "size": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "category_shop": [
+                    "Living > Velvet Edit|1.2",
+                    "Apparel|1.2",
+                    "Apparel > Womens Uppers|2.1",
+                    "Apparel > Womens Uppers > Kurtas|2.2"
+                ],
+                "category_shop_detail": [
+                    "Living > Velvet Edit:/catalogue/category/living/velvet-edit_158/:1.2",
+                    "Apparel:/catalogue/category/women_1/:1.2",
+                    "Apparel > Womens Uppers:/catalogue/category/women/uppers_3/:2.1",
+                    "Apparel > Womens Uppers > Kurtas:/catalogue/category/women/uppers_3/:2.2"
+                ],
+                "category_blog": null,
+                "category_blog_detail": null,
+                "sku": [
+                    "I00196960",
+                    "I00196959",
+                    "I00196958",
+                    "I00196957"
+                ],
+                "child": [
+                    {
+                        "size": "1",
+                        "stock": "0",
+                        "sku": "I00196957",
+                        "price_inr": "26500",
+                        "price_usd": "490",
+                        "price_gbp": "345"
+                    },
+                    {
+                        "size": "2",
+                        "stock": "2",
+                        "sku": "I00196958",
+                        "price_inr": "26500",
+                        "price_usd": "490",
+                        "price_gbp": "345"
+                    },
+                    {
+                        "size": "3",
+                        "stock": "1",
+                        "sku": "I00196959",
+                        "price_inr": "26500",
+                        "price_usd": "490",
+                        "price_gbp": "345"
+                    },
+                    {
+                        "size": "4",
+                        "stock": "1",
+                        "sku": "I00196960",
+                        "price_inr": "26500",
+                        "price_usd": "490",
+                        "price_gbp": "345"
+                    }
+                ],
+                "price_usd": "490",
+                "price_inr": "26500",
+                "price_gbp": "345",
+                "original_price_usd": "490",
+                "original_price_inr": "26500",
+                "original_price_gbp": "345",
+                "is_discounted_product": false,
+                "in_stock": true,
+                "type": "product",
+                "mark_as": [
+                    "Moon"
+                ],
+                "product_class": "Variant",
+                "all_images": null,
+                "collections": [
+                    "Naadia"
+                ],
+                "is_new": true,
+                "sales_badge_image": null
+            }
+        ],
+        "banner_mobile": ""
+    }
+}

@@ -1,0 +1,363 @@
+{
+    "breadcrumbs": [
+        {
+            "url": "/",
+            "depth": 0,
+            "name": "Home"
+        },
+        {
+            "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Uppers+%3E+Kurtas",
+            "depth": 2,
+            "name": "Kurtas"
+        },
+        {
+            "url": null,
+            "depth": 0,
+            "name": "Mingora Raza Buti Silk Kurta (Emerald)"
+        }
+    ],
+    "get_absolute_url": "/catalogue/mingora-raza-buti-silk-kurta-emerald_21831/",
+    "id": 21831,
+    "title": "Mingora Raza Buti Silk Kurta (Emerald)",
+    "details": "<strong>Description:&nbsp;</strong>A printed kurta featuring our signature Mingora motifs in shades of emerald. It has a mandarin collar, a buttoned neckline and threadwork details at the cuff.<br><strong>Design:&nbsp;</strong>Our signature pattern, Mingora, celebrates the confluence Asian cultures and features stylised motifs inspired by the rich floral diversity of the fertile lands of Swat valley.<br><strong>Craft:&nbsp;</strong>Printed on Silk<br><strong>Material:&nbsp;</strong>Silk",
+    "compncare": "Dry Clean Only",
+    "shipping": "Shipping within India | Delivery within 8-10 business days<br><br>Shipping Internationally | Delivery within 10-12 business days. In some cases custom clearance might take longer. Duties & Taxes are additional (can be upto 30% or more of order value) and need to be paid to the shipping company at the time of delivery.<br><br>For more information visit our <a href=\"/customer-assistance/shipping-payment\" style=\"color| #4CB8BD; text-decoration| underline !important;\" target=\"_blank\">Shipping &amp; Payment</a> Policy.",
+    "size_fit": "",
+    "date_created": "2019-12-17T08:13:59.764856Z",
+    "date_updated": "2019-12-25T07:52:28.052076Z",
+    "recommended_products": [
+        {
+            "url": "/catalogue/mingora-hibah-dupion-silk-pant-charcoal_21910/",
+            "id": 21910,
+            "title": "Mingora Hibah Dupion Silk Pant (Charcoal)",
+            "collection": "Mingora",
+            "images": [
+                {
+                    "id": 195652,
+                    "product_image": "/media/images/product/Large/I00197849-1577179846.jpg",
+                    "badge_image": "",
+                    "badge_image_pdp": "",
+                    "caption": "",
+                    "display_order": 0,
+                    "date_created": "2019-12-25T07:52:42.451941Z",
+                    "social": true,
+                    "product": 21910
+                }
+            ],
+            "pricerecords": {
+                "USD": "165",
+                "GBP": "115",
+                "INR": "8500"
+            },
+            "discounted_pricerecords": {
+                "USD": "165",
+                "GBP": "115",
+                "INR": "8500"
+            },
+            "discount": false,
+            "categories": [
+                "Apparel",
+                "Apparel > Womens Lowers",
+                "Apparel > Womens Lowers > Pants"
+            ],
+            "ga_variant": "Charcoal",
+            "sku": "I00197849",
+            "recommendation_final_score": 0
+        },
+        {
+            "url": "/catalogue/shades-of-india-idaya-potli-bag-golden-free-tissue_21814/",
+            "id": 21814,
+            "title": "Shades Of India Idaya Potli Bag",
+            "collection": null,
+            "images": [
+                {
+                    "id": 191654,
+                    "product_image": "/media/images/product/Large/I00199944-1575371307.jpg",
+                    "badge_image": "",
+                    "badge_image_pdp": "",
+                    "caption": "",
+                    "display_order": 0,
+                    "date_created": "2019-12-12T10:41:23.823819Z",
+                    "social": false,
+                    "product": 21814
+                }
+            ],
+            "pricerecords": {
+                "USD": "65",
+                "GBP": "45",
+                "INR": "3000"
+            },
+            "discounted_pricerecords": {
+                "USD": "65",
+                "GBP": "45",
+                "INR": "3000"
+            },
+            "discount": false,
+            "categories": [
+                "Apparel",
+                "Apparel > Accessories",
+                "Apparel > Accessories > Bags & Potlis"
+            ],
+            "ga_variant": "",
+            "sku": "I00199944",
+            "recommendation_final_score": 0
+        },
+        {
+            "url": "/catalogue/nayla-ikat-silk-velvet-long-jacket_21646/",
+            "id": 21646,
+            "title": "Nayla Ikat Silk Velvet Long Jacket",
+            "collection": "Nayla",
+            "images": [
+                {
+                    "id": 194391,
+                    "product_image": "/media/images/product/Large/I00193594-1574405129.jpg",
+                    "badge_image": "",
+                    "badge_image_pdp": "",
+                    "caption": "",
+                    "display_order": 0,
+                    "date_created": "2019-12-12T11:27:00.511388Z",
+                    "social": false,
+                    "product": 21646
+                }
+            ],
+            "pricerecords": {
+                "USD": "455",
+                "GBP": "320",
+                "INR": "24500"
+            },
+            "discounted_pricerecords": {
+                "USD": "455",
+                "GBP": "320",
+                "INR": "24500"
+            },
+            "discount": false,
+            "categories": [
+                "Living > Velvet Edit",
+                "Apparel",
+                "Apparel > Winter Wishlist",
+                "Apparel > Womens Uppers",
+                "Apparel > Womens Uppers > Overlays"
+            ],
+            "ga_variant": "Multi",
+            "sku": "I00193594",
+            "recommendation_final_score": 0
+        },
+        {
+            "url": "/catalogue/nayla-silk-velvet-short-jacket_21644/",
+            "id": 21644,
+            "title": "Nayla Silk Velvet Short Jacket",
+            "collection": "Nayla",
+            "images": [
+                {
+                    "id": 192510,
+                    "product_image": "/media/images/product/Large/I00193592-1574404921.jpg",
+                    "badge_image": "",
+                    "badge_image_pdp": "",
+                    "caption": "",
+                    "display_order": 0,
+                    "date_created": "2019-12-12T10:52:02.628401Z",
+                    "social": false,
+                    "product": 21644
+                }
+            ],
+            "pricerecords": {
+                "USD": "335",
+                "GBP": "235",
+                "INR": "18000"
+            },
+            "discounted_pricerecords": {
+                "USD": "335",
+                "GBP": "235",
+                "INR": "18000"
+            },
+            "discount": false,
+            "categories": [
+                "Living > Velvet Edit",
+                "Apparel",
+                "Apparel > Winter Wishlist",
+                "Apparel > Womens Uppers",
+                "Apparel > Womens Uppers > Overlays"
+            ],
+            "ga_variant": "Multi",
+            "sku": "I00193592",
+            "recommendation_final_score": 0
+        }
+    ],
+    "category_size_image": {},
+    "product_class": "Variant",
+    "structure": "parent",
+    "parent": null,
+    "collection_url": "/collection/mingora_408/",
+    "stockrecords": [],
+    "price": "https://www.goodearth.in/myapi/products/21831/price/",
+    "availability": "https://www.goodearth.in/myapi/products/21831/availability/",
+    "options": [],
+    "categories": [
+        "Apparel",
+        "Apparel > Womens Uppers",
+        "Apparel > Womens Uppers > Kurtas"
+    ],
+    "attributes": [],
+    "badge_image": "",
+    "images": [
+        {
+            "id": 195646,
+            "product_image": "/media/images/product/Large/I00197786-1577179463.jpg",
+            "badge_image": "",
+            "badge_image_pdp": "",
+            "caption": "",
+            "display_order": 0,
+            "date_created": "2019-12-25T07:52:25.474751Z",
+            "social": true,
+            "product": 21831
+        }
+    ],
+    "sliderimages": [
+        {
+            "id": 422555,
+            "product_image": "/media/images/product/Large/I00197786_S-1576570793.jpg",
+            "caption": "",
+            "display_order": 0,
+            "date_created": "2019-12-25T07:52:25.517222Z",
+            "social": false,
+            "product": 21831
+        },
+        {
+            "id": 422556,
+            "product_image": "/media/images/product/Large/I00197786_S-1576570796.jpg",
+            "caption": "",
+            "display_order": 1,
+            "date_created": "2019-12-25T07:52:25.520784Z",
+            "social": false,
+            "product": 21831
+        },
+        {
+            "id": 422557,
+            "product_image": "/media/images/product/Large/I00197786_S-1576570798.jpg",
+            "caption": "",
+            "display_order": 2,
+            "date_created": "2019-12-25T07:52:25.524434Z",
+            "social": false,
+            "product": 21831
+        }
+    ],
+    "pricerecords": {
+        "USD": "255",
+        "GBP": "180",
+        "INR": "13500"
+    },
+    "discounted_pricerecord": {
+        "USD": "255",
+        "GBP": "180",
+        "INR": "13500"
+    },
+    "children_attributes": [
+        {
+            "child_sku": "I00197786",
+            "discounted_price": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "color": "7DC094-Greens",
+            "prices": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "stock": 2,
+            "id": 21832,
+            "is_bridal_product": false,
+            "size": "P"
+        },
+        {
+            "child_sku": "I00197787",
+            "discounted_price": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "color": "7DC094-Greens",
+            "prices": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "stock": 2,
+            "id": 21833,
+            "is_bridal_product": false,
+            "size": "1"
+        },
+        {
+            "child_sku": "I00197788",
+            "discounted_price": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "color": "7DC094-Greens",
+            "prices": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "stock": 2,
+            "id": 21834,
+            "is_bridal_product": false,
+            "size": "2"
+        },
+        {
+            "child_sku": "I00197789",
+            "discounted_price": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "color": "7DC094-Greens",
+            "prices": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "stock": 1,
+            "id": 21835,
+            "is_bridal_product": false,
+            "size": "3"
+        },
+        {
+            "child_sku": "I00197790",
+            "discounted_price": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "color": "7DC094-Greens",
+            "prices": {
+                "USD": 255,
+                "INR": 13500,
+                "GBP": 180
+            },
+            "stock": 1,
+            "id": 21836,
+            "is_bridal_product": false,
+            "size": "4"
+        }
+    ],
+    "primary_product": [],
+    "collection": "Mingora",
+    "grouped_products": [],
+    "sku": "I00197786",
+    "is_in_wishlist": false,
+    "size_chart_html": "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"429\"><tbody><tr height=\"21\"><td colspan=\"6\" height=\"21\" width=\"429\">Mingora Raza Buti Kurta,Emerld</td></tr><tr height=\"20\"><td height=\"20\">Size</td><td>P</td><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr height=\"20\"><td height=\"20\">Front Length</td><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td></tr><tr height=\"20\"><td height=\"20\">Shoulder</td><td>13 1/2</td><td>14</td><td>14 1/2</td><td>15</td><td>15 1/2</td></tr><tr height=\"20\"><td height=\"20\">Bust<span>&nbsp;</span></td><td>36</td><td>38</td><td>42</td><td>46</td><td>50</td></tr><tr height=\"20\"><td height=\"20\">Waist<span>&nbsp;</span></td><td>34</td><td>36</td><td>40</td><td>44</td><td>49</td></tr><tr height=\"20\"><td height=\"20\">Hips<span>&nbsp;</span></td><td>19 1/2</td><td>20 1/2</td><td>22 1/2</td><td>24 1/2</td><td>26 1/2</td></tr><tr height=\"20\"><td height=\"20\">Armhole Round</td><td>17</td><td>18</td><td>20</td><td>22</td><td>24</td></tr><tr height=\"20\"><td height=\"20\">Sleeve Length</td><td>22</td><td>22</td><td>22</td><td>22 1/2</td><td>22 1/2</td></tr><tr height=\"20\"><td height=\"20\">1/2 Sleeve Opening</td><td>4 3/4</td><td>5</td><td>5 1/4</td><td>5 1/2</td><td>5 3/4</td></tr><tr height=\"20\"><td height=\"20\">Neck Width</td><td>6 1/4</td><td>6 1/2</td><td>6 3/4</td><td>7</td><td>7 1/4</td></tr><tr height=\"20\"><td height=\"20\">Back Neck Drop<span>&nbsp;</span></td><td>1/2</td><td>1/2</td><td>1/2</td><td>1/2</td><td>1/2</td></tr><tr height=\"20\"><td height=\"20\">Front Neck Drop<span>&nbsp;</span></td><td>3 1/4</td><td>3 1/2</td><td>3 3/4</td><td>4</td><td>4 1/4</td></tr><tr height=\"20\"><td height=\"20\">CF Placket Length</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td></tr><tr height=\"20\"><td height=\"20\">Number of Button at CF Placket</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr><tr height=\"21\"><td colspan=\"6\" height=\"21\" style=\"text-align: center;\">These are garment measurements in inches</td></tr></tbody></table>",
+    "discount": false,
+    "ga_variant": "Emerald",
+    "filler_msg": "",
+    "design_journal_tagging": [
+        {
+            "design_journal": false,
+            "folder_code": ""
+        }
+    ],
+    "loyalty_disabled": true,
+    "has_alert": false
+}
