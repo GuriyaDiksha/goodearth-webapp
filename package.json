@@ -60,7 +60,7 @@
     }
   },
   "lint-staged": {
-    "*.{jsx,tsx,ts,js}": [
+    "*.{tsx,ts}": [
       "prettier --write",
       "eslint",
       "git add"
