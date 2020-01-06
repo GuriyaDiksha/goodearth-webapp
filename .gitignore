@@ -1,3 +1,5 @@
+# Mac OS Files
+.DS_Store
 # Logs
 logs
 *.log
@@ -101,3 +103,7 @@ dist
 .tern-port
 
 lib
+
+# generate font related files
+iconFonts.scss
+src/fonts/goodearth.*
