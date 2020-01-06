@@ -1,0 +1,33 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.minusquantity{
+    color: #000;
+    background-color: #f2f2f2;
+    padding: 9px 10px;
+    border-top-left-radius: 40%;
+    border-bottom-left-radius: 40%;
+    cursor: pointer;
+    border-right: 1px solid #fff;
+}
+
+.quantitywrap{
+    input {
+        background-color: #f2f2f2;
+        text-align: center;
+        padding: 8px 0;
+        width: 120px;
+        border: 0;
+    }
+}
+
+.plusquantity{
+    color: #000;
+    background-color: #f2f2f2;
+    padding: 9px 10px;
+    border-top-right-radius: 40%;
+    border-bottom-right-radius: 40%;
+    cursor: pointer;
+    border-left: 1px solid #fff;
+}
+

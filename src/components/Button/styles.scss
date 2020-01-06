@@ -1,0 +1,31 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.cerisebtn{
+    background-color: #ab1e56;
+    color: #fff;
+    letter-spacing: 2px;
+    font-family: "LatoFont","Helvetica","Arial";
+    line-height: 52px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.buttondisable {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    line-height: 52px;
+    font-weight: normal;
+    font-size: 12px;
+    font-family: "LatoFont","Helvetica","Arial";
+    text-align: center;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    color: #b3b3b3 !important;
+}
