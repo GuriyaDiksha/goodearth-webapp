@@ -1,0 +1,28 @@
+{
+    "url": "/catalogue/mingora-raza-buti-silk-kurta-emerald_21831/",
+    "id": 21831,
+    "title": "Mingora Raza Buti Silk Kurta (Emerald)",
+    "collections": [
+        "Mingora"
+    ],
+    "plpImages": [
+        "/media/images/product/Large/I00197786-1577179463.jpg",
+        "/media/images/product/Large/I00197786_S-1576570793.jpg"
+    ],
+    "priceRecords": {
+        "USD": 123,
+        "INR": 12345,
+        "GBP": 123
+    },
+    "discountedPriceRecords": {
+        "USD": 123,
+        "INR": 12345,
+        "GBP": 123
+    },
+    "discount": false,
+    "categories": ["Apparel", "Apparel > Womens Uppers", "Apparel > Womens Uppers > Kurtas"],
+    "isNew": false,
+    "salesBadgeImage": "",
+    "partial": false,
+    "markAs": []
+}

@@ -13,7 +13,6 @@ export interface PLPProductItem {
   discountedPriceRecords: PriceRecord;
   discount: boolean;
   categories: string[];
-  gaVariant: string;
   isNew?: boolean;
   salesBadgeImage?: string;
   partial: boolean;
@@ -23,6 +22,7 @@ export interface PLPProductItem {
 export interface PartialProductItem extends PLPProductItem {
   images?: ProductImage[];
   sku: string;
+  gaVariant: string;
   recommendationFinalScore: number;
 }
 
