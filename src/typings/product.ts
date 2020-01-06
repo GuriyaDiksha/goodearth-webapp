@@ -17,6 +17,7 @@ export interface PLPProductItem {
   salesBadgeImage?: string;
   partial: boolean;
   markAs?: string[];
+  childAttributes?: PartialChildProductAttributes[] | ChildProductAttributes[];
 }
 
 export interface PartialProductItem extends PLPProductItem {
@@ -28,7 +29,6 @@ export interface PartialProductItem extends PLPProductItem {
 
 export interface Product extends PartialProductItem {
   breadcrumbs: Breadcrumb[];
-  absoluteUrl: string;
   details: string;
   compAndCare: string;
   shipping: string;

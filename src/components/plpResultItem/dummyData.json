@@ -20,9 +20,75 @@
         "GBP": 123
     },
     "discount": false,
-    "categories": ["Apparel", "Apparel > Womens Uppers", "Apparel > Womens Uppers > Kurtas"],
+    "categories": [
+        "Apparel",
+        "Apparel > Womens Uppers",
+        "Apparel > Womens Uppers > Kurtas"
+    ],
     "isNew": false,
     "salesBadgeImage": "",
     "partial": false,
-    "markAs": []
+    "markAs": [],
+    "children": [
+        {
+            "size": "P",
+            "stock": 2,
+            "sku": "I00197786",
+            "priceRecords": {
+                "USD": 123,
+                "INR": 12345,
+                "GBP": 123
+            }
+        },
+        {
+            "size": "1",
+            "stock": 2,
+            "sku": "I00197787",
+            "priceRecords": {
+                "USD": 123,
+                "INR": 12345,
+                "GBP": 123
+            }
+        },
+        {
+            "size": "2",
+            "stock": 2,
+            "sku": "I00197787",
+            "priceRecords": {
+                "USD": 123,
+                "INR": 12345,
+                "GBP": 123
+            }
+        },
+        {
+            "size": "3",
+            "stock": 2,
+            "sku": "I00197787",
+            "priceRecords": {
+                "USD": 123,
+                "INR": 12345,
+                "GBP": 123
+            }
+        },
+        {
+            "size": "4",
+            "stock": 2,
+            "sku": "I00197787",
+            "priceRecords": {
+                "USD": 123,
+                "INR": 12345,
+                "GBP": 123
+            }
+        },
+        {
+            "size": "5",
+            "stock": 2,
+            "sku": "I00197787",
+            "priceRecords": {
+                "USD": 123,
+                "INR": 12345,
+                "GBP": 123
+            }
+        }
+    ]
 }
