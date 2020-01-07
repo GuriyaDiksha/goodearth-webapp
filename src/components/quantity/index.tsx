@@ -9,18 +9,26 @@ class Quantity extends React.Component<QuantityItem> {
 
   render() {
     const value = this.props.currentvalue;
+    const props = this.props;
     return (
       <div className={styles.quantitywrap}>
         <span
           className={styles.minusquantity}
-          onClick={e => {
-            this.props.onChange;
+          onClick={(event): void => {
+            props.onChange;
           }}
         >
           -
         </span>
         <input type="text" value={value} readOnly />
-        <span className={styles.plusquantity}>+</span>
+        <span
+          className={styles.plusquantity}
+          onClick={(event): void => {
+            props.onChange;
+          }}
+        >
+          +
+        </span>
       </div>
     );
   }
