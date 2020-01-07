@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "generateFonts": "node scripts/generateFonts.js"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.3",
@@ -39,7 +40,8 @@
     "css-loader": "^3.4.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.17.0",
-    "husky": "^4.0.0-beta.5",
+    "file-loader": "^5.0.2",
+    "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",
@@ -47,15 +49,18 @@
     "style-loader": "^1.1.2",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
+    "webfont": "^9.0.0",
     "webpack": "^4.41.4"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "post-merge": "npm run generateFonts",
+      "post-checkout": "npm run generateFonts"
     }
   },
   "lint-staged": {
-    "*.{jsx,tsx,ts,js}": [
+    "*.{tsx,ts}": [
       "prettier --write",
       "eslint",
       "git add"

@@ -1,3 +1,5 @@
+# Mac OS Files
+.DS_Store
 # Logs
 logs
 *.log
@@ -40,9 +42,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-
-# TypeScript v1 declaration files
-typings/
 
 # TypeScript cache
 *.tsbuildinfo
@@ -104,3 +103,7 @@ dist
 .tern-port
 
 lib
+
+# generate font related files
+iconFonts.scss
+src/fonts/goodearth.*

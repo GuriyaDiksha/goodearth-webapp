@@ -1,0 +1,26 @@
+{
+    "category_size_image": {},
+    "stockrecords": [],
+    "price": "https://www.goodearth.in/myapi/products/21831/price/",
+    "availability": "https://www.goodearth.in/myapi/products/21831/availability/",
+    "options": [],
+    "attributes": [],
+    "badge_image": "",
+    "primary_product": [],
+    "collection": "Mingora",
+    "grouped_products": [],
+    "sku": "I00197786",
+    "is_in_wishlist": false,
+    "size_chart_html": "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"429\"><tbody><tr height=\"21\"><td colspan=\"6\" height=\"21\" width=\"429\">Mingora Raza Buti Kurta,Emerld</td></tr><tr height=\"20\"><td height=\"20\">Size</td><td>P</td><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr height=\"20\"><td height=\"20\">Front Length</td><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td></tr><tr height=\"20\"><td height=\"20\">Shoulder</td><td>13 1/2</td><td>14</td><td>14 1/2</td><td>15</td><td>15 1/2</td></tr><tr height=\"20\"><td height=\"20\">Bust<span>&nbsp;</span></td><td>36</td><td>38</td><td>42</td><td>46</td><td>50</td></tr><tr height=\"20\"><td height=\"20\">Waist<span>&nbsp;</span></td><td>34</td><td>36</td><td>40</td><td>44</td><td>49</td></tr><tr height=\"20\"><td height=\"20\">Hips<span>&nbsp;</span></td><td>19 1/2</td><td>20 1/2</td><td>22 1/2</td><td>24 1/2</td><td>26 1/2</td></tr><tr height=\"20\"><td height=\"20\">Armhole Round</td><td>17</td><td>18</td><td>20</td><td>22</td><td>24</td></tr><tr height=\"20\"><td height=\"20\">Sleeve Length</td><td>22</td><td>22</td><td>22</td><td>22 1/2</td><td>22 1/2</td></tr><tr height=\"20\"><td height=\"20\">1/2 Sleeve Opening</td><td>4 3/4</td><td>5</td><td>5 1/4</td><td>5 1/2</td><td>5 3/4</td></tr><tr height=\"20\"><td height=\"20\">Neck Width</td><td>6 1/4</td><td>6 1/2</td><td>6 3/4</td><td>7</td><td>7 1/4</td></tr><tr height=\"20\"><td height=\"20\">Back Neck Drop<span>&nbsp;</span></td><td>1/2</td><td>1/2</td><td>1/2</td><td>1/2</td><td>1/2</td></tr><tr height=\"20\"><td height=\"20\">Front Neck Drop<span>&nbsp;</span></td><td>3 1/4</td><td>3 1/2</td><td>3 3/4</td><td>4</td><td>4 1/4</td></tr><tr height=\"20\"><td height=\"20\">CF Placket Length</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td></tr><tr height=\"20\"><td height=\"20\">Number of Button at CF Placket</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr><tr height=\"21\"><td colspan=\"6\" height=\"21\" style=\"text-align: center;\">These are garment measurements in inches</td></tr></tbody></table>",
+    "discount": false,
+    "ga_variant": "Emerald",
+    "filler_msg": "",
+    "design_journal_tagging": [
+        {
+            "design_journal": false,
+            "folder_code": ""
+        }
+    ],
+    "loyalty_disabled": true,
+    "has_alert": false
+}
