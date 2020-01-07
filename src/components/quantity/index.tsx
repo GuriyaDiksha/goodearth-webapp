@@ -15,7 +15,7 @@ class Quantity extends React.Component<QuantityItem> {
         <span
           className={styles.minusquantity}
           onClick={(event): void => {
-            props.onChange;
+            props.onChange(value - 1);
           }}
         >
           -
@@ -24,7 +24,7 @@ class Quantity extends React.Component<QuantityItem> {
         <span
           className={styles.plusquantity}
           onClick={(event): void => {
-            props.onChange;
+            props.onChange(value + 1);
           }}
         >
           +
