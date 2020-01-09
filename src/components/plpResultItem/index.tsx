@@ -55,7 +55,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <a href={product.url}> {product.title} </a>
         </p>
         <p className={styles.productN}></p>
-        <div className={cs(styles.productSizeList, bootstyles.row)}>
+        <div
+          className={
+            primaryimage
+              ? styles.hidden
+              : cs(styles.productSizeList, bootstyles.row)
+          }
+        >
           <div className={styles.productSize}> size</div>
           <div className="">
             <ul>
