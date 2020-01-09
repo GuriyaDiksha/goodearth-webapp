@@ -5,6 +5,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstyles from "../../styles/bootstrap/bootstrap-grid.scss";
+import { PartialChildProductAttributes } from "src/typings/product";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -65,13 +66,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <div className={styles.productSize}> size</div>
           <div className="">
             <ul>
-              <li>p</li>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              {/* {props.product.childAttributes?(props.product.childAttributes).map((data:PartialChildProductAttributes,i:number)=>{
-            return <li key={i}>{data.sku}</li>
-            }):''} */}
+              {(props.product
+                .childAttributes as PartialChildProductAttributes[])?.map(
+                (data: PartialChildProductAttributes, i: number) => {
+                  return <li key={data.sku}>{data.size}</li>;
+                }
+              )}
             </ul>
           </div>
         </div>
