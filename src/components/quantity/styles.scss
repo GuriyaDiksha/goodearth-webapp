@@ -1,7 +1,7 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-.minusquantity{
+.minus-quantity{
     color: #000;
     background-color: #f2f2f2;
     padding: 9px 10px;
@@ -11,7 +11,7 @@
     border-right: 1px solid #fff;
 }
 
-.quantitywrap{
+.quantity-wrap{
     input {
         background-color: #f2f2f2;
         text-align: center;
@@ -21,7 +21,7 @@
     }
 }
 
-.plusquantity{
+.plus-quantity{
     color: #000;
     background-color: #f2f2f2;
     padding: 9px 10px;
@@ -29,5 +29,18 @@
     border-bottom-right-radius: 40%;
     cursor: pointer;
     border-left: 1px solid #fff;
+}
+
+.error-msg{
+    font-size: 10px ;
+    font-style: italic;
+    color: #ab1e56 ;
+    font-weight: bold;
+    font-family: "LatoFont","Helvetica","Arial";
+    letter-spacing: 1px;
+    text-transform: lowercase;
+    text-align: left;
+    height: 15px;
+    line-height: 15px;
 }
 

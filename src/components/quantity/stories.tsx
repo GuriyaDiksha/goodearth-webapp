@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import styles from "../../styles/bootstrap/bootstrap-grid.scss";
-// import storyStyles from "../../styles/stories.scss";
 import Quantity from "./index";
 
 export default { title: "Quantity" };
@@ -9,7 +7,7 @@ export default { title: "Quantity" };
 const QuantityDemo = (): JSX.Element => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (value: any) => {
+  const handleChange = (value: number) => {
     setValue(value);
     return;
   };
@@ -19,6 +17,7 @@ const QuantityDemo = (): JSX.Element => {
       minvalue={0}
       maxvalue={3}
       onChange={handleChange}
+      errormsg="Available qty in stock is"
     />
   );
 };
