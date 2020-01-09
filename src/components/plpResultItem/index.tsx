@@ -28,12 +28,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     : "";
   return (
     <div>
-      <div className={styles.imageBoxnew} id={"" + product.id}>
-        <a
-          href={product.url}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        >
+      <div
+        className={styles.imageBoxnew}
+        id={"" + product.id}
+        onMouseLeave={onMouseLeave}
+      >
+        <a href={product.url} onMouseEnter={onMouseEnter}>
           <img src={image} className={styles.imageResultnew} />
         </a>
         <div className={primaryimage ? styles.hidden : styles.combodiv}>

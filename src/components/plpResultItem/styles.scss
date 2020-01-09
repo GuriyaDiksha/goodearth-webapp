@@ -48,15 +48,16 @@
         font-family: "LatoFont","Helvetica","Arial";
         letter-spacing: 2px;
     }
+    .image-hover:last-child {
+        border-left: 1px solid #b3b3b3;
+    }
+    .image-hover {
+        text-align: center;
+        width: 50%;
+    }
 }
 
-.image-hover:last-child {
-    border-left: 1px solid #b3b3b3;
-}
-.image-hover {
-    text-align: center;
-    width: 50%;
-}
+
 .product-n{
     width: 100%;
     white-space: nowrap;
