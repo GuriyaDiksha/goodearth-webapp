@@ -1,7 +1,7 @@
 export type QuantityItem = {
-  currentvalue: number;
+  currentValue: number;
   onChange: (value: number) => void;
-  minvalue: number;
-  maxvalue: number;
-  errormsg?: string;
+  minValue: number;
+  maxValue: number;
+  errorMsg?: string;
 };

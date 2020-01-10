@@ -1,33 +1,30 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-.minus-quantity{
+
+.quantity{
     color: #000;
     background-color: #f2f2f2;
     padding: 9px 10px;
+    cursor: pointer;
+}
+.minus-quantity{
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
-    cursor: pointer;
     border-right: 1px solid #fff;
 }
 
-.quantity-wrap{
-    input {
-        background-color: #f2f2f2;
-        text-align: center;
-        padding: 8px 0;
-        width: 120px;
-        border: 0;
-    }
+input {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 6px 0;
+    width: 120px;
+    border: 0;
 }
 
 .plus-quantity{
-    color: #000;
-    background-color: #f2f2f2;
-    padding: 9px 10px;
     border-top-right-radius: 40%;
     border-bottom-right-radius: 40%;
-    cursor: pointer;
     border-left: 1px solid #fff;
 }
 

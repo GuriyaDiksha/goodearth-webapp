@@ -48,13 +48,22 @@
         font-family: "LatoFont","Helvetica","Arial";
         letter-spacing: 2px;
     }
-    .image-hover:last-child {
-        border-left: 1px solid #b3b3b3;
-    }
     .image-hover {
         text-align: center;
         width: 50%;
     }
+    .image-hover:nth-last-child(2) {
+        border-left: 1px solid #b3b3b3;
+    }
+
+    .wishlist {
+        color: gray ;
+        font-size: 30px ;
+    }
+    i:hover{
+        color: #ab1e56;
+    }
+
 }
 
 
@@ -68,6 +77,10 @@
         font-family: "AmiriFont", "Baskerville", "Garamond";
         color: #000;
         text-transform: capitalize;
+    }
+    a:hover {
+        color: #ab1e56;
+        text-decoration: none;
     }
 }
 .product-size {

@@ -13,11 +13,11 @@ const QuantityDemo = (): JSX.Element => {
   };
   return (
     <Quantity
-      currentvalue={value}
-      minvalue={0}
-      maxvalue={3}
+      currentValue={value}
+      minValue={0}
+      maxValue={3}
       onChange={handleChange}
-      errormsg="Available qty in stock is"
+      errorMsg="Available qty in stock is"
     />
   );
 };

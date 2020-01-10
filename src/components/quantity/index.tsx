@@ -1,52 +1,53 @@
 import React from "react";
 import styles from "./styles.scss";
 import { QuantityItem } from "./typings";
+import cs from "classnames";
 
 interface State {
-  showerror: boolean;
+  showError: boolean;
 }
 
 class Quantity extends React.Component<QuantityItem, State> {
   constructor(props: QuantityItem) {
     super(props);
     this.state = {
-      showerror: false
+      showError: false
     };
   }
   render() {
-    const value = this.props.currentvalue;
+    const value = this.props.currentValue;
     const props = this.props;
-    const error = props.errormsg ? props.errormsg + props.maxvalue : "";
+    const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
     return (
       <div className={styles.quantityWrap}>
         <span
-          className={styles.minusQuantity}
+          className={cs(styles.minusQuantity, styles.quantity)}
           onClick={(): void => {
-            if (value > props.minvalue) {
+            if (value > props.minValue) {
               props.onChange(value - 1);
-              this.setState({ showerror: false });
+              this.setState({ showError: false });
             } else {
-              this.setState({ showerror: true });
+              this.setState({ showError: true });
             }
           }}
         >
           -
         </span>
-        <input type="text" value={value} readOnly />
+        <input type="text" value={value} readOnly className={styles.input} />
         <span
-          className={styles.plusQuantity}
+          className={cs(styles.plusQuantity, styles.quantity)}
           onClick={(): void => {
-            if (value <= props.maxvalue) {
+            if (value <= props.maxValue) {
               props.onChange(value + 1);
-              this.setState({ showerror: false });
+              this.setState({ showError: false });
             } else {
-              this.setState({ showerror: true });
+              this.setState({ showError: true });
             }
           }}
         >
           +
         </span>
-        <p className={styles.errorMsg}>{this.state.showerror ? error : ""}</p>
+        <p className={styles.errorMsg}>{this.state.showError ? error : ""}</p>
       </div>
     );
   }
