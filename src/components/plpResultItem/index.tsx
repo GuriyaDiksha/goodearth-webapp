@@ -13,7 +13,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const { product, currency } = props;
   const code = currencyCode[currency as Currency];
   const [primaryimage, setPrimaryimage] = useState(true);
-  // const [hovercomponent, setHovercomponent] = useState(true);
 
   const onMouseEnter = (): void => {
     setPrimaryimage(false);
@@ -22,14 +21,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const onMouseLeave = (): void => {
     setPrimaryimage(true);
   };
-
-  // const onMouseEnterComponent = (): void => {
-  //   setHovercomponent(false);
-  // };
-
-  // const onMouseLeaveComponent = (): void => {
-  //   setHovercomponent(true);
-  // };
 
   const image = primaryimage
     ? product.plpImages
