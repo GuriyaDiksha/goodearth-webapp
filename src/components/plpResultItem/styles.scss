@@ -26,11 +26,20 @@
     right: 0;
 }
 
+.plpMain:hover{
+    .combodiv{
+        display: flex;
+    }
+    .product-size-list{
+        display: flex;
+    }
+}
+
 .hidden{
     display: none !important;
 }
 .combodiv {
-    display: flex;
+    display: none;
     overflow: hidden;
     position: absolute;
     bottom: 0;
@@ -95,7 +104,7 @@
 }
 
 .product-size-list {
-    display: flex;
+    display: none;
     justify-content: center;
     ul {
         background-color: #f2f2f2;

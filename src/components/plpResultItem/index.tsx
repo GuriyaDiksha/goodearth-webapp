@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PLPResultItemProps } from "./typings";
 import styles from "./styles.scss";
-import { Currency } from "../../typings/currency";
+import { Currency, currencyCode } from "../../typings/currency";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -10,15 +10,10 @@ import { PartialChildProductAttributes } from "src/typings/product";
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
-  const currencycode: any = {
-    INR: 8377,
-    USD: 36,
-    GBP: 163
-  };
   const { product, currency } = props;
-  const code = currencycode[currency as Currency];
+  const code = currencyCode[currency as Currency];
   const [primaryimage, setPrimaryimage] = useState(true);
-  const [hovercomponent, setHovercomponent] = useState(true);
+  // const [hovercomponent, setHovercomponent] = useState(true);
 
   const onMouseEnter = (): void => {
     setPrimaryimage(false);
@@ -28,13 +23,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     setPrimaryimage(true);
   };
 
-  const onMouseEnterComponent = (): void => {
-    setHovercomponent(false);
-  };
+  // const onMouseEnterComponent = (): void => {
+  //   setHovercomponent(false);
+  // };
 
-  const onMouseLeaveComponent = (): void => {
-    setHovercomponent(true);
-  };
+  // const onMouseLeaveComponent = (): void => {
+  //   setHovercomponent(true);
+  // };
 
   const image = primaryimage
     ? product.plpImages
@@ -44,10 +39,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     ? product.plpImages[1]
     : "";
   return (
-    <div
-      onMouseLeave={onMouseLeaveComponent}
-      onMouseEnter={onMouseEnterComponent}
-    >
+    <div className={styles.plpMain}>
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}
@@ -56,7 +48,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <a href={product.url} onMouseEnter={onMouseEnter}>
           <img src={image} className={styles.imageResultnew} />
         </a>
-        <div className={hovercomponent ? styles.hidden : styles.combodiv}>
+        <div className={styles.combodiv}>
           <div className={styles.imageHover}>
             <span>quickview</span>
           </div>
@@ -84,13 +76,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           {String.fromCharCode(code)}{" "}
           {product.priceRecords[currency as Currency]}
         </p>
-        <div
-          className={
-            hovercomponent
-              ? styles.hidden
-              : cs(styles.productSizeList, bootstyles.row)
-          }
-        >
+        <div className={cs(styles.productSizeList, bootstyles.row)}>
           <div className={styles.productSize}> size</div>
           <div className="">
             <ul>
