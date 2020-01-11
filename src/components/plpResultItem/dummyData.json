@@ -6,8 +6,8 @@
         "Mingora"
     ],
     "plpImages": [
-        "/media/images/product/Large/I00197786-1577179463.jpg",
-        "/media/images/product/Large/I00197786_S-1576570793.jpg"
+        "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,f_auto,h_930,q_auto,w_620/v1/media/images/product/Large/I00197786-1577179463.jpg",
+        "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,f_auto,h_930,q_auto,w_620/v1/media/images/product/Large/I00197786_S-1576570793.jpg"
     ],
     "priceRecords": {
         "USD": 123,
@@ -29,7 +29,7 @@
     "salesBadgeImage": "",
     "partial": false,
     "markAs": [],
-    "children": [
+    "childAttributes": [
         {
             "size": "P",
             "stock": 2,

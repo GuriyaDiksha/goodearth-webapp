@@ -1,0 +1,122 @@
+.image-boxnew {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.image-content {
+    text-align: center;
+    height: 110px;
+    margin-top: 15px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-resultnew{
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.plpMain:hover{
+    .combodiv{
+        display: flex;
+    }
+    .product-size-list{
+        display: flex;
+    }
+}
+
+.hidden{
+    display: none !important;
+}
+.combodiv {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    background: rgba(255,255,255,0.8);
+    min-height: 50px;
+    line-height: 35px;
+    cursor: pointer;
+    span{
+        font-weight: bold;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #ab1e56;
+        font-family: "LatoFont","Helvetica","Arial";
+        letter-spacing: 2px;
+    }
+    .image-hover {
+        text-align: center;
+        width: 50%;
+    }
+    .image-hover:nth-last-child(2) {
+        border-left: 1px solid #b3b3b3;
+    }
+
+    .wishlist {
+        color: gray ;
+        font-size: 30px ;
+    }
+    i:hover{
+        color: #ab1e56;
+    }
+
+}
+
+
+.product-n{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    a {
+        font-size: 16px;
+        font-family: "AmiriFont", "Baskerville", "Garamond";
+        color: #000;
+        text-transform: capitalize;
+    }
+    a:hover {
+        color: #ab1e56;
+        text-decoration: none;
+    }
+}
+.product-size {
+    font-family: "LatoFont","Helvetica","Arial";
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #b3b3b3;
+    letter-spacing: 2px;
+    line-height: 25px;
+    justify-content: center;
+    padding-right: 10px;
+}
+
+.product-size-list {
+    display: none;
+    justify-content: center;
+    ul {
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        padding: 0 5px;
+        text-align: center;
+        li {
+            display: inline;
+            padding: 0 10px;
+            color: #ab1e56;
+            font-size: 12px;
+            line-height: 25px;
+        }
+    }
+}
