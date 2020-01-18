@@ -1,0 +1,18 @@
+{
+    "id": 402,
+    "name": "Gul Fiza",
+    "displayImage": null,
+    "subHeader": "",
+    "shortDescription": "A collection inspired by geometric prints and patterns replicated to create a mesh effect.",
+    "longDescription": "Inspired by geometric prints, Gulfiza motifs are a replication of patterns from everyday objects like baskets and mats, woven in grass and natural fibres  that lend the print a ‘Jaal’ (mesh) effect.  This range is available in rich jewel tones of pomegranate, aqua and jade. ",
+    "categoryName": [
+        {"id": 35, "name": "Bed"},
+        {"id": 35, "name": "Bed"}
+    ],
+    "collSliderimage": [
+        "https://res.cloudinary.com/gecloudinary/image/upload/w_620,h_930/media/images/collection/DSC_8231.jpg",
+        "https://res.cloudinary.com/gecloudinary/image/upload/w_620,h_930/media/images/collection/DSC_8237.jpg"
+    ],
+    "header": "",
+    "url": "/collection/living_gul-fiza_402/"
+}
