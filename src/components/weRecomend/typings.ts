@@ -1,12 +1,8 @@
 import { PriceRecord } from "../../typings/price";
+import { Currency } from "../../typings/currency";
 import { Settings } from "../../typings/settings";
 
-export interface Category {
-  id: number;
-  name: string;
-}
-
-export interface MoreCollectionItem {
+export interface RecommendData {
   collectionName: string;
   productUrl: string;
   productImage: string;
@@ -18,7 +14,8 @@ export interface MoreCollectionItem {
   pricerecords: PriceRecord;
 }
 
-export type MoreCollectionData = {
-  data: MoreCollectionItem[];
+export type Recommend = {
+  data: RecommendData[];
   setting: Settings;
+  currency: Currency;
 };

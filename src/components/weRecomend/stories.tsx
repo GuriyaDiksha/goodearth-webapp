@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "../../styles/bootstrap/bootstrap-grid.scss";
-import MoreCollectionImage from "./index";
+import WeRecommend from "./index";
 import { Settings } from "../../typings/settings";
 import mydata from "./moreData.json";
 import cs from "classnames";
 
-export default { title: "moreCollectionImage" };
+export default { title: "WeRecommended" };
 
-export const moreCollectionImage = () => {
+export const weRecommended = () => {
   const config: Settings = {
     dots: false,
     infinite: true,
@@ -27,8 +27,12 @@ export const moreCollectionImage = () => {
   };
   return (
     <div className={styles.row}>
-      <div className={cs(styles.colMd12, styles.mr3)}>
-        <MoreCollectionImage data={mydata as []} setting={config as Settings} />
+      <div className={cs(styles.colMd8, styles.offset2)}>
+        <WeRecommend
+          data={mydata as []}
+          setting={config as Settings}
+          currency={"INR"}
+        />
       </div>
     </div>
   );

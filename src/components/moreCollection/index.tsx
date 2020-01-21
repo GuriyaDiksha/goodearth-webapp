@@ -11,7 +11,6 @@ const MoreCollectionImage: React.FC<MoreCollectionData> = (
   props: MoreCollectionData
 ) => {
   const { data, setting } = props;
-  console.log(data);
   return (
     <div className={styles.row}>
       <h2>more from this collection</h2>

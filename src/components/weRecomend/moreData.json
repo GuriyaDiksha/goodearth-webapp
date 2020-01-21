@@ -1,0 +1,136 @@
+[
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-phulkari-satin-cushion-rose_21506/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187981-1573197210.jpg",
+        "productName": "Qila Phulkari Satin Cushion (Rose)",
+        "badgeImage": "",
+        "sku": "I00187981",
+        "title": "Qila Phulkari Satin",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-noor-velvet-cushion_21502/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187977-1573196949.jpg",
+        "productName": "Qila Noor Velvet Cushion",
+        "badgeImage": "",
+        "sku": "I00187977",
+        "title": "Qila Noor Velvet Cushion",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-shibori-silk-cushion-rose_21504/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187979-1573197105.jpg",
+        "productName": "Qila Shibori Silk Cushion (Rose)",
+        "badgeImage": "",
+        "sku": "I00187979",
+        "title": "Qila Shibori Silk ",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-fields-velvet-cushion-rose_21503/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187978-1573197009.jpg",
+        "productName": "Qila Fields Velvet Cushion (Rose)",
+        "badgeImage": "",
+        "sku": "I00187978",
+        "title": "Qila Fields Velvet ",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-velvet-bed-cover-rose_21500/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187975-1573196655.jpg",
+        "productName": "Qila Velvet Bed Cover (Rose)",
+        "badgeImage": "",
+        "sku": "I00187975",
+        "title": "Qila Velvet Bed Cover",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-bahaar-velvet-cushion_21505/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187980-1573197146.jpg",
+        "productName": "Qila Bahaar Velvet Cushion",
+        "badgeImage": "",
+        "sku": "I00187980",
+        "title": "Qila Bahaar Velvet Cushion",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-bagh-silk-cushion_20990/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187991-1570518425.jpg",
+        "productName": "Qila Bagh Silk Cushion",
+        "badgeImage": "",
+        "sku": "I00187991",
+        "title": "Qila Bagh Silk Cushion",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-umaro-cotton-velvet-cushion_20991/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00187992-1570518475.jpg",
+        "productName": "Qila Umaro Cotton Velvet Cushion",
+        "badgeImage": "",
+        "sku": "I00187992",
+        "title": "Qila Umaro Cotton Velvet Cushion",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    },
+    {
+        "collectionName": "Qila",
+        "productUrl": "/catalogue/qila-umaro-velvet-cushion_20994/",
+        "productImage": "https://res.cloudinary.com/gecloudinary/image/upload/c_scale,d_noimageplp.jpg,w_400/v1/media/images/product/Large/I00188010-1571392453.jpg",
+        "productName": "Qila Umaro Velvet Cushion",
+        "badgeImage": "",
+        "sku": "I00188010",
+        "title": "Qila Umaro Velvet Cushion",
+        "collectionUrl": "/collection/qila_389/",
+        "pricerecords": {
+            "USD": 75,
+            "GBP": 55,
+            "INR": 3200
+        }
+    }
+]
