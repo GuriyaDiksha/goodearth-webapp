@@ -3,7 +3,7 @@
 ## API Endpoints
 
 ### [GET] /myapi/products/:id
-Response: [Product](#Product)
+Response: [Product](#mardown-header-product)
 
 ## Resources Objects
 
@@ -85,7 +85,7 @@ Response: [Product](#Product)
 }
 ```
 
-### Product *extends* PartialProductItem (#product)
+### Product *extends* PartialProductItem
 ```
 {
 	breadcrumbs: Breadcrumb[],
