@@ -3,7 +3,7 @@
 ## API Endpoints
 
 ### [GET] /myapi/products/:id
-Response: [Product](#mardown-header-product)
+Response: Product ([link](#markdown-header-product-extends-partialproductitem))
 
 ## Resources Objects
 
