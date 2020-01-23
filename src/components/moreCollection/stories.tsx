@@ -27,7 +27,7 @@ export const moreCollectionImage = () => {
   };
   return (
     <div className={styles.row}>
-      <div className={cs(styles.colMd12, styles.mr3)}>
+      <div className={cs(styles.colMd12, styles.mr3, "more-collection")}>
         <MoreCollectionImage data={mydata as []} setting={config as Settings} />
       </div>
     </div>

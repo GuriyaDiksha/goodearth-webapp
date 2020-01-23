@@ -4,17 +4,14 @@ import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { CollectionData } from "./typings";
-// import cs from "classnames";
 import Slider from "react-slick";
 
 const CollectionImage: React.FC<CollectionData> = (props: CollectionData) => {
   const { data, setting } = props;
-  console.log(data);
   return (
     <div className={styles.row}>
       <Slider {...setting}>
         {(data.collSliderimage as string[])?.map((image: string, i: number) => {
-          console.log(image);
           return (
             <div>
               <a href={data.url}>

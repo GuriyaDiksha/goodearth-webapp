@@ -1,22 +1,7 @@
-.slick-arrow {
-    background-color: transparent;
-    border-color: transparent;
-    color: black;
-  }
- 
 
-    .slick-prev :before {
-        background: url('/src/img/arrow_left.svg') no-repeat;
-        width: 60px;
-        height: 100%;
-        color: transparent;
-        left: 180px;
-    }
-    .slick-next :after {
-        background: url('/src/img/arrow_right.svg') no-repeat;
-        width: 60px;
-        height: 100%;
-        color: transparent;
-        right: 160px;
-      }
-  
+  .we-recommend .slick-arrow.slick-prev {
+    left: -60px;
+  }
+  .we-recommend .slick-arrow.slick-next {
+    right: -60px;
+  }

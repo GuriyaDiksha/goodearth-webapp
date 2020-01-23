@@ -1,22 +1,30 @@
-.slick-arrow {
-    background-color: transparent;
-    border-color: transparent;
-    color: transparent;
-  }
- 
 
-    .slick-prev :before {
-        background: url('/src/img/arrow_left.svg') no-repeat;
-        width: 60px;
-        height: 100%;
-        color: transparent;
-        left: 180px;
-    }
-    .slick-next :after {
-        background: url('/src/img/arrow_right.svg') no-repeat;
-        width: 60px;
-        height: 100%;
-        color: transparent;
-        right: 160px;
-      }
-  
+.more-collection .slick-arrow.slick-prev {
+  left: 5px;
+}
+.more-collection .slick-arrow.slick-next {
+  right: 5px;
+}
+.more-collection .slick-arrow.slick-prev:before {
+    display: block;
+    font-size: 50px;
+    background-color: rgba(0,0,0,0.3);
+    left: 0;
+}
+.more-collection .slick-arrow {
+  background-color: transparent;
+}
+.more-collection .slick-arrow.slick-next:before {
+  display: block;
+  font-size: 50px;
+  background-color: rgba(0,0,0,0.3);
+  left: 0;
+}
+
+
+.more-collection .slick-next:hover {
+  background-color: transparent;
+}
+.more-collection .slick-prev:hover {
+  background-color: transparent;
+}

@@ -27,7 +27,7 @@ export const weRecommended = () => {
   };
   return (
     <div className={styles.row}>
-      <div className={cs(styles.colMd8, styles.offset2)}>
+      <div className={cs(styles.colMd8, styles.offset2, "we-recommend")}>
         <WeRecommend
           data={mydata as []}
           setting={config as Settings}

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./styles.scss";
+import "../../styles/myslick.css";
 import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";

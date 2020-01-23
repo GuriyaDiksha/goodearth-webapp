@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./styles.scss";
+import "../../styles/myslick.css";
 import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { MoreCollectionData, MoreCollectionItem } from "./typings";
-// import cs from "classnames";
 import Slider from "react-slick";
 
 const MoreCollectionImage: React.FC<MoreCollectionData> = (
