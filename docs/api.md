@@ -1,10 +1,14 @@
-# API Endpoints and Response Structure
-
 ## API Endpoints
 
 ### [GET] /myapi/products/:id
-Response: Product ([link](#markdown-header-product-extends-partialproductitem))
 
+**Parameters**
+
+id: number
+
+**Response:** Product ([link](#markdown-header-product-extends-partialproductitem))
+
+--------
 ## Resources Objects
 
 ### PriceRecord
@@ -37,7 +41,7 @@ Response: Product ([link](#markdown-header-product-extends-partialproductitem))
 }
 ```
 
-### ProductImage *extends* **ProductSliderImage**
+### ProductImage *extends* [**ProductSliderImage**](#markdown-header-productsliderimage)
 
 ```
 {
@@ -56,7 +60,13 @@ Response: Product ([link](#markdown-header-product-extends-partialproductitem))
 }
 ```
 
-### ChildProductAttributes *extends* PartialChildProductAttributes
+### ChildProductAttributes *extends* [PartialChildProductAttributes](#markdown-header-partialchildproductattributes)
+
+**Links to Resources:**
+
+PriceRecord: [link](#markdown-header-pricerecord)
+
+
 ```
 {
   	discountedPriceRecords: PriceRecord,
@@ -66,6 +76,13 @@ Response: Product ([link](#markdown-header-product-extends-partialproductitem))
 ```
 
 ### PartialProductItem
+
+**Links to Resources:**
+
+PriceRecord: [link](#markdown-header-pricerecord)
+
+PartialChildProductAttributes: [link](#markdown-header-partialchildproductattributes)
+
 ```
 {
 	url: string,
@@ -85,7 +102,15 @@ Response: Product ([link](#markdown-header-product-extends-partialproductitem))
 }
 ```
 
-### Product *extends* PartialProductItem
+### Product *extends* [PartialProductItem](#markdown-header-partialproductitem)
+
+**Links to Resources:**
+
+Breadcrumb: [link](#markdown-header-breadcrumb)
+
+ProductSliderImage: [link](#markdown-header-productsliderimage)
+
+ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-partialchildproductattributes)
 ```
 {
 	breadcrumbs: Breadcrumb[],
