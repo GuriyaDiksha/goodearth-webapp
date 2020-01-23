@@ -1,12 +1,40 @@
 ## API Endpoints
 
-### [GET] /myapi/products/:id
+### 1. [GET] /myapi/products/:id
 
 **Parameters**
 
 id: number
 
 **Response:** Product ([link](#markdown-header-product-extends-partialproductitem))
+
+
+### 2. [GET] /myapi/products/:id/more-from-collection
+
+**Parameters**
+
+id: number
+
+**Response:** 
+
+```
+{
+	count: number,
+	prev: string,
+	next: string,
+	data: [{
+		id: string,
+		title: string,
+		url: string,
+		image: string,
+		badgeImage: string,
+		collection: string,
+		collectionUrl: string,
+		priceRecords: PriceRecord
+	}]
+}
+```
+
 
 --------
 ## Resources Objects
@@ -96,7 +124,6 @@ PartialChildProductAttributes: [link](#markdown-header-partialchildproductattrib
 	categories: string[],
 	isNew?: boolean,
 	salesBadgeImage?: string,
-	partial: boolean,
 	markAs?: string[],
 	childAttributes?: PartialChildProductAttributes[]
 }
@@ -124,8 +151,9 @@ ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-p
 	productClass: string,
 	structure: string,
 	parent?: string,
+	collection: string,
 	collectionUrl: string,
-	sliderimages: ProductSliderImage[],
+	sliderImages: ProductSliderImage[],
 	childAttributes?: ChildProductAttributes[]
 }
 ```

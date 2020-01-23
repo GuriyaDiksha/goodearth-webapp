@@ -39,7 +39,8 @@ export interface Product extends PartialProductItem {
   productClass: string;
   structure: string;
   parent?: string;
-  collectionUrl: string;
+  collectionUrl?: string;
+  collection?: string;
   sliderimages: ProductSliderImage[];
   childAttributes: ChildProductAttributes[];
 }
