@@ -1,6 +1,11 @@
 # API Endpoints and Response Structure
 
-## Resources Structure
+## API Endpoints
+
+### [GET] /myapi/products/:id
+Response: [Product](#Product)
+
+## Resources Objects
 
 ### PriceRecord
 ```
@@ -80,7 +85,7 @@
 }
 ```
 
-### Product *extends* PartialProductItem
+### Product *extends* PartialProductItem (#product)
 ```
 {
 	breadcrumbs: Breadcrumb[],
