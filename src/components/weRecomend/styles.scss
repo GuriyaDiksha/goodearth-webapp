@@ -1,0 +1,67 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+h2 {
+    font-size: 25px;
+    font-family: "Baskerville","Amiri","Serif";
+    color: #333;
+    line-height: 60px;
+    text-transform: capitalize;
+    text-align: center;
+    font-weight: 100;
+}
+
+.recommend-bg {
+    background-color: #f2f2f2;
+}
+
+.more-block{
+    border-right: 1px solid #ccc;
+    margin: 20px 0 100px 0;
+    padding: 10px 0;
+    text-align: center;
+}
+.product-h {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 2px;
+    font-family: "Baskerville","Amiri","Serif";
+    line-height: 30px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 30px;
+    padding-top: 5px;
+}
+.product-n {
+    font-size: 16px;
+    font-family: "AmiriFont", "Baskerville", "Garamond";
+    color: #000;
+    text-transform: capitalize;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    a {
+        font-size: 16px;
+        font-family: "AmiriFont", "Baskerville", "Garamond";
+        color: #000;
+        text-transform: capitalize;
+    }
+    a:hover{
+        color: #ab1e56;
+    }
+}
+
+.img-responsive{
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    min-width: 100%;
+}
+img{
+    padding: 0 3px;
+}
+
