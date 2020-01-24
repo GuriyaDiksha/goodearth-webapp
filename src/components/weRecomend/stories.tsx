@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../styles/bootstrap/bootstrap-grid.scss";
 import WeRecommend from "./index";
-import { Settings } from "../../typings/settings";
+import { Settings } from "react-slick";
 import mydata from "./moreData.json";
 import cs from "classnames";
 

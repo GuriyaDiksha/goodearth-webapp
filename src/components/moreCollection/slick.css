@@ -9,7 +9,7 @@
     display: block;
     font-size: 50px;
     background-color: rgba(0,0,0,0.3);
-    left: 0;
+    left: -15px;
 }
 .more-collection .slick-arrow {
   background-color: transparent;
@@ -18,7 +18,7 @@
   display: block;
   font-size: 50px;
   background-color: rgba(0,0,0,0.3);
-  left: 0;
+  right: -15px
 }
 
 

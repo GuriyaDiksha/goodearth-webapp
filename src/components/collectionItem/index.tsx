@@ -3,14 +3,17 @@ import styles from "./styles.scss";
 import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { CollectionData } from "./typings";
+import { CollectionDataProps } from "./typings";
 import Slider from "react-slick";
+import { Settings } from "react-slick";
 
-const CollectionImage: React.FC<CollectionData> = (props: CollectionData) => {
+const CollectionImage: React.FC<CollectionDataProps> = (
+  props: CollectionDataProps
+) => {
   const { data, setting } = props;
   return (
     <div className={styles.row}>
-      <Slider {...setting}>
+      <Slider {...(setting as Settings)}>
         {(data.collSliderimage as string[])?.map((image: string, i: number) => {
           return (
             <div>

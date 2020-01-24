@@ -4,11 +4,11 @@ import "../../styles/myslick.css";
 import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { MoreCollectionData, MoreCollectionItem } from "./typings";
+import { MoreCollectionSliderProps, MoreCollectionItem } from "./typings";
 import Slider from "react-slick";
 
-const MoreCollectionImage: React.FC<MoreCollectionData> = (
-  props: MoreCollectionData
+const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
+  props: MoreCollectionSliderProps
 ) => {
   const { data, setting } = props;
   return (
@@ -17,7 +17,6 @@ const MoreCollectionImage: React.FC<MoreCollectionData> = (
       <Slider {...setting}>
         {(data as MoreCollectionItem[])?.map(
           (item: MoreCollectionItem, i: number) => {
-            console.log(item);
             return (
               <div>
                 {item.badgeImage ? (

@@ -26,9 +26,9 @@
     font-family: "goodearth";
     content: "\ea01";
     position: absolute;
-    top: 0;
+    top: 2px;
     font-size: 36px;
-    font-weight: 700;
+    font-weight: 600;
     left: 0;
   }
   .slick-next:before {
@@ -36,9 +36,9 @@
     font-family: "goodearth";
     content: "\ea02";
     position: absolute;
-    top: 0;
+    top: 2px;
     font-size: 36px;
-    font-weight: 700;
+    font-weight: 600;
     right: 0;
   }
     

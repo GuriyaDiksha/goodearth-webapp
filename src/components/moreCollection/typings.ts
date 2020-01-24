@@ -1,5 +1,5 @@
 import { PriceRecord } from "../../typings/price";
-import { Settings } from "../../typings/settings";
+import { Settings } from "react-slick";
 
 export interface Category {
   id: number;
@@ -18,7 +18,7 @@ export interface MoreCollectionItem {
   pricerecords: PriceRecord;
 }
 
-export type MoreCollectionData = {
+export type MoreCollectionSliderProps = {
   data: MoreCollectionItem[];
   setting: Settings;
 };

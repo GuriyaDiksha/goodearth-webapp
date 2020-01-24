@@ -5,17 +5,19 @@ import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { Currency, currencyCode } from "../../typings/currency";
-import { RecommendData, Recommend } from "./typings";
+import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 
-const WeRecommend: React.FC<Recommend> = (props: Recommend) => {
+const WeRecommend: React.FC<RecommenedSliderProps> = (
+  props: RecommenedSliderProps
+) => {
   const { data, setting, currency } = props;
   const code = currencyCode[currency as Currency];
   return (
     <div className={styles.row}>
       <h2>We Recommend</h2>
       <Slider {...setting}>
-        {(data as RecommendData[])?.map((item: RecommendData, i: number) => {
+        {data?.map((item: RecommendData, i: number) => {
           return (
             <div>
               {item.badgeImage ? (

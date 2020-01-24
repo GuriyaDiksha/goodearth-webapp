@@ -1,6 +1,6 @@
 import { PriceRecord } from "../../typings/price";
 import { Currency } from "../../typings/currency";
-import { Settings } from "../../typings/settings";
+import { Settings } from "react-slick";
 
 export interface RecommendData {
   collectionName: string;
@@ -14,7 +14,7 @@ export interface RecommendData {
   pricerecords: PriceRecord;
 }
 
-export type Recommend = {
+export type RecommenedSliderProps = {
   data: RecommendData[];
   setting: Settings;
   currency: Currency;

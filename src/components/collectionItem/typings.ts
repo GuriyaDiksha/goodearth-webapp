@@ -1,3 +1,5 @@
+import { Settings } from "react-slick";
+
 export interface Category {
   id: number;
   name: string;
@@ -16,24 +18,7 @@ export interface CollectionItem {
   url?: string;
 }
 
-export interface InnerSetting {
-  dots: boolean;
-  arrows: boolean;
-}
-
-export interface Responses {
-  breakpoint?: number;
-  settings: InnerSetting;
-}
-
-export interface Settings {
-  dots: boolean;
-  infinite: boolean;
-  speed: number;
-  responsive: Responses[];
-}
-
-export type CollectionData = {
+export type CollectionDataProps = {
   data: CollectionItem;
   setting: Settings;
 };

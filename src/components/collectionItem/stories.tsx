@@ -2,9 +2,9 @@ import React from "react";
 import styles from "../../styles/bootstrap/bootstrap-grid.scss";
 import CollectionImage from "./index";
 import { CollectionItem } from "./typings";
-import { Settings } from "../../typings/settings";
 import mydata from "./dummyData.json";
 import cs from "classnames";
+import { Settings } from "react-slick";
 
 export default { title: "collectionImage" };
 
@@ -29,10 +29,7 @@ export const collectionImage = () => {
   return (
     <div className={cs(styles.row, "collection-item")}>
       <div className={styles.colMd5}>
-        <CollectionImage
-          data={mydata as CollectionItem}
-          setting={config as Settings}
-        />
+        <CollectionImage data={mydata as CollectionItem} setting={config} />
       </div>
     </div>
   );

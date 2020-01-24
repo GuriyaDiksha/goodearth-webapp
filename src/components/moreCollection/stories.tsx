@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "../../styles/bootstrap/bootstrap-grid.scss";
 import MoreCollectionImage from "./index";
-import { Settings } from "../../typings/settings";
 import mydata from "./moreData.json";
 import cs from "classnames";
+import { Settings } from "react-slick";
 
 export default { title: "moreCollectionImage" };
 
@@ -26,9 +26,9 @@ export const moreCollectionImage = () => {
     ]
   };
   return (
-    <div className={styles.row}>
-      <div className={cs(styles.colMd12, styles.mr3, "more-collection")}>
-        <MoreCollectionImage data={mydata as []} setting={config as Settings} />
+    <div className={cs(styles.mr1, styles.row, styles.ml1)}>
+      <div className={cs(styles.colMd12, "more-collection")}>
+        <MoreCollectionImage data={mydata as []} setting={config} />
       </div>
     </div>
   );
