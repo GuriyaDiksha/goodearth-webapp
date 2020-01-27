@@ -6,6 +6,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const LoadablePlugin = require('@loadable/webpack-plugin')
 
+const alias = {
+    components : "",
+    actions : context + "/src/actions",
+    reducers : context + "/src/reducers",
+    store : context + "/src/store",
+    utils : context + "/src/utils",
+    containers : context + "/src/containers",
+    hooks : context + "/src/hooks",
+    styles : context + "/src/styles",
+    typings : context + "/src/typings",
+    routerHistory : context + "/src/routerHistory"
+}
+
 let config = [
     {
         mode: 'development',
@@ -16,11 +29,12 @@ let config = [
         },
         output: {
             path: context + '/dist/static',
-            publicPath: `/static/`,
+            publicPath: `/`,
             filename: `[name].js`
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss"]
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss"],
+            alias
         },
         plugins: [
             new HtmlWebpackPlugin({
@@ -28,7 +42,7 @@ let config = [
             })
         ],
         devServer: {
-            contentBase: context + '/dist',
+            contentBase: context + '/dist/static',
             compress: true,
             port: 8000
         },
