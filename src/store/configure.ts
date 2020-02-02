@@ -1,11 +1,21 @@
-import { createStore, compose } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
+import { routerMiddleware } from "connected-react-router";
 
 import { AppState } from "reducers/typings";
-import rootReducer from "reducers/root";
+import createRootReducer from "reducers/root";
+import { History } from "history";
 
-export const configureStore = (client: boolean, initialState?: AppState) => {
+export const configureStore = (
+  client: boolean,
+  history: History,
+  initialState?: AppState
+) => {
   const composeEnhancers =
     (client && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-  return createStore(rootReducer, initialState || {}, composeEnhancers());
+  return createStore(
+    createRootReducer(history),
+    {},
+    composeEnhancers(applyMiddleware(routerMiddleware(history)))
+  );
 };

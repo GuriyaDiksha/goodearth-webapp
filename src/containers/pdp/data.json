@@ -1,0 +1,146 @@
+{
+    "url": "/catalogue/mehran-pleated-cotton-kurta_22091/",
+    "id": 22091,
+    "title": "Mehran Pleated Cotton Kurta",
+    "collections": [],
+    "collection": "Mehran",
+    "priceRecords": {
+        "USD": 110,
+        "GBP": 75,
+        "INR": 5500
+    },
+    "discountedPriceRecords": {
+        "USD": 110,
+        "GBP": 75,
+        "INR": 5500
+    },
+    "discount": false,
+    "categories": [
+        "Apparel",
+        "Apparel > Womens Uppers",
+        "Apparel > Womens Uppers > Kurtas"
+    ],
+    "images": [
+        {
+            "id": 214952,
+            "productImage": "https://djhiy8e1dslha.cloudfront.net/media/images/product/Medium/I00203970-1579587625.jpg",
+            "displayOrder": 0,
+            "social": true,
+            "badgeImage": "",
+            "badgeImagePDP": ""
+        }
+    ],
+    "sku": "I00203970",
+    "gaVariant": "Black",
+    "breadcrumbs": [
+        {
+            "url": "/",
+            "depth": 0,
+            "name": "Home"
+        },
+        {
+            "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Uppers+%3E+Kurtas",
+            "depth": 2,
+            "name": "Kurtas"
+        },
+        {
+            "url": null,
+            "depth": 0,
+            "name": "Mehran Pleated Cotton Kurta"
+        }
+    ],
+    
+    "details": "<strong>Description:&nbsp;</strong>A relaxed fit kurta in cotton mul featuring a front yoke with zari stitch lines and reverse pleats<br><strong>Craft:&nbsp;</strong>The word zari comes from the Persian word for gold: zar. Zari is produced by twisting a flattened metallic strip made from pure gold, silver, or a metallic polyester film around a yarn. This thread is then used to render intricate motifs and patterns on luxurious fabrics<br><strong>Material:&nbsp;</strong>Cotton mul<br><em style=\"\"><strong>Note:&nbsp;</strong>Block joints, spots and colour variations are an inherent part of the craft rather than an imperfection of the cloth.</em>",
+    "compAndCare": "Dry Clean Only",
+    "shipping": "Shipping within India | Delivery within 8-10 business days<br><br>Shipping Internationally | Delivery within 10-12 business days. In some cases custom clearance might take longer. Duties & Taxes are additional (can be upto 30% or more of order value) and need to be paid to the shipping company at the time of delivery.<br><br>For more information visit our <a href=\"/customer-assistance/shipping-payment\" style=\"color| #4CB8BD; text-decoration| underline !important;\" target=\"_blank\">Shipping &amp; Payment</a> Policy.",
+    "recommendedProducts": [],
+    "productClass": "Variant",
+    "structure": "parent",
+    "collectionUrl": "/collection/mehran_410/",
+    "sliderImages": [
+        {
+            "id": 461678,
+            "productImage": "https://djhiy8e1dslha.cloudfront.net/media/images/product/Micro/I00203970_S-1579587621.jpg",
+            "caption": "",
+            "displayOrder": 0,
+            "social": false
+        },
+        {
+            "id": 461679,
+            "productImage": "https://djhiy8e1dslha.cloudfront.net/media/images/product/Micro/I00203970_S-1579587623.jpg",
+            "caption": "",
+            "display_order": 1,
+            "social": false
+        }
+    ],
+    "childAttributes": [
+        {
+            "sku": "I00203970",
+            "discountedPriceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "priceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "stock": 1,
+            "id": 22092,
+            "isBridalProduct": false,
+            "size": "P"
+        },
+        {
+            "sku": "I00203971",
+            "discountedPriceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "priceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "stock": 1,
+            "id": 22093,
+            "isBridalProduct": false,
+            "size": "1"
+        },
+        {
+            "sku": "I00203972",
+            "discountedPriceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "priceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "stock": 1,
+            "id": 22094,
+            "isBridalProduct": false,
+            "size": "2"
+        },
+        {
+            "sku": "I00203973",
+            "discountedPriceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "priceRecords": {
+                "USD": 110,
+                "INR": 5500,
+                "GBP": 75
+            },
+            "stock": 0,
+            "id": 22095,
+            "isBridalProduct": false,
+            "size": "3"
+        }
+    ]
+}

@@ -1,9 +1,8 @@
-import { ReactNode } from "react";
-import { Dispatch } from "redux";
+import { InitAction } from "typings/actions";
 
 export enum ROUTES {
   HOME = "/",
-  PDP = "/product/:id"
+  PDP = "/product/:slug"
 }
 
 export type RouteConfig = RouteObject[];
@@ -18,8 +17,7 @@ export type RouteParams = {
 
 export type RouteObject = {
   path: ROUTES;
-  component: ReactNode;
+  component: React.ComponentType<any>;
   action: InitAction;
+  exact?: boolean;
 };
-
-export type InitAction = (dispatch: Dispatch, params: RouteParams) => void;

@@ -3,9 +3,6 @@ const path = require("path");
 // Export a function. Accept the base config as the only param.
 module.exports = async ({ config, mode }) => {
   // `mode` has a value of 'DEVELOPMENT' or 'PRODUCTION'
-  config.module.rules.map( (v) => {
-    console.log(v);
-  });
   if (!config.resolve) {
     config.resolve = {};
   }

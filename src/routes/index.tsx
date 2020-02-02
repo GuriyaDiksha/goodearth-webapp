@@ -1,18 +1,26 @@
 import React from "react";
-import { RouteConfig, ROUTES } from "./typings";
+import { Route } from "react-router-dom";
+import { routes } from "./config";
+import RouteContainer from "containers/route";
 
-const routes: RouteConfig = [
-  //   {
-  //     path: ROUTES.HOME,
-  //     component: () => <div className="home" />,
-  //     action: async () => null
-  //   },
-  //   {
-  //     path: ROUTES.PDP,
-  //     component: () => <div className="product" />,
-  //     action: async () => null
-  //   }
-];
+const routeMap = routes.map(({ path, component, action, exact }) => {
+  return (
+    <Route
+      key={path}
+      path={path}
+      exact={exact}
+      render={({ match: { params } }) => {
+        return (
+          <RouteContainer
+            action={action}
+            component={component}
+            path={path}
+            params={params}
+          />
+        );
+      }}
+    />
+  );
+});
 
-export default routes;
-export { paths, routeMap } from "./config";
+export default routeMap;

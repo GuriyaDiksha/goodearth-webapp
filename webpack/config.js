@@ -16,7 +16,8 @@ const alias = {
     hooks : context + "/src/hooks",
     styles : context + "/src/styles",
     typings : context + "/src/typings",
-    routerHistory : context + "/src/routerHistory"
+    routerHistory : context + "/src/routerHistory",
+    routes: context + "/src/routes"
 }
 
 let config = [
@@ -44,7 +45,10 @@ let config = [
         devServer: {
             contentBase: context + '/dist/static',
             compress: true,
-            port: 8000
+            port: 8000,
+            historyApiFallback: {
+                index: 'index.html'
+            }
         },
         module: {
             rules: [

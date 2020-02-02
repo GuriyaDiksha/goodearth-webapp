@@ -24,7 +24,7 @@ export interface PartialProductItem extends PLPProductItem {
   images?: ProductImage[];
   sku: string;
   gaVariant: string;
-  recommendationFinalScore: number;
+  recommendationFinalScore?: number;
 }
 
 export interface Product extends PartialProductItem {
@@ -33,15 +33,13 @@ export interface Product extends PartialProductItem {
   compAndCare: string;
   shipping: string;
   sizeFit?: string;
-  dateCreated: Date;
-  dateUpdated: Date;
   recommendedProducts: PartialProductItem[];
   productClass: string;
   structure: string;
   parent?: string;
   collectionUrl?: string;
   collection?: string;
-  sliderimages: ProductSliderImage[];
+  sliderImages: ProductSliderImage[];
   childAttributes: ChildProductAttributes[];
 }
 

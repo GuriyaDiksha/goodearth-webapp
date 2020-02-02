@@ -1,5 +1,5 @@
 export type Breadcrumb = {
-  url: string;
+  url: string | null;
   depth: number;
   name: string;
 };

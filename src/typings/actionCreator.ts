@@ -2,7 +2,7 @@ export type Action = <T extends string, S>(
   type: T,
   payload: S
 ) => {
-  type?: T;
+  type: T;
   payload: S;
 };
 
