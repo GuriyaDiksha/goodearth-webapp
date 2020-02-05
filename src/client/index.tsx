@@ -5,25 +5,22 @@ import { ConnectedRouter } from "connected-react-router";
 import { configureStore } from "store/configure";
 import { getHistory } from "routerHistory/index";
 
-import routes from "routes/index";
-import { Switch } from "react-router";
+import App from "containers/app";
 
 const history = getHistory();
 const store = configureStore(true, history);
 
-const App: React.FC<any> = () => {
-  return (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Switch>{routes}</Switch>
-      </ConnectedRouter>
-    </Provider>
-  );
-};
+const application = (
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>
+);
 
 window.onload = () => {
   const root = document.createElement("div");
-  document.body.appendChild(root);
 
-  render(<App />, root);
+  document.body.appendChild(root);
+  render(application, root);
 };

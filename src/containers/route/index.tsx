@@ -4,13 +4,13 @@ import { useStore } from "react-redux";
 
 const RouteContainer: React.FC<Props> = ({ action, component, params }) => {
   const store = useStore();
-  useEffect(() => {
-    // const state = store.getState();
-    action(store.dispatch, params);
-  }, [Object.values(params)]);
   const Component = component;
 
-  return <Component />;
+  useEffect(() => {
+    action(store.dispatch, params);
+  }, [Object.values(params)]);
+
+  return <Component {...params} />;
 };
 
 export default RouteContainer;

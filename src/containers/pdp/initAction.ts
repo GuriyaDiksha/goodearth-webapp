@@ -7,9 +7,7 @@ import { Product } from "typings/product.js";
 const initAction: InitAction = async dispatch => {
   const data: Product = { ...product, partial: false };
 
-  window.setTimeout(() => {
-    dispatch(updateProduct(data));
-  }, 2000);
+  dispatch(updateProduct(data));
 };
 
 export default initAction;

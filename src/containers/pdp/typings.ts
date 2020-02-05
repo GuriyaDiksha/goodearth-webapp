@@ -1,8 +1,6 @@
-import { Product, PartialProductItem } from "typings/product";
-import { ProductID } from "typings/id";
+// import { Product, PartialProductItem } from "typings/product";
 
 export type Props = {
-  id: ProductID;
+  slug: string;
   url: string;
-  data: Product | PartialProductItem;
 };
