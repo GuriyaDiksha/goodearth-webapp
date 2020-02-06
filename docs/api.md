@@ -154,6 +154,7 @@ ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-p
 	collection: string,
 	collectionUrl: string,
 	sliderImages: ProductSliderImage[],
-	childAttributes?: ChildProductAttributes[]
+	childAttributes?: ChildProductAttributes[],
+	sizeChartHTML: string
 }
 ```
