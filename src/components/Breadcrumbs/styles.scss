@@ -1,0 +1,20 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.breadcrumbs-container {
+    span, a {
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        line-height: 43px;
+        @include pdp_breadcrumbs();
+
+        &:last-child {
+            color: tint(#000, 40%);
+        }
+    }
+
+    a:hover {
+        color: $cerise;
+    }
+
+}
