@@ -1,0 +1,7 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.secondary-header-container {
+    box-shadow: 0 8px 6px -6px tint(#000, 90%);
+    @include sticky-top();
+}

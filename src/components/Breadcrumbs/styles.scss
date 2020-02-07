@@ -6,6 +6,8 @@
         text-transform: capitalize;
         letter-spacing: 1px;
         line-height: 43px;
+        text-decoration: none;
+        
         @include pdp_breadcrumbs();
 
         &:last-child {

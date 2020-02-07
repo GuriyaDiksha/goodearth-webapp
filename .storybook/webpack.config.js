@@ -1,5 +1,7 @@
 const path = require("path");
 
+const appConfig = require("../webpack/config");
+
 // Export a function. Accept the base config as the only param.
 module.exports = async ({ config, mode }) => {
   // `mode` has a value of 'DEVELOPMENT' or 'PRODUCTION'
@@ -7,6 +9,7 @@ module.exports = async ({ config, mode }) => {
     config.resolve = {};
   }
   config.resolve.extensions = [".ts", ".js", ".json", ".tsx", ".scss"];
+  config.resolve.alias = Object.assign({}, config.resolve.alias, appConfig[0].resolve.alias);
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
     loader: "ts-loader"

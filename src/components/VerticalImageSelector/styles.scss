@@ -1,0 +1,16 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.image-container {
+    padding: 2px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+}
+
+.active {
+    border: 1px solid gray;
+}
+
+.clickable {
+    cursor: pointer;
+}

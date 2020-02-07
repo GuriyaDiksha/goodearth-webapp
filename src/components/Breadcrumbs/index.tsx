@@ -1,10 +1,10 @@
 import React, { memo, ReactNode } from "react";
 import styles from "./styles.scss";
 import { Props } from "./typings";
-// import cs from "classnames";
+import cs from "classnames";
 
 const Breadcrumbs: React.FC<Props> = memo(
-  ({ levels = [], separator = " > " }) => {
+  ({ levels = [], separator = " > ", className }) => {
     const breadcrumbs: ReactNode[] = [];
 
     levels.map(({ name, url }, index) => {
@@ -24,7 +24,11 @@ const Breadcrumbs: React.FC<Props> = memo(
         );
       }
     });
-    return <div className={styles.breadcrumbsContainer}>{breadcrumbs}</div>;
+    return (
+      <div className={cs(styles.breadcrumbsContainer, className)}>
+        {breadcrumbs}
+      </div>
+    );
   }
 );
 
