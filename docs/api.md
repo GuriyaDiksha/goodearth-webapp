@@ -69,6 +69,38 @@ id: number
 }
 ```
 
+### Children
+```
+{
+  url: string;
+  labelMobile: string;
+  id: number;
+  labelDesktop: string;
+  name: string;
+}
+```
+Children: [link](#markdown-header-children)
+
+### MenuData
+```
+{
+  name: string;
+  url: string;
+  id: number;
+  labelDesktop: string;
+  labelMobile: string;
+  children: Children[];
+}
+```
+
+### List
+```
+[{
+    text: string,
+    link: string
+}]
+```
+
 ### ProductImage *extends* [**ProductSliderImage**](#markdown-header-productsliderimage)
 
 ```
@@ -157,4 +189,34 @@ ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-p
 	childAttributes?: ChildProductAttributes[],
 	sizeChartHTML: string
 }
+```
+### 3. [GET] /myapi/top-menu-data-ver-1/
+
+**Response:** 
+MenuData: [link](#markdown-header-menudata)
+```
+{
+  id: number,
+  name: string,
+  url: string,
+  labelDesktop?: string,
+  labelMobile?: string,
+  catLandingUrl: string,
+  leftMenu?: MenuData[],
+  rightMenu?: MenuData[][],
+  categoryLogoImage?: string | null,
+  image?: string,
+  categoryImageUrl: string,
+}
+```
+
+### 3. [GET] /myapi/footer-list/
+
+**Response:** 
+List:[link](#markdown-header-list)
+```
+footerList:[{
+   name: string,
+   value: List
+}]
 ```
