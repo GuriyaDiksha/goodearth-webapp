@@ -1,4 +1,4 @@
-import { actionCreator } from "src/utils/actionCreator";
+import { actionCreator } from "utils/actionCreator";
 
 export const updateDeviceInfo = (mobile: boolean, tablet: boolean) =>
   actionCreator("UPDATE_DEVICE_INFO", { mobile, tablet });

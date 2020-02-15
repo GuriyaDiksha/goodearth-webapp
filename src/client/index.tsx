@@ -4,11 +4,17 @@ import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { configureStore } from "store/configure";
 import { getHistory } from "routerHistory/index";
+import { getDevice } from "utils/device";
 
 import App from "containers/app";
+import { updateDeviceInfo } from "actions/device";
 
 const history = getHistory();
 const store = configureStore(true, history);
+
+const { mobile, tablet } = getDevice(window.navigator.userAgent);
+
+store.dispatch(updateDeviceInfo(mobile, tablet));
 
 const application = (
   <Provider store={store}>
