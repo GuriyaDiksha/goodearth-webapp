@@ -9,8 +9,10 @@ import { AppState } from "store/typings";
 import { Product } from "typings/product";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
+import VerticalImageSelector from "components/VerticalImageSelector";
 
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
+import styles from "./styles.scss";
 
 const mapStateToProps = (state: AppState, props: PDPProps) => {
   const { slug } = props;
@@ -33,15 +35,22 @@ class PDPContainer extends React.Component<Props> {
       return null;
     }
 
-    const { breadcrumbs } = data;
+    const { breadcrumbs, sliderImages } = data;
 
     return (
-      <SecondaryHeader>
-        <Breadcrumbs
-          levels={breadcrumbs}
-          className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
-        />
-      </SecondaryHeader>
+      <div className={styles.pdpContainer}>
+        <SecondaryHeader>
+          <Breadcrumbs
+            levels={breadcrumbs}
+            className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
+          />
+        </SecondaryHeader>
+        <div className={cs(bootstrap.row)}>
+          <div className={cs(bootstrap.colMd1, bootstrap.offsetMd1)}>
+            <VerticalImageSelector images={sliderImages} />
+          </div>
+        </div>
+      </div>
     );
   }
 }
