@@ -10,6 +10,8 @@ import { Product } from "typings/product";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import VerticalImageSelector from "components/VerticalImageSelector";
+import PdpImage from "./components/pdpImage";
+import ProductDetails from "./components/productDetails";
 
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -21,13 +23,42 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
 
   return {
     id,
-    data
+    data,
+    currency: state.currency
   };
 };
 
 type Props = PDPProps & ReturnType<typeof mapStateToProps>;
 
 class PDPContainer extends React.Component<Props> {
+  onImageClick = (index: number) => {
+    console.log(index);
+  };
+
+  getProductImages() {
+    const {
+      data: { sliderImages, images }
+    } = this.props;
+
+    return images?.concat(sliderImages).map((image, index) => {
+      return (
+        <div
+          className={styles.productImageContainer}
+          key={image.id}
+          id={`img-${image.id}`}
+        >
+          <PdpImage {...image} index={index} onClick={this.onImageClick} />
+        </div>
+      );
+    });
+  }
+
+  getProductDetails() {
+    const { data, currency } = this.props;
+
+    return <ProductDetails data={data} currency={currency} />;
+  }
+
   render() {
     const { data } = this.props;
 
@@ -35,7 +66,7 @@ class PDPContainer extends React.Component<Props> {
       return null;
     }
 
-    const { breadcrumbs, sliderImages } = data;
+    const { breadcrumbs, sliderImages, images } = data;
 
     return (
       <div className={styles.pdpContainer}>
@@ -47,7 +78,35 @@ class PDPContainer extends React.Component<Props> {
         </SecondaryHeader>
         <div className={cs(bootstrap.row)}>
           <div className={cs(bootstrap.colMd1, bootstrap.offsetMd1)}>
-            <VerticalImageSelector images={sliderImages} />
+            <div className={bootstrap.row}>
+              <VerticalImageSelector
+                images={images ? images.concat(sliderImages) : []}
+                className={cs(
+                  bootstrap.colSm10,
+                  bootstrap.offsetSm1,
+                  bootstrap.offsetMd0
+                )}
+              />
+            </div>
+          </div>
+          <div
+            className={cs(
+              bootstrap.colMd4,
+              bootstrap.dNone,
+              bootstrap.dMdBlock
+            )}
+          >
+            {this.getProductImages()}
+          </div>
+
+          <div
+            className={cs(
+              styles.detailsContainer,
+              bootstrap.colMd5,
+              bootstrap.col12
+            )}
+          >
+            {this.getProductDetails()}
           </div>
         </div>
       </div>

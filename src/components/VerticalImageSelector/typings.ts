@@ -1,7 +1,7 @@
-import { ProductSliderImage } from "typings/image";
+import { ProductImage } from "typings/image";
 
 export type Props = {
-  images: ProductSliderImage[];
+  images: ProductImage[];
   className?: string;
   activeIndex?: number;
   onImageClick?: (index: number) => void;

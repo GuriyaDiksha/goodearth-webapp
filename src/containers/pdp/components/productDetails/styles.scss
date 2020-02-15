@@ -1,0 +1,49 @@
+@import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
+
+.collection-header {
+    @include pdp_collection_header();
+    a {
+        color: inherit;
+    }
+}
+
+.title {
+    @include pdp_prod_title();
+
+    p {
+        font-style: italic;
+    }
+}
+
+.price-container {
+
+    @include pdp_prod_title();
+}
+
+.discounted-price {
+    color: $cerise;
+    font-family: $font-Amiri;
+    font-size: 22px;
+}
+
+.old-price {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: tint(#000, 50%) !important;
+    font-family: $font-Amiri;
+}
+
+.label {
+    @include pdp_label();
+
+    &.colour {
+        line-height: 85px;
+    }
+    &.size {
+        line-height: 50px;
+    }
+    &.quantity {
+        line-height: 30px;
+    }
+}

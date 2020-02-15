@@ -1,7 +1,7 @@
 {
     "url": "/catalogue/mehran-pleated-cotton-kurta_22091/",
     "id": 22091,
-    "title": "Mehran Pleated Cotton Kurta",
+    "title": "Mehran Pleated Cotton Kurta (Dark)",
     "collections": [],
     "collection": "Mehran",
     "priceRecords": {
@@ -10,11 +10,11 @@
         "INR": 5500
     },
     "discountedPriceRecords": {
-        "USD": 110,
+        "USD": 10,
         "GBP": 75,
         "INR": 5500
     },
-    "discount": false,
+    "discount": true,
     "categories": [
         "Apparel",
         "Apparel > Womens Uppers",
@@ -26,8 +26,8 @@
             "productImage": "https://djhiy8e1dslha.cloudfront.net/media/images/product/Medium/I00203970-1579587625.jpg",
             "displayOrder": 0,
             "social": true,
-            "badgeImage": "",
-            "badgeImagePDP": ""
+            "badgeImage": "https://djhiy8e1dslha.cloudfront.net/media/images/promotions/badges_50sale.png",
+            "badgeImagePDP": "https://djhiy8e1dslha.cloudfront.net/media/images/promotions/badges_50pdp-sale.png"
         }
     ],
     "sku": "I00203970",

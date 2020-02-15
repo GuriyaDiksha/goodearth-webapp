@@ -15,7 +15,8 @@
     "experimentalDecorators": true,
     "noUnusedLocals": true,
     "paths": {
-      "components/*": [""],
+      "components/*": ["src/components/*"],
+      "constants/*": ["src/constants/*"],
       "actions/*": ["src/actions/*"],
       "reducers/*": ["src/reducers/*"],
       "store/*": ["src/store/*"],
