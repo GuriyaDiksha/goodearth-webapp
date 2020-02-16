@@ -10,6 +10,7 @@ import globalStyles from "styles/global.scss";
 
 import { ChildProductAttributes } from "typings/product";
 import SizeSelector from "components/SizeSelector";
+import Quantity from "components/quantity";
 
 const saleStatus = true;
 
@@ -23,7 +24,9 @@ const ProductDetails: React.FC<Props> = ({
     discount,
     discountedPriceRecords,
     priceRecords,
-    childAttributes
+    childAttributes,
+    sizeChartHTML,
+    categories
   },
   currency
 }) => {
@@ -41,11 +44,31 @@ const ProductDetails: React.FC<Props> = ({
       ? selectedSize.priceRecords[currency]
       : priceRecords[currency];
 
+  const [sizeError, setSizeError] = useState("");
+
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      setSizeError("");
     },
     [id, childAttributes, selectedSize]
+  );
+
+  const minQuantity = 1;
+  const maxQuantity = selectedSize ? selectedSize.stock : 1;
+
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const onQuantityChange = useCallback(
+    value => {
+      if (selectedSize) {
+        setQuantity(value);
+        setSizeError("");
+      } else {
+        setSizeError("Please select size");
+      }
+    },
+    [selectedSize]
   );
 
   return (
@@ -117,7 +140,7 @@ const ProductDetails: React.FC<Props> = ({
                   styles.size
                 )}
               >
-                size
+                Size
               </div>
               <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
                 <SizeSelector
@@ -125,14 +148,62 @@ const ProductDetails: React.FC<Props> = ({
                   onChange={onSizeSelect}
                   selected={selectedSize ? selectedSize.id : undefined}
                 />
+                {sizeError && (
+                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
+                )}
               </div>
             </div>
           </div>
-          <div className={cs(bootstrap.colSm4, styles.label)}>
-            {/* {this.props.productdata.size_chart_html ? <span className="cursor-pointer sg"
-                                                                        onClick={() => {this.props.showSizeGuide()}}> Size Guide </span> : ""} */}
+          {sizeChartHTML && (
+            <div
+              className={cs(
+                bootstrap.colSm4,
+                styles.label,
+                globalStyles.textCenter
+              )}
+            >
+              <span className={styles.sizeGuide}> Size Guide </span>
+            </div>
+          )}
+          {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
+            <div
+              className={cs(
+                bootstrap.colSm4,
+                styles.label,
+                globalStyles.textCenter
+              )}
+            >
+              <span className={styles.sizeGuide}> Wallpaper Calculator </span>
+            </div>
+          )}
+        </div>
+        <div className={bootstrap.row}>
+          <div className={bootstrap.colSm8}>
+            <div className={bootstrap.row}>
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colSm3,
+                  styles.label,
+                  styles.quantity
+                )}
+              >
+                Quantity
+              </div>
+              <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+                <Quantity
+                  id={selectedSize ? selectedSize.id : undefined}
+                  minValue={minQuantity}
+                  maxValue={maxQuantity}
+                  currentValue={quantity}
+                  onChange={onQuantityChange}
+                  errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                />
+              </div>
+            </div>
           </div>
         </div>
+        <div className={bootstrap.row}></div>
       </div>
     </div>
   );

@@ -14,10 +14,19 @@ class Quantity extends React.Component<QuantityItem, State> {
       showError: false
     };
   }
+
+  componentDidUpdate(prevProps: QuantityItem) {
+    if (this.props.id !== prevProps.id) {
+      this.setState({
+        showError: false
+      });
+    }
+  }
   render() {
     const value = this.props.currentValue;
     const props = this.props;
     const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
+
     return (
       <div className={styles.quantityWrap}>
         <span
@@ -25,9 +34,6 @@ class Quantity extends React.Component<QuantityItem, State> {
           onClick={(): void => {
             if (value > props.minValue) {
               props.onChange(value - 1);
-              this.setState({ showError: false });
-            } else {
-              this.setState({ showError: true });
             }
           }}
         >
@@ -37,10 +43,11 @@ class Quantity extends React.Component<QuantityItem, State> {
         <span
           className={cs(styles.plusQuantity, styles.quantity)}
           onClick={(): void => {
-            if (value <= props.maxValue) {
+            if (value < props.maxValue) {
               props.onChange(value + 1);
               this.setState({ showError: false });
             } else {
+              props.onChange(value);
               this.setState({ showError: true });
             }
           }}

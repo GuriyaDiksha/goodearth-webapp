@@ -5,7 +5,7 @@ import { Props as PDPProps } from "./typings";
 import initAction from "./initAction";
 
 import { getProductIdFromSlug } from "utils/url";
-import { AppState } from "store/typings";
+import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
@@ -24,7 +24,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
   return {
     id,
     data,
-    currency: state.currency
+    currency: state.currency,
+    device: state.device
   };
 };
 
@@ -54,9 +55,13 @@ class PDPContainer extends React.Component<Props> {
   }
 
   getProductDetails() {
-    const { data, currency } = this.props;
+    const {
+      data,
+      currency,
+      device: { mobile }
+    } = this.props;
 
-    return <ProductDetails data={data} currency={currency} />;
+    return <ProductDetails data={data} currency={currency} mobile={mobile} />;
   }
 
   render() {

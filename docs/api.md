@@ -135,6 +135,15 @@ PriceRecord: [link](#markdown-header-pricerecord)
 }
 ```
 
+### DesignJournalTag
+```
+{
+	designJournal: boolean;
+  	folderCode: string;
+}
+
+```
+
 ### PartialProductItem
 
 **Links to Resources:**
@@ -170,6 +179,9 @@ Breadcrumb: [link](#markdown-header-breadcrumb)
 ProductSliderImage: [link](#markdown-header-productsliderimage)
 
 ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-partialchildproductattributes)
+
+DesignJournalTag: [link](#markdown-header-designjournaltag)
+
 ```
 {
 	breadcrumbs: Breadcrumb[],
@@ -187,7 +199,10 @@ ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-p
 	collectionUrl: string,
 	sliderImages: ProductSliderImage[],
 	childAttributes?: ChildProductAttributes[],
-	sizeChartHTML: string
+	sizeChartHTML: string,
+	loyalityDisabled?: boolean,
+	designJournalTagging?: DesignJournalTag[],
+	fillerMessage?: string
 }
 ```
 ### 3. [GET] /myapi/top-menu-data-ver-1/
