@@ -319,6 +319,7 @@ const ProductDetails: React.FC<Props> = ({
               sections={accordionSections}
               headerClassName={styles.accordionHeader}
               bodyClassName={styles.accordionBody}
+              defaultOpen="details"
             />
           </div>
           <div className={cs(styles.sku, globalStyles.voffset4)}>
