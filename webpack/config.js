@@ -76,12 +76,12 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|woff2)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|svg|woff2)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: context + '/dist/static',
-                        publicPath: '/static/'
+                        outputPath: 'fonts',
+                        publicPath: '/fonts/'
                     }
                 }
             ]

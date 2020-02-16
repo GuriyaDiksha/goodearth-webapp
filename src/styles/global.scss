@@ -4,10 +4,12 @@
 @import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Amiri%20regular.ttf");
 @import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Franklin%20Gothic%20Medium.ttf");
 @import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20700italic.ttf");
+@import "partials/reset";
 @import "bootstrap/bootstrap-grid.scss";
 @import "partials/variables";
 @import "partials/mixins";
 @import "partials/images";
+@import "partials/common";
 
 body {
   margin: 0;

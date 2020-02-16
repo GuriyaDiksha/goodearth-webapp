@@ -143,5 +143,6 @@
             "size": "3"
         }
     ],
-    "sizeChartHTML": "sfd"
+    "sizeChartHTML": "sfd",
+    "loyalityDisabled": true
 }

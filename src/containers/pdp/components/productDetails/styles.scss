@@ -61,3 +61,60 @@
 .size-error-message {
     @include error-msg();
 }
+
+.bridal-ring {
+    background-color: #b3b3b3;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    line-height: 50px;
+    width: 50px;
+    height: 50px;
+
+    &::before {
+        font-size: 38px;
+        line-height: 50px;
+    }
+}
+
+.bridal-section {
+    .label {
+        color: #000;
+        margin-top: 5px;
+    }
+}
+
+.wishlist-icon {
+    font-size: 40px;
+    color: #ccc;
+}
+
+.added-to-wishlist {
+    .wishlist-icon, .label {
+        color: $cerise;
+    }
+}
+
+.spacer {
+    margin-top: 40px;
+}
+
+.error-msg {
+    @include error-msg();
+}
+
+.accordion-header {
+    @include pdp_copy_head();
+    margin-top: 20px;
+}
+
+.accordion-body {
+    @include pdp_copy_body();
+    letter-spacing: .5px;
+}
+
+.sku {
+    @include pdp_breadcrumbs();
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

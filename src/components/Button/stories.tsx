@@ -13,7 +13,7 @@ export const Buttons = () => {
       <div className={styles.colMd3}>
         <label>Button</label>
         <br />
-        <Button label="Add To Bag" disable={false} onClick={myClick} />
+        <Button label="Add To Bag" disabled={false} onClick={myClick} />
       </div>
     </div>
   );

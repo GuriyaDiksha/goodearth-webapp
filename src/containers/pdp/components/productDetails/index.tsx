@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from "react";
+import React, { memo, useState, useCallback, useMemo } from "react";
 import cs from "classnames";
 import { Props } from "./typings";
 
@@ -7,10 +7,14 @@ import { currencyCodes } from "constants/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
+import iconStyles from "styles/iconFonts.scss";
 
 import { ChildProductAttributes } from "typings/product";
 import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
+import Button from "components/Button";
+import Share from "components/Share";
+import Accordion from "components/Accordion";
 
 const saleStatus = true;
 
@@ -18,6 +22,7 @@ const ProductDetails: React.FC<Props> = ({
   data: {
     id,
     title,
+    details,
     collection,
     collectionUrl,
     images = [],
@@ -26,8 +31,14 @@ const ProductDetails: React.FC<Props> = ({
     priceRecords,
     childAttributes,
     sizeChartHTML,
-    categories
+    categories,
+    loyalityDisabled,
+    shipping,
+    compAndCare,
+    sku
   },
+  mobile,
+  wishlist,
   currency
 }) => {
   const [productTitle, subtitle] = title.split("(");
@@ -70,6 +81,34 @@ const ProductDetails: React.FC<Props> = ({
     },
     [selectedSize]
   );
+
+  const addedToWishlist = useMemo(() => {
+    return true;
+    // return wishlist.indexOf(id) !== -1;
+  }, [wishlist, id]);
+
+  const accordionSections = useMemo(() => {
+    return [
+      {
+        header: "Details",
+        body: <div dangerouslySetInnerHTML={{ __html: details }}></div>,
+        id: "details"
+      },
+      {
+        header: "Dimensions & Care",
+        body: <div dangerouslySetInnerHTML={{ __html: compAndCare }}></div>,
+        id: "compAndCare"
+      },
+      {
+        header: "Shipping & Handling",
+        body: <div dangerouslySetInnerHTML={{ __html: shipping }}></div>,
+        id: "shippAndHandle"
+      }
+    ];
+  }, [details, compAndCare, compAndCare]);
+  //   const toggleWishlistState = useCallback(()=> {
+
+  //   }, [addedToWishlist]);
 
   return (
     <div className={bootstrap.row}>
@@ -129,7 +168,7 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
         </div>
-        <div className={bootstrap.row}>
+        <div className={cs(bootstrap.row, styles.spacer)}>
           <div className={bootstrap.colSm8}>
             <div className={bootstrap.row}>
               <div
@@ -177,7 +216,7 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
         </div>
-        <div className={bootstrap.row}>
+        <div className={cs(bootstrap.row, styles.spacer)}>
           <div className={bootstrap.colSm8}>
             <div className={bootstrap.row}>
               <div
@@ -202,8 +241,90 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             </div>
           </div>
+          <div
+            className={cs(
+              bootstrap.col4,
+              globalStyles.textCenter,
+              styles.bridalSection
+            )}
+          >
+            <div
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconRings,
+                styles.bridalRing
+              )}
+            ></div>
+            <p className={styles.label}>add to registry</p>
+          </div>
         </div>
-        <div className={bootstrap.row}></div>
+        <div className={cs(bootstrap.row, styles.spacer)}>
+          <div className={bootstrap.colSm8}>
+            {selectedSize && selectedSize.stock == 0 ? (
+              <Button label="NOTIFY ME" />
+            ) : (
+              <Button label="ADD TO BAG" />
+            )}
+          </div>
+          <div
+            className={cs(bootstrap.colSm4, globalStyles.textCenter, {
+              [styles.addedToWishlist]: addedToWishlist
+            })}
+          >
+            <div
+              className={cs(iconStyles.icon, styles.wishlistIcon, {
+                [iconStyles.iconWishlistAdded]: addedToWishlist,
+                [iconStyles.iconWishlist]: !addedToWishlist
+              })}
+            ></div>
+            <div className={styles.label}>
+              {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
+            </div>
+          </div>
+        </div>
+        <div
+          className={cs(
+            bootstrap.col12,
+            bootstrap.colMd9,
+            globalStyles.voffset1
+          )}
+        >
+          {loyalityDisabled ? (
+            <p className={styles.errorMsg}>
+              This product is not eligible for Cerise points accumulation.
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div
+          className={cs(
+            bootstrap.col12,
+            bootstrap.colMd9,
+            globalStyles.voffset3
+          )}
+        >
+          <Share
+            mobile={mobile}
+            link={window.location.href}
+            mailSubject="Gifting Ideas"
+            mailText={
+              "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
+              window.location.href
+            }
+          />
+
+          <div>
+            <Accordion
+              sections={accordionSections}
+              headerClassName={styles.accordionHeader}
+              bodyClassName={styles.accordionBody}
+            />
+          </div>
+          <div className={cs(styles.sku, globalStyles.voffset4)}>
+            Vref. {sku}
+          </div>
+        </div>
       </div>
     </div>
   );

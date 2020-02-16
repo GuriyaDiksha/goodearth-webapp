@@ -9,7 +9,7 @@ class Button extends React.Component<ButtonProps> {
     return (
       <button
         className={
-          props.disable
+          props.disabled
             ? cs(styles.buttonDisable, styles.primaryButton)
             : cs(styles.ceriseBtn, styles.primaryButton)
         }

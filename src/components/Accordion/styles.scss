@@ -1,0 +1,24 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.icon-open::before {
+    content: "[-]";
+    margin: 0 5px;
+}
+
+.icon-closed::before {
+    content: "[+]";
+    margin: 0 5px;
+}
+
+.accordion-header {
+    cursor: pointer;
+}
+
+.accordion-body {
+    display: none;
+
+    &.open {
+        display: block;
+    }
+}

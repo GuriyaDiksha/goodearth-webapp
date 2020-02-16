@@ -61,7 +61,14 @@ class PDPContainer extends React.Component<Props> {
       device: { mobile }
     } = this.props;
 
-    return <ProductDetails data={data} currency={currency} mobile={mobile} />;
+    return (
+      <ProductDetails
+        data={data}
+        currency={currency}
+        mobile={mobile}
+        wishlist={[]}
+      />
+    );
   }
 
   render() {
