@@ -518,7 +518,7 @@ Breadcrumb: [link](#markdown-header-breadcrumb)
 
 PriceRecord: [link](#markdown-header-pricerecord)
 
-ChildProductAttributes: [link](#markdown-header-childproductattributes)
+ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-partialchildproductattributes)
 
 **Response**
 
