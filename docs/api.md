@@ -238,9 +238,13 @@ footerList:[{
 ### 4. [GET] /myapi/meta-list
 
 **Parameters**
-
-page: string
-
+```
+{
+	page: string,
+	pathName?:string,
+	productId?:number
+}
+```
 **Response:**
 ```
 {
@@ -253,5 +257,7 @@ page: string
 	ogDescription:string,
 	ogSiteName:string,
 	isChat:string,
-	templateType?:string
+	templateType?:string,
+	productClass?:string
+
 }
