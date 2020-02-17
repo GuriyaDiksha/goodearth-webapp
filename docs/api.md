@@ -220,3 +220,23 @@ footerList:[{
    value: List
 }]
 ```
+### 4. [GET] /myapi/meta-list
+
+**Parameters**
+
+page: string
+
+**Response:**
+```
+{
+	keywords:string[],
+	description:string,
+	title:string,
+	ogTitle:string,
+	ogUrl:string,
+	ogImage:string,
+	ogDescription:string,
+	ogSiteName:string,
+	isChat:string,
+	templateType?:string
+}
