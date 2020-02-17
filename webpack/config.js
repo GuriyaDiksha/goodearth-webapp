@@ -1,6 +1,9 @@
 const path = require('path');
 const context = path.resolve(__dirname, "../");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+const env = process.env.NODE_ENV || "development";
 // const ManifestPlugin = require('webpack-manifest-plugin');
 // const nodeExternals = require('webpack-node-externals');
 // const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -21,11 +24,16 @@ const alias = {
     routes: context + "/src/routes"
 }
 
+
 let config = [
     {
-        mode: 'development',
-        devtool: '#cheap-module-source-map',
+        mode: env,
+        devtool: env === "production"? undefined : '#cheap-module-source-map',
         context: context,
+        optimization: {
+            minimize: env === "production",
+            minimizer: [new TerserPlugin()],
+        },
         entry: {
             'client': './src/client/index.tsx'
         },
