@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const alias = {
     components : context + "/src/components",
+    constants : context + "/src/constants",
     actions : context + "/src/actions",
     reducers : context + "/src/reducers",
     store : context + "/src/store",

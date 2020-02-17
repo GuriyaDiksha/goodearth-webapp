@@ -224,7 +224,7 @@
 
 /**********************************************  PDP   ******************************************************/
 
-@mixin pdp_coll_name {
+@mixin pdp_collection_header {
   font-size: 12px;
   text-transform: uppercase;
   color: tint(#000, 60%);
@@ -233,13 +233,13 @@
   line-height: 30px;
 }
 
-@mixin pdp_prod_name {
+@mixin pdp_prod_title {
   font-size: 22px;
   color: #000;
   font-family: "AmiriFont", "Baskerville", "Garamond";
 }
 
-@mixin pdp_spec {
+@mixin pdp_label {
   font-family: $font-Lato;
   font-size: 9px;
   text-transform: uppercase;
@@ -360,22 +360,12 @@
 }
 
 @mixin error-msg {
-  font-size: 10px !important;
+  font-size: 10px;
   font-style: italic;
-  color: rgb(171, 30, 86) !important;
+  color: rgb(171, 30, 86);
   font-weight: bold;
   font-family: $font-Lato;
   letter-spacing: 1px;
-  //padding-bottom: 10px;
-  //margin-top: -5px;
-  text-transform: lowercase;
-  &::first-letter {
-    text-transform: uppercase;
-  }
-  &.cc-error-msg {
-    line-height: 15px;
-    margin-top: 5px;
-  }
 }
 
 @mixin cerise-btn {

@@ -1,0 +1,43 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.size-button {
+    background-color: $light-bg;
+    display: inline-block;
+    text-align: center;
+    min-width: 40px;
+    border-radius: 12px;
+    color: $cerise;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: $font-Lato;
+    margin: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    line-height: 40px;
+
+    &:hover {
+      border: 1px solid $cerise;
+      background-color: white;
+    }
+
+    // &.notavailable-select {
+    //   background-color:$white;
+    //   color: $cerise;
+    //   text-decoration: line-through;
+    // }
+
+    &.unavailable {
+      color: tint(#000, 70%) !important;
+      text-decoration: line-through;
+
+      &:hover {
+        background-color: tint(#000,95%);
+      }
+    }
+
+    &.selected {
+        border: 1px solid $cerise;
+        background-color: white;
+    }
+}

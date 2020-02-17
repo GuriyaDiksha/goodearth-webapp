@@ -27,6 +27,11 @@ export interface PartialProductItem extends PLPProductItem {
   recommendationFinalScore?: number;
 }
 
+export type DesignJournalTag = {
+  designJournal: boolean;
+  folderCode: string;
+};
+
 export interface Product extends PartialProductItem {
   breadcrumbs: Breadcrumb[];
   details: string;
@@ -41,6 +46,10 @@ export interface Product extends PartialProductItem {
   collection?: string;
   sliderImages: ProductSliderImage[];
   childAttributes: ChildProductAttributes[];
+  sizeChartHTML?: string;
+  loyalityDisabled?: boolean;
+  designJournalTagging?: DesignJournalTag[];
+  fillerMessage?: string;
 }
 
 export interface PartialChildProductAttributes {
