@@ -38,10 +38,10 @@ class PDPContainer extends React.Component<Props> {
 
   getProductImages() {
     const {
-      data: { sliderImages, images }
+      data: { sliderImages }
     } = this.props;
 
-    return images?.concat(sliderImages).map((image, index) => {
+    return sliderImages.map((image, index) => {
       return (
         <div
           className={styles.productImageContainer}
@@ -78,7 +78,7 @@ class PDPContainer extends React.Component<Props> {
       return null;
     }
 
-    const { breadcrumbs, sliderImages, images } = data;
+    const { breadcrumbs, sliderImages } = data;
 
     return (
       <div className={styles.pdpContainer}>
@@ -92,7 +92,7 @@ class PDPContainer extends React.Component<Props> {
           <div className={cs(bootstrap.colMd1, bootstrap.offsetMd1)}>
             <div className={bootstrap.row}>
               <VerticalImageSelector
-                images={images ? images.concat(sliderImages) : []}
+                images={sliderImages}
                 className={cs(
                   bootstrap.colSm10,
                   bootstrap.offsetSm1,

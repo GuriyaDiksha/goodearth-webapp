@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const context = path.resolve(__dirname, "../");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -47,6 +48,9 @@ let config = [
             alias
         },
         plugins: [
+            new webpack.DefinePlugin({
+                __API_HOST__: "http://api.goodearth.in"
+              }),
             new HtmlWebpackPlugin({
                 title: "Goodearth"
             })
