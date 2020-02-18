@@ -176,7 +176,7 @@ PartialChildProductAttributes: [link](#markdown-header-partialchildproductattrib
 
 PriceRecord: [link](#markdown-header-pricerecord)
 
-ProductImage: [link](#markdown-header-productimage)
+ProductImage: [link](#markdown-header-productimage-extends-productsliderimage)
 
 PartialChildProductAttributes: [link](#markdown-header-partialchildproductattributes)
 
