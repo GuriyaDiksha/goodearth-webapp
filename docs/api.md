@@ -176,6 +176,8 @@ PartialChildProductAttributes: [link](#markdown-header-partialchildproductattrib
 
 PriceRecord: [link](#markdown-header-pricerecord)
 
+ProductImage: [link](#markdown-header-productimage)
+
 PartialChildProductAttributes: [link](#markdown-header-partialchildproductattributes)
 
 ```
@@ -183,6 +185,7 @@ PartialChildProductAttributes: [link](#markdown-header-partialchildproductattrib
 	url: string,
 	id: number,
 	title: string,
+	images: ProductImage[],
 	collections: string[],
 	plpImages?: string[],
 	priceRecords: PriceRecord,
