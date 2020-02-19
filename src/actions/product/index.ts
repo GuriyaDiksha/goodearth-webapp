@@ -1,7 +1,7 @@
 import { actionCreator } from "utils/actionCreator";
 import { Product, PartialProductItem, PLPProductItem } from "typings/product";
 
-export const updateProduct = (product: Product) =>
+export const updateProduct = (product: Product<PartialProductItem>) =>
   actionCreator("UPDATE_PRODUCT", product);
 
 export const updatePartialProduct = (product: PartialProductItem) =>
