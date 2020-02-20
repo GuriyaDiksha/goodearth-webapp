@@ -1,5 +1,9 @@
 import { ProductID } from "typings/id";
-import { Product, PartialProductItem } from "typings/product";
+import {
+  Product,
+  PartialProductItem,
+  CollectionProductItem
+} from "typings/product";
 import Axios from "axios";
 
 export default {
@@ -16,12 +20,12 @@ export default {
   },
   fetchCollectionProducts: async (
     id: ProductID
-  ): Promise<PartialProductItem[]> => {
+  ): Promise<CollectionProductItem[]> => {
     const res = await Axios.get(
       `http://api.goodearth.in/myapi/products/${id}/more-from-collection`,
       {}
     );
 
-    return res.data.results as PartialProductItem[];
+    return res.data.results as CollectionProductItem[];
   }
 };

@@ -1,9 +1,12 @@
 import React from "react";
+import cs from "classnames";
 import styles from "./styles.scss";
-import "../../styles/myslick.css";
-import "./slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import globalStyles from "../../styles/global.scss";
+import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./slick.css";
+import "../../styles/myslick.css";
 import { MoreCollectionSliderProps, MoreCollectionItem } from "./typings";
 import Slider from "react-slick";
 
@@ -12,41 +15,45 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
 ) => {
   const { data, setting } = props;
   return (
-    <div className={styles.row}>
-      <h2>more from this collection</h2>
-      <Slider {...setting}>
-        {(data as MoreCollectionItem[])?.map(
-          (item: MoreCollectionItem, i: number) => {
-            return (
-              <div>
-                {item.badgeImage ? (
-                  <div className="badge_position_plp">
-                    <img src={item.badgeImage} />
+    <div className={cs(bootstrapStyles.colMd12, "more-collection")}>
+      <h2 className={cs(styles.header, globalStyles.voffset5)}>
+        more from this collection
+      </h2>
+
+      <div className={bootstrapStyles.col12}>
+        <Slider {...setting}>
+          {(data as MoreCollectionItem[])?.map(
+            (item: MoreCollectionItem, i: number) => {
+              return (
+                <div key={item.id}>
+                  {item.badgeImage ? (
+                    <div className="badge_position_plp">
+                      <img src={item.badgeImage} />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  <a href={item.url}>
+                    <img
+                      src={item.image || "/static/img/noimageplp.png"}
+                      className={cs(
+                        globalStyles.imgResponsive,
+                        styles.sliderImage
+                      )}
+                    />
+                  </a>
+                  <div className={styles.moreBlock}>
+                    <p className={styles.productH}>{item.collection}</p>
+                    <p className={styles.productN}>
+                      <a href={item.url}> {item.title} </a>
+                    </p>
                   </div>
-                ) : (
-                  ""
-                )}
-                <a href={item.productUrl}>
-                  <img
-                    src={
-                      item.productImage
-                        ? item.productImage
-                        : "/static/img/noimageplp.png"
-                    }
-                    className={styles.imgResponsive}
-                  />
-                </a>
-                <div className={styles.moreBlock}>
-                  <p className={styles.productH}>{item.collectionName}</p>
-                  <p className={styles.productN}>
-                    <a href={item.productUrl}> {item.productName} </a>
-                  </p>
                 </div>
-              </div>
-            );
-          }
-        )}
-      </Slider>
+              );
+            }
+          )}
+        </Slider>
+      </div>
     </div>
   );
 };

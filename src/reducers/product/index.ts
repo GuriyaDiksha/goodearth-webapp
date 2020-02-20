@@ -36,23 +36,32 @@ export const product = (
   switch (action.type) {
     case "UPDATE_PRODUCT": {
       const product = action.payload;
+      const currentProduct = state[product.id] || PRODUCT_INIT_STATE;
       let newState = { ...state };
-      newState[product.id] = product;
-
       const recommendedProducts = product.recommendedProducts.map(
         ({ id }) => id
       );
-      newState[product.id] = { ...product, recommendedProducts };
+      newState[product.id] = {
+        ...currentProduct,
+        ...product,
+        recommendedProducts
+      };
       newState = mergePartialProducts(newState, product.recommendedProducts);
       return newState;
     }
+
     case "UPDATE_PARTIAL_PRODUCTS": {
-      const { id, products } = action.payload;
+      const { products } = action.payload;
       let newState = { ...state };
-      const collectionProducts = products.map(({ id }) => id);
-      const product = state[id] || PRODUCT_INIT_STATE;
-      newState[id] = { ...product, collectionProducts };
       newState = mergePartialProducts(newState, products);
+      return newState;
+    }
+
+    case "UPDATE_COLLECTION_PRODUCTS": {
+      const { id, products } = action.payload;
+      const newState = { ...state };
+      const product = state[id] || PRODUCT_INIT_STATE;
+      newState[id] = { ...product, collectionProducts: products };
       return newState;
     }
   }

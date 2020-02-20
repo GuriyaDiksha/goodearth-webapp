@@ -13,6 +13,7 @@ import VerticalImageSelector from "components/VerticalImageSelector";
 import PdpImage from "./components/pdpImage";
 import ProductDetails from "./components/productDetails";
 import WeRecommendSlider from "components/weRecomend";
+import CollectionProductsSlider from "components/moreCollection";
 
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -131,6 +132,40 @@ class PDPContainer extends React.Component<Props> {
     );
   }
 
+  getMoreCollectionProductsSection() {
+    const {
+      data: { collectionProducts = [] }
+    } = this.props;
+
+    if (!collectionProducts.length) {
+      return null;
+    }
+
+    const config: Settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 992,
+          settings: {
+            dots: false,
+            arrows: true
+          }
+        }
+      ]
+    };
+    return (
+      <CollectionProductsSlider
+        data={collectionProducts}
+        setting={config as Settings}
+      />
+    );
+  }
+
   render() {
     const { data } = this.props;
 
@@ -182,6 +217,9 @@ class PDPContainer extends React.Component<Props> {
           </div>
         </div>
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
+        <div className={cs(bootstrap.row)}>
+          {this.getMoreCollectionProductsSection()}
+        </div>
       </div>
     );
   }

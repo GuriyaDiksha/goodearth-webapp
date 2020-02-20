@@ -1,7 +1,7 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-h2 {
+.header {
     font-size: 25px;
     font-family: "Baskerville","Amiri","Serif";
     color: #333;
@@ -44,4 +44,8 @@ h2 {
         color: #000;
         text-transform: capitalize;
     }
+}
+
+.sliderImage {
+    padding: 0 3px;
 }

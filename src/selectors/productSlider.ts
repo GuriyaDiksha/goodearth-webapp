@@ -1,7 +1,7 @@
 import { ProductID } from "typings/id";
 import { State } from "reducers/product/typings";
 import { PartialProductItem } from "typings/product";
-import { RecommendData } from "src/components/weRecomend/typings";
+import { RecommendData } from "components/weRecomend/typings";
 
 export const getProductSliderItems = (
   ids: ProductID[],
