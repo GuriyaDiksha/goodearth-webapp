@@ -1,7 +1,33 @@
 import { State, ProductActions } from "./typings";
 import { mergePartialProducts } from "utils/store";
+import { PartialProductItem } from "typings/product";
 
 const initialState: State = {};
+
+export const PRODUCT_INIT_STATE: PartialProductItem = {
+  id: 0,
+  categories: [],
+  collections: [],
+  discount: false,
+  priceRecords: {
+    INR: 0,
+    GBP: 0,
+    USD: 0
+  },
+  discountedPriceRecords: {
+    INR: 0,
+    GBP: 0,
+    USD: 0
+  },
+  gaVariant: "",
+  partial: true,
+  sku: "",
+  title: "",
+  url: "",
+  childAttributes: [],
+  images: [],
+  plpImages: []
+};
 
 export const product = (
   state = initialState,
@@ -18,6 +44,15 @@ export const product = (
       );
       newState[product.id] = { ...product, recommendedProducts };
       newState = mergePartialProducts(newState, product.recommendedProducts);
+      return newState;
+    }
+    case "UPDATE_PARTIAL_PRODUCTS": {
+      const { id, products } = action.payload;
+      let newState = { ...state };
+      const collectionProducts = products.map(({ id }) => id);
+      const product = state[id] || PRODUCT_INIT_STATE;
+      newState[id] = { ...product, collectionProducts };
+      newState = mergePartialProducts(newState, products);
       return newState;
     }
   }

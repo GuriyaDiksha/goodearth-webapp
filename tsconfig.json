@@ -26,7 +26,9 @@
       "styles/*": ["src/styles/*"],
       "typings/*": ["src/typings/*"],
       "routerHistory/*": ["src/routerHistory/*"],
-      "routes/*": ["src/routes/*"]
+      "routes/*": ["src/routes/*"],
+      "selectors/*": ["src/selectors/*"],
+      "services/*": ["src/services/*"]
     },
     // "lib": [],                             /* Specify library files to be included in the compilation. */
     // "allowJs": true,                       /* Allow javascript files to be compiled. */

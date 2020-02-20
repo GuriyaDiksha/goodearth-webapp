@@ -22,7 +22,9 @@ const alias = {
     styles : context + "/src/styles",
     typings : context + "/src/typings",
     routerHistory : context + "/src/routerHistory",
-    routes: context + "/src/routes"
+    routes: context + "/src/routes",
+    selectors: context + "/src/selectors",
+    services: context + "/src/services"
 }
 
 
@@ -44,7 +46,7 @@ let config = [
             filename: `[name].js`
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css"],
             alias
         },
         plugins: [
@@ -70,6 +72,14 @@ let config = [
                     loader: "ts-loader"
                 },
                 {
+                    test: /\.css/,
+                    loaders: [
+                        "style-loader",
+                        "css-loader",
+                        "sass-loader"
+                      ]
+                },
+                {
                     test: /\.scss/,
                     loaders: [
                         "style-loader",
@@ -88,7 +98,7 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|svg|woff2)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|svg|woff2|gif)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',

@@ -1,4 +1,8 @@
 
+  .we-recommend .slick-arrow {
+    top: 40%;
+  }
+
   .we-recommend .slick-arrow.slick-prev {
     left: -60px;
   }

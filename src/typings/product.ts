@@ -50,6 +50,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   loyalityDisabled?: boolean;
   designJournalTagging?: DesignJournalTag[];
   fillerMessage?: string;
+  collectionProducts?: ProductID[];
 }
 
 export interface PartialChildProductAttributes {

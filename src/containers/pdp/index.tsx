@@ -12,46 +12,73 @@ import Breadcrumbs from "components/Breadcrumbs";
 import VerticalImageSelector from "components/VerticalImageSelector";
 import PdpImage from "./components/pdpImage";
 import ProductDetails from "./components/productDetails";
+import WeRecommendSlider from "components/weRecomend";
 
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
+import { getProductSliderItems } from "selectors/productSlider";
+import { Settings } from "react-slick";
+import mapDispatchToProps from "./mappers/actions";
 
 const mapStateToProps = (state: AppState, props: PDPProps) => {
   const { slug } = props;
   const id = getProductIdFromSlug(slug);
   const data = (id && state.products[id]) as Product;
 
+  const recommendedSliderItems =
+    data && data.recommendedProducts && data.recommendedProducts.length
+      ? getProductSliderItems(data.recommendedProducts, state.products)
+      : [];
+
   return {
     id,
     data,
+    recommendedSliderItems,
     currency: state.currency,
     device: state.device
   };
 };
 
-type Props = PDPProps & ReturnType<typeof mapStateToProps>;
+type Props = PDPProps &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class PDPContainer extends React.Component<Props> {
   onImageClick = (index: number) => {
     console.log(index);
   };
 
+  componentDidMount() {
+    this.fetchMoreProductsFromCollection();
+  }
+
+  fetchMoreProductsFromCollection() {
+    const { id, fetchMoreProductsFromCollection } = this.props;
+
+    if (id) {
+      fetchMoreProductsFromCollection(id);
+    }
+  }
+
   getProductImages() {
     const {
       data: { sliderImages }
     } = this.props;
 
-    return sliderImages.map((image, index) => {
-      return (
-        <div
-          className={styles.productImageContainer}
-          key={image.id}
-          id={`img-${image.id}`}
-        >
-          <PdpImage {...image} index={index} onClick={this.onImageClick} />
-        </div>
-      );
-    });
+    return (
+      sliderImages &&
+      sliderImages.map((image, index) => {
+        return (
+          <div
+            className={styles.productImageContainer}
+            key={image.id}
+            id={`img-${image.id}`}
+          >
+            <PdpImage {...image} index={index} onClick={this.onImageClick} />
+          </div>
+        );
+      })
+    );
   }
 
   getProductDetails() {
@@ -67,6 +94,39 @@ class PDPContainer extends React.Component<Props> {
         currency={currency}
         mobile={mobile}
         wishlist={[]}
+      />
+    );
+  }
+
+  getRecommendedSection() {
+    const { recommendedSliderItems } = this.props;
+
+    if (!recommendedSliderItems.length) {
+      return null;
+    }
+
+    const config: Settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 992,
+          settings: {
+            dots: false,
+            arrows: true
+          }
+        }
+      ]
+    };
+    return (
+      <WeRecommendSlider
+        data={recommendedSliderItems}
+        setting={config as Settings}
+        currency={"INR"}
       />
     );
   }
@@ -121,11 +181,12 @@ class PDPContainer extends React.Component<Props> {
             {this.getProductDetails()}
           </div>
         </div>
+        <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(PDPContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(PDPContainer);
 
 export { initAction };

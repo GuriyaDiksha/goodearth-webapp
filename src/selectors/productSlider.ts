@@ -12,6 +12,7 @@ export const getProductSliderItems = (
     const product = products[id] as PartialProductItem;
 
     sliderItems.push({
+      id: id,
       collectionName:
         (product.collections &&
           product.collections.length &&
@@ -25,9 +26,7 @@ export const getProductSliderItems = (
         "",
       badgeImage: product.salesBadgeImage,
       productName: product.title,
-      pricerecords: product.priceRecords,
-      sku: "",
-      title: ""
+      pricerecords: product.priceRecords
     });
   });
 
