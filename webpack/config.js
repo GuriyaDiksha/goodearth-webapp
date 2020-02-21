@@ -54,7 +54,10 @@ let config = [
                 __API_HOST__: "http://api.goodearth.in"
               }),
             new HtmlWebpackPlugin({
-                title: "Goodearth"
+                title: "Goodearth",
+                meta: {
+                    viewport: 'width=device-width, initial-scale=1'
+                }
             })
         ],
         devServer: {

@@ -46,7 +46,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   collection?: string;
   sliderImages: ProductImage[];
   childAttributes: ChildProductAttributes[];
-  sizeChartHTML?: string;
+  sizeChartHtml?: string;
   loyalityDisabled?: boolean;
   designJournalTagging?: DesignJournalTag[];
   fillerMessage?: string;

@@ -4,41 +4,101 @@
     border-radius: 50%;
     padding: 5px;
     top: 35%;
-  }
-  .slick-next:hover {
-    background-color: #ab1e56;
-  }
-  .slick-arrow {
-    position: absolute;
-    height: 40px;
-    width: 40px;
-    top: 50%;
-    display: block;
-    margin-top: -20px;
-    z-index: 8;
-  }
+}
+.slick-next:hover {
+  background-color: #ab1e56;
+}
+.slick-arrow {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: 50%;
+  display: block;
+  margin-top: -20px;
+  z-index: 8;
+}
+
+.slick-prev:hover {
+  background-color: #ab1e56;
+}
+.slick-prev:before {
+  color: #fff;
+  font-family: "goodearth";
+  content: "\ea01";
+  position: absolute;
+  top: 2px;
+  font-size: 36px;
+  font-weight: 600;
+  left: 0;
+}
+.slick-next:before {
+  color: #fff;
+  font-family: "goodearth";
+  content: "\ea02";
+  position: absolute;
+  top: 2px;
+  font-size: 36px;
+  font-weight: 600;
+  right: 0;
+}
+
+
+.mobile-slider .slick-arrow {
+  background: rgba(0,0,0,0.3);
+  border-radius: 0;
+  height: 50px;
+}
+
+.mobile-slider .slick-prev {
+  left: 0;
+}
+
+.mobile-slider .slick-next {
+  right: 0;
+}
   
-  .slick-prev:hover {
+
+.mobile-slider .slick-prev::before {
+  font-size: 50px;
+  left: -7px;
+  top: 0;
+}
+
+.mobile-slider .slick-next::before {
+  font-size: 50px;
+  right: -7px;
+  top: 0;
+}
+
+.slick-dots {
+  position: relative;
+  width: 100%;
+  display: block; 
+  bottom: 0; 
+}
+
+.slick-dots li {
+  display: inline-block;
+  margin: 0 4px;
+}
+
+.slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: #000;
+  opacity: .2;
+}
+
+.slick-dots li.slick-active button {
+    opacity: 1;
     background-color: #ab1e56;
-  }
-  .slick-prev:before {
-    color: #fff;
-    font-family: "goodearth";
-    content: "\ea01";
-    position: absolute;
-    top: 2px;
-    font-size: 36px;
-    font-weight: 600;
-    left: 0;
-  }
-  .slick-next:before {
-    color: #fff;
-    font-family: "goodearth";
-    content: "\ea02";
-    position: absolute;
-    top: 2px;
-    font-size: 36px;
-    font-weight: 600;
-    right: 0;
-  }
-    
+}

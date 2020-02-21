@@ -17,9 +17,11 @@ import CollectionProductsSlider from "components/moreCollection";
 
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
+import globalStyles from "styles/global.scss";
 import { getProductSliderItems } from "selectors/productSlider";
 import { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
+import MobileSlider from "../../components/MobileSlider";
 
 const mapStateToProps = (state: AppState, props: PDPProps) => {
   const { slug } = props;
@@ -61,25 +63,28 @@ class PDPContainer extends React.Component<Props> {
     }
   }
 
-  getProductImages() {
+  getProductImagesData() {
     const {
-      data: { sliderImages }
+      data: { sliderImages, images }
     } = this.props;
 
-    return (
-      sliderImages &&
-      sliderImages.map((image, index) => {
-        return (
-          <div
-            className={styles.productImageContainer}
-            key={image.id}
-            id={`img-${image.id}`}
-          >
-            <PdpImage {...image} index={index} onClick={this.onImageClick} />
-          </div>
-        );
-      })
-    );
+    return images ? images.concat(sliderImages || []) : [];
+  }
+
+  getProductImages() {
+    const productImages = this.getProductImagesData();
+
+    return productImages.map((image, index) => {
+      return (
+        <div
+          className={styles.productImageContainer}
+          key={image.id}
+          id={`img-${image.id}`}
+        >
+          <PdpImage {...image} index={index} onClick={this.onImageClick} />
+        </div>
+      );
+    });
   }
 
   getProductDetails() {
@@ -167,44 +172,72 @@ class PDPContainer extends React.Component<Props> {
   }
 
   render() {
-    const { data } = this.props;
+    const {
+      data,
+      device: { mobile }
+    } = this.props;
 
     if (!data) {
       return null;
     }
 
-    const { breadcrumbs, sliderImages } = data;
+    const { breadcrumbs } = data;
+    const images = this.getProductImagesData();
+
+    const mobileSlides =
+      mobile &&
+      images?.map(({ id, productImage }, i: number) => {
+        return (
+          <div key={id}>
+            <img
+              src={productImage.replace("/Micro/", "/Medium/")}
+              className={globalStyles.imgResponsive}
+            />
+          </div>
+        );
+      });
 
     return (
       <div className={styles.pdpContainer}>
-        <SecondaryHeader>
-          <Breadcrumbs
-            levels={breadcrumbs}
-            className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
-          />
-        </SecondaryHeader>
+        {!mobile && (
+          <SecondaryHeader>
+            <Breadcrumbs
+              levels={breadcrumbs}
+              className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
+            />
+          </SecondaryHeader>
+        )}
         <div className={cs(bootstrap.row)}>
-          <div className={cs(bootstrap.colMd1, bootstrap.offsetMd1)}>
-            <div className={bootstrap.row}>
-              <VerticalImageSelector
-                images={sliderImages}
-                className={cs(
-                  bootstrap.colSm10,
-                  bootstrap.offsetSm1,
-                  bootstrap.offsetMd0
-                )}
-              />
+          {mobile && (
+            <div className={bootstrap.col12}>
+              <MobileSlider>{mobileSlides}</MobileSlider>
             </div>
-          </div>
-          <div
-            className={cs(
-              bootstrap.colMd4,
-              bootstrap.dNone,
-              bootstrap.dMdBlock
-            )}
-          >
-            {this.getProductImages()}
-          </div>
+          )}
+          {!mobile && (
+            <div className={cs(bootstrap.colMd1, bootstrap.offsetMd1)}>
+              <div className={bootstrap.row}>
+                <VerticalImageSelector
+                  images={images}
+                  className={cs(
+                    bootstrap.colSm10,
+                    bootstrap.offsetSm1,
+                    bootstrap.offsetMd0
+                  )}
+                />
+              </div>
+            </div>
+          )}
+          {!mobile && (
+            <div
+              className={cs(
+                bootstrap.colMd4,
+                bootstrap.dNone,
+                bootstrap.dMdBlock
+              )}
+            >
+              {this.getProductImages()}
+            </div>
+          )}
 
           <div
             className={cs(
