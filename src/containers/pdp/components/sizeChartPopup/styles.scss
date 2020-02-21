@@ -1,0 +1,71 @@
+
+@import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
+
+.size-guide-modal {
+    background: #fff;
+    min-height: 20vh;
+    max-height: 80vh;
+    min-width: 30vw;
+    max-width: 50vw;
+}
+
+.closeButton {
+    top: 20px;
+    right: 0;
+    font-size: 40px;
+    line-height: 1;
+}
+
+.size-chart-apparel {
+    padding: 20px;
+    max-height: 75vh;
+    overflow: scroll;
+    padding-top: 25px;
+    width: 100%;
+
+    table {
+        width: 100% !important;
+        height: 0;
+    }
+    tr {
+        background-color: #ececec;
+        line-height: 30px;
+        &:first-child {
+        background-color: #fff;
+        text-align: left;
+        td {
+            text-align: left;
+            &:first-child {
+            font-size: 14px !important;
+            color: #000 !important;
+            }
+        }
+
+        }
+        td {
+        border-right: 1px solid #fff;
+        text-align: center;
+        //width: 25%;
+        font-size: 11px;
+        color: tint(#000, 50%);
+
+        }
+    }
+    tr:nth-child(even) {
+        background-color: #f8f8f8;
+    }
+    td {
+        font-family: $font-Lato;
+        font-size: 12px;
+        &.size-chart-title {
+        padding: 0 0 10px 10px;
+        line-height: 30px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: left;
+        color: #000;
+        background-color: $white;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import { PriceRecord } from "../../typings/price";
 import { Currency } from "../../typings/currency";
 import { Settings } from "react-slick";
+import { ProductID } from "typings/id";
 
 export interface RecommendData {
   collectionName: string;
@@ -8,10 +9,8 @@ export interface RecommendData {
   productImage: string;
   productName: string;
   badgeImage?: string;
-  sku: string;
-  title: string;
-  collectionUrl?: string;
   pricerecords: PriceRecord;
+  id: ProductID;
 }
 
 export type RecommenedSliderProps = {

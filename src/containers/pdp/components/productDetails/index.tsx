@@ -15,6 +15,8 @@ import Quantity from "components/quantity";
 import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
+import { renderModal } from "utils/modal";
+import SizeChartPopup from "../sizeChartPopup";
 
 const saleStatus = true;
 
@@ -30,7 +32,7 @@ const ProductDetails: React.FC<Props> = ({
     discountedPriceRecords,
     priceRecords,
     childAttributes,
-    sizeChartHTML,
+    sizeChartHtml,
     categories,
     loyalityDisabled,
     shipping,
@@ -82,9 +84,15 @@ const ProductDetails: React.FC<Props> = ({
     [selectedSize]
   );
 
+  const onSizeChartClick = useCallback(() => {
+    if (!sizeChartHtml) {
+      return;
+    }
+    renderModal(<SizeChartPopup html={sizeChartHtml} />);
+  }, [sizeChartHtml]);
+
   const addedToWishlist = useMemo(() => {
-    return true;
-    // return wishlist.indexOf(id) !== -1;
+    return wishlist.indexOf(id) !== -1;
   }, [wishlist, id]);
 
   const accordionSections = useMemo(() => {
@@ -193,7 +201,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          {sizeChartHTML && (
+          {sizeChartHtml && (
             <div
               className={cs(
                 bootstrap.colSm4,
@@ -201,7 +209,10 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.textCenter
               )}
             >
-              <span className={styles.sizeGuide}> Size Guide </span>
+              <span className={styles.sizeGuide} onClick={onSizeChartClick}>
+                {" "}
+                Size Guide{" "}
+              </span>
             </div>
           )}
           {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (

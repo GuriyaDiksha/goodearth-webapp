@@ -1,7 +1,7 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-h2 {
+.recommend-header {
     font-size: 25px;
     font-family: "Baskerville","Amiri","Serif";
     color: #333;
@@ -9,6 +9,7 @@ h2 {
     text-transform: capitalize;
     text-align: center;
     font-weight: 100;
+    width: 100%;
 }
 
 .recommend-bg {
@@ -16,10 +17,9 @@ h2 {
 }
 
 .more-block{
-    border-right: 1px solid #ccc;
-    margin: 20px 0 100px 0;
-    padding: 10px 0;
+    padding: 0 10px;
     text-align: center;
+    min-height: 120px;
 }
 .product-h {
     font-size: 12px;
@@ -53,4 +53,8 @@ h2 {
     a:hover{
         color: #ab1e56;
     }
+}
+
+.slider-image {
+    padding: 0 3px;
 }

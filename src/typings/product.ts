@@ -1,5 +1,5 @@
 import { ProductID } from "./id";
-import { ProductImage, ProductSliderImage } from "./image";
+import { ProductImage } from "./image";
 import { PriceRecord } from "./price";
 import { Breadcrumb } from "./navigation";
 
@@ -32,24 +32,25 @@ export type DesignJournalTag = {
   folderCode: string;
 };
 
-export interface Product extends PartialProductItem {
+export interface Product<T = ProductID> extends PartialProductItem {
   breadcrumbs: Breadcrumb[];
   details: string;
   compAndCare: string;
   shipping: string;
   sizeFit?: string;
-  recommendedProducts: PartialProductItem[];
+  recommendedProducts: T[];
   productClass: string;
   structure: string;
   parent?: string;
   collectionUrl?: string;
   collection?: string;
-  sliderImages: ProductSliderImage[];
+  sliderImages: ProductImage[];
   childAttributes: ChildProductAttributes[];
-  sizeChartHTML?: string;
+  sizeChartHtml?: string;
   loyalityDisabled?: boolean;
   designJournalTagging?: DesignJournalTag[];
   fillerMessage?: string;
+  collectionProducts?: CollectionProductItem[];
 }
 
 export interface PartialChildProductAttributes {
@@ -64,3 +65,14 @@ export interface ChildProductAttributes extends PartialChildProductAttributes {
   id: ProductID;
   isBridalProduct: boolean;
 }
+
+export type CollectionProductItem = {
+  id: string;
+  title: string;
+  url: string;
+  image: string;
+  badgeImage: string;
+  collection: string;
+  collectionUrl: string;
+  priceRecords: PriceRecord;
+};

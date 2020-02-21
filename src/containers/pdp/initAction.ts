@@ -1,13 +1,17 @@
 import { InitAction } from "typings/actions";
-import product from "./data.json";
+import ProductService from "services/product";
+// import product from "./data.json";
 
 import { updateProduct } from "actions/product";
-import { Product } from "typings/product.js";
+import { getProductIdFromSlug } from "utils/url.ts";
 
-const initAction: InitAction = async dispatch => {
-  const data: Product = { ...product, partial: false };
+const initAction: InitAction = async (dispatch, { slug }) => {
+  const id = getProductIdFromSlug(slug);
 
-  dispatch(updateProduct(data));
+  if (id) {
+    const product = await ProductService.fetchProductDetails(id);
+    dispatch(updateProduct(product));
+  }
 };
 
 export default initAction;

@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const context = path.resolve(__dirname, "../");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -21,7 +22,9 @@ const alias = {
     styles : context + "/src/styles",
     typings : context + "/src/typings",
     routerHistory : context + "/src/routerHistory",
-    routes: context + "/src/routes"
+    routes: context + "/src/routes",
+    selectors: context + "/src/selectors",
+    services: context + "/src/services"
 }
 
 
@@ -43,12 +46,18 @@ let config = [
             filename: `[name].js`
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css"],
             alias
         },
         plugins: [
+            new webpack.DefinePlugin({
+                __API_HOST__: "http://api.goodearth.in"
+              }),
             new HtmlWebpackPlugin({
-                title: "Goodearth"
+                title: "Goodearth",
+                meta: {
+                    viewport: 'width=device-width, initial-scale=1'
+                }
             })
         ],
         devServer: {
@@ -64,6 +73,14 @@ let config = [
                 {
                     test: /\.(ts|tsx)$/,
                     loader: "ts-loader"
+                },
+                {
+                    test: /\.css/,
+                    loaders: [
+                        "style-loader",
+                        "css-loader",
+                        "sass-loader"
+                      ]
                 },
                 {
                     test: /\.scss/,
@@ -84,7 +101,7 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|svg|woff2)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|svg|woff2|gif)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',

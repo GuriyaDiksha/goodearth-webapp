@@ -27,6 +27,9 @@ const application = (
 window.onload = () => {
   const root = document.createElement("div");
 
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "modal-container";
+  document.body.appendChild(modalContainer);
   document.body.appendChild(root);
   render(application, root);
 };

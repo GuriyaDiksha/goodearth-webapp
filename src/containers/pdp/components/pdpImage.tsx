@@ -1,10 +1,10 @@
 import React, { memo, useCallback } from "react";
 
-import { ProductSliderImage } from "typings/image";
+import { ProductImage } from "typings/image";
 
 import globalStyles from "styles/global.scss";
 
-type Props = ProductSliderImage & {
+type Props = ProductImage & {
   onClick: (index: number, id: number) => void;
   index: number;
 };
