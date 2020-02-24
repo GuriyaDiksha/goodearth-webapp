@@ -272,7 +272,7 @@
   margin-top: 15px;
 }
 
-@mixin plp_prod_name_mob {
+@mixin pdp_prod_title_mobile {
   font-size: 16px;
   font-family: "AmiriFont", "Baskerville", "Garamond";
   color: #000;
@@ -306,7 +306,7 @@
   letter-spacing: 1px;
 }
 
-@mixin plp_coll_name_mob {
+@mixin pdp_collection_header_mobile {
   font-size: 10px;
   font-family: $font-Amiri;
   color: tint(#000, 50%);
