@@ -198,7 +198,7 @@ class PDPContainer extends React.Component<Props> {
       });
 
     return (
-      <div className={styles.pdpContainer}>
+      <div className={cs(styles.pdpContainer, bootstrap.containerFluid)}>
         {!mobile && (
           <SecondaryHeader>
             <Breadcrumbs
@@ -209,7 +209,12 @@ class PDPContainer extends React.Component<Props> {
         )}
         <div className={cs(bootstrap.row)}>
           {mobile && (
-            <div className={bootstrap.col12}>
+            <div
+              className={cs(
+                bootstrap.col12,
+                globalStyles.mobileSliderContainer
+              )}
+            >
               <MobileSlider>{mobileSlides}</MobileSlider>
             </div>
           )}

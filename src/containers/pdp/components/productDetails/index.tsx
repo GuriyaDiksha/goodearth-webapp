@@ -291,7 +291,11 @@ const ProductDetails: React.FC<Props> = ({
             }
           )}
         >
-          <div className={cs(bootstrap.colSm8, bootstrap.col9)}>
+          <div
+            className={cs(bootstrap.colSm8, bootstrap.col9, {
+              [styles.addToBagBtnContainer]: mobile
+            })}
+          >
             {selectedSize && selectedSize.stock == 0 ? (
               <Button label="NOTIFY ME" />
             ) : (
@@ -304,7 +308,8 @@ const ProductDetails: React.FC<Props> = ({
               bootstrap.col3,
               globalStyles.textCenter,
               {
-                [styles.addedToWishlist]: addedToWishlist
+                [styles.addedToWishlist]: addedToWishlist,
+                [styles.wishlistBtnContainer]: mobile
               }
             )}
           >

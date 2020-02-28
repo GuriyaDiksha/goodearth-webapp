@@ -152,6 +152,12 @@
         right: 0;
         z-index: 5;
         flex-direction: row-reverse;
+        margin: 0;
+    }
+
+    .wishlist-btn-container, .add-to-bag-btn-container {
+        background: #fff;
+        padding: 0;
     }
 
 }
