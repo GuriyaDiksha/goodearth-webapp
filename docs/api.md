@@ -286,7 +286,7 @@ footerList:[{
    value: List
 }]
 ```
-### 5. [GET] /myapi/meta-list
+### 5. [Post] /myapi/meta-list
 
 **Parameters**
 ```
