@@ -307,7 +307,7 @@ footerList:[{
 	ogImage:string,
 	ogDescription:string,
 	ogSiteName:string,
-	isChat:string,
+	isChat:boolean,
 	templateType?:string,
 	productClass?:string
 
