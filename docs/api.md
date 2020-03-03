@@ -560,3 +560,18 @@ ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-p
 	]
 }
 ```
+
+### 14. [POST] myapi/newsletterSignup/
+
+**Parameters**
+
+email: string
+
+**Response**
+
+```
+{
+	status: boolean, 
+	message: string
+}
+```
