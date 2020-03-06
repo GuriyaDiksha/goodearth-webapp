@@ -5,6 +5,7 @@ export type Props<T extends HTMLElement> = {
   children?: ReactNode;
   parentNode: T;
   className?: string;
+  fullscreen?: boolean;
 };
 
 export type ModalContext = React.Context<{

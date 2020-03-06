@@ -7,4 +7,16 @@
 .product-image-container {
     margin-bottom: 6px;
     padding-left: 40px;
+
+    img {
+        cursor: url(../../images/cursorZoom.png), auto;
+    }
+}
+
+.sidebar, .details-container {
+    top: $header-height + $secondary-header-height + 23px;
+}
+
+.product-section {
+    position: relative;
 }

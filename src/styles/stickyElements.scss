@@ -1,0 +1,11 @@
+@import "./partials/variables";
+
+.page-sticky-element {
+    position: fixed;
+
+    &.page-sticky-scrolling {
+        position: absolute;
+        bottom: 0;
+        top: auto;
+    }
+}

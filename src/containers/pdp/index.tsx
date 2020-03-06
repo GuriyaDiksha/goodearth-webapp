@@ -1,7 +1,7 @@
-import React from "react";
+import React, { RefObject } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
-import { Props as PDPProps } from "./typings";
+import { Props as PDPProps, State } from "./typings";
 import initAction from "./initAction";
 
 import { getProductIdFromSlug } from "utils/url";
@@ -22,6 +22,11 @@ import { getProductSliderItems } from "selectors/productSlider";
 import { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
+import Zoom from "components/Zoom";
+import { renderModal } from "utils/modal";
+import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
+
+const sidebarPosition = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT + 23;
 
 const mapStateToProps = (state: AppState, props: PDPProps) => {
   const { slug } = props;
@@ -46,14 +51,80 @@ type Props = PDPProps &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class PDPContainer extends React.Component<Props> {
+class PDPContainer extends React.Component<Props, State> {
+  state: State = {
+    sidebarSticky: true,
+    detailsSticky: true
+  };
+
+  sidebarRef: RefObject<HTMLDivElement> = React.createRef();
+  detailsRef: RefObject<HTMLDivElement> = React.createRef();
+  containerRef: RefObject<HTMLDivElement> = React.createRef();
+
   onImageClick = (index: number) => {
-    console.log(index);
+    const {
+      device: { mobile }
+    } = this.props;
+    const images = this.getProductImagesData();
+    renderModal(<Zoom images={images} startIndex={index} mobile={mobile} />, {
+      fullscreen: true
+    });
   };
 
   componentDidMount() {
     this.fetchMoreProductsFromCollection();
+    document.addEventListener("scroll", this.onScroll);
   }
+
+  onScroll = () => {
+    const { containerRef, sidebarRef, detailsRef } = this;
+    if (
+      containerRef &&
+      containerRef.current &&
+      sidebarRef &&
+      sidebarRef.current &&
+      detailsRef &&
+      detailsRef.current
+    ) {
+      const containerBounds = containerRef.current?.getBoundingClientRect();
+      const sidebarBounds = sidebarRef.current?.getBoundingClientRect();
+      const detailsBounds = detailsRef.current?.getBoundingClientRect();
+
+      let sidebarSticky = this.state.sidebarSticky,
+        detailsSticky = this.state.detailsSticky,
+        update = false;
+
+      const containerBottom = Math.floor(containerBounds.bottom);
+      if (sidebarSticky) {
+        if (Math.floor(sidebarBounds.bottom) >= containerBottom) {
+          sidebarSticky = false;
+          update = true;
+        }
+      } else if (Math.floor(sidebarBounds.top) >= sidebarPosition) {
+        sidebarSticky = true;
+        update = true;
+      }
+
+      if (detailsSticky) {
+        if (
+          Math.floor(detailsBounds.bottom) >= containerBottom &&
+          detailsSticky
+        ) {
+          detailsSticky = false;
+          update = true;
+        }
+      } else if (Math.floor(detailsBounds.top) >= sidebarPosition) {
+        detailsSticky = true;
+        update = true;
+      }
+
+      update &&
+        this.setState({
+          sidebarSticky,
+          detailsSticky
+        });
+    }
+  };
 
   fetchMoreProductsFromCollection() {
     const { id, fetchMoreProductsFromCollection } = this.props;
@@ -197,6 +268,8 @@ class PDPContainer extends React.Component<Props> {
         );
       });
 
+    const { sidebarSticky, detailsSticky } = this.state;
+
     return (
       <div className={cs(styles.pdpContainer, bootstrap.containerFluid)}>
         {!mobile && (
@@ -207,7 +280,10 @@ class PDPContainer extends React.Component<Props> {
             />
           </SecondaryHeader>
         )}
-        <div className={cs(bootstrap.row)}>
+        <div
+          className={cs(bootstrap.row, styles.productSection)}
+          ref={this.containerRef}
+        >
           {mobile && (
             <div
               className={cs(
@@ -219,7 +295,18 @@ class PDPContainer extends React.Component<Props> {
             </div>
           )}
           {!mobile && (
-            <div className={cs(bootstrap.colMd1, bootstrap.offsetMd1)}>
+            <div
+              className={cs(
+                bootstrap.colMd1,
+                bootstrap.offsetMd1,
+                styles.sidebar,
+                globalStyles.pageStickyElement,
+                {
+                  [globalStyles.pageStickyScrolling]: !sidebarSticky
+                }
+              )}
+              ref={this.sidebarRef}
+            >
               <div className={bootstrap.row}>
                 <VerticalImageSelector
                   images={images}
@@ -237,7 +324,8 @@ class PDPContainer extends React.Component<Props> {
               className={cs(
                 bootstrap.colMd4,
                 bootstrap.dNone,
-                bootstrap.dMdBlock
+                bootstrap.dMdBlock,
+                bootstrap.offsetMd2
               )}
             >
               {this.getProductImages()}
@@ -248,8 +336,14 @@ class PDPContainer extends React.Component<Props> {
             className={cs(
               styles.detailsContainer,
               bootstrap.colMd5,
-              bootstrap.col12
+              bootstrap.col12,
+              bootstrap.offsetMd6,
+              {
+                [globalStyles.pageStickyElement]: !mobile,
+                [globalStyles.pageStickyScrolling]: !mobile && !detailsSticky
+              }
             )}
+            ref={this.detailsRef}
           >
             {this.getProductDetails()}
           </div>
