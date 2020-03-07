@@ -4,3 +4,8 @@ export type Props = {
   slug: string;
   url: string;
 };
+
+export type State = {
+  sidebarSticky: boolean;
+  detailsSticky: boolean;
+};

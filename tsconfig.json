@@ -28,7 +28,8 @@
       "routerHistory/*": ["src/routerHistory/*"],
       "routes/*": ["src/routes/*"],
       "selectors/*": ["src/selectors/*"],
-      "services/*": ["src/services/*"]
+      "services/*": ["src/services/*"],
+      "images/*": ["src/images/*"]
     },
     // "lib": [],                             /* Specify library files to be included in the compilation. */
     // "allowJs": true,                       /* Allow javascript files to be compiled. */

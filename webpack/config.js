@@ -24,7 +24,8 @@ const alias = {
     routerHistory : context + "/src/routerHistory",
     routes: context + "/src/routes",
     selectors: context + "/src/selectors",
-    services: context + "/src/services"
+    services: context + "/src/services",
+    images: context + "/src/images"
 }
 
 
@@ -107,6 +108,15 @@ let config = [
                         name: '[name].[ext]',
                         outputPath: 'fonts',
                         publicPath: '/fonts/'
+                    }
+                },
+                {
+                    test: /\.(jpg|jpeg|svg|png|gif)(\?.*)?$/,
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images',
+                        publicPath: '/images/'
                     }
                 }
             ]

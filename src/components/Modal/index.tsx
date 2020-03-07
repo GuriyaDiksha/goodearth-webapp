@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 import { unmountComponentAtNode } from "react-dom";
 import cs from "classnames";
 
@@ -13,7 +13,8 @@ const Modal = <T extends HTMLElement>({
   bodyClassName,
   children,
   parentNode,
-  className
+  className,
+  fullscreen
 }: Props<T>) => {
   const closeModal = () => {
     unmountComponentAtNode(parentNode);
@@ -31,7 +32,12 @@ const Modal = <T extends HTMLElement>({
     >
       <div className={cs(styles.container, className)}>
         <div className={styles.backdrop} onClick={closeModal}></div>
-        <div className={cs(styles.body, bodyClassName)} ref={ref}>
+        <div
+          className={cs(styles.body, bodyClassName, {
+            [styles.fullscreen]: fullscreen
+          })}
+          ref={ref}
+        >
           {children}
         </div>
       </div>

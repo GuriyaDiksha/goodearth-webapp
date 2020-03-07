@@ -118,3 +118,46 @@
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+@media screen and (max-width: 992px) {
+    .collection-header {
+        margin-top: 20px;
+        @include pdp_collection_header_mobile();
+    }
+
+    .title, .price-container {
+        @include pdp_prod_title_mobile();
+    }
+
+    .spacer {
+        margin-top: 0;
+    }
+
+    .label {
+
+        &.size {
+            margin-top: 15px;
+            line-height: 25px;
+        }
+
+        &.quantity {
+            line-height: 25px;
+        }
+    }
+
+    .action-buttons-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 5;
+        flex-direction: row-reverse;
+        margin: 0;
+    }
+
+    .wishlist-btn-container, .add-to-bag-btn-container {
+        background: #fff;
+        padding: 0;
+    }
+
+}

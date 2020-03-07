@@ -135,6 +135,20 @@ const ProductDetails: React.FC<Props> = ({
           ) : (
             ""
           )}
+
+          {mobile && (
+            <div className={cs(bootstrap.col12)}>
+              <Share
+                mobile={mobile}
+                link={window.location.href}
+                mailSubject="Gifting Ideas"
+                mailText={
+                  "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
+                  window.location.href
+                }
+              />
+            </div>
+          )}
           <div className={cs(bootstrap.col12, styles.collectionHeader)}>
             {collection && <a href={collectionUrl}> {collection} </a>}
           </div>
@@ -147,7 +161,7 @@ const ProductDetails: React.FC<Props> = ({
               bootstrap.col12,
               bootstrap.colMd4,
               styles.priceContainer,
-              globalStyles.textCenter
+              { [globalStyles.textCenter]: !mobile }
             )}
           >
             {saleStatus && discount && discountedPriceRecords ? (
@@ -203,11 +217,9 @@ const ProductDetails: React.FC<Props> = ({
           </div>
           {sizeChartHtml && (
             <div
-              className={cs(
-                bootstrap.colSm4,
-                styles.label,
-                globalStyles.textCenter
-              )}
+              className={cs(bootstrap.colSm4, styles.label, {
+                [globalStyles.textCenter]: !mobile
+              })}
             >
               <span className={styles.sizeGuide} onClick={onSizeChartClick}>
                 {" "}
@@ -252,7 +264,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          <div
+          {/* <div
             className={cs(
               bootstrap.col4,
               globalStyles.textCenter,
@@ -267,10 +279,23 @@ const ProductDetails: React.FC<Props> = ({
               )}
             ></div>
             <p className={styles.label}>add to registry</p>
-          </div>
+          </div> */}
         </div>
-        <div className={cs(bootstrap.row, styles.spacer)}>
-          <div className={bootstrap.colSm8}>
+        <div
+          className={cs(
+            bootstrap.row,
+            styles.spacer,
+            styles.actionButtonsContainer,
+            {
+              [globalStyles.voffset3]: mobile
+            }
+          )}
+        >
+          <div
+            className={cs(bootstrap.colSm8, bootstrap.col9, {
+              [styles.addToBagBtnContainer]: mobile
+            })}
+          >
             {selectedSize && selectedSize.stock == 0 ? (
               <Button label="NOTIFY ME" />
             ) : (
@@ -278,9 +303,15 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
           <div
-            className={cs(bootstrap.colSm4, globalStyles.textCenter, {
-              [styles.addedToWishlist]: addedToWishlist
-            })}
+            className={cs(
+              bootstrap.colSm4,
+              bootstrap.col3,
+              globalStyles.textCenter,
+              {
+                [styles.addedToWishlist]: addedToWishlist,
+                [styles.wishlistBtnContainer]: mobile
+              }
+            )}
           >
             <div
               className={cs(iconStyles.icon, styles.wishlistIcon, {
@@ -288,9 +319,11 @@ const ProductDetails: React.FC<Props> = ({
                 [iconStyles.iconWishlist]: !addedToWishlist
               })}
             ></div>
-            <div className={styles.label}>
-              {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
-            </div>
+            {!mobile && (
+              <div className={styles.label}>
+                {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
+              </div>
+            )}
           </div>
         </div>
         <div
@@ -315,15 +348,17 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
-          <Share
-            mobile={mobile}
-            link={window.location.href}
-            mailSubject="Gifting Ideas"
-            mailText={
-              "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
-              window.location.href
-            }
-          />
+          {!mobile && (
+            <Share
+              mobile={mobile}
+              link={window.location.href}
+              mailSubject="Gifting Ideas"
+              mailText={
+                "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
+                window.location.href
+              }
+            />
+          )}
 
           <div>
             <Accordion

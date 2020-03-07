@@ -5,7 +5,7 @@ import { Props } from "components/Modal/typings";
 
 export const renderModal = (
   component: ReactNode,
-  modalProps?: Props<HTMLDivElement>
+  modalProps?: Partial<Props<HTMLDivElement>>
 ) => {
   const container = document.getElementById(
     "modal-container"
