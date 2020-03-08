@@ -640,7 +640,7 @@ WishlistProductItem ([link](#markdown-header-wishlistproductitem-extends-partial
 
 ### 17. [POST] /myapi/wishlist/update
 
-API for getting list of products added to Wishlist
+API for updating wishlist product
 
 **Parameters**
 ```
@@ -697,7 +697,7 @@ productId: number
 }
 ```
 
-### 19. [POST] /myapi/wishlist/:productId
+### 20. [POST] /myapi/wishlist/:productId
 
 API for adding product to wishlist
 
