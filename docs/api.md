@@ -235,6 +235,26 @@ DesignJournalTag: [link](#markdown-header-designjournaltag)
 }
 ```
 
+### WishlistProductItem *extends* [PartialProductItem](#markdown-header-partialproductitem)
+
+**Links to Resources:**
+
+Breadcrumb: [link](#markdown-header-breadcrumb)
+
+ProductSliderImage: [link](#markdown-header-productsliderimage)
+
+ChildProductAttributes: [link](#markdown-header-childproductattributes-extends-partialchildproductattributes)
+
+DesignJournalTag: [link](#markdown-header-designjournaltag)
+
+```
+{
+	collection: string,
+	collectionUrl: string,
+	childAttributes?: ChildProductAttributes[]
+}
+```
+
 
 ### WidgetImage
 
@@ -573,5 +593,121 @@ email: string
 {
 	status: boolean, 
 	message: string
+}
+```
+
+### 15. [GET] /myapi/wishlist/
+
+API for getting Wishlist with only product IDs
+
+**Parameters**
+
+sortBy: string (Existing production values)
+
+**Response**
+
+```
+{
+	data: [
+		{
+			id: number,
+			quantity: number,
+			dnd_sequence: number,
+			size: number,
+			sequence: number,
+			productId: number
+		}
+	]
+}
+```
+
+### 16. [GET] /myapi/wishlist-products/
+
+API for getting list of products added to Wishlist
+
+**Links to Resources:**
+
+WishlistProductItem ([link](#markdown-header-wishlistproductitem-extends-partialproductitem))
+
+
+**Response**
+
+```
+{
+	data: WishlistProductItem[]
+}
+```
+
+### 17. [POST] /myapi/wishlist/update
+
+API for getting list of products added to Wishlist
+
+**Parameters**
+```
+{
+	id: string,
+	size:string,
+	quantity?:number
+}
+```
+
+
+**Response**
+
+```
+{
+	success: boolean
+}
+```
+
+### 18. [POST] /myapi/wishlist/sequencing
+
+API for re-ordering wishlist
+
+**Parameters**
+```
+{
+	sequencing: [
+		[wishlistId, sequence number]
+	]
+}
+```
+
+
+**Response**
+
+```
+{
+	success: boolean
+}
+```
+
+### 19. [DELETE] /myapi/wishlist/:productId
+
+API for removing product from wishlist
+
+**Parameters**
+productId: number
+
+**Response**
+
+```
+{
+	success: boolean
+}
+```
+
+### 19. [POST] /myapi/wishlist/:productId
+
+API for adding product to wishlist
+
+**Parameters**
+productId: number
+
+**Response**
+
+```
+{
+	success: boolean
 }
 ```
