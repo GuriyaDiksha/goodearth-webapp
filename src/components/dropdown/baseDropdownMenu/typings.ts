@@ -25,6 +25,9 @@ export type BaseDropdownMenuProps = {
   display?: JSX.Element | string;
   align: "left" | "right";
   open?: boolean;
+  hideSelected?: boolean;
+  icon?: string;
+  showCaret?: boolean;
 };
 
 export type DropdownMenuState = {

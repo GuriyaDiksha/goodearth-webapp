@@ -8,3 +8,7 @@ export type QuantityItem = {
   maxValue: number;
   errorMsg?: string;
 };
+
+export interface State {
+  showError: boolean;
+}

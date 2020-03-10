@@ -1,0 +1,134 @@
+{
+    "footerList": [
+        {
+            "name": "Services",
+            "value": [
+                {
+                    "text": "Shop & Cafe Locator",
+                    "link": "/Cafe-Shop/Delhi"
+                },
+                {
+                    "text": "Design Journal",
+                    "link": "/designjournal"
+                },
+                {
+                    "text": "Good Earth Registry",
+                    "link": "/bridal"
+                },
+                {
+                    "text": "Cerise Program",
+                    "link": "/cerise"
+                },
+                {
+                    "text": "Activate Gift Card",
+                    "link": "/giftcard_activation"
+                },
+                {
+                    "text": "Careers",
+                    "link": "/careers"
+                }
+            ]
+        },
+        {
+            "name": "Help",
+            "value": [
+                {
+                    "text": "Shipping & Payment",
+                    "link": "/customer-assistance/shipping-payment"
+                },
+                {
+                    "text": "Track Order",
+                    "link": "giftcard_activation/?track=true"
+                },
+                {
+                    "text": "Return & Exchanges",
+                    "link": "/customer-assistance/returns-exchanges"
+                },
+                {
+                    "text": "Terms Of Use",
+                    "link": "/customer-assistance/terms-conditions"
+                },
+                {
+                    "text": "Terms of Use: Cerise Program",
+                    "link": "/customer-assistance/terms"
+                },
+                {
+                    "text": "FAQs: Cerise Program",
+                    "link": "/customer-assistance/faq"
+                },
+                {
+                    "text": "Sales Terms Of Use",
+                    "link": "/customer-assistance/sales-conditions"
+                },
+                {
+                    "text": "Privacy Policy",
+                    "link": "/customer-assistance/privacy-policy"
+                },
+                {
+                    "text": "Cookie Policy",
+                    "link": "/customer-assistance/cookie-policy"
+                }
+            ]
+        },
+        {
+            "name": "Connect",
+            "value": [
+                {
+                    "text": "collaborations@goodearth.in",
+                    "link": "mailto:collaborations@goodearth.in"
+                },
+                {
+                    "text": "customercare@goodearth.in",
+                    "link": "mailto:customercare@goodearth.in"
+                },
+                {
+                    "text": "+91 9582 999 555 / +91 9582 999 888",
+                    "link": ""
+                },
+                {
+                    "text": "Monday - Saturday",
+                    "link": ""
+                },
+                {
+                    "text": "9:00 am - 5:00 pm IST",
+                    "link": ""
+                }
+            ]
+        }
+    ],
+    "footerPlaylistData": {
+        "ctaImage": "https://djhiy8e1dslha.cloudfront.net/media/uploads/playlist-logounit-spring.png",
+        "ctaText": "Good Earth Playlist",
+        "ctaUrl": "https://www.mixcloud.com/GoodEarth/barefoot-in-the-park-playlist/"
+    },
+    "shopLocations": [
+        {
+            "label": "Delhi",
+            "value": "Delhi"
+        },
+        {
+            "label": "Mumbai",
+            "value": "Mumbai"
+        },
+        {
+            "label": "Bangalore",
+            "value": "Bangalore"
+        },
+        {
+            "label": "Chennai",
+            "value": "Chennai"
+        },
+        {
+            "label": "Hyderabad",
+            "value": "Hyderabad"
+        },
+        {
+            "label": "Jaipur",
+            "value": "Jaipur"
+        },
+        {
+            "label": "Jodhpur",
+            "value": "Jodhpur"
+        }
+    ]
+}

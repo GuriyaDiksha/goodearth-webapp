@@ -8,12 +8,13 @@ import { getDevice } from "utils/device";
 
 import App from "containers/app";
 import { updateDeviceInfo } from "actions/device";
+import initAction from "./initAction";
 
 const history = getHistory();
 const store = configureStore(true, history);
 
+initAction(store);
 const { mobile, tablet } = getDevice(window.navigator.userAgent);
-
 store.dispatch(updateDeviceInfo(mobile, tablet));
 
 const application = (
@@ -26,7 +27,6 @@ const application = (
 
 window.onload = () => {
   const root = document.createElement("div");
-
   const modalContainer = document.createElement("div");
   modalContainer.id = "modal-container";
   document.body.appendChild(modalContainer);

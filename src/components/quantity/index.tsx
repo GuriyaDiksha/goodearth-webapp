@@ -1,11 +1,7 @@
 import React from "react";
 import styles from "./styles.scss";
-import { QuantityItem } from "./typings";
+import { QuantityItem, State } from "./typings";
 import cs from "classnames";
-
-interface State {
-  showError: boolean;
-}
 
 class Quantity extends React.Component<QuantityItem, State> {
   constructor(props: QuantityItem) {

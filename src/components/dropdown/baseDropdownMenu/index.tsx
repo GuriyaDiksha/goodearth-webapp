@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import cl from "classnames";
-
 import { BaseDropdownMenuProps } from "./typings";
-
 import styles from "./styles.scss";
 import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 
@@ -11,7 +9,8 @@ const BaseDropdownMenu = ({
   display,
   open,
   className,
-  children
+  children,
+  showCaret
 }: BaseDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   false && setOpenState(false);
@@ -35,7 +34,14 @@ const BaseDropdownMenu = ({
       onClick={onInsideClick}
       ref={ref}
     >
-      <div className={styles.label}>{display}</div>
+      <div className={styles.label}>
+        {display}
+        {showCaret ? (
+          <span className={menuOpen ? styles.caretUp : styles.caret}></span>
+        ) : (
+          ""
+        )}
+      </div>
       <div className={cl(styles.menu, styles[align])}>{children}</div>
     </div>
   );

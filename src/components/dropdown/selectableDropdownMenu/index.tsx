@@ -15,7 +15,8 @@ const DropdownMenu = ({
   className,
   value,
   items,
-  onChange
+  onChange,
+  showCaret
 }: SelectableDropdownMenuProps): JSX.Element => {
   const [currentValue, setCurrentValue] = useState(value);
 
@@ -43,12 +44,19 @@ const DropdownMenu = ({
     });
   };
 
-  const display = <span>{currentValue}</span>;
+  let display = <span>{currentValue}</span>;
+  items.map((item: DropdownItem) => {
+    if (item.value == currentValue) {
+      display = <span>{item.label}</span>;
+    }
+  });
+
   const menuProps = {
     align,
     display,
     open,
-    className
+    className,
+    showCaret
   };
   return <BaseDropdownMenu {...menuProps}>{getMenuItems()}</BaseDropdownMenu>;
 };

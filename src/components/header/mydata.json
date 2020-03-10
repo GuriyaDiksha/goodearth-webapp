@@ -1,0 +1,1092 @@
+[{
+            "id": 26,
+            "name": "Living",
+            "url": "/catalogue/category/living_26/?source=plp&currency=INR&category_shop=Living",
+            "labelDesktop": "",
+            "labelMobile": "",
+            "catLandingUrl": "https://www.goodearth.in/category_landing/living_26/",
+            "leftMenu": [
+                {
+                    "name": "GIFTING",
+                    "url": "https://www.goodearth.in/stories/gifting",
+                    "id": 17,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+%3E+Art+of+Gifting+%3E+Gifting++Favourites",
+                            "labelMobile": "",
+                            "id": 18,
+                            "labelDesktop": "",
+                            "name": "Gifting Favourites"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+>+Art+of+Gifting+>+Gifting+Exclusives",
+                            "labelMobile": "",
+                            "id": 19,
+                            "labelDesktop": "",
+                            "name": "Gifting Exclusives"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/giftcard/",
+                            "labelMobile": "",
+                            "id": 3,
+                            "labelDesktop": "",
+                            "name": "Gift Card"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/corporate-gifting/corporate-gifting_100/?source=plp&currency=INR&category_shop=Corporate+Gifting",
+                            "labelMobile": "",
+                            "id": 9,
+                            "labelDesktop": "",
+                            "name": "Corporate Gifting"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/the-good-earth-registry/",
+                            "labelMobile": "",
+                            "id": 11,
+                            "labelDesktop": "",
+                            "name": "Good Earth Registry"
+                        }
+                    ]
+                },
+                {
+                    "name": "Good earth curates",
+                    "url": "",
+                    "id": 12,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in//stories/cocktail-hour-edit/",
+                            "labelMobile": "",
+                            "id": 33,
+                            "labelDesktop": "",
+                            "name": "Cocktail Hour"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/velvet-edit_158/?source=plp&currency=INR&category_shop=Living+>+Velvet+Edit",
+                            "labelMobile": "",
+                            "id": 25,
+                            "labelDesktop": "",
+                            "name": "Velvet Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/florals_139/?source=plp&currency=INR&category_shop=Apparel+>+TM",
+                            "labelMobile": "",
+                            "id": 31,
+                            "labelDesktop": "",
+                            "name": "GE X Teresa Martins"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/that-festive-feeling-edit/",
+                            "labelMobile": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "id": 29,
+                            "labelDesktop": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "name": "Season Of Joy"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/luxury-lights/",
+                            "labelMobile": "",
+                            "id": 20,
+                            "labelDesktop": "",
+                            "name": "Luxury Lights"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/uppers_3/undefined?source=plp&currency=INR&category_shop=Apparel+>+Winter+Wishlist",
+                            "labelMobile": "",
+                            "id": 32,
+                            "labelDesktop": "",
+                            "name": "Winter Wishlist"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/maladvipa-design-collection-2019-20-edit/",
+                            "labelMobile": "",
+                            "id": 27,
+                            "labelDesktop": "",
+                            "name": "The Maladvipa Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/good-earth-classics/",
+                            "labelMobile": "",
+                            "id": 14,
+                            "labelDesktop": "",
+                            "name": "GoodEarth Classics"
+                        }
+                    ]
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "name": "Collections",
+                        "url": "https://www.goodearth.in/allcollection/living_26?category-id=26/",
+                        "id": 26,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    },
+                    {
+                        "name": "Dining",
+                        "url": "/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining",
+                        "id": 28,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "https://www.goodearth.in/allcollection/living_26?category-id=28/",
+                                "id": 28,
+                                "name": "Dining Collections"
+                            },
+                            {
+                                "url": "/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Dinnerware",
+                                "labelMobile": "",
+                                "id": 30,
+                                "labelDesktop": "",
+                                "name": "Dinnerware"
+                            },
+                            {
+                                "url": "/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee",
+                                "labelMobile": "",
+                                "id": 31,
+                                "labelDesktop": "",
+                                "name": "Tea & Coffee"
+                            },
+                            {
+                                "url": "/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Serveware",
+                                "labelMobile": "",
+                                "id": 32,
+                                "labelDesktop": "",
+                                "name": "Serveware"
+                            },
+                            {
+                                "url": "/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Glassware+%26+Barware",
+                                "labelMobile": "",
+                                "id": 33,
+                                "labelDesktop": "",
+                                "name": "Glassware & Barware"
+                            },
+                            {
+                                "url": "/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Table+Linen",
+                                "labelMobile": "",
+                                "id": 34,
+                                "labelDesktop": "",
+                                "name": "Table Linen"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Bed",
+                        "url": "/catalogue/category/living/bed_35/?source=plp&currency=INR&category_shop=Living+%3E+Bed",
+                        "id": 35,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "https://www.goodearth.in/allcollection/living_26?category-id=35/",
+                                "id": 35,
+                                "name": "Bed Collections"
+                            },
+                            {
+                                "url": "/catalogue/category/living/bed_35/?source=plp&currency=INR&category_shop=Living+%3E+Bed+%3E+Bed+Linen",
+                                "labelMobile": "",
+                                "id": 145,
+                                "labelDesktop": "",
+                                "name": "Bed Linen"
+                            },
+                            {
+                                "url": "/catalogue/category/living/bed_35/?source=plp&currency=INR&category_shop=Living+%3E+Bed+%3E+Bed+Cushions+%26+Shams",
+                                "labelMobile": "",
+                                "id": 40,
+                                "labelDesktop": "",
+                                "name": "Bed Cushions & Shams"
+                            },
+                            {
+                                "url": "/catalogue/category/living/bed_35/?source=plp&currency=INR&category_shop=Living+%3E+Bed+%3E+Sheers+%26+Curtains",
+                                "labelMobile": "",
+                                "id": 41,
+                                "labelDesktop": "",
+                                "name": "Sheers & Curtains"
+                            },
+                            {
+                                "url": "/catalogue/category/living/bed_35/?source=plp&currency=INR&category_shop=Living+%3E+Bed+%3E+Throws+%26+Bolsters",
+                                "labelMobile": "",
+                                "id": 39,
+                                "labelDesktop": "",
+                                "name": "Throws & Bolsters"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Decor",
+                        "url": "/catalogue/category/living/decor_49/?source=plp&currency=INR&category_shop=Living+%3E+Decor",
+                        "id": 49,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/living/decor_49/?source=plp&currency=INR&category_shop=Living+%3E+Decor+%3E+Chandeliers",
+                                "labelMobile": "<img class=\"fr-dib\" src=\"https://d3qn6cjsz7zlnp.cloudfront.net/media/uploads/froala_editor/images/star-40-40.png\" style=\"width: 20px;margin-left:-20px;\">Chandeliers<img class=\"fr-dib\" src=\"https://d3qn6cjsz7zlnp.cloudfront.net/media/uploads/froala_editor/images/star-40-40.png\" style=\"width: 20px;\">",
+                                "id": 151,
+                                "labelDesktop": "<img class=\"fr-dib\" src=\"https://d3qn6cjsz7zlnp.cloudfront.net/media/uploads/froala_editor/images/star-40-40.png\" style=\"width: 20px;margin-left:-20px;\">Chandeliers<img class=\"fr-dib\" src=\"https://d3qn6cjsz7zlnp.cloudfront.net/media/uploads/froala_editor/images/star-40-40.png\" style=\"width: 20px;\">",
+                                "name": "Chandeliers"
+                            },
+                            {
+                                "url": "/catalogue/category/living/decor_49/?source=plp&currency=INR&category_shop=Living+%3E+Decor+%3E+Candles+%26+Lights",
+                                "labelMobile": "",
+                                "id": 146,
+                                "labelDesktop": "",
+                                "name": "Candles & Lights"
+                            },
+                            {
+                                "url": "/catalogue/category/living/decor_49/?source=plp&currency=INR&category_shop=Living+%3E+Decor+%3E+Vases+%26+Accessories",
+                                "labelMobile": "",
+                                "id": 147,
+                                "labelDesktop": "",
+                                "name": "Vases & Accessories"
+                            },
+                            {
+                                "url": "/catalogue/category/living/decor_49/?source=plp&currency=INR&category_shop=Living+%3E+Decor+%3E+Books+%26+Journals",
+                                "labelMobile": "",
+                                "id": 56,
+                                "labelDesktop": "",
+                                "name": "Books & Journals"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Wallcoverings",
+                        "url": "/catalogue/category/living/wallcoverings_48/?source=plp&currency=INR&category_shop=Living+%3E+Wallcoverings",
+                        "id": 48,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    }
+                ],
+                [
+                    {
+                        "name": "Cushions",
+                        "url": "/catalogue/category/living/cushions_47/?source=plp&currency=INR&category_shop=Living+%3E+Cushions",
+                        "id": 47,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "https://www.goodearth.in/allcollection/living_26?category-id=47/",
+                                "id": 47,
+                                "name": "Cushions Collections"
+                            },
+                            {
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&currency=INR&category_shop=Living+%3E+Cushions+%3E+Cushion+Sets",
+                                "labelMobile": "",
+                                "id": 154,
+                                "labelDesktop": "<img class=\"fr-dib\" src=\"https://d3qn6cjsz7zlnp.cloudfront.net/media/uploads/froala_editor/images/star-40-40.png\" style=\"width: 20px;margin-left:-20px;\">Cushion Sets<img class=\"fr-dib\" src=\"https://d3qn6cjsz7zlnp.cloudfront.net/media/uploads/froala_editor/images/star-40-40.png\" style=\"width: 20px;\">",
+                                "name": "Cushion Sets"
+                            },
+                            {
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&currency=INR&category_shop=Living+%3E+Cushions+%3E+Prints",
+                                "labelMobile": "",
+                                "id": 89,
+                                "labelDesktop": "",
+                                "name": "Prints"
+                            },
+                            {
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&currency=INR&category_shop=Living+%3E+Cushions+%3E+Embroidered",
+                                "labelMobile": "",
+                                "id": 88,
+                                "labelDesktop": "",
+                                "name": "Embroidered"
+                            },
+                            {
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&currency=INR&category_shop=Living+%3E+Cushions+%3E+Textures",
+                                "labelMobile": "",
+                                "id": 94,
+                                "labelDesktop": "",
+                                "name": "Textures"
+                            },
+                            {
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&currency=INR&category_shop=Living+%3E+Cushions+%3E+Brocades",
+                                "labelMobile": "",
+                                "id": 137,
+                                "labelDesktop": "",
+                                "name": "Brocades"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "categoryLogoImage": null,
+            "image": "https://djhiy8e1dslha.cloudfront.net/media/categories/menu-feature-seychelles-throw.jpg",
+            "categoryImageUrl": "/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+>+Dining+>+Table+Linen"
+        },
+        {
+            "id": 1,
+            "name": "Apparel",
+            "url": "/catalogue/category/women_1/?source=plp&currency=INR&category_shop=Apparel",
+            "labelDesktop": "",
+            "labelMobile": "",
+            "catLandingUrl": "https://www.goodearth.in/category_landing/women_1/",
+            "leftMenu": [
+                {
+                    "name": "GIFTING",
+                    "url": "https://www.goodearth.in/stories/gifting",
+                    "id": 17,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+%3E+Art+of+Gifting+%3E+Gifting++Favourites",
+                            "labelMobile": "",
+                            "id": 18,
+                            "labelDesktop": "",
+                            "name": "Gifting Favourites"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+>+Art+of+Gifting+>+Gifting+Exclusives",
+                            "labelMobile": "",
+                            "id": 19,
+                            "labelDesktop": "",
+                            "name": "Gifting Exclusives"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/giftcard/",
+                            "labelMobile": "",
+                            "id": 3,
+                            "labelDesktop": "",
+                            "name": "Gift Card"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/corporate-gifting/corporate-gifting_100/?source=plp&currency=INR&category_shop=Corporate+Gifting",
+                            "labelMobile": "",
+                            "id": 9,
+                            "labelDesktop": "",
+                            "name": "Corporate Gifting"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/the-good-earth-registry/",
+                            "labelMobile": "",
+                            "id": 11,
+                            "labelDesktop": "",
+                            "name": "Good Earth Registry"
+                        }
+                    ]
+                },
+                {
+                    "name": "Good earth curates",
+                    "url": "",
+                    "id": 12,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in//stories/cocktail-hour-edit/",
+                            "labelMobile": "",
+                            "id": 33,
+                            "labelDesktop": "",
+                            "name": "Cocktail Hour"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/velvet-edit_158/?source=plp&currency=INR&category_shop=Living+>+Velvet+Edit",
+                            "labelMobile": "",
+                            "id": 25,
+                            "labelDesktop": "",
+                            "name": "Velvet Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/florals_139/?source=plp&currency=INR&category_shop=Apparel+>+TM",
+                            "labelMobile": "",
+                            "id": 31,
+                            "labelDesktop": "",
+                            "name": "GE X Teresa Martins"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/that-festive-feeling-edit/",
+                            "labelMobile": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "id": 29,
+                            "labelDesktop": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "name": "Season Of Joy"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/luxury-lights/",
+                            "labelMobile": "",
+                            "id": 20,
+                            "labelDesktop": "",
+                            "name": "Luxury Lights"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/uppers_3/undefined?source=plp&currency=INR&category_shop=Apparel+>+Winter+Wishlist",
+                            "labelMobile": "",
+                            "id": 32,
+                            "labelDesktop": "",
+                            "name": "Winter Wishlist"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/maladvipa-design-collection-2019-20-edit/",
+                            "labelMobile": "",
+                            "id": 27,
+                            "labelDesktop": "",
+                            "name": "The Maladvipa Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/good-earth-classics/",
+                            "labelMobile": "",
+                            "id": 14,
+                            "labelDesktop": "",
+                            "name": "GoodEarth Classics"
+                        }
+                    ]
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "name": "Collections",
+                        "url": "https://www.goodearth.in/allcollection/women_1?category-id=1/",
+                        "id": 1,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    },
+                    {
+                        "name": "Men",
+                        "url": "/catalogue/category/women/men_172/?source=plp&currency=INR&category_shop=Apparel+%3E+Men",
+                        "id": 172,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    },
+                    {
+                        "name": "Rozana",
+                        "url": "/catalogue/category/women/rozana_142/?source=plp&currency=INR&category_shop=Apparel+%3E+Rozana",
+                        "id": 142,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    }
+                ],
+                [
+                    {
+                        "name": "Womens Uppers",
+                        "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Uppers",
+                        "id": 3,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Uppers+%3E+Kurtas",
+                                "labelMobile": "",
+                                "id": 6,
+                                "labelDesktop": "",
+                                "name": "Kurtas"
+                            },
+                            {
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Uppers+%3E+Tops",
+                                "labelMobile": "",
+                                "id": 5,
+                                "labelDesktop": "",
+                                "name": "Tops"
+                            },
+                            {
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Uppers+%3E+Dresses+%26+Tunics",
+                                "labelMobile": "",
+                                "id": 10,
+                                "labelDesktop": "",
+                                "name": "Dresses & Tunics"
+                            },
+                            {
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Uppers+%3E+Overlays",
+                                "labelMobile": "",
+                                "id": 7,
+                                "labelDesktop": "",
+                                "name": "Overlays"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Womens Lowers",
+                        "url": "/catalogue/category/women/bottoms_12/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Lowers",
+                        "id": 12,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/women/bottoms_12/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Lowers+%3E+Farshis",
+                                "labelMobile": "",
+                                "id": 13,
+                                "labelDesktop": "",
+                                "name": "Farshis"
+                            },
+                            {
+                                "url": "/catalogue/category/women/bottoms_12/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Lowers+%3E+Pants",
+                                "labelMobile": "",
+                                "id": 14,
+                                "labelDesktop": "",
+                                "name": "Pants"
+                            },
+                            {
+                                "url": "/catalogue/category/women/bottoms_12/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Lowers+%3E+Lehengas",
+                                "labelMobile": "",
+                                "id": 16,
+                                "labelDesktop": "",
+                                "name": "Lehengas"
+                            },
+                            {
+                                "url": "/catalogue/category/women/bottoms_12/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Lowers+%3E+Shorts",
+                                "labelMobile": "",
+                                "id": 162,
+                                "labelDesktop": "",
+                                "name": "Shorts"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Womens Wraps",
+                        "url": "/catalogue/category/women/wraps_18/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Wraps",
+                        "id": 18,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/women/wraps_18/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Wraps+%3E+Odhanis",
+                                "labelMobile": "",
+                                "id": 20,
+                                "labelDesktop": "",
+                                "name": "Odhanis"
+                            },
+                            {
+                                "url": "/catalogue/category/women/wraps_18/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Wraps+%3E+Scarves",
+                                "labelMobile": "",
+                                "id": 21,
+                                "labelDesktop": "",
+                                "name": "Scarves"
+                            },
+                            {
+                                "url": "/catalogue/category/women/wraps_18/?source=plp&currency=INR&category_shop=Apparel+%3E+Womens+Wraps+%3E+Saris",
+                                "labelMobile": "",
+                                "id": 22,
+                                "labelDesktop": "",
+                                "name": "Saris"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Accessories",
+                        "url": "/catalogue/category/women/accessories_23/?source=plp&currency=INR&category_shop=Apparel+%3E+Accessories",
+                        "id": 23,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/women/accessories_23/?source=plp&currency=INR&category_shop=Apparel+%3E+Accessories+%3E+Footwear",
+                                "labelMobile": "",
+                                "id": 173,
+                                "labelDesktop": "",
+                                "name": "Footwear"
+                            },
+                            {
+                                "url": "/catalogue/category/women/accessories_23/?source=plp&currency=INR&category_shop=Apparel+%3E+Accessories+%3E+Bags+%26+Potlis",
+                                "labelMobile": "",
+                                "id": 174,
+                                "labelDesktop": "",
+                                "name": "Bags & Potlis"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "categoryLogoImage": "https://djhiy8e1dslha.cloudfront.net/media/categories/sus.png",
+            "image": "https://djhiy8e1dslha.cloudfront.net/media/categories/abeer-menu.jpg",
+            "categoryImageUrl": "/stories/abeer-menswear"
+        },
+        {
+            "id": 57,
+            "name": "Kids",
+            "url": "/catalogue/category/kids_57/?source=plp&currency=INR&category_shop=Kids",
+            "labelDesktop": "",
+            "labelMobile": "",
+            "catLandingUrl": "https://www.goodearth.in/category_landing/kids_57/",
+            "leftMenu": [
+                {
+                    "name": "GIFTING",
+                    "url": "https://www.goodearth.in/stories/gifting",
+                    "id": 17,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+%3E+Art+of+Gifting+%3E+Gifting++Favourites",
+                            "labelMobile": "",
+                            "id": 18,
+                            "labelDesktop": "",
+                            "name": "Gifting Favourites"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+>+Art+of+Gifting+>+Gifting+Exclusives",
+                            "labelMobile": "",
+                            "id": 19,
+                            "labelDesktop": "",
+                            "name": "Gifting Exclusives"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/giftcard/",
+                            "labelMobile": "",
+                            "id": 3,
+                            "labelDesktop": "",
+                            "name": "Gift Card"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/corporate-gifting/corporate-gifting_100/?source=plp&currency=INR&category_shop=Corporate+Gifting",
+                            "labelMobile": "",
+                            "id": 9,
+                            "labelDesktop": "",
+                            "name": "Corporate Gifting"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/the-good-earth-registry/",
+                            "labelMobile": "",
+                            "id": 11,
+                            "labelDesktop": "",
+                            "name": "Good Earth Registry"
+                        }
+                    ]
+                },
+                {
+                    "name": "Good earth curates",
+                    "url": "",
+                    "id": 12,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in//stories/cocktail-hour-edit/",
+                            "labelMobile": "",
+                            "id": 33,
+                            "labelDesktop": "",
+                            "name": "Cocktail Hour"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/velvet-edit_158/?source=plp&currency=INR&category_shop=Living+>+Velvet+Edit",
+                            "labelMobile": "",
+                            "id": 25,
+                            "labelDesktop": "",
+                            "name": "Velvet Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/florals_139/?source=plp&currency=INR&category_shop=Apparel+>+TM",
+                            "labelMobile": "",
+                            "id": 31,
+                            "labelDesktop": "",
+                            "name": "GE X Teresa Martins"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/that-festive-feeling-edit/",
+                            "labelMobile": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "id": 29,
+                            "labelDesktop": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "name": "Season Of Joy"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/luxury-lights/",
+                            "labelMobile": "",
+                            "id": 20,
+                            "labelDesktop": "",
+                            "name": "Luxury Lights"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/uppers_3/undefined?source=plp&currency=INR&category_shop=Apparel+>+Winter+Wishlist",
+                            "labelMobile": "",
+                            "id": 32,
+                            "labelDesktop": "",
+                            "name": "Winter Wishlist"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/maladvipa-design-collection-2019-20-edit/",
+                            "labelMobile": "",
+                            "id": 27,
+                            "labelDesktop": "",
+                            "name": "The Maladvipa Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/good-earth-classics/",
+                            "labelMobile": "",
+                            "id": 14,
+                            "labelDesktop": "",
+                            "name": "GoodEarth Classics"
+                        }
+                    ]
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "name": "Collections",
+                        "url": "https://www.goodearth.in/allcollection/kids_57?category-id=57/",
+                        "id": 57,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    },
+                    {
+                        "name": "Clothing",
+                        "url": "/catalogue/category/kids/clothing_63/?source=plp&currency=INR&category_shop=Kids+%3E+Clothing",
+                        "id": 63,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "https://www.goodearth.in/allcollection/kids_57?category-id=63/",
+                                "id": 63,
+                                "name": "Clothing Collections"
+                            },
+                            {
+                                "url": "/catalogue/category/kids/clothing_63/?source=plp&currency=INR&category_shop=Kids+%3E+Clothing+%3E+Everyday",
+                                "labelMobile": "",
+                                "id": 85,
+                                "labelDesktop": "",
+                                "name": "Everyday"
+                            },
+                            {
+                                "url": "/catalogue/category/kids/clothing_63/?source=plp&currency=INR&category_shop=Kids+%3E+Clothing+%3E+Festive",
+                                "labelMobile": "",
+                                "id": 84,
+                                "labelDesktop": "",
+                                "name": "Festive"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Bed & Bath",
+                        "url": "/catalogue/category/kids/bed_59/?source=plp&currency=INR&category_shop=Kids+%3E+Bed+%26+Bath",
+                        "id": 59,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "https://www.goodearth.in/allcollection/kids_57?category-id=59/",
+                                "id": 59,
+                                "name": "Bed & Bath Collections"
+                            },
+                            {
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&currency=INR&category_shop=Kids+%3E+Bed+%26+Bath+%3E+Infant+Sets",
+                                "labelMobile": "",
+                                "id": 76,
+                                "labelDesktop": "",
+                                "name": "Infant Sets"
+                            },
+                            {
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&currency=INR&category_shop=Kids+%3E+Bed+%26+Bath+%3E+Bedding",
+                                "labelMobile": "",
+                                "id": 148,
+                                "labelDesktop": "",
+                                "name": "Bedding"
+                            },
+                            {
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&currency=INR&category_shop=Kids+%3E+Bed+%26+Bath+%3E+Towels",
+                                "labelMobile": "",
+                                "id": 81,
+                                "labelDesktop": "",
+                                "name": "Towels"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Playtime",
+                        "url": "/catalogue/category/kids/playtime_62/?source=plp&currency=INR&category_shop=Kids+%3E+Playtime",
+                        "id": 62,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/kids/playtime_62/?source=plp&currency=INR&category_shop=Kids+%3E+Playtime+%3E+Learning",
+                                "labelMobile": "",
+                                "id": 86,
+                                "labelDesktop": "",
+                                "name": "Learning"
+                            },
+                            {
+                                "url": "/catalogue/category/kids/playtime_62/?source=plp&currency=INR&category_shop=Kids+%3E+Playtime+%3E+Tents",
+                                "labelMobile": "",
+                                "id": 87,
+                                "labelDesktop": "",
+                                "name": "Tents"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Dining",
+                        "url": "/catalogue/category/kids/kids-dining_61/?source=plp&currency=INR&category_shop=Kids+%3E+Dining",
+                        "id": 61,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    }
+                ]
+            ],
+            "categoryLogoImage": "https://djhiy8e1dslha.cloudfront.net/media/categories/gumdrops.png",
+            "image": "https://djhiy8e1dslha.cloudfront.net/media/categories/menu_feature-bulbul.jpg",
+            "categoryImageUrl": "/collection/kids_bulbul_391/"
+        },
+        {
+            "id": 64,
+            "name": "Wellness",
+            "url": "/catalogue/category/wellness_64/?source=plp&currency=INR&category_shop=Wellness",
+            "labelDesktop": "",
+            "labelMobile": "",
+            "catLandingUrl": "https://www.goodearth.in/category_landing/wellness_64/",
+            "leftMenu": [
+                {
+                    "name": "GIFTING",
+                    "url": "https://www.goodearth.in/stories/gifting",
+                    "id": 17,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+%3E+Art+of+Gifting+%3E+Gifting++Favourites",
+                            "labelMobile": "",
+                            "id": 18,
+                            "labelDesktop": "",
+                            "name": "Gifting Favourites"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/corporate-gifts_103/?source=plp&currency=INR&category_shop=Living+>+Art+of+Gifting+>+Gifting+Exclusives",
+                            "labelMobile": "",
+                            "id": 19,
+                            "labelDesktop": "",
+                            "name": "Gifting Exclusives"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/giftcard/",
+                            "labelMobile": "",
+                            "id": 3,
+                            "labelDesktop": "",
+                            "name": "Gift Card"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/corporate-gifting/corporate-gifting_100/?source=plp&currency=INR&category_shop=Corporate+Gifting",
+                            "labelMobile": "",
+                            "id": 9,
+                            "labelDesktop": "",
+                            "name": "Corporate Gifting"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/the-good-earth-registry/",
+                            "labelMobile": "",
+                            "id": 11,
+                            "labelDesktop": "",
+                            "name": "Good Earth Registry"
+                        }
+                    ]
+                },
+                {
+                    "name": "Good earth curates",
+                    "url": "",
+                    "id": 12,
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "children": [
+                        {
+                            "url": "https://www.goodearth.in//stories/cocktail-hour-edit/",
+                            "labelMobile": "",
+                            "id": 33,
+                            "labelDesktop": "",
+                            "name": "Cocktail Hour"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/catalogue/category/living/velvet-edit_158/?source=plp&currency=INR&category_shop=Living+>+Velvet+Edit",
+                            "labelMobile": "",
+                            "id": 25,
+                            "labelDesktop": "",
+                            "name": "Velvet Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/florals_139/?source=plp&currency=INR&category_shop=Apparel+>+TM",
+                            "labelMobile": "",
+                            "id": 31,
+                            "labelDesktop": "",
+                            "name": "GE X Teresa Martins"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/that-festive-feeling-edit/",
+                            "labelMobile": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "id": 29,
+                            "labelDesktop": "<span style=\"color: rgb(181, 42, 107);\">Season Of Joy</span>",
+                            "name": "Season Of Joy"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/luxury-lights/",
+                            "labelMobile": "",
+                            "id": 20,
+                            "labelDesktop": "",
+                            "name": "Luxury Lights"
+                        },
+                        {
+                            "url": "https://www.goodearth.in//catalogue/category/women/uppers_3/undefined?source=plp&currency=INR&category_shop=Apparel+>+Winter+Wishlist",
+                            "labelMobile": "",
+                            "id": 32,
+                            "labelDesktop": "",
+                            "name": "Winter Wishlist"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/maladvipa-design-collection-2019-20-edit/",
+                            "labelMobile": "",
+                            "id": 27,
+                            "labelDesktop": "",
+                            "name": "The Maladvipa Edit"
+                        },
+                        {
+                            "url": "https://www.goodearth.in/stories/good-earth-classics/",
+                            "labelMobile": "",
+                            "id": 14,
+                            "labelDesktop": "",
+                            "name": "GoodEarth Classics"
+                        }
+                    ]
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "name": "Collections",
+                        "url": "https://www.goodearth.in/allcollection/wellness_64?category-id=64/",
+                        "id": 64,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    },
+                    {
+                        "name": "Aromatherapy",
+                        "url": "/catalogue/category/wellness/aromatherapy_70/?source=plp&currency=INR&category_shop=Wellness+%3E+Aromatherapy",
+                        "id": 70,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/wellness/aromatherapy_70/?source=plp&currency=INR&category_shop=Wellness+%3E+Aromatherapy+%3E+Fumers",
+                                "labelMobile": "",
+                                "id": 71,
+                                "labelDesktop": "",
+                                "name": "Fumers"
+                            },
+                            {
+                                "url": "/catalogue/category/wellness/aromatherapy_70/?source=plp&currency=INR&category_shop=Wellness+%3E+Aromatherapy+%3E+Blends+%26+Diffusers",
+                                "labelMobile": "",
+                                "id": 72,
+                                "labelDesktop": "",
+                                "name": "Blends & Diffusers"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Bath",
+                        "url": "/catalogue/category/wellness/wellness-bath_65/?source=plp&currency=INR&category_shop=Wellness+%3E+Bath",
+                        "id": 65,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "https://www.goodearth.in/allcollection/wellness_64?category-id=65/",
+                                "id": 65,
+                                "name": "Bath Collections"
+                            },
+                            {
+                                "url": "/catalogue/category/wellness/wellness-bath_65/?source=plp&currency=INR&category_shop=Wellness+%3E+Bath+%3E+Soaps+%26+Bodycare",
+                                "labelMobile": "",
+                                "id": 68,
+                                "labelDesktop": "",
+                                "name": "Soaps & Bodycare"
+                            },
+                            {
+                                "url": "/catalogue/category/wellness/wellness-bath_65/?source=plp&currency=INR&category_shop=Wellness+%3E+Bath+%3E+Bathroom+Accessories",
+                                "labelMobile": "",
+                                "id": 69,
+                                "labelDesktop": "",
+                                "name": "Bathroom Accessories"
+                            },
+                            {
+                                "url": "/catalogue/category/wellness/wellness-bath_65/?source=plp&currency=INR&category_shop=Wellness+%3E+Bath+%3E+Towels",
+                                "labelMobile": "",
+                                "id": 67,
+                                "labelDesktop": "",
+                                "name": "Towels"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Accessories",
+                        "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&currency=INR&category_shop=Wellness+%3E+Accessories",
+                        "id": 75,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": [
+                            {
+                                "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&currency=INR&category_shop=Wellness+%3E+Accessories+%3E+Umbrella",
+                                "labelMobile": "",
+                                "id": 168,
+                                "labelDesktop": "",
+                                "name": "Umbrella"
+                            },
+                            {
+                                "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&currency=INR&category_shop=Wellness+%3E+Accessories+%3E+Wellness",
+                                "labelMobile": "",
+                                "id": 169,
+                                "labelDesktop": "",
+                                "name": "Wellness"
+                            },
+                            {
+                                "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&currency=INR&category_shop=Wellness+%3E+Accessories+%3E+Tea+%26+Honey",
+                                "labelMobile": "",
+                                "id": 170,
+                                "labelDesktop": "",
+                                "name": "Tea & Honey"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "name": "Lounge",
+                        "url": "/catalogue/category/wellness/lounge_97/?source=plp&currency=INR&category_shop=Wellness+%3E+Lounge",
+                        "id": 97,
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    }
+                ]
+            ],
+            "categoryLogoImage": "https://djhiy8e1dslha.cloudfront.net/media/categories/amritam.png",
+            "image": "https://djhiy8e1dslha.cloudfront.net/media/categories/menu-feature-padmadhuna.jpg",
+            "categoryImageUrl": "/catalogue/category/wellness/aromatherapy_70/?source=plp&currency=INR&category_shop=Wellness+%3E+Aromatherapy+%3E+Fumers"
+        },
+        {
+            "id": 98,
+            "name": "Stories",
+            "url": "https://www.goodearth.in/stories",
+            "labelDesktop": "",
+            "labelMobile": "",
+            "catLandingUrl": "https://www.goodearth.in/stories",
+            "leftMenu": [],
+            "rightMenu": [],
+            "categoryLogoImage": null,
+            "image": "https://djhiy8e1dslha.cloudfront.net/media/categories/sindhu-menu.jpg",
+            "categoryImageUrl": "https://www.goodearth.in/stories/sindhu-fashion-presentation-live-stream/"
+        }
+]

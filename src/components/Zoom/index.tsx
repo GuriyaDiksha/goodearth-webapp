@@ -23,7 +23,7 @@ const Zoom: React.FC<Props> = ({
   startIndex = 0,
   mobile = false
 }) => {
-  const [currentIndex, setCurrentIndex] = useState();
+  const [currentIndex, setCurrentIndex] = useState(1);
   const [style, setStyle] = useState({
     scale: 1.1,
     translateX: 0,
@@ -102,7 +102,6 @@ const Zoom: React.FC<Props> = ({
   const onImageClick: MouseEventHandler = event => {
     const target = event.currentTarget;
     const index = Number(target.getAttribute("data-index"));
-
     setCurrentIndex(index);
   };
   const closeModal = () => {

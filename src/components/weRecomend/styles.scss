@@ -54,7 +54,13 @@
         color: #ab1e56;
     }
 }
-
+.img-responsive{
+    display: block;
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    min-width: 100%;
+}
 .slider-image {
     padding: 0 3px;
 }

@@ -47,6 +47,91 @@ a {
   text-align: center;
 }
 
+.margin-t-20 {
+  margin-top: 20px;
+}
+
+.error-msg {
+  &.error-radio {
+    position: absolute;
+    bottom: -6px;
+  }
+  @include error-msg();
+  text-align: left;
+  height: 15px;
+  line-height: 15px;
+  &.word-cap {
+    text-transform: none;
+  }
+  &.lh-none {
+    line-height: 13px;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
 .mobile-slider-container {
   padding: 0;
+}
+.width250 {
+  width: 250px;
+}
+.cerise {
+  color: $cerise;
+}
+.bold {
+font-weight: bold;
+}
+
+.minimumWidth {
+  @include minimumWidth();
+}
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex.gutter-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.line-ht10 {
+  line-height: 10px;
+}
+
+.link-text-underline {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cerise-btn{
+  background-color: #ab1e56;
+  color: #fff;
+  cursor: pointer;
+}
+
+.cerise-btn {
+  @include cerise-btn();
+  a {
+    font-weight: normal;
+    color: #fff;
+    line-height: 50px;
+  }
+}
+
+.cerise-btn.disabled {
+  background-color: tint(#000, 90%);
+  border-left: 1px solid tint(#000, 96%);
 }

@@ -56,8 +56,42 @@
   &:last-child {
     border-bottom: none;
   }
+  a{
+    font-size: 10px;
+    font-weight: normal;
+    font-family: "LatoFont","Helvetica","Arial";
+    letter-spacing: 0.1em;
+    color: #333;
+    display: block;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    text-decoration: none;
+    &:hover {
+      color: $cerise;
+    }
+  }
 
   &:hover {
     color: $cerise;
   }
+}
+.caret{
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  color: #000;
+  position: absolute;
+  top: 42%;
+  right: 0;
+}
+
+.caret-up{
+  border-bottom: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    color: $cerise;
+    position: absolute;
+    top: 40%;
+    right: 0;
 }

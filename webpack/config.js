@@ -47,7 +47,7 @@ let config = [
             filename: `[name].js`
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png"],
             alias
         },
         plugins: [
@@ -71,6 +71,7 @@ let config = [
         },
         module: {
             rules: [
+                           
                 {
                     test: /\.(ts|tsx)$/,
                     loader: "ts-loader"
@@ -80,7 +81,7 @@ let config = [
                     loaders: [
                         "style-loader",
                         "css-loader",
-                        "sass-loader"
+                        "sass-loader",
                       ]
                 },
                 {
@@ -102,7 +103,7 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|svg|woff2|gif)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|woff2|gif)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',

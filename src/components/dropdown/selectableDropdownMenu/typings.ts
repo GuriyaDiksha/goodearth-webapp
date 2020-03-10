@@ -4,5 +4,7 @@ import { DropdownItem } from "../baseDropdownMenu/typings";
 export type SelectableDropdownMenuProps = BaseDropdownMenuProps & {
   items: DropdownItem[];
   value?: string;
+  icon?: string;
+  showCaret?: boolean;
   onChange?: (value?: string) => void;
 };
