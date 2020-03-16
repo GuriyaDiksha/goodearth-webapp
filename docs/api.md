@@ -110,6 +110,15 @@ Children: [link](#markdown-header-children)
 }
 ```
 
+### ProductAttributes
+```
+{
+	name: string,
+	value: string
+}
+```
+
+
 ### PartialChildProductAttributes
 ```
 {
@@ -234,6 +243,89 @@ DesignJournalTag: [link](#markdown-header-designjournaltag)
 	fillerMessage?: string
 }
 ```
+
+---
+
+BASKET RESOURCES START
+
+---
+
+### StockRecord
+
+```
+{
+	partnerSKU: string,
+	productId: number,
+	numInStock: number,
+	numAllocated: number,
+	partner: number
+}
+```
+
+### BasketProduct *extends* [PartialProductItem](#markdown-header-partialproductitem)
+
+**Links to Resources:**
+
+ProductAttributes: [link](#markdown-header-productattributes)
+StockRecord: [link](#markdown-header-stockrecord)
+
+```
+{
+	stockRecords: StockRecord[],
+	inWishlist: boolean,
+	structure: string,
+	collection: string,
+	parent: number,
+	attributes: ProductAttributes[]
+}
+```
+
+### BasketLineItem
+
+**Links to Resources:**
+
+BasketProduct ([link](#markdown-header-basketproduct-extends-partialproductitem))
+
+```
+{
+	id: number,
+	bridalProfile: boolen,
+	giftCardImage: string,
+	quantity: number,
+	product: BasketProduct[]
+}
+```
+
+
+### CartResponse
+
+**Links to Resources:**
+
+BasketLineItem: [link](#markdown-header-basketlineitem)
+
+```
+{
+	shippable: boolean,
+	currency: string,
+	subtotalExclusive: number,
+	totalExclusive: number,
+	totalTax: number,
+	totalWithoutGCItems: number,
+	voucherDiscounts:[],
+	offerDiscounts: []
+	lineItems: BasketLineItem[],
+	bridal: boolean,
+	loyalityUpdated: boolean,
+	isTaxKnown: boolean
+}
+```
+
+---
+
+BASKET RESOURCES END
+
+---
+
 
 ### WishlistProductItem *extends* [PartialProductItem](#markdown-header-partialproductitem)
 
@@ -709,5 +801,100 @@ productId: number
 ```
 {
 	success: boolean
+}
+```
+
+---
+
+BASKET APIs START
+
+---
+
+### 21. [GET] /myapi/basket/details
+
+API for getting cart details
+
+
+**Response:** CartResponse ([link](#markdown-header-cartresponse))
+
+
+### 22. [POST] /myapi/basket/add-product
+
+API for adding product to cart
+
+**Parameters**
+```
+{
+	productId: number,
+	quantity: number
+}
+```
+
+**Response:** CartResponse ([link](#markdown-header-cartresponse))
+
+
+### 23. [POST] /myapi/wishlist/move-to-wishlist
+
+API for adding moving product to wishlist
+
+**Parameters**
+```
+{
+	basketLineId: number,
+	size: string
+}
+```
+
+**Links to Resources:**
+
+CartResponse ([link](#markdown-header-cartresponse))
+
+
+**Response**
+
+```
+{
+	success: boolean,
+	basket: CartResponse
+}
+```
+
+### 24. [POST] /myapi/basket/remove-basket-line
+
+API for adding removing product from cart
+
+**Parameters**
+```
+{
+	basketLineId: number,
+}
+```
+
+**Links to Resources:**
+
+CartResponse ([link](#markdown-header-cartresponse))
+
+
+**Response**
+
+```
+{
+	success: boolean,
+	basket: CartResponse,
+	shippable: boolean
+}
+```
+
+### 25. [GET] /myapi/basket/get-shipping-charge
+
+API for getting shipping charges
+
+
+**Response**
+```
+{
+	success: boolean,
+	charge: number,
+	message: string
 }
 ```
