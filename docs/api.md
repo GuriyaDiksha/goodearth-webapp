@@ -267,6 +267,7 @@ BASKET RESOURCES START
 **Links to Resources:**
 
 ProductAttributes: [link](#markdown-header-productattributes)
+
 StockRecord: [link](#markdown-header-stockrecord)
 
 ```
