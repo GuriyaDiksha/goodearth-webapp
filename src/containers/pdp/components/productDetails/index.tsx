@@ -7,7 +7,6 @@ import { currencyCodes } from "constants/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import iconStyles from "styles/iconFonts.scss";
 
 import { ChildProductAttributes } from "typings/product";
 import SizeSelector from "components/SizeSelector";
@@ -15,6 +14,7 @@ import Quantity from "components/quantity";
 import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
+import WishlistButton from "components/WishlistButton";
 import { renderModal } from "utils/modal";
 import SizeChartPopup from "../sizeChartPopup";
 
@@ -90,10 +90,6 @@ const ProductDetails: React.FC<Props> = ({
     }
     renderModal(<SizeChartPopup html={sizeChartHtml} />);
   }, [sizeChartHtml]);
-
-  const addedToWishlist = useMemo(() => {
-    return wishlist.indexOf(id) !== -1;
-  }, [wishlist, id]);
 
   const accordionSections = useMemo(() => {
     return [
@@ -308,22 +304,11 @@ const ProductDetails: React.FC<Props> = ({
               bootstrap.col3,
               globalStyles.textCenter,
               {
-                [styles.addedToWishlist]: addedToWishlist,
                 [styles.wishlistBtnContainer]: mobile
               }
             )}
           >
-            <div
-              className={cs(iconStyles.icon, styles.wishlistIcon, {
-                [iconStyles.iconWishlistAdded]: addedToWishlist,
-                [iconStyles.iconWishlist]: !addedToWishlist
-              })}
-            ></div>
-            {!mobile && (
-              <div className={styles.label}>
-                {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
-              </div>
-            )}
+            <WishlistButton id={id} showText={!mobile} />
           </div>
         </div>
         <div

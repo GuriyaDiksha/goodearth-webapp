@@ -8,4 +8,5 @@ export type Props = {
 export type State = {
   sidebarSticky: boolean;
   detailsSticky: boolean;
+  activeImage: number;
 };

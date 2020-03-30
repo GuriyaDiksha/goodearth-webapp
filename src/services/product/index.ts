@@ -11,7 +11,7 @@ export default {
     id: ProductID
   ): Promise<Product<PartialProductItem>> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/products/${id}`,
+      `http://api.goodearth.in/myapi/product/${id}`,
       {}
     );
     const data: Product<PartialProductItem> = { ...res.data, partial: false };
@@ -22,7 +22,7 @@ export default {
     id: ProductID
   ): Promise<CollectionProductItem[]> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/products/${id}/more-from-collection`,
+      `http://api.goodearth.in/myapi/collection/more-from-collection/products/${id}`,
       {}
     );
 

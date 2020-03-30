@@ -1,22 +1,32 @@
 @import "../../styles/partials/variables";
 
+$pdp-top: $header-height + $secondary-header-height;
+
 .pdp-container {
-    margin-top: 118px;
+    margin-top: $header-height;
+    
+    &:not(.mobile) {
+        margin-top: $pdp-top;
+    }
+}
+
+.sticky-container {
+    top: $header-height + $secondary-header-height + 23px;
 }
 
 .product-image-container {
-    margin-bottom: 6px;
     padding-left: 40px;
 
     img {
         cursor: url(../../images/cursorZoom.png), auto;
     }
-}
 
-.sidebar, .details-container {
-    top: $header-height + $secondary-header-height + 23px;
+    &:not(:last-child) {
+        margin-bottom: 6px;
+    }
 }
 
 .product-section {
     position: relative;
+    margin-bottom: 20px;
 }

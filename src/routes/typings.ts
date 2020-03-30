@@ -2,7 +2,8 @@ import { InitAction } from "typings/actions";
 
 export enum ROUTES {
   HOME = "/",
-  PDP = "/product/:slug"
+  ASD = "/catalogue/top",
+  PDP = "/catalogue/:slug"
 }
 
 export type RouteConfig = RouteObject[];

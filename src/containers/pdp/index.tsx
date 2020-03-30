@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
 import { Props as PDPProps, State } from "./typings";
@@ -26,7 +26,8 @@ import Zoom from "components/Zoom";
 import { renderModal } from "utils/modal";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 
-const sidebarPosition = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT + 23;
+const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
+const sidebarPosition = PDP_TOP_OFFSET + 23;
 
 const mapStateToProps = (state: AppState, props: PDPProps) => {
   const { slug } = props;
@@ -54,9 +55,11 @@ type Props = PDPProps &
 class PDPContainer extends React.Component<Props, State> {
   state: State = {
     sidebarSticky: true,
-    detailsSticky: true
+    detailsSticky: true,
+    activeImage: 0
   };
 
+  imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
   containerRef: RefObject<HTMLDivElement> = React.createRef();
@@ -66,6 +69,7 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile }
     } = this.props;
     const images = this.getProductImagesData();
+
     renderModal(<Zoom images={images} startIndex={index} mobile={mobile} />, {
       fullscreen: true
     });
@@ -77,7 +81,14 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   onScroll = () => {
-    const { containerRef, sidebarRef, detailsRef } = this;
+    const {
+      device: { mobile }
+    } = this.props;
+    const { containerRef, sidebarRef, detailsRef, imageOffsets } = this;
+
+    if (mobile) {
+      return;
+    }
     if (
       containerRef &&
       containerRef.current &&
@@ -89,10 +100,12 @@ class PDPContainer extends React.Component<Props, State> {
       const containerBounds = containerRef.current?.getBoundingClientRect();
       const sidebarBounds = sidebarRef.current?.getBoundingClientRect();
       const detailsBounds = detailsRef.current?.getBoundingClientRect();
+      const scrollOffset = window.scrollY;
 
       let sidebarSticky = this.state.sidebarSticky,
         detailsSticky = this.state.detailsSticky,
         update = false;
+      const activeImage = this.state.activeImage;
 
       const containerBottom = Math.floor(containerBounds.bottom);
       if (sidebarSticky) {
@@ -116,6 +129,23 @@ class PDPContainer extends React.Component<Props, State> {
       } else if (Math.floor(detailsBounds.top) >= sidebarPosition) {
         detailsSticky = true;
         update = true;
+      }
+
+      let c = 0;
+      let offset = 0;
+
+      for (c; c < imageOffsets.length; c++) {
+        offset += imageOffsets[c] + 6;
+
+        if (scrollOffset < offset) {
+          break;
+        }
+      }
+
+      if (activeImage !== c && c < imageOffsets.length) {
+        this.setState({
+          activeImage: c
+        });
       }
 
       update &&
@@ -146,13 +176,25 @@ class PDPContainer extends React.Component<Props, State> {
     const productImages = this.getProductImagesData();
 
     return productImages.map((image, index) => {
+      const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
+        const ele = event.currentTarget;
+        const { naturalHeight, naturalWidth } = ele;
+        const height = (ele.width * naturalHeight) / naturalWidth;
+        this.imageOffsets[index] = height;
+      };
+
       return (
         <div
           className={styles.productImageContainer}
           key={image.id}
           id={`img-${image.id}`}
         >
-          <PdpImage {...image} index={index} onClick={this.onImageClick} />
+          <PdpImage
+            {...image}
+            index={index}
+            onClick={this.onImageClick}
+            onLoad={onImageLoad}
+          />
         </div>
       );
     });
@@ -176,7 +218,10 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   getRecommendedSection() {
-    const { recommendedSliderItems } = this.props;
+    const {
+      recommendedSliderItems,
+      device: { mobile }
+    } = this.props;
 
     if (!recommendedSliderItems.length) {
       return null;
@@ -204,13 +249,15 @@ class PDPContainer extends React.Component<Props, State> {
         data={recommendedSliderItems}
         setting={config as Settings}
         currency={"INR"}
+        mobile={mobile}
       />
     );
   }
 
   getMoreCollectionProductsSection() {
     const {
-      data: { collectionProducts = [] }
+      data: { collectionProducts = [] },
+      device: { mobile }
     } = this.props;
 
     if (!collectionProducts.length) {
@@ -222,14 +269,25 @@ class PDPContainer extends React.Component<Props, State> {
       infinite: true,
       speed: 500,
       slidesToShow: 4,
-      slidesToScroll: 1,
+      slidesToScroll: 3,
       initialSlide: 0,
       responsive: [
         {
-          breakpoint: 992,
+          breakpoint: 2000,
           settings: {
-            dots: false,
-            arrows: true
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            centerMode: true,
+            className: "center",
+            centerPadding: "20px",
+            slidesToScroll: 1
           }
         }
       ]
@@ -238,9 +296,28 @@ class PDPContainer extends React.Component<Props, State> {
       <CollectionProductsSlider
         data={collectionProducts}
         setting={config as Settings}
+        mobile={mobile}
       />
     );
   }
+  onSliderImageClick = (index: number) => {
+    const images = this.getProductImagesData();
+    const { id } = images[index];
+    const imageContainer = document.getElementById(`img-${id}`);
+
+    if (!imageContainer) {
+      return;
+    }
+
+    const { top } = imageContainer?.getBoundingClientRect();
+
+    const scrollBy = top - PDP_TOP_OFFSET;
+    window.scrollBy(0, scrollBy);
+
+    this.setState({
+      activeImage: index
+    });
+  };
 
   render() {
     const {
@@ -268,10 +345,14 @@ class PDPContainer extends React.Component<Props, State> {
         );
       });
 
-    const { sidebarSticky, detailsSticky } = this.state;
+    const { sidebarSticky, detailsSticky, activeImage } = this.state;
 
     return (
-      <div className={cs(styles.pdpContainer, bootstrap.containerFluid)}>
+      <div
+        className={cs(styles.pdpContainer, bootstrap.containerFluid, {
+          [styles.mobile]: mobile
+        })}
+      >
         {!mobile && (
           <SecondaryHeader>
             <Breadcrumbs
@@ -301,9 +382,9 @@ class PDPContainer extends React.Component<Props, State> {
                 bootstrap.colMd1,
                 bootstrap.offsetMd1,
                 styles.sidebar,
-                globalStyles.pageStickyElement,
                 {
-                  [globalStyles.pageStickyScrolling]: !sidebarSticky
+                  [globalStyles.pageStickyElement]: !mobile,
+                  [globalStyles.pageStickyScrolling]: !sidebarSticky && !mobile
                 }
               )}
               ref={this.sidebarRef}
@@ -316,6 +397,8 @@ class PDPContainer extends React.Component<Props, State> {
                     bootstrap.offsetSm1,
                     bootstrap.offsetMd0
                   )}
+                  activeIndex={activeImage}
+                  onImageClick={this.onSliderImageClick}
                 />
               </div>
             </div>
