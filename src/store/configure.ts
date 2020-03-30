@@ -5,6 +5,9 @@ import { AppState } from "reducers/typings";
 import createRootReducer from "reducers/root";
 import { History } from "history";
 
+// middlewares
+import thunk from "redux-thunk";
+
 export const configureStore = (
   client: boolean,
   history: History,
@@ -16,6 +19,6 @@ export const configureStore = (
   return createStore(
     createRootReducer(history),
     {},
-    composeEnhancers(applyMiddleware(routerMiddleware(history)))
+    composeEnhancers(applyMiddleware(thunk, routerMiddleware(history)))
   );
 };

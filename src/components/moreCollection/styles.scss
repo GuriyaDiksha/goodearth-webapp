@@ -8,9 +8,9 @@
     line-height: 60px;
     text-transform: capitalize;
     text-align: center;
+    width: 100%;
 }
-.more-block{
-    border-right: 1px solid #ccc;
+.more-block {
     margin: 20px 0 100px 0;
     padding: 10px 0;
     text-align: center;
@@ -38,6 +38,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0 10px;
     a {
         font-size: 16px;
         font-family: "AmiriFont", "Baskerville", "Garamond";
@@ -54,4 +55,10 @@
 }
 .sliderImage {
     padding: 0 3px;
+}
+
+@media screen and (min-width: 992px) {
+    .more-block{
+        border-right: 1px solid #ccc;
+    }
 }

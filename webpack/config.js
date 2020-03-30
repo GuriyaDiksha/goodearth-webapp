@@ -25,7 +25,9 @@ const alias = {
     routes: context + "/src/routes",
     selectors: context + "/src/selectors",
     services: context + "/src/services",
-    images: context + "/src/images"
+    images: context + "/src/images",
+    contexts: context + "/src/contexts",
+    middlewares: context + "/src/middlewares"
 }
 
 

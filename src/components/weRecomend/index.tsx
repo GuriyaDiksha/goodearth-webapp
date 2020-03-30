@@ -15,8 +15,51 @@ import Slider from "react-slick";
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
-  const { data, setting, currency } = props;
+  const { data, setting, currency, mobile } = props;
   const code = currencyCode[currency as Currency];
+
+  const items = data?.map((item: RecommendData, i: number) => {
+    return (
+      <div
+        key={item.id}
+        className={cs({
+          [bootstrapStyles.col6]: mobile,
+          [bootstrapStyles.colMd4]: mobile
+        })}
+      >
+        {item.badgeImage ? (
+          <div className="badge_position_plp">
+            <img src={item.badgeImage} />
+          </div>
+        ) : (
+          ""
+        )}
+        <a href={item.productUrl}>
+          <img
+            src={
+              item.productImage
+                ? item.productImage
+                : "/static/img/noimageplp.png"
+            }
+            className={cs(globalStyles.imgResponsive, styles.sliderImage)}
+          />
+        </a>
+        <div className={styles.moreBlock}>
+          <p className={styles.productH}>{item.collectionName}</p>
+          <p className={styles.productN}>
+            <a href={item.productUrl}> {item.productName} </a>
+          </p>
+          <p className={styles.productN}>
+            <span>
+              {" "}
+              {String.fromCharCode(code)}{" "}
+              {item.pricerecords[currency as Currency]}{" "}
+            </span>
+          </p>
+        </div>
+      </div>
+    );
+  });
   return (
     <div
       className={cs(
@@ -30,47 +73,8 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           We Recommend
         </h2>
         <div className={bootstrapStyles.col12}>
-          <Slider {...setting}>
-            {data?.map((item: RecommendData, i: number) => {
-              return (
-                <div key={item.id}>
-                  {item.badgeImage ? (
-                    <div className="badge_position_plp">
-                      <img src={item.badgeImage} />
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  <a href={item.productUrl}>
-                    <img
-                      src={
-                        item.productImage
-                          ? item.productImage
-                          : "/static/img/noimageplp.png"
-                      }
-                      className={cs(
-                        globalStyles.imgResponsive,
-                        styles.sliderImage
-                      )}
-                    />
-                  </a>
-                  <div className={styles.moreBlock}>
-                    <p className={styles.productH}>{item.collectionName}</p>
-                    <p className={styles.productN}>
-                      <a href={item.productUrl}> {item.productName} </a>
-                    </p>
-                    <p className={styles.productN}>
-                      <span>
-                        {" "}
-                        {String.fromCharCode(code)}{" "}
-                        {item.pricerecords[currency as Currency]}{" "}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </Slider>
+          {!mobile && <Slider {...setting}>{items}</Slider>}
+          {mobile && <div className={bootstrapStyles.row}>{items}</div>}
         </div>
       </div>
     </div>

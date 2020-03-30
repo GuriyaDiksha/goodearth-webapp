@@ -6,4 +6,5 @@ export type MoreCollectionItem = CollectionProductItem;
 export type MoreCollectionSliderProps = {
   data: MoreCollectionItem[];
   setting: Settings;
+  mobile?: boolean;
 };
