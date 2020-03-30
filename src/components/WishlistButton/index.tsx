@@ -37,7 +37,11 @@ const WishlistButton: React.FC<Props> = ({ id, showText, className }) => {
         onClick={onClick}
       ></div>
       {showText && (
-        <div className={styles.label}>
+        <div
+          className={cs(styles.label, {
+            [styles.addedToWishlist]: addedToWishlist
+          })}
+        >
           {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
         </div>
       )}

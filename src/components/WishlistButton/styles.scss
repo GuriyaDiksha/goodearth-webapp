@@ -6,17 +6,15 @@
     color: #ccc;
     cursor: pointer;
 
-    &.added-to-wishlist {
-        color: $cerise;
-    }
-}
-
-.added-to-wishlist {
-    .label {
+    &:hover {
         color: $cerise;
     }
 }
 
 .label {
     @include pdp_label();
+}
+
+.added-to-wishlist {
+    color: $cerise;
 }
