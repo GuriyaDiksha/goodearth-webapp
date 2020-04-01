@@ -2,6 +2,7 @@ import { ProductID } from "./id";
 import { ProductImage } from "./image";
 import { PriceRecord } from "./price";
 import { Breadcrumb } from "./navigation";
+import { BasketStockRecord } from "./basket";
 
 export interface PLPProductItem {
   url: string;
@@ -66,6 +67,11 @@ export interface ChildProductAttributes extends PartialChildProductAttributes {
   isBridalProduct: boolean;
 }
 
+export type ProductAttributes = {
+  name: string;
+  value: string;
+};
+
 export type CollectionProductItem = {
   id: string;
   title: string;
@@ -76,3 +82,11 @@ export type CollectionProductItem = {
   collectionUrl: string;
   priceRecords: PriceRecord;
 };
+
+export interface BasketProduct extends PartialProductItem {
+  stockRecords: BasketStockRecord[];
+  inWishlist: boolean;
+  structure: string;
+  parent: ProductID;
+  attributes: ProductAttributes[];
+}

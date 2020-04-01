@@ -10,6 +10,7 @@ import { header } from "./header";
 import { footer } from "./footer";
 import { cookies } from "./cookies";
 import { wishlist } from "./wishlist";
+import { basket } from "./basket";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -21,7 +22,8 @@ const createRootReducer = (history: History) => {
     header,
     products: product,
     cookies,
-    wishlist
+    wishlist,
+    basket
   });
 };
 

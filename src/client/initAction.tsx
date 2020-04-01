@@ -2,6 +2,7 @@
 import HeaderService from "services/headerFooter";
 import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
+import BasketService from "services/basket";
 // actions
 import { updatefooter } from "actions/footer";
 import { updateheader } from "actions/header";
@@ -20,7 +21,8 @@ const initAction: any = async (store: Store) => {
       store.dispatch(updatefooter(footer))
     ),
     MetaService.updateMeta(store.dispatch, state.cookies),
-    WishlistService.updateWishlist(store.dispatch)
+    WishlistService.updateWishlist(store.dispatch),
+    BasketService.fetchBasket(store.dispatch)
   ]);
 };
 export default initAction;
