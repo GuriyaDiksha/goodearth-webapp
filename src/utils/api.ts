@@ -60,6 +60,7 @@ class API {
           };
           Axios({
             ...options,
+            withCredentials: true,
             headers: requestHeaders
           })
             .then(res => {
