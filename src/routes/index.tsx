@@ -9,13 +9,14 @@ const routeMap = routes.map(({ path, component, action, exact }) => {
       key={path}
       path={path}
       exact={exact}
-      render={({ match: { params } }) => {
+      render={({ match: { params }, location }) => {
+        const myParams = { ...params, ...location };
         return (
           <RouteContainer
             action={action}
             component={component}
             path={path}
-            params={params}
+            params={myParams}
           />
         );
       }}

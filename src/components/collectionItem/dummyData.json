@@ -9,7 +9,7 @@
         {"id": 35, "name": "Bed"},
         {"id": 35, "name": "Bed"}
     ],
-    "collSliderimage": [
+    "sliderImages": [
         "https://res.cloudinary.com/gecloudinary/image/upload/w_620,h_930/media/images/collection/DSC_8231.jpg",
         "https://res.cloudinary.com/gecloudinary/image/upload/w_620,h_930/media/images/collection/DSC_8237.jpg"
     ],

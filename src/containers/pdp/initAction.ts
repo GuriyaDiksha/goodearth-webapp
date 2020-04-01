@@ -11,7 +11,6 @@ const initAction: InitAction = async (dispatch, { slug }) => {
 
   if (id) {
     const product = await ProductService.fetchProductDetails(id);
-
     dispatch(
       updateProduct({ ...product, partial: false } as Product<
         PartialProductItem

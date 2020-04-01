@@ -11,19 +11,23 @@ const CollectionImage: React.FC<CollectionDataProps> = (
   props: CollectionDataProps
 ) => {
   const { data, setting } = props;
+  const childern = (data.sliderImages as string[])?.map(
+    (image: string, i: number) => {
+      return (
+        <div key={i}>
+          <a href={data.url}>
+            <img
+              src={image ? image : "/static/img/noimageplp.png"}
+              className={styles.imgResponsiveImg}
+            />
+          </a>
+        </div>
+      );
+    }
+  );
   return (
     <div className={styles.row}>
-      <Slider {...(setting as Settings)}>
-        {(data.collSliderimage as string[])?.map((image: string, i: number) => {
-          return (
-            <div>
-              <a href={data.url}>
-                <img src={image ? image : "/static/img/noimageplp.png"} />
-              </a>
-            </div>
-          );
-        })}
-      </Slider>
+      <Slider {...(setting as Settings)}>{childern}</Slider>
       <div className={styles.imgTxtBlock}>
         <a href={data.url}>
           <p>

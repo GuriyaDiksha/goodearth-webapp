@@ -13,7 +13,7 @@ export interface CollectionItem {
   shortDescription: string;
   longDescription?: string;
   categoryName?: Category[];
-  collSliderimage?: string[];
+  sliderImages?: string[];
   header?: string;
   url?: string;
 }

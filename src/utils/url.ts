@@ -8,3 +8,11 @@ export const getProductIdFromSlug = (slug: string): ProductID | null => {
   }
   return null;
 };
+
+export const getParamsFromString = (value: string): any => {
+  const matchArr = value.split("category-id=");
+  if (matchArr && matchArr[1]) {
+    return +matchArr[1].replace(/\//g, "");
+  }
+  return null;
+};

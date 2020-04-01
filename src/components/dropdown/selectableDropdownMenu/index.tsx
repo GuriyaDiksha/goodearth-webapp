@@ -58,7 +58,11 @@ const DropdownMenu = ({
     className,
     showCaret
   };
-  return <BaseDropdownMenu {...menuProps}>{getMenuItems()}</BaseDropdownMenu>;
+  return (
+    <BaseDropdownMenu {...menuProps}>
+      <ul>{getMenuItems()}</ul>
+    </BaseDropdownMenu>
+  );
 };
 
 export default DropdownMenu;

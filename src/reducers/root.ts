@@ -8,6 +8,7 @@ import { device } from "./device";
 import { product } from "./product";
 import { header } from "./header";
 import { footer } from "./footer";
+import { collection } from "./collection";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -17,6 +18,7 @@ const createRootReducer = (history: History) => {
     device,
     currency,
     header,
+    collection,
     products: product
   });
 };

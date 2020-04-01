@@ -6,6 +6,8 @@ import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import { PartialChildProductAttributes } from "src/typings/product";
+import { renderModal } from "utils/modal";
+import Quickview from "components/Quickview";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -20,6 +22,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const onMouseLeave = (): void => {
     setPrimaryimage(true);
+  };
+
+  const onClickQuickview = (): void => {
+    console.log("hello");
+    renderModal(<Quickview />, {
+      fullscreen: false
+    });
   };
 
   const image = primaryimage
@@ -41,7 +50,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         </a>
         <div className={styles.combodiv}>
           <div className={styles.imageHover}>
-            <span>quickview</span>
+            <span onClick={onClickQuickview}>quickview</span>
           </div>
           <div className={styles.imageHover}>
             <i
