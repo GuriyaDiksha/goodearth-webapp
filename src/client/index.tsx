@@ -11,7 +11,7 @@ import App from "containers/app";
 import { updateDeviceInfo } from "actions/device";
 import initAction from "./initAction";
 import { updateCookies } from "actions/cookies";
-
+document.cookie = "tkn=a66e5385d467e8d52d9e61eebeb6764f4b7c769b";
 const history = getHistory();
 const store = configureStore(true, history);
 const cookies = CookieService.parseCookies(document.cookie);
