@@ -13,7 +13,7 @@ const initActionCollection: InitAction = async (dispatch, { search }) => {
   if (id) {
     const [filterData, collectionData] = await Promise.all([
       CollectionService.fetchCollectionMapping(id),
-      CollectionService.fetchCollectionData(26)
+      CollectionService.fetchCollectionData(id)
     ]);
     dispatch(updateCollectionFilter({ ...filterData }));
     dispatch(updateCollectionData(collectionData));

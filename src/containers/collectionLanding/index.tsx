@@ -23,11 +23,29 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = ReturnType<typeof mapStateToProps>;
 
-class CollectionLanding extends React.Component<Props, {}> {
+class CollectionLanding extends React.Component<Props, { filterData: string }> {
+  state = {
+    filterData: "All"
+  };
+
+  onchangeFilter = (data: any): void => {
+    this.setState({
+      filterData: data
+    });
+  };
+
   render() {
     const collection = this.props.location.pathname.split("/").pop();
     const collectionName = collection ? collection.split("_")[0] : "";
-    const { collectionData } = this.props;
+    const {
+      collectionData,
+      data: { level2Categories }
+    } = this.props;
+    const filterData = collectionData.filter((item: any) => {
+      return this.state.filterData == "All"
+        ? true
+        : item.category[0].name == this.state.filterData;
+    });
     const config: Settings = {
       dots: false,
       infinite: true,
@@ -54,8 +72,9 @@ class CollectionLanding extends React.Component<Props, {}> {
             <SelectableDropdownMenu
               align="right"
               className={styles.dropdownRoot}
-              items={this.props.data.level2Categories}
+              items={level2Categories}
               value="All"
+              onChange={this.onchangeFilter}
               showCaret={true}
             ></SelectableDropdownMenu>
           </div>
@@ -71,7 +90,7 @@ class CollectionLanding extends React.Component<Props, {}> {
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
           <div className={cs(bootstrap.colMd8, bootstrap.offsetMd2)}>
             <div className={bootstrap.row}>
-              {collectionData.map((data: CollectionItem, i: number) => {
+              {filterData.map((data: CollectionItem, i: number) => {
                 return (
                   <div
                     className={cs(bootstrap.colMd6, bootstrap.col12)}

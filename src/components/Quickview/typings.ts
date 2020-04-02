@@ -1,5 +1,8 @@
-export type QuickviewProps = {};
+export type QuickviewProps = {
+  id: number;
+};
 
-export interface State {
-  showError: boolean;
-}
+export type State = {
+  sidebarSticky: boolean;
+  detailsSticky: boolean;
+};

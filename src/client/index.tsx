@@ -33,3 +33,5 @@ window.onload = () => {
   document.body.appendChild(root);
   render(application, root);
 };
+
+export default store;

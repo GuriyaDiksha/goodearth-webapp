@@ -26,7 +26,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const onClickQuickview = (): void => {
     console.log("hello");
-    renderModal(<Quickview />, {
+    renderModal(<Quickview id={16954} />, {
       fullscreen: false
     });
   };

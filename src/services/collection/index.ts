@@ -15,6 +15,7 @@ export default {
     res.data.level2Categories = res.data.level2Categories.map((data: any) => {
       return { label: data.name, value: data.name };
     });
+    res.data.level2Categories.unshift({ label: "All", value: "All" });
     const data: CollectionFilter = { ...res.data };
     return data;
   },
