@@ -103,6 +103,7 @@ dist
 .tern-port
 
 lib
+package-lock.json
 
 # generate font related files
 iconFonts.scss
