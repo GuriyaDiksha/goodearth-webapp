@@ -13,46 +13,52 @@ import Slider from "react-slick";
 const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
   props: MoreCollectionSliderProps
 ) => {
-  const { data, setting } = props;
+  const { data, setting, mobile } = props;
   return (
-    <div className={cs(bootstrapStyles.colMd12, "more-collection")}>
-      <h2 className={cs(styles.header, globalStyles.voffset5)}>
-        more from this collection
-      </h2>
+    <div
+      className={cs(bootstrapStyles.colMd12, "more-collection", {
+        "mobile-slider": mobile
+      })}
+    >
+      <div className={bootstrapStyles.row}>
+        <h2 className={cs(styles.header, globalStyles.voffset5)}>
+          more from this collection
+        </h2>
 
-      <div className={bootstrapStyles.col12}>
-        <Slider {...setting}>
-          {(data as MoreCollectionItem[])?.map(
-            (item: MoreCollectionItem, i: number) => {
-              return (
-                <div key={item.id}>
-                  {item.badgeImage ? (
-                    <div className="badge_position_plp">
-                      <img src={item.badgeImage} />
+        <div className={bootstrapStyles.col12}>
+          <Slider {...setting}>
+            {(data as MoreCollectionItem[])?.map(
+              (item: MoreCollectionItem, i: number) => {
+                return (
+                  <div key={item.id}>
+                    {item.badgeImage ? (
+                      <div className="badge_position_plp">
+                        <img src={item.badgeImage} />
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    <a href={item.url}>
+                      <img
+                        src={item.image || "/static/img/noimageplp.png"}
+                        className={cs(
+                          globalStyles.imgResponsive,
+                          styles.sliderImage
+                        )}
+                      />
+                    </a>
+                    <div className={styles.moreBlock}>
+                      <p className={styles.productH}>{item.collection}</p>
+                      <p className={styles.productN}>
+                        <a href={item.url}> {item.title} </a>
+                      </p>
                     </div>
-                  ) : (
-                    ""
-                  )}
-                  <a href={item.url}>
-                    <img
-                      src={item.image || "/static/img/noimageplp.png"}
-                      className={cs(
-                        globalStyles.imgResponsive,
-                        styles.sliderImage
-                      )}
-                    />
-                  </a>
-                  <div className={styles.moreBlock}>
-                    <p className={styles.productH}>{item.collection}</p>
-                    <p className={styles.productN}>
-                      <a href={item.url}> {item.title} </a>
-                    </p>
                   </div>
-                </div>
-              );
-            }
-          )}
-        </Slider>
+                );
+              }
+            )}
+          </Slider>
+        </div>
       </div>
     </div>
   );

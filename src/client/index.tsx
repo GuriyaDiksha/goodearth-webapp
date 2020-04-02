@@ -5,13 +5,17 @@ import { ConnectedRouter } from "connected-react-router";
 import { configureStore } from "store/configure";
 import { getHistory } from "routerHistory/index";
 import { getDevice } from "utils/device";
+import CookieService from "services/cookie";
 
 import App from "containers/app";
 import { updateDeviceInfo } from "actions/device";
 import initAction from "./initAction";
-
+import { updateCookies } from "actions/cookies";
+document.cookie = "tkn=a66e5385d467e8d52d9e61eebeb6764f4b7c769b";
 const history = getHistory();
 const store = configureStore(true, history);
+const cookies = CookieService.parseCookies(document.cookie);
+store.dispatch(updateCookies(cookies));
 
 initAction(store);
 const { mobile, tablet } = getDevice(window.navigator.userAgent);

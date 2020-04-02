@@ -2,9 +2,11 @@ import { InitAction } from "typings/actions";
 
 export enum ROUTES {
   HOME = "/",
-  PDP = "/product/:slug",
+
   CollectionLanding = "/allcollection/living_26/",
-  CollectionSpecific = "/collection/:slug"
+  CollectionSpecific = "/collection/:slug",
+  ASD = "/catalogue/top",
+  PDP = "/catalogue/:slug"
 }
 
 export type RouteConfig = RouteObject[];

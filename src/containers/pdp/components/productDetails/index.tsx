@@ -1,22 +1,27 @@
 import React, { memo, useState, useCallback, useMemo } from "react";
 import cs from "classnames";
-import { Props } from "./typings";
-
-import { currencyCodes } from "constants/currency";
-
-import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
-import styles from "./styles.scss";
-import globalStyles from "styles/global.scss";
-import iconStyles from "styles/iconFonts.scss";
-
-import { ChildProductAttributes } from "typings/product";
+// components
 import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
 import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
-import { renderModal } from "utils/modal";
+import WishlistButton from "components/WishlistButton";
 import SizeChartPopup from "../sizeChartPopup";
+// services
+import BasketService from "services/basket";
+// typings
+import { Props } from "./typings";
+import { ChildProductAttributes } from "typings/product";
+// constants
+import { currencyCodes } from "constants/currency";
+// utils
+import { renderModal } from "utils/modal";
+// styles
+import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
+import styles from "./styles.scss";
+import globalStyles from "styles/global.scss";
+import { useStore } from "react-redux";
 
 const saleStatus = true;
 
@@ -40,7 +45,6 @@ const ProductDetails: React.FC<Props> = ({
     sku
   },
   mobile,
-  wishlist,
   currency
 }) => {
   const [productTitle, subtitle] = title.split("(");
@@ -52,6 +56,7 @@ const ProductDetails: React.FC<Props> = ({
     setSelectedSize
   ] = useState<ChildProductAttributes | null>(null);
 
+  const { dispatch } = useStore();
   const price =
     selectedSize && selectedSize.priceRecords
       ? selectedSize.priceRecords[currency]
@@ -91,10 +96,6 @@ const ProductDetails: React.FC<Props> = ({
     renderModal(<SizeChartPopup html={sizeChartHtml} />);
   }, [sizeChartHtml]);
 
-  const addedToWishlist = useMemo(() => {
-    return wishlist.indexOf(id) !== -1;
-  }, [wishlist, id]);
-
   const accordionSections = useMemo(() => {
     return [
       {
@@ -114,9 +115,14 @@ const ProductDetails: React.FC<Props> = ({
       }
     ];
   }, [details, compAndCare, compAndCare]);
-  //   const toggleWishlistState = useCallback(()=> {
 
-  //   }, [addedToWishlist]);
+  const addToBasket = () => {
+    if (!selectedSize) {
+      setSizeError("Please select size");
+    } else {
+      BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+    }
+  };
 
   return (
     <div className={bootstrap.row}>
@@ -299,7 +305,7 @@ const ProductDetails: React.FC<Props> = ({
             {selectedSize && selectedSize.stock == 0 ? (
               <Button label="NOTIFY ME" />
             ) : (
-              <Button label="ADD TO BAG" />
+              <Button label="ADD TO BAG" onClick={addToBasket} />
             )}
           </div>
           <div
@@ -308,22 +314,11 @@ const ProductDetails: React.FC<Props> = ({
               bootstrap.col3,
               globalStyles.textCenter,
               {
-                [styles.addedToWishlist]: addedToWishlist,
                 [styles.wishlistBtnContainer]: mobile
               }
             )}
           >
-            <div
-              className={cs(iconStyles.icon, styles.wishlistIcon, {
-                [iconStyles.iconWishlistAdded]: addedToWishlist,
-                [iconStyles.iconWishlist]: !addedToWishlist
-              })}
-            ></div>
-            {!mobile && (
-              <div className={styles.label}>
-                {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
-              </div>
-            )}
+            <WishlistButton id={id} showText={!mobile} />
           </div>
         </div>
         <div

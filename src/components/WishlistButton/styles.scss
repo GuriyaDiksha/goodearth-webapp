@@ -1,0 +1,20 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.wishlist-icon {
+    font-size: 36px;
+    color: #ccc;
+    cursor: pointer;
+
+    &:hover {
+        color: $cerise;
+    }
+}
+
+.label {
+    @include pdp_label();
+}
+
+.added-to-wishlist {
+    color: $cerise;
+}

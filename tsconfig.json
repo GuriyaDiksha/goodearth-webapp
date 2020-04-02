@@ -29,7 +29,9 @@
       "routes/*": ["src/routes/*"],
       "selectors/*": ["src/selectors/*"],
       "services/*": ["src/services/*"],
-      "images/*": ["src/images/*"]
+      "images/*": ["src/images/*"],
+      "contexts/*": ["src/contexts/*"],
+      "middlewares/*": ["src/middlewares/*"],
     },
     // "lib": [],                             /* Specify library files to be included in the compilation. */
     // "allowJs": true,                       /* Allow javascript files to be compiled. */

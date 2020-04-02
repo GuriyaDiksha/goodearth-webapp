@@ -1,6 +1,6 @@
 rm -rf ./node_modules
 
-yarn install --production=false
+yarn install --ignore-optional
 
 yarn generateFonts
 yarn build
