@@ -11,6 +11,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import { Settings } from "react-slick";
 import CollectionImage from "components/collectionItem";
 import { CollectionItem } from "components/collectionItem/typings";
+import MobileDropdownMenu from "components/MobileDropdown";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -39,12 +40,18 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
     const collectionName = collection ? collection.split("_")[0] : "";
     const {
       collectionData,
+      device: { mobile },
       data: { level2Categories }
     } = this.props;
+    // Code for checking selected filter form collection list
     const filterData = collectionData.filter((item: any) => {
       return this.state.filterData == "All"
         ? true
-        : item.category[0].name == this.state.filterData;
+        : item.category
+            .map((data: any) => {
+              return data.name;
+            })
+            .indexOf(this.state.filterData) > -1;
     });
     const config: Settings = {
       dots: false,
@@ -57,7 +64,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
         {
           breakpoint: 992,
           settings: {
-            dots: false,
+            dots: true,
             arrows: false
           }
         }
@@ -67,17 +74,31 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
     return (
       <div>
         <SecondaryHeader>
-          <div className={styles.innerHeader}>
-            <p className={styles.filterText}>FILTER BY</p>
-            <SelectableDropdownMenu
-              align="right"
-              className={styles.dropdownRoot}
-              items={level2Categories}
-              value="All"
-              onChange={this.onchangeFilter}
-              showCaret={true}
-            ></SelectableDropdownMenu>
-          </div>
+          {mobile ? (
+            <div>
+              <MobileDropdownMenu
+                list={level2Categories}
+                onChange={this.onchangeFilter}
+                showCaret={true}
+                open={false}
+                value="All"
+              />
+            </div>
+          ) : (
+            <div className={styles.innerHeader}>
+              <div>
+                <p className={styles.filterText}>FILTER BY</p>
+                <SelectableDropdownMenu
+                  align="right"
+                  className={styles.dropdownRoot}
+                  items={level2Categories}
+                  value="All"
+                  onChange={this.onchangeFilter}
+                  showCaret={true}
+                ></SelectableDropdownMenu>
+              </div>
+            </div>
+          )}
         </SecondaryHeader>
         <div className={cs(bootstrap.row, styles.subcHeader)}>
           <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
@@ -96,7 +117,11 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                     className={cs(bootstrap.colMd6, bootstrap.col12)}
                     key={i}
                   >
-                    <CollectionImage data={data} setting={config} key={i} />
+                    <CollectionImage
+                      data={data}
+                      setting={config}
+                      key={data.id}
+                    />
                   </div>
                 );
               })}

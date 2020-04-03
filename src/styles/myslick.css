@@ -74,6 +74,13 @@
   margin: 0 4px;
 }
 
+.slick-dots li.slick-active button::before{
+  color: #fff;
+}
+.slick-dots li.slick-active button::after{
+  color: #fff;
+}
+
 .slick-dots li button {
   font-size: 0;
   line-height: 0;
