@@ -86,17 +86,15 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
             </div>
           ) : (
             <div className={styles.innerHeader}>
-              <div>
-                <p className={styles.filterText}>FILTER BY</p>
-                <SelectableDropdownMenu
-                  align="right"
-                  className={styles.dropdownRoot}
-                  items={level2Categories}
-                  value="All"
-                  onChange={this.onchangeFilter}
-                  showCaret={true}
-                ></SelectableDropdownMenu>
-              </div>
+              <p className={styles.filterText}>FILTER BY</p>
+              <SelectableDropdownMenu
+                align="right"
+                className={styles.dropdownRoot}
+                items={level2Categories}
+                value="All"
+                onChange={this.onchangeFilter}
+                showCaret={true}
+              ></SelectableDropdownMenu>
             </div>
           )}
         </SecondaryHeader>
@@ -114,7 +112,11 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
               {filterData.map((data: CollectionItem, i: number) => {
                 return (
                   <div
-                    className={cs(bootstrap.colMd6, bootstrap.col12)}
+                    className={cs(
+                      bootstrap.colMd6,
+                      bootstrap.col12,
+                      "collection-item"
+                    )}
                     key={i}
                   >
                     <CollectionImage

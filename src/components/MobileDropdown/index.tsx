@@ -8,14 +8,13 @@ import globalStyles from "styles/global.scss";
 
 const MobileDropdownMenu = ({
   open,
-  children,
+  list,
   showCaret,
   value,
   onChange
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
-  //   false && setOpenState(false);
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
@@ -26,11 +25,6 @@ const MobileDropdownMenu = ({
     onChange(data.value);
   };
 
-  //   const onMenuClick = (value:string) => {
-  //     setOpenState(displayValue);
-  //   };
-
-  //   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
   return (
     <div className={styles.cSort}>
       <div
@@ -69,7 +63,7 @@ const MobileDropdownMenu = ({
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div className={cs(bootstrap.col12, styles.mobileFilterMenu)}>
               <ul className={styles.sort}>
-                {children.map((data: any) => {
+                {list.map((data: any) => {
                   return (
                     <li
                       value={data}

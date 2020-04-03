@@ -1,6 +1,6 @@
 export type MobileDropdownMenuProps = {
   className?: string;
-  children: any;
+  list: any;
   value?: string;
   display?: JSX.Element | string;
   open?: boolean;
