@@ -6,7 +6,6 @@ import { useLocation } from "react-router";
 const RouteContainer: React.FC<Props> = ({ action, component, params }) => {
   const store = useStore();
   const Component = component;
-
   const location = useLocation();
 
   useEffect(() => {

@@ -1,3 +1,22 @@
   .collection-item .slick-arrow{
-    display: none !important;
+    /* display: none !important; */
+  }
+
+  /* .collection-item .slick-arrow {
+    background: rgba(0,0,0,0.3);
+    border-radius: 0;
+    height: 70px;
+    width: 50px;
+    font-size: 0;
+    letter-spacing: 0;
+  } */
+
+  .collection-item .slick-arrow:hover {
+    display: block !important;
+    background-color: rgba(0,0,0,0.3);
+  } 
+
+  .collection-item .slick-arrow:hover {
+    display: block;
+    background-color: rgba(0,0,0,0.3);
   }

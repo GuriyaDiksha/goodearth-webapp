@@ -8,6 +8,9 @@ import data from "./dummyData.json";
 import { PLPProductItem } from "../../typings/product";
 
 export const PlpResult = () => {
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "modal-container";
+  document.body.appendChild(modalContainer);
   return (
     <div className={styles.row}>
       <div className={styles.colMd4}>

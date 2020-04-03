@@ -8,6 +8,7 @@ import { device } from "./device";
 import { product } from "./product";
 import { header } from "./header";
 import { footer } from "./footer";
+import { collection } from "./collection";
 import { cookies } from "./cookies";
 import { wishlist } from "./wishlist";
 import { basket } from "./basket";
@@ -20,6 +21,7 @@ const createRootReducer = (history: History) => {
     device,
     currency,
     header,
+    collection,
     products: product,
     cookies,
     wishlist,

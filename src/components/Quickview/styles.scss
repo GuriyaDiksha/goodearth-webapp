@@ -1,0 +1,43 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+
+.quantity{
+    color: #000;
+    background-color: #f2f2f2;
+    padding: 9px 10px;
+    cursor: pointer;
+}
+.minus-quantity{
+    border-top-left-radius: 40%;
+    border-bottom-left-radius: 40%;
+    border-right: 1px solid #fff;
+}
+
+input {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 6px 0;
+    width: 120px;
+    border: 0;
+}
+
+.plus-quantity{
+    border-top-right-radius: 40%;
+    border-bottom-right-radius: 40%;
+    border-left: 1px solid #fff;
+}
+
+.error-msg{
+    font-size: 10px ;
+    font-style: italic;
+    color: #ab1e56 ;
+    font-weight: bold;
+    font-family: "LatoFont","Helvetica","Arial";
+    letter-spacing: 1px;
+    text-transform: lowercase;
+    text-align: left;
+    height: 15px;
+    line-height: 15px;
+}
+
