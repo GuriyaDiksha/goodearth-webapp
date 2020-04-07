@@ -5,8 +5,8 @@ import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./slick.css";
 import "../../styles/myslick.css";
+import "./slick.css";
 
 import { Currency, currencyCode } from "../../typings/currency";
 import { RecommendData, RecommenedSliderProps } from "./typings";

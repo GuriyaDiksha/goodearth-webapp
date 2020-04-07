@@ -19,7 +19,7 @@
 .slick-prev:before {
   color: #fff;
   font-family: "goodearth";
-  content: "\ea01";
+  content: "\ea02";
   position: absolute;
   top: 2px;
   font-size: 36px;
@@ -29,7 +29,7 @@
 .slick-next:before {
   color: #fff;
   font-family: "goodearth";
-  content: "\ea02";
+  content: "\ea03";
   position: absolute;
   top: 2px;
   font-size: 36px;
@@ -100,24 +100,4 @@
 .slick-dots li.slick-active button {
     opacity: 1;
     background-color: #ab1e56;
-}
-.slick-prev:before {
-  color: #fff;
-  font-family: "goodearth";
-  content: "\ea02";
-  position: absolute;
-  top: 2px;
-  font-size: 36px;
-  font-weight: 600;
-  left: 0;
-}
-.slick-next:before {
-  color: #fff;
-  font-family: "goodearth";
-  content: "\ea03";
-  position: absolute;
-  top: 2px;
-  font-size: 36px;
-  font-weight: 600;
-  right: 0;
 }
