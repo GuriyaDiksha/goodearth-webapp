@@ -3,16 +3,16 @@ import { PLPResultItemProps } from "./typings";
 import styles from "./styles.scss";
 import { Currency, currencyCode } from "../../typings/currency";
 import cs from "classnames";
-import iconStyles from "../../styles/iconFonts.scss";
 import bootstyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import { PartialChildProductAttributes } from "src/typings/product";
-import { renderModal } from "utils/modal";
-import Quickview from "components/Quickview";
+import noPlpImage from "images/noimageplp.png";
+import WishlistButton from "components/WishlistButton";
+import globalStyles from "styles/global.scss";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
-  const { product, currency } = props;
+  const { product, currency, onClickQuickView, mobile } = props;
   const code = currencyCode[currency as Currency];
   const [primaryimage, setPrimaryimage] = useState(true);
 
@@ -25,10 +25,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   };
 
   const onClickQuickview = (): void => {
-    console.log("hello");
-    renderModal(<Quickview id={16954} />, {
-      fullscreen: false
-    });
+    onClickQuickView ? onClickQuickView(product.id) : "";
   };
 
   const image = primaryimage
@@ -45,28 +42,50 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
+        {mobile && (
+          <div
+            className={cs(globalStyles.textCenter, styles.mobileWishlist, {
+              [styles.wishlistBtnContainer]: mobile
+            })}
+          >
+            <WishlistButton
+              id={product.id}
+              showText={false}
+              key={product.id}
+              mobile={mobile}
+            />
+          </div>
+        )}
         <a href={product.url} onMouseEnter={onMouseEnter}>
-          <img src={image} className={styles.imageResultnew} />
+          <img
+            src={image}
+            className={styles.imageResultnew}
+            onError={(e: any) => {
+              e.target.onerror = null;
+              e.target.src = noPlpImage;
+            }}
+          />
         </a>
-        <div className={styles.combodiv}>
-          <div className={styles.imageHover}>
-            <span onClick={onClickQuickview}>quickview</span>
+        {!mobile && (
+          <div className={styles.combodiv}>
+            <div className={styles.imageHover}>
+              <span onClick={onClickQuickview}>quickview</span>
+            </div>
+            <div className={styles.imageHover}>
+              <div
+                className={cs(globalStyles.textCenter, {
+                  [styles.wishlistBtnContainer]: mobile
+                })}
+              >
+                <WishlistButton
+                  id={product.id}
+                  showText={false}
+                  key={product.id}
+                />
+              </div>
+            </div>
           </div>
-          <div className={styles.imageHover}>
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconWishlist,
-                styles.wishlist
-              )}
-            ></i>
-          </div>
-          <div className={styles.hidden}>
-            <i
-              className={cs(iconStyles.icon, iconStyles.iconWishlistAdded)}
-            ></i>
-          </div>
-        </div>
+        )}
       </div>
       <div className={styles.imageContent}>
         <p className={styles.productN}>

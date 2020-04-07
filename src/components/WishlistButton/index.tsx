@@ -12,7 +12,12 @@ import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
 import { useStore } from "react-redux";
 
-const WishlistButton: React.FC<Props> = ({ id, showText, className }) => {
+const WishlistButton: React.FC<Props> = ({
+  id,
+  showText,
+  className,
+  mobile
+}) => {
   const items = useContext(WishlistContext);
   const store = useStore();
 
@@ -32,7 +37,8 @@ const WishlistButton: React.FC<Props> = ({ id, showText, className }) => {
         className={cs(iconStyles.icon, styles.wishlistIcon, {
           [iconStyles.iconWishlistAdded]: addedToWishlist,
           [iconStyles.iconWishlist]: !addedToWishlist,
-          [styles.addedToWishlist]: addedToWishlist
+          [styles.addedToWishlist]: addedToWishlist,
+          [styles.mobileWishlist]: mobile
         })}
         onClick={onClick}
       ></div>

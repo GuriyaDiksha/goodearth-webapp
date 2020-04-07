@@ -3,18 +3,16 @@ import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";
 import PlpResultItem from "components/plpResultItem";
-// import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import initActionSpecific from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import styles from "./styles.scss";
+import Quickview from "components/Quickview";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
-// import { Settings } from "react-slick";
-// import CollectionImage from "components/collectionItem";
-// import { CollectionItem } from "components/collectionItem/typings";
+import mapDispatchToProps from "../../components/Modal/mapper/actions";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -24,9 +22,16 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile
   };
 };
-type Props = ReturnType<typeof mapStateToProps>;
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
-class CollectionLanding extends React.Component<Props, {}> {
+class CollectionSpecific extends React.Component<Props, {}> {
+  onClickQuickView = (id: number) => {
+    const { updateComponentModal, changeModalState } = this.props;
+    updateComponentModal(<Quickview id={id} />);
+    changeModalState(true);
+  };
+
   render() {
     const {
       mobile,
@@ -56,7 +61,7 @@ class CollectionLanding extends React.Component<Props, {}> {
                       className={globalStyles.imgResponsive}
                     />
                   );
-                } else if (widget.imageType == 1) {
+                } else if (!mobile && widget.imageType == 1) {
                   return (
                     <img
                       src={widget.image}
@@ -107,12 +112,17 @@ class CollectionLanding extends React.Component<Props, {}> {
           >
             {results.map((data: PLPProductItem, i: number) => {
               return (
-                <div className={cs(bootstrap.colMd4, bootstrap.col6)} key={i}>
+                <div
+                  className={cs(bootstrap.colMd4, bootstrap.col6)}
+                  key={data.id}
+                >
                   <PlpResultItem
                     product={data}
                     addedToWishlist={false}
                     currency={this.props.currency}
-                    key={i}
+                    key={data.id}
+                    mobile={mobile}
+                    onClickQuickView={this.onClickQuickView}
                   />
                 </div>
               );
@@ -124,5 +134,5 @@ class CollectionLanding extends React.Component<Props, {}> {
   }
 }
 
-export default connect(mapStateToProps)(CollectionLanding);
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionSpecific);
 export { initActionSpecific };

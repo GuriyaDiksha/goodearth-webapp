@@ -15,8 +15,6 @@ import { Props } from "./typings";
 import { ChildProductAttributes } from "typings/product";
 // constants
 import { currencyCodes } from "constants/currency";
-// utils
-import { renderModal } from "utils/modal";
 // styles
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -45,7 +43,10 @@ const ProductDetails: React.FC<Props> = ({
     sku
   },
   mobile,
-  currency
+  currency,
+  isQuickview,
+  changeModalState,
+  updateComponentModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
 
@@ -93,7 +94,14 @@ const ProductDetails: React.FC<Props> = ({
     if (!sizeChartHtml) {
       return;
     }
-    renderModal(<SizeChartPopup html={sizeChartHtml} />);
+    // renderModal(<SizeChartPopup html={sizeChartHtml} />);
+    updateComponentModal(
+      <SizeChartPopup
+        html={sizeChartHtml}
+        changeModalState={changeModalState}
+      />
+    );
+    changeModalState(true);
   }, [sizeChartHtml]);
 
   const accordionSections = useMemo(() => {
@@ -127,7 +135,12 @@ const ProductDetails: React.FC<Props> = ({
   return (
     <div className={bootstrap.row}>
       <div
-        className={cs(bootstrap.col10, bootstrap.offset1, bootstrap.colMd11)}
+        className={cs(
+          bootstrap.col10,
+          bootstrap.offset1,
+          bootstrap.colMd11,
+          styles.sideContainer
+        )}
       >
         <div className={cs(bootstrap.row)}>
           {img ? (
@@ -343,7 +356,7 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
-          {!mobile && (
+          {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
               link={window.location.href}
@@ -356,16 +369,20 @@ const ProductDetails: React.FC<Props> = ({
           )}
 
           <div>
-            <Accordion
-              sections={accordionSections}
-              headerClassName={styles.accordionHeader}
-              bodyClassName={styles.accordionBody}
-              defaultOpen="details"
-            />
+            {!isQuickview && (
+              <Accordion
+                sections={accordionSections}
+                headerClassName={styles.accordionHeader}
+                bodyClassName={styles.accordionBody}
+                defaultOpen="details"
+              />
+            )}
           </div>
-          <div className={cs(styles.sku, globalStyles.voffset4)}>
-            Vref. {sku}
-          </div>
+          {!isQuickview && (
+            <div className={cs(styles.sku, globalStyles.voffset4)}>
+              Vref. {sku}
+            </div>
+          )}
         </div>
       </div>
     </div>

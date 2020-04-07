@@ -4,4 +4,5 @@ export type Props = {
   images: ProductImage[];
   startIndex: number;
   mobile?: boolean;
+  changeModalState?: any;
 };

@@ -1,48 +1,51 @@
 import React from "react";
-import { unmountComponentAtNode } from "react-dom";
 import cs from "classnames";
-
 import { Props } from "./typings";
-
-import { Context } from "./context";
-
 import styles from "./styles.scss";
-import useOutsideDetection from "hooks/useOutsideDetetion";
+import { connect } from "react-redux";
+import { AppState } from "reducers/typings";
 
-const Modal = <T extends HTMLElement>({
-  bodyClassName,
-  children,
-  parentNode,
-  className,
-  fullscreen
-}: Props<T>) => {
-  const closeModal = () => {
-    unmountComponentAtNode(parentNode);
+const mapStateToProps = (state: AppState) => {
+  return {
+    component: state.modal.component,
+    openModal: state.modal.openModal,
+    currency: state.currency,
+    device: state.device
+  };
+};
+
+type ModalProps = Props & ReturnType<typeof mapStateToProps>;
+
+class Modal extends React.Component<ModalProps> {
+  closeModal = () => {
+    // this.setState({
+    //   openModal:false
+    // })
   };
 
-  const { ref } = useOutsideDetection<HTMLDivElement>(closeModal);
-
-  const Provider = Context.Provider;
-
-  return (
-    <Provider
-      value={{
-        closeModal
-      }}
-    >
+  render() {
+    const {
+      bodyClassName,
+      className,
+      fullscreen,
+      openModal,
+      component
+    } = this.props;
+    return openModal ? (
       <div className={cs(styles.container, className)}>
-        <div className={styles.backdrop} onClick={closeModal}></div>
+        <div className={styles.backdrop} onClick={this.closeModal}></div>
         <div
           className={cs(styles.body, bodyClassName, {
             [styles.fullscreen]: fullscreen
           })}
-          ref={ref}
         >
-          {children}
+          {component}
         </div>
       </div>
-    </Provider>
-  );
-};
+    ) : (
+      <></>
+    );
+  }
+}
 
-export default Modal;
+export default connect(mapStateToProps)(Modal);

@@ -4,5 +4,5 @@ export type Props = {
   images: ProductImage[];
   className?: string;
   activeIndex?: number;
-  onImageClick?: (index: number) => void;
+  onImageClick?: (index: number) => void | number;
 };

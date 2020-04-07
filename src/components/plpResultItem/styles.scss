@@ -15,6 +15,12 @@
     text-overflow: ellipsis;
 }
 
+.mobile-wishlist{
+    position: absolute;
+    right: 10px;
+    top: 8px;
+}
+
 .image-resultnew{
     display: block;
     max-width: 100%;
@@ -61,8 +67,8 @@
         text-align: center;
         width: 50%;
     }
-    .image-hover:nth-last-child(2) {
-        border-left: 1px solid #b3b3b3;
+    .image-hover:nth-last-child(1) {
+        border-left: 1px solid gray;
     }
 
     .wishlist {

@@ -18,6 +18,7 @@ export const PlpResult = () => {
           product={data as PLPProductItem}
           addedToWishlist={false}
           currency={"INR"}
+          mobile={false}
         />
       </div>
     </div>

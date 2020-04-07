@@ -5,4 +5,5 @@ export type QuickviewProps = {
 export type State = {
   sidebarSticky: boolean;
   detailsSticky: boolean;
+  currentIndex: number;
 };

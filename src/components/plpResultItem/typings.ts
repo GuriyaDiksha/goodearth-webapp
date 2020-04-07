@@ -5,4 +5,6 @@ export type PLPResultItemProps = {
   product: PLPProductItem;
   addedToWishlist: boolean;
   currency: Currency;
+  mobile: boolean;
+  onClickQuickView?: (id: number) => void;
 };

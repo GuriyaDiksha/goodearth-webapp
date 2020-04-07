@@ -23,7 +23,6 @@ import { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import Zoom from "components/Zoom";
-import { renderModal } from "utils/modal";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
@@ -66,13 +65,20 @@ class PDPContainer extends React.Component<Props, State> {
 
   onImageClick = (index: number) => {
     const {
+      updateComponentModal,
+      changeModalState,
       device: { mobile }
     } = this.props;
     const images = this.getProductImagesData();
-
-    renderModal(<Zoom images={images} startIndex={index} mobile={mobile} />, {
-      fullscreen: true
-    });
+    updateComponentModal(
+      <Zoom
+        images={images}
+        startIndex={index}
+        mobile={mobile}
+        changeModalState={changeModalState}
+      />
+    );
+    changeModalState(true);
   };
 
   componentDidMount() {
@@ -204,15 +210,18 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       data,
       currency,
-      device: { mobile }
+      device: { mobile },
+      updateComponentModal,
+      changeModalState
     } = this.props;
-
     return (
       <ProductDetails
         data={data}
         currency={currency}
         mobile={mobile}
         wishlist={[]}
+        updateComponentModal={updateComponentModal}
+        changeModalState={changeModalState}
       />
     );
   }

@@ -12,6 +12,8 @@ import { collection } from "./collection";
 import { cookies } from "./cookies";
 import { wishlist } from "./wishlist";
 import { basket } from "./basket";
+import { quickview } from "./quickview";
+import { modal } from "./modal";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -25,7 +27,9 @@ const createRootReducer = (history: History) => {
     products: product,
     cookies,
     wishlist,
-    basket
+    basket,
+    quickview,
+    modal
   });
 };
 

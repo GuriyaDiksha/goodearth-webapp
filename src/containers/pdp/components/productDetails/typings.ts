@@ -7,4 +7,7 @@ export type Props = {
   currency: Currency;
   mobile: boolean;
   wishlist: ProductID[];
+  isQuickview?: boolean;
+  changeModalState?: any;
+  updateComponentModal?: any;
 };

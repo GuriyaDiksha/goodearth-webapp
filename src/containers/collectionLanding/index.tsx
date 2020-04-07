@@ -98,14 +98,18 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
             </div>
           )}
         </SecondaryHeader>
-        <div className={cs(bootstrap.row, styles.subcHeader)}>
-          <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
-            <h1>{collectionName} Collections </h1>
-            <p
-              dangerouslySetInnerHTML={{ __html: this.props.data.description }}
-            ></p>
+        {!mobile && (
+          <div className={cs(bootstrap.row, styles.subcHeader)}>
+            <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
+              <h1>{collectionName} Collections </h1>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: this.props.data.description
+                }}
+              ></p>
+            </div>
           </div>
-        </div>
+        )}
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
           <div className={cs(bootstrap.colMd8, bootstrap.offsetMd2)}>
             <div className={bootstrap.row}>
