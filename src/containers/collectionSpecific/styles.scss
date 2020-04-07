@@ -4,6 +4,12 @@
     margin-top: $header-height + $secondary-header-height;
 }
 
+@media screen and (max-width: 992px) {
+    .collection-container {
+        margin-top: $header-height;
+    }
+}
+
 .collection-name {
     font-size: 25px;
     font-family: "Baskerville","Amiri","Serif";

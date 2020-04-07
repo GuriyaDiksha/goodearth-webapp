@@ -1,4 +1,4 @@
-import { HeaderState, DeviceActions } from "./typings";
+import { HeaderState, HeaderActions } from "./typings";
 
 const initialState: HeaderState = {
   data: []
@@ -6,7 +6,7 @@ const initialState: HeaderState = {
 
 export const header = (
   state: HeaderState = initialState,
-  action: DeviceActions
+  action: HeaderActions
 ) => {
   switch (action.type) {
     case "UPDATE_HEADER": {

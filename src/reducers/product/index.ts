@@ -65,6 +65,5 @@ export const product = (
       return newState;
     }
   }
-
   return state;
 };

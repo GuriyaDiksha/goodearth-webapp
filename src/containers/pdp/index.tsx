@@ -22,8 +22,8 @@ import { getProductSliderItems } from "selectors/productSlider";
 import { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
-import Zoom from "components/Zoom";
-import { renderModal } from "utils/modal";
+// import Zoom from "components/Zoom";
+// import { renderModal } from "utils/modal";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
@@ -65,14 +65,13 @@ class PDPContainer extends React.Component<Props, State> {
   containerRef: RefObject<HTMLDivElement> = React.createRef();
 
   onImageClick = (index: number) => {
-    const {
-      device: { mobile }
-    } = this.props;
-    const images = this.getProductImagesData();
-
-    renderModal(<Zoom images={images} startIndex={index} mobile={mobile} />, {
-      fullscreen: true
-    });
+    // const {
+    //   device: { mobile }
+    // } = this.props;
+    // const images = this.getProductImagesData();
+    // renderModal(<Zoom images={images} startIndex={index} mobile={mobile} />, {
+    //   fullscreen: true
+    // });
   };
 
   componentDidMount() {

@@ -8,6 +8,10 @@
     }
 }
 
+.side-container{
+    margin-top: 30px;
+}
+
 .title {
     @include pdp_prod_title();
 

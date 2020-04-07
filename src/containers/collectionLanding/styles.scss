@@ -52,7 +52,7 @@
 .subc-header{
     background-color: #e6e6e6;
     padding: 15px 0;
-    margin: 130px 0 0 0;
+    margin: 100px 0 0 0;
     h1{
         font-size: 28px;
         font-family: "Baskerville","Amiri","Serif";
@@ -63,5 +63,13 @@
         font-family: "LatoFont","Helvetica","Arial";
         color: #666;
         letter-spacing: 1px;
+    }
+}
+
+@media screen and (max-width: 992px)  {
+
+    .collection-block {
+        margin-bottom: 35px;
+        margin-top: 120px;
     }
 }

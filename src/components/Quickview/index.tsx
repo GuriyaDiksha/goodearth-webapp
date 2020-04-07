@@ -5,52 +5,43 @@ import { QuickviewProps, State } from "./typings";
 
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
-import SecondaryHeader from "components/SecondaryHeader";
-import Breadcrumbs from "components/Breadcrumbs";
 import VerticalImageSelector from "components/VerticalImageSelector";
 import PdpImage from "containers/pdp/components/pdpImage";
 import ProductDetails from "containers/pdp/components/productDetails";
-import WeRecommendSlider from "components/weRecomend";
-import CollectionProductsSlider from "components/moreCollection";
-
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import { getProductSliderItems } from "selectors/productSlider";
-import { Settings } from "react-slick";
-// import mapDispatchToProps from "containers/pdp/mappers/actions";
-import MobileSlider from "../../components/MobileSlider";
-import Zoom from "components/Zoom";
-import { renderModal } from "utils/modal";
-import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
-
-const sidebarPosition = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT + 23;
+import mapDispatchToProps from "./initAction";
+import fontStyles from "styles/iconFonts.scss";
 
 const mapStateToProps = (state: AppState, props: QuickviewProps) => {
-  const { id } = props;
-  // const id = getProductIdFromSlug(slug);
+  let { id } = props;
+  const {
+    quickview: { quickviewId }
+  } = state;
+  id = quickviewId || id;
   const data = (id && state.products[id]) as Product;
 
-  const recommendedSliderItems =
-    data && data.recommendedProducts && data.recommendedProducts.length
-      ? getProductSliderItems(data.recommendedProducts, state.products)
-      : [];
+  const productListId = Object.keys(state.products).map(Number);
 
   return {
     id,
     data,
-    recommendedSliderItems,
+    productListId,
     currency: state.currency,
     device: state.device
   };
 };
 
-type Props = QuickviewProps & ReturnType<typeof mapStateToProps>;
+type Props = QuickviewProps &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class Quickview extends React.Component<Props, State> {
   state: State = {
     sidebarSticky: true,
-    detailsSticky: true
+    detailsSticky: true,
+    currentIndex: 0
   };
 
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
@@ -58,76 +49,17 @@ class Quickview extends React.Component<Props, State> {
   containerRef: RefObject<HTMLDivElement> = React.createRef();
 
   onImageClick = (index: number) => {
-    const {
-      device: { mobile }
-    } = this.props;
-    const images = this.getProductImagesData();
-    renderModal(<Zoom images={images} startIndex={index} mobile={mobile} />, {
-      fullscreen: true
-    });
+    // code for image click
+  };
+
+  closeModal = () => {
+    this.props.changeModalState(false);
   };
 
   componentDidMount() {
-    // this.fetchMoreProductsFromCollection();
-    document.addEventListener("scroll", this.onScroll);
+    const { fetchProductsDetails, id } = this.props;
+    fetchProductsDetails(id);
   }
-
-  onScroll = () => {
-    const { containerRef, sidebarRef, detailsRef } = this;
-    if (
-      containerRef &&
-      containerRef.current &&
-      sidebarRef &&
-      sidebarRef.current &&
-      detailsRef &&
-      detailsRef.current
-    ) {
-      const containerBounds = containerRef.current?.getBoundingClientRect();
-      const sidebarBounds = sidebarRef.current?.getBoundingClientRect();
-      const detailsBounds = detailsRef.current?.getBoundingClientRect();
-
-      let sidebarSticky = this.state.sidebarSticky,
-        detailsSticky = this.state.detailsSticky,
-        update = false;
-
-      const containerBottom = Math.floor(containerBounds.bottom);
-      if (sidebarSticky) {
-        if (Math.floor(sidebarBounds.bottom) >= containerBottom) {
-          sidebarSticky = false;
-          update = true;
-        }
-      } else if (Math.floor(sidebarBounds.top) >= sidebarPosition) {
-        sidebarSticky = true;
-        update = true;
-      }
-
-      if (detailsSticky) {
-        if (
-          Math.floor(detailsBounds.bottom) >= containerBottom &&
-          detailsSticky
-        ) {
-          detailsSticky = false;
-          update = true;
-        }
-      } else if (Math.floor(detailsBounds.top) >= sidebarPosition) {
-        detailsSticky = true;
-        update = true;
-      }
-
-      update &&
-        this.setState({
-          sidebarSticky,
-          detailsSticky
-        });
-    }
-  };
-
-  // fetchMoreProductsFromCollection() {
-  //   const { id, fetchMoreProductsFromCollection } = this.props;
-  //   if (id) {
-  //     fetchMoreProductsFromCollection(id);
-  //   }
-  // }
 
   getProductImagesData() {
     const {
@@ -137,21 +69,24 @@ class Quickview extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   }
 
-  getProductImages() {
-    const productImages = this.getProductImagesData();
-
-    return productImages.map((image, index) => {
-      return (
-        <div
-          className={styles.productImageContainer}
-          key={image.id}
-          id={`img-${image.id}`}
-        >
-          <PdpImage {...image} index={index} onClick={this.onImageClick} />
-        </div>
-      );
-    });
+  getProductImages(index: number) {
+    const image = this.getProductImagesData()[index];
+    return (
+      <div
+        className={styles.productImageContainer}
+        key={image.id}
+        id={`img-${image.id}`}
+      >
+        <PdpImage {...image} index={index} onClick={this.onImageClick} />
+      </div>
+    );
   }
+
+  onClickImage = (index: number) => {
+    this.setState({
+      currentIndex: index
+    });
+  };
 
   getProductDetails() {
     const {
@@ -166,76 +101,22 @@ class Quickview extends React.Component<Props, State> {
         currency={currency}
         mobile={mobile}
         wishlist={[]}
+        isQuickview={true}
       />
     );
   }
 
-  getRecommendedSection() {
-    const { recommendedSliderItems } = this.props;
-
-    if (!recommendedSliderItems.length) {
-      return null;
+  onClickNextButton = (next: boolean) => {
+    const { productListId, id, fetchProductsDetails } = this.props;
+    let index = productListId.indexOf(id);
+    if (next && index < productListId.length - 1) {
+      const newId = productListId[++index];
+      fetchProductsDetails(newId);
+    } else if (!next && index > 0) {
+      const newId = productListId[--index];
+      fetchProductsDetails(newId);
     }
-
-    const config: Settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 4,
-      slidesToScroll: 1,
-      initialSlide: 0,
-      responsive: [
-        {
-          breakpoint: 992,
-          settings: {
-            dots: false,
-            arrows: true
-          }
-        }
-      ]
-    };
-    return (
-      <WeRecommendSlider
-        data={recommendedSliderItems}
-        setting={config as Settings}
-        currency={"INR"}
-      />
-    );
-  }
-
-  getMoreCollectionProductsSection() {
-    const {
-      data: { collectionProducts = [] }
-    } = this.props;
-
-    if (!collectionProducts.length) {
-      return null;
-    }
-
-    const config: Settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 4,
-      slidesToScroll: 1,
-      initialSlide: 0,
-      responsive: [
-        {
-          breakpoint: 992,
-          settings: {
-            dots: false,
-            arrows: true
-          }
-        }
-      ]
-    };
-    return (
-      <CollectionProductsSlider
-        data={collectionProducts}
-        setting={config as Settings}
-      />
-    );
-  }
+  };
 
   render() {
     const {
@@ -246,60 +127,41 @@ class Quickview extends React.Component<Props, State> {
     if (!data) {
       return null;
     }
-
-    const { breadcrumbs } = data;
     const images = this.getProductImagesData();
 
-    const mobileSlides =
-      mobile &&
-      images?.map(({ id, productImage }, i: number) => {
-        return (
-          <div key={id}>
-            <img
-              src={productImage.replace("/Micro/", "/Medium/")}
-              className={globalStyles.imgResponsive}
-            />
-          </div>
-        );
-      });
-
-    const { sidebarSticky, detailsSticky } = this.state;
-
+    const { currentIndex } = this.state;
+    const { productListId, id } = this.props;
+    const index = productListId.indexOf(id);
     return (
-      <div className={cs(styles.pdpContainer, bootstrap.containerFluid)}>
-        {!mobile && (
-          <SecondaryHeader>
-            <Breadcrumbs
-              levels={breadcrumbs}
-              className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
-            />
-          </SecondaryHeader>
+      <div
+        className={cs(
+          styles.pdpContainer,
+          bootstrap.containerFluid,
+          styles.quickviewSize
         )}
-
+      >
+        <div className={cs({ [globalStyles.hidden]: index <= 0 })}>
+          <span
+            className={cs(
+              styles.preButtonStyle,
+              fontStyles.iconArrowLeft,
+              fontStyles.icon
+            )}
+            onClick={() => {
+              this.onClickNextButton(false);
+            }}
+          ></span>
+        </div>
         <div
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
-          {mobile && (
-            <div
-              className={cs(
-                bootstrap.col12,
-                globalStyles.mobileSliderContainer
-              )}
-            >
-              <MobileSlider>{mobileSlides}</MobileSlider>
-            </div>
-          )}
           {!mobile && (
             <div
               className={cs(
                 bootstrap.colMd1,
                 bootstrap.offsetMd1,
-                styles.sidebar,
-                globalStyles.pageStickyElement,
-                {
-                  [globalStyles.pageStickyScrolling]: !sidebarSticky
-                }
+                styles.sidebar
               )}
               ref={this.sidebarRef}
             >
@@ -311,6 +173,7 @@ class Quickview extends React.Component<Props, State> {
                     bootstrap.offsetSm1,
                     bootstrap.offsetMd0
                   )}
+                  onImageClick={this.onClickImage}
                 />
               </div>
             </div>
@@ -320,11 +183,10 @@ class Quickview extends React.Component<Props, State> {
               className={cs(
                 bootstrap.colMd4,
                 bootstrap.dNone,
-                bootstrap.dMdBlock,
-                bootstrap.offsetMd2
+                bootstrap.dMdBlock
               )}
             >
-              {this.getProductImages()}
+              {this.getProductImages(currentIndex || 0)}
             </div>
           )}
 
@@ -332,25 +194,40 @@ class Quickview extends React.Component<Props, State> {
             className={cs(
               styles.detailsContainer,
               bootstrap.colMd5,
-              bootstrap.col12,
-              bootstrap.offsetMd6,
-              {
-                [globalStyles.pageStickyElement]: !mobile,
-                [globalStyles.pageStickyScrolling]: !mobile && !detailsSticky
-              }
+              bootstrap.col12
             )}
             ref={this.detailsRef}
           >
             {this.getProductDetails()}
           </div>
+          <button
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconCrossNarrowBig,
+              styles.quickviewClose
+            )}
+            onClick={this.closeModal}
+          />
         </div>
-        <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
-        <div className={cs(bootstrap.row)}>
-          {this.getMoreCollectionProductsSection()}
+        <div
+          className={cs({
+            [globalStyles.hidden]: index >= productListId.length - 1
+          })}
+        >
+          <span
+            className={cs(
+              styles.nextButtonStyle,
+              fontStyles.iconArrowRight,
+              fontStyles.icon
+            )}
+            onClick={() => {
+              this.onClickNextButton(true);
+            }}
+          ></span>
         </div>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(Quickview);
+export default connect(mapStateToProps, mapDispatchToProps)(Quickview);
