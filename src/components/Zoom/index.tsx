@@ -2,7 +2,6 @@ import React, {
   useMemo,
   useState,
   MouseEventHandler,
-  useContext,
   useEffect,
   SyntheticEvent,
   MouseEvent,
@@ -16,12 +15,12 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import fontStyles from "styles/iconFonts.scss";
-import { Context } from "components/Modal/context";
 
 const Zoom: React.FC<Props> = ({
   images = [],
   startIndex = 0,
-  mobile = false
+  mobile = false,
+  changeModalState = null
 }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [style, setStyle] = useState({
@@ -87,10 +86,6 @@ const Zoom: React.FC<Props> = ({
     [style, currentIndex]
   );
 
-  useEffect(() => {
-    console.log(Object.values(style));
-  }, [style]);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -98,14 +93,14 @@ const Zoom: React.FC<Props> = ({
   const src = productImage && productImage.replace(/Micro|Medium/i, "Large");
 
   const { scale, translateX, translateY, left, top } = style;
-  const context = useContext(Context);
+
   const onImageClick: MouseEventHandler = event => {
     const target = event.currentTarget;
     const index = Number(target.getAttribute("data-index"));
     setCurrentIndex(index);
   };
   const closeModal = () => {
-    context.closeModal();
+    changeModalState(false);
   };
 
   const mouseMoveHandler = (e: MouseEvent) => {

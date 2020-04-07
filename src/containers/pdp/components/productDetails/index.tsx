@@ -7,7 +7,7 @@ import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
-// import SizeChartPopup from "../sizeChartPopup";
+import SizeChartPopup from "../sizeChartPopup";
 // services
 import BasketService from "services/basket";
 // typings
@@ -15,8 +15,6 @@ import { Props } from "./typings";
 import { ChildProductAttributes } from "typings/product";
 // constants
 import { currencyCodes } from "constants/currency";
-// utils
-// import { renderModal } from "utils/modal";
 // styles
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -46,7 +44,9 @@ const ProductDetails: React.FC<Props> = ({
   },
   mobile,
   currency,
-  isQuickview
+  isQuickview,
+  changeModalState,
+  updateComponentModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
 
@@ -95,6 +95,13 @@ const ProductDetails: React.FC<Props> = ({
       return;
     }
     // renderModal(<SizeChartPopup html={sizeChartHtml} />);
+    updateComponentModal(
+      <SizeChartPopup
+        html={sizeChartHtml}
+        changeModalState={changeModalState}
+      />
+    );
+    changeModalState(true);
   }, [sizeChartHtml]);
 
   const accordionSections = useMemo(() => {

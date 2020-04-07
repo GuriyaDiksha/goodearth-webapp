@@ -8,4 +8,6 @@ export type Props = {
   mobile: boolean;
   wishlist: ProductID[];
   isQuickview?: boolean;
+  changeModalState?: any;
+  updateComponentModal?: any;
 };

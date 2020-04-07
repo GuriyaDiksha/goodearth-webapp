@@ -48,7 +48,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               [styles.wishlistBtnContainer]: mobile
             })}
           >
-            <WishlistButton id={product.id} showText={false} key={product.id} />
+            <WishlistButton
+              id={product.id}
+              showText={false}
+              key={product.id}
+              mobile={mobile}
+            />
           </div>
         )}
         <a href={product.url} onMouseEnter={onMouseEnter}>

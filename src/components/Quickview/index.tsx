@@ -21,7 +21,6 @@ const mapStateToProps = (state: AppState, props: QuickviewProps) => {
   } = state;
   id = quickviewId || id;
   const data = (id && state.products[id]) as Product;
-
   const productListId = Object.keys(state.products).map(Number);
 
   return {
