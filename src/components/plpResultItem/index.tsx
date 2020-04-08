@@ -69,7 +69,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         {!mobile && (
           <div className={styles.combodiv}>
             <div className={styles.imageHover}>
-              <span onClick={onClickQuickview}>quickview</span>
+              <p onClick={onClickQuickview}>quickview</p>
             </div>
             <div className={styles.imageHover}>
               <div

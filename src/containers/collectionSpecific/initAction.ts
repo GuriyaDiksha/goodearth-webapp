@@ -4,19 +4,18 @@ import {
   updateCollectionSpecificData,
   updateCollectionSpecificBanner
 } from "actions/collection";
-// import { getParamsFromString } from "utils/url.ts";
+import { getProductIdFromSlug } from "utils/url.ts";
 
 const initActionSpecific: InitAction = async (dispatch, { slug }) => {
-  // const id = getParamsFromString(slug);
-
-  // if (20) {
-  const [filterData, bannerData] = await Promise.all([
-    CollectionService.fetchCollectioSpecificData(378),
-    CollectionService.fetchCollectioSpecificBanner(60)
-  ]);
-  dispatch(updateCollectionSpecificData({ ...filterData }));
-  dispatch(updateCollectionSpecificBanner({ ...bannerData }));
-  // }
+  const id = getProductIdFromSlug(slug);
+  if (id) {
+    const [filterData, bannerData] = await Promise.all([
+      CollectionService.fetchCollectioSpecificData(id),
+      CollectionService.fetchCollectioSpecificBanner(id)
+    ]);
+    dispatch(updateCollectionSpecificData({ ...filterData }));
+    dispatch(updateCollectionSpecificBanner({ ...bannerData }));
+  }
 };
 
 export default initActionSpecific;

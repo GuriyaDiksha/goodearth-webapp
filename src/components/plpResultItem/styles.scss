@@ -52,16 +52,17 @@
     width: 100%;
     padding: 10px 0;
     background: rgba(255,255,255,0.8);
-    min-height: 50px;
-    line-height: 35px;
+    min-height: 40px;
+    line-height: 20px;
     cursor: pointer;
-    span{
+    p{
         font-weight: bold;
         font-size: 12px;
         text-transform: uppercase;
         color: #ab1e56;
         font-family: "LatoFont","Helvetica","Arial";
         letter-spacing: 2px;
+        padding-top: 10px;
     }
     .image-hover {
         text-align: center;
