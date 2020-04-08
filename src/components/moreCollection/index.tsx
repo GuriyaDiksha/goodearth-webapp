@@ -5,8 +5,8 @@ import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./slick.css";
 import "../../styles/myslick.css";
+import "./slick.css";
 import { MoreCollectionSliderProps, MoreCollectionItem } from "./typings";
 import Slider from "react-slick";
 
@@ -26,7 +26,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
         </h2>
 
         <div className={bootstrapStyles.col12}>
-          <Slider {...setting}>
+          <Slider {...setting} className="pdp-slider recommend-block">
             {(data as MoreCollectionItem[])?.map(
               (item: MoreCollectionItem, i: number) => {
                 return (

@@ -5,12 +5,13 @@ import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./slick.css";
 import "../../styles/myslick.css";
+import "./slick.css";
 
 import { Currency, currencyCode } from "../../typings/currency";
 import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
+import WishlistButton from "components/WishlistButton";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
@@ -33,6 +34,24 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           </div>
         ) : (
           ""
+        )}
+        {mobile && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.mobileWishlist,
+              {
+                [styles.wishlistBtnContainer]: mobile
+              }
+            )}
+          >
+            <WishlistButton
+              id={item.id}
+              showText={false}
+              key={item.id}
+              mobile={mobile}
+            />
+          </div>
         )}
         <a href={item.productUrl}>
           <img

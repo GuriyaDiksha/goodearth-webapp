@@ -44,9 +44,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       >
         {mobile && (
           <div
-            className={cs(globalStyles.textCenter, styles.mobileWishlist, {
-              [styles.wishlistBtnContainer]: mobile
-            })}
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.mobileWishlist,
+              {
+                [styles.wishlistBtnContainer]: mobile
+              }
+            )}
           >
             <WishlistButton
               id={product.id}
@@ -69,7 +73,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         {!mobile && (
           <div className={styles.combodiv}>
             <div className={styles.imageHover}>
-              <span onClick={onClickQuickview}>quickview</span>
+              <p onClick={onClickQuickview}>quickview</p>
             </div>
             <div className={styles.imageHover}>
               <div
