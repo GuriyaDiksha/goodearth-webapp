@@ -11,6 +11,7 @@ import "./slick.css";
 import { Currency, currencyCode } from "../../typings/currency";
 import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
+import WishlistButton from "components/WishlistButton";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
@@ -33,6 +34,24 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           </div>
         ) : (
           ""
+        )}
+        {mobile && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.mobileWishlist,
+              {
+                [styles.wishlistBtnContainer]: mobile
+              }
+            )}
+          >
+            <WishlistButton
+              id={item.id}
+              showText={false}
+              key={item.id}
+              mobile={mobile}
+            />
+          </div>
         )}
         <a href={item.productUrl}>
           <img

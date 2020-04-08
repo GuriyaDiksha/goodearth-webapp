@@ -44,9 +44,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       >
         {mobile && (
           <div
-            className={cs(globalStyles.textCenter, styles.mobileWishlist, {
-              [styles.wishlistBtnContainer]: mobile
-            })}
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.mobileWishlist,
+              {
+                [styles.wishlistBtnContainer]: mobile
+              }
+            )}
           >
             <WishlistButton
               id={product.id}
