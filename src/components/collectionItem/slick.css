@@ -42,7 +42,7 @@
   right: 0;
 }
 
-.collection-item .slick-slider .slick-arrow.slick-next::before, .slick-slider .slick-arrow.slick-prev:before {
+.collection-item .slick-slider .slick-arrow.slick-next::before, .collection-item .slick-slider .slick-arrow.slick-prev:before {
   display: none;
 }
 
