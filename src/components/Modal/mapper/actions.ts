@@ -1,15 +1,14 @@
-import { useStore } from "react-redux";
 import { updateComponent, updateModal } from "../../../actions/modal";
 import { ReactNode } from "react";
+import { Dispatch } from "redux";
 
-const mapActionsToProps = () => {
-  const store = useStore();
+const mapActionsToProps = (dispatch: Dispatch) => {
   return {
     updateComponentModal: (component: ReactNode) => {
-      store.dispatch(updateComponent(component));
+      dispatch(updateComponent(component));
     },
     changeModalState: (data: boolean) => {
-      store.dispatch(updateModal(data));
+      dispatch(updateModal(data));
     }
   };
 };

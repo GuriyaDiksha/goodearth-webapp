@@ -173,6 +173,7 @@ class Quickview extends React.Component<Props, State> {
                     bootstrap.offsetMd0
                   )}
                   onImageClick={this.onClickImage}
+                  activeIndex={currentIndex}
                 />
               </div>
             </div>
