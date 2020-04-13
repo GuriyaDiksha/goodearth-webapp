@@ -8,6 +8,7 @@
     padding: 9px 10px;
     cursor: pointer;
 }
+
 .minus-quantity{
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
@@ -40,4 +41,6 @@ input {
     height: 15px;
     line-height: 15px;
 }
-
+.quantity-wrap {
+    display: flex;
+}

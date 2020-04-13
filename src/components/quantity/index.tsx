@@ -26,7 +26,7 @@ class Quantity extends React.Component<QuantityItem, State> {
     return (
       <div className={styles.quantityWrap}>
         <span
-          className={cs(styles.minusQuantity, styles.quantity)}
+          className={cs(styles.minusQuantity, styles.quantity, props.class)}
           onClick={(): void => {
             if (value > props.minValue) {
               props.onChange(value - 1);
@@ -37,7 +37,7 @@ class Quantity extends React.Component<QuantityItem, State> {
         </span>
         <input type="text" value={value} readOnly className={styles.input} />
         <span
-          className={cs(styles.plusQuantity, styles.quantity)}
+          className={cs(styles.plusQuantity, styles.quantity, props.class)}
           onClick={(): void => {
             if (value < props.maxValue) {
               props.onChange(value + 1);
