@@ -46,6 +46,7 @@ export default {
       }
     );
     dispatch(updateBasket(res));
+    return res;
   },
   deleteBasket: async function(dispatch: Dispatch, basketLineId: ProductID) {
     const res = await API.post<Basket>(

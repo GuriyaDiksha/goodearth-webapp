@@ -26,8 +26,9 @@ const LineItems: React.FC<BasketItem> = memo(
     const { dispatch } = useStore();
 
     const handleChange = (value: number) => {
-      BasketService.updateToBasket(dispatch, id, value);
-      setValue(value);
+      BasketService.updateToBasket(dispatch, id, 1000).then(res => {
+        setValue(value);
+      });
     };
 
     const deleteItem = () => {
