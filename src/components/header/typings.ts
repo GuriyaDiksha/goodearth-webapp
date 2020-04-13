@@ -1,5 +1,5 @@
 import { Currency } from "../../typings/currency";
-import { CartItems } from "components/Bag/typings";
+import { Basket } from "typings/basket";
 
 export interface Childern {
   url: string;
@@ -37,7 +37,7 @@ export type HeaderProps = {
   mobile: boolean;
   isLoggedIn: boolean;
   wishlistData: [];
-  cart: CartItems;
+  cart: Basket;
 };
 
 export type SideMenuProps = {
@@ -45,7 +45,7 @@ export type SideMenuProps = {
   mobile: boolean;
   isLoggedIn: boolean;
   wishlistData: [];
-  sidebagData: CartItems;
+  sidebagData: Basket;
 };
 
 export interface MouseParameter {

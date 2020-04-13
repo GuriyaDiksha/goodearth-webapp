@@ -10,16 +10,16 @@ import iconStyles from "../../styles/iconFonts.scss";
 import gelogoCerise from "../../images/gelogoCerise.svg";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import { CartItems } from "components/Bag/typings";
+// import { CartItems } from "components/Bag/typings";
 import { State } from "./typings";
 
-const cart: CartItems = {
-  products: [],
-  totalWithOutGcItems: 0,
-  isBridal: false,
-  totalExclTax: 0,
-  totalExclTaxExclDiscounts: 0
-};
+// const cart: CartItems = {
+//   products: [],
+//   totalWithOutGcItems: 0,
+//   isBridal: false,
+//   totalExclTax: 0,
+//   totalExclTaxExclDiscounts: 0
+// };
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -28,7 +28,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     isLoggedIn: state.user.email ? true : false,
     wishlistData: [],
-    cart: cart
+    cart: state.basket
   };
 };
 
@@ -110,7 +110,7 @@ class Header extends React.Component<Props, State> {
                     this.state.showMenu
                       ? cs(
                           iconStyles.icon,
-                          iconStyles.iconCross,
+                          iconStyles.iconCrossNarrowBig,
                           styles.iconStyle,
                           styles.iconFont
                         )

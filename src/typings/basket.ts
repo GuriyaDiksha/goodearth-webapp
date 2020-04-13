@@ -1,5 +1,6 @@
 import { ProductID } from "./id";
 import { BasketProduct } from "./product";
+import { Currency } from "./currency";
 
 export type BasketStockRecord = {
   partnerSKU: string;
@@ -31,3 +32,8 @@ export type Basket = {
   loyalityUpdated: boolean;
   isTaxKnown: boolean;
 };
+
+export interface BasketItem extends BasketLineItem {
+  currency: Currency;
+  saleStatus?: boolean;
+}
