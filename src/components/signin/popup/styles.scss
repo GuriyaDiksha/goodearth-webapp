@@ -1,0 +1,121 @@
+@import "../../../styles/partials/form";
+
+@media screen and (min-width: 992px) {
+  .centerpage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+  .popup-form-bg {
+    padding-bottom: 40px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    min-height: 100%;
+    .fix-head {
+      background-color: $white;
+      position: fixed;
+      width: 32%;
+      z-index: 2;
+    }
+    &.popup {
+      overflow-y: scroll;
+      overflow-x: hidden;
+      height: 80vh !important;
+      @include scrollbar-default();
+      &:hover {
+        @include scrollbar();
+      }
+    }
+  }
+  .popup-img {
+    background: url("../../../images/signinBgDec.jpg");
+    background-size: 100% 100%;
+  }
+}
+  
+.popup-form-bg {
+  background-color: $white;
+}
+  
+.popup {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+button {
+  background-color: $white;
+  border-radius: 50%;
+}
+.close-popup {
+  right: 20px;
+  font-size: 40px;
+  color: tint(#000, 50%);
+  position: absolute;
+  top: 20px;
+  line-height: 40px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  &:before {
+    font-size: 42px;
+    color: tint(#000, 30%);
+    cursor: pointer;
+  }
+}
+// .resetpassword {
+//   .popup-form-bg {
+//     height: 450px;
+//     overflow: auto;
+//     z-index: auto;
+//   }
+// }
+
+.logo-popup {
+  height: 70px;
+}
+
+.popup-header {
+  line-height: 70px;
+  border-bottom: 1px solid tint(#000, 90%);
+}
+
+@media screen and (max-width: 992px) {
+  .popup-form-bg {
+    height: 100vh !important;
+
+    overflow-y: scroll;
+    z-index: 0;
+    padding-bottom: 20px;
+    .fix-head {
+      background-color: $white;
+      position: fixed;
+      width: 100%;
+      z-index: 2;
+    }
+  }
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .col-12 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .centerpage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+  }
+  .popup-img {
+    height: 100%;
+  }
+}
+.mTop60 {
+  margin-top: 60px;
+}

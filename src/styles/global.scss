@@ -139,3 +139,12 @@ font-weight: bold;
   background-color: tint(#000, 90%);
   border-left: 1px solid tint(#000, 96%);
 }
+
+.success-msg {
+  @include success-msg();
+}
+
+.logo {
+  width: 111px;
+  cursor: pointer;
+}

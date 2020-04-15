@@ -10,6 +10,7 @@ import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
 import Bag from "../Bag/index";
 import { CartItems } from "components/Bag/typings";
+import LoginService from "services/login";
 
 interface State {
   showc: boolean;
@@ -31,6 +32,24 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
       openProfile: false,
       showSearch: false
     };
+  }
+
+  handleLogout(): void {
+    //   Axios.post(Config.hostname + 'rest-auth/logout/')
+    //     .then((response) => {
+    //         if (response.status === 200) {
+    //             document.cookie = "key=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    //             document.cookie = "bridal_id=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    //             document.cookie = "bridal_currency=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    //             document.cookie = "giftcard_image=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    //             document.cookie = "giftcard_country=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    //             this.props.loggedIn(false);
+    //             document.location.reload();
+    //         }
+    //     }).catch(function (error) {
+    //     console.log(error);
+    // })
+    alert("logged out");
   }
 
   render() {
@@ -80,10 +99,13 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
         value: "Check Balance"
       },
       {
-        label: "Sign In",
-        href: "/about",
+        label: this.props.isLoggedIn ? "Sign Out" : "Sign In",
+        href: "",
+        onClick: this.props.isLoggedIn
+          ? LoginService.showLogin
+          : LoginService.showLogin,
         type: "link",
-        value: "Sign In"
+        value: this.props.isLoggedIn ? "Sign Out" : "Sign In"
       }
     ];
     const selectClass = this.state.showp

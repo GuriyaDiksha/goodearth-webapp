@@ -37,3 +37,47 @@
   .voffset9 {
     margin-top: 150px;
   }
+
+  :focus {
+    outline: 0;
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  
+  input::-moz-focus-inner {
+    border: 0;
+  }
+  
+  input:focus, textarea:focus {
+    outline: none;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  
+  :focus {
+    outline: 0;
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  
+
+  a {
+    text-decoration: none;
+  }
+  
+  a:hover, a:focus, a:active{
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    outline: 0;
+  }
+  
+  button:hover, button:focus, button:active{
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    outline: 0;
+  }

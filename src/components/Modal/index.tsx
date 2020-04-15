@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { unmountComponentAtNode } from "react-dom";
 import cs from "classnames";
 
@@ -23,6 +23,13 @@ const Modal = <T extends HTMLElement>({
   const { ref } = useOutsideDetection<HTMLDivElement>(closeModal);
 
   const Provider = Context.Provider;
+
+  useEffect(() => {
+    document.body.classList.add(styles.noscroll);
+    return () => {
+      document.body.classList.remove(styles.noscroll);
+    };
+  }, []);
 
   return (
     <Provider

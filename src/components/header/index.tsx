@@ -12,6 +12,7 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import { CartItems } from "components/Bag/typings";
 import { State } from "./typings";
+import LoginService from "services/login";
 
 const cart: CartItems = {
   products: [],
@@ -282,8 +283,16 @@ class Header extends React.Component<Props, State> {
                           <li>Activate Gift Card</li>
                           <li>Cerise Program</li>
                           <li>Check Balance</li>
-                          {this.props.isLoggedIn ? <li>Sign Out</li> : ""}
-                          {this.props.isLoggedIn ? "" : <li>Sign In</li>}
+                          {this.props.isLoggedIn ? (
+                            <li onClick={LoginService.showLogin}>Sign Out</li>
+                          ) : (
+                            ""
+                          )}
+                          {this.props.isLoggedIn ? (
+                            ""
+                          ) : (
+                            <li onClick={LoginService.showLogin}>Sign In</li>
+                          )}
                         </ul>
                       </ul>
                     </div>
