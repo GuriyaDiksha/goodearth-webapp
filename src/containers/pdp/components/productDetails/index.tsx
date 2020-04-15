@@ -40,7 +40,8 @@ const ProductDetails: React.FC<Props> = ({
     loyalityDisabled,
     shipping,
     compAndCare,
-    sku
+    sku,
+    url
   },
   mobile,
   currency,
@@ -94,7 +95,6 @@ const ProductDetails: React.FC<Props> = ({
     if (!sizeChartHtml) {
       return;
     }
-    // renderModal(<SizeChartPopup html={sizeChartHtml} />);
     updateComponentModal(
       <SizeChartPopup
         html={sizeChartHtml}
@@ -311,14 +311,26 @@ const ProductDetails: React.FC<Props> = ({
           )}
         >
           <div
-            className={cs(bootstrap.colSm8, bootstrap.col9, {
-              [styles.addToBagBtnContainer]: mobile
-            })}
+            className={cs(
+              bootstrap.colSm8,
+              bootstrap.col9,
+              globalStyles.textCenter,
+              {
+                [styles.addToBagBtnContainer]: mobile
+              }
+            )}
           >
             {selectedSize && selectedSize.stock == 0 ? (
               <Button label="NOTIFY ME" />
             ) : (
               <Button label="ADD TO BAG" onClick={addToBasket} />
+            )}
+            {isQuickview ? (
+              <a href={url} className={styles.moreDetails}>
+                view more details
+              </a>
+            ) : (
+              ""
             )}
           </div>
           <div

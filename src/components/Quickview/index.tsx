@@ -22,7 +22,6 @@ const mapStateToProps = (state: AppState, props: QuickviewProps) => {
   id = quickviewId || id;
   const data = (id && state.products[id]) as Product;
   const productListId = Object.keys(state.products).map(Number);
-
   return {
     id,
     data,
@@ -70,15 +69,16 @@ class Quickview extends React.Component<Props, State> {
 
   getProductImages(index: number) {
     const image = this.getProductImagesData()[index];
-    return (
-      <div
-        className={styles.productImageContainer}
-        key={image.id}
-        id={`img-${image.id}`}
-      >
-        <PdpImage {...image} index={index} onClick={this.onImageClick} />
-      </div>
-    );
+    if (image)
+      return (
+        <div
+          className={styles.productImageContainer}
+          key={image.id}
+          id={`img-${image.id}`}
+        >
+          <PdpImage {...image} index={index} onClick={this.onImageClick} />
+        </div>
+      );
   }
 
   onClickImage = (index: number) => {
@@ -157,11 +157,7 @@ class Quickview extends React.Component<Props, State> {
         >
           {!mobile && (
             <div
-              className={cs(
-                bootstrap.colMd1,
-                bootstrap.offsetMd1,
-                styles.sidebar
-              )}
+              className={cs(bootstrap.colMd1, styles.sidebar)}
               ref={this.sidebarRef}
             >
               <div className={bootstrap.row}>
@@ -191,11 +187,7 @@ class Quickview extends React.Component<Props, State> {
           )}
 
           <div
-            className={cs(
-              styles.detailsContainer,
-              bootstrap.colMd5,
-              bootstrap.col12
-            )}
+            className={cs(styles.detailsContainer, bootstrap.colMd6)}
             ref={this.detailsRef}
           >
             {this.getProductDetails()}
