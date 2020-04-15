@@ -172,6 +172,7 @@ const Zoom: React.FC<Props> = ({
             top: `${top}px`
           }}
           ref={containerRef}
+          onClick={closeModal}
         >
           <img
             src={src}
