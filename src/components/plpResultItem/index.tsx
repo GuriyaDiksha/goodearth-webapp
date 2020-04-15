@@ -92,6 +92,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
       </div>
       <div className={styles.imageContent}>
+        <p className={styles.collectionName}>{product.collections}</p>
         <p className={styles.productN}>
           <a href={product.url}> {product.title} </a>
         </p>

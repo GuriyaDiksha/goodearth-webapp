@@ -76,8 +76,23 @@
 
 }
 
+.collection-name{
+    font-size: 12px;
+    font-family: "Baskerville","Amiri","Serif";
+    color: gray;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media screen and (max-width: 992px){
+    .image-content {
+        padding: 0 10px;
+        margin-top: 10px;
+    }
+}
 
 .product-n{
+    margin: 5px 0;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;

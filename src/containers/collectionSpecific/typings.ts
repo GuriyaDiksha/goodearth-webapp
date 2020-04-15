@@ -1,5 +1,5 @@
 // import { Product, PartialProductItem } from "typings/product";
-import { PLPProductItem } from "src/typings/product";
+import { PartialProductItem } from "src/typings/product";
 import { Breadcrumb } from "typings/navigation";
 
 export interface ImageProps {
@@ -24,7 +24,7 @@ export type CollectionSpecificBannerProps = {
   widgetImages: ImageProps[];
   backgroundImage: string;
   enabled: boolean;
-  products: PLPProductItem[];
+  products: PartialProductItem[];
   id: number;
 };
 
@@ -33,5 +33,5 @@ export type CollectionSpecificProps = {
   breadcrumbs: Breadcrumb[];
   shortDescription: string;
   longDescription: string;
-  results: PLPProductItem[];
+  results: PartialProductItem[];
 };
