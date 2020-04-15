@@ -5,6 +5,7 @@ import SideMenu from "./sidemenu";
 import MainMenu from "./menu";
 import { MenuList } from "./menulist";
 import Mobilemenu from "./mobileMenu";
+import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import gelogoCerise from "../../images/gelogoCerise.svg";
@@ -28,7 +29,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     isLoggedIn: state.user.email ? true : false,
     wishlistData: [],
-    cart: state.basket
+    cart: state.basket,
+    message: state.message
   };
 };
 
@@ -86,6 +88,7 @@ class Header extends React.Component<Props, State> {
   }
 
   render() {
+    const { message } = this.props;
     return (
       <div className="">
         <div className={cs(styles.headerContainer)}>
@@ -295,6 +298,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+        <GrowlMessage {...message} />
       </div>
     );
   }
