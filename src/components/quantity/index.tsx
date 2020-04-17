@@ -24,34 +24,36 @@ class Quantity extends React.Component<QuantityItem, State> {
     const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
 
     return (
-      <div className={styles.quantityWrap}>
-        <span
-          className={cs(styles.minusQuantity, styles.quantity, props.class)}
-          onClick={(): void => {
-            if (value > props.minValue) {
-              props.onChange(value - 1);
-            }
-          }}
-        >
-          -
-        </span>
-        <input type="text" value={value} readOnly className={styles.input} />
-        <span
-          className={cs(styles.plusQuantity, styles.quantity, props.class)}
-          onClick={(): void => {
-            if (value < props.maxValue) {
-              props.onChange(value + 1);
-              this.setState({ showError: false });
-            } else {
-              props.onChange(value);
-              this.setState({ showError: true });
-            }
-          }}
-        >
-          +
-        </span>
+      <>
+        <div className={styles.quantityWrap}>
+          <span
+            className={cs(styles.minusQuantity, styles.quantity, props.class)}
+            onClick={(): void => {
+              if (value > props.minValue) {
+                props.onChange(value - 1);
+              }
+            }}
+          >
+            -
+          </span>
+          <input type="text" value={value} readOnly className={styles.input} />
+          <span
+            className={cs(styles.plusQuantity, styles.quantity, props.class)}
+            onClick={(): void => {
+              if (value < props.maxValue) {
+                props.onChange(value + 1);
+                this.setState({ showError: false });
+              } else {
+                props.onChange(value);
+                this.setState({ showError: true });
+              }
+            }}
+          >
+            +
+          </span>
+        </div>
         <p className={styles.errorMsg}>{this.state.showError ? error : ""}</p>
-      </div>
+      </>
     );
   }
 }
