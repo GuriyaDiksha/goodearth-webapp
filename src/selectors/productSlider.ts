@@ -20,9 +20,9 @@ export const getProductSliderItems = (
         "",
       productUrl: product.url,
       productImage:
-        (product.plpImages &&
-          product.plpImages.length &&
-          product.plpImages[0]) ||
+        (product.images &&
+          product.images.length &&
+          product.images[0].productImage) ||
         "",
       badgeImage: product.salesBadgeImage,
       productName: product.title,

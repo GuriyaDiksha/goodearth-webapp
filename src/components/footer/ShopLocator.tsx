@@ -4,6 +4,7 @@ import styles from "./styles.scss";
 import { ShopLocatorProps } from "./typings";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import useOutsideDetection from "../../hooks/useOutsideDetetion";
+import iconStyles from "../../styles/iconFonts.scss";
 
 export const ShopLocator: React.FC<ShopLocatorProps> = ({
   goToShopLocator,
@@ -42,11 +43,11 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
         <div className={cs(styles.formFooter)}>
           <span className={cs(styles.location)}>
             <i
-              className={
-                menuOpen
-                  ? "icon icon_location icon-class"
-                  : "icon icon_location"
-              }
+              className={cs(
+                { [styles.iconClass]: menuOpen },
+                iconStyles.icon,
+                iconStyles.iconLocation
+              )}
             ></i>
           </span>
           <input
