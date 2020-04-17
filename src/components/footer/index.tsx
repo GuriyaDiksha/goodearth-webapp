@@ -371,20 +371,41 @@ class Footer extends React.Component<Props, FooterState> {
                         href="http://www.facebook.com/goodearthindia"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="icon icon_footer-fb"
-                      ></a>
+                      >
+                        <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconFooterFb,
+                            styles.footerIcon
+                          )}
+                        ></i>
+                      </a>
                       <a
                         href="http://www.instagram.com/goodearthindia"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="icon icon_footer-instagram"
-                      ></a>
+                      >
+                        <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconFooterInstagram,
+                            styles.footerIcon
+                          )}
+                        ></i>
+                      </a>
                       <a
                         href="http://pinterest.com/goodearthindia/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="icon icon_footer-pinterest"
-                      ></a>
+                      >
+                        <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconFooterPinterest,
+                            styles.footerIcon
+                          )}
+                        ></i>
+                      </a>
                     </div>
                     {this.props.saleStatus ? (
                       ""

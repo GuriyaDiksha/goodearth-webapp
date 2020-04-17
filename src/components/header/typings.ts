@@ -31,12 +31,21 @@ export interface HeaderData {
   categoryImageUrl: string;
 }
 
+export type WishListType = {
+  id: number;
+  quantity: number;
+  dndSequence: number;
+  size?: string | undefined;
+  sequence: number;
+  productId: number;
+};
+
 export type HeaderProps = {
   data: HeaderData[];
   currency: Currency;
   mobile: boolean;
   isLoggedIn: boolean;
-  wishlistData: [];
+  wishlistData: WishListType[];
   cart: Basket;
 };
 
@@ -44,7 +53,7 @@ export type SideMenuProps = {
   currency: Currency;
   mobile: boolean;
   isLoggedIn: boolean;
-  wishlistData: [];
+  wishlistData: WishListType[];
   sidebagData: Basket;
 };
 
