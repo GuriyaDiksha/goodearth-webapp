@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -18,10 +18,12 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
 ) => {
   const { data, setting, currency, mobile } = props;
   const code = currencyCode[currency as Currency];
-
+  const [currentId, setCurrentId] = useState(-1);
   const items = data?.map((item: RecommendData, i: number) => {
     return (
       <div
+        onMouseEnter={() => setCurrentId(item.id)}
+        onMouseLeave={() => setCurrentId(-1)}
         key={item.id}
         className={cs({
           [bootstrapStyles.col6]: mobile,
@@ -35,24 +37,25 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         ) : (
           ""
         )}
-        {mobile && (
-          <div
-            className={cs(
-              globalStyles.textCenter,
-              globalStyles.mobileWishlist,
-              {
-                [styles.wishlistBtnContainer]: mobile
-              }
-            )}
-          >
-            <WishlistButton
-              id={item.id}
-              showText={false}
-              key={item.id}
-              mobile={mobile}
-            />
-          </div>
-        )}
+        {mobile ||
+          (currentId == item.id && (
+            <div
+              className={cs(
+                globalStyles.textCenter,
+                globalStyles.mobileWishlist,
+                {
+                  [styles.wishlistBtnContainer]: true
+                }
+              )}
+            >
+              <WishlistButton
+                id={item.id}
+                showText={false}
+                key={item.id}
+                mobile={true}
+              />
+            </div>
+          ))}
         <a href={item.productUrl}>
           <img
             src={
