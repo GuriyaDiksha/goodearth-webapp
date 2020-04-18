@@ -228,9 +228,9 @@ const ProductDetails: React.FC<Props> = ({
                   onChange={onSizeSelect}
                   selected={selectedSize ? selectedSize.id : undefined}
                 />
-                {sizeError && (
+                <div>
                   <span className={styles.sizeErrorMessage}>{sizeError}</span>
-                )}
+                </div>
               </div>
             </div>
           </div>

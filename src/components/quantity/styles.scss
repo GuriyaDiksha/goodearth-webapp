@@ -7,6 +7,7 @@
     background-color: #f2f2f2;
     padding: 9px 10px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .minus-quantity{
@@ -30,17 +31,12 @@ input {
 }
 
 .error-msg{
-    font-size: 10px ;
-    font-style: italic;
-    color: #ab1e56 ;
-    font-weight: bold;
-    font-family: "LatoFont","Helvetica","Arial";
-    letter-spacing: 1px;
-    text-transform: lowercase;
+    @include error-msg();
     text-align: left;
     height: 15px;
     line-height: 15px;
 }
 .quantity-wrap {
     display: flex;
+    width: 100%;
 }
