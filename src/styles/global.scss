@@ -72,6 +72,10 @@ a {
   }
 }
 
+.invisible {
+  opacity: 0;
+}
+
 .hidden {
   display: none;
 }
@@ -144,4 +148,9 @@ font-weight: bold;
   position: absolute;
   right: 10px;
   top: 8px;
+}
+
+.form-field-container {
+  position: relative;
+  width: 100%;
 }

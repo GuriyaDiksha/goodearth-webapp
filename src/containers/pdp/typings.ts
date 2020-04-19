@@ -9,4 +9,5 @@ export type State = {
   sidebarSticky: boolean;
   detailsSticky: boolean;
   activeImage: number;
+  detailStickyEnabled: boolean;
 };

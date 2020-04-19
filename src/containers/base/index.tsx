@@ -10,7 +10,7 @@ export default class BaseLayout extends React.Component {
         <Header />
         {this.props.children}
         <Footer />
-        <Modal fullscreen={true} />
+        <Modal />
       </div>
     );
   }

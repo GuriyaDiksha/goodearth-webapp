@@ -133,12 +133,14 @@
   font-size: 50px;
   background-color: rgba(0, 0, 0, 0.3);
   right: 0;
+  line-height: 70px;
 }
 .more-collection .slick-slider:hover .slick-arrow.slick-prev:before {
   display: block;
   font-size: 50px;
   background-color: rgba(0, 0, 0, 0.3);
   left: 0;
+  line-height: 70px;
 }
 .more-collection.mobile-slider .slick-slider .slick-arrow.slick-next:before{
   display: block;

@@ -7,9 +7,10 @@
     background-color: #f2f2f2;
     padding: 9px 10px;
     cursor: pointer;
+    position: relative;
 }
 
-.minus-quantity{
+.minus-quantity {
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
     border-right: 1px solid #fff;
@@ -36,10 +37,12 @@ input {
     font-weight: bold;
     font-family: "LatoFont","Helvetica","Arial";
     letter-spacing: 1px;
-    text-transform: lowercase;
     text-align: left;
     height: 15px;
     line-height: 15px;
+    position: absolute;
+    bottom: -15px;
+    left: 5px;
 }
 .quantity-wrap {
     display: flex;

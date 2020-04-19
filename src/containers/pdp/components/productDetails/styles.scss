@@ -62,8 +62,15 @@
     }
 }
 
+.size-container {
+    position: relative;
+}
+
 .size-error-message {
     @include error-msg();
+    position: absolute;
+    bottom: -10px;
+    left: 5px;
 }
 
 .bridal-ring {

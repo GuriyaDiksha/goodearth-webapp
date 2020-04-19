@@ -55,7 +55,8 @@ class PDPContainer extends React.Component<Props, State> {
   state: State = {
     sidebarSticky: true,
     detailsSticky: true,
-    activeImage: 0
+    activeImage: 0,
+    detailStickyEnabled: true
   };
 
   imageOffsets: number[] = [];
@@ -76,14 +77,29 @@ class PDPContainer extends React.Component<Props, State> {
         startIndex={index}
         mobile={mobile}
         changeModalState={changeModalState}
-      />
+      />,
+      true
     );
     changeModalState(true);
   };
 
   componentDidMount() {
     this.fetchMoreProductsFromCollection();
+    this.onScroll();
     document.addEventListener("scroll", this.onScroll);
+  }
+
+  componentDidUpdate() {
+    const { data } = this.props;
+    if (!data) {
+      return;
+    }
+    const productImages = this.getProductImagesData();
+    if (productImages.length === 1 && this.state.detailStickyEnabled) {
+      this.setState({
+        detailStickyEnabled: false
+      });
+    }
   }
 
   onScroll = () => {
@@ -354,7 +370,12 @@ class PDPContainer extends React.Component<Props, State> {
         );
       });
 
-    const { sidebarSticky, detailsSticky, activeImage } = this.state;
+    const {
+      sidebarSticky,
+      detailsSticky,
+      activeImage,
+      detailStickyEnabled
+    } = this.state;
 
     return (
       <div
@@ -430,9 +451,10 @@ class PDPContainer extends React.Component<Props, State> {
               styles.detailsContainer,
               bootstrap.colMd5,
               bootstrap.col12,
-              bootstrap.offsetMd6,
               {
-                [globalStyles.pageStickyElement]: !mobile,
+                [bootstrap.offsetMd6]: !mobile && detailStickyEnabled,
+                [globalStyles.pageStickyElement]:
+                  !mobile && detailStickyEnabled,
                 [globalStyles.pageStickyScrolling]: !mobile && !detailsSticky
               }
             )}

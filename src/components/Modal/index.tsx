@@ -4,23 +4,28 @@ import { Props } from "./typings";
 import styles from "./styles.scss";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
+import { Context } from "./context";
+import mapActionsToProps from "./mapper/actions";
 
 const mapStateToProps = (state: AppState) => {
   return {
     component: state.modal.component,
     openModal: state.modal.openModal,
+    fullscreen: state.modal.fullscreen,
     currency: state.currency,
     device: state.device
   };
 };
 
-type ModalProps = Props & ReturnType<typeof mapStateToProps>;
+type ModalProps = Props &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapActionsToProps>;
 
 class Modal extends React.Component<ModalProps> {
   closeModal = () => {
-    // this.setState({
-    //   openModal:false
-    // })
+    const { changeModalState } = this.props;
+
+    changeModalState(false);
   };
 
   render() {
@@ -32,20 +37,26 @@ class Modal extends React.Component<ModalProps> {
       component
     } = this.props;
     return openModal ? (
-      <div className={cs(styles.container, className)}>
-        <div className={styles.backdrop} onClick={this.closeModal}></div>
-        <div
-          className={cs(styles.body, bodyClassName, {
-            [styles.fullscreen]: fullscreen
-          })}
-        >
-          {component}
+      <Context.Provider
+        value={{
+          closeModal: this.closeModal
+        }}
+      >
+        <div className={cs(styles.container, className)}>
+          <div className={styles.backdrop} onClick={this.closeModal}></div>
+          <div
+            className={cs(styles.body, bodyClassName, {
+              [styles.fullscreen]: fullscreen
+            })}
+          >
+            {component}
+          </div>
         </div>
-      </div>
+      </Context.Provider>
     ) : (
       <></>
     );
   }
 }
 
-export default connect(mapStateToProps)(Modal);
+export default connect(mapStateToProps, mapActionsToProps)(Modal);

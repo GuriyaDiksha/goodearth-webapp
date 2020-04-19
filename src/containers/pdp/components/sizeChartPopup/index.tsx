@@ -7,16 +7,12 @@ import styles from "./styles.scss";
 
 type Props = {
   html: string;
-  changeModalState?: any;
 };
 
-const SizeChartPopup: React.FC<Props> = ({ html, changeModalState }) => {
+const SizeChartPopup: React.FC<Props> = ({ html }) => {
   return (
     <div className={cs(styles.sizeChartApparel, styles.sizeGuideModal)}>
-      <CloseButton
-        className={styles.closeButton}
-        changeModalState={changeModalState}
-      />
+      <CloseButton className={styles.closeButton} />
       <div dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
