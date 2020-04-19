@@ -1,139 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 
-import { Props, State } from "./typings";
+import { Props } from "./typings";
 
 import globalStyles from "styles/global.scss";
+import styles from "./styles.scss";
 
-export default class InputField extends React.Component<Props, State> {
-  state: State = {
-    labelclass: false
+const InputField: React.FC<Props> = ({
+  value,
+  validator,
+  id,
+  onChange,
+  name,
+  label,
+  className,
+  placeholder,
+  errorMsg
+}) => {
+  const [focused, setFocused] = useState(false);
+  const [error, setError] = useState("");
+
+  const onFocus = () => {
+    setFocused(true);
   };
-  // constructor(props: Props) {
-  //     super(props);
-  //     this.state = {
-  //         // type: this.props.type || 'text',
-  //         value: this.props.value || '',
-  //         labelclass: false,
-  //         // label: this.props.label || "",
-  //         // error: this.props.error || "",
-  //         placeholder: this.props.placeholder || "",
-  //         // border: this.props.border || false,
-  //         // disable: this.props.disable || false,
-  //         // classes: this.props.class || "",
-  //         // id:this.props.id ||  Math.random().toString(36).substring(7)
-  //     };
-  //     this.handleClick = this.handleClick.bind(this);
-  // }
 
-  // handleClick = (event: React.MouseEvent) => {
-  //     if(!this.state.labelclass || this.state.placeholder !== '') {
-  //         this.setState({
-  //             labelclass: true,
-  //             placeholder:''
-  //         });
-  //     }
-  // }
+  const onValueChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    let error = "";
 
-  // handleClickBlur(event) {
-  //     // if (this.state.value.length == 0) {
-  //     //     this.setState({
-  //     //         labelclass: true,
-  //     //         placeholder: ''
-  //     //     });
-  //     // } else {
-  //     //     this.setState({
-  //     //         labelclass: true
-  //     //     });
-  //     // }
-  //     if(!this.state.labelclass || this.state.placeholder !== '') {
-  //         this.setState({
-  //             labelclass: true,
-  //             placeholder:''
-  //         });
-  //     }
-  //     this.props.blur ? this.props.blur() : "";
-  // }
+    if (validator) {
+      const { valid, message } = validator(value);
 
-  // handleChange(event) {
-  //     this.setState({
-  //         value: event.target.value
+      if (!valid) {
+        error = message || "Please enter valid input";
+        setError(error);
+      } else {
+        setError("");
+      }
+    }
 
-  //     })
-  //     if(this.props.disablePassword) {
-  //         this.props.disablePassword();
-  //     }
-  //     if(this.props.handleChange) {
-  //         this.props.handleChange(event);
-  //     }
-  // }
+    onChange && onChange(value, error);
+  };
 
-  // handleKeyUp(e) {
-  //     this.props.keyup ? this.props.keyup(e) : "";
-  // }
+  return (
+    <div className={cs(globalStyles.formFieldContainer, className)}>
+      <input
+        id={
+          id ||
+          Math.random()
+            .toString(36)
+            .substring(7)
+        }
+        onFocus={onFocus}
+        onChange={onValueChange}
+        value={value}
+        name={name}
+        placeholder={!focused && placeholder ? placeholder : ""}
+        className={cs(styles.input, {
+          [styles.error]: error || errorMsg
+        })}
+      />
+      {focused && <div className={styles.label}>{label}</div>}
+      {(error || errorMsg) && (
+        <span className={styles.inputError}>{error || errorMsg}</span>
+      )}
+    </div>
+  );
+};
 
-  // handleKeyPress(e) {
-  //     this.props.keypress ? this.props.keypress(e) : "";
-  // }
-
-  // // checkEquality(nextProps) {
-  // //     for(let propName in nextProps) {
-  // //         if(this.state.)
-  // //     }
-  // //     return true;
-  // // }
-  // componentWillReceiveProps(nextProps) {
-  //     if(nextProps.isPlaceholderVisible && this.state.placeholder === "") {
-
-  //             this.setState({
-  //                 placeholder: this.props.placeholder,
-  //                 value: "",
-  //                 labelclass: false
-  //             })
-
-  //     }
-  //     else if(nextProps.value && this.state.value !== nextProps.value){
-  //         this.setState({
-  //             value: nextProps.value || this.state.value,
-  //             // error: nextProps.error,
-  //             // errorBorder: nextProps.border || false,
-  //             // classes: nextProps.class? nextProps.class:'',
-  //             // disable: nextProps.disable
-  //         })
-  //     }
-  // }
-
-  render() {
-    const { className, type, id, value, placeholder } = this.props;
-
-    return (
-      <div className={cs(globalStyles.formFieldContainer, className)}>
-        <input
-          className={globalStyles.formField}
-          id={
-            id ||
-            Math.random()
-              .toString(36)
-              .substring(7)
-          }
-          type={type || "text"}
-          value={value}
-          placeholder={placeholder}
-          // onChange={this.handleChange}
-          // autoComplete="new-password"
-          // onClick={this.handleClick} onBlur={this.handleClickBlur}
-          // onFocus={this.handleClick}
-          // onKeyPress={this.handleKeyPress.bind(this)}
-          // onKeyUp={this.handleKeyUp.bind(this)}
-          // onDrop={this.props.isdrop?(e) => {e.preventDefault();}:''}
-          // onPaste={this.props.ispaste?(e) => {e.preventDefault();}:''}
-          // ref={this.props.inputRef || ""}
-          // disabled={this.props.disable || false}
-        />
-        {/* <label className={this.state.labelclass && !this.props.disable || false ? "label" : "label hidden" }
-                       id={this.props.id ||  Math.random().toString(36).substring(7)}>{this.props.label || ""}</label> */}
-        {/* {this.props.error || ""?<p className="error-msg txtnormal" >{this.props.error}</p>:""} */}
-      </div>
-    );
-  }
-}
+export default InputField;

@@ -8,12 +8,12 @@
     padding: 9px 10px;
     cursor: pointer;
     font-size: 14px;
+    position: relative;
 }
 
 .minus-quantity{
     border-top-left-radius: 45%;
     border-bottom-left-radius: 45%;
-    border-right: 1px solid #fff;
 }
 
 input {
@@ -35,6 +35,9 @@ input {
     text-align: left;
     height: 15px;
     line-height: 15px;
+    position: absolute;
+    bottom: -15px;
+    left: 5px;
 }
 .quantity-wrap {
     display: flex;

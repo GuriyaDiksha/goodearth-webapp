@@ -16,8 +16,8 @@ const mapActionsToProps = (dispatch: Dispatch) => {
         dispatch(updateCollectionProducts(id, products));
       }
     },
-    updateComponentModal: (component: ReactNode) => {
-      dispatch(updateComponent(component));
+    updateComponentModal: (component: ReactNode, fullscreen = false) => {
+      dispatch(updateComponent(component, fullscreen));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));

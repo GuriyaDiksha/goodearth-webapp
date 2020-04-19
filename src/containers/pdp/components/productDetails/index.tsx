@@ -8,6 +8,7 @@ import Share from "components/Share";
 import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import SizeChartPopup from "../sizeChartPopup";
+import ColorSelector from "components/ColorSelector";
 // services
 import BasketService from "services/basket";
 // typings
@@ -20,6 +21,7 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import { useStore } from "react-redux";
+import WallpaperPopup from "../wallpaperPopup";
 
 const saleStatus = true;
 
@@ -41,7 +43,8 @@ const ProductDetails: React.FC<Props> = ({
     shipping,
     compAndCare,
     sku,
-    url
+    url,
+    groupedProducts
   },
   mobile,
   currency,
@@ -56,7 +59,9 @@ const ProductDetails: React.FC<Props> = ({
   const [
     selectedSize,
     setSelectedSize
-  ] = useState<ChildProductAttributes | null>(null);
+  ] = useState<ChildProductAttributes | null>(
+    childAttributes.length === 1 ? childAttributes[0] : null
+  );
 
   const { dispatch } = useStore();
   const price =
@@ -95,14 +100,24 @@ const ProductDetails: React.FC<Props> = ({
     if (!sizeChartHtml) {
       return;
     }
+    // renderModal(<SizeChartPopup html={sizeChartHtml} />);
+    updateComponentModal(<SizeChartPopup html={sizeChartHtml} />);
+    changeModalState(true);
+  }, [sizeChartHtml]);
+
+  const [childAttr] = childAttributes;
+  const { size = "" } = childAttr || {};
+  const [height, width] = size.match(/[0-9.]+/gim) || [];
+
+  const onWallpaperClick = useCallback(() => {
     updateComponentModal(
-      <SizeChartPopup
-        html={sizeChartHtml}
-        changeModalState={changeModalState}
+      <WallpaperPopup
+        price={priceRecords[currency]}
+        currency={String.fromCharCode(currencyCodes[currency])}
       />
     );
     changeModalState(true);
-  }, [sizeChartHtml]);
+  }, [height, width]);
 
   const accordionSections = useMemo(() => {
     return [
@@ -209,31 +224,64 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
         </div>
-        <div className={cs(bootstrap.row, styles.spacer)}>
-          <div className={bootstrap.colSm8}>
-            <div className={bootstrap.row}>
-              <div
-                className={cs(
-                  bootstrap.col12,
-                  bootstrap.colSm3,
-                  styles.label,
-                  styles.size
-                )}
-              >
-                Size
-              </div>
-              <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
-                <SizeSelector
-                  sizes={childAttributes}
-                  onChange={onSizeSelect}
-                  selected={selectedSize ? selectedSize.id : undefined}
-                />
-                <div>
-                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
+
+        {groupedProducts?.length ? (
+          <div className={cs(bootstrap.row, styles.spacer)}>
+            <div className={bootstrap.col12}>
+              <div className={bootstrap.row}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm2,
+                    styles.label,
+                    styles.colour
+                  )}
+                >
+                  Color
+                </div>
+                <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+                  <ColorSelector products={groupedProducts} />
                 </div>
               </div>
             </div>
           </div>
+        ) : (
+          ""
+        )}
+
+        <div className={cs(bootstrap.row, styles.spacer)}>
+          {childAttributes.length ? (
+            <div className={bootstrap.col8}>
+              <div className={bootstrap.row}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm3,
+                    styles.label,
+                    styles.size
+                  )}
+                >
+                  Size
+                </div>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm9,
+                    styles.sizeContainer
+                  )}
+                >
+                  <SizeSelector
+                    sizes={childAttributes}
+                    onChange={onSizeSelect}
+                    selected={selectedSize ? selectedSize.id : undefined}
+                  />
+                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           {sizeChartHtml && (
             <div
               className={cs(bootstrap.colSm4, styles.label, {
@@ -254,12 +302,15 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.textCenter
               )}
             >
-              <span className={styles.sizeGuide}> Wallpaper Calculator </span>
+              <span className={styles.sizeGuide} onClick={onWallpaperClick}>
+                {" "}
+                Wallpaper Calculator{" "}
+              </span>
             </div>
           )}
         </div>
         <div className={cs(bootstrap.row, styles.spacer)}>
-          <div className={bootstrap.colSm8}>
+          <div className={bootstrap.col8}>
             <div className={bootstrap.row}>
               <div
                 className={cs(

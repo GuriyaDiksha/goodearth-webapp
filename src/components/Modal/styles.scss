@@ -25,3 +25,12 @@
     transform: translate(0,0);
   }
 }
+
+@media screen and (max-width: 992px) {
+  .body {
+    width: 100%;
+    top: 20%;
+    left: 0;
+    transform: none;
+  }
+}
