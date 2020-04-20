@@ -64,6 +64,7 @@
 
 .size-error-message {
     @include error-msg();
+    display: inline-block;
 }
 
 .bridal-ring {
