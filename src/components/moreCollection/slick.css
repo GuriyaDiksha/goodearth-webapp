@@ -36,20 +36,27 @@
   right: 0;
 }
 
-.pdp-slider .slick-slider .slick-arrow.slick-next::before, .pdp-slider .slick-slider .slick-arrow.slick-prev:before {
+.more-collection .slick-slider:hover .slick-arrow.slick-next, .more-collection .slick-slider:hover .slick-arrow.slick-prev {
+  height: 70px;
+  width: 50px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+}
+.pdp-slider.slick-slider .slick-arrow.slick-next::before, .pdp-slider.slick-slider .slick-arrow.slick-prev:before {
   display: none;
 }
 
-.pdp-slider .slick-slider:hover .slick-arrow.slick-next::before {
+
+.pdp-slider.slick-slider:hover .slick-arrow.slick-next::before {
   display: block;
   font-size: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
+  /* background-color: rgba(0, 0, 0, 0.3); */
   right: 0;
 }
-.pdp-slider .slick-slider:hover .slick-arrow.slick-prev:before {
+.pdp-slider.slick-slider:hover .slick-arrow.slick-prev:before {
   display: block;
   font-size: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
+  /* background-color: rgba(0, 0, 0, 0.3); */
   left: 0;
 }
 
@@ -60,7 +67,7 @@
 }
 
 .pdp-slider .slick-arrow.slick-prev:before, .pdp-slider .slick-arrow.slick-next:before {
-      font-size: 80px;
+  font-size: 80px;
 }
 .pdp-slider.add-border img{
   padding: 0 3px;
@@ -131,30 +138,28 @@
 .more-collection .slick-slider:hover .slick-arrow.slick-next::before {
   display: block;
   font-size: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
   right: 0;
-  line-height: 70px;
+  top: 8px;
 }
 .more-collection .slick-slider:hover .slick-arrow.slick-prev:before {
   display: block;
   font-size: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
   left: 0;
-  line-height: 70px;
+  top: 8px;
 }
 .more-collection.mobile-slider .slick-slider .slick-arrow.slick-next:before{
   display: block;
   font-size: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background: none;
   right: 0;
 }
 .more-collection.mobile-slider .slick-slider .slick-arrow.slick-prev:before{
   display: block;
   font-size: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background: none;
   left: 0;
 }
 
 .more-collection.mobile-slider .slick-arrow {
-  background: none;
+  top: 30%;
 }
