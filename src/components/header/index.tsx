@@ -83,7 +83,6 @@ class Header extends React.Component<Props, State> {
     const { message, wishlistData } = this.props;
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
-    console.log(wishlistIcon);
     return (
       <div className="">
         <div className={cs(styles.headerContainer)}>
