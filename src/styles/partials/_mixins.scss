@@ -1,4 +1,5 @@
 @import "functions";
+@import "variables";
 
 @mixin hdr-cat {
   font-size: 14px;
@@ -362,14 +363,14 @@
 @mixin error-msg {
   font-size: 10px;
   font-style: italic;
-  color: rgb(171, 30, 86);
+  color: $cerise;
   font-weight: bold;
   font-family: $font-Lato;
   letter-spacing: 1px;
 }
 
 @mixin cerise-btn {
-  background-color: rgb(171, 30, 86);
+  background-color: $cerise;
   color: #fff;
   letter-spacing: 2px;
   font-family: $font-Lato;

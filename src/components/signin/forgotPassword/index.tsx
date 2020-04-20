@@ -5,11 +5,11 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 // import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import InputField from "../InputField/index";
+import InputField from "../InputField";
 import Loader from "components/Loader";
-import SocialLogin from "../socialLogin/SocialLogin";
+import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
-import FormContainer from "../formContainer/FormContainer";
+import FormContainer from "../formContainer";
 
 import { Context } from "components/Modal/context.ts";
 
@@ -157,7 +157,10 @@ class ForgotPasswordForm extends React.Component<
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Not a member?{" "}
-          <span className={globalStyles.cerise} onClick={this.goRegister}>
+          <span
+            className={cs(globalStyles.cerise, globalStyles.pointer)}
+            onClick={this.goRegister}
+          >
             {" "}
             SIGN UP{" "}
           </span>

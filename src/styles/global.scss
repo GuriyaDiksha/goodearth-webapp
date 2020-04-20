@@ -120,12 +120,6 @@ font-weight: bold;
   cursor: pointer;
 }
 
-.cerise-btn{
-  background-color: #ab1e56;
-  color: #fff;
-  cursor: pointer;
-}
-
 .cerise-btn {
   @include cerise-btn();
   a {
@@ -147,4 +141,8 @@ font-weight: bold;
 .logo {
   width: 111px;
   cursor: pointer;
+}
+.disabled-btn {
+  background-color: tint(#000, 95%);
+  color: tint(#000, 50%);
 }
