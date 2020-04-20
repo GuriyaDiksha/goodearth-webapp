@@ -27,7 +27,8 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         key={item.id}
         className={cs({
           [bootstrapStyles.col6]: mobile,
-          [bootstrapStyles.colMd4]: mobile
+          [bootstrapStyles.colMd4]: mobile,
+          [bootstrapStyles.col12]: !mobile
         })}
       >
         {item.badgeImage ? (
@@ -37,25 +38,24 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         ) : (
           ""
         )}
-        {mobile ||
-          (currentId == item.id && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                globalStyles.mobileWishlist,
-                {
-                  [styles.wishlistBtnContainer]: true
-                }
-              )}
-            >
-              <WishlistButton
-                id={item.id}
-                showText={false}
-                key={item.id}
-                mobile={true}
-              />
-            </div>
-          ))}
+        {(mobile || currentId == item.id) && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.mobileWishlist,
+              {
+                [styles.wishlistBtnContainer]: true
+              }
+            )}
+          >
+            <WishlistButton
+              id={item.id}
+              showText={false}
+              key={item.id}
+              mobile={true}
+            />
+          </div>
+        )}
         <a href={item.productUrl}>
           <img
             src={
