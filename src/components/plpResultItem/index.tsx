@@ -97,8 +97,10 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <a href={product.url}> {product.title} </a>
         </p>
         <p className={styles.productN}>
-          {String.fromCharCode(code)}{" "}
-          {product.priceRecords[currency as Currency]}
+          <span>
+            {String.fromCharCode(code)}{" "}
+            {product.priceRecords[currency as Currency]}
+          </span>
         </p>
         <div className={cs(styles.productSizeList, bootstyles.row)}>
           <div className={styles.productSize}> size</div>

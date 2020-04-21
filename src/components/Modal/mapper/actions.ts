@@ -4,8 +4,8 @@ import { Dispatch } from "redux";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
-    updateComponentModal: (component: ReactNode) => {
-      dispatch(updateComponent(component));
+    updateComponentModal: (component: ReactNode, fullscreen?: boolean) => {
+      dispatch(updateComponent(component, fullscreen));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));

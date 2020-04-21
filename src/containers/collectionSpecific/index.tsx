@@ -28,7 +28,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 class CollectionSpecific extends React.Component<Props, {}> {
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState } = this.props;
-    updateComponentModal(<Quickview id={id} />);
+    updateComponentModal(<Quickview id={id} />, true);
     changeModalState(true);
   };
 
@@ -72,7 +72,7 @@ class CollectionSpecific extends React.Component<Props, {}> {
               })}
             </div>
             <div className={bootstrap.col12}>
-              <img src={banner} className={globalStyles.imgResponsive} />
+              <img src={banner} className={globalStyles.imgResize} />
             </div>
           </div>
         </section>
