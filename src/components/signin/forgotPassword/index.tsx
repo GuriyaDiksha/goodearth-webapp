@@ -1,7 +1,7 @@
 import React, { RefObject } from "react";
 import cs from "classnames";
 // import Axios from 'axios';
-import styles from "./styles.scss";
+import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -10,6 +10,7 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
+import LoginService from "services/login";
 
 import { Context } from "components/Modal/context.ts";
 
@@ -117,16 +118,16 @@ class ForgotPasswordForm extends React.Component<
     // }
   }
 
-  goRegister() {
-    alert("implement open register form");
+  goRegister(event: React.MouseEvent) {
     // window.register_email = this.refs.emailRef.state.value;
-    // this.props.showRegister();
+    LoginService.showRegister();
+    event.preventDefault();
   }
 
   render() {
     const formContent = (
       <form onSubmit={e => this.handleSubmit(e)}>
-        <ul className="categorylabel">
+        <ul className={styles.categorylabel}>
           <li>
             <InputField
               id="email"
@@ -159,7 +160,7 @@ class ForgotPasswordForm extends React.Component<
           Not a member?{" "}
           <span
             className={cs(globalStyles.cerise, globalStyles.pointer)}
-            onClick={this.goRegister}
+            onClick={e => this.goRegister(e)}
           >
             {" "}
             SIGN UP{" "}

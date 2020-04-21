@@ -36,32 +36,18 @@
 .disabled-input {
   background-color: tint(#000, 95%) !important;
   color: tint(#000, 50%);
+  &input, input {
+  background-color: tint(#000, 95%) !important;
+  color: tint(#000, 50%);
+  }
   .Dropdown-control {
   background-color: tint(#000, 95%) !important;
     color: tint(#000, 50%);
   }
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select {
-  background-color: #fff;
-  border: 1px solid #eee;
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  line-height: 25px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 0;
-  @include placeholder {
-    font-size: 14px;
-    color: tint(#000, 60%);
-    font-style: normal;
-    letter-spacing: 1px;
-    font-family: $font-Lato;
-  }
-  text-align: start;
-  &:active, &:focus {
+.login-form {
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select {
     background-color: #fff;
     border: 1px solid #eee;
     width: 100%;
@@ -80,5 +66,32 @@ input[type="text"], input[type="password"], input[type="email"], input[type="num
       font-family: $font-Lato;
     }
     text-align: start;
+    &:active, &:focus {
+      background-color: #fff;
+      border: 1px solid #eee;
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 25px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 0;
+      @include placeholder {
+        font-size: 14px;
+        color: tint(#000, 60%);
+        font-style: normal;
+        letter-spacing: 1px;
+        font-family: $font-Lato;
+      }
+      text-align: start;
+    }
   }
+}
+.toggle-password-btn {
+  width: 26px;
+  top: 12px;
+  right: 12px;
+  position: absolute;
+  cursor: pointer;
 }

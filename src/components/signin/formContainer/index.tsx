@@ -1,6 +1,6 @@
 import React from "react";
 import cs from "classnames";
-import styles from "./styles.scss";
+import styles from "../styles.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 
 const FormContainer: React.FC<{

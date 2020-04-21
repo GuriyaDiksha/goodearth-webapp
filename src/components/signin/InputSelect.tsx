@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject } from "react";
 
 type Props = {
   name: string;
@@ -8,16 +8,17 @@ type Props = {
   disabled?: boolean;
   placeholder: string;
   errorMessage?: string;
-  ref?: string;
+  selectRef?: RefObject<HTMLSelectElement>;
   options: string[];
   label: string;
+  required: boolean;
 };
 
 const InputSelect: React.FC<Props> = (props: Props) => {
   return (
     <div>
       <select
-        ref={props.ref}
+        ref={props.selectRef}
         name={props.name}
         onChange={e => (props.onChange ? props.onChange(e) : null)}
         value={props.value}

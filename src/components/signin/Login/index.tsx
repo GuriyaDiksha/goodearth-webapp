@@ -1,7 +1,7 @@
 import React, { RefObject } from "react";
 import cs from "classnames";
 // import Axios from 'axios';
-import styles from "./styles.scss";
+import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -13,6 +13,7 @@ import FormContainer from "../formContainer";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context.ts";
+import LoginService from "services/login";
 
 // import {render} from 'react-dom';
 // import * as mapper from "mappers/header"
@@ -25,7 +26,7 @@ import { Context } from "components/Modal/context.ts";
 // import Loader from '../Loader/index';
 
 type Props = {
-  loginclick: string;
+  loginclick?: string;
   // showRegister?: () => void;
   // closePopup: () => void;
   // showForgotPassword: () => void;
@@ -298,10 +299,10 @@ class LoginForm extends React.Component<Props, State> {
     }
   }
 
-  goRegister() {
-    alert("implement open register form");
+  goRegister(event: React.MouseEvent) {
     //     window.register_email = this.refs.emailRef.state.value;
-    //     this.props.showRegister();
+    LoginService.showRegister();
+    event.preventDefault();
   }
 
   togglePassword() {
@@ -312,16 +313,16 @@ class LoginForm extends React.Component<Props, State> {
     });
   }
 
-  goForgotPassword() {
-    alert("implement open forgot password form");
+  goForgotPassword(event: React.MouseEvent) {
     //     window.email_goodearth = this.refs.emailRef.state.value;
-    //     this.props.showForgotPassword();
+    LoginService.showForgotPassword();
+    event.preventDefault();
   }
 
   render() {
     const formContent = (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <ul className="categorylabel">
+        <ul className={styles.categorylabel}>
           <li>
             <InputField
               blur={e => this.myBlur(e)}
@@ -371,7 +372,7 @@ class LoginForm extends React.Component<Props, State> {
                 globalStyles.voffset5,
                 globalStyles.pointer
               )}
-              onClick={this.goForgotPassword}
+              onClick={e => this.goForgotPassword(e)}
             >
               {" "}
               FORGOT PASSWORD
@@ -405,7 +406,7 @@ class LoginForm extends React.Component<Props, State> {
           Not a member?{" "}
           <span
             className={cs(globalStyles.cerise, globalStyles.pointer)}
-            onClick={this.goRegister}
+            onClick={e => this.goRegister(e)}
           >
             {" "}
             SIGN UP{" "}

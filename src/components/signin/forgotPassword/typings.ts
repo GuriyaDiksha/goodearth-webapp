@@ -1,8 +1,5 @@
 // import { ModalContext } from "components/Modal/typings.ts";
-export type ForgotPasswordProps = {
-  // closePopup: () => void;
-  showRegister: () => void;
-};
+export type ForgotPasswordProps = {};
 
 export type ForgotPasswordState = {
   err: boolean;
