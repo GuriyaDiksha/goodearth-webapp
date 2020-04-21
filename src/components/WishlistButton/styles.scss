@@ -5,8 +5,16 @@
     font-size: 36px;
     color: gray;
     cursor: pointer;
-    &:hover {
-        color: $cerise;
+}
+
+@media screen and (min-width:992px) {
+    .wishlist-icon {
+        font-size: 36px;
+        color: gray;
+        cursor: pointer;
+        &:hover {
+            color: $cerise;
+        }
     }
 }
 

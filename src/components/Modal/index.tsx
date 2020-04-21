@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Context } from "./context";
 import mapActionsToProps from "./mapper/actions";
+import globalStyles from "styles/global.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -24,7 +25,6 @@ type ModalProps = Props &
 class Modal extends React.Component<ModalProps> {
   closeModal = () => {
     const { changeModalState } = this.props;
-
     changeModalState(false);
   };
 
@@ -36,6 +36,11 @@ class Modal extends React.Component<ModalProps> {
       openModal,
       component
     } = this.props;
+    if (openModal) {
+      document.body.classList.add(globalStyles.noscroll);
+    } else {
+      document.body.classList.remove(globalStyles.noscroll);
+    }
     return openModal ? (
       <Context.Provider
         value={{
