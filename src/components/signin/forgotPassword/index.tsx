@@ -14,11 +14,6 @@ import LoginService from "services/login";
 
 import { Context } from "components/Modal/context.ts";
 
-// import {render} from 'react-dom';
-// import * as mapper from "mappers/header"
-// import {connect} from 'react-redux'
-
-// import Popup from 'components/common/popup/genericpopup'
 // import * as valid from 'components/common/validation/validate'
 // import Config from 'components/config'
 
@@ -31,6 +26,7 @@ class ForgotPasswordForm extends React.Component<
   constructor(props: ForgotPasswordProps) {
     super(props);
     this.state = {
+      email: "",
       err: false,
       msg: "",
       forgotSuccess: false,
@@ -43,7 +39,8 @@ class ForgotPasswordForm extends React.Component<
   }
   static contextType = Context;
 
-  emailRef: RefObject<InputField> = React.createRef();
+  // emailRef: RefObject<InputField> = React.createRef();
+  emailInput: RefObject<HTMLInputElement> = React.createRef();
 
   handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -124,6 +121,10 @@ class ForgotPasswordForm extends React.Component<
     event.preventDefault();
   }
 
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ email: event.currentTarget.value });
+  }
+
   render() {
     const formContent = (
       <form onSubmit={e => this.handleSubmit(e)}>
@@ -134,9 +135,11 @@ class ForgotPasswordForm extends React.Component<
               blur={(e: React.FocusEvent) => this.handleEmailBlur(e)}
               placeholder={"Email"}
               label={"Email"}
-              ref={this.emailRef}
+              value={this.state.email}
+              // ref={this.emailRef}
               keyUp={e => this.onChange(e)}
-              inputRef="emailInput"
+              handleChange={e => this.handleChange(e)}
+              inputRef={this.emailInput}
               error={this.state.msg}
               border={this.state.err}
             />

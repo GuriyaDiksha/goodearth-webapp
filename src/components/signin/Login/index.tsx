@@ -15,15 +15,9 @@ import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context.ts";
 import LoginService from "services/login";
 
-// import {render} from 'react-dom';
-// import * as mapper from "mappers/header"
-// import {connect} from 'react-redux'
-// import InputField from './inputField'
-// import Popup from 'components/common/popup/genericpopup'
 // import axios from 'axios';
 // import Config from 'components/config'
-// import * as valid from 'components/common/validation/validate'
-// import Loader from '../Loader/index';
+import * as valid from "utils/validate";
 
 type Props = {
   loginclick?: string;
@@ -33,7 +27,9 @@ type Props = {
 };
 
 type State = {
-  msg: string;
+  email: string | null;
+  password: string | null;
+  msg: string | (string | JSX.Element)[];
   msgp: string;
   highlight: boolean;
   highlightp: boolean;
@@ -50,6 +46,8 @@ class LoginForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      email: "",
+      password: "",
       msgp: "",
       msg: "",
       highlight: false,
@@ -57,8 +55,8 @@ class LoginForm extends React.Component<Props, State> {
       disableSelectedbox: false,
       showerror: "",
       socialRedirectUrl: location.pathname + location.search,
-      isPasswordDisabled: true,
-      isLoginDisabled: true,
+      isPasswordDisabled: false,
+      isLoginDisabled: false,
       shouldFocusOnPassword: false,
       successMsg: "",
       showPassword: false
@@ -72,68 +70,80 @@ class LoginForm extends React.Component<Props, State> {
     // this.goForgotPassword = this.goForgotPassword.bind(this);
   }
   static contextType = Context;
-  emailRef: RefObject<InputField> = React.createRef();
-  passwordRef: RefObject<InputField> = React.createRef();
-  // checkMailValidation() {
-  //     axios.post(Config.hostname + 'myapi/checkuserpassword/', {
-  //         email: this.refs.emailRef.state.value
-  //     }).then(res=> {
-  //         if(res.data.email_exist) {
-  //             if(res.data.pwd_exist) {
-  //                 this.setState({
-  //                     isPasswordDisabled: false,
-  //                     msg: '',
-  //                     highlight: false
-  //                 },() => {
-  //                     this.refs.passwordRef.refs.passwordInput.focus();
-  //                 })
-  //             }
-  //             else {
-  //                 window.email_goodearth = this.refs.emailRef.state.value;
-  //                 const error = ["This account already exists. Please ", <span onClick={this.handleResetPassword}>set a new password</span>];
-  //                 this.setState({
-  //                     msg: error,
-  //                     highlight: true
-  //                 })
-  //             }
-  //         }
-  //         else {
-  //             const error =["No registered user found. Please ", <span onClick={this.goRegister}>Sign Up</span>];
-  //             this.setState({
-  //                 msg: error,
-  //                 highlight: true
-  //             })
-  //         }
+  // emailRef: RefObject<InputField> = React.createRef();
+  // passwordRef: RefObject<InputField> = React.createRef();
+  emailInput: RefObject<HTMLInputElement> = React.createRef();
+  passwordInput: RefObject<HTMLInputElement> = React.createRef();
+  async checkMailValidation() {
+    if (this.state.email) {
+      const data = await LoginService.checkuserpassword(this.state.email);
+      if (data.emailExist) {
+        if (data.passwordExist) {
+          this.setState(
+            {
+              isPasswordDisabled: false,
+              msg: "",
+              highlight: false
+            },
+            () => {
+              this.passwordInput.current && this.passwordInput.current.focus();
+            }
+          );
+        } else {
+          // window.email_goodearth = this.refs.emailRef.state.value;
+          const error = [
+            "This account already exists. Please ",
+            <span key={1} onClick={this.handleResetPassword}>
+              set a new password
+            </span>
+          ];
+          this.setState({
+            msg: error,
+            highlight: true
+          });
+        }
+      } else {
+        const error = [
+          "No registered user found. Please ",
+          <span key={2} onClick={this.goRegister}>
+            Sign Up
+          </span>
+        ];
+        this.setState({
+          msg: error,
+          highlight: true
+        });
+      }
+    }
 
-  //     }).catch((err) => {
-  //         console.log("err: " + err);
-  //         this.setState({
-  //             showerror: '',
-  //             highlight: false
-  //         })
-  //     })
-  // }
+    // }).catch((err) => {
+    //     console.log("err: " + err);
+    //     this.setState({
+    //         showerror: '',
+    //         highlight: false
+    //     })
+    // })
+  }
 
-  // handleResetPassword(event) {
-  //     event.preventDefault();
-
-  //     let formData = new FormData();
-  //     formData.append('email', this.refs.emailRef.state.value);
-  //     axios.post(Config.hostname+'myapi/reset_password/', formData
-  //     ).then((res) => {
-  //         this.setState({
-  //             highlight: false,
-  //             msg: '',
-  //             successMsg: res.data.success,
-  //         });
-  //     }).catch((err) => {
-  //         console.log("err: " + err.response.data.email[0 ]);
-  //         this.setState({
-  //             highlight: true,
-  //             msg: err.response.data.email[0],
-  //         })
-  //     })
-  // }
+  handleResetPassword(event: React.MouseEvent) {
+    //     event.preventDefault();
+    //     let formData = new FormData();
+    //     formData.append('email', this.refs.emailRef.state.value);
+    //     axios.post(Config.hostname+'myapi/reset_password/', formData
+    //     ).then((res) => {
+    //         this.setState({
+    //             highlight: false,
+    //             msg: '',
+    //             successMsg: res.data.success,
+    //         });
+    //     }).catch((err) => {
+    //         console.log("err: " + err.response.data.email[0 ]);
+    //         this.setState({
+    //             highlight: true,
+    //             msg: err.response.data.email[0],
+    //         })
+    //     })
+  }
 
   // componentDidMount() {
   //     if(window.temp_email) {
@@ -144,147 +154,154 @@ class LoginForm extends React.Component<Props, State> {
   //     window.temp_email = '';
   // }
 
-  handleSubmit(event: React.FormEvent) {
+  async handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    alert("Implement Login");
-    //     this.myBlur(event, 'submit');
-    //     this.myBlurP();
-    //     if (!this.state.highlight && !this.state.highlightp) {
-    //         window.email_goodearth = this.refs.emailRef.state.value;
-    //         axios.post(Config.hostname + 'rest-auth/login/', {
-    //             email: this.refs.emailRef.state.value,
-    //             password: this.refs.passwordRef.state.value
-    //         }).then(res=> {
-    //             if (res.status === 200) {
-    //                 let cookieString = "key=" + res.data.key + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    //                 document.cookie = cookieString;
-    //                 document.cookie = "bridal_id=" + res.data.bridal_id + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    //                 document.cookie = "bridal_currency=" + res.data.bridal_currency + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    //                 window.dataLayer.push({
-    //                     'event': 'eventsToSend',
-    //                     'eventAction': 'signIn',
-    //                     'eventCategory': 'formSubmission',
-    //                     'eventLabel': location.pathname
-    //                 });
-    //                 if (this.props.loginclick == 'bridal') {
-    //                     location.href = '/accountpage?mod=bridal';
-    //                 } else if (this.props.loginclick == 'cart') {
-    //                     let parameter = location.search.split('loginpopup=abandoncart')[1];
-    //                     if (parameter) {
-    //                         location.href = '/cart/' + '?' + parameter;
-    //                     } else {
-    //                         location.href = '/cart/';
-    //                     }
-    //                 } else if (this.props.loginclick == 'profile') {
-    //                     location.href = '/accountpage?mod=profile';
-    //                 } else if (this.props.loginclick == 'cerise') {
-    //                     if (res.data.customer_slab) {
-    //                         location.href = '/accountpage?mod=cerise';
-    //                     } else {
-    //                         location.href = '/cerise';
-    //                     }
-    //                 } else {
-    //                     document.location.reload();
-    //                     window.scrollTo(0, 0);
-    //                 }
+    this.myBlur(undefined, "submit");
+    this.myBlurP();
+    if (!this.state.highlight && !this.state.highlightp) {
+      // window.email_goodearth = this.refs.emailRef.state.value;
 
-    //             }
-    //         }).catch((err) => {
-    //             console.log("err: " + err);
-    //             if (err.response.data.non_field_errors[0] == 'NotEmail') {
-    //                 window.register_email = this.refs.emailRef.state.value;
-    //                 this.setState({
-    //                     msg: ["No registered user found. Please ", <span onClick={this.goRegister}>Sign Up</span>],
-    //                     highlight: true
-    //                 })
-    //             } else {
-    //                 window.register_email = '';
-    //                 this.setState({
-    //                     showerror: 'The user name and/or password you have entered is incorrect',
-    //                 })
-    //             }
+      const data = await LoginService.login(
+        this.state.email || "",
+        this.state.password || ""
+      );
+      if (data.status === 200) {
+        // window.dataLayer.push({
+        //     'event': 'eventsToSend',
+        //     'eventAction': 'signIn',
+        //     'eventCategory': 'formSubmission',
+        //     'eventLabel': location.pathname
+        // });
+        if (this.props.loginclick == "bridal") {
+          location.href = "/accountpage?mod=bridal";
+        } else if (this.props.loginclick == "cart") {
+          const parameter = location.search.split("loginpopup=abandoncart")[1];
+          if (parameter) {
+            location.href = "/cart/" + "?" + parameter;
+          } else {
+            location.href = "/cart/";
+          }
+        } else if (this.props.loginclick == "profile") {
+          location.href = "/accountpage?mod=profile";
+        } else if (this.props.loginclick == "cerise") {
+          if (data.customer_slab) {
+            location.href = "/accountpage?mod=cerise";
+          } else {
+            location.href = "/cerise";
+          }
+        } else {
+          document.location.reload();
+          window.scrollTo(0, 0);
+        }
+      }
+      // }).catch((err) => {
+      //     console.log("err: " + err);
+      //     if (err.response.data.non_field_errors[0] == 'NotEmail') {
+      //         window.register_email = this.refs.emailRef.state.value;
+      //         this.setState({
+      //             msg: ["No registered user found. Please ", <span onClick={this.goRegister}>Sign Up</span>],
+      //             highlight: true
+      //         })
+      //     } else {
+      //         window.register_email = '';
+      //         this.setState({
+      //             showerror: 'The user name and/or password you have entered is incorrect',
+      //         })
+      //     }
 
-    //         })
-    //     }
+      // })
+    }
   }
 
-  myBlur(event: React.FocusEvent, value?: string) {
-    //     if(!this.refs.emailRef.state.value || this.state.msg) return false;
-    //     value ? "" : this.checkMailValidation();
-    //     this.setState({
-    //         msg: '',
-    //         highlight: false
-    //     })
+  myBlur(event?: React.FocusEvent | React.KeyboardEvent, value?: string) {
+    if (!this.state.email || this.state.msg) return false;
+    value ? "" : this.checkMailValidation();
+    this.setState({
+      msg: "",
+      highlight: false
+    });
   }
 
   myBlurP() {
-    //     if(this.refs.passwordRef.state.value.length == 0) {
-    //         this.setState({
-    //             isLoginDisabled: true,
-    //             msgp: 'Please enter your password',
-    //             highlightp: true,
-    //         })
-    //     }
-    //     else if (this.refs.passwordRef.state.value.length < 6) {
-    //                 if(this.state.msgp !== "Please enter at least 6 characters for the password")
-    //                 this.setState({
-    //                     msgp: 'Please enter at least 6 characters for the password',
-    //                     highlightp: true,
-    //                     isLoginDisabled: false
-    //                 });
-    //             }
-    //     else {
-    //         this.setState({
-    //             isLoginDisabled: false,
-    //             msgp: '',
-    //             highlightp: false
-    //         })
-    //     }
+    if (this.state.password && this.state.password.length == 0) {
+      this.setState({
+        isLoginDisabled: true,
+        msgp: "Please enter your password",
+        highlightp: true
+      });
+    } else if (this.state.password && this.state.password.length < 6) {
+      if (
+        this.state.msgp !==
+        "Please enter at least 6 characters for the password"
+      )
+        this.setState({
+          msgp: "Please enter at least 6 characters for the password",
+          highlightp: true,
+          isLoginDisabled: false
+        });
+    } else {
+      this.setState({
+        isLoginDisabled: false,
+        msgp: "",
+        highlightp: false
+      });
+    }
   }
 
-  onChange(event: React.KeyboardEvent, type?: string) {
-    //     if (this.state.showerror) {
-    //         this.setState({
-    //             showerror: '',
-    //         })
-    //     }
-    //     if(type === "email") {
-    //         if(event.key == "Enter") {
-    //             this.myBlur(event);
-    //         }
-    //         else {
-    //             if (valid.checkBlank(this.refs.emailRef.state.value)) {
-    //                 if(this.state.msg !== "Please Enter Email") {
-    //                     this.setState({
-    //                         msg: 'Please Enter Email',
-    //                         highlight: true,
-    //                         showerror: ""
-    //                     })
-    //                 }
-    //             }
-    //             else if (!valid.checkMail(this.refs.emailRef.state.value)) {
-    //                 if(this.state.msg !== "Enter valid email") {
-    //                     this.setState({
-    //                         msg: 'Enter valid email',
-    //                         highlight: true,
-    //                         showerror: ""
-    //                     })
-    //                 }
-    //             }
-    //             else {
-    //                 if(this.state.msg !== "") {
-    //                     this.setState({
-    //                         msg: "",
-    //                         highlight: false,
-    //                         showerror: ""
-    //                     })
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     if(type === "password") {
-    //             this.myBlurP();
-    //     }
+  handleKeyUp(event: React.KeyboardEvent, type?: string) {
+    if (this.state.showerror) {
+      this.setState({
+        showerror: ""
+      });
+    }
+    if (type === "email") {
+      if (event.key == "Enter") {
+        this.myBlur(event);
+      } else {
+        if (valid.checkBlank(this.state.email)) {
+          if (this.state.msg !== "Please Enter Email") {
+            this.setState({
+              msg: "Please Enter Email",
+              highlight: true,
+              showerror: ""
+            });
+          }
+        } else if (!valid.checkMail(this.state.email)) {
+          if (this.state.msg !== "Enter valid email") {
+            this.setState({
+              msg: "Enter valid email",
+              highlight: true,
+              showerror: ""
+            });
+          }
+        } else {
+          if (this.state.msg !== "") {
+            this.setState({
+              msg: "",
+              highlight: false,
+              showerror: ""
+            });
+          }
+        }
+      }
+    }
+    if (type === "password") {
+      this.myBlurP();
+    }
+  }
+
+  handleChange(event: React.ChangeEvent<HTMLInputElement>, type: string) {
+    switch (type) {
+      case "email": {
+        this.disablePassword();
+        this.setState({ email: event.currentTarget.value });
+        break;
+      }
+      case "password": {
+        this.setState({ password: event.currentTarget.value });
+        break;
+      }
+    }
   }
 
   disablePassword() {
@@ -326,13 +343,15 @@ class LoginForm extends React.Component<Props, State> {
           <li>
             <InputField
               blur={e => this.myBlur(e)}
-              ref={this.emailRef}
+              // ref={this.emailRef}
+              value={this.state.email}
               placeholder={"Email"}
               label={"Email"}
               border={this.state.highlight}
-              keyUp={e => this.onChange(e, "email")}
+              keyUp={e => this.handleKeyUp(e, "email")}
+              handleChange={e => this.handleChange(e, "email")}
               error={this.state.msg}
-              inputRef="emailInput"
+              inputRef={this.emailInput}
               disablePassword={this.disablePassword}
             />
           </li>
@@ -340,11 +359,13 @@ class LoginForm extends React.Component<Props, State> {
             <InputField
               blur={this.myBlurP.bind(this)}
               placeholder={"Password"}
-              keyUp={e => this.onChange(e, "password")}
-              ref={this.passwordRef}
+              value={this.state.password}
+              keyUp={e => this.handleKeyUp(e, "password")}
+              handleChange={e => this.handleChange(e, "password")}
+              // ref={this.passwordRef}
               label={"Password"}
               border={this.state.highlightp}
-              inputRef="passwordInput"
+              inputRef={this.passwordInput}
               disable={this.state.isPasswordDisabled}
               isPlaceholderVisible={this.state.isPasswordDisabled}
               error={this.state.msgp}

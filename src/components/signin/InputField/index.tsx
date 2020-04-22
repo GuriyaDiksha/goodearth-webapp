@@ -1,134 +1,112 @@
-import React from "react";
-import { Props, State } from "./typings";
-// import {render} from 'react-dom';
-// import * as mapper from "mappers/header"
-// import {connect} from 'react-redux'
+import React, { useEffect, useState } from "react";
+import { Props } from "./typings";
+import globalStyles from "styles/global.scss";
+import cs from "classnames";
 
-class InputField extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      value: this.props.value || "",
-      labelClass: false,
-      placeholder: this.props.placeholder || ""
-    };
-  }
+const InputField: React.FC<Props> = (props: Props) => {
+  // const [ value, setValue ] = useState(props.value || "");
+  const [labelClass, setLabelClass] = useState(false);
+  const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
-  handleClick(event: React.MouseEvent | React.FocusEvent) {
-    if (!this.state.labelClass || this.state.placeholder !== "") {
-      this.setState({
-        labelClass: true,
-        placeholder: ""
-      });
+  const handleClick = (event: React.MouseEvent | React.FocusEvent) => {
+    if (!labelClass || placeholder !== "") {
+      setLabelClass(true);
+      setPlaceholder("");
     }
-  }
+  };
 
-  handleClickBlur(event: React.FocusEvent) {
-    if (!this.state.labelClass || this.state.placeholder !== "") {
-      this.setState({
-        labelClass: true,
-        placeholder: ""
-      });
+  const handleClickBlur = (event: React.FocusEvent) => {
+    if (!labelClass || placeholder !== "") {
+      setLabelClass(true);
+      setPlaceholder("");
     }
-    this.props.blur ? this.props.blur(event) : "";
-  }
+    props.blur ? props.blur(event) : "";
+  };
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      value: event.target.value
-    });
-    if (this.props.disablePassword) {
-      this.props.disablePassword();
-    }
-    if (this.props.handleChange) {
-      this.props.handleChange(event);
-    }
-  }
-
-  // componentWillReceiveProps(nextProps: Props) {
-  //   if (nextProps.isPlaceholderVisible && this.state.placeholder === "") {
-  //     this.setState({
-  //       placeholder: this.props.placeholder,
-  //       value: "",
-  //       labelClass: false
-  //     });
-  //   } else if (nextProps.value && this.state.value !== nextProps.value) {
-  //     this.setState({
-  //       value: nextProps.value || this.state.value
-  //     });
-  //   }
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // setValue(event.target.value);
+  // if (props.handleChange) {
+  //   props.handleChange(event);
+  // }
   // }
 
-  render() {
-    return (
-      <div className={this.props.className ? this.props.className : ""}>
-        <input
-          type={this.props.type || "text"}
-          id={
-            this.props.id ||
-            Math.random()
-              .toString(36)
-              .substring(7)
-          }
-          name={this.props.name}
-          className={
-            this.props.border || false
-              ? "error-border"
-              : this.props.inputClass || ""
-          }
-          value={this.state.value}
-          placeholder={this.state.placeholder}
-          onChange={e => this.handleChange(e)}
-          autoComplete="new-password"
-          onClick={e => this.handleClick(e)}
-          onBlur={e => this.handleClickBlur(e)}
-          onFocus={e => this.handleClick(e)}
-          onKeyPress={e =>
-            this.props.keyPress ? this.props.keyPress(e) : null
-          }
-          onKeyUp={e => (this.props.keyUp ? this.props.keyUp(e) : null)}
-          onDrop={
-            this.props.isDrop
-              ? e => {
-                  e.preventDefault();
-                }
-              : undefined
-          }
-          onPaste={
-            this.props.isPaste
-              ? e => {
-                  e.preventDefault();
-                }
-              : undefined
-          }
-          min={this.props.min || ""}
-          max={this.props.max || ""}
-          ref={this.props.inputRef || ""}
-          disabled={this.props.disable || false}
-        />
-        <label
-          className={
-            (this.state.labelClass && !this.props.disable) || false
-              ? "label"
-              : "label hidden"
-          }
-          id={
-            this.props.id ||
-            Math.random()
-              .toString(36)
-              .substring(7)
-          }
-        >
-          {this.props.label || ""}
-        </label>
-        {this.props.error || "" ? (
-          <p className="error-msg txtnormal">{this.props.error}</p>
-        ) : (
-          ""
-        )}
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    if (props.isPlaceholderVisible && placeholder === "") {
+      setPlaceholder(props.placeholder);
+      // setValue("");
+      setLabelClass(false);
+    }
+    // } else if (props.value && value !== props.value) {
+    //   setValue(props.value || value);
+    // }
+  });
+
+  return (
+    <div className={props.className ? props.className : ""}>
+      <input
+        type={props.type || "text"}
+        id={
+          props.id ||
+          Math.random()
+            .toString(36)
+            .substring(7)
+        }
+        name={props.name}
+        className={
+          props.border || false
+            ? globalStyles.errorBorder
+            : props.inputClass || ""
+        }
+        value={props.value || ""}
+        placeholder={placeholder}
+        onChange={e => props.handleChange(e)}
+        autoComplete="new-password"
+        onClick={e => handleClick(e)}
+        onBlur={e => handleClickBlur(e)}
+        onFocus={e => handleClick(e)}
+        onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
+        onKeyUp={e => (props.keyUp ? props.keyUp(e) : null)}
+        onDrop={
+          props.isDrop
+            ? e => {
+                e.preventDefault();
+              }
+            : undefined
+        }
+        onPaste={
+          props.isPaste
+            ? e => {
+                e.preventDefault();
+              }
+            : undefined
+        }
+        min={props.min || ""}
+        max={props.max || ""}
+        ref={props.inputRef || ""}
+        disabled={props.disable || false}
+      />
+      <label
+        className={
+          (labelClass && !props.disable) || false ? "" : globalStyles.hidden
+        }
+        id={
+          props.id ||
+          Math.random()
+            .toString(36)
+            .substring(7)
+        }
+      >
+        {props.label || ""}
+      </label>
+      {props.error || "" ? (
+        <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
+          {props.error}
+        </p>
+      ) : (
+        ""
+      )}
+    </div>
+  );
+};
 
 export default InputField;

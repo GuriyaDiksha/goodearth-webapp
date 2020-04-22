@@ -28,6 +28,14 @@ import CountryCode from "../CountryCode";
 // import 'react-datepicker/dist/react-datepicker.css';
 type Props = {};
 type State = {
+  email: string | null;
+  password: string | null;
+  confirmPassword: string | null;
+  dob: string | null;
+  country: string | null;
+  phone: string | null;
+  fname: string | null;
+  lname: string | null;
   msg: string;
   msgn: string;
   msgp: string;
@@ -65,6 +73,14 @@ class RegisterForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      dob: "",
+      country: "",
+      phone: "",
+      fname: "",
+      lname: "",
       msg: "",
       msgn: "",
       msgp: "",
@@ -117,14 +133,18 @@ class RegisterForm extends React.Component<Props, State> {
     // this.handleDOBFocus = this.handleDOBFocus.bind(this);
   }
   static contextType = Context;
-  emailRef: RefObject<InputField> = React.createRef();
-  passwordRef: RefObject<InputField> = React.createRef();
-  confirmPasswordRef: RefObject<InputField> = React.createRef();
-  dobRef: RefObject<InputField> = React.createRef();
+  // emailRef: RefObject<InputField> = React.createRef();
+  // passwordRef: RefObject<InputField> = React.createRef();
+  // confirmPasswordRef: RefObject<InputField> = React.createRef();
+  // dobRef: RefObject<InputField> = React.createRef();
   countryRef: RefObject<CountryCode> = React.createRef();
-  phoneRef: RefObject<InputField> = React.createRef();
-  fnameRef: RefObject<InputField> = React.createRef();
-  lnameRef: RefObject<InputField> = React.createRef();
+  // phoneRef: RefObject<InputField> = React.createRef();
+  // fnameRef: RefObject<InputField> = React.createRef();
+  // lnameRef: RefObject<InputField> = React.createRef();
+  emailInput: RefObject<HTMLInputElement> = React.createRef();
+  firstNameInput: RefObject<HTMLInputElement> = React.createRef();
+  lastNameInput: RefObject<HTMLInputElement> = React.createRef();
+
   // componentDidMount() {
   //     document.getElementById('subscrib').checked = false;
   //     if (window.register_email) {
@@ -649,6 +669,43 @@ class RegisterForm extends React.Component<Props, State> {
     //         return validate;
   }
 
+  handleChange(event: React.ChangeEvent<HTMLInputElement>, type: string) {
+    switch (type) {
+      case "email": {
+        this.setState({ email: event.currentTarget.value });
+        break;
+      }
+      case "password": {
+        this.setState({ password: event.currentTarget.value });
+        break;
+      }
+      case "confirmPassword": {
+        this.setState({ confirmPassword: event.currentTarget.value });
+        break;
+      }
+      case "dob": {
+        this.setState({ dob: event.currentTarget.value });
+        break;
+      }
+      case "country": {
+        this.setState({ country: event.currentTarget.value });
+        break;
+      }
+      case "phone": {
+        this.setState({ phone: event.currentTarget.value });
+        break;
+      }
+      case "fname": {
+        this.setState({ fname: event.currentTarget.value });
+        break;
+      }
+      case "lname": {
+        this.setState({ lname: event.currentTarget.value });
+        break;
+      }
+    }
+  }
+
   handleConfirmPassword(event: React.KeyboardEvent) {
     //     this.myBlurP();
     //     const error = this.state.msgcp;
@@ -695,12 +752,14 @@ class RegisterForm extends React.Component<Props, State> {
           <li>
             <InputField
               blur={!this.state.msg ? () => this.myBlur : () => false}
-              ref={this.emailRef}
+              // ref={this.emailRef}
+              value={this.state.email}
               placeholder={"Email*"}
               label={"Email*"}
               keyUp={e => this.onMailChange(e)}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-              inputRef="emailInput"
+              inputRef={this.emailInput}
+              handleChange={e => this.handleChange(e, "email")}
               error={this.state.msg}
               border={this.state.highlight}
             />
@@ -708,13 +767,15 @@ class RegisterForm extends React.Component<Props, State> {
           <li>
             <InputField
               blur={this.myBlurName.bind(this)}
-              ref={this.fnameRef}
+              value={this.state.fname}
+              // ref={this.fnameRef}
               placeholder={"First Name*"}
               label={"First Name*"}
-              inputRef="firstNameInput"
+              inputRef={this.firstNameInput}
               disable={!this.state.showFields}
               className={showFieldsClass}
               keyPress={e => this.handleFirstNameKeyPress(e)}
+              handleChange={e => this.handleChange(e, "fname")}
               error={this.state.msgn}
               border={this.state.highlightn}
             />
@@ -723,12 +784,14 @@ class RegisterForm extends React.Component<Props, State> {
             <InputField
               blur={this.myBlurLName.bind(this)}
               placeholder={"Last Name*"}
-              ref={this.lnameRef}
+              value={this.state.lname}
+              // ref={this.lnameRef}
               label={"Last Name*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-              inputRef="lastNameInput"
+              handleChange={e => this.handleChange(e, "lname")}
+              inputRef={this.lastNameInput}
               error={this.state.msgl}
               border={this.state.highlightl}
             />
@@ -780,13 +843,15 @@ class RegisterForm extends React.Component<Props, State> {
             <InputField
               type="date"
               keyUp={e => this.handleDobChange(e)}
+              value={this.state.dob}
               // value={this.state.dateOfBirth}
               disable={!this.state.showFields}
               className={showFieldsClass}
-              ref={this.dobRef}
+              // ref={this.dobRef}
               id="date_of_birth"
               placeholder="YYYY/MM/DD"
               label="Date of Birth"
+              handleChange={e => this.handleChange(e, "dob")}
               min={moment(
                 new Date().setFullYear(new Date().getFullYear() - 110)
               ).format("YYYY-MM-DD")}
@@ -811,8 +876,9 @@ class RegisterForm extends React.Component<Props, State> {
               blur={this.myPhoneCodeBlur.bind(this)}
             />
             <InputField
-              ref={this.phoneRef}
+              // ref={this.phoneRef}
               placeholder={"Contact Number"}
+              value={this.state.phone}
               type="number"
               disable={!this.state.showFields}
               className={showFieldsClass}
@@ -820,20 +886,23 @@ class RegisterForm extends React.Component<Props, State> {
               border={this.state.numHighlight}
               blur={this.myPhoneNumberBlur.bind(this)}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              handleChange={e => this.handleChange(e, "phone")}
               error={this.state.nmsg}
             />
           </li>
           <li>
             <InputField
               blur={this.myBlurP.bind(this)}
-              ref={this.passwordRef}
+              // ref={this.passwordRef}
               placeholder={"Password*"}
+              value={this.state.password}
               label={"Password*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
               error={this.state.msgp}
               border={this.state.highlightp}
               keyUp={e => this.handleConfirmPassword(e)}
+              handleChange={e => this.handleChange(e, "password")}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
             />
@@ -849,15 +918,17 @@ class RegisterForm extends React.Component<Props, State> {
           <li>
             <InputField
               blur={this.myBlurP.bind(this)}
-              ref={this.confirmPasswordRef}
+              // ref={this.confirmPasswordRef}
               placeholder={"Confirm Password*"}
               label={"Confirm Password*"}
+              value={this.state.confirmPassword}
               disable={!this.state.showFields}
               className={showFieldsClass}
               error={this.state.msgcp}
               border={this.state.highlightcp}
               keyUp={e => this.handleConfirmPassword(e)}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              handleChange={e => this.handleChange(e, "confirmPassword")}
               type={this.state.showPassword ? "text" : "password"}
             />
           </li>

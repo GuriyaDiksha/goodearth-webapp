@@ -2,6 +2,7 @@
 export type ForgotPasswordProps = {};
 
 export type ForgotPasswordState = {
+  email: string | null;
   err: boolean;
   msg: string;
   forgotSuccess: boolean;
