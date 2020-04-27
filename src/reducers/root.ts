@@ -15,6 +15,7 @@ import { basket } from "./basket";
 import { quickview } from "./quickview";
 import { modal } from "./modal";
 import { growlMessage } from "./growlMessage";
+import { meta } from "./meta";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -31,6 +32,7 @@ const createRootReducer = (history: History) => {
     basket,
     quickview,
     modal,
+    meta,
     message: growlMessage
   });
 };

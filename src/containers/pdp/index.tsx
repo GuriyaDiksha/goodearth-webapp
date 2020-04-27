@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import cs from "classnames";
 import { Props as PDPProps, State } from "./typings";
 import initAction from "./initAction";
+import metaAction from "./metaAction";
 
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
@@ -43,7 +44,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     data,
     recommendedSliderItems,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    corporatePDP: state.meta.templateType === "corporate_pdp"
   };
 };
 
@@ -228,10 +230,12 @@ class PDPContainer extends React.Component<Props, State> {
       currency,
       device: { mobile },
       updateComponentModal,
-      changeModalState
+      changeModalState,
+      corporatePDP
     } = this.props;
     return (
       <ProductDetails
+        corporatePDP={corporatePDP}
         data={data}
         currency={currency}
         mobile={mobile}
@@ -475,3 +479,5 @@ class PDPContainer extends React.Component<Props, State> {
 export default connect(mapStateToProps, mapDispatchToProps)(PDPContainer);
 
 export { initAction };
+
+export { metaAction };

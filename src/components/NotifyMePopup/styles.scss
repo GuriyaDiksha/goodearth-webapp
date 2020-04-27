@@ -1,0 +1,93 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.container {
+    width: 100%;
+    min-height: 360px;
+    background-color: #fff;
+    bottom: 0;
+    padding-bottom: 55px;
+    position: relative;
+}
+
+.header {
+    height: 50px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.collection {
+    @include plp_coll_name_desktop();
+}
+
+.title {
+    @include plp_prod_name_desktop();
+}
+
+.label {
+    @include pdp_label();
+}
+
+.size-label {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.qty-label {
+    margin-top: 15px;
+}
+
+.price {
+    font-size: 12px;
+    line-height: 30px;
+    font-family: "AmiriFont", "Baskerville", "Garamond";
+    margin-top: 0;
+}
+.qty-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.email-input {
+    width: 70%;
+    margin: 0 auto 30px;
+}
+
+.body-class {
+    bottom: 0;
+    top: auto;
+}
+
+.close-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 36px;
+    display: block;
+    margin: auto;
+    top: 5px;
+    right: 5px;
+}
+
+.button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.success-msg {
+    @include success-msg();
+    position: relative;
+    top: -30px;
+}
+
+
+@media screen and (min-width: 992px) {
+    .container {
+        width: 430px;
+        max-width: 50vw;
+        min-height: 20vh;
+    }
+
+}

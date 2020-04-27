@@ -101,6 +101,7 @@ class Quickview extends React.Component<Props, State> {
         mobile={mobile}
         wishlist={[]}
         isQuickview={true}
+        corporatePDP={false}
       />
     );
   }

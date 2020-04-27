@@ -10,4 +10,5 @@ export type Props = {
   isQuickview?: boolean;
   changeModalState?: any;
   updateComponentModal?: any;
+  corporatePDP: boolean;
 };

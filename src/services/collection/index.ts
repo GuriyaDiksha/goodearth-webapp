@@ -9,7 +9,7 @@ import Axios from "axios";
 export default {
   fetchCollectionMapping: async (id: number): Promise<CollectionFilter> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/collection/level-2-cat-coll-mapping/${id}`,
+      `http://api.goodearth.in/myapi/collection/level_2_cat_coll_mapping/${id}`,
       {}
     );
     res.data.level2Categories = res.data.level2Categories.map((data: any) => {

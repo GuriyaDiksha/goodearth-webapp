@@ -12,6 +12,7 @@ const mapStateToProps = (state: AppState) => {
     component: state.modal.component,
     openModal: state.modal.openModal,
     fullscreen: state.modal.fullscreen,
+    bodyClass: state.modal.bodyClass,
     currency: state.currency,
     device: state.device
   };
@@ -30,7 +31,7 @@ class Modal extends React.Component<ModalProps> {
 
   render() {
     const {
-      bodyClassName,
+      bodyClass,
       className,
       fullscreen,
       openModal,
@@ -45,7 +46,7 @@ class Modal extends React.Component<ModalProps> {
         <div className={cs(styles.container, className)}>
           <div className={styles.backdrop} onClick={this.closeModal}></div>
           <div
-            className={cs(styles.body, bodyClassName, {
+            className={cs(styles.body, bodyClass, {
               [styles.fullscreen]: fullscreen
             })}
           >
