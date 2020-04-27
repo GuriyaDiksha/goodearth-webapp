@@ -15,6 +15,7 @@ import PdpImage from "./components/pdpImage";
 import ProductDetails from "./components/productDetails";
 import WeRecommendSlider from "components/weRecomend";
 import CollectionProductsSlider from "components/moreCollection";
+import WallpaperFAQ from "./components/WallpaperFAQ";
 
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -348,6 +349,18 @@ class PDPContainer extends React.Component<Props, State> {
     });
   };
 
+  getWallpaperFAQ = () => {
+    const {
+      device: { mobile },
+      data: { categories }
+    } = this.props;
+
+    if (categories.indexOf("Living > Wallcoverings") === -1) {
+      return null;
+    }
+    return <WallpaperFAQ mobile={mobile} />;
+  };
+
   render() {
     const {
       data,
@@ -467,6 +480,7 @@ class PDPContainer extends React.Component<Props, State> {
             {this.getProductDetails()}
           </div>
         </div>
+        {this.getWallpaperFAQ()}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}
