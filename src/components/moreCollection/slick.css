@@ -143,13 +143,11 @@
   display: block;
   font-size: 50px;
   right: 0;
-  top: 8px;
 }
 .more-collection .slick-slider:hover .slick-arrow.slick-prev:before {
   display: block;
   font-size: 50px;
   left: 0;
-  top: 8px;
 }
 .more-collection.mobile-slider .slick-slider .slick-arrow.slick-next:before{
   display: block;

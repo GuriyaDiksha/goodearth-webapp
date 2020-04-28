@@ -4,7 +4,8 @@ import React, {
   useCallback,
   useMemo,
   EventHandler,
-  MouseEvent
+  MouseEvent,
+  useEffect
 } from "react";
 import cs from "classnames";
 import { useStore } from "react-redux";
@@ -75,6 +76,11 @@ const ProductDetails: React.FC<Props> = ({
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
+  useEffect(() => {
+    if (childAttributes.length === 1 && !selectedSize) {
+      setSelectedSize(childAttributes[0]);
+    }
+  }, [childAttributes, selectedSize]);
 
   const { dispatch } = useStore();
   const price =
