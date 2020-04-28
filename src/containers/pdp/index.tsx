@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import cs from "classnames";
 import { Props as PDPProps, State } from "./typings";
 import initAction from "./initAction";
+import metaAction from "./metaAction";
 
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
@@ -14,6 +15,7 @@ import PdpImage from "./components/pdpImage";
 import ProductDetails from "./components/productDetails";
 import WeRecommendSlider from "components/weRecomend";
 import CollectionProductsSlider from "components/moreCollection";
+import WallpaperFAQ from "./components/WallpaperFAQ";
 
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -24,6 +26,7 @@ import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
+import zoom from "images/zoom.png";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -43,7 +46,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     data,
     recommendedSliderItems,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    corporatePDP: state.meta.templateType === "corporate_pdp"
   };
 };
 
@@ -228,10 +232,12 @@ class PDPContainer extends React.Component<Props, State> {
       currency,
       device: { mobile },
       updateComponentModal,
-      changeModalState
+      changeModalState,
+      corporatePDP
     } = this.props;
     return (
       <ProductDetails
+        corporatePDP={corporatePDP}
         data={data}
         currency={currency}
         mobile={mobile}
@@ -344,6 +350,24 @@ class PDPContainer extends React.Component<Props, State> {
     });
   };
 
+  getWallpaperFAQ = () => {
+    const {
+      device: { mobile },
+      data: { categories }
+    } = this.props;
+
+    if (categories.indexOf("Living > Wallcoverings") === -1) {
+      return null;
+    }
+    return <WallpaperFAQ mobile={mobile} />;
+  };
+
+  getMobileZoomListener = (index: number) => {
+    return () => {
+      this.onImageClick(index);
+    };
+  };
+
   render() {
     const {
       data,
@@ -361,11 +385,18 @@ class PDPContainer extends React.Component<Props, State> {
       mobile &&
       images?.map(({ id, productImage }, i: number) => {
         return (
-          <div key={id}>
+          <div key={id} className={globalStyles.relative}>
             <img
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
             />
+            <div
+              className={styles.mobileZoomIcon}
+              onClick={this.getMobileZoomListener(i)}
+            >
+              <img src={zoom}></img>
+              Zoom
+            </div>
           </div>
         );
       });
@@ -463,6 +494,7 @@ class PDPContainer extends React.Component<Props, State> {
             {this.getProductDetails()}
           </div>
         </div>
+        {this.getWallpaperFAQ()}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}
@@ -475,3 +507,5 @@ class PDPContainer extends React.Component<Props, State> {
 export default connect(mapStateToProps, mapDispatchToProps)(PDPContainer);
 
 export { initAction };
+
+export { metaAction };

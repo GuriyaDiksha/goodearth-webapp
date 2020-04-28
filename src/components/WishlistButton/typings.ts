@@ -5,4 +5,5 @@ export type Props = {
   showText?: boolean;
   className?: string;
   mobile?: boolean;
+  iconClassName?: string;
 };

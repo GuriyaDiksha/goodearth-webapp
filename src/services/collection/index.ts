@@ -9,7 +9,7 @@ import Axios from "axios";
 export default {
   fetchCollectionMapping: async (id: number): Promise<CollectionFilter> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/collection/level-2-cat-coll-mapping/${id}`,
+      `http://api.goodearth.in/myapi/collection/level_2_cat_coll_mapping/${id}`,
       {}
     );
     res.data.level2Categories = res.data.level2Categories.map((data: any) => {
@@ -33,7 +33,7 @@ export default {
     id: number
   ): Promise<CollectionSpecificBannerProps> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/promotions/multi-image-page-widget/COLL_${id}_1/`,
+      `http://api.goodearth.in/myapi/promotions/multi_image_page_widget/COLL_${id}_1/`,
       {}
     );
     const data: CollectionSpecificBannerProps = res.data;

@@ -13,6 +13,7 @@ const mapStateToProps = (state: AppState) => {
     component: state.modal.component,
     openModal: state.modal.openModal,
     fullscreen: state.modal.fullscreen,
+    bodyClass: state.modal.bodyClass,
     currency: state.currency,
     device: state.device
   };
@@ -23,24 +24,35 @@ type ModalProps = Props &
   ReturnType<typeof mapActionsToProps>;
 
 class Modal extends React.Component<ModalProps> {
+  prevScroll = 0;
   closeModal = () => {
     const { changeModalState } = this.props;
     changeModalState(false);
   };
 
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.openModal) {
+      if (!prevProps.openModal) {
+        this.prevScroll = document.documentElement.scrollTop;
+        document.body.classList.add(globalStyles.noScroll);
+      }
+    } else {
+      if (prevProps.openModal) {
+        document.body.classList.remove(globalStyles.noScroll);
+        document.documentElement.scrollTop = this.prevScroll;
+      }
+    }
+  }
+
   render() {
     const {
-      bodyClassName,
+      bodyClass,
       className,
       fullscreen,
       openModal,
       component
     } = this.props;
-    if (openModal) {
-      document.body.classList.add(globalStyles.noscroll);
-    } else {
-      document.body.classList.remove(globalStyles.noscroll);
-    }
+
     return openModal ? (
       <Context.Provider
         value={{
@@ -50,7 +62,7 @@ class Modal extends React.Component<ModalProps> {
         <div className={cs(styles.container, className)}>
           <div className={styles.backdrop} onClick={this.closeModal}></div>
           <div
-            className={cs(styles.body, bodyClassName, {
+            className={cs(styles.body, bodyClass, {
               [styles.fullscreen]: fullscreen
             })}
           >

@@ -58,7 +58,7 @@
         line-height: 50px;
     }
     &.quantity {
-        line-height: 30px;
+        line-height: 40px;
     }
 }
 
@@ -120,6 +120,10 @@
     letter-spacing: 1px;
 }
 
+.mobile-wishlist-icon {
+    font-size: 53px;
+}
+
 @media screen and (max-width: 992px) {
     .collection-header {
         margin-top: 20px;
@@ -142,6 +146,10 @@
         }
 
         &.quantity {
+            line-height: 25px;
+        }
+
+        &.colour {
             line-height: 25px;
         }
     }

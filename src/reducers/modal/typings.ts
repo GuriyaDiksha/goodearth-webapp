@@ -6,6 +6,7 @@ export type State = {
   component: ReactNode;
   openModal: boolean;
   fullscreen: boolean;
+  bodyClass: string;
 };
 
 export type ModalActions = ActionType<typeof Actions>;

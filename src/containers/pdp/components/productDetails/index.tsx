@@ -1,5 +1,13 @@
-import React, { memo, useState, useCallback, useMemo } from "react";
+import React, {
+  memo,
+  useState,
+  useCallback,
+  useMemo,
+  EventHandler,
+  MouseEvent
+} from "react";
 import cs from "classnames";
+import { useStore } from "react-redux";
 // components
 import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
@@ -9,8 +17,12 @@ import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import SizeChartPopup from "../sizeChartPopup";
 import ColorSelector from "components/ColorSelector";
+import WallpaperPopup from "../wallpaperPopup";
+import NotifyMePopup from "components/NotifyMePopup";
 // services
 import BasketService from "services/basket";
+// actions
+import { showMessage } from "actions/growlMessage";
 // typings
 import { Props } from "./typings";
 import { ChildProductAttributes } from "typings/product";
@@ -20,8 +32,8 @@ import { currencyCodes } from "constants/currency";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import { useStore } from "react-redux";
-import WallpaperPopup from "../wallpaperPopup";
+import ModalStyles from "components/Modal/styles.scss";
+import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 
 const saleStatus = true;
 
@@ -46,6 +58,7 @@ const ProductDetails: React.FC<Props> = ({
     url,
     groupedProducts
   },
+  corporatePDP,
   mobile,
   currency,
   isQuickview,
@@ -139,13 +152,71 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
-  const addToBasket = () => {
+  const addToBasket = async () => {
     if (!selectedSize) {
       setSizeError("Please select size");
     } else {
-      BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
     }
   };
+
+  const onEnquireClick = () => {
+    console.log(123);
+  };
+
+  const notifyMeClick = () => {
+    let selectedIndex = 0;
+
+    childAttributes.map((v, i) => {
+      if (v.id === selectedSize?.id) {
+        selectedIndex = i;
+      }
+    });
+
+    updateComponentModal(
+      <NotifyMePopup
+        collection={collection}
+        price={priceRecords[currency]}
+        currency={String.fromCharCode(currencyCodes[currency])}
+        childAttributes={childAttributes}
+        title={title}
+        selectedIndex={selectedIndex}
+      />,
+      false,
+      ModalStyles.bottomAlign
+    );
+    changeModalState(true);
+  };
+
+  const button = useMemo(() => {
+    let buttonText: string, action: EventHandler<MouseEvent>;
+    if (corporatePDP) {
+      buttonText = "Enquire Now";
+      action = onEnquireClick;
+    } else if (selectedSize && selectedSize.stock == 0) {
+      buttonText = "Notify Me";
+      action = notifyMeClick;
+    } else {
+      buttonText = "Add to Bag";
+      action = addToBasket;
+    }
+
+    return <Button label={buttonText} onClick={action} />;
+  }, [corporatePDP, selectedSize]);
+
+  const showSize = useMemo(() => {
+    let show = false;
+    childAttributes.every(attr => {
+      if (attr.size) {
+        show = true;
+        return false;
+      }
+      return false;
+    });
+
+    return show;
+  }, [childAttributes]);
 
   return (
     <div className={bootstrap.row}>
@@ -227,12 +298,12 @@ const ProductDetails: React.FC<Props> = ({
 
         {groupedProducts?.length ? (
           <div className={cs(bootstrap.row, styles.spacer)}>
-            <div className={bootstrap.col12}>
+            <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
                   className={cs(
                     bootstrap.col12,
-                    bootstrap.colSm2,
+                    bootstrap.colSm3,
                     styles.label,
                     styles.colour
                   )}
@@ -249,8 +320,8 @@ const ProductDetails: React.FC<Props> = ({
           ""
         )}
 
-        <div className={cs(bootstrap.row, styles.spacer)}>
-          {childAttributes.length ? (
+        {showSize ? (
+          <div className={cs(bootstrap.row, styles.spacer)}>
             <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
@@ -279,36 +350,34 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-          ) : (
-            ""
-          )}
-          {sizeChartHtml && (
-            <div
-              className={cs(bootstrap.colSm4, styles.label, {
-                [globalStyles.textCenter]: !mobile
-              })}
-            >
-              <span className={styles.sizeGuide} onClick={onSizeChartClick}>
-                {" "}
-                Size Guide{" "}
-              </span>
-            </div>
-          )}
-          {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
-            <div
-              className={cs(
-                bootstrap.colSm4,
-                styles.label,
-                globalStyles.textCenter
-              )}
-            >
-              <span className={styles.sizeGuide} onClick={onWallpaperClick}>
-                {" "}
-                Wallpaper Calculator{" "}
-              </span>
-            </div>
-          )}
-        </div>
+            {sizeChartHtml && (
+              <div
+                className={cs(bootstrap.colSm4, styles.label, {
+                  [globalStyles.textCenter]: !mobile
+                })}
+              >
+                <span className={styles.sizeGuide} onClick={onSizeChartClick}>
+                  {" "}
+                  Size Guide{" "}
+                </span>
+              </div>
+            )}
+            {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
+              <div
+                className={cs(bootstrap.colSm4, styles.label, {
+                  [globalStyles.textCenter]: !mobile
+                })}
+              >
+                <span className={styles.sizeGuide} onClick={onWallpaperClick}>
+                  {" "}
+                  Wallpaper Calculator{" "}
+                </span>
+              </div>
+            )}
+          </div>
+        ) : (
+          ""
+        )}
         <div className={cs(bootstrap.row, styles.spacer)}>
           <div className={bootstrap.col8}>
             <div className={bootstrap.row}>
@@ -371,11 +440,7 @@ const ProductDetails: React.FC<Props> = ({
               }
             )}
           >
-            {selectedSize && selectedSize.stock == 0 ? (
-              <Button label="NOTIFY ME" />
-            ) : (
-              <Button label="ADD TO BAG" onClick={addToBasket} />
-            )}
+            {button}
             {isQuickview ? (
               <a href={url} className={styles.moreDetails}>
                 view more details
@@ -394,7 +459,13 @@ const ProductDetails: React.FC<Props> = ({
               }
             )}
           >
-            <WishlistButton id={id} showText={!mobile} />
+            <WishlistButton
+              id={id}
+              showText={!mobile}
+              iconClassName={cs({
+                [styles.mobileWishlistIcon]: mobile
+              })}
+            />
           </div>
         </div>
         <div

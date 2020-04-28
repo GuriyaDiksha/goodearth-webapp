@@ -16,6 +16,7 @@ const WishlistButton: React.FC<Props> = ({
   id,
   showText,
   className,
+  iconClassName,
   mobile
 }) => {
   const items = useContext(WishlistContext);
@@ -34,7 +35,7 @@ const WishlistButton: React.FC<Props> = ({
   return (
     <div className={className}>
       <div
-        className={cs(iconStyles.icon, styles.wishlistIcon, {
+        className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
           [iconStyles.iconWishlistAdded]: addedToWishlist,
           [iconStyles.iconWishlist]: !addedToWishlist,
           [styles.addedToWishlist]: addedToWishlist,

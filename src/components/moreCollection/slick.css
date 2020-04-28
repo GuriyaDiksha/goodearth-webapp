@@ -9,7 +9,7 @@
 .pdp-slider .slick-arrow.slick-prev:before {
     color: #fff;
     font-family: "goodearth";
-    content: "\ea02";
+    content: "\f101";
     position: absolute;
     left: 20px;
     top: 0;
@@ -17,7 +17,7 @@
 .pdp-slider .slick-arrow.slick-next::before {
     font-family: "goodearth";
     color: #fff;
-    content: "\ea03";
+    content: "\f102";
     position: absolute;
     right: 20px;
     top: 0;
@@ -52,18 +52,22 @@
   font-size: 50px;
   /* background-color: rgba(0, 0, 0, 0.3); */
   right: 0;
+  height: 70px;
+  line-height: 70px;
 }
 .pdp-slider.slick-slider:hover .slick-arrow.slick-prev:before {
   display: block;
   font-size: 50px;
   /* background-color: rgba(0, 0, 0, 0.3); */
   left: 0;
+  height: 70px;
+  line-height: 70px;
 }
 
 /* more collection specific*/
 
 .more-collection .slick-arrow {
-  top: 40%;
+  top: 34%;
 }
 
 .pdp-slider .slick-arrow.slick-prev:before, .pdp-slider .slick-arrow.slick-next:before {

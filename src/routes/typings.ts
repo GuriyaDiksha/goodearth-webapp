@@ -1,4 +1,4 @@
-import { InitAction } from "typings/actions";
+import { InitAction, MetaAction } from "typings/actions";
 
 export enum ROUTES {
   HOME = "/",
@@ -24,5 +24,6 @@ export type RouteObject = {
   path: ROUTES;
   component: React.ComponentType<any>;
   action: InitAction;
+  meta?: MetaAction;
   exact?: boolean;
 };

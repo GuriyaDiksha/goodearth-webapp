@@ -9,11 +9,10 @@ class Button extends React.Component<ButtonProps> {
     const props = this.props;
     return (
       <button
-        className={
-          props.disabled
-            ? cs(globalStyles.disabled, styles.primaryButton)
-            : cs(globalStyles.ceriseBtn, styles.primaryButton)
-        }
+        className={cs(styles.primaryButton, props.className, {
+          [globalStyles.disabled]: props.disabled,
+          [globalStyles.ceriseBtn]: !props.disabled
+        })}
         onClick={(event): void => {
           if (props.onClick) {
             props.onClick(event);
