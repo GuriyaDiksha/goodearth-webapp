@@ -26,6 +26,7 @@ import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
+import zoom from "images/zoom.png";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -361,6 +362,12 @@ class PDPContainer extends React.Component<Props, State> {
     return <WallpaperFAQ mobile={mobile} />;
   };
 
+  getMobileZoomListener = (index: number) => {
+    return () => {
+      this.onImageClick(index);
+    };
+  };
+
   render() {
     const {
       data,
@@ -378,11 +385,18 @@ class PDPContainer extends React.Component<Props, State> {
       mobile &&
       images?.map(({ id, productImage }, i: number) => {
         return (
-          <div key={id}>
+          <div key={id} className={globalStyles.relative}>
             <img
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
             />
+            <div
+              className={styles.mobileZoomIcon}
+              onClick={this.getMobileZoomListener(i)}
+            >
+              <img src={zoom}></img>
+              Zoom
+            </div>
           </div>
         );
       });

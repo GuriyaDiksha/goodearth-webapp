@@ -83,7 +83,7 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
 
   return (
     <div className={cs(styles.container)}>
-      <div>WALLCOVERING CALCULATOR</div>
+      <div className={styles.title}>WALLCOVERING CALCULATOR</div>
       <CloseButton className={styles.closeButton} />
 
       <div className={styles.text}>

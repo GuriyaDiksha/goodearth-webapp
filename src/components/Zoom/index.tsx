@@ -160,7 +160,10 @@ const Zoom: React.FC<Props> = ({
   }, [images, currentIndex]);
 
   return (
-    <div className={styles.container} onMouseMove={mouseMoveHandler}>
+    <div
+      className={styles.container}
+      onMouseMove={mobile ? undefined : mouseMoveHandler}
+    >
       {currentIndex !== undefined && (
         <div
           className={cs(styles.mainImageContainer, {
@@ -183,6 +186,17 @@ const Zoom: React.FC<Props> = ({
         </div>
       )}
       {sidebar}
+      {mobile && (
+        <button
+          className={cs(
+            fontStyles.icon,
+            fontStyles.iconCrossNarrowBig,
+            styles.closeBtn,
+            styles.mobile
+          )}
+          onClick={closeModal}
+        />
+      )}
     </div>
   );
 };

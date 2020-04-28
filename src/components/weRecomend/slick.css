@@ -15,12 +15,7 @@
   padding: 5px;
   top: 35%;
 }
-.we-recommend .slick-arrow.slick-prev:before {
-  left: 2px;
-}
+
 .we-recommend .slick-arrow.slick-prev:hover, .we-recommend .slick-arrow.slick-next:hover {
   background-color: #ab1e56;
-}
-.we-recommend .slick-arrow.slick-next:before {
-  right: 2px;
 }

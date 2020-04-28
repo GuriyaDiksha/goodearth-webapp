@@ -299,12 +299,12 @@ const ProductDetails: React.FC<Props> = ({
 
         {groupedProducts?.length ? (
           <div className={cs(bootstrap.row, styles.spacer)}>
-            <div className={bootstrap.col12}>
+            <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
                   className={cs(
                     bootstrap.col12,
-                    bootstrap.colSm2,
+                    bootstrap.colSm3,
                     styles.label,
                     styles.colour
                   )}
@@ -323,12 +323,12 @@ const ProductDetails: React.FC<Props> = ({
 
         {showSize ? (
           <div className={cs(bootstrap.row, styles.spacer)}>
-            <div className={bootstrap.col12}>
+            <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
                   className={cs(
                     bootstrap.col12,
-                    bootstrap.colSm2,
+                    bootstrap.colSm3,
                     styles.label,
                     styles.size
                   )}
@@ -365,11 +365,9 @@ const ProductDetails: React.FC<Props> = ({
             )}
             {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
               <div
-                className={cs(
-                  bootstrap.colSm4,
-                  styles.label,
-                  globalStyles.textCenter
-                )}
+                className={cs(bootstrap.colSm4, styles.label, {
+                  [globalStyles.textCenter]: !mobile
+                })}
               >
                 <span className={styles.sizeGuide} onClick={onWallpaperClick}>
                   {" "}
@@ -382,12 +380,12 @@ const ProductDetails: React.FC<Props> = ({
           ""
         )}
         <div className={cs(bootstrap.row, styles.spacer)}>
-          <div className={bootstrap.col12}>
+          <div className={bootstrap.col8}>
             <div className={bootstrap.row}>
               <div
                 className={cs(
                   bootstrap.col12,
-                  bootstrap.colSm2,
+                  bootstrap.colSm3,
                   styles.label,
                   styles.quantity
                 )}
@@ -450,7 +448,13 @@ const ProductDetails: React.FC<Props> = ({
               }
             )}
           >
-            <WishlistButton id={id} showText={!mobile} />
+            <WishlistButton
+              id={id}
+              showText={!mobile}
+              iconClassName={cs({
+                [styles.mobileWishlistIcon]: mobile
+              })}
+            />
           </div>
         </div>
         <div

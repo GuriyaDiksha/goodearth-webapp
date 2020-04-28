@@ -24,7 +24,7 @@ export default {
     id: ProductID
   ): Promise<CollectionProductItem[]> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/collection/more-from-collection/products/${id}`,
+      `http://api.goodearth.in/myapi/collection/more_from_collection/products/${id}`,
       {}
     );
 

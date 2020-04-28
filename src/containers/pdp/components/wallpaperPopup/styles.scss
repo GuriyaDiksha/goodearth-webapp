@@ -10,12 +10,16 @@
     padding: 20px;
     max-height: 75vh;
     overflow: scroll;
-    padding-top: 25px;
+    padding-top: 56px;
     width: 100%;
 }
 
+.title {
+    font-size: 14px;
+}
+
 .closeButton {
-    top: 20px;
+    top: 0;
     right: 0;
     font-size: 40px;
     line-height: 1;
@@ -41,5 +45,11 @@
         width: 720px;
         max-width: 50vw;
         min-height: 20vh;
+        padding-top: 25px;
+    }
+
+    .closeButton {
+        top: 20px;
+        right: 7px;
     }
 }
