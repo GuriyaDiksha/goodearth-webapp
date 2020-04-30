@@ -11,10 +11,9 @@ import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
 import LoginService from "services/login";
-
+import * as valid from "utils/validate";
 import { Context } from "components/Modal/context.ts";
 
-// import * as valid from 'components/common/validation/validate'
 // import Config from 'components/config'
 
 import { ForgotPasswordProps, ForgotPasswordState } from "./typings";
@@ -44,79 +43,78 @@ class ForgotPasswordForm extends React.Component<
 
   handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    alert("forgot password");
-    // let formData = new FormData();
-    // formData.append('email', this.refs.emailRef.state.value);
-    // this.setState({disableSelectedbox: true})
-    // Axios.post('http://api.goodearth.in/reset_password/', formData
-    // ).then((res) => {
-    //     let element = document.getElementById('email');
-    //     this.setState({
-    //         err: false,
-    //         msg: '',
-    //         forgotSuccess: true,
-    //         successMsg: res.data.success,
-    //         disableSelectedbox:false
-    //     });
-    //     // element.value = "";
-    //     element.disabled = true;
-    // }).catch((err) => {
-    //     console.log("err: " + err.response.data.email[0 ]);
-    //     this.setState({
-    //         err: true,
-    //         msg: err.response.data.email[0],
-    //         disableSelectedbox:false
-    //     })
-    // })
+    const formData = new FormData();
+    formData.append("email", this.state.email || "");
+    this.setState({ disableSelectedbox: true });
+    LoginService.resetPassword(formData)
+      .then(res => {
+        // let element = document.getElementById('email');
+        this.setState({
+          err: false,
+          msg: "",
+          forgotSuccess: true,
+          successMsg: res.data.success,
+          disableSelectedbox: false
+        });
+        // element.value = "";
+        // element.disabled = true;
+      })
+      .catch(err => {
+        console.log("err: " + err.response.data.email[0]);
+        this.setState({
+          err: true,
+          msg: err.response.data.email[0],
+          disableSelectedbox: false
+        });
+      });
   }
 
-  // componentDidMount() {
-  //     this.refs.emailRef.refs.emailInput.focus();
-  //     this.refs.emailRef.state.value = window.email_goodearth || '';
-  //     this.setState({})
-  //     window.email_goodearth = '';
-  // }
+  componentDidMount() {
+    if (this.emailInput.current) {
+      this.emailInput.current.focus();
+    }
+    // this.state.email = window.email_goodearth || '';
+    // this.setState({})
+    // window.email_goodearth = '';
+  }
 
   handleEmailBlur(event: React.FocusEvent) {
-    // if(!valid.checkBlank(this.refs.emailRef.state.value) || this.state.msg) {
-    //     if (!valid.checkMail(this.refs.emailRef.state.value)) {
-    //         this.setState({
-    //             msg: 'Enter valid email',
-    //             err: true
-    //         })
-    //     }
-    //     else {
-    //         this.setState({
-    //             msg: '',
-    //             err: false
-    //         })
-    //     }
-    // }
+    if (!valid.checkBlank(this.state.email) || this.state.msg) {
+      if (!valid.checkMail(this.state.email)) {
+        this.setState({
+          msg: "Enter valid email",
+          err: true
+        });
+      } else {
+        this.setState({
+          msg: "",
+          err: false
+        });
+      }
+    }
   }
 
   onChange(event: React.KeyboardEvent) {
-    // if (valid.checkBlank(this.refs.emailRef.state.value)) {
-    //     this.setState({
-    //         msg: 'Please Enter Email',
-    //         err: true
-    //     })
-    // }
-    // else if (!valid.checkMail(this.refs.emailRef.state.value)) {
-    //     this.setState({
-    //         msg: 'Enter valid email',
-    //         err: true
-    //     })
-    // }
-    // else {
-    //     this.setState({
-    //         msg: '',
-    //         err: false
-    //     })
-    // }
+    if (valid.checkBlank(this.state.email)) {
+      this.setState({
+        msg: "Please Enter Email",
+        err: true
+      });
+    } else if (!valid.checkMail(this.state.email)) {
+      this.setState({
+        msg: "Enter valid email",
+        err: true
+      });
+    } else {
+      this.setState({
+        msg: "",
+        err: false
+      });
+    }
   }
 
   goRegister(event: React.MouseEvent) {
-    // window.register_email = this.refs.emailRef.state.value;
+    // window.register_email = this.state.email;
     LoginService.showRegister();
     event.preventDefault();
   }

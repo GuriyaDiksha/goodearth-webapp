@@ -32,6 +32,13 @@ export default {
     );
     return res.data;
   },
+  resetPassword: async function(formData: FormData) {
+    const res = await Axios.post(
+      "http://api.goodearth.in/myapi/auth/reset_password/",
+      formData
+    );
+    return res;
+  },
   login: async function(email: string, password: string) {
     const res = await Axios.post("http://api.goodearth.in/myapi/auth/login/", {
       email: email,
