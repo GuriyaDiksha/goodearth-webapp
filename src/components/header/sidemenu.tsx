@@ -11,6 +11,7 @@ import DropdownMenu from "../dropdown/dropdownMenu";
 import Bag from "../Bag/index";
 import { CartItems } from "components/Bag/typings";
 import LoginService from "services/login";
+import store from "../../client";
 
 interface State {
   showc: boolean;
@@ -34,22 +35,8 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
     };
   }
 
-  handleLogout(): void {
-    //   Axios.post(Config.hostname + 'rest-auth/logout/')
-    //     .then((response) => {
-    //         if (response.status === 200) {
-    //             document.cookie = "key=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    //             document.cookie = "bridal_id=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    //             document.cookie = "bridal_currency=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    //             document.cookie = "giftcard_image=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    //             document.cookie = "giftcard_country=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    //             this.props.loggedIn(false);
-    //             document.location.reload();
-    //         }
-    //     }).catch(function (error) {
-    //     console.log(error);
-    // })
-    alert("logged out");
+  handleLogOut() {
+    LoginService.logout(store.dispatch);
   }
 
   render() {
@@ -102,7 +89,7 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
         label: this.props.isLoggedIn ? "Sign Out" : "Sign In",
         href: "",
         onClick: this.props.isLoggedIn
-          ? LoginService.showLogin
+          ? () => this.handleLogOut()
           : LoginService.showLogin,
         type: "link",
         value: this.props.isLoggedIn ? "Sign Out" : "Sign In"

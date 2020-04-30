@@ -1,6 +1,5 @@
 import React, { RefObject } from "react";
 import cs from "classnames";
-// import Axios from 'axios';
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // import iconStyles from "styles/iconFonts.scss";
@@ -14,16 +13,10 @@ import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context.ts";
 import LoginService from "services/login";
-
-// import axios from 'axios';
-// import Config from 'components/config'
 import * as valid from "utils/validate";
 
 type Props = {
   loginclick?: string;
-  // showRegister?: () => void;
-  // closePopup: () => void;
-  // showForgotPassword: () => void;
 };
 
 type State = {
@@ -161,11 +154,11 @@ class LoginForm extends React.Component<Props, State> {
     if (!this.state.highlight && !this.state.highlightp) {
       // window.email_goodearth = this.refs.emailRef.state.value;
 
-      const data = await LoginService.login(
+      const res = await LoginService.login(
         this.state.email || "",
         this.state.password || ""
       );
-      if (data.status === 200) {
+      if (res.status === 200) {
         // window.dataLayer.push({
         //     'event': 'eventsToSend',
         //     'eventAction': 'signIn',
@@ -184,13 +177,14 @@ class LoginForm extends React.Component<Props, State> {
         } else if (this.props.loginclick == "profile") {
           location.href = "/accountpage?mod=profile";
         } else if (this.props.loginclick == "cerise") {
-          if (data.customer_slab) {
+          if (res.data.customer_slab) {
             location.href = "/accountpage?mod=cerise";
           } else {
             location.href = "/cerise";
           }
         } else {
-          document.location.reload();
+          // document.location.reload();
+          this.context.closeModal();
           window.scrollTo(0, 0);
         }
       }

@@ -6,7 +6,9 @@ export default {
     const cookies: Cookies = {};
     keyPairs.forEach(str => {
       const [key, value] = str.trim().split("=");
-      cookies[key.trim()] = value.trim();
+      if (key) {
+        cookies[key.trim()] = value.trim();
+      }
     });
 
     return cookies;

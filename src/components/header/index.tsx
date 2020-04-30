@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { CartItems } from "components/Bag/typings";
 import { State } from "./typings";
 import LoginService from "services/login";
+import store from "../../client";
 
 const cart: CartItems = {
   products: [],
@@ -84,6 +85,10 @@ class Header extends React.Component<Props, State> {
       showMenu: !this.state.showMenu,
       showSearch: false
     });
+  }
+
+  handleLogOut() {
+    LoginService.logout(store.dispatch);
   }
 
   render() {
@@ -284,7 +289,7 @@ class Header extends React.Component<Props, State> {
                           <li>Cerise Program</li>
                           <li>Check Balance</li>
                           {this.props.isLoggedIn ? (
-                            <li onClick={LoginService.showLogin}>Sign Out</li>
+                            <li onClick={this.handleLogOut}>Sign Out</li>
                           ) : (
                             ""
                           )}

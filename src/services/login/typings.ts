@@ -5,3 +5,8 @@ export type checkuserpasswordResponse = {
   emailExist: boolean;
   passwordExist: boolean;
 };
+
+export type logoutResponse = {
+  message?: string;
+  detail?: string;
+};
