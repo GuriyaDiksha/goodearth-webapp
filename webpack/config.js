@@ -86,6 +86,7 @@ let config = [
                            
                 {
                     test: /\.(ts|tsx)$/,
+                    exclude: /server/,
                     use: [
                         {
                             loader: 'babel-loader',
@@ -94,7 +95,6 @@ let config = [
                                 presets: [
                                     "@babel/env",
                                     "@babel/preset-react",
-                                    "@babel/typescript"
                                 ],
                                 plugins: [
                                     "@loadable/babel-plugin",
@@ -105,7 +105,12 @@ let config = [
                                 ],
                             }
                         },
-                        "ts-loader"],
+                        {
+                            loader: "ts-loader",
+                            options: {
+                                onlyCompileBundledFiles: true
+                            }
+                        }],
                 },
                 {
                     test: /\.css/,
@@ -228,7 +233,12 @@ let config = [
                             ],
                         }
                     },
-                    "ts-loader"]
+                    {
+                        loader: "ts-loader",
+                        options: {
+                            onlyCompileBundledFiles: true
+                        }
+                    }]
                 },
                 {
                     test: /\.css/,
