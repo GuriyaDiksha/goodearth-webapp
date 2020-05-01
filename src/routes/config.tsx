@@ -1,4 +1,3 @@
-import React from "react";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
 import Home from "containers/home";
 import CollectionLanding, {
@@ -15,7 +14,7 @@ const routeMap: RouteMap = {};
 const routes: RouteConfig = [
   {
     path: ROUTES.HOME,
-    component: () => <Home />,
+    component: Home,
     action: async () => null,
     exact: true
   },

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { List, FooterList, FooterState } from "./typings";
 import cs from "classnames";
 import styles from "./styles.scss";
@@ -102,7 +103,9 @@ class Footer extends React.Component<Props, FooterState> {
                 By signing up for alerts, you agree to receive e-mails, calls
                 and text messages from Goodearth. To know more how we keep your
                 data safe, refer to our{" "}
-                <a href="/customer-assistance/privacy-policy">Privacy Policy</a>
+                <Link to="/customer-assistance/privacy-policy">
+                  Privacy Policy
+                </Link>
               </div>
               <div
                 className={cs(
@@ -203,9 +206,9 @@ class Footer extends React.Component<Props, FooterState> {
                                     ) {
                                       return (
                                         <li key={j}>
-                                          <a href={currentValue.link}>
+                                          <Link to={currentValue.link}>
                                             {currentValue.text}
-                                          </a>
+                                          </Link>
                                         </li>
                                       );
                                     } else {
@@ -254,8 +257,8 @@ class Footer extends React.Component<Props, FooterState> {
                       <ul>
                         <li>find us on</li>
                         <li className={cs(styles.footerSocialicons)}>
-                          <a
-                            href="http://www.facebook.com/goodearthindia"
+                          <Link
+                            to="http://www.facebook.com/goodearthindia"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -266,9 +269,9 @@ class Footer extends React.Component<Props, FooterState> {
                                 styles.footerIcon
                               )}
                             ></i>
-                          </a>
-                          <a
-                            href="http://www.instagram.com/goodearthindia"
+                          </Link>
+                          <Link
+                            to="http://www.instagram.com/goodearthindia"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -279,9 +282,9 @@ class Footer extends React.Component<Props, FooterState> {
                                 styles.footerIcon
                               )}
                             ></i>
-                          </a>
-                          <a
-                            href="http://pinterest.com/goodearthindia/"
+                          </Link>
+                          <Link
+                            to="http://pinterest.com/goodearthindia/"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -292,7 +295,7 @@ class Footer extends React.Component<Props, FooterState> {
                                 styles.footerIcon
                               )}
                             ></i>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                       {this.props.saleStatus ? (
@@ -301,8 +304,8 @@ class Footer extends React.Component<Props, FooterState> {
                         <ul className={cs(styles.footerPlaylist)}>
                           <li> {this.props.data.footerPlaylistData.ctaText}</li>
                           <li>
-                            <a
-                              href={this.props.data.footerPlaylistData.ctaUrl}
+                            <Link
+                              to={this.props.data.footerPlaylistData.ctaUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -313,7 +316,7 @@ class Footer extends React.Component<Props, FooterState> {
                                 }
                                 className={cs(styles.imgResponsive)}
                               />{" "}
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       )}
@@ -328,7 +331,7 @@ class Footer extends React.Component<Props, FooterState> {
                           {footerItems.value.map((Item, index) => (
                             <li key={index}>
                               {Item.link !== "" ? (
-                                <a href={Item.link}>{Item.text}</a>
+                                <Link to={Item.link}>{Item.text}</Link>
                               ) : (
                                 Item.text
                               )}
@@ -367,8 +370,8 @@ class Footer extends React.Component<Props, FooterState> {
                       find us on
                     </div>
                     <div className={cs(styles.ftrHeadingWhite)}>
-                      <a
-                        href="http://www.facebook.com/goodearthindia"
+                      <Link
+                        to="http://www.facebook.com/goodearthindia"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -379,9 +382,9 @@ class Footer extends React.Component<Props, FooterState> {
                             styles.footerIcon
                           )}
                         ></i>
-                      </a>
-                      <a
-                        href="http://www.instagram.com/goodearthindia"
+                      </Link>
+                      <Link
+                        to="http://www.instagram.com/goodearthindia"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -392,9 +395,9 @@ class Footer extends React.Component<Props, FooterState> {
                             styles.footerIcon
                           )}
                         ></i>
-                      </a>
-                      <a
-                        href="http://pinterest.com/goodearthindia/"
+                      </Link>
+                      <Link
+                        to="http://pinterest.com/goodearthindia/"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -405,7 +408,7 @@ class Footer extends React.Component<Props, FooterState> {
                             styles.footerIcon
                           )}
                         ></i>
-                      </a>
+                      </Link>
                     </div>
                     {this.props.saleStatus ? (
                       ""
@@ -422,8 +425,8 @@ class Footer extends React.Component<Props, FooterState> {
                           {this.props.data.footerPlaylistData.ctaText}
                         </div>
                         <div className={cs(styles.textCenter)}>
-                          <a
-                            href={this.props.data.footerPlaylistData.ctaUrl}
+                          <Link
+                            to={this.props.data.footerPlaylistData.ctaUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -432,7 +435,7 @@ class Footer extends React.Component<Props, FooterState> {
                               src={this.props.data.footerPlaylistData.ctaImage}
                               className={cs(globalStyles.width250)}
                             />{" "}
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     )}

@@ -7,9 +7,12 @@ import {
 } from "actions/collection";
 import { getParamsFromString } from "utils/url.ts";
 
-const initActionCollection: InitAction = async (dispatch, { search }) => {
+const initActionCollection: InitAction = async (
+  dispatch,
+  params = {},
+  { search }
+) => {
   const id = getParamsFromString(search);
-
   if (id) {
     const [filterData, collectionData] = await Promise.all([
       CollectionService.fetchCollectionMapping(id),

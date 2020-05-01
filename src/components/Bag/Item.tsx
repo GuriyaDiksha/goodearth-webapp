@@ -1,5 +1,6 @@
 import React, { memo, useState } from "react";
 import cs from "classnames";
+import { Link } from "react-router-dom";
 import styles from "./styles.scss";
 import { BasketItem } from "typings/basket";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -61,19 +62,19 @@ const LineItems: React.FC<BasketItem> = memo(
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
             <div className={styles.cartRing}></div>
-            <a href={url}>
+            <Link to={url}>
               <img
                 className={styles.productImage}
                 src={plpImages ? plpImages[0] : ""}
               />
-            </a>
+            </Link>
           </div>
           <div className={cs(bootstrap.col8, styles.cartPadding)}>
             <div className={styles.collectionName}>{collections[0]}</div>
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col10, styles.name)}>
                 <div>
-                  <a href={url}>{title}</a>
+                  <Link to={url}>{title}</Link>
                 </div>
                 <div className={styles.productPrice}>
                   {saleStatus && discount && discountedPriceRecords ? (

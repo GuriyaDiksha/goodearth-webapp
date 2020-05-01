@@ -17,12 +17,14 @@ class API {
   static post<T>(
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     url: string,
-    data: any
+    data: any,
+    headers: any = {}
   ): Promise<T> {
     return API.callAPI<T>(dispatch, {
       url,
-      method: "POST",
-      data: data
+      data,
+      headers,
+      method: "POST"
     });
   }
 
@@ -54,9 +56,14 @@ class API {
     return new Promise((resolve, reject) => {
       dispatch(
         API.apiAction((cookies: any) => {
-          const requestHeaders = {
-            ...options.headers,
-            Authorization: `Token ${cookies.tkn || ""}`
+          let requestHeaders = cookies.tkn
+            ? {
+                Authorization: `Token ${cookies.tkn || ""}`
+              }
+            : {};
+          requestHeaders = {
+            ...requestHeaders,
+            ...options.headers
           };
           Axios({
             ...options,

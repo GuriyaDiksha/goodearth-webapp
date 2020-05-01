@@ -7,6 +7,7 @@ import React, {
   MouseEvent,
   useEffect
 } from "react";
+import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore } from "react-redux";
 // components
@@ -35,6 +36,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
+import { useLocation } from "react-router";
 
 const saleStatus = true;
 
@@ -69,6 +71,8 @@ const ProductDetails: React.FC<Props> = ({
   const [productTitle, subtitle] = title.split("(");
 
   const [img] = images;
+
+  const location = useLocation();
 
   const [
     selectedSize,
@@ -251,17 +255,19 @@ const ProductDetails: React.FC<Props> = ({
             <div className={cs(bootstrap.col12)}>
               <Share
                 mobile={mobile}
-                link={window.location.href}
+                link={location.pathname}
                 mailSubject="Gifting Ideas"
                 mailText={
                   "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
-                  window.location.href
+                  location.pathname
                 }
               />
             </div>
           )}
           <div className={cs(bootstrap.col12, styles.collectionHeader)}>
-            {collection && <a href={collectionUrl}> {collection} </a>}
+            {collection && (
+              <Link to={collectionUrl || "#"}> {collection} </Link>
+            )}
           </div>
           <div className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}>
             {productTitle}
@@ -448,9 +454,9 @@ const ProductDetails: React.FC<Props> = ({
           >
             {button}
             {isQuickview ? (
-              <a href={url} className={styles.moreDetails}>
+              <Link to={url} className={styles.moreDetails}>
                 view more details
-              </a>
+              </Link>
             ) : (
               ""
             )}
@@ -499,11 +505,11 @@ const ProductDetails: React.FC<Props> = ({
           {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
-              link={window.location.href}
+              link={location.pathname}
               mailSubject="Gifting Ideas"
               mailText={
                 "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
-                window.location.href
+                location.pathname
               }
             />
           )}

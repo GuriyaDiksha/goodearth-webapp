@@ -1,20 +1,44 @@
+import Axios from "axios";
 import { HeaderData } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
-import Axios from "axios";
+// services
+import CacheService from "services/cache";
 
 export default {
   fetchHeaderDetails: async (): Promise<HeaderData[]> => {
+    let headerData = CacheService.get("headerData") as HeaderData[];
+
+    if (headerData) {
+      return headerData;
+    }
+
     const res = await Axios.get(
       `http://api.goodearth.in/myapi/category/top_menu_data/`,
       {}
     );
-    return res.data.results as HeaderData[];
+
+    headerData = res.data.results as HeaderData[];
+
+    CacheService.set("headerData", headerData);
+
+    return headerData;
   },
   fetchFooterDetails: async (): Promise<FooterDataProps> => {
+    let footerData = CacheService.get("footerData") as FooterDataProps;
+
+    if (footerData) {
+      return footerData;
+    }
+
     const res = await Axios.get(
       `http://api.goodearth.in/myapi/category/footer`,
       {}
     );
-    return res.data as FooterDataProps;
+
+    footerData = res.data as FooterDataProps;
+
+    CacheService.set("footerData", footerData);
+
+    return footerData;
   }
 };

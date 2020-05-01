@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { MenuListProps, HeaderData, MenuData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -33,11 +34,6 @@ class MenuList extends React.Component<MenuListProps> {
   mouseEnter = () => {
     this.props.mouseOut({ show: true });
   };
-
-  onMenuClick(e: React.MouseEvent, url: string) {
-    location.href = url;
-    e.preventDefault();
-  }
 
   createListElement(
     headerData: MenuData[][],
@@ -75,12 +71,9 @@ class MenuList extends React.Component<MenuListProps> {
             return (
               <div key={j}>
                 <li>
-                  <a
+                  <Link
                     className={spanClass + columnUrlClass}
-                    onClick={e => {
-                      this.onMenuClick(e, column.url);
-                    }}
-                    href={column.url ? column.url : "#"}
+                    to={column.url ? column.url : "#"}
                   >
                     <span
                       dangerouslySetInnerHTML={{
@@ -89,18 +82,13 @@ class MenuList extends React.Component<MenuListProps> {
                           : column.name
                       }}
                     />
-                  </a>
+                  </Link>
                 </li>
                 {column.children
                   ? column.children.map((data1, index) => {
                       return (
                         <li key={index}>
-                          <a
-                            href={data1.url}
-                            onClick={e => {
-                              this.onMenuClick(e, data1.url);
-                            }}
-                          >
+                          <Link to={data1.url}>
                             <span
                               dangerouslySetInnerHTML={{
                                 __html: data1.labelDesktop
@@ -108,7 +96,7 @@ class MenuList extends React.Component<MenuListProps> {
                                   : data1.name
                               }}
                             />
-                          </a>
+                          </Link>
                         </li>
                       );
                     })
@@ -141,16 +129,13 @@ class MenuList extends React.Component<MenuListProps> {
             return (
               <div key={j}>
                 <li>
-                  <a
+                  <Link
                     className={
                       column.name.toLowerCase() == "winter velvets"
                         ? class1
                         : class2
                     }
-                    href={column.url}
-                    onClick={(e: React.MouseEvent): void => {
-                      this.onMenuClick(e, column.url);
-                    }}
+                    to={column.url}
                   >
                     <span
                       dangerouslySetInnerHTML={{
@@ -159,7 +144,7 @@ class MenuList extends React.Component<MenuListProps> {
                           : column.name
                       }}
                     />
-                  </a>
+                  </Link>
                 </li>
                 {column.children.map((data1, index) => {
                   const isSale =
@@ -168,11 +153,8 @@ class MenuList extends React.Component<MenuListProps> {
                       : false;
                   return (
                     <li key={index}>
-                      <a
-                        href={data1.url}
-                        onClick={(e: React.MouseEvent): void => {
-                          this.onMenuClick(e, data1.url);
-                        }}
+                      <Link
+                        to={data1.url}
                         className={isSale ? styles.menucolor : ""}
                       >
                         <span
@@ -182,7 +164,7 @@ class MenuList extends React.Component<MenuListProps> {
                               : data1.name
                           }}
                         />
-                      </a>
+                      </Link>
                     </li>
                   );
                 })}
@@ -204,15 +186,15 @@ class MenuList extends React.Component<MenuListProps> {
           >
             <li>
               <div>
-                <a
-                  href={
+                <Link
+                  to={
                     imageurl.categoryImageUrl
                       ? imageurl.categoryImageUrl
                       : "JavaScript:Void(0);"
                   }
                 >
                   <img src={bigimage} className={styles.imgResponsive} />
-                </a>
+                </Link>
               </div>
             </li>
           </ul>

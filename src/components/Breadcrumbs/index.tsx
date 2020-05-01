@@ -1,4 +1,5 @@
 import React, { memo, ReactNode, Fragment } from "react";
+import { Link } from "react-router-dom";
 import styles from "./styles.scss";
 import { Props } from "./typings";
 import cs from "classnames";
@@ -12,7 +13,7 @@ const Breadcrumbs: React.FC<Props> = memo(
         const href = url ? url : "";
         breadcrumbs.push(
           <Fragment key={name}>
-            <a href={href}>{name}</a>
+            <Link to={href}>{name}</Link>
             <span className={styles.separator} key={`separator-${index}`}>
               {separator}
             </span>

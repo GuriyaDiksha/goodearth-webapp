@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { MobileListProps, MobileState, HeaderData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -17,7 +18,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
   }
 
   Clickmenulevel1(index: number) {
-    if (location.href.indexOf("/bridal/") > 0) {
+    if (this.props.location.pathname.indexOf("/bridal/") > 0) {
       return false;
     }
     index == this.state.activeindex
@@ -68,10 +69,10 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
       ? ""
       : html.push(
           <li>
-            <a href={headerData.catLandingUrl}>
+            <Link to={headerData.catLandingUrl}>
               {" "}
               <span className="">Featured</span>
-            </a>
+            </Link>
           </li>
         );
     let k = 0;
@@ -88,13 +89,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
       html.push(
         data.url && data.children.length == 0 ? (
           <li key={j}>
-            <a href={data.url}>
+            <Link to={data.url}>
               <span
                 dangerouslySetInnerHTML={{
                   __html: data.labelMobile ? data.labelMobile : data.name
                 }}
               />
-            </a>
+            </Link>
           </li>
         ) : (
           <li>
@@ -119,7 +120,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                 <ul key={data.url}>
                   {data.url && data.children.length > 1 ? (
                     <li>
-                      <a href={data.url}>View All</a>
+                      <Link to={data.url}>View All</Link>
                     </li>
                   ) : (
                     ""
@@ -127,8 +128,8 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                   {data.children.map((innerdata, i) => {
                     return (
                       <li key={i}>
-                        <a
-                          href={innerdata.url}
+                        <Link
+                          to={innerdata.url}
                           className={
                             innerdata.name.toLowerCase().indexOf("sale") > -1
                               ? styles.menucolor
@@ -142,7 +143,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                                 : innerdata.name
                             }}
                           />
-                        </a>
+                        </Link>
                       </li>
                     );
                   })}
@@ -171,13 +172,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
         html.push(
           data.url && data.children.length == 0 ? (
             <li key={j}>
-              <a href={data.url}>
+              <Link to={data.url}>
                 <span
                   dangerouslySetInnerHTML={{
                     __html: data.labelMobile ? data.labelMobile : data.name
                   }}
                 />
-              </a>
+              </Link>
             </li>
           ) : (
             <li key={j}>
@@ -202,7 +203,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                   <ul key={data.url}>
                     {data.url && data.children.length > 1 ? (
                       <li>
-                        <a href={data.url}>View All</a>
+                        <Link to={data.url}>View All</Link>
                       </li>
                     ) : (
                       ""
@@ -210,8 +211,8 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                     {data.children.map((innerdata, i) => {
                       return (
                         <li key={i}>
-                          <a
-                            href={innerdata.url}
+                          <Link
+                            to={innerdata.url}
                             className={
                               innerdata.name.toLowerCase().indexOf("sale") > -1
                                 ? styles.menucolor
@@ -225,7 +226,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                                   : innerdata.name
                               }}
                             />
-                          </a>
+                          </Link>
                         </li>
                       );
                     })}
@@ -251,7 +252,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
             <li
               key={i}
               className={
-                location.href.indexOf("/bridal/") > 0
+                this.props.location.pathname.indexOf("/bridal/") > 0
                   ? styles.iconStyleDisabled
                   : ""
               }

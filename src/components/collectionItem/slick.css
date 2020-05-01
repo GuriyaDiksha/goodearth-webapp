@@ -31,7 +31,7 @@
 .collection-item .slick-slider:hover .slick-arrow.slick-next::before {
   font-family: "goodearth";
   color: #fff;
-  content: "\ea03";
+  content: "\f102";
   position: absolute;
   top: 8px;
   display: block;
@@ -41,7 +41,7 @@
 .collection-item .slick-slider:hover .slick-arrow.slick-prev:before {
   color: #fff;
   font-family: "goodearth";
-  content: "\ea02";
+  content: "\f101";
   position: absolute;
   top: 8px;
   display: block;

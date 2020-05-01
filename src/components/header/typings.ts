@@ -1,3 +1,4 @@
+import { Location } from "history";
 import { Currency } from "../../typings/currency";
 import { Basket } from "typings/basket";
 
@@ -69,6 +70,7 @@ export type MenuProps = {
   data: HeaderData[];
   currency?: Currency;
   mobile?: boolean;
+  location: Location;
 };
 
 export type MenuListProps = {
@@ -83,6 +85,7 @@ export type MenuListProps = {
 
 export type MobileListProps = {
   menudata: HeaderData[];
+  location: Location;
 };
 export interface State {
   show: boolean;
