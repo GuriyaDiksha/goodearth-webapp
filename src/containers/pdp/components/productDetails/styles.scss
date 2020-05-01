@@ -8,6 +8,10 @@
     }
 }
 
+.side-container{
+    margin-top: 30px;
+}
+
 .title {
     @include pdp_prod_title();
 
@@ -54,12 +58,19 @@
         line-height: 50px;
     }
     &.quantity {
-        line-height: 30px;
+        line-height: 40px;
     }
+}
+
+.size-container {
+    position: relative;
 }
 
 .size-error-message {
     @include error-msg();
+    position: absolute;
+    bottom: -10px;
+    left: 5px;
 }
 
 .bridal-ring {
@@ -109,6 +120,10 @@
     letter-spacing: 1px;
 }
 
+.mobile-wishlist-icon {
+    font-size: 53px;
+}
+
 @media screen and (max-width: 992px) {
     .collection-header {
         margin-top: 20px;
@@ -133,6 +148,10 @@
         &.quantity {
             line-height: 25px;
         }
+
+        &.colour {
+            line-height: 25px;
+        }
     }
 
     .action-buttons-container {
@@ -150,4 +169,13 @@
         padding: 0;
     }
 
+}
+
+.more-details {
+    font-family: "LatoFont","Helvetica","Arial";
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #333;
+    line-height: 80px;
 }

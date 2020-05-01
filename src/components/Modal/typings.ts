@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 
-export type Props<T extends HTMLElement> = {
+export type Props = {
   bodyClassName?: "string";
   children?: ReactNode;
-  parentNode: T;
   className?: string;
   fullscreen?: boolean;
+  openModal?: boolean;
 };
 
 export type ModalContext = React.Context<{

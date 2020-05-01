@@ -1,55 +1,87 @@
-import React, { useEffect } from "react";
-import { unmountComponentAtNode } from "react-dom";
+import React from "react";
 import cs from "classnames";
-
 import { Props } from "./typings";
-
-import { Context } from "./context";
-
 import styles from "./styles.scss";
-import useOutsideDetection from "hooks/useOutsideDetetion";
+import { connect } from "react-redux";
+import { AppState } from "reducers/typings";
+import { Context } from "./context";
+import mapActionsToProps from "./mapper/actions";
+import globalStyles from "styles/global.scss";
 
-const Modal = <T extends HTMLElement>({
-  bodyClassName,
-  children,
-  parentNode,
-  className,
-  fullscreen
-}: Props<T>) => {
-  const closeModal = () => {
-    unmountComponentAtNode(parentNode);
+const mapStateToProps = (state: AppState) => {
+  return {
+    component: state.modal.component,
+    openModal: state.modal.openModal,
+    fullscreen: state.modal.fullscreen,
+    bodyClass: state.modal.bodyClass,
+    currency: state.currency,
+    device: state.device
   };
-
-  const { ref } = useOutsideDetection<HTMLDivElement>(closeModal);
-
-  const Provider = Context.Provider;
-
-  useEffect(() => {
-    document.body.classList.add(styles.noscroll);
-    return () => {
-      document.body.classList.remove(styles.noscroll);
-    };
-  }, []);
-
-  return (
-    <Provider
-      value={{
-        closeModal
-      }}
-    >
-      <div className={cs(styles.container, className)}>
-        <div className={styles.backdrop} onClick={closeModal}></div>
-        <div
-          className={cs(styles.body, bodyClassName, {
-            [styles.fullscreen]: fullscreen
-          })}
-          ref={ref}
-        >
-          {children}
-        </div>
-      </div>
-    </Provider>
-  );
 };
 
-export default Modal;
+type ModalProps = Props &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapActionsToProps>;
+
+class Modal extends React.Component<ModalProps> {
+  prevScroll = 0;
+  closeModal = () => {
+    const { changeModalState } = this.props;
+    changeModalState(false);
+  };
+
+  componentDidMount() {
+    document.body.classList.add(styles.noscroll);
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.openModal) {
+      if (!prevProps.openModal) {
+        this.prevScroll = document.documentElement.scrollTop;
+        document.body.classList.add(globalStyles.noScroll);
+      }
+    } else {
+      if (prevProps.openModal) {
+        document.body.classList.remove(globalStyles.noScroll);
+        document.documentElement.scrollTop = this.prevScroll;
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove(styles.noscroll);
+  }
+
+  render() {
+    const {
+      bodyClass,
+      className,
+      fullscreen,
+      openModal,
+      component
+    } = this.props;
+
+    return openModal ? (
+      <Context.Provider
+        value={{
+          closeModal: this.closeModal
+        }}
+      >
+        <div className={cs(styles.container, className)}>
+          <div className={styles.backdrop} onClick={this.closeModal}></div>
+          <div
+            className={cs(styles.body, bodyClass, {
+              [styles.fullscreen]: fullscreen
+            })}
+          >
+            {component}
+          </div>
+        </div>
+      </Context.Provider>
+    ) : (
+      <></>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Modal);

@@ -2,7 +2,6 @@ import React, {
   useMemo,
   useState,
   MouseEventHandler,
-  useContext,
   useEffect,
   SyntheticEvent,
   MouseEvent,
@@ -16,12 +15,12 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import fontStyles from "styles/iconFonts.scss";
-import { Context } from "components/Modal/context";
 
 const Zoom: React.FC<Props> = ({
   images = [],
   startIndex = 0,
-  mobile = false
+  mobile = false,
+  changeModalState = null
 }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [style, setStyle] = useState({
@@ -87,10 +86,6 @@ const Zoom: React.FC<Props> = ({
     [style, currentIndex]
   );
 
-  useEffect(() => {
-    console.log(Object.values(style));
-  }, [style]);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -98,14 +93,14 @@ const Zoom: React.FC<Props> = ({
   const src = productImage && productImage.replace(/Micro|Medium/i, "Large");
 
   const { scale, translateX, translateY, left, top } = style;
-  const context = useContext(Context);
+
   const onImageClick: MouseEventHandler = event => {
     const target = event.currentTarget;
     const index = Number(target.getAttribute("data-index"));
     setCurrentIndex(index);
   };
   const closeModal = () => {
-    context.closeModal();
+    changeModalState(false);
   };
 
   const mouseMoveHandler = (e: MouseEvent) => {
@@ -165,7 +160,10 @@ const Zoom: React.FC<Props> = ({
   }, [images, currentIndex]);
 
   return (
-    <div className={styles.container} onMouseMove={mouseMoveHandler}>
+    <div
+      className={styles.container}
+      onMouseMove={mobile ? undefined : mouseMoveHandler}
+    >
       {currentIndex !== undefined && (
         <div
           className={cs(styles.mainImageContainer, {
@@ -177,6 +175,7 @@ const Zoom: React.FC<Props> = ({
             top: `${top}px`
           }}
           ref={containerRef}
+          onClick={closeModal}
         >
           <img
             src={src}
@@ -187,6 +186,17 @@ const Zoom: React.FC<Props> = ({
         </div>
       )}
       {sidebar}
+      {mobile && (
+        <button
+          className={cs(
+            fontStyles.icon,
+            fontStyles.iconCrossNarrowBig,
+            styles.closeBtn,
+            styles.mobile
+          )}
+          onClick={closeModal}
+        />
+      )}
     </div>
   );
 };

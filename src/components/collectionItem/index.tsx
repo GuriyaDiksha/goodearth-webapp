@@ -33,8 +33,12 @@ const CollectionImage: React.FC<CollectionDataProps> = (
           <p>
             {data.name}&nbsp;
             <span className={styles.italic}>
-              {data.categoryName ? data.categoryName[0].name : ""}
-              {data.categoryName ? " | " + data.categoryName[1].name : ""}
+              {data.categoryName && data.categoryName[0]
+                ? data.categoryName[0].name
+                : ""}
+              {data.categoryName && data.categoryName[1]
+                ? " | " + data.categoryName[1].name
+                : ""}
             </span>
           </p>
           <p className={styles.para}>

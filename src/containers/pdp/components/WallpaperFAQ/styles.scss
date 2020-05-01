@@ -1,0 +1,162 @@
+@import "../../../../styles/partials/variables";
+
+.container {
+    padding: 0;
+    padding-top: 30px;
+
+    h2 {
+        font-size: 30px;
+        font-family: $font-Amiri;
+        color: $lgtDefault;
+        line-height: 60px;
+        text-transform: capitalize;
+        margin: 0;
+    }
+}
+
+.mobile {
+    br {
+        content: ' ';
+
+        &::after {
+            content: ' ';
+        }
+    }
+}
+
+.header-sections {
+    display: flex;
+    justify-content: center;
+}
+
+.header-section {
+    width: 180px;
+    margin: 0px 32px;
+    cursor: pointer;
+
+    svg {
+        height: 50px;
+        margin: 20px 0;
+    }
+
+    &.active {
+        svg {
+            fill: $cerise;
+        }
+
+        .section-title {
+            background: $cerise;
+            color: #fff;
+        }
+    }
+
+    &:hover {
+        .section-title {
+            background: $cerise;
+            color: #fff;
+        }
+
+        svg {
+            fill: $cerise;
+        }
+    }
+
+}
+
+.section-title {
+    padding: 11px 2px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    color: #000;
+}
+
+.accordion-title {
+    padding-top: 10px;
+    padding-left: 5px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-bottom: 20px !important;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+}
+
+.accordion-text {
+    width: 90%;
+    font-family: "LatoFont","Helvetica","Arial";
+    font-weight: 300;
+    font-size: 13px;
+    color: #4d4d4d;
+    margin: 20px 0;
+    line-height: 20px;
+    padding-left: 5px;
+    text-align: left;
+}
+
+.mobileFaqContainer {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+
+.faqs-container {
+    margin: 30px 0;
+}
+
+@media screen and (max-width: 992px) {
+    .header-sections {
+        display: block;
+    }
+    .header-section {
+        width: 100%;
+        margin: 0px;
+    }
+
+    .section-title {
+        text-align: left;
+        padding: 15px;
+        background: #f2f2f2;
+        border-bottom: 1px solid #fff;
+    }
+    .container {
+        padding-top: 0;
+        margin-bottom: 30px;
+
+        h2 {
+            line-height: 150%;
+            font-size: 25px;
+        }
+    }
+
+    .accordion-title {
+        padding-right: 35px;
+        letter-spacing: 0.8px;
+    }
+}
+
+.open-icon, .close-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #d9d9d9;
+    position: absolute;
+    font-size: 18px;
+    right: 5px;
+    top: 10px;
+    line-height: 23px;
+    text-align: center;
+    font-family: $font-Lato;
+
+    &::before {
+        content: "-";
+    }
+}
+
+.close-icon {
+    &::before {
+        content: "+";
+    }
+}

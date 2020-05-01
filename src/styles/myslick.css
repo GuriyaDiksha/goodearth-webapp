@@ -19,7 +19,7 @@
 .slick-prev:before {
   color: #fff;
   font-family: "goodearth";
-  content: "\ea01";
+  content: "\f101";
   position: absolute;
   top: 2px;
   font-size: 36px;
@@ -29,7 +29,7 @@
 .slick-next:before {
   color: #fff;
   font-family: "goodearth";
-  content: "\ea02";
+  content: "\f102";
   position: absolute;
   top: 2px;
   font-size: 36px;
@@ -59,7 +59,8 @@
 .mobile-slider .slick-prev::before,
 .mobile-slider .slick-next::before {
   font-size: 50px;
-  top: 8px;
+  height: 70px;
+  line-height: 70px;
 }
 
 .slick-dots {
@@ -72,6 +73,13 @@
 .slick-dots li {
   display: inline-block;
   margin: 0 4px;
+}
+
+.slick-dots li.slick-active button::before{
+  color: #fff;
+}
+.slick-dots li.slick-active button::after{
+  color: #fff;
 }
 
 .slick-dots li button {
@@ -93,24 +101,4 @@
 .slick-dots li.slick-active button {
     opacity: 1;
     background-color: #ab1e56;
-}
-.slick-prev:before {
-  color: #fff;
-  font-family: "goodearth";
-  content: "\ea02";
-  position: absolute;
-  top: 2px;
-  font-size: 36px;
-  font-weight: 600;
-  left: 0;
-}
-.slick-next:before {
-  color: #fff;
-  font-family: "goodearth";
-  content: "\ea03";
-  position: absolute;
-  top: 2px;
-  font-size: 36px;
-  font-weight: 600;
-  right: 0;
 }

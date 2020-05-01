@@ -1,6 +1,14 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+
+.my-quantity{
+    padding: 4px 7px;
+}
+.cart-padding{
+  padding-right: 15px;
+  padding-left: 15px;
+}
 .bag-backdrop {
     top: 0;
     left: 0;
@@ -11,6 +19,8 @@
     position: fixed;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
+
   
 .bag-backdrop.active {
     display: block;
@@ -25,6 +35,8 @@
       right: 0;
     }
 }
+
+
 
 .bag {
     top: 0;
@@ -93,7 +105,6 @@
         padding: 20px 30px;
         margin-bottom: 1px;
         background-color: $white;
-  
         .section {
           margin-top: 15px;
         }
@@ -154,18 +165,19 @@
           padding: 2px 0;
           font-size: 10px;
   
-          .qty {
+          input {
             padding: 3px 12px;
             -webkit-box-flex: 1;
             -ms-flex-positive: 1;
             -webkit-flex-grow: 1;
             flex-grow: 1;
+            width: inherit;
             text-align: center;
             border-left: 1px solid #ffffff;
             border-right: 1px solid #ffffff;
           }
   
-          .btn-qty {
+          .plus-quantity, .minus-quantity {
             font-size: 12px;
             cursor: pointer;
             padding: 3px 12px;
@@ -249,3 +261,21 @@
     letter-spacing: 1px;
 }
 
+
+@media screen and (max-width:992px){
+  .bag{
+    width: 100%;
+  }
+}
+
+.crossfont-size{
+  font-size: 14px;
+}
+
+.crossicon-Item{
+  font-size: 12px;
+}
+
+.wishlist-display {
+  display: inline-table;
+}

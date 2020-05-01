@@ -8,7 +8,6 @@
   background-size: cover;
   background: url('../../images/footerBgTopDec.jpg') repeat-x;
   text-align: center;
-  margin-top: $footer-top;
 }
 
 .footer {
@@ -18,7 +17,7 @@
 }
 
 .footer-icon{
-  font-size: 25px;
+  font-size: 35px;
 }
 
 .form-footer {
@@ -26,14 +25,15 @@
   span {
     &.location {
       position: absolute;
-      left: 2%;
-      top: 5%;
-      font-size: 20px;
+      left: 0%;
+      top: -25%;
+      color: black;
       .icon-class {
         color: $cerise;
       }
       i {
         line-height: 44px;
+        font-size: 1px;
       }
     }
   }
@@ -59,8 +59,6 @@
 .footer-socialicons {
   a {
     font-size: 20px;
-    padding-right: 20px;
-    color: tint(#000, 40%);
     &:hover {
       color: $cerise;
     }
@@ -91,7 +89,26 @@
   width: 10%;
 }
 
-@media screen and (min-width: 320px) and (max-width: 992px) {
+@media screen and (max-width: 992px) {
+  .form-footer {
+    span {
+      &.location {
+        position: absolute;
+        left: 0%;
+        top: -24%;
+        color: black;
+        .icon-class {
+          color: $cerise;
+        }
+        i {
+          line-height: 44px;
+          font-size: 1px;
+        }
+      }
+    }
+  }
+  
+
   .shop-locator {
     position: relative;
     .cursor-pointer {

@@ -6,4 +6,4 @@ export type HeaderState = {
   data: HeaderData[];
 };
 
-export type DeviceActions = ActionType<typeof Actions>;
+export type HeaderActions = ActionType<typeof Actions>;

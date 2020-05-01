@@ -4,6 +4,12 @@
     margin-top: $header-height + $secondary-header-height;
 }
 
+@media screen and (max-width: 992px) {
+    .collection-container {
+        margin-top: $header-height;
+    }
+}
+
 .collection-name {
     font-size: 25px;
     font-family: "Baskerville","Amiri","Serif";
@@ -20,6 +26,8 @@
 .collection-block{
     margin-bottom: 35px;
     margin-top: 35px;
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 .padding{

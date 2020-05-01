@@ -9,9 +9,9 @@ import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
 import Bag from "../Bag/index";
-import { CartItems } from "components/Bag/typings";
 import LoginService from "services/login";
 import store from "../../client";
+import { Basket } from "typings/basket";
 
 interface State {
   showc: boolean;
@@ -104,8 +104,13 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
         )
       : cs(iconStyles.icon, iconStyles.iconProfile, styles.iconStyle);
 
-    const bagitem: CartItems = this.props.sidebagData;
-    const bagCount: number = bagitem.products.length;
+    const bagitem: Basket = this.props.sidebagData;
+    const wishlistCount = this.props.wishlistData.length;
+    let bagCount = 0;
+    const item = bagitem.lineItems;
+    for (let i = 0; i < item.length; i++) {
+      bagCount = bagCount + item[i].quantity;
+    }
     return (
       <ul className={styles.sideMenuContainer}>
         {this.props.mobile ? (
@@ -169,6 +174,9 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
                 styles.iconStyle
               )}
             ></i>
+            <span className={styles.badge}>
+              {wishlistCount > 0 ? wishlistCount : ""}
+            </span>
           </li>
         )}
         <li className={cs(styles.sideMenuItem)}>

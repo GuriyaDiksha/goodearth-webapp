@@ -5,23 +5,16 @@ import SideMenu from "./sidemenu";
 import MainMenu from "./menu";
 import { MenuList } from "./menulist";
 import Mobilemenu from "./mobileMenu";
+import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import gelogoCerise from "../../images/gelogoCerise.svg";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import { CartItems } from "components/Bag/typings";
 import { State } from "./typings";
 import LoginService from "services/login";
 import store from "../../client";
-
-const cart: CartItems = {
-  products: [],
-  totalWithOutGcItems: 0,
-  isBridal: false,
-  totalExclTax: 0,
-  totalExclTaxExclDiscounts: 0
-};
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -29,8 +22,9 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     mobile: state.device.mobile,
     isLoggedIn: state.user.email ? true : false,
-    wishlistData: [],
-    cart: cart
+    wishlistData: state.wishlist.items,
+    cart: state.basket,
+    message: state.message
   };
 };
 
@@ -92,6 +86,9 @@ class Header extends React.Component<Props, State> {
   }
 
   render() {
+    const { message, wishlistData } = this.props;
+    const wishlistCount = wishlistData.length;
+    const wishlistIcon = wishlistCount > 0;
     return (
       <div className="">
         <div className={cs(styles.headerContainer)}>
@@ -116,9 +113,9 @@ class Header extends React.Component<Props, State> {
                     this.state.showMenu
                       ? cs(
                           iconStyles.icon,
-                          iconStyles.iconCross,
+                          iconStyles.iconCrossNarrowBig,
                           styles.iconStyle,
-                          styles.iconFont
+                          styles.iconCrossFont
                         )
                       : styles.hidden
                   }
@@ -166,7 +163,7 @@ class Header extends React.Component<Props, State> {
               <SideMenu
                 isLoggedIn={this.props.isLoggedIn}
                 mobile={this.props.mobile}
-                wishlistData={[]}
+                wishlistData={wishlistData}
                 currency={this.props.currency}
                 sidebagData={this.props.cart}
               />
@@ -218,22 +215,14 @@ class Header extends React.Component<Props, State> {
                       <ul>
                         <li>
                           <i
-                            className={
-                              location.href.indexOf("/bridal/") > 0
-                                ? cs(
-                                    iconStyles.icon,
-                                    iconStyles.iconWishlist,
-                                    styles.op3
-                                  )
-                                : this.props.wishlistData.length > 0
-                                ? cs(
-                                    iconStyles.icon,
-                                    iconStyles.iconHeartCeriseFill
-                                  )
-                                : cs(iconStyles.icon, iconStyles.iconWishlist)
-                            }
+                            className={cs(
+                              { [globalStyles.cerise]: wishlistIcon },
+                              { [iconStyles.iconWishlistAdded]: wishlistIcon },
+                              { [iconStyles.iconWishlist]: !wishlistIcon },
+                              iconStyles.icon
+                            )}
                           ></i>
-                          <span> wishlist (3)</span>
+                          <span> wishlist ({wishlistCount})</span>
                         </li>
                         <li
                           className={
@@ -309,6 +298,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+        <GrowlMessage {...message} />
       </div>
     );
   }

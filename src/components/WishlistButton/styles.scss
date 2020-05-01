@@ -3,11 +3,18 @@
 
 .wishlist-icon {
     font-size: 36px;
-    color: #ccc;
+    color: gray;
     cursor: pointer;
+}
 
-    &:hover {
-        color: $cerise;
+@media screen and (min-width:992px) {
+    .wishlist-icon {
+        font-size: 36px;
+        color: gray;
+        cursor: pointer;
+        &:hover {
+            color: $cerise;
+        }
     }
 }
 
@@ -17,4 +24,13 @@
 
 .added-to-wishlist {
     color: $cerise;
+}
+
+.mobile-wishlist {
+    background-color: #fff;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    font-size: 21px;
+    line-height: 23px;
 }

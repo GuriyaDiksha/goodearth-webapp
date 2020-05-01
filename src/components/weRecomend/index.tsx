@@ -1,30 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./slick.css";
 import "../../styles/myslick.css";
+import "./slick.css";
 
 import { Currency, currencyCode } from "../../typings/currency";
 import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
+import WishlistButton from "components/WishlistButton";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
   const { data, setting, currency, mobile } = props;
   const code = currencyCode[currency as Currency];
-
+  const [currentId, setCurrentId] = useState(-1);
   const items = data?.map((item: RecommendData, i: number) => {
     return (
       <div
+        onMouseEnter={() => setCurrentId(item.id)}
+        onMouseLeave={() => setCurrentId(-1)}
         key={item.id}
         className={cs({
           [bootstrapStyles.col6]: mobile,
-          [bootstrapStyles.colMd4]: mobile
+          [bootstrapStyles.colMd4]: mobile,
+          [bootstrapStyles.col12]: !mobile
         })}
       >
         {item.badgeImage ? (
@@ -33,6 +37,24 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           </div>
         ) : (
           ""
+        )}
+        {(mobile || currentId == item.id) && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.mobileWishlist,
+              {
+                [styles.wishlistBtnContainer]: true
+              }
+            )}
+          >
+            <WishlistButton
+              id={item.id}
+              showText={false}
+              key={item.id}
+              mobile={true}
+            />
+          </div>
         )}
         <a href={item.productUrl}>
           <img

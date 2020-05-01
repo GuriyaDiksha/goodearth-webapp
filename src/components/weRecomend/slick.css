@@ -1,11 +1,21 @@
 
-  .we-recommend .slick-arrow {
-    top: 40%;
-  }
+.we-recommend .slick-arrow {
+  top: 40%;
+}
+.we-recommend .slick-arrow.slick-prev {
+  left: -60px;
+}
+.we-recommend .slick-arrow.slick-next {
+  right: -60px;
+}
+.we-recommend .slick-arrow{
+  font-size: 30px;
+  background-color: #b3b3b3;
+  border-radius: 50%;
+  padding: 5px;
+  top: 35%;
+}
 
-  .we-recommend .slick-arrow.slick-prev {
-    left: -60px;
-  }
-  .we-recommend .slick-arrow.slick-next {
-    right: -60px;
-  }
+.we-recommend .slick-arrow.slick-prev:hover, .we-recommend .slick-arrow.slick-next:hover {
+  background-color: #ab1e56;
+}

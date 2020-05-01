@@ -52,6 +52,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   designJournalTagging?: DesignJournalTag[];
   fillerMessage?: string;
   collectionProducts?: CollectionProductItem[];
+  groupedProducts?: GroupedProductItem[];
 }
 
 export interface PartialChildProductAttributes {
@@ -89,4 +90,12 @@ export interface BasketProduct extends PartialProductItem {
   structure: string;
   parent: ProductID;
   attributes: ProductAttributes[];
+}
+
+export interface GroupedProductItem {
+  url: string;
+  id: ProductID;
+  title: string;
+  images: ProductImage[];
+  color: string[];
 }

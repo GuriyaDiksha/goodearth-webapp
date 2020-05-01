@@ -1,5 +1,5 @@
 import { Currency } from "../../typings/currency";
-import { CartItems } from "components/Bag/typings";
+import { Basket } from "typings/basket";
 
 export interface Childern {
   url: string;
@@ -31,21 +31,30 @@ export interface HeaderData {
   categoryImageUrl: string;
 }
 
+export type WishListType = {
+  id: number;
+  quantity: number;
+  dndSequence: number;
+  size?: string | undefined;
+  sequence: number;
+  productId: number;
+};
+
 export type HeaderProps = {
   data: HeaderData[];
   currency: Currency;
   mobile: boolean;
   isLoggedIn: boolean;
-  wishlistData: [];
-  cart: CartItems;
+  wishlistData: WishListType[];
+  cart: Basket;
 };
 
 export type SideMenuProps = {
   currency: Currency;
   mobile: boolean;
   isLoggedIn: boolean;
-  wishlistData: [];
-  sidebagData: CartItems;
+  wishlistData: WishListType[];
+  sidebagData: Basket;
 };
 
 export interface MouseParameter {

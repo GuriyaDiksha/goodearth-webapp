@@ -1,6 +1,5 @@
 import React from "react";
 import { Dispatch } from "redux";
-import { renderModal } from "utils/modal";
 import ForgotPasswordForm from "components/signin/forgotPassword";
 import LoginForm from "components/signin/Login";
 import RegisterForm from "components/signin/register";
@@ -8,6 +7,7 @@ import API from "utils/api";
 import { logoutResponse } from "./typings";
 import initAction from "../../client/initAction";
 import { updateCookies } from "actions/cookies";
+import { updateComponent, updateModal } from "../../actions/modal";
 import store from "../../client";
 import Axios from "axios";
 import CookieService from "services/cookie";
@@ -15,13 +15,16 @@ import CookieService from "services/cookie";
 
 export default {
   showForgotPassword: function(event?: React.MouseEvent): void {
-    renderModal(<ForgotPasswordForm />, { fullscreen: true });
+    store.dispatch(updateComponent(<ForgotPasswordForm />, true));
+    store.dispatch(updateModal(true));
   },
   showLogin: function(event?: React.MouseEvent): void {
-    renderModal(<LoginForm />, { fullscreen: true });
+    store.dispatch(updateComponent(<LoginForm />, true));
+    store.dispatch(updateModal(true));
   },
   showRegister: function(event?: React.MouseEvent): void {
-    renderModal(<RegisterForm />, { fullscreen: true });
+    store.dispatch(updateComponent(<RegisterForm />, true));
+    store.dispatch(updateModal(true));
   },
   checkuserpassword: async function(email: string) {
     const res = await Axios.post(

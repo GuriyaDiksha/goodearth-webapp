@@ -7,6 +7,8 @@ export type QuantityItem = {
   minValue: number;
   maxValue: number;
   errorMsg?: string;
+  disabled?: boolean;
+  class?: string;
 };
 
 export interface State {

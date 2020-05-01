@@ -41,6 +41,12 @@ export const product = (
       const recommendedProducts = product.recommendedProducts.map(
         ({ id }) => id
       );
+      product.childAttributes = product.childAttributes.map((v, i) => {
+        if (i === 1) {
+          v.stock = 0;
+        }
+        return v;
+      });
       newState[product.id] = {
         ...currentProduct,
         ...product,
@@ -65,6 +71,5 @@ export const product = (
       return newState;
     }
   }
-
   return state;
 };

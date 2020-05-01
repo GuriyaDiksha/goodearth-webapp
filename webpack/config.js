@@ -114,14 +114,21 @@ let config = [
                     }
                 },
                 {
-                    test: /\.(jpg|jpeg|svg|png|gif)(\?.*)?$/,
+                    test: /\.svg(\?.*)?$/,
+                    issuer: {
+                        test: /\.tsx?$/
+                    },
+                    use: ['@svgr/webpack']
+                },
+                {
+                    test: /\.(jpg|svg|jpeg|png|gif)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
                         outputPath: 'images',
                         publicPath: '/images/'
                     }
-                }
+                },
             ]
         }
     }

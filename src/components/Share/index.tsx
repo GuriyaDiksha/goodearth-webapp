@@ -1,4 +1,5 @@
 import React from "react";
+import { useStore } from "react-redux";
 import cs from "classnames";
 import { Props } from "./typings";
 import Whatsapp from "./whatsapp";
@@ -6,6 +7,8 @@ import Mail from "./mail";
 import CopyLink from "./copyLink";
 
 import productDertailsStyles from "containers/pdp/components/productDetails/styles.scss";
+// actions
+import { showMessage } from "actions/growlMessage";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 
@@ -15,8 +18,11 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
   }${link}%3Futm_source=Website-Shared%26utm_medium=Whatsapp`;
   const mailContent = `mailto:?subject=${mailSubject}&body=${mailText}%3Futm_source=Website-Shared%26utm_medium=Email`;
 
+  const store = useStore();
   const copyText = () => {
-    console.log("Copied");
+    store.dispatch(
+      showMessage("The link of this product has been copied to clipboard!")
+    );
   };
 
   return (

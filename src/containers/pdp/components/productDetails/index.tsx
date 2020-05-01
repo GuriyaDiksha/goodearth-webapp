@@ -1,5 +1,14 @@
-import React, { memo, useState, useCallback, useMemo } from "react";
+import React, {
+  memo,
+  useState,
+  useCallback,
+  useMemo,
+  EventHandler,
+  MouseEvent,
+  useEffect
+} from "react";
 import cs from "classnames";
+import { useStore } from "react-redux";
 // components
 import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
@@ -8,20 +17,24 @@ import Share from "components/Share";
 import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import SizeChartPopup from "../sizeChartPopup";
+import ColorSelector from "components/ColorSelector";
+import WallpaperPopup from "../wallpaperPopup";
+import NotifyMePopup from "components/NotifyMePopup";
 // services
 import BasketService from "services/basket";
+// actions
+import { showMessage } from "actions/growlMessage";
 // typings
 import { Props } from "./typings";
 import { ChildProductAttributes } from "typings/product";
 // constants
 import { currencyCodes } from "constants/currency";
-// utils
-import { renderModal } from "utils/modal";
 // styles
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import { useStore } from "react-redux";
+import ModalStyles from "components/Modal/styles.scss";
+import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 
 const saleStatus = true;
 
@@ -42,10 +55,16 @@ const ProductDetails: React.FC<Props> = ({
     loyalityDisabled,
     shipping,
     compAndCare,
-    sku
+    sku,
+    url,
+    groupedProducts
   },
+  corporatePDP,
   mobile,
-  currency
+  currency,
+  isQuickview,
+  changeModalState,
+  updateComponentModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
 
@@ -54,7 +73,14 @@ const ProductDetails: React.FC<Props> = ({
   const [
     selectedSize,
     setSelectedSize
-  ] = useState<ChildProductAttributes | null>(null);
+  ] = useState<ChildProductAttributes | null>(
+    childAttributes.length === 1 ? childAttributes[0] : null
+  );
+  useEffect(() => {
+    if (childAttributes.length === 1 && !selectedSize) {
+      setSelectedSize(childAttributes[0]);
+    }
+  }, [childAttributes, selectedSize]);
 
   const { dispatch } = useStore();
   const price =
@@ -93,8 +119,24 @@ const ProductDetails: React.FC<Props> = ({
     if (!sizeChartHtml) {
       return;
     }
-    renderModal(<SizeChartPopup html={sizeChartHtml} />);
+    // renderModal(<SizeChartPopup html={sizeChartHtml} />);
+    updateComponentModal(<SizeChartPopup html={sizeChartHtml} />);
+    changeModalState(true);
   }, [sizeChartHtml]);
+
+  const [childAttr] = childAttributes;
+  const { size = "" } = childAttr || {};
+  const [height, width] = size.match(/[0-9.]+/gim) || [];
+
+  const onWallpaperClick = useCallback(() => {
+    updateComponentModal(
+      <WallpaperPopup
+        price={priceRecords[currency]}
+        currency={String.fromCharCode(currencyCodes[currency])}
+      />
+    );
+    changeModalState(true);
+  }, [height, width]);
 
   const accordionSections = useMemo(() => {
     return [
@@ -116,18 +158,81 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
-  const addToBasket = () => {
+  const addToBasket = async () => {
     if (!selectedSize) {
       setSizeError("Please select size");
     } else {
-      BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
     }
   };
+
+  const onEnquireClick = () => {
+    console.log(123);
+  };
+
+  const notifyMeClick = () => {
+    let selectedIndex = 0;
+
+    childAttributes.map((v, i) => {
+      if (v.id === selectedSize?.id) {
+        selectedIndex = i;
+      }
+    });
+
+    updateComponentModal(
+      <NotifyMePopup
+        collection={collection}
+        price={priceRecords[currency]}
+        currency={String.fromCharCode(currencyCodes[currency])}
+        childAttributes={childAttributes}
+        title={title}
+        selectedIndex={selectedIndex}
+      />,
+      false,
+      ModalStyles.bottomAlign
+    );
+    changeModalState(true);
+  };
+
+  const button = useMemo(() => {
+    let buttonText: string, action: EventHandler<MouseEvent>;
+    if (corporatePDP) {
+      buttonText = "Enquire Now";
+      action = onEnquireClick;
+    } else if (selectedSize && selectedSize.stock == 0) {
+      buttonText = "Notify Me";
+      action = notifyMeClick;
+    } else {
+      buttonText = "Add to Bag";
+      action = addToBasket;
+    }
+
+    return <Button label={buttonText} onClick={action} />;
+  }, [corporatePDP, selectedSize]);
+
+  const showSize = useMemo(() => {
+    let show = false;
+    childAttributes.every(attr => {
+      if (attr.size) {
+        show = true;
+        return false;
+      }
+      return false;
+    });
+
+    return show;
+  }, [childAttributes]);
 
   return (
     <div className={bootstrap.row}>
       <div
-        className={cs(bootstrap.col10, bootstrap.offset1, bootstrap.colMd11)}
+        className={cs(
+          bootstrap.col10,
+          bootstrap.offset1,
+          bootstrap.colMd11,
+          styles.sideContainer
+        )}
       >
         <div className={cs(bootstrap.row)}>
           {img ? (
@@ -196,57 +301,91 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
         </div>
-        <div className={cs(bootstrap.row, styles.spacer)}>
-          <div className={bootstrap.colSm8}>
-            <div className={bootstrap.row}>
-              <div
-                className={cs(
-                  bootstrap.col12,
-                  bootstrap.colSm3,
-                  styles.label,
-                  styles.size
-                )}
-              >
-                Size
-              </div>
-              <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
-                <SizeSelector
-                  sizes={childAttributes}
-                  onChange={onSizeSelect}
-                  selected={selectedSize ? selectedSize.id : undefined}
-                />
-                {sizeError && (
-                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
-                )}
+
+        {groupedProducts?.length ? (
+          <div className={cs(bootstrap.row, styles.spacer)}>
+            <div className={bootstrap.col8}>
+              <div className={bootstrap.row}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm3,
+                    styles.label,
+                    styles.colour
+                  )}
+                >
+                  Color
+                </div>
+                <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+                  <ColorSelector products={groupedProducts} />
+                </div>
               </div>
             </div>
           </div>
-          {sizeChartHtml && (
-            <div
-              className={cs(bootstrap.colSm4, styles.label, {
-                [globalStyles.textCenter]: !mobile
-              })}
-            >
-              <span className={styles.sizeGuide} onClick={onSizeChartClick}>
-                {" "}
-                Size Guide{" "}
-              </span>
+        ) : (
+          ""
+        )}
+
+        {showSize ? (
+          <div className={cs(bootstrap.row, styles.spacer)}>
+            <div className={bootstrap.col8}>
+              <div className={bootstrap.row}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm3,
+                    styles.label,
+                    styles.size
+                  )}
+                >
+                  Size
+                </div>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm9,
+                    styles.sizeContainer
+                  )}
+                >
+                  <SizeSelector
+                    sizes={childAttributes}
+                    onChange={onSizeSelect}
+                    selected={selectedSize ? selectedSize.id : undefined}
+                  />
+                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
+                </div>
+              </div>
             </div>
-          )}
-          {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
-            <div
-              className={cs(
-                bootstrap.colSm4,
-                styles.label,
-                globalStyles.textCenter
-              )}
-            >
-              <span className={styles.sizeGuide}> Wallpaper Calculator </span>
-            </div>
-          )}
-        </div>
+            {sizeChartHtml && (
+              <div
+                className={cs(bootstrap.colSm4, styles.label, {
+                  [globalStyles.textCenter]: !mobile
+                })}
+              >
+                <span className={styles.sizeGuide} onClick={onSizeChartClick}>
+                  {" "}
+                  Size Guide{" "}
+                </span>
+              </div>
+            )}
+            {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
+              <div
+                className={cs(bootstrap.colSm4, styles.label, {
+                  [globalStyles.textCenter]: !mobile
+                })}
+              >
+                <span className={styles.sizeGuide} onClick={onWallpaperClick}>
+                  {" "}
+                  Wallpaper Calculator{" "}
+                </span>
+              </div>
+            )}
+          </div>
+        ) : (
+          ""
+        )}
         <div className={cs(bootstrap.row, styles.spacer)}>
-          <div className={bootstrap.colSm8}>
+          <div className={bootstrap.col8}>
             <div className={bootstrap.row}>
               <div
                 className={cs(
@@ -298,14 +437,22 @@ const ProductDetails: React.FC<Props> = ({
           )}
         >
           <div
-            className={cs(bootstrap.colSm8, bootstrap.col9, {
-              [styles.addToBagBtnContainer]: mobile
-            })}
+            className={cs(
+              bootstrap.colSm8,
+              bootstrap.col9,
+              globalStyles.textCenter,
+              {
+                [styles.addToBagBtnContainer]: mobile
+              }
+            )}
           >
-            {selectedSize && selectedSize.stock == 0 ? (
-              <Button label="NOTIFY ME" />
+            {button}
+            {isQuickview ? (
+              <a href={url} className={styles.moreDetails}>
+                view more details
+              </a>
             ) : (
-              <Button label="ADD TO BAG" onClick={addToBasket} />
+              ""
             )}
           </div>
           <div
@@ -318,7 +465,13 @@ const ProductDetails: React.FC<Props> = ({
               }
             )}
           >
-            <WishlistButton id={id} showText={!mobile} />
+            <WishlistButton
+              id={id}
+              showText={!mobile}
+              iconClassName={cs({
+                [styles.mobileWishlistIcon]: mobile
+              })}
+            />
           </div>
         </div>
         <div
@@ -343,7 +496,7 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
-          {!mobile && (
+          {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
               link={window.location.href}
@@ -356,16 +509,20 @@ const ProductDetails: React.FC<Props> = ({
           )}
 
           <div>
-            <Accordion
-              sections={accordionSections}
-              headerClassName={styles.accordionHeader}
-              bodyClassName={styles.accordionBody}
-              defaultOpen="details"
-            />
+            {!isQuickview && (
+              <Accordion
+                sections={accordionSections}
+                headerClassName={styles.accordionHeader}
+                bodyClassName={styles.accordionBody}
+                defaultOpen="details"
+              />
+            )}
           </div>
-          <div className={cs(styles.sku, globalStyles.voffset4)}>
-            Vref. {sku}
-          </div>
+          {!isQuickview && (
+            <div className={cs(styles.sku, globalStyles.voffset4)}>
+              Vref. {sku}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,20 +1,40 @@
-import { State, UserActions } from "./typings";
+import { State, MetaActions } from "./typings";
 
 const initialState: State = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  id: "",
-  bridal: false,
-  loyalityEligible: false
+  keywords: "",
+  description: "",
+  title: "",
+  ogTitle: "",
+  ogUrl: "",
+  ogImage: "",
+  ogImageHeight: "",
+  ogImageWidth: "",
+  ogDescription: "",
+  ogSiteName: "",
+  ogType: "",
+  isChat: false,
+  templateType: "",
+  productClass: "",
+  twitterCard: "",
+  twitterTitle: "",
+  twitterUrl: "",
+  twitterDescription: "",
+  twitterImage: "",
+  twitterDomain: "",
+  twitterCreator: "",
+  twitterSite: ""
 };
 
-export const user = (state = initialState, action: UserActions): State => {
+export const meta = (state = initialState, action: MetaActions): State => {
   switch (action.type) {
-    case "UPDATE_USER": {
+    case "UPDATE_PAGE_META": {
       return { ...state, ...action.payload };
     }
+    case "RESET_PAGE_META": {
+      return initialState;
+    }
+    default: {
+      return state;
+    }
   }
-
-  return state;
 };

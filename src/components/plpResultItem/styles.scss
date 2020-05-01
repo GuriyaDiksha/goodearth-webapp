@@ -46,23 +46,24 @@
     width: 100%;
     padding: 10px 0;
     background: rgba(255,255,255,0.8);
-    min-height: 50px;
-    line-height: 35px;
+    min-height: 40px;
+    line-height: 20px;
     cursor: pointer;
-    span{
+    p{
         font-weight: bold;
         font-size: 12px;
         text-transform: uppercase;
         color: #ab1e56;
         font-family: "LatoFont","Helvetica","Arial";
         letter-spacing: 2px;
+        padding-top: 10px;
     }
     .image-hover {
         text-align: center;
         width: 50%;
     }
-    .image-hover:nth-last-child(2) {
-        border-left: 1px solid #b3b3b3;
+    .image-hover:nth-last-child(1) {
+        border-left: 1px solid gray;
     }
 
     .wishlist {
@@ -75,13 +76,34 @@
 
 }
 
+.collection-name{
+    font-size: 12px;
+    font-family: "Baskerville","Amiri","Serif";
+    color: gray;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media screen and (max-width: 992px){
+    .image-content {
+        padding: 0 10px;
+        margin-top: 10px;
+    }
+}
 
 .product-n{
+    margin: 5px 0;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     a {
+        font-size: 16px;
+        font-family: "AmiriFont", "Baskerville", "Garamond";
+        color: #000;
+        text-transform: capitalize;
+    }
+    span {
         font-size: 16px;
         font-family: "AmiriFont", "Baskerville", "Garamond";
         color: #000;
