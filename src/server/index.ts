@@ -17,6 +17,7 @@ const cwd = process.cwd();
 const staticRoot = `${cwd}/dist`;
 
 const app = new Koa();
+const PORT = process.env.NODE_PORT || 3000;
 
 app.use(serve(staticRoot));
 
@@ -37,6 +38,6 @@ app.use(device);
 app.use(initAction);
 app.use(viewHandler);
 
-app.listen(8000, () => {
-  console.log(`App listening on port 8000`);
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });
