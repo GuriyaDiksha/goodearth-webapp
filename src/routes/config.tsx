@@ -8,6 +8,8 @@ import CollectionSpecific, {
   initActionSpecific
 } from "containers/collectionSpecific";
 import PDPContainer, { initAction } from "containers/pdp";
+import initActionPLP from "containers/plp/initAction";
+import PLP from "containers/plp";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -36,6 +38,12 @@ const routes: RouteConfig = [
     component: CollectionSpecific,
     action: initActionSpecific,
     exact: true
+  },
+  {
+    path: ROUTES.PLP,
+    component: PLP,
+    action: initActionPLP,
+    exact: false
   }
 ];
 

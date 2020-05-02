@@ -12,7 +12,7 @@ import { updateDeviceInfo } from "actions/device";
 import initAction from "./initAction";
 import { updateCookies } from "actions/cookies";
 
-document.cookie = "tkn=a66e5385d467e8d52d9e61eebeb6764f4b7c769b";
+document.cookie = "tkn=92aa0a7cde8c5ec93e76c19d039f319359447c3f";
 const history = getHistory();
 const store = configureStore(true, history);
 const cookies = CookieService.parseCookies(document.cookie);

@@ -14,6 +14,7 @@ import { wishlist } from "./wishlist";
 import { basket } from "./basket";
 import { quickview } from "./quickview";
 import { modal } from "./modal";
+import { plplist } from "./plp";
 import { growlMessage } from "./growlMessage";
 
 const createRootReducer = (history: History) => {
@@ -31,6 +32,7 @@ const createRootReducer = (history: History) => {
     basket,
     quickview,
     modal,
+    plplist,
     message: growlMessage
   });
 };

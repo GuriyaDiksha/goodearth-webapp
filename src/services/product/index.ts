@@ -15,7 +15,6 @@ export default {
       {}
     );
     const data: Product<PartialProductItem> = { ...res.data, partial: false };
-
     return data;
   },
   fetchCollectionProducts: async (
