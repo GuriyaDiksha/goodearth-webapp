@@ -7,9 +7,9 @@ import CollectionLanding, {
 import CollectionSpecific, {
   initActionSpecific
 } from "containers/collectionSpecific";
-import PDPContainer, { initAction } from "containers/pdp";
 import initActionPLP from "containers/plp/initAction";
 import PLP from "containers/plp";
+import PDPContainer, { initAction, metaAction } from "containers/pdp";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -25,6 +25,7 @@ const routes: RouteConfig = [
     path: ROUTES.PDP,
     component: PDPContainer,
     action: initAction,
+    meta: metaAction,
     exact: true
   },
   {

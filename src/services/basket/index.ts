@@ -31,6 +31,7 @@ export default {
       }
     );
     dispatch(updateBasket(res));
+    return res;
   },
   updateToBasket: async function(
     dispatch: Dispatch,

@@ -4,7 +4,8 @@ import { State, ModalActions } from "./typings";
 const initialState: State = {
   component: null,
   openModal: false,
-  fullscreen: false
+  fullscreen: false,
+  bodyClass: ""
 };
 
 export const modal = (state = initialState, action: ModalActions): State => {
@@ -13,7 +14,8 @@ export const modal = (state = initialState, action: ModalActions): State => {
       return {
         ...state,
         component: action.payload.component,
-        fullscreen: action.payload.fullscreen
+        fullscreen: action.payload.fullscreen,
+        bodyClass: action.payload.bodyClass || ""
       };
     }
     case "UPDATE_MODAL": {

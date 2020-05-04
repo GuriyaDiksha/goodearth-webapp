@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import { routes } from "./config";
 import RouteContainer from "containers/route";
 
-const routeMap = routes.map(({ path, component, action, exact }) => {
+const routeMap = routes.map(({ path, component, action, exact, meta }) => {
   return (
     <Route
       key={path}
@@ -17,6 +17,7 @@ const routeMap = routes.map(({ path, component, action, exact }) => {
             component={component}
             path={path}
             params={myParams}
+            meta={meta}
           />
         );
       }}

@@ -6,6 +6,7 @@ export type Props = {
   label?: string;
   id?: string;
   name?: string;
+  disabled?: boolean;
   errorMsg?: string;
   onChange: (value: string, error: string) => void;
   validator?: (

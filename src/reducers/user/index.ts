@@ -1,6 +1,6 @@
 import { State, UserActions } from "./typings";
 
-const initialState: State = {
+export const initialState: State = {
   firstName: "",
   lastName: "",
   email: "",

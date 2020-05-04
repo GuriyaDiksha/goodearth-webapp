@@ -106,5 +106,5 @@ lib
 package-lock.json
 
 # generate font related files
-iconFonts.scss
 src/fonts/goodearth.*
+_goodearth.scss

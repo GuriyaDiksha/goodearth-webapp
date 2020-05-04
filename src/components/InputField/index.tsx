@@ -15,7 +15,8 @@ const InputField: React.FC<Props> = ({
   label,
   className,
   placeholder,
-  errorMsg
+  errorMsg,
+  disabled
 }) => {
   const [focused, setFocused] = useState(false);
   const [error, setError] = useState("");
@@ -51,13 +52,15 @@ const InputField: React.FC<Props> = ({
             .toString(36)
             .substring(7)
         }
+        disabled={disabled}
         onFocus={onFocus}
         onChange={onValueChange}
         value={value}
         name={name}
         placeholder={!focused && placeholder ? placeholder : ""}
         className={cs(styles.input, {
-          [styles.error]: error || errorMsg
+          [styles.error]: error || errorMsg,
+          [styles.disabled]: disabled
         })}
       />
       {focused && <div className={styles.label}>{label}</div>}
