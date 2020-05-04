@@ -30,7 +30,7 @@ type Props = ReturnType<typeof mapStateToProps> &
   DispatchProp;
 
 class FilterList extends React.Component<Props, State> {
-  public product_data: any = [];
+  public productData: any = [];
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -50,14 +50,14 @@ class FilterList extends React.Component<Props, State> {
       },
       rangevalue: [],
       filter: {
-        current_color: {},
-        available_size: {},
-        category_shop: {},
+        currentColor: {},
+        availableSize: {},
+        categoryShop: {},
         price: {},
         currency: {},
         sort_by: {},
-        product_type: {},
-        available_discount: {}
+        productType: {},
+        availableDiscount: {}
       },
       searchUrl: this.props.location,
       mobileFilter: false,
@@ -102,7 +102,7 @@ class FilterList extends React.Component<Props, State> {
         switch (key) {
           case "current_color":
             for (let i = 0; i < cc.length; i++) {
-              this.state.filter.current_color[cc[i]] = {
+              this.state.filter.currentColor[cc[i]] = {
                 isChecked: true,
                 value: cc[i]
               };
@@ -110,7 +110,7 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "available_size":
             for (let i = 0; i < cc.length; i++) {
-              this.state.filter.available_size[cc[i]] = {
+              this.state.filter.availableSize[cc[i]] = {
                 isChecked: true,
                 value: cc[i]
               };
@@ -119,11 +119,11 @@ class FilterList extends React.Component<Props, State> {
           case "category_shop":
             for (let i = 0; i < cc.length; i++) {
               var cs_key = cc[i].split(">")[1].trim();
-              this.state.filter.category_shop[cs_key] = Object.assign(
+              this.state.filter.categoryShop[cs_key] = Object.assign(
                 {},
-                this.state.filter.category_shop[cs_key]
+                this.state.filter.categoryShop[cs_key]
               );
-              this.state.filter.category_shop[cs_key][
+              this.state.filter.categoryShop[cs_key][
                 cc[i].replace(/%2B/g, "+")
               ] = true;
             }
@@ -140,16 +140,16 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "product_type":
             for (let i = 0; i < cc.length; i++) {
-              this.state.filter.product_type["pb_" + cc[i]] = true;
+              this.state.filter.productType["pb_" + cc[i]] = true;
             }
             break;
           case "available_discount":
             for (let i = 0; i < cc.length; i++) {
-              this.state.filter.available_discount["disc_" + cc[i]] = {
+              this.state.filter.availableDiscount["disc_" + cc[i]] = {
                 isChecked: true,
                 value:
-                  (this.state.filter.available_discount["disc_" + cc[i]] &&
-                    this.state.filter.available_discount["disc_" + cc[i]]
+                  (this.state.filter.availableDiscount["disc_" + cc[i]] &&
+                    this.state.filter.availableDiscount["disc_" + cc[i]]
                       .value) ||
                   cc[i]
               };
@@ -176,7 +176,7 @@ class FilterList extends React.Component<Props, State> {
       main_url,
       urllist;
     if (this.props.facets) {
-      urllist = this.props.facets.category_shop_detail;
+      urllist = this.props.facets.categoryShopDetail;
       urllist.some((url: any) => {
         current_key = Object.keys(url)[0];
         if (matchkey.replace(/\+/g, " ") == current_key) {
@@ -204,7 +204,7 @@ class FilterList extends React.Component<Props, State> {
     Object.keys(array).map((filter_type, i) => {
       Object.keys(array[filter_type]).map((key, i) => {
         switch (filter_type) {
-          case "current_color":
+          case "currentColor":
             if (
               array[filter_type][key].value &&
               array[filter_type][key].isChecked
@@ -214,7 +214,7 @@ class FilterList extends React.Component<Props, State> {
                 : (color_vars += "|" + array[filter_type][key].value);
             }
             break;
-          case "available_size":
+          case "availableSize":
             if (
               array[filter_type][key].value &&
               array[filter_type][key].isChecked
@@ -224,7 +224,7 @@ class FilterList extends React.Component<Props, State> {
                 : (size_vars += "|" + array[filter_type][key].value);
             }
             break;
-          case "category_shop":
+          case "categoryShop":
             category_key = array[filter_type][key];
             Object.keys(category_key).map(data => {
               if (category_key[data]) {
@@ -246,7 +246,7 @@ class FilterList extends React.Component<Props, State> {
           case "sort_by":
             filter_url += "&" + key + "=" + array[filter_type][key];
             break;
-          case "product_type":
+          case "productType":
             let product = array[filter_type];
             product_vars = "";
             Object.keys(product).map(data => {
@@ -259,7 +259,7 @@ class FilterList extends React.Component<Props, State> {
               }
             });
             break;
-          case "available_discount":
+          case "availableDiscount":
             let discount = array[filter_type];
             discount_vars = "";
             Object.keys(discount).map(data => {
@@ -348,13 +348,16 @@ class FilterList extends React.Component<Props, State> {
     }
   };
   createList = (plpList: any) => {
-    if (!plpList.results.facets.category_shop) return false;
+    if (!plpList.results.facets.categoryShop) return false;
     let min_maxvalue: any = [],
       current_range: any = [];
     this.createFilterfromUrl();
     let pricearray: any = [],
-      current_currency = "price_" + this.props.currency.toLowerCase();
-    plpList.results.facets[current_currency].map(function(a: any) {
+      currentCurrency =
+        "price" +
+        this.props.currency[0].toUpperCase() +
+        this.props.currency.substring(1).toLowerCase();
+    plpList.results.facets[currentCurrency].map(function(a: any) {
       pricearray.push(+a[0]);
     });
     if (pricearray.length > 0) {
@@ -416,8 +419,8 @@ class FilterList extends React.Component<Props, State> {
       ).then(plpList => {
         this.createFilterfromUrl();
         let pricearray: any = [],
-          current_currency = "price_" + currency.toLowerCase();
-        plpList.results.facets[current_currency].map(function(a: any) {
+          currentCurrency = "price_" + currency.toLowerCase();
+        plpList.results.facets[currentCurrency].map(function(a: any) {
           pricearray.push(+a[0]);
         });
         if (pricearray.length > 0) {
@@ -492,7 +495,7 @@ class FilterList extends React.Component<Props, State> {
   componentWillReceiveProps = (nextProps: Props) => {
     if (
       !nextProps.facetObject.category_obj &&
-      nextProps.facets.category_shop &&
+      nextProps.facets.categoryShop &&
       this.props.updateFacets
     ) {
       this.createList(nextProps.data);
@@ -565,14 +568,11 @@ class FilterList extends React.Component<Props, State> {
       check = "",
       select_index: any = -1;
 
-    if (facets.category_shop && facets.category_shop.length > 0) {
-      facets.category_shop.map((v: any, i: number) => {
+    if (facets.categoryShop && facets.categoryShop.length > 0) {
+      facets.categoryShop.map((v: any, i: number) => {
         var baseCategory = v[0];
-        if (
-          facets.category_shop_detail &&
-          facets.category_shop_detail.length > 0
-        ) {
-          var categoryUrl = facets.category_shop_detail.filter(function(
+        if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
+          var categoryUrl = facets.categoryShopDetail.filter(function(
             k: any,
             i: any
           ) {
@@ -625,60 +625,60 @@ class FilterList extends React.Component<Props, State> {
     // code for setting all values of filter false
     facets.subCategories.map((data: any, i: number) => {
       let key = data[0].split(">")[1].trim();
-      if (this.state.filter.category_shop[key]) {
+      if (this.state.filter.categoryShop[key]) {
         // check that view all is clicked or not by (arrow key >)
-        if (this.state.filter.category_shop[key][data[0]]) {
+        if (this.state.filter.categoryShop[key][data[0]]) {
           // nested_list[1].split('>').length == 2 ? check = data : '';
           select_index = key;
           // this.state.old_selected_category = key;
-          // this.state.filter.category_shop[key][data[0]] = false
+          // this.state.filter.categoryShop[key][data[0]] = false
         }
       } else {
-        this.state.filter.category_shop[key] = {};
-        this.state.filter.category_shop[key][data[0]] = false;
+        this.state.filter.categoryShop[key] = {};
+        this.state.filter.categoryShop[key][data[0]] = false;
       }
     });
     let oldSelectedCategory: any = this.state.oldSelectedCategory;
     // code for setting  all values of filter is false
     Object.keys(category_obj).map((data, i) => {
       category_obj[data].map((nested_list: any, j: number) => {
-        if (this.state.filter.category_shop[data]) {
+        if (this.state.filter.categoryShop[data]) {
           // check that view all is clicked or not by (arrow key >)
-          if (this.state.filter.category_shop[data][nested_list[1]]) {
+          if (this.state.filter.categoryShop[data][nested_list[1]]) {
             nested_list[1].split(">").length == 2 ? (check = data) : "";
             select_index = data;
             oldSelectedCategory = data;
           } else {
             if (check == data) {
-              this.state.filter.category_shop[data][nested_list[1]] = true;
+              this.state.filter.categoryShop[data][nested_list[1]] = true;
               select_index = data;
             } else {
-              this.state.filter.category_shop[data][nested_list[1]] = false;
+              this.state.filter.categoryShop[data][nested_list[1]] = false;
             }
           }
         } else {
-          this.state.filter.category_shop[data] = {};
-          this.state.filter.category_shop[data][nested_list[1]] = false;
+          this.state.filter.categoryShop[data] = {};
+          this.state.filter.categoryShop[data][nested_list[1]] = false;
         }
       });
     });
     // code for all product_by filter false
-    if (facets.category_product_type_mapping) {
-      Object.keys(facets.category_product_type_mapping).map((level4: any) => {
-        facets.category_product_type_mapping[level4].map((product_by: any) => {
-          if (!this.state.filter.product_type["pb_" + product_by]) {
-            this.state.filter.product_type["pb_" + product_by] = false;
+    if (facets.categoryProductTypeMapping) {
+      Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
+        facets.categoryProductTypeMapping[level4].map((product_by: any) => {
+          if (!this.state.filter.productType["pb_" + product_by]) {
+            this.state.filter.productType["pb_" + product_by] = false;
           }
         });
       });
     }
     // code for set active open state and set selected old value
     if (!oldSelectedCategory) {
-      Object.keys(this.state.filter.category_shop).map(
+      Object.keys(this.state.filter.categoryShop).map(
         (level2: any, i: number) => {
-          Object.keys(this.state.filter.category_shop[level2]).map(
+          Object.keys(this.state.filter.categoryShop[level2]).map(
             (level3: any, j: number) => {
-              if (this.state.filter.category_shop[level2][level3]) {
+              if (this.state.filter.categoryShop[level2][level3]) {
                 select_index = level2;
                 oldSelectedCategory = level2.split(">")[0];
               }
@@ -698,7 +698,7 @@ class FilterList extends React.Component<Props, State> {
 
   onClickLevel4 = (event: any) => {
     let id = event.target.id;
-    this.state.filter.product_type[id] = event.target.checked;
+    this.state.filter.productType[id] = event.target.checked;
     // this.old_level4Value = event.target.value;
     this.setState({
       filter: this.state.filter
@@ -710,7 +710,7 @@ class FilterList extends React.Component<Props, State> {
   onClickDiscount = (event: any) => {
     let id = event.target.id;
     let filter = this.state.filter;
-    filter.available_discount[id] = {
+    filter.availableDiscount[id] = {
       isChecked: event.target.checked,
       value: event.target.value
     };
@@ -724,16 +724,16 @@ class FilterList extends React.Component<Props, State> {
 
   createProductType = (category_obj: any, categorydata: any) => {
     let html = [];
-    this.product_data = [];
+    this.productData = [];
     if (!category_obj) return false;
     Object.keys(category_obj).map((data, i) => {
       category_obj[data].map((nested_list: any, j: number) => {
-        this.state.filter.category_shop[data]
-          ? this.state.filter.category_shop[data][nested_list[1]]
-            ? categorydata.category_product_type_mapping[nested_list[1]].map(
+        this.state.filter.categoryShop[data]
+          ? this.state.filter.categoryShop[data][nested_list[1]]
+            ? categorydata.categoryProductTypeMapping[nested_list[1]].map(
                 (level4: any) => {
-                  if (this.product_data.indexOf(level4) == -1) {
-                    this.product_data.push(level4);
+                  if (this.productData.indexOf(level4) == -1) {
+                    this.productData.push(level4);
                   }
                 }
               )
@@ -741,16 +741,16 @@ class FilterList extends React.Component<Props, State> {
           : "";
       });
     });
-    for (let prop in this.state.filter.product_type) {
-      if (this.product_data.indexOf(prop.replace("pb_", "")) == -1) {
-        this.state.filter.product_type[prop] = false;
+    for (let prop in this.state.filter.productType) {
+      if (this.productData.indexOf(prop.replace("pb_", "")) == -1) {
+        this.state.filter.productType[prop] = false;
       }
     }
     html.push(
       <ul>
         <li>
           <ul className={styles.categorylabel}>
-            {this.product_data.map((level4: any) => {
+            {this.productData.map((level4: any) => {
               return (
                 <li>
                   <input
@@ -758,8 +758,8 @@ class FilterList extends React.Component<Props, State> {
                     onClick={this.onClickLevel4}
                     id={"pb_" + level4}
                     checked={
-                      this.state.filter.product_type["pb_" + level4]
-                        ? this.state.filter.product_type["pb_" + level4]
+                      this.state.filter.productType["pb_" + level4]
+                        ? this.state.filter.productType["pb_" + level4]
                         : false
                     }
                     value={"pb_" + level4}
@@ -776,25 +776,25 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  createDiscountType = (available_discount: any) => {
+  createDiscountType = (availableDiscount: any) => {
     let html = [];
-    // this.product_data = [];
-    if (!available_discount) return false;
-    for (let prop in this.state.filter.available_discount) {
+    // this.productData = [];
+    if (!availableDiscount) return false;
+    for (let prop in this.state.filter.availableDiscount) {
       if (
         this.props.facets &&
-        this.props.facets.available_discount
+        this.props.facets.availableDiscount
           .map((discount: any) => discount[0])
           .indexOf(prop.replace("disc_", "")) == -1
       ) {
-        // this.state.filter.available_discount[prop] = false;
+        // this.state.filter.availableDiscount[prop] = false;
       }
     }
     html.push(
       <ul>
         <li>
           <ul className={styles.categorylabel}>
-            {this.props.facets.available_discount.map((discount: any) => {
+            {this.props.facets.availableDiscount.map((discount: any) => {
               return (
                 <li key={discount[0]}>
                   <input
@@ -802,10 +802,8 @@ class FilterList extends React.Component<Props, State> {
                     onClick={this.onClickDiscount}
                     id={"disc_" + discount[0]}
                     checked={
-                      this.state.filter.available_discount[
-                        "disc_" + discount[0]
-                      ]
-                        ? this.state.filter.available_discount[
+                      this.state.filter.availableDiscount["disc_" + discount[0]]
+                        ? this.state.filter.availableDiscount[
                             "disc_" + discount[0]
                           ].isChecked
                         : false
@@ -856,8 +854,8 @@ class FilterList extends React.Component<Props, State> {
                   id={id}
                   disabled={this.state.disableSelectedbox}
                   checked={
-                    this.state.filter.category_shop[name]
-                      ? this.state.filter.category_shop[name][id]
+                    this.state.filter.categoryShop[name]
+                      ? this.state.filter.categoryShop[name][id]
                       : false
                   }
                   onClick={this.handleClickCategory}
@@ -907,10 +905,8 @@ class FilterList extends React.Component<Props, State> {
                       id={nested_list[1]}
                       disabled={this.state.disableSelectedbox}
                       checked={
-                        this.state.filter.category_shop[data]
-                          ? this.state.filter.category_shop[data][
-                              nested_list[1]
-                            ]
+                        this.state.filter.categoryShop[data]
+                          ? this.state.filter.categoryShop[data][nested_list[1]]
                           : false
                       }
                       onClick={this.handleClickCategory}
@@ -960,7 +956,7 @@ class FilterList extends React.Component<Props, State> {
     var view_data = event.target.id.split(">"),
       checkallSelectedValue,
       atleast_one_Selected,
-      category_obj = this.state.filter.category_shop;
+      category_obj = this.state.filter.categoryShop;
     view_data.length > 2 ? view_data.pop() : "";
     //code for checked view all true
     if (event.target.name.indexOf("View all") > -1 && !event.target.checked) {
@@ -973,17 +969,17 @@ class FilterList extends React.Component<Props, State> {
       this.state.oldSelectedCategory != event.target.value &&
       this.state.oldSelectedCategory != ""
     ) {
-      if (Object.keys(this.state.filter.category_shop).length > 0) {
-        for (let prop in this.state.filter.category_shop[
+      if (Object.keys(this.state.filter.categoryShop).length > 0) {
+        for (let prop in this.state.filter.categoryShop[
           this.state.oldSelectedCategory
         ]) {
-          this.state.filter.category_shop[this.state.oldSelectedCategory][
+          this.state.filter.categoryShop[this.state.oldSelectedCategory][
             prop
           ] = false;
         }
       }
-      for (let prop in this.state.filter.product_type) {
-        this.state.filter.product_type[prop] = false;
+      for (let prop in this.state.filter.productType) {
+        this.state.filter.productType[prop] = false;
       }
       // clear filters
       this.clearFilter(undefined, "all", true);
@@ -991,40 +987,39 @@ class FilterList extends React.Component<Props, State> {
 
     // code to tick all when clicked on viewall / normal checkbox
     if (event.target.name.indexOf("View all") > -1) {
-      this.state.filter.category_shop[event.target.value] = Object.assign(
+      this.state.filter.categoryShop[event.target.value] = Object.assign(
         {},
-        this.state.filter.category_shop[event.target.value]
+        this.state.filter.categoryShop[event.target.value]
       );
-      Object.keys(this.state.filter.category_shop).map(key => {
+      Object.keys(this.state.filter.categoryShop).map(key => {
         if (key == event.target.value) {
-          Object.keys(this.state.filter.category_shop[key]).map(product => {
-            this.state.filter.category_shop[key][product] =
-              event.target.checked;
+          Object.keys(this.state.filter.categoryShop[key]).map(product => {
+            this.state.filter.categoryShop[key][product] = event.target.checked;
           });
         }
       });
     } else {
-      this.state.filter.category_shop[event.target.value] = Object.assign(
+      this.state.filter.categoryShop[event.target.value] = Object.assign(
         {},
-        this.state.filter.category_shop[event.target.value]
+        this.state.filter.categoryShop[event.target.value]
       );
-      this.state.filter.category_shop[event.target.value][event.target.id] =
+      this.state.filter.categoryShop[event.target.value][event.target.id] =
         event.target.checked;
       checkallSelectedValue = Object.keys(
-        this.state.filter.category_shop[event.target.value]
+        this.state.filter.categoryShop[event.target.value]
       ).every(data => {
         if (data.split(">").length < 3) {
           return true;
         } else {
-          return this.state.filter.category_shop[event.target.value][data];
+          return this.state.filter.categoryShop[event.target.value][data];
         }
       });
-      for (let prop in this.state.filter.product_type) {
-        if (this.product_data.indexOf(prop.replace("pb_", "")) == -1) {
-          this.state.filter.product_type[prop] = false;
+      for (let prop in this.state.filter.productType) {
+        if (this.productData.indexOf(prop.replace("pb_", "")) == -1) {
+          this.state.filter.productType[prop] = false;
         }
       }
-      this.state.filter.category_shop[event.target.value][
+      this.state.filter.categoryShop[event.target.value][
         view_data.join(">").trim()
       ] = checkallSelectedValue ? true : false;
     }
@@ -1032,13 +1027,13 @@ class FilterList extends React.Component<Props, State> {
     atleast_one_Selected = Object.keys(category_obj).every((data, i) => {
       let nested_val = Object.keys(category_obj[data]).every(
         (nested_list, j) => {
-          return !this.state.filter.category_shop[data][nested_list];
+          return !this.state.filter.categoryShop[data][nested_list];
         }
       );
       return nested_val;
     });
     if (atleast_one_Selected) {
-      this.state.filter.category_shop[event.target.value][
+      this.state.filter.categoryShop[event.target.value][
         event.target.id
       ] = true;
       event.target.checked = true;
@@ -1095,7 +1090,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   handleClickColor = (event: any) => {
-    this.state.filter.current_color[event.target.id] = {
+    this.state.filter.currentColor[event.target.id] = {
       isChecked: event.target.checked,
       value: event.target.value
     };
@@ -1107,9 +1102,9 @@ class FilterList extends React.Component<Props, State> {
   };
 
   createColorCheckbox = (facets: any) => {
-    if (!facets.current_color || facets.length == 0) return false;
+    if (!facets.currentColor || facets.length == 0) return false;
     var html: any = [];
-    facets.current_color.map((data: any, i: number) => {
+    facets.currentColor.map((data: any, i: number) => {
       const color: any = {
         "--my-color-var": "#" + data[0].split("-")[0]
       };
@@ -1119,8 +1114,8 @@ class FilterList extends React.Component<Props, State> {
             type="checkbox"
             id={data[0]}
             checked={
-              this.state.filter.current_color[data[0]]
-                ? this.state.filter.current_color[data[0]].isChecked
+              this.state.filter.currentColor[data[0]]
+                ? this.state.filter.currentColor[data[0]].isChecked
                 : false
             }
             onClick={this.handleClickColor}
@@ -1136,7 +1131,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   handleClickSize = (event: any) => {
-    this.state.filter.available_size[event.target.value] = {
+    this.state.filter.availableSize[event.target.value] = {
       isChecked: event.target.checked,
       value: event.target.value
     };
@@ -1150,9 +1145,9 @@ class FilterList extends React.Component<Props, State> {
   deleteFilter = (event: any, key: string, value: any) => {
     if (key == "price") {
       this.state.filter[key] = {};
-    } else if (key == "product_type") {
+    } else if (key == "productType") {
       this.state.filter[key][value] = false;
-    } else if (key == "available_discount") {
+    } else if (key == "availableDiscount") {
       this.state.filter[key][value] = {
         isChecked: false
       };
@@ -1173,10 +1168,10 @@ class FilterList extends React.Component<Props, State> {
     if ((elementCount ? elementCount.childElementCount : null) == 0)
       return false;
     switch (key) {
-      case "current_color":
+      case "currentColor":
         this.state.filter[key] = {};
         break;
-      case "available_size":
+      case "availableSize":
         this.state.filter[key] = {};
         break;
       case "price":
@@ -1190,25 +1185,25 @@ class FilterList extends React.Component<Props, State> {
         this.state.filter.sort_by = {};
         break;
 
-      case "product_type":
-        for (let prop in this.state.filter.product_type) {
-          this.state.filter.product_type[prop] = false;
+      case "productType":
+        for (let prop in this.state.filter.productType) {
+          this.state.filter.productType[prop] = false;
         }
         break;
-      case "available_discount":
-        for (let prop in this.state.filter.available_discount) {
-          this.state.filter.available_discount[prop].isChecked = false;
+      case "availableDiscount":
+        for (let prop in this.state.filter.availableDiscount) {
+          this.state.filter.availableDiscount[prop].isChecked = false;
         }
         break;
       case "all":
-        this.state.filter.current_color = {};
-        this.state.filter.available_size = {};
+        this.state.filter.currentColor = {};
+        this.state.filter.availableSize = {};
         this.state.filter.price = {};
-        for (let prop in this.state.filter.product_type) {
-          this.state.filter.product_type[prop] = false;
+        for (let prop in this.state.filter.productType) {
+          this.state.filter.productType[prop] = false;
         }
-        for (let prop in this.state.filter.available_discount) {
-          this.state.filter.available_discount[prop].isChecked = false;
+        for (let prop in this.state.filter.availableDiscount) {
+          this.state.filter.availableDiscount[prop].isChecked = false;
         }
         break;
       default:
@@ -1229,15 +1224,15 @@ class FilterList extends React.Component<Props, State> {
     var html = [];
     Object.keys(filter_obj).map(data => {
       switch (data) {
-        case "current_color":
-        case "available_size":
+        case "currentColor":
+        case "availableSize":
           Object.keys(filter_obj[data]).map((data1, index) => {
             if (!filter_obj[data][data1].isChecked) return false;
             html.push(
               <li key={data}>
                 <span>{data.split("_")[1]}: </span>
                 <span>
-                  {data == "current_color"
+                  {data == "currentColor"
                     ? filter_obj[data][data1].value.split("-")[1]
                     : filter_obj[data][data1].value}
                 </span>
@@ -1251,7 +1246,7 @@ class FilterList extends React.Component<Props, State> {
             );
           });
           break;
-        case "category_shop":
+        case "categoryShop":
           break;
         case "price":
           if (Object.keys(filter_obj[data]).length == 0) return false;
@@ -1267,7 +1262,7 @@ class FilterList extends React.Component<Props, State> {
             </li>
           );
           break;
-        case "product_type":
+        case "productType":
           Object.keys(filter_obj[data]).map((data1, index) => {
             if (!filter_obj[data][data1]) return false;
             html.push(
@@ -1284,7 +1279,7 @@ class FilterList extends React.Component<Props, State> {
             );
           });
           break;
-        case "available_discount":
+        case "availableDiscount":
           Object.keys(filter_obj[data]).map((data1, index) => {
             if (!filter_obj[data][data1].isChecked) return false;
             html.push(
@@ -1330,15 +1325,15 @@ class FilterList extends React.Component<Props, State> {
   createSizeCheckbox = (facets: any) => {
     if (facets.length == 0) return false;
     var html: any = [];
-    facets.available_size.map((data: any, i: number) => {
+    facets.availableSize.map((data: any, i: number) => {
       html.push(
         <span key={data[0] + i}>
           <input
             type="checkbox"
             id={data[0] + i}
             checked={
-              this.state.filter.available_size[data[0]]
-                ? this.state.filter.available_size[data[0]].isChecked
+              this.state.filter.availableSize[data[0]]
+                ? this.state.filter.availableSize[data[0]].isChecked
                 : false
             }
             onClick={this.handleClickSize}
@@ -1348,8 +1343,8 @@ class FilterList extends React.Component<Props, State> {
             <label
               htmlFor={data[0] + i}
               className={
-                this.state.filter.available_size[data[0]] &&
-                this.state.filter.available_size[data[0]].isChecked
+                this.state.filter.availableSize[data[0]] &&
+                this.state.filter.availableSize[data[0]].isChecked
                   ? "size-cat select_size"
                   : "size-cat"
               }
@@ -1477,15 +1472,15 @@ class FilterList extends React.Component<Props, State> {
             <li
               className={
                 this.props.facets &&
-                this.props.facets.available_discount &&
-                this.props.facets.available_discount.length > 0
+                this.props.facets.availableDiscount &&
+                this.props.facets.availableDiscount.length > 0
                   ? ""
                   : globalStyles.hidden
               }
             >
               {this.props.facets &&
-              this.props.facets.available_discount &&
-              this.props.facets.available_discount.length > 0 ? (
+              this.props.facets.availableDiscount &&
+              this.props.facets.availableDiscount.length > 0 ? (
                 <span
                   className={
                     this.state.showFilterByDiscountMenu
@@ -1507,11 +1502,11 @@ class FilterList extends React.Component<Props, State> {
                 }
               >
                 {this.createDiscountType(
-                  this.props.facets && this.props.facets.available_discount
+                  this.props.facets && this.props.facets.availableDiscount
                 )}
                 <div
-                  onClick={e => this.clearFilter(e, "available_discount")}
-                  data-name="available_discount"
+                  onClick={e => this.clearFilter(e, "availableDiscount")}
+                  data-name="availableDiscount"
                   className={styles.plp_filter_sub}
                 >
                   Clear
@@ -1519,8 +1514,8 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          <li className={this.product_data.length > 0 ? "" : "hidden"}>
-            {this.product_data.length > 0 ? (
+          <li className={this.productData.length > 0 ? "" : "hidden"}>
+            {this.productData.length > 0 ? (
               <span
                 className={
                   this.state.showProductFilter
@@ -1546,8 +1541,8 @@ class FilterList extends React.Component<Props, State> {
                 this.props.facets
               )}
               <div
-                onClick={e => this.clearFilter(e, "product_type")}
-                data-name="product_type"
+                onClick={e => this.clearFilter(e, "productType")}
+                data-name="productType"
                 className={styles.plp_filter_sub}
               >
                 Clear
@@ -1575,8 +1570,8 @@ class FilterList extends React.Component<Props, State> {
               <ul>
                 <span>{this.createColorCheckbox(this.props.facets)}</span>
                 <div
-                  onClick={e => this.clearFilter(e, "current_color")}
-                  data-name="current_color"
+                  onClick={e => this.clearFilter(e, "currentColor")}
+                  data-name="currentColor"
                   className={styles.plp_filter_sub}
                 >
                   Clear
@@ -1584,8 +1579,8 @@ class FilterList extends React.Component<Props, State> {
               </ul>
             </div>
           </li>
-          {this.props.facets.available_size ? (
-            this.props.facets.available_size.length > 0 ? (
+          {this.props.facets.availableSize ? (
+            this.props.facets.availableSize.length > 0 ? (
               <li>
                 <span
                   className={
@@ -1608,8 +1603,8 @@ class FilterList extends React.Component<Props, State> {
                     {this.createSizeCheckbox(this.props.facets)}
                   </ul>
                   <div
-                    onClick={e => this.clearFilter(e, "available_size")}
-                    data-name="available_size"
+                    onClick={e => this.clearFilter(e, "availableSize")}
+                    data-name="availableSize"
                     className="plp_filter_sub"
                   >
                     Clear
