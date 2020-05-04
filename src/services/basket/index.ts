@@ -24,7 +24,7 @@ export default {
   ) {
     const res = await API.post<Basket>(
       dispatch,
-      "http://api.goodearth.in/myapi/basket/add-product/",
+      "http://api.goodearth.in/myapi/basket/add_product/",
       {
         productId,
         quantity
@@ -39,7 +39,7 @@ export default {
   ) {
     const res = await API.post<Basket>(
       dispatch,
-      "http://api.goodearth.in/myapi/basket/update-product/",
+      "http://api.goodearth.in/myapi/basket/update_product/",
       {
         line,
         quantity
@@ -51,7 +51,7 @@ export default {
   deleteBasket: async function(dispatch: Dispatch, basketLineId: ProductID) {
     const res = await API.post<Basket>(
       dispatch,
-      "http://api.goodearth.in/myapi/basket/remove-basket-line/",
+      "http://api.goodearth.in/myapi/basket/remove_basket_line/",
       {
         basketLineId
       }

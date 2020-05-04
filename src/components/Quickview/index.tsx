@@ -21,11 +21,9 @@ const mapStateToProps = (state: AppState, props: QuickviewProps) => {
   } = state;
   id = quickviewId || id;
   const data = (id && state.products[id]) as Product;
-  const productListId = Object.keys(state.products).map(Number);
   return {
     id,
     data,
-    productListId,
     currency: state.currency,
     device: state.device
   };
@@ -59,15 +57,15 @@ class Quickview extends React.Component<Props, State> {
     fetchProductsDetails(id);
   }
 
-  getProductImagesData() {
+  getProductImagesData = () => {
     const {
       data: { sliderImages, images }
     } = this.props;
 
     return images ? images.concat(sliderImages || []) : [];
-  }
+  };
 
-  getProductImages(index: number) {
+  getProductImages = (index: number) => {
     const image = this.getProductImagesData()[index];
     if (image)
       return (
@@ -79,7 +77,7 @@ class Quickview extends React.Component<Props, State> {
           <PdpImage {...image} index={index} onClick={this.onImageClick} />
         </div>
       );
-  }
+  };
 
   onClickImage = (index: number) => {
     this.setState({
@@ -87,7 +85,7 @@ class Quickview extends React.Component<Props, State> {
     });
   };
 
-  getProductDetails() {
+  getProductDetails = () => {
     const {
       data,
       currency,
@@ -103,7 +101,7 @@ class Quickview extends React.Component<Props, State> {
         isQuickview={true}
       />
     );
-  }
+  };
 
   onClickNextButton = (next: boolean) => {
     const { productListId, id, fetchProductsDetails } = this.props;

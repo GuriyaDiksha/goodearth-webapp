@@ -5,18 +5,20 @@ import initActionCollection from "./initAction";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
-import { connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import mapActionsToProps from "./mapper/actions";
 import FilterList from "./filterList";
 import MobileDropdownMenu from "components/MobileDropdown";
 import PlpResultItem from "components/plpResultItem";
 import Breadcrumbs from "components/Breadcrumbs";
+import mapDispatchToProps from "../../components/Modal/mapper/actions";
+import Quickview from "components/Quickview";
 
 const mapStateToProps = (state: AppState) => {
   return {
+    plpProductId: state.plplist.plpProductId,
     facetObject: state.plplist.facetObject,
     data: state.plplist.data,
     location: state.router.location,
@@ -25,8 +27,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapActionsToProps>;
-// const UserContext = React.createContext(FilterList)
+  ReturnType<typeof mapDispatchToProps> &
+  DispatchProp;
+
 class PLP extends React.Component<
   Props,
   { filterData: string; showmobileSort: boolean; mobileFilter: boolean }
@@ -49,9 +52,12 @@ class PLP extends React.Component<
   };
 
   onClickQuickView = (id: number) => {
-    // const { updateComponentModal, changeModalState } = this.props;
-    // updateComponentModal(<Quickview id={id} />, true);
-    // changeModalState(true);
+    const { updateComponentModal, changeModalState, plpProductId } = this.props;
+    updateComponentModal(
+      <Quickview id={id} productListId={plpProductId} />,
+      true
+    );
+    changeModalState(true);
   };
 
   render() {
@@ -63,7 +69,7 @@ class PLP extends React.Component<
         count
       }
     } = this.props;
-
+    console.log(this.props.dispatch);
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -82,7 +88,6 @@ class PLP extends React.Component<
         value: "price_desc"
       }
     ];
-
     return (
       <div className={styles.pageBody}>
         <SecondaryHeader>
@@ -129,7 +134,7 @@ class PLP extends React.Component<
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
-            <FilterList />
+            <FilterList dispatch={this.props.dispatch} />
           </div>
           <div
             className={cs(
@@ -208,5 +213,5 @@ class PLP extends React.Component<
   }
 }
 
-export default connect(mapStateToProps)(PLP);
+export default connect(mapStateToProps, mapDispatchToProps)(PLP);
 export { initActionCollection };

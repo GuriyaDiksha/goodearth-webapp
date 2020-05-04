@@ -2,21 +2,19 @@ import React, { Fragment } from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
-import { connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 import mapActionsToProps from "./mapper/actions";
 import "./slider.css";
 import globalStyles from "styles/global.scss";
-import store from "../../client";
 import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./slider.css";
-import { FilterProps } from "./typings";
 import PlpService from "services/plp";
-import { updateProduct } from "actions/plp";
 import { State } from "./typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
+    data: state.plplist.data,
     mobile: state.device.mobile,
     currency: state.currency,
     location: state.router.location,
@@ -29,7 +27,7 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapActionsToProps> &
-  FilterProps;
+  DispatchProp;
 
 class FilterList extends React.Component<Props, State> {
   public product_data: any = [];
@@ -85,7 +83,8 @@ class FilterList extends React.Component<Props, State> {
 
   createFilterfromUrl = () => {
     let vars: any = {};
-    var url = decodeURI(location.href.replace(/\+/g, " "));
+    const { location } = this.props;
+    let url = decodeURI(location.search.replace(/\+/g, " "));
 
     let re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
@@ -348,11 +347,59 @@ class FilterList extends React.Component<Props, State> {
       this.appendData();
     }
   };
+  createList = (plpList: any) => {
+    if (!plpList.results.facets.category_shop) return false;
+    let min_maxvalue: any = [],
+      current_range: any = [];
+    this.createFilterfromUrl();
+    let pricearray: any = [],
+      current_currency = "price_" + this.props.currency.toLowerCase();
+    plpList.results.facets[current_currency].map(function(a: any) {
+      pricearray.push(+a[0]);
+    });
+    if (pricearray.length > 0) {
+      min_maxvalue.push(
+        pricearray.reduce(function(a: any, b: any) {
+          return Math.min(a, b);
+        })
+      );
+      min_maxvalue.push(
+        pricearray.reduce(function(a: any, b: any) {
+          return Math.max(a, b);
+        })
+      );
+    }
+    if (this.state.filter.price.min_price) {
+      current_range.push(this.state.filter.price.min_price);
+      current_range.push(this.state.filter.price.max_price);
+    } else {
+      current_range = min_maxvalue;
+    }
+    this.setState(
+      {
+        rangevalue: current_range,
+        initialrangevalue: {
+          min: min_maxvalue[0],
+          max: min_maxvalue[1]
+        },
+        disableSelectedbox: false,
+        scrollload: true,
+        totalItems: plpList.count,
+        banner: plpList.results.banner
+      },
+      () => {
+        if (!this.state.scrollView) {
+          this.checkForProductScroll();
+        }
+        window.scrollTo(0, 0);
+      }
+    );
+  };
 
   appendData = () => {
     let min_maxvalue: any = [],
       current_range: any = [];
-    const { nextUrl, mobile, listdata, currency } = this.props;
+    const { nextUrl, mobile, listdata, currency, dispatch } = this.props;
     if (nextUrl) {
       this.setState({
         disableSelectedbox: true
@@ -362,12 +409,11 @@ class FilterList extends React.Component<Props, State> {
       this.setState({ flag: false });
       const filterUrl = "?" + nextUrl.split("?")[1];
       const pageSize = mobile ? 10 : 20;
-      PlpService.fetchPlpProducts(
-        store.dispatch,
-        filterUrl + `&page_size=${pageSize}`
+      PlpService.updateProduct(
+        dispatch,
+        filterUrl + `&page_size=${pageSize}`,
+        listdata
       ).then(plpList => {
-        plpList.results.data = listdata.concat(plpList.results.data);
-        store.dispatch(updateProduct({ ...plpList }));
         this.createFilterfromUrl();
         let pricearray: any = [],
           current_currency = "price_" + currency.toLowerCase();
@@ -418,73 +464,28 @@ class FilterList extends React.Component<Props, State> {
   };
 
   updateDataFromAPI = (onload?: string) => {
-    const { mobile } = this.props;
+    const { mobile, dispatch } = this.props;
     if (!onload && mobile) {
       return true;
     }
     // this.setState({
     //     disableSelectedbox: true
     // });
-    let url = decodeURI(location.href),
-      min_maxvalue: any = [],
-      current_range: any = [];
+    let url = decodeURI(location.href);
     const filterUrl = "?" + url.split("?")[1];
 
     const pageSize = mobile ? 10 : 20;
+    debugger;
     PlpService.fetchPlpProducts(
-      store.dispatch,
+      dispatch,
       filterUrl + `&page_size=${pageSize}`
     ).then(plpList => {
-      store.dispatch(updateProduct({ ...plpList }));
-      this.createFilterfromUrl();
-      let pricearray: any = [],
-        current_currency = "price_" + this.props.currency.toLowerCase();
-      plpList.results.facets[current_currency].map(function(a: any) {
-        pricearray.push(+a[0]);
-      });
-      if (pricearray.length > 0) {
-        min_maxvalue.push(
-          pricearray.reduce(function(a: any, b: any) {
-            return Math.min(a, b);
-          })
-        );
-        min_maxvalue.push(
-          pricearray.reduce(function(a: any, b: any) {
-            return Math.max(a, b);
-          })
-        );
-      }
-      if (this.state.filter.price.min_price) {
-        current_range.push(this.state.filter.price.min_price);
-        current_range.push(this.state.filter.price.max_price);
-      } else {
-        current_range = min_maxvalue;
-      }
-      this.setState(
-        {
-          rangevalue: current_range,
-          initialrangevalue: {
-            min: min_maxvalue[0],
-            max: min_maxvalue[1]
-          },
-          disableSelectedbox: false,
-          scrollload: true,
-          totalItems: plpList.count,
-          banner: plpList.results.banner
-        },
-        () => {
-          if (!this.state.scrollView) {
-            this.checkForProductScroll();
-          }
-          window.scrollTo(0, 0);
-        }
-      );
+      this.createList(plpList);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
     });
   };
 
   componentDidMount() {
-    this.updateDataFromAPI("load");
     window.addEventListener("scroll", this.handleScroll);
   }
 
@@ -494,6 +495,7 @@ class FilterList extends React.Component<Props, State> {
       nextProps.facets.category_shop &&
       this.props.updateFacets
     ) {
+      this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
     }
   };
@@ -955,7 +957,6 @@ class FilterList extends React.Component<Props, State> {
   };
 
   handleClickCategory = (event: any) => {
-    debugger;
     var view_data = event.target.id.split(">"),
       checkallSelectedValue,
       atleast_one_Selected,
@@ -1267,7 +1268,6 @@ class FilterList extends React.Component<Props, State> {
           );
           break;
         case "product_type":
-          // if (Object.keys(filter_obj[data]).length == 0) return false;
           Object.keys(filter_obj[data]).map((data1, index) => {
             if (!filter_obj[data][data1]) return false;
             html.push(
@@ -1285,7 +1285,6 @@ class FilterList extends React.Component<Props, State> {
           });
           break;
         case "available_discount":
-          // if (Object.keys(filter_obj[data]).length == 0) return false;
           Object.keys(filter_obj[data]).map((data1, index) => {
             if (!filter_obj[data][data1].isChecked) return false;
             html.push(

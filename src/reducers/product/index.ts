@@ -57,6 +57,13 @@ export const product = (
       return newState;
     }
 
+    case "UPDATE_PLP_PRODUCT": {
+      const products = action.payload;
+      let newState = { ...state };
+      newState = mergePartialProducts(newState, products);
+      return newState;
+    }
+
     case "UPDATE_COLLECTION_PRODUCTS": {
       const { id, products } = action.payload;
       const newState = { ...state };

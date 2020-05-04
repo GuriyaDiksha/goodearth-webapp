@@ -13,8 +13,8 @@ export const updateProduct = (product: Product<PartialProductItem>) =>
 export const updatePartialProducts = (products: PartialProductItem[]) =>
   actionCreator("UPDATE_PARTIAL_PRODUCTS", { products });
 
-export const updatePlpProduct = (product: PLPProductItem) =>
-  actionCreator("UPDATE_PLP_PRODUCT", product);
+export const updatePlpProduct = (products: PLPProductItem[]) =>
+  actionCreator("UPDATE_PLP_PRODUCT", products);
 
 export const updateCollectionProducts = (
   id: ProductID,

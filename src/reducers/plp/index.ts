@@ -37,25 +37,17 @@ const initialState: State = {
       banner_mobile: ""
     }
   },
-  facetObject: {}
+  facetObject: {},
+  plpProductId: []
 };
 
 export const plplist = (state = initialState, action: PlpActions): State => {
   switch (action.type) {
     case "ADD_PLP_LIST": {
-      //   const product = action.payload;
-      //   const currentProduct = state[product.id] || PRODUCT_INIT_STATE;
       const newState = { ...state };
       newState.data = action.payload;
-      //   const recommendedProducts = product.recommendedProducts.map(
-      //     ({ id }) => id
-      //   );
-      //   newState[product.id] = {
-      //     ...currentProduct,
-      //     ...product,
-      //     recommendedProducts
-      //   };
-      //   newState = mergePartialProducts(newState, product.recommendedProducts);
+      const list = action.payload.results.data.map(({ id }) => id);
+      newState.plpProductId = list;
       return newState;
     }
 

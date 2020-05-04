@@ -2,7 +2,8 @@ import { Dispatch } from "redux";
 // typings
 // import { Basket } from "typings/basket";
 // actions
-// import { PlpResponse } from "./typings";
+import { updateProduct } from "actions/plp";
+import { updatePlpProduct } from "actions/product";
 import { PlpProps } from "containers/plp/typings";
 // utils
 import API from "utils/api";
@@ -13,13 +14,22 @@ export default {
       dispatch,
       `http://api.goodearth.in/myapi/search/${url}`
     );
+    dispatch(updateProduct({ ...res }));
+    dispatch(updatePlpProduct(res.results.data));
     return res;
   },
-  updateProduct: async function(dispatch: Dispatch, url: string) {
+  updateProduct: async function(
+    dispatch: Dispatch,
+    url: string,
+    listdata: any
+  ) {
     const res = await API.get<PlpProps>(
       dispatch,
       `http://api.goodearth.in/myapi/search/${url}`
     );
+    dispatch(updatePlpProduct(res.results.data));
+    res.results.data = listdata.concat(res.results.data);
+    dispatch(updateProduct({ ...res }));
     return res;
   }
 };

@@ -14,6 +14,3 @@ export const updateFacets = (data: any) => actionCreator("UPDATE_FACET", data);
 
 // export const updatePartialProducts = (products: PartialProductItem[]) =>
 //   actionCreator("UPDATE_PARTIAL_PRODUCTS", { products });
-
-// export const updatePlpProduct = (product: PLPProductItem) =>
-//   actionCreator("UPDATE_PLP_PRODUCT", product);

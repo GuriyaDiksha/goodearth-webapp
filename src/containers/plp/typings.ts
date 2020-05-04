@@ -1,6 +1,7 @@
 // import { Product, PartialProductItem } from "typings/product";
 import { Breadcrumb } from "typings/navigation";
 import { PartialProductItem } from "typings/product";
+import { DispatchProp } from "react-redux";
 
 export interface CategoryMenu {
   label: string;
@@ -28,7 +29,7 @@ export type PlpProps = {
 };
 
 export type FilterProps = {
-  changeSort?: (data: any) => void;
+  dispatch?: DispatchProp;
 };
 
 export type State = {

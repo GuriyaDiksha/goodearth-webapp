@@ -5,6 +5,7 @@ import { PlpProps } from "containers/plp/typings";
 export type State = {
   data: PlpProps;
   facetObject: any;
+  plpProductId: number[];
 };
 
 export { Actions };
