@@ -10,7 +10,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterList from "./filterList";
-import MobileDropdownMenu from "components/MobileDropdown";
+import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import Breadcrumbs from "components/Breadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
@@ -93,7 +93,7 @@ class PLP extends React.Component<
         <SecondaryHeader>
           {mobile ? (
             <div>
-              <MobileDropdownMenu
+              <PlpDropdownMenu
                 list={items}
                 onChange={this.onchangeFilter}
                 showCaret={true}
