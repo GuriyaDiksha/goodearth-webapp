@@ -1,7 +1,7 @@
 // import { Product, PartialProductItem } from "typings/product";
 import { Breadcrumb } from "typings/navigation";
 import { PartialProductItem } from "typings/product";
-import { DispatchProp } from "react-redux";
+// import { DispatchProp } from "react-redux";
 
 export interface CategoryMenu {
   label: string;
@@ -29,7 +29,8 @@ export type PlpProps = {
 };
 
 export type FilterProps = {
-  dispatch?: DispatchProp;
+  onRef: any;
+  onChangeFilterState: (data: boolean, cross?: boolean) => void;
 };
 
 export type State = {

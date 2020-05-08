@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useLayoutEffect } from "react";
 import cs from "classnames";
 import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
@@ -19,7 +19,6 @@ const PlpDropdownMenu = ({
   const [showmobileSort, setShowmobileSort] = useState(false);
   const [showmobileFilterList, setShowmobileFilterList] = useState(false);
   const [mobileFilter, setMobileFilter] = useState(false);
-
   const clickMobilefilter = (value: string) => {
     if (value == "Refine") {
       setShowmobileFilterList(true);
@@ -31,7 +30,6 @@ const PlpDropdownMenu = ({
       setOpenState(true);
     }
   };
-
   const onInsideClick = () => {
     setOpenState(!menuOpen);
     setShowmobileSort(false);
@@ -39,6 +37,13 @@ const PlpDropdownMenu = ({
     setMobileFilter(false);
     onStateChange(false);
   };
+
+  useLayoutEffect(() => {
+    if (showCaret) {
+      onInsideClick();
+    }
+  }, [showCaret]);
+
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.label);
     setOpenState(false);

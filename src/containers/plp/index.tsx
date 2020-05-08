@@ -34,7 +34,7 @@ class PLP extends React.Component<
   Props,
   { filterData: string; showmobileSort: boolean; mobileFilter: boolean }
 > {
-  // child = React.createRef();
+  private child: any = FilterList;
 
   state = {
     filterData: "All",
@@ -43,12 +43,13 @@ class PLP extends React.Component<
   };
 
   onchangeFilter = (data: any): void => {
-    // console.log(data, this.refs);
-    // debugger;
-    // this.changeSort()
-    // this.setState({
-    //   filterData: data
-    // });
+    this.child.changeValue(null, data);
+    const {
+      device: { mobile }
+    } = this.props;
+    if (mobile) {
+      this.child.clickCloseFilter();
+    }
   };
 
   onClickQuickView = (id: number) => {
@@ -60,10 +61,18 @@ class PLP extends React.Component<
     changeModalState(true);
   };
 
-  onChangeFilterState = (state: boolean) => {
-    this.setState({
-      mobileFilter: state
-    });
+  onChangeFilterState = (state: boolean, cross?: boolean) => {
+    if (cross) {
+      this.setState({
+        mobileFilter: state,
+        showmobileSort: true
+      });
+    } else {
+      this.setState({
+        mobileFilter: state,
+        showmobileSort: false
+      });
+    }
   };
 
   render() {
@@ -100,8 +109,8 @@ class PLP extends React.Component<
             list={items}
             onChange={this.onchangeFilter}
             onStateChange={this.onChangeFilterState}
-            showCaret={true}
-            open={this.state.showmobileSort}
+            showCaret={this.state.showmobileSort}
+            open={false}
             value="hc"
           />
         ) : (
@@ -138,7 +147,10 @@ class PLP extends React.Component<
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
-            <FilterList />
+            <FilterList
+              onRef={(el: any) => (this.child = el)}
+              onChangeFilterState={this.onChangeFilterState}
+            />
           </div>
           <div
             className={cs(

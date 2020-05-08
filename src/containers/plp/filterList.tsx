@@ -9,7 +9,7 @@ import globalStyles from "styles/global.scss";
 import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./slider.css";
-import { State } from "./typings";
+import { State, FilterProps } from "./typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -25,7 +25,8 @@ const mapStateToProps = (state: AppState) => {
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapActionsToProps>;
+  ReturnType<typeof mapActionsToProps> &
+  FilterProps;
 
 class FilterList extends React.Component<Props, State> {
   public productData: any = [];
@@ -77,6 +78,7 @@ class FilterList extends React.Component<Props, State> {
       activeindex: -1,
       activeindex2: 1
     };
+    this.props.onRef(this);
   }
 
   createFilterfromUrl = () => {
@@ -485,6 +487,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    // this.props.onRef(this);
     window.addEventListener("scroll", this.handleScroll);
   }
 
@@ -1133,7 +1136,7 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
-    this.createUrlfromFilter(undefined);
+    this.createUrlfromFilter();
     event.stopPropagation();
   };
 
@@ -1253,9 +1256,7 @@ class FilterList extends React.Component<Props, State> {
               <span>
                 {filterObj[data].min_price}-{filterObj[data].max_price}
               </span>
-              <span onClick={e => this.deleteFilter(e, data, undefined)}>
-                x
-              </span>
+              <span onClick={e => this.deleteFilter(e, data, null)}>x</span>
             </li>
           );
           break;
@@ -1386,7 +1387,7 @@ class FilterList extends React.Component<Props, State> {
       showmobileText: "",
       showmobileFilterList: false
     });
-    event.stopPropagation();
+    event ? event.stopPropagation() : "";
   };
 
   ClickProductCategory = () => {
@@ -1397,13 +1398,13 @@ class FilterList extends React.Component<Props, State> {
 
   changeValue = (event: any, sort: any) => {
     const { filter } = this.state;
-    if (sort.value == "price_asc") {
+    if (sort == "price_asc") {
       filter.sortBy = { sortBy: "price_asc" };
-    } else if (sort.value == "price_desc") {
+    } else if (sort == "price_desc") {
       filter.sortBy = { sortBy: "price_desc" };
-    } else if (sort.value == "is_new") {
+    } else if (sort == "is_new") {
       filter.sortBy = { sortBy: "is_new" };
-    } else if (sort.value == "hc") {
+    } else if (sort == "hc") {
       filter.sortBy = {};
     }
     this.setState({
@@ -1429,6 +1430,7 @@ class FilterList extends React.Component<Props, State> {
       showmobileText: "",
       showmobileFilterList: false
     });
+    this.props.onChangeFilterState(false, true);
     event.stopPropagation();
   };
 
