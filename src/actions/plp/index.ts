@@ -12,5 +12,8 @@ export const updateProduct = (plpList: PlpProps) =>
 
 export const updateFacets = (data: any) => actionCreator("UPDATE_FACET", data);
 
-// export const updatePartialProducts = (products: PartialProductItem[]) =>
-//   actionCreator("UPDATE_PARTIAL_PRODUCTS", { products });
+export const updateFilterState = (data: boolean) =>
+  actionCreator("UPDATE_FILTER", data);
+
+export const updateFilterData = (data: string) =>
+  actionCreator("UPDATE_FILTER_DATA", data);

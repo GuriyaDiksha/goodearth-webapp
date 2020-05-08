@@ -43,6 +43,11 @@
 .page-body{
   margin-top: $main-header;
 }
+@media screen and (max-width: 992px) {
+  .page-body{
+    margin-top: $header-height;
+  }
+}
 
 .inner-header {
     display: -webkit-inline-box;
@@ -148,6 +153,8 @@
 }
 
 
+
+
 .mobile-filter-menu {
     position: fixed;
     bottom: 0;
@@ -203,6 +210,7 @@
 .minimumWidth {
   @include minimumWidth();
 }
+
 .filter-elements {
     span {
       @include plp_filter_cat();

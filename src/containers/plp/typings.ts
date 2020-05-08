@@ -18,7 +18,7 @@ export interface PlpResult {
   breadcrumb: Breadcrumb[];
   data: PartialProductItem[];
   banner: string;
-  banner_mobile: string;
+  bannerMobile: string;
 }
 
 export type PlpProps = {

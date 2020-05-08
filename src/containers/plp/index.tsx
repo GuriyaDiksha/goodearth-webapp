@@ -60,6 +60,12 @@ class PLP extends React.Component<
     changeModalState(true);
   };
 
+  onChangeFilterState = (state: boolean) => {
+    this.setState({
+      mobileFilter: state
+    });
+  };
+
   render() {
     const {
       device: { mobile },
@@ -69,7 +75,6 @@ class PLP extends React.Component<
         count
       }
     } = this.props;
-    console.log(this.props.dispatch);
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -90,18 +95,17 @@ class PLP extends React.Component<
     ];
     return (
       <div className={styles.pageBody}>
-        <SecondaryHeader>
-          {mobile ? (
-            <div>
-              <PlpDropdownMenu
-                list={items}
-                onChange={this.onchangeFilter}
-                showCaret={true}
-                open={false}
-                value="hc"
-              />
-            </div>
-          ) : (
+        {mobile ? (
+          <PlpDropdownMenu
+            list={items}
+            onChange={this.onchangeFilter}
+            onStateChange={this.onChangeFilterState}
+            showCaret={true}
+            open={this.state.showmobileSort}
+            value="hc"
+          />
+        ) : (
+          <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
                 <Breadcrumbs
@@ -121,8 +125,8 @@ class PLP extends React.Component<
                 ></SelectableDropdownMenu>
               </div>
             </Fragment>
-          )}
-        </SecondaryHeader>
+          </SecondaryHeader>
+        )}
         <div className={cs(bootstrap.row, globalStyles.minimumWidth)}>
           <div
             id="filter_by"
@@ -134,7 +138,7 @@ class PLP extends React.Component<
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
-            <FilterList dispatch={this.props.dispatch} />
+            <FilterList />
           </div>
           <div
             className={cs(

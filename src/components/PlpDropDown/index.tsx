@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import cs from "classnames";
 import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
@@ -11,89 +11,96 @@ const PlpDropdownMenu = ({
   list,
   showCaret,
   value,
-  onChange
+  onChange,
+  onStateChange
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
+  const [showmobileSort, setShowmobileSort] = useState(false);
+  const [showmobileFilterList, setShowmobileFilterList] = useState(false);
+  const [mobileFilter, setMobileFilter] = useState(false);
 
-  const clickMobilefilter = () => {};
+  const clickMobilefilter = (value: string) => {
+    if (value == "Refine") {
+      setShowmobileFilterList(true);
+      setOpenState(true);
+      onStateChange(true);
+    } else {
+      setShowmobileSort(true);
+      setShowmobileFilterList(true);
+      setOpenState(true);
+    }
+  };
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
+    setShowmobileSort(false);
+    setShowmobileFilterList(false);
+    setMobileFilter(false);
+    onStateChange(false);
   };
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.label);
     setOpenState(false);
     onChange(data.value);
   };
-
   return (
-    <div className={styles.cSort}>
+    <div className={cs(styles.cSort, bootstrap.col12, styles.filterSticky)}>
       <div
-        className={cs(
-          { [globalStyles.hidden]: menuOpen },
-          bootstrap.col12,
-          styles.productNumber
-        )}
+        className={cs({ [globalStyles.hidden]: menuOpen }, bootstrap.col12, {
+          [styles.productNumber]: !menuOpen
+        })}
       >
+        {" "}
         <div
           className={
-            this.state.mobileFilter
-              ? styles.mobileFilterHeader
-              : styles.mobileProduct
+            mobileFilter ? styles.mobileFilterHeader : globalStyles.hidden
           }
-          onClick={clickMobilefilter("Refine")}
-        >
-          {this.state.showmobileSort || this.state.showmobileFilterList ? (
-            <div className="filter-cross">
-              <span>Refine</span>
-              <span onClick={this.clickCloseFilter.bind(this)}>X</span>
-            </div>
-          ) : (
+        ></div>
+        <Fragment>
+          <div
+            className={styles.mobileProduct}
+            onClick={() => {
+              clickMobilefilter("Refine");
+            }}
+          >
             <span>Refine</span>
-          )}
-        </div>
-        <div
-          className={
-            this.state.mobileFilter
-              ? "hidden"
-              : "hidden-md hidden-lg mobile-product"
-          }
-          onClick={() => {
-            clickMobilefilter("Sort");
-          }}
-          id="sort"
-        >
-          <span>Sort</span>
-        </div>
-        <div className={styles.cSortHeader}>
-          {showCaret ? (
-            <div className={styles.collectionHeader} onClick={onInsideClick}>
-              <span>collections</span>
-              <span>{displayValue}</span>
-            </div>
-          ) : (
-            <div className={styles.noArrowHeader}>
-              <span>collections</span>
-              <span>{displayValue}</span>
-            </div>
-          )}
-        </div>
+          </div>
+          <div
+            className={
+              mobileFilter ? globalStyles.hidden : styles.mobileProduct
+            }
+            onClick={() => {
+              clickMobilefilter("Sort");
+            }}
+            id="sort"
+          >
+            <span>Sort</span>
+          </div>
+        </Fragment>
       </div>
       <div
-        className={cs(
-          { [globalStyles.hidden]: !menuOpen },
-          bootstrap.col12,
-          styles.productNumber
-        )}
+        className={cs({ [globalStyles.hidden]: !menuOpen }, bootstrap.col12, {
+          [styles.productNumber]: menuOpen
+        })}
       >
         <div>
-          <div className={styles.mobileFilterHeader}>
-            <span>Sort</span>
+          <div
+            className={
+              showmobileFilterList
+                ? styles.mobileFilterHeader
+                : globalStyles.hidden
+            }
+          >
+            <span>{showmobileSort ? "Sort" : "Refine"}</span>
             <span onClick={onInsideClick}>X</span>
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
-            <div className={cs(bootstrap.col12, styles.mobileFilterMenu)}>
+            <div
+              className={cs(bootstrap.col12, styles.mobileFilterMenu, {
+                [globalStyles.hidden]: !showmobileSort
+              })}
+            >
               <ul className={styles.sort}>
                 {list.map((data: any) => {
                   return (

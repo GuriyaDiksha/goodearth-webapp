@@ -34,11 +34,12 @@ const initialState: State = {
       breadcrumb: [],
       data: [],
       banner: "",
-      banner_mobile: ""
+      bannerMobile: ""
     }
   },
   facetObject: {},
-  plpProductId: []
+  plpProductId: [],
+  filterState: false
 };
 
 export const plplist = (state = initialState, action: PlpActions): State => {

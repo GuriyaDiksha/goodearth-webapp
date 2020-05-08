@@ -4,7 +4,8 @@
 .c-sort {
     .product-number {
       padding: 10px;
-      border-bottom: 1px solid tint(#000, 80%);
+      border-bottom: 2px solid #efeaea;
+      display: flex;;
       .c-sort-header {
         position: fixed;
         background-color: #fff;
@@ -16,14 +17,29 @@
         padding: 0 20px;
         border-bottom: 1px solid tint(#000, 80%);
       }
+      .mobile-product {
+        &:last-child {
+          border-left: 1px solid grey;
+        }
+        width: 50%;
+        text-align: center;
+        span {
+          @include plp_subhdr_dd();
+          line-height: 35px;
+        }
+    
+      }
+      .mobile-filter-disabled span {
+        color: #bbb;
+      }
       .mobile-filter-header {
         left: 0;
         width: 100%;
         z-index: 1;
+        top: 50px;
         background-color: #fff;
-        border-bottom: 1px solid #ccc;
         position: fixed;
-        padding: 10px 20px 4px 20px;
+        padding: 16px 20px 15px 20px;
         .filter-cross {
             line-height: 30px;
             .icon_cross {
@@ -116,58 +132,12 @@
       }
     }
   }
-  .product-number {
-    border-bottom: var(--myborder);
-    display: flex;
-    padding: 8px 0px;
-    .mobile-product {
-      &:last-child {
-        border-left: 1px solid grey;
-      }
-      width: 50%;
-      text-align: center;
-      span {
-        @include plp_subhdr_dd();
-  
-        //line-height: 35px;
-      }
-  
-    }
-    .mobile-filter-disabled span {
-      color: #bbb;
-    }
-    .mobile-filter-header {
-      width: 100%;
-      position: fixed;
-      z-index: 1;
-      background-color: #fff;
-      padding: 15px 20px 4px 20px;
-      top: 50px;
-      border-bottom: 1px solid tint(#000, 80%);
-      .filter-cross {
-        line-height: 30px;
-        .icon_cross {
-          font-size: 27px;
-        }
-      }
-      span {
-        @include plp_subhdr_open_mob();
-        letter-spacing: 1px;
-        text-transform: uppercase;
-  
-        &:first-child {
-          float: left;
-          margin-left: 0px;
-        }
-        &:last-child {
-          float: right;
-        }
-      }
-    }
-    span {
-      @include plp_filter_copy();
-      line-height: 35px;
-      padding-left: 6px;
-      //margin-left: 35px;
-    }
-  }
+  .filter-sticky{
+    position: sticky;
+    position: -webkit-sticky;
+    margin-top: 2%;
+    top: 44px;
+    align-self: flex-start;
+    z-index: 10;
+    background-color: white;
+}
