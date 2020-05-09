@@ -5,6 +5,7 @@ const initialState: CollectionState = {
     description: "",
     level2Categories: []
   },
+  collectionIds: [],
   result: [],
   collectionSpecficdata: {
     count: 0,
@@ -44,6 +45,8 @@ export const collection = (
     case "UPDATE_COLLECTION_SPECIFIC_DATA": {
       const newState = { ...state };
       newState.collectionSpecficdata = action.payload;
+      const list = action.payload.results.map(({ id }) => id);
+      newState.collectionIds = list;
       return { ...newState };
     }
     case "UPDATE_COLLECTION_BANNER_DATA": {

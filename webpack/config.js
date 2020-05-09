@@ -176,12 +176,7 @@ let config = [
             __dirname: false,
         },
         optimization: {
-            minimize: env === "production",
-            minimizer: [new TerserPlugin()],
-            splitChunks: {
-                chunks: 'all',
-                automaticNameDelimiter: "-"
-            }
+            minimize: false
         },
         entry: {
             'server': './src/server/index.ts'
@@ -197,7 +192,7 @@ let config = [
         },
         externals: [nodeExternals({
             whitelist: function(path){
-                            return path.indexOf("slick-carousel") !== -1;
+                            return  /slick-carousel|rc-slider|rc-util/.test(path);
                         }
         })],
         plugins: [

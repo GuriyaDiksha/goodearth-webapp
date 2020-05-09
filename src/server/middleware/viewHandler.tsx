@@ -20,7 +20,7 @@ const statsFile = path.resolve("dist/static/loadable-stats.json");
 const matchRoute = (url: string, routes: string[]) => {
   const match: any = matchPath(url, {
     path: paths,
-    exact: true
+    exact: false
   });
   if (!match || !routeMap[match.path as ROUTES]) {
     return null;
