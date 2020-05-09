@@ -48,8 +48,8 @@ class LoginForm extends React.Component<Props, State> {
       disableSelectedbox: false,
       showerror: "",
       socialRedirectUrl: location.pathname + location.search,
-      isPasswordDisabled: false,
-      isLoginDisabled: false,
+      isPasswordDisabled: true,
+      isLoginDisabled: true,
       shouldFocusOnPassword: false,
       successMsg: "",
       showPassword: false
@@ -373,7 +373,7 @@ class LoginForm extends React.Component<Props, State> {
               className={styles.togglePasswordBtn}
               onClick={
                 !this.state.isPasswordDisabled
-                  ? this.togglePassword
+                  ? () => this.togglePassword()
                   : () => false
               }
             >

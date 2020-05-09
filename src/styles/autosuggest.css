@@ -1,0 +1,15 @@
+ul.react-autosuggest__suggestions-list {
+  border: 1px solid #ccc;
+  position: absolute;
+  z-index: 99;
+  max-height: 200px;
+  overflow: scroll;
+  background-color: white;
+  width: 100%;
+}
+ul.react-autosuggest__suggestions-list li {
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  margin: 0;
+  cursor: pointer;
+}

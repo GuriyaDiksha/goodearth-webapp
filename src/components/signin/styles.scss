@@ -23,10 +23,6 @@
         text-decoration: underline;
         cursor: pointer;
       }
-      span {
-        text-decoration: underline;
-        cursor: pointer;
-      }
   }
 
   .social-login-footer {
@@ -163,6 +159,19 @@
       }
     }
   }
+  .arrow {
+    @include arrowbottom();
+    position: absolute;
+    top: 21px;
+    right: 26px;
+    &.mright {
+      right: 10px;
+    }
+  }
+  .disabled-arrow {
+    border-top-color: tint(#000, 50%);
+  }
+  
 }
 
 .categorylabel {

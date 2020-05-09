@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { withFormsy } from "formsy-react";
 import { Props } from "./typings";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
+import { InjectedProps } from "formsy-react/dist/Wrapper";
 
-const InputField: React.FC<Props> = (props: Props) => {
-  // const [ value, setValue ] = useState(props.value || "");
+const FormInput: React.FC<Props & InjectedProps<string | null>> = (
+  props: Props & InjectedProps<string | null>
+) => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
@@ -20,27 +23,45 @@ const InputField: React.FC<Props> = (props: Props) => {
       setLabelClass(true);
       setPlaceholder("");
     }
-    props.blur ? props.blur(event) : "";
+    props.blur && props.isValid ? props.blur(event) : "";
   };
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  // setValue(event.target.value);
-  // if (props.handleChange) {
-  //   props.handleChange(event);
-  // }
-  // }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.setValue(event.currentTarget.value);
+    if (props.handleChange) {
+      props.handleChange(event);
+    }
+  };
 
   useEffect(() => {
     if (props.isPlaceholderVisible && placeholder === "") {
       setPlaceholder(props.placeholder);
-      // setValue("");
       setLabelClass(false);
     }
-    // } else if (props.value && value !== props.value) {
-    //   setValue(props.value || value);
-    // }
   });
-
+  const getRequiredErrorMessage = (name: string) => {
+    switch (name) {
+      case "email":
+        return "";
+      case "first_name":
+        return "Please Enter First Name";
+      case "last_name":
+        return "Please Enter Last Name";
+      case "dateOfBirth":
+        return "Please enter valid date of birth";
+      case "phone_no":
+        return "";
+      case "password1":
+        return "Please enter at least 6 characters for the password";
+      case "password2":
+        return "Please enter at least 6 characters for the password";
+    }
+  };
+  const errorMessage = props.errorMessage
+    ? props.errorMessage
+    : !props.isPristine && !props.isValid
+    ? getRequiredErrorMessage(props.name)
+    : "";
   return (
     <div className={props.className ? props.className : ""}>
       <input
@@ -53,19 +74,18 @@ const InputField: React.FC<Props> = (props: Props) => {
         }
         name={props.name}
         className={
-          props.border || false
+          errorMessage || false
             ? globalStyles.errorBorder
             : props.inputClass || ""
         }
         value={props.value || ""}
         placeholder={placeholder}
-        onChange={e => props.handleChange(e)}
+        onChange={e => handleChange(e)}
         autoComplete="new-password"
-        onClick={e => handleClick(e)}
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
-        onKeyUp={e => (props.keyUp ? props.keyUp(e) : null)}
+        onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)}
         onDrop={
           props.isDrop
             ? e => {
@@ -98,9 +118,9 @@ const InputField: React.FC<Props> = (props: Props) => {
       >
         {props.label || ""}
       </label>
-      {props.error || "" ? (
+      {errorMessage || "" ? (
         <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
-          {props.error}
+          {errorMessage}
         </p>
       ) : (
         ""
@@ -109,4 +129,4 @@ const InputField: React.FC<Props> = (props: Props) => {
   );
 };
 
-export default InputField;
+export default withFormsy(FormInput);

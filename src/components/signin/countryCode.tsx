@@ -1,183 +1,163 @@
 import Autosuggest from "react-autosuggest";
-import React, { RefObject } from "react";
+import React, { useState, useEffect } from "react";
 import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
+import "../../styles/autosuggest.css";
 import cs from "classnames";
-// import Axios from 'axios';
+import { withFormsy } from "formsy-react";
+import { InjectedProps } from "formsy-react/dist/Wrapper";
+import Axios from "axios";
 // import Config from "components/config";
 type Props = {
-  ref: RefObject<CountryCode>;
   code?: string;
-  error: string;
-  setCode?: (data: string) => void;
+  error?: string;
+  setCode: (data: string) => void;
   blur?: () => void;
-  border: boolean;
+  border?: boolean;
   id: string;
   className?: string;
-  disabled: boolean;
+  label?: string;
+  disable?: boolean;
   placeholder: string;
+  value: string;
 };
 
 type country = {
   id: number;
-  name_ascii: string;
+  nameAscii: string;
   code2: string;
-  region_set: [
+  regionSet: [
     {
       id: number;
-      name_ascii: string;
+      nameAscii: string;
     }
   ];
-  isd_code?: string;
+  isdCode?: string;
 };
-type State = {
-  value: string;
-  suggestions: country[];
-  countryList: country[];
-  labelClass: boolean;
-};
-class CountryCode extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      value: props.code || "",
-      suggestions: [],
-      countryList: [],
-      labelClass: false
-    };
-    // this.onChange = this.onChange.bind(this);
-    // this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
-    // this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
-    // this.getSuggestions = this.getSuggestions.bind(this);
-    // this.renderSuggestion = this.renderSuggestion.bind(this);
-  }
 
-  componentDidMount() {
-    // axios.get(Config.hostname + 'myapi/countries-state/')
-    //     .then(res => {
-    //         this.setState({
-    //             suggestions: res.data,
-    //             countryList: res.data
-    //         })
-    //     });
-  }
+const CountryCode: React.FC<Props & InjectedProps<string | null>> = (
+  props: Props & InjectedProps<string | null>
+) => {
+  const [suggestions, setSuggestions] = useState<country[]>([]);
+  const [countryList, setCountryList] = useState<country[]>([]);
+  const [labelClass, setLabelClass] = useState(false);
+  const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
-  getSuggestions(value: any) {
-    // const inputLength = value.length;
-    // const inputValue = isNaN(Number(value)) ? value.trim().toLowerCase() : value;
-    // if (isNaN(Number(value)) && value !== "+") {
-    //     return inputLength === 0 ? [] : this.state.countryList.filter(lang => {
-    //         return lang.name_ascii.toLowerCase().slice(0, inputLength) === inputValue
-    //     });
-    // } else {
-    //     return inputLength === 0 ? [] : this.state.countryList.filter(lang => {
-    //         if (lang.isd_code) {
-    //             if (value.slice(0, 1) == "+") {
-    //                 return lang.isd_code.slice(0, inputLength) === inputValue;
-    //             } else {
-    //                 return lang.isd_code.slice(1, lang.isd_code.length).slice(0, inputLength) === inputValue;
-    //             }
-    //         } else {
-    //             return false;
-    //         }
-    //     });
-    // }
-  }
+  useEffect(() => {
+    Axios.get("http://api.goodearth.in/myapi/address/countries_state").then(
+      res => {
+        setSuggestions(res.data);
+        setCountryList(res.data);
+      }
+    );
+  }, []);
 
-  // componentWillReceiveProps(props) {
-  //     if (props.code) {
-  //         this.setState({
-  //             value: props.code
-  //         })
-  //     }
+  const getSuggestions = (value: any) => {
+    const inputLength = value.length;
+    const inputValue = isNaN(Number(value))
+      ? value.trim().toLowerCase()
+      : value;
+    if (isNaN(Number(value)) && value !== "+") {
+      return inputLength === 0
+        ? []
+        : countryList.filter(lang => {
+            return (
+              lang.nameAscii.toLowerCase().slice(0, inputLength) === inputValue
+            );
+          });
+    } else {
+      return inputLength === 0
+        ? []
+        : countryList.filter(lang => {
+            if (lang.isdCode) {
+              if (value.slice(0, 1) == "+") {
+                return lang.isdCode.slice(0, inputLength) === inputValue;
+              } else {
+                return (
+                  lang.isdCode
+                    .slice(1, lang.isdCode.length)
+                    .slice(0, inputLength) === inputValue
+                );
+              }
+            } else {
+              return false;
+            }
+          });
+    }
+  };
 
-  // }
-
-  getSuggestionValue(suggestion: country) {
-    return suggestion.isd_code || "";
-  }
-
-  renderSuggestion(suggestion: country) {
+  const renderSuggestion = (suggestion: country) => {
     return (
       <div>
-        {suggestion.name_ascii} ({suggestion.isd_code})
+        {suggestion.nameAscii} ({suggestion.isdCode})
       </div>
     );
-  }
+  };
 
-  onChange(event: any, { newValue }: any) {
-    //     this.setState({
-    //         value: newValue
-    //     }, () => {
-    //         this.props.setCode(newValue)
-    //     });
-  }
+  const onChange = (event: any, { newValue }: { newValue: string }) => {
+    props.setValue(newValue);
+    props.setCode && props.setCode(newValue);
+  };
 
-  onSuggestionsFetchRequested() {
-    // this.setState({
-    //     suggestions: this.getSuggestions(value)
-    // });
-  }
+  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
+    setSuggestions(getSuggestions(value));
+  };
 
-  onSuggestionsClearRequested() {
-    this.setState({
-      suggestions: []
-    });
-  }
+  const handleClickBlur = (event: React.FocusEvent) => {
+    setLabelClass(true);
+    setPlaceholder("");
+  };
 
-  handleClickBlur(event: React.FocusEvent) {
-    // if (this.state.value.length == 0) {
-    //     this.setState({
-    //         labelclass: true,
-    //         placeholder: ''
-    //     });
-    // } else {
-    //     this.setState({
-    //         labelclass: true
-    //     });
-    // }
-    // this.props.blur ? this.props.blur() : "";
-  }
+  const handleClick = (event: React.MouseEvent | React.FocusEvent) => {
+    if (!labelClass || placeholder !== "") {
+      setLabelClass(true);
+      setPlaceholder("");
+    }
+  };
 
-  render() {
-    const { value, suggestions } = this.state;
-    let cls = this.props.border ? globalStyles.errorBorder : "";
-    cls += this.props.disabled ? styles.disabledInput : "";
-    const inputProps = {
-      placeholder: this.props.placeholder,
-      value,
-      onChange: this.onChange,
-      disabled: this.props.disabled,
-      autoComplete: "new-password",
-      className: cls,
-      onBlur: this.props.blur
-    };
+  let cls = props.errorMessage ? globalStyles.errorBorder : "";
+  cls += props.disable ? styles.disabledInput : "";
+  const inputProps = {
+    placeholder: placeholder,
+    value: props.value,
+    onChange: onChange,
+    disabled: props.disable,
+    autoComplete: "new-password",
+    className: cls,
+    onBlur: props.blur
+  };
 
-    return (
-      <div
-        onBlur={e => this.handleClickBlur(e)}
-        className={this.props.className ? this.props.className : ""}
+  return (
+    <div
+      onBlur={e => handleClickBlur(e)}
+      onFocus={e => handleClick(e)}
+      className={props.className ? props.className : ""}
+    >
+      <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={() => setSuggestions([])}
+        getSuggestionValue={suggestion => {
+          return suggestion.isdCode || "";
+        }}
+        renderSuggestion={renderSuggestion}
+        inputProps={inputProps}
+        id={props.id}
+      />
+      <label
+        className={labelClass && !props.disable ? "" : globalStyles.hidden}
       >
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={c => this.getSuggestionValue(c)}
-          renderSuggestion={this.renderSuggestion}
-          inputProps={inputProps}
-          id={this.props.id}
-        />
-        {this.props.error ? (
-          <p
-            className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
-            dangerouslySetInnerHTML={{ __html: this.props.error }}
-          ></p>
-        ) : (
-          ""
-        )}
-      </div>
-    );
-  }
-}
+        {props.label}
+      </label>
+      {props.errorMessage ? (
+        <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
+          {props.errorMessage}
+        </p>
+      ) : (
+        ""
+      )}
+    </div>
+  );
+};
 
-export default CountryCode;
+export default withFormsy(CountryCode);

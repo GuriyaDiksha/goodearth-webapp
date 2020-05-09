@@ -5,7 +5,6 @@ import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import InputField from "../InputField";
 // import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
@@ -15,100 +14,45 @@ import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context.ts";
 import moment from "moment";
-// import * as mapper from "mappers/header"
-// import {connect} from 'react-redux'
-// import { CalendarIcon, ClearIcon } from 'components/common/form/Calendar';
 // import Config from 'components/config'
-import GenderPicker from "../genderPicker";
+import Formsy from "formsy-react";
+import FormInput from "../FormInput";
+import FormSelect from "../FormSelect";
+import FormCheckbox from "../FormCheckbox";
+import { Link } from "react-router-dom";
 import CountryCode from "../CountryCode";
 
-// import * as valid from 'components/common/validation/validate'
-// import DatePicker from 'react-datepicker';
-// import DatePicker from 'react-date-picker';
-// import 'react-datepicker/dist/react-datepicker.css';
 type Props = {};
 type State = {
-  email: string | null;
-  password: string | null;
-  confirmPassword: string | null;
-  dob: string | null;
-  country: string | null;
-  phone: string | null;
-  fname: string | null;
-  lname: string | null;
-  msg: string;
-  msgn: string;
-  msgp: string;
-  msgcp: string;
-  msgl: string;
-  nmsg: string;
-  errorDob: string;
-  highlight: boolean;
-  highlightp: boolean;
-  highlightcp: boolean;
-  highlightn: boolean;
-  highlightl: boolean;
-  numHighlight: boolean;
-  highlightDob: boolean;
-  highlightGender: boolean;
-  highlightCode: boolean;
   disableButton: boolean;
   msgt: string;
   url: string;
-  gender: string;
-  dateOfBirth: string;
-  code: string;
   showerror: string;
   showFields: boolean;
   successMsg: string;
   showPassword: boolean;
-  msgGender: string;
-  phonecodeError: string;
   minDate: string;
   maxDate: string;
   showDOBLabel: boolean;
+  genderOptions: { value: string; label: string }[];
 };
 
 class RegisterForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      dob: "",
-      country: "",
-      phone: "",
-      fname: "",
-      lname: "",
-      msg: "",
-      msgn: "",
-      msgp: "",
-      msgcp: "",
-      msgl: "",
-      nmsg: "",
-      errorDob: "",
-      highlight: false,
-      highlightp: false,
-      highlightcp: false,
-      highlightn: false,
-      highlightl: false,
-      numHighlight: false,
-      highlightDob: false,
-      highlightGender: false,
-      highlightCode: false,
       disableButton: false,
       msgt: "",
       url: location.pathname + location.search,
-      gender: "",
-      dateOfBirth: "",
-      code: "",
       showerror: "",
       showFields: false,
       successMsg: "",
       showPassword: false,
-      msgGender: "",
-      phonecodeError: "",
+      genderOptions: [
+        { value: "Female", label: "Female" },
+        { value: "Male", label: "Male" },
+        { value: "Others", label: "Others" }
+      ],
       minDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 110)
       ).format("YYYY-MM-DD"),
@@ -117,46 +61,142 @@ class RegisterForm extends React.Component<Props, State> {
       ).format("YYYY-MM-DD"),
       showDOBLabel: false
     };
-    // this.todaydate = moment();
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.chkTermsandC = this.chkTermsandC.bind(this);
-    // this.setGender = this.setGender.bind(this);
-    // this.onClickCalendar = this.onClickCalendar.bind(this);
-    // this.setCode = this.setCode.bind(this);
-    // this.goLogin = this.goLogin.bind(this);
-    // this.onMailChange = this.onMailChange.bind(this);
-    // this.checkMailValidation = this.checkMailValidation.bind(this);
-    // this.mailValidation = this.mailValidation.bind(this);
-    // this.handleResetPassword = this.handleResetPassword.bind(this);
-    // this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
-    // this.togglePassword = this.togglePassword.bind(this);
-    // this.handleDOBFocus = this.handleDOBFocus.bind(this);
   }
   static contextType = Context;
-  // emailRef: RefObject<InputField> = React.createRef();
-  // passwordRef: RefObject<InputField> = React.createRef();
-  // confirmPasswordRef: RefObject<InputField> = React.createRef();
-  // dobRef: RefObject<InputField> = React.createRef();
-  countryRef: RefObject<CountryCode> = React.createRef();
-  // phoneRef: RefObject<InputField> = React.createRef();
-  // fnameRef: RefObject<InputField> = React.createRef();
-  // lnameRef: RefObject<InputField> = React.createRef();
+  emailRef: RefObject<typeof FormInput> = React.createRef();
+  RegisterFormRef: RefObject<Formsy> = React.createRef();
   emailInput: RefObject<HTMLInputElement> = React.createRef();
   firstNameInput: RefObject<HTMLInputElement> = React.createRef();
   lastNameInput: RefObject<HTMLInputElement> = React.createRef();
 
-  // componentDidMount() {
-  //     document.getElementById('subscrib').checked = false;
-  //     if (window.register_email) {
-  //         this.refs.emailRef.state.value = window.register_email;
-  //         this.setState({});
-  //     }
-  //     window.register_email = '';
-  //     // this.pickerRef.setOpen(false);
-  //     this.refs.emailRef.refs.emailInput.focus();
-  // }
+  componentDidMount() {
+    // document.getElementById('subscrib').checked = false;
+    // if (window.register_email) {
+    //     this.refs.emailRef.state.value = window.register_email;
+    //     this.setState({});
+    // }
+    // window.register_email = '';
+    // this.pickerRef.setOpen(false);
+    // this.refs.emailRef.refs.emailInput.focus();
+  }
 
-  handleSubmit(event: React.FormEvent) {
+  handleSubmit(model: any, resetForm: any, updateInputsWithError: any) {
+    // console.log(model);
+    const {
+      email,
+      password1,
+      password2,
+      firstName,
+      lastName,
+      gender,
+      dateOfBirth,
+      phone,
+      code,
+      terms
+    } = model;
+    const formData: any = {};
+    formData["username"] = email;
+    formData["email"] = email;
+    formData["password1"] = password1;
+    formData["password2"] = password2;
+    formData["firstName"] = firstName;
+    formData["lastName"] = lastName;
+    formData["gender"] = gender;
+    formData["dateOfBirth"] = dateOfBirth
+      ? moment(dateOfBirth).format("YYYY-MM-DD")
+      : null;
+    formData["phone_no"] = code && phone ? code + " " + phone : phone;
+    formData["subscribe"] = terms;
+    // this.setState({
+    //     disableButton: true
+    // })
+    // Axios.post(Config.hostname + 'myapi/register/', formData
+    // ).then(res => {
+    //     this.setState({
+    //             disableButton: false
+    //         }
+    //     )
+    //     if (res.status === 201) {
+    //         let cookieString = "key=" + res.data.key + "; expires=Sun, 15 Jul 2050 00:00:01 UTC; path=/";
+    //         document.cookie = cookieString;
+    //         document.cookie = "bridal_id=" + res.data.bridal_id + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+    //         document.cookie = "bridal_currency=" + res.data.bridal_currency + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+    //         window.dataLayer.push({
+    //             'event': 'eventsToSend',
+    //             'eventAction': 'signup',
+    //             'eventCategory': 'formSubmission',
+    //             'eventLabel': location.pathname
+    //         });
+    //         document.location.reload();
+    //     }
+    // }).catch((err) => {
+    //     this.setState({
+    //         disableButton: false
+    //     }, ()=> {
+    //         this.handleInvalidSubmit()
+    //     })
+    //     Object.keys(err.response.data).map(data => {
+    //         switch (data) {
+    //             case 'firstName':
+    //                 this.setState({
+    //                     msgn: err.response.data[data][0],
+    //                     highlightn: true
+    //                 })
+    //                 break;
+    //             case 'lastName':
+    //                 this.setState({
+    //                     msgl: err.response.data[data][0],
+    //                     highlightl: true
+    //                 })
+    //                 break;
+    //             case 'username':
+    //             case 'email':
+    //                 if (err.response.data[data].length == 2) {
+    //                     this.setState({
+    //                         showerror: "This account already exists <a class='error' href=" + err.response.data[data][0] + "> please set a new password</a>"
+    //                     })
+    //                 } else {
+    //                     this.setState({
+    //                         showerror: '',
+    //                         msg: err.response.data[data][0],
+    //                         highlight: true
+    //                     })
+    //                 }
+    //                 break;
+    //             case 'password1':
+    //                 this.setState({
+    //                     msgp: err.response.data[data][0],
+    //                     highlightp: true
+    //                 });
+    //                 break;
+    //             case 'password2':
+    //                 this.setState({
+    //                     msgcp: err.response.data[data][0],
+    //                     highlightcp: true
+    //                 });
+    //                 break;
+    //             case 'gender':
+    //                 this.setState({
+    //                     msgGender: err.response.data[data][0],
+    //                     highlightGender: true
+    //                 });
+    //                 break;
+    //             case 'phone_no':
+    //                 this.setState({
+    //                     nmsg: err.response.data[data][0],
+    //                     numHighlight: true
+    //                 });
+    //                 break;
+    //             case 'phone_no':
+    //                 this.setState({
+    //                     nmsg: err.response.data[data][0],
+    //                     numHighlight: true
+    //                 })
+    //                 break;
+    //         }
+    //     });
+    // });
+    // event.preventDefault();
     //     if(!this.mailValidation()){
     //         this.handleInvalidSubmit();
     //         event.preventDefault();
@@ -193,295 +233,132 @@ class RegisterForm extends React.Component<Props, State> {
     //         })
     //         return false;
     //     }
-    //     let formData = {};
-    //     formData['username'] = this.refs.emailRef.state.value;
-    //     formData['email'] = this.refs.emailRef.state.value;
-    //     formData['password1'] = this.refs.passwordRef.state.value;
-    //     formData['password2'] = this.refs.confirmPasswordRef.state.value;
-    //     formData['first_name'] = this.refs.fnameRef.state.value;
-    //     formData['last_name'] = this.refs.lnameRef.state.value;
-    //     formData["gender"] = this.state.gender;
-    //     const dateOfBirth = this.state.dateOfBirth ? moment(this.state.dateOfBirth).format('YYYY-MM-DD') : null;
-    //     formData['dateOfBirth'] = dateOfBirth;
-    //     formData['phone_no'] = this.state.code && this.refs.phoneref.state.value ? this.state.code + ' ' + this.refs.phoneref.state.value : this.refs.phoneref.state.value;
-    //     formData['subscribe'] = document.getElementById('subscrib').checked;
-    //     this.setState({
-    //         disableButton: true
-    //     })
-    //     axios.post(Config.hostname + 'myapi/register/', formData
-    //     ).then(res => {
-    //         this.setState({
-    //                 disableButton: false
-    //             }
-    //         )
-    //         if (res.status === 201) {
-    //             let cookieString = "key=" + res.data.key + "; expires=Sun, 15 Jul 2050 00:00:01 UTC; path=/";
-    //             document.cookie = cookieString;
-    //             document.cookie = "bridal_id=" + res.data.bridal_id + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    //             document.cookie = "bridal_currency=" + res.data.bridal_currency + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    //             window.dataLayer.push({
-    //                 'event': 'eventsToSend',
-    //                 'eventAction': 'signup',
-    //                 'eventCategory': 'formSubmission',
-    //                 'eventLabel': location.pathname
-    //             });
-    //             document.location.reload();
-    //         }
-    //     }).catch((err) => {
-    //         this.setState({
-    //             disableButton: false
-    //         }, ()=> {
-    //             this.handleInvalidSubmit()
-    //         })
-    //         Object.keys(err.response.data).map(data => {
-    //             switch (data) {
-    //                 case 'first_name':
-    //                     this.setState({
-    //                         msgn: err.response.data[data][0],
-    //                         highlightn: true
-    //                     })
-    //                     break;
-    //                 case 'last_name':
-    //                     this.setState({
-    //                         msgl: err.response.data[data][0],
-    //                         highlightl: true
-    //                     })
-    //                     break;
-    //                 case 'username':
-    //                 case 'email':
-    //                     if (err.response.data[data].length == 2) {
-    //                         this.setState({
-    //                             showerror: "This account already exists <a class='error' href=" + err.response.data[data][0] + "> please set a new password</a>"
-    //                         })
-    //                     } else {
-    //                         this.setState({
-    //                             showerror: '',
-    //                             msg: err.response.data[data][0],
-    //                             highlight: true
-    //                         })
-    //                     }
-    //                     break;
-    //                 case 'password1':
-    //                     this.setState({
-    //                         msgp: err.response.data[data][0],
-    //                         highlightp: true
-    //                     });
-    //                     break;
-    //                 case 'password2':
-    //                     this.setState({
-    //                         msgcp: err.response.data[data][0],
-    //                         highlightcp: true
-    //                     });
-    //                     break;
-    //                 case 'gender':
-    //                     this.setState({
-    //                         msgGender: err.response.data[data][0],
-    //                         highlightGender: true
-    //                     });
-    //                     break;
-    //                 case 'phone_no':
-    //                     this.setState({
-    //                         nmsg: err.response.data[data][0],
-    //                         numHighlight: true
-    //                     });
-    //                     break;
-    //                 case 'phone_no':
-    //                     this.setState({
-    //                         nmsg: err.response.data[data][0],
-    //                         numHighlight: true
-    //                     })
-    //                     break;
-    //             }
-    //         });
-    //     });
-    //     event.preventDefault();
+    //
   }
 
-  // handleInvalidSubmit() {
-  //     setTimeout(() => {
-  //         let firstErrorField = document.getElementsByClassName('error-border')[0];
-  //         if (firstErrorField) {
-  //             firstErrorField.focus();
-  //             firstErrorField.scrollIntoView({block: "center", behavior: 'smooth'})
-  //         }
-  //     }, 500);
-  // }
-
-  myBlurGender() {
-    //     if (!this.state.gender) {
-    //         this.setState({
-    //             highlightGender: true,
-    //             msgGender: "Please Select your Gender."
-    //         })
-    //     }
+  handleInvalidSubmit() {
+    const elem = document.getElementById("subscribeemails") as HTMLInputElement;
+    if (elem && elem.checked == false) {
+      this.setState({
+        msgt: "Please accept the terms & conditions"
+      });
+    } else {
+      this.setState({
+        msgt: ""
+      });
+    }
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorBorder
+      )[0] as HTMLElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
   }
 
-  myPhoneCode() {
-    //     if (this.state.code.trim().length == 0 & this.refs.phoneref.state.value.trim().length == 0) {
-    //         this.setState({
-    //             phonecodeError: "",
-    //             highlightCode: false,
-    //             nmsg: "",
-    //             numHighlight: false
-    //         })
-    //     }
-    //     if ((this.refs.phoneref.state.value.trim().length == 0 & this.state.code.trim().length > 0)) {
-    //         this.setState({
-    //             nmsg: "This field is required",
-    //             numHighlight: true
-    //         })
-    //     }
-    //     else if (this.state.code.trim().length == 0 & this.refs.phoneref.state.value.trim().length > 0) {
-    //         this.setState({
-    //             phonecodeError: "Required",
-    //             highlightCode: true
-    //         })
-    //     }
-  }
-
-  myPhoneCodeBlur() {
-    //     if (this.state.code.trim().length == 0 & this.refs.phoneref.state.value.trim().length == 0) {
-    //         this.setState({
-    //             phonecodeError: "",
-    //             highlightCode: false,
-    //             nmsg: "",
-    //             numHighlight: false
-    //         })
-    //     }
-    //     else if (this.state.code.trim().length == 0 & this.refs.phoneref.state.value.trim().length > 0) {
-    //         this.setState({
-    //             phonecodeError: "Required",
-    //             highlightCode: true
-    //         })
-    //     }
-    //     else {
-    //         this.setState({
-    //             phonecodeError: "",
-    //             highlightCode: false
-    //         })
-    //     }
-  }
-
-  myPhoneNumberBlur() {
-    //     if (this.state.code.trim().length == 0 & this.refs.phoneref.state.value.trim().length == 0) {
-    //         this.setState({
-    //             phonecodeError: "",
-    //             highlightCode: false,
-    //             nmsg: "",
-    //             numHighlight: false
-    //         })
-    //     }
-    //     if ((this.refs.phoneref.state.value.trim().length == 0 & this.state.code.trim().length > 0)) {
-    //         this.setState({
-    //             nmsg: "This field is required",
-    //             numHighlight: true
-    //         })
-    //     }
-    //     else {
-    //         this.setState({
-    //             nmsg: "",
-    //             numHighlight: false
-    //         })
-    //     }
-  }
-
-  myBlur() {
-    //     if(this.mailValidation()) {
-    //         if(this.checkMailValidation()) {
-    //             this.setState({
-    //                 msg: '',
-    //                 highlight: false
-    //             })
-    //             return true;
-    //         }
-    //         else {
-    //             this.resetSection();
-    //             return false;
-    //         }
-    //     }
-    //     else {
-    //         this.resetSection();
-    //         return false;
-    //     }
-  }
-
-  // handleResetPassword(event) {
-  //     event.preventDefault();
-
-  //     let formData = new FormData();
-  //     formData.append('email', this.refs.emailRef.state.value);
-  //     axios.post(Config.hostname+'myapi/reset_password/', formData
-  //     ).then((res) => {
-  //         this.setState({
-  //             highlight: false,
-  //             msg: '',
-  //             successMsg: res.data.success,
-  //         });
-  //     }).catch((err) => {
-  //         console.log("err: " + err.response.data.email[0 ]);
-  //         this.setState({
-  //             highlight: true,
-  //             msg: err.response.data.email[0],
-  //         })
+  // myBlur() {
+  // if(this.checkMailValidation()) {
+  //     this.setState({
+  //         msg: '',
+  //         highlight: false
   //     })
+  //     return true;
+  // }
+  // else {
+  //     this.resetSection();
+  //     return false;
+  // }
+  // this.verifyEmail();
   // }
 
-  checkMailValidation() {
-    //     axios.post(Config.hostname + 'myapi/checkuserpassword/', {
-    //         email: this.refs.emailRef.state.value
-    //     }).then(res=> {
-    //         if(res.data.email_exist) {
-    //             if(res.data.pwd_exist) {
-    //                 const error = ["This account already exists. Please ", <span onClick={this.goLogin}>Sign In</span>];
-    //                 this.setState({
-    //                     msg: error,
-    //                     highlight: true,
-    //                     showFields: false
-    //                 })
-    //                 return false;
-    //             }
-    //             else {
-    //                 const error = ["This account already exists. Please ", <span onClick={this.handleResetPassword}>set a new password</span>];
-    //                 this.setState({
-    //                     msg: error,
-    //                     highlight: true,
-    //                     showFields: false
-    //                 })
-    //                 return false;
-    //             }
-    //         }
-    //         else {
-    //             this.setState({
-    //                 showFields: true,
-    //                 msg: '',
-    //                 highlight: false
-    //             },() => {
-    //                 this.refs.fnameRef.refs.firstNameInput.focus();
-    //             })
-    //             return true;
-    //         }
-    //     }).catch((err) => {
-    //         console.log("err: " + err);
-    //         this.setState({
-    //             showerror: '',
-    //             highlight: false
-    //         })
+  handleResetPassword(event: React.MouseEvent) {
+    event.preventDefault();
+
+    // let formData = new FormData();
+    // formData.append('email', this.state.email || "");
+
+    // LoginService.resetPassword(formData).then((res) => {
+    //     this.setState({
+    //         highlight: false,
+    //         msg: '',
+    //         successMsg: res.data.success,
+    //     });
+    // }).catch((err) => {
+    //     console.log("err: " + err.response.data.email[0 ]);
+    //     this.setState({
+    //         highlight: true,
+    //         msg: err.response.data.email[0],
     //     })
+    // })
   }
 
-  myBlurP() {
-    //     if (this.refs.passwordRef.state.value.length < 6) {
-    //         this.setState({
-    //             msgp: 'Please enter at least 6 characters for the password',
-    //             highlightp: true
-    //         });
-    //     }
-    //     else {
-    //         this.setState({
-    //             msgp: '',
-    //             highlightp: false
-    //         });
-    //     }
+  async checkMailValidation(): Promise<boolean> {
+    let isValid = false;
+    const data = await LoginService.checkuserpassword(
+      (this.RegisterFormRef.current &&
+        this.RegisterFormRef.current.getModel().email) ||
+        ""
+    ).catch(err => {
+      console.log("err: " + err);
+      isValid = false;
+    });
+    if (data.emailExist) {
+      if (data.passwordExist) {
+        const error = [
+          <span key="email-error">
+            This account already exists. Please{" "}
+            <span
+              className={globalStyles.linkTextUnderline}
+              onClick={this.goLogin}
+            >
+              Sign In
+            </span>
+          </span>
+        ];
+        this.setState((prevState, prevProps) => {
+          return {
+            ...prevState,
+            msg: error,
+            highlight: true,
+            showFields: false
+          };
+        });
+        this.RegisterFormRef.current &&
+          this.RegisterFormRef.current.updateInputsWithError(
+            {
+              email: error
+            },
+            true
+          );
+        isValid = false;
+      } else {
+        const error = [
+          <span key="email-error2">
+            This account already exists. Please{" "}
+            <span
+              className={globalStyles.linkTextUnderline}
+              onClick={e => this.handleResetPassword(e)}
+            >
+              set a new password
+            </span>
+          </span>
+        ];
+        this.RegisterFormRef.current &&
+          this.RegisterFormRef.current.updateInputsWithError(
+            {
+              email: error
+            },
+            true
+          );
+        isValid = false;
+      }
+    } else {
+      this.firstNameInput.current && this.firstNameInput.current.focus();
+      isValid = true;
+    }
+    return isValid;
   }
 
   myBlurName() {
@@ -515,7 +392,8 @@ class RegisterForm extends React.Component<Props, State> {
   }
 
   chkTermsandC(event: React.ChangeEvent) {
-    //     if (document.getElementById('subscribeemails').checked == false) {
+    // const elem = document.getElementById('subscribeemails') as HTMLInputElement;
+    //     if ( elem && elem.checked == false) {
     //         this.setState({
     //             msgt: "Please accept the terms & conditions"
     //         })
@@ -535,54 +413,54 @@ class RegisterForm extends React.Component<Props, State> {
     //     })
   }
 
-  handleDobChange(event: React.KeyboardEvent) {
-    //     // const selectedDate = event.target.value;
-    //     const selectedDate = this.refs.dobRef.state.value;
-    //     if(moment(selectedDate).isValid()) {
-    //         if(selectedDate >= this.state.minDate) {
-    //             if(selectedDate <= this.state.maxDate) {
-    //                 this.setState({
-    //                     errorDob: "",
-    //                     highlightDob: false
-    //                 })
-    //             } else {
-    //                 this.setState({
-    //                     errorDob: "Age should be at least 15 years",
-    //                     highlightDob: true
-    //                 })
-    //             }
-    //         } else {
-    //             this.setState({
-    //                 errorDob: "Please enter valid date of birth",
-    //                 highlightDob: true
-    //             })
-    //         }
-    //     } else {
-    //         if(selectedDate === "") {
-    //             this.setState({
-    //                 errorDob: "",
-    //                 highlightDob: false
-    //             })
-    //         } else {
-    //             this.setState({
-    //                 errorDob: "Please enter valid date of birth",
-    //                 highlightDob: true
-    //             })
-    //         }
-    //     }
-    //     this.setState({
-    //         dateOfBirth: selectedDate
-    //     })
-  }
+  // handleDobChange(event: React.KeyboardEvent) {
+  //     // const selectedDate = event.target.value;
+  //     const selectedDate = this.refs.dobRef.state.value;
+  //     if(moment(selectedDate).isValid()) {
+  //         if(selectedDate >= this.state.minDate) {
+  //             if(selectedDate <= this.state.maxDate) {
+  //                 this.setState({
+  //                     errorDob: "",
+  //                     highlightDob: false
+  //                 })
+  //             } else {
+  //                 this.setState({
+  //                     errorDob: "Age should be at least 15 years",
+  //                     highlightDob: true
+  //                 })
+  //             }
+  //         } else {
+  //             this.setState({
+  //                 errorDob: "Please enter valid date of birth",
+  //                 highlightDob: true
+  //             })
+  //         }
+  //     } else {
+  //         if(selectedDate === "") {
+  //             this.setState({
+  //                 errorDob: "",
+  //                 highlightDob: false
+  //             })
+  //         } else {
+  //             this.setState({
+  //                 errorDob: "Please enter valid date of birth",
+  //                 highlightDob: true
+  //             })
+  //         }
+  //     }
+  //     this.setState({
+  //         dateOfBirth: selectedDate
+  //     })
+  // }
 
   onClickCalendar() {
     //     // this.pickerRef.setOpen(true);
   }
 
   setCode(data: string) {
-    //     this.setState({
-    //         code: data
-    //     })
+    // this.setState({
+    //     code: data
+    // })
   }
 
   goLogin(event: React.MouseEvent) {
@@ -592,150 +470,119 @@ class RegisterForm extends React.Component<Props, State> {
   }
 
   resetSection() {
-    //     this.setState({
-    //         showFields: false,
-    //         msgp: '',
-    //         highlightp: false,
-    //         msgGender: '',
-    //         highlightGender: false,
-    //         msgl: '',
-    //         highlightl: false,
-    //         msgn: '',
-    //         highlightn: false,
-    //         msgt: '',
-    //         numHighlight: false,
-    //         nmsg: ''
-    //     })
-  }
-  onMailChange(event: React.KeyboardEvent) {
-    //         if (this.mailValidation()) {
-    //             if(event.key == "Enter") {
-    //                 if(this.checkMailValidation()) {
-    //                     this.setState({
-    //                         msg: '',
-    //                         highlight: false,
-    //                     })
-    //                 }
-    //                 else {
-    //                     this.resetSection();
-    //                 }
-    //             }
-    //             else {
-    //                 this.resetSection();
-    //             }
-    //         }
-    //         else {
-    //             this.resetSection();
-    //         }
+    this.setState({
+      showFields: false
+    });
   }
 
-  handleFirstNameKeyPress(e: React.KeyboardEvent) {
-    //     if(e.key == "Enter") {
-    //         e.preventDefault();
-    //         this.refs.lnameRef.refs.lastNameInput.focus();
-    //     }
+  verifyEmail() {
+    this.checkMailValidation().then((isValid: boolean) => {
+      if (!isValid) {
+        this.resetSection();
+      }
+    });
   }
-  mailValidation() {
-    //     let validate = true;
-    //         if (valid.checkBlank(this.refs.emailRef.state.value)) {
-    //             this.setState({
-    //                 msg: 'Please Enter Email',
-    //                 highlight: true,
-    //                 showFields: false
-    //             })
-    //             validate = false;
-    //         }
-    //         else if (!valid.checkMail(this.refs.emailRef.state.value)) {
-    //             this.setState({
-    //                 msg: 'Enter valid email',
-    //                 highlight: true,
-    //                 showFields: false
-    //             })
-    //             validate = false;
-    //         } else if (this.refs.emailRef.state.value.length > 75) {
-    //             this.setState({
-    //                 msg: 'You are allowed to enter upto 75 characters only',
-    //                 highlight: true,
-    //                 showFields: false
-    //             })
-    //             validate = false;
-    //         } else {
-    //             this.setState({
-    //                 msg: '',
-    //                 highlight: false,
-    //                 showFields: true
-    //             })
-    //         }
-    //         return validate;
-  }
-
-  handleChange(event: React.ChangeEvent<HTMLInputElement>, type: string) {
-    switch (type) {
-      case "email": {
-        this.setState({ email: event.currentTarget.value });
-        break;
-      }
-      case "password": {
-        this.setState({ password: event.currentTarget.value });
-        break;
-      }
-      case "confirmPassword": {
-        this.setState({ confirmPassword: event.currentTarget.value });
-        break;
-      }
-      case "dob": {
-        this.setState({ dob: event.currentTarget.value });
-        break;
-      }
-      case "country": {
-        this.setState({ country: event.currentTarget.value });
-        break;
-      }
-      case "phone": {
-        this.setState({ phone: event.currentTarget.value });
-        break;
-      }
-      case "fname": {
-        this.setState({ fname: event.currentTarget.value });
-        break;
-      }
-      case "lname": {
-        this.setState({ lname: event.currentTarget.value });
-        break;
-      }
+  async onMailChange(event: React.KeyboardEvent) {
+    if (event.key == "Enter") {
+      this.verifyEmail();
+    } else {
+      this.resetSection();
     }
   }
 
-  handleConfirmPassword(event: React.KeyboardEvent) {
-    //     this.myBlurP();
-    //     const error = this.state.msgcp;
-    //     const value = this.refs.confirmPasswordRef.state.value;
-    //     if(this.refs.passwordRef.state.value.length >= 6 ) {
+  handleFirstNameKeyPress(e: React.KeyboardEvent) {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      this.lastNameInput.current && this.lastNameInput.current.focus();
+    }
+  }
+  mailValidation() {
+    // let validate = true;
+    //     if (valid.checkBlank(this.refs.emailRef.state.value)) {
+    //         this.setState({
+    //             msg: 'Please Enter Email',
+    //             highlight: true,
+    //             showFields: false
+    //         })
+    //         validate = false;
     //     }
-    //     if(value) {
-    //         if (this.refs.passwordRef.state.value !== this.refs.confirmPasswordRef.state.value) {
-    //             this.setState({
-    //                 msgcp: "Passwords do not match",
-    //                 highlightcp: true
-    //             })
-    //         }
-    //         else {
-    //             if(error) {
-    //                 this.setState({
-    //                     msgcp: "",
-    //                     highlightcp: false
-    //                 })
-    //             }
-    //         }
+    //     else if (!valid.checkMail(this.refs.emailRef.state.value)) {
+    //         this.setState({
+    //             msg: 'Enter valid email',
+    //             highlight: true,
+    //             showFields: false
+    //         })
+    //         validate = false;
+    //     } else if (this.refs.emailRef.state.value.length > 75) {
+    //         this.setState({
+    //             msg: 'You are allowed to enter upto 75 characters only',
+    //             highlight: true,
+    //             showFields: false
+    //         })
+    //         validate = false;
+    //     } else {
+    //         this.setState({
+    //             msg: '',
+    //             highlight: false,
+    //             showFields: true
+    //         })
     //     }
+    //     return validate;
+  }
+
+  handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    type: string
+  ) {
+    const value = event.currentTarget.value;
+    this.setState((prevState, prevProps) => {
+      return {
+        ...prevState,
+        [type]: value
+      };
+    });
+    // switch (type) {
+    //   case "email": {
+    //     this.setState({ email: event.currentTarget.value });
+    //     break;
+    //   }
+    //   case "password": {
+    //     this.setState({ password: event.currentTarget.value });
+    //     break;
+    //   }
+    //   case "confirmPassword": {
+    //     this.setState({ confirmPassword: event.currentTarget.value });
+    //     break;
+    //   }
+    //   case "dob": {
+    //     this.setState({ dob: event.currentTarget.value });
+    //     break;
+    //   }
+    //   case "country": {
+    //     this.setState({ country: event.currentTarget.value });
+    //     break;
+    //   }
+    //   case "phone": {
+    //     this.setState({ phone: event.currentTarget.value });
+    //     break;
+    //   }
+    //   case "fname": {
+    //     this.setState({ fname: event.currentTarget.value });
+    //     break;
+    //   }
+    //   case "lname": {
+    //     this.setState({ lname: event.currentTarget.value });
+    //     break;
+    //   }
+    // }
   }
 
   togglePassword() {
-    //     this.setState((prevState) => {
-    //         return {
-    //             showPassword: !prevState.showPassword
-    //         }
-    //     })
+    this.setState(prevState => {
+      return {
+        showPassword: !prevState.showPassword
+      };
+    });
   }
 
   // handleDOBFocus (showDOBLabel) {
@@ -746,29 +593,38 @@ class RegisterForm extends React.Component<Props, State> {
 
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
+
     const formContent = (
-      <form onSubmit={() => this.handleSubmit}>
+      <Formsy
+        ref={this.RegisterFormRef}
+        onValidSubmit={(model, reset, u) => this.handleSubmit(model, reset, u)}
+        onInvalidSubmit={() => this.handleInvalidSubmit()}
+      >
         <ul className={styles.categorylabel}>
           <li>
-            <InputField
-              blur={!this.state.msg ? () => this.myBlur : () => false}
-              // ref={this.emailRef}
-              value={this.state.email}
+            <FormInput
+              name="email"
+              blur={() => this.verifyEmail()}
               placeholder={"Email*"}
               label={"Email*"}
               keyUp={e => this.onMailChange(e)}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
               handleChange={e => this.handleChange(e, "email")}
-              error={this.state.msg}
-              border={this.state.highlight}
+              validations={{
+                isEmail: true,
+                maxLength: 75
+              }}
+              validationErrors={{
+                isEmail: "Enter valid email",
+                maxLength: "You are allowed to enter upto 75 characters only"
+              }}
+              required
             />
           </li>
           <li>
-            <InputField
-              blur={this.myBlurName.bind(this)}
-              value={this.state.fname}
-              // ref={this.fnameRef}
+            <FormInput
+              name="firstName"
               placeholder={"First Name*"}
               label={"First Name*"}
               inputRef={this.firstNameInput}
@@ -776,78 +632,41 @@ class RegisterForm extends React.Component<Props, State> {
               className={showFieldsClass}
               keyPress={e => this.handleFirstNameKeyPress(e)}
               handleChange={e => this.handleChange(e, "fname")}
-              error={this.state.msgn}
-              border={this.state.highlightn}
+              required
             />
           </li>
           <li>
-            <InputField
-              blur={this.myBlurLName.bind(this)}
+            <FormInput
+              name="lastName"
               placeholder={"Last Name*"}
-              value={this.state.lname}
-              // ref={this.lnameRef}
               label={"Last Name*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               handleChange={e => this.handleChange(e, "lname")}
               inputRef={this.lastNameInput}
-              error={this.state.msgl}
-              border={this.state.highlightl}
+              required
             />
           </li>
           <li className={styles.userGenderPicker}>
-            <GenderPicker
-              setGender={this.setGender}
-              msgGender={this.state.msgGender}
-              gender={this.state.gender}
+            <FormSelect
+              required
+              name="gender"
+              label="Select Gender*"
+              placeholder="Select Gender*"
+              options={this.state.genderOptions}
+              handleChange={e => this.handleChange(e, "gender")}
               disable={!this.state.showFields}
-              // className={this.state.showFields?"": "disabled-input"}
-              highlightGender={this.state.highlightGender}
+              className={this.state.showFields ? "" : styles.disabledInput}
             />
           </li>
           <li className={styles.calendarIconContainer}>
-            {/* <DatePicker onChange={this.onChange.bind(this)}
-                            onFocus={() => this.handleDOBFocus(true)}
-                            onBlur={() => this.handleDOBFocus(false)}
-                            ref={(node) => { this.pickerRef = node; }}
-                            className={!this.state.showFields? "input-style disabled-input react-datepicker-ignore-onclickoutside":"input-style"}
-                            maxDate={this.todaydate} selected={this.state.dateOfBirth}
-                            disabled={!this.state.showFields}
-                            dateFormat="DD/MM/YYYY" placeholderText="DOB DD/MM/YYYY"/>
-                <label className={this.state.showDOBLabel && this.state.showFields || false ? "label" : "label hidden" }
->{"Date of Birth DD/MM/YYYY"}</label>
-                <span className="calendar-icon" onClick={this.onClickCalendar}>
-                    <img src="/static/img/bridal/icons_bridal-registry-calendar.svg" width="45"
-                          height="45"/>
-                </span> */}
-            {/* <DatePicker onChange={this.onChange.bind(this)}
-                            value={this.state.dateOfBirth}
-                            dayPlaceholder="DD"
-                            monthPlaceholder="MM"
-                            yearPlaceholder="YYYY"
-                            // formatLongDate={(locale, date) => formatDate(date, 'YYYY MMM dd')}
-                            format="yyyy/M/d"
-                            defaultView="decade"
-                            view={this.state.dateOfBirth == "" || this.state.dateOfBirth == null ? "decade" : "month"}
-                            id="date_of_birth"
-                            disabled={!this.state.showFields}
-                            activeStartDate={new Date(new Date().setFullYear(1991))}
-                            minDetail="decade"
-                            clearIcon={this.state.dateOfBirth == "" || this.state.dateOfBirth == null ? null: <ClearIcon />}
-                            calendarIcon={<CalendarIcon />}
-                            maxDate={new Date(new Date().setFullYear(new Date().getFullYear() - 15))}
-                            minDate={new Date(new Date().setFullYear(new Date().getFullYear() - 110))}
-                            returnValue="start"
-                            showLeadingZeros={false}/> */}
-            <InputField
+            <FormInput
+              name="dateOfBirth"
               type="date"
-              keyUp={e => this.handleDobChange(e)}
-              value={this.state.dob}
-              // value={this.state.dateOfBirth}
+              value={null}
               disable={!this.state.showFields}
               className={showFieldsClass}
-              // ref={this.dobRef}
               id="date_of_birth"
               placeholder="YYYY/MM/DD"
               label="Date of Birth"
@@ -858,53 +677,91 @@ class RegisterForm extends React.Component<Props, State> {
               max={moment(
                 new Date().setFullYear(new Date().getFullYear() - 15)
               ).format("YYYY-MM-DD")}
-              error={this.state.errorDob}
-              border={this.state.highlightDob}
+              validations={{
+                isValidDate: (values, value) => {
+                  if (value) {
+                    return moment(value).isValid();
+                  } else return true;
+                },
+                isMinAllowedDate: (values, value) => {
+                  if (value) {
+                    return (
+                      new Date(value).getTime() >
+                      new Date(this.state.minDate).getTime()
+                    );
+                  } else return true;
+                },
+                isMaxAllowedDate: (values, value) => {
+                  if (value) {
+                    return (
+                      new Date(value).getTime() <
+                      new Date(this.state.maxDate).getTime()
+                    );
+                  } else return true;
+                }
+              }}
+              validationErrors={{
+                isValidDate: "Please enter valid date oof birth",
+                isMinAllowedDate: "Please enter valid date of birth",
+                isMaxAllowedDate: "Age should be at least 15 years"
+              }}
             />
-            {/* {this.state.showFields ? <label htmlFor="date_of_birth">Date of Birth</label> : ""} */}
-            {/* {this.state.errorDob || ""?<p className="error-msg txtnormal" >{this.state.errorDob}</p>:""} */}
           </li>
           <li className={cs(styles.countryCode, "country-code-profile")}>
             <CountryCode
-              ref={this.countryRef}
-              setCode={this.setCode}
+              name="code"
+              setCode={value => this.setCode(value)}
               placeholder="Code"
-              error={this.state.phonecodeError}
-              disabled={!this.state.showFields}
-              border={this.state.highlightCode}
+              label="Code"
+              disable={!this.state.showFields}
               id="isdcode"
-              blur={this.myPhoneCodeBlur.bind(this)}
+              value=""
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required"
+              }}
             />
-            <InputField
-              // ref={this.phoneRef}
+            <FormInput
+              name="phone"
+              value=""
               placeholder={"Contact Number"}
-              value={this.state.phone}
               type="number"
               disable={!this.state.showFields}
               className={showFieldsClass}
               label={"Contact Number"}
-              border={this.state.numHighlight}
-              blur={this.myPhoneNumberBlur.bind(this)}
+              validations={{
+                isPhoneValid: (values, value) => {
+                  return !(values.code && value == "");
+                }
+              }}
+              validationErrors={{
+                isPhoneValid: "This field is Required."
+              }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               handleChange={e => this.handleChange(e, "phone")}
-              error={this.state.nmsg}
             />
           </li>
           <li>
-            <InputField
-              blur={this.myBlurP.bind(this)}
-              // ref={this.passwordRef}
+            <FormInput
+              name="password1"
               placeholder={"Password*"}
-              value={this.state.password}
               label={"Password*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
-              error={this.state.msgp}
-              border={this.state.highlightp}
-              keyUp={e => this.handleConfirmPassword(e)}
               handleChange={e => this.handleChange(e, "password")}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
+              validations={{
+                minLength: 6
+              }}
+              validationErrors={{
+                minLength: "Please enter at least 6 characters for the password"
+              }}
+              required
             />
             <span
               className={styles.togglePasswordBtn}
@@ -916,52 +773,61 @@ class RegisterForm extends React.Component<Props, State> {
             </span>
           </li>
           <li>
-            <InputField
-              blur={this.myBlurP.bind(this)}
-              // ref={this.confirmPasswordRef}
+            <FormInput
+              name="password2"
               placeholder={"Confirm Password*"}
               label={"Confirm Password*"}
-              value={this.state.confirmPassword}
               disable={!this.state.showFields}
               className={showFieldsClass}
-              error={this.state.msgcp}
-              border={this.state.highlightcp}
-              keyUp={e => this.handleConfirmPassword(e)}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               handleChange={e => this.handleChange(e, "confirmPassword")}
               type={this.state.showPassword ? "text" : "password"}
+              validations={{
+                equalsField: "password1"
+              }}
+              validationErrors={{
+                equalsField: "Passwords do not match"
+              }}
+              required
             />
           </li>
 
           <li className={styles.subscribe}>
-            <input
-              disabled={!this.state.showFields}
-              onChange={e => this.chkTermsandC(e)}
-              type="checkbox"
+            <FormCheckbox
               id="subscribeemails"
+              name="subscribe"
+              disable={!this.state.showFields}
+              handleChange={e => this.chkTermsandC(e)}
+              label={[
+                "I agree to the ",
+                <Link
+                  key="subscribe"
+                  to="/customer-assistance/terms-conditions"
+                  target="_blank"
+                >
+                  Terms and Conditions
+                </Link>,
+                "*"
+              ]}
+              required="isFalse"
             />
-            <label htmlFor="subscribeemails">
-              I agree to the{" "}
-              <a href="/customer-assistance/terms-conditions" target="_blank">
-                Terms and Conditions
-              </a>
-              *
-            </label>
           </li>
           <li className={styles.subscribe}>
-            <input
-              disabled={!this.state.showFields}
-              type="checkbox"
+            <FormCheckbox
               id="subscrib"
+              name="terms"
+              disable={!this.state.showFields}
+              label={[
+                "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
+                <Link
+                  key="terms"
+                  to="/customer-assistance/privacy-policy"
+                  target="_blank"
+                >
+                  Privacy Policy
+                </Link>
+              ]}
             />
-            <label htmlFor="subscrib">
-              I agree to receiving e-mails, calls and text messages for service
-              related information. To know more how we keep your data safe,
-              refer to our{" "}
-              <a href="/customer-assistance/privacy-policy" target="_blank">
-                Privacy Policy
-              </a>{" "}
-            </label>
           </li>
           <li>
             <p
@@ -995,7 +861,7 @@ class RegisterForm extends React.Component<Props, State> {
             />
           </li>
         </ul>
-      </form>
+      </Formsy>
     );
     const footer = (
       <>

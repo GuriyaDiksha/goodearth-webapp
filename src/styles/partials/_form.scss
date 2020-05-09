@@ -34,14 +34,14 @@
 }
 
 .disabled-input {
-  background-color: tint(#000, 95%) !important;
+  background-color: $disabled-input !important;
   color: tint(#000, 50%);
-  &input, input {
-  background-color: tint(#000, 95%) !important;
+  &input, input, select {
+  background-color: $disabled-input !important;
   color: tint(#000, 50%);
   }
   .Dropdown-control {
-  background-color: tint(#000, 95%) !important;
+  background-color: $disabled-input !important;
     color: tint(#000, 50%);
   }
 }
