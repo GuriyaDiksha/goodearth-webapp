@@ -64,7 +64,6 @@ const WallpaperFAQ: React.FC<Props> = ({ mobile }) => {
                 bodyClassName={styles.accordionText}
                 openIconClass={styles.openIcon}
                 closedIconClass={styles.closeIcon}
-                defaultOpen="0"
               />
             </div>
           )}

@@ -22,7 +22,7 @@ body {
   @include scrollbar();
 }
 
-*:focus, *:active, *:visited {
+button:focus, button:active, button:visited, *:focus, *:active, *:visited {
   outline: none;
   -webkit-outline: none;
 }
@@ -36,7 +36,7 @@ li {
 }
 
 a {
-  color: inherit;
+  color: $cerise;
   cursor: pointer;
   &:hover,
   &:active,

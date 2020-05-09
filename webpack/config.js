@@ -42,7 +42,7 @@ const fileNamePattern = env === "production" ? '[name].[contenthash]' : '[name]'
 let config = [
     {
         mode: env,
-        devtool: (true || env === "production")? undefined : '#cheap-module-source-map',
+        devtool: env === "production"? undefined : '#cheap-module-source-map',
         context: context,
         optimization: {
             minimize: env === "production",
@@ -169,7 +169,7 @@ let config = [
     {
         mode: env,
         target: 'node',
-        // devtool: env === "production"? undefined : '#cheap-module-source-map',
+        devtool: env === "production"? undefined : '#cheap-module-source-map',
         context: context,
         node: {
             __filename: false,

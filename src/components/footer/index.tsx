@@ -87,223 +87,354 @@ class Footer extends React.Component<Props, FooterState> {
 
   render() {
     return (
-      <div id="footer-start" className={cs(bootstrap.row)}>
-        <div
-          className={`${
-            this.state.hideImage
-              ? ""
-              : cs(styles.footerTop, bootstrap.colMd12, bootstrap.py4)
-          } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
-        >
-          <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
-            <div className={cs(bootstrap.col1, bootstrap.colSm3)}></div>
-            <div className={cs(bootstrap.col10, bootstrap.colSm6)}>
-              <div className={cs(styles.ftrHeadingWhite)}>be in the know</div>
-              <div className={cs(styles.ftrCopyWhiteDesktop)}>
-                By signing up for alerts, you agree to receive e-mails, calls
-                and text messages from Goodearth. To know more how we keep your
-                data safe, refer to our{" "}
-                <Link to="/customer-assistance/privacy-policy">
-                  Privacy Policy
-                </Link>
-              </div>
-              <div
-                className={cs(
-                  bootstrap.colSm6,
-                  bootstrap.offsetSm3,
-                  styles.voffset3
-                )}
-              >
-                <div className={cs(styles.formFooter)}>
-                  <input
-                    type="text"
-                    className={cs(styles.backgroundWhite)}
-                    placeholder="enter email address"
-                    autoComplete="new-password"
-                    id="newsletter"
-                    onKeyUp={this.SetNewsletterEmail}
-                  />
-                  <div
-                    className={cs(styles.arrowRight)}
-                    onClick={this.makeNewsletterSignupRequest}
-                  ></div>
+      <div className={bootstrap.containerFluid}>
+        <div id="footer-start" className={bootstrap.row}>
+          <div
+            className={`${
+              this.state.hideImage
+                ? ""
+                : cs(styles.footerTop, bootstrap.colMd12, bootstrap.py4)
+            } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
+          >
+            <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
+              <div className={cs(bootstrap.col1, bootstrap.colSm3)}></div>
+              <div className={cs(bootstrap.col10, bootstrap.colSm6)}>
+                <div className={cs(styles.ftrHeadingWhite)}>be in the know</div>
+                <div className={cs(styles.ftrCopyWhiteDesktop)}>
+                  By signing up for alerts, you agree to receive e-mails, calls
+                  and text messages from Goodearth. To know more how we keep
+                  your data safe, refer to our{" "}
+                  <Link to="/customer-assistance/privacy-policy">
+                    Privacy Policy
+                  </Link>
                 </div>
-              </div>
-              <div
-                className={cs(
-                  bootstrap.colSm6,
-                  bootstrap.offsetSm3,
-                  styles.voffset1
-                )}
-              >
-                <div className={cs(styles.errorMsg)}>
-                  {this.state.newsletterMessage}{" "}
-                </div>
-              </div>
-            </div>
-            <div className={cs(bootstrap.col1, bootstrap.colSm3)}></div>
-          </div>
-        </div>
-        <div
-          className={`${
-            this.state.hideImage ? "" : cs(styles.footer, bootstrap.colMd12)
-          } ${this.props.saleStatus ? cs(styles.footerSale20) : ""}`}
-        >
-          <div className={cs(globalStyles.minimumWidth)}>
-            <div className={cs(bootstrap.row)}>
-              {this.props.mobile ? (
                 <div
                   className={cs(
-                    bootstrap.col12,
-                    styles.hiddenLg,
-                    styles.hiddenMd
+                    bootstrap.colSm6,
+                    bootstrap.offsetSm3,
+                    styles.voffset3
                   )}
                 >
-                  <div className={cs(bootstrap.col10, bootstrap.offset1)}>
-                    <ul
-                      className={
-                        this.props.saleStatus
-                          ? cs(styles.mainMenuFooterSale)
-                          : cs(styles.mainMenuFooter)
-                      }
-                    >
-                      {this.props.data.footerList.map(
-                        (list: FooterList, i: number) => {
-                          return (
-                            <li key={i}>
-                              <span
-                                className={`${
-                                  this.state.isOpened &&
-                                  this.state.currentIndex == i
-                                    ? cs(styles.detailShow)
-                                    : cs(styles.detail)
-                                } ${
-                                  this.props.saleStatus ? cs(styles.cerise) : ""
-                                }`}
-                                onClick={() => {
-                                  this.subMenu(i);
-                                }}
-                              >
-                                {" "}
-                                {list.name}{" "}
-                              </span>
-                              <ul
-                                className={
-                                  this.state.isOpened &&
-                                  this.state.currentIndex == i
-                                    ? ""
-                                    : cs(styles.hidden)
-                                }
-                              >
-                                {list.value.map(
-                                  (currentValue: List, j: number) => {
-                                    if (this.props.saleStatus == true) {
-                                      return false;
-                                    }
-                                    if (
-                                      list.name == "Help" ||
-                                      list.name == "Services"
-                                    ) {
-                                      return (
-                                        <li key={j}>
-                                          <Link to={currentValue.link}>
-                                            {currentValue.text}
-                                          </Link>
-                                        </li>
-                                      );
-                                    } else {
-                                      return (
-                                        <li key={j}> {currentValue.text} </li>
-                                      );
-                                    }
-                                  }
-                                )}{" "}
-                              </ul>
-                            </li>
-                          );
-                        }
-                      )}
-                    </ul>
+                  <div className={cs(styles.formFooter)}>
+                    <input
+                      type="text"
+                      className={cs(styles.backgroundWhite)}
+                      placeholder="enter email address"
+                      autoComplete="new-password"
+                      id="newsletter"
+                      onKeyUp={this.SetNewsletterEmail}
+                    />
+                    <div
+                      className={cs(styles.arrowRight)}
+                      onClick={this.makeNewsletterSignupRequest}
+                    ></div>
                   </div>
                 </div>
-              ) : (
-                ""
-              )}
-
-              {this.props.mobile ? (
-                ""
-              ) : (
                 <div
-                  className={
-                    this.props.saleStatus
-                      ? cs(
-                          styles.voffset5,
-                          styles.mainMenuFooterSale,
-                          styles.hiddenXs,
-                          styles.hiddenSm,
-                          bootstrap.colMd12
-                        )
-                      : cs(
-                          styles.voffset5,
-                          styles.mainMenuFooter,
-                          styles.hiddenXs,
-                          styles.hiddenSm,
-                          bootstrap.colMd12
-                        )
-                  }
+                  className={cs(
+                    bootstrap.colSm6,
+                    bootstrap.offsetSm3,
+                    styles.voffset1
+                  )}
                 >
-                  <div className={cs(bootstrap.row, bootstrap.px5)}>
-                    <div className={cs(bootstrap.colMd3, bootstrap.px2)}>
-                      <ul>
-                        <li>find us on</li>
-                        <li className={cs(styles.footerSocialicons)}>
-                          <Link
-                            to="http://www.facebook.com/goodearthindia"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <i
-                              className={cs(
-                                iconStyles.icon,
-                                iconStyles.iconFooterFb,
-                                styles.footerIcon
-                              )}
-                            ></i>
-                          </Link>
-                          <Link
-                            to="http://www.instagram.com/goodearthindia"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <i
-                              className={cs(
-                                iconStyles.icon,
-                                iconStyles.iconFooterInstagram,
-                                styles.footerIcon
-                              )}
-                            ></i>
-                          </Link>
-                          <Link
-                            to="http://pinterest.com/goodearthindia/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <i
-                              className={cs(
-                                iconStyles.icon,
-                                iconStyles.iconFooterPinterest,
-                                styles.footerIcon
-                              )}
-                            ></i>
-                          </Link>
-                        </li>
+                  <div className={cs(styles.errorMsg)}>
+                    {this.state.newsletterMessage}{" "}
+                  </div>
+                </div>
+              </div>
+              <div className={cs(bootstrap.col1, bootstrap.colSm3)}></div>
+            </div>
+          </div>
+          <div
+            className={`${
+              this.state.hideImage ? "" : cs(styles.footer, bootstrap.colMd12)
+            } ${this.props.saleStatus ? cs(styles.footerSale20) : ""}`}
+          >
+            <div className={cs(globalStyles.minimumWidth)}>
+              <div className={cs(bootstrap.row)}>
+                {this.props.mobile ? (
+                  <div
+                    className={cs(
+                      bootstrap.col12,
+                      styles.hiddenLg,
+                      styles.hiddenMd
+                    )}
+                  >
+                    <div className={cs(bootstrap.col10, bootstrap.offset1)}>
+                      <ul
+                        className={
+                          this.props.saleStatus
+                            ? cs(styles.mainMenuFooterSale)
+                            : cs(styles.mainMenuFooter)
+                        }
+                      >
+                        {this.props.data.footerList.map(
+                          (list: FooterList, i: number) => {
+                            return (
+                              <li key={i}>
+                                <span
+                                  className={`${
+                                    this.state.isOpened &&
+                                    this.state.currentIndex == i
+                                      ? cs(styles.detailShow)
+                                      : cs(styles.detail)
+                                  } ${
+                                    this.props.saleStatus
+                                      ? cs(styles.cerise)
+                                      : ""
+                                  }`}
+                                  onClick={() => {
+                                    this.subMenu(i);
+                                  }}
+                                >
+                                  {" "}
+                                  {list.name}{" "}
+                                </span>
+                                <ul
+                                  className={
+                                    this.state.isOpened &&
+                                    this.state.currentIndex == i
+                                      ? ""
+                                      : cs(styles.hidden)
+                                  }
+                                >
+                                  {list.value.map(
+                                    (currentValue: List, j: number) => {
+                                      if (this.props.saleStatus == true) {
+                                        return false;
+                                      }
+                                      if (
+                                        list.name == "Help" ||
+                                        list.name == "Services"
+                                      ) {
+                                        return (
+                                          <li key={j}>
+                                            <Link to={currentValue.link}>
+                                              {currentValue.text}
+                                            </Link>
+                                          </li>
+                                        );
+                                      } else {
+                                        return (
+                                          <li key={j}> {currentValue.text} </li>
+                                        );
+                                      }
+                                    }
+                                  )}{" "}
+                                </ul>
+                              </li>
+                            );
+                          }
+                        )}
                       </ul>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {this.props.mobile ? (
+                  ""
+                ) : (
+                  <div
+                    className={
+                      this.props.saleStatus
+                        ? cs(
+                            styles.voffset5,
+                            styles.mainMenuFooterSale,
+                            styles.hiddenXs,
+                            styles.hiddenSm,
+                            bootstrap.colMd12
+                          )
+                        : cs(
+                            styles.voffset5,
+                            styles.mainMenuFooter,
+                            styles.hiddenXs,
+                            styles.hiddenSm,
+                            bootstrap.colMd12
+                          )
+                    }
+                  >
+                    <div className={cs(bootstrap.row, bootstrap.px5)}>
+                      <div className={cs(bootstrap.colMd3, bootstrap.px2)}>
+                        <ul>
+                          <li>find us on</li>
+                          <li className={cs(styles.footerSocialicons)}>
+                            <Link
+                              to="http://www.facebook.com/goodearthindia"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i
+                                className={cs(
+                                  iconStyles.icon,
+                                  iconStyles.iconFooterFb,
+                                  styles.footerIcon
+                                )}
+                              ></i>
+                            </Link>
+                            <Link
+                              to="http://www.instagram.com/goodearthindia"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i
+                                className={cs(
+                                  iconStyles.icon,
+                                  iconStyles.iconFooterInstagram,
+                                  styles.footerIcon
+                                )}
+                              ></i>
+                            </Link>
+                            <Link
+                              to="http://pinterest.com/goodearthindia/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <i
+                                className={cs(
+                                  iconStyles.icon,
+                                  iconStyles.iconFooterPinterest,
+                                  styles.footerIcon
+                                )}
+                              ></i>
+                            </Link>
+                          </li>
+                        </ul>
+                        {this.props.saleStatus ? (
+                          ""
+                        ) : (
+                          <ul className={cs(styles.footerPlaylist)}>
+                            <li>
+                              {" "}
+                              {this.props.data.footerPlaylistData.ctaText}
+                            </li>
+                            <li>
+                              <Link
+                                to={this.props.data.footerPlaylistData.ctaUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {" "}
+                                <img
+                                  src={
+                                    this.props.data.footerPlaylistData.ctaImage
+                                  }
+                                  className={cs(styles.imgResponsive)}
+                                />{" "}
+                              </Link>
+                            </li>
+                          </ul>
+                        )}
+                      </div>
+                      {this.props.data.footerList.map((footerItems, index) => (
+                        <div
+                          key={index}
+                          className={cs(bootstrap.colMd3, bootstrap.px2)}
+                        >
+                          <ul>
+                            <li>{footerItems.name}</li>
+                            {footerItems.value.map((Item, index) => (
+                              <li key={index}>
+                                {Item.link !== "" ? (
+                                  <Link to={Item.link}>{Item.text}</Link>
+                                ) : (
+                                  Item.text
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className={cs(bootstrap.row)}>
+                <div className={cs(bootstrap.col1)}></div>
+                <div className={cs(bootstrap.col10)}>
+                  <ShopLocator
+                    goToShopLocator={this.goToShopLocator}
+                    saleStatus={this.props.saleStatus}
+                    onChangeText={this.onChangeText}
+                    shopLocations={this.props.data.shopLocations}
+                  />
+                  {this.props.mobile ? (
+                    <div
+                      className={cs(
+                        {
+                          [styles.footerSocialiconsSale]: this.props.saleStatus
+                        },
+                        { [styles.footerSocialicons]: !this.props.saleStatus }
+                      )}
+                    >
+                      <div
+                        className={cs(
+                          {
+                            [styles.ftrHeadingWhiteSale]: this.props.saleStatus
+                          },
+                          { [styles.ftrHeadingWhite]: !this.props.saleStatus }
+                        )}
+                      >
+                        find us on
+                      </div>
+                      <div className={cs(styles.ftrHeadingWhite)}>
+                        <Link
+                          to="http://www.facebook.com/goodearthindia"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconFooterFb,
+                              styles.footerIcon
+                            )}
+                          ></i>
+                        </Link>
+                        <Link
+                          to="http://www.instagram.com/goodearthindia"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconFooterInstagram,
+                              styles.footerIcon
+                            )}
+                          ></i>
+                        </Link>
+                        <Link
+                          to="http://pinterest.com/goodearthindia/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconFooterPinterest,
+                              styles.footerIcon
+                            )}
+                          ></i>
+                        </Link>
+                      </div>
                       {this.props.saleStatus ? (
                         ""
                       ) : (
-                        <ul className={cs(styles.footerPlaylist)}>
-                          <li> {this.props.data.footerPlaylistData.ctaText}</li>
-                          <li>
+                        <div>
+                          <div
+                            className={
+                              this.props.saleStatus
+                                ? cs(styles.ftrHeading80blkSale)
+                                : cs(styles.ftrHeadingWhite)
+                            }
+                          >
+                            {" "}
+                            {this.props.data.footerPlaylistData.ctaText}
+                          </div>
+                          <div className={cs(styles.textCenter)}>
                             <Link
                               to={this.props.data.footerPlaylistData.ctaUrl}
                               target="_blank"
@@ -314,147 +445,30 @@ class Footer extends React.Component<Props, FooterState> {
                                 src={
                                   this.props.data.footerPlaylistData.ctaImage
                                 }
-                                className={cs(styles.imgResponsive)}
+                                className={cs(globalStyles.width250)}
                               />{" "}
                             </Link>
-                          </li>
-                        </ul>
+                          </div>
+                        </div>
                       )}
                     </div>
-                    {this.props.data.footerList.map((footerItems, index) => (
-                      <div
-                        key={index}
-                        className={cs(bootstrap.colMd3, bootstrap.px2)}
-                      >
-                        <ul>
-                          <li>{footerItems.name}</li>
-                          {footerItems.value.map((Item, index) => (
-                            <li key={index}>
-                              {Item.link !== "" ? (
-                                <Link to={Item.link}>{Item.text}</Link>
-                              ) : (
-                                Item.text
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
-              )}
-            </div>
 
-            <div className={cs(bootstrap.row)}>
-              <div className={cs(bootstrap.col1)}></div>
-              <div className={cs(bootstrap.col10)}>
-                <ShopLocator
-                  goToShopLocator={this.goToShopLocator}
-                  saleStatus={this.props.saleStatus}
-                  onChangeText={this.onChangeText}
-                  shopLocations={this.props.data.shopLocations}
-                />
-                {this.props.mobile ? (
-                  <div
-                    className={cs(
-                      { [styles.footerSocialiconsSale]: this.props.saleStatus },
-                      { [styles.footerSocialicons]: !this.props.saleStatus }
-                    )}
-                  >
-                    <div
-                      className={cs(
-                        { [styles.ftrHeadingWhiteSale]: this.props.saleStatus },
-                        { [styles.ftrHeadingWhite]: !this.props.saleStatus }
-                      )}
-                    >
-                      find us on
-                    </div>
-                    <div className={cs(styles.ftrHeadingWhite)}>
-                      <Link
-                        to="http://www.facebook.com/goodearthindia"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconFooterFb,
-                            styles.footerIcon
-                          )}
-                        ></i>
-                      </Link>
-                      <Link
-                        to="http://www.instagram.com/goodearthindia"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconFooterInstagram,
-                            styles.footerIcon
-                          )}
-                        ></i>
-                      </Link>
-                      <Link
-                        to="http://pinterest.com/goodearthindia/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconFooterPinterest,
-                            styles.footerIcon
-                          )}
-                        ></i>
-                      </Link>
-                    </div>
-                    {this.props.saleStatus ? (
-                      ""
-                    ) : (
-                      <div>
-                        <div
-                          className={
-                            this.props.saleStatus
-                              ? cs(styles.ftrHeading80blkSale)
-                              : cs(styles.ftrHeadingWhite)
-                          }
-                        >
-                          {" "}
-                          {this.props.data.footerPlaylistData.ctaText}
-                        </div>
-                        <div className={cs(styles.textCenter)}>
-                          <Link
-                            to={this.props.data.footerPlaylistData.ctaUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {" "}
-                            <img
-                              src={this.props.data.footerPlaylistData.ctaImage}
-                              className={cs(globalStyles.width250)}
-                            />{" "}
-                          </Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  ""
-                )}
+                <div className={cs(bootstrap.col1)}></div>
               </div>
-
-              <div className={cs(bootstrap.col1)}></div>
             </div>
           </div>
-        </div>
 
-        <div className={cs(styles.footerBottom, bootstrap.colMd12)}>
-          <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
-            <div className={cs(bootstrap.colSm12, styles.textCenter)}>
-              All rights reserved | &copy; {new Date().getFullYear().toString()}{" "}
-              Goodearth Design Studio Private Limited
+          <div className={cs(styles.footerBottom, bootstrap.colMd12)}>
+            <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
+              <div className={cs(bootstrap.colSm12, styles.textCenter)}>
+                All rights reserved | &copy;{" "}
+                {new Date().getFullYear().toString()} Goodearth Design Studio
+                Private Limited
+              </div>
             </div>
           </div>
         </div>

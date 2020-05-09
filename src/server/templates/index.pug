@@ -7,33 +7,7 @@ html(lang='en')
         if (typeof(state) !== 'undefined')
           script.
             window.state = !{state}
-        //- script.
-        //-   window.clientTime = (new Date).getTime()
-        //-   window.onload = function() {
-        //-     var styleSheets = ["#{styleSheets}"];
-        //-     var head = document.getElementsByTagName('head')[0];
-        //-     styleSheets.map(function (v) {
-        //-       var link = document.createElement('link');
-        //-       link.rel = 'stylesheet';
-        //-       link.href = v;
-        //-       link.type = 'text/css';
-        //-       head.appendChild(link);
-        //-     });
-        //-   }
-
-        
-        //- script.
-        //-   (function() {
-        //-     if('serviceWorker' in navigator) {
-        //-       window.addEventListener('load', () => {
-        //-         navigator.serviceWorker.register('/sw.js').catch(registrationError => {
-        //-             console.error(registrationError)
-        //-         })
-        //-       })
-        //-     }
-        //-   })()
 
     body
         div(id='main', class='main') !{content}
-        
-        #{scripts}
+        div !{scripts}
