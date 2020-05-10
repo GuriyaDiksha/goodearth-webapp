@@ -54,17 +54,8 @@ class LoginForm extends React.Component<Props, State> {
       successMsg: "",
       showPassword: false
     };
-    // this.checkMailValidation = this.checkMailValidation.bind(this);
-    // this.disablePassword = this.disablePassword.bind(this);
-    // this.onChange = this.onChange.bind(this);
-    // this.handleResetPassword = this.handleResetPassword.bind(this);
-    // this.togglePassword = this.togglePassword.bind(this);
-    // this.goRegister = this.goRegister.bind(this);
-    // this.goForgotPassword = this.goForgotPassword.bind(this);
   }
   static contextType = Context;
-  // emailRef: RefObject<InputField> = React.createRef();
-  // passwordRef: RefObject<InputField> = React.createRef();
   emailInput: RefObject<HTMLInputElement> = React.createRef();
   passwordInput: RefObject<HTMLInputElement> = React.createRef();
   async checkMailValidation() {
@@ -119,91 +110,96 @@ class LoginForm extends React.Component<Props, State> {
   }
 
   handleResetPassword(event: React.MouseEvent) {
-    //     event.preventDefault();
-    //     let formData = new FormData();
-    //     formData.append('email', this.refs.emailRef.state.value);
-    //     axios.post(Config.hostname+'myapi/reset_password/', formData
-    //     ).then((res) => {
-    //         this.setState({
-    //             highlight: false,
-    //             msg: '',
-    //             successMsg: res.data.success,
-    //         });
-    //     }).catch((err) => {
-    //         console.log("err: " + err.response.data.email[0 ]);
-    //         this.setState({
-    //             highlight: true,
-    //             msg: err.response.data.email[0],
-    //         })
-    //     })
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("email", this.state.email || "");
+    LoginService.resetPassword(formData)
+      .then(res => {
+        this.setState({
+          highlight: false,
+          msg: "",
+          successMsg: res.data.success
+        });
+      })
+      .catch(err => {
+        console.log("err: " + err.response.data.email[0]);
+        this.setState({
+          highlight: true,
+          msg: err.response.data.email[0]
+        });
+      });
   }
 
-  // componentDidMount() {
-  //     if(window.temp_email) {
-  //         this.refs.emailRef.state.value = window.temp_email;
-  //         this.setState({});
-  //     }
-  //     this.refs.emailRef.refs.emailInput.focus();
-  //     window.temp_email = '';
-  // }
+  componentDidMount() {
+    // if(window.temp_email) {
+    //     this.refs.emailRef.state.value = window.temp_email;
+    //     this.setState({});
+    // }
+    this.emailInput.current && this.emailInput.current.focus();
+    // window.temp_email = '';
+  }
 
-  async handleSubmit(event: React.FormEvent) {
+  handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     this.myBlur(undefined, "submit");
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       // window.email_goodearth = this.refs.emailRef.state.value;
 
-      const res = await LoginService.login(
-        this.state.email || "",
-        this.state.password || ""
-      );
-      if (res.status === 200) {
-        // window.dataLayer.push({
-        //     'event': 'eventsToSend',
-        //     'eventAction': 'signIn',
-        //     'eventCategory': 'formSubmission',
-        //     'eventLabel': location.pathname
-        // });
-        if (this.props.loginclick == "bridal") {
-          location.href = "/accountpage?mod=bridal";
-        } else if (this.props.loginclick == "cart") {
-          const parameter = location.search.split("loginpopup=abandoncart")[1];
-          if (parameter) {
-            location.href = "/cart/" + "?" + parameter;
-          } else {
-            location.href = "/cart/";
+      LoginService.login(this.state.email || "", this.state.password || "")
+        .then(res => {
+          if (res.status === 200) {
+            // window.dataLayer.push({
+            //     'event': 'eventsToSend',
+            //     'eventAction': 'signIn',
+            //     'eventCategory': 'formSubmission',
+            //     'eventLabel': location.pathname
+            // });
+            // if (this.props.loginclick == "bridal") {
+            //   location.href = "/accountpage?mod=bridal";
+            // } else if (this.props.loginclick == "cart") {
+            //   const parameter = location.search.split("loginpopup=abandoncart")[1];
+            //   if (parameter) {
+            //     location.href = "/cart/" + "?" + parameter;
+            //   } else {
+            //     location.href = "/cart/";
+            //   }
+            // } else if (this.props.loginclick == "profile") {
+            //   location.href = "/accountpage?mod=profile";
+            // } else if (this.props.loginclick == "cerise") {
+            //   if (res.data.customer_slab) {
+            //     location.href = "/accountpage?mod=cerise";
+            //   } else {
+            //     location.href = "/cerise";
+            //   }
+            // } else {
+            //   document.location.reload();
+            // }
+            this.context.closeModal();
+            window.scrollTo(0, 0);
           }
-        } else if (this.props.loginclick == "profile") {
-          location.href = "/accountpage?mod=profile";
-        } else if (this.props.loginclick == "cerise") {
-          if (res.data.customer_slab) {
-            location.href = "/accountpage?mod=cerise";
+        })
+        .catch(err => {
+          console.log("err: " + err);
+          if (err.response.data.non_field_errors[0] == "NotEmail") {
+            // window.register_email = this.refs.emailRef.state.value;
+            this.setState({
+              msg: [
+                "No registered user found. Please ",
+                <span key="signin-email-error" onClick={this.goRegister}>
+                  Sign Up
+                </span>
+              ],
+              highlight: true
+            });
           } else {
-            location.href = "/cerise";
+            // window.register_email = '';
+            this.setState({
+              showerror:
+                "The user name and/or password you have entered is incorrect"
+            });
           }
-        } else {
-          // document.location.reload();
-          this.context.closeModal();
-          window.scrollTo(0, 0);
-        }
-      }
-      // }).catch((err) => {
-      //     console.log("err: " + err);
-      //     if (err.response.data.non_field_errors[0] == 'NotEmail') {
-      //         window.register_email = this.refs.emailRef.state.value;
-      //         this.setState({
-      //             msg: ["No registered user found. Please ", <span onClick={this.goRegister}>Sign Up</span>],
-      //             highlight: true
-      //         })
-      //     } else {
-      //         window.register_email = '';
-      //         this.setState({
-      //             showerror: 'The user name and/or password you have entered is incorrect',
-      //         })
-      //     }
-
-      // })
+        });
     }
   }
 

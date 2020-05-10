@@ -11,7 +11,6 @@ import { updateComponent, updateModal } from "../../actions/modal";
 import store from "../../client";
 import Axios from "axios";
 import CookieService from "services/cookie";
-// import { checkuserpasswordResponse } from "./typings";
 
 export default {
   showForgotPassword: function(event?: React.MouseEvent): void {
@@ -59,8 +58,6 @@ export default {
       "email=" +
       res.data.email +
       "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    // document.cookie = "bridal_id=" + res.data.bridal_id + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    // document.cookie = "bridal_currency=" + res.data.bridal_currency + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     const cookies = CookieService.parseCookies(document.cookie);
     store.dispatch(updateCookies(cookies));
     initAction(store);
@@ -86,5 +83,27 @@ export default {
       // initAction(store);
       return res;
     }
+  },
+  register: async function(formData: FormData) {
+    const res = await Axios.post(
+      "http://api.goodearth.in/myapi/auth/register/",
+      formData
+    );
+    document.cookie =
+      "tkn=" +
+      res.data.token +
+      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+    document.cookie =
+      "user_id=" +
+      res.data.user_id +
+      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+    document.cookie =
+      "email=" +
+      res.data.email +
+      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+    const cookies = CookieService.parseCookies(document.cookie);
+    store.dispatch(updateCookies(cookies));
+    initAction(store);
+    return res;
   }
 };

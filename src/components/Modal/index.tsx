@@ -30,10 +30,6 @@ class Modal extends React.Component<ModalProps> {
     changeModalState(false);
   };
 
-  componentDidMount() {
-    document.body.classList.add(styles.noscroll);
-  }
-
   componentDidUpdate(prevProps: Props) {
     if (this.props.openModal) {
       if (!prevProps.openModal) {
@@ -46,10 +42,6 @@ class Modal extends React.Component<ModalProps> {
         document.documentElement.scrollTop = this.prevScroll;
       }
     }
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove(styles.noscroll);
   }
 
   render() {

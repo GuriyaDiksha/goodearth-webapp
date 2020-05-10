@@ -11,7 +11,6 @@ import Axios from "axios";
 type Props = {
   code?: string;
   error?: string;
-  setCode: (data: string) => void;
   blur?: () => void;
   border?: boolean;
   id: string;
@@ -96,7 +95,6 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = (
 
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     props.setValue(newValue);
-    props.setCode && props.setCode(newValue);
   };
 
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {

@@ -16,7 +16,7 @@ export type Props = {
   isPaste?: boolean;
   inputClass?: string;
   disablePassword?: () => void;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   keyPress?: (event: React.KeyboardEvent) => void;
   keyUp?: (event: React.KeyboardEvent) => void;
   min?: number | string;

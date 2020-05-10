@@ -43,13 +43,13 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = (
     switch (name) {
       case "email":
         return "";
-      case "first_name":
+      case "firstName":
         return "Please Enter First Name";
-      case "last_name":
+      case "lastName":
         return "Please Enter Last Name";
       case "dateOfBirth":
         return "Please enter valid date of birth";
-      case "phone_no":
+      case "phoneNo":
         return "";
       case "password1":
         return "Please enter at least 6 characters for the password";
