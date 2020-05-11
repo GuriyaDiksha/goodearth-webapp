@@ -30,7 +30,7 @@
     // }
 
     &.unavailable {
-      color: tint(#000, 70%) !important;
+      color: tint(#000, 70%);
       text-decoration: line-through;
 
       &:hover {
@@ -41,5 +41,6 @@
     &.selected {
         border: 1px solid $cerise;
         background-color: white;
+        color: $cerise;
     }
 }

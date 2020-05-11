@@ -25,6 +25,7 @@
   font-size: 36px;
   font-weight: 600;
   left: 0;
+  opacity: 1;
 }
 .slick-next:before {
   color: #fff;
@@ -35,6 +36,7 @@
   font-size: 36px;
   font-weight: 600;
   right: 0;
+  opacity: 1;
 }
 
 

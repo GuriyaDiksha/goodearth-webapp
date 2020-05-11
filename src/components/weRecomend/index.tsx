@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import cs from "classnames";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -56,7 +57,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             />
           </div>
         )}
-        <a href={item.productUrl}>
+        <Link to={item.productUrl}>
           <img
             src={
               item.productImage
@@ -65,11 +66,11 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             }
             className={cs(globalStyles.imgResponsive, styles.sliderImage)}
           />
-        </a>
+        </Link>
         <div className={styles.moreBlock}>
           <p className={styles.productH}>{item.collectionName}</p>
           <p className={styles.productN}>
-            <a href={item.productUrl}> {item.productName} </a>
+            <Link to={item.productUrl}> {item.productName} </Link>
           </p>
           <p className={styles.productN}>
             <span>

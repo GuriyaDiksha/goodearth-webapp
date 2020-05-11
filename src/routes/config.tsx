@@ -1,31 +1,19 @@
-import React from "react";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
 import Home from "containers/home";
+import PDPContainer, { initAction, metaAction } from "containers/pdp";
 import CollectionLanding, {
   initActionCollection
 } from "containers/collectionLanding";
 import CollectionSpecific, {
   initActionSpecific
 } from "containers/collectionSpecific";
-import PDPContainer, { initAction, metaAction } from "containers/pdp";
+import initActionPLP from "containers/plp/initAction";
+import PLP from "containers/plp";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
 
 const routes: RouteConfig = [
-  {
-    path: ROUTES.HOME,
-    component: () => <Home />,
-    action: async () => null,
-    exact: true
-  },
-  {
-    path: ROUTES.PDP,
-    component: PDPContainer,
-    action: initAction,
-    meta: metaAction,
-    exact: true
-  },
   {
     path: ROUTES.CollectionLanding,
     component: CollectionLanding,
@@ -36,6 +24,25 @@ const routes: RouteConfig = [
     path: ROUTES.CollectionSpecific,
     component: CollectionSpecific,
     action: initActionSpecific,
+    exact: true
+  },
+  {
+    path: ROUTES.PLP,
+    component: PLP,
+    action: initActionPLP,
+    exact: false
+  },
+  {
+    path: ROUTES.PDP,
+    component: PDPContainer,
+    action: initAction,
+    meta: metaAction,
+    exact: true
+  },
+  {
+    path: ROUTES.HOME,
+    component: Home,
+    action: async () => null,
     exact: true
   }
 ];

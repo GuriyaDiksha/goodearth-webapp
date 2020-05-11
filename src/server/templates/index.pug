@@ -1,0 +1,13 @@
+doctype html  
+html(lang='en')
+    head
+        meta(name="viewport",content="width=device-width, initial-scale=1")
+        each stylesheet in styles
+          style !{stylesheet}
+        if (typeof(state) !== 'undefined')
+          script.
+            window.state = !{state}
+
+    body
+        div(id='main', class='main') !{content}
+        div !{scripts}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import cs from "classnames";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -38,7 +39,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     ) : (
                       ""
                     )}
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <img
                         src={item.image || "/static/img/noimageplp.png"}
                         className={cs(
@@ -46,11 +47,11 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                           styles.sliderImage
                         )}
                       />
-                    </a>
+                    </Link>
                     <div className={styles.moreBlock}>
                       <p className={styles.productH}>{item.collection}</p>
                       <p className={styles.productN}>
-                        <a href={item.url}> {item.title} </a>
+                        <Link to={item.url}> {item.title} </Link>
                       </p>
                     </div>
                   </div>

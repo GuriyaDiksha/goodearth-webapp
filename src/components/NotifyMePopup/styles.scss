@@ -45,8 +45,11 @@
 }
 .qty-container {
     display: flex;
-    justify-content: center;
     margin-bottom: 20px;
+}
+
+.quantity-wrapper {
+    justify-content: center;
 }
 
 .email-input {

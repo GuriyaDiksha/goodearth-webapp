@@ -18,7 +18,7 @@ export const configureStore = (
 
   return createStore(
     createRootReducer(history),
-    {},
+    initialState || {},
     composeEnhancers(applyMiddleware(thunk, routerMiddleware(history)))
   );
 };

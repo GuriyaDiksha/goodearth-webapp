@@ -16,6 +16,7 @@ import mapDispatchToProps from "../../components/Modal/mapper/actions";
 
 const mapStateToProps = (state: AppState) => {
   return {
+    collectionIds: state.collection.collectionIds,
     collectionSpecficBanner: state.collection.collectionSpecficBanner,
     collectionSpecificData: state.collection.collectionSpecficdata,
     currency: state.currency,
@@ -27,8 +28,15 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class CollectionSpecific extends React.Component<Props, {}> {
   onClickQuickView = (id: number) => {
-    const { updateComponentModal, changeModalState } = this.props;
-    updateComponentModal(<Quickview id={id} />, true);
+    const {
+      updateComponentModal,
+      changeModalState,
+      collectionIds
+    } = this.props;
+    updateComponentModal(
+      <Quickview id={id} productListId={collectionIds} />,
+      true
+    );
     changeModalState(true);
   };
 

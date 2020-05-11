@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./styles.scss";
 import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -15,12 +16,12 @@ const CollectionImage: React.FC<CollectionDataProps> = (
     (image: string, i: number) => {
       return (
         <div key={i}>
-          <a href={data.url}>
+          <Link to={data.url || "#"}>
             <img
               src={image ? image : "/static/img/noimageplp.png"}
               className={styles.imgResponsiveImg}
             />
-          </a>
+          </Link>
         </div>
       );
     }
@@ -29,7 +30,7 @@ const CollectionImage: React.FC<CollectionDataProps> = (
     <div className={styles.row}>
       <Slider {...(setting as Settings)}>{childern}</Slider>
       <div className={styles.imgTxtBlock}>
-        <a href={data.url}>
+        <Link to={data.url || "#"}>
           <p>
             {data.name}&nbsp;
             <span className={styles.italic}>
@@ -48,7 +49,7 @@ const CollectionImage: React.FC<CollectionDataProps> = (
                 : data.shortDescription}
             </small>
           </p>
-        </a>
+        </Link>
       </div>
     </div>
   );

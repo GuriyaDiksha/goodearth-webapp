@@ -9,6 +9,7 @@ export type QuantityItem = {
   errorMsg?: string;
   disabled?: boolean;
   class?: string;
+  className?: string;
 };
 
 export interface State {

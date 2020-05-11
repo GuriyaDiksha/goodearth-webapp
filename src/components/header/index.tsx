@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SideMenu from "./sidemenu";
@@ -24,7 +25,8 @@ const mapStateToProps = (state: AppState) => {
     isLoggedIn: state.user.email ? true : false,
     wishlistData: state.wishlist.items,
     cart: state.basket,
-    message: state.message
+    message: state.message,
+    location: state.router.location
   };
 };
 
@@ -33,7 +35,6 @@ type Props = ReturnType<typeof mapStateToProps>;
 class Header extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const url = new URL(location.href);
     this.state = {
       show: false,
       showMenu: false,
@@ -41,7 +42,7 @@ class Header extends React.Component<Props, State> {
       showC: false,
       showP: false,
       activeIndex: 0,
-      urlParams: new URLSearchParams(url.search.slice(1))
+      urlParams: new URLSearchParams(props.location.search.slice(1))
     };
   }
 
@@ -132,9 +133,9 @@ class Header extends React.Component<Props, State> {
                 styles.logoContainer
               )}
             >
-              <a href="/">
+              <Link to="/">
                 <img className={styles.logo} src={gelogoCerise} />
-              </a>
+              </Link>
             </div>
             {this.props.mobile ? (
               ""
@@ -156,6 +157,7 @@ class Header extends React.Component<Props, State> {
                     });
                   }}
                   data={this.props.data}
+                  location={this.props.location}
                 />
               </div>
             )}
@@ -210,7 +212,10 @@ class Header extends React.Component<Props, State> {
                         : cs(styles.menuSlider, styles.mobileList)
                     }
                   >
-                    <Mobilemenu menudata={this.props.data} />
+                    <Mobilemenu
+                      menudata={this.props.data}
+                      location={this.props.location}
+                    />
                     <div className={styles.lowerMenu}>
                       <ul>
                         <li>
@@ -228,7 +233,9 @@ class Header extends React.Component<Props, State> {
                           className={
                             this.state.showC
                               ? cs(styles.currency, styles.before)
-                              : location.href.indexOf("/bridal/") > 0
+                              : this.props.location.pathname.indexOf(
+                                  "/bridal/"
+                                ) > 0
                               ? cs(styles.currency, styles.op3)
                               : styles.currency
                           }

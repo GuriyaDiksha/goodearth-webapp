@@ -12,17 +12,22 @@ import { AppState } from "reducers/typings";
 
 const initAction: any = async (store: Store) => {
   const state: AppState = store.getState();
+  let apiCalls = [
+    HeaderService.fetchHeaderDetails().then(header => {
+      store.dispatch(updateheader(header));
+    }),
+    HeaderService.fetchFooterDetails().then(footer => {
+      store.dispatch(updatefooter(footer));
+    })
+  ];
 
-  return Promise.all([
-    HeaderService.fetchHeaderDetails().then(header =>
-      store.dispatch(updateheader(header))
-    ),
-    HeaderService.fetchFooterDetails().then(footer =>
-      store.dispatch(updatefooter(footer))
-    ),
-    MetaService.updateMeta(store.dispatch, state.cookies),
-    WishlistService.updateWishlist(store.dispatch),
-    BasketService.fetchBasket(store.dispatch)
-  ]);
+  if (state.cookies.tkn) {
+    apiCalls = apiCalls.concat([
+      MetaService.updateMeta(store.dispatch, state.cookies),
+      WishlistService.updateWishlist(store.dispatch),
+      BasketService.fetchBasket(store.dispatch)
+    ]);
+  }
+  return Promise.all(apiCalls);
 };
 export default initAction;

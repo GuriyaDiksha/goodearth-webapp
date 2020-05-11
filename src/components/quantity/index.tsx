@@ -26,7 +26,7 @@ class Quantity extends React.Component<QuantityItem, State> {
 
     return (
       <>
-        <div className={styles.quantityWrap}>
+        <div className={cs(styles.quantityWrap, props.className)}>
           <span
             className={cs(styles.minusQuantity, styles.quantity, props.class)}
             onClick={(): void => {

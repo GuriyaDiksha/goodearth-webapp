@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { PLPResultItemProps } from "./typings";
 import styles from "./styles.scss";
 import { Currency, currencyCode } from "../../typings/currency";
@@ -60,7 +61,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         )}
-        <a href={product.url} onMouseEnter={onMouseEnter}>
+        <Link to={product.url} onMouseEnter={onMouseEnter}>
           <img
             src={image}
             className={styles.imageResultnew}
@@ -69,7 +70,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               e.target.src = noPlpImage;
             }}
           />
-        </a>
+        </Link>
         {!mobile && (
           <div className={styles.combodiv}>
             <div className={styles.imageHover}>
@@ -94,7 +95,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       <div className={styles.imageContent}>
         <p className={styles.collectionName}>{product.collections}</p>
         <p className={styles.productN}>
-          <a href={product.url}> {product.title} </a>
+          <Link to={product.url}> {product.title} </Link>
         </p>
         <p className={styles.productN}>
           <span>

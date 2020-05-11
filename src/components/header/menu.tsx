@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { MenuProps, HeaderData, MenuState } from "./typings";
 import styles from "./styles.scss";
 
@@ -22,13 +23,14 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
   };
 
   render() {
-    const { data } = this.props;
+    const { data, location } = this.props;
     return (
       <ul className={styles.menuContainer}>
         {data.map((data: HeaderData, i: number) => {
-          const isBridalRegistryPage = location.href.indexOf("/bridal/") > 0;
+          const isBridalRegistryPage =
+            location.pathname.indexOf("/bridal/") > 0;
           const disbaleClass =
-            location.href.indexOf("/bridal/") > 0
+            location.pathname.indexOf("/bridal/") > 0
               ? styles.iconStyleDisabled
               : "";
           const highlightStories =
@@ -52,8 +54,8 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
                 this.props.ipad ? "" : this.mouseLeave(i);
               }}
             >
-              <a
-                href={
+              <Link
+                to={
                   isBridalRegistryPage
                     ? "javascript:void(0)"
                     : data.catLandingUrl
@@ -66,7 +68,7 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
                 }
               >
                 {data.name}
-              </a>
+              </Link>
             </li>
           ) : (
             ""

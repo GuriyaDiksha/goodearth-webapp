@@ -42,8 +42,11 @@ $pdp-top: $header-height + $secondary-header-height;
     color: #FFFFFF;
     text-align: center;
     font-size: 11px;
+    text-transform: uppercase;
 
     img {
         width: 25px;
+        margin: 0 auto;
+        padding-bottom: 3px;
     }
 }

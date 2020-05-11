@@ -42,7 +42,9 @@ const BaseDropdownMenu = ({
           ""
         )}
       </div>
-      <div className={cl(styles.menu, styles[align])}>{children}</div>
+      <div className={cl(styles.menu, styles[align])}>
+        <ul>{children}</ul>
+      </div>
     </div>
   );
 };

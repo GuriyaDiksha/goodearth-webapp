@@ -183,6 +183,7 @@ const NotifyMePopup: React.FC<Props> = ({
             onChange={onQuantityChange}
             errorMsg={selectedSize ? "Available qty in stock is" : ""}
             disabled={selectedSize && selectedSize.stock == 0}
+            className={styles.quantityWrapper}
           />
         </div>
         {selectedSize && selectedSize.stock === 0 && (
