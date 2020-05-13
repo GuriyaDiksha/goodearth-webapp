@@ -6,7 +6,7 @@ import PlpService from "services/plp";
 // import { getParamsFromString } from "utils/url.ts";
 
 const initActionPLP: InitAction = async (dispatch, params, { search }) => {
-  await PlpService.fetchPlpProducts(dispatch, search);
+  await PlpService.onLoadPlpPage(dispatch, search);
 };
 
 export default initActionPLP;

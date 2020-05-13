@@ -60,7 +60,7 @@ const DropdownMenu = ({
   };
   return (
     <BaseDropdownMenu {...menuProps}>
-      <ul>{getMenuItems()}</ul>
+      <div>{getMenuItems()}</div>
     </BaseDropdownMenu>
   );
 };

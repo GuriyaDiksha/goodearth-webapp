@@ -10,6 +10,9 @@ import { PlpProps } from "containers/plp/typings";
 export const updateProduct = (plpList: PlpProps) =>
   actionCreator("ADD_PLP_LIST", plpList);
 
+export const newPlpList = (plpList: PlpProps) =>
+  actionCreator("NEW_PLP_LIST", plpList);
+
 export const updateFacets = (data: any) => actionCreator("UPDATE_FACET", data);
 
 export const updateFilterState = (data: boolean) =>
