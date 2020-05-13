@@ -83,8 +83,12 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
     }
   };
 
-  let cls = props.errorMessage ? globalStyles.errorBorder : "";
-  cls += props.disable ? styles.disabledInput : "";
+  const cls = cs(
+    { [globalStyles.errorBorder]: props.errorMessage },
+    {
+      [styles.disabledInput]: props.disable
+    }
+  );
   const inputProps = {
     placeholder: placeholder,
     value: props.value,

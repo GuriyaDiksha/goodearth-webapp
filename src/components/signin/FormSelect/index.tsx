@@ -32,7 +32,7 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
     : "";
 
   return (
-    <div className={props.className ? props.className : ""}>
+    <div className={props.className}>
       <select
         ref={props.ref}
         name={props.name}

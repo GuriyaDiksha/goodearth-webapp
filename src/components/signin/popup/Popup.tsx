@@ -63,7 +63,7 @@ const Popup: React.FC = ({ children }) => {
                   iconStyles.icon,
                   iconStyles.iconCross
                 )}
-                onClick={() => closePopup()}
+                onClick={closePopup}
               ></button>
             </div>
             <div className={cs(bootstrapStyles.row, styles.row, styles.mTop60)}>
