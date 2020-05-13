@@ -5,6 +5,7 @@ import styles from "./styles.scss";
 import loginFb from "../../../images/loginFb.svg";
 import loginGoogle from "../../../images/loginGoogle.svg";
 import { Link } from "react-router-dom";
+import { ROUTES } from "routes/typings";
 
 const SocialLogin: React.FC = () => {
   return (
@@ -13,11 +14,11 @@ const SocialLogin: React.FC = () => {
         {"- OR SIGN IN USING -"}
       </div>
       <div className={globalStyles.voffset3}>
-        <Link to={"/account/facebook/login/?next=/"}>
+        <Link to={ROUTES.FB}>
           {/* <i className={cs(iconStyles.icon, iconStyles.iconLoginFb)}></i> */}
           <img src={loginFb} width="40px" />
         </Link>
-        <Link to={"/account/google/login/?next=/"}>
+        <Link to={ROUTES.GOOGLE}>
           {/* <i className={cs(iconStyles.icon, iconStyles.iconLoginGoogle)}></i> */}
           <img src={loginGoogle} width="40px" />
         </Link>

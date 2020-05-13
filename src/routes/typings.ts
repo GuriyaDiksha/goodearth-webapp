@@ -5,7 +5,9 @@ export enum ROUTES {
   CollectionLanding = "/allcollection/living_26/",
   CollectionSpecific = "/collection/:slug",
   PDP = "/catalogue/:slug",
-  PLP = "/catalogue/category/"
+  PLP = "/catalogue/category/",
+  FB = "/account/facebook/login/?next=/",
+  GOOGLE = "/account/google/login/?next=/"
 }
 
 export type RouteConfig = RouteObject[];

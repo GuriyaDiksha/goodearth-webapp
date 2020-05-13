@@ -3,8 +3,7 @@ import { Props } from "./typings";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
 
-const InputField: React.FC<Props> = (props: Props) => {
-  // const [ value, setValue ] = useState(props.value || "");
+const InputField: React.FC<Props> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
@@ -23,22 +22,11 @@ const InputField: React.FC<Props> = (props: Props) => {
     props.blur ? props.blur(event) : "";
   };
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  // setValue(event.target.value);
-  // if (props.handleChange) {
-  //   props.handleChange(event);
-  // }
-  // }
-
   useEffect(() => {
     if (props.isPlaceholderVisible && placeholder === "") {
       setPlaceholder(props.placeholder);
-      // setValue("");
       setLabelClass(false);
     }
-    // } else if (props.value && value !== props.value) {
-    //   setValue(props.value || value);
-    // }
   });
 
   return (
@@ -98,12 +86,10 @@ const InputField: React.FC<Props> = (props: Props) => {
       >
         {props.label || ""}
       </label>
-      {props.error || "" ? (
+      {props.error && (
         <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
           {props.error}
         </p>
-      ) : (
-        ""
       )}
     </div>
   );

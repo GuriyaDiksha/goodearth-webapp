@@ -1,6 +1,8 @@
 import { RefObject } from "react";
+import InputField from "./index";
 
 export type Props = {
+  ref?: RefObject<typeof InputField>;
   name?: string;
   type?: string;
   value: string | null;

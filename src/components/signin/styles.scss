@@ -1,4 +1,5 @@
 @import "../../styles/partials/form";
+@import "../../styles/partials/variables";
 
 .toggle-password-btn {
   width: 26px;
@@ -10,7 +11,7 @@
 .login-err-msg {
     font-size: 10px;
     font-style: italic;
-    color: #ab1e56 !important;
+    color: $cerise;
     font-weight: bold;
     font-family: "LatoFont", "Helvetica", "Arial";
     letter-spacing: 1px;
@@ -19,7 +20,7 @@
     text-align: left;
     margin-bottom: 10px;
     .error {
-        color: #ab1e56 !important;
+        color: $cerise;
         text-decoration: underline;
         cursor: pointer;
       }
@@ -76,7 +77,7 @@
       background-color: #fff;
       padding: 3px;
     }
-    li {
+    div.categorylabel > div {
       position: relative;
       margin: 20px 0;
       &.notify {
@@ -98,7 +99,7 @@
         text-align: left;
         margin: 30px 0 0 0;
         &.subs1 {
-          margin-top: 50px !important;
+          margin-top: 50px;
         }
         label {
           @include c10-L-R();
@@ -175,7 +176,7 @@
 }
 
 .categorylabel {
-  li {
+  div {
     div {
       position: relative;
       &.user-gender-picker {
@@ -306,7 +307,7 @@ input[type=number]::-webkit-outer-spin-button {
  
   position: relative;
   .form {
-    margin-top: 0px !important;
+    margin-top: 0px;
   }
 
   .arrow {

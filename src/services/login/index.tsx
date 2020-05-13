@@ -4,63 +4,73 @@ import ForgotPasswordForm from "components/signin/forgotPassword";
 import LoginForm from "components/signin/Login";
 import RegisterForm from "components/signin/register";
 import API from "utils/api";
-import { logoutResponse } from "./typings";
-import initAction from "../../client/initAction";
+import {
+  logoutResponse,
+  checkUserPasswordResponse,
+  resetPasswordResponse,
+  loginResponse,
+  registerResponse,
+  countryDataResponse
+} from "./typings";
+// import initAction from "../../client/initAction";
 import { updateCookies } from "actions/cookies";
 import { updateComponent, updateModal } from "../../actions/modal";
-import store from "../../client";
-import Axios from "axios";
 import CookieService from "services/cookie";
 
 export default {
-  showForgotPassword: function(event?: React.MouseEvent): void {
-    store.dispatch(updateComponent(<ForgotPasswordForm />, true));
-    store.dispatch(updateModal(true));
+  showForgotPassword: function(
+    dispatch: Dispatch,
+    event?: React.MouseEvent
+  ): void {
+    dispatch(updateComponent(<ForgotPasswordForm />, true));
+    dispatch(updateModal(true));
   },
-  showLogin: function(event?: React.MouseEvent): void {
-    store.dispatch(updateComponent(<LoginForm />, true));
-    store.dispatch(updateModal(true));
+  showLogin: function(dispatch: Dispatch, event?: React.MouseEvent): void {
+    dispatch(updateComponent(<LoginForm />, true));
+    dispatch(updateModal(true));
   },
-  showRegister: function(event?: React.MouseEvent): void {
-    store.dispatch(updateComponent(<RegisterForm />, true));
-    store.dispatch(updateModal(true));
+  showRegister: function(dispatch: Dispatch, event?: React.MouseEvent): void {
+    dispatch(updateComponent(<RegisterForm />, true));
+    dispatch(updateModal(true));
   },
-  checkuserpassword: async function(email: string) {
-    const res = await Axios.post(
+  checkUserPassword: async function(dispatch: Dispatch, email: string) {
+    const res = await API.post<checkUserPasswordResponse>(
+      dispatch,
       "http://api.goodearth.in/myapi/auth/check_user_password/",
       {
         email: email
       }
     );
-    return res.data;
+    return res;
   },
-  resetPassword: async function(formData: FormData) {
-    const res = await Axios.post(
+  resetPassword: async function(dispatch: Dispatch, formData: FormData) {
+    const res = await API.post<resetPasswordResponse>(
+      dispatch,
       "http://api.goodearth.in/myapi/auth/reset_password/",
       formData
     );
     return res;
   },
-  login: async function(email: string, password: string) {
-    const res = await Axios.post("http://api.goodearth.in/myapi/auth/login/", {
-      email: email,
-      password: password
-    });
+  login: async function(dispatch: Dispatch, email: string, password: string) {
+    const res = await API.post<loginResponse>(
+      dispatch,
+      "http://api.goodearth.in/myapi/auth/login/",
+      {
+        email: email,
+        password: password
+      }
+    );
     document.cookie =
-      "tkn=" +
-      res.data.token +
-      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+      "atkn=" + res.token + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     document.cookie =
       "user_id=" +
-      res.data.user_id +
+      res.userId +
       "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     document.cookie =
-      "email=" +
-      res.data.email +
-      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+      "email=" + res.email + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     const cookies = CookieService.parseCookies(document.cookie);
-    store.dispatch(updateCookies(cookies));
-    initAction(store);
+    dispatch(updateCookies(cookies));
+    // initAction(store);
     return res;
   },
   logout: async function(dispatch: Dispatch) {
@@ -70,7 +80,7 @@ export default {
       {}
     );
     if (res) {
-      document.cookie = "tkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie =
         "bridal_id=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie =
@@ -79,31 +89,34 @@ export default {
         "user_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       const cookies = CookieService.parseCookies(document.cookie);
-      store.dispatch(updateCookies(cookies));
+      dispatch(updateCookies(cookies));
       // initAction(store);
       return res;
     }
   },
-  register: async function(formData: FormData) {
-    const res = await Axios.post(
+  register: async function(dispatch: Dispatch, formData: FormData) {
+    const res = await API.post<registerResponse>(
+      dispatch,
       "http://api.goodearth.in/myapi/auth/register/",
       formData
     );
     document.cookie =
-      "tkn=" +
-      res.data.token +
-      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+      "atkn=" + res.token + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     document.cookie =
       "user_id=" +
-      res.data.user_id +
+      res.userId +
       "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     document.cookie =
-      "email=" +
-      res.data.email +
-      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
+      "email=" + res.email + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     const cookies = CookieService.parseCookies(document.cookie);
-    store.dispatch(updateCookies(cookies));
-    initAction(store);
+    dispatch(updateCookies(cookies));
+    // initAction(store);
     return res;
+  },
+  fetchCountryData: (dispatch: Dispatch) => {
+    return API.get<countryDataResponse>(
+      dispatch,
+      "http://api.goodearth.in/myapi/address/countries_state"
+    );
   }
 };

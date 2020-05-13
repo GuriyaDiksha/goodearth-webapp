@@ -1,25 +1,12 @@
-import React, { RefObject, useState } from "react";
+import React, { useState } from "react";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 import globalStyles from "../../../styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
+import { Props } from "./typings";
 
-type Props = {
-  name: string;
-  value?: string;
-  options: { value: string; label: string }[];
-  handleChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  className?: string;
-  selectRef?: RefObject<HTMLSelectElement>;
-  label?: string;
-  placeholder?: string;
-  disable?: boolean;
-  blur?: (event: React.FocusEvent) => void;
-};
-const FormSelect: React.FC<Props & InjectedProps<string | null>> = (
-  props: Props & InjectedProps<string | null>
-) => {
+const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -65,11 +52,7 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = (
       >
         {props.label}
       </label>
-      {errorMessage ? (
-        <p className={globalStyles.errorMsg}>{errorMessage}</p>
-      ) : (
-        ""
-      )}
+      {errorMessage && <p className={globalStyles.errorMsg}>{errorMessage}</p>}
       <span
         className={cs(
           { [styles.arrow]: true },

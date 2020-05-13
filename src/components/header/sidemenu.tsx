@@ -10,8 +10,9 @@ import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
 import Bag from "../Bag/index";
 import LoginService from "services/login";
-import store from "../../client";
 import { Basket } from "typings/basket";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
 interface State {
   showc: boolean;
@@ -22,8 +23,27 @@ interface State {
   openProfile: boolean;
 }
 
-export default class SideMenu extends React.Component<SideMenuProps, State> {
-  constructor(props: SideMenuProps) {
+const mapStateToProps = () => {
+  return {};
+};
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    goLogin: (event: React.MouseEvent) => {
+      LoginService.showLogin(dispatch);
+      event.preventDefault();
+    },
+    handleLogOut: () => {
+      LoginService.logout(dispatch);
+    }
+  };
+};
+
+type Props = SideMenuProps &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+class SideMenu extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       showc: false,
@@ -33,10 +53,6 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
       openProfile: false,
       showSearch: false
     };
-  }
-
-  handleLogOut() {
-    LoginService.logout(store.dispatch);
   }
 
   render() {
@@ -89,8 +105,8 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
         label: this.props.isLoggedIn ? "Sign Out" : "Sign In",
         href: "",
         onClick: this.props.isLoggedIn
-          ? () => this.handleLogOut()
-          : LoginService.showLogin,
+          ? this.props.handleLogOut
+          : this.props.goLogin,
         type: "link",
         value: this.props.isLoggedIn ? "Sign Out" : "Sign In"
       }
@@ -233,3 +249,5 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);

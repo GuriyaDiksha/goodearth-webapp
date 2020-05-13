@@ -5,9 +5,7 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 
-const FormInput: React.FC<Props & InjectedProps<string | null>> = (
-  props: Props & InjectedProps<string | null>
-) => {
+const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
@@ -63,7 +61,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = (
     ? getRequiredErrorMessage(props.name)
     : "";
   return (
-    <div className={props.className ? props.className : ""}>
+    <div className={props.className}>
       <input
         type={props.type || "text"}
         id={
@@ -118,12 +116,10 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = (
       >
         {props.label || ""}
       </label>
-      {errorMessage || "" ? (
+      {errorMessage && (
         <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
           {errorMessage}
         </p>
-      ) : (
-        ""
       )}
     </div>
   );

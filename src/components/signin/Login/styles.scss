@@ -1,4 +1,5 @@
 @import "../../../styles/partials/form";
+@import "../../../styles/partials/variables";
 
 .toggle-password-btn {
   width: 26px;
@@ -10,7 +11,7 @@
 .login-err-msg {
     font-size: 10px;
     font-style: italic;
-    color: #ab1e56 !important;
+    color: $cerise;
     font-weight: bold;
     font-family: "LatoFont", "Helvetica", "Arial";
     letter-spacing: 1px;
@@ -19,7 +20,7 @@
     text-align: left;
     margin-bottom: 10px;
     .error {
-        color: #ab1e56 !important;
+        color: $cerise ;
         text-decoration: underline;
         cursor: pointer;
       }

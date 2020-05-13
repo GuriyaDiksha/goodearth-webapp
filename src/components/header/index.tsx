@@ -15,7 +15,7 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import { State } from "./typings";
 import LoginService from "services/login";
-import store from "../../client";
+import { Dispatch } from "redux";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -30,7 +30,20 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    goLogin: (event: React.MouseEvent) => {
+      LoginService.showLogin(dispatch);
+      event.preventDefault();
+    },
+    handleLogOut: () => {
+      LoginService.logout(dispatch);
+    }
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class Header extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -82,12 +95,8 @@ class Header extends React.Component<Props, State> {
     });
   }
 
-  handleLogOut() {
-    LoginService.logout(store.dispatch);
-  }
-
   render() {
-    const { message, wishlistData } = this.props;
+    const { message, wishlistData, handleLogOut } = this.props;
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
     return (
@@ -285,14 +294,14 @@ class Header extends React.Component<Props, State> {
                           <li>Cerise Program</li>
                           <li>Check Balance</li>
                           {this.props.isLoggedIn ? (
-                            <li onClick={this.handleLogOut}>Sign Out</li>
+                            <li onClick={handleLogOut}>Sign Out</li>
                           ) : (
                             ""
                           )}
                           {this.props.isLoggedIn ? (
                             ""
                           ) : (
-                            <li onClick={LoginService.showLogin}>Sign In</li>
+                            <li onClick={this.props.goLogin}>Sign In</li>
                           )}
                         </ul>
                       </ul>
@@ -311,4 +320,4 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

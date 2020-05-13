@@ -1,11 +1,12 @@
 import React, { memo } from "react";
+import cs from "classnames";
 
-import "./styles.css";
+import styles from "./styles.scss";
 
 const Loader: React.FC = memo(() => {
   return (
-    <div className="cssload-container full-load-wrap">
-      <span className="cssload-loading">
+    <div className={cs(styles.cssloadContainer, styles.fullLoadWrap)}>
+      <span className={styles.cssloadLoading}>
         <i></i>
         <i></i>
         <i></i>

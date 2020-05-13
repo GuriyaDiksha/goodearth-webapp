@@ -1,19 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import cs from "classnames";
-// import Dropdown from 'react-dropdown';
 import InputSelect from "../InputSelect";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
+import { Props } from "./typings";
 
-type Props = {
-  gender: string;
-  disable: boolean;
-  msgGender: string;
-  highlightGender: boolean;
-  setGender: (gender: string) => void;
-  onFocus?: () => void;
-  onBlur?: () => void;
-};
 const GenderPicker: React.FC<Props> = ({
   gender,
   disable,
@@ -51,14 +42,13 @@ const GenderPicker: React.FC<Props> = ({
         disabled={disable}
         placeholder="Select Gender*"
         onChange={e => onSelect(e)}
-        // onFocus={onFocus}
-        // onBlur={onBlur}
         options={options}
         value={selectedGender}
         errorMessage={msgGender}
-        className={`${disable ? styles.disabledInput : ""} ${
-          highlightGender ? globalStyles.errorBorder : ""
-        }`}
+        className={cs(
+          { [styles.disabledInput]: disable },
+          { [globalStyles.errorBorder]: highlightGender }
+        )}
       />
       <span className={styles.arrow}></span>
     </div>

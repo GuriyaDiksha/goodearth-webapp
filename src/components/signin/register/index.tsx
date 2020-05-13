@@ -8,35 +8,28 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
-import LoginService from "services/login";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context.ts";
 import moment from "moment";
-// import Config from 'components/config'
 import Formsy from "formsy-react";
 import FormInput from "../FormInput";
 import FormSelect from "../FormSelect";
 import FormCheckbox from "../FormCheckbox";
 import { Link } from "react-router-dom";
 import CountryCode from "../CountryCode";
+import { registerState } from "./typings";
+import mapDispatchToProps from "./mapper/actions";
+import { connect } from "react-redux";
 
-type Props = {};
-type State = {
-  disableButton: boolean;
-  msgt: string;
-  url: string;
-  showerror: string;
-  showFields: boolean;
-  successMsg: string;
-  showPassword: boolean;
-  minDate: string;
-  maxDate: string;
-  showDOBLabel: boolean;
-  genderOptions: { value: string; label: string }[];
+const mapStateToProps = () => {
+  return {};
 };
 
-class RegisterForm extends React.Component<Props, State> {
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+class RegisterForm extends React.Component<Props, registerState> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -65,19 +58,20 @@ class RegisterForm extends React.Component<Props, State> {
   emailRef: RefObject<typeof FormInput> = React.createRef();
   RegisterFormRef: RefObject<Formsy> = React.createRef();
   emailInput: RefObject<HTMLInputElement> = React.createRef();
+  subscribeRef: RefObject<HTMLInputElement> = React.createRef();
   firstNameInput: RefObject<HTMLInputElement> = React.createRef();
   lastNameInput: RefObject<HTMLInputElement> = React.createRef();
 
   componentDidMount() {
-    // if (window.register_email) {
-    //     this.refs.emailRef.state.value = window.register_email;
-    //     this.setState({});
-    // }
-    // window.register_email = '';
+    const email = localStorage.getItem("tempEmail");
+    if (email && this.emailInput.current) {
+      this.emailInput.current.value = email;
+    }
+    localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
   }
 
-  handleSubmit(model: any, resetForm: any, updateInputsWithError: any) {
+  handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const {
       email,
       password1,
@@ -106,22 +100,14 @@ class RegisterForm extends React.Component<Props, State> {
     this.setState({
       disableButton: true
     });
-    LoginService.register(formData)
-      .then(res => {
+    this.props
+      .register(formData)
+      .then(data => {
         this.setState({
           disableButton: false
         });
-        if (res.status === 201) {
-          // window.dataLayer.push({
-          //     'event': 'eventsToSend',
-          //     'eventAction': 'signup',
-          //     'eventCategory': 'formSubmission',
-          //     'eventLabel': location.pathname
-          // });
-          // document.location.reload();
-          this.context.closeModal();
-          window.scrollTo(0, 0);
-        }
+        this.context.closeModal();
+        window.scrollTo(0, 0);
       })
       .catch(err => {
         this.setState(
@@ -178,10 +164,10 @@ class RegisterForm extends React.Component<Props, State> {
           }
         });
       });
-  }
+  };
 
-  handleInvalidSubmit() {
-    const elem = document.getElementById("subscribeemails") as HTMLInputElement;
+  handleInvalidSubmit = () => {
+    const elem = this.subscribeRef.current;
     if (elem && elem.checked == false) {
       this.setState({
         msgt: "Please accept the terms & conditions"
@@ -203,9 +189,9 @@ class RegisterForm extends React.Component<Props, State> {
         elem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
     }, 0);
-  }
+  };
 
-  handleResetPassword(event: React.MouseEvent) {
+  handleResetPassword = (event: React.MouseEvent) => {
     event.preventDefault();
 
     const formData = new FormData();
@@ -216,10 +202,11 @@ class RegisterForm extends React.Component<Props, State> {
         ""
     );
 
-    LoginService.resetPassword(formData)
-      .then(res => {
+    this.props
+      .resetPassword(formData)
+      .then(data => {
         this.setState({
-          successMsg: res.data.success
+          successMsg: data.success
         });
       })
       .catch(err => {
@@ -231,26 +218,34 @@ class RegisterForm extends React.Component<Props, State> {
             true
           );
       });
-  }
+  };
 
-  async checkMailValidation(): Promise<boolean> {
+  checkMailValidation = async (): Promise<boolean> => {
     let isValid = false;
-    const data = await LoginService.checkuserpassword(
-      (this.RegisterFormRef.current &&
-        this.RegisterFormRef.current.getModel().email) ||
-        ""
-    ).catch(err => {
-      console.log("err: " + err);
-      isValid = false;
-    });
-    if (data.emailExist) {
-      if (data.passwordExist) {
+    const data = await this.props
+      .checkUserPassword(
+        (this.RegisterFormRef.current &&
+          this.RegisterFormRef.current.getModel().email) ||
+          ""
+      )
+      .catch(err => {
+        console.log("err: " + err);
+        isValid = false;
+      });
+    if (data && data.emailExist) {
+      if (data && data.passwordExist) {
         const error = [
           <span key="email-error">
             This account already exists. Please{" "}
             <span
               className={globalStyles.linkTextUnderline}
-              onClick={this.goLogin}
+              onClick={e =>
+                this.props.goLogin(
+                  e,
+                  (this.emailInput.current && this.emailInput.current.value) ||
+                    ""
+                )
+              }
             >
               Sign In
             </span>
@@ -271,7 +266,7 @@ class RegisterForm extends React.Component<Props, State> {
             This account already exists. Please{" "}
             <span
               className={globalStyles.linkTextUnderline}
-              onClick={e => this.handleResetPassword(e)}
+              onClick={this.handleResetPassword}
             >
               set a new password
             </span>
@@ -293,10 +288,10 @@ class RegisterForm extends React.Component<Props, State> {
       isValid = true;
     }
     return isValid;
-  }
+  };
 
-  chkTermsandC(event: React.ChangeEvent) {
-    const elem = document.getElementById("subscribeemails") as HTMLInputElement;
+  chkTermsandC = (event: React.ChangeEvent) => {
+    const elem = this.subscribeRef.current;
     if (elem && elem.checked == false) {
       this.setState({
         msgt: "Please accept the terms & conditions"
@@ -306,67 +301,61 @@ class RegisterForm extends React.Component<Props, State> {
         msgt: ""
       });
     }
-  }
+  };
 
-  goLogin(event: React.MouseEvent) {
-    //     window.temp_email = this.refs.emailRef.state.value;
-    LoginService.showLogin();
-    event.preventDefault();
-  }
-
-  resetSection() {
+  resetSection = () => {
     this.setState({
       showFields: false
     });
-  }
+  };
 
-  verifyEmail() {
+  verifyEmail = () => {
     this.checkMailValidation().then((isValid: boolean) => {
       if (!isValid) {
         this.resetSection();
       }
     });
-  }
-  async onMailChange(event: React.KeyboardEvent) {
+  };
+  onMailChange = (event: React.KeyboardEvent) => {
     if (event.key == "Enter") {
       this.verifyEmail();
     } else {
       this.resetSection();
     }
-  }
+  };
 
-  handleFirstNameKeyPress(e: React.KeyboardEvent) {
+  handleFirstNameKeyPress = (e: React.KeyboardEvent) => {
     if (e.key == "Enter") {
       e.preventDefault();
       this.lastNameInput.current && this.lastNameInput.current.focus();
     }
-  }
+  };
 
-  togglePassword() {
+  togglePassword = () => {
     this.setState(prevState => {
       return {
         showPassword: !prevState.showPassword
       };
     });
-  }
+  };
 
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
-
+    const { goLogin, fetchCountryData } = this.props;
     const formContent = (
       <Formsy
         ref={this.RegisterFormRef}
-        onValidSubmit={(model, reset, u) => this.handleSubmit(model, reset, u)}
-        onInvalidSubmit={() => this.handleInvalidSubmit()}
+        onValidSubmit={this.handleSubmit}
+        onInvalidSubmit={this.handleInvalidSubmit}
       >
-        <ul className={styles.categorylabel}>
-          <li>
+        <div className={styles.categorylabel}>
+          <div>
             <FormInput
               name="email"
-              blur={() => this.verifyEmail()}
+              blur={this.verifyEmail}
               placeholder={"Email*"}
               label={"Email*"}
-              keyUp={e => this.onMailChange(e)}
+              keyUp={this.onMailChange}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
               validations={{
@@ -379,8 +368,8 @@ class RegisterForm extends React.Component<Props, State> {
               }}
               required
             />
-          </li>
-          <li>
+          </div>
+          <div>
             <FormInput
               name="firstName"
               placeholder={"First Name*"}
@@ -388,11 +377,11 @@ class RegisterForm extends React.Component<Props, State> {
               inputRef={this.firstNameInput}
               disable={!this.state.showFields}
               className={showFieldsClass}
-              keyPress={e => this.handleFirstNameKeyPress(e)}
+              keyPress={this.handleFirstNameKeyPress}
               required
             />
-          </li>
-          <li>
+          </div>
+          <div>
             <FormInput
               name="lastName"
               placeholder={"Last Name*"}
@@ -403,8 +392,8 @@ class RegisterForm extends React.Component<Props, State> {
               inputRef={this.lastNameInput}
               required
             />
-          </li>
-          <li className={styles.userGenderPicker}>
+          </div>
+          <div className={styles.userGenderPicker}>
             <FormSelect
               required
               name="gender"
@@ -414,8 +403,8 @@ class RegisterForm extends React.Component<Props, State> {
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
             />
-          </li>
-          <li className={styles.calendarIconContainer}>
+          </div>
+          <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
               type="date"
@@ -460,9 +449,10 @@ class RegisterForm extends React.Component<Props, State> {
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
             />
-          </li>
-          <li className={cs(styles.countryCode, "country-code-profile")}>
+          </div>
+          <div className={styles.countryCode}>
             <CountryCode
+              fetchCountryData={fetchCountryData}
               name="code"
               placeholder="Code"
               label="Code"
@@ -496,8 +486,8 @@ class RegisterForm extends React.Component<Props, State> {
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
             />
-          </li>
-          <li>
+          </div>
+          <div>
             <FormInput
               name="password1"
               placeholder={"Password*"}
@@ -516,14 +506,12 @@ class RegisterForm extends React.Component<Props, State> {
             />
             <span
               className={styles.togglePasswordBtn}
-              onClick={
-                this.state.showFields ? () => this.togglePassword() : () => null
-              }
+              onClick={this.state.showFields ? this.togglePassword : () => null}
             >
               <img src={this.state.showPassword ? show : hide} />
             </span>
-          </li>
-          <li>
+          </div>
+          <div>
             <FormInput
               name="password2"
               placeholder={"Confirm Password*"}
@@ -540,14 +528,15 @@ class RegisterForm extends React.Component<Props, State> {
               }}
               required
             />
-          </li>
+          </div>
 
-          <li className={styles.subscribe}>
+          <div className={styles.subscribe}>
             <FormCheckbox
+              inputRef={this.subscribeRef}
               id="subscribeemails"
               name="subscribe"
               disable={!this.state.showFields}
-              handleChange={e => this.chkTermsandC(e)}
+              handleChange={this.chkTermsandC}
               label={[
                 "I agree to the ",
                 <Link
@@ -562,8 +551,8 @@ class RegisterForm extends React.Component<Props, State> {
               validations="isTrue"
               required
             />
-          </li>
-          <li className={styles.subscribe}>
+          </div>
+          <div className={styles.subscribe}>
             <FormCheckbox
               id="subscrib"
               name="terms"
@@ -579,8 +568,8 @@ class RegisterForm extends React.Component<Props, State> {
                 </Link>
               ]}
             />
-          </li>
-          <li>
+          </div>
+          <div>
             <p
               className={
                 this.state.msgt
@@ -590,8 +579,8 @@ class RegisterForm extends React.Component<Props, State> {
             >
               Please accept the Terms & Conditions
             </p>
-          </li>
-          <li>
+          </div>
+          <div>
             {this.state.showerror ? (
               <p className={styles.loginErrMsg}>{this.state.showerror}</p>
             ) : (
@@ -607,8 +596,8 @@ class RegisterForm extends React.Component<Props, State> {
               value="continue"
               disabled={this.state.disableButton || !this.state.showFields}
             />
-          </li>
-        </ul>
+          </div>
+        </div>
       </Formsy>
     );
     const footer = (
@@ -619,7 +608,12 @@ class RegisterForm extends React.Component<Props, State> {
           Already registered?{" "}
           <span
             className={cs(globalStyles.cerise, globalStyles.pointer)}
-            onClick={this.goLogin}
+            onClick={e =>
+              goLogin(
+                e,
+                (this.emailInput.current && this.emailInput.current.value) || ""
+              )
+            }
           >
             {" "}
             SIGN IN{" "}
@@ -650,4 +644,4 @@ class RegisterForm extends React.Component<Props, State> {
   }
 }
 
-export default RegisterForm;
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

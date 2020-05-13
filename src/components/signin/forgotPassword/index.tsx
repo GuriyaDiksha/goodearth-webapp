@@ -1,6 +1,5 @@
 import React, { RefObject } from "react";
 import cs from "classnames";
-// import Axios from 'axios';
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 // import iconStyles from "styles/iconFonts.scss";
@@ -10,19 +9,21 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
-import LoginService from "services/login";
 import * as valid from "utils/validate";
 import { Context } from "components/Modal/context.ts";
+import { ForgotPasswordState } from "./typings";
+import { connect } from "react-redux";
+import { mapDispatchToProps } from "./mapper/actions";
 
-// import Config from 'components/config'
+const mapStateToProps = () => {
+  return {};
+};
 
-import { ForgotPasswordProps, ForgotPasswordState } from "./typings";
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
-class ForgotPasswordForm extends React.Component<
-  ForgotPasswordProps,
-  ForgotPasswordState
-> {
-  constructor(props: ForgotPasswordProps) {
+class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       email: "",
@@ -33,31 +34,27 @@ class ForgotPasswordForm extends React.Component<
       url: location.pathname + location.search,
       disableSelectedbox: false
     };
-    // this.goRegister = this.goRegister.bind(this);
-    // this.onChange  = this.onChange.bind(this);
   }
+
   static contextType = Context;
 
-  // emailRef: RefObject<InputField> = React.createRef();
   emailInput: RefObject<HTMLInputElement> = React.createRef();
 
-  handleSubmit(event: React.FormEvent) {
+  handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("email", this.state.email || "");
     this.setState({ disableSelectedbox: true });
-    LoginService.resetPassword(formData)
-      .then(res => {
-        // let element = document.getElementById('email');
+    this.props
+      .resetPassword(formData)
+      .then(data => {
         this.setState({
           err: false,
           msg: "",
           forgotSuccess: true,
-          successMsg: res.data.success,
+          successMsg: data.success,
           disableSelectedbox: false
         });
-        // element.value = "";
-        // element.disabled = true;
       })
       .catch(err => {
         console.log("err: " + err.response.data.email[0]);
@@ -67,7 +64,7 @@ class ForgotPasswordForm extends React.Component<
           disableSelectedbox: false
         });
       });
-  }
+  };
 
   componentDidMount() {
     if (this.emailInput.current) {
@@ -78,7 +75,7 @@ class ForgotPasswordForm extends React.Component<
     // window.email_goodearth = '';
   }
 
-  handleEmailBlur(event: React.FocusEvent) {
+  handleEmailBlur = (event: React.FocusEvent) => {
     if (!valid.checkBlank(this.state.email) || this.state.msg) {
       if (!valid.checkMail(this.state.email)) {
         this.setState({
@@ -92,9 +89,9 @@ class ForgotPasswordForm extends React.Component<
         });
       }
     }
-  }
+  };
 
-  onChange(event: React.KeyboardEvent) {
+  onChange = (event: React.KeyboardEvent) => {
     if (valid.checkBlank(this.state.email)) {
       this.setState({
         msg: "Please Enter Email",
@@ -111,45 +108,39 @@ class ForgotPasswordForm extends React.Component<
         err: false
       });
     }
-  }
+  };
 
-  goRegister(event: React.MouseEvent) {
-    // window.register_email = this.state.email;
-    LoginService.showRegister();
-    event.preventDefault();
-  }
-
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ email: event.currentTarget.value });
-  }
+  };
 
   render() {
+    const { goRegister } = this.props;
     const formContent = (
-      <form onSubmit={e => this.handleSubmit(e)}>
-        <ul className={styles.categorylabel}>
-          <li>
+      <form onSubmit={this.handleSubmit}>
+        <div className={styles.categorylabel}>
+          <div>
             <InputField
               id="email"
-              blur={(e: React.FocusEvent) => this.handleEmailBlur(e)}
+              blur={this.handleEmailBlur}
               placeholder={"Email"}
               label={"Email"}
               value={this.state.email}
-              // ref={this.emailRef}
-              keyUp={e => this.onChange(e)}
-              handleChange={e => this.handleChange(e)}
+              keyUp={this.onChange}
+              handleChange={this.handleChange}
               inputRef={this.emailInput}
               error={this.state.msg}
               border={this.state.err}
             />
-          </li>
-          <li>
+          </div>
+          <div>
             <input
               type="submit"
               className={globalStyles.ceriseBtn}
               value="reset password"
             />
-          </li>
-        </ul>
+          </div>
+        </div>
       </form>
     );
 
@@ -161,7 +152,7 @@ class ForgotPasswordForm extends React.Component<
           Not a member?{" "}
           <span
             className={cs(globalStyles.cerise, globalStyles.pointer)}
-            onClick={e => this.goRegister(e)}
+            onClick={goRegister}
           >
             {" "}
             SIGN UP{" "}
@@ -193,4 +184,4 @@ class ForgotPasswordForm extends React.Component<
   }
 }
 
-export default ForgotPasswordForm;
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordForm);

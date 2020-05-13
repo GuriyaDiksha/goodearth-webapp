@@ -1,17 +1,10 @@
 import React from "react";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
+import { Props } from "./typings";
 
-type Props = {
-  id: string;
-  name: string;
-  disable: boolean;
-  handleChange?: (event: React.ChangeEvent) => void;
-  label: (string | JSX.Element)[];
-};
-const FormCheckbox: React.FC<Props & InjectedProps<string | boolean | null>> = (
-  props: Props & InjectedProps<string | boolean | null>
-) => {
+const FormCheckbox: React.FC<Props &
+  InjectedProps<string | boolean | null>> = props => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setValue(event.currentTarget.checked);
     props.handleChange && props.handleChange(event);
@@ -19,6 +12,7 @@ const FormCheckbox: React.FC<Props & InjectedProps<string | boolean | null>> = (
   return (
     <>
       <input
+        ref={props.inputRef}
         name={props.name}
         disabled={props.disable}
         onChange={handleChange}

@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-
+import geLogo from "../../../images/gelogoCerise.svg";
 import { Context } from "components/Modal/context.ts";
 
 const Popup: React.FC = ({ children }) => {
@@ -53,7 +53,7 @@ const Popup: React.FC = ({ children }) => {
                                     <i className={cs(iconStyles.icon, iconStyles.iconCross)}></i>
                                 </span> */}
                 <img
-                  src="/images/gelogoCerise.svg"
+                  src={geLogo}
                   className={cs(globalStyles.logo, styles.logoPopup)}
                 />
               </div>

@@ -1,54 +1,24 @@
 import Autosuggest from "react-autosuggest";
 import React, { useState, useEffect } from "react";
-import globalStyles from "../../styles/global.scss";
-import styles from "./styles.scss";
-import "../../styles/autosuggest.css";
+import globalStyles from "../../../styles/global.scss";
+import styles from "../styles.scss";
+import "../../../styles/autosuggest.css";
 import cs from "classnames";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
-import Axios from "axios";
-// import Config from "components/config";
-type Props = {
-  code?: string;
-  error?: string;
-  blur?: () => void;
-  border?: boolean;
-  id: string;
-  className?: string;
-  label?: string;
-  disable?: boolean;
-  placeholder: string;
-  value: string;
-};
+import { Props, Country } from "./typings";
 
-type country = {
-  id: number;
-  nameAscii: string;
-  code2: string;
-  regionSet: [
-    {
-      id: number;
-      nameAscii: string;
-    }
-  ];
-  isdCode?: string;
-};
-
-const CountryCode: React.FC<Props & InjectedProps<string | null>> = (
-  props: Props & InjectedProps<string | null>
-) => {
-  const [suggestions, setSuggestions] = useState<country[]>([]);
-  const [countryList, setCountryList] = useState<country[]>([]);
+const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
+  const [suggestions, setSuggestions] = useState<Country[]>([]);
+  const [countryList, setCountryList] = useState<Country[]>([]);
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
   useEffect(() => {
-    Axios.get("http://api.goodearth.in/myapi/address/countries_state").then(
-      res => {
-        setSuggestions(res.data);
-        setCountryList(res.data);
-      }
-    );
+    props.fetchCountryData().then(data => {
+      setSuggestions(data);
+      setCountryList(data);
+    });
   }, []);
 
   const getSuggestions = (value: any) => {
@@ -85,7 +55,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = (
     }
   };
 
-  const renderSuggestion = (suggestion: country) => {
+  const renderSuggestion = (suggestion: Country) => {
     return (
       <div>
         {suggestion.nameAscii} ({suggestion.isdCode})
@@ -129,7 +99,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = (
     <div
       onBlur={e => handleClickBlur(e)}
       onFocus={e => handleClick(e)}
-      className={props.className ? props.className : ""}
+      className={props.className}
     >
       <Autosuggest
         suggestions={suggestions}
@@ -143,16 +113,16 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = (
         id={props.id}
       />
       <label
-        className={labelClass && !props.disable ? "" : globalStyles.hidden}
+        className={cs({
+          [globalStyles.hidden]: !(labelClass && !props.disable)
+        })}
       >
         {props.label}
       </label>
-      {props.errorMessage ? (
+      {props.errorMessage && (
         <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
           {props.errorMessage}
         </p>
-      ) : (
-        ""
       )}
     </div>
   );
