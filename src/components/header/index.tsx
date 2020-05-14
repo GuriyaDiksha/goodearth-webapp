@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SideMenu from "./sidemenu";
@@ -24,7 +25,8 @@ const mapStateToProps = (state: AppState) => {
     wishlistData: state.wishlist.items,
     cart: state.basket,
     message: state.message,
-    location: state.router.location
+    location: state.router.location,
+    meta: state.meta
   };
 };
 
@@ -81,11 +83,66 @@ class Header extends React.Component<Props, State> {
   }
 
   render() {
-    const { message, wishlistData } = this.props;
+    const { message, wishlistData, meta } = this.props;
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
     return (
       <div className="">
+        <Helmet>
+          <title>
+            Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
+          </title>
+          {meta.description && (
+            <meta name="description" content={meta.description} />
+          )}
+          {meta.keywords && <meta name="keywords" content={meta.keywords} />}
+          {meta.ogTitle && (
+            <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />
+          )}
+          {meta.ogDescription && (
+            <meta property="og:description" content={meta.ogDescription} />
+          )}
+          {meta.ogImage && <meta property="og:image" content={meta.ogImage} />}
+          {meta.ogUrl && <meta property="og:url" content={meta.ogUrl} />}
+          {meta.ogType && <meta property="og:type" content={meta.ogType} />}
+          {meta.ogSiteName && (
+            <meta property="og:site_name" content={meta.ogSiteName} />
+          )}
+          {meta.ogImageWidth && (
+            <meta property="og:image:width" content={meta.ogImageWidth} />
+          )}
+          {meta.ogImageHeight && (
+            <meta property="og:image:height" content={meta.ogImageHeight} />
+          )}
+
+          {meta.twitterCard && (
+            <meta name="twitter:card" content={meta.twitterCard} />
+          )}
+          {meta.twitterTitle && (
+            <meta name="twitter:title" content={meta.twitterTitle} />
+          )}
+          {meta.twitterUrl && (
+            <meta name="twitter:url" content={meta.twitterUrl} />
+          )}
+          {meta.twitterDescription && (
+            <meta
+              name="twitter:description"
+              content={meta.twitterDescription}
+            />
+          )}
+          {meta.twitterImage && (
+            <meta name="twitter:image" content={meta.twitterImage} />
+          )}
+          {meta.twitterDomain && (
+            <meta name="twitter:domain" content={meta.twitterDomain} />
+          )}
+          {meta.twitterCreator && (
+            <meta name="twitter:creator" content={meta.twitterCreator} />
+          )}
+          {meta.twitterSite && (
+            <meta name="twitter:site" content={meta.twitterSite} />
+          )}
+        </Helmet>
         <div className={cs(styles.headerContainer)}>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             {this.props.mobile ? (
