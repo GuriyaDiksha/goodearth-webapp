@@ -255,12 +255,9 @@ const ProductDetails: React.FC<Props> = ({
             <div className={cs(bootstrap.col12)}>
               <Share
                 mobile={mobile}
-                link={location.pathname}
+                link={`${__DOMAIN__}${location.pathname}`}
                 mailSubject="Gifting Ideas"
-                mailText={
-                  "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
-                  location.pathname
-                }
+                mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
               />
             </div>
           )}
@@ -505,12 +502,9 @@ const ProductDetails: React.FC<Props> = ({
           {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
-              link={location.pathname}
+              link={`${__DOMAIN__}${location.pathname}`}
               mailSubject="Gifting Ideas"
-              mailText={
-                "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
-                location.pathname
-              }
+              mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
             />
           )}
 
