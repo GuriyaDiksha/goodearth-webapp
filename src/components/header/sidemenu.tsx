@@ -10,7 +10,6 @@ import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
 import Bag from "../Bag/index";
 import { Basket } from "typings/basket";
-import { Link } from "react-router-dom";
 
 interface State {
   showc: boolean;
@@ -201,7 +200,7 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
         <ul>
           {this.props.mobile ? (
             <li className={cs(styles.firstMenu)}>
-              <Link className={styles.searchText} to={"javascript:void(0);"}>
+              <p className={styles.searchText}>
                 <i
                   className={
                     this.state.showSearch
@@ -217,11 +216,12 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
                         )
                   }
                 ></i>
-              </Link>
+                <span>Search</span>
+              </p>
             </li>
           ) : (
             <li className={cs(styles.firstMenu)}>
-              <Link className={styles.searchText} to={"javascript:void(0);"}>
+              <p className={styles.searchText}>
                 <i
                   className={cs(
                     iconStyles.icon,
@@ -229,8 +229,8 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
                     styles.iconStyle
                   )}
                 ></i>
-                Search
-              </Link>
+                <span>Search</span>
+              </p>
             </li>
           )}
         </ul>

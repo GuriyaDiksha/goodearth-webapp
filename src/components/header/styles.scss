@@ -501,24 +501,34 @@
   }
 }
 
-.search-text{
-    padding-top: 5px;
-    font-weight: bold;
-    font-style: normal;
-    font-size: 12px;
-    font-family: "LatoFont","Helvetica","Arial";
-    letter-spacing: 0.1em;
-    color: $cerise;
-    display: block;
-    text-align: center;
-    line-height: 4;
-    position: relative;
-    width: 100%;
-}
+
 .first-menu{
   float: left;
   .icon-style {
     font-size: 22px;
     margin-right: 10px;
+  }
+  .search-text{
+    padding-top: 14px;
+    font-style: normal;
+    font-size: 12px;
+    font-family: "LatoFont","Helvetica","Arial";
+    letter-spacing: 0.1em;
+    color: $cerise;
+    display: flex;
+    width: 100%;
+    span {
+      margin-top: 3px;
+    }
+  }
+}
+
+@media (max-width:992px) {
+  .first-menu{
+    .icon-style {
+      font-size: 22px;
+      margin-right: 5px;
+      margin-left: -40px;
+    }
   }
 }
