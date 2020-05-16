@@ -117,11 +117,12 @@
 .cerise {
     color: $cerise !important;
 }
+
 .menulist-overlap{
   margin-top: -6px;
 }
 .side-menu-item {
-    margin: 5px 7px;
+    margin: 6px 6px;
     position: relative;
     cursor: pointer; 
     .inner-profile-container{
@@ -163,9 +164,11 @@
 .side-menu-container {
     float: right;
     display: inline-flex;
+    margin-top: 2px;
     .currency-menu{
       margin-top: 8px;
     }
+    
 }
 .main-menu {
   position: absolute;
@@ -494,6 +497,38 @@
   .menulevel2-open {
     &:after {
       transform: rotate(225deg);
+    }
+  }
+}
+
+
+.first-menu{
+  float: left;
+  .icon-style {
+    font-size: 22px;
+    margin-right: 10px;
+  }
+  .search-text{
+    padding-top: 14px;
+    font-style: normal;
+    font-size: 12px;
+    font-family: "LatoFont","Helvetica","Arial";
+    letter-spacing: 0.1em;
+    color: $cerise;
+    display: flex;
+    width: 100%;
+    span {
+      margin-top: 3px;
+    }
+  }
+}
+
+@media (max-width:992px) {
+  .first-menu{
+    .icon-style {
+      font-size: 22px;
+      margin-right: 5px;
+      margin-left: -40px;
     }
   }
 }

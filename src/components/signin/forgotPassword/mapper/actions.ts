@@ -4,7 +4,6 @@ import { Dispatch } from "redux";
 export const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     goRegister: (event: React.MouseEvent) => {
-      // window.register_email = this.state.email;
       LoginService.showRegister(dispatch);
       event.preventDefault();
     },

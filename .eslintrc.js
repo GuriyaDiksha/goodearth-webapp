@@ -25,5 +25,8 @@ module.exports = {
     "react/jsx-uses-vars": "error",
     "react/prop-types": 0,
     "react/display-name": 0
-  }
+  },
+  globals: {
+    __DOMAIN__: false
+}
 };

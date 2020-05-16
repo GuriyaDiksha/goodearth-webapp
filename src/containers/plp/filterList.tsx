@@ -14,6 +14,7 @@ import { State, FilterProps } from "./typings";
 const mapStateToProps = (state: AppState) => {
   return {
     data: state.plplist.data,
+    onload: state.plplist.onload,
     mobile: state.device.mobile,
     currency: state.currency,
     location: state.router.location,
@@ -493,7 +494,7 @@ class FilterList extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (
-      !nextProps.facetObject.categoryObj &&
+      nextProps.onload &&
       nextProps.facets.categoryShop &&
       this.props.updateFacets
     ) {

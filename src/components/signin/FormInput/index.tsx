@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { withFormsy } from "formsy-react";
 import { Props } from "./typings";
 import globalStyles from "styles/global.scss";
@@ -9,27 +9,33 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
-  const handleClick = (event: React.MouseEvent | React.FocusEvent) => {
-    if (!labelClass || placeholder !== "") {
-      setLabelClass(true);
-      setPlaceholder("");
-    }
-  };
+  const handleClick = useCallback(
+    (event: React.MouseEvent | React.FocusEvent) => {
+      if (!labelClass || placeholder !== "") {
+        setLabelClass(true);
+        setPlaceholder("");
+      }
+    },
+    []
+  );
 
-  const handleClickBlur = (event: React.FocusEvent) => {
+  const handleClickBlur = useCallback((event: React.FocusEvent) => {
     if (!labelClass || placeholder !== "") {
       setLabelClass(true);
       setPlaceholder("");
     }
     props.blur && props.isValid ? props.blur(event) : "";
-  };
+  }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setValue(event.currentTarget.value);
-    if (props.handleChange) {
-      props.handleChange(event);
-    }
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      props.setValue(event.currentTarget.value);
+      if (props.handleChange) {
+        props.handleChange(event);
+      }
+    },
+    [props.handleChange]
+  );
 
   useEffect(() => {
     if (props.isPlaceholderVisible && placeholder === "") {
@@ -37,7 +43,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       setLabelClass(false);
     }
   });
-  const getRequiredErrorMessage = (name: string) => {
+  const getRequiredErrorMessage = useCallback((name: string) => {
     switch (name) {
       case "email":
         return "";
@@ -54,7 +60,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "password2":
         return "Please enter at least 6 characters for the password";
     }
-  };
+  }, []);
   const errorMessage = props.errorMessage
     ? props.errorMessage
     : !props.isPristine && !props.isValid

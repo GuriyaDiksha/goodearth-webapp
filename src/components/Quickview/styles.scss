@@ -26,8 +26,8 @@
 
 .quickview-close {
     position: absolute;
-    right: 25px;
-    top: 16px;
+    right: 30px;
+    top: 25px;
     background: none;
     border: 0;
     padding: 0;
@@ -35,7 +35,7 @@
 
 .pre-button-style{
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 10%; 
     transform: translate(-50%, -50%);
     font-size: 60px;
@@ -45,7 +45,7 @@
 
 .next-button-style{
     position: absolute;
-    top: 45%;
+    top: 50%;
     right:6%;
     transform: translate(-50%, -50%);
     font-size: 60px;
@@ -54,5 +54,9 @@
 }
 .sidebar{
     margin-left: 20px;
+}
+
+.details-container{
+    margin-top: 20px;
 }
 

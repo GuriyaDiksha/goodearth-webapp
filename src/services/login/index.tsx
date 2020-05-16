@@ -12,10 +12,13 @@ import {
   registerResponse,
   countryDataResponse
 } from "./typings";
-// import initAction from "../../client/initAction";
 import { updateCookies } from "actions/cookies";
 import { updateComponent, updateModal } from "../../actions/modal";
 import CookieService from "services/cookie";
+import { updateUser } from "actions/user";
+import MetaService from "services/meta";
+import WishlistService from "services/wishlist";
+import BasketService from "services/basket";
 
 export default {
   showForgotPassword: function(
@@ -60,17 +63,14 @@ export default {
         password: password
       }
     );
-    document.cookie =
-      "atkn=" + res.token + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    document.cookie =
-      "user_id=" +
-      res.userId +
-      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    document.cookie =
-      "email=" + res.email + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    const cookies = CookieService.parseCookies(document.cookie);
-    dispatch(updateCookies(cookies));
-    // initAction(store);
+    CookieService.setCookie("atkn", res.token, 365);
+    CookieService.setCookie("userId", res.userId, 365);
+    CookieService.setCookie("email", res.email, 365);
+    dispatch(updateCookies({ tkn: res.token }));
+    dispatch(updateUser({ isLoggedIn: true }));
+    MetaService.updateMeta(dispatch, { tkn: res.token });
+    WishlistService.updateWishlist(dispatch);
+    BasketService.fetchBasket(dispatch);
     return res;
   },
   logout: async function(dispatch: Dispatch) {
@@ -82,15 +82,13 @@ export default {
     if (res) {
       document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie =
-        "bridal_id=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "bridal_currency=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "user_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+        "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      const cookies = CookieService.parseCookies(document.cookie);
-      dispatch(updateCookies(cookies));
-      // initAction(store);
+      dispatch(updateCookies({ tkn: "" }));
+      dispatch(updateUser({ isLoggedIn: false }));
+      MetaService.updateMeta(dispatch, {});
+      WishlistService.resetWishlist(dispatch);
+      BasketService.fetchBasket(dispatch);
       return res;
     }
   },
@@ -100,17 +98,14 @@ export default {
       "http://api.goodearth.in/myapi/auth/register/",
       formData
     );
-    document.cookie =
-      "atkn=" + res.token + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    document.cookie =
-      "user_id=" +
-      res.userId +
-      "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    document.cookie =
-      "email=" + res.email + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    const cookies = CookieService.parseCookies(document.cookie);
-    dispatch(updateCookies(cookies));
-    // initAction(store);
+    CookieService.setCookie("atkn", res.token, 365);
+    CookieService.setCookie("userId", res.userId, 365);
+    CookieService.setCookie("email", res.email, 365);
+    dispatch(updateCookies({ tkn: res.token }));
+    dispatch(updateUser({ isLoggedIn: true }));
+    MetaService.updateMeta(dispatch, { tkn: res.token });
+    WishlistService.updateWishlist(dispatch);
+    BasketService.fetchBasket(dispatch);
     return res;
   },
   fetchCountryData: (dispatch: Dispatch) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 import globalStyles from "../../../styles/global.scss";
@@ -9,12 +9,15 @@ import { Props } from "./typings";
 const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    props.setValue(event.currentTarget.value);
-    if (props.handleChange) {
-      props.handleChange(event);
-    }
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      props.setValue(event.currentTarget.value);
+      if (props.handleChange) {
+        props.handleChange(event);
+      }
+    },
+    [props.handleChange]
+  );
 
   const errorMessage = props.errorMessage
     ? props.errorMessage
@@ -48,7 +51,7 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         {options}
       </select>
       <label
-        className={labelClass && !props.disable ? "" : globalStyles.hidden}
+        className={cs({ [globalStyles.hidden]: !labelClass || props.disable })}
       >
         {props.label}
       </label>

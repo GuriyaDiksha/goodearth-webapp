@@ -53,7 +53,6 @@ export type HeaderProps = {
 export type SideMenuProps = {
   currency: Currency;
   mobile: boolean;
-  isLoggedIn: boolean;
   wishlistData: WishListType[];
   sidebagData: Basket;
 };

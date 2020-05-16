@@ -75,6 +75,8 @@
 .slick-dots li {
   display: inline-block;
   margin: 0 4px;
+  width: auto;
+  height: auto;
 }
 
 .slick-dots li.slick-active button::before{

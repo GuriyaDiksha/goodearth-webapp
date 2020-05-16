@@ -37,10 +37,6 @@ const Popup: React.FC = ({ children }) => {
             <div
               className={cs(styles.fixHead, bootstrapStyles.row, styles.row)}
             >
-              {/* <span className={cs(styles.closePopup, "hidden-xs", "hidden-sm")} onClick={() => closePopup()} >
-                                <i className={cs(iconStyles.icon, iconStyles.iconCross)}></i>
-                            </span> */}
-
               <div
                 className={cs(
                   bootstrapStyles.col10,
@@ -49,9 +45,6 @@ const Popup: React.FC = ({ children }) => {
                   styles.popupHeader
                 )}
               >
-                {/* <span className={cs(styles.closePopup, "hidden-md", "hidden-lg")} onClick={() => closePopup()} >
-                                    <i className={cs(iconStyles.icon, iconStyles.iconCross)}></i>
-                                </span> */}
                 <img
                   src={geLogo}
                   className={cs(globalStyles.logo, styles.logoPopup)}

@@ -74,6 +74,7 @@ class MenuList extends React.Component<MenuListProps> {
                   <Link
                     className={spanClass + columnUrlClass}
                     to={column.url ? column.url : "#"}
+                    onClick={this.mouseLeave}
                   >
                     <span
                       dangerouslySetInnerHTML={{
@@ -88,7 +89,7 @@ class MenuList extends React.Component<MenuListProps> {
                   ? column.children.map((data1, index) => {
                       return (
                         <li key={index}>
-                          <Link to={data1.url}>
+                          <Link to={data1.url} onClick={this.mouseLeave}>
                             <span
                               dangerouslySetInnerHTML={{
                                 __html: data1.labelDesktop
@@ -130,6 +131,7 @@ class MenuList extends React.Component<MenuListProps> {
               <div key={j}>
                 <li>
                   <Link
+                    onClick={this.mouseLeave}
                     className={
                       column.name.toLowerCase() == "winter velvets"
                         ? class1
@@ -154,6 +156,7 @@ class MenuList extends React.Component<MenuListProps> {
                   return (
                     <li key={index}>
                       <Link
+                        onClick={this.mouseLeave}
                         to={data1.url}
                         className={isSale ? styles.menucolor : ""}
                       >
@@ -192,6 +195,7 @@ class MenuList extends React.Component<MenuListProps> {
                       ? imageurl.categoryImageUrl
                       : "JavaScript:Void(0);"
                   }
+                  onClick={this.mouseLeave}
                 >
                   <img src={bigimage} className={styles.imgResponsive} />
                 </Link>

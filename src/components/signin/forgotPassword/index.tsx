@@ -2,7 +2,6 @@ import React, { RefObject } from "react";
 import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-// import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
@@ -70,9 +69,11 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     if (this.emailInput.current) {
       this.emailInput.current.focus();
     }
-    // this.state.email = window.email_goodearth || '';
-    // this.setState({})
-    // window.email_goodearth = '';
+    const email = localStorage.getItem("tempEmail");
+    this.setState({
+      email
+    });
+    localStorage.removeItem("tempEmail");
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {

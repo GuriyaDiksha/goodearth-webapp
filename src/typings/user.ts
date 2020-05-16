@@ -8,4 +8,5 @@ export type User = {
   loyalityEligible: boolean;
   bridal: boolean;
   gender?: "male" | "female";
+  isLoggedIn: boolean;
 };

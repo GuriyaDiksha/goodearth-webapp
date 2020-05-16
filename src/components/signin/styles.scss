@@ -353,9 +353,7 @@ input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
 input[type="checkbox"]:checked + label {
   position: relative;
   cursor: pointer;
-  //width: 100%;
   font-weight: normal;
   font-size: 12px;
   font-family: $font-Lato;
-  //padding-left: 30px;
 }

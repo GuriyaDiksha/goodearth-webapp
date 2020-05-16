@@ -39,7 +39,8 @@ const initialState: State = {
   },
   facetObject: {},
   plpProductId: [],
-  filterState: false
+  filterState: false,
+  onload: false
 };
 
 export const plplist = (state = initialState, action: PlpActions): State => {
@@ -47,6 +48,16 @@ export const plplist = (state = initialState, action: PlpActions): State => {
     case "ADD_PLP_LIST": {
       const newState = { ...state };
       newState.data = action.payload;
+      newState.onload = false;
+      const list = action.payload.results.data.map(({ id }) => id);
+      newState.plpProductId = list;
+      return newState;
+    }
+
+    case "NEW_PLP_LIST": {
+      const newState = { ...state };
+      newState.data = action.payload;
+      newState.onload = true;
       const list = action.payload.results.data.map(({ id }) => id);
       newState.plpProductId = list;
       return newState;
@@ -54,6 +65,7 @@ export const plplist = (state = initialState, action: PlpActions): State => {
 
     case "UPDATE_FACET": {
       const newState = { ...state };
+      newState.onload = false;
       newState.facetObject = action.payload;
       return newState;
     }

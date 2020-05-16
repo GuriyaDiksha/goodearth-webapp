@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { currencyCode } from "../../typings/currency";
 import { SideMenuProps } from "./typings";
 import styles from "./styles.scss";
@@ -13,6 +13,7 @@ import LoginService from "services/login";
 import { Basket } from "typings/basket";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import UserContext from "contexts/user";
 
 interface State {
   showc: boolean;
@@ -54,8 +55,9 @@ class SideMenu extends React.Component<Props, State> {
       showSearch: false
     };
   }
-
+  static contextType = UserContext;
   render() {
+    const { isLoggedIn } = this.context;
     const items: DropdownItem[] = [
       {
         label: "INR" + " " + String.fromCharCode(currencyCode["INR"]),
@@ -71,7 +73,21 @@ class SideMenu extends React.Component<Props, State> {
       }
     ];
 
-    const profileItems: DropdownItem[] = [
+    const profileItems: DropdownItem[] = [];
+    isLoggedIn &&
+      profileItems.push(
+        {
+          label: "My Profile",
+          href: "/accountpage?mod=profile",
+          type: "link"
+        },
+        {
+          label: "My Orders",
+          href: "/accountpage?mod=orders",
+          type: "link"
+        }
+      );
+    profileItems.push(
       {
         label: "Track Order",
         href: "/about",
@@ -102,15 +118,13 @@ class SideMenu extends React.Component<Props, State> {
         value: "Check Balance"
       },
       {
-        label: this.props.isLoggedIn ? "Sign Out" : "Sign In",
+        label: isLoggedIn ? "Sign Out" : "Sign In",
         href: "",
-        onClick: this.props.isLoggedIn
-          ? this.props.handleLogOut
-          : this.props.goLogin,
+        onClick: isLoggedIn ? this.props.handleLogOut : this.props.goLogin,
         type: "link",
-        value: this.props.isLoggedIn ? "Sign Out" : "Sign In"
+        value: isLoggedIn ? "Sign Out" : "Sign In"
       }
-    ];
+    );
     const selectClass = this.state.showp
       ? cs(
           iconStyles.icon,
@@ -128,124 +142,138 @@ class SideMenu extends React.Component<Props, State> {
       bagCount = bagCount + item[i].quantity;
     }
     return (
-      <ul className={styles.sideMenuContainer}>
-        {this.props.mobile ? (
-          ""
-        ) : (
-          <li
-            className={cs(
-              styles.sideMenuItem,
-              styles.curr,
-              styles.currencyMenu
-            )}
-          >
-            <SelectableDropdownMenu
-              align="right"
-              className={storyStyles.greyBG}
-              items={items}
-              value="INR"
-              showCaret={true}
-            ></SelectableDropdownMenu>
-          </li>
-        )}
-        {this.props.mobile ? (
-          ""
-        ) : (
-          <li
-            className={
-              this.state.showp
-                ? cs(
-                    styles.sideMenuItem,
-                    styles.curr,
-                    styles.hiddenXs,
-                    styles.hiddenSm
-                  )
-                : cs(styles.sideMenuItem, styles.hiddenXs, styles.hiddenSm)
-            }
-          >
-            <div className={styles.innerProfileContainer}>
-              <DropdownMenu
-                display={<i className={selectClass}></i>}
-                className={storyStyles.greyBG}
+      <Fragment>
+        <ul className={styles.sideMenuContainer}>
+          {this.props.mobile ? (
+            ""
+          ) : (
+            <li
+              className={cs(
+                styles.sideMenuItem,
+                styles.curr,
+                styles.currencyMenu
+              )}
+            >
+              <SelectableDropdownMenu
                 align="right"
-                items={profileItems}
-              ></DropdownMenu>
-            </div>
-          </li>
-        )}
-        {this.props.mobile ? (
-          ""
-        ) : (
-          <li
-            className={cs(
-              styles.sideMenuItem,
-              styles.hiddenXs,
-              styles.hiddenSm
-            )}
-          >
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconWishlist,
-                styles.iconStyle
-              )}
-            ></i>
-            <span className={styles.badge}>
-              {wishlistCount > 0 ? wishlistCount : ""}
-            </span>
-          </li>
-        )}
-        <li className={cs(styles.sideMenuItem)}>
-          <i
-            className={cs(
-              iconStyles.icon,
-              iconStyles.iconCart,
-              styles.iconStyle
-            )}
-            onClick={(): void => {
-              this.setState({
-                showBag: true
-              });
-            }}
-          ></i>
-          <span className={styles.badge}>{bagCount}</span>
-          <Bag
-            cart={this.props.sidebagData}
-            currency={this.props.currency}
-            active={this.state.showBag}
-            toggleBag={(): void => {
-              this.setState(prevState => ({
-                showBag: !prevState.showBag
-              }));
-            }}
-          />
-        </li>
-        {this.props.mobile ? (
-          <li className={cs(styles.sideMenuItem)}>
-            <i
+                className={storyStyles.greyBG}
+                items={items}
+                value="INR"
+                showCaret={true}
+              ></SelectableDropdownMenu>
+            </li>
+          )}
+          {this.props.mobile ? (
+            ""
+          ) : (
+            <li
               className={
-                this.state.showSearch
+                this.state.showp
                   ? cs(
-                      iconStyles.icon,
-                      iconStyles.iconNarrowBig,
-                      styles.iconStyle
+                      styles.sideMenuItem,
+                      styles.curr,
+                      styles.hiddenXs,
+                      styles.hiddenSm
                     )
-                  : cs(iconStyles.icon, iconStyles.iconSearch, styles.iconStyle)
+                  : cs(styles.sideMenuItem, styles.hiddenXs, styles.hiddenSm)
               }
-            ></i>
-          </li>
-        ) : (
+            >
+              <div className={styles.innerProfileContainer}>
+                <DropdownMenu
+                  display={<i className={selectClass}></i>}
+                  className={storyStyles.greyBG}
+                  align="right"
+                  items={profileItems}
+                ></DropdownMenu>
+              </div>
+            </li>
+          )}
+          {this.props.mobile ? (
+            ""
+          ) : (
+            <li
+              className={cs(
+                styles.sideMenuItem,
+                styles.hiddenXs,
+                styles.hiddenSm
+              )}
+            >
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconWishlist,
+                  styles.iconStyle
+                )}
+              ></i>
+              <span className={styles.badge}>
+                {wishlistCount > 0 ? wishlistCount : ""}
+              </span>
+            </li>
+          )}
           <li className={cs(styles.sideMenuItem)}>
             <i
               className={cs(
                 iconStyles.icon,
-                iconStyles.iconSearch,
+                iconStyles.iconCart,
                 styles.iconStyle
               )}
+              onClick={(): void => {
+                this.setState({
+                  showBag: true
+                });
+              }}
             ></i>
+            <span className={styles.badge}>{bagCount}</span>
+            <Bag
+              cart={this.props.sidebagData}
+              currency={this.props.currency}
+              active={this.state.showBag}
+              toggleBag={(): void => {
+                this.setState(prevState => ({
+                  showBag: !prevState.showBag
+                }));
+              }}
+            />
           </li>
-        )}
-      </ul>
+        </ul>
+        <ul>
+          {this.props.mobile ? (
+            <li className={cs(styles.firstMenu)}>
+              <p className={styles.searchText}>
+                <i
+                  className={
+                    this.state.showSearch
+                      ? cs(
+                          iconStyles.icon,
+                          iconStyles.iconNarrowBig,
+                          styles.iconStyle
+                        )
+                      : cs(
+                          iconStyles.icon,
+                          iconStyles.iconSearch,
+                          styles.iconStyle
+                        )
+                  }
+                ></i>
+                <span>Search</span>
+              </p>
+            </li>
+          ) : (
+            <li className={cs(styles.firstMenu)}>
+              <p className={styles.searchText}>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconSearch,
+                    styles.iconStyle
+                  )}
+                ></i>
+                <span>Search</span>
+              </p>
+            </li>
+          )}
+        </ul>
+      </Fragment>
     );
   }
 }

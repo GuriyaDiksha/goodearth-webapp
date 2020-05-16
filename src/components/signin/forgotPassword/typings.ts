@@ -1,4 +1,3 @@
-// import { ModalContext } from "components/Modal/typings.ts";
 export type ForgotPasswordProps = {};
 
 export type ForgotPasswordState = {

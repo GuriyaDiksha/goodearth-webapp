@@ -7,6 +7,7 @@ export type State = {
   facetObject: any;
   plpProductId: number[];
   filterState: boolean;
+  onload: boolean;
 };
 
 export { Actions };

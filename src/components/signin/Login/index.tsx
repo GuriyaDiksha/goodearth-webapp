@@ -2,7 +2,6 @@ import React, { RefObject } from "react";
 import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
-// import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
@@ -63,7 +62,7 @@ class LoginForm extends React.Component<Props, loginState> {
             }
           );
         } else {
-          // window.email_goodearth = this.refs.emailRef.state.value;
+          localStorage.setItem("tempEmail", this.state.email);
           const error = [
             "This account already exists. Please ",
             <span key={1} onClick={this.handleResetPassword}>
@@ -88,14 +87,6 @@ class LoginForm extends React.Component<Props, loginState> {
         });
       }
     }
-
-    // }).catch((err) => {
-    //     console.log("err: " + err);
-    //     this.setState({
-    //         showerror: '',
-    //         highlight: false
-    //     })
-    // })
   }
 
   handleResetPassword = (event: React.MouseEvent) => {
@@ -134,8 +125,6 @@ class LoginForm extends React.Component<Props, loginState> {
     this.myBlur(undefined, "submit");
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
-      // window.email_goodearth = this.refs.emailRef.state.value;
-
       this.props
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
@@ -145,7 +134,6 @@ class LoginForm extends React.Component<Props, loginState> {
         .catch(err => {
           console.log("err: " + err);
           if (err.response.data.non_field_errors[0] == "NotEmail") {
-            // window.register_email = this.refs.emailRef.state.value;
             this.setState({
               msg: [
                 "No registered user found. Please ",
@@ -156,7 +144,6 @@ class LoginForm extends React.Component<Props, loginState> {
               highlight: true
             });
           } else {
-            // window.register_email = '';
             this.setState({
               showerror:
                 "The user name and/or password you have entered is incorrect"
@@ -284,7 +271,6 @@ class LoginForm extends React.Component<Props, loginState> {
           <div>
             <InputField
               blur={e => this.myBlur(e)}
-              // ref={this.emailRef}
               value={this.state.email}
               placeholder={"Email"}
               label={"Email"}
@@ -303,7 +289,6 @@ class LoginForm extends React.Component<Props, loginState> {
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}
               handleChange={e => this.handleChange(e, "password")}
-              // ref={this.passwordRef}
               label={"Password"}
               border={this.state.highlightp}
               inputRef={this.passwordInput}
@@ -311,7 +296,6 @@ class LoginForm extends React.Component<Props, loginState> {
               isPlaceholderVisible={this.state.isPasswordDisabled}
               error={this.state.msgp}
               type={this.state.showPassword ? "text" : "password"}
-              // shouldFocus={this.state.shouldFocusOnPassword}
               inputClass={
                 this.state.isPasswordDisabled ? styles.disabledInput : ""
               }

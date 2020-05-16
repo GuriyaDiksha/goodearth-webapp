@@ -92,6 +92,10 @@
     line-height: 20px;
     padding-left: 5px;
     text-align: left;
+
+    a:hover, a:active, a:visited, a:focus {
+        color: $cerise;
+    }
 }
 
 .mobileFaqContainer {
