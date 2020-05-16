@@ -56,5 +56,46 @@ export default {
       successful,
       message
     };
+  },
+  enquire: async function(
+    dispatch: Dispatch,
+    params: {
+      productId: ProductID;
+      email: string;
+      name: string;
+      number: string;
+      quantity: string;
+      query: string;
+    }
+  ) {
+    let successful, message;
+
+    try {
+      const res = await API.post<{
+        message: string;
+      }>(
+        dispatch,
+        "http://api.goodearth.in/myapi/promotions/corporate_enquiry/",
+        {
+          productId: params.productId,
+          name: params.name,
+          email: params.email,
+          query: params.query,
+          contactNo: params.number,
+          qty: params.quantity
+        }
+      );
+
+      successful = true;
+      message = res.message;
+    } catch (e) {
+      successful = false;
+      message = e.response.data.message;
+    }
+
+    return {
+      successful,
+      message
+    };
   }
 };

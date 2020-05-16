@@ -16,28 +16,48 @@ const InputField: React.FC<Props> = ({
   className,
   placeholder,
   errorMsg,
-  disabled
+  disabled,
+  validateAfterBlur
 }) => {
   const [focused, setFocused] = useState(false);
   const [error, setError] = useState("");
+  const [blurred, setBlurred] = useState(false);
 
   const onFocus = () => {
     setFocused(true);
   };
 
-  const onValueChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
+  const validate = (value: string) => {
     let error = "";
 
     if (validator) {
       const { valid, message } = validator(value);
-
       if (!valid) {
         error = message || "Please enter valid input";
         setError(error);
       } else {
         setError("");
       }
+    }
+
+    return error;
+  };
+
+  const onBlur = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+
+    if (value) {
+      validate(value);
+      setBlurred(true);
+    }
+  };
+
+  const onValueChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    let error = "";
+
+    if ((validateAfterBlur && blurred) || !validateAfterBlur) {
+      error = validate(value);
     }
 
     onChange && onChange(value, error);
@@ -54,16 +74,17 @@ const InputField: React.FC<Props> = ({
         }
         disabled={disabled}
         onFocus={onFocus}
+        onBlur={onBlur}
         onChange={onValueChange}
         value={value}
         name={name}
-        placeholder={!focused && placeholder ? placeholder : ""}
+        placeholder={(!focused || disabled) && placeholder ? placeholder : ""}
         className={cs(styles.input, {
           [styles.error]: error || errorMsg,
           [styles.disabled]: disabled
         })}
       />
-      {focused && <div className={styles.label}>{label}</div>}
+      {focused && !disabled && <div className={styles.label}>{label}</div>}
       {(error || errorMsg) && (
         <span className={styles.inputError}>{error || errorMsg}</span>
       )}

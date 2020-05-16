@@ -21,6 +21,7 @@ import SizeChartPopup from "../sizeChartPopup";
 import ColorSelector from "components/ColorSelector";
 import WallpaperPopup from "../wallpaperPopup";
 import NotifyMePopup from "components/NotifyMePopup";
+import CorporateEnquiryPopup from "components/CorporateEnquiryPopup";
 // services
 import BasketService from "services/basket";
 // actions
@@ -105,7 +106,7 @@ const ProductDetails: React.FC<Props> = ({
   const minQuantity = 1;
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
 
-  const [quantity, setQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
 
   const onQuantityChange = useCallback(
     value => {
@@ -172,7 +173,12 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const onEnquireClick = () => {
-    console.log(123);
+    updateComponentModal(
+      <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      mobile ? true : false,
+      mobile ? ModalStyles.bottomAlign : undefined
+    );
+    changeModalState(true);
   };
 
   const notifyMeClick = () => {
@@ -213,7 +219,7 @@ const ProductDetails: React.FC<Props> = ({
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize]);
+  }, [corporatePDP, selectedSize, quantity]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -440,14 +446,12 @@ const ProductDetails: React.FC<Props> = ({
           )}
         >
           <div
-            className={cs(
-              bootstrap.colSm8,
-              bootstrap.col9,
-              globalStyles.textCenter,
-              {
-                [styles.addToBagBtnContainer]: mobile
-              }
-            )}
+            className={cs(globalStyles.textCenter, {
+              [bootstrap.col9]: !corporatePDP,
+              [styles.addToBagBtnContainer]: mobile,
+              [bootstrap.colSm8]: !mobile,
+              [bootstrap.colSm12]: corporatePDP && mobile
+            })}
           >
             {button}
             {isQuickview ? (
@@ -464,7 +468,8 @@ const ProductDetails: React.FC<Props> = ({
               bootstrap.col3,
               globalStyles.textCenter,
               {
-                [styles.wishlistBtnContainer]: mobile
+                [styles.wishlistBtnContainer]: mobile,
+                [globalStyles.hidden]: corporatePDP
               }
             )}
           >
