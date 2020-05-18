@@ -7,6 +7,7 @@ import {
 import Axios from "axios";
 import { Dispatch } from "redux";
 import API from "utils/api";
+import { Fields } from "components/CorporateEnquiryPopup/typings";
 
 export default {
   fetchProductDetails: async (
@@ -63,16 +64,20 @@ export default {
       productId: ProductID;
       email: string;
       name: string;
-      number: string;
+      contactNo: string;
       quantity: string;
       query: string;
     }
   ) {
-    let successful, message;
+    let successful,
+      errors: { [x in Fields]?: string[] } = {};
 
     try {
-      const res = await API.post<{
+      await API.post<{
         message: string;
+        data: {
+          [x in Fields]: string[];
+        };
       }>(
         dispatch,
         "http://api.goodearth.in/myapi/promotions/corporate_enquiry/",
@@ -81,21 +86,20 @@ export default {
           name: params.name,
           email: params.email,
           query: params.query,
-          contactNo: params.number,
+          contactNo: params.contactNo,
           qty: params.quantity
         }
       );
 
       successful = true;
-      message = res.message;
     } catch (e) {
       successful = false;
-      message = e.response.data.message;
+      errors = e.response.data;
     }
 
     return {
       successful,
-      message
+      errors
     };
   }
 };
