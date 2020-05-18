@@ -17,6 +17,7 @@ import { modal } from "./modal";
 import { plplist } from "./plp";
 import { growlMessage } from "./growlMessage";
 import { meta } from "./meta";
+import { searchList } from "./search";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -35,7 +36,8 @@ const createRootReducer = (history: History) => {
     modal,
     plplist,
     meta,
-    message: growlMessage
+    message: growlMessage,
+    searchList
   });
 };
 

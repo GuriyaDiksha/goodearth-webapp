@@ -9,6 +9,8 @@ import CollectionSpecific, {
 } from "containers/collectionSpecific";
 import initActionPLP from "containers/plp/initAction";
 import PLP from "containers/plp";
+import Search from "containers/search";
+import initActionSearch from "containers/search/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -43,6 +45,12 @@ const routes: RouteConfig = [
     path: ROUTES.HOME,
     component: Home,
     action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SEARCH,
+    component: Search,
+    action: initActionSearch,
     exact: true
   }
 ];
