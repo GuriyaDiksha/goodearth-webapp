@@ -19,14 +19,14 @@ import { Context as ModalContext } from "components/Modal/context";
 // styles
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
+// typings
 import { ProductID } from "typings/id";
+import { Fields } from "./typings";
 
 type Props = {
   id: ProductID;
   quantity: number;
 };
-
-type Fields = "name" | "number" | "email" | "quantity" | "query";
 
 const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   const { dispatch } = useStore();
@@ -42,7 +42,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     }
   >({
     name: "",
-    number: "",
+    contactNo: "",
     email: "",
     quantity: quantity.toString(),
     query: ""
@@ -54,7 +54,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     }
   >({
     name: "",
-    number: "",
+    contactNo: "",
     email: "",
     quantity: "",
     query: ""
@@ -72,7 +72,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
         placeholder: "Name"
       },
       {
-        id: "number",
+        id: "contactNo",
         label: "Mobile Number",
         placeholder: "Mobile Number"
       },
@@ -180,18 +180,29 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   const submit = async () => {
     const formValid = validateForm();
     if (formValid) {
-      const { successful, message } = await ProductService.enquire(dispatch, {
+      const result = await ProductService.enquire(dispatch, {
         ...values,
         productId: id
       });
 
-      if (successful) {
+      if (result.successful) {
         setSubmitted(true);
         setEnquiryMessage(
           "Thank you for sharing your details with us! We'll get back to you shortly.For any further queries, you can reach us at +91 9582 999 555 / +91 9582 999 888 between 9am–5pm IST."
         );
       } else {
-        setEnquiryMessage(message);
+        const formErrors = {
+          ...errors
+        };
+        if (result.errors) {
+          for (const key in result.errors) {
+            const msg = result.errors[key as Fields]![0];
+            formErrors[key as Fields] = msg;
+          }
+
+          setErrors(formErrors);
+        }
+        setEnquiryMessage("");
       }
     }
   };
