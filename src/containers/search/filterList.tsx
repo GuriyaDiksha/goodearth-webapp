@@ -13,15 +13,15 @@ import { State, FilterProps } from "./typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    data: state.plplist.data,
-    onload: state.plplist.onload,
+    data: state.searchList.data,
+    onload: state.searchList.onload,
     mobile: state.device.mobile,
     currency: state.currency,
     location: state.router.location,
-    facets: state.plplist.data.results.facets,
-    facetObject: state.plplist.facetObject,
-    nextUrl: state.plplist.data.next,
-    listdata: state.plplist.data.results.data
+    facets: state.searchList.data.results.facets,
+    facetObject: state.searchList.facetObject,
+    nextUrl: state.searchList.data.next,
+    listdata: state.searchList.data.results.data
   };
 };
 
@@ -57,7 +57,8 @@ class FilterList extends React.Component<Props, State> {
         currency: {},
         sortBy: {},
         productType: {},
-        availableDiscount: {}
+        availableDiscount: {},
+        q: {}
       },
       searchUrl: this.props.location,
       mobileFilter: false,
@@ -92,6 +93,7 @@ class FilterList extends React.Component<Props, State> {
     while ((match = re.exec(url))) {
       vars[match[1]] = match[2];
     }
+
     for (const key in vars) {
       if (Object.prototype.hasOwnProperty.call(vars, key)) {
         const cc = vars[key].replace(/%26/g, "&").split("|");
@@ -114,12 +116,8 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "category_shop":
             for (let i = 0; i < cc.length; i++) {
-              const csKey = cc[i].split(">")[1].trim();
-              filter.categoryShop[csKey] = Object.assign(
-                {},
-                filter.categoryShop[csKey]
-              );
-              filter.categoryShop[csKey][cc[i].replace(/%2B/g, "+")] = true;
+              const csKey = cc[i].trim();
+              filter.categoryShop[csKey] = true;
             }
             break;
           case "min_price":
@@ -147,6 +145,9 @@ class FilterList extends React.Component<Props, State> {
                   cc[i]
               };
             }
+            break;
+          case "q":
+            filter.q[key] = vars[key];
             break;
           default:
             break;
@@ -185,13 +186,13 @@ class FilterList extends React.Component<Props, State> {
   createUrlfromFilter = (load?: any) => {
     const array = this.state.filter;
     let filterUrl = "",
-      categoryKey: any,
       mainurl: string | undefined = "",
       colorVars = "",
       sizeVars = "",
       categoryShopVars = "",
       productVars = "",
-      discountVars = "";
+      discountVars = "",
+      searchValue = "";
     Object.keys(array).map((filterType, i) => {
       Object.keys(array[filterType]).map((key, i) => {
         switch (filterType) {
@@ -216,17 +217,10 @@ class FilterList extends React.Component<Props, State> {
             }
             break;
           case "categoryShop":
-            categoryKey = array[filterType][key];
-            Object.keys(categoryKey).map(data => {
-              if (categoryKey[data]) {
-                const orignalData = data;
-                data = encodeURIComponent(data).replace(/%20/g, "+");
-                categoryShopVars == ""
-                  ? (categoryShopVars = data)
-                  : (categoryShopVars += "|" + data);
-                mainurl = this.getMainUrl(orignalData);
-              }
-            });
+            // this.state.old_selected_category = k]y;
+            if (array[filterType][key]) {
+              categoryShopVars = key;
+            }
             break;
           case "price":
             filterUrl += "&" + key + "=" + array[filterType][key];
@@ -273,6 +267,7 @@ class FilterList extends React.Component<Props, State> {
     });
     colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
     sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
+    searchValue = this.state.filter.q.q ? this.state.filter.q.q : "";
     categoryShopVars != ""
       ? (filterUrl += "&category_shop=" + categoryShopVars)
       : "";
@@ -284,7 +279,7 @@ class FilterList extends React.Component<Props, State> {
       mainurl = location.origin + location.pathname;
     }
     // filter_url = filter_url.replace(/\s/g, "+");
-    history.replaceState({}, "", mainurl + "?source=plp" + filterUrl);
+    history.replaceState({}, "", mainurl + "?q=" + searchValue + filterUrl);
     this.updateDataFromAPI(load);
   };
 
@@ -411,14 +406,14 @@ class FilterList extends React.Component<Props, State> {
       const filterUrl = "?" + nextUrl.split("?")[1];
       const pageSize = mobile ? 10 : 20;
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        plpList => {
+        searchList => {
           this.createFilterfromUrl();
           const pricearray: any = [],
             currentCurrency =
               "price" +
               currency[0].toUpperCase() +
               currency.substring(1).toLowerCase();
-          plpList.results.facets[currentCurrency].map(function(a: any) {
+          searchList.results.facets[currentCurrency].map(function(a: any) {
             pricearray.push(+a[0]);
           });
           if (pricearray.length > 0) {
@@ -451,7 +446,7 @@ class FilterList extends React.Component<Props, State> {
               disableSelectedbox: false,
               scrollload: true,
               flag: true,
-              totalItems: plpList.count
+              totalItems: searchList.count
             },
             () => {
               if (!this.state.scrollView && this.state.shouldScroll) {
@@ -459,14 +454,13 @@ class FilterList extends React.Component<Props, State> {
               }
             }
           );
-          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
         }
       );
     }
   };
 
   updateDataFromAPI = (onload?: string) => {
-    const { mobile, fetchPlpProducts } = this.props;
+    const { mobile, fetchSearchProducts } = this.props;
     if (!onload && mobile) {
       return true;
     }
@@ -477,25 +471,20 @@ class FilterList extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
 
     const pageSize = mobile ? 10 : 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      this.createList(plpList);
-      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-    });
+    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`).then(
+      searchList => {
+        this.createList(searchList);
+      }
+    );
   };
 
   componentDidMount() {
-    // this.props.onRef(this);
     window.addEventListener("scroll", this.handleScroll);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    if (
-      nextProps.onload &&
-      nextProps.facets.categoryShop &&
-      this.props.updateFacets
-    ) {
+    if (nextProps.onload && nextProps.facets.categoryShop) {
       this.createList(nextProps.data);
-      this.props.updateFacets(this.getSortedFacets(nextProps.facets));
     }
   };
 
@@ -554,142 +543,6 @@ class FilterList extends React.Component<Props, State> {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
   }
-
-  getSortedFacets = (facets: any): any => {
-    if (facets.length == 0) return false;
-    const categories: any = [],
-      subCategories: any = [],
-      categoryNames: any = [],
-      categoryObj: any = {};
-    const { filter } = this.state;
-
-    let selectIndex: any = -1,
-      check = "";
-
-    if (facets.categoryShop && facets.categoryShop.length > 0) {
-      facets.categoryShop.map((v: any, i: number) => {
-        const baseCategory = v[0];
-        let categoryUrl: any = "";
-        if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
-          categoryUrl = facets.categoryShopDetail.filter(function(
-            k: any,
-            i: any
-          ) {
-            return Object.prototype.hasOwnProperty.call(k, baseCategory);
-          })[0];
-        }
-        if (categoryUrl) {
-          v.push(categoryUrl[baseCategory]);
-        }
-        const labelArr = baseCategory.split(">");
-        labelArr.shift();
-        if (labelArr.length > 1) {
-          //categories having child categories
-          categories.push(v);
-          if (categoryNames.indexOf(labelArr[0].trim()) == -1) {
-            categoryNames.push(labelArr[0].trim());
-          }
-        } else if (labelArr.length == 1) {
-          subCategories.push(v);
-        }
-      });
-
-      facets.categories = categories;
-      facets.subCategories = subCategories;
-    }
-
-    for (let i = 0; i < categoryNames.length; i++) {
-      facets.subCategories.map(function(v: any, k: any) {
-        if (v[0].indexOf(categoryNames[i]) != -1) {
-          facets.categories.push(v);
-          facets.subCategories.splice(k, 1);
-        }
-      });
-    }
-
-    facets.categories.map((data: any, i: number) => {
-      const tempKey = data[0].split(">")[1].trim(),
-        viewData = data[0].split(">");
-      viewData.length > 2 ? viewData.pop() : "";
-      categoryObj[tempKey]
-        ? false
-        : (categoryObj[tempKey] = [["View all", viewData.join(">").trim()]]);
-      if (data[0].split(">")[2]) {
-        categoryObj[tempKey].push([data[0].split(">")[2].trim()].concat(data));
-      }
-    });
-
-    // code for setting all values of filter false
-    facets.subCategories.map((data: any, i: number) => {
-      const key = data[0].split(">")[1].trim();
-      if (filter.categoryShop[key]) {
-        // check that view all is clicked or not by (arrow key >)
-        if (filter.categoryShop[key][data[0]]) {
-          // nestedList[1].split('>').length == 2 ? check = data : '';
-          selectIndex = key;
-          // this.state.old_selected_category = key;
-          // filter.categoryShop[key][data[0]] = false
-        }
-      } else {
-        filter.categoryShop[key] = {};
-        filter.categoryShop[key][data[0]] = false;
-      }
-    });
-    let oldSelectedCategory: any = this.state.oldSelectedCategory;
-    // code for setting  all values of filter is false
-    Object.keys(categoryObj).map((data, i) => {
-      categoryObj[data].map((nestedList: any, j: number) => {
-        if (filter.categoryShop[data]) {
-          // check that view all is clicked or not by (arrow key >)
-          if (filter.categoryShop[data][nestedList[1]]) {
-            nestedList[1].split(">").length == 2 ? (check = data) : "";
-            selectIndex = data;
-            oldSelectedCategory = data;
-          } else {
-            if (check == data) {
-              filter.categoryShop[data][nestedList[1]] = true;
-              selectIndex = data;
-            } else {
-              filter.categoryShop[data][nestedList[1]] = false;
-            }
-          }
-        } else {
-          filter.categoryShop[data] = {};
-          filter.categoryShop[data][nestedList[1]] = false;
-        }
-      });
-    });
-    // code for all product_by filter false
-    if (facets.categoryProductTypeMapping) {
-      Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
-        facets.categoryProductTypeMapping[level4].map((productBy: any) => {
-          if (!filter.productType["pb_" + productBy]) {
-            filter.productType["pb_" + productBy] = false;
-          }
-        });
-      });
-    }
-    // code for set active open state and set selected old value
-    if (!oldSelectedCategory) {
-      Object.keys(filter.categoryShop).map((level2: any, i: number) => {
-        Object.keys(filter.categoryShop[level2]).map(
-          (level3: any, j: number) => {
-            if (filter.categoryShop[level2][level3]) {
-              selectIndex = level2;
-              oldSelectedCategory = level2.split(">")[0];
-            }
-          }
-        );
-      });
-    }
-
-    this.setState({
-      activeindex2: selectIndex + "l",
-      oldSelectedCategory: oldSelectedCategory,
-      filter: filter
-    });
-    return { categoryObj: categoryObj, facets: facets };
-  };
 
   onClickLevel4 = (event: any) => {
     const id = event.target.id;
@@ -818,225 +671,73 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  generateSubCatagory = (data: any, html: any) => {
-    const name = data[0].split(">")[1].trim(),
-      id = data[0].trim();
-    const { filter } = this.state;
-    html.push(
-      <ul>
-        <li key={id}>
-          <span
-            className={
-              this.state.showmenulevel2 && this.state.activeindex2 == name + "l"
-                ? cs(styles.menulevel2, styles.menulevel2Open)
-                : styles.menulevel2
-            }
-            onClick={this.Clickmenulevel2.bind(this, name + "l")}
-          >
-            {data[0].split(">")[1].length > 15 && !this.props.mobile
-              ? data[0].split(">")[1].substring(0, 15) + "..."
-              : data[0].split(">")[1]}
-          </span>
-          <div
-            className={
-              this.state.showmenulevel2 && this.state.activeindex2 == name + "l"
-                ? styles.showheader2
-                : globalStyles.hidden
-            }
-          >
-            <ul className={styles.categorylabel}>
-              <li>
-                <input
-                  type="checkbox"
-                  id={id}
-                  disabled={this.state.disableSelectedbox}
-                  checked={
-                    filter.categoryShop[name]
-                      ? filter.categoryShop[name][id]
-                      : false
-                  }
-                  onClick={this.handleClickCategory}
-                  value={data[0].split(">")[1].trim()}
-                  name="View all"
-                />
-                <label htmlFor={id}>View all</label>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    );
+  createCatagoryFromFacets = (categoryObj: any) => {
+    const html: any = [];
+    if (!categoryObj.categoryShop) return false;
 
-    return html;
-  };
-
-  generateCatagory = (categoryObj: any, data: any, html: any) => {
-    const { filter } = this.state;
-    html.push(
-      <ul>
-        <li key={data + "l"}>
-          <span
-            className={
-              this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
-                ? cs(styles.menulevel2, styles.menulevel2Open)
-                : styles.menulevel2
-            }
-            onClick={this.Clickmenulevel2.bind(this, data + "l")}
-          >
-            {data.length > 14 && !this.props.mobile
-              ? data.substring(0, 14) + "..."
-              : data}
-          </span>
-          <div
-            className={
-              this.state.showmenulevel2 && this.state.activeindex2 == data + "l"
-                ? styles.showheader2
-                : globalStyles.hidden
-            }
-          >
-            <ul className={styles.categorylabel}>
-              {categoryObj[data].map((nestedList: any, j: number) => {
-                return (
-                  <li key={nestedList[1]}>
-                    <input
-                      type="checkbox"
-                      id={nestedList[1]}
-                      disabled={this.state.disableSelectedbox}
-                      checked={
-                        filter.categoryShop[data]
-                          ? filter.categoryShop[data][nestedList[1]]
-                          : false
-                      }
-                      onClick={this.handleClickCategory}
-                      value={data}
-                      name={nestedList[0]}
-                    />
-                    <label htmlFor={nestedList[1]}>{nestedList[0]}</label>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </li>
-      </ul>
-    );
-    return html;
-  };
-
-  createCatagoryFromFacets = (categoryObj: any, categorydata: any) => {
-    let html: any = [];
-    if (!categoryObj) return false;
-    const cat = categorydata.categories
-      .concat(categorydata.subCategories)
-      .filter(function(a: any) {
-        return a[0].split(">").length == 2;
-      });
-
-    const subcat = cat.sort(function(a: any, b: any) {
-      return +a[1] - +b[1];
-    });
-    subcat.map((data: any) => {
-      for (const key in categoryObj) {
-        if (data[0].indexOf(key) > -1) {
-          html = this.generateCatagory(categoryObj, key, html);
-        }
-      }
-      categorydata.subCategories.map((sub: any) => {
-        if (data[0].indexOf(sub[0]) > -1) {
-          html = this.generateSubCatagory(sub, html);
-        }
-      });
+    if (categoryObj.categoryShop) {
+      html.push(
+        <ul className={cs(styles.categorylabel, styles.searchCategory)}>
+          <li>
+            <span
+              className={
+                Object.keys(this.state.filter.categoryShop).length == 0
+                  ? globalStyles.cerise
+                  : ""
+              }
+              onClick={this.handleClickCategory}
+              data-value="all"
+              id="all"
+            >
+              All (
+              {categoryObj.categoryShop[0]
+                ? categoryObj.categoryShop.filter(
+                    (category: any) => category[0] == "All"
+                  )[0][1]
+                : "0"}
+              )
+            </span>
+          </li>
+        </ul>
+      );
+    }
+    categoryObj.categoryShop.map((data: any, i: number) => {
+      if (data[0] == "All") return false;
+      const len = data[0].split(">").length;
+      html.push(
+        <ul className={cs(styles.categorylabel, styles.searchCategory)}>
+          <li>
+            <span
+              className={
+                this.state.filter.categoryShop[data[0]]
+                  ? globalStyles.cerise
+                  : ""
+              }
+              onClick={this.handleClickCategory}
+              data-value={data}
+              id={data[0]}
+            >
+              {data[0].split(">")[len - 1] + " (" + data[2] + ")"}
+            </span>
+          </li>
+        </ul>
+      );
     });
     return html;
   };
 
   handleClickCategory = (event: any) => {
-    let checkallSelectedValue;
-    const categoryObj = this.state.filter.categoryShop,
-      viewData = event.target.id.split(">");
-    viewData.length > 2 ? viewData.pop() : "";
-    const { filter } = this.state;
     //code for checked view all true
-    if (event.target.name.indexOf("View all") > -1 && !event.target.checked) {
-      event.target.checked = true;
-      return false;
-    }
-
-    // code for checking old category is clicked or not
-    if (
-      this.state.oldSelectedCategory != event.target.value &&
-      this.state.oldSelectedCategory != ""
-    ) {
-      if (Object.keys(filter.categoryShop).length > 0) {
-        for (const prop in filter.categoryShop[
-          this.state.oldSelectedCategory
-        ]) {
-          filter.categoryShop[this.state.oldSelectedCategory][prop] = false;
-        }
-      }
-      for (const prop in filter.productType) {
-        filter.productType[prop] = false;
-      }
-      // clear filters
-      this.clearFilter(undefined, "all", true);
-    }
-
-    // code to tick all when clicked on viewall / normal checkbox
-    if (event.target.name.indexOf("View all") > -1) {
-      filter.categoryShop[event.target.value] = Object.assign(
-        {},
-        filter.categoryShop[event.target.value]
-      );
-      Object.keys(filter.categoryShop).map(key => {
-        if (key == event.target.value) {
-          Object.keys(filter.categoryShop[key]).map(product => {
-            filter.categoryShop[key][product] = event.target.checked;
-          });
-        }
-      });
+    const filter = this.state.filter;
+    filter.categoryShop = {};
+    if (event.target.id.indexOf("all") > -1) {
+      // do nothing
     } else {
-      filter.categoryShop[event.target.value] = Object.assign(
-        {},
-        filter.categoryShop[event.target.value]
-      );
-      filter.categoryShop[event.target.value][event.target.id] =
-        event.target.checked;
-      checkallSelectedValue = Object.keys(
-        filter.categoryShop[event.target.value]
-      ).every(data => {
-        if (data.split(">").length < 3) {
-          return true;
-        } else {
-          return filter.categoryShop[event.target.value][data];
-        }
-      });
-      for (const prop in filter.productType) {
-        if (this.productData.indexOf(prop.replace("pb_", "")) == -1) {
-          filter.productType[prop] = false;
-        }
-      }
-      filter.categoryShop[event.target.value][
-        viewData.join(">").trim()
-      ] = checkallSelectedValue ? true : false;
+      filter.categoryShop[event.target.id] = true;
     }
-
-    const atleastOneSelected = Object.keys(categoryObj).every((data, i) => {
-      const nestedVal = Object.keys(categoryObj[data]).every((nestedLst, j) => {
-        return !filter.categoryShop[data][nestedLst];
-      });
-      return nestedVal;
-    });
-    if (atleastOneSelected) {
-      filter.categoryShop[event.target.value][event.target.id] = true;
-      event.target.checked = true;
-      return false;
-    }
-
     this.setState({
-      filter: filter,
-      oldSelectedCategory: event.target.value
+      filter
     });
-
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -1436,6 +1137,19 @@ class FilterList extends React.Component<Props, State> {
     event.stopPropagation();
   };
 
+  changeSearchValue = (value: string) => {
+    if (value == "") return false;
+    const { filter } = this.state;
+    filter.q = {
+      q: value
+    };
+
+    this.setState({
+      filter: filter
+    });
+    this.createUrlfromFilter();
+  };
+
   render() {
     const { mobile } = this.props;
     const { filter } = this.state;
@@ -1464,10 +1178,7 @@ class FilterList extends React.Component<Props, State> {
                   : globalStyles.hidden
               }
             >
-              {this.createCatagoryFromFacets(
-                this.props.facetObject.categoryObj,
-                this.props.facetObject.facets
-              )}
+              {this.createCatagoryFromFacets(this.props.data.results.facets)}
             </div>
           </li>
           {this.state.salestatus && (
@@ -1679,7 +1390,7 @@ class FilterList extends React.Component<Props, State> {
         {mobile ? (
           <div className={styles.filterButton}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems} Product found</span>
+              <span>{this.state.totalItems} Search Results Found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>
