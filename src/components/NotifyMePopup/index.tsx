@@ -90,8 +90,7 @@ const NotifyMePopup: React.FC<Props> = ({
     let valid = true,
       message = "";
     const re = new RegExp(
-      '^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$',
-      "gi"
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 
     if (!value) {
@@ -147,7 +146,7 @@ const NotifyMePopup: React.FC<Props> = ({
     return (
       <Button label={buttonText} onClick={action} className={styles.button} />
     );
-  }, [selectedSize]);
+  }, [selectedSize, email]);
 
   useEffect(() => {
     setMsg("");

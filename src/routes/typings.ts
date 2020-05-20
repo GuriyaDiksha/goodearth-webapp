@@ -7,7 +7,8 @@ export enum ROUTES {
   PDP = "/catalogue/:slug",
   PLP = "/catalogue/category/",
   FB = "/account/facebook/login/?next=/",
-  GOOGLE = "/account/google/login/?next=/"
+  GOOGLE = "/account/google/login/?next=/",
+  SEARCH = "/search"
 }
 
 export type RouteConfig = RouteObject[];
