@@ -78,12 +78,12 @@ class SideMenu extends React.Component<Props, State> {
       profileItems.push(
         {
           label: "My Profile",
-          href: "/accountpage?mod=profile",
+          href: "/account/profile",
           type: "link"
         },
         {
           label: "My Orders",
-          href: "/accountpage?mod=orders",
+          href: "/account/orders",
           type: "link"
         }
       );
