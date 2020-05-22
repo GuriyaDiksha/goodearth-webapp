@@ -7,6 +7,7 @@ import { updateWishlist } from "actions/wishlist";
 import API from "utils/api";
 import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
+import BasketService from "services/basket";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch) {
@@ -47,6 +48,21 @@ export default {
 
     if (res.success) {
       this.updateWishlist(dispatch);
+    }
+  },
+
+  moveToWishlist: async function(dispatch: Dispatch, basketLineId: ProductID) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      "http://api.goodearth.in/myapi/wishlist/move_to_wishlist/",
+      {
+        basketLineId
+      }
+    );
+
+    if (res.success) {
+      this.updateWishlist(dispatch);
+      BasketService.fetchBasket(dispatch);
     }
   }
 };

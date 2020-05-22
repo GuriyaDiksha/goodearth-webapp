@@ -6,4 +6,5 @@ export type Props = {
   className?: string;
   mobile?: boolean;
   iconClassName?: string;
+  basketLineId?: ProductID;
 };

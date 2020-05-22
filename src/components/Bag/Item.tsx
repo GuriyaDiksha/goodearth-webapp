@@ -144,6 +144,7 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <WishlistButton
+                  basketLineId={id}
                   id={product.id}
                   showText={false}
                   className="wishlist-font"
