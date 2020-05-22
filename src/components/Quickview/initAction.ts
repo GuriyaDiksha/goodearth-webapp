@@ -17,6 +17,8 @@ const mapActionsToProps = (dispatch: Dispatch) => {
           >)
         );
         dispatch(updateQuickviewId(id));
+      } else {
+        dispatch(updateQuickviewId(id));
       }
     },
     changeModalState: (data: boolean) => {

@@ -19,7 +19,7 @@ const mapStateToProps = (state: AppState, props: QuickviewProps) => {
   const {
     quickview: { quickviewId }
   } = state;
-  id = quickviewId || id;
+  id = quickviewId == 0 ? id : quickviewId;
   const data = (id && state.products[id]) as Product;
   return {
     id,
@@ -50,6 +50,8 @@ class Quickview extends React.Component<Props, State> {
 
   closeModal = () => {
     this.props.changeModalState(false);
+    const { fetchProductsDetails } = this.props;
+    fetchProductsDetails(0);
   };
 
   componentDidMount() {
