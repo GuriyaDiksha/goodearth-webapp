@@ -36,6 +36,7 @@ export default {
       const meta: MetaResponse = await this.fetchMeta(cookies);
       user = meta.user;
       user.bridal = meta.bridalUser;
+      user.isLoggedIn = true;
       dispatch(updateCurrency(meta.currency));
     }
     dispatch(updateUser(user));
