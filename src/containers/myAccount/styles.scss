@@ -16,6 +16,7 @@
 }
 .fix-left-pane {
   @include position(sticky);
+  align-self: flex-start;
   top: 93px;
   left: 0;
   z-index: 0;
@@ -39,12 +40,6 @@
   background: url('../../images/myaccountBg.jpg') repeat;
   height: auto;
   // padding-top: 60px;
-  .icon-signedin {
-    span {
-      padding: 0 5px;
-      position: relative;
-    }
-  }
   &.cerise-club {
     background-color: #fbf6f0;
     background-image: url(../../images/loyalty/ceriseBg.png), url(../../images/loyalty/ceriseMainlogo.svg), url(../../images/loyalty/ceriseBg2.png), url(../../images/loyalty/butterfly.png);

@@ -70,12 +70,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     <div className={props.className}>
       <input
         type={props.type || "text"}
-        id={
-          props.id ||
-          Math.random()
-            .toString(36)
-            .substring(7)
-        }
+        id={props.id}
         name={props.name}
         className={
           errorMessage || false
@@ -113,12 +108,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         className={
           (labelClass && !props.disable) || false ? "" : globalStyles.hidden
         }
-        id={
-          props.id ||
-          Math.random()
-            .toString(36)
-            .substring(7)
-        }
+        id={props.id}
       >
         {props.label || ""}
       </label>
