@@ -82,6 +82,7 @@ export type CollectionProductItem = {
   collection: string;
   collectionUrl: string;
   priceRecords: PriceRecord;
+  gaVariant?: string;
 };
 
 export interface BasketProduct extends PartialProductItem {
