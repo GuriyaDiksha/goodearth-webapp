@@ -6,3 +6,15 @@
   line-height: 50px;
   margin-top: 30px;
 }
+
+.icon-signedin {
+  span {
+    padding: 0 5px;
+    position: relative;
+    i {
+      font-size: 40px;
+      vertical-align: middle;
+      color: grey;
+    }
+  }
+}
