@@ -60,7 +60,6 @@ class MyProfile extends React.Component<Props, State> {
       errorDob: "",
       hightlightDob: false
     };
-    // this.todaydate = moment();
     props.setCurrentSection();
   }
   ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -72,8 +71,9 @@ class MyProfile extends React.Component<Props, State> {
         this.setApiResponse(data);
       })
       .catch(err => {
-        // this.refs.emailRef.state.value = window.user.email;
-        // this.setState({});
+        this.setState({
+          showerror: "Something went wrong, please try again"
+        });
       });
   }
 
@@ -89,18 +89,13 @@ class MyProfile extends React.Component<Props, State> {
     formData.dateOfBirth = formData.dateOfBirth
       ? moment(formData.dateOfBirth).format("YYYY-MM-DD")
       : "";
-    const modifiedData = Object.assign({}, data);
-    modifiedData.dateOfBirth = "";
-    modifiedData.firstName = "";
-    modifiedData.lastName = "";
-    modifiedData.gender = "";
     this.setState({
       user,
       uniqueId,
       abandonedCartNotification,
       newsletter,
       updateProfile: false,
-      data: modifiedData
+      data: data
     });
     this.ProfileFormRef.current &&
       this.ProfileFormRef.current.updateInputsWithValue(formData);
@@ -125,27 +120,19 @@ class MyProfile extends React.Component<Props, State> {
       ? moment(dateOfBirth).format("YYYY-MM-DD")
       : "";
     formData["subscribe"] = subscribe;
-
     this.setState({
       showerror: ""
     });
-
-    // const previousResponse = this.state.data;
     this.props
       .updateProfileData(formData)
       .then(data => {
         this.setApiResponse(data);
         this.setState({
           updateProfile: false
-          // showerror: data.message
         });
       })
       .catch(err => {
         if (err) {
-          this.setState({
-            showerror: err
-          });
-        } else {
           this.setState({
             showerror: "Something went Wrong"
           });
@@ -153,104 +140,7 @@ class MyProfile extends React.Component<Props, State> {
       });
   };
 
-  handleClick(event: React.MouseEvent) {
-    // this.state.subscribe = event.target.checked;
-    // this.setState({
-    //     subscribe: event.target.checked
-    // }, this.myBlur())
-  }
-
-  myBlur() {
-    // let change = false;
-    // if (this.refs.Fname.state.value !== this.state.data.firstName) {
-    //     change = true;
-    // }
-    // if (this.refs.Lname.state.value !== this.state.data.lastName) {
-    //     change = true;
-    // }
-    // if(this.refs.phoneref.state.value && this.refs.countryref.state.value || !this.refs.phoneref.state.value && !this.refs.countryref.state.value) {
-    //     if (this.refs.phoneref.state.value !== this.state.data.phone) {
-    //         change = true;
-    //     }
-    //     if (this.refs.countryref.state.value != this.state.data.code) {
-    //         change=true;
-    //     }
-    // }
-    // if (this.refs.panref.state.value !== this.state.data.panPassportNumber) {
-    //     change = true;
-    // }
-    // if (this.state.subscribe !== this.state.data.subscribe) {
-    //     change = true;
-    // }
-    // if (this.refs.genderRef.state.selectedGender != this.state.data.gender) {
-    //     change=true;
-    // }
-    // if (this.pickerRef.props.selected  && (this.pickerRef.props.selected != this.state.data.dateOfBirth)) {
-    //     change=true;
-    // }
-    // if (change) {
-    //     this.setState({
-    //         updateProfile: true
-    //     })
-    // } else {
-    //     this.setState({
-    //         updateProfile: false
-    //     })
-    // }
-  }
-
-  setGender(gender: string) {
-    // this.setState({
-    //     gender: gender,
-    //     highlightGender: false,
-    //     msgGender: ""
-    // }, () => {
-    //     this.myBlur();
-    // });
-  }
-
-  onClickCalendar() {
-    // this.pickerRef.setOpen(true);
-  }
-
-  setCode(data: string) {
-    // this.setState({
-    //     code: data,
-    //     codemsg: ""
-    // }, () => {
-    //     this.myBlur();
-    // })
-  }
-
-  onChange(date: Date) {
-    // this.setState({
-    //     dateOfBirth: date,
-    //     errorMessage: ""
-    // }, () => {
-    //     this.myBlur();
-    //     // this.setState({
-    //     //     updateProfile: true
-    //     // })
-    // })
-  }
-
-  handleDOBFocus(showDOBLabel: boolean) {
-    this.setState({
-      showDOBLabel
-    });
-  }
-
   handleInvalidSubmit = () => {
-    // const elem = this.subscribeRef.current;
-    // if (elem && elem.checked == false) {
-    //   this.setState({
-    //     message: "Please accept the terms & conditions"
-    //   });
-    // } else {
-    //   this.setState({
-    //     message: ""
-    //   });
-    // }
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
         globalStyles.errorBorder
@@ -262,36 +152,19 @@ class MyProfile extends React.Component<Props, State> {
     }, 0);
   };
 
-  myPhoneBlur() {
-    // if (this.state.code.trim().length == 0 && this.refs.phoneref.state.value.trim().length > 0) {
-    //     this.setState({
-    //         phonecodeError: "Required",
-    //         highlightCode: true,
-    //         nmsg: "",
-    //         numHighlight: false
-    //     })
-    // }
-    // else if ((this.refs.phoneref.state.value.trim().length == 0 && this.state.code.trim().length > 0)) {
-    //     this.setState({
-    //         nmsg: "This field is required",
-    //         numHighlight: true,
-    //         phonecodeError: "",
-    //         highlightCode: false
-    //     })
-    // }
-    // else {
-    //     this.setState({
-    //         phonecodeError: "",
-    //         highlightCode: false,
-    //         nmsg: "",
-    //         numHighlight: false
-    //     })
-    // }
-    this.myBlur();
-  }
-
   render() {
     const { fetchCountryData } = this.props;
+    const { genderOptions, loginVia } = this.state;
+    const {
+      firstName,
+      lastName,
+      phoneCountryCode,
+      phoneNumber,
+      gender,
+      panPassportNumber,
+      dateOfBirth,
+      subscribe
+    } = this.state.data;
     const formContent = (
       <div className={cs(styles.loginForm, globalStyles.voffset4)}>
         <div>
@@ -306,36 +179,26 @@ class MyProfile extends React.Component<Props, State> {
                   name="emailId"
                   placeholder={"Email Address"}
                   label={"Email"}
-                  // border={this.state.highlight}
-                  // error={this.state.msg}
                   disable={true}
                   className={styles.disabledInput}
                 />
               </div>
               <div>
                 <FormInput
-                  // ref="Fname"
                   name="firstName"
                   placeholder={"First Name"}
                   label={"First Name"}
-                  // border={this.state.f_highlight}
-                  // keyup={this.myBlur}
                   keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
                   required
-                  blur={this.myBlur}
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  disable={this.state.data.firstName == "" ? false : true}
-                  className={
-                    this.state.data.firstName == "" ? "" : styles.disabledInput
-                  }
-                  // error={this.state.fmsg}
+                  disable={firstName == "" ? false : true}
+                  className={firstName == "" ? "" : styles.disabledInput}
                 />
               </div>
               <div>
                 <FormInput
-                  // ref="Lname"
                   name="lastName"
                   placeholder={"Last Name"}
                   label={"Last Name"}
@@ -343,35 +206,22 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  // border={this.state.l_highlight}
-                  // keyup={this.myBlur}
-                  blur={this.myBlur}
-                  disable={this.state.data.lastName == "" ? false : true}
-                  className={
-                    this.state.data.lastName == "" ? "" : styles.disabledInput
-                  }
-                  // error={this.state.lmsg}
+                  disable={lastName == "" ? false : true}
+                  className={lastName == "" ? "" : styles.disabledInput}
                 />
               </div>
               <div className={styles.userGenderPicker}>
                 <FormSelect
-                  // ref="genderRef"
                   name="gender"
                   required
-                  options={this.state.genderOptions}
+                  options={genderOptions}
                   label="Select Gender"
                   placeholder="Select Gender"
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  // setGender={this.setGender}
-                  // msgGender={this.state.msgGender}
-                  // gender={this.state.gender}
-                  // highlightGender={this.state.highlightGender}
-                  disable={this.state.data.gender == "" ? false : true}
-                  className={
-                    this.state.data.gender == "" ? "" : styles.disabledInput
-                  }
+                  disable={gender == "" ? false : true}
+                  className={gender == "" ? "" : styles.disabledInput}
                 />
               </div>
               <div className={styles.calendarIconContainer}>
@@ -381,15 +231,9 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  // onChange={(e) => this.onChange(e)}
-                  value={this.state.data.dateOfBirth}
-                  disable={this.state.data.dateOfBirth == "" ? false : true}
-                  className={
-                    this.state.data.dateOfBirth == ""
-                      ? ""
-                      : styles.disabledInput
-                  }
-                  // ref="dobRef"
+                  value={dateOfBirth}
+                  disable={dateOfBirth == "" ? false : true}
+                  className={dateOfBirth == "" ? "" : styles.disabledInput}
                   id="dateOfBirth"
                   placeholder="YYYY/MM/DD"
                   label="Date of Birth"
@@ -399,16 +243,14 @@ class MyProfile extends React.Component<Props, State> {
                   max={moment(
                     new Date().setFullYear(new Date().getFullYear() - 15)
                   ).format("YYYY-MM-DD")}
-                  // error={this.state.errorDob}
-                  // border={this.state.highlightDob}
                   validations={{
                     isValidDate: (values, value) => {
-                      if (value && this.state.data.dateOfBirth) {
+                      if (value && !dateOfBirth) {
                         return moment(value).isValid();
                       } else return true;
                     },
                     isMinAllowedDate: (values, value) => {
-                      if (value && this.state.data.dateOfBirth) {
+                      if (value && !dateOfBirth) {
                         return (
                           new Date(value).getTime() >
                           new Date(this.state.minDate).getTime()
@@ -416,7 +258,7 @@ class MyProfile extends React.Component<Props, State> {
                       } else return true;
                     },
                     isMaxAllowedDate: (values, value) => {
-                      if (value && this.state.data.dateOfBirth) {
+                      if (value && !dateOfBirth) {
                         return (
                           new Date(value).getTime() <
                           new Date(this.state.maxDate).getTime()
@@ -430,15 +272,11 @@ class MyProfile extends React.Component<Props, State> {
                     isMaxAllowedDate: "Age should be at least 15 years"
                   }}
                 />
-                {/* {this.state.showDOBLabel ? "label" : "label hidden" ? <label htmlFor="dateOfBirth">Date of Birth</label> : ""} */}
-                {/* {this.state.errorDob || ""?<p className="error-msg txtnormal" >{this.state.errorDob}</p>:""}
-                        <label htmlFor="dateOfBirth">Date of Birth</label> */}
               </div>
               <div
                 className={cs(styles.countryCode, styles.countryCodeProfile)}
               >
                 <CountryCode
-                  // ref='countryref'
                   fetchCountryData={fetchCountryData}
                   handleChange={() => {
                     this.setState({ updateProfile: true });
@@ -447,15 +285,7 @@ class MyProfile extends React.Component<Props, State> {
                   placeholder="Code"
                   label="Code"
                   value=""
-                  // setCode={this.setCode}
-                  // codemsg={this.state.codemsg}
-                  // code={this.state.code}
-                  disable={
-                    this.state.data.phoneCountryCode == "" ? false : true
-                  }
-                  // error={this.state.phonecodeError}
-                  // blur={this.myPhoneBlur}
-                  // border={this.state.highlightCode}
+                  disable={phoneCountryCode == "" ? false : true}
                   id="isd_code"
                   validations={{
                     isCodeValid: (values, value) => {
@@ -468,7 +298,6 @@ class MyProfile extends React.Component<Props, State> {
                 />
 
                 <FormInput
-                  // ref="phoneref"
                   name="phoneNumber"
                   placeholder={"Contact Number"}
                   handleChange={() => {
@@ -476,16 +305,8 @@ class MyProfile extends React.Component<Props, State> {
                   }}
                   type="number"
                   label={"Contact Number"}
-                  // border={this.state.numHighlight}
-                  disable={this.state.data.phoneNumber == "" ? false : true}
-                  className={
-                    this.state.data.phoneNumber == ""
-                      ? ""
-                      : styles.disabledInput
-                  }
-                  // keyup={this.myPhoneBlur}
-                  // blur={this.myPhoneBlur}
-                  // error={this.state.nmsg}
+                  disable={phoneNumber == "" ? false : true}
+                  className={phoneNumber == "" ? "" : styles.disabledInput}
                   validations={{
                     isPhoneValid: (values, value) => {
                       return !(values.code && value == "");
@@ -499,39 +320,27 @@ class MyProfile extends React.Component<Props, State> {
               </div>
               <div>
                 <FormInput
-                  // ref="panref"
                   name="panPassportNumber"
                   placeholder={"Pan/Passport"}
                   label={"Pan/Passport"}
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  // border={this.state.panHighlight}
-                  disable={
-                    this.state.data.panPassportNumber == "" ? false : true
-                  }
+                  disable={panPassportNumber == "" ? false : true}
                   className={
-                    this.state.data.panPassportNumber == ""
-                      ? ""
-                      : styles.disabledInput
+                    panPassportNumber == "" ? "" : styles.disabledInput
                   }
-                  // keyup={this.myPhoneBlur}
-                  // blur={this.myPhoneBlur}
-                  // error={this.state.panmsg}
                 />
               </div>
               <div className={styles.subscribe}>
                 <FormCheckbox
-                  // type="checkbox"
+                  value={subscribe || false}
                   name="subscribe"
                   disable={false}
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
                   id="subscribe"
-                  // inputRef={this.subscribeRef}
-                  // onChange={this.handleClick}
-                  // checked={this.state.subscribe}
                   label={[
                     "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
                     <Link
@@ -546,7 +355,7 @@ class MyProfile extends React.Component<Props, State> {
               </div>
               <div>
                 {this.state.showerror ? (
-                  <p className="common-error-msg profile">
+                  <p className={globalStyles.errorMsg}>
                     {this.state.showerror}
                   </p>
                 ) : (
@@ -563,13 +372,12 @@ class MyProfile extends React.Component<Props, State> {
                   value={
                     this.state.updateProfile ? "Update Details" : "Updated"
                   }
-                  // onClick={this.handleSubmit.bind(this)}
                 />
               </div>
             </div>
           </Formsy>
         </div>
-        <SignedIn loginVia={this.state.loginVia} />
+        <SignedIn loginVia={loginVia} />
       </div>
     );
     return (

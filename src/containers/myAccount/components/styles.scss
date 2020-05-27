@@ -18,3 +18,37 @@
     }
   }
 }
+
+.order-tabs {
+  margin-top: 40px;
+  .orders {
+    cursor: pointer;
+    font-size: 15px;
+    color: #afa5a5;
+  }
+
+  .hr-line {
+    color: #afa5a5;
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+
+  .active {
+    color: #ab1e56;
+  }
+}
+
+.no-purchases-message {
+  color: #5f5c5c;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.browse-button {
+  margin: auto;
+  margin-top: 30px;
+  width: 50%;
+  input {
+    line-height: 40px;
+  }
+}

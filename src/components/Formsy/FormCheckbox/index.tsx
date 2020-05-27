@@ -12,17 +12,19 @@ const FormCheckbox: React.FC<Props &
     },
     [props.handleChange]
   );
+  const { inputRef, name, disable, id, label, value } = props;
   return (
     <>
       <input
-        ref={props.inputRef}
-        name={props.name}
-        disabled={props.disable}
+        ref={inputRef}
+        name={name}
+        disabled={disable}
         onChange={handleChange}
         type="checkbox"
-        id={props.id}
+        id={id}
+        checked={value || false}
       />
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={id}>{label}</label>
     </>
   );
 };
