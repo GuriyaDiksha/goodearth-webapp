@@ -61,7 +61,9 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter at least 6 characters for the password";
     }
   }, []);
-  const errorMessage = props.errorMessage
+  const errorMessage = props.disable
+    ? ""
+    : props.errorMessage
     ? props.errorMessage
     : !props.isPristine && !props.isValid
     ? getRequiredErrorMessage(props.name)

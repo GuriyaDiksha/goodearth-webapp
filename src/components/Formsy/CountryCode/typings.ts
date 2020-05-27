@@ -12,6 +12,7 @@ export type Props = {
   disable?: boolean;
   placeholder: string;
   value: string;
+  handleChange?: (event: React.ChangeEvent) => void;
 };
 
 export type Country = {

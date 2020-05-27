@@ -5,7 +5,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 
-import { ProfileProps, State } from "./typings";
+import { ProfileProps, State, ProfileResponse } from "./typings";
 import FormInput from "../../../../components/Formsy/FormInput";
 import FormSelect from "../../../../components/Formsy/FormSelect";
 import CountryCode from "../../../../components/Formsy/CountryCode";
@@ -28,6 +28,10 @@ class MyProfile extends React.Component<Props, State> {
     super(props);
     this.state = {
       data: {},
+      newsletter: false,
+      uniqueId: "",
+      abandonedCartNotification: false,
+      user: 0,
       updateProfile: false,
       subscribe: false,
       showerror: "",
@@ -62,90 +66,92 @@ class MyProfile extends React.Component<Props, State> {
   ProfileFormRef: RefObject<Formsy> = React.createRef();
 
   componentDidMount() {
-    // axios.get(Config.hostname + `myapi/customer/`)
-    //     .then(res => {
-    //         this.setApiResponse(res.data);
-    //     }).catch((err) => {
-    //     this.refs.emailRef.state.value = window.user.email;
-    //     this.setState({});
-    // });
+    this.props
+      .fetchProfileData()
+      .then(data => {
+        this.setApiResponse(data);
+      })
+      .catch(err => {
+        // this.refs.emailRef.state.value = window.user.email;
+        // this.setState({});
+      });
   }
 
-  // setApiResponse(data) {
-  //     let new_data = Object.assign({}, data);
-  //     new_data.phone = new_data.phoneNumber?new_data.phoneNumber.split(' ')[1]?new_data.phoneNumber.split(' ')[1]:new_data.phoneNumber.split(' ')[0]:"";
-  //     this.refs.phoneref.state.value = new_data.phone;
-  //     this.refs.emailRef.state.value = window.user.email;
-  //     this.refs.Fname.state.value = new_data.firstName;
-  //     this.refs.Lname.state.value = new_data.lastName;
-  //     this.refs.panref.state.value = new_data.panPassportNumber;
-  //     let dob = new_data.dateOfBirth ? moment(new_data.dateOfBirth, "YYYY-MM-DD") : "";
-  //     new_data.code = new_data.phoneNumber ? new_data.phoneNumber.split(' ').length > 1 ? new_data.phoneNumber.split(' ')[0] : '' : "";
-  //     const loginVia = new_data.loginVia ? new_data.loginVia : this.state.loginVia ? this.state.loginVia : this.state.loginVia;
-  //     this.setState({
-  //         data: new_data,
-  //         subscribe: data.subscribe,
-  //         code: new_data.code,
-  //         updateProfile: false,
-  //         gender: data.gender,
-  //         loginVia: loginVia,
-  //         dateOfBirth: dob
-  //     });
-  // }
+  setApiResponse = (data: ProfileResponse) => {
+    const {
+      user,
+      uniqueId,
+      abandonedCartNotification,
+      newsletter,
+      loginVia,
+      ...formData
+    } = data;
+    formData.dateOfBirth = formData.dateOfBirth
+      ? moment(formData.dateOfBirth).format("YYYY-MM-DD")
+      : "";
+    const modifiedData = Object.assign({}, data);
+    modifiedData.dateOfBirth = "";
+    modifiedData.firstName = "";
+    modifiedData.lastName = "";
+    modifiedData.gender = "";
+    this.setState({
+      user,
+      uniqueId,
+      abandonedCartNotification,
+      newsletter,
+      updateProfile: false,
+      data: modifiedData
+    });
+    this.ProfileFormRef.current &&
+      this.ProfileFormRef.current.updateInputsWithValue(formData);
+  };
 
-  handleSubmit() {
-    // if (!this.state.updateProfile) return false;
-    // if(this.state.nmsg || this.state.phonecodeError || this.state.errorDob) {
-    //     return false;
-    // }
-    // this.setState({
-    //     nmsg: "",
-    //     numHighlight: false
-    // })
-    // let formData = new FormData();
-    // formData.append("subscribe", this.state.subscribe)
-    // const phoneNumber = this.state.code && this.refs.phoneref.state.value ?  `${this.state.code} ${this.refs.phoneref.state.value}` :  "";
-    // formData.append("phoneNumber", phoneNumber)
-    // formData.append("email_id", this.refs.emailRef.state.value)
-    // formData.append("firstName", this.refs.Fname.state.value)
-    // formData.append("lastName", this.refs.Lname.state.value)
-    // formData.append("panPassportNumber", this.refs.panref.state.value)
-    // formData.append("gender", this.state.gender || "")
-    // const dateOfBirth = this.state.dateOfBirth ? moment(this.state.dateOfBirth).format('YYYY-MM-DD') : "";
-    // formData.append("dateOfBirth", dateOfBirth)
-    // this.setState({
-    //     showerror: ""
-    // })
+  handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
+    if (!this.state.updateProfile) return false;
+    const {
+      phoneCountryCode,
+      phoneNumber,
+      gender,
+      panPassportNumber,
+      dateOfBirth,
+      subscribe
+    } = model;
+    const formData: any = {};
+    formData["phoneCountryCode"] = phoneCountryCode || "";
+    formData["phoneNumber"] = phoneNumber || "";
+    formData["gender"] = gender || "";
+    formData["panPassportNumber"] = panPassportNumber || "";
+    formData["dateOfBirth"] = dateOfBirth
+      ? moment(dateOfBirth).format("YYYY-MM-DD")
+      : "";
+    formData["subscribe"] = subscribe;
+
+    this.setState({
+      showerror: ""
+    });
+
     // const previousResponse = this.state.data;
-    // axios.post(Config.hostname + 'myapi/user_profile/', formData
-    // ).then((response) => {
-    //     if (response.data.is_success) {
-    //         this.setApiResponse(response.data);
-    //     } else  if(response.data.message){
-    //         this.setState({
-    //             updateProfile: false,
-    //             showerror: response.data.message
-    //         }, () => {
-    //             this.setApiResponse(previousResponse);
-    //         })
-    //     } else if (response.data.is_success == false && response.data.phoneNumber) {
-    //         this.setState({
-    //             nmsg: response.data.phoneNumber,
-    //             numHighlight: true
-    //         })
-    //     }
-    // }).catch((err) => {
-    //     if (err.message) {
-    //         this.setState({
-    //             showerror: err.message
-    //         })
-    //     } else {
-    //         this.setState({
-    //             showerror: "Something went Wrong"
-    //         })
-    //     }
-    // })
-  }
+    this.props
+      .updateProfileData(formData)
+      .then(data => {
+        this.setApiResponse(data);
+        this.setState({
+          updateProfile: false
+          // showerror: data.message
+        });
+      })
+      .catch(err => {
+        if (err) {
+          this.setState({
+            showerror: err
+          });
+        } else {
+          this.setState({
+            showerror: "Something went Wrong"
+          });
+        }
+      });
+  };
 
   handleClick(event: React.MouseEvent) {
     // this.state.subscribe = event.target.checked;
@@ -238,25 +244,22 @@ class MyProfile extends React.Component<Props, State> {
     // const elem = this.subscribeRef.current;
     // if (elem && elem.checked == false) {
     //   this.setState({
-    //     msgt: "Please accept the terms & conditions"
+    //     message: "Please accept the terms & conditions"
     //   });
     // } else {
     //   this.setState({
-    //     msgt: ""
+    //     message: ""
     //   });
     // }
-    // setTimeout(() => {
-    //   const firstErrorField = document.getElementsByClassName(
-    //     globalStyles.errorBorder
-    //   )[0] as HTMLElement;
-    //   if (firstErrorField) {
-    //     firstErrorField.focus();
-    //     firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
-    //   } else if (elem && elem.checked == false) {
-    //     elem.focus();
-    //     elem.scrollIntoView({ block: "center", behavior: "smooth" });
-    //   }
-    // }, 0);
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorBorder
+      )[0] as HTMLElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
   };
 
   myPhoneBlur() {
@@ -300,7 +303,7 @@ class MyProfile extends React.Component<Props, State> {
             <div className={styles.categorylabel}>
               <div>
                 <FormInput
-                  name="Email"
+                  name="emailId"
                   placeholder={"Email Address"}
                   label={"Email"}
                   // border={this.state.highlight}
@@ -317,7 +320,12 @@ class MyProfile extends React.Component<Props, State> {
                   label={"First Name"}
                   // border={this.state.f_highlight}
                   // keyup={this.myBlur}
+                  keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
+                  required
                   blur={this.myBlur}
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
                   disable={this.state.data.firstName == "" ? false : true}
                   className={
                     this.state.data.firstName == "" ? "" : styles.disabledInput
@@ -331,6 +339,10 @@ class MyProfile extends React.Component<Props, State> {
                   name="lastName"
                   placeholder={"Last Name"}
                   label={"Last Name"}
+                  keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
                   // border={this.state.l_highlight}
                   // keyup={this.myBlur}
                   blur={this.myBlur}
@@ -345,9 +357,13 @@ class MyProfile extends React.Component<Props, State> {
                 <FormSelect
                   // ref="genderRef"
                   name="gender"
+                  required
                   options={this.state.genderOptions}
                   label="Select Gender"
                   placeholder="Select Gender"
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
                   // setGender={this.setGender}
                   // msgGender={this.state.msgGender}
                   // gender={this.state.gender}
@@ -362,8 +378,11 @@ class MyProfile extends React.Component<Props, State> {
                 <FormInput
                   name="dateOfBirth"
                   type="date"
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
                   // onChange={(e) => this.onChange(e)}
-                  value={this.state.dateOfBirth}
+                  value={this.state.data.dateOfBirth}
                   disable={this.state.data.dateOfBirth == "" ? false : true}
                   className={
                     this.state.data.dateOfBirth == ""
@@ -373,7 +392,7 @@ class MyProfile extends React.Component<Props, State> {
                   // ref="dobRef"
                   id="dateOfBirth"
                   placeholder="YYYY/MM/DD"
-                  // label="Date of Birth"
+                  label="Date of Birth"
                   min={moment(
                     new Date().setFullYear(new Date().getFullYear() - 110)
                   ).format("YYYY-MM-DD")}
@@ -384,12 +403,12 @@ class MyProfile extends React.Component<Props, State> {
                   // border={this.state.highlightDob}
                   validations={{
                     isValidDate: (values, value) => {
-                      if (value) {
+                      if (value && this.state.data.dateOfBirth) {
                         return moment(value).isValid();
                       } else return true;
                     },
                     isMinAllowedDate: (values, value) => {
-                      if (value) {
+                      if (value && this.state.data.dateOfBirth) {
                         return (
                           new Date(value).getTime() >
                           new Date(this.state.minDate).getTime()
@@ -397,7 +416,7 @@ class MyProfile extends React.Component<Props, State> {
                       } else return true;
                     },
                     isMaxAllowedDate: (values, value) => {
-                      if (value) {
+                      if (value && this.state.data.dateOfBirth) {
                         return (
                           new Date(value).getTime() <
                           new Date(this.state.maxDate).getTime()
@@ -421,14 +440,19 @@ class MyProfile extends React.Component<Props, State> {
                 <CountryCode
                   // ref='countryref'
                   fetchCountryData={fetchCountryData}
-                  name="code"
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
+                  name="phoneCountryCode"
                   placeholder="Code"
                   label="Code"
                   value=""
                   // setCode={this.setCode}
                   // codemsg={this.state.codemsg}
-                  code={this.state.code}
-                  disable={this.state.data.phoneNumber == "" ? false : true}
+                  // code={this.state.code}
+                  disable={
+                    this.state.data.phoneCountryCode == "" ? false : true
+                  }
                   // error={this.state.phonecodeError}
                   // blur={this.myPhoneBlur}
                   // border={this.state.highlightCode}
@@ -445,8 +469,11 @@ class MyProfile extends React.Component<Props, State> {
 
                 <FormInput
                   // ref="phoneref"
-                  name="phone"
+                  name="phoneNumber"
                   placeholder={"Contact Number"}
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
                   type="number"
                   label={"Contact Number"}
                   // border={this.state.numHighlight}
@@ -473,9 +500,12 @@ class MyProfile extends React.Component<Props, State> {
               <div>
                 <FormInput
                   // ref="panref"
-                  name="passport"
+                  name="panPassportNumber"
                   placeholder={"Pan/Passport"}
                   label={"Pan/Passport"}
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
                   // border={this.state.panHighlight}
                   disable={
                     this.state.data.panPassportNumber == "" ? false : true
@@ -493,8 +523,11 @@ class MyProfile extends React.Component<Props, State> {
               <div className={styles.subscribe}>
                 <FormCheckbox
                   // type="checkbox"
-                  name="terms"
+                  name="subscribe"
                   disable={false}
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
                   id="subscribe"
                   // inputRef={this.subscribeRef}
                   // onChange={this.handleClick}
@@ -510,7 +543,6 @@ class MyProfile extends React.Component<Props, State> {
                     </Link>
                   ]}
                 />
-                {/* <label htmlFor="subscribe">I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our  <a href="/customer-assistance/privacy-policy" target="_blank">Privacy Policy</a> </label> */}
               </div>
               <div>
                 {this.state.showerror ? (
@@ -531,7 +563,7 @@ class MyProfile extends React.Component<Props, State> {
                   value={
                     this.state.updateProfile ? "Update Details" : "Updated"
                   }
-                  onClick={this.handleSubmit.bind(this)}
+                  // onClick={this.handleSubmit.bind(this)}
                 />
               </div>
             </div>

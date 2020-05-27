@@ -2,7 +2,7 @@ export type ProfileProps = {
   setCurrentSection: () => void;
 };
 
-type ProfileResponse = {
+export type ProfileResponse = {
   phoneCountryCode: string;
   phoneNumber: string;
   emailId: string;
@@ -20,6 +20,10 @@ type ProfileResponse = {
 };
 export type State = {
   data: Partial<ProfileResponse>;
+  newsletter: boolean;
+  uniqueId: string;
+  user: number;
+  abandonedCartNotification: boolean;
   updateProfile: boolean;
   subscribe: boolean;
   showerror: string;
