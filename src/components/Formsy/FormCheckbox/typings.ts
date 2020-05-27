@@ -7,4 +7,5 @@ export type Props = {
   disable: boolean;
   handleChange?: (event: React.ChangeEvent) => void;
   label: (string | JSX.Element)[];
+  value: boolean;
 };

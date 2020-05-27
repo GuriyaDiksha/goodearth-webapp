@@ -530,6 +530,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
           <div className={styles.subscribe}>
             <FormCheckbox
+              value={false}
               inputRef={this.subscribeRef}
               id="subscribeemails"
               name="subscribe"
@@ -552,6 +553,7 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.subscribe}>
             <FormCheckbox
+              value={false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}
