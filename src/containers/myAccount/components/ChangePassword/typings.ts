@@ -1,4 +1,7 @@
-export type Props = {
+export type PasswordProps = {
   setCurrentSection: () => void;
 };
-export type State = {};
+export type State = {
+  showerror: string;
+  updatePassword: boolean;
+};

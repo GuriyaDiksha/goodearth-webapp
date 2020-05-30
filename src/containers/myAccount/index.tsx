@@ -7,6 +7,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
+import PastOrders from "./components/MyOrder";
 import ChangePassword from "./components/ChangePassword";
 import { useStore } from "react-redux";
 import CookieService from "services/cookie";
@@ -135,7 +136,7 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "My Orders",
       href: "/account/my-orders",
-      component: () => <div>My Orders</div>,
+      component: PastOrders,
       title: "orders"
     },
     {
