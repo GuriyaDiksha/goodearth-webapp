@@ -1,16 +1,18 @@
 // modules
 import React, { memo, useContext, useCallback } from "react";
 import cs from "classnames";
+import { useStore } from "react-redux";
 // contexts
 import WishlistContext from "contexts/wishlist";
+import UserContext from "contexts/user";
 // typings
 import { Props } from "./typings";
 // services
 import WishlistService from "services/wishlist";
+import LoginService from "services/login";
 // styles
 import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
-import { useStore } from "react-redux";
 
 const WishlistButton: React.FC<Props> = ({
   id,
@@ -20,17 +22,22 @@ const WishlistButton: React.FC<Props> = ({
   mobile
 }) => {
   const items = useContext(WishlistContext);
+  const { isLoggedIn } = useContext(UserContext);
   const store = useStore();
 
   const addedToWishlist = items.indexOf(id) !== -1;
 
   const onClick = useCallback(() => {
-    if (addedToWishlist) {
-      WishlistService.removeFromWishlist(store.dispatch, id);
+    if (!isLoggedIn) {
+      LoginService.showLogin(store.dispatch);
     } else {
-      WishlistService.addToWishlist(store.dispatch, id);
+      if (addedToWishlist) {
+        WishlistService.removeFromWishlist(store.dispatch, id);
+      } else {
+        WishlistService.addToWishlist(store.dispatch, id);
+      }
     }
-  }, [addedToWishlist, id]);
+  }, [addedToWishlist, id, isLoggedIn]);
 
   return (
     <div className={className}>

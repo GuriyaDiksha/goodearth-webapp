@@ -23,11 +23,23 @@ export default {
   },
 
   updateMeta: async function(dispatch: Dispatch, cookies: Cookies) {
-    const meta: MetaResponse = await this.fetchMeta(cookies);
-    const user = meta.user;
-    user.bridal = meta.bridalUser;
+    let user = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      id: "",
+      loyalityEligible: false,
+      bridal: false,
+      isLoggedIn: false
+    };
+    if (cookies.tkn) {
+      const meta: MetaResponse = await this.fetchMeta(cookies);
+      user = meta.user;
+      user.bridal = meta.bridalUser;
+      user.isLoggedIn = true;
+      dispatch(updateCurrency(meta.currency));
+    }
     dispatch(updateUser(user));
-    dispatch(updateCurrency(meta.currency));
   },
 
   fetchPageMeta: async (request: PageMetaRequest) => {

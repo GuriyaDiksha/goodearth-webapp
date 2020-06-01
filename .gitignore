@@ -105,6 +105,9 @@ dist
 lib
 package-lock.json
 
+# config files
+src/config/environment.json
+
 # generate font related files
 src/fonts/goodearth.*
 _goodearth.scss

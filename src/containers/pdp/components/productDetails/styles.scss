@@ -120,10 +120,6 @@
     letter-spacing: 1px;
 }
 
-.mobile-wishlist-icon {
-    font-size: 52px;
-}
-
 @media screen and (max-width: 992px) {
     .collection-header {
         margin-top: 20px;
@@ -167,6 +163,10 @@
     .wishlist-btn-container, .add-to-bag-btn-container {
         background: #fff;
         padding: 0;
+
+        .mobile-wishlist-icon {
+            font-size: 52px;
+        }
     }
 
 }

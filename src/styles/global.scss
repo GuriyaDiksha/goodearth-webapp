@@ -74,6 +74,9 @@ a {
   &.lh-none {
     line-height: 13px;
   }
+  &.txtnormal {
+    text-transform: none !important;
+  }
 }
 
 .invisible {
@@ -128,12 +131,6 @@ font-weight: bold;
   cursor: pointer;
 }
 
-.cerise-btn{
-  background-color: #ab1e56;
-  color: #fff;
-  cursor: pointer;
-}
-
 .cerise-btn {
   @include cerise-btn();
   a {
@@ -148,6 +145,28 @@ font-weight: bold;
   border-left: 1px solid tint(#000, 96%);
 }
 
+.success-msg {
+  @include success-msg();
+}
+
+.logo {
+  width: 111px;
+  cursor: pointer;
+}
+.disabled-btn {
+  background-color: tint(#000, 95%);
+  color: tint(#000, 50%);
+}
+
+.error-border {
+  border: 1px solid $cerise !important;
+}
+.hidden-eye {
+  visibility: hidden !important;
+}
+.text-left {
+  text-align: left;
+}
 .mobile-wishlist{
   position: absolute;
   right: 10px;

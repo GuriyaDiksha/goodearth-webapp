@@ -9,6 +9,7 @@ export type Props = {
   disabled?: boolean;
   errorMsg?: string;
   onChange: (value: string, error: string) => void;
+  validateAfterBlur?: boolean;
   validator?: (
     value: string
   ) => {

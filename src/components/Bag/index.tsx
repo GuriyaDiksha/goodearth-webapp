@@ -97,7 +97,7 @@ export default class Bag extends React.Component<CartProps, State> {
             </div>
           </div>
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
-            <div className={cs(styles.iconCart, globalStyles.cursorPointer)}>
+            <div className={cs(styles.iconCart, globalStyles.pointer)}>
               <div
                 className={styles.innerDiv}
                 onClick={this.goToCart.bind(this)}

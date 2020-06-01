@@ -1,6 +1,7 @@
 import path from "path";
 import Koa from "koa";
 import React from "react";
+import { Helmet } from "react-helmet";
 import { matchPath } from "react-router";
 import { ChunkExtractor } from "@loadable/server";
 // import { h } from "preact"
@@ -64,6 +65,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     );
 
     const html = renderToString(jsx);
+    const meta = Helmet.renderStatic();
     const scriptTags = extractor.getScriptTags();
     const styleElements = extractor.getStyleElements();
 
@@ -88,7 +90,8 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       content: html,
       scripts: scriptTags,
       styles: styleSheets,
-      styleSheets: linkTags
+      styleSheets: linkTags,
+      head: meta
     });
   }
 };

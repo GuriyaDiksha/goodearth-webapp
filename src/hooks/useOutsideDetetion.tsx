@@ -7,7 +7,7 @@ export default function useOutsideDetection<T extends HTMLElement>(
 
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
-
+    if (event.defaultPrevented) return;
     if (ref.current && !ref.current.contains(target)) handleClick(event);
   };
 

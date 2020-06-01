@@ -18,6 +18,10 @@ export default {
     dispatch(updateWishlist(res.data));
   },
 
+  resetWishlist: function(dispatch: Dispatch) {
+    dispatch(updateWishlist([]));
+  },
+
   addToWishlist: async function(dispatch: Dispatch, productId: ProductID) {
     const res = await API.post<ApiResponse>(
       dispatch,

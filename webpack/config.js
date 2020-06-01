@@ -10,10 +10,12 @@ const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const env = process.env.NODE_ENV || "development";
 
+const envConfig = require("../src/config");
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require('@loadable/webpack-plugin');
 
-const domain = "http://www.";
+const domain = JSON.stringify(envConfig.domain);
 const publicPath = "/static/";
 
 const alias = {
@@ -66,7 +68,8 @@ let config = [
         },
         plugins: [
             new webpack.DefinePlugin({
-                __API_HOST__: "http://api.goodearth.in"
+                __API_HOST__: "http://api.goodearth.in",
+                __DOMAIN__: domain
               }),
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
@@ -197,7 +200,8 @@ let config = [
         })],
         plugins: [
             new webpack.DefinePlugin({
-                __API_HOST__: "http://api.goodearth.in"
+                __API_HOST__: "http://api.goodearth.in",
+                __DOMAIN__: domain
             }),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`,

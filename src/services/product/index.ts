@@ -7,6 +7,7 @@ import {
 import Axios from "axios";
 import { Dispatch } from "redux";
 import API from "utils/api";
+import { Fields } from "components/CorporateEnquiryPopup/typings";
 
 export default {
   fetchProductDetails: async (
@@ -55,6 +56,50 @@ export default {
     return {
       successful,
       message
+    };
+  },
+  enquire: async function(
+    dispatch: Dispatch,
+    params: {
+      productId: ProductID;
+      email: string;
+      name: string;
+      contactNo: string;
+      quantity: string;
+      query: string;
+    }
+  ) {
+    let successful,
+      errors: { [x in Fields]?: string[] } = {};
+
+    try {
+      await API.post<{
+        message: string;
+        data: {
+          [x in Fields]: string[];
+        };
+      }>(
+        dispatch,
+        "http://api.goodearth.in/myapi/promotions/corporate_enquiry/",
+        {
+          productId: params.productId,
+          name: params.name,
+          email: params.email,
+          query: params.query,
+          contactNo: params.contactNo,
+          qty: params.quantity
+        }
+      );
+
+      successful = true;
+    } catch (e) {
+      successful = false;
+      errors = e.response.data;
+    }
+
+    return {
+      successful,
+      errors
     };
   }
 };

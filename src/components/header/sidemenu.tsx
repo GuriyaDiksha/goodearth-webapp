@@ -9,7 +9,11 @@ import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
 import Bag from "../Bag/index";
+import LoginService from "services/login";
 import { Basket } from "typings/basket";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import UserContext from "contexts/user";
 
 interface State {
   showc: boolean;
@@ -20,8 +24,27 @@ interface State {
   openProfile: boolean;
 }
 
-export default class SideMenu extends React.Component<SideMenuProps, State> {
-  constructor(props: SideMenuProps) {
+const mapStateToProps = () => {
+  return {};
+};
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    goLogin: (event: React.MouseEvent) => {
+      LoginService.showLogin(dispatch);
+      event.preventDefault();
+    },
+    handleLogOut: () => {
+      LoginService.logout(dispatch);
+    }
+  };
+};
+
+type Props = SideMenuProps &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+class SideMenu extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       showc: false,
@@ -32,8 +55,9 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
       showSearch: false
     };
   }
-
+  static contextType = UserContext;
   render() {
+    const { isLoggedIn } = this.context;
     const items: DropdownItem[] = [
       {
         label: "INR" + " " + String.fromCharCode(currencyCode["INR"]),
@@ -49,7 +73,21 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
       }
     ];
 
-    const profileItems: DropdownItem[] = [
+    const profileItems: DropdownItem[] = [];
+    isLoggedIn &&
+      profileItems.push(
+        {
+          label: "My Profile",
+          href: "/accountpage?mod=profile",
+          type: "link"
+        },
+        {
+          label: "My Orders",
+          href: "/accountpage?mod=orders",
+          type: "link"
+        }
+      );
+    profileItems.push(
       {
         label: "Track Order",
         href: "/about",
@@ -80,12 +118,13 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
         value: "Check Balance"
       },
       {
-        label: "Sign In",
-        href: "/about",
+        label: isLoggedIn ? "Sign Out" : "Sign In",
+        href: "",
+        onClick: isLoggedIn ? this.props.handleLogOut : this.props.goLogin,
         type: "link",
-        value: "Sign In"
+        value: isLoggedIn ? "Sign Out" : "Sign In"
       }
-    ];
+    );
     const selectClass = this.state.showp
       ? cs(
           iconStyles.icon,
@@ -238,3 +277,5 @@ export default class SideMenu extends React.Component<SideMenuProps, State> {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);

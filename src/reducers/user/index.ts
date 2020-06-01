@@ -6,7 +6,8 @@ export const initialState: State = {
   email: "",
   id: "",
   bridal: false,
-  loyalityEligible: false
+  loyalityEligible: false,
+  isLoggedIn: false
 };
 
 export const user = (state = initialState, action: UserActions): State => {
