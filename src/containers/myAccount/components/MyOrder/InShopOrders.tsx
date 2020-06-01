@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Config from "components/config";
 import moment from "moment";
 import InShopOrderDetails from "./inShopOrderDetails";

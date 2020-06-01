@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import axios from "axios";
+// import axios from "axios";
 import moment from "moment";
-import Config from "components/config";
-import Loader from "components/common/Loader";
+// import Config from "components/config";
+// import Loader from "components/common/Loader";
 
 export default class InShopOrderDetails extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
-      order: this.props.order,
+      order: props.order,
       orderDetails: {},
       isDetailAvailable: false,
-      currency: window.currency,
       isLoading: true,
       currency_code: {
         INR: 8377,
@@ -22,20 +21,20 @@ export default class InShopOrderDetails extends Component {
   }
 
   componentDidMount() {
-    fetch(
-      `${Config.hostname2}order_detail_api/?number=${this.state.order.number}`,
-      {
-        method: "GET"
-      }
-    )
-      .then(resp => resp.json())
-      .then(res => {
-        this.setState({
-          orderDetails: res["data"],
-          isDetailAvailable: true,
-          isLoading: false
-        });
-      });
+    // fetch(
+    //   `${Config.hostname2}order_detail_api/?number=${this.state.order.number}`,
+    //   {
+    //     method: "GET"
+    //   }
+    // )
+    //   .then(resp => resp.json())
+    //   .then(res => {
+    //     this.setState({
+    //       orderDetails: res["data"],
+    //       isDetailAvailable: true,
+    //       isLoading: false
+    //     });
+    //   });
   }
 
   render() {
