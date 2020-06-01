@@ -19,6 +19,14 @@ export default {
     );
     return data;
   },
+  changePassword: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<any>(
+      dispatch,
+      "http://api.goodearth.in/myapi/auth/change_password/",
+      formData
+    );
+    return data;
+  },
   fetchMyOrders: async (dispatch: Dispatch) => {
     const data = await API.get<MyOrdersResponse>(
       dispatch,

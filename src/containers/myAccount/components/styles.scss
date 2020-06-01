@@ -1,4 +1,5 @@
 @import "../../../styles/partials/form";
+@import "../../../styles/partials/mixins";
 
 .form-heading {
   font-size: 25px;
@@ -51,4 +52,251 @@
   input {
     line-height: 40px;
   }
+}
+
+.add {
+  .op2 {
+    opacity: .6;
+  }
+  address {
+    border: 1px solid tint(#000, 80%);
+    min-height: 180px;
+    text-align: left;
+    &.address-checkout {
+      padding: 35px 25px 90px 25px;
+    }
+    padding: 35px 25px 55px 25px;
+    font-weight: 300;
+    address {
+      border: none;
+      padding: 25px 0;
+    }
+    .border-add {
+      border-top: 1px solid tint(#000, 90%);
+      padding-top: 30px;
+      .purchased-shop {
+        height: 70px;
+      }
+      img {
+        padding-right: 20px;
+      }
+    }
+    &.order-block {
+      background-color: tint(#000, 95%);
+
+      &.manage-add {
+        background-color: $white;
+        min-height: 160px;
+        &.shipping-border {
+          min-height: 310px;
+        }
+        font-weight: 400;
+        div.default-address {
+          @include error-msg();
+          text-align: right;
+          font-size: 12px !important;
+        }
+        div.default-container {
+          display: block;
+          width: 90%;
+          div.default-address-div {
+            text-align: right;
+            font-size: 10px;
+            height: 18px;
+            font-style: italic;
+            display: grid;
+            margin-bottom: 18px;
+            grid-template-columns: 22fr 1fr;
+            &.bridal {
+              grid-template-columns: 4fr 15fr 1fr;
+            }
+            letter-spacing: 1px;
+            .radio {
+              display: block;
+              position: relative;
+              margin-bottom: 12px;
+              cursor: pointer;
+              font-size: 22px;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+              }
+              .checkmark {
+                position: absolute;
+                height: 15px;
+                width: 15px;
+                background-color: #fff;
+                border: 1px solid #888;
+                border-radius: 50%;
+              }
+              input ~ .checkmark {
+                background-color: #fff;
+              }
+
+              /* When the radio button is checked, add a blue background */
+              input:checked ~ .checkmark {
+                background-color: #fff;
+              }
+
+              /* Create the indicator (the dot/circle - hidden when not checked) */
+              .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+              }
+
+              /* Show the indicator (dot/circle) when checked */
+              input:checked ~ .checkmark:after {
+                display: block;
+              }
+
+              /* Style the indicator (dot/circle) */
+              .checkmark:after {
+                top: 3px;
+                left: 3px;
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: #000;
+              }
+            }
+
+          }
+          .cerise-bridal-rings {
+            background-color: #ab1e56;
+            border-radius: 50%;
+            fill: #fff;
+            height: 35px;
+            width: 35px;
+            padding: 2px;
+            position: relative;
+            top: -10px;
+          }
+        }
+        .default-address-checkbox {
+          position: relative;
+          left: 95%;
+          height: 15px;
+          width: 15px;
+          background-color: #fff;
+          border: 1px solid #888;
+          border-radius: 50%;
+          padding: 20px 0;
+        }
+      }
+      min-height: 160px;
+      border-color: tint(#000, 90%);
+      span {
+        //text-transform: uppercase; cant use this --- it will make order status span uppercase
+        //text-decoration: underline;
+        &.order-status {
+          text-transform: uppercase;
+          text-decoration: underline;
+        }
+      }
+    }
+    .order-block {
+      min-height: 160px;
+      position: relative;
+      span {
+        //text-transform: uppercase; cant use this --- it will make order status span uppercase
+        //text-decoration: underline;
+        &.order-status {
+          text-transform: uppercase;
+          text-decoration: underline;
+        }
+      }
+    }
+    .edit-track {
+      bottom: 25px;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      &.add-checkout-actions {
+        bottom: auto;
+        position: absolute;
+      }
+      cursor: pointer;
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    .edit-view {
+
+      bottom: 25px;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      &.add-checkout-actions {
+        bottom: auto;
+        position: absolute;
+      }
+      cursor: pointer;
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    .edit {
+
+      bottom: 25px;
+      position: absolute;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      &.add-checkout-actions {
+        bottom: auto;
+        position: absolute;
+      }
+      cursor: pointer;
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    p {
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+      text-transform: capitalize;
+      &.names {
+        text-transform: none;
+      }
+      &.price {
+        font-size: 18px;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    .light {
+      color: tint(#000, 50%);
+
+    }
+    label {
+      position: absolute;
+      top: -8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: tint(#000, 50%);
+      background-color: #fff;
+      padding: 0 3px;
+      font-size: 13px;
+      font-weight: 400;
+    }
+  }
+}
+
+.order-add-block {
+  border-top: 1px solid tint(#000, 70%);
+}
+
+.plp_prod_quantity{
+  @include plp_prod_quantity();
 }
