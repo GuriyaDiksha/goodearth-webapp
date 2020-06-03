@@ -28,7 +28,7 @@ const RouteContainer: React.FC<Props> = ({
     }
 
     MetaService.updatePageMeta(store.dispatch, request);
-  }, [Object.values(params)]);
+  }, [...Object.values(params)]);
 
   return <Component {...params} />;
 };

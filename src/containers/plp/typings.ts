@@ -31,6 +31,7 @@ export type PlpProps = {
 export type FilterProps = {
   onRef: any;
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
+  history: any;
 };
 
 export type State = {

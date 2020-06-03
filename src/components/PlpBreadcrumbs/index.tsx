@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 import { Props } from "./typings";
 import cs from "classnames";
 
-const PlpBreadcrumbs: React.FC<Props> = memo(
+const Breadcrumbs: React.FC<Props> = memo(
   ({ levels = [], separator = " > ", className }) => {
     const breadcrumbs: ReactNode[] = [];
 
@@ -35,4 +35,4 @@ const PlpBreadcrumbs: React.FC<Props> = memo(
   }
 );
 
-export default PlpBreadcrumbs;
+export default Breadcrumbs;
