@@ -105,7 +105,6 @@ class PLP extends React.Component<
         value: "price_desc"
       }
     ];
-    console.log(this.props);
     return (
       <div className={styles.pageBody}>
         {mobile ? (
