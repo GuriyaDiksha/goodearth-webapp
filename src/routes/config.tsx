@@ -11,6 +11,8 @@ import initActionPLP from "containers/plp/initAction";
 import PLP from "containers/plp";
 import Search from "containers/search";
 import initActionSearch from "containers/search/initAction";
+import initActionCategory from "containers/categoryLanding/initAction";
+import CategoryLanding from "containers/categoryLanding/index";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -51,6 +53,12 @@ const routes: RouteConfig = [
     path: ROUTES.SEARCH,
     component: Search,
     action: initActionSearch,
+    exact: true
+  },
+  {
+    path: ROUTES.CATEGORY,
+    component: CategoryLanding,
+    action: initActionCategory,
     exact: true
   }
 ];

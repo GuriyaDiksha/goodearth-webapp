@@ -39,7 +39,7 @@ export default {
   checkUserPassword: async function(dispatch: Dispatch, email: string) {
     const res = await API.post<checkUserPasswordResponse>(
       dispatch,
-      "http://api.goodearth.in/myapi/auth/check_user_password/",
+      `${__API_HOST__ + "/myapi/auth/check_user_password/"}`,
       {
         email: email
       }
@@ -49,7 +49,7 @@ export default {
   resetPassword: async function(dispatch: Dispatch, formData: FormData) {
     const res = await API.post<resetPasswordResponse>(
       dispatch,
-      "http://api.goodearth.in/myapi/auth/reset_password/",
+      `${__API_HOST__ + "/myapi/auth/reset_password/"}`,
       formData
     );
     return res;
@@ -57,7 +57,7 @@ export default {
   login: async function(dispatch: Dispatch, email: string, password: string) {
     const res = await API.post<loginResponse>(
       dispatch,
-      "http://api.goodearth.in/myapi/auth/login/",
+      `${__API_HOST__ + "/myapi/auth/login/"}`,
       {
         email: email,
         password: password
@@ -76,7 +76,7 @@ export default {
   logout: async function(dispatch: Dispatch) {
     const res = await API.post<logoutResponse>(
       dispatch,
-      "http://api.goodearth.in/myapi/auth/logout/",
+      `${__API_HOST__ + "/myapi/auth/logout/"}`,
       {}
     );
     if (res) {
@@ -95,7 +95,7 @@ export default {
   register: async function(dispatch: Dispatch, formData: FormData) {
     const res = await API.post<registerResponse>(
       dispatch,
-      "http://api.goodearth.in/myapi/auth/register/",
+      `${__API_HOST__ + "/myapi/auth/register/"}`,
       formData
     );
     CookieService.setCookie("atkn", res.token, 365);
@@ -111,7 +111,7 @@ export default {
   fetchCountryData: (dispatch: Dispatch) => {
     return API.get<countryDataResponse>(
       dispatch,
-      "http://api.goodearth.in/myapi/address/countries_state"
+      `${__API_HOST__ + "/myapi/address/countries_state/"}`
     );
   }
 };

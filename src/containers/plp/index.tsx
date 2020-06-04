@@ -12,9 +12,11 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterList from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
-import Breadcrumbs from "components/Breadcrumbs";
+import Giftcard from "components/plpResultItem/giftCard";
+import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Quickview from "components/Quickview";
+import { RouteComponentProps } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -28,7 +30,8 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  DispatchProp;
+  DispatchProp &
+  RouteComponentProps;
 
 class PLP extends React.Component<
   Props,
@@ -117,9 +120,10 @@ class PLP extends React.Component<
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
-                <Breadcrumbs
+                <PlpBreadcrumbs
                   levels={breadcrumb}
                   className={cs(bootstrap.colMd7)}
+                  isViewAll={false}
                 />
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
@@ -150,12 +154,13 @@ class PLP extends React.Component<
             <FilterList
               onRef={(el: any) => (this.child = el)}
               onChangeFilterState={this.onChangeFilterState}
+              history={this.props.history}
             />
           </div>
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
-              { [globalStyles.paddTop80]: !this.state.showmobileSort },
+              { [globalStyles.paddTop20]: !this.state.showmobileSort },
               { [globalStyles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
@@ -221,6 +226,16 @@ class PLP extends React.Component<
                   </div>
                 );
               })}
+              <div
+                className={cs(
+                  bootstrap.colMd4,
+                  bootstrap.col6,
+                  styles.setWidth
+                )}
+                key={1}
+              >
+                <Giftcard />
+              </div>
             </div>
           </div>
         </div>
