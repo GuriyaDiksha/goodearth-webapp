@@ -11,7 +11,7 @@ import { resetPageMeta, updatePageMeta } from "actions/meta";
 export default {
   fetchMeta: async function(cookies: Cookies): Promise<MetaResponse> {
     const res: AxiosResponse<MetaResponse> = await Axios.post(
-      `http://api.goodearth.in/myapi/auth/meta/`,
+      `${__API_HOST__ + `/myapi/auth/meta/`}`,
       {},
       {
         headers: {
@@ -44,7 +44,7 @@ export default {
 
   fetchPageMeta: async (request: PageMetaRequest) => {
     const res: AxiosResponse<PageMetaResponse> = await Axios.post(
-      `http://api.goodearth.in/myapi/pagemeta/meta-list/`,
+      `${__API_HOST__ + `/myapi/pagemeta/meta-list/`}`,
       request
     );
     return res.data;

@@ -4,7 +4,8 @@ import ProductService from "../../services/product";
 import { updateProduct } from "../../actions/product";
 import { updateQuickviewId } from "../../actions/quickview";
 import { Product, PartialProductItem } from "../../typings/product.js";
-import { updateModal } from "../../actions/modal";
+import { updateModal, updateComponent } from "../../actions/modal";
+import { ReactNode } from "react";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -20,6 +21,13 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       } else {
         dispatch(updateQuickviewId(id));
       }
+    },
+    updateComponentModal: (
+      component: ReactNode,
+      fullscreen = false,
+      bodyClass?: string
+    ) => {
+      dispatch(updateComponent(component, fullscreen, bodyClass));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));

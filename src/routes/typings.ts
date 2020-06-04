@@ -6,6 +6,7 @@ export enum ROUTES {
   CollectionSpecific = "/collection/:slug",
   PDP = "/catalogue/:slug",
   PLP = "/catalogue/category/",
+  CATEGORY = "/category_landing/:slug",
   FB = "/account/facebook/login/?next=/",
   GOOGLE = "/account/google/login/?next=/",
   SEARCH = "/search",

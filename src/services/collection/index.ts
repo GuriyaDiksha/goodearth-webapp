@@ -9,7 +9,7 @@ import Axios from "axios";
 export default {
   fetchCollectionMapping: async (id: number): Promise<CollectionFilter> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/collection/level_2_cat_coll_mapping/${id}`,
+      `${__API_HOST__ + "/myapi/collection/level_2_cat_coll_mapping/" + id}`,
       {}
     );
     res.data.level2Categories = res.data.level2Categories.map((data: any) => {
@@ -23,7 +23,7 @@ export default {
     id: number
   ): Promise<CollectionSpecificProps> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/collection/collectionspecific/${id}`,
+      `${__API_HOST__ + "/myapi/collection/collectionspecific/" + id}`,
       {}
     );
     const data: CollectionSpecificProps = res.data;
@@ -33,7 +33,10 @@ export default {
     id: number
   ): Promise<CollectionSpecificBannerProps> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/promotions/multi_image_page_widget/COLL_${id}_1/`,
+      `${__API_HOST__ +
+        "/myapi/promotions/multi_image_page_widget/COLL_" +
+        id +
+        "_1/"}`,
       {}
     );
     const data: CollectionSpecificBannerProps = res.data;
@@ -41,7 +44,7 @@ export default {
   },
   fetchCollectionData: async (id: number): Promise<CollectionItem[]> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/collection/allcollection/${id}`,
+      `${__API_HOST__ + "/myapi/collection/allcollection/" + id}`,
       {}
     );
     const data: CollectionItem[] = res.data.results;
