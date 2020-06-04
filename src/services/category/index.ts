@@ -8,7 +8,7 @@ export default {
     id: number | string
   ): Promise<CategoryProps> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/promotions/multi_image_page_widget/${id}`,
+      `${__API_HOST__ + "/myapi/promotions/multi_image_page_widget/" + id}`,
       {}
     );
 
@@ -17,14 +17,14 @@ export default {
   },
   newarrivals: async (id: number): Promise<MoreCollectionItem> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/category/newarrivals/${id}`,
+      `${__API_HOST__ + "myapi/category/newarrivals/" + id}`,
       {}
     );
     return { ...res.data };
   },
   fetchLatestProduct: async (id: number): Promise<PeopleRecommend> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/category/latest_bought_products/${id}`,
+      `${__API_HOST__ + "/myapi/category/latest_bought_products/" + id}`,
       {}
     );
     return { ...res.data };
