@@ -16,6 +16,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const domain = JSON.stringify(envConfig.domain);
+const apiDomain = JSON.stringify("https://api.goodearth.in");
 const publicPath = "/static/";
 
 const alias = {
@@ -68,7 +69,7 @@ let config = [
         },
         plugins: [
             new webpack.DefinePlugin({
-                __API_HOST__: "http://api.goodearth.in",
+                __API_HOST__: apiDomain,
                 __DOMAIN__: domain
               }),
             new LoadablePlugin(),
@@ -200,7 +201,7 @@ let config = [
         })],
         plugins: [
             new webpack.DefinePlugin({
-                __API_HOST__: "http://api.goodearth.in",
+                __API_HOST__: apiDomain,
                 __DOMAIN__: domain
             }),
             new MiniCssExtractPlugin({

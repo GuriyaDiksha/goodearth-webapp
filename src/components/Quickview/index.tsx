@@ -91,7 +91,9 @@ class Quickview extends React.Component<Props, State> {
     const {
       data,
       currency,
-      device: { mobile }
+      device: { mobile },
+      updateComponentModal,
+      changeModalState
     } = this.props;
 
     return (
@@ -102,6 +104,8 @@ class Quickview extends React.Component<Props, State> {
         wishlist={[]}
         isQuickview={true}
         corporatePDP={false}
+        updateComponentModal={updateComponentModal}
+        changeModalState={changeModalState}
       />
     );
   };

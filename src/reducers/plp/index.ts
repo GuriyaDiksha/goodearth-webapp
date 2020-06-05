@@ -63,6 +63,12 @@ export const plplist = (state = initialState, action: PlpActions): State => {
       return newState;
     }
 
+    case "UPDATE_ONLOAD": {
+      const newState = { ...state };
+      newState.onload = action.payload;
+      return newState;
+    }
+
     case "UPDATE_FACET": {
       const newState = { ...state };
       newState.onload = false;
