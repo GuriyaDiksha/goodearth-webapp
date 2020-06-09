@@ -194,7 +194,7 @@ class MyProfile extends React.Component<Props, State> {
                     this.setState({ updateProfile: true });
                   }}
                   disable={firstName == "" ? false : true}
-                  className={firstName == "" ? "" : styles.disabledInput}
+                  className={cs({ [styles.disabledInput]: firstName != "" })}
                 />
               </div>
               <div>

@@ -129,6 +129,13 @@
   div.categorylabel > div {
     position: relative;
     margin: 20px 0;
+    &.address-form-checkbox {
+      margin-top: 40px;
+      text-align: left;
+      label {
+        left: 0px;
+      }
+    }
     &.notify {
       width: 70%;
       margin: 0 auto;
