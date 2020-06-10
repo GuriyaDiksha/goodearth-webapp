@@ -38,3 +38,19 @@ export type specifyShippingAddressResponse = {
   shippingCharge: number;
   pageReload: boolean;
 };
+
+export type AddressFormData = {
+  firstName: string;
+  lastName: string;
+  emailId: string;
+  city: string;
+  postCode: string;
+  country: string;
+  phoneCountryCode: string;
+  phoneNumber: string;
+  isDefaultForShipping: boolean;
+  isDefaultForBilling: boolean;
+  line1: string;
+  line2: string;
+  state: string;
+};

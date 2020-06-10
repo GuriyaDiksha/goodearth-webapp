@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -10,6 +10,9 @@ import AddressList from "components/Address/AddressList";
 import AddressForm from "../../../../components/Address/AddressForm";
 import { AddressContext } from "./context";
 import { Props, AddressModes } from "./typings";
+import AddressService from "services/address";
+import LoginService from "services/login";
+import { updatePinCodeList, updateCountryData } from "actions/address";
 
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
@@ -22,11 +25,27 @@ const MyAddress: React.FC<Props> = props => {
   // editMode: false
 
   const [showDefaultAddressOnly] = useState(false);
-  const addressList = useSelector((state: AppState) => state.address);
+  const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData | null>(
     null
   );
+  // const [ pincodeList, setPincodeList ] = useState([]);
+  const dispatch = useDispatch();
+
+  const fetchCountryData = async () => {
+    const countryData = await LoginService.fetchCountryData(dispatch);
+    dispatch(updateCountryData(countryData));
+  };
+
+  useEffect(() => {
+    AddressService.fetchPinCodeData(dispatch).then(data => {
+      const pinCodeList = Object.keys(data.data);
+      dispatch(updatePinCodeList(data.data, pinCodeList));
+    });
+    fetchCountryData();
+  }, []);
   const [mode, setMode] = useState<AddressModes>("list");
+
   // const [ editAddresaData, setEditAddressData ] = useState(null);
 
   // manageAddress(data, index) {
@@ -93,53 +112,49 @@ const MyAddress: React.FC<Props> = props => {
         closeAddressForm: closeAddressForm
       }}
     >
-      <div className="row">
-        <div className="row">
-          {mode == "list" && (
-            <div>
-              <AddressList
-                addressDataList={addressList}
-                openAddressForm={address => null}
-                deleteAddress={id => null}
-                selectAddress={address => null}
-                isValidAddress={() => null}
-                currentCallBackComponent="account"
-              />
+      {mode == "list" && (
+        <div>
+          <AddressList
+            addressDataList={addressList}
+            openAddressForm={address => null}
+            deleteAddress={id => null}
+            selectAddress={address => null}
+            isValidAddress={() => null}
+            currentCallBackComponent="account"
+          />
 
-              {!showDefaultAddressOnly && (
-                <div className={globalStyles.voffset4}>
-                  <ul>
-                    <li>
-                      <input
-                        type="button"
-                        className={globalStyles.ceriseBtn}
-                        value="add a new address"
-                        onClick={() => openAddressForm()}
-                      />
-                    </li>
-                  </ul>
-                </div>
-              )}
+          {!showDefaultAddressOnly && (
+            <div className={globalStyles.voffset4}>
+              <ul>
+                <li>
+                  <input
+                    type="button"
+                    className={globalStyles.ceriseBtn}
+                    value="add a new address"
+                    onClick={() => openAddressForm()}
+                  />
+                </li>
+              </ul>
             </div>
           )}
-          {mode == "new" && (
-            <AddressForm
-              addressData={editAddressData}
-              currentCallBackComponent="account"
-              saveAddress={() => null}
-              openAddressList={() => null}
-            ></AddressForm>
-          )}
-          {mode == "edit" && (
-            <AddressForm
-              addressData={editAddressData}
-              currentCallBackComponent="account"
-              saveAddress={() => null}
-              openAddressList={() => null}
-            ></AddressForm>
-          )}
         </div>
-      </div>
+      )}
+      {mode == "new" && (
+        <AddressForm
+          addressData={editAddressData}
+          currentCallBackComponent="account"
+          saveAddress={() => null}
+          openAddressList={() => null}
+        ></AddressForm>
+      )}
+      {mode == "edit" && (
+        <AddressForm
+          addressData={editAddressData}
+          currentCallBackComponent="account"
+          saveAddress={() => null}
+          openAddressList={() => null}
+        ></AddressForm>
+      )}
     </AddressContext.Provider>
   );
   return (
@@ -148,8 +163,10 @@ const MyAddress: React.FC<Props> = props => {
         className={cs(
           bootstrapStyles.col10,
           bootstrapStyles.offset1,
-          bootstrapStyles.colMd10,
-          bootstrapStyles.offsetMd1
+          { [bootstrapStyles.colMd8]: mode != "list" },
+          { [bootstrapStyles.offsetMd2]: mode != "list" },
+          { [bootstrapStyles.colMd10]: mode == "list" },
+          { [bootstrapStyles.offsetMd1]: mode == "list" }
         )}
       >
         <div className={styles.formHeading}>Manage Your Addresses</div>

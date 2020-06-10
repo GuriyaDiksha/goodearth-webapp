@@ -59,6 +59,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter at least 6 characters for the password";
       case "password2":
         return "Please enter at least 6 characters for the password";
+      default:
+        return "This field is required";
     }
   }, []);
   const errorMessage = props.disable

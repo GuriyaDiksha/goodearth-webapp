@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import Formsy from "formsy-react";
 import FormInput from "../../../components/Formsy/FormInput";
 import FormSelect from "../../../components/Formsy/FormSelect";
@@ -9,11 +9,15 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import Loader from "components/Loader";
-import { useDispatch } from "react-redux";
-import LoginService from "services/login";
+import { useSelector, useDispatch } from "react-redux";
+// import LoginService from "services/login";
 import FormCheckbox from "components/Formsy/FormCheckbox";
-import { AddressData } from "../typings";
+import { AddressData, AddressFormData } from "../typings";
 import { AddressContext } from "containers/myAccount/components/MyAddress/context";
+import { AppState } from "reducers/typings";
+import { Country } from "components/Formsy/CountryCode/typings";
+import AddressService from "services/address";
+// import { updateCountryData } from "actions/address";
 
 type Props = {
   addressData: AddressData | null;
@@ -22,16 +26,40 @@ type Props = {
   openAddressList: () => void;
 };
 
+type CountryOptions = {
+  value: string;
+  label: string;
+  code2: string;
+  isd: string | undefined;
+  states: StateOptions[];
+};
+
+type StateOptions = {
+  value: string;
+  label: string;
+  id: number;
+  nameAscii: string;
+};
+
 const AddressForm: React.FC<Props> = props => {
   const [isAddressChanged] = useState(true);
-  const [errorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [isLoading] = useState(false);
-  const [defaultCountry] = useState("IN");
+  // const [defaultCountry] = useState("IN");
   // setIsAddressChanged(true);
-  // setErrorMessage("");
   // setIsLoading(false);
   const dispatch = useDispatch();
-  const { closeAddressForm, mode } = useContext(AddressContext);
+  const { closeAddressForm, mode, setMode } = useContext(AddressContext);
+  const [isIndia, setIsIndia] = useState(false);
+  const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
+  const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
+
+  const { currency } = useSelector((state: AppState) => state);
+  const { countryData, pinCodeData } = useSelector(
+    (state: AppState) => state.address
+  );
+  const { email } = useSelector((state: AppState) => state.user);
+  const AddressFormRef = useRef<Formsy>(null);
 
   // state = {
   //     first_name: props.addressData ? props.addressData.first_name : "" || "",
@@ -81,9 +109,6 @@ const AddressForm: React.FC<Props> = props => {
   //     return (self.handlePostcodeBlur(null, value));
   // });
 
-  const fetchCountryData = () => {
-    return LoginService.fetchCountryData(dispatch);
-  };
   // const setAddressData = (props: AddressData) => {
   // setState({
   //     first_name: props.addressData ? props.addressData.first_name : "" || "",
@@ -136,7 +161,6 @@ const AddressForm: React.FC<Props> = props => {
 
   // componentDidMount() {
   //     getAddressData();
-  //     document.getElementById("first-field").focus();
   // }
 
   // const getAddressData = () => {
@@ -151,56 +175,147 @@ const AddressForm: React.FC<Props> = props => {
   //     });
   // }
 
-  // const changeCountryData = (data: any) => {
-  // let edit_country = {},
-  //     edit_state = {},
-  //     state_list = [],
-  //     edit_isd = "";
-  // let countrylist = data.map(con=> {
-  //     if (props.editMode && con.code2 == state.country) {
-  //         edit_country = {value: con.name_ascii, label: con.name_ascii, code2: con.code2};
-  //         edit_isd = con.isd_code;
-  //         state_list = con.region_set.map(data=> {
-  //             return Object.assign({}, data, {value: data.name_ascii, label: data.name_ascii})
-  //         })
-  //     }
-  //     let state = con.region_set.map(data=> {
-  //         if (props.mode == 'edit' && data.name_ascii == props.data.state) {
-  //             edit_state = {value: data.name_ascii, label: data.name_ascii};
+  const onCountrySelect = (
+    event: React.ChangeEvent<HTMLSelectElement> | null,
+    defaultCountry?: string
+  ) => {
+    const form = AddressFormRef.current;
+    let selectedCountry = "";
+    if (event) {
+      selectedCountry = event.currentTarget.value;
+    } else if (defaultCountry) {
+      selectedCountry = defaultCountry;
+      // need to set defaultCountry explicitly
+      if (form && selectedCountry) {
+        form.updateInputsWithValue({
+          country: selectedCountry
+        });
+      }
+    }
 
-  //         }
-  //         return Object.assign({}, data, {value: data.name_ascii, label: data.name_ascii})
-  //     })
-  //     return Object.assign({}, {
-  //         value: con.name_ascii,
-  //         label: con.name_ascii,
-  //         code2: con.code2,
-  //         isd: con.isd_code
-  //     }, {state: state})
-  // });
+    const { states, isd, value } = countryOptions.filter(
+      country => country.value == selectedCountry
+    )[0];
 
-  // if (props.editMode) {
-  //     let country_name = countrylist.filter(country => country.code2 === state.country);
+    if (form) {
+      // reset state
+      const { state } = form.getModel();
+      if (state) {
+        form.updateInputsWithValue({
+          state: ""
+        });
+      }
+      form.updateInputsWithValue({
+        phoneCountryCode: isd
+      });
+    }
+    setIsIndia(value == "India");
+    setStateOptions(states);
 
-  //     setState({
-  //         country_options: countrylist,
-  //         state_options: state_list,
-  //         defaultOption_con: edit_country,
-  //         defaultOption_sta: edit_state,
-  //         country_name: country_name[0].label,
-  //         isdCode: state.addressData ? valid.getIsdfromnumber(state.addressData.phone_number) : state.isdCode,
-  //         isLoading: false
-  //     });
-  // } else {
+    // let state = [],
+    //       country = {}, isdCode;
+    //   state.country_options.map(child=> {
+    //       if (child.value == event.target.value) {
+    //           refs.isdref.state.value = child.isd;
+    //           isdCode = child.isd;
+    //           country = child;
+    //           state = child.state;
+    //       }
+    //   });
+    //   setState({
+    //       state_options: state,
+    //       defaultOption_con: country,
+    //       defaultOption_sta: {},
+    //       selectedState: "",
+    //       postcode: "",
+    //       isdCode
+    //   });
+    //   stateInput.props.setValue('');
+    //   handleKeypress();
+    //   checkStatus();
+  };
 
-  //     refs.isdref.state.value ? "" : refs.isdref.state.value = countrylist[0].isd;
-  //     setState({
-  //         country_options: countrylist,
-  //         state_options: countrylist[0].state,
-  //         isLoading: false
-  //     });
-  // }
-  // }
+  const setDefaultCountry = () => {
+    switch (currency) {
+      case "INR":
+        onCountrySelect(null, "India");
+        break;
+      case "GBP":
+        onCountrySelect(null, "United Kingdom");
+        break;
+    }
+  };
+
+  const changeCountryData = (countryData: Country[]) => {
+    const countryOptions = countryData.map(country => {
+      const states = country.regionSet.map(state => {
+        return Object.assign({}, state, {
+          value: state.nameAscii,
+          label: state.nameAscii
+        });
+      });
+      return Object.assign(
+        {},
+        {
+          value: country.nameAscii,
+          label: country.nameAscii,
+          code2: country.code2,
+          isd: country.isdCode,
+          states: states
+        }
+      );
+    });
+    setCountryOptions(countryOptions);
+
+    // let edit_country = {},
+    //     edit_state = {},
+    //     state_list = [],
+    //     edit_isd = "";
+    // let countrylist = data.map(con=> {
+    //     if (props.editMode && con.code2 == state.country) {
+    //         edit_country = {value: con.name_ascii, label: con.name_ascii, code2: con.code2};
+    //         edit_isd = con.isd_code;
+    //         state_list = con.region_set.map(data=> {
+    //             return Object.assign({}, data, {value: data.name_ascii, label: data.name_ascii})
+    //         })
+    //     }
+    //     let state = con.region_set.map(data=> {
+    //         if (props.mode == 'edit' && data.name_ascii == props.data.state) {
+    //             edit_state = {value: data.name_ascii, label: data.name_ascii};
+
+    //         }
+    //         return Object.assign({}, data, {value: data.name_ascii, label: data.name_ascii})
+    //     })
+    //     return Object.assign({}, {
+    //         value: con.name_ascii,
+    //         label: con.name_ascii,
+    //         code2: con.code2,
+    //         isd: con.isd_code
+    //     }, {state: state})
+    // });
+
+    // if (props.editMode) {
+    //     let country_name = countrylist.filter(country => country.code2 === state.country);
+
+    //     setState({
+    //         country_options: countrylist,
+    //         state_options: state_list,
+    //         defaultOption_con: edit_country,
+    //         defaultOption_sta: edit_state,
+    //         country_name: country_name[0].label,
+    //         isdCode: state.addressData ? valid.getIsdfromnumber(state.addressData.phone_number) : state.isdCode,
+    //         isLoading: false
+    //     });
+    // } else {
+
+    //     refs.isdref.state.value ? "" : refs.isdref.state.value = countrylist[0].isd;
+    //     setState({
+    //         country_options: countrylist,
+    //         state_options: countrylist[0].state,
+    //         isLoading: false
+    //     });
+    // }
+  };
 
   // const handleKeypress = (event: any) => {
   // if (event) {
@@ -264,7 +379,44 @@ const AddressForm: React.FC<Props> = props => {
   //     }
   // }
 
-  const addNewAddress = (data: any, resetForm: any, invalidateForm: any) => {
+  const handleInvalidSubmit = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorBorder
+      )[0] as HTMLDivElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
+  };
+
+  const addNewAddress = (model: any, resetForm: any, invalidateForm: any) => {
+    setErrorMessage("");
+    const { country } = model;
+    const countryCode = countryOptions.filter(
+      countryOption => countryOption.value == country
+    )[0].code2;
+    const formData: AddressFormData = {
+      ...model,
+      isDefaultForBilling: false,
+      country: countryCode
+    };
+    AddressService.addNewAddress(dispatch, formData)
+      .then(() => {
+        setMode("list");
+      })
+      .catch(err => {
+        const errData = err.response.data;
+        const form = AddressFormRef.current;
+        if (typeof errData == "string") {
+          setErrorMessage(errData);
+        } else if (typeof errData == "object") {
+          form && form.updateInputsWithError(errData, true);
+          handleInvalidSubmit();
+        }
+      });
+
     //     setState({
     //         errorMessage: "",
     //         isLoading: true
@@ -687,32 +839,39 @@ const AddressForm: React.FC<Props> = props => {
   //     })
   // }
 
-  // changeState(value) {
-  //     let state = [],
-  //         country = {};
-  //         if(state.state_options.length > 0) {
-  //             state.state_options.map(child=> {
-  //                 if (child.value == value) {
-  //                     state = child
-  //                 }
-  //             });
-  //             setState({
-  //                 defaultOption_sta: state,
-  //                 selectedState: state.value
-  //             })
-  //         }
-  //         else if(props.editMode) {
-  //             setState({
-  //                 selectedState: value
-  //             })
-  //         }
-  //     checkStatus();
-  // }
+  const changeState = (pinCode: string) => {
+    const newState = pinCodeData[pinCode];
+    const form = AddressFormRef.current;
+    const { state } = form && form.getModel();
+    if (state != newState) {
+      form && form.updateInputsWithValue({ state: newState });
+    }
+
+    // let state = [],
+    //     country = {};
+    //     if(stateOptions.length > 0) {
+    //         stateOptions.map(child=> {
+    //             if (child.value == value) {
+    //                 state = child
+    //             }
+    //         });
+    //         setState({
+    //             defaultOption_sta: state,
+    //             selectedState: state.value
+    //         })
+    //     }
+    //     else if(props.editMode) {
+    //         setState({
+    //             selectedState: value
+    //         })
+    //     }
+    //     checkStatus();
+  };
 
   // onStateSelect(event) {
   //     let state = [],
   //         country = {};
-  //     state.state_options.map(child=> {
+  //     stateOptions.map(child=> {
   //         if (child.value == event.target.value) {
   //             state = child
   //         }
@@ -722,30 +881,6 @@ const AddressForm: React.FC<Props> = props => {
   //         defaultOption_sta: state
   //     })
 
-  //     handleKeypress();
-  //     checkStatus();
-  // }
-
-  // onCountrySelect(event) {
-  //     let state = [],
-  //         country = {}, isdCode;
-  //     state.country_options.map(child=> {
-  //         if (child.value == event.target.value) {
-  //             refs.isdref.state.value = child.isd;
-  //             isdCode = child.isd;
-  //             country = child;
-  //             state = child.state;
-  //         }
-  //     });
-  //     setState({
-  //         state_options: state,
-  //         defaultOption_con: country,
-  //         defaultOption_sta: {},
-  //         selectedState: "",
-  //         postcode: "",
-  //         isdCode
-  //     });
-  //     stateInput.props.setValue('');
   //     handleKeypress();
   //     checkStatus();
   // }
@@ -799,72 +934,68 @@ const AddressForm: React.FC<Props> = props => {
   //         checkStatus();
   //     })
   // }
+  const checkPincode = (pinCode: string) => {
+    return typeof pinCodeData[pinCode] == "string" ? true : false;
+  };
 
-  // handlePostcodeBlur(event, value) {
-  //     let postcodeValue = event ? event.target.value : value;
-  //     let isValid = true;
-  //     let postcodeError = "";
-  //         if (postcodeValue.length == 0) {
-  //             isValid = false;
-  //         } else {
-  //             if(!(postcodeValue in props.pincodeData)) {
-  //                 isValid = false;
-  //             }
-  //             else {
-  //                 if(!state.isPostcodePristine) {
-  //                     if(event) {
-  //                         changeState(props.pincodeData[event.target.value]);
-  //                     }
-  //                     else if(value) {
-  //                         changeState(props.pincodeData[value]);
-  //                     }
-  //                 }
-  //                 else {
-  //                     if(event) {
-  //                         if(state.selectedState != props.pincodeData[event.target.value]) {
-  //                             isValid = false;
-  //                         }
-  //                     }
-  //                     else {
-  //                         if(state.selectedState != props.pincodeData[value]) {
-  //                             isValid = false;
-  //                         }
-  //                     }
-  //                 }
-  //             }
-  //         }
-  //     if(!isValid) {
-  //         postcodeError = "Please enter valid Pin/Zip code";
-  //     }
-  //     setPostcodeError(postcodeError);
-  //     return isValid;
-  // }
+  const handlePostcodeBlur = (event: React.MouseEvent<HTMLInputElement>) => {
+    const pinCode = event.currentTarget.value;
+    checkPincode(pinCode) && changeState(pinCode);
 
-  // const closeAddressForm = () => {
-  //     props.showEditForm({
-  //         showAddresses: true,
-  //         editMode: false,
-  //         newAddressMode: false,
-  //         addressesAvailable: false
-  //     });
-  //     if (props.setAddressModeProfile) {
-  //         props.setAddressModeProfile({
-  //             showAddresses: true,
-  //             editMode: false,
-  //             newAddressMode: false,
-  //             addressesAvailable: false
-  //         })
-  //     }
-  // }
-
-  const handleInvalidSubmit = () => {
-    //     setTimeout(() => {
-    //         let firstErrorField = document.getElementsByClassName('error-border')[0];
-    //         if (firstErrorField) {
-    //             firstErrorField.focus();
-    //             firstErrorField.scrollIntoView({block: "center",behavior: 'smooth'});
+    //     let postcodeValue = event ? event.target.value : value;
+    //     let isValid = true;
+    //     let postcodeError = "";
+    //         if (postcodeValue.length == 0) {
+    //             isValid = false;
+    //         } else {
+    //             if(!(postcodeValue in props.pincodeData)) {
+    //                 isValid = false;
+    //             }
+    //             else {
+    //                 if(!state.isPostcodePristine) {
+    //                     if(event) {
+    //                         changeState(props.pincodeData[event.target.value]);
+    //                     }
+    //                     else if(value) {
+    //                         changeState(props.pincodeData[value]);
+    //                     }
+    //                 }
+    //                 else {
+    //                     if(event) {
+    //                         if(state.selectedState != props.pincodeData[event.target.value]) {
+    //                             isValid = false;
+    //                         }
+    //                     }
+    //                     else {
+    //                         if(state.selectedState != props.pincodeData[value]) {
+    //                             isValid = false;
+    //                         }
+    //                     }
+    //                 }
+    //             }
     //         }
-    //     }, 0);
+    //     if(!isValid) {
+    //         postcodeError = "Please enter valid Pin/Zip code";
+    //     }
+    //     setPostcodeError(postcodeError);
+    //     return isValid;
+    // }
+
+    // const closeAddressForm = () => {
+    //     props.showEditForm({
+    //         showAddresses: true,
+    //         editMode: false,
+    //         newAddressMode: false,
+    //         addressesAvailable: false
+    //     });
+    //     if (props.setAddressModeProfile) {
+    //         props.setAddressModeProfile({
+    //             showAddresses: true,
+    //             editMode: false,
+    //             newAddressMode: false,
+    //             addressesAvailable: false
+    //         })
+    //     }
   };
 
   // setValue(value) {
@@ -908,7 +1039,20 @@ const AddressForm: React.FC<Props> = props => {
   const isAlphaError = "Only alphabets are allowed";
   const isEmailError = "Please enter the correct email";
   // const self = this;
-  const AddressFormRef = useRef(null);
+
+  useEffect(() => {
+    const firstField = document.getElementById("first-field") as HTMLDivElement;
+    firstField && firstField.focus();
+  }, []);
+
+  useEffect(() => {
+    changeCountryData(countryData);
+  }, [countryData]);
+
+  useEffect(() => {
+    mode == "new" && countryOptions.length > 0 && setDefaultCountry();
+  }, [countryOptions]);
+
   return (
     <div className={styles.loginForm}>
       <div className="back-btn-div">
@@ -935,13 +1079,15 @@ const AddressForm: React.FC<Props> = props => {
               required
               className={cs({
                 [styles.disabledInput]:
-                  props.addressData && props.addressData.emailId
+                  (props.addressData && props.addressData.emailId) || email
               })}
               label="Email Address"
               placeholder="Email Address"
               // onChange={handleKeypress}
-              // value={state.email}
-              disable={!!(props.addressData && props.addressData.emailId)}
+              value={(props.addressData && props.addressData.emailId) || email}
+              disable={
+                !!((props.addressData && props.addressData.emailId) || email)
+              }
               validations={{
                 isExisty: true,
                 isEmail: true
@@ -994,34 +1140,38 @@ const AddressForm: React.FC<Props> = props => {
             />
           </div>
           {// state.defaultOption_con.code2 == "IN" || state.defaultOption_con == "IN"
-          defaultCountry == "IN" ? (
+          isIndia ? (
             <div>
               <PinCode
                 // setPostcode={checkStatus}
                 // error={state.postcodeError}
                 // setPostcodeError={setPostcodeError.bind(this)}
-                disable={!!props.currentCallBackComponent}
+                // disable={!!props.currentCallBackComponent}
                 // onChange={handlePostcodeChange.bind(this)}
                 // pincodeList={props.pincodeList}
-                pinCodeList={["110089"]}
+                // pinCodeList={["110089"]}
                 id="pincode"
                 // editMode={props.editMode}
                 // data={props.pincodeData}
-                // blur={handlePostcodeBlur.bind(this)}
+                blur={handlePostcodeBlur}
                 // value={state.postcode}
                 value=""
                 label="Pin/Zip Code"
                 validations={{
-                  isExisty: true
-                  // isValidPostcode: true
+                  isExisty: true,
+                  isValidPostcode: (values, value) => {
+                    return checkPincode(value || "");
+
+                    // return handlePostcodeBlur(null, value);
+                  }
                 }}
                 validationErrors={{
-                  isExisty: "isExistyError"
-                  // isValidPostcode: state.postcodeError
+                  isExisty: "isExistyError",
+                  isValidPostcode: "Please enter valid Pin/Zip code"
                 }}
-                // changeState={changeState.bind(this)}
+                changeState={changeState}
                 placeholder="Pin/Zip Code"
-                name="postcode"
+                name="postCode"
                 // code={state.postcode}
                 // border={state.highlight_pin}
                 required
@@ -1031,7 +1181,7 @@ const AddressForm: React.FC<Props> = props => {
             <div>
               <FormInput
                 required
-                name="postcode"
+                name="postCode"
                 label="Pin/Zip Code"
                 placeholder="Pin/Zip Code"
                 // onChange={handleKeypress}
@@ -1052,15 +1202,15 @@ const AddressForm: React.FC<Props> = props => {
               <FormSelect
                 required
                 label="Country"
-                // options={props.country_options}
-                options={[
-                  {
-                    label: "India",
-                    value: "IN"
-                  }
-                ]}
+                options={countryOptions}
+                // options={[
+                //   {
+                //     label: "India",
+                //     value: "IN"
+                //   }
+                // ]}
                 // value={props.country_name}
-                // onChange={onCountrySelect.bind(this)}
+                handleChange={onCountrySelect}
                 placeholder="Select Country"
                 name="country"
                 validations={{
@@ -1083,16 +1233,17 @@ const AddressForm: React.FC<Props> = props => {
                 placeholder="Select State"
                 // onChange={onStateSelect.bind(this)}
                 // disable={ (state.defaultOption_con.code2 == "IN" || state.defaultOption_con == "IN")? true : false}
-                disable={false}
-                // options={state.state_options}
-                options={[
-                  {
-                    label: "Haryana",
-                    value: "HR"
-                  }
-                ]}
+                disable={isIndia}
+                options={stateOptions}
+                // options={[
+                //   {
+                //     label: "Haryana",
+                //     value: "HR"
+                //   }
+                // ]}
                 // innerRef={(c) => { stateInput = c; }}
                 // value={state.selectedState}
+                value=""
                 validations={{
                   isExisty: true
                 }}
@@ -1118,7 +1269,7 @@ const AddressForm: React.FC<Props> = props => {
               }}
               validationErrors={{
                 isExisty: isExistyError,
-                isEmptyString: isExistyError,
+                // isEmptyString: isExistyError,
                 maxLength: "You can not type in more than 70 characters"
               }}
             />
@@ -1162,17 +1313,18 @@ const AddressForm: React.FC<Props> = props => {
               // codemsg={state.codemsg}
               id="isdcode"
               value=""
-              fetchCountryData={fetchCountryData}
+              // fetchCountryData={fetchCountryData}
+              // countryData={countryData}
               disable={!!props.currentCallBackComponent}
               placeholder="Code"
-              name="Isd"
+              name="phoneCountryCode"
               // code={state.isdCode}
               // highlightCode={state.highlightCode}
             />
 
             <FormInput
               required
-              name="phone_number"
+              name="phoneNumber"
               label="Contact Number"
               placeholder="Contact Number"
               // onChange={handleKeypress}
@@ -1191,10 +1343,10 @@ const AddressForm: React.FC<Props> = props => {
           {true && (
             <div className={styles.addressFormCheckbox}>
               <FormCheckbox
-                name="is_default_for_shipping"
+                name="isDefaultForShipping"
                 label={["MAKE THIS MY DEFAULT ADDRESS"]}
                 // value={state.is_default_for_shipping}
-                value={true}
+                value={false}
                 id="isShippingAddress"
                 disable={false}
                 // checked={state.is_default_for_shipping}
@@ -1229,9 +1381,9 @@ const AddressForm: React.FC<Props> = props => {
               </div>
             </div>
             {errorMessage ? (
-              <p className="common-error-msg">{errorMessage}</p>
+              <p className={globalStyles.errorMsg}>{errorMessage}</p>
             ) : (
-              <p className="common-error-msg"></p>
+              <p className={globalStyles.errorMsg}></p>
             )}
           </div>
         </div>

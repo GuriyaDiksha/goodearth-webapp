@@ -216,20 +216,20 @@
         font-family: $font-Lato;
       }
     }
+  } 
+}
+
+.arrow {
+  @include arrowbottom();
+  position: absolute;
+  top: 21px;
+  right: 26px;
+  &.mright {
+    right: 10px;
   }
-  .arrow {
-    @include arrowbottom();
-    position: absolute;
-    top: 21px;
-    right: 26px;
-    &.mright {
-      right: 10px;
-    }
-  }
-  .disabled-arrow {
-    border-top-color: tint(#000, 50%);
-  }
-  
+}
+.disabled-arrow {
+  border-top-color: tint(#000, 50%);
 }
 
 .categorylabel {
@@ -277,7 +277,7 @@
       ul.react-autosuggest__suggestions-list {
         border: 1px solid #ccc;
         position: absolute;
-        z-index: 99;
+        z-index: 8;
         max-height: 200px;
         overflow: scroll;
         background-color: white;
@@ -287,6 +287,7 @@
           padding: 10px 0;
           margin: 0;
           cursor: pointer;
+          text-align: left;
         }
       }
     }

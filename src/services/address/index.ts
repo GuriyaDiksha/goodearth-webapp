@@ -1,6 +1,7 @@
 import API from "utils/api";
 import { Dispatch } from "redux";
-import { AddressData } from "components/Address/typings";
+import { AddressData, AddressFormData } from "components/Address/typings";
+import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { updateAddressList } from "actions/address";
 
 export default {
@@ -11,13 +12,26 @@ export default {
     );
     return data;
   },
+  fetchPinCodeData: async (dispatch: Dispatch) => {
+    const data = await API.get<{ data: PinCodeData }>(
+      dispatch,
+      `${__API_HOST__}/myapi/address/pincode_state/`
+    );
+    return data;
+  },
+
   makeDefault: async (dispatch: Dispatch) => {
     // implement makeDefault
     console.log("makeDefault");
   },
-  addNewAddress: async (dispatch: Dispatch) => {
-    // implement addNewAddress
-    console.log("addNewAddress");
+  addNewAddress: async (dispatch: Dispatch, formData: AddressFormData) => {
+    const data = await API.post<AddressData[]>(
+      dispatch,
+      `${__API_HOST__}/myapi/address/save_address/`,
+      formData
+    );
+    dispatch(updateAddressList(data));
+    return data;
   },
   updateAddress: async (dispatch: Dispatch) => {
     // implement updateAddress

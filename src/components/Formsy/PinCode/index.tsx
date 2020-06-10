@@ -1,31 +1,20 @@
 import Autosuggest from "react-autosuggest";
 import React, { useState, useEffect } from "react";
 import globalStyles from "../../../styles/global.scss";
-// import styles from "../styles.scss";
+import styles from "../styles.scss";
 import "../../../styles/autosuggest.css";
 import cs from "classnames";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 import { withFormsy } from "formsy-react";
-
-type Props = {
-  // fetchCountryData: () => Promise<countryDataResponse>;
-  pinCodeList: string[];
-  code?: string;
-  error?: string;
-  blur?: () => void;
-  border?: boolean;
-  id: string;
-  className?: string;
-  label?: string;
-  disable?: boolean;
-  placeholder: string;
-  value: string;
-  handleChange?: (event: React.ChangeEvent) => void;
-};
+import { Props } from "./typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
-  const [suggestions, setSuggestions] = useState<string[]>(props.pinCodeList);
-  // const [pinCodeList, setPinCodeList] = useState<Country[]>([]);
+  const { pinCodeList } = useSelector((state: AppState) => state.address);
+
+  const [suggestions, setSuggestions] = useState<string[]>(pinCodeList);
+
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
@@ -43,7 +32,7 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
     } else {
       return inputLength === 0
         ? []
-        : props.pinCodeList.filter(pincode => {
+        : pinCodeList.filter(pincode => {
             return pincode.slice(0, inputLength) == inputValue;
           });
     }
@@ -54,16 +43,16 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
   //             value: nextProps.code
   //         })
   //     }
-  //     if(nextProps.pincodeList !== props.pincodeList) {
+  //     if(nextpinCodeList !== pinCodeList) {
   //         this.setState({
-  //             suggestions: nextProps.pincodeList,
+  //             suggestions: nextpinCodeList,
   //         })
   //     }
   // }
 
   useEffect(() => {
-    setSuggestions(props.pinCodeList);
-  }, [props.pinCodeList]);
+    setSuggestions(pinCodeList);
+  }, [pinCodeList]);
 
   const getSuggestionValue = (suggestion: string) => {
     // props.changeState(props.data[suggestion.toString()]);
@@ -91,6 +80,13 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
     setSuggestions(getSuggestions(value));
   };
 
+  const onSuggestionSelected = (
+    event: any,
+    { suggestion, suggestionValue }: { suggestion: any; suggestionValue: any }
+  ) => {
+    props.changeState && props.changeState(suggestionValue);
+  };
+
   const handleClickBlur = (event: React.FocusEvent) => {
     setLabelClass(true);
     setPlaceholder("");
@@ -104,15 +100,17 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
     }
   };
   // const {value, suggestions} = this.state;
-  // const isError = (!props.isPristine() && !props.isValid() && (props.isFormSubmitted() || this.isBlur)) || (!props.isValid() && props.editMode && props.error);
-  // let cls = isError ? "error-border": props.className || "";
-  const isError = true;
-  const cls = props.disable ? " disabled-input" : "";
+  const isError = !props.isPristine && !props.isValid;
+  //  || (!props.isValid && props.editMode && props.error);
+
+  let cls = isError ? globalStyles.errorBorder : props.className || "";
+  // const isError = true;
+  cls += props.disable ? styles.disabledInput : "";
   let errorMessage = isError ? props.errorMessage || props.error : null;
   errorMessage =
     isError && errorMessage == null ? "This field is required" : errorMessage;
   const inputProps = {
-    placeholder: props.placeholder,
+    placeholder: placeholder,
     value: props.value,
     onChange: onChange,
     disabled: props.disable,
@@ -133,6 +131,7 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
         onSuggestionsClearRequested={() => setSuggestions([])}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
+        onSuggestionSelected={onSuggestionSelected}
         inputProps={inputProps}
         id={props.id}
       />
