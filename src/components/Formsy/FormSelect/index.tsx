@@ -34,11 +34,12 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
     }
   }, []);
 
-  const errorMessage = props.errorMessage
-    ? props.errorMessage
-    : !props.isPristine && !props.isValid
-    ? getDefaultError()
-    : "";
+  const errorMessage =
+    props.errorMessage && !!props.disable
+      ? props.errorMessage
+      : !props.isPristine && !props.isValid && !props.disable
+      ? getDefaultError()
+      : "";
   const options = props.options
     ? props.options.map((option, index) => {
         return (

@@ -19,6 +19,10 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     []
   );
 
+  useEffect(() => {
+    !labelClass && props.value && setLabelClass(true);
+  }, [props.isPristine]);
+
   const handleClickBlur = useCallback((event: React.FocusEvent) => {
     if (!labelClass || placeholder !== "") {
       setLabelClass(true);

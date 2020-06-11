@@ -1,19 +1,6 @@
-export type AddressData = {
+export type AddressData = AddressFormData & {
   id: number;
-  firstName: string;
-  lastName: string;
-  emailId: string;
-  city: string;
-  postCode: string;
-  country: string;
   countryName: string;
-  phoneCountryCode: string;
-  phoneNumber: string;
-  isDefaultForShipping: boolean;
-  isDefaultForBilling: boolean;
-  line1: string;
-  line2: string;
-  state: string;
   isBridal: boolean;
   registrantName: string;
   coRegistrantName: string;

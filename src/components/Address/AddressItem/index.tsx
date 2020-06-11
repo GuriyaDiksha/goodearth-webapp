@@ -19,7 +19,7 @@ type Props = {
   openAddressForm: (address: AddressData) => void;
   deleteAddress: (id: number) => void;
   selectAddress: (address: AddressData) => void;
-  markAsDefault: (address: AddressData) => void;
+  // markAsDefault: (address: AddressData) => void;
   isValidAddress?: () => void;
   currentCallBackComponent: string;
   index: number;
@@ -37,7 +37,7 @@ const AddressItem: React.FC<Props> = props => {
   // this.openAddressForm = this.openAddressForm.bind(this);
 
   const dispatch = useDispatch();
-  const { openAddressForm } = useContext(AddressContext);
+  const { openAddressForm, markAsDefault } = useContext(AddressContext);
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
@@ -174,7 +174,7 @@ const AddressItem: React.FC<Props> = props => {
                 <div
                   className={styles.radio}
                   id={id}
-                  onClick={() => props.markAsDefault(address)}
+                  onClick={() => markAsDefault(address)}
                 >
                   <input
                     id={id}

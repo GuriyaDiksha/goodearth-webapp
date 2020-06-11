@@ -5,7 +5,10 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
-import { AddressData } from "../../../../components/Address/typings";
+import {
+  AddressData,
+  AddressFormData
+} from "../../../../components/Address/typings";
 import AddressList from "components/Address/AddressList";
 import AddressForm from "../../../../components/Address/AddressForm";
 import { AddressContext } from "./context";
@@ -26,11 +29,12 @@ const MyAddress: React.FC<Props> = props => {
 
   const [showDefaultAddressOnly] = useState(false);
   const { addressList } = useSelector((state: AppState) => state.address);
-  const [editAddressData, setEditAddressData] = useState<AddressData | null>(
-    null
-  );
+  const [editAddressData, setEditAddressData] = useState<AddressData>();
+  const { pinCodeData } = useSelector((state: AppState) => state.address);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const dispatch = useDispatch();
+
+  // const currency = useSelector((state: AppState) => state.currency);
 
   const fetchCountryData = async () => {
     const countryData = await LoginService.fetchCountryData(dispatch);
@@ -81,6 +85,11 @@ const MyAddress: React.FC<Props> = props => {
   //     this.setAddressModeProfile({showAddresses: true, editMode: false, newAddressMode: false, addressesAvailable: false});
   // }
 
+  const getStateFromPinCode = useCallback(
+    (pinCode: string): string | undefined => pinCodeData[pinCode],
+    [pinCodeData]
+  );
+
   const openAddressForm = useCallback((address?: AddressData) => {
     // if (addressMode == "new") {
     //     this.showEditForm({showAddresses: false, addressData: "", editMode: false, newAddressMode: true});
@@ -91,25 +100,93 @@ const MyAddress: React.FC<Props> = props => {
       setMode("edit");
     } else {
       setMode("new");
-      setEditAddressData(null);
+      // setEditAddressData(null);
     }
   }, []);
+
+  const isAddressValid = useCallback(
+    (address: AddressData): boolean => {
+      let isValid = false;
+      const { postCode, state } = address;
+      const validState = getStateFromPinCode(postCode);
+      if (validState && state.toLowerCase() == validState.toLowerCase()) {
+        isValid = true;
+      }
+      return isValid;
+    },
+    [pinCodeData]
+  );
+
+  const markAsDefault = (addressData: AddressData) => {
+    const { country } = addressData;
+    const isValid = country == "IN" ? isAddressValid(addressData) : true;
+    if (isValid) {
+      // extract formData from address
+      const {
+        id,
+        emailId,
+        firstName,
+        lastName,
+        city,
+        postCode,
+        phoneCountryCode,
+        phoneNumber,
+        isDefaultForBilling,
+        line1,
+        line2,
+        state
+      } = addressData;
+
+      const formData: AddressFormData = {
+        emailId,
+        firstName,
+        lastName,
+        city,
+        postCode,
+        country,
+        phoneCountryCode,
+        phoneNumber,
+        isDefaultForShipping: true,
+        isDefaultForBilling,
+        line1,
+        line2,
+        state
+      };
+
+      AddressService.updateAddress(dispatch, formData, id).catch(err => {
+        const errData = err.response.data;
+        console.log(errData);
+      });
+    } else {
+      openAddressForm(addressData);
+    }
+  };
 
   const closeAddressForm = useCallback(() => {
     setMode("list");
     window.scrollTo(0, 0);
   }, []);
 
+  const checkPinCode = useCallback(
+    (pinCode: string) => {
+      return typeof getStateFromPinCode(pinCode) == "string" ? true : false;
+    },
+    [pinCodeData]
+  );
+
   const addressContent = (
     <AddressContext.Provider
       value={{
         setMode: setMode,
         mode: mode,
-        editAddressData: editAddressData,
+        // editAddressData: editAddressData,
         setEditAddressData: setEditAddressData,
         currentCallBackComponent: "account",
+        checkPinCode: checkPinCode,
+        isAddressValid: isAddressValid,
         openAddressForm: openAddressForm,
-        closeAddressForm: closeAddressForm
+        closeAddressForm: closeAddressForm,
+        markAsDefault: markAsDefault
       }}
     >
       {mode == "list" && (
@@ -141,7 +218,7 @@ const MyAddress: React.FC<Props> = props => {
       )}
       {mode == "new" && (
         <AddressForm
-          addressData={editAddressData}
+          // addressData={null}
           currentCallBackComponent="account"
           saveAddress={() => null}
           openAddressList={() => null}

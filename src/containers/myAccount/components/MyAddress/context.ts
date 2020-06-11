@@ -7,11 +7,20 @@ export const AddressContext = createContext({
   setMode: (x: AddressModes) => {
     return;
   },
-  editAddressData: {} || null,
+  // editAddressData: {} || null,
   setEditAddressData: (x: AddressData) => {
     return;
   },
   currentCallBackComponent: "",
+  checkPinCode: (x: string): boolean => {
+    return true;
+  },
+  isAddressValid: (x: AddressData): boolean => {
+    return true;
+  },
+  markAsDefault: (x: AddressData) => {
+    return;
+  },
   openAddressForm: (x: AddressData) => {
     return;
   },

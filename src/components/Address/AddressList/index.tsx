@@ -8,7 +8,8 @@ import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 // import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
-
+// import { AddressContext } from "containers/myAccount/components/MyAddress/context";
+// import AddressService from "services/address";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
@@ -48,7 +49,7 @@ const AddressList: React.FC<Props> = props => {
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
-
+  // const { markAsDefault } = useContext(AddressContext);
   // componentWillReceiveProps(props) {
   //     let addressData = props.addressDataList;
   //     if (props.addressDataList &&  props.addressDataList.length && props.addressType == "BILLING") {
@@ -85,34 +86,57 @@ const AddressList: React.FC<Props> = props => {
   //     })
   // }
 
-  const markAsDefault = (data: AddressData) => {
-    //     const isAddressValid = props.checkAddressPostcode(data);
-    //     if(isAddressValid) {
-    //         const formData = new FormData();
-    //         this.setLoadingStatus(true);
-    //         Object.keys(data).forEach(key => {
-    //             if (key === "is_default_for_shipping") {
-    //                 formData.append(key, true);
-    //             } else {
-    //                 formData.append(key, data[key]);
-    //             }
-    //         });
-    //         formData.append('action_type', 'update');
-    //         if (props.currentCallBackComponent !== "checkout") {
-    //             axios.post(Config.hostname + 'myapi/saveaddressdetails/', formData)
-    //             .then((res) => {
-    //                 this.setUpdatedDefaultAddress(res);
-    //                 this.setLoadingStatus(false);
-    //             })
-    //             .catch((err) => this.setLoadingStatus(false))
-    //         } else {
-    //             CustomerAddressApi.touchAddress(formData, props.dispatch);
-    //         }
-    //     }
-    //     else {
-    //         props.manageAddressPostcode("edit", data);
-    //     }
-  };
+  // const markAsDefault = (addressData: AddressData) => {
+  // const isValid = isAddressValid(addressData);
+  // if(isValid) {
+
+  //   const { id } = addressData;
+  //   AddressService.updateAddress(dispatch, formData, id)
+  //   .then(() => {
+  //     setIsAddressChanged(false);
+  //   })
+  //   .catch(err => {
+  //     const errData = err.response.data;
+  //     const form = AddressFormRef.current;
+  //     if (typeof errData == "string") {
+  //       setErrorMessage(errData);
+  //     } else if (typeof errData == "object") {
+  //       form && form.updateInputsWithError(errData, true);
+  //       handleInvalidSubmit();
+  //     }
+  //   });
+  // }
+  // else {
+  //   openAddressForm(address);
+  // }
+
+  //     const isAddressValid = props.checkAddressPostcode(data);
+  //     if(isAddressValid) {
+  //         const formData = new FormData();
+  //         this.setLoadingStatus(true);
+  //         Object.keys(data).forEach(key => {
+  //             if (key === "is_default_for_shipping") {
+  //                 formData.append(key, true);
+  //             } else {
+  //                 formData.append(key, data[key]);
+  //             }
+  //         });
+  //         formData.append('action_type', 'update');
+  //         if (props.currentCallBackComponent !== "checkout") {
+  //             axios.post(Config.hostname + 'myapi/saveaddressdetails/', formData)
+  //             .then((res) => {
+  //                 this.setUpdatedDefaultAddress(res);
+  //                 this.setLoadingStatus(false);
+  //             })
+  //             .catch((err) => this.setLoadingStatus(false))
+  //         } else {
+  //             CustomerAddressApi.touchAddress(formData, props.dispatch);
+  //         }
+  //     }
+  //     else {
+  //         props.manageAddressPostcode("edit", data);
+  //     }
+  // };
 
   return (
     <div>
@@ -155,7 +179,7 @@ const AddressList: React.FC<Props> = props => {
                 // case={props.case}
                 isValidAddress={props.isValidAddress}
                 showAddressInBridalUse={props.showAddressInBridalUse}
-                markAsDefault={markAsDefault}
+                // markAsDefault={markAsDefault}
               />
             );
           })}

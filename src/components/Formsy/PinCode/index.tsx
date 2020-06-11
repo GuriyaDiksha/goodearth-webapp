@@ -22,6 +22,10 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
   // classes: props.class || "",
   // isLabel: props.getValue()  ? true : false,
 
+  useEffect(() => {
+    !labelClass && props.value && setLabelClass(true);
+  }, [props.isPristine]);
+
   const getSuggestions = (value: any) => {
     const inputLength = value.length;
     const inputValue = isNaN(Number(value))
@@ -100,7 +104,8 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
     }
   };
   // const {value, suggestions} = this.state;
-  const isError = !props.isPristine && !props.isValid;
+  // const isError = !props.isPristine && !props.isValid;
+  const isError = (!props.isPristine || props.value) && !props.isValid;
   //  || (!props.isValid && props.editMode && props.error);
 
   let cls = isError ? globalStyles.errorBorder : props.className || "";

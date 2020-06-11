@@ -20,7 +20,7 @@ import AddressService from "services/address";
 // import { updateCountryData } from "actions/address";
 
 type Props = {
-  addressData: AddressData | null;
+  addressData?: AddressData;
   currentCallBackComponent: string;
   saveAddress: () => void;
   openAddressList: () => void;
@@ -42,25 +42,31 @@ type StateOptions = {
 };
 
 const AddressForm: React.FC<Props> = props => {
-  const [isAddressChanged] = useState(true);
+  const [isAddressChanged, setIsAddressChanged] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isCountryChanged, setIsCountryChanged] = useState(false);
   const [isLoading] = useState(false);
   // const [defaultCountry] = useState("IN");
-  // setIsAddressChanged(true);
   // setIsLoading(false);
   const dispatch = useDispatch();
-  const { closeAddressForm, mode, setMode } = useContext(AddressContext);
+  const {
+    closeAddressForm,
+    mode,
+    setMode,
+    checkPinCode
+    // isAddressValid
+  } = useContext(AddressContext);
   const [isIndia, setIsIndia] = useState(false);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
-
+  const { addressData } = props;
   const { currency } = useSelector((state: AppState) => state);
   const { countryData, pinCodeData } = useSelector(
     (state: AppState) => state.address
   );
   const { email } = useSelector((state: AppState) => state.user);
   const AddressFormRef = useRef<Formsy>(null);
-
+  // const StateRef = useRef<typeof FormSelect>(null);
   // state = {
   //     first_name: props.addressData ? props.addressData.first_name : "" || "",
   //     last_name: props.addressData ? props.addressData.last_name : "" || "",
@@ -179,38 +185,52 @@ const AddressForm: React.FC<Props> = props => {
     event: React.ChangeEvent<HTMLSelectElement> | null,
     defaultCountry?: string
   ) => {
-    const form = AddressFormRef.current;
-    let selectedCountry = "";
-    if (event) {
-      selectedCountry = event.currentTarget.value;
-    } else if (defaultCountry) {
-      selectedCountry = defaultCountry;
-      // need to set defaultCountry explicitly
-      if (form && selectedCountry) {
+    if (countryOptions.length > 0) {
+      const form = AddressFormRef.current;
+      let selectedCountry = "";
+      if (event) {
+        selectedCountry = event.currentTarget.value;
+        setIsAddressChanged(true);
+        setIsCountryChanged(true);
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: ""
+            },
+            false
+          );
+
+        // StateRef.current && StateRef.current.props.resetValue();
+        // setPostCode("");
+      } else if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd, value } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
         form.updateInputsWithValue({
-          country: selectedCountry
+          phoneCountryCode: isd
         });
       }
+      setIsIndia(value == "India");
+      setStateOptions(states);
     }
-
-    const { states, isd, value } = countryOptions.filter(
-      country => country.value == selectedCountry
-    )[0];
-
-    if (form) {
-      // reset state
-      const { state } = form.getModel();
-      if (state) {
-        form.updateInputsWithValue({
-          state: ""
-        });
-      }
-      form.updateInputsWithValue({
-        phoneCountryCode: isd
-      });
-    }
-    setIsIndia(value == "India");
-    setStateOptions(states);
 
     // let state = [],
     //       country = {}, isdCode;
@@ -391,8 +411,9 @@ const AddressForm: React.FC<Props> = props => {
     }, 0);
   };
 
-  const addNewAddress = (model: any, resetForm: any, invalidateForm: any) => {
+  const submitAddress = (model: any, resetForm: any, invalidateForm: any) => {
     setErrorMessage("");
+    // prepare data
     const { country } = model;
     const countryCode = countryOptions.filter(
       countryOption => countryOption.value == country
@@ -402,20 +423,38 @@ const AddressForm: React.FC<Props> = props => {
       isDefaultForBilling: false,
       country: countryCode
     };
-    AddressService.addNewAddress(dispatch, formData)
-      .then(() => {
-        setMode("list");
-      })
-      .catch(err => {
-        const errData = err.response.data;
-        const form = AddressFormRef.current;
-        if (typeof errData == "string") {
-          setErrorMessage(errData);
-        } else if (typeof errData == "object") {
-          form && form.updateInputsWithError(errData, true);
-          handleInvalidSubmit();
-        }
-      });
+    if (mode == "new") {
+      AddressService.addNewAddress(dispatch, formData)
+        .then(() => {
+          setMode("list");
+        })
+        .catch(err => {
+          const errData = err.response.data;
+          const form = AddressFormRef.current;
+          if (typeof errData == "string") {
+            setErrorMessage(errData);
+          } else if (typeof errData == "object") {
+            form && form.updateInputsWithError(errData, true);
+            handleInvalidSubmit();
+          }
+        });
+    } else if (mode == "edit" && addressData) {
+      const { id } = addressData;
+      AddressService.updateAddress(dispatch, formData, id)
+        .then(() => {
+          setIsAddressChanged(false);
+        })
+        .catch(err => {
+          const errData = err.response.data;
+          const form = AddressFormRef.current;
+          if (typeof errData == "string") {
+            setErrorMessage(errData);
+          } else if (typeof errData == "object") {
+            form && form.updateInputsWithError(errData, true);
+            handleInvalidSubmit();
+          }
+        });
+    }
 
     //     setState({
     //         errorMessage: "",
@@ -934,13 +973,10 @@ const AddressForm: React.FC<Props> = props => {
   //         checkStatus();
   //     })
   // }
-  const checkPincode = (pinCode: string) => {
-    return typeof pinCodeData[pinCode] == "string" ? true : false;
-  };
 
   const handlePostcodeBlur = (event: React.MouseEvent<HTMLInputElement>) => {
     const pinCode = event.currentTarget.value;
-    checkPincode(pinCode) && changeState(pinCode);
+    checkPinCode(pinCode) && changeState(pinCode);
 
     //     let postcodeValue = event ? event.target.value : value;
     //     let isValid = true;
@@ -1053,6 +1089,47 @@ const AddressForm: React.FC<Props> = props => {
     mode == "new" && countryOptions.length > 0 && setDefaultCountry();
   }, [countryOptions]);
 
+  useEffect(() => {
+    if (mode == "edit" && addressData) {
+      // extract formData from address
+      const {
+        firstName,
+        lastName,
+        city,
+        postCode,
+        countryName,
+        phoneCountryCode,
+        phoneNumber,
+        isDefaultForShipping,
+        line1,
+        line2,
+        state
+      } = addressData;
+      // update stateOptions based on country
+      onCountrySelect(null, countryName);
+
+      const form = AddressFormRef.current;
+      form &&
+        form.updateInputsWithValue(
+          {
+            firstName,
+            lastName,
+            city,
+            postCode,
+            country: countryName,
+            phoneCountryCode,
+            phoneNumber,
+            isDefaultForShipping,
+            line1,
+            line2,
+            state
+          },
+          true
+        );
+      // setPostCode(postCode);
+    }
+  }, [addressData, countryOptions]);
+
   return (
     <div className={styles.loginForm}>
       <div className="back-btn-div">
@@ -1069,7 +1146,7 @@ const AddressForm: React.FC<Props> = props => {
       </div>
       <Formsy
         ref={AddressFormRef}
-        onValidSubmit={addNewAddress}
+        onValidSubmit={submitAddress}
         onInvalidSubmit={handleInvalidSubmit}
       >
         <div className={styles.categorylabel}>
@@ -1079,15 +1156,13 @@ const AddressForm: React.FC<Props> = props => {
               required
               className={cs({
                 [styles.disabledInput]:
-                  (props.addressData && props.addressData.emailId) || email
+                  (addressData && addressData.emailId) || email
               })}
               label="Email Address"
               placeholder="Email Address"
               // onChange={handleKeypress}
-              value={(props.addressData && props.addressData.emailId) || email}
-              disable={
-                !!((props.addressData && props.addressData.emailId) || email)
-              }
+              value={(addressData && addressData.emailId) || email}
+              disable={!!((addressData && addressData.emailId) || email)}
               validations={{
                 isExisty: true,
                 isEmail: true
@@ -1107,6 +1182,8 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="First Name"
               // onChange={handleKeypress}
               // value={state.first_name}
+              // value={(addressData && addressData.firstName)}
+              handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
                 isWords: true,
@@ -1127,6 +1204,8 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="Last Name"
               // onChange={handleKeypress}
               // value={state.last_name}
+              // value={(addressData && addressData.lastName)}
+              handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
                 isWords: true,
@@ -1155,12 +1234,18 @@ const AddressForm: React.FC<Props> = props => {
                 // data={props.pincodeData}
                 blur={handlePostcodeBlur}
                 // value={state.postcode}
-                value=""
+                value={
+                  addressData && !isCountryChanged ? addressData.postCode : ""
+                }
+                handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setIsAddressChanged(true);
+                  // setPostCode(event.currentTarget.value);
+                }}
                 label="Pin/Zip Code"
                 validations={{
                   isExisty: true,
                   isValidPostcode: (values, value) => {
-                    return checkPincode(value || "");
+                    return checkPinCode(value || "");
 
                     // return handlePostcodeBlur(null, value);
                   }
@@ -1186,6 +1271,13 @@ const AddressForm: React.FC<Props> = props => {
                 placeholder="Pin/Zip Code"
                 // onChange={handleKeypress}
                 // value={state.postcode}
+                value={
+                  addressData && !isCountryChanged ? addressData.postCode : ""
+                }
+                handleChange={event => {
+                  setIsAddressChanged(true);
+                  // setPostCode(event.currentTarget.value);
+                }}
                 validations={{
                   isExisty: true,
                   matchRegexp: /^[a-z\d\-_\s]+$/i
@@ -1231,6 +1323,7 @@ const AddressForm: React.FC<Props> = props => {
                 name="state"
                 label="State"
                 placeholder="Select State"
+                // ref={StateRef}
                 // onChange={onStateSelect.bind(this)}
                 // disable={ (state.defaultOption_con.code2 == "IN" || state.defaultOption_con == "IN")? true : false}
                 disable={isIndia}
@@ -1244,6 +1337,7 @@ const AddressForm: React.FC<Props> = props => {
                 // innerRef={(c) => { stateInput = c; }}
                 // value={state.selectedState}
                 value=""
+                handleChange={() => setIsAddressChanged(true)}
                 validations={{
                   isExisty: true
                 }}
@@ -1263,6 +1357,7 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="Address Line 1"
               // onChange={handleKeypress}
               // value={state.line1}
+              handleChange={() => setIsAddressChanged(true)}
               validations={{
                 maxLength: 70,
                 isExisty: true
@@ -1280,6 +1375,7 @@ const AddressForm: React.FC<Props> = props => {
               label="Address Line 2"
               placeholder="Address Line 2"
               // onChange={handleKeypress}
+              handleChange={() => setIsAddressChanged(true)}
               validations={{
                 maxLength: 35
               }}
@@ -1297,6 +1393,7 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="City"
               // onChange={handleKeypress}
               // value={state.city}
+              handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
                 isWords: true
@@ -1329,6 +1426,7 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="Contact Number"
               // onChange={handleKeypress}
               // value={state.phone}
+              handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
                 matchRegexp: /^[0-9\-/]+$/
@@ -1349,6 +1447,7 @@ const AddressForm: React.FC<Props> = props => {
                 value={false}
                 id="isShippingAddress"
                 disable={false}
+                handleChange={() => setIsAddressChanged(true)}
                 // checked={state.is_default_for_shipping}
                 // setValue={setValue}
               />
