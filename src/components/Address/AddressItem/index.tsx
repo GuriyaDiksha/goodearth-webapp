@@ -10,18 +10,13 @@ import AddressService from "services/address";
 // import Config from "components/config";
 import * as Steps from "containers/checkout/constants";
 import { useDispatch } from "react-redux";
-import { AddressContext } from "containers/myAccount/components/MyAddress/context";
+import { AddressContext } from "components/Address/AddressMain/context";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
   addressData: AddressData;
   title?: string;
-  openAddressForm: (address: AddressData) => void;
-  deleteAddress: (id: number) => void;
   selectAddress: (address: AddressData) => void;
-  // markAsDefault: (address: AddressData) => void;
-  isValidAddress?: () => void;
-  currentCallBackComponent: string;
   index: number;
   isOnlyAddress: boolean;
   addressType?: string;
@@ -37,14 +32,19 @@ const AddressItem: React.FC<Props> = props => {
   // this.openAddressForm = this.openAddressForm.bind(this);
 
   const dispatch = useDispatch();
-  const { openAddressForm, markAsDefault } = useContext(AddressContext);
+  const {
+    openAddressForm,
+    markAsDefault,
+    setIsLoading,
+    currentCallBackComponent
+  } = useContext(AddressContext);
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
 
   // deleteAddress(id) {
   //     props.setLoadingStatus(true);
-  //     if(props.currentCallBackComponent == "checkout") {
+  //     if(currentCallBackComponent == "checkout") {
   //         props.onDeleteAddress(id);
   //     } else {
   //         let formData = new FormData();
@@ -79,7 +79,7 @@ const AddressItem: React.FC<Props> = props => {
   // }
 
   // selectAddress(address) {
-  //     switch(props.currentCallBackComponent) {
+  //     switch(currentCallBackComponent) {
   //         case "bridal":
   //             if (props.case == "manage") {
   //                 props.changeBridalAddress(address.id, address);
@@ -135,7 +135,7 @@ const AddressItem: React.FC<Props> = props => {
   return (
     <div
       className={
-        props.currentCallBackComponent == "checkout"
+        currentCallBackComponent == "checkout"
           ? cs(
               bootstrapStyles.col10,
               bootstrapStyles.colSm4,
@@ -228,8 +228,8 @@ const AddressItem: React.FC<Props> = props => {
           <div
             className={cs(globalStyles.marginT20, styles.edit, {
               [styles.addCheckoutActions]:
-                props.currentCallBackComponent == "checkout" ||
-                props.currentCallBackComponent == "bridal"
+                currentCallBackComponent == "checkout" ||
+                currentCallBackComponent == "bridal"
             })}
           >
             {!address.isEdit && (
@@ -252,16 +252,20 @@ const AddressItem: React.FC<Props> = props => {
             {!(address.isBridal || props.isOnlyAddress || address.isEdit) && (
               <span
                 className={styles.action}
-                onClick={() =>
-                  AddressService.deleteAddress(dispatch, address.id)
-                }
+                onClick={() => {
+                  setIsLoading(true);
+                  AddressService.deleteAddress(
+                    dispatch,
+                    address.id
+                  ).finally(() => setIsLoading(false));
+                }}
               >
                 DELETE
               </span>
             )}
           </div>
-          {props.currentCallBackComponent !== "account" &&
-            props.currentCallBackComponent !== "bridal" && (
+          {currentCallBackComponent !== "account" &&
+            currentCallBackComponent !== "bridal" && (
               <div
                 className={cs(
                   globalStyles.ceriseBtn,
@@ -274,7 +278,7 @@ const AddressItem: React.FC<Props> = props => {
                 &nbsp;TO THIS ADDRESS {address.isEdit ? "(FREE)" : ""}
               </div>
             )}
-          {props.currentCallBackComponent == "bridal" && !address.isBridal && (
+          {currentCallBackComponent == "bridal" && !address.isBridal && (
             <div
               className={cs(
                 globalStyles.ceriseBtn,
@@ -286,7 +290,7 @@ const AddressItem: React.FC<Props> = props => {
               USE THIS ADDRESS
             </div>
           )}
-          {props.currentCallBackComponent == "bridal" && address.isBridal && (
+          {currentCallBackComponent == "bridal" && address.isBridal && (
             <div
               className={cs(
                 globalStyles.cursorPointer,

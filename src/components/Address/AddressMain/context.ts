@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { AddressModes } from "./typings";
+import { AddressModes } from "../typings";
 import { AddressData } from "components/Address/typings";
 
 export const AddressContext = createContext({
@@ -7,7 +7,6 @@ export const AddressContext = createContext({
   setMode: (x: AddressModes) => {
     return;
   },
-  // editAddressData: {} || null,
   setEditAddressData: (x: AddressData) => {
     return;
   },
@@ -15,10 +14,13 @@ export const AddressContext = createContext({
   checkPinCode: (x: string): boolean => {
     return true;
   },
-  isAddressValid: (x: AddressData): boolean => {
+  isAddressValid: (postCode: string, state: string): boolean => {
     return true;
   },
   markAsDefault: (x: AddressData) => {
+    return;
+  },
+  setIsLoading: (x: boolean) => {
     return;
   },
   openAddressForm: (x: AddressData) => {

@@ -41,3 +41,9 @@ export type AddressFormData = {
   line2: string;
   state: string;
 };
+
+export type Props = {
+  isbridal: boolean;
+  currentCallBackComponent: string;
+};
+export type AddressModes = "new" | "edit" | "list";

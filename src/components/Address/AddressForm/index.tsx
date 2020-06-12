@@ -8,12 +8,11 @@ import PinCode from "../../../components/Formsy/PinCode";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
-import Loader from "components/Loader";
 import { useSelector, useDispatch } from "react-redux";
 // import LoginService from "services/login";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import { AddressData, AddressFormData } from "../typings";
-import { AddressContext } from "containers/myAccount/components/MyAddress/context";
+import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
@@ -45,16 +44,15 @@ const AddressForm: React.FC<Props> = props => {
   const [isAddressChanged, setIsAddressChanged] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isCountryChanged, setIsCountryChanged] = useState(false);
-  const [isLoading] = useState(false);
   // const [defaultCountry] = useState("IN");
-  // setIsLoading(false);
   const dispatch = useDispatch();
   const {
     closeAddressForm,
     mode,
     setMode,
-    checkPinCode
-    // isAddressValid
+    checkPinCode,
+    isAddressValid,
+    setIsLoading
   } = useContext(AddressContext);
   const [isIndia, setIsIndia] = useState(false);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -413,6 +411,7 @@ const AddressForm: React.FC<Props> = props => {
 
   const submitAddress = (model: any, resetForm: any, invalidateForm: any) => {
     setErrorMessage("");
+    setIsLoading(true);
     // prepare data
     const { country } = model;
     const countryCode = countryOptions.filter(
@@ -437,6 +436,9 @@ const AddressForm: React.FC<Props> = props => {
             form && form.updateInputsWithError(errData, true);
             handleInvalidSubmit();
           }
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else if (mode == "edit" && addressData) {
       const { id } = addressData;
@@ -453,6 +455,9 @@ const AddressForm: React.FC<Props> = props => {
             form && form.updateInputsWithError(errData, true);
             handleInvalidSubmit();
           }
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
 
@@ -1245,7 +1250,8 @@ const AddressForm: React.FC<Props> = props => {
                 validations={{
                   isExisty: true,
                   isValidPostcode: (values, value) => {
-                    return checkPinCode(value || "");
+                    const { postCode, state } = values;
+                    return isAddressValid(postCode, state);
 
                     // return handlePostcodeBlur(null, value);
                   }
@@ -1512,7 +1518,6 @@ const AddressForm: React.FC<Props> = props => {
                         Back to Saved Addresses
                     </div>
                 </div>} */}
-      {isLoading && <Loader />}
     </div>
   );
 };

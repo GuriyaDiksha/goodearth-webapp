@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import cs from "classnames";
-// import axios from 'axios';
-// import Config from "components/config";
 import AddressItem from "../AddressItem";
 import Loader from "components/Loader";
 import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-// import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
-// import { AddressContext } from "containers/myAccount/components/MyAddress/context";
-// import AddressService from "services/address";
-// import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
   addressDataList: AddressData[];
@@ -153,7 +147,7 @@ const AddressList: React.FC<Props> = props => {
                 key={data.id}
                 addressData={data}
                 index={i}
-                openAddressForm={props.openAddressForm}
+                // openAddressForm={props.openAddressForm}
                 // getAddressDetails={props.getAddressDetails}
                 // setAddressAvailable={props.setAddressAvailable}
                 // setUpdatedDefaultAddress={this.setUpdatedDefaultAddress}
@@ -164,12 +158,12 @@ const AddressList: React.FC<Props> = props => {
                 // setCurrentModuleData={props.setCurrentModuleData}
                 addressType={props.addressType}
                 // setAddressModeProfile={props.setAddressModeProfile}
-                currentCallBackComponent={props.currentCallBackComponent}
+                // currentCallBackComponent={props.currentCallBackComponent}
                 // items={props.items}
                 // setLoadingStatus={setIsLoading}
                 selectAddress={props.selectAddress}
                 // toggleAddressForm={props.toggleAddressForm}
-                deleteAddress={props.deleteAddress}
+                // deleteAddress={props.deleteAddress}
                 // dispatch={props.dispatch}
                 // shippingErrorMsg={props.shippingErrorMsg}
                 // billingErrorMsg={props.billingErrorMsg}
@@ -177,7 +171,7 @@ const AddressList: React.FC<Props> = props => {
                 // removeErrorMessages={props.removeErrorMessages}
                 // changeBridalAddress={props.changeBridalAddress}
                 // case={props.case}
-                isValidAddress={props.isValidAddress}
+                // isValidAddress={props.isValidAddress}
                 showAddressInBridalUse={props.showAddressInBridalUse}
                 // markAsDefault={markAsDefault}
               />
