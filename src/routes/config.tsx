@@ -15,6 +15,7 @@ import myAccount from "containers/myAccount";
 import initActionCategory from "containers/categoryLanding/initAction";
 import CategoryLanding from "containers/categoryLanding/index";
 import initActionAccount from "containers/myAccount/initAction";
+import Career from "containers/career";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -61,6 +62,12 @@ const routes: RouteConfig = [
     path: ROUTES.ACCOUNT,
     component: myAccount,
     action: initActionAccount,
+    exact: false
+  },
+  {
+    path: ROUTES.CAREER,
+    component: Career,
+    action: async () => null,
     exact: false
   },
   {
