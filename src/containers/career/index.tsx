@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-// import JobList from './components/JobList';
 import JobForm from "./components/JobForm";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -22,16 +21,6 @@ import CareerService from "services/career";
 
 type Props = {} & RouteComponentProps;
 
-// const demoJob: Job = {
-//   locationName: "New Delhi",
-//   url: "Digital_Marketing_Analyst-GE000005",
-//   jobId: 5,
-//   jobShortDescription: "Hiring for Digital Marketing Analytics with experience of 2-5 years.\r\nShare your CVs at careers@goodearth.in\r\n\r\n\r\n",
-//   jobLongDescription: "<p>Job description</p><ul><li>Analyzing website&apos;s key performance metrics and behavior flow using Google analytics</li><li>Making sure all existing features and new features are getting tracked on the website and deriving insights on usability and impact on key metrics</li><li>Making recommendations regarding website behavior flow improvements</li><li>Stitch marketing campaigns metrics and traffic quality to analyse for further scope of improvement in marketing channels</li><li>Work with customer analytics team to tie in marketing and website data to derive inferences on any campaign performance</li></ul><p>The JD can be extended to following -</p><ul><li>Execute FB and Google ad campaigns</li><li>Take up marketing operations involved in SEO &ndash; e.g., relevant keywords research and populating meta keywords info</li><li>Regularly analyzing for SEO friendliness and raise any red flags with tech team. Keep a tab on Organic Google ranking improvements</li></ul>",
-//   jobTitle: "Digital Marketing Analyst",
-//   jobsId: "GE000005",
-// }
-
 const Career: React.FC<Props> = props => {
   const path = props.history.location.pathname;
   const [mode, setMode] = useState<"list" | "applyAll" | "apply">(
@@ -41,9 +30,7 @@ const Career: React.FC<Props> = props => {
       ? "applyAll"
       : "apply"
   );
-  // const [ jobData,
-  // setJobsData
-  //  ] = useState([{"All": []}]);
+
   const [locationList, setLocationList] = useState<string[]>([]);
   const [allJobList, setAllJobList] = useState<Job[]>([]);
   const [jobList, setJobList] = useState<Job[]>();
@@ -180,17 +167,6 @@ const Career: React.FC<Props> = props => {
   //         selectedLocation: location,
   //         showMobileDropdown: false
   //     }, this.filterJobList);
-  // }
-
-  // getLocations() {
-  //     axios(`${Config.hostname}myapi/career_locationmaster_api`)
-  //         .then((locations) => {
-  //             this.setState({
-  //                 options: locations.data.filter((city) => {
-  //                     return city !== "Any";
-  //                 })
-  //             });
-  //         });
   // }
 
   // const getJobList = () => {
