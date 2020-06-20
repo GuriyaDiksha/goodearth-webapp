@@ -44,10 +44,11 @@ const Career: React.FC<Props> = props => {
   // const [ jobData,
   // setJobsData
   //  ] = useState([{"All": []}]);
-  const [locationsList] = useState([]);
+  const [locationList, setLocationList] = useState<string[]>([]);
+  const [allJobList, setAllJobList] = useState<Job[]>([]);
   const [jobList, setJobList] = useState<Job[]>();
-  const [allJob, setAllJob] = useState<Job>();
-  const [locationFilter, setLocationFilter] = useState("any");
+  const [applyAllJob, setApplyAllJob] = useState<Job>();
+  const [locationFilter, setLocationFilter] = useState<string>("");
   const [selectedJob, setSelectedJob] = useState<Job>();
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
@@ -72,23 +73,28 @@ const Career: React.FC<Props> = props => {
     CareerService.fetchJobData(dispatch)
       .then(jobData => {
         const jobList: Job[] = [];
+        const locationList: string[] = [];
         jobData.forEach(locationwiseJobs => {
           for (const location in locationwiseJobs) {
             jobList.push(...locationwiseJobs[location]);
+            location.toLowerCase() != "any" && locationList.push(location);
           }
         });
         const jobListOnly = jobList.filter(
           job => job.jobTitle.toLowerCase() !== "all"
         );
-        const allJob = jobList.filter(
+        const applyAllJob = jobList.filter(
           job => job.jobTitle.toLowerCase() === "all"
         )[0];
         setJobList(jobListOnly);
-        setAllJob(allJob);
+        setAllJobList(jobListOnly);
+        setApplyAllJob(applyAllJob);
+        setLocationList(locationList);
       })
       .catch(err => {
         // do nothing
       });
+    window.scrollTo(0, 0);
   }, []);
   // useEffect(() => {
   //   setSelectedJob(demoJob);
@@ -112,13 +118,13 @@ const Career: React.FC<Props> = props => {
 
   // parse url for job specific page
   useEffect(() => {
-    if (jobList && jobList.length > 0) {
+    if (allJobList && allJobList.length > 0) {
       // console.log(props.history);
       const [city, jobUrl] = decodeURI(path.substring(8))
         .split("/")
         .filter(a => a);
       if (city) {
-        if (city != locationFilter && city in locationsList) {
+        if (city != locationFilter && locationList.includes(city)) {
           setLocationFilter(city);
         }
       }
@@ -128,7 +134,7 @@ const Career: React.FC<Props> = props => {
         // if(jobsId) {
         // const selectedJob = jobList.find(job => job.jobsId == jobsId);
 
-        const job = jobList && jobList.find(job => jobUrl == job.url);
+        const job = allJobList && allJobList.find(job => jobUrl == job.url);
         if (job) {
           if (selectedJob != job) {
             openJobForm(job);
@@ -142,14 +148,33 @@ const Career: React.FC<Props> = props => {
         //   setSelectedJob(undefined);
         //   setMode("applyAll");
         // }
+      } else if (locationList.includes(city)) {
+        setMode("list");
       }
     }
-  }, [jobList]);
+  }, [allJobList, locationList, locationFilter]);
 
-  const onchangeFilter = () => {
-    // implement on change filter
+  const onChangeFilter = (location?: string) => {
+    if (location) {
+      setLocationFilter(location);
+
+      if (allJobList && allJobList.length > 0) {
+        const jobFilterList = allJobList.filter(
+          job => job.locationName == location
+        );
+        setJobList(jobFilterList);
+      }
+    }
   };
 
+  useEffect(() => {
+    if (allJobList && allJobList.length > 0) {
+      const jobFilterList = allJobList.filter(
+        job => job.locationName == locationFilter
+      );
+      setJobList(jobFilterList);
+    }
+  }, [locationFilter]);
   // setSelectedCity(location) {
   //     this.setState({
   //         selectedLocation: location,
@@ -384,8 +409,8 @@ const Career: React.FC<Props> = props => {
             {mobile ? (
               <div>
                 <MobileDropdownMenu
-                  list={locationsList}
-                  onChange={onchangeFilter}
+                  list={locationList}
+                  onChange={onChangeFilter}
                   showCaret={true}
                   open={false}
                   value="All"
@@ -418,9 +443,11 @@ const Career: React.FC<Props> = props => {
                   <SelectableDropdownMenu
                     align="right"
                     className={styles.dropdownRoot}
-                    items={locationsList}
-                    value="All"
-                    onChange={onchangeFilter}
+                    items={locationList.map(loc => {
+                      return { value: loc, label: loc };
+                    })}
+                    value={locationFilter || "All"}
+                    onChange={onChangeFilter}
                     showCaret={true}
                   ></SelectableDropdownMenu>
                 </div>
@@ -502,7 +529,12 @@ const Career: React.FC<Props> = props => {
               </div>
             </div>
           </SecondaryHeader>
-          <JobForm job={selectedJob} mobile={mobile} allJob={allJob} />
+          <JobForm
+            mode={mode}
+            job={selectedJob}
+            mobile={mobile}
+            applyAllJob={applyAllJob}
+          />
         </>
       )}
     </div>

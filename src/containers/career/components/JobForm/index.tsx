@@ -19,6 +19,7 @@ import uploadResume from "../../../../images/careers/uploadResume.svg";
 import LoginService from "services/login";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import CareerService from "services/career";
 // import { updateCountryData } from 'actions/address';
 
 const mapStateToProps = () => {
@@ -30,6 +31,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchCountryData: async () => {
       const countryData = await LoginService.fetchCountryData(dispatch);
       return countryData;
+    },
+    saveJobApplication: async (formData: any) => {
+      const data = await CareerService.saveJobApplication(dispatch, formData);
+      return data;
     }
   };
 };
@@ -37,7 +42,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = {
   job?: Job;
   mobile: boolean;
-  allJob?: Job;
+  applyAllJob?: Job;
+  mode: string;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
@@ -65,9 +71,10 @@ type State = {
   successMessage: string;
   isLoading: boolean;
   captchaDemo: string;
-  isApplyAll: boolean;
+  // isApplyAll: boolean;
   fileSizeErrorMessage: string;
   fileName: string;
+  file: File | null;
 };
 
 class JobForm extends React.Component<Props, State> {
@@ -88,8 +95,9 @@ class JobForm extends React.Component<Props, State> {
       successMessage: "",
       isLoading: false,
       captchaDemo: "",
-      isApplyAll: false,
-      fileName: ""
+      // isApplyAll: false,
+      fileName: "",
+      file: null
       // formData: {
       //     cv_for_job: "",
       //     email: "",
@@ -121,7 +129,7 @@ class JobForm extends React.Component<Props, State> {
     window.scrollTo(0, 0);
     this.initializeCountries();
 
-    //     const isApplyAll = this.state.isApplyAll;
+    //     const isApplyAll = this.props.mode == "applyAll";
     //     if(!isApplyAll && window.location.pathname.replace('/careers/', '').split("/")[1] === 'all') {
     //         this.setState({
     //             isApplyAll: true
@@ -233,38 +241,47 @@ class JobForm extends React.Component<Props, State> {
   //     this.setState({successMessage: ""})
   // }
 
-  handleFileChangeUpload = (event: React.ChangeEvent) => {
-    //     this.setState({
-    //         fileSizeErrorMessage: ""
-    //     })
-    //     const fileName = event.target.value;
-    //     const file = event.target.files[0];
-    //     const fileSize = file.size;
-    //     if(Math.abs(fileSize/1000000) > 10) {
-    //         this.setState({
-    //             fileSizeErrorMessage: "Upload limit is 10MB"
-    //         });
-    //         return;
-    //     }
-    //     const fileNameTobeShown = fileName.substring(fileName.lastIndexOf("\\")+1).trim() ||
-    //         fileName.substring(fileName.lastIndexOf("//")+1).trim();
-    //     const formData = this.state.formData;
-    //     formData["fileName"] = fileName;
-    //     formData["file"] = file;
-    //     this.setState({
-    //         fileNameTobeShown: fileNameTobeShown,
-    //         formData: formData
-    //     });
+  handleFileChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event) {
+      this.setState({
+        fileSizeErrorMessage: ""
+      });
+      const fileName = event.target.value;
+      const file = event.target.files && event.target.files[0];
+      const fileSize = file && file.size;
+      if (fileSize && Math.abs(fileSize / 1000000) > 10) {
+        this.setState({
+          fileSizeErrorMessage: "Upload limit is 10MB"
+        });
+        return;
+      }
+      const fileNameTobeShown =
+        fileName.substring(fileName.lastIndexOf("\\") + 1).trim() ||
+        fileName.substring(fileName.lastIndexOf("//") + 1).trim();
+      // const formData = this.state.formData;
+      // formData["fileName"] = fileName;
+      // formData["file"] = file;
+
+      this.setState({
+        fileNameTobeShown,
+        fileName,
+        file
+        // formData: formData
+      });
+    }
   };
 
   removeFile = () => {
-    //     const formData = this.state.formData;
-    //     formData["fileName"] = "";
-    //     formData["file"] = {};
-    //     this.setState({
-    //         fileNameTobeShown: "",
-    //         formData: formData
-    //     })
+    // const formData = this.state.formData;
+    // formData["fileName"] = "";
+    // formData["file"] = {};
+    this.setState({
+      fileNameTobeShown: "",
+      fileName: "",
+      file: null,
+      fileSizeErrorMessage: ""
+      // formData: formData
+    });
   };
 
   // verifyCallback(recaptchaToken) {
@@ -287,66 +304,93 @@ class JobForm extends React.Component<Props, State> {
     }, 0);
   };
 
-  handleSubmit = (model: any) => {
-    //     this.setState({
-    //         formSubmit: true
-    //     });
-    //      if (this.state.isVerified) {
-    //         this.setState({
-    //             isLoading: true
-    //         });
-    //         this.prepareFormData(data);
-    //     }
+  handleSubmit = (model: any, resetModel: any, updateInputsWithError: any) => {
+    this.setState({
+      formSubmit: true
+    });
+    if (this.state.isVerified) {
+      this.setState({
+        isLoading: true
+      });
+      this.prepareFormData(model);
+    }
   };
 
-  // prepareFormData(data) {
-  //     let formdata = new FormData();
-  //     this.state.isApplyAll? formdata.append("cv_for_job", data.cv_for_job): formdata.append("cv_for_job", this.state.jobDetails.job_title);
-  //     formdata.append("job_id", this.state.jobDetails.job_id);
-  //     formdata.append("email", data.email);
-  //     formdata.append("first_name", data.first_name);
-  //     formdata.append("last_name", data.last_name);
-  //     const countryCode = data.country;
-  //     const countryName = this.state.countries.filter((country) => country.value == countryCode)[0].label;
-  //     formdata.append("country", countryName);
-  //     formdata.append("state", data.state);
-  //     formdata.append("phone_number", `${data.isd}-${data.phone_number}`);
-  //     formdata.append("about_user", data.about_user);
-  //     formdata.append("city", data.city)
-  //     formdata.append("location", this.state.jobDetails.location_name)
-  //     formdata.append("current_employeer", data.current_employeer|| "")
-  //     formdata.append("year_of_experience", data.year_of_experience || 0)
-  //     formdata.append("highest_qualification", data.highest_qualification || "");
-  //     if (this.state.formData.file && this.state.formData.fileName) {
-  //         formdata.append("resume", this.state.formData.file, this.state.formData.fileName);
-  //     }
-  //     axios.post(`${Config.hostname}myapi/save_job_application/`, formdata)
-  //     .then(response => {
-  //         if (response.data.success) {
-  //             this.setState({
-  //                 successMessage: response.data.message,
-  //                 isLoading: false
-  //             }, () => {
-  //                 this.resetFormData();
-  //             })
-  //         } else {
-  //             this.setState({
-  //                 successMessage: 'Something went wrong. Please try again.',
-  //                 isLoading: false
-  //             })
-  //         }
-  //     });
-  // }
+  prepareFormData = (model: any) => {
+    const formData = new FormData();
+    const {
+      cvForJob,
+      emailId,
+      firstName,
+      lastName,
+      currentEmployer,
+      yearOfExperience,
+      highestQualification,
+      country,
+      state,
+      city,
+      isd,
+      phoneNumber,
+      aboutUser
+    } = model;
+    const { job, mode, applyAllJob } = this.props;
+    if (mode == "applyAll" && applyAllJob) {
+      formData.append("jobId", applyAllJob.jobId.toString());
+      formData.append("location", applyAllJob.locationName);
+      formData.append("cvForJob", cvForJob);
+    } else if (job) {
+      formData.append("cvForJob", job.jobTitle || "");
+      formData.append("jobId", job.jobId.toString());
+      formData.append("location", job.locationName);
+    }
+    // common fields
+    formData.append("email", emailId);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    const countryCode = country;
+    const countryName = this.state.countries.filter(
+      country => country.value == countryCode
+    )[0].label;
+    formData.append("country", countryName);
+    formData.append("state", state);
+    formData.append("phoneNumber", `${isd}-${phoneNumber}`);
+    formData.append("aboutUser", aboutUser);
+    formData.append("city", city);
+    formData.append("currentEmployer", currentEmployer || "");
+    formData.append("yearOfExperience", yearOfExperience || 0);
+    formData.append("highest_Qualification", highestQualification || "");
+    if (this.state.file && this.state.fileName) {
+      formData.append("resume", this.state.file, this.state.fileName);
+    }
+    this.props.saveJobApplication(formData).then(data => {
+      if (data.success) {
+        this.setState(
+          {
+            successMessage: data.message,
+            isLoading: false
+          },
+          () => {
+            this.resetFormData();
+          }
+        );
+      } else {
+        this.setState({
+          successMessage: "Something went wrong. Please try again.",
+          isLoading: false
+        });
+      }
+    });
+  };
 
-  // resetFormData() {
-  //     this.refs.jobform.reset();
-  //     this.removeFile();
-  //     this.captcha.onLoadRecaptcha();
-  //     this.setState({formSubmit: false,isd:''})
-  // }
+  resetFormData = () => {
+    this.jobForm.current && this.jobForm.current.reset();
+    this.removeFile();
+    // this.captcha.onLoadRecaptcha();
+    this.setState({ formSubmit: false });
+  };
 
-  onInputClick(event: React.MouseEvent) {
-    //     event.target.value = ''
+  onInputClick(event: React.MouseEvent<HTMLInputElement>) {
+    event.currentTarget.value = "";
   }
 
   render() {
@@ -368,14 +412,14 @@ class JobForm extends React.Component<Props, State> {
               styles.categorylabel
             )}
           >
-            {this.state.isApplyAll ? (
+            {this.props.mode == "applyAll" ? (
               <div className="margin-t-30">
                 <FormInput
                   required
                   label="Job Title"
                   placeholder="Job Title"
                   // onChange={this.handleChange}
-                  name="cv_for_job"
+                  name="cvForJob"
                   // value={this.state.formData.cv_for_job}
                   validations={{
                     isExisty: true,
@@ -421,7 +465,7 @@ class JobForm extends React.Component<Props, State> {
                 label="First Name"
                 placeholder="First Name"
                 // onChange={this.handleChange}
-                name="first_name"
+                name="firstName"
                 // value={this.state.formData.first_name}
                 validations={{
                   isExisty: true,
@@ -439,7 +483,7 @@ class JobForm extends React.Component<Props, State> {
             <div className="margin-t-30">
               <FormInput
                 required
-                name="last_name"
+                name="lastName"
                 label="Last Name"
                 placeholder="Last Name"
                 // onChange={this.handleChange}
@@ -460,9 +504,9 @@ class JobForm extends React.Component<Props, State> {
 
             <div className="margin-t-30">
               <FormInput
-                name="current_employeer"
-                label="Current Employeer"
-                placeholder="Current Employeer"
+                name="currentEmployer"
+                label="Current Employer"
+                placeholder="Current Employer"
                 // onChange={this.handleChange}
                 // value={this.state.formData.current_employeer}
                 validations={{
@@ -477,7 +521,7 @@ class JobForm extends React.Component<Props, State> {
 
             <div className="margin-t-30">
               <FormInput
-                name="year_of_experience"
+                name="yearOfExperience"
                 label="Experience"
                 placeholder="Experience"
                 // onChange={this.handleChange}
@@ -498,7 +542,7 @@ class JobForm extends React.Component<Props, State> {
 
             <div className="margin-t-30">
               <FormInput
-                name="highest_qualification"
+                name="highestQualification"
                 label="Highest Qualification"
                 placeholder="Highest Qualification"
                 // onChange={this.handleChange}
@@ -554,7 +598,7 @@ class JobForm extends React.Component<Props, State> {
             <div className="margin-t-30">
               <FormInput
                 required
-                name="City"
+                name="city"
                 label="City"
                 placeholder="City"
                 // onChange={this.handleChange}
@@ -587,7 +631,7 @@ class JobForm extends React.Component<Props, State> {
               />
               <FormInput
                 required
-                name="phone_number"
+                name="phoneNumber"
                 label="Contact Number"
                 placeholder="Contact Number"
                 // value={this.state.formData.phone_number}
@@ -608,7 +652,7 @@ class JobForm extends React.Component<Props, State> {
               <FormTextArea
                 className="more-about-applicant"
                 // type="textarea"
-                name="about_user"
+                name="aboutUser"
                 label="More About You(Optional)"
                 placeholder="More About You (Optional)"
                 validations={{
@@ -648,7 +692,7 @@ class JobForm extends React.Component<Props, State> {
               </div>
               <div className={styles.fileUploadSection}>
                 {// this.state.formData.fileName
-                true && (
+                this.state.fileName && (
                   <span className={styles.fileUploaded}>
                     {this.state.fileNameTobeShown}{" "}
                     <span
@@ -736,7 +780,7 @@ class JobForm extends React.Component<Props, State> {
                 className={cs(styles.jdInfo, globalStyles.op2)}
                 dangerouslySetInnerHTML={{ __html: job.jobLongDescription }}
               ></div>
-              {this.state.isApplyAll ? (
+              {this.props.mode == "applyAll" ? (
                 ""
               ) : (
                 <div>
