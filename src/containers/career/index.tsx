@@ -3,7 +3,6 @@ import SecondaryHeader from "components/SecondaryHeader";
 import JobForm from "./components/JobForm";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
-import MobileDropdownMenu from "components/MobileDropdown";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -33,30 +32,16 @@ const Career: React.FC<Props> = props => {
 
   const [locationList, setLocationList] = useState<string[]>([]);
   const [allJobList, setAllJobList] = useState<Job[]>([]);
-  const [jobList, setJobList] = useState<Job[]>();
+  const [jobList, setJobList] = useState<Job[]>([]);
   const [applyAllJob, setApplyAllJob] = useState<Job>();
-  const [locationFilter, setLocationFilter] = useState<string>("");
+  const [locationFilter, setLocationFilter] = useState<string>("All");
   const [selectedJob, setSelectedJob] = useState<Job>();
+  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
 
-  // options: [],
-  // jobListAll: [],
-  // jobListingsOnly: [],
-  // jobListByLocation: [],
-  // selectedLocation: "All",
-  // hasDataAvailable: false,
-  // shouldShowForm: false,
-  // jobDetails: {},
-  // mobileFilter: false,
-
-  // componentDidMount() {
-  //     this.getLocations();
-  //     this.getJobList();
-  // }
-  //
+  // Fetch Jobs
   useEffect(() => {
-    // fetchCountryData();
     CareerService.fetchJobData(dispatch)
       .then(jobData => {
         const jobList: Job[] = [];
@@ -83,19 +68,14 @@ const Career: React.FC<Props> = props => {
       });
     window.scrollTo(0, 0);
   }, []);
-  // useEffect(() => {
-  //   setSelectedJob(demoJob);
-  // },[]);
 
   const openJobForm = (job?: Job) => {
     if (job) {
-      // setMode("apply");
       const location = encodeURI(job.locationName);
       if (encodeURI(path) != `/careers/${location}/${job.url}`) {
         props.history.push(`/careers/${location}/${job.url}`);
       }
     } else {
-      // setMode("applyAll");
       if (path != "/careers/apply/all") {
         props.history.push("/careers/apply/all");
       }
@@ -106,7 +86,6 @@ const Career: React.FC<Props> = props => {
   // parse url for job specific page
   useEffect(() => {
     if (allJobList && allJobList.length > 0) {
-      // console.log(props.history);
       const [city, jobUrl] = decodeURI(path.substring(8))
         .split("/")
         .filter(a => a);
@@ -116,11 +95,6 @@ const Career: React.FC<Props> = props => {
         }
       }
       if (jobUrl) {
-        // const decodeJob = job.split("-");
-        // const jobsId = decodeJob[decodeJob.length -1];
-        // if(jobsId) {
-        // const selectedJob = jobList.find(job => job.jobsId == jobsId);
-
         const job = allJobList && allJobList.find(job => jobUrl == job.url);
         if (job) {
           if (selectedJob != job) {
@@ -131,10 +105,6 @@ const Career: React.FC<Props> = props => {
           openJobForm();
           setMode("applyAll");
         }
-        // else if(jobUrl == "all") {
-        //   setSelectedJob(undefined);
-        //   setMode("applyAll");
-        // }
       } else if (locationList.includes(city)) {
         setMode("list");
       }
@@ -144,292 +114,163 @@ const Career: React.FC<Props> = props => {
   const onChangeFilter = (location?: string) => {
     if (location) {
       setLocationFilter(location);
+      setShowMobileDropdown(false);
+    }
+  };
 
-      if (allJobList && allJobList.length > 0) {
+  // Update JobList on locationFilter change
+  useEffect(() => {
+    if (allJobList && allJobList.length > 0) {
+      if (locationFilter.toLowerCase() == "all") {
+        setJobList(allJobList);
+      } else {
         const jobFilterList = allJobList.filter(
-          job => job.locationName == location
+          job => job.locationName == locationFilter
         );
         setJobList(jobFilterList);
       }
     }
-  };
-
-  useEffect(() => {
-    if (allJobList && allJobList.length > 0) {
-      const jobFilterList = allJobList.filter(
-        job => job.locationName == locationFilter
-      );
-      setJobList(jobFilterList);
-    }
   }, [locationFilter]);
-  // setSelectedCity(location) {
-  //     this.setState({
-  //         selectedLocation: location,
-  //         showMobileDropdown: false
-  //     }, this.filterJobList);
-  // }
 
-  // const getJobList = () => {
-  //     let city = window.location.pathname.replace("/careers/", "").split('/')[0];
-  //     let job = window.location.pathname.replace("/careers/", "").split('/')[1];
-  //     axios(`${Config.hostname}myapi/career_landingpage_api`)
-  //         .then((jobList) => {
-  //             let jobListings = [];
-  //             jobList.data.forEach(jobsByLocation => {
-  //                 Object.entries(jobsByLocation).forEach(([location, jobs]) => {
-  //                     Object.entries(jobs).forEach(([index, job]) => {
-  //                         jobListings.push(job);
-  //                     });
-  //                 });
-  //             });
-  //             let jobListingsOnly = jobListings.filter((job) => {
-  //                 return job.job_title !== 'all';
-  //             })
-  //             this.setState({
-  //                 jobListAll: jobListings,
-  //                 jobListingsOnly: jobListingsOnly,
-  //                 jobListByLocation: jobListingsOnly,
-  //                 hasDataAvailable: true,
-  //                 selectedLocation: city ? city : "All",
-  //             }, this.filterJobList)
-  //             if (job) {
-  //                 jobListings.forEach((data, i) => {
-  //                     if (job == data.url || job === "all") {
-  //                         this.goToJobApplicationForm(data.jobid, data.job_title)
-  //                     }
-  //                 })
-  //             }
-  //         });
-  // };
-
-  // onSelect(event) {
-  //     this.setState({
-  //         selectedLocation: event.value
-  //     }, this.filterJobList);
-  //     // history.pushState({}, null, location.pathname + event.value);
-  //     let url_index = window.location.pathname.replace("/careers/", "").split('/')[0];
-  //     if (!url_index) {
-  //         history.pushState({}, null, location.pathname + event.value);
-  //     } else {
-  //         let len = location.pathname.split('/').length;
-  //         let string = location.pathname.split('/');
-  //         string[len - 1] = event.value;
-  //         history.pushState({}, null, string.join('/'));
-  //     }
-
-  // }
-
-  // filterJobList() {
-  //     let jobListByLocation = this.state.jobListingsOnly.filter(job => job.location_name === this.state.selectedLocation);
-  //     if (this.state.selectedLocation == 'All') {
-  //         jobListByLocation = this.state.jobListingsOnly;
-  //     }
-  //     this.setState({
-  //         jobListByLocation: jobListByLocation
-  //     })
-  // }
-
-  // goToJobApplicationForm(jobId, jobTitle) {
-  //     let formdata = new FormData();
-  //     let self = this;
-  //     formdata.append('job_id', jobId);
-  //     if(jobTitle === "all") {
-  //         let jobDescription = {
-  //             job_id: jobId,
-  //             job_title: jobTitle
-  //         }
-  //         let shouldShowJobForm = true;
-  //         self.showJobApplicationForm({jobDescription, shouldShowJobForm});
-  //     }
-  //     else {
-  //         axios.post(`${Config.hostname}myapi/job_application_api/`, formdata)
-  //         .then(response => {
-  //             const jobDescription = response.data[0];
-  //             jobDescription.job_id = jobId;
-  //             let shouldShowJobForm = true;
-  //             self.showJobApplicationForm({jobDescription, shouldShowJobForm});
-  //         })
-  //     }
-
-  // }
-
-  // showJobApplicationForm({jobDescription, shouldShowJobForm}, url) {
-  //     if (url) {
-  //         let url_index = window.location.pathname.replace("/careers/", "").split('/')[1];
-  //         if (!url_index) {
-  //             history.pushState({}, null, location.pathname + '/' + url);
-  //         } else {
-  //             let len = location.pathname.split('/').length;
-  //             let string = location.pathname.split('/');
-  //             string[len - 1] = url;
-  //             history.pushState({}, null, string.join('/'));
-  //         }
-  //     }
-
-  //     this.setState({
-  //         jobDetails: jobDescription,
-  //         shouldShowForm: shouldShowJobForm
-  //     })
-  // }
-
-  // showAvailableCareerCities() {
-  //     this.setState({
-  //         showMobileDropdown: !this.state.showMobileDropdown
-  //     })
-  // }
-
-  // getJobApplicationForm(jobId, city, url) {
-  //     let formdata = new FormData();
-  //     if(url === "apply/all") {
-  //         let job = this.state.jobListAll.filter((job) => {
-  //             return job.job_title === 'all'
-  //         });
-  //         let job_id = job[0].jobid;
-  //         formdata.append('job_id', job_id);
-  //         let updatedUrl = window.location.pathname.replace('/careers/', '') === 'apply/all' ? '' : url;
-  //         history.pushState({}, null, updatedUrl);
-  //         let shouldShowJobForm = true;
-  //         let jobDescription = {
-  //             job_id: job_id,
-  //             job_title: 'all'
-  //         };
-  //         this.showJobApplicationForm({jobDescription, shouldShowJobForm});
-  //     }
-  //     else {
-  //         // formdata.append('job_id', jobId);
-  //         // axios.post(`${Config.hostname}myapi/job_application_api/`, formdata)
-  //         // .then(response => {
-  //         //     const jobDescription = response.data[0];
-  //         //     let url_index = window.location.pathname.replace("/careers/", "").split('/')[0];
-  //         //     if (!url_index) {
-  //         //         history.pushState({}, null, location.pathname + city);
-  //         //     } else {
-  //         //         let len = location.pathname.split('/').length;
-  //         //         let string = location.pathname.split('/');
-  //         //         string[len - 1] = city;
-  //         //         history.pushState({}, null, string.join('/'));
-  //         //     }
-  //         //     jobDescription.job_id = jobId;
-  //         //     let shouldShowJobForm = true;
-  //         //     this.showJobApplicationForm({jobDescription, shouldShowJobForm}, url);
-  //         //
-  //         // })
-  //         window.location.href = `${Config.hostname}careers/${city}/${url}/`;
-  //     }
-
-  // }
-
-  // let url_index = window.location.pathname.replace("/careers/", "").split('/')[1];
-
-  // const mainContent = (
-  //     (mode == "list" || !url_index?
-  //         <div className="careers-main">
-  //             <div className="career-section dropdown-header">
-  //                 {!this.state.showMobileDropdown ?
-  //                     <div
-  //                         className={!this.props.mobile ? "careers-header custom-dropdown" : "careers-mobile-header custom-dropdown"}>
-  //                         {!this.props.mobile ? <h5><a href="/careers"><span>CAREERS</span></a></h5> :
-  //                             <h5><span className="cerise">LOCATION</span></h5>}
-  //                         {!this.props.mobile ?
-  //                             <div className="drop-div custom-dropdown">
-  //                                 <span className="span-location">Location</span>
-  //                                 <Dropdown className='careers-cities' options={this.state.options}
-  //                                             onChange={(e) => this.onSelect(e)}
-  //                                             value={this.state.selectedLocation}
-  //                                             placeholder="Select an option"/>
-  //                             </div> :
-  //                             <div className="career-mobile-drop-down"
-  //                                     onClick={this.props.mobile ? this.showAvailableCareerCities : ""}>
-  //                                 <div className="career-key-all">
-  //                                     <span className="span-location">{this.state.selectedLocation}</span>
-  //                                 </div>
-  //                             </div>}
-  //                     </div> :
-  //                     <div>
-  //                         <div className="careers-mobile-header career-sort-cross">
-  //                             <span className="sort-label">Location</span>
-  //                             <span className="cross" onClick={this.showAvailableCareerCities}>&#x2715;</span>
-  //                         </div>
-  //                     </div>}
-  //             </div>
-  //             {this.state.showMobileDropdown && <div className="row minimumWidth">
-  //                 <div className="col-xs-12 col-sm-12 mobile-filter-menu ">
-  //                     <ul className="sort hidden-md hidden-lg">
-  //                         <li value={'all'} className={this.state.selectedLocation == 'All' ? "cerise":""}
-  //                             onClick={this.setSelectedCity.bind(this, 'All')}>All
-  //                         </li>
-  //                         {this.state.options.map(data => {
-  //                             return <li value={data} onClick={this.setSelectedCity.bind(this, data)}
-  //                                         className={this.state.selectedLocation == data ? "cerise" : ""}>{data}</li>
-  //                         })}
-  //                     </ul>
-  //                 </div>
-  //             </div>}
-
-  //         </div>
-  //         :
-
-  //       <div></div>
-  //     );
-
-  // useEffect(() => {
-  //   getJobList();
-  // }, []);
+  const showAvailableCareerCities = () => {
+    setShowMobileDropdown(!showMobileDropdown);
+  };
 
   return (
     <div className={secondaryHeaderStyles.careers}>
       {mode == "list" ? (
-        // || !url_index
         <>
-          <SecondaryHeader>
-            {mobile ? (
+          {mobile ? (
+            <>
+              <div className={cs(styles.careerSection, styles.dropdownHeader)}>
+                {!showMobileDropdown ? (
+                  <div
+                    className={cs(
+                      styles.careersMobileHeader,
+                      styles.customDropdown
+                    )}
+                  >
+                    <h5>
+                      <span className={globalStyles.cerise}>LOCATION</span>
+                    </h5>
+                    <div
+                      className={styles.careerMobileDropDown}
+                      onClick={mobile ? showAvailableCareerCities : () => null}
+                    >
+                      <div className={styles.careerKeyAll}>
+                        <span className={styles.spanLocation}>
+                          {locationFilter}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div
+                      className={cs(
+                        styles.careersMobileHeader,
+                        styles.careerSortCross
+                      )}
+                    >
+                      <span className={styles.sortLabel}>Location</span>
+                      <span
+                        className={styles.cross}
+                        onClick={showAvailableCareerCities}
+                      >
+                        &#x2715;
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div>
-                <MobileDropdownMenu
-                  list={locationList}
+                {showMobileDropdown && (
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      globalStyles.minimumWidth
+                    )}
+                  >
+                    <div
+                      className={cs(
+                        bootstrapStyles.col12,
+                        bootstrapStyles.colSm12,
+                        styles.mobileFilterMenu
+                      )}
+                    >
+                      <ul className={styles.sort}>
+                        <li
+                          value={"all"}
+                          className={
+                            locationFilter == "All" ? globalStyles.cerise : ""
+                          }
+                          onClick={() => onChangeFilter("All")}
+                        >
+                          All
+                        </li>
+                        {locationList.map(location => {
+                          return (
+                            <li
+                              key={location}
+                              value={location}
+                              onClick={() => onChangeFilter(location)}
+                              className={
+                                locationFilter == location
+                                  ? globalStyles.cerise
+                                  : ""
+                              }
+                            >
+                              {location}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>{" "}
+            </>
+          ) : (
+            <SecondaryHeader>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd7,
+                  bootstrapStyles.offsetMd1,
+                  styles.careersHeader,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <div>
+                  <Link to="/careers">
+                    <span>CAREERS</span>
+                  </Link>
+                </div>
+              </div>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd3,
+                  bootstrapStyles.offsetMd1,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <p className={styles.filterText}>LOCATION</p>
+                <SelectableDropdownMenu
+                  align="right"
+                  className={styles.dropdownRoot}
+                  items={[
+                    { value: "All", label: "All" },
+                    ...locationList.map(loc => {
+                      return { value: loc, label: loc };
+                    })
+                  ]}
+                  value={locationFilter || "All"}
                   onChange={onChangeFilter}
                   showCaret={true}
-                  open={false}
-                  value="All"
-                />
+                ></SelectableDropdownMenu>
               </div>
-            ) : (
-              <>
-                <div
-                  className={cs(
-                    bootstrapStyles.colMd7,
-                    bootstrapStyles.offsetMd1,
-                    styles.careersHeader,
-                    globalStyles.verticalMiddle
-                  )}
-                >
-                  <div>
-                    <Link to="/careers">
-                      <span>CAREERS</span>
-                    </Link>
-                  </div>
-                </div>
-                <div
-                  className={cs(
-                    bootstrapStyles.colMd3,
-                    bootstrapStyles.offsetMd1,
-                    globalStyles.verticalMiddle
-                  )}
-                >
-                  <p className={styles.filterText}>LOCATION</p>
-                  <SelectableDropdownMenu
-                    align="right"
-                    className={styles.dropdownRoot}
-                    items={locationList.map(loc => {
-                      return { value: loc, label: loc };
-                    })}
-                    value={locationFilter || "All"}
-                    onChange={onChangeFilter}
-                    showCaret={true}
-                  ></SelectableDropdownMenu>
-                </div>
-              </>
-            )}
-          </SecondaryHeader>
+            </SecondaryHeader>
+          )}
+
           {/* Careers top banner */}
           <div className={styles.careersContent}>
             <div className={styles.careersImage}>
@@ -450,13 +291,8 @@ const Career: React.FC<Props> = props => {
             </div>
           </div>
           <div className={styles.jobsSection}>
-            {/* {this.state.hasDataAvailable && this.state.jobListingsOnly.length > 0 ? */}
             {jobList && jobList.length > 0 ? (
-              <JobList
-                jobList={jobList}
-                // locationFilter={locationFilter}
-                openJobForm={openJobForm}
-              />
+              <JobList jobList={jobList} openJobForm={openJobForm} />
             ) : (
               <p className={styles.noJobMessages}>
                 There are currently no openings available at the moment, please
@@ -496,7 +332,7 @@ const Career: React.FC<Props> = props => {
               )}
             >
               <div className={styles.careerBackButton}>
-                <p className={styles.op2}>
+                <p className={globalStyles.op2}>
                   <Link to="/careers">
                     <span className={styles.unicode}>&lsaquo;</span>
                     <span className={styles.backToLink}>BACK TO CAREERS</span>

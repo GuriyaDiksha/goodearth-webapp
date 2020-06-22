@@ -171,16 +171,6 @@ p.job-description {
             width: 80%;
         }
     }
-
-    .job-form {
-        .long-job-description {
-            width: 100%; 
-        }
-
-        .job-application {
-            width: 90%;
-        }
-    }
 }
 
 
@@ -205,16 +195,10 @@ p.job-description {
         }
     }
 
-    .job-form {
-        .country-code {
-            display: grid;
-            grid-template-columns: 4fr 15fr;
-        }
-    }
-
     .careers-mobile-header {
         h5 {
             span {
+                font-size: 14px;
                 cursor: pointer;
             }
         }
@@ -290,7 +274,7 @@ p.job-description {
         .job-designation-header {
             height: 120px;
             background-color: #e6e6e6;
-            margin-top: 70px;
+            margin-top: 50px;
             text-align: center;
             position: relative;
             top: 65px;
@@ -300,6 +284,7 @@ p.job-description {
             }
             h4.job-designation {
                 font-family: "Baskerville","Garamond";
+                font-size: 20px;
             }
         }
 
@@ -309,6 +294,9 @@ p.job-description {
             line-height: 1.8;
             padding: 30px;
             margin-top: 70px;
+            &.long-job-description-mobile{
+                width: 100%; 
+            }
             h6 {
                 font-size: 16px;
             }
@@ -325,10 +313,12 @@ p.job-description {
             }        
         }
         
-        .job-application {
-            
+        .job-application {            
             width: 55%;
             margin: 0 auto;
+            &.job-application-mobile {
+                width: 90%;
+            }
             textarea {
                 resize: none;
                 &:focus {
@@ -340,7 +330,11 @@ p.job-description {
                 grid-template-columns: 2fr 15fr;
                 >div {
                     width: 100%;
-                } 
+                }
+                &.country-code-mobile {
+                    display: grid;
+                    grid-template-columns: 4fr 15fr;
+                }
             }
         }
 
@@ -426,3 +420,184 @@ p {
         top: -2px;
     }
     }
+
+    .dropdown-header {
+        border-bottom: 1px solid #efeaea;
+        .custom-dropdown {
+          .drop-div {
+            // margin: 13px;
+            display: inline-flex;
+            span {
+              line-height: 33px;
+              @include plp_subhdr_dd();
+              &.Dropdown-arrow {
+                border-color: #000 transparent transparent;
+              }
+      
+            }
+            .is-open {
+                .Dropdown-arrow {
+                  border-color: transparent transparent #000;
+                }
+              }
+          }
+        }
+        .pdp_sortmenu {
+          position: absolute;
+          top: 50%;
+          transform: translatey(-50%);
+          left: 66.66%;
+        }
+        .coll_filtermenu {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        .Dropdown-root {
+          .Dropdown-control {
+            min-width: 161px;
+            cursor: pointer;
+          }
+          @include plp_subhdr_dd_copy();
+        }
+      }
+      .careers-mobile-header {
+        display: grid;
+        grid-template-columns: 1fr 10fr;
+        height: 55px;
+        width: 100%;
+        position: fixed;
+        grid-gap: 10px;
+        z-index: 9;
+        background-color: white;
+        margin: 0 auto;
+        top: $header-height;
+        h5 {
+            color: #666;
+            padding: 22px 0;
+            letter-spacing: 1px;
+            margin-left: 32%;
+        }
+        .career-mobile-drop-down {
+            margin-left: 4%;
+            .career-key-all {
+                padding: 15px 0;
+                span {
+                    font-size: 14px;
+                    font-family: "LatoFont","Helvetica","Arial";
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    line-height: 38px;
+                    color: #666;
+                    border-left: 1px solid gray;
+                    padding-left: 10px;
+                    margin-left: 10px;
+                }
+            }
+            .career-key-all::after {
+                content: '';
+                right: 5%;
+                top: 45%;
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 6px solid #4d4d4d;
+            }
+        }
+    }
+    
+    .career-sort-cross {
+        span.sort-label {
+            font-size: 14px;
+            font-family: "LatoFont","Helvetica","Arial";
+            color: gray;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 24px 0;
+            margin-left: 32%;
+        }
+        span.cross {
+            font-size: 14px;
+            color: gray;
+            padding: 20px 0;
+            justify-self: end;
+            margin-right: 6%;
+            cursor: pointer;
+        }
+        border-bottom: 1px solid #ccc;
+    }
+    
+    .mobile-filter-menu {
+        position: fixed;
+        bottom: 0;
+        top: ($header-height + 50);
+        left: 0;
+        z-index: 7;
+        background-color: white;
+        -webkit-transition: all 0.5s linear;
+        -moz-transition: all 0.5s linear;
+        -o-transition: all 0.5s linear;
+        transition: all 0.5s linear;
+        .number-div {
+          width: 50%;
+          text-align: center;
+          background-color: #f9f8f5;
+          span {
+            line-height: 50px;
+            @include plp_prod_quantity();
+          }
+      
+        }
+        .apply-button {
+          width: 50%;
+          text-align: center;
+          span {
+            line-height: 50px;
+            @include cta_white();
+            color: white;
+          }
+          background-color: $cerise;
+        }
+        .filter-button {
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          display: inline-flex;
+        }
+        .sort {
+          height: 100%;
+          overflow: scroll;
+          li {
+            padding: 0 20px;
+            line-height: 50px;
+            @include menu-subcopy();
+            border-bottom: 1px solid tint(#000, 90%);
+            a {
+              color: tint(#000, 50%);
+            }
+          }
+        }
+      }
+      
+.career-back-button {
+    padding: 17px 0;
+    width: 80%;
+    margin: 0 auto;
+    color: #666;
+    p {
+        .unicode {
+            font-size: 25px;
+        }
+        .back-to-link {
+            margin-left: 10px;
+            position: relative;
+            top: -2px;
+        }
+    }
+    a {
+        color: #666;
+    }
+
+}

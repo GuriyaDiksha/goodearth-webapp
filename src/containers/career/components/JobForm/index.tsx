@@ -10,6 +10,7 @@ import FormInput from "components/Formsy/FormInput";
 import FormSelect from "components/Formsy/FormSelect";
 import shareFb from "../../../../images/careers/shareFb.svg";
 import shareLinkedin from "../../../../images/careers/shareLinkedin.svg";
+import shareIcon from "../../../../images/careers/shareIcon.svg";
 import FormTextArea from "components/Formsy/FormTextArea";
 import uploadResume from "../../../../images/careers/uploadResume.svg";
 import LoginService from "services/login";
@@ -17,6 +18,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import CareerService from "services/career";
 import ReCAPTCHA from "react-google-recaptcha";
+import Loader from "components/Loader";
 
 const mapStateToProps = () => {
   return {};
@@ -303,9 +305,15 @@ class JobForm extends React.Component<Props, State> {
   render() {
     const isExistyError = "This field is required";
     const isExistyCode = "Required";
-    const { job } = this.props;
+    const { job, mobile } = this.props;
     const formContent = (
-      <div className={cs(styles.jobApplication, styles.loginForm)}>
+      <div
+        className={cs(
+          styles.jobApplication,
+          { [styles.jobApplicationMobile]: mobile },
+          styles.loginForm
+        )}
+      >
         <h4>APPLY</h4>
         <Formsy
           onValidSubmit={this.handleSubmit}
@@ -441,7 +449,7 @@ class JobForm extends React.Component<Props, State> {
               />
             </div>
 
-            <div className="margin-t-30 select-group">
+            <div>
               <FormSelect
                 required
                 name="country"
@@ -455,9 +463,8 @@ class JobForm extends React.Component<Props, State> {
                   isEmptyString: isExistyError
                 }}
               />
-              <span className="arrow"></span>
             </div>
-            <div className="margin-t-30 select-group">
+            <div>
               <FormSelect
                 required
                 name="state"
@@ -470,7 +477,6 @@ class JobForm extends React.Component<Props, State> {
                   isEmptyString: isExistyError
                 }}
               />
-              <span className="arrow"></span>
             </div>
             <div>
               <FormInput
@@ -488,7 +494,11 @@ class JobForm extends React.Component<Props, State> {
                 }}
               />
             </div>
-            <div className={styles.countryCode}>
+            <div
+              className={cs(styles.countryCode, {
+                [styles.countryCodeMobile]: mobile
+              })}
+            >
               <FormInput
                 name="isd"
                 label="Code"
@@ -583,10 +593,7 @@ class JobForm extends React.Component<Props, State> {
                 <ReCAPTCHA
                   ref={this.captchaRef}
                   size="invisible"
-                  // render="explicit"
                   sitekey="6Lf_U5wUAAAAAH5wAdWks6geImWP2aTfzQI7r-2k"
-                  // onloadCallback={this.onLoadRecaptcha}
-                  // verifyCallback={this.verifyCallback}
                   onChange={this.verifyCallback}
                 />
               </div>
@@ -642,7 +649,11 @@ class JobForm extends React.Component<Props, State> {
                 {job.locationName}
               </h5>
             </div>
-            <div className={styles.longJobDescription}>
+            <div
+              className={cs(styles.longJobDescription, {
+                [styles.longJobDescriptionMobile]: mobile
+              })}
+            >
               <h5 className={cs(globalStyles.op2, styles.jobLocation)}>
                 JOB DESCRIPTION
               </h5>
@@ -668,10 +679,7 @@ class JobForm extends React.Component<Props, State> {
                     <ul className={globalStyles.voffset2}>
                       <li>
                         {this.props.mobile ? (
-                          <img
-                            src="/static/img/social-icons/icons_share.svg"
-                            width="35"
-                          />
+                          <img src={shareIcon} width="35" />
                         ) : (
                           <div
                             className={cs(globalStyles.op2, styles.jobLocation)}
@@ -716,6 +724,7 @@ class JobForm extends React.Component<Props, State> {
           </div>
         )}
         {formContent}
+        {this.state.isLoading && <Loader />}
       </div>
     );
   }

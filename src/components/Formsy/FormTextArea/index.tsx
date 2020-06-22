@@ -77,6 +77,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   return (
     <div className={props.className}>
       <textarea
+        rows={3}
+        cols={60}
         id={props.id}
         name={props.name}
         className={
