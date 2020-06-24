@@ -46,7 +46,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const getRequiredErrorMessage = useCallback((name: string) => {
     switch (name) {
       case "email":
-        return "";
+        return "Please Enter Email";
       case "firstName":
         return "Please Enter First Name";
       case "lastName":
@@ -54,7 +54,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "dateOfBirth":
         return "Please enter valid date of birth";
       case "phoneNo":
-        return "";
+        return "Please Enter Phone Number";
       case "password1":
         return "Please enter at least 6 characters for the password";
       case "password2":
