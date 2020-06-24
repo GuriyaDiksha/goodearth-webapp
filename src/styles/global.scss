@@ -55,6 +55,10 @@ a {
   text-align: left;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .margin-t-20 {
   margin-top: 20px;
 }
@@ -193,4 +197,81 @@ font-weight: bold;
 
 .container-start {
   margin-top: $main-header;
+}
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+  min-width: 100%;
+}
+
+.gutter0 {
+  padding-left: 0;
+  padding-right: 0;
+  > .row {
+    margin-left: 0;
+    margin-right: 0;
+    > [class*='col-'] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+}
+
+.gutter15 {
+  padding-left: 15px;
+  padding-right: 15px;
+  > .row {
+    margin-left: -15px;
+    margin-right: -15px;
+    > [class*='col-'] {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+}
+
+.voffset {
+  margin-top: 2px;
+}
+
+.voffset1 {
+  margin-top: 5px;
+}
+
+.voffset2 {
+  margin-top: 10px;
+}
+
+.voffset3 {
+  margin-top: 15px;
+}
+
+.voffset4 {
+  margin-top: 30px;
+}
+
+.voffset5 {
+  margin-top: 40px;
+}
+
+.voffset6 {
+  margin-top: 60px;
+}
+
+.voffset7 {
+  margin-top: 80px;
+}
+
+.voffset8 {
+  margin-top: 100px;
+}
+
+.voffset9 {
+  margin-top: 150px;
+}
+
+.paddTop-20 {
+  padding-top: 20px;
 }

@@ -11,7 +11,7 @@ export default {
   fetchBasket: async function(dispatch: Dispatch) {
     const res = await API.get<Basket>(
       dispatch,
-      "http://api.goodearth.in/myapi/basket/detail"
+      `${__API_HOST__ + "/myapi/basket/detail"}`
     );
 
     dispatch(updateBasket(res));
@@ -24,7 +24,7 @@ export default {
   ) {
     const res = await API.post<Basket>(
       dispatch,
-      "http://api.goodearth.in/myapi/basket/add_product/",
+      `${__API_HOST__ + "/myapi/basket/add_product/"}`,
       {
         productId,
         quantity
@@ -40,7 +40,7 @@ export default {
   ) {
     const res = await API.post<Basket>(
       dispatch,
-      "http://api.goodearth.in/myapi/basket/update_product/",
+      `${__API_HOST__ + "/myapi/basket/update_product/"}`,
       {
         line,
         quantity
@@ -52,7 +52,7 @@ export default {
   deleteBasket: async function(dispatch: Dispatch, basketLineId: ProductID) {
     const res = await API.post<Basket>(
       dispatch,
-      "http://api.goodearth.in/myapi/basket/remove_basket_line/",
+      `${__API_HOST__ + "/myapi/basket/remove_basket_line/"}`,
       {
         basketLineId
       }

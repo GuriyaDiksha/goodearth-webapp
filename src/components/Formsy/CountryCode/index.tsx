@@ -1,5 +1,5 @@
 import Autosuggest from "react-autosuggest";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import globalStyles from "../../../styles/global.scss";
 import styles from "../styles.scss";
 import "../../../styles/autosuggest.css";
@@ -7,19 +7,24 @@ import cs from "classnames";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 import { Props, Country } from "./typings";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
-  const [suggestions, setSuggestions] = useState<Country[]>([]);
-  const [countryList, setCountryList] = useState<Country[]>([]);
+  const { countryData } = useSelector((state: AppState) => state.address);
+  const [suggestions, setSuggestions] = useState<Country[]>(countryData);
+
+  // const [countryList, setCountryList] = useState<Country[]>(countryData);
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
-  useEffect(() => {
-    props.fetchCountryData().then(data => {
-      setSuggestions(data);
-      setCountryList(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const { countryData } = props;
+  //   if(countryData) {
+  //     setSuggestions(countryData);
+  //     setCountryList(countryData);
+  //   }
+  // }, [props.countryData]);
 
   const getSuggestions = (value: any) => {
     const inputLength = value.length;
@@ -29,7 +34,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
     if (isNaN(Number(value)) && value !== "+") {
       return inputLength === 0
         ? []
-        : countryList.filter(lang => {
+        : countryData.filter(lang => {
             return (
               lang.nameAscii.toLowerCase().slice(0, inputLength) === inputValue
             );
@@ -37,7 +42,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
     } else {
       return inputLength === 0
         ? []
-        : countryList.filter(lang => {
+        : countryData.filter(lang => {
             if (lang.isdCode) {
               if (value.slice(0, 1) == "+") {
                 return lang.isdCode.slice(0, inputLength) === inputValue;

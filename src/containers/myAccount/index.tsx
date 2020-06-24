@@ -12,6 +12,7 @@ import ChangePassword from "./components/ChangePassword";
 import { useStore } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
+import AddressMain from "components/Address/AddressMain";
 
 type Props = {
   isbridal: boolean;
@@ -130,8 +131,9 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "Addresses",
       href: "/account/address",
-      component: () => <div>Addresses</div>,
-      title: "address"
+      component: AddressMain,
+      title: "address",
+      currentCallBackComponent: "account"
     },
     {
       label: "My Orders",
@@ -348,16 +350,25 @@ const MyAccount: React.FC<Props> = props => {
               )}
             >
               <Switch>
-                {accountMenuItems.map(({ component, href, label, title }) => {
-                  const Component = component;
-                  return (
-                    <Route key={label} exact path={href}>
-                      <Component
-                        setCurrentSection={() => setCurrentSection(title)}
-                      />
-                    </Route>
-                  );
-                })}
+                {accountMenuItems.map(
+                  ({
+                    component,
+                    href,
+                    label,
+                    title,
+                    currentCallBackComponent
+                  }) => {
+                    const Component = component;
+                    return (
+                      <Route key={label} exact path={href}>
+                        <Component
+                          setCurrentSection={() => setCurrentSection(title)}
+                          currentCallBackComponent={currentCallBackComponent}
+                        />
+                      </Route>
+                    );
+                  }
+                )}
               </Switch>
             </div>
           </div>

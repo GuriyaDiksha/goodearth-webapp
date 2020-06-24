@@ -455,7 +455,13 @@ const ProductDetails: React.FC<Props> = ({
           >
             {button}
             {isQuickview ? (
-              <Link to={url} className={styles.moreDetails}>
+              <Link
+                to={url}
+                className={styles.moreDetails}
+                onClick={() => {
+                  changeModalState(false);
+                }}
+              >
                 view more details
               </Link>
             ) : (

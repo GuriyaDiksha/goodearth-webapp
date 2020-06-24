@@ -1,5 +1,6 @@
 export type ProfileProps = {
   setCurrentSection: () => void;
+  currentCallBackComponent?: string;
 };
 
 export type ProfileResponse = {

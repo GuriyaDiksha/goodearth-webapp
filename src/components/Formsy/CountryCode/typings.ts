@@ -1,7 +1,6 @@
-import { countryDataResponse } from "services/login/typings";
+// import { countryDataResponse } from "services/login/typings";
 
 export type Props = {
-  fetchCountryData: () => Promise<countryDataResponse>;
   code?: string;
   error?: string;
   blur?: () => void;

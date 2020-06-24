@@ -13,7 +13,7 @@ export default {
     }
 
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/category/top_menu_data/`,
+      `${__API_HOST__ + "/myapi/category/top_menu_data/"}`,
       {}
     );
 
@@ -31,7 +31,7 @@ export default {
     }
 
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/category/footer`,
+      `${__API_HOST__ + "/myapi/category/footer"}`,
       {}
     );
 

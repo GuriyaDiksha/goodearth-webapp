@@ -27,6 +27,7 @@ module.exports = {
     "react/display-name": 0
   },
   globals: {
-    __DOMAIN__: false
+    __DOMAIN__: false,
+    __API_HOST__:false
 }
 };
