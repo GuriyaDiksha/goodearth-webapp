@@ -8,6 +8,7 @@ export type MyOrderState = {
 export type OrdersProps = {
   hasShopped: (x: boolean) => void;
   isLoading: (x: boolean) => void;
+  isDataAvaliable: (x: boolean) => void;
 };
 
 export type MyOrdersResponse = {
