@@ -1,7 +1,7 @@
 import React from "react";
 import cl from "classnames";
 import styles from "../styles.scss";
-import { giftListProps } from "./typings";
+import { GiftListProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
@@ -16,7 +16,7 @@ const GiftCardItem = ({
   remValues,
   code,
   onClose
-}: giftListProps): JSX.Element => {
+}: GiftListProps): JSX.Element => {
   let showLocked = false;
   let showExpired = false;
   const unicode = currencyCode[currCode as Currency];
