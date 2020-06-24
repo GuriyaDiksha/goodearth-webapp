@@ -11,11 +11,11 @@ import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context.ts";
 import moment from "moment";
 import Formsy from "formsy-react";
-import FormInput from "../FormInput";
-import FormSelect from "../FormSelect";
-import FormCheckbox from "../FormCheckbox";
+import FormInput from "../../Formsy/FormInput";
+import FormSelect from "../../Formsy/FormSelect";
+import FormCheckbox from "../../Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
-import CountryCode from "../CountryCode";
+import CountryCode from "../../Formsy/CountryCode";
 import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
@@ -67,6 +67,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
+    this.props.fetchCountryData();
   }
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -339,7 +340,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
-    const { goLogin, fetchCountryData } = this.props;
+    const { goLogin } = this.props;
     const formContent = (
       <Formsy
         ref={this.RegisterFormRef}
@@ -442,7 +443,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isValidDate: "Please enter valid date oof birth",
+                isValidDate: "Please enter valid date of birth",
                 isMinAllowedDate: "Please enter valid date of birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
@@ -450,7 +451,6 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.countryCode}>
             <CountryCode
-              fetchCountryData={fetchCountryData}
               name="code"
               placeholder="Code"
               label="Code"
@@ -530,6 +530,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
           <div className={styles.subscribe}>
             <FormCheckbox
+              value={false}
               inputRef={this.subscribeRef}
               id="subscribeemails"
               name="subscribe"
@@ -552,6 +553,7 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.subscribe}>
             <FormCheckbox
+              value={false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}

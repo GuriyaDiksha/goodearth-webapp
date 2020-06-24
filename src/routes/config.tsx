@@ -11,8 +11,10 @@ import initActionPLP from "containers/plp/initAction";
 import PLP from "containers/plp";
 import Search from "containers/search";
 import initActionSearch from "containers/search/initAction";
+import myAccount from "containers/myAccount";
 import initActionCategory from "containers/categoryLanding/initAction";
 import CategoryLanding from "containers/categoryLanding/index";
+import initActionAccount from "containers/myAccount/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -54,6 +56,12 @@ const routes: RouteConfig = [
     component: Search,
     action: initActionSearch,
     exact: true
+  },
+  {
+    path: ROUTES.ACCOUNT,
+    component: myAccount,
+    action: initActionAccount,
+    exact: false
   },
   {
     path: ROUTES.CATEGORY,

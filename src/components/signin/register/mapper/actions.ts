@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -21,8 +22,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       LoginService.showLogin(dispatch);
       event.preventDefault();
     },
-    fetchCountryData: () => {
-      return LoginService.fetchCountryData(dispatch);
+    fetchCountryData: async () => {
+      const countryData = await LoginService.fetchCountryData(dispatch);
+      dispatch(updateCountryData(countryData));
     }
   };
 };

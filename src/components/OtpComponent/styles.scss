@@ -1,0 +1,331 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+
+    .otp-label {
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      color: tint(#000, 30%);
+      a {
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+    .radiobtn1 {
+      display: flex;
+      > div {
+        width: 90%;
+      }
+      > div.guest-email {
+        width: 100%;
+      }
+    }
+    .xradio {
+      .radio1 {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+  
+      /* Hide the browser's default radio button */
+      .radio1 input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+  
+      /* Create a custom radio button */
+      .checkmark {
+        position: absolute;
+        top: 25px;
+        left: 0;
+        height: 15px;
+        width: 15px;
+        background-color: #fff;
+        border: 1px solid #888;
+        border-radius: 50%;
+      }
+  
+      /* On mouse-over, add a grey background color */
+      .radio1:hover input ~ .checkmark {
+        background-color: #fff;
+      }
+  
+      /* When the radio button is checked, add a blue background */
+      .radio1 input:checked ~ .checkmark {
+        background-color: #fff;
+      }
+  
+      /* Create the indicator (the dot/circle - hidden when not checked) */
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+  
+      /* Show the indicator (dot/circle) when checked */
+      .radio1 input:checked ~ .checkmark:after {
+        display: block;
+      }
+  
+      /* Style the indicator (dot/circle) */
+      .radio1 .checkmark:after {
+        top: 3px;
+        left: 3px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #000;
+      }
+    }
+    .radiobtn {
+      font-size: 20px;
+      left: -30px !important;
+      top: 12px;
+    }
+
+.login-form {
+  .flex{
+    display: flex;
+    width: 100%;
+    .code-input{
+      position: relative;
+      background-color: #f2f2f2;
+    }
+  }
+  .contact-number{
+    width: 80%;
+    border-left: 0px;
+    position: relative;
+  }
+    .country-code {
+      display: flex;
+      grid-template-columns: 1fr 3fr;
+      top:25px;
+    }
+    .copylink {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: $cerise;
+      font-size: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  
+    label {
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      font-weight: 100;
+      font-size: 10px;
+      color: tint(#000, 60%);
+      letter-spacing: 1px;
+      background-color: #fff;
+      padding: 3px;
+    }
+    li {
+      position: relative;
+      margin: 20px 0;
+      &.notify {
+        width: 70%;
+        margin: 0 auto;
+        padding: 20px 0 80px 0;
+        .error-msg {
+          text-align: left;
+        }
+      }
+      &.calendar-icon-container {
+        .calendar-icon {
+            position: absolute;
+            top: 0;
+            right: 10px;
+        }
+      }
+      &.subscribe {
+        text-align: left;
+        margin: 75px 0 0 0;
+        &.subs1 {
+          margin-top: 50px !important;
+        }
+        label {
+          @include c10-L-R();
+          text-transform: none;
+          line-height: 22px;
+          a {
+            color: $cerise;
+            text-decoration: underline;
+            &:hover {
+              color: $cerise;
+              text-decoration: underline;
+            }
+          }
+        }
+        input[type="radio"]:not(:checked) + label:before,
+        input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
+        input[type="checkbox"]:checked + label:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0px;
+          width: 18px;
+          height: 18px;
+          background-color: $light-bg;
+
+        }
+        input[type="radio"]:not(:checked) + label,
+        input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
+        input[type="checkbox"]:checked + label {
+          padding-left: 30px;
+        }
+
+        input[type="radio"]:not(:checked) + label:after,
+        input[type="radio"]:checked + label:after, [type="checkbox"]:not(:checked) + label:after,
+        input[type="checkbox"]:checked + label:after {
+          content: '';
+          display: block;
+          width: 6px;
+          height: 10px;
+          border: solid #ab1e56;
+          border-width: 0 2px 2px 0;
+          position: absolute;
+          top: 2px;
+          left: 6px;
+          font-size: 18px;
+          line-height: 0.8;
+          transition: all .1s;
+        }
+      }
+      &.checkBalanceCheckPolicy {
+        display: grid;
+        label {
+          top: 5px;
+          left: 8px;
+          padding-top: 0;
+        }
+        p {
+          z-index: 1;
+          font-size: 12px;
+          font-family: LatoFont, Helvetica, Arial;
+          color: #666;
+          letter-spacing: 1px;
+          text-transform: none;
+          line-height: 22px;
+          position: relative;
+          cursor: pointer;
+          font-weight: 400;
+          background-color: #fff;
+          padding: 3px;
+          a {
+            color: #ab1e56;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    
+    input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select {
+      background-color: #fff;
+      border: 1px solid #eee;
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 25px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 0;
+      @include placeholder {
+        font-size: 14px;
+        color: tint(#000, 60%);
+        font-style: normal;
+        letter-spacing: 1px;
+        font-family: $font-Lato;
+      }
+    }
+  
+    /* For Firefox */
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+    /* Webkit browsers like Safari and Chrome */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+}
+.msg{
+  position: absolute;
+  top: -24px;
+  font-size: 12px;
+  color: #6666668f;
+  text-transform: none;
+  margin-left: 37px;
+}
+
+.otp-text{
+  font-size: 12px;
+  color: #666;
+  text-transform: capitalize;
+}
+.error-msg{
+  position: absolute;
+  bottom: -13px;
+  text-transform: none;
+  font-size: 10px ;
+  font-style: italic;
+  color: #ab1e56 ;
+  font-weight: bold;
+  font-family: "LatoFont","Helvetica","Arial";
+  letter-spacing: 1px;
+  text-transform: lowercase;
+  text-align: left;
+  height: 15px;
+  line-height: 15px;
+}
+.relative {
+  position: relative;
+}
+.redeem-otp {
+  input {
+    background-color: $white;
+    border: 1px solid #888 !important;
+    width: 220px !important;
+    font-size: 30px !important;
+    padding: 3px !important;
+    font-weight: bold;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    line-height: 42px !important;
+    color: black;
+  }
+}
+.overflow-email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40ch;
+}
+.icon-style-disabled {
+  opacity: .4;
+  text-decoration: none;
+  &:hover {
+    color: inherit;
+    cursor: default;
+  }
+}
+.otp-format {
+  font-size: 14px;
+}

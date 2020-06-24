@@ -28,6 +28,20 @@ class API {
     });
   }
 
+  static put<T>(
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    url: string,
+    data: any,
+    headers: any = {}
+  ): Promise<T> {
+    return API.callAPI<T>(dispatch, {
+      url,
+      data,
+      headers,
+      method: "PUT"
+    });
+  }
+
   static delete<T>(
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     url: string,
@@ -71,7 +85,11 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
-              resolve(res.data);
+              if (res.status == 200 || res.status == 201) {
+                resolve(res.data);
+              } else {
+                reject(res);
+              }
             })
             .catch(err => {
               reject(err);

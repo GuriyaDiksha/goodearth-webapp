@@ -9,7 +9,8 @@ export enum ROUTES {
   CATEGORY = "/category_landing/:slug",
   FB = "/account/facebook/login/?next=/",
   GOOGLE = "/account/google/login/?next=/",
-  SEARCH = "/search"
+  SEARCH = "/search",
+  ACCOUNT = "/account"
 }
 
 export type RouteConfig = RouteObject[];

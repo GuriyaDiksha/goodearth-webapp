@@ -3,85 +3,108 @@ button {
 }
 
 .voffset {
-    margin-top: 2px;
-  }
-  
-  .voffset1 {
-    margin-top: 5px;
-  }
-  
-  .voffset2 {
-    margin-top: 10px;
-  }
-  
-  .voffset3 {
-    margin-top: 15px;
-  }
-  
-  .voffset4 {
-    margin-top: 30px;
-  }
-  
-  .voffset5 {
-    margin-top: 40px;
-  }
-  
-  .voffset6 {
-    margin-top: 60px;
-  }
-  
-  .voffset7 {
-    margin-top: 80px;
-  }
-  
-  .voffset8 {
-    margin-top: 100px;
-  }
-  
-  .voffset9 {
-    margin-top: 150px;
-  }
+  margin-top: 2px;
+}
 
-  :focus {
-    outline: 0;
-    outline: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-  
-  input::-moz-focus-inner {
-    border: 0;
-  }
-  
-  input:focus, textarea:focus {
-    outline: none;
-    border: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-  
-  :focus {
-    outline: 0;
-    outline: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-  
+.voffset1 {
+  margin-top: 5px;
+}
 
-  a {
-    text-decoration: none;
-  }
-  
-  a:hover, a:focus, a:active{
-    text-decoration: none;
-    color: inherit;
-    outline: none;
-    outline: 0;
-  }
-  
-  button:hover, button:focus, button:active{
-    text-decoration: none;
-    color: inherit;
-    outline: none;
-    outline: 0;
-  }
+.voffset2 {
+  margin-top: 10px;
+}
+
+.voffset3 {
+  margin-top: 15px;
+}
+
+.voffset4 {
+  margin-top: 30px;
+}
+
+.voffset5 {
+  margin-top: 40px;
+}
+
+.voffset6 {
+  margin-top: 60px;
+}
+
+.voffset7 {
+  margin-top: 80px;
+}
+
+.voffset8 {
+  margin-top: 100px;
+}
+
+.voffset9 {
+  margin-top: 150px;
+}
+
+:focus {
+  outline: 0;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+input::-moz-focus-inner {
+  border: 0;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+:focus {
+  outline: 0;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+a:hover, a:focus, a:active{
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+  outline: 0;
+}
+
+button:hover, button:focus, button:active{
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+  outline: 0;
+}
+
+.op1 {
+  opacity: .8;
+}
+
+.op2 {
+  opacity: .6;
+}
+
+.op3 {
+  opacity: .4;
+}
+
+.op4 {
+  opacity: .2;
+}
+
+.sp-mobile-voffset-6 {
+  margin-top: 60px;
+}
+.sp-mobile-voffset-3 {
+  padding: 30px 0;
+}

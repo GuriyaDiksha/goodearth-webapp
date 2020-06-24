@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -18,6 +18,7 @@ import { State } from "./typings";
 import LoginService from "services/login";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
+import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -91,7 +92,7 @@ class Header extends React.Component<Props, State> {
     });
   }
 
-  clickToggel() {
+  clickToggle() {
     this.setState({
       showMenu: !this.state.showMenu,
       showSearch: false
@@ -100,9 +101,61 @@ class Header extends React.Component<Props, State> {
 
   render() {
     const { isLoggedIn } = this.context;
-    const { message, wishlistData, meta, handleLogOut } = this.props;
+    const { message, wishlistData, meta, goLogin, handleLogOut } = this.props;
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
+    const profileItems: DropdownItem[] = [];
+    isLoggedIn &&
+      profileItems.push(
+        {
+          label: "My Profile",
+          href: "/account/profile",
+          type: "link"
+        },
+        {
+          label: "My Orders",
+          href: "/account/orders",
+          type: "link"
+        }
+      );
+    profileItems.push(
+      {
+        label: "Track Order",
+        href: "/about",
+        type: "link"
+      },
+      {
+        label: "Good Earth Registry",
+        href: "/about",
+        type: "link",
+        value: "Good Earth Registry"
+      },
+      {
+        label: "Activate Gift Card",
+        href: "/about",
+        type: "link",
+        value: "Activate Gift Card"
+      },
+      {
+        label: "Cerise Program",
+        href: "/about",
+        type: "link",
+        value: "Cerise Program"
+      },
+      {
+        label: "Check Balance",
+        href: "/about",
+        type: "link",
+        value: "Check Balance"
+      },
+      {
+        label: isLoggedIn ? "Sign Out" : "Sign In",
+        href: "",
+        onClick: isLoggedIn ? handleLogOut : goLogin,
+        type: "link",
+        value: isLoggedIn ? "Sign Out" : "Sign In"
+      }
+    );
     return (
       <div className="">
         <Helmet>
@@ -181,7 +234,7 @@ class Header extends React.Component<Props, State> {
                           styles.iconFont
                         )
                   }
-                  onClick={this.clickToggel.bind(this)}
+                  onClick={this.clickToggle.bind(this)}
                 ></i>
                 <i
                   className={
@@ -194,7 +247,7 @@ class Header extends React.Component<Props, State> {
                         )
                       : styles.hidden
                   }
-                  onClick={this.clickToggel.bind(this)}
+                  onClick={this.clickToggle.bind(this)}
                 ></i>
               </div>
             ) : (
@@ -351,23 +404,21 @@ class Header extends React.Component<Props, State> {
                         </li>
 
                         <ul className={styles.adding}>
-                          {isLoggedIn ? <li>My Profile</li> : ""}
-                          {isLoggedIn ? <li>My Orders</li> : ""}
-                          <li>Track Order</li>
-                          <li>Good Earth Registry</li>
-                          <li>Activate Gift Card</li>
-                          <li>Cerise Program</li>
-                          <li>Check Balance</li>
-                          {isLoggedIn ? (
-                            <li onClick={handleLogOut}>Sign Out</li>
-                          ) : (
-                            ""
-                          )}
-                          {isLoggedIn ? (
-                            ""
-                          ) : (
-                            <li onClick={this.props.goLogin}>Sign In</li>
-                          )}
+                          {profileItems.map(item => {
+                            return (
+                              <li
+                                key={item.label}
+                                onClick={() => this.clickToggle()}
+                              >
+                                <NavLink
+                                  key={item.label}
+                                  to={item.href as string}
+                                >
+                                  {item.label}
+                                </NavLink>
+                              </li>
+                            );
+                          })}
                         </ul>
                       </ul>
                     </div>
