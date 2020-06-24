@@ -153,7 +153,6 @@ class MyProfile extends React.Component<Props, State> {
   };
 
   render() {
-    const { fetchCountryData } = this.props;
     const { genderOptions, loginVia } = this.state;
     const {
       firstName,
@@ -194,7 +193,7 @@ class MyProfile extends React.Component<Props, State> {
                     this.setState({ updateProfile: true });
                   }}
                   disable={firstName == "" ? false : true}
-                  className={firstName == "" ? "" : styles.disabledInput}
+                  className={cs({ [styles.disabledInput]: firstName != "" })}
                 />
               </div>
               <div>
@@ -277,7 +276,7 @@ class MyProfile extends React.Component<Props, State> {
                 className={cs(styles.countryCode, styles.countryCodeProfile)}
               >
                 <CountryCode
-                  fetchCountryData={fetchCountryData}
+                  // fetchCountryData={fetchCountryData}
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}

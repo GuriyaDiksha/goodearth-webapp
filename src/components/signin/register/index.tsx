@@ -67,6 +67,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
+    this.props.fetchCountryData();
   }
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -339,7 +340,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
-    const { goLogin, fetchCountryData } = this.props;
+    const { goLogin } = this.props;
     const formContent = (
       <Formsy
         ref={this.RegisterFormRef}
@@ -450,7 +451,6 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.countryCode}>
             <CountryCode
-              fetchCountryData={fetchCountryData}
               name="code"
               placeholder="Code"
               label="Code"

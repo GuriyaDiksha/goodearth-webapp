@@ -28,6 +28,20 @@ class API {
     });
   }
 
+  static put<T>(
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    url: string,
+    data: any,
+    headers: any = {}
+  ): Promise<T> {
+    return API.callAPI<T>(dispatch, {
+      url,
+      data,
+      headers,
+      method: "PUT"
+    });
+  }
+
   static delete<T>(
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     url: string,

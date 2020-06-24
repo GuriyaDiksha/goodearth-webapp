@@ -1,4 +1,5 @@
 import { RefObject } from "react";
+// import FormSelect from "./index";
 export type Props = {
   name: string;
   value?: string;
@@ -9,5 +10,6 @@ export type Props = {
   label?: string;
   placeholder?: string;
   disable?: boolean;
+  // ref?: RefObject<typeof FormSelect>;
   blur?: (event: React.FocusEvent) => void;
 };

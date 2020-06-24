@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { withFormsy } from "formsy-react";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 import globalStyles from "../../../styles/global.scss";
@@ -8,6 +8,10 @@ import { Props } from "./typings";
 
 const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
+
+  useEffect(() => {
+    !labelClass && props.value && setLabelClass(true);
+  }, [props.isPristine]);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -19,11 +23,23 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
     [props.handleChange]
   );
 
-  const errorMessage = props.errorMessage
-    ? props.errorMessage
-    : !props.isPristine && !props.isValid
-    ? "Please Select your Gender."
-    : "";
+  const getDefaultError = useCallback(() => {
+    switch (props.name) {
+      case "gender":
+        return "Please Select your gender";
+      case "country":
+        return "Please Select Country";
+      case "state":
+        return "Please Select State";
+    }
+  }, []);
+
+  const errorMessage =
+    props.errorMessage && !!props.disable
+      ? props.errorMessage
+      : !props.isPristine && !props.isValid && !props.disable
+      ? getDefaultError()
+      : "";
   const options = props.options
     ? props.options.map((option, index) => {
         return (
@@ -41,7 +57,10 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         name={props.name}
         onChange={handleChange}
         value={props.value}
-        className={errorMessage ? globalStyles.errorBorder : ""}
+        className={cs(
+          { [globalStyles.errorBorder]: errorMessage },
+          { [styles.disabledInput]: props.disable }
+        )}
         disabled={props.disable}
         onFocus={() => setLabelClass(true)}
       >
