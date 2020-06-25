@@ -44,7 +44,6 @@ export default {
         productId,
         email
       });
-
       successful = true;
       message = res.message;
     } catch (e) {

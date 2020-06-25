@@ -12,6 +12,7 @@ import ChangePassword from "./components/ChangePassword";
 import { useStore } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
+import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
 
 type Props = {
@@ -156,7 +157,7 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "Check Balance",
       href: "/account/check-balance",
-      component: () => <div>Check Balance</div>,
+      component: CheckBalance,
       title: "Check Balance"
     }
   ];

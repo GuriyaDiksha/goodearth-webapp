@@ -113,7 +113,7 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Check Balance",
-        href: "/about",
+        href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
       },

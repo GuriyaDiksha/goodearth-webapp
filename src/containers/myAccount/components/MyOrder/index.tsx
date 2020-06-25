@@ -15,6 +15,7 @@ const PastOrders: React.FC = () => {
   const [hasShoppedAtStore, setHasShoppedAtStore] = useState(false);
   const [hasShopped, setHasShopped] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isData, setIsData] = useState(false);
   const store = useStore();
   const { mobile } = store.getState();
 
@@ -23,6 +24,11 @@ const PastOrders: React.FC = () => {
     setHasShoppedAtStore(true);
     setHasShopped(true);
     setIsLoading(false);
+    setIsData(false);
+  };
+
+  const isDataAvaliable = (data: boolean) => {
+    setIsData(data);
   };
 
   const switchToOnlineOrders = () => {
@@ -30,6 +36,7 @@ const PastOrders: React.FC = () => {
     setHasShoppedAtStore(false);
     setHasShopped(true);
     setIsLoading(false);
+    setIsData(false);
   };
   const mainContent = (
     <>
@@ -61,11 +68,15 @@ const PastOrders: React.FC = () => {
             globalStyles.voffset4
           )}
         >
-          <em>{"You haven't made any purchases yet"}</em>
+          {isData ? "" : <em>{"You haven't made any purchases yet"}</em>}
         </div>
       )}
       {hasShoppedOnlineitems && (
-        <OnlineOrders hasShopped={setHasShopped} isLoading={setIsLoading} />
+        <OnlineOrders
+          hasShopped={setHasShopped}
+          isLoading={setIsLoading}
+          isDataAvaliable={isDataAvaliable}
+        />
       )}
       {/* {hasShoppedAtStore && (
         <InShopOrders hasShopped={setHasShopped} isLoading={setIsLoading} />

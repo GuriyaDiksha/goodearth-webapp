@@ -279,3 +279,8 @@ font-weight: bold;
   display: flex;
   align-items: center;
 }
+.c22-A-I {
+  @include c22-A-I();
+  line-height: 50px;
+  margin-top: 30px;
+}
