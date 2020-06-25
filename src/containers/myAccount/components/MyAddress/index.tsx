@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
+import { updateAddressList } from "actions/address";
+import AddressService from "services/address";
+import { useDispatch } from "react-redux";
 
 const MyAddress = (props: { mode: string; children: React.ReactNode }) => {
   const { mode, children } = props;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    AddressService.fetchAddressList(dispatch).then(addressList => {
+      dispatch(updateAddressList(addressList));
+    });
+  }, []);
+
   return (
     <div className={bootstrapStyles.row}>
       <div
