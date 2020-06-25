@@ -6,3 +6,11 @@
     height: $secondary-header-height;
     @include sticky-top();
 }
+
+.careers {
+    .secondary-header-container {
+        box-shadow: 0 8px 6px -6px tint(#000, 90%);
+        height: $secondary-header-careers-height;
+        @include sticky-top();
+    }
+}

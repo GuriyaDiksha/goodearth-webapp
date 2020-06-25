@@ -2,21 +2,28 @@ import React, { Component } from "react";
 // import axios from "axios";
 import moment from "moment";
 // import Config from "components/config";
-// import Loader from "components/common/Loader";
+import Loader from "components/Loader";
+import { currencyCodes } from "constants/currency";
 
-export default class InShopOrderDetails extends Component {
+type Props = {
+  closeDetails: (event: React.MouseEvent) => void;
+};
+
+type State = {
+  order: any;
+  orderDetails: any;
+  isDetailAvailable: boolean;
+  isLoading: boolean;
+};
+
+export default class InShopOrderDetails extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
       order: props.order,
       orderDetails: {},
       isDetailAvailable: false,
-      isLoading: true,
-      currency_code: {
-        INR: 8377,
-        USD: 36,
-        GBP: 163
-      }
+      isLoading: true
     };
   }
 
@@ -65,7 +72,7 @@ export default class InShopOrderDetails extends Component {
                   <span className="op2">Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(this.state.currency_code["INR"])} &nbsp;
+                  {String.fromCharCode(currencyCodes["INR"])} &nbsp;
                   {this.state.order.total}
                 </p>
               </div>
@@ -83,8 +90,8 @@ export default class InShopOrderDetails extends Component {
                     <label>Purchased (Shop)</label>
                     <p>
                       {this.state.isDetailAvailable &&
-                      this.state.orderDetails.order_lines[0].store
-                        ? this.state.orderDetails.order_lines[0].store
+                      this.state.orderDetails.orderLines[0].store
+                        ? this.state.orderDetails.orderLines[0].store
                         : "NOT AVAILABLE"}
                     </p>
                   </address>
@@ -119,9 +126,9 @@ export default class InShopOrderDetails extends Component {
               </div>
             </div>
             {this.state.isDetailAvailable &&
-              this.state.orderDetails.order_lines.map(item => {
+              this.state.orderDetails.orderLines.map((item: any) => {
                 return (
-                  <div className="row voffset4 border-add">
+                  <div key={item} className="row voffset4 border-add">
                     <div className="col-xs-5 col-sm-2 col-md-3">
                       <img
                         src="/static/img/nopictureicon.png"
@@ -134,9 +141,7 @@ export default class InShopOrderDetails extends Component {
                         <div className="image-content text-left">
                           <p className="product-n item-padding">{item.title}</p>
                           <p className="product-n item-padding">
-                            {String.fromCharCode(
-                              this.state.currency_code["INR"]
-                            )}
+                            {String.fromCharCode(currencyCodes["INR"])}
                             &nbsp; {item.price}
                           </p>
                           {item.size ? (

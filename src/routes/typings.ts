@@ -10,7 +10,8 @@ export enum ROUTES {
   FB = "/account/facebook/login/?next=/",
   GOOGLE = "/account/google/login/?next=/",
   SEARCH = "/search",
-  ACCOUNT = "/account"
+  ACCOUNT = "/account",
+  CAREER = "/careers"
 }
 
 export type RouteConfig = RouteObject[];

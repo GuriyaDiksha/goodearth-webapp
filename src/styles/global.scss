@@ -275,7 +275,10 @@ font-weight: bold;
 .paddTop-20 {
   padding-top: 20px;
 }
-
+.vertical-middle {
+  display: flex;
+  align-items: center;
+}
 .c22-A-I {
   @include c22-A-I();
   line-height: 50px;
