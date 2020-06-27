@@ -38,3 +38,10 @@
     color: #666;
     letter-spacing: 1px;
   }
+
+.password {
+  input {
+  scroll-margin-top: 150px;
+  scroll-snap-margin-top: 150px;
+  }
+}

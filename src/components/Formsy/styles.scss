@@ -1,1 +1,8 @@
 @import "../../styles/partials/form";
+
+.password {
+    input {
+        scroll-margin-top: 150px;
+        scroll-snap-margin-top: 150px;
+    }
+}

@@ -63,7 +63,9 @@ class RegisterForm extends React.Component<Props, registerState> {
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
     if (email && this.emailInput.current) {
-      this.emailInput.current.value = email;
+      this.RegisterFormRef.current &&
+        this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+      // this.emailInput.current.value = email;
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();

@@ -3,6 +3,7 @@ import cs from "classnames";
 import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
+import inputStyles from "../../../components/Formsy/styles.scss";
 import InputField from "../InputField";
 import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
@@ -59,10 +60,11 @@ class LoginForm extends React.Component<Props, loginState> {
             },
             () => {
               this.passwordInput.current && this.passwordInput.current.focus();
+              this.passwordInput.current &&
+                this.passwordInput.current.scrollIntoView(true);
             }
           );
         } else {
-          localStorage.setItem("tempEmail", this.state.email);
           const error = [
             "This account already exists. Please ",
             <span key={1} onClick={this.handleResetPassword}>
@@ -73,11 +75,20 @@ class LoginForm extends React.Component<Props, loginState> {
             msg: error,
             highlight: true
           });
+          this.emailInput.current && this.emailInput.current.focus();
         }
       } else {
         const error = [
           "No registered user found. Please ",
-          <span key={2} onClick={this.props.goRegister}>
+          <span
+            key={2}
+            onClick={e => {
+              this.props.goRegister(
+                e,
+                (this.emailInput.current && this.emailInput.current.value) || ""
+              );
+            }}
+          >
             Sign Up
           </span>
         ];
@@ -85,6 +96,7 @@ class LoginForm extends React.Component<Props, loginState> {
           msg: error,
           highlight: true
         });
+        this.emailInput.current && this.emailInput.current.focus();
       }
     }
   }
@@ -137,7 +149,17 @@ class LoginForm extends React.Component<Props, loginState> {
             this.setState({
               msg: [
                 "No registered user found. Please ",
-                <span key="signin-email-error" onClick={this.props.goRegister}>
+                <span
+                  key="signin-email-error"
+                  onClick={e => {
+                    this.props.goRegister(
+                      e,
+                      (this.emailInput.current &&
+                        this.emailInput.current.value) ||
+                        ""
+                    );
+                  }}
+                >
                   Sign Up
                 </span>
               ],
@@ -163,7 +185,7 @@ class LoginForm extends React.Component<Props, loginState> {
   }
 
   myBlurP() {
-    if (this.state.password && this.state.password.length == 0) {
+    if (!this.state.password) {
       this.setState({
         isLoginDisabled: true,
         msgp: "Please enter your password",
@@ -299,6 +321,7 @@ class LoginForm extends React.Component<Props, loginState> {
               inputClass={
                 this.state.isPasswordDisabled ? styles.disabledInput : ""
               }
+              className={inputStyles.password}
             />
             <span
               className={styles.togglePasswordBtn}
@@ -318,7 +341,13 @@ class LoginForm extends React.Component<Props, loginState> {
                 globalStyles.voffset5,
                 globalStyles.pointer
               )}
-              onClick={this.props.goForgotPassword}
+              onClick={e => {
+                this.props.goForgotPassword(
+                  e,
+                  (this.emailInput.current && this.emailInput.current.value) ||
+                    ""
+                );
+              }}
             >
               {" "}
               FORGOT PASSWORD
@@ -352,7 +381,12 @@ class LoginForm extends React.Component<Props, loginState> {
           Not a member?{" "}
           <span
             className={cs(globalStyles.cerise, globalStyles.pointer)}
-            onClick={this.props.goRegister}
+            onClick={e => {
+              this.props.goRegister(
+                e,
+                (this.emailInput.current && this.emailInput.current.value) || ""
+              );
+            }}
           >
             {" "}
             SIGN UP{" "}
