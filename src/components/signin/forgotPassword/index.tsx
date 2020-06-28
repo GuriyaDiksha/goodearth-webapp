@@ -61,6 +61,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             successMsg: data.success,
             disableSelectedbox: false
           });
+          const email = document.getElementById("email") as HTMLInputElement;
+          email.disabled = true;
         })
         .catch(err => {
           // console.log("err: " + err.response.data.email[0]);
