@@ -67,7 +67,11 @@ class LoginForm extends React.Component<Props, loginState> {
         } else {
           const error = [
             "This account already exists. Please ",
-            <span key={1} onClick={this.handleResetPassword}>
+            <span
+              className={globalStyles.linkTextUnderline}
+              key={1}
+              onClick={this.handleResetPassword}
+            >
               set a new password
             </span>
           ];
@@ -81,6 +85,7 @@ class LoginForm extends React.Component<Props, loginState> {
         const error = [
           "No registered user found. Please ",
           <span
+            className={globalStyles.linkTextUnderline}
             key={2}
             onClick={e => {
               this.props.goRegister(
@@ -151,6 +156,7 @@ class LoginForm extends React.Component<Props, loginState> {
                 "No registered user found. Please ",
                 <span
                   key="signin-email-error"
+                  className={globalStyles.linkTextUnderline}
                   onClick={e => {
                     this.props.goRegister(
                       e,
