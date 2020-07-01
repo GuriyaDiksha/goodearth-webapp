@@ -26,6 +26,7 @@ type ModalProps = Props &
 class Modal extends React.Component<ModalProps> {
   prevScroll = 0;
   closeModal = () => {
+    localStorage.removeItem("tempEmail");
     const { changeModalState } = this.props;
     changeModalState(false);
   };

@@ -18,6 +18,7 @@ import initActionAccount from "containers/myAccount/initAction";
 import GiftCard from "containers/giftcard/index";
 import initActionGiftcard from "containers/giftcard/initAction";
 import Career from "containers/career";
+import ResetPassword from "containers/resetPassword";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -83,6 +84,12 @@ const routes: RouteConfig = [
     component: GiftCard,
     action: initActionGiftcard,
     exact: true
+  },
+  {
+    path: ROUTES.ResetPassword,
+    component: ResetPassword,
+    action: async () => null,
+    exact: false
   }
 ];
 

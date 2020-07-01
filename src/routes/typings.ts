@@ -12,7 +12,8 @@ export enum ROUTES {
   SEARCH = "/search",
   ACCOUNT = "/account",
   CAREER = "/careers",
-  GIFTCARD = "/giftcard"
+  GIFTCARD = "/giftcard",
+  ResetPassword = "/password-reset/confirm/:uid/:token"
 }
 
 export type RouteConfig = RouteObject[];

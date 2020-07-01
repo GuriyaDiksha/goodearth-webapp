@@ -192,8 +192,8 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  disable={firstName == "" ? false : true}
-                  className={cs({ [styles.disabledInput]: firstName != "" })}
+                  disable={firstName ? true : false}
+                  className={cs({ [styles.disabledInput]: firstName })}
                 />
               </div>
               <div>
@@ -205,8 +205,8 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  disable={lastName == "" ? false : true}
-                  className={lastName == "" ? "" : styles.disabledInput}
+                  disable={lastName ? true : false}
+                  className={cs({ [styles.disabledInput]: lastName })}
                 />
               </div>
               <div className={styles.userGenderPicker}>
@@ -219,8 +219,8 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  disable={gender == "" ? false : true}
-                  className={gender == "" ? "" : styles.disabledInput}
+                  disable={gender ? true : false}
+                  className={cs({ [styles.disabledInput]: gender })}
                 />
               </div>
               <div className={styles.calendarIconContainer}>
@@ -231,8 +231,8 @@ class MyProfile extends React.Component<Props, State> {
                     this.setState({ updateProfile: true });
                   }}
                   value={dateOfBirth}
-                  disable={dateOfBirth == "" ? false : true}
-                  className={dateOfBirth == "" ? "" : styles.disabledInput}
+                  disable={dateOfBirth ? true : false}
+                  className={cs({ [styles.disabledInput]: dateOfBirth })}
                   id="dateOfBirth"
                   placeholder="YYYY/MM/DD"
                   label="Date of Birth"
@@ -284,7 +284,7 @@ class MyProfile extends React.Component<Props, State> {
                   placeholder="Code"
                   label="Code"
                   value=""
-                  disable={phoneCountryCode == "" ? false : true}
+                  disable={phoneCountryCode ? true : false}
                   id="isd_code"
                   validations={{
                     isCodeValid: (values, value) => {
@@ -304,8 +304,8 @@ class MyProfile extends React.Component<Props, State> {
                   }}
                   type="number"
                   label={"Contact Number"}
-                  disable={phoneNumber == "" ? false : true}
-                  className={phoneNumber == "" ? "" : styles.disabledInput}
+                  disable={phoneNumber ? true : false}
+                  className={cs({ [styles.disabledInput]: phoneNumber })}
                   validations={{
                     isPhoneValid: (values, value) => {
                       return !(values.code && value == "");
@@ -325,10 +325,8 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => {
                     this.setState({ updateProfile: true });
                   }}
-                  disable={panPassportNumber == "" ? false : true}
-                  className={
-                    panPassportNumber == "" ? "" : styles.disabledInput
-                  }
+                  disable={panPassportNumber ? true : false}
+                  className={cs({ [styles.disabledInput]: panPassportNumber })}
                 />
               </div>
               <div className={styles.subscribe}>
