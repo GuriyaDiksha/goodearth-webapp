@@ -10,11 +10,12 @@ import iconStyles from "../../styles/iconFonts.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import FilterList from "./filterList";
+import FilterListSearch from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Quickview from "components/Quickview";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -39,7 +40,7 @@ class Search extends React.Component<
     searchText: string;
   }
 > {
-  private child: any = FilterList;
+  private child: any = FilterListSearch;
   constructor(props: Props) {
     super(props);
     const vars: any = {};
@@ -145,7 +146,7 @@ class Search extends React.Component<
             value="hc"
           />
         ) : (
-          <SecondaryHeader>
+          <SecondaryHeader classname={styles.subHeader}>
             <Fragment>
               <div
                 className={cs(
@@ -195,7 +196,8 @@ class Search extends React.Component<
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
-            <FilterList
+            <FilterListSearch
+              key={"search"}
               onRef={(el: any) => (this.child = el)}
               onChangeFilterState={this.onChangeFilterState}
             />
@@ -248,6 +250,12 @@ class Search extends React.Component<
               }
               id="product_images"
             >
+              {data.length == 0 ||
+              (this.child.state ? !this.child.state.flag : false) ? (
+                <Loader />
+              ) : (
+                ""
+              )}
               {data.map(item => {
                 return (
                   <div
