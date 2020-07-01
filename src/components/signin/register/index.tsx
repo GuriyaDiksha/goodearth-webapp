@@ -19,6 +19,7 @@ import CountryCode from "../../Formsy/CountryCode";
 import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
+import { checkMail } from "utils/validate";
 
 const mapStateToProps = () => {
   return {};
@@ -63,7 +64,9 @@ class RegisterForm extends React.Component<Props, registerState> {
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
     if (email && this.emailInput.current) {
-      this.emailInput.current.value = email;
+      this.RegisterFormRef.current &&
+        this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+      // this.emailInput.current.value = email;
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
@@ -94,7 +97,10 @@ class RegisterForm extends React.Component<Props, registerState> {
     formData["dateOfBirth"] = dateOfBirth
       ? moment(dateOfBirth).format("YYYY-MM-DD")
       : null;
-    formData["phoneNo"] = code && phone ? code + " " + phone : phone;
+    if (code && phone) {
+      formData["phoneNo"] = phone;
+      formData["phoneCountryCode"] = code;
+    }
     formData["subscribe"] = terms;
     this.setState({
       disableButton: true
@@ -309,11 +315,15 @@ class RegisterForm extends React.Component<Props, registerState> {
   };
 
   verifyEmail = () => {
-    this.checkMailValidation().then((isValid: boolean) => {
-      if (!isValid) {
-        this.resetSection();
-      }
-    });
+    const { email } =
+      this.RegisterFormRef.current && this.RegisterFormRef.current.getModel();
+    email &&
+      checkMail(email) &&
+      this.checkMailValidation().then((isValid: boolean) => {
+        if (!isValid) {
+          this.resetSection();
+        }
+      });
   };
   onMailChange = (event: React.KeyboardEvent) => {
     if (event.key == "Enter") {

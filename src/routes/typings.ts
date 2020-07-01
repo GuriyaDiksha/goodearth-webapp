@@ -11,7 +11,8 @@ export enum ROUTES {
   GOOGLE = "/account/google/login/?next=/",
   SEARCH = "/search",
   ACCOUNT = "/account",
-  CAREER = "/careers"
+  CAREER = "/careers",
+  ResetPassword = "/password-reset/confirm/:uid/:token"
 }
 
 export type RouteConfig = RouteObject[];

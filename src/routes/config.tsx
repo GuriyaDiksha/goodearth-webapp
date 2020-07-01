@@ -16,6 +16,7 @@ import initActionCategory from "containers/categoryLanding/initAction";
 import CategoryLanding from "containers/categoryLanding/index";
 import initActionAccount from "containers/myAccount/initAction";
 import Career from "containers/career";
+import ResetPassword from "containers/resetPassword";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -75,6 +76,12 @@ const routes: RouteConfig = [
     component: CategoryLanding,
     action: initActionCategory,
     exact: true
+  },
+  {
+    path: ROUTES.ResetPassword,
+    component: ResetPassword,
+    action: async () => null,
+    exact: false
   }
 ];
 

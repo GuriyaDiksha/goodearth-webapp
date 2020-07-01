@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { ProfileResponse } from "containers/myAccount/components/MyProfile/typings";
 import { MyOrdersResponse } from "containers/myAccount/components/MyOrder/typings";
 import { BalanceProps } from "containers/myAccount/components/Balance/typings";
+import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -67,5 +68,13 @@ export default {
     };
     temp["code"] = formData.code;
     return temp;
+  },
+  confirmResetPassword: async (dispatch: Dispatch, formData: any) => {
+    const data = await API.post<ConfirmResetPasswordResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/auth/confirm_reset_password/`,
+      formData
+    );
+    return data;
   }
 };
