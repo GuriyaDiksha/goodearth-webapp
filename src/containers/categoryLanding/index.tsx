@@ -512,7 +512,7 @@ class CategoryLanding extends React.Component<
                 "url('" + editSection.background_image + "') no-repeat"
             }}
           >
-            <div className={globalStyles.gutter0}>
+            <div className={cs(globalStyles.gutter0, bootstrap.container)}>
               <h2 className={styles.headLink}> {editSection.name}</h2>
               <div className={styles.smallDesc}>{editSection.description}</div>
               <div className={cs(bootstrap.row, styles.voffset3)}>

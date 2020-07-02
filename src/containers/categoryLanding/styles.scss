@@ -580,6 +580,7 @@
     &.headLink-3 {
       font-style: normal;
       font-family: $font-Amiri;
+      text-align: center;
       span:last-child {
         text-transform: capitalize;
         font-style: italic;
@@ -657,6 +658,9 @@
   
   .img-width {
     margin: 0 3px;
+    img {
+      padding: 0 60px;
+    }
   }
   
   @media screen and (max-width: 992px) {

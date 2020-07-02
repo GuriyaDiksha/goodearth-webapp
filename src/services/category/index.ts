@@ -17,7 +17,7 @@ export default {
   },
   newarrivals: async (id: number): Promise<MoreCollectionItem> => {
     const res = await Axios.get(
-      `${__API_HOST__ + "myapi/category/newarrivals/" + id}`,
+      `${__API_HOST__ + "/myapi/category/newarrivals/" + id}`,
       {}
     );
     return { ...res.data };
