@@ -10,6 +10,8 @@ import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./slider.css";
 import { State, FilterProps } from "./typings";
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -17,7 +19,6 @@ const mapStateToProps = (state: AppState) => {
     onload: state.searchList.onload,
     mobile: state.device.mobile,
     currency: state.currency,
-    location: state.router.location,
     facets: state.searchList.data.results.facets,
     facetObject: state.searchList.facetObject,
     nextUrl: state.searchList.data.next,
@@ -27,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapActionsToProps> &
-  FilterProps;
+  FilterProps &
+  RouteComponentProps;
 
 class FilterList extends React.Component<Props, State> {
   public productData: any = [];
@@ -60,7 +62,7 @@ class FilterList extends React.Component<Props, State> {
         availableDiscount: {},
         q: {}
       },
-      searchUrl: this.props.location,
+      searchUrl: this.props.history.location,
       mobileFilter: false,
       showmobileSort: false,
       showmobileText: "",
@@ -85,8 +87,8 @@ class FilterList extends React.Component<Props, State> {
 
   createFilterfromUrl = () => {
     const vars: any = {};
-    const { location } = this.props;
-    const url = decodeURI(location.search.replace(/\+/g, " "));
+    const { history } = this.props;
+    const url = decodeURI(history.location.search.replace(/\+/g, " "));
     const { filter } = this.state;
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
@@ -165,19 +167,19 @@ class FilterList extends React.Component<Props, State> {
   };
 
   getMainUrl = (matchkey: any) => {
-    const base = location.origin;
+    const { pathname } = this.props.history.location;
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
       urllist = this.props.facets.categoryShopDetail;
       urllist.some((url: any) => {
         currentKey = Object.keys(url)[0];
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = base + url[currentKey];
+          mainUrl = url[currentKey];
           return true;
         }
       });
     } else {
-      mainUrl = base + location.pathname;
+      mainUrl = pathname;
     }
 
     return mainUrl;
@@ -185,6 +187,7 @@ class FilterList extends React.Component<Props, State> {
 
   createUrlfromFilter = (load?: any) => {
     const array = this.state.filter;
+    const { history } = this.props;
     let filterUrl = "",
       mainurl: string | undefined = "",
       colorVars = "",
@@ -276,10 +279,11 @@ class FilterList extends React.Component<Props, State> {
       ? (filterUrl += "&available_discount=" + discountVars)
       : "";
     if (mainurl == "" || !mainurl) {
-      mainurl = location.origin + location.pathname;
+      mainurl = history.location.pathname;
     }
     // filter_url = filter_url.replace(/\s/g, "+");
-    history.replaceState({}, "", mainurl + "?q=" + searchValue + filterUrl);
+    history.push(mainurl + "?q=" + searchValue + filterUrl, {});
+    // history.replaceState({}, "", mainurl + "?q=" + searchValue + filterUrl);
     this.updateDataFromAPI(load);
   };
 
@@ -295,11 +299,15 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     filter.price["min_price"] = value[0];
     filter.price["max_price"] = value[1];
-    this.setState({
-      filter: filter,
-      rangevalue: [value[0], value[1]]
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter: filter,
+        rangevalue: [value[0], value[1]]
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
   };
 
   handleScroll = (event: any) => {
@@ -460,14 +468,14 @@ class FilterList extends React.Component<Props, State> {
   };
 
   updateDataFromAPI = (onload?: string) => {
-    const { mobile, fetchSearchProducts } = this.props;
+    const { mobile, fetchSearchProducts, history } = this.props;
     if (!onload && mobile) {
       return true;
     }
     // this.setState({
     //     disableSelectedbox: true
     // });
-    const url = decodeURI(location.href);
+    const url = decodeURI(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
 
     const pageSize = mobile ? 10 : 20;
@@ -549,10 +557,14 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     filter.productType[id] = event.target.checked;
     // this.old_level4Value = event.target.value;
-    this.setState({
-      filter: filter
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter: filter
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
     event.stopPropagation();
   };
 
@@ -564,10 +576,15 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     // this.old_level4Value = event.target.value;
-    this.setState({
-      filter
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
+
     event.stopPropagation();
   };
 
@@ -728,17 +745,21 @@ class FilterList extends React.Component<Props, State> {
 
   handleClickCategory = (event: any) => {
     //code for checked view all true
-    const filter = this.state.filter;
+    const { filter } = this.state;
     filter.categoryShop = {};
     if (event.target.id.indexOf("all") > -1) {
       // do nothing
     } else {
       filter.categoryShop[event.target.id] = true;
     }
-    this.setState({
-      filter
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter: filter
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
     event.stopPropagation();
   };
 
@@ -831,10 +852,15 @@ class FilterList extends React.Component<Props, State> {
       isChecked: event.target.checked,
       value: event.target.value
     };
-    this.setState({
-      filter: filter
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter: filter
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
+
     event.stopPropagation();
   };
 
@@ -1047,8 +1073,8 @@ class FilterList extends React.Component<Props, State> {
               className={
                 filter.availableSize[data[0]] &&
                 filter.availableSize[data[0]].isChecked
-                  ? "size-cat select_size"
-                  : "size-cat"
+                  ? cs(styles.sizeCat, styles.select_size)
+                  : styles.sizeCat
               }
             >
               {data[0]}
@@ -1110,16 +1136,21 @@ class FilterList extends React.Component<Props, State> {
     } else if (sort == "hc") {
       filter.sortBy = {};
     }
-    this.setState({
-      filter: filter,
-      mobileFilter: false,
-      showmobileSort: false,
-      showmobileText: "",
-      showmobileFilterList: false,
-      show: false,
-      showDifferentImage: false
-    });
-    this.createUrlfromFilter("load");
+    this.setState(
+      {
+        filter: filter,
+        mobileFilter: false,
+        showmobileSort: false,
+        showmobileText: "",
+        showmobileFilterList: false,
+        show: false,
+        showDifferentImage: false
+      },
+      () => {
+        this.createUrlfromFilter("load");
+      }
+    );
+
     if (event) {
       event.preventDefault();
     }
@@ -1139,15 +1170,28 @@ class FilterList extends React.Component<Props, State> {
 
   changeSearchValue = (value: string) => {
     if (value == "") return false;
-    const { filter } = this.state;
-    filter.q = {
-      q: value
+    let { filter } = this.state;
+    filter = {
+      currentColor: {},
+      availableSize: {},
+      categoryShop: {},
+      price: {},
+      currency: {
+        currency: this.props.currency
+      },
+      sortBy: {},
+      q: {
+        q: value
+      }
     };
-
-    this.setState({
-      filter: filter
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter: filter
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
   };
 
   render() {
@@ -1271,7 +1315,7 @@ class FilterList extends React.Component<Props, State> {
               }
               onClick={this.Clickmenulevel1.bind(this, 1)}
             >
-              COLOUR FAMILY
+              COLOR
             </span>
             <div
               className={
@@ -1318,7 +1362,7 @@ class FilterList extends React.Component<Props, State> {
                   <div
                     onClick={e => this.clearFilter(e, "availableSize")}
                     data-name="availableSize"
-                    className="plp_filter_sub"
+                    className={styles.plp_filter_sub}
                   >
                     Clear
                   </div>
@@ -1403,5 +1447,5 @@ class FilterList extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapActionsToProps)(FilterList);
+const FilterListSearch = withRouter(FilterList);
+export default connect(mapStateToProps, mapActionsToProps)(FilterListSearch);

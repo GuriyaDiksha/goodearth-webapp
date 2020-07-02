@@ -10,6 +10,8 @@ import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./slider.css";
 import { State, FilterProps } from "./typings";
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -26,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapActionsToProps> &
-  FilterProps;
+  FilterProps &
+  RouteComponentProps;
 
 class FilterList extends React.Component<Props, State> {
   public productData: any = [];
@@ -1696,4 +1699,5 @@ class FilterList extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(FilterList);
+const FilterListPLP = withRouter(FilterList);
+export default connect(mapStateToProps, mapActionsToProps)(FilterListPLP);

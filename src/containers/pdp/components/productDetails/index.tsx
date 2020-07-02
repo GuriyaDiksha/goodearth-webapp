@@ -365,7 +365,7 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            {sizeChartHtml && (
+            {sizeChartHtml && !isQuickview && (
               <div
                 className={cs(bootstrap.colSm4, styles.label, {
                   [globalStyles.textCenter]: !mobile

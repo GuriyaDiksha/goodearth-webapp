@@ -16,7 +16,7 @@ import Giftcard from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Quickview from "components/Quickview";
-import { RouteComponentProps } from "react-router-dom";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -30,8 +30,7 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  DispatchProp &
-  RouteComponentProps;
+  DispatchProp;
 
 class PLP extends React.Component<
   Props,
@@ -154,7 +153,6 @@ class PLP extends React.Component<
             <FilterList
               onRef={(el: any) => (this.child = el)}
               onChangeFilterState={this.onChangeFilterState}
-              history={this.props.history}
             />
           </div>
           <div
@@ -205,6 +203,12 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
+              {data.length == 0 ||
+              (this.child.state ? !this.child.state.flag : false) ? (
+                <Loader />
+              ) : (
+                ""
+              )}
               {data.map(item => {
                 return (
                   <div
