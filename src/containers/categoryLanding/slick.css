@@ -1,4 +1,5 @@
 
+@media screen and (min-width: 992px) {
 .featured-section .slick-prev::before{
   background: url('../../images/category/arrow_left.svg') no-repeat !important;
             width: 60px;
@@ -13,6 +14,7 @@ background: url('../../images/category/arrow_right.svg') no-repeat;
             height: 100%;
             color: transparent;
             right: 190px;
+}
 }
 .slick-arrow {
     background-color: transparent;

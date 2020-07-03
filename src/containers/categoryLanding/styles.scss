@@ -7,6 +7,9 @@
 .pull-right {
   float: right;
 }
+.text-center {
+  text-align: center;
+}
 .col-reverse {
   flex-direction: column-reverse;
   .width-less {
@@ -588,6 +591,12 @@
   }
   
   @media screen and (min-width: 992px) {
+    .img-width {
+      margin: 0 3px;
+      img {
+        padding: 0 60px;
+      }
+    }
   
     //.image-result {
     //  height: 38vw;
@@ -635,9 +644,7 @@
       .slick-slide {
         //padding: 0 50px;
         //width: 800px !important;
-        img {
-          padding: 0 60px;
-        }
+        
         opacity: .3;
         &.slick-active {
           opacity: 1;
@@ -649,17 +656,19 @@
     }
   }
   
-  .img-width {
-    margin: 0 3px;
-    img {
-      padding: 0 60px;
-    }
-  }
+  
   
   @media screen and (max-width: 992px) {
+    .img-width {
+      margin: 0 3px;
+      img {
+        padding: 0 3px;
+      }
+    }
     h2 {
       &.headLink-2 {
         font-size: 20px;
+        font-family: $font-Amiri;
         p:last-child {
           text-transform: uppercase;
           font-size: 14px;
@@ -720,7 +729,7 @@
   
     .cat-third-block {
   
-      background: url('/static/img/category/star-pattern-bg.jpg');
+      background: url('../../images/category/star-pattern-bg.jpg');
       background-repeat: repeat;
       padding: 10% 0;
       .cta-curly {
@@ -805,6 +814,7 @@
       }
       }
     .subtitleHead {
+      font-family: $font-Amiri;
       display: inline-block;
       width: 40%;
       margin-top: 5px;

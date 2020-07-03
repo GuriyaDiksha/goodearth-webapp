@@ -476,7 +476,7 @@ class CategoryLanding extends React.Component<
                                 <img
                                   src={data.image}
                                   alt={data.title}
-                                  className={bootstrap.imgResponsive}
+                                  className={globalStyles.imgResponsive}
                                 />
                               </Link>
                             </div>
@@ -484,12 +484,10 @@ class CategoryLanding extends React.Component<
                               className={cs(bootstrap.col12, styles.promoDisp)}
                             >
                               <div className={styles.alignDispLeft}>
-                                <Link to="http://google.com">
-                                  <h2 className={styles.headLink2}>
-                                    <p>{data.title.split("|")[0]}</p>
-                                    <p>{data.title.split("|")[1]}</p>
-                                  </h2>
-                                </Link>
+                                <h2 className={styles.headLink2}>
+                                  <p>{data.title.split("|")[0]}</p>
+                                  <p>{data.title.split("|")[1]}</p>
+                                </h2>
                                 <span className={styles.subtitleHead}>
                                   {data.description}
                                 </span>
