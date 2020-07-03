@@ -442,7 +442,7 @@
 }
 
 @mixin cta-curly {
-  background: url("/static/img/category/icons_cta-curly-outline-ceriz.svg")
+  background: url("../../images/category/ctaCeriz.svg")
     no-repeat;
   font-weight: bold;
   width: 208px;
@@ -466,7 +466,7 @@
     letter-spacing: 1px;
   }
   &:hover {
-    background: url("/static/img/category/icons_cta-curly-fill-ceriz.svg")
+    background: url("../../images/category/ctaFillCeriz.svg")
       no-repeat;
     a {
       color: $white;
