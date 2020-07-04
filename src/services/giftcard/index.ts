@@ -1,25 +1,20 @@
 import { Dispatch } from "redux";
-// typings
-import { WishlistResponse } from "./typings";
-// actions
-import { giftcardBalance } from "actions/giftcard";
-// utils
 import API from "utils/api";
-import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 
 export default {
-  addToWishlist: async function(dispatch: Dispatch, productId: ProductID) {
-    const res = await API.post<ApiResponse>(
+  fetchCountryList: async function(dispatch: Dispatch) {
+    const res = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/wishlist/"}`,
-      {
-        productId
-      }
+      `${__API_HOST__ + "/myapi/address/gift_card_countries_state/"}`
     );
-
-    if (res.success) {
-      //   this.updateWishlist(dispatch);
-    }
+    return res;
+  },
+  fetchProductList: async function(dispatch: Dispatch) {
+    const res = await API.get<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/giftcard_product_list/"}`
+    );
+    return res;
   }
 };

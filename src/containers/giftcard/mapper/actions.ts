@@ -1,29 +1,16 @@
 import { Dispatch } from "redux";
 
-import { updateFilterState } from "actions/search";
-import SearchService from "services/search";
+// import { updateFilterState } from "actions/giftcard";
+import GiftcardService from "services/giftcard";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
-    updateFacets: (data: any) => {
-      // dispatch(updateFacets(data));
-    },
-    updateFilterData: (data: string) => {
-      // dispatch(updateFilterData(data));
-    },
-    updateFilterState: (data: boolean) => {
-      dispatch(updateFilterState(data));
-    },
-    updateProduct: async (filterUrl: string, listdata: any) => {
-      const data = await SearchService.updateProduct(
-        dispatch,
-        filterUrl,
-        listdata
-      );
+    fetchCountryList: async () => {
+      const data = await GiftcardService.fetchCountryList(dispatch);
       return data;
     },
-    fetchSearchProducts: async (filterUrl: string) => {
-      const data = await SearchService.fetchSearchProducts(dispatch, filterUrl);
+    fetchProductList: async () => {
+      const data = await GiftcardService.fetchProductList(dispatch);
       return data;
     }
   };

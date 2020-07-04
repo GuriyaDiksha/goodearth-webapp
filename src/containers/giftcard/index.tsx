@@ -7,9 +7,9 @@ import { connect, DispatchProp } from "react-redux";
 // import iconStyles from "../../styles/iconFonts.scss";
 import styles from "./styles.scss";
 // import globalStyles from "styles/global.scss";
-import Section1 from "./section1";
+import Section2 from "./section2";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import mapDispatchToProps from "../../components/Modal/mapper/actions";
+import mapDispatchToProps from "./mapper/actions";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -23,13 +23,20 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class GiftCard extends React.Component<
   Props,
-  { currentSection: string; giftimages: string[] }
+  {
+    currentSection: string;
+    giftimages: string[];
+    productData: any;
+    countryData: any;
+  }
 > {
   constructor(props: Props) {
     super(props);
 
     this.state = {
       currentSection: "card",
+      productData: [],
+      countryData: [],
       giftimages: [
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.jpg",
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.jpg",
@@ -38,10 +45,32 @@ class GiftCard extends React.Component<
     };
   }
 
+  componentDidMount() {
+    const { fetchCountryList, fetchProductList } = this.props;
+    fetchProductList().then((data: any) => {
+      this.setState({
+        productData: data
+      });
+    });
+    fetchCountryList().then((response: any) => {
+      this.setState({
+        countryData: response.data
+      });
+    });
+  }
+
   setSelectedSection = () => {
     switch (this.state.currentSection) {
       case "card":
-        return <Section1 giftimages={this.state.giftimages} />;
+        // return <Section1 giftimages={this.state.giftimages} />;
+        return (
+          <Section2
+            countryData={this.state.countryData}
+            productData={this.state.productData}
+            currency={this.props.currency}
+            mobile={this.props.device.mobile}
+          />
+        );
       case "amount":
         // return <GiftCard2 data={this.state.giftdata} next={this.nextcard3.bind(this)} back={this.goPrevious.bind(this)} preData={this.state.giftid}/>
         break;
@@ -57,13 +86,18 @@ class GiftCard extends React.Component<
   };
 
   render() {
+    const {
+      device: { mobile }
+    } = this.props;
     return (
       <div className={styles.pageBody}>
-        <SecondaryHeader>
-          <div className={cs(bootstrap.colMd12, bootstrap.offsetMd1)}>
-            <span className={styles.heading}>GIFT CARDS</span>
-          </div>
-        </SecondaryHeader>
+        {!mobile && (
+          <SecondaryHeader>
+            <div className={cs(bootstrap.colMd12, bootstrap.offsetMd1)}>
+              <span className={styles.heading}>GIFT CARDS</span>
+            </div>
+          </SecondaryHeader>
+        )}
         <div>{this.setSelectedSection()}</div>
       </div>
     );
