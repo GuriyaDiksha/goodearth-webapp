@@ -12,7 +12,8 @@ export enum ROUTES {
   SEARCH = "/search",
   ACCOUNT = "/account",
   CAREER = "/careers",
-  ResetPassword = "/password-reset/confirm/:uid/:token"
+  ResetPassword = "/password-reset/confirm/:uid/:token",
+  STATIC = "/customer-assistance/"
 }
 
 export type RouteConfig = RouteObject[];
