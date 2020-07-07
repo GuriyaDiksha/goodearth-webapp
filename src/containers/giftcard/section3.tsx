@@ -1,43 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
-import { Section2Props } from "./typings";
+import { Section3Props } from "./typings";
 import Formsy from "formsy-react";
 import FormInput from "../../components/Formsy/FormInput";
 // import { Currency, currencyCode } from "typings/currency";
-const Section3: React.FC<Section2Props> = ({
-  productData,
-  countryData,
-  mobile,
-  currency
-}) => {
-  // const emailRef = React.useRef<typeof FormInput>(null);
+const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
   const emailInput = React.useRef<HTMLInputElement>(null);
-  // const subscribeRef = React.useRef<HTMLInputElement>(null);
-  // const firstNameInput = React.useRef<HTMLInputElement>(null);
   const lastNameInput = React.useRef<HTMLInputElement>(null);
-  // const sku = 'I00121125';
-  // const [selectcurrency, setSelectcurrency] = useState('');
   const [textarea, setTextarea] = useState("");
-  // const [selectvalue, setSelectvalue] = useState('');
   const [ehighlight, setEhighlight] = useState(false);
   const [emsg, setEmsg] = useState("");
-  // const [errorBorder, setErrorBorder] = useState(false);
-  // const [isCustom, setIsCustom] = useState(false);
 
   const gotoNext = () => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    // this.props.next(this.state.giftimages[this.state.selectindex]);
+    RegisterFormRef.current?.submit();
   };
 
-  const goback = () => {
-    return true;
-  };
-
+  useEffect(() => {
+    if (data.recipientEmail) {
+      const form = RegisterFormRef.current;
+      form &&
+        form.updateInputsWithValue({
+          firstName: data.recipientName,
+          email: data.recipientEmail,
+          email1: data.recipientEmail,
+          senderName: data.senderName
+        });
+      setTextarea(data.message);
+    }
+  });
   const myBlurText = (event: any) => {
     if (event.target.value != "") {
       if (textarea.length <= 120) {
@@ -49,6 +45,25 @@ const Section3: React.FC<Section2Props> = ({
       setEmsg("Please Enter Message");
       setEhighlight(true);
     }
+  };
+  const handleSubmit = (
+    model: any,
+    resetForm: any,
+    updateInputsWithError: any
+  ) => {
+    const { email, email1, firstName, senderName } = model;
+    const data: any = {};
+    if (textarea == "") {
+      setEmsg("Please Enter Message");
+      setEhighlight(true);
+      return false;
+    }
+    data["email"] = email;
+    data["email1"] = email1;
+    data["firtName"] = firstName;
+    data["senderName"] = senderName;
+    data["message"] = textarea;
+    next(data, "preview");
   };
 
   return (
@@ -66,7 +81,7 @@ const Section3: React.FC<Section2Props> = ({
             <p
               className={styles.backGc}
               onClick={() => {
-                goback();
+                goback("form");
               }}
             >
               Back To Design
@@ -81,31 +96,26 @@ const Section3: React.FC<Section2Props> = ({
               globalStyles.textCenter,
               globalStyles.paddTop40
             )}
-          >
-            <div className={styles.gcHead}>
-              {" "}
-              2. Choose a shipping destination & value
-            </div>
-          </div>
+          ></div>
         </div>
-        <div className={cs(bootstrapStyles.row, styles.nobg)}>
-          <Formsy ref={RegisterFormRef}>
+        <div className={cs(bootstrapStyles.row, styles.nobg, styles.loginForm)}>
+          <Formsy ref={RegisterFormRef} onValidSubmit={handleSubmit}>
             <div
               className={cs(
-                bootstrapStyles.col10,
-                bootstrapStyles.offset1,
-                bootstrapStyles.colMd6,
-                bootstrapStyles.offsetMd7,
+                bootstrapStyles.col12,
+                bootstrapStyles.colMd4,
+                bootstrapStyles.offsetMd4,
                 globalStyles.textCenter,
-                styles.dropDiv2
+                styles.formBg
               )}
             >
               <div className={styles.categorylabel}>
+                <p className={styles.gcHead}> 3. Fill in the details</p>
                 <div>
                   <FormInput
                     name="firstName"
-                    placeholder={"First Name*"}
-                    label={"First Name*"}
+                    placeholder={"Recipient's Name"}
+                    label={"Name"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
                     required
@@ -114,8 +124,8 @@ const Section3: React.FC<Section2Props> = ({
                 <div>
                   <FormInput
                     name="email"
-                    placeholder={"Email*"}
-                    label={"Email*"}
+                    placeholder={"Recipient's Email"}
+                    label={"Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     validations={{
@@ -133,8 +143,8 @@ const Section3: React.FC<Section2Props> = ({
                 <div>
                   <FormInput
                     name="email1"
-                    placeholder={"Email*"}
-                    label={"Email*"}
+                    placeholder={"Confirm Recipient's Email"}
+                    label={"Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     validations={{
@@ -172,9 +182,9 @@ const Section3: React.FC<Section2Props> = ({
                 </div>
                 <div>
                   <FormInput
-                    name="lastName"
-                    placeholder={"Last Name*"}
-                    label={"Last Name*"}
+                    name="senderName"
+                    placeholder={"Sender's Name"}
+                    label={"Sender's Name"}
                     // className={showFieldsClass}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
@@ -183,25 +193,29 @@ const Section3: React.FC<Section2Props> = ({
                 </div>
               </div>
             </div>
+
             <div
               className={cs(
-                bootstrapStyles.row,
                 bootstrapStyles.col12,
+                bootstrapStyles.colMd4,
+                bootstrapStyles.offsetMd4,
                 globalStyles.textCenter,
-                globalStyles.voffset6
+                styles.buttonBg
               )}
             >
-              <div className={bootstrapStyles.col12}>
-                <div
-                  className={cs(styles.bannerBtnLink, iconStyles.icon)}
-                  onClick={() => {
-                    gotoNext();
-                  }}
-                >
-                  <span>
-                    <input type="submit" value="choose value" />
-                  </span>
-                </div>
+              <div
+                className={cs(styles.bannerBtnLink, iconStyles.icon)}
+                onClick={() => {
+                  gotoNext();
+                }}
+              >
+                <p>
+                  <input
+                    type="submit"
+                    className={styles.inputButton}
+                    value="choose value"
+                  />
+                </p>
               </div>
             </div>
             <div

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -8,11 +8,17 @@ import { Section2Props } from "./typings";
 import Formsy from "formsy-react";
 import FormSelect from "../../components/Formsy/FormSelect";
 import { Currency, currencyCode } from "typings/currency";
+import { useDispatch } from "react-redux";
+import { refreshPage } from "actions/user";
+
 const Section2: React.FC<Section2Props> = ({
   productData,
   countryData,
   mobile,
-  currency
+  currency,
+  next,
+  goback,
+  data
 }) => {
   const code = currencyCode[currency as Currency];
   const sku = "I00121125";
@@ -23,10 +29,18 @@ const Section2: React.FC<Section2Props> = ({
   const [nummsg, setNummsg] = useState("");
   const [errorBorder, setErrorBorder] = useState(false);
   const [isCustom, setIsCustom] = useState(false);
+  const dispatch = useDispatch();
+  const RegisterFormRef = React.useRef<Formsy>(null);
 
-  const goback = () => {
-    return true;
-  };
+  useEffect(() => {
+    if (currency == "INR") {
+      const form = RegisterFormRef.current;
+      form &&
+        form.updateInputsWithValue({
+          country: "INR"
+        });
+    }
+  });
 
   const setValue = (id: string) => {
     setIsCustom(false);
@@ -35,7 +49,7 @@ const Section2: React.FC<Section2Props> = ({
 
   const onCountrySelect = (e: any) => {
     if (currency != e.target.value) {
-      // setSelectcurrency(e.target.value);
+      dispatch(refreshPage(undefined));
     } else {
       setCountrymsg("");
       setSelectcurrency(e.target.value);
@@ -47,12 +61,6 @@ const Section2: React.FC<Section2Props> = ({
     setNumhighlight(true);
     setErrorBorder(true);
     setSelectvalue(e.target.id);
-    // this.setState({
-    //     selectvalue: event.target.id,
-    //     isCustom: true,
-    //     num_highlight: false,
-    //     errorBorder: true
-    // })
   };
 
   const currValue = (value: string | number) => {
@@ -100,8 +108,8 @@ const Section2: React.FC<Section2Props> = ({
       } else if (currValue(value).sta) {
         setNummsg(currValue(value).message);
       } else {
-        data["id"] = selectvalue;
-        data["value"] = value;
+        data["productId"] = selectvalue;
+        data["customPrice"] = value;
       }
     } else {
       if (selectvalue == "") {
@@ -110,10 +118,13 @@ const Section2: React.FC<Section2Props> = ({
         );
         return false;
       } else {
-        data["id"] = selectvalue;
+        const element: any = document.getElementById(selectvalue);
+        const value = element.getAttribute("data-value");
+        data["customPrice"] = value;
+        data["productId"] = selectvalue;
       }
     }
-
+    next(data, "form");
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     // this.props.next(this.state.giftimages[this.state.selectindex]);
   };
@@ -140,7 +151,7 @@ const Section2: React.FC<Section2Props> = ({
             <p
               className={styles.backGc}
               onClick={() => {
-                goback();
+                goback("card");
               }}
             >
               Back To Design
@@ -163,13 +174,13 @@ const Section2: React.FC<Section2Props> = ({
           </div>
         </div>
         <div className={cs(bootstrapStyles.row, styles.nobg)}>
-          <Formsy>
+          <Formsy ref={RegisterFormRef}>
             <div
               className={cs(
                 bootstrapStyles.col10,
                 bootstrapStyles.offset1,
-                bootstrapStyles.colMd6,
-                bootstrapStyles.offsetMd7,
+                bootstrapStyles.colMd4,
+                bootstrapStyles.offsetMd4,
                 globalStyles.textCenter,
                 styles.dropDiv2
               )}
@@ -177,9 +188,8 @@ const Section2: React.FC<Section2Props> = ({
               <div className={styles.selectGroup}>
                 <FormSelect
                   required
-                  label="Country"
+                  label=""
                   options={list}
-                  // value={props.country_name}
                   handleChange={onCountrySelect}
                   placeholder="Select Country"
                   name="country"
@@ -218,6 +228,7 @@ const Section2: React.FC<Section2Props> = ({
             {productData.map((pro: any) => {
               return pro.sku != sku ? (
                 <span
+                  key={pro.sku}
                   onClick={() => {
                     setValue(pro.id);
                   }}
@@ -255,7 +266,7 @@ const Section2: React.FC<Section2Props> = ({
               <form>
                 {productData.map((pro: any) => {
                   return pro.sku == sku ? (
-                    <div>
+                    <div key={sku}>
                       <input
                         type="number"
                         id={pro.id}

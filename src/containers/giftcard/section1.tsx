@@ -7,22 +7,27 @@ import styles from "./styles.scss";
 import { Section1Props } from "./typings";
 
 const Section1: React.FC<Section1Props> = props => {
-  const [selected, setSelected] = useState("image1");
-  // const [selectindex, setSelectindex] = useState(0);
+  let imageName = "image0";
+  if (props.data.imageUrl) {
+    const index = props.giftimages.indexOf(props.data.imageUrl);
+    if (index > -1) imageName = "image" + index;
+  }
+  const [selected, setSelected] = useState(imageName);
+  const [selectindex, setSelectindex] = useState(0);
 
   const selectImage = (index: number) => {
     setSelected("image" + index);
-    // setSelectindex(index);
+    setSelectindex(index);
   };
 
   const gotoNext = () => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
-    // this.props.next(this.state.giftimages[this.state.selectindex]);
+    props.next(props.giftimages[selectindex], "amount");
   };
 
   return (
     <div className={bootstrapStyles.row}>
-      <section className={globalStyles.paddTop60}>
+      <section className={cs(globalStyles.paddTop60, styles.gc)}>
         <div className={bootstrapStyles.row}>
           <div
             className={cs(

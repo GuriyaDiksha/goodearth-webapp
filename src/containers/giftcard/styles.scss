@@ -1,5 +1,6 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
+@import "../../styles/partials/form";
 
 .txt-settings {
   padding: 1em 21em 0 21em;
@@ -18,6 +19,13 @@
   font-size: 12px;
   font-family: "LatoFont","Helvetica","Arial";
   color: #666;
+  letter-spacing: 1px;
+}
+
+.gift-font {
+  font-size: 14px;
+  color: black;
+  font-family: "LatoFont","Helvetica","Arial";
   letter-spacing: 1px;
 }
 
@@ -93,7 +101,7 @@
     //@extend .icon_buttoncorners-1_2:before;
     content: "\f104";
     position: absolute;
-    right: -49px;
+    right: -48px;
     top: -4px;
     font-size: 60px;
     color: $cerise;
@@ -125,6 +133,9 @@
   color: #000;
   text-transform: none;
   letter-spacing: 1px;
+  &:hover{
+    text-decoration: underline;
+  }
 }
 .gc-head {
   text-transform: uppercase;
@@ -135,6 +146,9 @@
 .nobg {
   background-color: transparent;
   padding: 0;
+  form {
+    width: 100%;
+  }
 }
 
 .select-group {
@@ -207,6 +221,21 @@ input[type="radio"]:checked+label:before {
   background: #fff;
 }
 
+.grey {
+  span {
+    color: #000;
+    background-color: #ccc;
+    margin: 10px 25px;
+    width: 220px;
+    text-align: center;
+    line-height: 50px;
+    display: inline-block;
+    letter-spacing: 1px;
+    font-weight: bold;
+    border: 2px solid transparent;
+  }
+}
+
 .price-block {
   span {
     margin: 10px 25px;
@@ -257,6 +286,16 @@ form {
   }
 }
 
+.form-bg {
+  background-color: #fff;
+  padding: 50px;
+}
+
+.button-bg {
+  background-color: #fff;
+  padding-bottom: 50px;
+}
+
 input[type="number"] {
   background-color: #fff;
   padding: 15px 15px 15px 25px;
@@ -264,4 +303,20 @@ input[type="number"] {
   -moz-appearance: textfield;
   box-shadow: none;
   text-align: left;
+}
+
+.input-button {
+    background-color: #ab1e56;
+    opacity: 1;
+    color: #fff;
+    width: 250px;
+    height: 52px;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 50px;
+    font-family: "LatoFont", "Helvetica", "Arial";
+    white-space: nowrap;
 }

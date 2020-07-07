@@ -16,5 +16,13 @@ export default {
       `${__API_HOST__ + "/myapi/giftcard/giftcard_product_list/"}`
     );
     return res;
+  },
+  addToGiftcard: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/add_giftcard_in_basket/"}`,
+      formData
+    );
+    return res;
   }
 };

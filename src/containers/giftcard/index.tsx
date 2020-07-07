@@ -8,6 +8,9 @@ import { connect, DispatchProp } from "react-redux";
 import styles from "./styles.scss";
 // import globalStyles from "styles/global.scss";
 import Section2 from "./section2";
+import Section1 from "./section1";
+import Section3 from "./section3";
+import Section4 from "./section4";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import mapDispatchToProps from "./mapper/actions";
 
@@ -28,6 +31,7 @@ class GiftCard extends React.Component<
     giftimages: string[];
     productData: any;
     countryData: any;
+    finalData: any;
   }
 > {
   constructor(props: Props) {
@@ -37,6 +41,7 @@ class GiftCard extends React.Component<
       currentSection: "card",
       productData: [],
       countryData: [],
+      finalData: {},
       giftimages: [
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.jpg",
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.jpg",
@@ -58,28 +63,75 @@ class GiftCard extends React.Component<
       });
     });
   }
+  goback = (section: string) => {
+    this.setState({
+      currentSection: section
+    });
+  };
+
+  next = (data: any, section: string) => {
+    let { finalData } = this.state;
+    if (section == "amount") {
+      finalData["imageUrl"] = data;
+    } else if (section == "form") {
+      finalData["customPrice"] = data.customPrice;
+      finalData["productId"] = data.productId;
+    } else if (section == "preview") {
+      finalData["message"] = data.message;
+      finalData["recipientEmail"] = data.email;
+      finalData["recipientName"] = data.firtName;
+      finalData["senderName"] = data.senderName;
+      finalData["quantity"] = 1;
+    } else if (section == "card") {
+      finalData = {};
+    }
+    this.setState({
+      currentSection: section
+    });
+  };
 
   setSelectedSection = () => {
     switch (this.state.currentSection) {
       case "card":
-        // return <Section1 giftimages={this.state.giftimages} />;
+        return (
+          <Section1
+            giftimages={this.state.giftimages}
+            next={this.next}
+            data={this.state.finalData}
+          />
+        );
+      case "amount":
         return (
           <Section2
             countryData={this.state.countryData}
             productData={this.state.productData}
-            currency={this.props.currency}
+            data={this.state.finalData}
             mobile={this.props.device.mobile}
+            currency={this.props.currency}
+            next={this.next}
+            goback={this.goback}
           />
         );
-      case "amount":
-        // return <GiftCard2 data={this.state.giftdata} next={this.nextcard3.bind(this)} back={this.goPrevious.bind(this)} preData={this.state.giftid}/>
-        break;
       case "form":
-        // return <GiftCard3 next={this.nextcard4.bind(this)} back={this.goPrevious.bind(this)} preData={this.state.giftDetails}/>
-        break;
+        return (
+          <Section3
+            data={this.state.finalData}
+            currency={this.props.currency}
+            mobile={this.props.device.mobile}
+            next={this.next}
+            goback={this.goback}
+          />
+        );
       case "preview":
-        // return <GiftCard4 data={this.state} notify={this.showNotify.bind(this)} back={this.goPrevious.bind(this)}/>
-        break;
+        return (
+          <Section4
+            data={this.state.finalData}
+            mobile={this.props.device.mobile}
+            next={this.next}
+            currency={this.props.currency}
+            goback={this.goback}
+          />
+        );
       default:
         return "";
     }
