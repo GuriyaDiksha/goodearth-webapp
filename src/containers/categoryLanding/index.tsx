@@ -13,6 +13,7 @@ import bannerborder from "../../images/banner2-border.jpg";
 import closeShopthelook from "../../images/close-Shopthelook.svg";
 import Shopthelook from "../../images/Shopthelook.svg";
 import bird from "../../images/bird-motif.png";
+import "./slick.css";
 
 // import { Settings } from "react-slick";
 // import CollectionImage from "components/collectionItem";
@@ -230,12 +231,19 @@ class CategoryLanding extends React.Component<
                 </div>
                 <div
                   className={cs(
-                    bootstrap.colMd8,
+                    bootstrap.colMd12,
                     styles.promoDisp,
+                    styles.colReverse,
                     styles.txtDispLeft
                   )}
                 >
-                  <div className={cs(styles.alignDispLeft, styles.textRight)}>
+                  <div
+                    className={cs(
+                      styles.alignDispLeft,
+                      styles.textRight,
+                      styles.widthLess
+                    )}
+                  >
                     <h4 className={styles.headLink2}>
                       <p>{data[i + 1].title.split("|")[0]}</p>
                       <p>{data[i + 1].title.split("|")[1]}</p>
@@ -268,6 +276,7 @@ class CategoryLanding extends React.Component<
                   className={cs(
                     bootstrap.colMd8,
                     styles.promoDisp,
+                    styles.txtDisp,
                     styles.textLeft
                   )}
                 >
@@ -284,7 +293,7 @@ class CategoryLanding extends React.Component<
                 </div>
                 <div
                   className={cs(
-                    bootstrap.colMd8,
+                    bootstrap.colMd12,
                     styles.promoDisp,
                     styles.textLeft
                   )}
@@ -293,7 +302,7 @@ class CategoryLanding extends React.Component<
                     <img
                       src={data[i].image}
                       alt={data[i].alt}
-                      className={bootstrap.imgResponsive}
+                      className={globalStyles.imgResponsive}
                     />
                   </Link>
                 </div>
@@ -399,7 +408,7 @@ class CategoryLanding extends React.Component<
         )}
 
         <section>
-          <div className={styles.catVideosBlock}>
+          <div className={cs(styles.catVideosBlock, "featured-section")}>
             <div className={styles.textCenter}>{this.createTopliving()}</div>
           </div>
         </section>
@@ -467,7 +476,7 @@ class CategoryLanding extends React.Component<
                                 <img
                                   src={data.image}
                                   alt={data.title}
-                                  className={bootstrap.imgResponsive}
+                                  className={globalStyles.imgResponsive}
                                 />
                               </Link>
                             </div>
@@ -475,12 +484,10 @@ class CategoryLanding extends React.Component<
                               className={cs(bootstrap.col12, styles.promoDisp)}
                             >
                               <div className={styles.alignDispLeft}>
-                                <Link to="http://google.com">
-                                  <h2 className={styles.headLink2}>
-                                    <p>{data.title.split("|")[0]}</p>
-                                    <p>{data.title.split("|")[1]}</p>
-                                  </h2>
-                                </Link>
+                                <h2 className={styles.headLink2}>
+                                  <p>{data.title.split("|")[0]}</p>
+                                  <p>{data.title.split("|")[1]}</p>
+                                </h2>
                                 <span className={styles.subtitleHead}>
                                   {data.description}
                                 </span>
@@ -512,7 +519,7 @@ class CategoryLanding extends React.Component<
                 "url('" + editSection.background_image + "') no-repeat"
             }}
           >
-            <div className={globalStyles.gutter0}>
+            <div className={cs(globalStyles.gutter0, bootstrap.container)}>
               <h2 className={styles.headLink}> {editSection.name}</h2>
               <div className={styles.smallDesc}>{editSection.description}</div>
               <div className={cs(bootstrap.row, styles.voffset3)}>
