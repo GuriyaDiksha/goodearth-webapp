@@ -1,7 +1,22 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-.image-result-new {
+.text-right {
+  text-align: right;
+}
+.pull-right {
+  float: right;
+}
+.text-center {
+  text-align: center;
+}
+.col-reverse {
+  flex-direction: column-reverse;
+  .width-less {
+    width: 80%;
+  }
+}
+ .image-result-new {
     display: block;
     height: 100%;
     width: 100%;
@@ -12,7 +27,7 @@
     right: 0;
   }
   
-  .imagebox-new {
+.imagebox-new {
     position: relative;
     display: block;
     width: 100%;
@@ -472,29 +487,6 @@
       }
   
     }
-  
-    .category-arrow {
-      .slick-arrow {
-        &.slick-prev {
-          &:before {
-            background: url('../../images/arrow_left.svg') no-repeat;
-            width: 60px;
-            height: 100%;
-            color: transparent;
-            left: 180px;
-          }
-        }
-        &.slick-next {
-          &:after {
-            background: url('../../images/arrow_right.svg') no-repeat;
-            width: 60px;
-            height: 100%;
-            color: transparent;
-            right: 160px;
-          }
-        }
-      }
-    }
   }
   
   .cat-third-block {
@@ -507,6 +499,9 @@
     .cta-curly {
       @include cta-curly();
       margin: 30px 0;
+      a {
+        text-align: center;
+      }
     }
   
     .txt-disp {
@@ -522,7 +517,7 @@
       display: flex;
       .small-desc {
           text-transform: none;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+          font-family: "AmiriFont", "Baskerville", "Garamond";
         }
       .align-disp-left {
         align-self: flex-end;
@@ -530,6 +525,8 @@
     }
     .headLink {
       line-height: 28px;
+      font-size: 25px;
+      font-family: "AmiriFont", "Baskerville", "Garamond";
       span {
         &:after {
           content: '';
@@ -539,7 +536,6 @@
     .small-desc {
       font-size: 16px;
       font-family: $font-Lato;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
       padding-top: 10px;
     }
@@ -580,6 +576,7 @@
     &.headLink-3 {
       font-style: normal;
       font-family: $font-Amiri;
+      text-align: center;
       span:last-child {
         text-transform: capitalize;
         font-style: italic;
@@ -594,6 +591,12 @@
   }
   
   @media screen and (min-width: 992px) {
+    .img-width {
+      margin: 0 3px;
+      img {
+        padding: 0 60px;
+      }
+    }
   
     //.image-result {
     //  height: 38vw;
@@ -641,9 +644,7 @@
       .slick-slide {
         //padding: 0 50px;
         //width: 800px !important;
-        img {
-          padding: 0 60px;
-        }
+        
         opacity: .3;
         &.slick-active {
           opacity: 1;
@@ -655,14 +656,19 @@
     }
   }
   
-  .img-width {
-    margin: 0 3px;
-  }
+  
   
   @media screen and (max-width: 992px) {
+    .img-width {
+      margin: 0 3px;
+      img {
+        padding: 0 3px;
+      }
+    }
     h2 {
       &.headLink-2 {
         font-size: 20px;
+        font-family: $font-Amiri;
         p:last-child {
           text-transform: uppercase;
           font-size: 14px;
@@ -723,7 +729,7 @@
   
     .cat-third-block {
   
-      background: url('/static/img/category/star-pattern-bg.jpg');
+      background: url('../../images/category/star-pattern-bg.jpg');
       background-repeat: repeat;
       padding: 10% 0;
       .cta-curly {
@@ -808,6 +814,7 @@
       }
       }
     .subtitleHead {
+      font-family: $font-Amiri;
       display: inline-block;
       width: 40%;
       margin-top: 5px;
@@ -878,7 +885,6 @@
     }
   
     div {
-      //position: relative;
       &.bannerBtnLink {
         position: absolute;
         bottom: 20%;
@@ -889,7 +895,7 @@
         font-weight: bold;
   
         span {
-          background: url('/static/img/common/icons_cta-curly-fill-white.svg') no-repeat;
+          background: url('../../images/category/ctaCeriz.svg') no-repeat;
           text-transform: uppercase;
           width: 220px;
           height: 65px;
@@ -898,7 +904,7 @@
           color: $cerise;
           font-family: $font-Lato;
           &:hover {
-            background: url('/static/img/common/icons_cta-curly-fill-ceriz.svg') no-repeat;
+            background: url('../../images/category/ctaFillCeriz.svg') no-repeat;
             color: $white;
           }
         }

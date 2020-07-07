@@ -1,0 +1,23 @@
+
+@media screen and (min-width: 992px) {
+.featured-section .slick-prev::before{
+  background: url('../../images/category/arrow_left.svg') no-repeat !important;
+            width: 60px;
+            height: 100%;
+            color: transparent;
+            left: 190px;
+}
+
+.featured-section .slick-next::before{
+background: url('../../images/category/arrow_right.svg') no-repeat;
+            width: 60px;
+            height: 100%;
+            color: transparent;
+            right: 190px;
+}
+}
+.slick-arrow {
+    background-color: transparent;
+    border-color: transparent;
+    color: transparent;
+}

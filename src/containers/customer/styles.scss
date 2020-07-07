@@ -1,0 +1,206 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+@import "../../styles/partials/form";
+.heading {
+  text-transform: uppercase;
+  color: tint(#000, 40%);
+  letter-spacing: 1px;
+  font-size: 14px;
+  line-height: 48px;
+  .icon {
+    font-size: 18px;
+    color: $cerise;
+    margin-right: 5px;
+    font-weight: bold;
+  }
+}
+.fix-left-pane {
+  @include position(sticky);
+  align-self: flex-start;
+  top: 93px;
+  left: 0;
+  z-index: 0;
+  ul {
+    margin-left: 20%;
+    li {
+      line-height: 40px;
+      a {
+        font-size: 14px;
+        font-family: "LatoFont","Helvetica","Arial";
+        color: #333;
+        cursor: pointer;
+        &:hover {
+          color: $cerise;
+        }
+      }
+    }
+  }
+}
+.account-form-bg {
+  padding-bottom: 40px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  min-height: 100%;
+  background-color: white;
+}
+.account-form-bg-mobile {
+  height: 100vh !important;
+  overflow: scroll;
+  z-index: 0;
+  padding-bottom: 20px;
+  background-color: white;
+}
+.c-sort {
+  .product-number {
+    .c-sort-header {
+      position: fixed;
+      background-color: #fff;
+      top: $header-height;
+      line-height: 50px;
+      width: 100%;
+      left: 0;
+      z-index: 9;
+      padding: 0 20px;
+      border-bottom: 1px solid tint(#000, 80%);
+    }
+    .mobile-filter-header {
+      left: 0;
+    }
+    .mobile-filter-menu {
+      left: 0;
+    }
+    .no-arrow-header {
+      span {
+        font-size: 14px;
+        font-family: $font-Lato;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        line-height: 35px;
+      }
+      span:last-child {
+        //text-transform: capitalize;
+        border-left: 1px solid tint(#000, 50%);
+        padding-left: 10px;
+        margin-left: 10px;
+
+      }
+    }
+    .collection-header {
+      position: relative;
+      > span {
+        font-size: 14px;
+        font-family: $font-Lato;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        line-height: 35px;
+      }
+      span:last-child {
+        //text-transform: capitalize;
+        border-left: 1px solid tint(#000, 50%);
+        padding-left: 10px;
+        margin-left: 10px;
+
+      }
+      &:after {
+        content: '';
+        right: 10px;
+        top: 40%;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid tint(#000, 30%);
+      }
+    }
+  }
+}
+.subheader-account {
+  .collection-header {
+    span {
+      border-left: 0 !important;
+      padding-left: 0 !important;
+      margin-left: 0 !important;
+    }
+  }
+}
+.mobile-filter-header {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  z-index: 9;
+  background-color: #fff;
+  padding: 15px 20px 4px 20px;
+  top: 50px;
+  border-bottom: 1px solid tint(#000, 80%);
+  .filter-cross {
+    line-height: 30px;
+    .icon_cross {
+      font-size: 27px;
+    }
+  }
+  span {
+    @include plp_subhdr_open_mob();
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    &:first-child {
+      float: left;
+      margin-left: 0px;
+    }
+    &:last-child {
+      float: right;
+    }
+  }
+}
+.mobile-filter-menu {
+  position: fixed;
+  bottom: 0;
+  top: ($header-height + 50);
+  left: 0;
+  z-index: 7;
+  background-color: white;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear;
+  .number-div {
+    width: 50%;
+    text-align: center;
+    background-color: #f9f8f5;
+    span {
+      line-height: 50px;
+      @include plp_prod_quantity();
+    }
+
+  }
+  .apply-button {
+    width: 50%;
+    text-align: center;
+    span {
+      line-height: 50px;
+      @include cta_white();
+      color: white;
+    }
+    background-color: $cerise;
+  }
+  .filter-button {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: inline-flex;
+  }
+  .sort {
+    height: 100%;
+    overflow: scroll;
+    li {
+      padding: 0 20px;
+      line-height: 50px;
+      @include menu-subcopy();
+      border-bottom: 1px solid tint(#000, 90%);
+      a {
+        color: tint(#000, 50%);
+      }
+    }
+  }
+}

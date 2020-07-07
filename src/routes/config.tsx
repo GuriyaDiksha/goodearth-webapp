@@ -19,6 +19,7 @@ import GiftCard from "containers/giftcard/index";
 import initActionGiftcard from "containers/giftcard/initAction";
 import Career from "containers/career";
 import ResetPassword from "containers/resetPassword";
+import StaticPage from "containers/customer";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -88,6 +89,12 @@ const routes: RouteConfig = [
   {
     path: ROUTES.ResetPassword,
     component: ResetPassword,
+    action: async () => null,
+    exact: false
+  },
+  {
+    path: ROUTES.STATIC,
+    component: StaticPage,
     action: async () => null,
     exact: false
   }
