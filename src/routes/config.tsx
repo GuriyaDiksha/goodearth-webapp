@@ -15,6 +15,8 @@ import myAccount from "containers/myAccount";
 import initActionCategory from "containers/categoryLanding/initAction";
 import CategoryLanding from "containers/categoryLanding/index";
 import initActionAccount from "containers/myAccount/initAction";
+import GiftCard from "containers/giftcard/index";
+import initActionGiftcard from "containers/giftcard/initAction";
 import Career from "containers/career";
 import ResetPassword from "containers/resetPassword";
 
@@ -75,6 +77,12 @@ const routes: RouteConfig = [
     path: ROUTES.CATEGORY,
     component: CategoryLanding,
     action: initActionCategory,
+    exact: true
+  },
+  {
+    path: ROUTES.GIFTCARD,
+    component: GiftCard,
+    action: initActionGiftcard,
     exact: true
   },
   {
