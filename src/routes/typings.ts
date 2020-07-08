@@ -12,6 +12,7 @@ export enum ROUTES {
   SEARCH = "/search",
   ACCOUNT = "/account",
   CAREER = "/careers",
+  GIFTCARD = "/giftcard",
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/"
 }
