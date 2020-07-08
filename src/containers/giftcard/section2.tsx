@@ -39,6 +39,7 @@ const Section2: React.FC<Section2Props> = ({
         form.updateInputsWithValue({
           country: "INR"
         });
+      setSelectcurrency("INR");
     }
   });
 
@@ -98,6 +99,7 @@ const Section2: React.FC<Section2Props> = ({
       );
       const select = document.getElementsByName("country")[0];
       select.scrollIntoView(false);
+      return false;
     } else if (isCustom) {
       const element: any = document.getElementById(selectvalue);
       const value = element.value;
@@ -105,8 +107,10 @@ const Section2: React.FC<Section2Props> = ({
         setCountrymsg(
           "Please enter a value or choose one of the default values listed above"
         );
+        return false;
       } else if (currValue(value).sta) {
         setNummsg(currValue(value).message);
+        return false;
       } else {
         data["productId"] = selectvalue;
         data["customPrice"] = value;
