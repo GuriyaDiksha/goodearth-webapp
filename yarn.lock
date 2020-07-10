@@ -1814,6 +1814,11 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
+"@types/lodash@^4.14.157":
+  version "4.14.157"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.157.tgz#fdac1c52448861dfde1a2e1515dbc46e54926dc8"
+  integrity sha512-Ft5BNFmv2pHDgxV5JDsndOWTRJ+56zte0ZpYLowp03tW+K+t8u8YMOzAnpuqPgzX6WO1XpDIUm7u04M8vdDiVQ==
+
 "@types/mime@*":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"
@@ -1890,6 +1895,13 @@
   version "16.9.8"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"
   integrity sha512-ykkPQ+5nFknnlU6lDd947WbQ6TE3NNzbQAkInC2EKY1qeYdTKp7onFusmYZb+ityzx2YviqT6BXSu+LyWWJwcA==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-grid-layout@^0.17.1":
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/@types/react-grid-layout/-/react-grid-layout-0.17.1.tgz#07b5ab9e58af6ea7403e94d54c4e535209467a6f"
+  integrity sha512-1ssQjX3X2A89jx94jECJ0Ze2EHFRYlBHjRh2pnlwjJj1WaEijXUNvwKnUzKwgNFnyZ91Pzqu9Z3V7Atzi9ge7A==
   dependencies:
     "@types/react" "*"
 
@@ -9837,6 +9849,11 @@ rc-util@^4.0.4, rc-util@^4.12.0, rc-util@^4.15.3, rc-util@^4.20.0:
     react-is "^16.12.0"
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.1.0"
+
+react-absolute-grid@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-absolute-grid/-/react-absolute-grid-3.0.1.tgz#a97b8dded6083770215967e4cc277d1eca68dbc8"
+  integrity sha512-Eh1WqFk/jPA2CN6aci5WRgYKKmiwl52WLSB9+DHHa/b1iUIZ00qKC7IUfkIhhi3Iz9uVzsUwap0HfDO6zkeIWA==
 
 react-async-script@^1.1.1:
   version "1.1.1"

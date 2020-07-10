@@ -16,6 +16,7 @@ import initActionCategory from "containers/categoryLanding/initAction";
 import CategoryLanding from "containers/categoryLanding/index";
 import initActionAccount from "containers/myAccount/initAction";
 import Career from "containers/career";
+import Wishlist from "containers/wishlist";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -69,6 +70,12 @@ const routes: RouteConfig = [
     component: Career,
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.WISHLIST,
+    component: Wishlist,
+    action: async () => null,
+    exact: true
   },
   {
     path: ROUTES.CATEGORY,

@@ -17,7 +17,7 @@
 .fix-left-pane {
   @include position(sticky);
   align-self: flex-start;
-  top: 93px;
+  top: $header-height + $secondary-header-height;
   left: 0;
   z-index: 0;
   ul {
