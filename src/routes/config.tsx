@@ -20,6 +20,9 @@ import initActionGiftcard from "containers/giftcard/initAction";
 import Career from "containers/career";
 import ResetPassword from "containers/resetPassword";
 import StaticPage from "containers/customer";
+import checkout from "containers/checkout";
+import ShopLocator from "containers/shopLocator";
+import initActionShop from "containers/shopLocator/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -96,6 +99,18 @@ const routes: RouteConfig = [
     path: ROUTES.STATIC,
     component: StaticPage,
     action: async () => null,
+    exact: false
+  },
+  {
+    path: ROUTES.CHECKOUT,
+    component: checkout,
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SHOP,
+    component: ShopLocator,
+    action: initActionShop,
     exact: false
   }
 ];

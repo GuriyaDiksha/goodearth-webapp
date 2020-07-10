@@ -12,7 +12,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterList from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
-import Giftcard from "components/plpResultItem/giftCard";
+import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Quickview from "components/Quickview";
@@ -238,7 +238,7 @@ class PLP extends React.Component<
                 )}
                 key={1}
               >
-                <Giftcard />
+                <GiftcardItem />
               </div>
             </div>
           </div>
