@@ -20,6 +20,7 @@ import { meta } from "./meta";
 import { searchList } from "./search";
 import { category } from "./category";
 import { address } from "./address";
+import { shop } from "./shop";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -41,7 +42,8 @@ const createRootReducer = (history: History) => {
     message: growlMessage,
     searchList,
     category,
-    address
+    address,
+    shop
   });
 };
 

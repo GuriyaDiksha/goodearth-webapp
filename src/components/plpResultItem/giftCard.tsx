@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 
-const Giftcard: React.FC<{}> = memo(() => {
+const GiftcardItem: React.FC<{}> = memo(() => {
   return (
     <div className={styles.plpMain}>
       <div className={styles.imageBoxnew} id="1">
@@ -23,4 +23,4 @@ const Giftcard: React.FC<{}> = memo(() => {
   );
 });
 
-export default Giftcard;
+export default GiftcardItem;
