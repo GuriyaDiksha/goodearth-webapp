@@ -1,0 +1,359 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.header-container {
+    top: $header-top;
+}
+
+.header-container {
+    position: fixed;
+    top: $header-top;
+    z-index: 10;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #f5f5f5;
+    height: $header-height;
+}
+
+.logo-container {
+    line-height: 49px;
+    text-align: center;
+  }
+
+  @media (max-width: 992px) {
+    .minimumWidth{
+      margin: 0px;
+    }
+  }
+
+
+@media (max-width: 992px) {
+    .logo-container {
+        text-align: left;
+    }
+}
+
+.icon-font{
+    font-size: 24px;
+}
+
+.icon-cross-font{
+    font-size: 16px;
+}
+
+.logo {
+    width: 111px;
+    cursor: pointer;
+}
+
+.icon-style-disabled {
+    opacity: .4;
+    text-decoration: none !important;
+    &:hover {
+      color: inherit !important;
+      cursor: default !important;
+    }
+}
+
+.cerise {
+    color: $cerise !important;
+}
+
+.menulist-overlap{
+  margin-top: -6px;
+}
+.side-menu-item {
+    margin: 6px 6px;
+    position: relative;
+    cursor: pointer; 
+    .inner-profile-container{
+      margin-top: 6px;
+    }
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: 0;
+      left: 0;
+      min-width: 10px;
+      padding-top: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      color: #969698;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: 10px;
+    }
+    .icon-style {
+      font-size: 22px;
+      margin: inherit;
+      &:hover {
+        color: $cerise;
+        + span {
+          color: $cerise;
+        }
+      }
+    }
+    .adding {
+      right: -10px;
+      left: auto;
+      cursor: pointer;
+    }
+  }
+  
+.side-menu-container {
+    float: right;
+    display: inline-flex;
+    margin-top: 2px;
+    .currency-menu{
+      margin-top: 8px;
+    }
+    
+}
+.main-menu {
+  position: absolute;
+  .img-header {
+    li {
+      padding-left: 0;
+    }
+  }
+
+  li {
+    border-bottom: 1px solid #888;
+    border-bottom: none;
+    padding-left: 20px;
+    line-height: 30px;
+    letter-spacing: .05em;
+    a {
+      @include menu-copy();
+      letter-spacing: .09em;
+      &:hover {
+        color: #000;
+      }
+      &.subheading {
+        margin-top: 25px;
+        display: inline-block;
+        @include menu-heading();
+        &:hover {
+          text-decoration: underline;
+        }
+        &.link-without-url {
+          text-decoration: none;
+          cursor: default;
+        }
+        &.subheading-img:before {
+          background-image: url("/static/img/star-png.png");
+          background-size: 20px 20px;
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          content: "";
+          position: absolute;
+          left: -2px;
+          margin-top: 3px;
+        }
+        &.subheading-img:after {
+          background-image: url("/static/img/star-png.png");
+          background-size: 20px 20px;
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          content: "";
+          position: absolute;
+          margin-top: 3px;
+        }
+      }
+    }
+  }
+
+  .menulevel1 {
+    &:after {
+      content: '+';
+      float: right;
+      font-size: 25px;
+      color: tint(#000, 50%);
+    }
+  }
+  .menulevel1-open {
+    &:after {
+      content: '-';
+    }
+  }
+  .menulevel2 {
+    text-transform: uppercase;
+
+    &:after {
+      content: '';
+      float: right;
+      border: solid $cerise;
+      font-weight: bold;
+      border-width: 0 2px 2px 0;
+      width: 8px;
+      height: 8px;
+      transform: rotate(45deg);
+      top: 28px;
+      position: relative;
+      right: 5px;
+    }
+  }
+  .menulevel2-open {
+
+    &:after {
+      transform: rotate(313deg);
+    }
+  }
+}
+.menucolor {
+  color: #ab1e56 !important;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+  min-width: 100%;
+}
+
+.dropdown-menu-bar {
+  background-color: $white;
+  z-index: 10;
+  position: absolute;
+}
+.hidden{
+  display: none;
+}
+.inner-menu {
+  padding: 20px 50px 50px 50px;
+  @include bottom-shadow();
+}
+.inner-logo {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  width: 10%;
+}
+
+.title {
+  span {
+    color: #000;
+    font-size: 14px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+  .closed {
+    color: #b3b3b3;
+    letter-spacing: 1px;
+    font-weight: 900;
+    font-size: 14px;
+  }
+}
+
+
+.op3 {
+  opacity: .4;
+}
+
+.selected-stvalue {
+  color: gray;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.5px;
+  font-family: "LatoFont","Helvetica","Arial";
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40ch;
+}
+.margin-r10 {
+  margin-right: 10px;
+}
+
+.margin-t20 {
+  margin-top: 20px;
+}
+
+.page-body {
+  margin-top: $header-height;
+  margin-left: auto;
+  margin-right: auto;
+    background-color: #f9f8f5;
+}
+
+.head-lineheight{
+  font-size: 14px;
+  line-height: 48px;
+}
+.v-center {
+  line-height: $header-height;
+  color: #666;
+  letter-spacing: 1px;
+}
+.lock {
+  font-size: 26px;
+  position: absolute;
+  top: 12px;
+  left: -24px;
+}
+
+.card {
+  margin-left: 50px;
+  margin-right: 30px;
+  background-color: #fff;
+  padding-right: 50px;
+  padding-left: 50px;
+}
+
+.card-open {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  .review-block {
+    border: 1px solid tint(#000, 90%);
+    margin-top: 20px;
+    .success-msg {
+      @include success-msg();
+    }
+  }
+  div {
+    position: relative;
+    &.country-code {
+      display: flex;
+      > div {
+        width: 30%;
+        position: relative;
+        + div {
+          width: 70%;
+          position: relative;
+        }
+      }
+    }
+    &.address-form-checkbox {
+      height: 2px;
+      div label {
+        left: 0px;
+        text-align: left;
+      }
+    }
+  }
+  div {
+    .address-checkout {
+      .back-address-form {
+        position: relative;
+        bottom: 35px;
+        div {
+          width: 30%;
+          justify-self: end;
+          float: right;
+        }
+      }
+    }
+  }
+}
+
+.card-closed {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  &.text-style {
+    text-transform: capitalize;
+  }
+}
