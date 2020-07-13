@@ -3,7 +3,8 @@ import { Dispatch } from "redux";
 
 export const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    goRegister: (event: React.MouseEvent) => {
+    goRegister: (event: React.MouseEvent, email: string) => {
+      localStorage.setItem("tempEmail", email);
       LoginService.showRegister(dispatch);
       event.preventDefault();
     },

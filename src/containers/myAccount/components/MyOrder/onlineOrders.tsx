@@ -17,10 +17,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
   const { currency } = store.getState();
   const { dispatch } = store;
   useEffect(() => {
+    props.isLoading(true);
     AccountService.fetchMyOrders(dispatch)
       .then(data => {
         setData(data.results.slice(0, 14));
         setHasShopped(data.results.length > 0);
+        props.isDataAvaliable(data.results.length > 0);
       })
       .then(() => {
         props.hasShopped(hasShopped);

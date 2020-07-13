@@ -41,28 +41,38 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("email", this.state.email || "");
-    this.setState({ disableSelectedbox: true });
-    this.props
-      .resetPassword(formData)
-      .then(data => {
-        this.setState({
-          err: false,
-          msg: "",
-          forgotSuccess: true,
-          successMsg: data.success,
-          disableSelectedbox: false
-        });
-      })
-      .catch(err => {
-        console.log("err: " + err.response.data.email[0]);
-        this.setState({
-          err: true,
-          msg: err.response.data.email[0],
-          disableSelectedbox: false
-        });
+    if (!this.state.email) {
+      this.setState({
+        err: true,
+        msg: "Please Enter Email",
+        disableSelectedbox: false
       });
+    } else {
+      const formData = new FormData();
+      formData.append("email", this.state.email || "");
+      this.setState({ disableSelectedbox: true });
+      this.props
+        .resetPassword(formData)
+        .then(data => {
+          this.setState({
+            err: false,
+            msg: "",
+            forgotSuccess: true,
+            successMsg: data.success,
+            disableSelectedbox: false
+          });
+          const email = document.getElementById("email") as HTMLInputElement;
+          email.disabled = true;
+        })
+        .catch(err => {
+          // console.log("err: " + err.response.data.email[0]);
+          this.setState({
+            err: true,
+            msg: err.response.data.email[0],
+            disableSelectedbox: false
+          });
+        });
+    }
   };
 
   componentDidMount() {
@@ -77,18 +87,21 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {
-    if (!valid.checkBlank(this.state.email) || this.state.msg) {
-      if (!valid.checkMail(this.state.email)) {
-        this.setState({
-          msg: "Enter valid email",
-          err: true
-        });
-      } else {
-        this.setState({
-          msg: "",
-          err: false
-        });
-      }
+    if (valid.checkBlank(this.state.email)) {
+      this.setState({
+        msg: "Please Enter Email",
+        err: true
+      });
+    } else if (!valid.checkMail(this.state.email)) {
+      this.setState({
+        msg: "Enter valid email",
+        err: true
+      });
+    } else {
+      this.setState({
+        msg: "",
+        err: false
+      });
     }
   };
 
@@ -153,7 +166,12 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           Not a member?{" "}
           <span
             className={cs(globalStyles.cerise, globalStyles.pointer)}
-            onClick={goRegister}
+            onClick={e => {
+              goRegister(
+                e,
+                (this.emailInput.current && this.emailInput.current.value) || ""
+              );
+            }}
           >
             {" "}
             SIGN UP{" "}

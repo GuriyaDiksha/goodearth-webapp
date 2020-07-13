@@ -85,7 +85,11 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
-              resolve(res.data);
+              if (res.status == 200 || res.status == 201) {
+                resolve(res.data);
+              } else {
+                reject(res);
+              }
             })
             .catch(err => {
               reject(err);

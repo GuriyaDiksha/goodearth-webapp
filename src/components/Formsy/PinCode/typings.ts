@@ -9,7 +9,7 @@ export type Props = {
   blur?: (event: React.MouseEvent<HTMLInputElement>) => void;
   border?: boolean;
   id: string;
-  className?: string;
+  innerClass?: string;
   label?: string;
   disable?: boolean;
   placeholder: string;

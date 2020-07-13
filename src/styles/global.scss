@@ -275,10 +275,22 @@ font-weight: bold;
 .paddTop-20 {
   padding-top: 20px;
 }
+.paddTop-60 {
+  padding-top: 60px;
+}
+
+.paddTop-40 {
+  padding-top: 40px;
+}
 .vertical-middle {
   display: flex;
   align-items: center;
 }
 .italic{
   font-style: italic;
+}
+.c22-A-I {
+  @include c22-A-I();
+  line-height: 50px;
+  margin-top: 30px;
 }

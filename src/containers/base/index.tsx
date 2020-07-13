@@ -4,8 +4,17 @@ import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
 import Modal from "components/Modal";
+import { AppState } from "reducers/typings";
+import { connect } from "react-redux";
 
-export default class BaseLayout extends React.Component {
+const mapStateToProps = (state: AppState) => {
+  return {
+    refresh: state.user.refresh
+  };
+};
+type props = ReturnType<typeof mapStateToProps>;
+
+class BaseLayout extends React.Component<props, {}> {
   render() {
     return (
       <div>
@@ -17,3 +26,5 @@ export default class BaseLayout extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(BaseLayout);

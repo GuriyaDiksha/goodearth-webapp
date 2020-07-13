@@ -12,7 +12,10 @@ export enum ROUTES {
   SEARCH = "/search",
   ACCOUNT = "/account",
   CAREER = "/careers",
-  WISHLIST = "/wishlist"
+  WISHLIST = "/wishlist",
+  GIFTCARD = "/giftcard",
+  ResetPassword = "/password-reset/confirm/:uid/:token",
+  STATIC = "/customer-assistance/"
 }
 
 export type RouteConfig = RouteObject[];

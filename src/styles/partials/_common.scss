@@ -60,6 +60,10 @@ input:focus, textarea:focus {
   box-shadow: none;
 }
 
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+
 :focus {
   outline: 0;
   outline: none;
@@ -100,4 +104,11 @@ button:hover, button:focus, button:active{
 
 .op4 {
   opacity: .2;
+}
+
+.sp-mobile-voffset-6 {
+  margin-top: 60px;
+}
+.sp-mobile-voffset-3 {
+  padding: 30px 0;
 }

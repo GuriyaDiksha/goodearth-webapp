@@ -26,11 +26,11 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const getDefaultError = useCallback(() => {
     switch (props.name) {
       case "gender":
-        return "Please Select your gender";
+        return "Please select your gender";
       case "country":
-        return "Please Select Country";
+        return "Please select Country";
       case "state":
-        return "Please Select State";
+        return "Please select State";
     }
   }, []);
 

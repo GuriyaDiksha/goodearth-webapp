@@ -9,10 +9,12 @@ import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
 import ChangePassword from "./components/ChangePassword";
-import { useStore } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
+import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
+import { AppState } from "reducers/typings";
 
 type Props = {
   isbridal: boolean;
@@ -30,6 +32,7 @@ const MyAccount: React.FC<Props> = props => {
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { path } = useRouteMatch();
 
   const [currentSection, setCurrentSection] = useState("Profile");
@@ -120,44 +123,51 @@ const MyAccount: React.FC<Props> = props => {
       label: "My Profile",
       href: "/account/profile",
       component: MyProfile,
-      title: "Profile"
+      title: "Profile",
+      loggedInOnly: true
     },
     {
       label: "Change Password",
       href: "/account/password",
       component: ChangePassword,
-      title: "password"
+      title: "password",
+      loggedInOnly: true
     },
     {
       label: "Addresses",
       href: "/account/address",
       component: AddressMain,
       title: "address",
-      currentCallBackComponent: "account"
+      currentCallBackComponent: "account",
+      loggedInOnly: true
     },
     {
       label: "My Orders",
       href: "/account/my-orders",
       component: PastOrders,
-      title: "orders"
+      title: "orders",
+      loggedInOnly: true
     },
     {
       label: "Track Order",
       href: "/account/track-order",
       component: () => <div>Track Order</div>,
-      title: "track"
+      title: "track",
+      loggedInOnly: false
     },
     {
       label: "Activate Gift Card",
       href: "/account/giftcard-activation",
       component: () => <div>Activate Gift Card</div>,
-      title: "Activate Gift Card"
+      title: "Activate Gift Card",
+      loggedInOnly: false
     },
     {
       label: "Check Balance",
       href: "/account/check-balance",
-      component: () => <div>Check Balance</div>,
-      title: "Check Balance"
+      component: CheckBalance,
+      title: "Check Balance",
+      loggedInOnly: false
     }
   ];
   let bgClass = cs(globalStyles.colMd10, globalStyles.col12, styles.bgProfile);
@@ -295,20 +305,22 @@ const MyAccount: React.FC<Props> = props => {
           <div className={cs(styles.fixLeftPane, bootstrapStyles.colMd2)}>
             <div className={globalStyles.voffset5}>
               <ul>
-                {accountMenuItems.map(item => {
-                  return (
-                    <li key={item.label}>
-                      {" "}
-                      <NavLink
-                        key={item.label}
-                        to={item.href}
-                        activeClassName={globalStyles.cerise}
-                      >
-                        {item.label}
-                      </NavLink>
-                    </li>
-                  );
-                })}
+                {accountMenuItems
+                  .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
+                  .map(item => {
+                    return (
+                      <li key={item.label}>
+                        {" "}
+                        <NavLink
+                          key={item.label}
+                          to={item.href}
+                          activeClassName={globalStyles.cerise}
+                        >
+                          {item.label}
+                        </NavLink>
+                      </li>
+                    );
+                  })}
                 {/* <li>
                     {ceriseClubAccess && <li>
                         <Link> className={currentSection == "cerise" ? "cerise" : ""} 
