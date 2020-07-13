@@ -141,10 +141,11 @@ class SideMenu extends React.Component<Props, State> {
     for (let i = 0; i < item.length; i++) {
       bagCount = bagCount + item[i].quantity;
     }
+    const { mobile } = this.props;
     return (
       <Fragment>
         <ul className={styles.sideMenuContainer}>
-          {this.props.mobile ? (
+          {mobile ? (
             ""
           ) : (
             <li
@@ -163,7 +164,7 @@ class SideMenu extends React.Component<Props, State> {
               ></SelectableDropdownMenu>
             </li>
           )}
-          {this.props.mobile ? (
+          {mobile ? (
             ""
           ) : (
             <li
@@ -188,7 +189,7 @@ class SideMenu extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          {this.props.mobile ? (
+          {mobile ? (
             ""
           ) : (
             <li
@@ -210,7 +211,11 @@ class SideMenu extends React.Component<Props, State> {
               </span>
             </li>
           )}
-          <li className={cs(styles.sideMenuItem)}>
+          <li
+            className={cs(styles.sideMenuItem, {
+              [styles.sideMenuItemMobile]: mobile
+            })}
+          >
             <i
               className={cs(
                 iconStyles.icon,
@@ -237,7 +242,7 @@ class SideMenu extends React.Component<Props, State> {
           </li>
         </ul>
         <ul>
-          {this.props.mobile ? (
+          {mobile ? (
             <li className={cs(styles.firstMenu)}>
               <p className={styles.searchText}>
                 <i

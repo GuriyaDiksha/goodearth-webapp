@@ -13,7 +13,7 @@
     }
     @media screen and (max-width: 992px) {
       &.back-btn-address {
-        top: -80px;
+        top: 24px;
         right: 0;
       }
     }
@@ -85,6 +85,10 @@
         display: grid;
         margin-bottom: 18px;
         grid-template-columns: 22fr 1fr;
+        .line {
+          color: #808080;
+          font-size: 10px;
+          }
         div.default-address {
           @include error-msg();
           text-align: right;
