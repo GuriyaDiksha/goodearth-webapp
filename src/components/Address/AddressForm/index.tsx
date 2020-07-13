@@ -49,7 +49,6 @@ const AddressForm: React.FC<Props> = props => {
   const {
     closeAddressForm,
     mode,
-    setMode,
     checkPinCode,
     isAddressValid,
     setIsLoading
@@ -425,7 +424,8 @@ const AddressForm: React.FC<Props> = props => {
     if (mode == "new") {
       AddressService.addNewAddress(dispatch, formData)
         .then(() => {
-          setMode("list");
+          setIsLoading(false);
+          closeAddressForm();
         })
         .catch(err => {
           const errData = err.response.data;
@@ -445,6 +445,8 @@ const AddressForm: React.FC<Props> = props => {
       AddressService.updateAddress(dispatch, formData, id)
         .then(() => {
           setIsAddressChanged(false);
+          setIsLoading(false);
+          closeAddressForm();
         })
         .catch(err => {
           const errData = err.response.data;
