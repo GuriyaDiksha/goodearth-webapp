@@ -436,6 +436,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   which are out of stock to proceed
                 </p>
               )}
+              <div className="text-center text-coupon voffset4">
+                If you have promo code or a gift card code,
+                <br />
+                you can apply the same during payment.
+              </div>
               <div className="wishlist">
                 <a onClick={goTowishlist}>
                   <span>
