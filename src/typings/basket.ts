@@ -31,6 +31,9 @@ export type Basket = {
   bridal: boolean;
   loyalityUpdated: boolean;
   isTaxKnown: boolean;
+  shippingCharge: string | number;
+  total: string | number;
+  subTotal: string | number;
 };
 
 export interface BasketItem extends BasketLineItem {

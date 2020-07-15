@@ -10,12 +10,16 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
 import LoginSection from "./component/login";
 import AddressSection from "./component/address";
+import OrderSummary from "./component/orderSummary";
 
 const mapStateToProps = (state: AppState) => {
   return {
     refresh: state.user.refresh,
     location: state.router.location,
-    user: state.user
+    user: state.user,
+    basket: state.basket,
+    mobile: state.device.mobile,
+    currency: state.currency
   };
 };
 type props = ReturnType<typeof mapStateToProps>;
@@ -50,6 +54,23 @@ class Checkout extends React.Component<props, { activeStep: string }> {
               <AddressSection
                 isActive={this.isActiveStep(Steps.STEP_SHIPPING)}
                 user={this.props.user}
+              />
+            </div>
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd4,
+                globalStyles.voffset5
+              )}
+            >
+              <OrderSummary
+                mobile={this.props.mobile}
+                currency={this.props.currency}
+                shippingAddress={{}}
+                salestatus={false}
+                validbo={true}
+                basket={this.props.basket}
+                page="checkout"
               />
             </div>
           </div>

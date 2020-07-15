@@ -12,7 +12,10 @@ const initialState: State = {
   totalExclusive: 0,
   totalTax: 0,
   totalWithoutGCItems: 0,
-  voucherDiscounts: []
+  voucherDiscounts: [],
+  shippingCharge: 0,
+  total: 0,
+  subTotal: 0
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {
