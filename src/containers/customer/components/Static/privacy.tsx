@@ -4,7 +4,6 @@ import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
-// import { Link } from "react-router-dom";
 import { Props } from "../../typings";
 import { Link } from "react-router-dom";
 

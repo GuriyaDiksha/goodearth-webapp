@@ -16,7 +16,7 @@ export enum ROUTES {
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/",
   CHECKOUT = "/order/checkout/",
-  SHOP = "/Cafe-Shop/:city/:shopname"
+  SHOP = "/Cafe-Shop/:city/:shopname?"
 }
 
 export type RouteConfig = RouteObject[];

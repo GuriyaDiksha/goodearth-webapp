@@ -13,6 +13,7 @@ import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import { ShopProps } from "./typings";
 import ShopDropdownMenu from "components/MobileDropdown/shopLocatorDropdown";
 import ShopPage from "./shopPage";
+import ShopDetail from "./shopDetails";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -41,13 +42,19 @@ class ShopLocator extends React.Component<
   setSelectedSection = () => {
     switch (this.state.currentSection) {
       case "shop":
-        <ShopPage
-          mobile={this.props.device.mobile}
-          data={this.props.shopData}
-        />;
-        return;
+        return (
+          <ShopPage
+            mobile={this.props.device.mobile}
+            data={this.props.shopData}
+          />
+        );
       case "details":
-        return;
+        return (
+          <ShopDetail
+            mobile={this.props.device.mobile}
+            data={this.props.shopData}
+          />
+        );
       default:
         return "";
     }
