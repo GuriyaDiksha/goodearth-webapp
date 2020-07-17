@@ -1,9 +1,9 @@
-import * as Actions from "actions/giftcard";
+import * as Actions from "actions/checkout";
 import { ActionType } from "typings/actionCreator";
 import { BalanceProps } from "containers/myAccount/components/Balance/typings";
 
 export type State = {
-  data: BalanceProps[];
+  giftcardData: BalanceProps[];
 };
 
 export { Actions };

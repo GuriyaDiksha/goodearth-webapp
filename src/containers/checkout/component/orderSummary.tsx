@@ -3,7 +3,7 @@ import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
-import styles from "./styles.scss";
+import styles from "./orderStyles.scss";
 import * as Steps from "containers/checkout/constants";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
@@ -411,7 +411,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           )}
           {page == "cart" && (
             <div className={showSummary ? "" : "hidden-xs hidden-sm"}>
-              <hr className="hr" />
+              <hr className={styles.hr} />
               <a
                 href={canCheckout() ? "/order/checkout/" : "javascript:void(0)"}
               >
