@@ -36,6 +36,7 @@ type Props = {
   childAttributes: ChildProductAttributes[];
   collection?: string;
   selectedIndex?: number;
+  changeSize?: (size: string, quantity?: number) => void;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -44,7 +45,8 @@ const NotifyMePopup: React.FC<Props> = ({
   collection,
   childAttributes,
   title,
-  selectedIndex
+  selectedIndex,
+  changeSize
 }) => {
   const { dispatch } = useStore();
 
@@ -70,6 +72,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      changeSize?.(selected.size);
     },
     [childAttributes, selectedSize]
   );
@@ -146,7 +149,7 @@ const NotifyMePopup: React.FC<Props> = ({
     return (
       <Button label={buttonText} onClick={action} className={styles.button} />
     );
-  }, [selectedSize, email]);
+  }, [selectedSize, email, quantity]);
 
   useEffect(() => {
     setMsg("");

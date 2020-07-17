@@ -11,6 +11,7 @@ declare module "@loadable/component";
 declare module "@loadable/server";
 declare module "rc-slider";
 declare module "react-google-recaptcha";
+declare module "react-absolute-grid";
 
 declare const __API_HOST__: string;
 declare const __DOMAIN__: string;

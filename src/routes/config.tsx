@@ -18,6 +18,7 @@ import initActionAccount from "containers/myAccount/initAction";
 import GiftCard from "containers/giftcard/index";
 import initActionGiftcard from "containers/giftcard/initAction";
 import Career from "containers/career";
+import Wishlist from "containers/wishlist";
 import ResetPassword from "containers/resetPassword";
 import StaticPage from "containers/customer";
 
@@ -73,6 +74,12 @@ const routes: RouteConfig = [
     component: Career,
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.WISHLIST,
+    component: Wishlist,
+    action: async () => null,
+    exact: true
   },
   {
     path: ROUTES.CATEGORY,

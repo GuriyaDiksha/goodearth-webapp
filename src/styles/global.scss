@@ -286,6 +286,9 @@ font-weight: bold;
   display: flex;
   align-items: center;
 }
+.italic{
+  font-style: italic;
+}
 .c22-A-I {
   @include c22-A-I();
   line-height: 50px;
