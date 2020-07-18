@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import cs from "classnames";
 import AddressItem from "../AddressItem";
 import Loader from "components/Loader";
 import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
+import { AddressContext } from "../AddressMain/context";
 
 type Props = {
   addressDataList: AddressData[];
@@ -13,7 +14,6 @@ type Props = {
   selectAddress: (address: AddressData) => void;
   isValidAddress: () => void;
   currentCallBackComponent: string;
-  addressType?: string;
   isBridal?: boolean;
   bridalId?: number;
   showAddressInBridalUse?: boolean;
@@ -27,9 +27,10 @@ const AddressList: React.FC<Props> = props => {
       : Array.isArray(props.addressDataList)
       ? props.addressDataList
       : [props.addressDataList];
+  const { activeStep } = useContext(AddressContext);
   if (
-    props.addressType == "BILLING" &&
-    props.currentCallBackComponent == "checkout"
+    activeStep == "BILLING" &&
+    props.currentCallBackComponent == "checkout-billing"
   ) {
     addressData = addressData.filter(address => !address.isEdit);
     if (props.isBridal) {
@@ -43,7 +44,7 @@ const AddressList: React.FC<Props> = props => {
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
-  // const { markAsDefault } = useContext(AddressContext);
+
   // componentWillReceiveProps(props) {
   //     let addressData = props.addressDataList;
   //     if (props.addressDataList &&  props.addressDataList.length && props.addressType == "BILLING") {
@@ -156,7 +157,7 @@ const AddressList: React.FC<Props> = props => {
                 isOnlyAddress={props.addressDataList.length === 1}
                 // setCurrentModule={props.setCurrentModule}
                 // setCurrentModuleData={props.setCurrentModuleData}
-                addressType={props.addressType}
+                // addressType={props.addressType}
                 // setAddressModeProfile={props.setAddressModeProfile}
                 // currentCallBackComponent={props.currentCallBackComponent}
                 // items={props.items}

@@ -1,8 +1,13 @@
 import API from "utils/api";
 import { Dispatch } from "redux";
-import { AddressData, AddressFormData } from "components/Address/typings";
+import {
+  AddressData,
+  AddressFormData,
+  specifyShippingAddressResponse
+} from "components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { updateAddressList } from "actions/address";
+import { specifyBillingAddressData } from "containers/checkout/typings";
 
 export default {
   fetchAddressList: async (dispatch: Dispatch) => {
@@ -55,12 +60,23 @@ export default {
     dispatch(updateAddressList(data));
     return data;
   },
-  specifyShippingAddress: async (dispatch: Dispatch) => {
-    // implement specifyShippingAddress
-    console.log("specifyShippingAddress");
+  specifyShippingAddress: async (dispatch: Dispatch, id: number) => {
+    const data = await API.post<specifyShippingAddressResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/address/specify_shipping_address`,
+      { shippingAddressId: id }
+    );
+    return data;
   },
-  specifyBillingAddress: async (dispatch: Dispatch) => {
-    // implement specifyBillingAddress
-    console.log("specifyBillingAddress");
+  specifyBillingAddress: async (
+    dispatch: Dispatch,
+    specifyBillingAddressData: specifyBillingAddressData
+  ) => {
+    const data = await API.post<string>(
+      dispatch,
+      `${__API_HOST__}/myapi/address/specify_billing_address`,
+      specifyBillingAddressData
+    );
+    return data;
   }
 };

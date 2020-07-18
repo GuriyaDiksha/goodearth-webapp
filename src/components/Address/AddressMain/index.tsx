@@ -15,7 +15,8 @@ import AddressService from "services/address";
 import LoginService from "services/login";
 import { updatePinCodeList, updateCountryData } from "actions/address";
 import Loader from "components/Loader";
-
+import AddressSection from "containers/checkout/component/address";
+import * as Steps from "../../../containers/checkout/constants";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -50,6 +51,9 @@ const AddressMain: React.FC<Props> = props => {
   }, []);
   const [mode, setMode] = useState<AddressModes>("list");
 
+  // useEffect(() => {
+  //   (addressList.length) && openAddressForm()
+  // },[props.addresses])
   // const [ editAddresaData, setEditAddressData ] = useState(null);
 
   // manageAddress(data, index) {
@@ -183,9 +187,10 @@ const AddressMain: React.FC<Props> = props => {
       value={{
         setMode: setMode,
         mode: mode,
+        activeStep: props.activeStep || "",
         // editAddressData: editAddressData,
         setEditAddressData: setEditAddressData,
-        currentCallBackComponent: "account",
+        currentCallBackComponent: currentCallBackComponent,
         checkPinCode: checkPinCode,
         isAddressValid: isAddressValid,
         openAddressForm: openAddressForm,
@@ -202,7 +207,7 @@ const AddressMain: React.FC<Props> = props => {
             deleteAddress={id => null}
             selectAddress={address => null}
             isValidAddress={() => null}
-            currentCallBackComponent="account"
+            currentCallBackComponent={currentCallBackComponent}
           />
 
           {!showDefaultAddressOnly && (
@@ -224,7 +229,7 @@ const AddressMain: React.FC<Props> = props => {
       {mode == "new" && (
         <AddressForm
           // addressData={null}
-          currentCallBackComponent="account"
+          currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
         ></AddressForm>
@@ -232,7 +237,7 @@ const AddressMain: React.FC<Props> = props => {
       {mode == "edit" && (
         <AddressForm
           addressData={editAddressData}
-          currentCallBackComponent="account"
+          currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
         ></AddressForm>
@@ -244,6 +249,52 @@ const AddressMain: React.FC<Props> = props => {
   switch (currentCallBackComponent) {
     case "account":
       return <MyAddress mode={mode}>{addressContent}</MyAddress>;
+    case "checkout-shipping":
+      return (
+        <AddressSection
+          activeStep={Steps.STEP_SHIPPING}
+          mode={mode}
+          isActive={props.isActive}
+          selectedAddress={props.selectedAddress}
+          next={props.next}
+          openAddressForm={openAddressForm}
+          finalizeAddress={props.finalizeAddress}
+          hidesameShipping={true}
+          // items={this.props.basket}
+          // bridalId={this.props.bridalId}
+          bridalId=""
+          isGoodearthShipping={props.isGoodearthShipping}
+          // addressType={Steps.STEP_SHIPPING}
+          addresses={props.addresses}
+          // user={this.props.user}
+          error={props.error}
+        >
+          {addressContent}
+        </AddressSection>
+      );
+    case "checkout-billing":
+      return (
+        <AddressSection
+          activeStep={Steps.STEP_BILLING}
+          mode={mode}
+          isActive={props.isActive}
+          selectedAddress={props.selectedAddress}
+          next={props.next}
+          openAddressForm={openAddressForm}
+          finalizeAddress={props.finalizeAddress}
+          hidesameShipping={true}
+          // items={this.props.basket}
+          // bridalId={this.props.bridalId}
+          bridalId=""
+          isGoodearthShipping={props.isGoodearthShipping}
+          // addressType={Steps.STEP_SHIPPING}
+          addresses={props.addresses}
+          // user={this.props.user}
+          error={props.error}
+        >
+          {addressContent}
+        </AddressSection>
+      );
     default:
       return <MyAddress mode={mode}>{addressContent}</MyAddress>;
   }
