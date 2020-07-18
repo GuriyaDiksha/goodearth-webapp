@@ -8,6 +8,9 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const nodeExternals = require('webpack-node-externals');
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+
 const env = process.env.NODE_ENV || "development";
 
 const envConfig = require("../src/config");
@@ -75,7 +78,56 @@ let config = [
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
-            })
+            }),
+            new WorkboxPlugin.GenerateSW({
+                clientsClaim: true,
+                swDest: context + "/dist/service-worker.js",
+                additionalManifestEntries: ["/"],
+                runtimeCaching: [{
+                    urlPattern: /^$/,
+                    handler: 'NetworkFirst',
+                    options: {
+                      cacheName: 'home'
+                    },
+                  }, {
+                    urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                    handler: 'CacheFirst',
+                    options: {
+                      cacheName: 'ge-images',
+                      expiration: {
+                        maxEntries: 50,
+                      },
+                    },
+                  }, {
+                    urlPattern: /\.(?:js)$/,
+                    handler: 'CacheFirst',
+                    options: {
+                      cacheName: 'ge-js',
+                      expiration: {
+                        maxEntries: 50,
+                      },
+                    },
+                  }],
+            }),
+            new WebpackPwaManifest({
+                filename: `manifest.v${envConfig.manifestVersion}.json`,
+                name: 'Goodearth',
+                short_name: 'Goodearth',
+                description: '',
+                start_url: '../',
+                background_color: '#ffffff',
+                theme_color: '#ffffff',
+                crossorigin: 'use-credentials',
+                icons: [
+                  {
+                    src: context + '/src/images/appIcon.png',
+                    sizes: [96, 128, 192, 256, 384, 512, 1024]
+                  }
+                ],
+                inject: false,
+                fingerprints: false,
+                ios: true,
+              })
         ],
         devServer: {
             contentBase: context + '/dist/static',
