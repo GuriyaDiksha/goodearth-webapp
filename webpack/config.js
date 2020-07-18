@@ -120,7 +120,7 @@ let config = [
                 crossorigin: 'use-credentials',
                 icons: [
                   {
-                    src: context + '/src/images/appIcon.png',
+                    src: context + '/src/images/AppIcon.png',
                     sizes: [96, 128, 192, 256, 384, 512, 1024]
                   }
                 ],
