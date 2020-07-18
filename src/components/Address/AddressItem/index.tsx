@@ -194,6 +194,7 @@ const AddressItem: React.FC<Props> = props => {
                     checked={address.isDefaultForShipping}
                     name={id}
                     type="radio"
+                    onChange={() => markAsDefault(address)}
                   />
                   <span className={styles.checkmark}></span>
                 </div>
@@ -236,7 +237,9 @@ const AddressItem: React.FC<Props> = props => {
             {address.state}, {address.postCode}
           </div>
           <div className={styles.line}>{address.countryName}</div>
-          <div className={styles.addressPhoneNumber}>{address.phoneNumber}</div>
+          <div
+            className={styles.addressPhoneNumber}
+          >{`${address.phoneCountryCode} ${address.phoneNumber}`}</div>
           <div
             className={cs(globalStyles.marginT20, styles.edit, {
               [styles.addCheckoutActions]:

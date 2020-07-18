@@ -9,7 +9,6 @@ import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
 import LoginSection from "./component/login";
-// import AddressSection from "./component/address";
 import AddressMain from "components/Address/AddressMain";
 import { AddressData } from "components/Address/typings";
 import CookieService from "services/cookie";
@@ -19,6 +18,9 @@ import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
 import * as valid from "utils/validate";
 import { refreshPage } from "actions/user";
+import OrderSummary from "./component/orderSummary";
+import PromoSection from "./component/promo";
+import PaymentSection from "./component/payment";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -26,7 +28,9 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     user: state.user,
     basket: state.basket,
-    addresses: state.address.addressList
+    addresses: state.address.addressList,
+    mobile: state.device.mobile,
+    currency: state.currency
   };
 };
 
@@ -121,9 +125,9 @@ class Checkout extends React.Component<Props, State> {
     this.setState({ bridalId, gaKey });
   }
 
-  isActiveStep(step: string) {
+  isActiveStep = (step: string) => {
     return this.state.activeStep == step;
-  }
+  };
 
   nextStep = (step: string) => {
     this.setState({ activeStep: step });
@@ -278,7 +282,7 @@ class Checkout extends React.Component<Props, State> {
                 localStorage.getItem("validBo") ||
                 localStorage.getItem("isSale")
                   ? Steps.STEP_PAYMENT
-                  : Steps.STEP_REVIEW,
+                  : Steps.STEP_PROMO,
               billingError: "",
               pancardNo: obj.panPassportNo,
               gstNo: obj.gstNo || "",
@@ -294,6 +298,10 @@ class Checkout extends React.Component<Props, State> {
           });
       }
     }
+  };
+
+  finalOrder = () => {
+    return true;
   };
 
   render() {
@@ -347,6 +355,34 @@ class Checkout extends React.Component<Props, State> {
                 addresses={this.props.addresses}
                 // user={this.props.user}
                 error={this.state.billingError}
+              />
+              <PromoSection
+                isActive={this.isActiveStep(Steps.STEP_PROMO)}
+                user={this.props.user}
+                next={this.nextStep}
+              />
+              <PaymentSection
+                isActive={this.isActiveStep(Steps.STEP_PAYMENT)}
+                user={this.props.user}
+                checkout={this.finalOrder}
+                currency={this.props.currency}
+              />
+            </div>
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd4,
+                globalStyles.voffset5
+              )}
+            >
+              <OrderSummary
+                mobile={this.props.mobile}
+                currency={this.props.currency}
+                shippingAddress={{}}
+                salestatus={false}
+                validbo={true}
+                basket={this.props.basket}
+                page="checkout"
               />
             </div>
           </div>

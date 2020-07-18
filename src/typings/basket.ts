@@ -39,9 +39,12 @@ export type Basket = {
   currency: Currency;
   // lineItems: LineItems;
   loyaltyUpdated?: boolean;
-  subTotal?: string;
-  total?: string;
+  // subTotal?: string;
+  // total?: string;
   totalWithOutGCItems?: number;
+  shippingCharge: string | number;
+  total: string | number;
+  subTotal: string | number;
 };
 
 export interface BasketItem extends BasketLineItem {

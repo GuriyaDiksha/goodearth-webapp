@@ -108,7 +108,7 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
   const isError = (!props.isPristine || props.value) && !props.isValid;
   //  || (!props.isValid && props.editMode && props.error);
 
-  let cls = isError ? globalStyles.errorBorder : props.className || "";
+  let cls = isError ? globalStyles.errorBorder : "";
   // const isError = true;
   cls += props.disable ? styles.disabledInput : "";
   let errorMessage = isError ? props.errorMessage || props.error : null;
@@ -126,7 +126,7 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
 
   return (
     <div
-      className={props.className ? props.className : ""}
+      className={props.innerClass ? props.innerClass : ""}
       onBlur={e => handleClickBlur(e)}
       onFocus={e => handleClick(e)}
     >

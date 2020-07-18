@@ -10,7 +10,13 @@ import { useStore, useSelector } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import { AppState } from "reducers/typings";
-import Section from "./components/Static";
+import Returns from "./components/Static";
+import Shipping from "./components/Static/shipping";
+import Terms from "./components/Static/terms";
+import CeriseTerms from "./components/Static/ceriseterms";
+import Cookie from "./components/Static/cookie";
+import Privacy from "./components/Static/privacy";
+
 type Props = {
   isbridal: boolean;
   mobile: boolean;
@@ -39,10 +45,45 @@ const StaticPage: React.FC<Props> = props => {
 
   const accountMenuItems: AccountMenuItem[] = [
     {
-      label: "CUSTOMER ASSISTANCE",
+      label: "Shipping & Payment",
+      href: "/customer-assistance/shipping-payment",
+      component: Shipping,
+      title: "Shipping & Payment",
+      loggedInOnly: false
+    },
+    {
+      label: "Returns & Exchanges",
       href: "/customer-assistance/returns-exchanges",
-      component: Section,
-      title: "CUSTOMER ASSISTANCE",
+      component: Returns,
+      title: "Returns & Exchanges",
+      loggedInOnly: false
+    },
+    {
+      label: "Terms of Use",
+      href: "/customer-assistance/terms-conditions",
+      component: Terms,
+      title: "Terms of Use",
+      loggedInOnly: false
+    },
+    {
+      label: "Cerise: Terms of Use",
+      href: "/customer-assistance/terms",
+      component: CeriseTerms,
+      title: "Cerise: Terms of Use",
+      loggedInOnly: false
+    },
+    {
+      label: "Privacy Policy",
+      href: "/customer-assistance/privacy-policy",
+      component: Privacy,
+      title: "Privacy Policy",
+      loggedInOnly: false
+    },
+    {
+      label: "Cookie Policy",
+      href: "/customer-assistance/cookie-policy",
+      component: Cookie,
+      title: "Cookie Policy",
       loggedInOnly: false
     }
   ];
@@ -196,12 +237,12 @@ const StaticPage: React.FC<Props> = props => {
           <div className={bootstrapStyles.row}>
             <div
               className={cs(
-                bootstrapStyles.colMd6,
-                bootstrapStyles.offsetMd3,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                { [styles.accountFormBg]: !mobile },
-                { [styles.accountFormBgMobile]: mobile }
+                bootstrapStyles.colMd10,
+                bootstrapStyles.offsetMd1,
+                bootstrapStyles.col10,
+                bootstrapStyles.offset1
+                // { [styles.accountFormBg]: !mobile },
+                // { [styles.accountFormBgMobile]: mobile }
               )}
             >
               <Switch>
