@@ -11,6 +11,7 @@ import AddressService from "services/address";
 import * as Steps from "containers/checkout/constants";
 import { useDispatch } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
+import { CheckoutAddressContext } from "containers/checkout/component/context";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
@@ -35,6 +36,7 @@ const AddressItem: React.FC<Props> = props => {
     currentCallBackComponent,
     activeStep
   } = useContext(AddressContext);
+  const { onSelectAddress } = useContext(CheckoutAddressContext);
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
@@ -127,8 +129,9 @@ const AddressItem: React.FC<Props> = props => {
     (address.firstName.length < 7 && address.lastName.length < 14)
       ? "text"
       : "div";
-  const billingEditDisable = activeStep == "BILLING";
-  //  && address.id == window.shipping_data.user_address_id;
+  const billingEditDisable =
+    activeStep == "BILLING" &&
+    address.id.toString() == localStorage.getItem("shippingDataUserAddressId");
   return (
     <div
       className={
@@ -149,7 +152,13 @@ const AddressItem: React.FC<Props> = props => {
             )
       }
     >
-      <div className={styles.addressItemContainer}>
+      <div
+        className={cs(styles.addressItemContainer, {
+          [styles.addressItemContainerCheckout]:
+            currentCallBackComponent == "checkout-shipping" ||
+            currentCallBackComponent == "checkout-billing"
+        })}
+      >
         <div
           className={cs(
             styles.addressItem,
@@ -276,7 +285,7 @@ const AddressItem: React.FC<Props> = props => {
                   globalStyles.cursorPointer,
                   styles.shipToThisBtn
                 )}
-                onClick={() => props.selectAddress(address)}
+                onClick={() => onSelectAddress(address)}
               >
                 {activeStep == Steps.STEP_SHIPPING ? "SHIP" : "BILL"}
                 &nbsp;TO THIS ADDRESS {address.isEdit ? "(FREE)" : ""}

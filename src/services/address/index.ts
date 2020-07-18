@@ -63,7 +63,7 @@ export default {
   specifyShippingAddress: async (dispatch: Dispatch, id: number) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/address/specify_shipping_address`,
+      `${__API_HOST__}/myapi/address/specify_shipping_address/`,
       { shippingAddressId: id }
     );
     return data;
@@ -74,7 +74,7 @@ export default {
   ) => {
     const data = await API.post<string>(
       dispatch,
-      `${__API_HOST__}/myapi/address/specify_billing_address`,
+      `${__API_HOST__}/myapi/address/specify_billing_address/`,
       specifyBillingAddressData
     );
     return data;

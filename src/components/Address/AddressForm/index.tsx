@@ -4,7 +4,7 @@ import FormInput from "../../../components/Formsy/FormInput";
 import FormSelect from "../../../components/Formsy/FormSelect";
 import CountryCode from "../../../components/Formsy/CountryCode";
 import PinCode from "../../../components/Formsy/PinCode";
-// import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
+import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
@@ -52,7 +52,8 @@ const AddressForm: React.FC<Props> = props => {
     setMode,
     checkPinCode,
     isAddressValid,
-    setIsLoading
+    setIsLoading,
+    currentCallBackComponent
   } = useContext(AddressContext);
   const [isIndia, setIsIndia] = useState(false);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -1136,19 +1137,35 @@ const AddressForm: React.FC<Props> = props => {
   }, [addressData, countryOptions]);
 
   return (
-    <div className={styles.loginForm}>
-      <div className="back-btn-div">
-        <div
-          className={cs(
-            styles.backBtnTop,
-            styles.backBtnAddress,
-            styles.formSubheading
-          )}
-          onClick={closeAddressForm}
-        >
-          &lt; back
+    <div
+      className={cs(
+        styles.loginForm,
+        {
+          [bootstrapStyles.col12]:
+            currentCallBackComponent == "checkout-shipping" ||
+            currentCallBackComponent == "checkout-billing"
+        },
+        {
+          [bootstrapStyles.colMd7]:
+            currentCallBackComponent == "checkout-shipping" ||
+            currentCallBackComponent == "checkout-billing"
+        }
+      )}
+    >
+      {currentCallBackComponent == "account" && (
+        <div className="back-btn-div">
+          <div
+            className={cs(
+              styles.backBtnTop,
+              styles.backBtnAddress,
+              styles.formSubheading
+            )}
+            onClick={closeAddressForm}
+          >
+            &lt; back
+          </div>
         </div>
-      </div>
+      )}
       <Formsy
         ref={AddressFormRef}
         onValidSubmit={submitAddress}

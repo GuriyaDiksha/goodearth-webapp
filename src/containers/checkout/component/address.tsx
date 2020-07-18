@@ -14,6 +14,7 @@ import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
 import { AddressData } from "components/Address/typings";
 import * as valid from "utils/validate";
+import { CheckoutAddressContext } from "./context";
 
 const AddressSection: React.FC<AddressProps & {
   mode: string;
@@ -29,7 +30,9 @@ const AddressSection: React.FC<AddressProps & {
     next
   } = props;
   const { isLoggedIn } = useContext(UserContext);
-  const { openAddressForm, closeAddressForm } = useContext(AddressContext);
+  const { openAddressForm, closeAddressForm, isAddressValid } = useContext(
+    AddressContext
+  );
   const { currency, user } = useSelector((state: AppState) => state);
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -62,13 +65,13 @@ const AddressSection: React.FC<AddressProps & {
   const [panCheck, setPanCheck] = useState("");
   const [gstPan, setGstPan] = useState(user.panPassport || "");
   const [gstPanError, setGstPanError] = useState("");
-  const [shippingErrorMsg, setShippingErrorMsg] = useState("");
-  const [billingErrorMsg, setBillingErrorMsg] = useState("");
+  // const [shippingErrorMsg, setShippingErrorMsg] = useState("");
+  // const [billingErrorMsg, setBillingErrorMsg] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
-  const [addressIdError, setAddressIdError] = useState("");
+  // const [addressIdError, setAddressIdError] = useState("");
   const [error, setError] = useState("");
 
-  console.log(shippingErrorMsg, billingErrorMsg, addressIdError); // temp code
+  // console.log(shippingErrorMsg, billingErrorMsg, addressIdError); // temp code
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -77,6 +80,7 @@ const AddressSection: React.FC<AddressProps & {
     });
   }, []);
   const openNewAddressForm = () => {
+    setSameAsShipping(false);
     openAddressForm();
   };
 
@@ -289,7 +293,7 @@ const AddressSection: React.FC<AddressProps & {
         <input
           type="radio"
           name="editList"
-          checked={gstType == props.gstType}
+          defaultChecked={gstType == props.gstType}
           value="GSTIN"
           onChange={onChangeGst}
         />
@@ -397,16 +401,16 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const removeErrorMessages = () => {
-    setShippingErrorMsg("");
-    setBillingErrorMsg("");
-    setAddressIdError("");
+    // setShippingErrorMsg("");
+    // setBillingErrorMsg("");
+    // setAddressIdError("");
     setGstPanError("");
   };
 
   const showErrorMsg = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
-        "globalStyles.errorMsg"
+        globalStyles.errorMsg
       )[0] as HTMLInputElement;
 
       if (firstErrorField) {
@@ -506,7 +510,7 @@ const AddressSection: React.FC<AddressProps & {
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
                     <input
-                      type={styles.checkbox}
+                      type="checkbox"
                       onChange={toggleGstInvoice}
                       checked={gst}
                     />
@@ -526,9 +530,9 @@ const AddressSection: React.FC<AddressProps & {
                   )}
                 >
                   <div className={styles.radioList}>
-                    <RadioButton gstType="GSTIN" />
-                    <RadioButton gstType="UID" />
-                    <RadioButton gstType="GID" />
+                    <RadioButton key="GSTIN" gstType="GSTIN" />
+                    <RadioButton key="UID" gstType="UID" />
+                    <RadioButton key="GID" gstType="GID" />
                   </div>
                   <div className={styles.form}>
                     <div
@@ -649,7 +653,7 @@ const AddressSection: React.FC<AddressProps & {
                 <div className={globalStyles.marginR10}>
                   <span className={styles.checkbox}>
                     <input
-                      type={styles.checkbox}
+                      type="checkbox"
                       onChange={togglepancard}
                       checked={pancardCheck}
                     />
@@ -678,9 +682,7 @@ const AddressSection: React.FC<AddressProps & {
   const renderBillingCheckbox = function() {
     // const show = (showAddressForm && isLoggedIn ? false : true) && !props.isBridal && !props.is_goodearth_Shipping;
     const show =
-      (isLoggedIn ? false : true) &&
-      !props.isBridal &&
-      !props.isGoodearthShipping;
+      !props.isBridal && !props.isGoodearthShipping && mode == "list";
 
     return (
       show && (
@@ -689,7 +691,7 @@ const AddressSection: React.FC<AddressProps & {
             <div className={globalStyles.marginR10}>
               <span className={styles.checkbox}>
                 <input
-                  type={styles.checkbox}
+                  type="checkbox"
                   onChange={toggleSameAsShipping}
                   checked={sameAsShipping}
                 />
@@ -731,6 +733,21 @@ const AddressSection: React.FC<AddressProps & {
     );
   };
 
+  const onSelectAddress = (address?: AddressData) => {
+    if (address) {
+      const isValid =
+        address.country == "IN"
+          ? isAddressValid(address.postCode, address.state)
+          : true;
+      if (isValid) {
+        // this.props.onSelectAddress(address);
+        onSubmit(address);
+      } else {
+        // this.manageAddressPostcode("edit", address);
+        openAddressForm(address);
+      }
+    }
+  };
   const renderCheckoutAddress = () => {
     let html: ReactElement | null = null;
 
@@ -752,7 +769,7 @@ const AddressSection: React.FC<AddressProps & {
                   styles.title
                 )}
               >
-                <span className={cs({ [styles.closed]: isActive })}>
+                <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
                     ? "SHIPPING DETAILS"
                     : "BILLING DETAILS"}
@@ -815,7 +832,7 @@ const AddressSection: React.FC<AddressProps & {
                   styles.title
                 )}
               >
-                <span className={cs({ [styles.closed]: isActive })}>
+                <span className={cs({ [styles.closed]: !isActive })}>
                   {activeStep == Steps.STEP_SHIPPING
                     ? "SHIPPING DETAILS"
                     : "BILLING DETAILS"}
@@ -864,7 +881,7 @@ const AddressSection: React.FC<AddressProps & {
                 //                       sameAsShipping={sameAsShipping}
                 //                       user={props.user}
                 //                       selectedAddress={props.selectedAddress}/>
-                !props.hidesameShipping && !isLoggedIn ? (
+                !props.hidesameShipping ? (
                   <div>{children}</div>
                 ) : (
                   // <AddressMainComponent dispatch={props.dispatch} onSuccess={onSubmitAddress}
@@ -961,7 +978,15 @@ const AddressSection: React.FC<AddressProps & {
 
     return html;
   };
-  return renderCheckoutAddress();
+  return (
+    <CheckoutAddressContext.Provider
+      value={{
+        onSelectAddress: onSelectAddress
+      }}
+    >
+      {renderCheckoutAddress()}
+    </CheckoutAddressContext.Provider>
+  );
 };
 
 export default AddressSection;

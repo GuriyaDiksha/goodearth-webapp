@@ -17,6 +17,8 @@ import AddressService from "services/address";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
+import * as valid from "utils/validate";
+import { refreshPage } from "actions/user";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -51,6 +53,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         dispatch(updateAddressList(addressList));
       });
       return data;
+    },
+    refreshPage: () => {
+      dispatch(refreshPage(undefined));
     }
   };
 };
@@ -78,8 +83,6 @@ type State = {
   unpublish: boolean;
   isLoading: boolean;
   id: string;
-  shippingErrorMsg: string;
-  billingErrorMsg: string;
   addressIdError: string;
   isGoodearthShipping: boolean;
 };
@@ -108,8 +111,6 @@ class Checkout extends React.Component<Props, State> {
       unpublish: false,
       isLoading: false,
       id: "",
-      shippingErrorMsg: "",
-      billingErrorMsg: "",
       addressIdError: "",
       isGoodearthShipping: false
     };
@@ -124,9 +125,9 @@ class Checkout extends React.Component<Props, State> {
     return this.state.activeStep == step;
   }
 
-  nextStep(step: string) {
+  nextStep = (step: string) => {
     this.setState({ activeStep: step });
-  }
+  };
 
   appendObjectToFormData(data: any, obj: AddressData, rootKey: any) {
     for (let key in obj) {
@@ -208,11 +209,11 @@ class Checkout extends React.Component<Props, State> {
     }, 500);
   }
 
-  finalizeAddress(
+  finalizeAddress = (
     address: AddressData | null,
     activeStep: string,
     obj: { gstNo?: string; panPassportNo: string; gstType?: string }
-  ) {
+  ) => {
     // let paths = window.location.href.split("/");
     // let path = paths[0] + "//" + paths[2] + "/myapi/countries/";
     // let msg;
@@ -242,14 +243,15 @@ class Checkout extends React.Component<Props, State> {
           });
           if (data.pageReload) {
             window.location.reload();
+            this.props.refreshPage();
           }
         })
         .catch(err => {
-          console.log(err.response.data);
-          this.setState({ shippingError: err.response.data });
+          // console.log(err.response.data);
+          this.setState({ shippingError: valid.showErrors(err.response.data) });
           this.showErrorMsg();
         });
-    } else if (address) {
+    } else {
       let data: specifyBillingAddressData;
       const billingAddress = address ? address : this.state.shippingAddress;
       if (billingAddress) {
@@ -271,7 +273,7 @@ class Checkout extends React.Component<Props, State> {
           .specifyBillingAddress(data)
           .then(data => {
             this.setState({
-              billingAddress: address,
+              billingAddress: billingAddress,
               activeStep:
                 localStorage.getItem("validBo") ||
                 localStorage.getItem("isSale")
@@ -284,13 +286,15 @@ class Checkout extends React.Component<Props, State> {
             });
           })
           .catch(err => {
-            console.log(err.response.data);
-            this.setState({ billingError: err.response.data });
+            // console.log(err.response.data);
+            this.setState({
+              billingError: valid.showErrors(err.response.data)
+            });
             this.showErrorMsg();
           });
       }
     }
-  }
+  };
 
   render() {
     return (
@@ -334,7 +338,7 @@ class Checkout extends React.Component<Props, State> {
                 next={this.nextStep}
                 finalizeAddress={this.finalizeAddress}
                 hidesameShipping={true}
-                activeStep={Steps.STEP_SHIPPING}
+                activeStep={Steps.STEP_BILLING}
                 // items={this.props.basket}
                 // bridalId={this.props.bridalId}
                 bridalId=""
@@ -342,7 +346,7 @@ class Checkout extends React.Component<Props, State> {
                 addressType={Steps.STEP_SHIPPING}
                 addresses={this.props.addresses}
                 // user={this.props.user}
-                error={this.state.shippingError}
+                error={this.state.billingError}
               />
             </div>
           </div>
@@ -352,4 +356,4 @@ class Checkout extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps)(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
