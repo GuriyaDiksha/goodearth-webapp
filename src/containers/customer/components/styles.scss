@@ -5,41 +5,57 @@
 
 .terms {
   padding-bottom: 80px;
+ 
 h3 {
-  font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+  @include c22-A-I();
     letter-spacing: .5px;
     line-height: 32px;
     padding: 30px 0 15px 0;
     text-transform: capitalize;
+     
 }
 h5 {
-  font-size: 12px;
-    font-family: $font-Lato;
-    color: tint(#000, .5);
-    letter-spacing: 1px;
-    line-height: 30px;
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0;
+  @include c10-L-R();
+  line-height: 30px;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  span {
+    text-transform: none;
+  }
 }
 p {
-  font-size: 12px;
-  font-family: $font-Lato;
-    color: tint(#000, .5);
-    letter-spacing: 1px;
+  @include c10-L-R();
+     
     line-height: 20px;
     letter-spacing: .5px;
+    span {
+      font-weight: bold;
+    }
+    a {
+      color: $cerise;
+    }
 }
 ul {
+  padding: 5px 0;
   li {
-    font-size: 12px;
-    font-family: "LatoFont","Helvetica","Arial";
-    color: #666;
-    letter-spacing: 1px;
+    @include c10-L-R();
     list-style-type: disc;
     line-height: 20px;
     letter-spacing: .5px;
+    span {
+      font-weight: bold;
+    }
+    a {
+      color: $cerise;
+    }
+  }
+}
+ol {
+  li {
+    a {
+      color: $cerise;
+    }
   }
 }
 }
