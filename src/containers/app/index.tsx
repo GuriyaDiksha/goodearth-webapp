@@ -1,10 +1,11 @@
 import React, { memo } from "react";
 import { connect } from "react-redux";
-import loadable from "@loadable/component";
 import { AppState } from "reducers/typings";
 // context
 import WishlistContext from "contexts/wishlist";
 import UserContext from "contexts/user";
+// components
+import Base from "containers/base";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -12,8 +13,6 @@ const mapStateToProps = (state: AppState) => {
     user: state.user
   };
 };
-
-const LoadableComponent = loadable(() => import("containers/base"));
 
 type Props = ReturnType<typeof mapStateToProps>;
 
@@ -23,7 +22,7 @@ const App: React.FC<Props> = memo(({ wishlist, user }) => {
   return (
     <UserContext.Provider value={user}>
       <WishlistContext.Provider value={wishlistItems}>
-        <LoadableComponent />
+        <Base />
       </WishlistContext.Provider>
     </UserContext.Provider>
   );

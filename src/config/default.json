@@ -1,3 +1,5 @@
 {
-    "domain": "https://www.goodearth.in"
+    "domain": "https://www.goodearth.in",
+    "manifestVersion": 3,
+    "publicPath": "/static/"
 }

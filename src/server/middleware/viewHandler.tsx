@@ -15,6 +15,7 @@ import MetaService from "services/meta";
 import App from "containers/app";
 import { cssChunks } from "../staticAssets/cssChunks";
 import { LinkTag, Chunks } from "../typings";
+import config from "../../config";
 
 const statsFile = path.resolve("dist/static/loadable-stats.json");
 
@@ -91,7 +92,8 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       scripts: scriptTags,
       styles: styleSheets,
       styleSheets: linkTags,
-      head: meta
+      head: meta,
+      manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });
   }
 };
