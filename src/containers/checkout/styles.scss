@@ -1,5 +1,6 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
+@import "../../styles/partials/form";
 
 .header-container {
     top: $header-top;
@@ -315,7 +316,7 @@
     }
   }
   div {
-    position: relative;
+    // position: relative;
     &.country-code {
       display: flex;
       > div {
@@ -356,6 +357,28 @@
   &.text-style {
     text-transform: capitalize;
   }
+}
+
+.small {
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.5px;
+  font-family: $font-Lato;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.cross-center,
+.v-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
 }
 
 .input-container {
@@ -413,6 +436,236 @@
 
 .checkbox input:checked ~ .indicator::after {
   display: block;
+}
+
+@media (max-width: 992px) {
+  .margin-b-40 {
+    margin-bottom: 40px;
+  }
+  .checkout {
+    .order-summary {
+      min-height: 0px;
+    }
+    .card {
+      margin-left: 5px;
+      margin-right: 5px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .card-sm {
+      margin-top: 5px;
+      padding: 20px 0;
+    }
+
+    .selected-stvalue {
+      margin-top: 10px;
+      color: #808080;
+    }
+
+    .payment {
+      input[type="text"].input {
+        width: 100%;
+        text-align: left;
+      }
+      input[type="text"].input2 {
+        width: 100%;
+        text-align: left;
+      }
+    }
+    .login-container {
+      .section {
+        border: none;
+        padding: 0;
+      }
+    }
+  }
+
+}
+
+.payment {
+  .gift-card {
+    .text-error {
+      text-transform: none;
+    }
+    .margin-rt {
+      margin: 2px 10px 0 0;
+    }
+    .form {
+      margin-top: 30px;
+    }
+
+    .remove {
+      cursor: pointer;
+      display: inline-block;
+      font-size: 9px;
+      font-weight: bold;
+    }
+  }
+
+  .gift-message {
+    border: 0;
+    padding: 20px;
+    max-width: 100%;
+    background-color: #f9f8f5;
+  }
+
+  .input-container {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+  }
+
+  input[type="text"].input {
+    width: 50%;
+    text-align: left;
+  }
+  input[type="text"].input2 {
+    width: 60%;
+    text-align: left;
+  }
+}
+
+.radio-list {
+
+  .container {
+    width: 80px;
+  display: inline-block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15px;
+  width: 15px;
+  border: 1px solid #888;
+  border-radius: 50%;
+}
+
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+  .txt-gst {
+    position: absolute;
+    left: 22px;
+    top: 0;
+  }
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 3px;
+    left: 3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #000;
+}
+
+
+  [type="radio"]:not(:checked) {
+    position: relative;
+    left: auto;
+  }
+
+  [type="radio"]:checked {
+    position: relative;
+    left: auto;
+  }
+}
+
+.form {
+  position: relative;
+  .form-label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-weight: 100;
+    font-size: 10px;
+    color: tint(#000, 60%);
+    letter-spacing: 0.5px;
+    background-color: #fff;
+    padding: 3px;
+  }
+  .country-code {
+    > :first-child {
+      input[type="text"] {
+        border-right: 0;
+      }
+    }
+  }
+  div {
+    .country-code {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+    }
+    .country-code-cc {
+      display: flex;
+    }
+    .address-form-checkbox {
+      height: 2px;
+        div label {
+          left: 0px;
+          text-align: left;
+      }
+      div label div span span.indicator::after {
+        top: -6px;
+        position: absolute;
+      }
+    }
+  }
+  input[type="text"], input[type="password"],input[type="email"], input[type="date"], select, textarea {
+    background-color: #fff;
+    border: 1px solid #eee;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 25px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+
+    @include placeholder {
+      font-size:14px;
+      color: tint(#000,60%);
+      font-style: normal;
+      letter-spacing:1px;
+      font-family: $font-Lato;
+    }
+  }
+}
+
+.same-text {
+  padding-bottom: 20px;
+  padding-top: 30px;
 }
 
 input[type="radio"]:not(:checked), input[type="radio"]:checked, [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
