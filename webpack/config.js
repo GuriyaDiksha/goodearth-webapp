@@ -10,6 +10,7 @@ const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 const env = process.env.NODE_ENV || "development";
 
@@ -55,7 +56,8 @@ let config = [
             minimizer: [new TerserPlugin()],
             splitChunks: {
                 chunks: 'all',
-                automaticNameDelimiter: "-"
+                automaticNameDelimiter: "-",
+                minChunks: 3
             }
         },
         entry: {
@@ -79,10 +81,11 @@ let config = [
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
             }),
+            new ImageminPlugin(),
             new WorkboxPlugin.GenerateSW({
                 clientsClaim: true,
-                swDest: context + "/dist/service-worker.js",
-                additionalManifestEntries: ["/"],
+                swDest: context + "/dist/sw.js",
+                // additionalManifestEntries: ["/"],
                 runtimeCaching: [{
                     urlPattern: /^$/,
                     handler: 'NetworkFirst',
@@ -259,6 +262,7 @@ let config = [
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`,
             }),
+            new ImageminPlugin(),
             new CopyWebpackPlugin([{
                 from: path.join(__dirname, '..', 'src/server/templates'),
                 to: path.join(__dirname, '..', 'dist/static/server/templates')
@@ -348,4 +352,4 @@ let config = [
     }
 ]
 
-module.exports = config
+module.exports = process.env.APP === "client" ? config[0]: (process.env.APP === "server" ? config[1]: config);
