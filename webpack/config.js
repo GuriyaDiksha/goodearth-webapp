@@ -10,7 +10,7 @@ const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const env = process.env.NODE_ENV || "development";
 
@@ -81,7 +81,7 @@ let config = [
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
             }),
-            new ImageminPlugin(),
+            env === "development" ? new BundleAnalyzerPlugin() : () => {},
             new WorkboxPlugin.GenerateSW({
                 clientsClaim: true,
                 swDest: context + "/dist/sw.js",
@@ -262,7 +262,6 @@ let config = [
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`,
             }),
-            new ImageminPlugin(),
             new CopyWebpackPlugin([{
                 from: path.join(__dirname, '..', 'src/server/templates'),
                 to: path.join(__dirname, '..', 'dist/static/server/templates')
