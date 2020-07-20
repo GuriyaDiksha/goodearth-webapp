@@ -17,7 +17,7 @@ import AddressMain from "components/Address/AddressMain";
 import { AppState } from "reducers/typings";
 
 type Props = {
-  isbridal: boolean;
+  isBridal: boolean;
   mobile: boolean;
   updateCeriseClubAccess: () => void;
 };

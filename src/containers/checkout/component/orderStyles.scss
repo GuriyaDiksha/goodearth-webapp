@@ -1,0 +1,216 @@
+@import "../../../styles/partials/variables";
+@import "../../../styles/partials/mixins";
+
+@media (min-width: 992px) {
+    .fix-ordersummary {
+      position: sticky;
+      position: -webkit-sticky;
+      top: 30px;
+    }
+    .order-summary {
+      min-height: calc(100vh - 55px);
+    }
+    .order-items {
+      background-color: #fefefd;
+      padding: 0 10px;
+      margin-bottom: 10px;
+    }
+  }
+  
+  @media (max-width: 991px) {
+    .checkout {
+      padding-bottom: 180px;
+    }
+    .fix-order-items-mobile {
+      // overflow: scroll;
+    }
+    .summary-title {
+      margin-bottom: 15px;
+    }
+  
+    .order-summary {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-height: 77vh;
+      position: fixed;
+      padding-bottom: 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      background-color: tint(#000, 90%);
+      z-index: 1;
+      .justchk {
+        overflow: scroll;
+      }
+  
+      hr {
+        margin: 10px 0 !important;
+      }
+      h3 {
+        line-height: 30px;
+      }
+      .promo-message {
+        display: block;
+      }
+  
+      .subtotal {
+        font-size: 14px;
+      }
+  
+      .btn-arrow {
+        top: -15px;
+        left: 50%;
+        cursor: pointer;
+        font-size: 10px;
+        position: absolute;
+        border-radius: 20px;
+        background-color: #fff;
+        border: 2px solid tint(#000, 90%);
+        padding: 7px 11px 8px 9px;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        display: inline-block !important;
+      }
+  
+      .total {
+        margin-bottom: 10px;
+      }
+  
+      .order-items {
+        overflow-y: auto;
+      }
+  
+      .summary-footer {
+        margin-top: 15px;
+      }
+    }
+  }
+
+.order-summary {
+    padding: 25px 0;
+    background-color: #f9f8f5;
+    
+  
+    a {
+      color: inherit;
+    }
+  
+    .remove {
+      cursor: pointer;
+      display: inline-block;
+      font-size: 9px;
+      font-weight: bold;
+    }
+  
+    .summary-padding {
+      padding: 0 40px;
+    }
+    .fix-order-items {
+      max-height: 220px;
+      overflow-y: scroll;
+      @include bottom-shadow();
+    }
+  
+    .summary-title {
+      color: tint(#000, 40%);
+      font-size: 15px;
+      letter-spacing: 1px;
+      font-family: $font-Lato;
+    }
+  
+    .edit-cart {
+      float:right;
+      color: $cerise;
+      cursor: pointer;
+    }
+  
+    .collection-name {
+      @include plp_coll_name_desktop();
+    }
+  
+    .product-name {
+      flex: 2;
+      @include plp_prod_name_desktop();
+    }
+    .product-price {
+      @include plp_prod_name_desktop();
+      text-align: right;
+      font-family: "AmiriFont", "Baskerville", "Garamond";
+    }
+  
+    .product-qty,
+    .product-size,
+    .text-coupon {
+      .bold {
+        font-weight: bold;
+      }
+      @include c10-L-R();
+      a {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  
+    .subtotal {
+      color: #000;
+      font-size: 14px;
+      font-weight: 900;
+    }
+  
+    .grand-total {
+      font-size: 18px;
+      font-weight: 900;
+    }
+}
+
+.selected-stvalue {
+  margin-top: 10px;
+  color: #808080;
+}
+.small {
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.5px;
+  font-family: $font-Lato;
+}
+.strikeprice {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: tint(#000, 50%) !important;
+  font-family: $font-Amiri;
+}
+
+.discountprice {
+  color: $cerise;
+  font-family: $font-Amiri;
+  font-size: 16px;
+}
+.product-size {
+  @include pdp_spec();
+  line-height: 25px;
+  justify-content: center;
+  padding-right: 10px;
+}
+.padd {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 12px;
+  font-family: "LatoFont","Helvetica","Arial";
+  color: #666;
+  letter-spacing: 1px;
+}
+
+.hr {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}

@@ -14,6 +14,7 @@ import { Basket } from "typings/basket";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
+import { Link } from "react-router-dom";
 
 interface State {
   showc: boolean;
@@ -199,13 +200,29 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconWishlist,
-                  styles.iconStyle
+              <div className={styles.iconStyle}>
+                {isLoggedIn ? (
+                  <Link to="/wishlist">
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconWishlist,
+                        styles.iconStyle
+                      )}
+                    ></i>
+                  </Link>
+                ) : (
+                  <div onClick={this.props.goLogin}>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconWishlist,
+                        styles.iconStyle
+                      )}
+                    ></i>
+                  </div>
                 )}
-              ></i>
+              </div>
               <span className={styles.badge}>
                 {wishlistCount > 0 ? wishlistCount : ""}
               </span>

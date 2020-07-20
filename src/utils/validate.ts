@@ -1,3 +1,6 @@
+import { Currency } from "typings/currency";
+import { Basket } from "typings/basket";
+
 export function checkMail(email: any) {
   // original regex with escape characters "\["
   // /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -90,4 +93,26 @@ export function copyTextToClipboard(text: string) {
   }
   document.body.removeChild(textArea);
   return false;
+}
+
+export function productForGa(data: Basket, currency: Currency) {
+  let product: any = [];
+  if (data.products) {
+    product = data.products.map((prod: any) => {
+      return Object.assign(
+        {},
+        {
+          name: prod.product.title,
+          id: prod.product.sku,
+          list: "CHECKOUT",
+          price: prod.product.pricerecords[currency],
+          brand: "Goodearth",
+          quantity: prod.quantity,
+          variant: null
+        }
+      );
+    });
+  }
+
+  return product;
 }
