@@ -5,6 +5,7 @@ import { CartProps, State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
+import { NavLink } from "react-router-dom";
 
 export default class Bag extends React.Component<CartProps, State> {
   constructor(props: CartProps) {
@@ -114,13 +115,15 @@ export default class Bag extends React.Component<CartProps, State> {
                 <span className={styles.viewBag}>VIEW SHOPPING BAG</span>
               </div>
             </div>
-            <button
-              className={cs(globalStyles.ceriseBtn, {
-                [globalStyles.disabled]: !this.canCheckout()
-              })}
-            >
-              PROCEED TO CHECKOUT
-            </button>
+            <NavLink key="checkout" to="/order/checkout">
+              <button
+                className={cs(globalStyles.ceriseBtn, {
+                  [globalStyles.disabled]: !this.canCheckout()
+                })}
+              >
+                PROCEED TO CHECKOUT
+              </button>
+            </NavLink>
           </div>
         </div>
       );

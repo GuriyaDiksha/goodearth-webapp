@@ -1,4 +1,4 @@
-import { Country } from "components/signin/CountryCode/typings";
+import { Country } from "components/Formsy/CountryCode/typings";
 
 export type checkUserPasswordResponse = {
   resStatus: boolean;

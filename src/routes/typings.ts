@@ -6,9 +6,18 @@ export enum ROUTES {
   CollectionSpecific = "/collection/:slug",
   PDP = "/catalogue/:slug",
   PLP = "/catalogue/category/",
+  CATEGORY = "/category_landing/:slug",
   FB = "/account/facebook/login/?next=/",
   GOOGLE = "/account/google/login/?next=/",
-  SEARCH = "/search"
+  SEARCH = "/search",
+  ACCOUNT = "/account",
+  CAREER = "/careers",
+  WISHLIST = "/wishlist",
+  GIFTCARD = "/giftcard",
+  ResetPassword = "/password-reset/confirm/:uid/:token",
+  STATIC = "/customer-assistance/",
+  CHECKOUT = "/order/checkout/",
+  SHOP = "/Cafe-Shop/:city/:shopname?"
 }
 
 export type RouteConfig = RouteObject[];

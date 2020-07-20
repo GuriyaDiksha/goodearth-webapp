@@ -1,3 +1,17 @@
+.full-load-wrap {
+  height: 100% !important;
+  width: 100% !important;
+  position: absolute;
+  top:0;
+  img, span {
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    z-index: 1000000;
+  }
+}
+
 .cssload-container {
     display: block;
     width:97px;

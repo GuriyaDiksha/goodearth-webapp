@@ -5,6 +5,7 @@ import { ShopLocatorProps } from "./typings";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import useOutsideDetection from "../../hooks/useOutsideDetetion";
 import iconStyles from "../../styles/iconFonts.scss";
+import { useHistory } from "react-router-dom";
 
 export const ShopLocator: React.FC<ShopLocatorProps> = ({
   goToShopLocator,
@@ -14,11 +15,17 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   shopLocations
 }) => {
   const [menuOpen, setOpenState] = useState(dropdown || false);
-  // const [setOpenState] = useState(dropdown || false);
+  const history = useHistory();
   // false && setOpenState(false);
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
+  };
+
+  const redirectToShop = (e: React.MouseEvent, data: any) => {
+    if (data.label) {
+      history.push("/Cafe-Shop/" + data.label);
+    }
   };
 
   const onOutsideClick = (event: MouseEvent) => {
@@ -71,7 +78,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             {shopLocations.map(
               (data: { label: string; value: string }, index: number) => {
                 return (
-                  <li key={index} onClick={e => goToShopLocator(e, data)}>
+                  <li key={index} onClick={e => redirectToShop(e, data)}>
                     <a>{data.label}</a>
                   </li>
                 );

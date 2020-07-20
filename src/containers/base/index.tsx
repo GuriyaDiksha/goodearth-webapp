@@ -4,16 +4,32 @@ import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
 import Modal from "components/Modal";
+import { AppState } from "reducers/typings";
+import { connect } from "react-redux";
+import CheckoutHeader from "containers/checkout/checkoutHeader";
+const mapStateToProps = (state: AppState) => {
+  return {
+    refresh: state.user.refresh,
+    location: state.router.location
+  };
+};
+type props = ReturnType<typeof mapStateToProps>;
 
-export default class BaseLayout extends React.Component {
+class BaseLayout extends React.Component<props, {}> {
   render() {
+    const {
+      location: { pathname }
+    } = this.props;
+    const isCheckout = pathname.indexOf("checkout") > -1;
     return (
       <div>
-        <Header />
+        {isCheckout ? <CheckoutHeader /> : <Header />}
         <Switch>{routes}</Switch>
-        <Footer />
+        {isCheckout ? "" : <Footer />}
         <Modal />
       </div>
     );
   }
 }
+
+export default connect(mapStateToProps)(BaseLayout);

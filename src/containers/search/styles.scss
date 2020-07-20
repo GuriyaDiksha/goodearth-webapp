@@ -42,7 +42,11 @@
 
 .page-body{
   margin-top: $main-header;
+  .sub-header {
+    height: 60px;
+  }
 }
+
 @media screen and (max-width: 992px) {
   .page-body{
     margin-top: $header-height;
@@ -52,7 +56,7 @@
 .inner-header {
     display: -webkit-inline-box;
     margin-left: 8%;
-    margin-top: 3px;
+    margin-top: 14px;
 }
 
 .subc-header{
@@ -611,12 +615,13 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     line-height: 40px;
     font-size: 20px;
     text-align: start;
+    margin-top: 10px;
   }
   .icon-searchbar {
     font-size: 30px;
     color: $cerise;
     position: absolute;
-    top: 15%;
+    top: 30%;
     right: 3%;
   }
 }

@@ -365,7 +365,7 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            {sizeChartHtml && (
+            {sizeChartHtml && !isQuickview && (
               <div
                 className={cs(bootstrap.colSm4, styles.label, {
                   [globalStyles.textCenter]: !mobile
@@ -455,7 +455,13 @@ const ProductDetails: React.FC<Props> = ({
           >
             {button}
             {isQuickview ? (
-              <Link to={url} className={styles.moreDetails}>
+              <Link
+                to={url}
+                className={styles.moreDetails}
+                onClick={() => {
+                  changeModalState(false);
+                }}
+              >
                 view more details
               </Link>
             ) : (

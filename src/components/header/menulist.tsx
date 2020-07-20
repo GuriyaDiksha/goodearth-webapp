@@ -61,7 +61,7 @@ class MenuList extends React.Component<MenuListProps> {
     }
     if (leftMenu.length > 0) {
       html.push(
-        <ul className={bootstrap.colMd2}>
+        <ul className={bootstrap.colMd2} key={"left-menu"}>
           {leftMenu.map((column, j) => {
             const spanClass =
               column.name.toLowerCase().indexOf("sale") > -1
@@ -108,7 +108,7 @@ class MenuList extends React.Component<MenuListProps> {
         </ul>
       );
     } else {
-      html.push(<ul className={bootstrap.colMd2}></ul>);
+      html.push(<ul className={bootstrap.colMd2} key="no-left-menu"></ul>);
     }
     headerData.map((data, i) => {
       html.push(
@@ -186,6 +186,7 @@ class MenuList extends React.Component<MenuListProps> {
               bootstrap.colMd2,
               styles.imgHeader
             )}
+            key="big-image"
           >
             <li>
               <div>

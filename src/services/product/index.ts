@@ -13,10 +13,7 @@ export default {
   fetchProductDetails: async (
     id: ProductID
   ): Promise<Product<PartialProductItem>> => {
-    const res = await Axios.get(
-      `http://api.goodearth.in/myapi/product/${id}`,
-      {}
-    );
+    const res = await Axios.get(`${__API_HOST__ + `/myapi/product/` + id}`, {});
     const data: Product<PartialProductItem> = { ...res.data, partial: false };
     return data;
   },
@@ -24,7 +21,9 @@ export default {
     id: ProductID
   ): Promise<CollectionProductItem[]> => {
     const res = await Axios.get(
-      `http://api.goodearth.in/myapi/collection/more_from_collection/products/${id}`,
+      `${__API_HOST__ +
+        `/myapi/collection/more_from_collection/products/` +
+        id}`,
       {}
     );
 
@@ -41,11 +40,10 @@ export default {
       const res = await API.post<{
         successful: boolean;
         message: string;
-      }>(dispatch, "http://api.goodearth.in/myapi/promotions/notify_me/", {
+      }>(dispatch, `${__API_HOST__ + `/myapi/promotions/notify_me/`}`, {
         productId,
         email
       });
-
       successful = true;
       message = res.message;
     } catch (e) {
@@ -78,18 +76,14 @@ export default {
         data: {
           [x in Fields]: string[];
         };
-      }>(
-        dispatch,
-        "http://api.goodearth.in/myapi/promotions/corporate_enquiry/",
-        {
-          productId: params.productId,
-          name: params.name,
-          email: params.email,
-          query: params.query,
-          contactNo: params.contactNo,
-          qty: params.quantity
-        }
-      );
+      }>(dispatch, `${__API_HOST__ + `/myapi/promotions/corporate_enquiry/`}`, {
+        productId: params.productId,
+        name: params.name,
+        email: params.email,
+        query: params.query,
+        contactNo: params.contactNo,
+        qty: params.quantity
+      });
 
       successful = true;
     } catch (e) {

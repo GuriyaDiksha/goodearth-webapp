@@ -9,4 +9,5 @@ export type User = {
   bridal: boolean;
   gender?: "male" | "female";
   isLoggedIn: boolean;
+  refresh: string;
 };

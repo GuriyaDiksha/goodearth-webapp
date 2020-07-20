@@ -15,6 +15,8 @@ import MetaService from "services/meta";
 import App from "containers/app";
 import { cssChunks } from "../staticAssets/cssChunks";
 import { LinkTag, Chunks } from "../typings";
+import config from "../../config";
+import { getPushHeader } from "../utils/response";
 
 const statsFile = path.resolve("dist/static/loadable-stats.json");
 
@@ -85,13 +87,27 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       });
     });
 
+    const scriptElements = extractor.getScriptElements();
+
+    const pushHeaders: string[] = [];
+    scriptElements.forEach((element: any) => {
+      if (element.props.src) {
+        pushHeaders.push(getPushHeader(element.props.src, "script"));
+      }
+    });
+
+    if (ctx.request.query.opt === "1") {
+      ctx.set("Link", pushHeaders.join(", "));
+    }
+
     await ctx.render("index", {
       state: JSON.stringify(store.getState()),
       content: html,
       scripts: scriptTags,
       styles: styleSheets,
       styleSheets: linkTags,
-      head: meta
+      head: meta,
+      manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });
   }
 };

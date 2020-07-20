@@ -14,6 +14,7 @@ import { Basket } from "typings/basket";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
+import { Link } from "react-router-dom";
 
 interface State {
   showc: boolean;
@@ -78,12 +79,12 @@ class SideMenu extends React.Component<Props, State> {
       profileItems.push(
         {
           label: "My Profile",
-          href: "/accountpage?mod=profile",
+          href: "/account/profile",
           type: "link"
         },
         {
           label: "My Orders",
-          href: "/accountpage?mod=orders",
+          href: "/account/orders",
           type: "link"
         }
       );
@@ -113,7 +114,7 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Check Balance",
-        href: "/about",
+        href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
       },
@@ -141,10 +142,11 @@ class SideMenu extends React.Component<Props, State> {
     for (let i = 0; i < item.length; i++) {
       bagCount = bagCount + item[i].quantity;
     }
+    const { mobile } = this.props;
     return (
       <Fragment>
         <ul className={styles.sideMenuContainer}>
-          {this.props.mobile ? (
+          {mobile ? (
             ""
           ) : (
             <li
@@ -163,7 +165,7 @@ class SideMenu extends React.Component<Props, State> {
               ></SelectableDropdownMenu>
             </li>
           )}
-          {this.props.mobile ? (
+          {mobile ? (
             ""
           ) : (
             <li
@@ -188,7 +190,7 @@ class SideMenu extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          {this.props.mobile ? (
+          {mobile ? (
             ""
           ) : (
             <li
@@ -198,19 +200,39 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconWishlist,
-                  styles.iconStyle
+              <div className={styles.iconStyle}>
+                {isLoggedIn ? (
+                  <Link to="/wishlist">
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconWishlist,
+                        styles.iconStyle
+                      )}
+                    ></i>
+                  </Link>
+                ) : (
+                  <div onClick={this.props.goLogin}>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconWishlist,
+                        styles.iconStyle
+                      )}
+                    ></i>
+                  </div>
                 )}
-              ></i>
+              </div>
               <span className={styles.badge}>
                 {wishlistCount > 0 ? wishlistCount : ""}
               </span>
             </li>
           )}
-          <li className={cs(styles.sideMenuItem)}>
+          <li
+            className={cs(styles.sideMenuItem, {
+              [styles.sideMenuItemMobile]: mobile
+            })}
+          >
             <i
               className={cs(
                 iconStyles.icon,
@@ -237,7 +259,7 @@ class SideMenu extends React.Component<Props, State> {
           </li>
         </ul>
         <ul>
-          {this.props.mobile ? (
+          {mobile ? (
             <li className={cs(styles.firstMenu)}>
               <p className={styles.searchText}>
                 <i

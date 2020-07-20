@@ -1,6 +1,11 @@
 import { Dispatch } from "redux";
 
-import { updateFacets, updateFilterData, updateFilterState } from "actions/plp";
+import {
+  updateFacets,
+  updateFilterData,
+  updateFilterState,
+  updateOnload
+} from "actions/plp";
 import PlpService from "services/plp";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
@@ -25,6 +30,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     fetchPlpProducts: async (filterUrl: string) => {
       const data = await PlpService.fetchPlpProducts(dispatch, filterUrl);
       return data;
+    },
+    updateOnload: (data: boolean) => {
+      dispatch(updateOnload(data));
     }
   };
 };

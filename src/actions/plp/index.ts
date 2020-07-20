@@ -20,3 +20,6 @@ export const updateFilterState = (data: boolean) =>
 
 export const updateFilterData = (data: string) =>
   actionCreator("UPDATE_FILTER_DATA", data);
+
+export const updateOnload = (data: boolean) =>
+  actionCreator("UPDATE_ONLOAD", data);

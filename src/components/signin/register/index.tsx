@@ -11,14 +11,15 @@ import hide from "../../../images/hide.svg";
 import { Context } from "components/Modal/context.ts";
 import moment from "moment";
 import Formsy from "formsy-react";
-import FormInput from "../FormInput";
-import FormSelect from "../FormSelect";
-import FormCheckbox from "../FormCheckbox";
+import FormInput from "../../Formsy/FormInput";
+import FormSelect from "../../Formsy/FormSelect";
+import FormCheckbox from "../../Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
-import CountryCode from "../CountryCode";
+import CountryCode from "../../Formsy/CountryCode";
 import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
+import { checkMail } from "utils/validate";
 
 const mapStateToProps = () => {
   return {};
@@ -63,10 +64,13 @@ class RegisterForm extends React.Component<Props, registerState> {
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
     if (email && this.emailInput.current) {
-      this.emailInput.current.value = email;
+      this.RegisterFormRef.current &&
+        this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+      // this.emailInput.current.value = email;
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
+    this.props.fetchCountryData();
   }
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -93,7 +97,10 @@ class RegisterForm extends React.Component<Props, registerState> {
     formData["dateOfBirth"] = dateOfBirth
       ? moment(dateOfBirth).format("YYYY-MM-DD")
       : null;
-    formData["phoneNo"] = code && phone ? code + " " + phone : phone;
+    if (code && phone) {
+      formData["phoneNo"] = phone;
+      formData["phoneCountryCode"] = code;
+    }
     formData["subscribe"] = terms;
     this.setState({
       disableButton: true
@@ -308,11 +315,15 @@ class RegisterForm extends React.Component<Props, registerState> {
   };
 
   verifyEmail = () => {
-    this.checkMailValidation().then((isValid: boolean) => {
-      if (!isValid) {
-        this.resetSection();
-      }
-    });
+    const { email } =
+      this.RegisterFormRef.current && this.RegisterFormRef.current.getModel();
+    email &&
+      checkMail(email) &&
+      this.checkMailValidation().then((isValid: boolean) => {
+        if (!isValid) {
+          this.resetSection();
+        }
+      });
   };
   onMailChange = (event: React.KeyboardEvent) => {
     if (event.key == "Enter") {
@@ -339,7 +350,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
-    const { goLogin, fetchCountryData } = this.props;
+    const { goLogin } = this.props;
     const formContent = (
       <Formsy
         ref={this.RegisterFormRef}
@@ -442,7 +453,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isValidDate: "Please enter valid date oof birth",
+                isValidDate: "Please enter valid date of birth",
                 isMinAllowedDate: "Please enter valid date of birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
@@ -450,7 +461,6 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.countryCode}>
             <CountryCode
-              fetchCountryData={fetchCountryData}
               name="code"
               placeholder="Code"
               label="Code"
@@ -530,6 +540,7 @@ class RegisterForm extends React.Component<Props, registerState> {
 
           <div className={styles.subscribe}>
             <FormCheckbox
+              value={false}
               inputRef={this.subscribeRef}
               id="subscribeemails"
               name="subscribe"
@@ -552,6 +563,7 @@ class RegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={styles.subscribe}>
             <FormCheckbox
+              value={false}
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}

@@ -12,9 +12,11 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterList from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
-import Breadcrumbs from "components/Breadcrumbs";
+import GiftcardItem from "components/plpResultItem/giftCard";
+import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Quickview from "components/Quickview";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -117,9 +119,10 @@ class PLP extends React.Component<
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
-                <Breadcrumbs
+                <PlpBreadcrumbs
                   levels={breadcrumb}
                   className={cs(bootstrap.colMd7)}
+                  isViewAll={false}
                 />
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
@@ -155,7 +158,7 @@ class PLP extends React.Component<
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
-              { [globalStyles.paddTop80]: !this.state.showmobileSort },
+              { [globalStyles.paddTop20]: !this.state.showmobileSort },
               { [globalStyles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
@@ -200,6 +203,12 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
+              {data.length == 0 ||
+              (this.child.state ? !this.child.state.flag : false) ? (
+                <Loader />
+              ) : (
+                ""
+              )}
               {data.map(item => {
                 return (
                   <div
@@ -221,6 +230,16 @@ class PLP extends React.Component<
                   </div>
                 );
               })}
+              <div
+                className={cs(
+                  bootstrap.colMd4,
+                  bootstrap.col6,
+                  styles.setWidth
+                )}
+                key={1}
+              >
+                <GiftcardItem />
+              </div>
             </div>
           </div>
         </div>

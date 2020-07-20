@@ -1,0 +1,43 @@
+/* common */
+
+.banner-slider {
+  padding: 0;
+}
+.banner-slider .slick-arrow {
+  
+    background: transparent;
+}
+
+
+.banner-slider  .slick-arrow.slick-prev {
+  left: 5px;
+}
+.banner-slider .slick-arrow.slick-next {
+  right: 5px;
+}
+
+.banner-slider .slick-slider .slick-arrow.slick-next:before, .banner-slider .slick-slider .slick-arrow.slick-prev:before{
+  display: none;
+}
+.banner-slider .slick-slider:hover .slick-arrow.slick-next::before {
+  display: block;
+  font-size: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 80px;
+  width: 50px;
+  right: 0;
+}
+.banner-slider .slick-slider:hover .slick-arrow.slick-prev:before {
+  display: block;
+  font-size: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 80px;
+  width: 50px;
+  left: 0;
+}
+
+
+.banner-slider.bannermobile-slider .slick-arrow {
+  top: 50%;
+}
+
