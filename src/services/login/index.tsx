@@ -1,8 +1,6 @@
 import React from "react";
+import loadable from "@loadable/component";
 import { Dispatch } from "redux";
-import ForgotPasswordForm from "components/signin/forgotPassword";
-import LoginForm from "components/signin/Login";
-import RegisterForm from "components/signin/register";
 import API from "utils/api";
 import {
   logoutResponse,
@@ -19,6 +17,12 @@ import { updateUser } from "actions/user";
 import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
+
+const LoginForm = loadable(() => import("components/signin/Login"));
+const RegisterForm = loadable(() => import("components/signin/register"));
+const ForgotPasswordForm = loadable(() =>
+  import("components/signin/forgotPassword")
+);
 
 export default {
   showForgotPassword: function(

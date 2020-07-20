@@ -9,12 +9,6 @@ import initActionSearch from "containers/search/initAction";
 import initActionCategory from "containers/categoryLanding/initAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
-
-import Career from "containers/career";
-import ResetPassword from "containers/resetPassword";
-import StaticPage from "containers/customer";
-import checkout from "containers/checkout";
-import ShopLocator from "containers/shopLocator";
 import initActionShop from "containers/shopLocator/initAction";
 
 const paths: string[] = [];
@@ -102,13 +96,13 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.CHECKOUT,
-    component: checkout,
+    component: loadable(() => import("containers/checkout")),
     action: async () => null,
     exact: true
   },
   {
     path: ROUTES.SHOP,
-    component: ShopLocator,
+    component: loadable(() => import("containers/shopLocator")),
     action: initActionShop,
     exact: false
   }

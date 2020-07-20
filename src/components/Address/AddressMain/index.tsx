@@ -15,7 +15,8 @@ import AddressService from "services/address";
 import LoginService from "services/login";
 import { updatePinCodeList, updateCountryData } from "actions/address";
 import Loader from "components/Loader";
-
+import AddressSection from "containers/checkout/component/address";
+import * as Steps from "../../../containers/checkout/constants";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -25,7 +26,6 @@ const AddressMain: React.FC<Props> = props => {
   // showAddresses: true,
   // newAddressMode: false,
   // editMode: false
-
   const [showDefaultAddressOnly] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { addressList } = useSelector((state: AppState) => state.address);
@@ -33,8 +33,6 @@ const AddressMain: React.FC<Props> = props => {
   const { pinCodeData } = useSelector((state: AppState) => state.address);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const dispatch = useDispatch();
-
-  // const currency = useSelector((state: AppState) => state.currency);
 
   const fetchCountryData = async () => {
     const countryData = await LoginService.fetchCountryData(dispatch);
@@ -50,6 +48,9 @@ const AddressMain: React.FC<Props> = props => {
   }, []);
   const [mode, setMode] = useState<AddressModes>("list");
 
+  // useEffect(() => {
+  //   (addressList.length) && openAddressForm()
+  // },[props.addresses])
   // const [ editAddresaData, setEditAddressData ] = useState(null);
 
   // manageAddress(data, index) {
@@ -179,21 +180,7 @@ const AddressMain: React.FC<Props> = props => {
   );
   const { currentCallBackComponent } = props;
   const addressContent = (
-    <AddressContext.Provider
-      value={{
-        setMode: setMode,
-        mode: mode,
-        // editAddressData: editAddressData,
-        setEditAddressData: setEditAddressData,
-        currentCallBackComponent: "account",
-        checkPinCode: checkPinCode,
-        isAddressValid: isAddressValid,
-        openAddressForm: openAddressForm,
-        closeAddressForm: closeAddressForm,
-        markAsDefault: markAsDefault,
-        setIsLoading: setIsLoading
-      }}
-    >
+    <>
       {mode == "list" && (
         <div>
           <AddressList
@@ -202,10 +189,10 @@ const AddressMain: React.FC<Props> = props => {
             deleteAddress={id => null}
             selectAddress={address => null}
             isValidAddress={() => null}
-            currentCallBackComponent="account"
+            currentCallBackComponent={currentCallBackComponent}
           />
 
-          {!showDefaultAddressOnly && (
+          {!showDefaultAddressOnly && currentCallBackComponent == "account" && (
             <div className={globalStyles.voffset4}>
               <ul>
                 <li>
@@ -224,7 +211,7 @@ const AddressMain: React.FC<Props> = props => {
       {mode == "new" && (
         <AddressForm
           // addressData={null}
-          currentCallBackComponent="account"
+          currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
         ></AddressForm>
@@ -232,20 +219,138 @@ const AddressMain: React.FC<Props> = props => {
       {mode == "edit" && (
         <AddressForm
           addressData={editAddressData}
-          currentCallBackComponent="account"
+          currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
         ></AddressForm>
       )}
       {isLoading && <Loader />}
-    </AddressContext.Provider>
+    </>
   );
 
   switch (currentCallBackComponent) {
     case "account":
-      return <MyAddress mode={mode}>{addressContent}</MyAddress>;
+      return (
+        <AddressContext.Provider
+          value={{
+            setMode: setMode,
+            mode: mode,
+            activeStep: props.activeStep || "",
+            // editAddressData: editAddressData,
+            setEditAddressData: setEditAddressData,
+            currentCallBackComponent: currentCallBackComponent,
+            checkPinCode: checkPinCode,
+            isAddressValid: isAddressValid,
+            openAddressForm: openAddressForm,
+            closeAddressForm: closeAddressForm,
+            markAsDefault: markAsDefault,
+            setIsLoading: setIsLoading
+          }}
+        >
+          <MyAddress mode={mode}>{addressContent}</MyAddress>
+        </AddressContext.Provider>
+      );
+    case "checkout-shipping":
+      return (
+        <AddressContext.Provider
+          value={{
+            setMode: setMode,
+            mode: mode,
+            activeStep: props.activeStep || "",
+            // editAddressData: editAddressData,
+            setEditAddressData: setEditAddressData,
+            currentCallBackComponent: currentCallBackComponent,
+            checkPinCode: checkPinCode,
+            isAddressValid: isAddressValid,
+            openAddressForm: openAddressForm,
+            closeAddressForm: closeAddressForm,
+            markAsDefault: markAsDefault,
+            setIsLoading: setIsLoading
+          }}
+        >
+          <AddressSection
+            activeStep={Steps.STEP_SHIPPING}
+            mode={mode}
+            isActive={props.isActive}
+            selectedAddress={props.selectedAddress}
+            next={props.next}
+            openAddressForm={openAddressForm}
+            finalizeAddress={props.finalizeAddress}
+            hidesameShipping={true}
+            // items={this.props.basket}
+            // bridalId={this.props.bridalId}
+            bridalId=""
+            isGoodearthShipping={props.isGoodearthShipping}
+            // addressType={Steps.STEP_SHIPPING}
+            addresses={props.addresses}
+            // user={this.props.user}
+            error={props.error}
+          >
+            {addressContent}
+          </AddressSection>
+        </AddressContext.Provider>
+      );
+    case "checkout-billing":
+      return (
+        <AddressContext.Provider
+          value={{
+            setMode: setMode,
+            mode: mode,
+            activeStep: props.activeStep || "",
+            // editAddressData: editAddressData,
+            setEditAddressData: setEditAddressData,
+            currentCallBackComponent: currentCallBackComponent,
+            checkPinCode: checkPinCode,
+            isAddressValid: isAddressValid,
+            openAddressForm: openAddressForm,
+            closeAddressForm: closeAddressForm,
+            markAsDefault: markAsDefault,
+            setIsLoading: setIsLoading
+          }}
+        >
+          <AddressSection
+            activeStep={Steps.STEP_BILLING}
+            mode={mode}
+            isActive={props.isActive}
+            selectedAddress={props.selectedAddress}
+            next={props.next}
+            openAddressForm={openAddressForm}
+            finalizeAddress={props.finalizeAddress}
+            hidesameShipping={true}
+            // items={this.props.basket}
+            // bridalId={this.props.bridalId}
+            bridalId=""
+            isGoodearthShipping={props.isGoodearthShipping}
+            // addressType={Steps.STEP_SHIPPING}
+            addresses={props.addresses}
+            // user={this.props.user}
+            error={props.error}
+          >
+            {addressContent}
+          </AddressSection>
+        </AddressContext.Provider>
+      );
     default:
-      return <MyAddress mode={mode}>{addressContent}</MyAddress>;
+      return (
+        <AddressContext.Provider
+          value={{
+            setMode: setMode,
+            mode: mode,
+            activeStep: props.activeStep || "",
+            // editAddressData: editAddressData,
+            setEditAddressData: setEditAddressData,
+            currentCallBackComponent: currentCallBackComponent,
+            checkPinCode: checkPinCode,
+            isAddressValid: isAddressValid,
+            openAddressForm: openAddressForm,
+            closeAddressForm: closeAddressForm,
+            markAsDefault: markAsDefault,
+            setIsLoading: setIsLoading
+          }}
+        >
+          <MyAddress mode={mode}>{addressContent}</MyAddress>
+        </AddressContext.Provider>
+      );
   }
 };
 export default AddressMain;

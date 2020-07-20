@@ -1,14 +1,5 @@
 @import "./functions";
-@font-face {
-    font-family: "HeaderFont";
-    src: url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Franklin%20Gothic%20Medium.ttf");
-    font-weight: normal;
-  }
-  @font-face {
-    font-family: "LatoFont";
-    src: url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20regular.ttf");
-    font-weight: normal;
-  }
+
 $font-Header: "HeaderFont", "Trebuchet MS", "geneva";
 $font-Lato: "LatoFont", "Helvetica", "Arial";
 $font-Amiri: "Baskerville", "Amiri", "Serif";

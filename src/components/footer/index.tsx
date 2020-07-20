@@ -255,7 +255,7 @@ class Footer extends React.Component<Props, FooterState> {
                           )
                     }
                   >
-                    <div className={cs(bootstrap.row, bootstrap.px5)}>
+                    <div className={cs(bootstrap.row, bootstrap.px8)}>
                       <div className={cs(bootstrap.colMd3, bootstrap.px2)}>
                         <ul>
                           <li>find us on</li>
