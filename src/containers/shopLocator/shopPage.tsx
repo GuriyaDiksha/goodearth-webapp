@@ -44,17 +44,17 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               <div className={cs(styles.serialNumber, styles.enabledSno)}>
                 {i + 1}
               </div>
-              {item.cafeAddress ? (
-                <h3>
-                  {item.place}{" "}
+
+              <h3>
+                {item.place}{" "}
+                {item.cafeAddress && (
                   <Link to="#cafe">
                     {" "}
                     <img src="/" className="iconCafe" />{" "}
-                  </Link>{" "}
-                </h3>
-              ) : (
-                ""
-              )}
+                  </Link>
+                )}{" "}
+              </h3>
+
               <div className={cs(styles.small, styles.city)}>{item.city}</div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
                 <strong className="black"> {item.opendays} </strong> <br />
