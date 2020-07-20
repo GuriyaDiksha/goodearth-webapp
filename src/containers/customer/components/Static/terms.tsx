@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 // import { Link } from "react-router-dom";
 import { Props } from "../../typings";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 export default class Terms extends React.Component<Props, {}> {
   constructor(props: Props) {
@@ -451,10 +451,10 @@ export default class Terms extends React.Component<Props, {}> {
             </li>
             <li>
               For any questions or order enquiries that you may have, please
-              reach out to us on
-              <Link to="mailto:customercare@goodearth.in">
+              reach out to us on&nbsp;
+              <a href="mailto:customercare@goodearth.in">
                 customercare@goodearth.in
-              </Link>
+              </a>
               .
             </li>
           </ul>
@@ -799,10 +799,10 @@ export default class Terms extends React.Component<Props, {}> {
           <h5>GRIEVANCE</h5>
           <p>
             Any grievances you have by way of use of the website cab be
-            addressed to the ‘Customer Care’ by way of email to
-            <Link to="mailto:customercare@goodearth.in">
+            addressed to the ‘Customer Care’ by way of email to&nbsp;
+            <a href="mailto:customercare@goodearth.in">
               customercare@goodearth.in
-            </Link>
+            </a>
           </p>
           <p>
             The ‘Customer Care’ shall thereafter consider the same and provide a
