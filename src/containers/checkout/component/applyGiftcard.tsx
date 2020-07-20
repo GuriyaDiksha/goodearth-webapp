@@ -45,22 +45,22 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   gcBalance = () => {
     const data: any = {
-      code: this.state.txtvalue
+      cardId: this.state.txtvalue
     };
-    this.props.balanceCheck(data).then(response => {
-      const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN") {
-        this.setState({
-          error: "Please enter a valid code"
-        });
-      } else {
-        giftList.push(response);
-        this.setState({
-          giftList: giftList,
-          newCardBox: false,
-          txtvalue: ""
-        });
-      }
+    this.props.applyGiftCard(data).then(response => {
+      // const { giftList } = this.state;
+      // if (response.currStatus == "Invalid-CN") {
+      //   this.setState({
+      //     error: "Please enter a valid code"
+      //   });
+      // } else {
+      //   giftList.push(response);
+      //   this.setState({
+      //     giftList: giftList,
+      //     newCardBox: false,
+      //     txtvalue: ""
+      //   });
+      // }
     });
   };
 
@@ -179,7 +179,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 )}
                 onClick={this.newGiftcard}
               >
-                [+] CHECK ANOTHER GIFT CARD CODE
+                [+] ADD ANOTHER GIFT CARD CODE
               </div>
             )}
           </div>
