@@ -11,11 +11,27 @@ import { Settings } from "react-slick";
 import borderImg from "images/category/bannerBottom.jpg";
 
 const ShopDetail: React.FC<ShopLocatorProps> = props => {
-  console.log(props);
-  const img = [
-    "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalkd1.jpg",
-    "https://d3qn6cjsz7zlnp.cloudfront.net/media/store_locator/citywalkd2.jpg"
-  ];
+  const { mobile, data } = props;
+  const shopImage = data?.[0]?.bannerShop
+    ?.filter((image: any) => {
+      if (mobile) {
+        return image.imageType == 2;
+      } else {
+        return image.imageType == 1;
+      }
+    })
+    .map((filter: any) => filter.image);
+  const cafeImage = data?.[0]?.bannerCafe
+    ?.filter((image: any) => {
+      if (mobile) {
+        return image.imageType == 2;
+      } else {
+        return image.imageType == 1;
+      }
+    })
+    .map((filter: any) => filter.image);
+  const shopData = data ? data[0] : {};
+
   const config: Settings = {
     dots: false,
     infinite: true,
@@ -37,7 +53,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
     <div>
       <div className={cs(bootstrapStyles.colMd12, styles.im)}>
         <BannerSlider
-          data={img}
+          data={shopImage}
           setting={config as Settings}
           mobile={props.mobile}
         />
@@ -75,18 +91,29 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
             >
               <div className={cs(styles.shopAddBlock, globalStyles.voffset5)}>
                 <div className={styles.shop}>
-                  SHOP &nbsp;<h3> Khan Market </h3>
+                  SHOP &nbsp;<h3> {shopData.place} </h3>
                 </div>
                 <div className={cs(globalStyles.voffset2, styles.para)}>
-                  An urban haven of contemporary Indian design and lifestyle
-                  luxury in the midst of Delhi’s busiest marketplace. Meandering
-                  paths of discovery through a dynamically edited Good Earth
-                  Home universe and 2600 sq.ft. of Sustain apparel
+                  {shopData.shopContent}
                 </div>
                 <div className={cs(styles.small, globalStyles.voffset5)}>
-                  <strong className={styles.black}> OPEN 7 DAYS A WEEK </strong>{" "}
+                  <strong className={styles.black}>
+                    {" "}
+                    {shopData.opendays}{" "}
+                  </strong>{" "}
                   <br />
-                  11:00am - 5:00pm IST
+                  {shopData.time}
+                </div>
+                <div className={cs(styles.small, globalStyles.voffset3)}>
+                  {shopData.address
+                    ?.split(";")
+                    .map((line: string, i: number) => {
+                      return (
+                        <div className={styles.small} key={i}>
+                          {line}
+                        </div>
+                      );
+                    })}
                 </div>
 
                 <div
@@ -99,10 +126,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
                   <div
                     className={cs(bootstrapStyles.col12, styles.getDirections)}
                   >
-                    <Link
-                      to="https://www.google.com/maps/dir//28.599641,77.226376/@28.599641,77.226376,16z?hl=en-GB"
-                      target="_blank"
-                    >
+                    <Link to={shopData.direction} target="_blank">
                       {" "}
                       get directions{" "}
                     </Link>
@@ -114,7 +138,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
               className={cs(bootstrapStyles.colMd6, bootstrapStyles.offsetMd1)}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7006.00905424862!2d77.226376!3d28.599641!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeb0accce6f3226e8!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540965321199"
+                src={shopData.iframemap}
                 scrolling="no"
                 height="400"
                 width="100%"
@@ -128,7 +152,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
           className={cs(globalStyles.col12, styles.cafe, styles.heroBannerHome)}
         >
           <div className={globalStyles.voffset4}>
-            <BannerSlider data={img} setting={config as Settings} />
+            <BannerSlider data={cafeImage} setting={config as Settings} />
           </div>
           <div className={styles.cafeContent}>
             <div className={styles.inner}>
@@ -147,21 +171,36 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
                   })}
                 >
                   <div className={styles.shop}>
-                    Café &nbsp;<h3> Latitude°28</h3>
+                    Café &nbsp;<h3> {shopData.cafeHeading2}</h3>
                   </div>
                   <div className={cs(globalStyles.voffset2, styles.para)}>
-                    Latitude 28 Café and Wine Bar is it perfect place for a
-                    power lunch or an afternoon shopping date for a spot of tea
-                    with friends. Celebrity chef Ritu Dalmia’s wine paired menu
-                    is as delightful as it is dynamic. Café is open till 11pm
-                    daily.{" "}
+                    {shopData.cafeContent}{" "}
                   </div>
                   <div className={cs(styles.small, globalStyles.voffset4)}>
                     <div className={styles.bold}>CALL FOR RESERVATIONS</div>
                     <div className={cs(globalStyles.voffset2, styles.small)}>
-                      T: +91-11-24647175
-                      <br /> +91-11-24647176
-                      <br /> +91-11-24647179
+                      {shopData.cafeTel1?.map((num: string, i: number) => {
+                        if (mobile) {
+                          return (
+                            <div key={i}>
+                              <a
+                                rel="noopener noreferrer"
+                                href={"tel:" + (num ? num.split("+")[1] : num)}
+                              >
+                                {num}
+                              </a>
+                              <br />
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div key={i}>
+                              {num}
+                              <br />
+                            </div>
+                          );
+                        }
+                      })}
                     </div>
                   </div>
                   <div
@@ -177,10 +216,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
                         styles.getDirections
                       )}
                     >
-                      <Link
-                        to="https://www.google.com/maps/dir//28.599641,77.226376/@28.599641,77.226376,16z?hl=en-GB"
-                        target="_blank"
-                      >
+                      <Link to={shopData.cafeDirection} target="_blank">
                         {" "}
                         get directions{" "}
                       </Link>

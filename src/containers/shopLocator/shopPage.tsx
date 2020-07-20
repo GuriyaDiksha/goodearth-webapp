@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -8,6 +8,17 @@ import { ShopLocatorProps } from "./typings";
 import { Link } from "react-router-dom";
 
 const ShopPage: React.FC<ShopLocatorProps> = props => {
+  const { data, mobile } = props;
+  const [iframemap, setIframemap] = useState("");
+  const [selectIndex, setSelectIndex] = useState(0);
+
+  const onChange = (index: number) => {
+    setIframemap(data[index]?.iframemap);
+    setSelectIndex(index);
+  };
+  useEffect(() => {
+    setIframemap(data?.[0].iframemap);
+  }, [data]);
   return (
     <div className={bootstrapStyles.row}>
       <div
@@ -17,55 +28,88 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
           styles.shopAddresses
         )}
       >
-        <div
-          className={cs(
-            styles.shopAddBlock,
-            styles.shopAddBlock1,
-            styles.whiteBlock
-          )}
-        >
-          <div className={cs(styles.serialNumber, styles.enabledSno)}>1</div>
-          <h3>
-            Khan Market{" "}
-            <Link to="#cafe">
-              {" "}
-              <img src="/" className="iconCafe" />{" "}
-            </Link>{" "}
-          </h3>
-          <div className={cs(styles.small, styles.city)}>Delhi</div>
-          <div className={cs(styles.small, globalStyles.voffset3)}>
-            <strong className="black"> OPEN 7 DAYS A WEEK </strong> <br />
-            11:00am - 5:00pm IST
-          </div>
-          <div className={cs(styles.small, globalStyles.voffset3)}>
-            Shop directly with -
-          </div>
-          <div className={styles.small}>Shashi Raman +91 9818339477</div>
-          <div className={cs(styles.small, globalStyles.voffset3)}>
-            +91-11-24647175
-            <br /> +91-11-24647176
-            <br /> +91-11-24647179
-          </div>
-          <div
-            className={cs(
-              styles.viewDirectionsBlock,
-              globalStyles.row,
-              globalStyles.voffset3
-            )}
-          >
-            <div className="col6">
-              <Link to=""> VIEW </Link>
-            </div>
-            <div className={cs(globalStyles.col6, globalStyles.textRight)}>
-              <Link
-                to="https://www.google.com/maps/dir//28.599641,77.226376/@28.599641,77.226376,16z?hl=en-GB"
-                target="_blank"
+        {data?.map((item: any, i: number) => {
+          const viewLink =
+            "/Cafe-Shop/" + item.city + "/" + item.place.replace(/\s/g, "_");
+          return (
+            <div
+              className={cs(styles.shopAddBlock, styles.shopAddBlock1, {
+                [styles.whiteBlock]: selectIndex == i
+              })}
+              onClick={() => {
+                onChange(i);
+              }}
+              key={i}
+            >
+              <div className={cs(styles.serialNumber, styles.enabledSno)}>
+                {i + 1}
+              </div>
+              {item.cafeAddress ? (
+                <h3>
+                  {item.place}{" "}
+                  <Link to="#cafe">
+                    {" "}
+                    <img src="/" className="iconCafe" />{" "}
+                  </Link>{" "}
+                </h3>
+              ) : (
+                ""
+              )}
+              <div className={cs(styles.small, styles.city)}>{item.city}</div>
+              <div className={cs(styles.small, globalStyles.voffset3)}>
+                <strong className="black"> {item.opendays} </strong> <br />
+                {item.time}
+              </div>
+              <div className={cs(styles.small, globalStyles.voffset3)}>
+                {item.address?.split(";").map((line: string, i: number) => {
+                  return (
+                    <div key={i} className={styles.small}>
+                      {line}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className={cs(styles.small, globalStyles.voffset3)}>
+                {item.tel1?.map((num: string, i: number) => {
+                  if (mobile) {
+                    const number = "tel:" + (num ? num.split("+")[1] : num);
+                    return (
+                      <div key={i}>
+                        <a href={number} rel="noopener noreferrer">
+                          {num}
+                        </a>
+                        <br />
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div key={i}>
+                        {num}
+                        <br />
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+              <div
+                className={cs(
+                  styles.viewDirectionsBlock,
+                  globalStyles.row,
+                  globalStyles.voffset3
+                )}
               >
-                directions{" "}
-              </Link>
+                <div className="col6">
+                  <Link to={viewLink}> VIEW </Link>
+                </div>
+                <div className={cs(globalStyles.col6, globalStyles.textRight)}>
+                  <Link to={item.direction} target="_blank">
+                    directions{" "}
+                  </Link>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
       <div
         className={cs(
@@ -76,7 +120,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
         )}
       >
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7006.00905424862!2d77.226376!3d28.599641!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeb0accce6f3226e8!2sGood+Earth!5e0!3m2!1sen!2sin!4v1540965321199"
+          src={iframemap}
           scrolling="no"
           height="100%"
           width="100%"
