@@ -9,6 +9,7 @@ import initActionSearch from "containers/search/initAction";
 import initActionCategory from "containers/categoryLanding/initAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
+import initActionShop from "containers/shopLocator/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -91,6 +92,18 @@ const routes: RouteConfig = [
     path: ROUTES.STATIC,
     component: loadable(() => import("containers/customer")), // StaticPage,
     action: async () => null,
+    exact: false
+  },
+  {
+    path: ROUTES.CHECKOUT,
+    component: loadable(() => import("containers/checkout")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SHOP,
+    component: loadable(() => import("containers/shopLocator")),
+    action: initActionShop,
     exact: false
   }
 ];

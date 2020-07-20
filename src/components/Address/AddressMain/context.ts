@@ -11,6 +11,7 @@ export const AddressContext = createContext({
     return;
   },
   currentCallBackComponent: "",
+  activeStep: "",
   checkPinCode: (x: string): boolean => {
     return true;
   },
@@ -23,7 +24,7 @@ export const AddressContext = createContext({
   setIsLoading: (x: boolean) => {
     return;
   },
-  openAddressForm: (x: AddressData) => {
+  openAddressForm: (x?: AddressData) => {
     return;
   },
   closeAddressForm: () => {

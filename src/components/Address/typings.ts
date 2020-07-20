@@ -43,7 +43,24 @@ export type AddressFormData = {
 };
 
 export type Props = {
-  isbridal: boolean;
+  isBridal: boolean;
+  selectedAddress?: AddressData;
   currentCallBackComponent: string;
+  isActive?: boolean;
+  next: (step: string) => void;
+  finalizeAddress: (
+    address: AddressData | null,
+    activeStep: string,
+    obj: { gstNo?: string; panPassportNo: string; gstType?: string }
+  ) => void;
+  hidesameShipping: boolean;
+  activeStep?: string;
+  // items: Basket;
+  bridalId: string;
+  isGoodearthShipping: boolean;
+  addressType: string;
+  addresses: AddressData[];
+  // user:
+  error: string;
 };
 export type AddressModes = "new" | "edit" | "list";

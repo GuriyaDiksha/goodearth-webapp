@@ -615,3 +615,11 @@ $list: $grey 92%, $white 8%;
 @mixin position($value) {
   @include prefix((position: $value), webkit);
 }
+
+@mixin pdp_spec {
+  font-family: $font-Lato;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: tint(#000, 70%);
+  letter-spacing: 2px;
+}

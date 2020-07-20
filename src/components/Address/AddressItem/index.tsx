@@ -11,6 +11,7 @@ import AddressService from "services/address";
 import * as Steps from "containers/checkout/constants";
 import { useDispatch } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
+import { CheckoutAddressContext } from "containers/checkout/component/context";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
@@ -19,7 +20,7 @@ type Props = {
   selectAddress: (address: AddressData) => void;
   index: number;
   isOnlyAddress: boolean;
-  addressType?: string;
+  // addressType?: string;
   showAddressInBridalUse?: boolean;
   shippingErrorMsg?: string;
   billingErrorMsg?: string;
@@ -27,17 +28,15 @@ type Props = {
 };
 
 const AddressItem: React.FC<Props> = props => {
-  // this.deleteAddress = this.deleteAddress.bind(this);
-  // this.selectAddress = this.selectAddress.bind(this);
-  // this.openAddressForm = this.openAddressForm.bind(this);
-
   const dispatch = useDispatch();
   const {
     openAddressForm,
     markAsDefault,
     setIsLoading,
-    currentCallBackComponent
+    currentCallBackComponent,
+    activeStep
   } = useContext(AddressContext);
+  const { onSelectAddress } = useContext(CheckoutAddressContext);
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
@@ -90,7 +89,7 @@ const AddressItem: React.FC<Props> = props => {
   //         break;
   //         case "checkout":
   //             let products = valid.productForGa(props.items);
-  //             if(props.addressType == 'SHIPPING') {
+  //             if(activeStep == 'SHIPPING') {
   //                 dataLayer.push({
   //                     'event': 'checkout',
   //                     'ecommerce': {
@@ -130,12 +129,14 @@ const AddressItem: React.FC<Props> = props => {
     (address.firstName.length < 7 && address.lastName.length < 14)
       ? "text"
       : "div";
-  const billingEditDisable = props.addressType == "BILLING";
-  //  && address.id == window.shipping_data.user_address_id;
+  const billingEditDisable =
+    activeStep == "BILLING" &&
+    address.id.toString() == localStorage.getItem("shippingDataUserAddressId");
   return (
     <div
       className={
-        currentCallBackComponent == "checkout"
+        currentCallBackComponent == "checkout-billing" ||
+        currentCallBackComponent == "checkout-shipping"
           ? cs(
               bootstrapStyles.col10,
               bootstrapStyles.colSm4,
@@ -151,10 +152,21 @@ const AddressItem: React.FC<Props> = props => {
             )
       }
     >
-      <div className={styles.addressItemContainer}>
+      <div
+        className={cs(styles.addressItemContainer, {
+          [styles.addressItemContainerCheckout]:
+            currentCallBackComponent == "checkout-shipping" ||
+            currentCallBackComponent == "checkout-billing"
+        })}
+      >
         <div
           className={cs(
             styles.addressItem,
+            {
+              [styles.addressItemCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            },
             { [styles.shippingBorder]: address.isEdit },
             {
               [styles.addressInUse]:
@@ -231,7 +243,8 @@ const AddressItem: React.FC<Props> = props => {
           <div
             className={cs(globalStyles.marginT20, styles.edit, {
               [styles.addCheckoutActions]:
-                currentCallBackComponent == "checkout" ||
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing" ||
                 currentCallBackComponent == "bridal"
             })}
           >
@@ -275,9 +288,9 @@ const AddressItem: React.FC<Props> = props => {
                   globalStyles.cursorPointer,
                   styles.shipToThisBtn
                 )}
-                onClick={() => props.selectAddress(address)}
+                onClick={() => onSelectAddress(address)}
               >
-                {props.addressType == Steps.STEP_SHIPPING ? "SHIP" : "BILL"}
+                {activeStep == Steps.STEP_SHIPPING ? "SHIP" : "BILL"}
                 &nbsp;TO THIS ADDRESS {address.isEdit ? "(FREE)" : ""}
               </div>
             )}
