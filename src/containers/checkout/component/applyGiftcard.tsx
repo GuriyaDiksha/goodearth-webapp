@@ -12,7 +12,8 @@ import OtpComponent from "components/OtpComponent";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isLoggedIn: state.user.isLoggedIn
+    user: state.user,
+    currency: state.currency
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -108,12 +109,24 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   render() {
     const { newCardBox, txtvalue, toggelOtp } = this.state;
-    const { isLoggedIn } = this.props;
+    const {
+      user: { isLoggedIn },
+      currency
+    } = this.props;
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           {this.state.giftList.map((data, i) => {
-            return <GiftCardItem {...data} onClose={this.onClose} key={i} />;
+            return (
+              <GiftCardItem
+                {...data}
+                onClose={this.onClose}
+                currency={currency}
+                type="crd"
+                currStatus={"sucess"}
+                key={i}
+              />
+            );
           })}
           <div
             className={cs(

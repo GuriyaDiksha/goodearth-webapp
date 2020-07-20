@@ -7,19 +7,20 @@ import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 
 const GiftCardItem = ({
-  currStatus,
+  cardId,
+  cardType,
+  appliedAmount,
+  cardValue,
   type,
-  createDate,
-  expiryDate,
-  currCode,
-  fullValue,
-  remValues,
+  remainingAmount,
+  currStatus,
   code,
+  currency,
   onClose
 }: GiftListProps): JSX.Element => {
   let showLocked = false;
   let showExpired = false;
-  const unicode = currencyCode[currCode as Currency];
+  const unicode = currencyCode[currency as Currency];
   const conditionalRefresh = false;
   const deleteCard = (code: string) => {
     // setOpenState(!menuOpen);
@@ -56,11 +57,11 @@ const GiftCardItem = ({
             </p>
             <p>
               <span className={styles.op2}> Date of issue: </span>{" "}
-              <span className={styles.fontBold}> {createDate} </span>
+              <span className={styles.fontBold}> {} </span>
             </p>
             <p>
               <span className={styles.op2}> Date of expiry: </span>{" "}
-              <span className={styles.fontBold}> {expiryDate} </span>
+              <span className={styles.fontBold}> {} </span>
             </p>
             {conditionalRefresh && (
               <span
@@ -84,7 +85,7 @@ const GiftCardItem = ({
         </div>
       ) : (
         <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
-          <p className={styles.value12}>
+          <p className={styles.textMuted}>
             {code}{" "}
             <span
               className={styles.cross}
@@ -97,27 +98,12 @@ const GiftCardItem = ({
               ></i>
             </span>
           </p>
-          <p>
-            <span className={styles.op2}> Date of issue: </span>{" "}
-            <span className={styles.fontBold}> {createDate} </span>
-          </p>
-          <p>
-            <span className={styles.op2}> Date of expiry: </span>{" "}
-            <span className={styles.fontBold}> {expiryDate} </span>
-          </p>
-          <p>
-            <span className={styles.op2}> Total value: </span>{" "}
-            <span className={styles.fontBold}>
-              {" "}
-              {String.fromCharCode(unicode)} {fullValue}{" "}
-            </span>
-          </p>
-          <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+          <p className={cl(globalStyles.cerise, globalStyles.errorMsg)}>
             {" "}
             Balance amount:{" "}
-            <span className={styles.fontBold}>
+            <span>
               {" "}
-              {String.fromCharCode(unicode)} {remValues}{" "}
+              {String.fromCharCode(unicode)} {remainingAmount}{" "}
             </span>
           </p>
           {conditionalRefresh && (
