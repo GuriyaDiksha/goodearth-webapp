@@ -1,22 +1,15 @@
+// modules
+import loadable from "@loadable/component";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
-import Home from "containers/home";
-import PDPContainer, { initAction, metaAction } from "containers/pdp";
-import CollectionLanding, {
-  initActionCollection
-} from "containers/collectionLanding";
-import CollectionSpecific, {
-  initActionSpecific
-} from "containers/collectionSpecific";
+import { initAction, metaAction } from "containers/pdp";
+import { initActionCollection } from "containers/collectionLanding";
+import { initActionSpecific } from "containers/collectionSpecific";
 import initActionPLP from "containers/plp/initAction";
-import PLP from "containers/plp";
-import Search from "containers/search";
 import initActionSearch from "containers/search/initAction";
-import myAccount from "containers/myAccount";
 import initActionCategory from "containers/categoryLanding/initAction";
-import CategoryLanding from "containers/categoryLanding/index";
 import initActionAccount from "containers/myAccount/initAction";
-import GiftCard from "containers/giftcard/index";
 import initActionGiftcard from "containers/giftcard/initAction";
+
 import Career from "containers/career";
 import ResetPassword from "containers/resetPassword";
 import StaticPage from "containers/customer";
@@ -30,74 +23,80 @@ const routeMap: RouteMap = {};
 const routes: RouteConfig = [
   {
     path: ROUTES.CollectionLanding,
-    component: CollectionLanding,
+    component: loadable(() => import("containers/collectionLanding")),
     action: initActionCollection,
     exact: true
   },
   {
     path: ROUTES.CollectionSpecific,
-    component: CollectionSpecific,
+    component: loadable(() => import("containers/collectionSpecific")),
     action: initActionSpecific,
     exact: true
   },
   {
     path: ROUTES.PLP,
-    component: PLP,
+    component: loadable(() => import("containers/plp")),
     action: initActionPLP,
     exact: false
   },
   {
     path: ROUTES.PDP,
-    component: PDPContainer,
+    component: loadable(() => import("containers/pdp")),
     action: initAction,
     meta: metaAction,
     exact: true
   },
   {
     path: ROUTES.HOME,
-    component: Home,
+    component: loadable(() => import("containers/home")),
     action: async () => null,
     exact: true
   },
   {
     path: ROUTES.SEARCH,
-    component: Search,
+    component: loadable(() => import("containers/search")),
     action: initActionSearch,
     exact: true
   },
   {
     path: ROUTES.ACCOUNT,
-    component: myAccount,
+    component: loadable(() => import("containers/myAccount")),
     action: initActionAccount,
     exact: false
   },
   {
     path: ROUTES.CAREER,
-    component: Career,
+    component: loadable(() => import("containers/career")),
     action: async () => null,
     exact: false
   },
   {
+    path: ROUTES.WISHLIST,
+    component: loadable(() => import("containers/wishlist")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.CATEGORY,
-    component: CategoryLanding,
+    component: loadable(() => import("containers/categoryLanding")),
     action: initActionCategory,
     exact: true
   },
   {
     path: ROUTES.GIFTCARD,
-    component: GiftCard,
+    component: loadable(() => import("containers/giftcard")), // GiftCard,
     action: initActionGiftcard,
     exact: true
   },
   {
     path: ROUTES.ResetPassword,
-    component: ResetPassword,
+    component: loadable(() => import("containers/resetPassword")), // ResetPassword,
     action: async () => null,
     exact: false
   },
   {
     path: ROUTES.STATIC,
-    component: StaticPage,
+    component: loadable(() => import("containers/customer")), // StaticPage,
     action: async () => null,
     exact: false
   },
