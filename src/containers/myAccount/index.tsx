@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import { NavLink, Switch, Route, useRouteMatch } from "react-router-dom";
+import {
+  NavLink,
+  Switch,
+  Route,
+  useRouteMatch,
+  useLocation
+} from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -14,6 +20,7 @@ import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
+import Bridal from "./components/Bridal";
 import { AppState } from "reducers/typings";
 
 type Props = {
@@ -28,7 +35,7 @@ type Props = {
 // }
 
 const MyAccount: React.FC<Props> = props => {
-  let bridalId = "";
+  const [bridalId, setBridalId] = useState("");
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
@@ -36,9 +43,13 @@ const MyAccount: React.FC<Props> = props => {
   const { path } = useRouteMatch();
 
   const [currentSection, setCurrentSection] = useState("Profile");
+  const location = useLocation();
+  const [showRegistry, setShowRegistry] = useState(
+    location.pathname.includes("bridal") ? true : false
+  );
 
   useEffect(() => {
-    bridalId = CookieService.getCookie("bridalId");
+    setBridalId(CookieService.getCookie("bridalId") || "0");
     window.scrollTo(0, 0);
   }, []);
   // this.state = {
@@ -154,6 +165,14 @@ const MyAccount: React.FC<Props> = props => {
       component: () => <div>Track Order</div>,
       title: "track",
       loggedInOnly: false
+    },
+    {
+      label: "Good Earth Registry",
+      href: "/account/bridal",
+      // component: Bridal,
+      component: Bridal,
+      title: "bridal",
+      loggedInOnly: true
     },
     {
       label: "Activate Gift Card",
@@ -308,17 +327,68 @@ const MyAccount: React.FC<Props> = props => {
                 {accountMenuItems
                   .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
                   .map(item => {
-                    return (
-                      <li key={item.label}>
-                        {" "}
-                        <NavLink
+                    return item.title == "bridal" ? (
+                      <>
+                        <li
                           key={item.label}
-                          to={item.href}
-                          activeClassName={globalStyles.cerise}
+                          className={
+                            showRegistry
+                              ? styles.bridalleftsec
+                              : cs(styles.bridalleftsec, styles.bridalplus)
+                          }
                         >
-                          {item.label}
-                        </NavLink>
-                      </li>
+                          <span
+                            onClick={() => setShowRegistry(!showRegistry)}
+                            className={
+                              showRegistry && currentSection == "bridal"
+                                ? globalStyles.cerise
+                                : ""
+                            }
+                          >
+                            Good Earth Registry{" "}
+                          </span>
+                          {showRegistry ? (
+                            <ul>
+                              <li>
+                                <NavLink
+                                  // name="bridal"
+                                  key="create-manage-bridal"
+                                  to={item.href}
+                                  activeClassName={globalStyles.cerise}
+                                  // className={showregistry && currentSection == "bridal" ? "cerise":""}
+                                >
+                                  {bridalId == "0"
+                                    ? "Create a Registry"
+                                    : "Manage Registry"}
+                                </NavLink>
+                              </li>
+                              <li>
+                                <NavLink
+                                  to="/customer-assistance/terms-conditions?id=bridalregistryterms"
+                                  target="_blank"
+                                >
+                                  Good Earth Registry Policy
+                                </NavLink>
+                              </li>
+                            </ul>
+                          ) : (
+                            ""
+                          )}
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li key={item.label}>
+                          {" "}
+                          <NavLink
+                            key={item.label}
+                            to={item.href}
+                            activeClassName={globalStyles.cerise}
+                          >
+                            {item.label}
+                          </NavLink>
+                        </li>
+                      </>
                     );
                   })}
                 {/* <li>

@@ -17,6 +17,7 @@ import { updatePinCodeList, updateCountryData } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
 import * as Steps from "../../../containers/checkout/constants";
+import ManageAddress from "containers/myAccount/components/Bridal/ManageAddress";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -273,16 +274,26 @@ const AddressMain: React.FC<Props> = props => {
             mode={mode}
             isActive={props.isActive}
             selectedAddress={props.selectedAddress}
-            next={props.next}
+            next={
+              props.next ||
+              function() {
+                return null;
+              }
+            }
             openAddressForm={openAddressForm}
-            finalizeAddress={props.finalizeAddress}
+            finalizeAddress={
+              props.finalizeAddress ||
+              function() {
+                return null;
+              }
+            }
             hidesameShipping={true}
             // items={this.props.basket}
             // bridalId={this.props.bridalId}
             bridalId=""
-            isGoodearthShipping={props.isGoodearthShipping}
+            isGoodearthShipping={props.isGoodearthShipping || false}
             // addressType={Steps.STEP_SHIPPING}
-            addresses={props.addresses}
+            addresses={addressList}
             // user={this.props.user}
             error={props.error}
           >
@@ -313,21 +324,71 @@ const AddressMain: React.FC<Props> = props => {
             mode={mode}
             isActive={props.isActive}
             selectedAddress={props.selectedAddress}
-            next={props.next}
+            next={
+              props.next ||
+              function() {
+                return null;
+              }
+            }
             openAddressForm={openAddressForm}
-            finalizeAddress={props.finalizeAddress}
+            finalizeAddress={
+              props.finalizeAddress ||
+              function() {
+                return null;
+              }
+            }
             hidesameShipping={true}
             // items={this.props.basket}
             // bridalId={this.props.bridalId}
             bridalId=""
-            isGoodearthShipping={props.isGoodearthShipping}
+            isGoodearthShipping={props.isGoodearthShipping || false}
             // addressType={Steps.STEP_SHIPPING}
-            addresses={props.addresses}
+            addresses={addressList}
             // user={this.props.user}
             error={props.error}
           >
             {addressContent}
           </AddressSection>
+        </AddressContext.Provider>
+      );
+    case "bridal":
+      return (
+        <AddressContext.Provider
+          value={{
+            setMode: setMode,
+            mode: mode,
+            activeStep: props.activeStep || "",
+            // editAddressData: editAddressData,
+            setEditAddressData: setEditAddressData,
+            currentCallBackComponent: currentCallBackComponent,
+            checkPinCode: checkPinCode,
+            isAddressValid: isAddressValid,
+            openAddressForm: openAddressForm,
+            closeAddressForm: closeAddressForm,
+            markAsDefault: markAsDefault,
+            setIsLoading: setIsLoading
+          }}
+        >
+          <ManageAddress
+          // activeStep={Steps.STEP_BILLING}
+          // mode={mode}
+          // isActive={props.isActive}
+          // selectedAddress={props.selectedAddress}
+          // next={props.next || function () { return null}}
+          // openAddressForm={openAddressForm}
+          // finalizeAddress={props.finalizeAddress || function () { return null}}
+          // hidesameShipping={true}
+          // items={this.props.basket}
+          // bridalId={this.props.bridalId}
+          // bridalId=""
+          // isGoodearthShipping={props.isGoodearthShipping || false}
+          // addressType={Steps.STEP_SHIPPING}
+          // addresses={addressList}
+          // user={this.props.user}
+          // error={props.error}
+          >
+            {addressContent}
+          </ManageAddress>
         </AddressContext.Provider>
       );
     default:

@@ -28,7 +28,7 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     user: state.user,
     basket: state.basket,
-    addresses: state.address.addressList,
+    // addresses: state.address.addressList,
     mobile: state.device.mobile,
     currency: state.currency
   };
@@ -334,7 +334,7 @@ class Checkout extends React.Component<Props, State> {
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
                 addressType={Steps.STEP_SHIPPING}
-                addresses={this.props.addresses}
+                // addresses={this.props.addresses}
                 // user={this.props.user}
                 error={this.state.shippingError}
               />
@@ -352,7 +352,7 @@ class Checkout extends React.Component<Props, State> {
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
                 addressType={Steps.STEP_SHIPPING}
-                addresses={this.props.addresses}
+                // addresses={this.props.addresses}
                 // user={this.props.user}
                 error={this.state.billingError}
               />

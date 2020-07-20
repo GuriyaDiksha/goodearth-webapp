@@ -95,7 +95,7 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Good Earth Registry",
-        href: "/about",
+        href: "/account/bridal",
         type: "link",
         value: "Good Earth Registry"
       },
