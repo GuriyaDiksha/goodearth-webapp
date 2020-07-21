@@ -1,9 +1,4 @@
 @import url("https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20regular.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20300.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Amiri%20regular.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Franklin%20Gothic%20Medium.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20700italic.ttf");
 @import "partials/reset";
 @import "bootstrap/bootstrap-grid.scss";
 @import "partials/variables";
@@ -11,6 +6,7 @@
 @import "partials/images";
 @import "partials/common";
 @import "./stickyElements";
+@import "partials/fonts";
 
 body {
   margin: 0;

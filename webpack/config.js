@@ -40,7 +40,8 @@ const alias = {
     services: context + "/src/services",
     images: context + "/src/images",
     contexts: context + "/src/contexts",
-    middlewares: context + "/src/middlewares"
+    middlewares: context + "/src/middlewares",
+    fonts: context + "/src/fonts"
 }
 
 const fileNamePattern = env === "production" ? '[name].[contenthash]' : '[name]';

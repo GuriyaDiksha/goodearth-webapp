@@ -341,89 +341,97 @@ class Header extends React.Component<Props, State> {
                         : cs(styles.menuSlider, styles.mobileList)
                     }
                   >
-                    <Mobilemenu
-                      menudata={this.props.data}
-                      location={this.props.location}
-                    />
-                    <div className={styles.lowerMenu}>
-                      <ul>
-                        <li>
-                          <i
-                            className={cs(
-                              { [globalStyles.cerise]: wishlistIcon },
-                              { [iconStyles.iconWishlistAdded]: wishlistIcon },
-                              { [iconStyles.iconWishlist]: !wishlistIcon },
-                              iconStyles.icon
-                            )}
-                          ></i>
-                          <span> wishlist ({wishlistCount})</span>
-                        </li>
-                        <li
-                          className={
-                            this.state.showC
-                              ? cs(styles.currency, styles.before)
-                              : this.props.location.pathname.indexOf(
-                                  "/bridal/"
-                                ) > 0
-                              ? cs(styles.currency, styles.op3)
-                              : styles.currency
-                          }
-                          onClick={this.showCurrency.bind(this)}
-                        >
-                          {" "}
-                          change currency:
-                        </li>
-                        <li className={this.state.showC ? "" : styles.hidden}>
+                    {this.state.showMenu && (
+                      <>
+                        <Mobilemenu
+                          menudata={this.props.data}
+                          location={this.props.location}
+                        />
+                        <div className={styles.lowerMenu}>
                           <ul>
-                            <li
-                              className={
-                                this.props.currency == "INR"
-                                  ? styles.cerise
-                                  : ""
-                              }
-                            >
-                              INR(&#8377;)
+                            <li>
+                              <i
+                                className={cs(
+                                  { [globalStyles.cerise]: wishlistIcon },
+                                  {
+                                    [iconStyles.iconWishlistAdded]: wishlistIcon
+                                  },
+                                  { [iconStyles.iconWishlist]: !wishlistIcon },
+                                  iconStyles.icon
+                                )}
+                              ></i>
+                              <span> wishlist ({wishlistCount})</span>
                             </li>
                             <li
                               className={
-                                this.props.currency == "USD"
-                                  ? styles.cerise
-                                  : ""
+                                this.state.showC
+                                  ? cs(styles.currency, styles.before)
+                                  : this.props.location.pathname.indexOf(
+                                      "/bridal/"
+                                    ) > 0
+                                  ? cs(styles.currency, styles.op3)
+                                  : styles.currency
                               }
+                              onClick={this.showCurrency.bind(this)}
                             >
-                              USD (&#36;)
+                              {" "}
+                              change currency:
                             </li>
                             <li
-                              className={
-                                this.props.currency == "GBP"
-                                  ? styles.cerise
-                                  : ""
-                              }
+                              className={this.state.showC ? "" : styles.hidden}
                             >
-                              GBP (&#163;)
-                            </li>
-                          </ul>
-                        </li>
-
-                        <ul className={styles.adding}>
-                          {profileItems.map(item => {
-                            return (
-                              <li
-                                key={item.label}
-                                onClick={() => this.clickToggle()}
-                              >
-                                <NavLink
-                                  key={item.label}
-                                  to={item.href as string}
+                              <ul>
+                                <li
+                                  className={
+                                    this.props.currency == "INR"
+                                      ? styles.cerise
+                                      : ""
+                                  }
                                 >
-                                  {item.label}
-                                </NavLink>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </ul>
-                    </div>
+                                  INR(&#8377;)
+                                </li>
+                                <li
+                                  className={
+                                    this.props.currency == "USD"
+                                      ? styles.cerise
+                                      : ""
+                                  }
+                                >
+                                  USD (&#36;)
+                                </li>
+                                <li
+                                  className={
+                                    this.props.currency == "GBP"
+                                      ? styles.cerise
+                                      : ""
+                                  }
+                                >
+                                  GBP (&#163;)
+                                </li>
+                              </ul>
+                            </li>
+
+                            <ul className={styles.adding}>
+                              {profileItems.map(item => {
+                                return (
+                                  <li
+                                    key={item.label}
+                                    onClick={() => this.clickToggle()}
+                                  >
+                                    <NavLink
+                                      key={item.label}
+                                      to={item.href as string}
+                                    >
+                                      {item.label}
+                                    </NavLink>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </ul>
+                        </div>
+                      </>
+                    )}
                   </div>
                 ) : (
                   ""
