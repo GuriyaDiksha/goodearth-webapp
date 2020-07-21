@@ -16,6 +16,7 @@ import ShopPage from "./shopPage";
 import ShopDetail from "./shopDetails";
 import locIcon from "../../images/location-icon.svg";
 import iconStyles from "../../styles/iconFonts.scss";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -80,11 +81,24 @@ class ShopLocator extends React.Component<
     }
   };
 
+  backLink = () => {
+    return (
+      <SecondaryHeader>
+        <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
+          <Link to={"/Cafe-Shop/" + this.state.city}>
+            <span className={styles.heading}> {`<`} Back To Shops </span>
+          </Link>
+        </div>
+      </SecondaryHeader>
+    );
+  };
+
   render() {
     const {
       device: { mobile },
       city,
-      shopData
+      shopData,
+      shopname
     } = this.props;
     const items: DropdownItem[] = Object.keys(shopData).map(data => {
       return {
@@ -92,16 +106,23 @@ class ShopLocator extends React.Component<
         value: data
       };
     });
+
     return (
       <div className={styles.pageBody}>
         {mobile ? (
-          <ShopDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            showCaret={true}
-            open={false}
-            value={city}
-          />
+          shopname ? (
+            this.backLink()
+          ) : (
+            <ShopDropdownMenu
+              list={items}
+              onChange={this.onchangeFilter}
+              showCaret={true}
+              open={false}
+              value={city}
+            />
+          )
+        ) : shopname ? (
+          this.backLink()
         ) : (
           <SecondaryHeader>
             <Fragment>
@@ -114,7 +135,11 @@ class ShopLocator extends React.Component<
               >
                 <div className={cs(styles.headerHeight, styles.uc)}>
                   <i
-                    className={cs(iconStyles.icon, iconStyles.iconLocation)}
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconLocation,
+                      styles.mapIcon
+                    )}
                   ></i>
                   Shop Locator
                 </div>

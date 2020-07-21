@@ -52,6 +52,9 @@ margin-top: $main-header;
   .page-body{
     margin-top: $header-height;
   }
+  .shop-addresses {
+    margin-top: 25px;
+  }
   .get-directions {
     margin-bottom: 40px;
 }
@@ -84,6 +87,7 @@ margin-top: $main-header;
   overflow: scroll;
 }
 .shop-add-block {
+  position: relative;
   
   h3 {
     font-size: 18px;
@@ -97,6 +101,7 @@ margin-top: $main-header;
     border-bottom: 1px solid #ededed;
     cursor: pointer;
     min-height: 270px;
+    background-color: #f9f8f5;
 }
 .small {
   font-size: 12px;
@@ -105,6 +110,9 @@ margin-top: $main-header;
     letter-spacing: 1px;
     &.city {
       text-transform: uppercase;
+    }
+    a {
+      color: #666;
     }
 }
 .icon-cafe {
@@ -123,11 +131,11 @@ margin-top: $main-header;
   }
 }
 }
-
-.shop-add-block {
-  .white-block {
-    background-color: #fff;
-  }
+.white-block {
+  background-color: #fff !important;
+}
+.bg-cerise {
+  background-color: #ab1e56 !important;
 }
 .shop-add-block {
    .serial-number {
@@ -186,7 +194,7 @@ position: absolute;
 
  
   .dropdown-center {
-    margin: auto;
+    margin: 2px 0 0 8px;
     position: relative;
   }
 
@@ -199,7 +207,7 @@ position: absolute;
     display: inline-flex;
       span {
         line-height: 33px;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: bold;
         font-family: "LatoFont","Helvetica","Arial";
         letter-spacing: 1px;
@@ -210,7 +218,7 @@ position: absolute;
   .icon_location {
     font-size: 23px;
     color: #ab1e56;
-    position: relative;
+    //position: relative;
     top: 3px;
 } 
 
@@ -221,10 +229,14 @@ position: absolute;
   left: 20px;
 }
 .header-height {
-  line-height: 48px;
+  line-height: 43px;
 }
 .uc {
   text-transform: uppercase;
+}
+.map-icon {
+  color: $cerise;
+  font-size: 23px;
 }
  @media screen and (min-width: 992px) {
   .serial-number {
@@ -232,6 +244,13 @@ position: absolute;
         background-color: $cerise;
     }
   }
+  .heading {
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 1px;
+    font-size: 14px;
+    line-height: 48px;
+}
   .cafe-content {
     display: flex;
     height: 100%;

@@ -4,9 +4,8 @@ import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
-// import { Link } from "react-router-dom";
 import { Props } from "../../typings";
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class Cookie extends React.Component<Props, {}> {
   constructor(props: Props) {
@@ -690,9 +689,9 @@ export default class Cookie extends React.Component<Props, {}> {
             Click on the link below to learn more about our Privacy policies.
           </p>
           <p>
-            <a href="https://www.goodearth.in/customer-assistance/privacy-policy">
+            <Link to="/customer-assistance/privacy-policy">
               https://www.goodearth.in/customer-assistance/privacy-policy
-            </a>
+            </Link>
           </p>
         </div>
       </div>

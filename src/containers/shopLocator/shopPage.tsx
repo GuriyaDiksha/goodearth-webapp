@@ -42,20 +42,23 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               }}
               key={i}
             >
-              <div className={cs(styles.serialNumber, styles.enabledSno)}>
+              <div
+                className={cs(styles.serialNumber, styles.enabledSno, {
+                  [styles.bgCerise]: selectIndex == i
+                })}
+              >
                 {i + 1}
               </div>
-              {item.cafeAddress ? (
-                <h3>
-                  {item.place}{" "}
+
+              <h3>
+                {item.place}
+                {item.cafeAddress && (
                   <Link to="#cafe">
-                    {" "}
                     <img src={cafeicon} className={styles.iconCafe} />
-                  </Link>{" "}
-                </h3>
-              ) : (
-                ""
-              )}
+                  </Link>
+                )}
+              </h3>
+
               <div className={cs(styles.small, styles.city)}>{item.city}</div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
                 <strong className="black"> {item.opendays} </strong> <br />
@@ -99,7 +102,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                   globalStyles.voffset3
                 )}
               >
-                <div className="col6">
+                <div className={globalStyles.col6}>
                   <Link to={viewLink}> VIEW </Link>
                 </div>
                 <div className={cs(globalStyles.col6, globalStyles.textRight)}>
@@ -112,21 +115,23 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
           );
         })}
       </div>
-      <div
-        className={cs(
-          globalStyles.col12,
-          globalStyles.colMd9,
-          globalStyles.pullRight,
-          styles.ht100vh
-        )}
-      >
-        <iframe
-          src={iframemap}
-          scrolling="no"
-          height="100%"
-          width="100%"
-        ></iframe>
-      </div>
+      {!mobile && (
+        <div
+          className={cs(
+            globalStyles.col12,
+            globalStyles.colMd9,
+            globalStyles.pullRight,
+            styles.ht100vh
+          )}
+        >
+          <iframe
+            src={iframemap}
+            scrolling="no"
+            height="100%"
+            width="100%"
+          ></iframe>
+        </div>
+      )}
     </div>
   );
 };
