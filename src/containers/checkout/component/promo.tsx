@@ -19,6 +19,10 @@ const PromoSection: React.FC<PromoProps> = props => {
     next(Steps.STEP_PAYMENT);
   };
 
+  const onCurrentState = () => {
+    next(Steps.STEP_PROMO);
+  };
+
   return (
     <div
       className={
@@ -36,6 +40,20 @@ const PromoSection: React.FC<PromoProps> = props => {
           )}
         >
           <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
+        </div>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            bootstrapStyles.colMd6,
+            styles.selectedStvalue
+          )}
+          onClick={onCurrentState}
+        >
+          <span
+            className={isActive ? globalStyles.hidden : globalStyles.cerise}
+          >
+            APPLY PROMO CODE
+          </span>
         </div>
       </div>
       {isActive && (
