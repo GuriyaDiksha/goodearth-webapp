@@ -54,20 +54,19 @@ export type PaymentProps = {
 };
 
 export type BalanceProps = {
-  emailID: string;
-  remValues: string;
-  currStatus: string | null;
-  createDate: string;
-  expiryDate: string;
-  type: string;
-  currCode: string;
-  fullValue: string;
-  issuedFrom: string;
+  cardId: string;
+  cardType: string;
+  appliedAmount: string;
+  cardValue: string;
+  remainingAmount: string;
   code: string;
 };
 
 export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
+  currStatus: string;
+  currency: Currency;
+  type?: string;
 }
 
 export type GiftState = {

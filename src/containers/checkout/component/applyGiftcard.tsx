@@ -12,7 +12,8 @@ import OtpComponent from "components/OtpComponent";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isLoggedIn: state.user.isLoggedIn
+    user: state.user,
+    currency: state.currency
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -45,22 +46,22 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   gcBalance = () => {
     const data: any = {
-      code: this.state.txtvalue
+      cardId: this.state.txtvalue
     };
-    this.props.balanceCheck(data).then(response => {
-      const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN") {
-        this.setState({
-          error: "Please enter a valid code"
-        });
-      } else {
-        giftList.push(response);
-        this.setState({
-          giftList: giftList,
-          newCardBox: false,
-          txtvalue: ""
-        });
-      }
+    this.props.applyGiftCard(data).then(response => {
+      // const { giftList } = this.state;
+      // if (response.currStatus == "Invalid-CN") {
+      //   this.setState({
+      //     error: "Please enter a valid code"
+      //   });
+      // } else {
+      //   giftList.push(response);
+      //   this.setState({
+      //     giftList: giftList,
+      //     newCardBox: false,
+      //     txtvalue: ""
+      //   });
+      // }
     });
   };
 
@@ -108,12 +109,24 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   render() {
     const { newCardBox, txtvalue, toggelOtp } = this.state;
-    const { isLoggedIn } = this.props;
+    const {
+      user: { isLoggedIn },
+      currency
+    } = this.props;
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           {this.state.giftList.map((data, i) => {
-            return <GiftCardItem {...data} onClose={this.onClose} key={i} />;
+            return (
+              <GiftCardItem
+                {...data}
+                onClose={this.onClose}
+                currency={currency}
+                type="crd"
+                currStatus={"sucess"}
+                key={i}
+              />
+            );
           })}
           <div
             className={cs(
@@ -179,7 +192,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 )}
                 onClick={this.newGiftcard}
               >
-                [+] CHECK ANOTHER GIFT CARD CODE
+                [+] ADD ANOTHER GIFT CARD CODE
               </div>
             )}
           </div>

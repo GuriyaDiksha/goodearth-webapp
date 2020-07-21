@@ -6,7 +6,7 @@ export default {
   applyGiftCard: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/giftcard/add_giftcard_in_basket/"}`,
+      `${__API_HOST__ + "/giftcard/apply_gc/"}`,
       formData
     );
     return res;

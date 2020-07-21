@@ -680,3 +680,11 @@ input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
+
+.selected-stvalue {
+  color: gray;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.5px;
+  font-family: "LatoFont","Helvetica","Arial";
+}
