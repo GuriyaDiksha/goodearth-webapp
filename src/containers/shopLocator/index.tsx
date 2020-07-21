@@ -14,6 +14,7 @@ import { ShopProps } from "./typings";
 import ShopDropdownMenu from "components/MobileDropdown/shopLocatorDropdown";
 import ShopPage from "./shopPage";
 import ShopDetail from "./shopDetails";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -78,11 +79,24 @@ class ShopLocator extends React.Component<
     }
   };
 
+  backLink = () => {
+    return (
+      <SecondaryHeader>
+        <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
+          <Link to={"/Cafe-Shop/" + this.state.city}>
+            <span>Back </span>
+          </Link>
+        </div>
+      </SecondaryHeader>
+    );
+  };
+
   render() {
     const {
       device: { mobile },
       city,
-      shopData
+      shopData,
+      shopname
     } = this.props;
     const items: DropdownItem[] = Object.keys(shopData).map(data => {
       return {
@@ -90,16 +104,23 @@ class ShopLocator extends React.Component<
         value: data
       };
     });
+
     return (
       <div className={styles.pageBody}>
         {mobile ? (
-          <ShopDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            showCaret={true}
-            open={false}
-            value={city}
-          />
+          shopname ? (
+            this.backLink()
+          ) : (
+            <ShopDropdownMenu
+              list={items}
+              onChange={this.onchangeFilter}
+              showCaret={true}
+              open={false}
+              value={city}
+            />
+          )
+        ) : shopname ? (
+          this.backLink()
         ) : (
           <SecondaryHeader>
             <Fragment>

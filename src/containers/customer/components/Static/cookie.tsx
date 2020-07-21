@@ -6,7 +6,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 // import { Link } from "react-router-dom";
 import { Props } from "../../typings";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 export default class Cookie extends React.Component<Props, {}> {
   constructor(props: Props) {
@@ -63,14 +63,14 @@ export default class Cookie extends React.Component<Props, {}> {
           <p>
             For further information on Cookies, including how to see what
             Cookies have been set on your device and how to manage and delete
-            them, visit
-            <Link
-              to="http://www.allaboutcookies.org"
+            them, visit&nbsp;
+            <a
+              href="http://www.allaboutcookies.org"
               target="_blank"
               rel="noopener noreferrer"
             >
               http://www.allaboutcookies.org
-            </Link>
+            </a>
           </p>
         </div>
         <div className={globalStyles.voffset4}>
@@ -195,29 +195,30 @@ export default class Cookie extends React.Component<Props, {}> {
           </ul>
           <p>
             To find out more about interest-based ads and your choices, visit
-            these sites:
-            <Link
-              to="http://optout.aboutads.info/?c=2&amp;lang=EN#!%2F"
+            these sites:&nbsp;
+            <a
+              href="http://optout.aboutads.info/?c=2&amp;lang=EN#!%2F"
               target="_blank"
               rel="noopener noreferrer"
             >
               Digital Advertising Alliance,
-            </Link>
-            <Link
-              to="http://optout.networkadvertising.org/?c=1#!/"
+            </a>
+            &nbsp;
+            <a
+              href="http://optout.networkadvertising.org/?c=1#!/"
               target="_blank"
               rel="noopener noreferrer"
             >
               the Network Advertising Initiative,
-            </Link>
-            and
-            <Link
-              to="http://www.youronlinechoices.eu/"
+            </a>
+            &nbsp; and&nbsp;
+            <a
+              href="http://www.youronlinechoices.eu/"
               target="_blank"
               rel="noopener noreferrer"
             >
               the Interactive Advertising Bureau (IAB) Europe.
-            </Link>
+            </a>
           </p>
           <p>
             Some of the Cookies we commonly use are listed in our Cookies chart
@@ -392,78 +393,78 @@ export default class Cookie extends React.Component<Props, {}> {
             organisations hold about you and what they do with it.
           </p>
           <p>
-            Facebook:
-            <Link
-              to="https://www.facebook.com/policy.php"
+            Facebook:&nbsp;
+            <a
+              href="https://www.facebook.com/policy.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://www.facebook.com/policy.php
-            </Link>
+            </a>
             <br />
-            Google AdWords:
-            <Link
-              to="https://support.google.com/adwords/answer/2549116?hl=en"
+            Google AdWords:&nbsp;
+            <a
+              href="https://support.google.com/adwords/answer/2549116?hl=en"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://support.google.com/adwords/answer/2549116?hl=en
-            </Link>
+            </a>
             &nbsp;
             <br />
-            Google Analytics:
-            <Link
-              to="http://www.google.com/analytics/learn/privacy.html"
+            Google Analytics:&nbsp;
+            <a
+              href="http://www.google.com/analytics/learn/privacy.html"
               target="_blank"
               rel="noopener noreferrer"
             >
               http://www.google.com/analytics/learn/privacy.html.
-            </Link>
+            </a>
             <br />
-            Google Tag Manager:
-            <Link
-              to="https://www.google.com/analytics/tag-manager/faq/"
+            Google Tag Manager:&nbsp;
+            <a
+              href="https://www.google.com/analytics/tag-manager/faq/"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://www.google.com/analytics/tag-manager/faq/
-            </Link>
+            </a>
             <br />
-            Google+:
-            <Link
-              to="https://www.google.com/policies/privacy/"
+            Google+:&nbsp;
+            <a
+              href="https://www.google.com/policies/privacy/"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://www.google.com/policies/privacy/
-            </Link>
+            </a>
             <br />
-            Twitter:
-            <Link
-              to="https://twitter.com/privacy?lang=en"
+            Twitter:&nbsp;
+            <a
+              href="https://twitter.com/privacy?lang=en"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://twitter.com/privacy?lang=en
-            </Link>
+            </a>
             <br />
-            YouTube:
-            <Link
-              to="https://www.youtube.com/static?template=privacy_guidelines"
+            YouTube:&nbsp;
+            <a
+              href="https://www.youtube.com/static?template=privacy_guidelines"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://www.youtube.com/static?template=privacy_guidelines
-            </Link>
+            </a>
             <br />
-            XAXIS :
-            <Link
-              to="https://www.xaxis.com/privacy-notice/"
+            XAXIS:&nbsp;
+            <a
+              href="https://www.xaxis.com/privacy-notice/"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://www.xaxis.com/privacy-notice/
-            </Link>
+            </a>
           </p>
         </div>
         <div className={globalStyles.voffset4}>
@@ -638,15 +639,15 @@ export default class Cookie extends React.Component<Props, {}> {
               can indicate your preference on our order form by leaving the
               “Opt-In” checkbox blank. If you no longer wish to receive our
               marketing and promotional emails, at all times have the option to
-              unsubscribe by sending email at
-              <Link to="mailto:customercare@goodearth.in">
+              unsubscribe by sending email at&nbsp;
+              <a href="mailto:customercare@goodearth.in">
                 customercare@goodearth.in
-              </Link>
-              and to be forgotten and requiring your information to be expunged
-              from our records by contacting
-              <Link to="mailto:customercare@goodearth.in">
+              </a>
+              &nbsp; and to be forgotten and requiring your information to be
+              expunged from our records by contacting&nbsp;
+              <a href="mailto:customercare@goodearth.in">
                 customercare@goodearth.in
-              </Link>
+              </a>
               .
             </li>
             <li>
@@ -659,15 +660,15 @@ export default class Cookie extends React.Component<Props, {}> {
               communications and promotions, and personalized customer support.
               If you do not want Goodearth to associate automatically-collected
               information with you, you may opt out at all times have the option
-              to unsubscribe by sending email at
-              <Link to="mailto:customercare@goodearth.in">
+              to unsubscribe by sending email at&nbsp;
+              <a href="mailto:customercare@goodearth.in">
                 customercare@goodearth.in
-              </Link>
-              and to be forgotten and requiring your information to be expunged
-              from our records by contacting
-              <Link to="mailto:customercare@goodearth.in">
+              </a>
+              &nbsp; and to be forgotten and requiring your information to be
+              expunged from our records by contacting&nbsp;
+              <a href="mailto:customercare@goodearth.in">
                 customercare@goodearth.in
-              </Link>
+              </a>
               . If you opt out we will still collect Goodearth device and usage
               information but we will only collect such data in a de-identified
               and aggregate form.
@@ -689,9 +690,9 @@ export default class Cookie extends React.Component<Props, {}> {
             Click on the link below to learn more about our Privacy policies.
           </p>
           <p>
-            <Link to="https://www.goodearth.in/customer-assistance/privacy-policy">
+            <a href="https://www.goodearth.in/customer-assistance/privacy-policy">
               https://www.goodearth.in/customer-assistance/privacy-policy
-            </Link>
+            </a>
           </p>
         </div>
       </div>

@@ -51,12 +51,12 @@ export default class Returns extends React.Component<Props, {}> {
               to 5.00 PM IST
             </li>
             <li>
-              by email at
+              by email at&nbsp;
               <a href="mailto:customercare@goodearth.in">
                 customercare@goodearth.in
               </a>
-              with your order number, date of transaction, delivery address and
-              image of the wrongfully delivered or defective item.
+              &nbsp; with your order number, date of transaction, delivery
+              address and image of the wrongfully delivered or defective item.
             </li>
             <li>
               Check the products carefully once you receive them and mention any
