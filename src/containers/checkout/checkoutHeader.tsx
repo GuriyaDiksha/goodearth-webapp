@@ -34,13 +34,6 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    goLogin: (event: React.MouseEvent) => {
-      LoginService.showLogin(dispatch);
-      event.preventDefault();
-    },
-    handleLogOut: () => {
-      LoginService.logout(dispatch);
-    },
     changeCurrency: async (data: FormData) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;

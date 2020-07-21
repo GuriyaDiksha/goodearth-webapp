@@ -8,13 +8,10 @@ import iconStyles from "styles/iconFonts.scss";
 
 const GiftCardItem = ({
   cardId,
-  cardType,
-  appliedAmount,
-  cardValue,
+  expiryDate,
   type,
   remainingAmount,
   currStatus,
-  code,
   currency,
   onClose
 }: GiftListProps): JSX.Element => {
@@ -36,18 +33,17 @@ const GiftCardItem = ({
   } else if (currStatus == "Expired" && type == "CNI") {
     showExpired = true;
   }
-
   return (
     <div id="gc-balance-info">
       {showExpired ? (
         <div>
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             <p className={styles.value12}>
-              {code}{" "}
+              {cardId}{" "}
               <span
                 className={styles.cross}
                 onClick={() => {
-                  closeResult(code);
+                  closeResult(cardId);
                 }}
               >
                 <i
@@ -67,7 +63,7 @@ const GiftCardItem = ({
               <span
                 className={cl(styles.colorPrimary, globalStyles.pointer)}
                 onClick={() => {
-                  deleteCard(code);
+                  deleteCard(cardId);
                 }}
               >
                 <a
@@ -86,11 +82,11 @@ const GiftCardItem = ({
       ) : (
         <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
           <p className={styles.textMuted}>
-            {code}{" "}
+            {cardId}{" "}
             <span
               className={styles.cross}
               onClick={() => {
-                closeResult(code);
+                closeResult(cardId);
               }}
             >
               <i
@@ -103,27 +99,10 @@ const GiftCardItem = ({
             Balance amount:{" "}
             <span>
               {" "}
-              {String.fromCharCode(unicode)} {remainingAmount}{" "}
+              {String.fromCharCode(unicode)} {remainingAmount}
+              {` exipires on` + expiryDate}
             </span>
           </p>
-          {conditionalRefresh && (
-            <span
-              className={cl(styles.colorPrimary, globalStyles.pointer)}
-              onClick={() => {
-                closeResult(code);
-              }}
-            >
-              <a
-                className={cl(
-                  globalStyles.cerise,
-                  globalStyles.pointer,
-                  globalStyles.linkTextUnderline
-                )}
-              >
-                Refresh
-              </a>
-            </span>
-          )}
         </div>
       )}
     </div>

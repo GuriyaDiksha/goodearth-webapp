@@ -48,26 +48,26 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     const data: any = {
       cardId: this.state.txtvalue
     };
-    this.props.applyGiftCard(data).then(response => {
-      // const { giftList } = this.state;
-      // if (response.currStatus == "Invalid-CN") {
-      //   this.setState({
-      //     error: "Please enter a valid code"
-      //   });
-      // } else {
-      //   giftList.push(response);
-      //   this.setState({
-      //     giftList: giftList,
-      //     newCardBox: false,
-      //     txtvalue: ""
-      //   });
-      // }
+    this.props.applyGiftCard(data).then((response: any) => {
+      let { giftList } = this.state;
+      if (response.currStatus == false) {
+        this.setState({
+          error: "Please enter a valid code"
+        });
+      } else {
+        giftList = response.data;
+        this.setState({
+          giftList: giftList,
+          newCardBox: false,
+          txtvalue: ""
+        });
+      }
     });
   };
 
   gcBalanceOtp = (response: any) => {
     const { giftList } = this.state;
-    if (response.currStatus == "Invalid-CN") {
+    if (response.status == false) {
       this.setState({
         error: "Please enter a valid code"
       });
