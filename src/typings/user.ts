@@ -1,3 +1,5 @@
+import { AddressData } from "components/Address/typings";
+
 export type User = {
   firstName: string;
   lastName: string;
@@ -10,4 +12,5 @@ export type User = {
   gender?: "male" | "female";
   isLoggedIn: boolean;
   refresh: string;
+  shippingData: AddressData | null;
 };
