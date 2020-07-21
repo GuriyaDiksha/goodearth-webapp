@@ -82,11 +82,18 @@ class ShopLocator extends React.Component<
   };
 
   backLink = () => {
+    const {
+      device: { mobile }
+    } = this.props;
+
     return (
       <SecondaryHeader>
         <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
           <Link to={"/Cafe-Shop/" + this.state.city}>
-            <span className={styles.heading}> {`<`} Back To Shops </span>
+            <span className={styles.heading}>
+              {" "}
+              {`<`} {!mobile && `Back To Shops`}{" "}
+            </span>
           </Link>
         </div>
       </SecondaryHeader>

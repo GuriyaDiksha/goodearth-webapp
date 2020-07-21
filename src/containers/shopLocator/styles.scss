@@ -238,19 +238,20 @@ position: absolute;
   color: $cerise;
   font-size: 23px;
 }
+.heading {
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 1px;
+  font-size: 14px;
+  line-height: 48px;
+}
  @media screen and (min-width: 992px) {
   .serial-number {
     .enabled-sno {
         background-color: $cerise;
     }
   }
-  .heading {
-    text-transform: uppercase;
-    color: #666;
-    letter-spacing: 1px;
-    font-size: 14px;
-    line-height: 48px;
-}
+  
   .cafe-content {
     display: flex;
     height: 100%;
