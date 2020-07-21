@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React, { Fragment } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
@@ -15,8 +16,9 @@ import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
-import Quickview from "components/Quickview";
 import Loader from "components/Loader";
+
+const Quickview = loadable(() => import("components/Quickview"));
 
 const mapStateToProps = (state: AppState) => {
   return {

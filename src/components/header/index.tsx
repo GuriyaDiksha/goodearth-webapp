@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -6,7 +7,6 @@ import cs from "classnames";
 import SideMenu from "./sidemenu";
 import MainMenu from "./menu";
 import { MenuList } from "./menulist";
-import Mobilemenu from "./mobileMenu";
 import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
@@ -19,6 +19,8 @@ import LoginService from "services/login";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
+
+const Mobilemenu = loadable(() => import("./mobileMenu"));
 
 const mapStateToProps = (state: AppState) => {
   return {

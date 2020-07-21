@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
@@ -10,9 +11,7 @@ import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
-import VerticalImageSelector from "components/VerticalImageSelector";
 import PdpImage from "./components/pdpImage";
-import ProductDetails from "./components/productDetails";
 import WeRecommendSlider from "components/weRecomend";
 import CollectionProductsSlider from "components/moreCollection";
 import WallpaperFAQ from "./components/WallpaperFAQ";
@@ -27,6 +26,11 @@ import MobileSlider from "../../components/MobileSlider";
 import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.png";
+
+const VerticalImageSelector = loadable(() =>
+  import("components/VerticalImageSelector")
+);
+const ProductDetails = loadable(() => import("./components/productDetails"));
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;

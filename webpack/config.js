@@ -57,7 +57,7 @@ let config = [
             splitChunks: {
                 chunks: 'all',
                 automaticNameDelimiter: "-",
-                minChunks: 3
+                minChunks: 2
             }
         },
         entry: {

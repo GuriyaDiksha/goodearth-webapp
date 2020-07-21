@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React, { RefObject } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
@@ -5,7 +6,6 @@ import { QuickviewProps, State } from "./typings";
 
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
-import VerticalImageSelector from "components/VerticalImageSelector";
 import PdpImage from "containers/pdp/components/pdpImage";
 import ProductDetails from "containers/pdp/components/productDetails";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
@@ -13,6 +13,10 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import mapDispatchToProps from "./initAction";
 import fontStyles from "styles/iconFonts.scss";
+
+const VerticalImageSelector = loadable(() =>
+  import("components/VerticalImageSelector")
+);
 
 const mapStateToProps = (state: AppState, props: QuickviewProps) => {
   let { id } = props;

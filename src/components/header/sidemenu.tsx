@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React, { Fragment } from "react";
 import { currencyCode } from "../../typings/currency";
 import { SideMenuProps } from "./typings";
@@ -8,13 +9,13 @@ import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
-import Bag from "../Bag/index";
 import LoginService from "services/login";
 import { Basket } from "typings/basket";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
 import { Link } from "react-router-dom";
+const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
   showc: boolean;
@@ -57,6 +58,7 @@ class SideMenu extends React.Component<Props, State> {
     };
   }
   static contextType = UserContext;
+
   render() {
     const { isLoggedIn } = this.context;
     const items: DropdownItem[] = [
@@ -246,16 +248,18 @@ class SideMenu extends React.Component<Props, State> {
               }}
             ></i>
             <span className={styles.badge}>{bagCount}</span>
-            <Bag
-              cart={this.props.sidebagData}
-              currency={this.props.currency}
-              active={this.state.showBag}
-              toggleBag={(): void => {
-                this.setState(prevState => ({
-                  showBag: !prevState.showBag
-                }));
-              }}
-            />
+            {this.state.showBag && (
+              <Bag
+                cart={this.props.sidebagData}
+                currency={this.props.currency}
+                active={this.state.showBag}
+                toggleBag={(): void => {
+                  this.setState(prevState => ({
+                    showBag: !prevState.showBag
+                  }));
+                }}
+              />
+            )}
           </li>
         </ul>
         <ul>
