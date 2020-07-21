@@ -112,6 +112,14 @@ export default {
     BasketService.fetchBasket(dispatch);
     return res;
   },
+  changeCurrency: async function(dispatch: Dispatch, formData: FormData) {
+    const res = await API.post<registerResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
+      formData
+    );
+    return res;
+  },
   fetchCountryData: (dispatch: Dispatch) => {
     return API.get<countryDataResponse>(
       dispatch,

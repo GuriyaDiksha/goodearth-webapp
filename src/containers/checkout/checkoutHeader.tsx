@@ -5,7 +5,6 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import GrowlMessage from "components/GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import storyStyles from "../../styles/stories.scss";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import gelogoCerise from "../../images/gelogoCerise.svg";
@@ -18,6 +17,7 @@ import UserContext from "contexts/user";
 import { currencyCode } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
+import { refreshPage } from "actions/user";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -40,6 +40,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     handleLogOut: () => {
       LoginService.logout(dispatch);
+    },
+    changeCurrency: async (data: FormData) => {
+      const response = await LoginService.changeCurrency(dispatch, data);
+      return response;
+    },
+    reloadPage: () => {
+      dispatch(refreshPage(undefined));
     }
   };
 };
@@ -53,18 +60,24 @@ class CheckoutHeader extends React.Component<Props, {}> {
   }
   static contextType = UserContext;
 
-  showCurrency() {
+  changeCurrency = (cur: any) => {
+    const { changeCurrency, reloadPage } = this.props;
+    const data: any = {
+      currency: cur
+    };
+    if (this.props.currency != data) {
+      changeCurrency(data).then(response => {
+        reloadPage();
+      });
+    }
     // this.setState({
     //   showC: !this.state.showC,
     //   showP: false
     // });
-  }
+  };
 
   render() {
-    // const { isLoggedIn } = this.context;
     const { message, meta, mobile } = this.props;
-    // const wishlistCount = wishlistData.length;
-    // const wishlistIcon = wishlistCount > 0;
     const items: DropdownItem[] = [
       {
         label: "INR" + " " + String.fromCharCode(currencyCode["INR"]),
@@ -193,10 +206,10 @@ class CheckoutHeader extends React.Component<Props, {}> {
             >
               <SelectableDropdownMenu
                 align="right"
-                className={storyStyles.greyBG}
                 items={items}
                 value="INR"
                 showCaret={true}
+                onChange={this.changeCurrency}
               ></SelectableDropdownMenu>
             </div>
           </div>
