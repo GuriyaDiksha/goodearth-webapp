@@ -19,7 +19,8 @@ const WishlistButton: React.FC<Props> = ({
   showText,
   className,
   iconClassName,
-  mobile
+  mobile,
+  basketLineId
 }) => {
   const items = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -31,23 +32,28 @@ const WishlistButton: React.FC<Props> = ({
     if (!isLoggedIn) {
       LoginService.showLogin(store.dispatch);
     } else {
-      if (addedToWishlist) {
-        WishlistService.removeFromWishlist(store.dispatch, id);
+      if (basketLineId) {
+        WishlistService.moveToWishlist(store.dispatch, basketLineId);
       } else {
-        WishlistService.addToWishlist(store.dispatch, id);
+        if (addedToWishlist) {
+          WishlistService.removeFromWishlist(store.dispatch, id);
+        } else {
+          WishlistService.addToWishlist(store.dispatch, id);
+        }
       }
     }
-  }, [addedToWishlist, id, isLoggedIn]);
+  }, [addedToWishlist, id, isLoggedIn, basketLineId]);
 
   return (
     <div className={className}>
       <div
         className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
-          [iconStyles.iconWishlistAdded]: addedToWishlist,
-          [iconStyles.iconWishlist]: !addedToWishlist,
-          [styles.addedToWishlist]: addedToWishlist,
+          [iconStyles.iconWishlistAdded]: addedToWishlist && !basketLineId,
+          [iconStyles.iconWishlist]: !addedToWishlist || basketLineId,
+          [styles.addedToWishlist]: addedToWishlist && !basketLineId,
           [styles.mobileWishlist]: mobile
         })}
+        title={basketLineId ? "Move to Wishlist" : ""}
         onClick={onClick}
       ></div>
       {showText && (

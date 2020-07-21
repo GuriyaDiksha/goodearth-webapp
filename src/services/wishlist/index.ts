@@ -7,6 +7,7 @@ import { updateWishlist } from "actions/wishlist";
 import API from "utils/api";
 import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
+import BasketService from "services/basket";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "sequence") {
@@ -63,6 +64,21 @@ export default {
     );
     await this.updateWishlist(dispatch);
     return res;
+  },
+
+  moveToWishlist: async function(dispatch: Dispatch, basketLineId: ProductID) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
+      {
+        basketLineId
+      }
+    );
+
+    if (res.success) {
+      this.updateWishlist(dispatch);
+      BasketService.fetchBasket(dispatch);
+    }
   },
 
   modifyWishlistItem: async function(
