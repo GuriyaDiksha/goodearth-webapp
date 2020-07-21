@@ -14,6 +14,8 @@ import { ShopProps } from "./typings";
 import ShopDropdownMenu from "components/MobileDropdown/shopLocatorDropdown";
 import ShopPage from "./shopPage";
 import ShopDetail from "./shopDetails";
+import locIcon from "../../images/location-icon.svg";
+import iconStyles from "../../styles/iconFonts.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -103,16 +105,33 @@ class ShopLocator extends React.Component<
         ) : (
           <SecondaryHeader>
             <Fragment>
-              <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
-                <p className={styles.filterText}>Sort</p>
-                <SelectableDropdownMenu
-                  align="right"
-                  className={styles.dropdownRoot}
-                  items={items}
-                  value={city}
-                  onChange={this.onchangeFilter}
-                  showCaret={true}
-                ></SelectableDropdownMenu>
+              <div
+                className={cs(
+                  bootstrap.colMd3,
+                  styles.innerHeader,
+                  styles.dropDiv
+                )}
+              >
+                <div className={cs(styles.headerHeight, styles.uc)}>
+                  <i
+                    className={cs(iconStyles.icon, iconStyles.iconLocation)}
+                  ></i>
+                  Shop Locator
+                </div>
+                <div className={styles.dropdownCenter}>
+                  <span className={styles.locIcon}>
+                    <img src={locIcon} />{" "}
+                  </span>
+
+                  <SelectableDropdownMenu
+                    align="right"
+                    className={styles.dropdownRoot}
+                    items={items}
+                    value={city}
+                    onChange={this.onchangeFilter}
+                    showCaret={true}
+                  ></SelectableDropdownMenu>
+                </div>
               </div>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}></div>
             </Fragment>

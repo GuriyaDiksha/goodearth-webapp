@@ -6,6 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ShopLocatorProps } from "./typings";
 import { Link } from "react-router-dom";
+import cafeicon from "../../images/cafe-icon.svg";
 
 const ShopPage: React.FC<ShopLocatorProps> = props => {
   const { data, mobile } = props;
@@ -49,7 +50,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                   {item.place}{" "}
                   <Link to="#cafe">
                     {" "}
-                    <img src="/" className="iconCafe" />{" "}
+                    <img src={cafeicon} className={styles.iconCafe} />
                   </Link>{" "}
                 </h3>
               ) : (
