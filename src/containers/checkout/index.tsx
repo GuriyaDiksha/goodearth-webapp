@@ -138,6 +138,16 @@ class Checkout extends React.Component<Props, State> {
     this.props.updateMeta(this.props.cookies);
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const shippingData = nextProps.user.shippingData;
+    if (shippingData && !this.props.user.shippingData) {
+      this.setState({
+        shippingAddress: shippingData,
+        activeStep: shippingData ? Steps.STEP_BILLING : Steps.STEP_SHIPPING
+      });
+    }
+  }
+
   isActiveStep = (step: string) => {
     return this.state.activeStep == step;
   };

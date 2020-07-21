@@ -1,12 +1,13 @@
 import { Currency } from "typings/currency";
 import { User } from "typings/user";
 import { PageMeta } from "typings/meta";
+import { AddressData } from "components/Address/typings";
 
 export type MetaResponse = {
   currency: Currency;
   user: User;
   bridalUser: boolean;
-  shippingData: any[];
+  shippingData: AddressData | null;
   giftCard: any[];
 };
 
