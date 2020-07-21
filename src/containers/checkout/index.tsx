@@ -13,6 +13,8 @@ import AddressMain from "components/Address/AddressMain";
 import { AddressData } from "components/Address/typings";
 import CookieService from "services/cookie";
 import AddressService from "services/address";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
@@ -21,6 +23,7 @@ import { refreshPage } from "actions/user";
 import OrderSummary from "./component/orderSummary";
 import PromoSection from "./component/promo";
 import PaymentSection from "./component/payment";
+import { Cookies } from "typings/cookies";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -30,7 +33,8 @@ const mapStateToProps = (state: AppState) => {
     basket: state.basket,
     addresses: state.address.addressList,
     mobile: state.device.mobile,
-    currency: state.currency
+    currency: state.currency,
+    cookies: state.cookies
   };
 };
 
@@ -60,6 +64,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     refreshPage: () => {
       dispatch(refreshPage(undefined));
+    },
+    updateMeta: (cookies: Cookies) => {
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
     }
   };
 };
@@ -95,9 +103,13 @@ class Checkout extends React.Component<Props, State> {
     super(props);
     this.state = {
       activeStep: props.user.isLoggedIn
-        ? Steps.STEP_SHIPPING
+        ? props.user.shippingData
+          ? Steps.STEP_BILLING
+          : Steps.STEP_SHIPPING
         : Steps.STEP_LOGIN,
-      shippingAddress: undefined,
+      shippingAddress: props.user.shippingData
+        ? props.user.shippingData
+        : undefined,
       billingAddress: undefined,
       shippingError: "",
       billingError: "",
@@ -123,6 +135,7 @@ class Checkout extends React.Component<Props, State> {
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
+    this.props.updateMeta(this.props.cookies);
   }
 
   isActiveStep = (step: string) => {

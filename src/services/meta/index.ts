@@ -7,6 +7,8 @@ import { Cookies } from "typings/cookies";
 import { updateUser } from "actions/user";
 import { updateCurrency } from "actions/currency";
 import { resetPageMeta, updatePageMeta } from "actions/meta";
+import { User } from "typings/user";
+import { initialState } from "reducers/user";
 
 export default {
   fetchMeta: async function(cookies: Cookies): Promise<MetaResponse> {
@@ -23,15 +25,7 @@ export default {
   },
 
   updateMeta: async function(dispatch: Dispatch, cookies: Cookies) {
-    let user = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      id: "",
-      loyalityEligible: false,
-      bridal: false,
-      isLoggedIn: false
-    };
+    let user: Partial<User> = initialState;
     if (cookies.tkn) {
       const meta: MetaResponse = await this.fetchMeta(cookies);
       user = meta.user;

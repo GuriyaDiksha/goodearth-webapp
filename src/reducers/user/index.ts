@@ -8,7 +8,8 @@ export const initialState: State = {
   bridal: false,
   loyalityEligible: false,
   isLoggedIn: false,
-  refresh: ""
+  refresh: "",
+  shippingData: null
 };
 
 export const user = (state = initialState, action: UserActions): State => {
