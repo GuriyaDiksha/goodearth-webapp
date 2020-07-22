@@ -1,13 +1,15 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+
 .Dropdown-root {
   min-width: 161px;
   cursor: pointer;
   margin-left: 5px;
   border: 1px solid #ccc;
+  padding-left: 25px;
   span{
-      right: 5px;
+      right: 10px;
       font-weight: 400;
       color: rgba(51,51,51,.8);
   }
@@ -50,6 +52,9 @@ margin-top: $main-header;
   .page-body{
     margin-top: $header-height;
   }
+  .shop-addresses {
+    margin-top: 25px;
+  }
   .get-directions {
     margin-bottom: 40px;
 }
@@ -82,6 +87,8 @@ margin-top: $main-header;
   overflow: scroll;
 }
 .shop-add-block {
+  position: relative;
+  
   h3 {
     font-size: 18px;
     font-family: "Baskerville","Amiri","Serif";
@@ -94,6 +101,7 @@ margin-top: $main-header;
     border-bottom: 1px solid #ededed;
     cursor: pointer;
     min-height: 270px;
+    background-color: #f9f8f5;
 }
 .small {
   font-size: 12px;
@@ -103,6 +111,16 @@ margin-top: $main-header;
     &.city {
       text-transform: uppercase;
     }
+    a {
+      color: #666;
+    }
+}
+.icon-cafe {
+  height: 60px;
+    width: 60px;
+    position: absolute;
+    top: 7%;
+    margin-left: 20px;
 }
 .view-directions-block {
   a{
@@ -112,11 +130,12 @@ margin-top: $main-header;
   letter-spacing: 1px;
   }
 }
-
 }
-
 .white-block {
-  background-color: #fff;
+  background-color: #fff !important;
+}
+.bg-cerise {
+  background-color: #ab1e56 !important;
 }
 .shop-add-block {
    .serial-number {
@@ -173,12 +192,66 @@ position: absolute;
     }
 }
 
+ 
+  .dropdown-center {
+    margin: 2px 0 0 8px;
+    position: relative;
+  }
+
+
+    .drop-div {
+      font-family: "LatoFont","Helvetica","Arial";
+    letter-spacing: 1px;
+    color: #333;
+    font-size: 14px;
+    display: inline-flex;
+      span {
+        line-height: 33px;
+        font-size: 12px;
+        font-weight: bold;
+        font-family: "LatoFont","Helvetica","Arial";
+        letter-spacing: 1px;
+      }
+   
+} 
+ 
+  .icon_location {
+    font-size: 23px;
+    color: #ab1e56;
+    //position: relative;
+    top: 3px;
+} 
+
+.loc-icon {
+  position: absolute;
+  width: 15px;
+  z-index: 1;
+  left: 20px;
+}
+.header-height {
+  line-height: 43px;
+}
+.uc {
+  text-transform: uppercase;
+}
+.map-icon {
+  color: $cerise;
+  font-size: 23px;
+}
+.heading {
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 1px;
+  font-size: 14px;
+  line-height: 48px;
+}
  @media screen and (min-width: 992px) {
   .serial-number {
     .enabled-sno {
         background-color: $cerise;
     }
   }
+  
   .cafe-content {
     display: flex;
     height: 100%;

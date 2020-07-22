@@ -105,6 +105,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/shopLocator")),
     action: initActionShop,
     exact: false
+  },
+  {
+    path: ROUTES.ORDERCONFIRMATION,
+    component: loadable(() => import("containers/orderConfirmation")),
+    action: async () => null,
+    exact: false
   }
 ];
 
