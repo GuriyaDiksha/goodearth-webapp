@@ -6,21 +6,20 @@ import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./gift.scss";
 import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
-import GiftCardItem from "./giftDetails";
+import PromoItem from "./promoDetails";
 import { AppState } from "reducers/typings";
-import OtpComponent from "components/OtpComponent";
 
 const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
     currency: state.currency,
-    giftList: state.basket.giftCards
+    giftList: state.basket.offerDiscounts
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps>;
 
-class ApplyGiftcard extends React.Component<Props, GiftState> {
+class ApplyPromo extends React.Component<Props, GiftState> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -122,7 +121,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           {giftList.map((data, i) => {
             return (
-              <GiftCardItem
+              <PromoItem
                 {...data}
                 onClose={this.onClose}
                 currency={currency}
@@ -170,7 +169,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         ></span>
                       </span>
                     </div>
-                    <label>Gift Card Code</label>
+                    <label>Promo Code</label>
                   </Fragment>
                 )}
                 {this.state.error ? (
@@ -188,40 +187,13 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 )}
               </div>
             ) : (
-              <div
-                className={cs(
-                  styles.rtcinfo,
-                  globalStyles.pointer,
-                  globalStyles.textLeft
-                )}
-                onClick={this.newGiftcard}
-              >
-                [+] ADD ANOTHER GIFT CARD CODE
-              </div>
+              ""
             )}
           </div>
         </div>
-
-        {!isLoggedIn ? (
-          !newCardBox ? (
-            ""
-          ) : (
-            <OtpComponent
-              updateError={this.updateError}
-              txtvalue={this.state.txtvalue}
-              toggelOtp={this.toggelOtp}
-              key={200}
-              sendOtp={this.props.sendOtp}
-              checkOtpBalance={this.props.checkOtpBalance}
-              gcBalanceOtp={this.gcBalanceOtp}
-            />
-          )
-        ) : (
-          ""
-        )}
       </Fragment>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplyGiftcard);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplyPromo);

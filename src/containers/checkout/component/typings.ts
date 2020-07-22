@@ -74,6 +74,5 @@ export type GiftState = {
   txtvalue: string;
   error: string;
   newCardBox: boolean;
-  giftList: BalanceProps[];
   toggelOtp: boolean;
 };

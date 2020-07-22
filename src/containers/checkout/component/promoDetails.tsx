@@ -6,7 +6,7 @@ import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 
-const GiftCardItem = ({
+const PromoItem = ({
   cardId,
   expiryDate,
   type,
@@ -18,11 +18,6 @@ const GiftCardItem = ({
   let showLocked = false;
   let showExpired = false;
   const unicode = currencyCode[currency as Currency];
-  const conditionalRefresh = false;
-  const deleteCard = (code: string) => {
-    // setOpenState(!menuOpen);
-    console.log(showLocked);
-  };
 
   const closeResult = (code: string) => {
     onClose(code);
@@ -51,32 +46,7 @@ const GiftCardItem = ({
                 ></i>
               </span>
             </p>
-            <p>
-              <span className={styles.op2}> Date of issue: </span>{" "}
-              <span className={styles.fontBold}> {} </span>
-            </p>
-            <p>
-              <span className={styles.op2}> Date of expiry: </span>{" "}
-              <span className={styles.fontBold}> {} </span>
-            </p>
-            {conditionalRefresh && (
-              <span
-                className={cl(styles.colorPrimary, globalStyles.pointer)}
-                onClick={() => {
-                  deleteCard(cardId);
-                }}
-              >
-                <a
-                  className={cl(
-                    globalStyles.cerise,
-                    globalStyles.pointer,
-                    globalStyles.linkTextUnderline
-                  )}
-                >
-                  Refresh
-                </a>
-              </span>
-            )}
+            error
           </div>
         </div>
       ) : (
@@ -110,4 +80,4 @@ const GiftCardItem = ({
   );
 };
 
-export default GiftCardItem;
+export default PromoItem;

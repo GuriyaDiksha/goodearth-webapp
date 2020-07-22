@@ -8,6 +8,10 @@ import * as Steps from "containers/checkout/constants";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
 import { Link } from "react-router-dom";
+import iconStyles from "styles/iconFonts.scss";
+import { useDispatch } from "react-redux";
+import CheckoutService from "services/checkout";
+import BasketService from "services/basket";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -22,6 +26,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const [showSummary, setShowSummary] = useState(true);
   const [isSuspended, setIsSuspended] = useState(true);
   const code = currencyCode[currency as Currency];
+  const dispatch = useDispatch();
 
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
@@ -167,9 +172,22 @@ const OrderSummary: React.FC<OrderProps> = props => {
     );
   };
 
+  const removeGiftCard = async (data: FormData) => {
+    const response = await CheckoutService.removeGiftCard(dispatch, data);
+    BasketService.fetchBasket(dispatch);
+    return response;
+  };
+
+  const onGiftCardRemove = (id: string) => {
+    const data: any = {
+      cardId: id
+    };
+    removeGiftCard(data);
+  };
+
   const getCoupons = () => {
     // let coupon = null;
-    // let giftCard = null;
+    let giftCard = null;
     // let loyalty = null;
     // let voucherDiscount = this.props.voucher_discounts[0];
     // if (voucherDiscount || this.props.giftCard) {
@@ -189,24 +207,49 @@ const OrderSummary: React.FC<OrderProps> = props => {
     //         );
     //     }
 
-    //     if (this.props.giftCard) {
-    //         giftCard = this.props.giftCard.map((gift, index) => {
-    //             return <div className="flex gutter-between margin-t-20 cross-center" key={index}>
-    //                 <span className="subtotal">
-    //                     <span className="margin-r-10 txtup">{gift.card_id}</span>
-    //                     <span className="promo-message">
-    //                         <span className="text-muted margin-r-10">{gift.card_type=='CREDITNOTE'?'CREDIT NOTE APPLIED':'GIFT CODE APPLIED'}</span>
-    //                         <span className="remove"
-    //                               onClick={() => this.onGiftCardRemove(gift.card_id)}>
-    //                             <i className="icon icon_cross-narrow-big remove"></i>
-    //                         </span>
-    //                     </span>
-    //                 </span>
-    //                 <span
-    //                     className="subtotal">(-) {Currency.getSymbol()} {gift.gift_card_total_value - gift.gift_card_balance}</span>
-    //             </div>
-    //         })
-    //     }
+    if (basket.giftCards) {
+      giftCard = basket.giftCards.map((gift, index: number) => {
+        return (
+          <div
+            className={cs(
+              globalStyles.flex,
+              globalStyles.gutterBetween,
+              globalStyles.marginT20,
+              globalStyles.crossCenter
+            )}
+            key={index}
+          >
+            <span className={styles.subtotal}>
+              <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+                {gift.cardId}
+              </span>
+              <span className={styles.textMuted}>
+                {" "}
+                {gift.cardType == "CREDITNOTE"
+                  ? "CREDIT NOTE APPLIED"
+                  : "GIFT CODE APPLIED"}
+                <span
+                  className={styles.cross}
+                  onClick={() => {
+                    onGiftCardRemove(gift.cardId);
+                  }}
+                >
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig
+                    )}
+                  ></i>
+                </span>
+              </span>
+            </span>
+            <span className={styles.subtotal}>
+              (-) {String.fromCharCode(code)} {gift.appliedAmount}
+            </span>
+          </div>
+        );
+      });
+    }
     //     if(this.props.loyalty){
     //         loyalty =(
     //             <div className="flex gutter-between">
@@ -222,17 +265,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
     //             </div>
     //         )
     //     }
-    //     return (
-    //         <div>
-    //             {(coupon || giftCard.length > 0) && <hr className="hr"/>}
-    //             {coupon}
-    //             {giftCard}
-    //             {loyalty}
-    //         </div>
-    //     );
+    return (
+      <div>
+        {/* {(coupon || giftCard.length > 0) && <hr className="hr"/>} */}
+        {/* {coupon} */}
+        {giftCard}
+        {/* {loyalty} */}
+      </div>
+    );
     // }
 
-    return null;
+    //return null;
   };
 
   const getDeliveryStatus = () => {

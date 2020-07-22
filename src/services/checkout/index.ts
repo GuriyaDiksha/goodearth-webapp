@@ -11,6 +11,22 @@ export default {
     );
     return res;
   },
+  removeGiftCard: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/giftcard/remove_gc/"}`,
+      formData
+    );
+    return res;
+  },
+  removePromo: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/add_giftcard_in_basket/"}`,
+      formData
+    );
+    return res;
+  },
   applyPromo: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
       dispatch,
