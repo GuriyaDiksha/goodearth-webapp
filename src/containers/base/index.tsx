@@ -21,14 +21,24 @@ class BaseLayout extends React.Component<props, {}> {
       location: { pathname }
     } = this.props;
     const isCheckout = pathname.indexOf("checkout") > -1;
-    return (
-      <div>
-        {isCheckout ? <CheckoutHeader /> : <Header />}
-        <Switch>{routes}</Switch>
-        {isCheckout ? "" : <Footer />}
-        <Modal />
-      </div>
-    );
+    const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
+    if (confirmation) {
+      return (
+        <div>
+          <Switch>{routes}</Switch>
+          <Modal />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {isCheckout ? <CheckoutHeader /> : <Header />}
+          <Switch>{routes}</Switch>
+          {isCheckout ? "" : <Footer />}
+          <Modal />
+        </div>
+      );
+    }
   }
 }
 
