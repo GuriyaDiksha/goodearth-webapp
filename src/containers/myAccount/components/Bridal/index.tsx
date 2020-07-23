@@ -9,7 +9,7 @@ import AddressMain from "components/Address/AddressMain";
 import RegistryCreated from "./RegistryCreated";
 import BridalPop from "./BridalPop";
 import ManageRegistry from "./ManageRegistry";
-// import ManageRegistryAddress from './manageregistryaddress'
+import ManageRegistryFull from "./ManageRegistryFull";
 // import ManageAddress from './manageaddress'
 import ShareLink from "./ShareLink";
 import * as valid from "utils/validate";
@@ -18,10 +18,10 @@ import { BridalDetailsType, BridalProfileData } from "./typings";
 import BridalContext from "./context";
 import { updateComponent, updateModal } from "actions/modal";
 import BridalService from "services/bridal";
-// import AddressService from "services/address";
+import AddressService from "services/address";
 
 type Props = {
-  id: number;
+  bridalId: number;
 };
 
 const Bridal: React.FC<Props> = props => {
@@ -36,52 +36,42 @@ const Bridal: React.FC<Props> = props => {
   });
   const [currentSection, setCurrentSection] = useState("create");
   const [currentScreenValue, setCurrentScreenValue] = useState("manage");
-  const [
-    bridalAddress
-    //  setBridalAddress
-  ] = useState<AddressData>();
-  const [
-    bridalDetail
-    // setBridalDetail
-  ] = useState<BridalProfileData>();
+  const [bridalAddress, setBridalAddress] = useState<AddressData>();
+  const [bridalProfile, setBridalProfile] = useState<BridalProfileData>();
   // const [ showPopup, setShowPopup ] = useState(false);
-  const [
-    shareLink
-    // setShareLink
-  ] = useState("");
+  const [shareLink, setShareLink] = useState("");
   // const [ showpop, setShowpop ] = useState(false);
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency } = useSelector((state: AppState) => state);
-
-  // const getBridalProfileData = () => {
-  //     BridalService.fetchBridalProfile(dispatch, props.id)
-  //         .then(data => {
-  //             if (data) {
-  //                 setBridalDetail(data);
-  //                 setShareLink(`${__API_HOST__}/${data.shareLink}`);
-  //             }
-  //         });
-  // }
+  const dispatch = useDispatch();
+  const getBridalProfileData = () => {
+    BridalService.fetchBridalProfile(dispatch, props.bridalId).then(data => {
+      if (data) {
+        setBridalProfile(data);
+        setShareLink(`${__API_HOST__}/${data.shareLink}`);
+      }
+    });
+  };
 
   // componentWillMount() {
-  //     if (props.id != 0) {
-  //         axios.get(Config.hostname + `myapi/addressdetails/`)
-  //             .then(res => {
-  //                 let items = res.data.Address;
-  //                 for (let i = 0; i < items.length; i++) {
-  //                     if (items[i].is_bridal) {
-  //                         setState({bridalAddress: items[i]});
-  //                         break;
-  //                     }
+  // if (props.bridalId != 0) {
+  //     axios.get(Config.hostname + `myapi/addressdetails/`)
+  //         .then(res => {
+  //             let items = res.data.Address;
+  //             for (let i = 0; i < items.length; i++) {
+  //                 if (items[i].is_bridal) {
+  //                     setState({bridalAddress: items[i]});
+  //                     break;
   //                 }
-  //             }).catch((err) => {
-  //             console.error('Axios Error: ', err);
-  //         });
-  //         getBridalProfileData();
-  //     }
+  //             }
+  //         }).catch((err) => {
+  //         console.error('Axios Error: ', err);
+  //     });
+  //     getBridalProfileData();
+  // }
 
   // }
-  const dispatch = useDispatch();
+
   useEffect(() => {
     return window.removeEventListener("beforeunload", valid.myPpup);
   }, []);
@@ -109,20 +99,21 @@ const Bridal: React.FC<Props> = props => {
     setCurrentSection(data);
   };
 
-  // const changeAddress = () => {
-  //     AddressService.fetchAddressList(dispatch)
-  //         .then(data => {
-  //             let items = data;
-  //             for (let i = 0; i < items.length; i++) {
-  //                 if (items[i].isBridal) {
-  //                     setBridalAddress(items[i]);
-  //                     break;
-  //                 }
-  //             }
-  //         }).catch((err) => {
-  //         console.error('Axios Error: ', err.response.data);
-  //     });
-  // }
+  const changeAddress = () => {
+    AddressService.fetchAddressList(dispatch)
+      .then(data => {
+        const items = data;
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].isBridal) {
+            setBridalAddress(items[i]);
+            break;
+          }
+        }
+      })
+      .catch(err => {
+        console.error("Axios Error: ", err.response.data);
+      });
+  };
 
   const setCurrentModuleData = (
     section: string,
@@ -213,18 +204,18 @@ const Bridal: React.FC<Props> = props => {
   //     })
   // }
 
-  // const showManageRegistry = () => {
-  //     getBridalProfileData();
-  //     setCurrentScreenValue("manage");
-  // }
-
-  // const showManageAddressComponent = () => {
-  //     setCurrentScreenValue("manageAddresses");
-  // }
-
-  const setManageRegistry = () => {
-    setCurrentScreenValue("manageregistryaddress");
+  const showManageRegistry = () => {
+    getBridalProfileData();
+    setCurrentScreenValue("manage");
   };
+
+  const showManageAddressComponent = () => {
+    setCurrentScreenValue("editRegistryAddress");
+  };
+
+  // const setManageRegistryFull = () => {
+  //   setCurrentScreenValue("manageregistryfull");
+  // };
 
   const setSelectedSection = () => {
     switch (currentSection) {
@@ -254,19 +245,18 @@ const Bridal: React.FC<Props> = props => {
     }
   };
 
-  // const changeBridalAddress = (addressId: number) => {
-  //     const  data = {
-  //         bridalId: props.id,
-  //         addressId
-  //     }
-  //     BridalService.updateBridalAddress(dispatch, data)
-  //         .then((data) => {
-  //             setBridalDetail(data);
-  //             setShareLink(`${__API_HOST__}/${data.shareLink}`);
-  //             changeAddress();
-  //             setManageRegistry();
-  //         })
-  // }
+  const changeBridalAddress = (addressId: number) => {
+    const data = {
+      bridalId: props.bridalId,
+      addressId
+    };
+    BridalService.updateBridalAddress(dispatch, data).then(data => {
+      setBridalProfile(data);
+      setShareLink(`${__API_HOST__}/${data.shareLink}`);
+      changeAddress();
+      setCurrentScreenValue("manageregistryfull");
+    });
+  };
 
   // onEditAddress(data) {
   //     // console.log(data)
@@ -282,76 +272,79 @@ const Bridal: React.FC<Props> = props => {
   //     setState(modes)
   // }
 
-  // getManageAddress() {
-  //     let html = [];
-  //     html.push(<div className="row bridal-block">
-  //         <div className="col-md-6 col-md-offset-3 col-xs-12 text-center popup-form-bg">
-  //             <div className="row sp-mobile-voffset-6">
-  //                 <div className={editMode?"col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 checkout":"col-xs-10 col-xs-offset-1 col-md-10 col-md-offset-1 checkout"}>
-  //                     <div className="manage-registry text-left voffset4 letter-spacing1"><span
-  //                         className="cursor-pointer" onClick={setManageRegistry} dangerouslySetInnerHTML={{__html: editMode?"":'&lt; &nbsp;MANAGE REGISTRY'}}>
-  //                         </span></div>
-  //                     <div className="text-center c22-A-I">{editMode?"Edit Address":'Saved Addresses'}</div>
-  //                     <AddressMainComponent changeBridalAddress={changeBridalAddress}
-  //                                           setAddressModeProfile={setAddressModeProfile}
-  //                                           editMode={editMode}
-  //                                           setMode={setMode}
-  //                                           addressData={addressData}
-  //                                           newAddressMode={newAddressMode}
-  //                                           addressesAvailable={addressesAvailable}
-  //                                           showAddresses={showAddresses}
-  //                                           toggleAddressForm={onEditAddress} showAddressInBridalUse={true}
-  //                                           currentCallBackComponent="bridal" case="manage"
-  //                                           shouldShowBackButton={true} showAllAddresses="true" key="k123"/>
-  //                     <div className="manage-registry text-center cerise voffset4 letter-spacing1"><span
-  //                         className="cursor-pointer" onClick={setManageRegistry} dangerouslySetInnerHTML={{__html: editMode?"":'&lt; &nbsp;MANAGE REGISTRY'}}>
-  //                         </span></div>
-  //                 </div>
-  //             </div>
-  //         </div>
-  //     </div>);
-  //     return html;
-  // }
-
   const currentScreen = () => {
     switch (currentScreenValue) {
       case "manage": {
-        const addressData = bridalAddress;
-        const bridalData = bridalDetail;
-        if (addressData && bridalData) {
+        // const addressData = bridalAddress;
+        // const bridalData = bridalDetail;
+        if (bridalAddress && bridalProfile) {
           if (
-            Object.keys(addressData).length &&
-            Object.keys(bridalData).length
+            Object.keys(bridalAddress).length &&
+            Object.keys(bridalProfile).length
           ) {
             return (
               <ManageRegistry
-                bridalAddress={addressData}
-                bridalDetail={bridalData}
-                changeScreen={openShareLinkPopup}
-                showRegistry={setManageRegistry}
+                // bridalAddress={bridalAddress}
+                // bridalProfile={bridalProfile}
+                openShareLinkPopup={openShareLinkPopup}
+                showRegistryFull={() =>
+                  setCurrentScreenValue("manageregistryfull")
+                }
               />
             );
           }
         }
         break;
       }
-      case "manageregistryaddress":
+      case "manageregistryfull": {
         // let aData = bridalAddress;
         // let bData = bridalDetail;
-        // if (Object.keys(aData).length && Object.keys(bData).length) {
-        //     return <ManageRegistryAddress bridal_address={aData} change_screen={openShareLinkPopup}
-        //                                   bridal_detail={bData} bid={props.id}
-        //                                   change_address={changeAddress}
-        //                                   key={1}
-        //                                   getBridalProfileData={getBridalProfileData}
-        //                                   show_manageregistry={showManageRegistry}
-        //                                   mobile={mobile}
-        //                                   showManageAddressComponent={showManageAddressComponent}/>
-        // }
+        if (bridalAddress && bridalProfile) {
+          if (
+            Object.keys(bridalAddress).length &&
+            Object.keys(bridalProfile).length
+          ) {
+            return (
+              <ManageRegistryFull
+                // bridalAddress={bridalAddress}
+                openShareLinkPopup={openShareLinkPopup}
+                // bridalProfile={bridalProfile}
+                // bid={props.bridalId}
+                // changeAddress={changeAddress}
+                key={1}
+                // getBridalProfileData={getBridalProfileData}
+                showManageRegistry={showManageRegistry}
+                // mobile={mobile}
+                showManageAddressComponent={showManageAddressComponent}
+              />
+            );
+          }
+        }
         break;
-      case "manageAddresses":
-        // return getManageAddress();
-        break;
+      }
+      case "editRegistryAddress":
+        return (
+          <AddressMain
+            isBridal={true}
+            addressType={"SHIPPING"}
+            error=""
+            // changeBridalAddress={changeBridalAddress}
+            // setAddressModeProfile={setAddressModeProfile}
+            // editMode={editMode}
+            // setMode={setMode}
+            // addressData={addressData}
+            // newAddressMode={newAddressMode}
+            // addressesAvailable={addressesAvailable}
+            // showAddresses={showAddresses}
+            // toggleAddressForm={onEditAddress} showAddressInBridalUse={true}
+            currentCallBackComponent="bridal-edit"
+            // step="manage"
+            // shouldShowBackButton={true}
+            // showAllAddresses="true"
+            key="k123"
+          />
+        );
+      // break;
       default:
         break;
     }
@@ -359,14 +352,19 @@ const Bridal: React.FC<Props> = props => {
   return (
     <BridalContext.Provider
       value={{
-        case: currentSection,
+        isBridal: true,
+        step: currentSection,
+        // bridalItems: bridalItems,
+        bridalAddress: bridalAddress,
         data: bridalDetails,
         setCurrentModule: setCurrentModule,
-        setCurrentModuleData: setCurrentModuleData
+        setCurrentModuleData: setCurrentModuleData,
+        setCurrentScreenValue: setCurrentScreenValue,
+        changeBridalAddress: changeBridalAddress
       }}
     >
       <div className="bridal-registry">
-        {props.id != 0 ? currentScreen() : setSelectedSection()}
+        {props.bridalId != 0 ? currentScreen() : setSelectedSection()}
       </div>
     </BridalContext.Provider>
   );

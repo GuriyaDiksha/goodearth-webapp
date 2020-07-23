@@ -17,7 +17,9 @@ import { updatePinCodeList, updateCountryData } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
 import * as Steps from "../../../containers/checkout/constants";
-import ManageAddress from "containers/myAccount/components/Bridal/ManageAddress";
+import RegistryAddress from "containers/myAccount/components/Bridal/RegistryAddress";
+import EditRegistryAddress from "../../../containers/myAccount/components/Bridal/EditRegistryAddress";
+
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -193,20 +195,22 @@ const AddressMain: React.FC<Props> = props => {
             currentCallBackComponent={currentCallBackComponent}
           />
 
-          {!showDefaultAddressOnly && currentCallBackComponent == "account" && (
-            <div className={globalStyles.voffset4}>
-              <ul>
-                <li>
-                  <input
-                    type="button"
-                    className={globalStyles.ceriseBtn}
-                    value="add a new address"
-                    onClick={() => openAddressForm()}
-                  />
-                </li>
-              </ul>
-            </div>
-          )}
+          {!showDefaultAddressOnly &&
+            (currentCallBackComponent == "account" ||
+              currentCallBackComponent == "bridal") && (
+              <div className={globalStyles.voffset4}>
+                <ul>
+                  <li>
+                    <input
+                      type="button"
+                      className={globalStyles.ceriseBtn}
+                      value="add a new address"
+                      onClick={() => openAddressForm()}
+                    />
+                  </li>
+                </ul>
+              </div>
+            )}
         </div>
       )}
       {mode == "new" && (
@@ -369,7 +373,7 @@ const AddressMain: React.FC<Props> = props => {
             setIsLoading: setIsLoading
           }}
         >
-          <ManageAddress
+          <RegistryAddress
           // activeStep={Steps.STEP_BILLING}
           // mode={mode}
           // isActive={props.isActive}
@@ -388,7 +392,47 @@ const AddressMain: React.FC<Props> = props => {
           // error={props.error}
           >
             {addressContent}
-          </ManageAddress>
+          </RegistryAddress>
+        </AddressContext.Provider>
+      );
+    case "bridal-edit":
+      return (
+        <AddressContext.Provider
+          value={{
+            setMode: setMode,
+            mode: mode,
+            activeStep: props.activeStep || "",
+            // editAddressData: editAddressData,
+            setEditAddressData: setEditAddressData,
+            currentCallBackComponent: currentCallBackComponent,
+            checkPinCode: checkPinCode,
+            isAddressValid: isAddressValid,
+            openAddressForm: openAddressForm,
+            closeAddressForm: closeAddressForm,
+            markAsDefault: markAsDefault,
+            setIsLoading: setIsLoading
+          }}
+        >
+          <EditRegistryAddress
+          // activeStep={Steps.STEP_BILLING}
+          // mode={mode}
+          // isActive={props.isActive}
+          // selectedAddress={props.selectedAddress}
+          // next={props.next || function () { return null}}
+          // openAddressForm={openAddressForm}
+          // finalizeAddress={props.finalizeAddress || function () { return null}}
+          // hidesameShipping={true}
+          // items={this.props.basket}
+          // bridalId={this.props.bridalId}
+          // bridalId=""
+          // isGoodearthShipping={props.isGoodearthShipping || false}
+          // addressType={Steps.STEP_SHIPPING}
+          // addresses={addressList}
+          // user={this.props.user}
+          // error={props.error}
+          >
+            {addressContent}
+          </EditRegistryAddress>
         </AddressContext.Provider>
       );
     default:

@@ -4,5 +4,6 @@ export type AccountMenuItem = {
   component: React.ComponentType<any>;
   title: string;
   currentCallBackComponent?: string;
+  bridalId?: string;
   loggedInOnly: boolean;
 };

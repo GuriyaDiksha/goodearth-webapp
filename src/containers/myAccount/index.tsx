@@ -35,7 +35,7 @@ type Props = {
 // }
 
 const MyAccount: React.FC<Props> = props => {
-  const [bridalId, setBridalId] = useState("");
+  const [bridalId, setBridalId] = useState(CookieService.getCookie("bridalId"));
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
@@ -67,7 +67,7 @@ const MyAccount: React.FC<Props> = props => {
   //             return <ChangePassword/>
   //             break;
   //         case 'address':
-  //             return <ManageAddress isCeriseClubMember={this.state.isCeriseClubMember} isbridal={this.props.isbridal} currentCallBackComponent="account" id={bridalId}/>
+  //             return <RegistryAddress isCeriseClubMember={this.state.isCeriseClubMember} isbridal={this.props.isbridal} currentCallBackComponent="account" id={bridalId}/>
   //             break;
   //         case 'orders':
   //             return <PastOrders setAccountPage={this.setAccountPage}/>
@@ -169,9 +169,9 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "Good Earth Registry",
       href: "/account/bridal",
-      // component: Bridal,
       component: Bridal,
       title: "bridal",
+      bridalId: bridalId,
       loggedInOnly: true
     },
     {
@@ -328,67 +328,63 @@ const MyAccount: React.FC<Props> = props => {
                   .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
                   .map(item => {
                     return item.title == "bridal" ? (
-                      <>
-                        <li
-                          key={item.label}
+                      <li
+                        key={item.label}
+                        className={
+                          showRegistry
+                            ? styles.bridalleftsec
+                            : cs(styles.bridalleftsec, styles.bridalplus)
+                        }
+                      >
+                        <span
+                          onClick={() => setShowRegistry(!showRegistry)}
                           className={
-                            showRegistry
-                              ? styles.bridalleftsec
-                              : cs(styles.bridalleftsec, styles.bridalplus)
+                            showRegistry && currentSection == "bridal"
+                              ? globalStyles.cerise
+                              : ""
                           }
                         >
-                          <span
-                            onClick={() => setShowRegistry(!showRegistry)}
-                            className={
-                              showRegistry && currentSection == "bridal"
-                                ? globalStyles.cerise
-                                : ""
-                            }
-                          >
-                            Good Earth Registry{" "}
-                          </span>
-                          {showRegistry ? (
-                            <ul>
-                              <li>
-                                <NavLink
-                                  // name="bridal"
-                                  key="create-manage-bridal"
-                                  to={item.href}
-                                  activeClassName={globalStyles.cerise}
-                                  // className={showregistry && currentSection == "bridal" ? "cerise":""}
-                                >
-                                  {bridalId == "0"
-                                    ? "Create a Registry"
-                                    : "Manage Registry"}
-                                </NavLink>
-                              </li>
-                              <li>
-                                <NavLink
-                                  to="/customer-assistance/terms-conditions?id=bridalregistryterms"
-                                  target="_blank"
-                                >
-                                  Good Earth Registry Policy
-                                </NavLink>
-                              </li>
-                            </ul>
-                          ) : (
-                            ""
-                          )}
-                        </li>
-                      </>
+                          Good Earth Registry{" "}
+                        </span>
+                        {showRegistry ? (
+                          <ul>
+                            <li key="create-manage-bridal">
+                              <NavLink
+                                // name="bridal"
+
+                                to={item.href}
+                                activeClassName={globalStyles.cerise}
+                                // className={showregistry && currentSection == "bridal" ? "cerise":""}
+                              >
+                                {bridalId == "0"
+                                  ? "Create a Registry"
+                                  : "Manage Registry"}
+                              </NavLink>
+                            </li>
+                            <li key="bridal-terms">
+                              <NavLink
+                                to="/customer-assistance/terms-conditions?id=bridalregistryterms"
+                                target="_blank"
+                              >
+                                Good Earth Registry Policy
+                              </NavLink>
+                            </li>
+                          </ul>
+                        ) : (
+                          ""
+                        )}
+                      </li>
                     ) : (
-                      <>
-                        <li key={item.label}>
-                          {" "}
-                          <NavLink
-                            key={item.label}
-                            to={item.href}
-                            activeClassName={globalStyles.cerise}
-                          >
-                            {item.label}
-                          </NavLink>
-                        </li>
-                      </>
+                      <li key={item.label}>
+                        {" "}
+                        <NavLink
+                          key={item.label}
+                          to={item.href}
+                          activeClassName={globalStyles.cerise}
+                        >
+                          {item.label}
+                        </NavLink>
+                      </li>
                     );
                   })}
                 {/* <li>
@@ -438,12 +434,14 @@ const MyAccount: React.FC<Props> = props => {
                     href,
                     label,
                     title,
-                    currentCallBackComponent
+                    currentCallBackComponent,
+                    bridalId
                   }) => {
                     const Component = component;
                     return (
                       <Route key={label} exact path={href}>
                         <Component
+                          bridalId={bridalId}
                           setCurrentSection={() => setCurrentSection(title)}
                           currentCallBackComponent={currentCallBackComponent}
                         />

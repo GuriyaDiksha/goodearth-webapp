@@ -1,17 +1,17 @@
 import React, { useContext } from "react";
 import BridalContext from "./context";
 import { AddressData } from "components/Address/typings";
-import { BridalProfileData } from "./typings";
+// import { BridalProfileData } from "./typings";
 
 type Props = {
-  bridalAddress: AddressData;
-  bridalDetail: BridalProfileData;
-  changeScreen: () => void;
-  showRegistry: () => void;
+  // bridalAddress: AddressData;
+  // bridalProfile: BridalProfileData;
+  openShareLinkPopup: () => void;
+  showRegistryFull: () => void;
 };
 
 const ManageRegistry: React.FC<Props> = props => {
-  const { data } = useContext(BridalContext);
+  const { data, bridalAddress } = useContext(BridalContext);
   const {
     occasion,
     registryName,
@@ -20,7 +20,15 @@ const ManageRegistry: React.FC<Props> = props => {
     // userAddress,
     eventDate
   } = data;
-
+  const {
+    line1,
+    line2,
+    city,
+    postCode,
+    state,
+    countryName,
+    phoneNumber
+  } = bridalAddress as AddressData;
   return (
     <div className="row bridal-block">
       <div className="col-md-6 col-md-offset-3 col-xs-12 text-center popup-form-bg">
@@ -58,27 +66,29 @@ const ManageRegistry: React.FC<Props> = props => {
                       <br />
                     </p>
                     <p className="light voffset2">
-                      {props.bridalAddress.line1}{" "}
+                      {line1}{" "}
                       <span className="lane2 hidden-xs hidden-sm">
                         date: {eventDate}
                       </span>
                       <br />
-                      {props.bridalAddress.line2} <br />
-                      {props.bridalAddress.city}, {props.bridalAddress.postCode}
+                      {line2} <br />
+                      {city}, {postCode}
                       <br />
-                      {props.bridalAddress.state},{" "}
-                      {props.bridalAddress.countryName}
+                      {state}, {countryName}
                       <br />
                     </p>
-                    <p className="light"> {props.bridalAddress.phoneNumber}</p>
+                    <p className="light"> {phoneNumber}</p>
                     <p className="hidden-sm hidden-lg voffset3">
                       date : {eventDate}
                     </p>
                     <p className="edit">
-                      <a className="cerise" onClick={props.showRegistry}>
+                      <a className="cerise" onClick={props.showRegistryFull}>
                         view details | edit
                       </a>{" "}
-                      <a className="lane2 black" onClick={props.changeScreen}>
+                      <a
+                        className="lane2 black"
+                        onClick={props.openShareLinkPopup}
+                      >
                         share link
                       </a>
                     </p>

@@ -1,6 +1,9 @@
 import { Dispatch } from "redux";
 import API from "utils/api";
-import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
+import {
+  BridalProfileData,
+  BridalItem
+} from "containers/myAccount/components/Bridal/typings";
 
 type SaveBridalProfileData = {
   userAddressId: number;
@@ -10,6 +13,11 @@ type SaveBridalProfileData = {
   coRegistrantName: string;
   registryName: string;
   currency: string;
+};
+
+type BridalItemsResponse = {
+  count: number;
+  results: BridalItem[];
 };
 
 export default {
@@ -41,19 +49,61 @@ export default {
       data
     );
     return res;
+  },
+  updateBridalEventDate: async (
+    dispatch: Dispatch,
+    data: { bridalId: number; eventDate: string }
+  ) => {
+    const res = await API.post<{ message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/update_bridal_event_date/`,
+      data
+    );
+    return res;
+  },
+  updateBridalNames: async (
+    dispatch: Dispatch,
+    data: {
+      bridalId: number;
+      registryName: string;
+      registrantName: string;
+      coRegistrantName: string;
+    }
+  ) => {
+    const res = await API.post<{ message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/update_bridal_name/`,
+      data
+    );
+    return res;
+  },
+  fetchBridalItems: async (dispatch: Dispatch, bridalId: number) => {
+    const res = await API.get<BridalItemsResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/get_bridal_items/?bridalId=${bridalId}`
+    );
+    return res;
+  },
+  deleteBridalItem: async (
+    dispatch: Dispatch,
+    data: { bridalId: number; productId: number }
+  ) => {
+    const res = await API.post<{ message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/delete_bridal_items/`,
+      data
+    );
+    return res;
+  },
+  updateBridalItemQuantity: async (
+    dispatch: Dispatch,
+    data: { bridalId: number; productId: number; qtyRequested: number }
+  ) => {
+    const res = await API.post<{ message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/update_bridal_quantity/`,
+      data
+    );
+    return res;
   }
-  // fetchGridalProfile: async (dispatch: Dispatch, ) => {
-  //     const res = await API.get<>(
-  //         dispatch,
-  //         `${__API_HOST__}/myapi/,`
-  //     )
-  //     return res;
-  // },
-  // fetchGridalProfile: async (dispatch: Dispatch, ) => {
-  //     const res = await API.get<>(
-  //         dispatch,
-  //         `${__API_HOST__}/myapi/,`
-  //     )
-  //     return res;
-  // }
 };

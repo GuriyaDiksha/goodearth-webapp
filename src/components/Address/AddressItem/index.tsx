@@ -12,6 +12,7 @@ import * as Steps from "containers/checkout/constants";
 import { useDispatch } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { CheckoutAddressContext } from "containers/checkout/component/context";
+import BridalContext from "containers/myAccount/components/Bridal/context";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
@@ -40,7 +41,9 @@ const AddressItem: React.FC<Props> = props => {
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
-
+  const { step, changeBridalAddress, setCurrentModuleData } = useContext(
+    BridalContext
+  );
   // deleteAddress(id) {
   //     props.setLoadingStatus(true);
   //     if(currentCallBackComponent == "checkout") {
@@ -68,6 +71,47 @@ const AddressItem: React.FC<Props> = props => {
   //     }
   // }
 
+  const handleSelect = (address: AddressData) => {
+    switch (currentCallBackComponent) {
+      case "bridal":
+        if (step == "manage") {
+          changeBridalAddress(address.id);
+        } else {
+          setCurrentModuleData("address", {
+            userAddress: address.id.toString()
+          });
+          // props.setCurrentModule('created');
+        }
+        break;
+      // case "checkout":
+      //     let products = valid.productForGa(props.items);
+      //     if(props.addressType == 'SHIPPING') {
+      //         dataLayer.push({
+      //             'event': 'checkout',
+      //             'ecommerce': {
+      //                 'currencyCode': window.currency,
+      //                 'checkout': {
+      //                     'actionField': {'step': 2},
+      //                     'products': products
+      //                 }
+      //             }
+      //         })
+      //     } else {
+      //         dataLayer.push({
+      //             'event': 'checkout',
+      //             'ecommerce': {
+      //                 'currencyCode': window.currency,
+      //                 'checkout': {
+      //                     'actionField': {'step': 3},
+      //                     'products': products
+      //                 }
+      //             }
+      //         })
+      //     }
+      //     props.onSelectAddress(props.address);
+      // break;
+    }
+  };
   // const openAddressForm = (address: AddressData) => {
   //     // props.showEditForm({showAddresses: false, addressData: data, editMode: true, newAddressMode: false, addressesAvailable: true});
   //     // if (props.setAddressModeProfile) {
@@ -156,7 +200,8 @@ const AddressItem: React.FC<Props> = props => {
         className={cs(styles.addressItemContainer, {
           [styles.addressItemContainerCheckout]:
             currentCallBackComponent == "checkout-shipping" ||
-            currentCallBackComponent == "checkout-billing"
+            currentCallBackComponent == "checkout-billing" ||
+            currentCallBackComponent == "bridal"
         })}
       >
         <div
@@ -165,7 +210,8 @@ const AddressItem: React.FC<Props> = props => {
             {
               [styles.addressItemCheckout]:
                 currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing"
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal"
             },
             { [styles.shippingBorder]: address.isEdit },
             {
@@ -299,9 +345,9 @@ const AddressItem: React.FC<Props> = props => {
               className={cs(
                 globalStyles.ceriseBtn,
                 globalStyles.cursorPointer,
-                styles.ç
+                styles.shipToThisBtn
               )}
-              onClick={() => props.selectAddress(address)}
+              onClick={() => handleSelect(address)}
             >
               USE THIS ADDRESS
             </div>

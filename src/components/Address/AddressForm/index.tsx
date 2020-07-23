@@ -1513,7 +1513,7 @@ const AddressForm: React.FC<Props> = props => {
         </div>
       </Formsy>
       {/* {(((props.editMode || props.newAddressMode) && props.currentCallBackComponent ===  "account") || props.shouldShowBackButton) &&  */}
-      {true && (
+      {currentCallBackComponent !== "bridal" && (
         <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
           <span
             className={cs(
