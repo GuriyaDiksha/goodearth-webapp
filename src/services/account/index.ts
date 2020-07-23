@@ -36,6 +36,14 @@ export default {
     );
     return data;
   },
+  fetchOrderBy: async (dispatch: Dispatch, id: string, email: string) => {
+    const data = await API.get<MyOrdersResponse>(
+      dispatch,
+      `${__API_HOST__ +
+        "/myapi/order/my_orders/?orderNumber="}${id}&email=${email}`
+    );
+    return data;
+  },
   balanceCheck: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post<BalanceProps>(
       dispatch,

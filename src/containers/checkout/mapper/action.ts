@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import AccountService from "services/account";
 import CheckoutService from "services/checkout";
+import BasketService from "services/basket";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -21,10 +22,22 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     applyGiftCard: async (data: FormData) => {
       const gift = await CheckoutService.applyGiftCard(dispatch, data);
+      BasketService.fetchBasket(dispatch);
+      return gift;
+    },
+    removeGiftCard: async (data: FormData) => {
+      const gift = await CheckoutService.removeGiftCard(dispatch, data);
+      BasketService.fetchBasket(dispatch);
+      return gift;
+    },
+    removePromo: async (data: FormData) => {
+      const gift = await CheckoutService.removePromo(dispatch, data);
+      BasketService.fetchBasket(dispatch);
       return gift;
     },
     applyPromo: async (data: FormData) => {
       const promo = await CheckoutService.applyGiftCard(dispatch, data);
+      BasketService.fetchBasket(dispatch);
       return promo;
     }
   };

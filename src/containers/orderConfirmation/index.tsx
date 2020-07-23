@@ -1,27 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
+import logoImage from "images/gelogoCerise.svg";
+import AccountServices from "services/account";
+import { currencyCode, Currency } from "typings/currency";
+import moment from "moment";
+// import media from "images/serai.png"
 
-const orderConfirmation: React.FC<{}> = props => {
-  const { mobile } = useSelector((state: AppState) => state.device);
+const orderConfirmation: React.FC<{ oid: string }> = props => {
+  const {
+    device: { mobile },
+    currency,
+    user: { email }
+  } = useSelector((state: AppState) => state);
+  const [confirmData, setConfirmData] = useState<any>({});
+  // const [confirmData, setConfirmData] = useState<any>({});
+  const dispatch = useDispatch();
 
-  //const dispatch = useDispatch();
-  console.log(mobile);
+  const fetchData = async () => {
+    const data: any = await AccountServices.fetchOrderBy(
+      dispatch,
+      props.oid,
+      email.trim()
+    );
+    return data;
+  };
+
+  console.log(mobile, props, confirmData);
+  useEffect(() => {
+    fetchData().then(response => {
+      setConfirmData(response.results?.[0]);
+    });
+  }, [confirmData.number]);
+
+  let totalItem = 0;
+  for (let i = 0; i < confirmData.lines?.length; i++) {
+    totalItem += confirmData.lines[i].quantity;
+  }
+  const shippingAddress = confirmData.shippingAddress?.[0],
+    billingAddress = confirmData.billingAddress?.[0];
 
   return (
     <div>
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
         <div className={cs(bootstrapStyles.col2, styles.logoContainer)}>
           <Link to="/">
-            <img
-              className={styles.logo}
-              src={"/static/images/gelogoCerise.svg"}
-            />
+            <img className={styles.logo} src={logoImage} />
           </Link>
         </div>
       </div>
@@ -37,7 +66,7 @@ const orderConfirmation: React.FC<{}> = props => {
           )}
         >
           <div className={styles.motif}>
-            <img src={"media/misc/serai.png"} width="120px" />
+            <img src={""} width="120px" />
           </div>
 
           <div className={bootstrapStyles.row}>
@@ -68,7 +97,7 @@ const orderConfirmation: React.FC<{}> = props => {
             >
               <div className={styles.add}>
                 <address>
-                  <label>order # 9290780223</label>
+                  <label>order # {confirmData.number}</label>
                   <div className={cs(bootstrapStyles.row, styles.orderBlock)}>
                     <div
                       className={cs(
@@ -76,10 +105,13 @@ const orderConfirmation: React.FC<{}> = props => {
                         bootstrapStyles.colMd6
                       )}
                     >
-                      <p>July 20, 2020</p>
+                      <p>
+                        {moment(confirmData.datePlaced).format("D MMM,YYYY")}
+                      </p>
 
                       <p>
-                        <span className={globalStyles.op3}> Items: </span> 1
+                        <span className={globalStyles.op3}> Items: </span>{" "}
+                        {totalItem}
                       </p>
                     </div>
                     <div
@@ -92,7 +124,12 @@ const orderConfirmation: React.FC<{}> = props => {
                         <span className={globalStyles.op3}>Order Total</span>
                       </p>
 
-                      <p>₹ 4987.00</p>
+                      <p>
+                        {String.fromCharCode(
+                          currencyCode[currency as Currency]
+                        )}
+                        &nbsp;{confirmData.totalInclTax}
+                      </p>
                     </div>
                   </div>
 
@@ -104,24 +141,29 @@ const orderConfirmation: React.FC<{}> = props => {
                       )}
                     >
                       <div className={styles.add}>
-                        <address>
-                          <label>shipping address</label>
-
-                          <p>
-                            Ajay &nbsp; <br />
-                          </p>
-                          <p className={styles.light}>
-                            Hous No- A-105 Raju Park
-                            <br />
-                            Khanpur <br />
-                            Saket -110030
-                            <br />
-                            Delhi <br />
-                            India
-                            <br />
-                          </p>
-                          <p> +91 75320 51001</p>
-                        </address>
+                        {shippingAddress ? (
+                          <address>
+                            <label>shipping address</label>
+                            <p>
+                              {shippingAddress.firstName}
+                              &nbsp; {shippingAddress.lastName}
+                              <br />
+                            </p>
+                            <p className={styles.light}>
+                              {shippingAddress.line1}
+                              <br />
+                              {shippingAddress.line2}{" "}
+                              {shippingAddress.line2 && <br />}
+                              {shippingAddress.state},{" "}
+                              {shippingAddress.postcode} <br />
+                              {shippingAddress.countryName}
+                              <br />
+                            </p>
+                            <p> {shippingAddress.phoneNumber}</p>
+                          </address>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
 
@@ -132,73 +174,89 @@ const orderConfirmation: React.FC<{}> = props => {
                       )}
                     >
                       <div className={styles.add}>
-                        <address>
-                          <label>billing address</label>
-                          <p>
-                            Ajay &nbsp; <br />
-                          </p>
-                          <p className={styles.light}>
-                            Hous No- A-105 Raju Park
-                            <br />
-                            Khanpur <br />
-                            Saket -110030 <br />
-                            Delhi <br />
-                            India
-                            <br />
-                          </p>
-                          <p> +91 75320 51001</p>
-                        </address>
+                        {billingAddress ? (
+                          <address>
+                            <label>billing address</label>
+                            <p>
+                              {billingAddress.firstName}
+                              &nbsp; {billingAddress.lastName}
+                              <br />
+                            </p>
+                            <p className={styles.light}>
+                              {billingAddress.line1}
+                              <br />
+                              {billingAddress.line2}{" "}
+                              {billingAddress.line2 && <br />}
+                              {billingAddress.state}, {billingAddress.postcode}{" "}
+                              <br />
+                              {billingAddress.countryName}
+                              <br />
+                            </p>
+                            <p> {billingAddress.phoneNumber}</p>
+                          </address>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   </div>
-
-                  <div
-                    className={cs(
-                      bootstrapStyles.row,
-                      globalStyles.voffset2,
-                      styles.borderAdd
-                    )}
-                  >
-                    <div
-                      className={cs(
-                        bootstrapStyles.col5,
-                        bootstrapStyles.colMd3
-                      )}
-                    >
-                      <img
-                        src="https://d3qn6cjsz7zlnp.cloudfront.net/media/images/product/Micro/I00147216-1540537640.jpg"
-                        className="imgResponsive"
-                      />
-                    </div>
-                    <div
-                      className={cs(
-                        bootstrapStyles.col7,
-                        bootstrapStyles.colMd9
-                      )}
-                    >
+                  {confirmData.lines?.map((item: any) => {
+                    return (
                       <div
                         className={cs(
-                          bootstrapStyles.imageContent,
-                          globalStyles.textLeft
+                          bootstrapStyles.row,
+                          globalStyles.voffset2,
+                          styles.borderAdd
                         )}
+                        key={item.order}
                       >
-                        <p className={cs(styles.productH)}></p>
-                        <p className={cs(styles.productN)}>
-                          Sindhu Water Copper Jug
-                        </p>
-                        <p className={cs(styles.productN)}>₹ 6000.00</p>
                         <div
                           className={cs(
-                            styles.smallSize,
-                            globalStyles.voffset2
+                            bootstrapStyles.col5,
+                            bootstrapStyles.colMd3
                           )}
                         >
-                          {`Size: 5.3" x 5.3" x7.8"`}
+                          <img
+                            src={item.product.images?.[0]?.productImage}
+                            className={globalStyles.imgResponsive}
+                          />
                         </div>
-                        <div className={styles.smallSize}>Qty: 1</div>
+                        <div
+                          className={cs(
+                            bootstrapStyles.col7,
+                            bootstrapStyles.colMd9
+                          )}
+                        >
+                          <div
+                            className={cs(
+                              bootstrapStyles.imageContent,
+                              globalStyles.textLeft
+                            )}
+                          >
+                            <p className={cs(styles.productH)}></p>
+                            <p className={cs(styles.productN)}>{item.title}</p>
+                            <p className={cs(styles.productN)}>
+                              {String.fromCharCode(
+                                currencyCode[item.priceCurrency as Currency]
+                              )}
+                              &nbsp; {item.priceInclTax}
+                            </p>
+                            <div
+                              className={cs(
+                                styles.smallSize,
+                                globalStyles.voffset2
+                              )}
+                            >
+                              Size:&nbsp; {item.product.size}
+                            </div>
+                            <div className={styles.smallSize}>
+                              Qty:&nbsp; {item.quantity}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </address>
               </div>
             </div>

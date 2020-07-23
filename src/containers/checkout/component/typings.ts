@@ -60,6 +60,7 @@ export type BalanceProps = {
   cardValue: string;
   remainingAmount: string;
   code: string;
+  expiryDate: string;
 };
 
 export interface GiftListProps extends BalanceProps {
@@ -73,6 +74,5 @@ export type GiftState = {
   txtvalue: string;
   error: string;
   newCardBox: boolean;
-  giftList: BalanceProps[];
   toggelOtp: boolean;
 };

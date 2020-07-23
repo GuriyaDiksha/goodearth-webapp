@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -7,8 +7,11 @@ import styles from "../styles.scss";
 import { PaymentProps } from "./typings";
 import * as Steps from "../constants";
 import ApplyGiftcard from "./applyGiftcard";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
+  const { basket } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
   const [currentmethod, setCurrentmethod] = useState(data);
@@ -19,6 +22,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     checkout(Steps.STEP_PAYMENT);
   };
+
+  useEffect(() => {
+    if (basket.giftCards.length > 0) {
+      setIsactivepromo(true);
+    }
+  }, [basket.giftCards]);
 
   const getMethods = () => {
     let methods = [
