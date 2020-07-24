@@ -15,13 +15,15 @@ import careers from "../../images/careers/careers.jpg";
 import careersMobile from "../../images/careers/careersMobile.jpg";
 import newCareers from "../../images/careers/newCareers.jpg";
 import newCareersMobile from "../../images/careers/newCareersMobile.jpg";
-import { RouteComponentProps, Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import CareerService from "services/career";
+import { RouteParams } from "routes/typings";
 
-type Props = {} & RouteComponentProps;
+type Props = {} & RouteParams;
 
 const Career: React.FC<Props> = props => {
-  const path = props.history.location.pathname;
+  const path = props.pathname;
+  const history = useHistory();
   const [mode, setMode] = useState<"list" | "applyAll" | "apply">(
     path == "/careers"
       ? "list"
@@ -73,11 +75,11 @@ const Career: React.FC<Props> = props => {
     if (job) {
       const location = encodeURI(job.locationName);
       if (encodeURI(path) != `/careers/${location}/${job.url}`) {
-        props.history.push(`/careers/${location}/${job.url}`);
+        history.push(`/careers/${location}/${job.url}`);
       }
     } else {
       if (path != "/careers/apply/all") {
-        props.history.push("/careers/apply/all");
+        history.push("/careers/apply/all");
       }
     }
     setSelectedJob(job);

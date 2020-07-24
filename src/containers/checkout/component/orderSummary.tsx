@@ -45,7 +45,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const getDeliveryStatusMobile = () => {
     const html = [];
     if (!basket.lineItems) return false;
-    if (basket.shippable == false || mobile) {
+    if (basket.shippable == false) {
       html.push();
     } else {
       html.push(
@@ -167,7 +167,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           );
         })}
-        {getDeliveryStatusMobile()}
+        {mobile && getDeliveryStatusMobile()}
       </div>
     );
   };
@@ -372,7 +372,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </div>
           {getDiscount(basket.offerDiscounts)}
-          {shippingAddress && (
+          {shippingAddress?.state && (
             <div
               className={cs(
                 styles.small,
@@ -380,7 +380,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 globalStyles.marginT10
               )}
             >
-              to {shippingAddress.state} - {shippingAddress.postcode}
+              to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
           {getCoupons()}
@@ -391,124 +391,164 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   return (
-    <div className={styles.orderSummary}>
-      {mobile && (
-        <span
-          className="btn-arrow visible-xs color-primary"
-          onClick={onArrowButtonClick}
-        >
-          <i
-            className={
-              showSummary
-                ? "icon icon_downarrow-black"
-                : "icon icon_uparrow-black"
-            }
-          ></i>
-        </span>
-      )}
-      <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-        <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
-          ORDER SUMMARY{" "}
-          {page == "checkout" && !validbo ? (
-            <Link className={styles.editCart} to={"/cart"}>
-              {" "}
-              EDIT CART
-            </Link>
-          ) : (
-            ""
-          )}
-        </h3>
-      </div>
-      <div className={styles.justchk}>
-        {getSummary()}
-        <div className={styles.summaryPadding}>
-          <hr className={styles.hr} />
-          <div
-            className={cs(
-              globalStyles.flex,
-              globalStyles.gutterBetween,
-              styles.total
-            )}
+    <div className={cs(globalStyles.col12, styles.fixOrdersummary)}>
+      <div className={styles.orderSummary}>
+        {mobile && (
+          <span
+            className={cs(styles.btnArrow, globalStyles.colorPrimary)}
+            onClick={onArrowButtonClick}
           >
-            <span className={cs(styles.subtotal, globalStyles.voffset2)}>
-              TOTAL
-            </span>
-            <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-              {String.fromCharCode(code)} {basket.total}
-            </span>
-          </div>
-          {getDeliveryStatus()}
-          {currency == "INR" ? (
-            ""
-          ) : basket.shippable == false ? (
-            ""
-          ) : (
+            <i
+              className={
+                showSummary
+                  ? cs(iconStyles.icon, iconStyles.icon_downarrowblack)
+                  : cs(iconStyles.icon, iconStyles.icon_uparrowblack)
+              }
+            ></i>
+          </span>
+        )}
+        <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
+          <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
+            ORDER SUMMARY
+            {page == "checkout" && !validbo ? (
+              <Link className={styles.editCart} to={"/cart"}>
+                EDIT CART
+              </Link>
+            ) : (
+              ""
+            )}
+          </h3>
+        </div>
+        <div className={styles.justchk}>
+          {getSummary()}
+          <div className={styles.summaryPadding}>
+            <hr className={styles.hr} />
             <div
               className={cs(
-                globalStyles.c10LR,
-                globalStyles.voffset2,
-                globalStyles.marginB10
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                styles.total
               )}
             >
-              Custom Duties & Taxes are extra, can be upto 30% or more of order
-              value in some cases, depending upon local customs assessment.
+              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
+                TOTAL
+              </span>
+              <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
+                {String.fromCharCode(code)} {basket.total}
+              </span>
             </div>
-          )}
-          {page == "cart" && (
-            <div className={showSummary ? "" : "hidden-xs hidden-sm"}>
-              <hr className={styles.hr} />
-              <a
-                href={canCheckout() ? "/order/checkout/" : "javascript:void(0)"}
+            {getDeliveryStatus()}
+            {!mobile && getDeliveryStatusMobile()}
+            {currency == "INR" ? (
+              ""
+            ) : basket.shippable == false ? (
+              ""
+            ) : (
+              <div
+                className={cs(
+                  globalStyles.c10LR,
+                  globalStyles.voffset2,
+                  globalStyles.marginB10
+                )}
               >
+                Custom Duties & Taxes are extra, can be upto 30% or more of
+                order value in some cases, depending upon local customs
+                assessment.
+              </div>
+            )}
+            {page == "cart" && (
+              <div
+                className={
+                  showSummary ? "" : cs({ [globalStyles.hidden]: mobile })
+                }
+              >
+                <hr className={styles.hr} />
+                <a
+                  href={
+                    canCheckout() ? "/order/checkout/" : "javascript:void(0)"
+                  }
+                >
+                  <button
+                    onClick={chkshipping}
+                    className={
+                      canCheckout()
+                        ? cs(globalStyles.ceriseBtn, {
+                            [globalStyles.hidden]: mobile
+                          })
+                        : cs(globalStyles.ceriseBtn, globalStyles.disabled, {
+                            [globalStyles.hidden]: mobile
+                          })
+                    }
+                  >
+                    PROCEED TO CHECKOUT
+                  </button>
+                </a>
+                {hasOutOfStockItems() && (
+                  <p
+                    className={cs(
+                      globalStyles.textCenter,
+                      styles.textRemoveItems,
+                      globalStyles.colorPrimary
+                    )}
+                    onClick={onRemoveOutOfStockItemsClick}
+                  >
+                    Please
+                    <span className={styles.triggerRemoveItems}>
+                      REMOVE ALL ITEMS
+                    </span>
+                    which are out of stock to proceed
+                  </p>
+                )}
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    styles.textCoupon,
+                    globalStyles.voffset4
+                  )}
+                >
+                  If you have promo code or a gift card code,
+                  <br />
+                  you can apply the same during payment.
+                </div>
+                <div className="wishlist">
+                  <a onClick={goTowishlist}>
+                    <span>
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconWishlist,
+                          globalStyles.pointer
+                        )}
+                      ></i>
+                    </span>
+                    &nbsp;
+                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+          {page == "cart" && (
+            <div
+              className={cs(styles.summaryFooter, {
+                [globalStyles.hidden]: !mobile
+              })}
+            >
+              <a href={canCheckout() ? "/order/checkout" : "#"}>
                 <button
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? "cerise-btn hidden-xs hidden-sm"
-                      : "cerise-btn disabled hidden-xs hidden-sm"
+                      ? styles.ceriseBtn
+                      : cs(globalStyles.ceriseBtn, globalStyles.disabled)
                   }
                 >
                   PROCEED TO CHECKOUT
                 </button>
               </a>
-              {hasOutOfStockItems() && (
-                <p
-                  className="text-center text-remove-items color-primary"
-                  onClick={onRemoveOutOfStockItemsClick}
-                >
-                  Please
-                  <span className="trigger-remove-items">REMOVE ALL ITEMS</span>
-                  which are out of stock to proceed
-                </p>
-              )}
-              <div className="text-center text-coupon voffset4">
-                If you have promo code or a gift card code,
-                <br />
-                you can apply the same during payment.
-              </div>
-              <div className="wishlist">
-                <a onClick={goTowishlist}>
-                  <span>
-                    <i className="icon icon_wishlist pointer"></i>
-                  </span>
-                  &nbsp;<span className="wishlist-align">VIEW WISHLIST</span>
-                </a>
-              </div>
             </div>
           )}
         </div>
-        {page == "cart" && (
-          <div className="visible-xs visible-sm summary-footer">
-            <a href={canCheckout() ? "/order/checkout" : "#"}>
-              <button
-                onClick={chkshipping}
-                className={canCheckout() ? "cerise-btn" : "cerise-btn disabled"}
-              >
-                PROCEED TO CHECKOUT
-              </button>
-            </a>
-          </div>
-        )}
       </div>
     </div>
   );
