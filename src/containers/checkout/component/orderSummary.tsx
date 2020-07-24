@@ -45,7 +45,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const getDeliveryStatusMobile = () => {
     const html = [];
     if (!basket.lineItems) return false;
-    if (basket.shippable == false || mobile) {
+    if (basket.shippable == false) {
       html.push();
     } else {
       html.push(
@@ -167,7 +167,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           );
         })}
-        {getDeliveryStatusMobile()}
+        {mobile && getDeliveryStatusMobile()}
       </div>
     );
   };
@@ -370,7 +370,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </div>
           {getDiscount(basket.offerDiscounts)}
-          {shippingAddress && (
+          {shippingAddress?.state && (
             <div
               className={cs(
                 styles.small,
@@ -378,7 +378,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 globalStyles.marginT10
               )}
             >
-              to {shippingAddress.state} - {shippingAddress.postcode}
+              to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
           {getCoupons()}
@@ -392,24 +392,23 @@ const OrderSummary: React.FC<OrderProps> = props => {
     <div className={styles.orderSummary}>
       {mobile && (
         <span
-          className="btn-arrow visible-xs color-primary"
+          className={cs(styles.btnArrow, globalStyles.colorPrimary)}
           onClick={onArrowButtonClick}
         >
           <i
             className={
               showSummary
-                ? "icon icon_downarrow-black"
-                : "icon icon_uparrow-black"
+                ? cs(iconStyles.icon, iconStyles.icon_downarrowblack)
+                : cs(iconStyles.icon, iconStyles.icon_uparrowblack)
             }
           ></i>
         </span>
       )}
       <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
         <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
-          ORDER SUMMARY{" "}
+          ORDER SUMMARY
           {page == "checkout" && !validbo ? (
             <Link className={styles.editCart} to={"/cart"}>
-              {" "}
               EDIT CART
             </Link>
           ) : (
@@ -436,6 +435,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </div>
           {getDeliveryStatus()}
+          {!mobile && getDeliveryStatusMobile()}
           {currency == "INR" ? (
             ""
           ) : basket.shippable == false ? (
@@ -453,7 +453,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           )}
           {page == "cart" && (
-            <div className={showSummary ? "" : "hidden-xs hidden-sm"}>
+            <div
+              className={
+                showSummary ? "" : cs({ [globalStyles.hidden]: mobile })
+              }
+            >
               <hr className={styles.hr} />
               <a
                 href={canCheckout() ? "/order/checkout/" : "javascript:void(0)"}
@@ -462,8 +466,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? "cerise-btn hidden-xs hidden-sm"
-                      : "cerise-btn disabled hidden-xs hidden-sm"
+                      ? cs(globalStyles.ceriseBtn, {
+                          [globalStyles.hidden]: mobile
+                        })
+                      : cs(globalStyles.ceriseBtn, globalStyles.disabled, {
+                          [globalStyles.hidden]: mobile
+                        })
                   }
                 >
                   PROCEED TO CHECKOUT
@@ -471,15 +479,27 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </a>
               {hasOutOfStockItems() && (
                 <p
-                  className="text-center text-remove-items color-primary"
+                  className={cs(
+                    globalStyles.textCenter,
+                    styles.textRemoveItems,
+                    globalStyles.colorPrimary
+                  )}
                   onClick={onRemoveOutOfStockItemsClick}
                 >
                   Please
-                  <span className="trigger-remove-items">REMOVE ALL ITEMS</span>
+                  <span className={styles.triggerRemoveItems}>
+                    REMOVE ALL ITEMS
+                  </span>
                   which are out of stock to proceed
                 </p>
               )}
-              <div className="text-center text-coupon voffset4">
+              <div
+                className={cs(
+                  globalStyles.textCenter,
+                  styles.textCoupon,
+                  globalStyles.voffset4
+                )}
+              >
                 If you have promo code or a gift card code,
                 <br />
                 you can apply the same during payment.
@@ -487,20 +507,35 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <div className="wishlist">
                 <a onClick={goTowishlist}>
                   <span>
-                    <i className="icon icon_wishlist pointer"></i>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconWishlist,
+                        globalStyles.pointer
+                      )}
+                    ></i>
                   </span>
-                  &nbsp;<span className="wishlist-align">VIEW WISHLIST</span>
+                  &nbsp;
+                  <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
                 </a>
               </div>
             </div>
           )}
         </div>
         {page == "cart" && (
-          <div className="visible-xs visible-sm summary-footer">
+          <div
+            className={cs(styles.summaryFooter, {
+              [globalStyles.hidden]: !mobile
+            })}
+          >
             <a href={canCheckout() ? "/order/checkout" : "#"}>
               <button
                 onClick={chkshipping}
-                className={canCheckout() ? "cerise-btn" : "cerise-btn disabled"}
+                className={
+                  canCheckout()
+                    ? styles.ceriseBtn
+                    : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                }
               >
                 PROCEED TO CHECKOUT
               </button>

@@ -401,9 +401,9 @@ class Checkout extends React.Component<Props, State> {
               <OrderSummary
                 mobile={this.props.mobile}
                 currency={this.props.currency}
-                shippingAddress={{}}
+                shippingAddress={this.state.shippingAddress}
                 salestatus={false}
-                validbo={true}
+                validbo={false}
                 basket={this.props.basket}
                 page="checkout"
               />

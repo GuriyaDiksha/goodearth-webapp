@@ -1,6 +1,15 @@
 @import "../../../styles/partials/variables";
 @import "../../../styles/partials/mixins";
 
+.icon_downarrowblack {
+  &:before {
+    content: "\f126";
+  }
+}
+h3 {
+  line-height: 60px;
+}
+
 @media (min-width: 992px) {
     .fix-ordersummary {
       position: sticky;
@@ -25,7 +34,7 @@
       // overflow: scroll;
     }
     .summary-title {
-      margin-bottom: 15px;
+     // margin-bottom: 15px;
     }
   
     .order-summary {
@@ -44,7 +53,7 @@
       -ms-flex-direction: column;
       -webkit-flex-direction: column;
       flex-direction: column;
-      background-color: tint(#000, 90%);
+      background-color: tint(#000, 90%) !important;
       z-index: 1;
       .justchk {
         overflow: scroll;
@@ -53,9 +62,7 @@
       hr {
         margin: 10px 0 !important;
       }
-      h3 {
-        line-height: 30px;
-      }
+      
       .promo-message {
         display: block;
       }
@@ -73,7 +80,7 @@
         border-radius: 20px;
         background-color: #fff;
         border: 2px solid tint(#000, 90%);
-        padding: 7px 11px 8px 9px;
+        padding: 8px 11px 8px 9px;
         -webkit-transform: translateX(-50%);
         transform: translateX(-50%);
         display: inline-block !important;
@@ -91,13 +98,13 @@
         margin-top: 15px;
       }
     }
+    .order-summary {
+      padding: 10px 0;
+    }
   }
 
 .order-summary {
-    padding: 25px 0;
     background-color: #f9f8f5;
-    
-  
     a {
       color: inherit;
     }
