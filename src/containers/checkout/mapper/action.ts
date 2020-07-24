@@ -5,13 +5,6 @@ import BasketService from "services/basket";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    changePassword: (data: FormData) => {
-      return AccountService.changePassword(dispatch, data);
-    },
-    balanceCheck: async (data: FormData) => {
-      const account = await AccountService.balanceCheck(dispatch, data);
-      return account;
-    },
     sendOtp: async (data: FormData) => {
       const otp = await AccountService.sendOtpBalance(dispatch, data);
       return otp;

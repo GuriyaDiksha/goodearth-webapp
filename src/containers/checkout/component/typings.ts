@@ -50,7 +50,7 @@ export type PaymentProps = {
   isActive: boolean;
   user: any;
   currency: Currency;
-  checkout: (data: any) => void;
+  checkout: (data: any) => any;
 };
 
 export type BalanceProps = {

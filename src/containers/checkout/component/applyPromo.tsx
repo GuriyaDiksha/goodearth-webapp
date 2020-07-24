@@ -47,18 +47,26 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     const data: any = {
       cardId: this.state.txtvalue
     };
-    this.props.applyPromo(data).then((response: any) => {
-      if (response.status == false) {
+    this.props
+      .applyPromo(data)
+      .then((response: any) => {
+        if (response.status == false) {
+          this.setState({
+            error: "Please enter a valid code"
+          });
+        } else {
+          this.setState({
+            newCardBox: false,
+            txtvalue: ""
+          });
+        }
+      })
+      .catch(error => {
+        const msg = error.response?.data?.[0];
         this.setState({
-          error: "Please enter a valid code"
+          error: msg
         });
-      } else {
-        this.setState({
-          newCardBox: false,
-          txtvalue: ""
-        });
-      }
-    });
+      });
   };
 
   gcBalanceOtp = (response: any) => {

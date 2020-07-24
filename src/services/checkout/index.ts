@@ -34,5 +34,13 @@ export default {
       formData
     );
     return res;
+  },
+  finalCheckout: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/checkout/"}`,
+      formData
+    );
+    return res;
   }
 };
