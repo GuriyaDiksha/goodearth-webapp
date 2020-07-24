@@ -443,6 +443,7 @@
     margin-bottom: 40px;
   }
   .checkout {
+     padding-bottom: 180px;
     .order-summary {
       min-height: 0px;
     }
@@ -687,4 +688,8 @@ input[type="radio"] {
   line-height: 18px;
   letter-spacing: 0.5px;
   font-family: "LatoFont","Helvetica","Arial";
+}
+
+.p-b100 {
+  padding-bottom: 100px;
 }

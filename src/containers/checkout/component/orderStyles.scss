@@ -6,9 +6,7 @@
     content: "\f126";
   }
 }
-h3 {
-  line-height: 60px;
-}
+
 
 @media (min-width: 992px) {
     .fix-ordersummary {
@@ -16,8 +14,13 @@ h3 {
       position: -webkit-sticky;
       top: 30px;
     }
+    
+    h3 {
+      padding: 30px 0;
+    }
     .order-summary {
       min-height: calc(100vh - 55px);
+      //padding: 25px 0;
     }
     .order-items {
       background-color: #fefefd;
@@ -27,6 +30,9 @@ h3 {
   }
   
   @media (max-width: 991px) {
+    h3 {
+      line-height: 60px;
+    }
     .checkout {
       padding-bottom: 180px;
     }
