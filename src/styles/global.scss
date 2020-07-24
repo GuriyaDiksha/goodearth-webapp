@@ -91,7 +91,7 @@ a {
   }
   @include error-msg();
   text-align: left;
-  height: 15px;
+  // height: 15px;
   line-height: 15px;
   &.word-cap {
     text-transform: none;
