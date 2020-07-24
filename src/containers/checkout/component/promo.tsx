@@ -49,20 +49,42 @@ const PromoSection: React.FC<PromoProps> = props => {
         >
           <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
         </div>
-        <div
-          className={cs(
-            bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
-            styles.selectedStvalue
-          )}
-          onClick={onCurrentState}
-        >
-          <span
-            className={isActive ? globalStyles.hidden : globalStyles.cerise}
+
+        {!isActive && basket.voucherDiscounts.length > 0 ? (
+          <div
+            className={cs(
+              styles.col12,
+              bootstrapStyles.colMd6,
+              styles.selectedStvalue
+            )}
+            onClick={onCurrentState}
           >
-            APPLY PROMO CODE
-          </span>
-        </div>
+            <span className={styles.marginR10}>
+              <span className={styles.bold}>
+                {basket.voucherDiscounts[0]?.voucher?.code}
+              </span>
+              {" APPLY PROMO CODE"}
+            </span>
+            <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
+              Edit
+            </span>
+          </div>
+        ) : (
+          <div
+            className={cs(
+              styles.col12,
+              bootstrapStyles.colMd6,
+              styles.selectedStvalue
+            )}
+            onClick={onCurrentState}
+          >
+            <span
+              className={isActive ? globalStyles.hidden : globalStyles.cerise}
+            >
+              {"APPLY PROMO CODE"}
+            </span>
+          </div>
+        )}
       </div>
       {isActive && (
         <Fragment>

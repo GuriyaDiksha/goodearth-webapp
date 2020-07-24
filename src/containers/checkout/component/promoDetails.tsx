@@ -36,7 +36,6 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
                 ></i>
               </span>
             </p>
-            error
           </div>
         </div>
       ) : (
