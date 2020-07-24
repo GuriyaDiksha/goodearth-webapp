@@ -22,7 +22,7 @@ export default {
   removePromo: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/giftcard/add_giftcard_in_basket/"}`,
+      `${__API_HOST__ + "/giftcard/remove_voucher/"}`,
       formData
     );
     return res;
@@ -30,7 +30,7 @@ export default {
   applyPromo: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/giftcard/add_giftcard_in_basket/"}`,
+      `${__API_HOST__ + "/giftcard/apply_voucher/"}`,
       formData
     );
     return res;

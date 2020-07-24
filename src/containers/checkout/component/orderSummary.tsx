@@ -190,22 +190,24 @@ const OrderSummary: React.FC<OrderProps> = props => {
     let giftCard = null;
     // let loyalty = null;
     // let voucherDiscount = this.props.voucher_discounts[0];
-    // if (voucherDiscount || this.props.giftCard) {
-    //     if (voucherDiscount) {
-    //         coupon = (
-    //             <div className="flex gutter-between">
-    //                 <span className="subtotal">
-    //                     <span className="margin-r-10">{voucherDiscount.voucher.code}</span>
-    //                     <span className="promo-message">
-    //                         <span className="text-muted margin-r-10">PROMO CODE APPLIED</span>
-    //                         <span onClick={() => this.onPromoRemove(voucherDiscount.voucher.code)}><i
-    //                             className={window.valid_bo ? "icon icon_cross-narrow-big remove hidden" : "icon icon_cross-narrow-big remove"}></i></span>
-    //                     </span>
-    //                 </span>
-    //                 <span className="subtotal">(-) {Currency.getSymbol()} {voucherDiscount.amount}</span>
-    //             </div>
-    //         );
-    //     }
+    if (basket.voucherDiscounts.length > 0) {
+      const couponDetails = basket.voucherDiscounts?.[0];
+      if (couponDetails) {
+        //         coupon = (
+        //             <div className="flex gutter-between">
+        //                 <span className="subtotal">
+        //                     <span className="margin-r-10">{voucherDiscount.voucher.code}</span>
+        //                     <span className="promo-message">
+        //                         <span className="text-muted margin-r-10">PROMO CODE APPLIED</span>
+        //                         <span onClick={() => this.onPromoRemove(voucherDiscount.voucher.code)}><i
+        //                             className={window.valid_bo ? "icon icon_cross-narrow-big remove hidden" : "icon icon_cross-narrow-big remove"}></i></span>
+        //                     </span>
+        //                 </span>
+        //                 <span className="subtotal">(-) {Currency.getSymbol()} {voucherDiscount.amount}</span>
+        //             </div>
+        //         );
+      }
+    }
 
     if (basket.giftCards) {
       giftCard = basket.giftCards.map((gift, index: number) => {

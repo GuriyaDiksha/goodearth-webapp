@@ -13,7 +13,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
     currency: state.currency,
-    giftList: state.basket.offerDiscounts
+    voucherDiscounts: state.basket.voucherDiscounts
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -25,8 +25,8 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     this.state = {
       txtvalue: "",
       error: "",
-      newCardBox: false,
-      toggelOtp: false
+      newCardBox: true,
+      toggelOtp: true
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -47,8 +47,8 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     const data: any = {
       cardId: this.state.txtvalue
     };
-    this.props.applyGiftCard(data).then((response: any) => {
-      if (response.currStatus == false) {
+    this.props.applyPromo(data).then((response: any) => {
+      if (response.status == false) {
         this.setState({
           error: "Please enter a valid code"
         });
@@ -63,9 +63,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
 
   gcBalanceOtp = (response: any) => {
     if (response.status == false) {
-      this.setState({
-        error: "Please enter a valid code"
-      });
+      this.updateError();
     } else {
       this.setState({
         newCardBox: false,
@@ -83,46 +81,36 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     const data: any = {
       cardId: code
     };
-    this.props.removeGiftCard(data).then(response => {
+    this.props.removePromo(data).then(response => {
       this.setState({
         newCardBox: true
       });
     });
-    // let { giftList } = this.props;
-    // giftList = giftList.filter(data => {
-    //   return data.code != code;
-    // });
-    // this.setState({
-    //   giftList: giftList
-    // });
   };
 
-  updateError = (data: boolean) => {
-    if (data) {
-      this.setState({
-        error: "Please enter a valid code"
-      });
-    }
+  updateError = () => {
+    this.setState({
+      error: "Please enter a valid code"
+    });
     const elem: any = document.getElementById("gift");
     elem.scrollIntoView();
     window.scrollBy(0, -200);
   };
 
   render() {
-    const { newCardBox, txtvalue, toggelOtp } = this.state;
+    const { newCardBox, txtvalue } = this.state;
     const {
       user: { isLoggedIn },
       currency,
-      giftList
+      voucherDiscounts
     } = this.props;
-
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {giftList.map((data, i) => {
+          {voucherDiscounts.map((data, i) => {
             return (
               <PromoItem
-                {...data}
+                {...data.voucher}
                 onClose={this.onClose}
                 currency={currency}
                 type="crd"
@@ -138,40 +126,39 @@ class ApplyPromo extends React.Component<Props, GiftState> {
               bootstrapStyles.colMd7
             )}
           >
-            {newCardBox ? (
+            {voucherDiscounts.length == 0 ? (
               <div>
-                {toggelOtp ? (
-                  ""
-                ) : (
-                  <Fragment>
-                    <div className={cs(styles.flex, styles.vCenter)}>
-                      <input
-                        type="text"
-                        value={txtvalue}
-                        onChange={this.changeValue}
-                        id="gift"
-                        className={
-                          this.state.error
-                            ? cs(styles.marginR10, styles.err)
-                            : styles.marginR10
-                        }
-                      />
+                <Fragment>
+                  <div
+                    className={cs(styles.flex, styles.vCenter, {
+                      [globalStyles.hidden]: !newCardBox
+                    })}
+                  >
+                    <input
+                      type="text"
+                      value={txtvalue}
+                      onChange={this.changeValue}
+                      id="gift"
+                      className={
+                        this.state.error
+                          ? cs(styles.marginR10, styles.err)
+                          : styles.marginR10
+                      }
+                    />
+                    <span
+                      className={cs(styles.colorPrimary, globalStyles.pointer, {
+                        [globalStyles.hidden]: !isLoggedIn
+                      })}
+                    >
                       <span
-                        className={cs(
-                          styles.colorPrimary,
-                          globalStyles.pointer,
-                          { [globalStyles.hidden]: !isLoggedIn }
-                        )}
-                      >
-                        <span
-                          className={styles.arrowrightsmall}
-                          onClick={this.gcBalance}
-                        ></span>
-                      </span>
-                    </div>
-                    <label>Promo Code</label>
-                  </Fragment>
-                )}
+                        className={styles.arrowrightsmall}
+                        onClick={this.gcBalance}
+                      ></span>
+                    </span>
+                  </div>
+                  <label>Promo Code</label>
+                </Fragment>
+
                 {this.state.error ? (
                   <p
                     className={cs(

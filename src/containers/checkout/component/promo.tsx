@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -6,14 +6,22 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PromoProps } from "./typings";
 import * as Steps from "../constants";
-
+import ApplyPromo from "./applyPromo";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-
+  const { basket } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
+
+  useEffect(() => {
+    if (basket.voucherDiscounts.length > 0) {
+      setIsactivepromo(true);
+    }
+  }, [basket.voucherDiscounts]);
 
   const onsubmit = () => {
     next(Steps.STEP_PAYMENT);
@@ -83,6 +91,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                 >
                   APPLY PROMO CODE
                 </div>
+                {isactivepromo && <ApplyPromo />}
                 {/* {renderInput()}
                 {renderCoupon()} */}
               </div>
