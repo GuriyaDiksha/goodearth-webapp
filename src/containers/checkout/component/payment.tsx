@@ -5,22 +5,48 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PaymentProps } from "./typings";
-import * as Steps from "../constants";
 import ApplyGiftcard from "./applyGiftcard";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { Link } from "react-router-dom";
+import Loader from "components/Loader";
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const { basket } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
+  const [paymentError, setPaymentError] = useState("");
+  const [subscribevalue, setSubscribevalue] = useState(false);
   const [isactivepromo, setIsactivepromo] = useState(false);
   const [currentmethod, setCurrentmethod] = useState(data);
+  const [isLoading, setIsLoading] = useState(false);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
 
+  const onClikSubscribe = (event: any) => {
+    setSubscribevalue(event.target.checked);
+  };
+
   const onsubmit = () => {
-    checkout(Steps.STEP_PAYMENT);
+    if (currentmethod.mode) {
+      const data: any = {
+        paymentMethod: "paypal",
+        paymentMode: currentmethod.mode
+      };
+      setIsLoading(true);
+      checkout(data)
+        .then((response: any) => {
+          location.href = `${__API_HOST__ + response.paymentUrl}`;
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          const msg = error.response?.data?.paymentMode?.[0];
+          setPaymentError(msg);
+          setIsLoading(false);
+        });
+    } else {
+      setPaymentError("Please select a payment method");
+    }
   };
 
   useEffect(() => {
@@ -162,6 +188,47 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               })}
             </div>
           </div>
+          <div
+            className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+            data-name="error-msg"
+          >
+            {paymentError}
+          </div>
+          <div>
+            <hr className={styles.hr} />
+          </div>
+          <label
+            className={cs(
+              globalStyles.flex,
+              globalStyles.crossCenter,
+              globalStyles.voffset2
+            )}
+          >
+            <div className={styles.marginR10}>
+              <span className={styles.checkbox}>
+                <input
+                  type="checkbox"
+                  id="subscribe"
+                  onChange={e => {
+                    onClikSubscribe(e);
+                  }}
+                  checked={subscribevalue}
+                />
+                <span className={styles.indicator}></span>
+              </span>
+            </div>
+            <div className={globalStyles.c10LR}>
+              <label htmlFor="subscribe" className={globalStyles.pointer}>
+                I agree to receiving e-mails, calls and text messages for
+                service related information. To know more how we keep your data
+                safe, refer to our{" "}
+                <Link to="/customer-assistance/privacy-policy" target="_blank">
+                  Privacy Policy
+                </Link>
+              </label>
+            </div>
+          </label>
+          {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}

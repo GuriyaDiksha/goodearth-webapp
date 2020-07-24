@@ -421,7 +421,7 @@
 }
 
 .checkbox .indicator::after {
-  top: -3px;
+  top: 0px;
   left: 7px;
   width: 5px;
   height: 10px;
@@ -692,4 +692,10 @@ input[type="radio"] {
 
 .p-b100 {
   padding-bottom: 100px;
+}
+
+
+.bold {
+    font-weight: bold;
+    color: #000000;
 }

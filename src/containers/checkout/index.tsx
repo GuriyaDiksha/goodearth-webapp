@@ -13,6 +13,7 @@ import AddressMain from "components/Address/AddressMain";
 import { AddressData } from "components/Address/typings";
 import CookieService from "services/cookie";
 import AddressService from "services/address";
+import CheckoutService from "services/checkout";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { Dispatch } from "redux";
@@ -68,6 +69,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     updateMeta: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
+    },
+    finalCheckout: async (data: FormData) => {
+      const response = await CheckoutService.finalCheckout(dispatch, data);
+      return response;
     }
   };
 };
@@ -323,8 +328,9 @@ class Checkout extends React.Component<Props, State> {
     }
   };
 
-  finalOrder = () => {
-    return true;
+  finalOrder = async (data: any) => {
+    const response = await this.props.finalCheckout(data);
+    return response;
   };
 
   render() {

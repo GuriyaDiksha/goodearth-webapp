@@ -19,6 +19,8 @@ import LoginService from "services/login";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
+import WishlistService from "services/wishlist";
+import BasketService from "services/basket";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 
@@ -31,7 +33,9 @@ const mapStateToProps = (state: AppState) => {
     cart: state.basket,
     message: state.message,
     location: state.router.location,
-    meta: state.meta
+    meta: state.meta,
+    isLoggedIn: state.user.isLoggedIn,
+    cookies: state.cookies
   };
 };
 
@@ -43,6 +47,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     handleLogOut: () => {
       LoginService.logout(dispatch);
+    },
+    onLoadAPiCall: (basketcall: boolean) => {
+      basketcall && WishlistService.updateWishlist(dispatch);
+      BasketService.fetchBasket(dispatch);
     }
   };
 };
@@ -82,6 +90,10 @@ class Header extends React.Component<Props, State> {
     });
     // }
   };
+
+  componentDidMount() {
+    this.props.onLoadAPiCall(this.props.isLoggedIn);
+  }
 
   mouseOut(data: { show: boolean }) {
     this.setState({ show: data.show });

@@ -33,6 +33,19 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
   };
 
+  const removePromo = async (data: FormData) => {
+    const response = await CheckoutService.removePromo(dispatch, data);
+    BasketService.fetchBasket(dispatch);
+    return response;
+  };
+
+  const onPromoRemove = (id: string) => {
+    const data: any = {
+      cardId: id
+    };
+    removePromo(data);
+  };
+
   const getSize = (data: any) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
@@ -186,26 +199,55 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const getCoupons = () => {
-    // let coupon = null;
+    let coupon = null;
     let giftCard = null;
     // let loyalty = null;
     // let voucherDiscount = this.props.voucher_discounts[0];
-    // if (voucherDiscount || this.props.giftCard) {
-    //     if (voucherDiscount) {
-    //         coupon = (
-    //             <div className="flex gutter-between">
-    //                 <span className="subtotal">
-    //                     <span className="margin-r-10">{voucherDiscount.voucher.code}</span>
-    //                     <span className="promo-message">
-    //                         <span className="text-muted margin-r-10">PROMO CODE APPLIED</span>
-    //                         <span onClick={() => this.onPromoRemove(voucherDiscount.voucher.code)}><i
-    //                             className={window.valid_bo ? "icon icon_cross-narrow-big remove hidden" : "icon icon_cross-narrow-big remove"}></i></span>
-    //                     </span>
-    //                 </span>
-    //                 <span className="subtotal">(-) {Currency.getSymbol()} {voucherDiscount.amount}</span>
-    //             </div>
-    //         );
-    //     }
+    if (basket.voucherDiscounts.length > 0) {
+      const couponDetails = basket.voucherDiscounts?.[0];
+      if (couponDetails) {
+        coupon = basket.voucherDiscounts.map((gift, index: number) => {
+          const voucher = gift.voucher;
+          return (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                globalStyles.marginT20,
+                globalStyles.crossCenter
+              )}
+              key={"voucher" + index}
+            >
+              <span className={styles.subtotal}>
+                <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+                  {voucher.code}
+                </span>
+                <span className={styles.textMuted}>
+                  {" "}
+                  {"PROMO CODE APPLIED"}
+                  <span
+                    className={styles.cross}
+                    onClick={() => {
+                      onPromoRemove(voucher.code);
+                    }}
+                  >
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconCrossNarrowBig
+                      )}
+                    ></i>
+                  </span>
+                </span>
+              </span>
+              <span className={styles.subtotal}>
+                (-) {String.fromCharCode(code)} {gift.amount}
+              </span>
+            </div>
+          );
+        });
+      }
+    }
 
     if (basket.giftCards) {
       giftCard = basket.giftCards.map((gift, index: number) => {
@@ -268,7 +310,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return (
       <div>
         {/* {(coupon || giftCard.length > 0) && <hr className="hr"/>} */}
-        {/* {coupon} */}
+        {coupon}
         {giftCard}
         {/* {loyalty} */}
       </div>
