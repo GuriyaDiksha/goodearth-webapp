@@ -336,7 +336,8 @@ class Checkout extends React.Component<Props, State> {
               className={cs(
                 bootstrap.col12,
                 bootstrap.colMd8,
-                globalStyles.voffset5
+                globalStyles.voffset5,
+                styles.pB100
               )}
             >
               <LoginSection
@@ -391,19 +392,13 @@ class Checkout extends React.Component<Props, State> {
                 currency={this.props.currency}
               />
             </div>
-            <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colMd4,
-                globalStyles.voffset5
-              )}
-            >
+            <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
               <OrderSummary
                 mobile={this.props.mobile}
                 currency={this.props.currency}
-                shippingAddress={{}}
+                shippingAddress={this.state.shippingAddress}
                 salestatus={false}
-                validbo={true}
+                validbo={false}
                 basket={this.props.basket}
                 page="checkout"
               />
