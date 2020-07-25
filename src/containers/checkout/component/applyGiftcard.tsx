@@ -8,7 +8,6 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
-import OtpComponent from "components/OtpComponent";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -26,11 +25,21 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     this.state = {
       txtvalue: "",
       error: "",
-      newCardBox: false,
+      newCardBox: props.giftList.length > 0 ? false : true,
       toggelOtp: false
     };
   }
+  private firstLoad = true;
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
+
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    if (nextProps.giftList.length > 0 && this.firstLoad) {
+      this.firstLoad = false;
+      this.setState({
+        newCardBox: false
+      });
+    }
+  }
 
   changeValue = (event: any) => {
     this.setState({
@@ -50,9 +59,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     };
     this.props.applyGiftCard(data).then((response: any) => {
       if (response.currStatus == false) {
-        this.setState({
-          error: "Please enter a valid code"
-        });
+        this.updateError();
       } else {
         this.setState({
           newCardBox: false,
@@ -89,21 +96,12 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
         newCardBox: true
       });
     });
-    // let { giftList } = this.props;
-    // giftList = giftList.filter(data => {
-    //   return data.code != code;
-    // });
-    // this.setState({
-    //   giftList: giftList
-    // });
   };
 
-  updateError = (data: boolean) => {
-    if (data) {
-      this.setState({
-        error: "Please enter a valid code"
-      });
-    }
+  updateError = () => {
+    this.setState({
+      error: "Please enter a valid code"
+    });
     const elem: any = document.getElementById("gift");
     elem.scrollIntoView();
     window.scrollBy(0, -200);
@@ -116,7 +114,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       currency,
       giftList
     } = this.props;
-
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
@@ -128,7 +125,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 currency={currency}
                 type="crd"
                 currStatus={"sucess"}
-                key={i}
+                key={"gift" + i}
               />
             );
           })}
@@ -202,7 +199,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           </div>
         </div>
 
-        {!isLoggedIn ? (
+        {/* {!isLoggedIn ? (
           !newCardBox ? (
             ""
           ) : (
@@ -218,7 +215,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           )
         ) : (
           ""
-        )}
+        )} */}
       </Fragment>
     );
   }

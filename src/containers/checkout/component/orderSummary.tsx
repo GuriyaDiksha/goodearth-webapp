@@ -33,6 +33,19 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
   };
 
+  const removePromo = async (data: FormData) => {
+    const response = await CheckoutService.removePromo(dispatch, data);
+    BasketService.fetchBasket(dispatch);
+    return response;
+  };
+
+  const onPromoRemove = (id: string) => {
+    const data: any = {
+      cardId: id
+    };
+    removePromo(data);
+  };
+
   const getSize = (data: any) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
@@ -45,7 +58,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const getDeliveryStatusMobile = () => {
     const html = [];
     if (!basket.lineItems) return false;
-    if (basket.shippable == false || mobile) {
+    if (basket.shippable == false) {
       html.push();
     } else {
       html.push(
@@ -167,7 +180,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </div>
           );
         })}
-        {getDeliveryStatusMobile()}
+        {mobile && getDeliveryStatusMobile()}
       </div>
     );
   };
@@ -186,26 +199,55 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const getCoupons = () => {
-    // let coupon = null;
+    let coupon = null;
     let giftCard = null;
     // let loyalty = null;
     // let voucherDiscount = this.props.voucher_discounts[0];
-    // if (voucherDiscount || this.props.giftCard) {
-    //     if (voucherDiscount) {
-    //         coupon = (
-    //             <div className="flex gutter-between">
-    //                 <span className="subtotal">
-    //                     <span className="margin-r-10">{voucherDiscount.voucher.code}</span>
-    //                     <span className="promo-message">
-    //                         <span className="text-muted margin-r-10">PROMO CODE APPLIED</span>
-    //                         <span onClick={() => this.onPromoRemove(voucherDiscount.voucher.code)}><i
-    //                             className={window.valid_bo ? "icon icon_cross-narrow-big remove hidden" : "icon icon_cross-narrow-big remove"}></i></span>
-    //                     </span>
-    //                 </span>
-    //                 <span className="subtotal">(-) {Currency.getSymbol()} {voucherDiscount.amount}</span>
-    //             </div>
-    //         );
-    //     }
+    if (basket.voucherDiscounts.length > 0) {
+      const couponDetails = basket.voucherDiscounts?.[0];
+      if (couponDetails) {
+        coupon = basket.voucherDiscounts.map((gift, index: number) => {
+          const voucher = gift.voucher;
+          return (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                globalStyles.marginT20,
+                globalStyles.crossCenter
+              )}
+              key={"voucher" + index}
+            >
+              <span className={styles.subtotal}>
+                <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+                  {voucher.code}
+                </span>
+                <span className={styles.textMuted}>
+                  {" "}
+                  {"PROMO CODE APPLIED"}
+                  <span
+                    className={styles.cross}
+                    onClick={() => {
+                      onPromoRemove(voucher.code);
+                    }}
+                  >
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconCrossNarrowBig
+                      )}
+                    ></i>
+                  </span>
+                </span>
+              </span>
+              <span className={styles.subtotal}>
+                (-) {String.fromCharCode(code)} {gift.amount}
+              </span>
+            </div>
+          );
+        });
+      }
+    }
 
     if (basket.giftCards) {
       giftCard = basket.giftCards.map((gift, index: number) => {
@@ -268,7 +310,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return (
       <div>
         {/* {(coupon || giftCard.length > 0) && <hr className="hr"/>} */}
-        {/* {coupon} */}
+        {coupon}
         {giftCard}
         {/* {loyalty} */}
       </div>
@@ -370,7 +412,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </div>
           {getDiscount(basket.offerDiscounts)}
-          {shippingAddress && (
+          {shippingAddress?.state && (
             <div
               className={cs(
                 styles.small,
@@ -378,7 +420,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 globalStyles.marginT10
               )}
             >
-              to {shippingAddress.state} - {shippingAddress.postcode}
+              to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
           {getCoupons()}
@@ -389,124 +431,164 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   return (
-    <div className={styles.orderSummary}>
-      {mobile && (
-        <span
-          className="btn-arrow visible-xs color-primary"
-          onClick={onArrowButtonClick}
-        >
-          <i
-            className={
-              showSummary
-                ? "icon icon_downarrow-black"
-                : "icon icon_uparrow-black"
-            }
-          ></i>
-        </span>
-      )}
-      <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-        <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
-          ORDER SUMMARY{" "}
-          {page == "checkout" && !validbo ? (
-            <Link className={styles.editCart} to={"/cart"}>
-              {" "}
-              EDIT CART
-            </Link>
-          ) : (
-            ""
-          )}
-        </h3>
-      </div>
-      <div className={styles.justchk}>
-        {getSummary()}
-        <div className={styles.summaryPadding}>
-          <hr className={styles.hr} />
-          <div
-            className={cs(
-              globalStyles.flex,
-              globalStyles.gutterBetween,
-              styles.total
-            )}
+    <div className={cs(globalStyles.col12, styles.fixOrdersummary)}>
+      <div className={styles.orderSummary}>
+        {mobile && (
+          <span
+            className={cs(styles.btnArrow, globalStyles.colorPrimary)}
+            onClick={onArrowButtonClick}
           >
-            <span className={cs(styles.subtotal, globalStyles.voffset2)}>
-              TOTAL
-            </span>
-            <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-              {String.fromCharCode(code)} {basket.total}
-            </span>
-          </div>
-          {getDeliveryStatus()}
-          {currency == "INR" ? (
-            ""
-          ) : basket.shippable == false ? (
-            ""
-          ) : (
+            <i
+              className={
+                showSummary
+                  ? cs(iconStyles.icon, iconStyles.icon_downarrowblack)
+                  : cs(iconStyles.icon, iconStyles.icon_uparrowblack)
+              }
+            ></i>
+          </span>
+        )}
+        <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
+          <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
+            ORDER SUMMARY
+            {page == "checkout" && !validbo ? (
+              <Link className={styles.editCart} to={"/cart"}>
+                EDIT CART
+              </Link>
+            ) : (
+              ""
+            )}
+          </h3>
+        </div>
+        <div className={styles.justchk}>
+          {getSummary()}
+          <div className={styles.summaryPadding}>
+            <hr className={styles.hr} />
             <div
               className={cs(
-                globalStyles.c10LR,
-                globalStyles.voffset2,
-                globalStyles.marginB10
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                styles.total
               )}
             >
-              Custom Duties & Taxes are extra, can be upto 30% or more of order
-              value in some cases, depending upon local customs assessment.
+              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
+                TOTAL
+              </span>
+              <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
+                {String.fromCharCode(code)} {basket.total}
+              </span>
             </div>
-          )}
-          {page == "cart" && (
-            <div className={showSummary ? "" : "hidden-xs hidden-sm"}>
-              <hr className={styles.hr} />
-              <a
-                href={canCheckout() ? "/order/checkout/" : "javascript:void(0)"}
+            {getDeliveryStatus()}
+            {!mobile && getDeliveryStatusMobile()}
+            {currency == "INR" ? (
+              ""
+            ) : basket.shippable == false ? (
+              ""
+            ) : (
+              <div
+                className={cs(
+                  globalStyles.c10LR,
+                  globalStyles.voffset2,
+                  globalStyles.marginB10
+                )}
               >
+                Custom Duties & Taxes are extra, can be upto 30% or more of
+                order value in some cases, depending upon local customs
+                assessment.
+              </div>
+            )}
+            {page == "cart" && (
+              <div
+                className={
+                  showSummary ? "" : cs({ [globalStyles.hidden]: mobile })
+                }
+              >
+                <hr className={styles.hr} />
+                <a
+                  href={
+                    canCheckout() ? "/order/checkout/" : "javascript:void(0)"
+                  }
+                >
+                  <button
+                    onClick={chkshipping}
+                    className={
+                      canCheckout()
+                        ? cs(globalStyles.ceriseBtn, {
+                            [globalStyles.hidden]: mobile
+                          })
+                        : cs(globalStyles.ceriseBtn, globalStyles.disabled, {
+                            [globalStyles.hidden]: mobile
+                          })
+                    }
+                  >
+                    PROCEED TO CHECKOUT
+                  </button>
+                </a>
+                {hasOutOfStockItems() && (
+                  <p
+                    className={cs(
+                      globalStyles.textCenter,
+                      styles.textRemoveItems,
+                      globalStyles.colorPrimary
+                    )}
+                    onClick={onRemoveOutOfStockItemsClick}
+                  >
+                    Please
+                    <span className={styles.triggerRemoveItems}>
+                      REMOVE ALL ITEMS
+                    </span>
+                    which are out of stock to proceed
+                  </p>
+                )}
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    styles.textCoupon,
+                    globalStyles.voffset4
+                  )}
+                >
+                  If you have promo code or a gift card code,
+                  <br />
+                  you can apply the same during payment.
+                </div>
+                <div className="wishlist">
+                  <a onClick={goTowishlist}>
+                    <span>
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconWishlist,
+                          globalStyles.pointer
+                        )}
+                      ></i>
+                    </span>
+                    &nbsp;
+                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+          {page == "cart" && (
+            <div
+              className={cs(styles.summaryFooter, {
+                [globalStyles.hidden]: !mobile
+              })}
+            >
+              <a href={canCheckout() ? "/order/checkout" : "#"}>
                 <button
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? "cerise-btn hidden-xs hidden-sm"
-                      : "cerise-btn disabled hidden-xs hidden-sm"
+                      ? styles.ceriseBtn
+                      : cs(globalStyles.ceriseBtn, globalStyles.disabled)
                   }
                 >
                   PROCEED TO CHECKOUT
                 </button>
               </a>
-              {hasOutOfStockItems() && (
-                <p
-                  className="text-center text-remove-items color-primary"
-                  onClick={onRemoveOutOfStockItemsClick}
-                >
-                  Please
-                  <span className="trigger-remove-items">REMOVE ALL ITEMS</span>
-                  which are out of stock to proceed
-                </p>
-              )}
-              <div className="text-center text-coupon voffset4">
-                If you have promo code or a gift card code,
-                <br />
-                you can apply the same during payment.
-              </div>
-              <div className="wishlist">
-                <a onClick={goTowishlist}>
-                  <span>
-                    <i className="icon icon_wishlist pointer"></i>
-                  </span>
-                  &nbsp;<span className="wishlist-align">VIEW WISHLIST</span>
-                </a>
-              </div>
             </div>
           )}
         </div>
-        {page == "cart" && (
-          <div className="visible-xs visible-sm summary-footer">
-            <a href={canCheckout() ? "/order/checkout" : "#"}>
-              <button
-                onClick={chkshipping}
-                className={canCheckout() ? "cerise-btn" : "cerise-btn disabled"}
-              >
-                PROCEED TO CHECKOUT
-              </button>
-            </a>
-          </div>
-        )}
       </div>
     </div>
   );

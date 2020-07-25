@@ -50,7 +50,7 @@ export type PaymentProps = {
   isActive: boolean;
   user: any;
   currency: Currency;
-  checkout: (data: any) => void;
+  checkout: (data: any) => any;
 };
 
 export type BalanceProps = {
@@ -68,6 +68,21 @@ export interface GiftListProps extends BalanceProps {
   currStatus: string;
   currency: Currency;
   type?: string;
+}
+
+export type voucher = {
+  code: string;
+  endDateTime: string;
+  name: string;
+  startDateTime: string;
+};
+
+export interface PromoListProps extends voucher {
+  onClose: (data: string) => void;
+  currStatus: string;
+  currency: Currency;
+  amount: string;
+  name: string;
 }
 
 export type GiftState = {

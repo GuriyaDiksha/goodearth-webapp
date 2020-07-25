@@ -1,8 +1,6 @@
 // services
 import HeaderService from "services/headerFooter";
 import MetaService from "services/meta";
-import WishlistService from "services/wishlist";
-import BasketService from "services/basket";
 // actions
 import { updatefooter } from "actions/footer";
 import { updateheader } from "actions/header";
@@ -23,9 +21,7 @@ const initAction: any = async (store: Store) => {
 
   if (state.cookies.tkn) {
     apiCalls = apiCalls.concat([
-      MetaService.updateMeta(store.dispatch, state.cookies),
-      WishlistService.updateWishlist(store.dispatch),
-      BasketService.fetchBasket(store.dispatch)
+      MetaService.updateMeta(store.dispatch, state.cookies)
     ]);
   }
   return Promise.all(apiCalls);
