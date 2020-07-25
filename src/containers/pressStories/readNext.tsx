@@ -8,6 +8,7 @@ import { PressStory } from "./typings";
 type Props = {
   readMore: () => void;
   content: PressStory;
+  mobile: boolean;
 };
 
 const ReadNext: React.FC<Props> = props => {
@@ -19,11 +20,9 @@ const ReadNext: React.FC<Props> = props => {
   const publication = "| " + props.content.publication;
   return (
     <div
-      className={cs(
-        bootstrapStyles.row,
-        globalStyles.voffset5,
-        styles.mainBlock
-      )}
+      className={cs(bootstrapStyles.row, globalStyles.voffset5, {
+        [styles.mainBlock]: !props.mobile
+      })}
       onClick={props.readMore}
     >
       <div

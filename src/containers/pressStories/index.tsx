@@ -26,15 +26,22 @@ const PressStories: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
 
   useEffect(() => {
-    let year = history.location.pathname
-      .replace("/press-stories/", "")
-      .split("/")[0];
+    let year = "";
+    if (history.location.pathname != "/press-stories") {
+      year = history.location.pathname
+        .replace("/press-stories/", "")
+        .split("/")[0];
+    }
     if (!year) {
       year = new Date().getFullYear().toString();
-      history.push(history.location.pathname + year, {});
+      history.push("/press-stories/" + year, {});
     }
     PressStoryService.fetchPressStories(dispatch, year).then(data =>
-      updatePressStoriesData(data)
+      // updatePressStoriesData(data)
+      updatePressStoriesData({
+        archive: data.archive,
+        data: [...data.data, ...data.data]
+      })
     );
   }, []);
 
@@ -73,6 +80,7 @@ const PressStories: React.FC = () => {
           readIndex={index}
           key={id}
           readMore={readMore}
+          mobile={mobile}
         />
       );
     } else {

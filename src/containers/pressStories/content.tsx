@@ -13,28 +13,13 @@ type Props = {
   content: PressStory[];
   readIndex: number;
   readMore: (url: string) => void;
+  mobile: boolean;
 };
 
 const Content: React.FC<Props> = props => {
-  //         isSortOpen: false,
-
-  // onClickFilter(isopen) {
-  //     setState({
-  //         isSortOpen: !isopen
-  //     })
-  // }
-
-  // const readMore(ID: number){
-  // props.readmore(props.content,ID);
-  // }
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  //    componentDidUpdate(prevProps, prevState) {
-  //        window.scrollTo(0, 0);
-  //    }
 
   const publication = "/ " + props.content[props.readIndex].publication;
   const d = new Date(props.content[props.readIndex].pubDate);
@@ -43,15 +28,6 @@ const Content: React.FC<Props> = props => {
   return (
     <div>
       <div className={cs(bootstrapStyles.row, styles.pressinternal)}>
-        {/* <div className="breadcrumbs-block">
-                        <div className="bootstrapStyles.row dropdown-header minimumWidth">
-                            <div className="bootstrapStyles.colMd12 bootstrapStyles.offsetMd-1 pdp_breadcrumbs back-pressstory">
-                                
-                               <span><NavLink to={redirect}>BACK TO PRESS</NavLink></span>
-                               
-                            </div>
-                        </div>
-                    </div> */}
         <SecondaryHeader>
           <div
             className={cs(
@@ -59,7 +35,8 @@ const Content: React.FC<Props> = props => {
               bootstrapStyles.offsetMd1,
               styles.header,
               globalStyles.verticalMiddle,
-              styles.backPressstory
+              { [styles.backPressstory]: !props.mobile },
+              { [styles.backPressstoryMobile]: props.mobile }
             )}
           >
             <div>
@@ -121,7 +98,13 @@ const Content: React.FC<Props> = props => {
         </div>
       </div>
       <div className={bootstrapStyles.row}>
-        <div className={cs(bootstrapStyles.col12, styles.press)}>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            { [styles.press]: !props.mobile },
+            { [styles.pressMobile]: props.mobile }
+          )}
+        >
           {props.content.length > props.readIndex + 1 ? (
             <div
               className={cs(
@@ -137,6 +120,7 @@ const Content: React.FC<Props> = props => {
           )}
           {props.content.length > +props.readIndex + 1 ? (
             <ReadNext
+              mobile={props.mobile}
               content={props.content[props.readIndex + 1]}
               readMore={() =>
                 props.readMore(props.content[props.readIndex + 1].url)

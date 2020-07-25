@@ -5,7 +5,6 @@ import {
   PressStoriesResponse,
   PressStoryEnquiryData
 } from "./typings";
-// import Dropdown from 'react-dropdown';
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
@@ -19,6 +18,7 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
+import iconStyles from "styles/iconFonts.scss";
 
 type Props = {
   year: number;
@@ -32,28 +32,15 @@ type Props = {
 
 type State = {
   storiesData: PressStory[];
-  // isSortOpen: false,
-  // showData: true,
-  // year: year ? year : new Date().getFullYear(),
+  isSortOpen: boolean;
   successmsg: string;
   mobileScreen: "overflow hidden-xs hidden-sm";
   defaultOption: DropdownItem;
-  // options: this.props.options || [],
-  // isSortOpen: false,
   emailErr: string;
   msgErr: string;
-  // isliving: true,
   submitMobile: "summary-footer hidden-xs hidden-sm";
   contactUs: "summary-padding cerise-btn";
-  // emailId: '',
-  // msg: '',
-  // publication: '',
   arrow: "icon icon_uparrow-black";
-  // labelclass: false,
-  // errorBorder: false,
-  // labelmsg: false,
-  // labelpub: false,
-  // errorBorderMsg: false,
   showMobileForm: boolean;
   enableSubmit: boolean;
 };
@@ -83,15 +70,11 @@ class PressStoriesContent extends React.Component<
   Props & ReturnType<typeof mapDispatchToProps>,
   State
 > {
-  // const year = this.props.year.toString();
-  // let default_opt = year;
   constructor(props: Props & ReturnType<typeof mapDispatchToProps>) {
     super(props);
     this.state = {
       storiesData: this.props.content || [],
-      // isSortOpen: false,
-      // showData: true,
-      // year: year ? year : new Date().getFullYear(),
+      isSortOpen: false,
       successmsg: "",
       mobileScreen: "overflow hidden-xs hidden-sm",
       defaultOption: this.props.year
@@ -103,198 +86,50 @@ class PressStoriesContent extends React.Component<
             value: new Date().getFullYear().toString(),
             label: new Date().getFullYear().toString()
           },
-      // options: this.props.options || [],
-      // isSortOpen: false,
       emailErr: "",
       msgErr: "",
-      // isliving: true,
       submitMobile: "summary-footer hidden-xs hidden-sm",
       contactUs: "summary-padding cerise-btn",
-      // emailId: '',
-      // msg: '',
-      // publication: '',
       arrow: "icon icon_uparrow-black",
-      // labelclass: false,
-      // errorBorder: false,
-      // labelmsg: false,
-      // labelpub: false,
-      // errorBorderMsg: false,
       enableSubmit: false,
       showMobileForm: false
     };
   }
 
-  // onClickFilter(isopen) {
-  //     this.setState({
-  //         isSortOpen: !isopen
-  //     })
-  // }
-
-  // formSubmit() {
-  //     let email = this.state.emailId;
-  //     let msg = this.state.msg;
-  //     let lastAtPos = email.lastIndexOf('@');
-  //     let lastDotPos = email.lastIndexOf('.');
-  //     if (!email) {
-  //         this.setState({
-  //             emailErr: "Please enter email",
-  //             errorBorder: true
-  //         });
-  //     }
-  //     if (!msg) {
-  //         this.setState({
-  //             msgErr: "Please enter message",
-  //             errorBorderMsg: true
-  //         });
-  //     }
-  //     if (email) {
-  //         if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') == -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
-  //             this.setState({emailErr: "Enter valid email"});
-  //         }
-  //     }
-  //     if ((email) && (msg) && ((lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') == -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2))) {
-  //         let formData = new FormData();
-  //         formData.append("email", email);
-  //         formData.append("publication", this.state.publication);
-  //         formData.append("message", msg);
-
-  // }
-  // }
+  onClickFilter = (isOpen: boolean) => {
+    this.setState({
+      isSortOpen: !isOpen
+    });
+  };
 
   readMore = (data: number) => {
     this.props.readMore(this.state.storiesData[data].url);
   };
 
-  // handleChange(event) {
-  //     this.setState({value: event.target.value});
-  // }
-
-  showHide() {
+  showHide = () => {
     this.setState(prevState => ({
       showMobileForm: !prevState.showMobileForm
     }));
-    //     let classValue = (this.state.mobileScreen == "overflow") ? "overflow hidden-xs hidden-sm" : "overflow";
-    //     let classSubmit = (this.state.submitMobile == "summary-footer hidden-xs hidden-sm") ? "summary-footer" : "summary-footer hidden-xs hidden-sm";
-    //     let contactUs = (this.state.contactUs == "heading summary-padding") ? "summary-padding cerise-btn" : "heading summary-padding";
-    //     let arrow = (this.state.arrow == "icon icon_uparrow-black") ? "icon icon_downarrow-black" : "icon icon_uparrow-black";
-    //     this.setState({
-    //         mobileScreen: classValue,
-    //         submitMobile: classSubmit,
-    //         contactUs: contactUs,
-    //         arrow: arrow
-    //     });
-  }
-
-  // onClickFilter(isopen) {
-  //     if (!isopen) {
-  //         this.setState({
-  //             mobileScreen: "overflow hidden-xs hidden-sm",
-  //             submitMobile: "summary-footer hidden-xs hidden-sm",
-  //             contactUs: "summary-padding cerise-btn",
-  //             arrow: "icon icon_uparrow-black"
-  //         });
-  //         document.body.classList.add("noscroll");
-  //     }
-  //     else {
-  //         document.body.classList.remove("noscroll");
-  //     }
-  //     this.setState({
-  //         isSortOpen: !isopen
-  //     })
-  // }
-
-  // onClickFilteData(data) {
-  //     document.body.classList.remove("noscroll");
-  //     this.setState({
-  //         isSortOpen: false
-  //     })
-  // }
-
-  // emailValid(e) {
-  //     this.setState({
-  //         emailId: e.target.value,
-  //         successmsg: '',
-  //         labelclass: true
-  //     });
-  //     let email = e.target.value;
-  //     let lastAtPos = email.lastIndexOf('@');
-  //     let lastDotPos = email.lastIndexOf('.');
-  //     if (!email) {
-  //         this.setState({
-  //             emailErr: "Please enter email",
-  //             errorBorder: true
-  //         });
-  //     }
-  //     else {
-  //         if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') == -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
-  //             this.setState({
-  //                 emailErr: "Enter valid email",
-  //                 errorBorder: true
-  //             });
-  //         }
-  //         else {
-  //             this.setState({
-  //                 emailErr: "",
-  //                 errorBorder: false,
-  //                 enableSubmit: true
-  //             });
-  //         }
-  //     }
-  // }
-
-  // msgValid(e) {
-  //     this.setState({
-  //         msg: e.target.value,
-  //         successmsg: '',
-  //         labelmsg: true,
-  //         errorBorderMsg: true
-  //     });
-  //     let msg = e.target.value;
-  //     if (!msg) {
-  //         this.setState({
-  //             msgErr: "Please enter message",
-  //             labelmsg: true,
-  //             errorBorderMsg: true
-  //         });
-  //     }
-  //     else {
-  //         this.setState({
-  //             msgErr: "",
-  //             labelmsg: true,
-  //             errorBorderMsg: false,
-  //             enableSubmit: true
-  //         });
-  //     }
-  // }
-
-  // publicationValid(e) {
-  //     this.setState({
-  //         publication: e.target.value,
-  //         successmsg: '',
-  //         labelpub: true
-  //     });
-  // }
+  };
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  onChangeFilter = (data?: string) => {
-    if (data) {
+  onSelect = (data: DropdownItem) => {
+    this.onChangeFilter(data.value);
+  };
+  onChangeFilter = (year?: string) => {
+    if (year) {
       this.setState({
-        defaultOption: { value: data, label: data }
+        defaultOption: { value: year, label: year }
       });
 
-      this.props.fetchPressStories(parseInt(data)).then(data => {
+      this.props.fetchPressStories(parseInt(year)).then(data => {
         const len = location.pathname.split("/").length;
         const pathArray = location.pathname.split("/");
-        pathArray[len - 1] = data.toString();
-        history.pushState({}, pathArray.join("/"));
-        this.setState({
-          storiesData: data.data
-          // isSortOpen: false
-        });
-        this.props.updatePressStoriesData(data);
+        pathArray[len - 1] = year.toString();
+        this.props.history.push(pathArray.join("/"), {});
         document.body.classList.remove("noscroll");
       });
       window.scrollTo(0, 0);
@@ -311,11 +146,6 @@ class PressStoriesContent extends React.Component<
         this.setState({
           successmsg:
             "Thank you for contacting us. We will revert to you shortly!"
-          // emailErr: '',
-          // msgErr: '',
-          // emailId: '',
-          // publication: '',
-          // msg: ''
         });
         resetForm();
       })
@@ -332,7 +162,11 @@ class PressStoriesContent extends React.Component<
 
   render() {
     const formContent = (
-      <div className={cs(styles.loginForm, globalStyles.voffset4)}>
+      <div
+        className={cs(styles.loginForm, globalStyles.voffset4, {
+          [styles.summaryPadding]: this.props.mobile
+        })}
+      >
         <Formsy
           ref={this.PressStoriesFormRef}
           onValidSubmit={this.handleSubmit}
@@ -347,7 +181,6 @@ class PressStoriesContent extends React.Component<
                 placeholder={"Email"}
                 label={"Email"}
                 keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
-                // inputRef={emailInput}
                 validations={{
                   isEmail: true,
                   isExisty: true,
@@ -393,11 +226,12 @@ class PressStoriesContent extends React.Component<
               <input
                 type="submit"
                 disabled={!this.state.enableSubmit}
-                className={
+                className={cs(
+                  { [styles.summaryFooter]: this.props.mobile },
                   this.state.enableSubmit
                     ? globalStyles.ceriseBtn
                     : cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                }
+                )}
                 value="submit"
               />
             </div>
@@ -406,23 +240,15 @@ class PressStoriesContent extends React.Component<
       </div>
     );
     return (
-      <div className={styles.press}>
+      <div
+        className={cs(
+          { [styles.press]: !this.props.mobile },
+          { [styles.pressMobile]: this.props.mobile },
+          styles.containerStartPress,
+          ""
+        )}
+      >
         {!this.props.mobile ? (
-          // <div>
-          //     <div className="breadcrumbs-block">
-          //         <div className="row dropdown-header minimumWidth">
-          //             <div className="bootstrapStyles.colMd7 bootstrapStyles.colMdoffset-1 pdp_breadcrumbs">
-          //                 <span><a>PRESS &amp; MEDIA</a></span>
-          //             </div>
-          //             <div className="bootstrapStyles.colMd3 custom-dropdown bootstrapStyles.colMdoffset-1 pdp_sortmenu">
-          //                 {/* <div className="drop-div"><span>Archive</span>
-          //                     <Dropdown options={this.props.options} onChange={(e) => this.onSelect(e)}
-          //                               value={this.state.defaultOption} placeholder="Select an option"/>
-          //                 </div> */}
-          //             </div>
-          //         </div>
-          //     </div>
-          // </div>
           <SecondaryHeader>
             <div
               className={cs(
@@ -455,43 +281,84 @@ class PressStoriesContent extends React.Component<
             </div>
           </SecondaryHeader>
         ) : (
-          <div className="c-sort">
-            {/* <div className={this.state.isSortOpen?"hidden":"bootstrapStyles.col12 product-number"}>
-                        <div className="c-sort-header">
-                            { 
-                                <div className="collection-header" onClick={this.onClickFilter.bind(this,false)}>
-                                    <span>archive</span><span
-                                    className="yr-right">{this.state.defaultOption.label ? this.state.defaultOption.label : this.state.defaultOption}</span>
-                                </div>
-                        }
-                        </div>
-                    </div> */}
-            {/* <div className={this.state.isSortOpen?"bootstrapStyles.col12 product-number ":"hidden"}>
-                        <div>
-                            <div className="mobile-filter-header hidden-md hidden-lg">
-                                <span>ARCHIVE</span>
-                                <span onClick={this.onClickFilter.bind(this,true)}>X</span>
-                            </div>
-                            <div className="row minimumWidth">
-                                <div className="bootstrapStyles.col12 bootstrapStyles.colsm-12 mobile-filter-menu ">
-                                    <ul className="sort hidden-md hidden-lg">
-                                        {this.props.options ? this.props.options.map((items, index) => {
-                                            return <li onClick={(e) => this.onSelect(items)}>{items.value}</li>
-                                        }) : ""}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
+          <div className={styles.cSort}>
+            <div
+              className={
+                this.state.isSortOpen
+                  ? globalStyles.hidden
+                  : cs(bootstrapStyles.col12, styles.productNumber)
+              }
+            >
+              <div className={styles.cSortHeader}>
+                {
+                  <div
+                    className={styles.collectionHeader}
+                    onClick={this.onClickFilter.bind(this, false)}
+                  >
+                    <span>archive</span>
+                    <span className={styles.yrRight}>
+                      {this.state.defaultOption.label
+                        ? this.state.defaultOption.label
+                        : this.state.defaultOption}
+                    </span>
+                  </div>
+                }
+              </div>
+            </div>
+            <div
+              className={
+                this.state.isSortOpen
+                  ? cs(bootstrapStyles.col12, styles.productNumber)
+                  : globalStyles.hidden
+              }
+            >
+              <div>
+                <div className={styles.mobileFilterHeader}>
+                  <span>ARCHIVE</span>
+                  <span onClick={this.onClickFilter.bind(this, true)}>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconCrossNarrowBig
+                      )}
+                    ></i>
+                  </span>
+                </div>
+                <div
+                  className={cs(bootstrapStyles.row, globalStyles.minimumWidth)}
+                >
+                  <div
+                    className={cs(
+                      bootstrapStyles.col12,
+                      bootstrapStyles.col12,
+                      styles.mobileFilterMenu
+                    )}
+                  >
+                    <ul className={styles.sort}>
+                      {this.props.options
+                        ? this.props.options.map((items, index) => {
+                            return (
+                              <li
+                                key={index}
+                                onClick={e => this.onSelect(items)}
+                              >
+                                {items.value}
+                              </li>
+                            );
+                          })
+                        : ""}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         <div className={bootstrapStyles.row}>
           <div
-            className={cs(
-              bootstrapStyles.colMd9,
-              bootstrapStyles.col12,
-              globalStyles.paddTop20
-            )}
+            className={cs(bootstrapStyles.colMd9, bootstrapStyles.col12, {
+              [globalStyles.paddTop20]: !this.props.mobile
+            })}
           >
             {this.state.storiesData.map((items, index) => {
               return (
@@ -526,46 +393,6 @@ class PressStoriesContent extends React.Component<
                 form below:
               </div>
               {formContent}
-              {/* <div className="login-form">
-
-                            <ul className="categorylabel">
-                                <li><input type="text" placeholder={'Email'}
-                                           value={this.state.emailId}
-                                           className={this.state.errorBorder ? "error-border" : ""}
-                                           onChange={this.emailValid}
-                                           onClick={this.emailValid}
-                                />
-                                    <label className={this.state.labelclass ? "label" : "label hidden" }>
-                                        Email</label>
-                                    <p className="enquire-error-msg">{this.state.emailErr}</p>
-                                </li>
-                                <li>
-                                    <input type="text" placeholder={'Publication'} label={'Publication'}
-                                           value={this.state.publication} onChange={this.publicationValid} onClick={this.publicationValid}/>
-                                    <label className={this.state.labelpub ? "label" : "label hidden" }>
-                                        Publication</label>
-                                    <p className="enquire-error-msg"></p>
-                                </li>
-                                <li>
-                                    <textarea
-                                        placeholder="Insert your message here, along with your contact details..."
-                                        value={this.state.msg}
-                                        className={this.state.errorBorderMsg ? "error-border" : ""}
-                                        onChange={this.msgValid}
-                                        onClick={this.msgValid}
-                                    />
-                                    <label className={this.state.labelmsg ? "label" : "label hidden" }>
-                                        Message</label>
-                                    <p className="enquire-error-msg">{this.state.msgErr}</p>
-                                    <p className="enquire-error-msg txtnormal">{this.state.successmsg}</p>
-                                </li>
-                                <li><input type="submit"
-                                           className={ this.state.enableSubmit ? "cerise-btn" : "cerise-btn disabled-btn"}
-                                           disabled={!this.state.enableSubmit}
-                                           value="submit"
-                                           onClick={this.formSubmit}/></li>
-                            </ul>
-                        </div> */}
             </div>
           )}
         </div>
@@ -573,8 +400,8 @@ class PressStoriesContent extends React.Component<
           <div
             className={cs(
               bootstrapStyles.col12,
-              bootstrapStyles.colMd4,
-              styles.fixOrdersummary
+              bootstrapStyles.colMd4
+              // styles.fixOrdersummary
             )}
           >
             <div
@@ -596,7 +423,7 @@ class PressStoriesContent extends React.Component<
               </div>
               <div
                 className={cs(styles.overflow, {
-                  [styles.hidden]: !this.state.showMobileForm
+                  [globalStyles.hidden]: !this.state.showMobileForm
                 })}
               >
                 <div className={cs(styles.para, styles.summaryPadding)}>
@@ -618,41 +445,19 @@ class PressStoriesContent extends React.Component<
                   form below:
                 </div>
                 {formContent}
-                {/* <div className="login-form summary-padding">
-                            <ul>
-                                <li><input type="text" placeholder={'Email'} label={'Email'}
-                                            value={this.state.emailId}
-                                            className={this.state.errorBorder ? "error-border" : ""}
-                                            onChange={this.emailValid}/>
-                                    <label className={this.state.labelclass ? "label" : "label hidden" }>
-                                        Email</label>
-                                    <p className="error-msg">{this.state.emailErr}</p>
-                                </li>
-                                <li>
-                                    <input type="text" placeholder={'Publication'} label={'Publication'}
-                                            value={this.state.publication} onChange={this.publicationValid}/>
-                                </li>
-                                <li>
-                                <textarea
-                                    placeholder="Insert your message here, along with your contact details..."
-                                    value={this.state.msg}
-                                    className={this.state.errorBorderMsg ? "error-border" : ""}
-                                    onChange={this.msgValid}
-                                />
-                                    <label className={this.state.labelmsg ? "label" : "label hidden" }>
-                                        Message</label>
-                                    <p className="error-msg">{this.state.msgErr}</p>
-                                    <p className="error-msg txtnormal text-center">{this.state.successmsg}</p>
-                                </li>
-                            </ul>
-                        </div> */}
               </div>
 
               <span
-                className="btn-arrow visible-xs color-primary"
+                className={cs(styles.btnArrow, globalStyles.colorPrimary)}
                 onClick={this.showHide}
               >
-                <i className={this.state.arrow}></i>
+                <i
+                  className={
+                    this.state.showMobileForm
+                      ? cs(iconStyles.icon, iconStyles.icon_downarrowblack)
+                      : cs(iconStyles.icon, iconStyles.icon_uparrowblack)
+                  }
+                ></i>
               </span>
               {/* <div className={this.state.submitMobile}>
                         <input type="submit"
