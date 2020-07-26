@@ -27,4 +27,5 @@ export const designJournal = (
         ...action.payload
       };
   }
+  return state;
 };

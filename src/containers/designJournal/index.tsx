@@ -92,17 +92,16 @@ const DesignJournal: React.FC = () => {
             className={cs(
               bootstrapStyles.colMd7,
               bootstrapStyles.offsetMd1,
-              styles.eader,
-              globalStyles.verticalMiddle
+              styles.header,
+              globalStyles.verticalMiddle,
+              styles.heading
             )}
           >
-            <div>
-              <Link to="/stories">
-                <span>CAREERS</span>
-              </Link>
-              &gt;
-            </div>
-            <div>Design Journals</div>
+            <span>
+              <Link to="/stories">Stories</Link>
+              &nbsp;&gt;&nbsp;
+            </span>
+            <span>Design Journals</span>
           </div>
         </SecondaryHeader>
       )}
@@ -110,7 +109,8 @@ const DesignJournal: React.FC = () => {
         className={cs(
           bootstrapStyles.row,
           styles.subcHeader,
-          styles.subcHeader3
+          styles.subcHeader3,
+          styles.containerStartDj
         )}
       >
         <div
@@ -134,7 +134,7 @@ const DesignJournal: React.FC = () => {
 
       <div className={bootstrapStyles.row}>
         <div className={cs(bootstrapStyles.col12, styles.designjournal)}>
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/9d.jpg`}
               useMap="#one"
@@ -180,46 +180,50 @@ const DesignJournal: React.FC = () => {
               />
             </map>
 
-            <div
-              className={
-                mobile
-                  ? cs(styles.pdtName, styles.posNew2, styles.visibleblock)
-                  : ""
-              }
-              id="blocks2"
-            >
-              <div> Pariza Vase</div>
-              <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
-                <a
-                  href="https://www.goodearth.in/catalogue/pariza-vase-large_14128/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link"
-                >
-                  explore
-                </a>
+            {!mobile && (
+              <div
+                className={cs(
+                  styles.pdtName,
+                  styles.posNew2,
+                  styles.visibleblock
+                )}
+                id="blocks2"
+              >
+                <div> Pariza Vase</div>
+                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                  <a
+                    href="https://www.goodearth.in/catalogue/pariza-vase-large_14128/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                  >
+                    explore
+                  </a>
+                </div>
               </div>
-            </div>
-            <div
-              className={
-                !mobile
-                  ? cs(styles.pdtName, styles.posNew6, styles.visibleblock)
-                  : ""
-              }
-              id="blocks22"
-            >
-              <div> Gandhara Design Journal</div>
-              <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
-                <a
-                  href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link"
-                >
-                  explore
-                </a>
+            )}
+            {!mobile && (
+              <div
+                className={cs(
+                  styles.pdtName,
+                  styles.posNew6,
+                  styles.visibleblock
+                )}
+                id="blocks22"
+              >
+                <div> Gandhara Design Journal</div>
+                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                  <a
+                    href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                  >
+                    explore
+                  </a>
+                </div>
               </div>
-            </div>
+            )}
             <div
               className={cs(
                 styles.txtBlock,
@@ -259,7 +263,7 @@ const DesignJournal: React.FC = () => {
             </div>
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/9c.jpg`}
               useMap="#two"
@@ -319,7 +323,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -340,7 +344,7 @@ const DesignJournal: React.FC = () => {
                   href="https://www.goodearth.in/collection/living_taxila-2_320/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="link"
+                  className={styles.link}
                 >
                   explore
                 </a>
@@ -361,7 +365,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/sutra-curve-tray_14361/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -370,7 +374,7 @@ const DesignJournal: React.FC = () => {
             )}
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/9e.jpg`}
               useMap="#three"
@@ -416,7 +420,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -434,7 +438,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -477,7 +481,7 @@ const DesignJournal: React.FC = () => {
             </div>
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/2.jpg`}
               useMap="#iplate"
@@ -530,7 +534,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/shambala-tea-plate-set-of-4_8283/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -548,7 +552,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/collection/living_indechine_223/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -557,7 +561,7 @@ const DesignJournal: React.FC = () => {
             )}
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/3.jpg`}
               useMap="#mug"
@@ -603,7 +607,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -621,7 +625,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/shambala-bowl_6783/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -630,7 +634,7 @@ const DesignJournal: React.FC = () => {
             )}
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/4.jpg`}
               useMap="#samarqand"
@@ -667,7 +671,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -685,7 +689,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -728,7 +732,7 @@ const DesignJournal: React.FC = () => {
             </div>
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/5.jpg`}
               useMap="#candle"
@@ -778,7 +782,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/kasselvase_1508/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -813,7 +817,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/mia-candle-set-of-2-neroli_8220/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -835,7 +839,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/collection/living_nishaat_6/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -844,7 +848,7 @@ const DesignJournal: React.FC = () => {
             )}
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/6.jpg`}
               useMap="#votive"
@@ -897,7 +901,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/chaand-votive-white-frosted_8205/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -919,7 +923,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/ratnakaradesign-journal_1352/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -962,7 +966,7 @@ const DesignJournal: React.FC = () => {
             </div>
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/7.jpg`}
               useMap="#silver"
@@ -1004,7 +1008,7 @@ const DesignJournal: React.FC = () => {
                     href="https://www.goodearth.in/catalogue/golden-howdahplaying-card-box_3192/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link"
+                    className={styles.link}
                   >
                     explore
                   </a>
@@ -1013,7 +1017,7 @@ const DesignJournal: React.FC = () => {
             )}
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/8.jpg`}
               useMap="#silvertray"
@@ -1047,22 +1051,30 @@ const DesignJournal: React.FC = () => {
                 coords="8,704,125,469,157,454,1013,982,1041,1011,884,1242,11,1247"
                 shape="poly"
               />
-              <div
-                className="styles.pdtName styles.posdt hidden-xs hidden-sm styles.visibleblock"
-                id="blocks-dt"
-              >
-                <div> Darbar Tray</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
-                  <a
-                    href="https://www.goodearth.in/catalogue/darbar-tray_8169/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link"
+              {!mobile && (
+                <div
+                  className={cs(
+                    styles.pdtName,
+                    styles.posdt,
+                    styles.visibleblock
+                  )}
+                  id="blocks-dt"
+                >
+                  <div> Darbar Tray</div>
+                  <div
+                    className={cs(globalStyles.c10LR, globalStyles.voffset2)}
                   >
-                    explore
-                  </a>
+                    <a
+                      href="https://www.goodearth.in/catalogue/darbar-tray_8169/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.link}
+                    >
+                      explore
+                    </a>
+                  </div>
                 </div>
-              </div>
+              )}
               {!mobile && (
                 <div
                   className={cs(
@@ -1080,7 +1092,7 @@ const DesignJournal: React.FC = () => {
                       href="https://www.goodearth.in/catalogue/sarovar-glasses-set-of-6_8135/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link"
+                      className={styles.link}
                     >
                       explore
                     </a>
@@ -1104,7 +1116,7 @@ const DesignJournal: React.FC = () => {
                       href="https://www.goodearth.in/catalogue/tamara-pedestal_8160/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link"
+                      className={styles.link}
                     >
                       explore
                     </a>
@@ -1114,14 +1126,14 @@ const DesignJournal: React.FC = () => {
             </map>
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/9.jpg`}
               className={styles.imgResponsive}
             />
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/9a.jpg`}
               useMap="#serai"
@@ -1166,7 +1178,7 @@ const DesignJournal: React.FC = () => {
             </div>
           </div>
 
-          <div className="">
+          <div className={globalStyles.relative}>
             <img
               src={`${__CDN_HOST__}/media/designjournal/9b.jpg`}
               useMap="#glasses"
@@ -1220,7 +1232,7 @@ const DesignJournal: React.FC = () => {
                       href="https://www.goodearth.in/catalogue/serai-tea-plates-set-of-4_8227/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link"
+                      className={styles.link}
                     >
                       explore
                     </a>
@@ -1256,7 +1268,7 @@ const DesignJournal: React.FC = () => {
                       href="https://www.goodearth.in/catalogue/golkondaglassesset-of-4_289/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link"
+                      className={styles.link}
                     >
                       explore
                     </a>
