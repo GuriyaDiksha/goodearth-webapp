@@ -42,7 +42,14 @@ const CartItems: React.FC<BasketItem> = memo(
           return attribute;
         }
       });
-      return size ? <div className={styles.size}>Size: {size.value}</div> : "";
+      return size ? (
+        <div>
+          <div className={styles.size}>Size: </div>
+          <div>{size.value}</div>
+        </div>
+      ) : (
+        ""
+      );
     };
 
     const {
@@ -58,9 +65,11 @@ const CartItems: React.FC<BasketItem> = memo(
     const price = priceRecords[currency];
 
     return (
-      <div className={cs(styles.cartItem, styles.gutter15, "cart-item")}>
+      <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
         <div className={bootstrap.row}>
-          <div className={cs(bootstrap.col4, styles.cartPadding)}>
+          <div
+            className={cs(bootstrap.col5, bootstrap.colMd2, styles.cartPadding)}
+          >
             <div className={styles.cartRing}></div>
             <Link to={url}>
               <img
@@ -69,48 +78,79 @@ const CartItems: React.FC<BasketItem> = memo(
               />
             </Link>
           </div>
-          <div className={cs(bootstrap.col8, styles.cartPadding)}>
-            <div className={styles.collectionName}>{collections[0]}</div>
-            <div className={bootstrap.row}>
-              <div className={cs(bootstrap.col10, styles.name)}>
-                <div>
-                  <Link to={url}>{title}</Link>
-                </div>
-                <div className={styles.productPrice}>
-                  {saleStatus && discount && discountedPriceRecords ? (
-                    <span className={styles.discountedPrice}>
-                      {String.fromCharCode(currencyCodes[currency])}
-                      &nbsp;
-                      {discountedPriceRecords[currency]}
-                      <br />
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  {saleStatus && discount ? (
-                    <span className={styles.oldPrice}>
-                      {String.fromCharCode(currencyCodes[currency])}
-                      &nbsp;
-                      {price}
-                    </span>
-                  ) : (
-                    <span>
-                      {" "}
-                      {String.fromCharCode(currencyCodes[currency])}
-                      &nbsp;
-                      {price}
-                    </span>
-                  )}
+          <div
+            className={cs(bootstrap.colMd8, bootstrap.col5, styles.cartPadding)}
+          >
+            <div className={styles.rowMain}>
+              <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
+                <div className={cs(styles.section, styles.sectionInfo)}>
+                  <div>
+                    <div className={styles.collectionName}>
+                      {collections[0]}
+                    </div>
+                    <div className={styles.productName}>
+                      <Link to={url}>{title}</Link>
+                    </div>
+                  </div>
+                  <div className={styles.productPrice}>
+                    {saleStatus && discount && discountedPriceRecords ? (
+                      <span className={styles.discountedPrice}>
+                        {String.fromCharCode(currencyCodes[currency])}
+                        &nbsp;
+                        {discountedPriceRecords[currency]}
+                        <br />
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                    {saleStatus && discount ? (
+                      <span className={styles.oldPrice}>
+                        {String.fromCharCode(currencyCodes[currency])}
+                        &nbsp;
+                        {price}
+                      </span>
+                    ) : (
+                      <span>
+                        {" "}
+                        {String.fromCharCode(currencyCodes[currency])}
+                        &nbsp;
+                        {price}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-              <div
-                className={cs(
-                  bootstrap.col2,
-                  styles.pointer,
-                  styles.textCenter,
-                  styles.remove
-                )}
-              >
+              <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
+                <div className={cs(styles.section, styles.sectionMiddle)}>
+                  <div>{getSize(product.attributes)}</div>
+                  <div>
+                    <div className={styles.size}>QTY</div>
+                    <div className={styles.widgetQty}>
+                      <Quantity
+                        key={id}
+                        currentValue={value}
+                        minValue={1}
+                        maxValue={100}
+                        onChange={handleChange}
+                        class="my-quantity"
+                        errorMsg="Available qty in stock is"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className={cs(
+              bootstrap.colMd2,
+              bootstrap.col2,
+              globalStyles.textCenter,
+              styles.cartPadding
+            )}
+          >
+            <div className={styles.section}>
+              <div className={cs(styles.pointer, styles.remove)}>
                 <i
                   className={cs(
                     iconStyles.icon,
@@ -120,29 +160,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   onClick={deleteItem}
                 ></i>
               </div>
-            </div>
-            <div className={cs(bootstrap.row, styles.section)}>
-              <div className={bootstrap.col10}>
-                {getSize(product.attributes)}
-                <div className={styles.widgetQty}>
-                  <Quantity
-                    key={id}
-                    currentValue={value}
-                    minValue={1}
-                    maxValue={100}
-                    onChange={handleChange}
-                    class="my-quantity"
-                    errorMsg="Available qty in stock is"
-                  />
-                </div>
-              </div>
-              <div
-                className={cs(
-                  bootstrap.col2,
-                  globalStyles.textCenter,
-                  styles.wishlistDisplay
-                )}
-              >
+              <div className={cs(styles.wishlistDisplay)}>
                 <WishlistButton
                   basketLineId={id}
                   id={product.id}
@@ -153,6 +171,7 @@ const CartItems: React.FC<BasketItem> = memo(
             </div>
           </div>
         </div>
+        <hr className={styles.hr} />
       </div>
     );
   }
