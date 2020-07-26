@@ -19,7 +19,6 @@ import UserContext from "contexts/user";
 import { currencyCode } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
-import { refreshPage } from "actions/user";
 import { Cookies } from "typings/cookies";
 
 const mapStateToProps = (state: AppState) => {
@@ -42,8 +41,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: () => {
-      dispatch(refreshPage(undefined));
+    reloadPage: (cookies: Cookies) => {
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
     },
     updateMeta: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
@@ -68,7 +68,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
     };
     if (this.props.currency != data) {
       changeCurrency(data).then(response => {
-        reloadPage();
+        reloadPage(this.props.cookies);
       });
     }
     // this.setState({
