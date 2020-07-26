@@ -13,7 +13,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const currentServer = process.env.NODE_ENV || "development";
-const env = currentServer == 'production'?'production':currentServer;
+const env = currentServer == "production" ? "production" : currentServer;
 const envConfig = require("../src/config");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
