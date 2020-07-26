@@ -162,7 +162,7 @@ class SideMenu extends React.Component<Props, State> {
                 align="right"
                 className={storyStyles.greyBG}
                 items={items}
-                value="INR"
+                value={this.props.currency}
                 showCaret={true}
               ></SelectableDropdownMenu>
             </li>

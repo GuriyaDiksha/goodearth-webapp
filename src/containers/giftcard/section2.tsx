@@ -8,8 +8,13 @@ import { Section2Props } from "./typings";
 import Formsy from "formsy-react";
 import FormSelect from "../../components/Formsy/FormSelect";
 import { Currency, currencyCode } from "typings/currency";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { refreshPage } from "actions/user";
+import LoginService from "services/login";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
+import { AppState } from "reducers/typings";
+import { Cookies } from "typings/cookies";
 
 const Section2: React.FC<Section2Props> = ({
   productData,
@@ -37,23 +42,45 @@ const Section2: React.FC<Section2Props> = ({
       const form = RegisterFormRef.current;
       form &&
         form.updateInputsWithValue({
-          country: "INR"
+          country: "India"
         });
       setSelectcurrency("INR");
     }
-  });
+  }, []);
 
   const setValue = (id: string) => {
+    const elem = document.getElementById(selectvalue) as HTMLInputElement;
+    elem ? (elem.value = "") : "";
     setIsCustom(false);
     setSelectvalue(id);
+    setErrorBorder(false);
+    setNumhighlight(false);
+  };
+  const { cookies } = useSelector((state: AppState) => state);
+
+  const reloadPage = (cookies: Cookies) => {
+    MetaService.updateMeta(dispatch, cookies);
+    BasketService.fetchBasket(dispatch);
+  };
+
+  const changeCurrency = (newCurrency: Currency) => {
+    if (currency != newCurrency) {
+      const data: any = { currency: newCurrency };
+      LoginService.changeCurrency(dispatch, data).then(response => {
+        reloadPage(cookies);
+      });
+    }
   };
 
   const onCountrySelect = (e: any) => {
-    if (currency != e.target.value) {
+    const country = e.target.value;
+    const newCurrency = countryData[country];
+    if (currency != newCurrency) {
       dispatch(refreshPage(undefined));
+      changeCurrency(newCurrency);
     } else {
       setCountrymsg("");
-      setSelectcurrency(e.target.value);
+      setSelectcurrency(newCurrency);
     }
   };
 
@@ -104,7 +131,7 @@ const Section2: React.FC<Section2Props> = ({
       const element: any = document.getElementById(selectvalue);
       const value = element.value;
       if (value == "") {
-        setCountrymsg(
+        setNummsg(
           "Please enter a value or choose one of the default values listed above"
         );
         return false;
@@ -117,7 +144,8 @@ const Section2: React.FC<Section2Props> = ({
       }
     } else {
       if (selectvalue == "") {
-        setCountrymsg(
+        setNumhighlight(true);
+        setNummsg(
           "Please enter a value or choose one of the default values listed above"
         );
         return false;
@@ -136,14 +164,15 @@ const Section2: React.FC<Section2Props> = ({
   const list = Object.keys(countryData).map(key => {
     return {
       label: key,
-      value: countryData[key]
+      value: key
+      // currency: countryData[key]
     };
   });
 
   return (
     <div className={bootstrapStyles.row}>
       <section className={cs(globalStyles.paddTop60, styles.gc)}>
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset8)}>
+        <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
             className={cs(
               bootstrapStyles.col10,
@@ -330,7 +359,7 @@ const Section2: React.FC<Section2Props> = ({
                 gotoNext();
               }}
             >
-              <span>choose value</span>
+              <span>PROCEED TO FILLING DETAILS</span>
             </div>
           </div>
         </div>

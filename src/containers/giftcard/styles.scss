@@ -13,7 +13,23 @@
     font-size: 25px;
     font-family: "Baskerville","Amiri","Serif";
   }
+  p {
+    padding: 1em 0;
+    line-height: 20px;
+    font-size: 14px;
+  }
 }
+
+h2 {
+  padding-top: 40px;
+  color: #000;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 34px;
+  font-size: 25px;
+  font-family: "Baskerville","Amiri","Serif";
+}
+
 
 .clr-p {
   font-size: 12px;
@@ -29,14 +45,16 @@
   letter-spacing: 1px;
 }
 
+textarea {
+  background-color: #f2f2f2;
+  border: none;
+  width: 100%;
+}
+
 .gc-head {
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: 1px;
-}
-
-.card-img-hover {
-  border-color: #ab1e56;
 }
 
 .card-img {
@@ -49,6 +67,11 @@
   border-color: #ab1e56;
   cursor: pointer;
 }
+
+.card-img-hover {
+  border-color: #ab1e56;
+}
+
 .btn-gc {
   position: relative;
   .imgsetleft {
@@ -168,6 +191,11 @@
   line-height: 48px;
 }
 
+  [type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
 
   input[type="radio"]:checked+label:after {
     opacity: 1;
@@ -221,6 +249,7 @@ input[type="radio"]:checked+label:before {
   background: #fff;
 }
 
+
 .grey {
   span {
     color: #000;
@@ -238,6 +267,7 @@ input[type="radio"]:checked+label:before {
 
 .price-block {
   span {
+    font-size: 14px;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -248,6 +278,9 @@ input[type="radio"]:checked+label:before {
     letter-spacing: 1px;
     font-weight: bold;
     border: 2px solid transparent;
+  }
+  > p {
+    font-size: 14px;
   }
   span:hover {
     border: 2px solid #ab1e56;
@@ -268,7 +301,15 @@ input[type="radio"]:checked+label:before {
   background: url('../../images/greyBg.jpg') repeat;
   height: 100%;
   width: 100%;
-  padding: 50px 0;
+  padding: ($header-height + $secondary-header-height) 0 50px 0;
+
+  [type="radio"]:checked + label,
+  [type="radio"]:not(:checked) + label {
+    position: relative;
+    cursor: pointer;
+    line-height: 40px;
+    padding-left: 28px;
+  }
 }
 
 form {
@@ -300,12 +341,21 @@ input[type="number"] {
   background-color: #fff;
   padding: 15px 15px 15px 25px;
   width: 100%;
+  border: none;
   -moz-appearance: textfield;
   box-shadow: none;
   text-align: left;
+  @include placeholder {
+    font-style: italic;
+    color: #666;
+    font-size: 15px;
+    font-family: "LatoFont","Helvetica","Arial";
+    font-weight: 300;
+  }
 }
 
 .input-button {
+    border: none;
     background-color: #ab1e56;
     opacity: 1;
     color: #fff;

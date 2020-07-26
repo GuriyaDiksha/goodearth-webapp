@@ -84,6 +84,10 @@ a {
   margin-top: 50px;
 }
 
+.margin-b-10 {
+  margin-bottom: 10px;
+}
+
 .error-msg {
   &.error-radio {
     position: absolute;
@@ -162,9 +166,9 @@ font-weight: bold;
     font-weight: normal;
     color: #fff;
     line-height: 50px;
-  }
-  &:hover{
-    color: #fff;
+    &:hover{
+      color: #fff;
+    }
   }
 }
 

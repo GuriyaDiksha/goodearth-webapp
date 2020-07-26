@@ -22,6 +22,9 @@ import { refreshPage } from "actions/user";
 import OrderSummary from "./component/orderSummary";
 import PromoSection from "./component/promo";
 import PaymentSection from "./component/payment";
+import { Cookies } from "typings/cookies";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -60,8 +63,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       return data;
     },
-    refreshPage: () => {
+    reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -266,8 +271,8 @@ class Checkout extends React.Component<Props, State> {
             shippingError: ""
           });
           if (data.pageReload) {
-            window.location.reload();
-            this.props.refreshPage();
+            // window.location.reload();
+            this.props.reloadPage(this.props.cookies);
           }
         })
         .catch(err => {

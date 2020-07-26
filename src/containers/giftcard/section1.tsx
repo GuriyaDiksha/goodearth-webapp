@@ -73,7 +73,7 @@ const Section1: React.FC<Section1Props> = props => {
                 bootstrapStyles.colMd8,
                 bootstrapStyles.offsetMd2,
                 globalStyles.textCenter,
-                styles.paddTop60
+                globalStyles.paddTop40
               )}
             >
               {props.giftimages.map((data: any, i: number) => {
@@ -97,7 +97,7 @@ const Section1: React.FC<Section1Props> = props => {
                       }
                     />
                     <br />
-                    <div className="margin-b-10">
+                    <div className={globalStyles.marginB10}>
                       <input
                         type="radio"
                         id={"image" + i}
