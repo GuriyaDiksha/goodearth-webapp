@@ -12,12 +12,15 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 // import { State } from "./typings";
 import LoginService from "services/login";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { currencyCode } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { refreshPage } from "actions/user";
+import { Cookies } from "typings/cookies";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -28,7 +31,8 @@ const mapStateToProps = (state: AppState) => {
     cart: state.basket,
     message: state.message,
     location: state.router.location,
-    meta: state.meta
+    meta: state.meta,
+    cookies: state.cookies
   };
 };
 
@@ -40,6 +44,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     reloadPage: () => {
       dispatch(refreshPage(undefined));
+    },
+    updateMeta: (cookies: Cookies) => {
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
     }
   };
 };
@@ -69,8 +77,12 @@ class CheckoutHeader extends React.Component<Props, {}> {
     // });
   };
 
+  componentDidMount() {
+    this.props.updateMeta(this.props.cookies);
+  }
+
   render() {
-    const { message, meta, mobile } = this.props;
+    const { message, meta, mobile, currency } = this.props;
     const items: DropdownItem[] = [
       {
         label: "INR" + " " + String.fromCharCode(currencyCode["INR"]),
@@ -86,14 +98,27 @@ class CheckoutHeader extends React.Component<Props, {}> {
       }
     ];
 
-    let heading = (
-      <span className="flex v-center">
-        <span className="reset-lineheight margin-r-10">
-          <i className="icon icon_cart_filled"></i>
+    let heading = null;
+    if (this.props.location.pathname.indexOf("cart") > -1) {
+      heading = (
+        <span className={styles.vCenter}>
+          <span>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconLockbtn,
+                styles.lock
+              )}
+            ></i>
+          </span>
+          {mobile ? (
+            <span className={styles.headLineheight}> BAG</span>
+          ) : (
+            <span className={styles.headLineheight}>SHOPPING BAG</span>
+          )}
         </span>
-        {mobile ? <span> BAG</span> : <span>SHOPPING BAG</span>}
-      </span>
-    );
+      );
+    }
 
     if (this.props.location.pathname.indexOf("checkout") > -1) {
       heading = (
@@ -115,7 +140,6 @@ class CheckoutHeader extends React.Component<Props, {}> {
         </span>
       );
     }
-
     return (
       <div>
         <Helmet>
@@ -200,7 +224,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
               <SelectableDropdownMenu
                 align="right"
                 items={items}
-                value="INR"
+                value={currency}
                 showCaret={true}
                 onChange={this.changeCurrency}
               ></SelectableDropdownMenu>

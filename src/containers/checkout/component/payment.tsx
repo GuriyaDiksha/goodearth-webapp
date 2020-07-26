@@ -30,7 +30,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     if (currentmethod.mode) {
       const data: any = {
-        paymentMethod: "paypal",
+        paymentMethod: currentmethod.key,
         paymentMode: currentmethod.mode
       };
       setIsLoading(true);
@@ -68,7 +68,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         mode: "DC"
       },
       {
-        key: "payu",
+        key: "paypal",
         value: "NET BANKING",
         mode: "NB"
       }
