@@ -18,7 +18,8 @@ export enum ROUTES {
   STATIC = "/customer-assistance/",
   CHECKOUT = "/order/checkout/",
   SHOP = "/Cafe-Shop/:city/:shopname?",
-  ORDERCONFIRMATION = "/order/orderconfirmation/:oid"
+  ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
+  CARTPAGE = "/cart/"
 }
 
 export type RouteConfig = RouteObject[];

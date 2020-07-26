@@ -20,8 +20,14 @@ class BaseLayout extends React.Component<props, {}> {
     const {
       location: { pathname }
     } = this.props;
-    const isCheckout = pathname.indexOf("checkout") > -1;
+    const isCheckout =
+      pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
     const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
+    this.props.refresh
+      ? () => {
+          this.forceUpdate();
+        }
+      : "";
     if (confirmation) {
       return (
         <div>

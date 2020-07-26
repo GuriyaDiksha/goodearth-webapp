@@ -14,8 +14,6 @@ import { AddressData } from "components/Address/typings";
 import CookieService from "services/cookie";
 import AddressService from "services/address";
 import CheckoutService from "services/checkout";
-import MetaService from "services/meta";
-import BasketService from "services/basket";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
@@ -24,7 +22,6 @@ import { refreshPage } from "actions/user";
 import OrderSummary from "./component/orderSummary";
 import PromoSection from "./component/promo";
 import PaymentSection from "./component/payment";
-import { Cookies } from "typings/cookies";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -65,10 +62,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     refreshPage: () => {
       dispatch(refreshPage(undefined));
-    },
-    updateMeta: (cookies: Cookies) => {
-      MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -140,7 +133,6 @@ class Checkout extends React.Component<Props, State> {
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
-    this.props.updateMeta(this.props.cookies);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {

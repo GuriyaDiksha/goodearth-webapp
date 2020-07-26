@@ -111,6 +111,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/orderConfirmation")),
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.CARTPAGE,
+    component: loadable(() => import("containers/cartPage")),
+    action: async () => null,
+    exact: true
   }
 ];
 
