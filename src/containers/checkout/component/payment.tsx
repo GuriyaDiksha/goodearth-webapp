@@ -12,7 +12,10 @@ import { Link } from "react-router-dom";
 import Loader from "components/Loader";
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
-  const { basket } = useSelector((state: AppState) => state);
+  const {
+    basket,
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
@@ -28,9 +31,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   const onsubmit = () => {
-    if (currentmethod.mode) {
+    const isFree = +basket.total <= 0;
+    if (currentmethod.mode || isFree) {
       const data: any = {
-        paymentMethod: currentmethod.key,
+        paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode
       };
       setIsLoading(true);
@@ -102,7 +106,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       setCurrentmethod(method);
     }
   };
-  // console.log(method.mode == currentmethod.mode ? true : false)
+
+  const isPaymentNeeded = () => {
+    if (+basket.total > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <div
       className={
@@ -157,36 +169,38 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
             </div>
             <hr className={styles.hr} />
-            <div className={globalStyles.marginT30}>
-              <div className="title">SELECT YOUR MODE OF PAYMENT</div>
-              {getMethods().map(function(method, index) {
-                return (
-                  <div className={globalStyles.marginT20} key={index}>
-                    <label
-                      className={cs(
-                        globalStyles.flex,
-                        globalStyles.crossCenter
-                      )}
-                    >
-                      <div className={styles.marginR10}>
-                        <span className={styles.checkbox}>
-                          <input
-                            type="radio"
-                            value={method.mode}
-                            checked={
-                              method.mode == currentmethod.mode ? true : false
-                            }
-                            onChange={event => onMethodChange(event, method)}
-                          />
-                          <span className={styles.indicator}></span>
-                        </span>
-                      </div>
-                      <div className={globalStyles.c10LR}>{method.value}</div>
-                    </label>
-                  </div>
-                );
-              })}
-            </div>
+            {isPaymentNeeded() && (
+              <div className={globalStyles.marginT30}>
+                <div className="title">SELECT YOUR MODE OF PAYMENT</div>
+                {getMethods().map(function(method, index) {
+                  return (
+                    <div className={globalStyles.marginT20} key={index}>
+                      <label
+                        className={cs(
+                          globalStyles.flex,
+                          globalStyles.crossCenter
+                        )}
+                      >
+                        <div className={styles.marginR10}>
+                          <span className={styles.checkbox}>
+                            <input
+                              type="radio"
+                              value={method.mode}
+                              checked={
+                                method.mode == currentmethod.mode ? true : false
+                              }
+                              onChange={event => onMethodChange(event, method)}
+                            />
+                            <span className={styles.indicator}></span>
+                          </span>
+                        </div>
+                        <div className={globalStyles.c10LR}>{method.value}</div>
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
           <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
@@ -233,7 +247,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}
           >
-            PROCEED TO A SECURE PAYMENT GATEWAY
+            {isPaymentNeeded()
+              ? mobile
+                ? "PROCEED TO PAYMENT GATEWAY"
+                : "PROCEED TO A SECURE PAYMENT GATEWAY"
+              : "PLACE ORDER"}
           </button>
         </Fragment>
       )}
