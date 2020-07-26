@@ -258,7 +258,7 @@
       }
     }
     @include plp_filter_copy();
-    text-transform: capitalize;
+    // text-transform: capitalize;
     &.country-code {
       display: flex;
       position: relative;

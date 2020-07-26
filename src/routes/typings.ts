@@ -19,7 +19,8 @@ export enum ROUTES {
   CHECKOUT = "/order/checkout/",
   SHOP = "/Cafe-Shop/:city/:shopname?",
   ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
-  CARTPAGE = "/cart/"
+  CARTPAGE = "/cart/",
+  PressStories = "/press-stories"
 }
 
 export type RouteConfig = RouteObject[];

@@ -117,6 +117,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/cartPage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.PressStories,
+    component: loadable(() => import("containers/pressStories")),
+    action: async () => null,
+    exact: false
   }
 ];
 
