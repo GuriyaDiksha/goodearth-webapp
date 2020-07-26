@@ -532,11 +532,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     )}
                     onClick={onRemoveOutOfStockItemsClick}
                   >
-                    Please
+                    Please&nbsp;
                     <span className={styles.triggerRemoveItems}>
                       REMOVE ALL ITEMS
                     </span>
-                    which are out of stock to proceed
+                    &nbsp; which are out of stock to proceed
                   </p>
                 )}
                 <div
@@ -550,7 +550,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <br />
                   you can apply the same during payment.
                 </div>
-                <div className="wishlist">
+                <div className={styles.wishlist}>
                   <a onClick={goTowishlist}>
                     <span>
                       <i
@@ -579,8 +579,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? styles.ceriseBtn
-                      : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                      ? cs(globalStyles.ceriseBtn, styles.posFixed)
+                      : cs(
+                          globalStyles.ceriseBtn,
+                          globalStyles.disabled,
+                          styles.posFixed
+                        )
                   }
                 >
                   PROCEED TO CHECKOUT
