@@ -14,6 +14,12 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { currencyCodes } from "constants/currency";
 import { DesignJournalBookData, DesignJournalProduct } from "./typings";
+import cs from "classnames";
+import styles from "./styles.scss";
+import globalStyles from "styles/global.scss";
+import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
+import SecondaryHeader from "components/SecondaryHeader";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -206,26 +212,39 @@ const DesignJournalBook: React.FC<Props> = props => {
     const html = [];
     if (associatedProducts.length > 0) {
       html.push(
-        <div className="col-xs-5 col-xs-offset-4 txt-caps flex-block">
+        <div
+          className={cs(
+            bootstrapStyles.col5,
+            bootstrapStyles.offset4,
+            styles.txtCaps,
+            styles.flexBlock
+          )}
+        >
           <div
             className={
               arrowClass
-                ? "cursor-pointer chkarrow up-arrow"
-                : "cursor-pointer chkarrow"
+                ? cs(globalStyles.pointer, styles.chkarrow, styles.upArrow)
+                : cs(globalStyles.pointer, styles.chkarrow)
             }
             onClick={displayProducts}
           >
             show products
           </div>
-          <div className="text-center">
+          <div className={globalStyles.textCenter}>
             {currentIndex}/{totalSlides}
           </div>
           {imageSlider?.mainProduct ? (
-            <div className="text-right">
+            <div className={globalStyles.textRight}>
               <a href={imageSlider?.mainProduct[0].url}>
                 {" "}
                 buy the journal{" "}
-                <span className="cursor-pointer chkarrow right-arrow"></span>{" "}
+                <span
+                  className={cs(
+                    globalStyles.pointer,
+                    styles.chkarrow,
+                    styles.rightArrow
+                  )}
+                ></span>{" "}
               </a>
             </div>
           ) : (
@@ -239,17 +258,31 @@ const DesignJournalBook: React.FC<Props> = props => {
         currentViews[0] < (imageSlider ? imageSlider.imageData.length - 1 : 0)
       ) {
         html.push(
-          <div className="margin-t-30 col-xs-5 col-xs-offset-4 txt-caps flex-block">
+          <div
+            className={cs(
+              globalStyles.marginT30,
+              bootstrapStyles.col5,
+              bootstrapStyles.offset4,
+              styles.txtCaps,
+              styles.flexBlock
+            )}
+          >
             <div className=""></div>
-            <div className="text-center">
+            <div className={globalStyles.textCenter}>
               {currentIndex}/{totalSlides}
             </div>
             {imageSlider?.mainProduct ? (
-              <div className="text-right">
+              <div className={globalStyles.textRight}>
                 <a href={imageSlider?.mainProduct[0].url}>
                   {" "}
                   buy the journal{" "}
-                  <span className="cursor-pointer chkarrow right-arrow"></span>{" "}
+                  <span
+                    className={cs(
+                      globalStyles.pointer,
+                      styles.chkarrow,
+                      styles.rightArrow
+                    )}
+                  ></span>{" "}
                 </a>
               </div>
             ) : (
@@ -263,23 +296,47 @@ const DesignJournalBook: React.FC<Props> = props => {
           currentViews[0] == imageSlider?.imageData.length
         ) {
           html.push(
-            <div className="margin-t-30 col-xs-5 col-xs-offset-4 txt-caps flex-block text-center">
+            <div
+              className={cs(
+                globalStyles.marginT30,
+                bootstrapStyles.col5,
+                bootstrapStyles.offset4,
+                styles.txtCaps,
+                styles.flexBlock,
+                globalStyles.textCenter
+              )}
+            >
               <a
-                className="buy-journal-link"
+                className={styles.buyJournalLink}
                 href={imageSlider?.mainProduct[0].url}
               >
                 {" "}
                 buy the journal{" "}
-                <span className="cursor-pointer chkarrow right-arrow"></span>{" "}
+                <span
+                  className={cs(
+                    globalStyles.pointer,
+                    styles.chkarrow,
+                    styles.rightArrow
+                  )}
+                ></span>{" "}
               </a>
             </div>
           );
         } else {
           if (currentViews.length > 0 && currentViews[0] == 0) {
             html.push(
-              <div className="margin-t-30 col-xs-5 col-xs-offset-4 txt-caps flex-block text-center">
+              <div
+                className={cs(
+                  globalStyles.marginT30,
+                  bootstrapStyles.col5,
+                  bootstrapStyles.offset4,
+                  styles.txtCaps,
+                  styles.flexBlock,
+                  globalStyles.textCenter
+                )}
+              >
                 <a
-                  className="buy-journal-link"
+                  className={styles.buyJournalLink}
                   href={"#"}
                   onClick={openJournal}
                 >
@@ -299,17 +356,25 @@ const DesignJournalBook: React.FC<Props> = props => {
     <div>
       {mobile ? (
         <div>
-          <div className="row dj-bg dj-slider mobile-product-display">
-            <div className="col-md-8 col-md-offset-2 col-xs-12">
+          <div
+            className={cs(bootstrapStyles.row, styles.djBg, styles.djSlider)}
+          >
+            <div
+              className={cs(
+                bootstrapStyles.colMd8,
+                bootstrapStyles.offsetMd2,
+                bootstrapStyles.col12
+              )}
+            >
               {renderDesktopImage()}
-              <div className="mobile-arrows">
-                <div className="arrow-container">
+              <div className={styles.mobileArrows}>
+                <div className={styles.arrowContainer}>
                   {associatedProducts.length > 0 && (
-                    <div className="mobile-show-product">
+                    <div className={styles.mobileShowProduct}>
                       <span>SHOP PRODUCTS ON PAGE</span>
                       <span
                         onClick={displayProducts}
-                        className="mobile-show-product-icon"
+                        className={styles.mobileShowProductIcon}
                       >
                         <img
                           src="/static/img/icons-library.svg"
@@ -318,22 +383,22 @@ const DesignJournalBook: React.FC<Props> = props => {
                       </span>
                     </div>
                   )}
-                  <div className="arrow left-arrow">
+                  <div className={cs(styles.arrow, styles.leftArrow)}>
                     <span
-                      className="left-arrow"
-                      // name="left-arrow"
+                      className={styles.leftArrow}
+                      // name="styles.leftArrow"
                       onClick={handleKeyDown}
                     >
                       <i className="icon icon_zz_arrow_left_dj"></i>
                     </span>
                   </div>
-                  <div className="text-center">
+                  <div className={globalStyles.textCenter}>
                     {currentIndex}/{totalSlides}
                   </div>
-                  <div className="arrow right-arrow">
+                  <div className={cs(styles.arrow, styles.rightArrow)}>
                     <span
-                      className="right-arrow"
-                      // name="right-arrow"
+                      className={styles.rightArrow}
+                      // name="styles.rightArrow"
                       onClick={handleKeyDown}
                     >
                       <i className="icon icon_zz_arrow_right_dj"></i>
@@ -343,20 +408,43 @@ const DesignJournalBook: React.FC<Props> = props => {
               </div>
             </div>
             {associatedProducts.length > 0 ? (
-              <div className="col-xs-12 txt-caps flex-block text-center mobile-show-products">
-                <div className="cursor-pointer" onClick={displayProducts}>
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  styles.txtCaps,
+                  styles.flexBlock,
+                  globalStyles.textCenter,
+                  styles.mobileShowProduct
+                )}
+              >
+                <div className={globalStyles.pointer} onClick={displayProducts}>
                   {" "}
                   Shop Products
                 </div>
               </div>
             ) : (
-              <div className="col-xs-12 txt-caps flex-block text-center mobile-show-products">
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  styles.txtCaps,
+                  styles.flexBlock,
+                  globalStyles.textCenter,
+                  styles.mobileShowProduct
+                )}
+              >
                 <div className=""></div>
               </div>
             )}
             {imageSlider?.mainProduct ? (
-              <div className="col-xs-12 col-sm-12 voffset4 hidden-md hidden-lg fixed-btn">
-                <button className="cerise-btn">
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  bootstrapStyles.colSm12,
+                  globalStyles.voffset4,
+                  styles.fixedBtn
+                )}
+              >
+                <button className={globalStyles.ceriseBtn}>
                   <a href={imageSlider?.mainProduct[0].url}>
                     {" "}
                     buy the journal{" "}
@@ -367,26 +455,32 @@ const DesignJournalBook: React.FC<Props> = props => {
               ""
             )}
           </div>
-          <div className={showProducts ? "row dj-bg " : "hidden"}>
+          <div
+            className={
+              showProducts
+                ? cs(bootstrapStyles.row, styles.djBg)
+                : globalStyles.hidden
+            }
+          >
             {associatedProducts.length > 0
               ? associatedProducts.map((data, i) => {
                   return (
-                    <div className="col-xs-6" id={data.sku} key={i}>
-                      <div className="img-diff">
-                        <div className="imagebox-new">
+                    <div className={bootstrapStyles.col6} id={data.sku} key={i}>
+                      <div className={styles.imgDiff}>
+                        <div className={styles.imageboxNew}>
                           <a href={data.url}>
                             <img
                               src={data.image}
-                              className="image-result-new"
+                              className={styles.imageResultNew}
                             />
                           </a>
                         </div>
 
-                        <div className="image-content">
-                          <p className="product-n">
+                        <div className={styles.imageContent}>
+                          <p className={styles.productN}>
                             <a href={data.url}> {data.name} </a>
                           </p>
-                          <p className="product-n">
+                          <p className={styles.productN}>
                             {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
                             {data.price[currency]}
                           </p>
@@ -401,53 +495,81 @@ const DesignJournalBook: React.FC<Props> = props => {
       ) : (
         <div>
           {imageSlider?.mainProduct ? (
-            <div className="breadcrumbs-block">
-              <div className="row minimumWidth">
-                <div className="col-md-5 col-md-offset-1">
-                  <div className="pdp_breadcrumbs">
-                    <span>
-                      {" "}
-                      <a href="/stories"> Stories </a> &gt;{" "}
-                    </span>
-                    <span>
-                      {" "}
-                      <a href="/designjournal"> Design Journals </a> &gt;{" "}
-                    </span>
-                    <span>
-                      {" "}
-                      <a> {imageSlider?.mainProduct[0].name} </a>{" "}
-                    </span>
-                  </div>
-                </div>
-                <div className="col-md-5 col-xs-10 col-xs-offset-1"></div>
-                <div className="col-md-1"></div>
+            // <div className="breadcrumbs-block">
+            //   <div className="row minimumWidth">
+            //     <div className="bootstrapStyles.colMd5 bootstrapStyles.offsetMd1">
+            //       <div className="pdp_breadcrumbs">
+            //         <span>
+            //           {" "}
+            //           <a href="/stories"> Stories </a> &gt;{" "}
+            //         </span>
+            //         <span>
+            //           {" "}
+            //           <a href="/designjournal"> Design Journals </a> &gt;{" "}
+            //         </span>
+            //         <span>
+            //           {" "}
+            //           <a> {imageSlider?.mainProduct[0].name} </a>{" "}
+            //         </span>
+            //       </div>
+            //     </div>
+            //     <div className={cs(bootstrapStyles.colMd5, bootstrapStyles.col10, bootstrapStyles.offset1)}></div>
+            //     <div className={bootstrapStyles.colMd1}></div>
+            //   </div>
+            // </div>
+            <SecondaryHeader>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd7,
+                  bootstrapStyles.offsetMd1,
+                  styles.header,
+                  globalStyles.verticalMiddle,
+                  styles.heading
+                )}
+              >
+                <span>
+                  <Link to="/stories">Stories</Link>
+                  &nbsp;&gt;&nbsp;
+                </span>
+                <span>
+                  <Link to="/designjournal">Design Journals</Link>
+                  &nbsp;&gt;&nbsp;
+                </span>
+                <span>{imageSlider?.mainProduct[0].name}</span>
               </div>
-            </div>
+            </SecondaryHeader>
           ) : (
             ""
           )}
-          <div className="dj-space">
-            <div className="row dj-bg dj-slider">
-              <div className="arrow-container">
-                <div className="arrow">
+          <div className={styles.djSpace}>
+            <div
+              className={cs(bootstrapStyles.row, styles.djBg, styles.djSlider)}
+            >
+              <div className={styles.arrowContainer}>
+                <div className={styles.arrow}>
                   {associatedProducts.length > 0 && (
-                    <div className="show-product-action-container">
+                    <div className={styles.showProductActionContainer}>
                       <div
-                        className="show-product-action"
+                        className={styles.showProductAction}
                         onClick={displayProducts}
                       >
-                        <span className="show-product-icon cursor-pointer">
+                        <span
+                          className={cs(
+                            styles.showProductIcon,
+                            globalStyles.pointer
+                          )}
+                        >
                           <img src="/static/img/icons-library.svg" />
                         </span>
-                        <p className="show-products-text">
+                        <p className={styles.showProductsText}>
                           Show Products On Page
                         </p>
                       </div>
                     </div>
                   )}
                   <span
-                    className="left-arrow"
-                    // name="left-arrow"
+                    className={styles.leftArrow}
+                    // name="styles.leftArrow"
                     onClick={handleKeyDown}
                   >
                     <i className="icon icon_zz_arrow_left_dj"></i>
@@ -455,10 +577,10 @@ const DesignJournalBook: React.FC<Props> = props => {
                   </span>
                 </div>
                 {renderDesktopImage()}
-                <div className="arrow">
+                <div className={styles.arrow}>
                   <span
-                    className="right-arrow"
-                    // name="right-arrow"
+                    className={styles.rightArrow}
+                    // name="styles.rightArrow"
                     onClick={handleKeyDown}
                   >
                     <i className="icon icon_zz_arrow_right_dj"></i>
@@ -468,12 +590,20 @@ const DesignJournalBook: React.FC<Props> = props => {
               </div>
               {renderCount()}
             </div>
-            <div className="row dj-slider2">
+            <div className={cs(bootstrapStyles.row, styles.djSlider2)}>
               <div
                 className={
                   showProducts
-                    ? "col-md-6 col-md-offset-3 pdp-slider-recommend"
-                    : "col-md-8 col-md-offset-2 dj-slider2 "
+                    ? cs(
+                        bootstrapStyles.colMd6,
+                        bootstrapStyles.offsetMd3,
+                        styles.pdpSliderRecommend
+                      )
+                    : cs(
+                        bootstrapStyles.colMd8,
+                        bootstrapStyles.offsetMd2,
+                        styles.djSlider2
+                      )
                 }
               >
                 {imageSlider?.imageData && currentIndex > 0 && showProducts ? (
@@ -482,21 +612,21 @@ const DesignJournalBook: React.FC<Props> = props => {
                       {associatedProducts.map((data, i) => {
                         return (
                           <div key={i}>
-                            <div className="img-diff">
+                            <div className={styles.imgDiff}>
                               <div className="">
                                 <a href={data.url}>
                                   <img
                                     src={data.image}
-                                    className="img-responsive"
+                                    className={globalStyles.imgResponsive}
                                   />
                                 </a>
                               </div>
 
-                              <div className="image-content">
-                                <p className="product-n">
+                              <div className={styles.imageContent}>
+                                <p className={styles.productN}>
                                   <a href={data.url}> {data.name} </a>
                                 </p>
-                                <p className="product-n">
+                                <p className={styles.productN}>
                                   {String.fromCharCode(currencyCodes[currency])}
                                   &nbsp; {data.price[currency]}
                                 </p>
@@ -509,22 +639,26 @@ const DesignJournalBook: React.FC<Props> = props => {
                   ) : (
                     associatedProducts.map((data, i) => {
                       return (
-                        <div className="col-md-3" id={data.sku} key={i}>
-                          <div className="img-diff">
+                        <div
+                          className={bootstrapStyles.colMd3}
+                          id={data.sku}
+                          key={i}
+                        >
+                          <div className={styles.imgDiff}>
                             <div className="">
                               <a href={data.url}>
                                 <img
                                   src={data.image}
-                                  className="img-responsive"
+                                  className={globalStyles.imgResponsive}
                                 />
                               </a>
                             </div>
 
-                            <div className="image-content">
-                              <p className="product-n">
+                            <div className={styles.imageContent}>
+                              <p className={styles.productN}>
                                 <a href={data.url}> {data.name} </a>
                               </p>
-                              <p className="product-n">
+                              <p className={styles.productN}>
                                 {String.fromCharCode(currencyCodes[currency])}
                                 &nbsp; {data.price[currency]}{" "}
                               </p>

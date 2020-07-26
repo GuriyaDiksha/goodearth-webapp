@@ -166,11 +166,18 @@
         text-transform: capitalize;
         letter-spacing: 1px;
         line-height: 20px;
+        &.pdp_prod_name_mobile {
+          line-height: 17px;
+          font-size: 16px;
+        }
       }
       .pdp_copy_body {
         @include pdp_copy_body();
         color: $white;
         letter-spacing: 1px;
+        // &.pdp_copy_body_mobile {
+
+        // }
       }
       .txt-link {
         a {
@@ -216,6 +223,16 @@
     a {
       color: inherit;
     }
+  }
+  .pdp_coll_name_mobile {
+    @include pdp_coll_name();
+    a {
+      color: inherit;
+    }
+    margin-top: 20px;
+    font-size: 10px;
+    color: gray;
+    letter-spacing: 1px;
   }
 .heading {
   line-height: 48px;
