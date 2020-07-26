@@ -7,14 +7,15 @@ import styles from "./styles.scss";
 import { Section3Props } from "./typings";
 import Formsy from "formsy-react";
 import FormInput from "../../components/Formsy/FormInput";
+import FormTextArea from "components/Formsy/FormTextArea";
 // import { Currency, currencyCode } from "typings/currency";
 const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
   const emailInput = React.useRef<HTMLInputElement>(null);
   const lastNameInput = React.useRef<HTMLInputElement>(null);
   const [textarea, setTextarea] = useState("");
-  const [ehighlight, setEhighlight] = useState(false);
-  const [emsg, setEmsg] = useState("");
+  // const [ehighlight, setEhighlight] = useState(false);
+  // const [emsg, setEmsg] = useState("");
 
   const gotoNext = () => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
@@ -34,36 +35,54 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
       setTextarea(data.message);
     }
   });
-  const myBlurText = (event: any) => {
-    if (event.target.value != "") {
-      if (textarea.length <= 120) {
-        setTextarea(event.target.value.slice(0, 120));
-        setEhighlight(false);
-        setEmsg("");
-      }
-    } else {
-      setEmsg("Please Enter Message");
-      setEhighlight(true);
-    }
-  };
+  // const myBlurText = (event: any) => {
+  //   if (event.target.value != "") {
+  //     if (textarea.length <= 120) {
+  //       setTextarea(event.target.value.slice(0, 120));
+  //       setEhighlight(false);
+  //       setEmsg("");
+  //     }
+  //   } else {
+  //     setEmsg("Please Enter Message");
+  //     setEhighlight(true);
+  //   }
+  // };
   const handleSubmit = (
     model: any,
     resetForm: any,
     updateInputsWithError: any
   ) => {
-    const { email, email1, firstName, senderName } = model;
+    const {
+      recipientEmail,
+      recipientEmailConfirm,
+      recipientName,
+      senderName,
+      message
+    } = model;
     const data: any = {};
-    if (textarea == "") {
-      setEmsg("Please Enter Message");
-      setEhighlight(true);
-      return false;
-    }
-    data["email"] = email;
-    data["email1"] = email1;
-    data["firtName"] = firstName;
+    // if (textarea == "") {
+    // setEmsg("Please Enter Message");
+    // setEhighlight(true);
+    // return false;
+    // }
+    data["email"] = recipientEmail;
+    data["email1"] = recipientEmailConfirm;
+    data["firtName"] = recipientName;
     data["senderName"] = senderName;
-    data["message"] = textarea;
+    data["message"] = message;
     next(data, "preview");
+  };
+
+  const handleInvalidSubmit = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorBorder
+      )[0] as HTMLInputElement | HTMLSelectElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
   };
 
   return (
@@ -81,25 +100,20 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
             <p
               className={styles.backGc}
               onClick={() => {
-                goback("form");
+                goback("amount");
               }}
             >
-              Back To Design
+              Back To Value
             </p>
           </div>
         </div>
-        <div className={bootstrapStyles.row}>
-          <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.textCenter,
-              globalStyles.paddTop40
-            )}
-          ></div>
-        </div>
+        <div className={bootstrapStyles.row}></div>
         <div className={cs(bootstrapStyles.row, styles.nobg, styles.loginForm)}>
-          <Formsy ref={RegisterFormRef} onValidSubmit={handleSubmit}>
+          <Formsy
+            ref={RegisterFormRef}
+            onValidSubmit={handleSubmit}
+            onInvalidSubmit={handleInvalidSubmit}
+          >
             <div
               className={cs(
                 bootstrapStyles.col12,
@@ -113,7 +127,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                 <p className={styles.gcHead}> 3. Fill in the details</p>
                 <div>
                   <FormInput
-                    name="firstName"
+                    name="recipientName"
                     placeholder={"Recipient's Name"}
                     label={"Name"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
@@ -123,7 +137,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                 </div>
                 <div>
                   <FormInput
-                    name="email"
+                    name="recipientEmail"
                     placeholder={"Recipient's Email"}
                     label={"Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
@@ -142,7 +156,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                 </div>
                 <div>
                   <FormInput
-                    name="email1"
+                    name="recipientEmailConfirm"
                     placeholder={"Confirm Recipient's Email"}
                     label={"Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
@@ -150,7 +164,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     validations={{
                       isEmail: true,
                       maxLength: 75,
-                      equalsField: "email"
+                      equalsField: "recipientEmail"
                     }}
                     validationErrors={{
                       isEmail: "Enter valid email",
@@ -162,23 +176,26 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                   />
                 </div>
                 <div>
-                  <textarea
-                    data-rows="5"
+                  <FormTextArea
+                    placeholder=""
+                    name="message"
+                    rows={5}
                     id="sender_msg"
-                    onChange={e => {
-                      myBlurText(e);
-                    }}
+                    // onChange={e => {
+                    //   myBlurText(e);
+                    // }}
+                    required
                     value={textarea}
-                    className={ehighlight ? "error-border" : ""}
-                  ></textarea>
+                    // className={ehighlight ? "error-border" : ""}
+                  ></FormTextArea>
                   <div>Character Limit: {120 - textarea.length}</div>
-                  {emsg ? (
+                  {/* {emsg ? (
                     <p className={globalStyles.errorMsg}>
                       Please enter message
                     </p>
                   ) : (
                     <p className={globalStyles.errorMsg}></p>
-                  )}
+                  )} */}
                 </div>
                 <div>
                   <FormInput
@@ -213,7 +230,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                   <input
                     type="submit"
                     className={styles.inputButton}
-                    value="choose value"
+                    value="proceed to preview card"
                   />
                 </p>
               </div>

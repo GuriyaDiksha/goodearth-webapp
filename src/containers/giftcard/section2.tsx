@@ -41,11 +41,15 @@ const Section2: React.FC<Section2Props> = ({
         });
       setSelectcurrency("INR");
     }
-  });
+  }, []);
 
   const setValue = (id: string) => {
+    const elem = document.getElementById(selectvalue) as HTMLInputElement;
+    elem ? (elem.value = "") : "";
     setIsCustom(false);
     setSelectvalue(id);
+    setErrorBorder(false);
+    setNumhighlight(false);
   };
 
   const onCountrySelect = (e: any) => {
@@ -104,7 +108,7 @@ const Section2: React.FC<Section2Props> = ({
       const element: any = document.getElementById(selectvalue);
       const value = element.value;
       if (value == "") {
-        setCountrymsg(
+        setNummsg(
           "Please enter a value or choose one of the default values listed above"
         );
         return false;
@@ -117,7 +121,8 @@ const Section2: React.FC<Section2Props> = ({
       }
     } else {
       if (selectvalue == "") {
-        setCountrymsg(
+        setNumhighlight(true);
+        setNummsg(
           "Please enter a value or choose one of the default values listed above"
         );
         return false;
@@ -143,7 +148,7 @@ const Section2: React.FC<Section2Props> = ({
   return (
     <div className={bootstrapStyles.row}>
       <section className={cs(globalStyles.paddTop60, styles.gc)}>
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset8)}>
+        <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
             className={cs(
               bootstrapStyles.col10,
@@ -330,7 +335,7 @@ const Section2: React.FC<Section2Props> = ({
                 gotoNext();
               }}
             >
-              <span>choose value</span>
+              <span>PROCEED TO FILLING DETAILS</span>
             </div>
           </div>
         </div>
