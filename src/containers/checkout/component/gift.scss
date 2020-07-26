@@ -332,6 +332,12 @@
   margin-left: 20px;
   text-align: left;
 }
+.active-url {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: left;
+  text-decoration: underline;
+}
 
 .error-msg {
   font-size: 10px !important;
@@ -340,7 +346,6 @@
   font-weight: bold;
   font-family: "LatoFont","Helvetica","Arial";
   letter-spacing: 1px;
-  text-transform: lowercase;
   text-align: left;
   height: 15px;
   line-height: 15px;
