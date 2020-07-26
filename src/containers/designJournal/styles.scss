@@ -1,0 +1,221 @@
+@import "../../styles/partials/mixins";
+
+.designjournal {
+    overflow: scroll;
+    img {
+      overflow: scroll;
+    }
+    .pdt-name {
+      position: absolute;
+      z-index: 1;
+      text-align: left;
+      width: 300px;
+      @include pdp_prod_name();
+      color: $white;
+      &.pos-1 {
+        bottom: 14%;
+        left: 14%;
+      }
+      &.hiddenblock {
+        visibility: hidden;
+      }
+      &.visibleblock {
+        visibility: visible;
+        -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+        -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+        -o-animation: fadein 2s; /* Opera < 12.1 */
+        animation: fadein 2s;
+      }
+      &.pos-2 {
+        bottom: -5%;
+        right: 20%;
+      }
+      &.pos-new2 {
+        top: 18%;
+        right: 7%;
+      }
+      &.pos-new3 {
+        top: 41%;
+        right: 7%;
+      }
+      &.pos-new4 {
+        bottom: 2%;
+        left: 35%;
+      }
+      &.pos-new5 {
+        bottom: 36%;
+        left: 38%;
+      }
+      &.pos-new6 {
+        bottom: 27%;
+        left: 2%;
+      }
+      &.pos-3 {
+        top: 28%;
+        left: 25%;
+      }
+      &.pos-4 {
+        bottom: -12%;
+        right: 30%;
+      }
+      &.pos-5 {
+        top: 32%;
+        left: 34%;
+      }
+      &.pos-6 {
+        bottom: 12%;
+        right: 20%;
+      }
+      &.pos-7 {
+        top: 46%;
+        right: 2%;
+      }
+      &.pos-8 {
+        bottom: 6%;
+        right: 30%;
+      }
+      &.pos-9 {
+        top: 29%;
+        right: 12%;
+      }
+      &.pos-kv {
+        bottom: -10%;
+        right: 2%;
+      }
+      &.pos-10 {
+        bottom: 7%;
+        right: 37%;
+      }
+      &.pos-11 {
+        top: 28%;
+        left: 40%;
+      }
+      &.pos-12 {
+        bottom: 8%;
+        left: 11%;
+      }
+      &.pos-13 {
+        bottom: 10%;
+        right: 19%;
+      }
+      &.pos-14 {
+        top: 28%;
+        right: 23%;
+      }
+      &.pos-dt {
+        bottom: -33%;
+        left: 20%;
+      }
+      &.pos-15 {
+        bottom: 21%;
+        right: 28%;
+      }
+      &.pos-16 {
+        top: 22%;
+        right: 25%;
+      }
+      &.pos-17 {
+        bottom: 11%;
+        left: 35%;
+      }
+      .link {
+        color: $white;
+        text-transform: uppercase;
+      }
+    }
+    .txt-block {
+      position: absolute;
+      color: $white;
+      width: 350px;
+      .italic {
+        font-style: italic;
+      }
+      &.hiddenblock {
+        visibility: hidden;
+      }
+      &.visibleblock {
+        visibility: visible;
+        height: 200px;
+        -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+        -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+        -o-animation: fadein 2s; /* Opera < 12.1 */
+        animation: fadein 2s;
+      }
+      &.pos-1 {
+        left: 38%;
+        top: 21%;
+      }
+      &.pos-new1 {
+        left: 20%;
+        top: 10%;
+      }
+      &.pos-4 {
+        right: 50%;
+        top: 0;
+      }
+      &.pos-6 {
+        right: 5%;
+        top: 27%;
+      }
+      &.pos-9a {
+        right: 20%;
+        top: 20%;
+      }
+      .pdp_prod_name {
+        color: $white;
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        line-height: 20px;
+      }
+      .pdp_copy_body {
+        @include pdp_copy_body();
+        color: $white;
+        letter-spacing: 1px;
+      }
+      .txt-link {
+        a {
+          text-transform: uppercase;
+          color: $white;
+          font-size: 12px;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
+
+  .header {
+    div {
+        color: #666;
+        letter-spacing: 1px;
+        a {
+            font-size: 14px;
+            text-decoration: none;
+        }
+    }
+}
+.subc-header {
+    background-color: tint(#000, 90%);
+    margin: 0;
+    padding: 15px 0;
+    h1 {
+      @include font28();
+    }
+    p {
+      @include c10-L-R();
+    }
+  }
+  .img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    min-width: 100%;
+  }
+  .pdp_coll_name {
+    @include pdp_coll_name();
+    a {
+      color: inherit;
+    }
+  }

@@ -28,6 +28,7 @@ module.exports = {
   },
   globals: {
     __DOMAIN__: false,
-    __API_HOST__:false
+    __API_HOST__:false,
+    __CDN_HOST__:false,
 }
 };

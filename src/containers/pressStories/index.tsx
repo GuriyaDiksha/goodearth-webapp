@@ -37,11 +37,7 @@ const PressStories: React.FC = () => {
       history.push("/press-stories/" + year, {});
     }
     PressStoryService.fetchPressStories(dispatch, year).then(data =>
-      // updatePressStoriesData(data)
-      updatePressStoriesData({
-        archive: data.archive,
-        data: [...data.data, ...data.data]
-      })
+      updatePressStoriesData(data)
     );
   }, []);
 

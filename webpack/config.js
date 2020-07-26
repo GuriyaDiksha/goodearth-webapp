@@ -22,6 +22,7 @@ const LoadablePlugin = require('@loadable/webpack-plugin');
 const domain = JSON.stringify(envConfig.domain);
 const apiDomain = JSON.stringify("https://api.goodearth.in");
 const publicPath = "/static/";
+const cdnDomain = JSON.stringify("https://djhiy8e1dslha.cloudfront.net");
 
 const alias = {
     components : context + "/src/components",
@@ -76,7 +77,8 @@ let config = [
         plugins: [
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
-                __DOMAIN__: domain
+                __DOMAIN__: domain,
+                __CDN_HOST__: cdnDomain
               }),
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
@@ -258,7 +260,8 @@ let config = [
         plugins: [
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
-                __DOMAIN__: domain
+                __DOMAIN__: domain,
+                __CDN_HOST__: cdnDomain
             }),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`,

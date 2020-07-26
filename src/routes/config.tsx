@@ -10,6 +10,7 @@ import initActionCategory from "containers/categoryLanding/initAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
+import initActionDesignJournalBook from "containers/designJournalBook/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -116,6 +117,18 @@ const routes: RouteConfig = [
     path: ROUTES.PressStories,
     component: loadable(() => import("containers/pressStories")),
     action: async () => null,
+    exact: false
+  },
+  {
+    path: ROUTES.DESIGNJOURNAL,
+    component: loadable(() => import("containers/designJournal")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.DESIGNJOURNALBOOK,
+    component: loadable(() => import("containers/designJournalBook")),
+    action: initActionDesignJournalBook,
     exact: false
   }
 ];
