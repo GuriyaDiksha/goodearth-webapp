@@ -5,6 +5,8 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Section1Props } from "./typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const Section1: React.FC<Section1Props> = props => {
   let imageName = "image0";
@@ -14,6 +16,7 @@ const Section1: React.FC<Section1Props> = props => {
   }
   const [selected, setSelected] = useState(imageName);
   const [selectindex, setSelectindex] = useState(0);
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   const selectImage = (index: number) => {
     setSelected("image" + index);
@@ -34,7 +37,8 @@ const Section1: React.FC<Section1Props> = props => {
               bootstrapStyles.col10,
               bootstrapStyles.offset1,
               globalStyles.textCenter,
-              styles.txtSettings
+              styles.txtSettings,
+              { [styles.txtSettingsMobile]: mobile }
             )}
           >
             <h2> Gifting With E-cards </h2>

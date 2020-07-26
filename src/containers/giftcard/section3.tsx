@@ -88,7 +88,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
   return (
     <div className={bootstrapStyles.row}>
       <section className={cs(globalStyles.paddTop60, styles.gc)}>
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset8)}>
+        <div className={cs(bootstrapStyles.row)}>
           <div
             className={cs(
               bootstrapStyles.col10,
