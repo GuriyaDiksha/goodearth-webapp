@@ -12,15 +12,16 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const env = process.env.NODE_ENV || "development";
-
+const currentServer = process.env.NODE_ENV || "development";
+const env = currentServer == "production" ? "production" : currentServer;
 const envConfig = require("../src/config");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const domain = JSON.stringify(envConfig.domain);
-const apiDomain = JSON.stringify("https://api.goodearth.in");
+
+const apiDomain = JSON.stringify(currentServer == "staging"?"https://stagingapi.goodearth.in":"https://api.goodearth.in");
 const publicPath = "/static/";
 
 const alias = {
