@@ -168,7 +168,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 {renderCoupon()} */}
               </div>
             </div>
-            <hr className={styles.hr} />
+            {isPaymentNeeded() && <hr className={styles.hr} />}
             {isPaymentNeeded() && (
               <div className={globalStyles.marginT30}>
                 <div className="title">SELECT YOUR MODE OF PAYMENT</div>

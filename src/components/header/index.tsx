@@ -21,6 +21,8 @@ import UserContext from "contexts/user";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
+import MetaService from "services/meta";
+import { Cookies } from "typings/cookies";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 
@@ -48,8 +50,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     handleLogOut: () => {
       LoginService.logout(dispatch);
     },
-    onLoadAPiCall: (basketcall: boolean) => {
+    onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
       basketcall && WishlistService.updateWishlist(dispatch);
+      MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
     }
   };
@@ -92,7 +95,7 @@ class Header extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.onLoadAPiCall(this.props.isLoggedIn);
+    this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
   }
 
   mouseOut(data: { show: boolean }) {
@@ -249,7 +252,9 @@ class Header extends React.Component<Props, State> {
                           styles.iconFont
                         )
                   }
-                  onClick={this.clickToggle.bind(this)}
+                  onClick={() => {
+                    this.clickToggle();
+                  }}
                 ></i>
                 <i
                   className={
@@ -262,7 +267,9 @@ class Header extends React.Component<Props, State> {
                         )
                       : styles.hidden
                   }
-                  onClick={this.clickToggle.bind(this)}
+                  onClick={() => {
+                    this.clickToggle();
+                  }}
                 ></i>
               </div>
             ) : (

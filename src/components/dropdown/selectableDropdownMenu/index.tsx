@@ -19,11 +19,10 @@ const DropdownMenu = ({
   showCaret
 }: SelectableDropdownMenuProps): JSX.Element => {
   const [currentValue, setCurrentValue] = useState(value);
-
+  const mounted = useRef(false);
   useEffect(() => {
     setCurrentValue(value);
   }, [value]);
-  const mounted = useRef(false);
 
   const onChangeValue = (val: string | undefined) => {
     setCurrentValue(val);

@@ -36,14 +36,20 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class PLP extends React.Component<
   Props,
-  { filterData: string; showmobileSort: boolean; mobileFilter: boolean }
+  {
+    filterData: string;
+    showmobileSort: boolean;
+    mobileFilter: boolean;
+    sortValue: string;
+  }
 > {
   private child: any = FilterList;
 
   state = {
     filterData: "All",
     showmobileSort: false,
-    mobileFilter: false
+    mobileFilter: false,
+    sortValue: "hc"
   };
 
   onchangeFilter = (data: any): void => {
@@ -54,6 +60,7 @@ class PLP extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
+    this.setState({ sortValue: data });
   };
 
   onClickQuickView = (id: number) => {
@@ -115,7 +122,8 @@ class PLP extends React.Component<
             onStateChange={this.onChangeFilterState}
             showCaret={this.state.showmobileSort}
             open={false}
-            value="hc"
+            value={this.state.sortValue}
+            key={"plpPageMobile"}
           />
         ) : (
           <SecondaryHeader>
@@ -133,9 +141,10 @@ class PLP extends React.Component<
                   align="right"
                   className={styles.dropdownRoot}
                   items={items}
-                  value="hc"
                   onChange={this.onchangeFilter}
                   showCaret={true}
+                  value={this.state.sortValue}
+                  key={"plpPage"}
                 ></SelectableDropdownMenu>
               </div>
             </Fragment>

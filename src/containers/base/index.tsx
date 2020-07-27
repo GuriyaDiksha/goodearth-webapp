@@ -16,6 +16,12 @@ const mapStateToProps = (state: AppState) => {
 type props = ReturnType<typeof mapStateToProps>;
 
 class BaseLayout extends React.Component<props, {}> {
+  shouldComponentUpdate(nextProps: props) {
+    if (nextProps.location.pathname == this.props.location.pathname)
+      return true;
+    return false;
+  }
+
   render() {
     const {
       location: { pathname }
@@ -23,11 +29,6 @@ class BaseLayout extends React.Component<props, {}> {
     const isCheckout =
       pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
     const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
-    this.props.refresh
-      ? () => {
-          this.forceUpdate();
-        }
-      : "";
     if (confirmation) {
       return (
         <div>
