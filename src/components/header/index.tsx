@@ -106,12 +106,13 @@ class Header extends React.Component<Props, State> {
     });
   }
 
-  clickToggle() {
+  clickToggle = () => {
     this.setState({
       showMenu: !this.state.showMenu,
       showSearch: false
     });
-  }
+    window.scrollTo(0, 0);
+  };
 
   render() {
     const { isLoggedIn } = this.context;
@@ -353,11 +354,12 @@ class Header extends React.Component<Props, State> {
                         : cs(styles.menuSlider, styles.mobileList)
                     }
                   >
-                    {this.state.showMenu && (
+                    {
                       <>
                         <Mobilemenu
                           menudata={this.props.data}
                           location={this.props.location}
+                          clickToggle={this.clickToggle}
                         />
                         <div className={styles.lowerMenu}>
                           <ul>
@@ -428,7 +430,10 @@ class Header extends React.Component<Props, State> {
                                 return (
                                   <li
                                     key={item.label}
-                                    onClick={() => this.clickToggle()}
+                                    onClick={e => {
+                                      item.onClick && item.onClick(e);
+                                      this.clickToggle();
+                                    }}
                                   >
                                     <NavLink
                                       key={item.label}
@@ -443,7 +448,7 @@ class Header extends React.Component<Props, State> {
                           </ul>
                         </div>
                       </>
-                    )}
+                    }
                   </div>
                 ) : (
                   ""

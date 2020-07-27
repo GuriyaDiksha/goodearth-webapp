@@ -151,7 +151,11 @@ class Checkout extends React.Component<Props, State> {
     const shippingData = nextProps.user.shippingData;
     this.setState({
       shippingAddress: shippingData || undefined,
-      activeStep: shippingData ? Steps.STEP_BILLING : Steps.STEP_SHIPPING
+      activeStep: shippingData
+        ? this.state.billingAddress
+          ? Steps.STEP_PROMO
+          : Steps.STEP_BILLING
+        : Steps.STEP_SHIPPING
     });
   }
 
@@ -268,6 +272,7 @@ class Checkout extends React.Component<Props, State> {
           this.setState({
             shippingCharge: data.shippingCharge,
             shippingAddress: address,
+            billingAddress: undefined,
             activeStep: Steps.STEP_BILLING,
             shippingError: ""
           });
