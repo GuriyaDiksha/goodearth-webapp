@@ -252,7 +252,9 @@ class Header extends React.Component<Props, State> {
                           styles.iconFont
                         )
                   }
-                  onClick={this.clickToggle.bind(this)}
+                  onClick={() => {
+                    this.clickToggle();
+                  }}
                 ></i>
                 <i
                   className={
@@ -265,7 +267,9 @@ class Header extends React.Component<Props, State> {
                         )
                       : styles.hidden
                   }
-                  onClick={this.clickToggle.bind(this)}
+                  onClick={() => {
+                    this.clickToggle();
+                  }}
                 ></i>
               </div>
             ) : (
