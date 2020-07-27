@@ -175,7 +175,7 @@ class Header extends React.Component<Props, State> {
       }
     );
     return (
-      <div className="">
+      <div className={styles.grandOuter}>
         <Helmet>
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
@@ -231,6 +231,10 @@ class Header extends React.Component<Props, State> {
             <meta name="twitter:site" content={meta.twitterSite} />
           )}
         </Helmet>
+        <div className={styles.announcement}>
+          <div className={styles.boxx1}>sfdf</div>
+          <div className={styles.boxx2}>sdf</div>
+        </div>
         <div className={cs(styles.headerContainer)}>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             {this.props.mobile ? (
