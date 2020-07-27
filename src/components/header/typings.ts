@@ -85,6 +85,7 @@ export type MenuListProps = {
 export type MobileListProps = {
   menudata: HeaderData[];
   location: Location;
+  clickToggle: () => void;
 };
 export interface State {
   show: boolean;

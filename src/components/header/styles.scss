@@ -329,7 +329,7 @@
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: transform 1s ease;
   transition: transform 1s ease;
-  height: calc(100vh - 78px);
+  height: calc(100vh - #{$header-height});
   overflow: scroll;
   background-color: tint(#000, 90%);
 }
@@ -338,7 +338,9 @@
   transform: translate3d(-840px, 0, 0);
   -webkit-transform: translate3d(-840px, 0, 0);
   -webkit-transition: transform 1s ease;
-  transition:transform 1s ease;
+  transition: transform 1s ease;
+  height: calc(100vh - #{$header-height});
+  overflow: scroll;
 }
 .op3 {
   opacity: .4;
