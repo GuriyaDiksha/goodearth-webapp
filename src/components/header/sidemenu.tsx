@@ -15,6 +15,10 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
 import { Link } from "react-router-dom";
+import { AppState } from "reducers/typings";
+import { Cookies } from "typings/cookies";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
 const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
@@ -26,8 +30,10 @@ interface State {
   openProfile: boolean;
 }
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    cookies: state.cookies
+  };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -37,6 +43,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     handleLogOut: () => {
       LoginService.logout(dispatch);
+    },
+    changeCurrency: async (data: FormData) => {
+      const response = await LoginService.changeCurrency(dispatch, data);
+      return response;
+    },
+    reloadPage: (cookies: Cookies) => {
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
     }
   };
 };
@@ -59,6 +73,17 @@ class SideMenu extends React.Component<Props, State> {
   }
   static contextType = UserContext;
 
+  changeCurrency = (cur: any) => {
+    const { changeCurrency, reloadPage } = this.props;
+    const data: any = {
+      currency: cur
+    };
+    if (this.props.currency != data) {
+      changeCurrency(data).then(response => {
+        reloadPage(this.props.cookies);
+      });
+    }
+  };
   render() {
     const { isLoggedIn } = this.context;
     const items: DropdownItem[] = [
@@ -164,6 +189,7 @@ class SideMenu extends React.Component<Props, State> {
                 items={items}
                 value={this.props.currency}
                 showCaret={true}
+                onChange={this.changeCurrency}
               ></SelectableDropdownMenu>
             </li>
           )}

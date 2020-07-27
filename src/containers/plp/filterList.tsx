@@ -238,7 +238,7 @@ class FilterList extends React.Component<Props, State> {
             filterUrl += "&" + key + "=" + array[filterType][key];
             break;
           case "sortBy":
-            filterUrl += "&" + key + "=" + array[filterType][key];
+            filterUrl += "&sort_by=" + array[filterType][key];
             break;
           case "productType": {
             const product = array[filterType];
