@@ -16,6 +16,8 @@
     "buildDev": "webpack --config webpack/config.js --watch",
     "buildClient": "APP=client NODE_ENV=production webpack --config webpack/config.js -a client",
     "buildServer": "APP=server NODE_ENV=production webpack --config webpack/config.js -a server",
+    "buildStagingClient": "APP=client NODE_ENV=production webpack --config webpack/stagingConfig.js -a client",
+    "buildStagingServer": "APP=server NODE_ENV=production webpack --config webpack/stagingConfig.js -a server",
     "startServer": "node dist/static/server/server.js"
   },
   "dependencies": {

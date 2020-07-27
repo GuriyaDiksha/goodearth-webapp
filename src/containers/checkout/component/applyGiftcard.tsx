@@ -8,12 +8,14 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
     currency: state.currency,
-    giftList: state.basket.giftCards
+    giftList: state.basket.giftCards,
+    total: state.basket.total
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -26,7 +28,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       txtvalue: "",
       error: "",
       newCardBox: props.giftList.length > 0 ? false : true,
-      toggelOtp: false
+      toggelOtp: false,
+      isActivated: false
     };
   }
   private firstLoad = true;
@@ -53,13 +56,13 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     });
   };
 
-  gcBalance = () => {
+  applyCard = () => {
     const data: any = {
       cardId: this.state.txtvalue
     };
     this.props.applyGiftCard(data).then((response: any) => {
-      if (response.currStatus == false) {
-        this.updateError();
+      if (response.status == false) {
+        this.updateError(response.message, response.isNotActivated);
       } else {
         this.setState({
           newCardBox: false,
@@ -98,9 +101,10 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     });
   };
 
-  updateError = () => {
+  updateError = (value?: string, activate?: boolean) => {
     this.setState({
-      error: "Please enter a valid code"
+      error: value ? value : "Please enter a valid code",
+      isActivated: activate ? true : false
     });
     const elem: any = document.getElementById("gift");
     elem.scrollIntoView();
@@ -163,7 +167,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                       >
                         <span
                           className={styles.arrowrightsmall}
-                          onClick={this.gcBalance}
+                          onClick={this.applyCard}
                         ></span>
                       </span>
                     </div>
@@ -171,7 +175,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                   </Fragment>
                 )}
                 {this.state.error ? (
-                  <p
+                  <span
                     className={cs(
                       styles.errorMsg,
                       styles.ccErrorMsg,
@@ -179,6 +183,21 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                     )}
                   >
                     {this.state.error}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {this.state.isActivated ? (
+                  <p
+                    className={cs(
+                      styles.activeUrl,
+                      globalStyles.cerise,
+                      globalStyles.voffset2
+                    )}
+                  >
+                    <Link to={"/account/giftcard-activation"}>
+                      ACTIVATE GIFT CARD
+                    </Link>
                   </p>
                 ) : (
                   ""
@@ -198,24 +217,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             )}
           </div>
         </div>
-
-        {/* {!isLoggedIn ? (
-          !newCardBox ? (
-            ""
-          ) : (
-            <OtpComponent
-              updateError={this.updateError}
-              txtvalue={this.state.txtvalue}
-              toggelOtp={this.toggelOtp}
-              key={200}
-              sendOtp={this.props.sendOtp}
-              checkOtpBalance={this.props.checkOtpBalance}
-              gcBalanceOtp={this.gcBalanceOtp}
-            />
-          )
-        ) : (
-          ""
-        )} */}
       </Fragment>
     );
   }

@@ -18,10 +18,14 @@ import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
 import * as valid from "utils/validate";
-import { refreshPage } from "actions/user";
+import { refreshPage, updateUser } from "actions/user";
 import OrderSummary from "./component/orderSummary";
 import PromoSection from "./component/promo";
 import PaymentSection from "./component/payment";
+import { Cookies } from "typings/cookies";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
+import { User } from "typings/user";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -38,11 +42,17 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    specifyShippingAddress: async (shippingAddressId: number) => {
+    specifyShippingAddress: async (
+      shippingAddressId: number,
+      shippingAddress: AddressData,
+      user: User
+    ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId
       );
+      const userData = { ...user, shippingData: shippingAddress };
+      dispatch(updateUser(userData));
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
@@ -60,8 +70,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       return data;
     },
-    refreshPage: () => {
+    reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -137,12 +149,10 @@ class Checkout extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const shippingData = nextProps.user.shippingData;
-    if (shippingData && !this.props.user.shippingData) {
-      this.setState({
-        shippingAddress: shippingData,
-        activeStep: shippingData ? Steps.STEP_BILLING : Steps.STEP_SHIPPING
-      });
-    }
+    this.setState({
+      shippingAddress: shippingData || undefined,
+      activeStep: shippingData ? Steps.STEP_BILLING : Steps.STEP_SHIPPING
+    });
   }
 
   isActiveStep = (step: string) => {
@@ -250,14 +260,10 @@ class Checkout extends React.Component<Props, State> {
       // }
 
       this.props
-        .specifyShippingAddress(address.id)
+        .specifyShippingAddress(address.id, address, this.props.user)
         .then(data => {
           const isGoodearthShipping = address.isEdit ? address.isEdit : false;
           this.setState({ isGoodearthShipping });
-          localStorage.setItem(
-            "shippingDataUserAddressId",
-            address.id.toString()
-          );
 
           this.setState({
             shippingCharge: data.shippingCharge,
@@ -265,9 +271,10 @@ class Checkout extends React.Component<Props, State> {
             activeStep: Steps.STEP_BILLING,
             shippingError: ""
           });
+
           if (data.pageReload) {
-            window.location.reload();
-            this.props.refreshPage();
+            // window.location.reload();
+            this.props.reloadPage(this.props.cookies);
           }
         })
         .catch(err => {

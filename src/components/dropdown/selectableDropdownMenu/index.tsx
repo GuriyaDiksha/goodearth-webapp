@@ -24,11 +24,14 @@ const DropdownMenu = ({
     setCurrentValue(value);
   }, [value]);
   const mounted = useRef(false);
+
+  const onChangeValue = (val: string | undefined) => {
+    setCurrentValue(val);
+    onChange ? onChange(val) : "";
+  };
   useLayoutEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
-    } else if (onChange) {
-      onChange(currentValue);
     }
   }, [currentValue]);
   const getMenuItems = (): JSX.Element[] => {
@@ -36,7 +39,7 @@ const DropdownMenu = ({
       const itemProps: DropdownMenuItemProps = {
         label: item.label,
         onClick: () => {
-          setCurrentValue(item.value);
+          onChangeValue(item.value);
         },
         selected: item.value == currentValue,
         type: item.type || "button"

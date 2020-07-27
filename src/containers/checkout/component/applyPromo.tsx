@@ -26,7 +26,8 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       txtvalue: "",
       error: "",
       newCardBox: true,
-      toggelOtp: true
+      toggelOtp: true,
+      isActivated: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();

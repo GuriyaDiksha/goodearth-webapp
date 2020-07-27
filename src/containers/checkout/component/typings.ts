@@ -90,4 +90,5 @@ export type GiftState = {
   error: string;
   newCardBox: boolean;
   toggelOtp: boolean;
+  isActivated: boolean;
 };

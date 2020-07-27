@@ -9,9 +9,10 @@ import AddressService from "services/address";
 // import axios from 'axios';
 // import Config from "components/config";
 import * as Steps from "containers/checkout/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { CheckoutAddressContext } from "containers/checkout/component/context";
+import { AppState } from "reducers/typings";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
@@ -118,6 +119,7 @@ const AddressItem: React.FC<Props> = props => {
   // }
 
   const address = props.addressData;
+  const { shippingData } = useSelector((state: AppState) => state.user);
   const i = props.index;
   const id = `default_check_${i}`;
   const addressLineOneWithSpace =
@@ -130,8 +132,7 @@ const AddressItem: React.FC<Props> = props => {
       ? "text"
       : "div";
   const billingEditDisable =
-    activeStep == "BILLING" &&
-    address.id.toString() == localStorage.getItem("shippingDataUserAddressId");
+    activeStep == "BILLING" && shippingData && address.id == shippingData.id;
   return (
     <div
       className={
