@@ -16,12 +16,6 @@ const mapStateToProps = (state: AppState) => {
 type props = ReturnType<typeof mapStateToProps>;
 
 class BaseLayout extends React.Component<props, {}> {
-  shouldComponentUpdate(nextProps: props) {
-    if (nextProps.location.pathname == this.props.location.pathname)
-      return true;
-    return false;
-  }
-
   render() {
     const {
       location: { pathname }
