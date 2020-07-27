@@ -351,10 +351,7 @@ class Header extends React.Component<Props, State> {
                     className={
                       this.state.showMenu
                         ? styles.menuSliderAnimate
-                        : cs(
-                            styles.menuSlider
-                            // styles.mobileList
-                          )
+                        : cs(styles.menuSlider, styles.mobileList)
                     }
                   >
                     {
