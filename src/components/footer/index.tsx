@@ -112,7 +112,7 @@ class Footer extends React.Component<Props, FooterState> {
                   className={cs(
                     bootstrap.colSm6,
                     bootstrap.offsetSm3,
-                    styles.voffset3
+                    globalStyles.voffset3
                   )}
                 >
                   <div className={cs(styles.formFooter)}>
