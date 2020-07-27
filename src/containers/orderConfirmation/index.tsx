@@ -7,6 +7,7 @@ import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
+import birdImage from "images/birdMotif.png";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
@@ -48,7 +49,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   return (
     <div>
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
-        <div className={cs(bootstrapStyles.col2, styles.logoContainer)}>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            bootstrapStyles.colMd2,
+            styles.logoContainer
+          )}
+        >
           <Link to="/">
             <img className={styles.logo} src={logoImage} />
           </Link>
@@ -62,11 +69,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             bootstrapStyles.colMd6,
             bootstrapStyles.offsetMd3,
             globalStyles.textCenter,
-            styles.popupFormBg
+            styles.popupFormBg,
+            styles.bgOrder
           )}
         >
           <div className={styles.motif}>
-            <img src={""} width="120px" />
+            <img src={birdImage} width="120px" />
           </div>
 
           <div className={bootstrapStyles.row}>

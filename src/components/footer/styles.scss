@@ -22,15 +22,15 @@
   span {
     &.location {
       position: absolute;
-      left: 0%;
-      top: -25%;
+      left: 2%;
+      top: 5%;
       color: black;
       .icon-class {
         color: $cerise;
       }
       i {
         line-height: 44px;
-        font-size: 1px;
+        font-size: 20px;
       }
     }
   }
