@@ -54,7 +54,7 @@
         text-align: center;
         letter-spacing: 0.2em;
         position: relative;
-        line-height: $header-height;
+        line-height: 50px;
         &.hover-a {
           text-decoration: underline;
         }
@@ -537,12 +537,11 @@
   }
 }
 
-.grand-outer {
-  top: 0;
-  
+
 .announcement {
+ 
 width: 100%;
-position: fixed;
+//position: fixed;
 line-height: 29px;
 height: 29px;
 text-align: center;
@@ -664,6 +663,5 @@ a {
   &:hover {
     /* text-decoration: underline; */
   }
-}
 }
 }
