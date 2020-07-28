@@ -15,6 +15,8 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
+import { showMessage } from "actions/growlMessage";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 
 const Section2: React.FC<Section2Props> = ({
   productData,
@@ -61,6 +63,7 @@ const Section2: React.FC<Section2Props> = ({
   const reloadPage = (cookies: Cookies) => {
     MetaService.updateMeta(dispatch, cookies);
     BasketService.fetchBasket(dispatch);
+    dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
   };
 
   const changeCurrency = (newCurrency: Currency) => {

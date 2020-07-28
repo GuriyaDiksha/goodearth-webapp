@@ -19,6 +19,8 @@ import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
+import { showMessage } from "actions/growlMessage";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
@@ -51,6 +53,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
+      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     }
   };
 };

@@ -20,6 +20,8 @@ import { currencyCode } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { showMessage } from "actions/growlMessage";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -44,6 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
+      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     updateMeta: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
