@@ -69,6 +69,17 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
+    this.setState({ showerrorOtp: "" });
+    if (this.props.otpFor == "activateGC") {
+      if (
+        !this.props.firstName ||
+        !this.props.lastName ||
+        !this.props.txtvalue
+      ) {
+        this.props.validateEmptyInputs && this.props.validateEmptyInputs();
+        return false;
+      }
+    }
     const radioElement: any = this.props.isCredit
       ? document.getElementsByName("cca")
       : document.getElementsByName("gca");
@@ -103,9 +114,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       data["phoneNo"] = "+91" + phoneNo;
     }
     data["inputType"] = "GIFT";
+    data["code"] = this.props.txtvalue;
+    if (this.props.otpFor == "activateGC") {
+      data["firstName"] = this.props.firstName;
+      data["lastName"] = this.props.lastName;
+      this.sendOtpApiCall(data);
+    }
     data["otpTo"] =
       this.state.radioType == "number" ? "phoneno" : this.state.radioType;
-    data["code"] = this.props.txtvalue;
     this.sendOtpApiCall(data);
   };
 
@@ -223,17 +239,23 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     this.props
       .sendOtp(formData)
       .then((data: any) => {
-        this.setState(
-          {
-            toggelOtp: true,
-            otpData: formData
-          },
-          () => {
-            this.timer();
-            this.props.toggelOtp(true);
-            // document.getElementById("otp-comp").scrollIntoView();
-          }
-        );
+        if (data.inputType == "GIFT" && data.currStatus == "Invalid-CN") {
+          this.setState({
+            showerrorOtp: "Invalid Gift Card Code"
+          });
+        } else {
+          this.setState(
+            {
+              toggelOtp: true,
+              otpData: formData
+            },
+            () => {
+              this.timer();
+              this.props.toggelOtp(true);
+              // document.getElementById("otp-comp").scrollIntoView();
+            }
+          );
+        }
       })
       .catch((error: any) => {
         this.setState({
@@ -366,6 +388,19 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     );
   };
 
+  handleInvalidSubmit = () => {
+    if (this.props.otpFor == "activateGC") {
+      if (
+        !this.props.firstName ||
+        !this.props.lastName ||
+        !this.props.txtvalue
+      ) {
+        this.props.validateEmptyInputs && this.props.validateEmptyInputs();
+        return false;
+      }
+    }
+  };
+
   render() {
     const { radioType, toggelOtp } = this.state;
     return (
@@ -421,6 +456,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             <Formsy
               ref={this.RegisterFormRef}
               onValidSubmit={this.handleSubmit}
+              onInvalidSubmit={this.handleInvalidSubmit}
             >
               <li className={cs(styles.radiobtn1, styles.xradio)}>
                 <label className={styles.radio1}>

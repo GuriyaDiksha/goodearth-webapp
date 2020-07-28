@@ -22,6 +22,10 @@ export type otpProps = {
   gcBalanceOtp: (data: any) => void;
   isCredit?: boolean;
   updateError: (data: boolean) => void;
+  validateEmptyInputs?: () => void;
+  otpFor?: "activateGC" | "balanceGC" | "balanceCN";
+  firstName?: string;
+  lastName?: string;
 };
 
 export type otpBoxProps = {

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import { NavLink, Switch, Route, useRouteMatch } from "react-router-dom";
+import {
+  NavLink,
+  Switch,
+  Route,
+  useRouteMatch,
+  useLocation
+} from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -38,9 +44,23 @@ const StaticPage: React.FC<Props> = props => {
 
   const [currentSection, setCurrentSection] = useState("Profile");
 
+  const location = useLocation();
+
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
     window.scrollTo(0, 0);
+    // for handling scroll to particalar element with id
+    const { hash, search } = location;
+    const id = search ? search.replace("?id=", "") : hash.replace("#", "");
+    if (id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView();
+        const headerHeight = 50;
+        const secondaryHeaderHeight = 48;
+        window.scrollBy(0, -(headerHeight + secondaryHeaderHeight));
+      }
+    }
   }, []);
 
   const accountMenuItems: AccountMenuItem[] = [
@@ -257,11 +277,13 @@ const StaticPage: React.FC<Props> = props => {
                     const Component = component;
                     return (
                       <Route key={label} exact path={href}>
+                        {/* <ScrollToId> */}
                         <Component
                           setCurrentSection={() => setCurrentSection(title)}
                           mobile={mobile}
                           currentCallBackComponent={currentCallBackComponent}
                         />
+                        {/* </ScrollToId> */}
                       </Route>
                     );
                   }
