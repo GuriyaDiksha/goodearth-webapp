@@ -43,14 +43,20 @@ class PLP extends React.Component<
     sortValue: string;
   }
 > {
+  constructor(props: Props) {
+    super(props);
+    // get the required parameter
+    const queryString = props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const param = urlParams.get("sort_by");
+    this.state = {
+      filterData: "All",
+      showmobileSort: false,
+      mobileFilter: false,
+      sortValue: param ? param : "hc"
+    };
+  }
   private child: any = FilterList;
-
-  state = {
-    filterData: "All",
-    showmobileSort: false,
-    mobileFilter: false,
-    sortValue: "hc"
-  };
 
   onchangeFilter = (data: any): void => {
     this.child.changeValue(null, data);
