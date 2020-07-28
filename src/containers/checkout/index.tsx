@@ -26,6 +26,8 @@ import { Cookies } from "typings/cookies";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { User } from "typings/user";
+import { showMessage } from "actions/growlMessage";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -74,6 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
+      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -150,13 +153,22 @@ class Checkout extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.user.isLoggedIn) {
       const shippingData = nextProps.user.shippingData;
+      if (
+        this.state.activeStep == Steps.STEP_PAYMENT &&
+        nextProps.basket.giftCards.length > this.props.basket.giftCards.length
+      ) {
+        // activeStep remains as STEP_PAYMENT
+      } else {
+        this.setState({
+          activeStep: shippingData
+            ? this.state.billingAddress
+              ? Steps.STEP_PROMO
+              : Steps.STEP_BILLING
+            : Steps.STEP_SHIPPING
+        });
+      }
       this.setState({
-        shippingAddress: shippingData || undefined,
-        activeStep: shippingData
-          ? this.state.billingAddress
-            ? Steps.STEP_PROMO
-            : Steps.STEP_BILLING
-          : Steps.STEP_SHIPPING
+        shippingAddress: shippingData || undefined
       });
     }
   }
