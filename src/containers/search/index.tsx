@@ -40,23 +40,22 @@ class Search extends React.Component<
     showmobileSort: boolean;
     mobileFilter: boolean;
     searchText: string;
+    sortValue: string;
   }
 > {
   private child: any = FilterListSearch;
   constructor(props: Props) {
     super(props);
-    const vars: any = {};
-    const url = decodeURI(props.location.search.replace(/\+/g, " "));
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match;
-    while ((match = re.exec(url))) {
-      vars[match[1]] = match[2];
-    }
+    const queryString = props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const param = urlParams.get("sort_by");
+    const searchValue = urlParams.get("q");
     this.state = {
       filterData: "All",
       showmobileSort: false,
       mobileFilter: false,
-      searchText: vars.q
+      searchText: searchValue ? searchValue : "",
+      sortValue: param ? param : "hc"
     };
   }
 
