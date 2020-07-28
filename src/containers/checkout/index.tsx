@@ -148,15 +148,17 @@ class Checkout extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const shippingData = nextProps.user.shippingData;
-    this.setState({
-      shippingAddress: shippingData || undefined,
-      activeStep: shippingData
-        ? this.state.billingAddress
-          ? Steps.STEP_PROMO
-          : Steps.STEP_BILLING
-        : Steps.STEP_SHIPPING
-    });
+    if (this.props.user.isLoggedIn) {
+      const shippingData = nextProps.user.shippingData;
+      this.setState({
+        shippingAddress: shippingData || undefined,
+        activeStep: shippingData
+          ? this.state.billingAddress
+            ? Steps.STEP_PROMO
+            : Steps.STEP_BILLING
+          : Steps.STEP_SHIPPING
+      });
+    }
   }
 
   isActiveStep = (step: string) => {
