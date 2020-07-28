@@ -150,13 +150,22 @@ class Checkout extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.user.isLoggedIn) {
       const shippingData = nextProps.user.shippingData;
+      if (
+        this.state.activeStep == Steps.STEP_PAYMENT &&
+        nextProps.basket.giftCards.length > this.props.basket.giftCards.length
+      ) {
+        // activeStep remains as STEP_PAYMENT
+      } else {
+        this.setState({
+          activeStep: shippingData
+            ? this.state.billingAddress
+              ? Steps.STEP_PROMO
+              : Steps.STEP_BILLING
+            : Steps.STEP_SHIPPING
+        });
+      }
       this.setState({
-        shippingAddress: shippingData || undefined,
-        activeStep: shippingData
-          ? this.state.billingAddress
-            ? Steps.STEP_PROMO
-            : Steps.STEP_BILLING
-          : Steps.STEP_SHIPPING
+        shippingAddress: shippingData || undefined
       });
     }
   }
