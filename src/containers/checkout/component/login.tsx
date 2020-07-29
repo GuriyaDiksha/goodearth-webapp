@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { LoginProps } from "./typings";
-import CheckoutLoginForm from "components/signin/Login/checkoutLogin";
+import * as Steps from "../constants";
+import loadable from "@loadable/component";
+
+const CheckoutLoginForm = loadable(() =>
+  import("components/signin/Login/checkoutLogin")
+);
+const CheckoutRegisterForm = loadable(() =>
+  import("components/signin/register/checkoutRegister")
+);
+<CheckoutRegisterForm />;
 const LoginSection: React.FC<LoginProps> = props => {
   const {
     isActive,
-    user: { isLoggedIn, email }
+    user: { isLoggedIn, email },
+    next
   } = props;
-  console.log(!isActive || "darpan");
+  const [isRegister, setIsRegister] = useState(false);
+
+  const goToRegister = () => {
+    setIsRegister(true);
+  };
+
+  const nextStep = () => {
+    if (next) next(Steps.STEP_SHIPPING);
+  };
   return (
     <div
       className={
@@ -30,7 +47,18 @@ const LoginSection: React.FC<LoginProps> = props => {
         >
           <p className={isActive ? "" : styles.closed}>LOGIN</p>
           <div>
-            <CheckoutLoginForm />{" "}
+            {!isLoggedIn ? (
+              isRegister ? (
+                <CheckoutRegisterForm nextStep={nextStep} />
+              ) : (
+                <CheckoutLoginForm
+                  showRegister={goToRegister}
+                  nextStep={nextStep}
+                />
+              )
+            ) : (
+              ""
+            )}
           </div>
         </div>
 
@@ -43,11 +71,11 @@ const LoginSection: React.FC<LoginProps> = props => {
             )}
           >
             <span className={styles.marginR10}>{email}</span>
-            {!isLoggedIn && (
+            {/* {!isLoggedIn && (
               <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
                 Edit
               </span>
-            )}
+            )} */}
           </div>
         )}
       </div>

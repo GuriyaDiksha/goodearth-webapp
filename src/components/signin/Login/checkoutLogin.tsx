@@ -25,6 +25,7 @@ const mapStateToProps = (state: AppState) => {
 type Props = loginProps &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
+
 class CheckoutLoginForm extends React.Component<Props, loginState> {
   constructor(props: Props) {
     super(props);
@@ -43,12 +44,14 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       isLoginDisabled: true,
       shouldFocusOnPassword: false,
       successMsg: "",
-      showPassword: false
+      showPassword: false,
+      showCurrentSection: "email"
     };
   }
   static contextType = Context;
   emailInput: RefObject<HTMLInputElement> = React.createRef();
   passwordInput: RefObject<HTMLInputElement> = React.createRef();
+  firstEmailInput: RefObject<HTMLInputElement> = React.createRef();
   async checkMailValidation() {
     if (this.state.email) {
       const data = await this.props.checkUserPassword(this.state.email);
@@ -56,7 +59,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         if (data.passwordExist) {
           this.setState(
             {
-              isPasswordDisabled: false,
+              showCurrentSection: "login",
               msg: "",
               highlight: false
             },
@@ -84,26 +87,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           this.emailInput.current && this.emailInput.current.focus();
         }
       } else {
-        const error = [
-          "No registered user found. Please ",
-          <span
-            className={globalStyles.linkTextUnderline}
-            key={2}
-            onClick={e => {
-              this.props.goRegister(
-                e,
-                (this.emailInput.current && this.emailInput.current.value) || ""
-              );
-            }}
-          >
-            Sign Up
-          </span>
-        ];
-        this.setState({
-          msg: error,
-          highlight: true
-        });
-        this.emailInput.current && this.emailInput.current.focus();
+        localStorage.setItem("tempEmail", this.state.email);
+        this.props.showRegister?.();
+        // this.setState({
+        //   highlight: true,
+        //   showCurrentSection:'register'
+        // });
+        // this.emailInput.current && this.emailInput.current.focus();
       }
     }
   }
@@ -139,6 +129,11 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     localStorage.removeItem("tempEmail");
   }
 
+  handleSubmitEmail = (event: React.FormEvent) => {
+    event.preventDefault();
+    this.myBlur(event);
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.myBlur(undefined, "submit");
@@ -147,29 +142,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       this.props
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
-          this.context.closeModal();
-          window.scrollTo(0, 0);
+          // this.context.closeModal();
+          this.props.nextStep?.();
         })
         .catch(err => {
           if (err.response.data.non_field_errors[0] == "NotEmail") {
             this.setState({
-              msg: [
-                "No registered user found. Please ",
-                <span
-                  key="signin-email-error"
-                  className={globalStyles.linkTextUnderline}
-                  onClick={e => {
-                    this.props.goRegister(
-                      e,
-                      (this.emailInput.current &&
-                        this.emailInput.current.value) ||
-                        ""
-                    );
-                  }}
-                >
-                  Sign Up
-                </span>
-              ],
+              msg: ["No registered user found"],
               highlight: true
             });
           } else {
@@ -182,7 +161,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     }
   };
 
-  myBlur(event?: React.FocusEvent | React.KeyboardEvent, value?: string) {
+  myBlur(
+    event?: React.FocusEvent | React.KeyboardEvent | React.FormEvent,
+    value?: string
+  ) {
     if (!this.state.email || this.state.msg) return false;
     value ? "" : this.checkMailValidation();
     this.setState({
@@ -194,7 +176,6 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   myBlurP() {
     if (!this.state.password) {
       this.setState({
-        isLoginDisabled: true,
         msgp: "Please enter your password",
         highlightp: true
       });
@@ -205,12 +186,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       )
         this.setState({
           msgp: "Please enter at least 6 characters for the password",
-          highlightp: true,
-          isLoginDisabled: false
+          highlightp: true
         });
     } else {
       this.setState({
-        isLoginDisabled: false,
         msgp: "",
         highlightp: false
       });
@@ -248,7 +227,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             this.setState({
               msg: "",
               highlight: false,
-              showerror: ""
+              showerror: "",
+              isLoginDisabled: false
             });
           }
         }
@@ -277,7 +257,6 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     if (!this.state.isPasswordDisabled) {
       this.setState({
         isPasswordDisabled: true,
-        isLoginDisabled: true,
         msgp: "",
         highlightp: false,
         showerror: ""
@@ -293,19 +272,54 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     });
   }
 
-  render() {
-    const formContent = (
-      <form onSubmit={this.handleSubmit.bind(this)}>
+  emailForm = () => {
+    return (
+      <form onSubmit={this.handleSubmitEmail.bind(this)}>
         <div className={styles.categorylabel}>
           <div>
             <InputField
-              blur={e => this.myBlur(e)}
               value={this.state.email}
               placeholder={"Email"}
               label={"Email"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
+              error={this.state.msg}
+              inputRef={this.firstEmailInput}
+            />
+          </div>
+          <div>
+            {this.state.showerror ? (
+              <p className={styles.loginErrMsg}>{this.state.showerror}</p>
+            ) : (
+              ""
+            )}
+            <input
+              type="submit"
+              className={
+                this.state.isLoginDisabled
+                  ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
+                  : globalStyles.ceriseBtn
+              }
+              value="continue"
+              disabled={this.state.isLoginDisabled}
+            />
+          </div>
+        </div>
+      </form>
+    );
+  };
+
+  render() {
+    const formContent = (
+      <form onSubmit={this.handleSubmit.bind(this)}>
+        <div className={styles.categorylabel}>
+          <div>
+            <InputField
+              value={this.state.email}
+              placeholder={"Email"}
+              label={"Email"}
+              border={this.state.highlight}
               error={this.state.msg}
               inputRef={this.emailInput}
               disable={this.state.isPasswordDisabled}
@@ -405,6 +419,15 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       </>
     );
 
+    const currentForm = () => {
+      const { showCurrentSection } = this.state;
+      if (showCurrentSection == "email") {
+        return this.emailForm();
+      } else if (showCurrentSection == "login") {
+        return formContent;
+      }
+    };
+
     return (
       <Fragment>
         {this.state.successMsg ? (
@@ -417,7 +440,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           ""
         )}
         <div className={cs(bootstrapStyles.col12)}>
-          <div className={styles.loginForm}>{formContent}</div>
+          <div className={styles.loginForm}>{currentForm()}</div>
           {footer}
         </div>
         {this.state.disableSelectedbox && <Loader />}

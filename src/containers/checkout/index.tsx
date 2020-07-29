@@ -367,6 +367,7 @@ class Checkout extends React.Component<Props, State> {
               <LoginSection
                 isActive={this.isActiveStep(Steps.STEP_LOGIN)}
                 user={this.props.user}
+                next={this.nextStep}
               />
               <AddressMain
                 isActive={this.isActiveStep(Steps.STEP_SHIPPING)}

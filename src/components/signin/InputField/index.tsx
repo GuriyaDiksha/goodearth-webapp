@@ -47,7 +47,7 @@ const InputField: React.FC<Props> = props => {
         }
         value={props.value || ""}
         placeholder={placeholder}
-        onChange={e => props.handleChange(e)}
+        onChange={e => props.handleChange?.(e)}
         autoComplete="new-password"
         onClick={e => handleClick(e)}
         onBlur={e => handleClickBlur(e)}

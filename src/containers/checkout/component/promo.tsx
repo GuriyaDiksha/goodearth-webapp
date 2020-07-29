@@ -9,6 +9,7 @@ import * as Steps from "../constants";
 import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
