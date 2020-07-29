@@ -32,6 +32,14 @@ export interface HeaderData {
   categoryImageUrl: string;
 }
 
+export type AnnouncementBar = {
+  url: number | null;
+  message: string;
+  bgColorcode: string;
+  bridalBgColorcode: string;
+  isBridalActive: boolean;
+};
+
 export type WishListType = {
   id: number;
   quantity: number;
@@ -85,6 +93,7 @@ export type MenuListProps = {
 export type MobileListProps = {
   menudata: HeaderData[];
   location: Location;
+  clickToggle: () => void;
 };
 export interface State {
   show: boolean;

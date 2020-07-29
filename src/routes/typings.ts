@@ -12,11 +12,15 @@ export enum ROUTES {
   SEARCH = "/search",
   ACCOUNT = "/account",
   CAREER = "/careers",
+  WISHLIST = "/wishlist",
   GIFTCARD = "/giftcard",
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/",
   CHECKOUT = "/order/checkout/",
-  SHOP = "/Cafe-Shop/:city/:shopname"
+  SHOP = "/Cafe-Shop/:city/:shopname?",
+  ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
+  CARTPAGE = "/cart/",
+  PressStories = "/press-stories"
 }
 
 export type RouteConfig = RouteObject[];

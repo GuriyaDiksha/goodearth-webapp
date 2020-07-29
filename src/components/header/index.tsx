@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -6,7 +7,6 @@ import cs from "classnames";
 import SideMenu from "./sidemenu";
 import MainMenu from "./menu";
 import { MenuList } from "./menulist";
-import Mobilemenu from "./mobileMenu";
 import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
@@ -19,17 +19,28 @@ import LoginService from "services/login";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
+import WishlistService from "services/wishlist";
+import BasketService from "services/basket";
+import MetaService from "services/meta";
+import { Cookies } from "typings/cookies";
+
+import ReactHtmlParser from "react-html-parser";
+
+const Mobilemenu = loadable(() => import("./mobileMenu"));
 
 const mapStateToProps = (state: AppState) => {
   return {
     data: state.header.data,
+    announcement: state.header.announcementData,
     currency: state.currency,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
     cart: state.basket,
     message: state.message,
     location: state.router.location,
-    meta: state.meta
+    meta: state.meta,
+    isLoggedIn: state.user.isLoggedIn,
+    cookies: state.cookies
   };
 };
 
@@ -41,6 +52,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     handleLogOut: () => {
       LoginService.logout(dispatch);
+    },
+    onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
+      basketcall && WishlistService.updateWishlist(dispatch);
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
     }
   };
 };
@@ -81,6 +97,10 @@ class Header extends React.Component<Props, State> {
     // }
   };
 
+  componentDidMount() {
+    this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
+  }
+
   mouseOut(data: { show: boolean }) {
     this.setState({ show: data.show });
   }
@@ -92,16 +112,25 @@ class Header extends React.Component<Props, State> {
     });
   }
 
-  clickToggle() {
+  clickToggle = () => {
     this.setState({
       showMenu: !this.state.showMenu,
       showSearch: false
     });
-  }
+    window.scrollTo(0, 0);
+  };
 
   render() {
     const { isLoggedIn } = this.context;
-    const { message, wishlistData, meta, goLogin, handleLogOut } = this.props;
+    const {
+      message,
+      wishlistData,
+      meta,
+      goLogin,
+      handleLogOut,
+      announcement
+    } = this.props;
+    const messageText = announcement.message.split("|");
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
     const profileItems: DropdownItem[] = [];
@@ -132,7 +161,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Activate Gift Card",
-        href: "/about",
+        href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
@@ -144,7 +173,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Check Balance",
-        href: "/about",
+        href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
       },
@@ -213,7 +242,48 @@ class Header extends React.Component<Props, State> {
             <meta name="twitter:site" content={meta.twitterSite} />
           )}
         </Helmet>
+
         <div className={cs(styles.headerContainer)}>
+          <div
+            className={styles.announcement}
+            style={{ backgroundColor: announcement.bgColorcode }}
+          >
+            {messageText.map((data, i) => {
+              if (announcement.url) {
+                return (
+                  <div
+                    key={i}
+                    className={
+                      messageText.length > 1
+                        ? i == 0
+                          ? styles.boxx1
+                          : styles.boxx2
+                        : "width100"
+                    }
+                  >
+                    <Link to={announcement.url ? "" + announcement.url : "/"}>
+                      <div>{ReactHtmlParser(data)}</div>
+                    </Link>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={i}
+                    className={
+                      messageText.length > 1
+                        ? i == 0
+                          ? styles.boxx1
+                          : styles.boxx2
+                        : "width100"
+                    }
+                  >
+                    {ReactHtmlParser(data)}
+                  </div>
+                );
+              }
+            })}
+          </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             {this.props.mobile ? (
               <div
@@ -234,7 +304,9 @@ class Header extends React.Component<Props, State> {
                           styles.iconFont
                         )
                   }
-                  onClick={this.clickToggle.bind(this)}
+                  onClick={() => {
+                    this.clickToggle();
+                  }}
                 ></i>
                 <i
                   className={
@@ -247,7 +319,9 @@ class Header extends React.Component<Props, State> {
                         )
                       : styles.hidden
                   }
-                  onClick={this.clickToggle.bind(this)}
+                  onClick={() => {
+                    this.clickToggle();
+                  }}
                 ></i>
               </div>
             ) : (
@@ -339,89 +413,101 @@ class Header extends React.Component<Props, State> {
                         : cs(styles.menuSlider, styles.mobileList)
                     }
                   >
-                    <Mobilemenu
-                      menudata={this.props.data}
-                      location={this.props.location}
-                    />
-                    <div className={styles.lowerMenu}>
-                      <ul>
-                        <li>
-                          <i
-                            className={cs(
-                              { [globalStyles.cerise]: wishlistIcon },
-                              { [iconStyles.iconWishlistAdded]: wishlistIcon },
-                              { [iconStyles.iconWishlist]: !wishlistIcon },
-                              iconStyles.icon
-                            )}
-                          ></i>
-                          <span> wishlist ({wishlistCount})</span>
-                        </li>
-                        <li
-                          className={
-                            this.state.showC
-                              ? cs(styles.currency, styles.before)
-                              : this.props.location.pathname.indexOf(
-                                  "/bridal/"
-                                ) > 0
-                              ? cs(styles.currency, styles.op3)
-                              : styles.currency
-                          }
-                          onClick={this.showCurrency.bind(this)}
-                        >
-                          {" "}
-                          change currency:
-                        </li>
-                        <li className={this.state.showC ? "" : styles.hidden}>
+                    {
+                      <>
+                        <Mobilemenu
+                          menudata={this.props.data}
+                          location={this.props.location}
+                          clickToggle={this.clickToggle}
+                        />
+                        <div className={styles.lowerMenu}>
                           <ul>
-                            <li
-                              className={
-                                this.props.currency == "INR"
-                                  ? styles.cerise
-                                  : ""
-                              }
-                            >
-                              INR(&#8377;)
+                            <li>
+                              <i
+                                className={cs(
+                                  { [globalStyles.cerise]: wishlistIcon },
+                                  {
+                                    [iconStyles.iconWishlistAdded]: wishlistIcon
+                                  },
+                                  { [iconStyles.iconWishlist]: !wishlistIcon },
+                                  iconStyles.icon
+                                )}
+                              ></i>
+                              <span> wishlist ({wishlistCount})</span>
                             </li>
                             <li
                               className={
-                                this.props.currency == "USD"
-                                  ? styles.cerise
-                                  : ""
+                                this.state.showC
+                                  ? cs(styles.currency, styles.before)
+                                  : this.props.location.pathname.indexOf(
+                                      "/bridal/"
+                                    ) > 0
+                                  ? cs(styles.currency, styles.op3)
+                                  : styles.currency
                               }
+                              onClick={this.showCurrency.bind(this)}
                             >
-                              USD (&#36;)
+                              {" "}
+                              change currency:
                             </li>
                             <li
-                              className={
-                                this.props.currency == "GBP"
-                                  ? styles.cerise
-                                  : ""
-                              }
+                              className={this.state.showC ? "" : styles.hidden}
                             >
-                              GBP (&#163;)
-                            </li>
-                          </ul>
-                        </li>
-
-                        <ul className={styles.adding}>
-                          {profileItems.map(item => {
-                            return (
-                              <li
-                                key={item.label}
-                                onClick={() => this.clickToggle()}
-                              >
-                                <NavLink
-                                  key={item.label}
-                                  to={item.href as string}
+                              <ul>
+                                <li
+                                  className={
+                                    this.props.currency == "INR"
+                                      ? styles.cerise
+                                      : ""
+                                  }
                                 >
-                                  {item.label}
-                                </NavLink>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </ul>
-                    </div>
+                                  INR(&#8377;)
+                                </li>
+                                <li
+                                  className={
+                                    this.props.currency == "USD"
+                                      ? styles.cerise
+                                      : ""
+                                  }
+                                >
+                                  USD (&#36;)
+                                </li>
+                                <li
+                                  className={
+                                    this.props.currency == "GBP"
+                                      ? styles.cerise
+                                      : ""
+                                  }
+                                >
+                                  GBP (&#163;)
+                                </li>
+                              </ul>
+                            </li>
+
+                            <ul className={styles.adding}>
+                              {profileItems.map(item => {
+                                return (
+                                  <li
+                                    key={item.label}
+                                    onClick={e => {
+                                      item.onClick && item.onClick(e);
+                                      this.clickToggle();
+                                    }}
+                                  >
+                                    <NavLink
+                                      key={item.label}
+                                      to={item.href as string}
+                                    >
+                                      {item.label}
+                                    </NavLink>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </ul>
+                        </div>
+                      </>
+                    }
                   </div>
                 ) : (
                   ""

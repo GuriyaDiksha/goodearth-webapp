@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -6,17 +6,30 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PromoProps } from "./typings";
 import * as Steps from "../constants";
+import ApplyPromo from "./applyPromo";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-
+  const { basket } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
 
+  useEffect(() => {
+    if (basket.voucherDiscounts.length > 0) {
+      setIsactivepromo(true);
+    }
+  }, [basket.voucherDiscounts]);
+
   const onsubmit = () => {
     next(Steps.STEP_PAYMENT);
+  };
+
+  const onCurrentState = () => {
+    next(Steps.STEP_PROMO);
   };
 
   return (
@@ -37,6 +50,42 @@ const PromoSection: React.FC<PromoProps> = props => {
         >
           <span className={isActive ? "" : styles.closed}>PROMO CODE</span>
         </div>
+
+        {!isActive && basket.voucherDiscounts.length > 0 ? (
+          <div
+            className={cs(
+              styles.col12,
+              bootstrapStyles.colMd6,
+              styles.selectedStvalue
+            )}
+            onClick={onCurrentState}
+          >
+            <span className={styles.marginR10}>
+              <span className={styles.bold}>
+                {basket.voucherDiscounts[0]?.voucher?.code}
+              </span>
+              {" APPLY PROMO CODE"}
+            </span>
+            <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
+              Edit
+            </span>
+          </div>
+        ) : (
+          <div
+            className={cs(
+              styles.col12,
+              bootstrapStyles.colMd6,
+              styles.selectedStvalue
+            )}
+            onClick={onCurrentState}
+          >
+            <span
+              className={isActive ? globalStyles.hidden : globalStyles.cerise}
+            >
+              {"APPLY PROMO CODE"}
+            </span>
+          </div>
+        )}
       </div>
       {isActive && (
         <Fragment>
@@ -65,6 +114,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                 >
                   APPLY PROMO CODE
                 </div>
+                {isactivepromo && <ApplyPromo />}
                 {/* {renderInput()}
                 {renderCoupon()} */}
               </div>

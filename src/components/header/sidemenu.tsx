@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React, { Fragment } from "react";
 import { currencyCode } from "../../typings/currency";
 import { SideMenuProps } from "./typings";
@@ -8,12 +9,19 @@ import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
-import Bag from "../Bag/index";
 import LoginService from "services/login";
 import { Basket } from "typings/basket";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
+import { Link } from "react-router-dom";
+import { AppState } from "reducers/typings";
+import { Cookies } from "typings/cookies";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
+import { showMessage } from "actions/growlMessage";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
   showc: boolean;
@@ -24,8 +32,10 @@ interface State {
   openProfile: boolean;
 }
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    cookies: state.cookies
+  };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -35,6 +45,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     handleLogOut: () => {
       LoginService.logout(dispatch);
+    },
+    changeCurrency: async (data: FormData) => {
+      const response = await LoginService.changeCurrency(dispatch, data);
+      return response;
+    },
+    reloadPage: (cookies: Cookies) => {
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
+      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     }
   };
 };
@@ -56,6 +75,18 @@ class SideMenu extends React.Component<Props, State> {
     };
   }
   static contextType = UserContext;
+
+  changeCurrency = (cur: any) => {
+    const { changeCurrency, reloadPage } = this.props;
+    const data: any = {
+      currency: cur
+    };
+    if (this.props.currency != data) {
+      changeCurrency(data).then(response => {
+        reloadPage(this.props.cookies);
+      });
+    }
+  };
   render() {
     const { isLoggedIn } = this.context;
     const items: DropdownItem[] = [
@@ -101,7 +132,7 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Activate Gift Card",
-        href: "/search/?q=kurta&currency=INR",
+        href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
@@ -159,8 +190,9 @@ class SideMenu extends React.Component<Props, State> {
                 align="right"
                 className={storyStyles.greyBG}
                 items={items}
-                value="INR"
+                value={this.props.currency}
                 showCaret={true}
+                onChange={this.changeCurrency}
               ></SelectableDropdownMenu>
             </li>
           )}
@@ -199,13 +231,29 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconWishlist,
-                  styles.iconStyle
+              <div className={styles.iconStyle}>
+                {isLoggedIn ? (
+                  <Link to="/wishlist">
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconWishlist,
+                        styles.iconStyle
+                      )}
+                    ></i>
+                  </Link>
+                ) : (
+                  <div onClick={this.props.goLogin}>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconWishlist,
+                        styles.iconStyle
+                      )}
+                    ></i>
+                  </div>
                 )}
-              ></i>
+              </div>
               <span className={styles.badge}>
                 {wishlistCount > 0 ? wishlistCount : ""}
               </span>
@@ -229,16 +277,18 @@ class SideMenu extends React.Component<Props, State> {
               }}
             ></i>
             <span className={styles.badge}>{bagCount}</span>
-            <Bag
-              cart={this.props.sidebagData}
-              currency={this.props.currency}
-              active={this.state.showBag}
-              toggleBag={(): void => {
-                this.setState(prevState => ({
-                  showBag: !prevState.showBag
-                }));
-              }}
-            />
+            {this.state.showBag && (
+              <Bag
+                cart={this.props.sidebagData}
+                currency={this.props.currency}
+                active={this.state.showBag}
+                toggleBag={(): void => {
+                  this.setState(prevState => ({
+                    showBag: !prevState.showBag
+                  }));
+                }}
+              />
+            )}
           </li>
         </ul>
         <ul>

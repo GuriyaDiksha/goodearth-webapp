@@ -13,6 +13,10 @@ import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import { ShopProps } from "./typings";
 import ShopDropdownMenu from "components/MobileDropdown/shopLocatorDropdown";
 import ShopPage from "./shopPage";
+import ShopDetail from "./shopDetails";
+import locIcon from "../../images/location-icon.svg";
+import iconStyles from "../../styles/iconFonts.scss";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -28,91 +32,138 @@ class ShopLocator extends React.Component<
   {
     currentSection: string;
     showmobileSort: boolean;
+    menuList: any;
+    city: string;
   }
 > {
   constructor(props: Props) {
     super(props);
+
     this.state = {
       currentSection: this.props.shopname ? "details" : "shop",
-      showmobileSort: false
+      showmobileSort: false,
+      menuList: [],
+      city: this.props.city
     };
   }
 
   setSelectedSection = () => {
+    const {
+      shopData,
+      device: { mobile }
+    } = this.props;
+    const { city } = this.state;
     switch (this.state.currentSection) {
       case "shop":
-        <ShopPage
-          mobile={this.props.device.mobile}
-          data={this.props.shopData}
-        />;
-        return;
-      case "details":
-        return;
+        return <ShopPage mobile={mobile} data={shopData[city]} />;
+      case "details": {
+        const shopname = this.props.shopname?.replace(/_/g, " ");
+        const shopdata = shopData[city]?.filter(
+          (data: any) => data?.place == shopname
+        );
+        return <ShopDetail mobile={mobile} data={shopdata} />;
+      }
       default:
         return "";
     }
   };
 
-  onChangeFilterState = (state: boolean, cross?: boolean) => {
-    if (cross) {
-      this.setState({
-        showmobileSort: true
-      });
-    } else {
-      this.setState({
-        showmobileSort: false
-      });
-    }
-  };
-
   onchangeFilter = (data: any): void => {
-    // this.child.changeValue(null, data);
     const {
       device: { mobile }
     } = this.props;
     if (mobile) {
       // this.child.clickCloseFilter();
+    } else {
+      this.setState({
+        city: data
+      });
     }
+  };
+
+  backLink = () => {
+    const {
+      device: { mobile }
+    } = this.props;
+
+    return (
+      <SecondaryHeader>
+        <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
+          <Link to={"/Cafe-Shop/" + this.state.city}>
+            <span className={styles.heading}>
+              {" "}
+              {`<`} {!mobile && `Back To Shops`}{" "}
+            </span>
+          </Link>
+        </div>
+      </SecondaryHeader>
+    );
   };
 
   render() {
     const {
-      device: { mobile }
+      device: { mobile },
+      city,
+      shopData,
+      shopname
     } = this.props;
-    const items: DropdownItem[] = [
-      {
-        label: "Delhi",
-        value: "Delhi"
-      },
-      {
-        label: "Mumbai",
-        value: "Mumbai"
-      }
-    ];
+    const items: DropdownItem[] = Object.keys(shopData).map(data => {
+      return {
+        label: data,
+        value: data
+      };
+    });
 
     return (
       <div className={styles.pageBody}>
         {mobile ? (
-          <ShopDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            showCaret={true}
-            open={false}
-            value="delhi"
-          />
+          shopname ? (
+            this.backLink()
+          ) : (
+            <ShopDropdownMenu
+              list={items}
+              onChange={this.onchangeFilter}
+              showCaret={true}
+              open={false}
+              value={city}
+            />
+          )
+        ) : shopname ? (
+          this.backLink()
         ) : (
           <SecondaryHeader>
             <Fragment>
-              <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
-                <p className={styles.filterText}>Sort</p>
-                <SelectableDropdownMenu
-                  align="right"
-                  className={styles.dropdownRoot}
-                  items={items}
-                  value="Delhi"
-                  onChange={this.onchangeFilter}
-                  showCaret={true}
-                ></SelectableDropdownMenu>
+              <div
+                className={cs(
+                  bootstrap.colMd3,
+                  styles.innerHeader,
+                  styles.dropDiv
+                )}
+              >
+                <div className={cs(styles.headerHeight, styles.uc)}>
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconLocation,
+                      styles.mapIcon
+                    )}
+                  ></i>
+                  Shop Locator
+                </div>
+                <div className={styles.dropdownCenter}>
+                  <span className={styles.locIcon}>
+                    <img src={locIcon} />{" "}
+                  </span>
+
+                  <SelectableDropdownMenu
+                    align="right"
+                    className={styles.dropdownRoot}
+                    items={items}
+                    value={city}
+                    onChange={this.onchangeFilter}
+                    showCaret={true}
+                  ></SelectableDropdownMenu>
+                </div>
               </div>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}></div>
             </Fragment>

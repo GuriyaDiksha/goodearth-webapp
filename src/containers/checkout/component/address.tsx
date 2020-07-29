@@ -75,9 +75,11 @@ const AddressSection: React.FC<AddressProps & {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    AddressService.fetchAddressList(dispatch).then(addressList => {
-      dispatch(updateAddressList(addressList));
-    });
+    if (isLoggedIn) {
+      AddressService.fetchAddressList(dispatch).then(addressList => {
+        dispatch(updateAddressList(addressList));
+      });
+    }
   }, []);
   const openNewAddressForm = () => {
     setSameAsShipping(false);

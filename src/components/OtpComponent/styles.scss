@@ -291,10 +291,13 @@
   font-weight: bold;
   font-family: "LatoFont","Helvetica","Arial";
   letter-spacing: 1px;
-  text-transform: lowercase;
+  // text-transform: lowercase;
   text-align: left;
   height: 15px;
   line-height: 15px;
+  &::first-letter {
+    text-transform: uppercase;
+  }
 }
 .relative {
   position: relative;

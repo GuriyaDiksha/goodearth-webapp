@@ -14,7 +14,7 @@ import GiftcardService from "services/giftcard";
 import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
 import { showMessage } from "actions/growlMessage";
-import { ADD_TO_BAG_SUCCESS } from "constants/messages";
+import { ADD_TO_BAG_GIFTCARD_SUCCESS } from "constants/messages";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -34,7 +34,7 @@ const Section4: React.FC<Section4Props> = props => {
         .then((res: any) => {
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
-          dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+          dispatch(showMessage(ADD_TO_BAG_GIFTCARD_SUCCESS));
           next({}, "card");
         })
         .catch(error => {
@@ -50,25 +50,6 @@ const Section4: React.FC<Section4Props> = props => {
   return (
     <div className={bootstrapStyles.row}>
       <section className={cs(globalStyles.paddTop60, styles.gc)}>
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset8)}>
-          <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.textCenter
-            )}
-          >
-            <i className={styles.arrowUp}></i>
-            <p
-              className={styles.backGc}
-              onClick={() => {
-                goback("form");
-              }}
-            >
-              Back To Details
-            </p>
-          </div>
-        </div>
         <div className={bootstrapStyles.row}>
           <div
             className={cs(
@@ -76,9 +57,29 @@ const Section4: React.FC<Section4Props> = props => {
               bootstrapStyles.colMd4,
               bootstrapStyles.offsetMd4,
               globalStyles.textCenter,
-              styles.formBg
+              styles.formBg,
+              globalStyles.voffset3
             )}
           >
+            <div className={cs(bootstrapStyles.row)}>
+              <div
+                className={cs(
+                  bootstrapStyles.col10,
+                  bootstrapStyles.offset1,
+                  globalStyles.textCenter
+                )}
+              >
+                <i className={styles.arrowUp}></i>
+                <p
+                  className={styles.backGc}
+                  onClick={() => {
+                    goback("form");
+                  }}
+                >
+                  Back To Details
+                </p>
+              </div>
+            </div>
             <div className={globalStyles.voffset2}>
               <img src={imageUrl} />
             </div>
@@ -102,7 +103,7 @@ const Section4: React.FC<Section4Props> = props => {
             <div className={cs(styles.grey, globalStyles.voffset4)}>
               <span>xxx xxx</span>
             </div>
-            <p className={cs(globalStyles.voffset4, styles.giftFont)}>
+            <p className={cs(styles.giftFont)}>
               Apply this coupon code during checkout
             </p>
             <div
@@ -113,27 +114,41 @@ const Section4: React.FC<Section4Props> = props => {
               )}
             >
               <Formsy>
-                <div className={cs(styles.subscribe, styles.categorylabel)}>
-                  <FormCheckbox
-                    value={subscribe || false}
-                    name="subscribe"
-                    disable={false}
-                    handleChange={() => {
-                      setNummsg("");
-                      setSubscribe(true);
-                    }}
-                    id="subscribe"
-                    label={[
-                      "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
-                      <Link
-                        key="terms"
-                        to="/customer-assistance/privacy-policy"
-                        target="_blank"
-                      >
-                        Privacy Policy
-                      </Link>
-                    ]}
-                  />
+                <div className={styles.categorylabel}>
+                  <div className={styles.subscribe}>
+                    <FormCheckbox
+                      value={subscribe || false}
+                      name="subscribe"
+                      disable={false}
+                      handleChange={() => {
+                        setNummsg("");
+                        setSubscribe(true);
+                      }}
+                      id="subscribe"
+                      label={[
+                        "I agree to the ",
+                        <Link
+                          key="terms"
+                          to="/customer-assistance/terms-conditions?id=giftcardpolicy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Terms and Conditions.
+                        </Link>,
+                        " To know more how we keep your data safe, refer to our ",
+                        <Link
+                          key="privacy"
+                          to="/customer-assistance/privacy-policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Privacy Policy
+                        </Link>
+                      ]}
+                      validations="isTrue"
+                      required
+                    />
+                  </div>
                 </div>
               </Formsy>
             </div>
@@ -159,12 +174,16 @@ const Section4: React.FC<Section4Props> = props => {
                   <p className={globalStyles.errorMsg}></p>
                 )}
                 <div
-                  className={cs(styles.bannerBtnLink, iconStyles.icon)}
+                  className={cs(
+                    styles.bannerBtnLink,
+                    iconStyles.icon,
+                    globalStyles.voffset4
+                  )}
                   onClick={() => {
                     gotoNext();
                   }}
                 >
-                  <span>choose value</span>
+                  <span>add to bag</span>
                 </div>
               </div>
             </div>

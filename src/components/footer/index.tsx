@@ -97,8 +97,8 @@ class Footer extends React.Component<Props, FooterState> {
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
           >
             <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
-              <div className={cs(bootstrap.col1, bootstrap.colSm3)}></div>
-              <div className={cs(bootstrap.col10, bootstrap.colSm6)}>
+              <div className={cs(bootstrap.col1, bootstrap.colMd3)}></div>
+              <div className={cs(bootstrap.col10, bootstrap.colMd6)}>
                 <div className={cs(styles.ftrHeadingWhite)}>be in the know</div>
                 <div className={cs(styles.ftrCopyWhiteDesktop)}>
                   By signing up for alerts, you agree to receive e-mails, calls
@@ -110,9 +110,9 @@ class Footer extends React.Component<Props, FooterState> {
                 </div>
                 <div
                   className={cs(
-                    bootstrap.colSm6,
-                    bootstrap.offsetSm3,
-                    styles.voffset3
+                    globalStyles.voffset3,
+                    bootstrap.colMd6,
+                    bootstrap.offsetMd3
                   )}
                 >
                   <div className={cs(styles.formFooter)}>
@@ -130,19 +130,13 @@ class Footer extends React.Component<Props, FooterState> {
                     ></div>
                   </div>
                 </div>
-                <div
-                  className={cs(
-                    bootstrap.colSm6,
-                    bootstrap.offsetSm3,
-                    styles.voffset1
-                  )}
-                >
+                <div className={cs(globalStyles.voffset1)}>
                   <div className={cs(styles.errorMsg)}>
                     {this.state.newsletterMessage}{" "}
                   </div>
                 </div>
               </div>
-              <div className={cs(bootstrap.col1, bootstrap.colSm3)}></div>
+              <div className={cs(bootstrap.col1, bootstrap.colMd3)}></div>
             </div>
           </div>
           <div
@@ -153,13 +147,7 @@ class Footer extends React.Component<Props, FooterState> {
             <div className={cs(globalStyles.minimumWidth)}>
               <div className={cs(bootstrap.row)}>
                 {this.props.mobile ? (
-                  <div
-                    className={cs(
-                      bootstrap.col12,
-                      styles.hiddenLg,
-                      styles.hiddenMd
-                    )}
-                  >
+                  <div className={cs(bootstrap.col12)}>
                     <div className={cs(bootstrap.col10, bootstrap.offset1)}>
                       <ul
                         className={
@@ -195,7 +183,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     this.state.isOpened &&
                                     this.state.currentIndex == i
                                       ? ""
-                                      : cs(styles.hidden)
+                                      : cs(globalStyles.hidden)
                                   }
                                 >
                                   {list.value.map(
@@ -240,17 +228,13 @@ class Footer extends React.Component<Props, FooterState> {
                     className={
                       this.props.saleStatus
                         ? cs(
-                            styles.voffset5,
+                            globalStyles.voffset5,
                             styles.mainMenuFooterSale,
-                            styles.hiddenXs,
-                            styles.hiddenSm,
                             bootstrap.colMd12
                           )
                         : cs(
-                            styles.voffset5,
+                            globalStyles.voffset5,
                             styles.mainMenuFooter,
-                            styles.hiddenXs,
-                            styles.hiddenSm,
                             bootstrap.colMd12
                           )
                     }
@@ -464,7 +448,7 @@ class Footer extends React.Component<Props, FooterState> {
 
           <div className={cs(styles.footerBottom, bootstrap.colMd12)}>
             <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
-              <div className={cs(bootstrap.colSm12, styles.textCenter)}>
+              <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
                 All rights reserved | &copy;{" "}
                 {new Date().getFullYear().toString()} Goodearth Design Studio
                 Private Limited

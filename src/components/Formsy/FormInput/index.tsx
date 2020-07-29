@@ -67,6 +67,17 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Plese enter registrant's name";
       case "coRegistrantName":
         return "Please enter co-registrant's name";
+      case "recipientName":
+        return "Please enter Recipient's Name";
+      case "recipientEmailConfirm":
+      case "recipientEmail":
+        return "Please enter Recipient's Email";
+      case "message":
+        return "Please enter message";
+      case "senderName":
+        return "Please enter Sender's Name";
+      case "giftCardCode":
+        return "Please enter Gift Card Code";
       default:
         return "This field is required";
     }

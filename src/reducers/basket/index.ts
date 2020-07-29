@@ -15,7 +15,8 @@ const initialState: State = {
   voucherDiscounts: [],
   shippingCharge: 0,
   total: 0,
-  subTotal: 0
+  subTotal: 0,
+  giftCards: []
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

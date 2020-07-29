@@ -13,14 +13,21 @@ import AddressMain from "components/Address/AddressMain";
 import { AddressData } from "components/Address/typings";
 import CookieService from "services/cookie";
 import AddressService from "services/address";
+import CheckoutService from "services/checkout";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
 import * as valid from "utils/validate";
-import { refreshPage } from "actions/user";
+import { refreshPage, updateUser } from "actions/user";
 import OrderSummary from "./component/orderSummary";
 import PromoSection from "./component/promo";
 import PaymentSection from "./component/payment";
+import { Cookies } from "typings/cookies";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
+import { User } from "typings/user";
+import { showMessage } from "actions/growlMessage";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -30,17 +37,24 @@ const mapStateToProps = (state: AppState) => {
     basket: state.basket,
     // addresses: state.address.addressList,
     mobile: state.device.mobile,
-    currency: state.currency
+    currency: state.currency,
+    cookies: state.cookies
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    specifyShippingAddress: async (shippingAddressId: number) => {
+    specifyShippingAddress: async (
+      shippingAddressId: number,
+      shippingAddress: AddressData,
+      user: User
+    ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId
       );
+      const userData = { ...user, shippingData: shippingAddress };
+      dispatch(updateUser(userData));
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
@@ -58,8 +72,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       return data;
     },
-    refreshPage: () => {
+    reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
+      MetaService.updateMeta(dispatch, cookies);
+      BasketService.fetchBasket(dispatch);
+      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+    },
+    finalCheckout: async (data: FormData) => {
+      const response = await CheckoutService.finalCheckout(dispatch, data);
+      return response;
     }
   };
 };
@@ -95,9 +116,13 @@ class Checkout extends React.Component<Props, State> {
     super(props);
     this.state = {
       activeStep: props.user.isLoggedIn
-        ? Steps.STEP_SHIPPING
+        ? props.user.shippingData
+          ? Steps.STEP_BILLING
+          : Steps.STEP_SHIPPING
         : Steps.STEP_LOGIN,
-      shippingAddress: undefined,
+      shippingAddress: props.user.shippingData
+        ? props.user.shippingData
+        : undefined,
       billingAddress: undefined,
       shippingError: "",
       billingError: "",
@@ -123,6 +148,29 @@ class Checkout extends React.Component<Props, State> {
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.user.isLoggedIn) {
+      const shippingData = nextProps.user.shippingData;
+      if (
+        this.state.activeStep == Steps.STEP_PAYMENT &&
+        nextProps.basket.giftCards.length > this.props.basket.giftCards.length
+      ) {
+        // activeStep remains as STEP_PAYMENT
+      } else {
+        this.setState({
+          activeStep: shippingData
+            ? this.state.billingAddress
+              ? Steps.STEP_PROMO
+              : Steps.STEP_BILLING
+            : Steps.STEP_SHIPPING
+        });
+      }
+      this.setState({
+        shippingAddress: shippingData || undefined
+      });
+    }
   }
 
   isActiveStep = (step: string) => {
@@ -230,24 +278,22 @@ class Checkout extends React.Component<Props, State> {
       // }
 
       this.props
-        .specifyShippingAddress(address.id)
+        .specifyShippingAddress(address.id, address, this.props.user)
         .then(data => {
           const isGoodearthShipping = address.isEdit ? address.isEdit : false;
           this.setState({ isGoodearthShipping });
-          localStorage.setItem(
-            "shippingDataUserAddressId",
-            address.id.toString()
-          );
 
           this.setState({
             shippingCharge: data.shippingCharge,
             shippingAddress: address,
+            billingAddress: undefined,
             activeStep: Steps.STEP_BILLING,
             shippingError: ""
           });
+
           if (data.pageReload) {
-            window.location.reload();
-            this.props.refreshPage();
+            // window.location.reload();
+            this.props.reloadPage(this.props.cookies);
           }
         })
         .catch(err => {
@@ -300,8 +346,9 @@ class Checkout extends React.Component<Props, State> {
     }
   };
 
-  finalOrder = () => {
-    return true;
+  finalOrder = async (data: any) => {
+    const response = await this.props.finalCheckout(data);
+    return response;
   };
 
   render() {
@@ -313,12 +360,14 @@ class Checkout extends React.Component<Props, State> {
               className={cs(
                 bootstrap.col12,
                 bootstrap.colMd8,
-                globalStyles.voffset5
+                globalStyles.voffset5,
+                styles.pB100
               )}
             >
               <LoginSection
                 isActive={this.isActiveStep(Steps.STEP_LOGIN)}
                 user={this.props.user}
+                next={this.nextStep}
               />
               <AddressMain
                 isActive={this.isActiveStep(Steps.STEP_SHIPPING)}
@@ -368,19 +417,13 @@ class Checkout extends React.Component<Props, State> {
                 currency={this.props.currency}
               />
             </div>
-            <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colMd4,
-                globalStyles.voffset5
-              )}
-            >
+            <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
               <OrderSummary
                 mobile={this.props.mobile}
                 currency={this.props.currency}
-                shippingAddress={{}}
+                shippingAddress={this.state.shippingAddress}
                 salestatus={false}
-                validbo={true}
+                validbo={false}
                 basket={this.props.basket}
                 page="checkout"
               />

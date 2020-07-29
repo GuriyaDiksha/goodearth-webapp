@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Switch } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
@@ -7,6 +7,7 @@ import Modal from "components/Modal";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import CheckoutHeader from "containers/checkout/checkoutHeader";
+import globalStyles from "styles/global.scss";
 const mapStateToProps = (state: AppState) => {
   return {
     refresh: state.user.refresh,
@@ -20,15 +21,28 @@ class BaseLayout extends React.Component<props, {}> {
     const {
       location: { pathname }
     } = this.props;
-    const isCheckout = pathname.indexOf("checkout") > -1;
-    return (
-      <div>
-        {isCheckout ? <CheckoutHeader /> : <Header />}
-        <Switch>{routes}</Switch>
-        {isCheckout ? "" : <Footer />}
-        <Modal />
-      </div>
-    );
+    const isCheckout =
+      pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
+    const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
+    if (confirmation) {
+      return (
+        <div>
+          <Switch>{routes}</Switch>
+          <Modal />
+        </div>
+      );
+    } else {
+      return (
+        <Fragment>
+          {isCheckout ? <CheckoutHeader /> : <Header />}
+          <div className={globalStyles.contentContainer}>
+            <Switch>{routes}</Switch>
+          </div>
+          {isCheckout ? "" : <Footer />}
+          <Modal />
+        </Fragment>
+      );
+    }
   }
 }
 

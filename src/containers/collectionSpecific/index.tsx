@@ -1,3 +1,4 @@
+import loadable from "@loadable/component";
 import React from "react";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
@@ -8,11 +9,11 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import styles from "./styles.scss";
-import Quickview from "components/Quickview";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
+const Quickview = loadable(() => import("components/Quickview"));
 
 const mapStateToProps = (state: AppState) => {
   return {

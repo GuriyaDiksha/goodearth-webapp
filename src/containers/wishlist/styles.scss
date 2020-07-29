@@ -1,0 +1,230 @@
+@import "../../styles/partials/variables.scss";
+
+.heading {
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 1px;
+    font-size: 14px;
+    line-height: 48px;
+}
+.filter-text{
+    line-height: 33px;
+    font-size: 14px;
+    font-family: $font-Lato;
+    letter-spacing: 1px;
+    color: #ab1e56;
+    text-transform: uppercase;
+}
+
+.Dropdown-root {
+    min-width: 161px;
+    cursor: pointer;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    span{
+        right: 5px;
+        font-weight: 400;
+        color: rgba(51,51,51,.8);
+    }
+    ul{
+        min-width: 161px;
+        margin-bottom: 0px;
+        border: 1px solid #ccc;
+        li{
+            background-color: #fff;
+            box-sizing: border-box;
+            color: rgba(51,51,51,.8);
+            cursor: pointer;
+            display: block;
+            padding: 0px 13px;
+            text-align: left;
+            line-height: 31px;
+            font-size: 12px;
+            font-weight: 400;
+        }      
+    }
+    li:hover{
+        background-color: #f2f2f2;
+        color: rgba(51,51,51,.8);
+    }
+}
+.imagebox {
+    position: relative;
+    .image-hover {
+      text-align: center;
+      width: 50%;
+      &:last-child {
+        border-left: 1px solid tint(#000, 70%);
+      }
+      i {
+        font-size: 30px;
+      }
+    }
+    .icon-cross {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 25px;
+      color: tint(#000, 60%);
+      font-weight: bold;
+      background-color: $white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+
+
+.img-bottom {
+    background-color: tint(#000, 95%);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 11px;
+    .size {
+    width: 45%;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+    color: tint(#000, 40%);
+    span {
+        color: $cerise;
+    }
+    }
+    .atb {
+    width: 55%;
+    float: left;
+    text-align: center;
+    border-left: 1px solid tint(#000, 80%);
+    color: $cerise;
+    cursor: pointer;
+    }
+
+}
+
+.icon_sort {
+    font-size: 40px;
+}
+.wishlist-header {
+    color: tint(#000, 40%);
+    line-height: 40px;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-family: $font-Lato;
+    text-transform: capitalize;
+    padding-left: 20px;
+}
+.image-result {
+    width: 100%;
+  }
+
+.image-content {
+    text-align: center;
+    height: 110px;
+    margin-top: 15px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.product-n{
+    margin: 5px 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    a {
+        font-size: 16px;
+        font-family: "AmiriFont", "Baskerville", "Garamond";
+        color: #000;
+        text-transform: capitalize;
+    }
+    span {
+        font-size: 16px;
+        font-family: "AmiriFont", "Baskerville", "Garamond";
+        color: #000;
+        text-transform: capitalize;
+    }
+    a:hover {
+        color: #ab1e56;
+        text-decoration: none;
+    }
+}
+.product-size {
+    font-family: "LatoFont","Helvetica","Arial";
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #b3b3b3;
+    letter-spacing: 2px;
+    line-height: 25px;
+    justify-content: center;
+    padding-right: 10px;
+}
+
+.product-size-list {
+    display: none;
+    justify-content: center;
+    ul {
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        padding: 0 5px;
+        text-align: center;
+        li {
+            display: inline;
+            padding: 0 10px;
+            color: #ab1e56;
+            font-size: 12px;
+            line-height: 25px;
+        }
+    }
+}
+.discountprice {
+    color: $cerise;
+    font-family: $font-Amiri;
+    font-size: 16px;
+  }
+  .strikeprice {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: tint(#000, 50%) !important;
+    font-family: $font-Amiri;
+  }
+.wishlist-block-outer {
+    margin: 150px 0 100px 0;
+}
+.wishlist_bottom {
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin: 60px 0 0 ;
+    padding: 10px 20px;
+    span{
+      display: inline-block;
+      font-family: $font-Lato;}
+    span.cerise{
+      padding-left: 5px;
+    }
+  }
+  .wishlist_top{
+    margin-bottom: 20px;
+    span{
+      display:inline-block;
+    }
+    span.cerise{
+      padding-left: 5px;
+    }
+  }
+  
+  .wishlistSubtotal {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+.awesome {
+  ul {
+    li {
+      background-color: black;
+      color: white;
+      width: 240px;
+    }
+  }
+}

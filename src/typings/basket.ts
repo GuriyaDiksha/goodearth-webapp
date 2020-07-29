@@ -1,6 +1,7 @@
 import { ProductID } from "./id";
 import { BasketProduct, PLPProductItem } from "./product";
 import { Currency } from "./currency";
+import { BalanceProps } from "containers/checkout/component/typings";
 // import { LineItems } from "components/Bag/typings";
 
 export type BasketStockRecord = {
@@ -45,6 +46,7 @@ export type Basket = {
   shippingCharge: string | number;
   total: string | number;
   subTotal: string | number;
+  giftCards: BalanceProps[];
 };
 
 export interface BasketItem extends BasketLineItem {

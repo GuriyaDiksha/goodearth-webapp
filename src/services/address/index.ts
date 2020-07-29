@@ -8,6 +8,7 @@ import {
 import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { updateAddressList } from "actions/address";
 import { specifyBillingAddressData } from "containers/checkout/typings";
+import { updateBasket } from "actions/basket";
 
 export default {
   fetchAddressList: async (dispatch: Dispatch) => {
@@ -66,6 +67,7 @@ export default {
       `${__API_HOST__}/myapi/address/specify_shipping_address/`,
       { shippingAddressId: id }
     );
+    dispatch(updateBasket(data.basket));
     return data;
   },
   specifyBillingAddress: async (

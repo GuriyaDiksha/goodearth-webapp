@@ -1,16 +1,10 @@
 import { Dispatch } from "redux";
 import AccountService from "services/account";
 import CheckoutService from "services/checkout";
+import BasketService from "services/basket";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    changePassword: (data: FormData) => {
-      return AccountService.changePassword(dispatch, data);
-    },
-    balanceCheck: async (data: FormData) => {
-      const account = await AccountService.balanceCheck(dispatch, data);
-      return account;
-    },
     sendOtp: async (data: FormData) => {
       const otp = await AccountService.sendOtpBalance(dispatch, data);
       return otp;
@@ -20,11 +14,31 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return balance;
     },
     applyGiftCard: async (data: FormData) => {
-      const gift = await CheckoutService.applyGiftCard(dispatch, data);
+      const gift: any = await CheckoutService.applyGiftCard(dispatch, data);
+      if (gift.status) {
+        BasketService.fetchBasket(dispatch);
+      }
       return gift;
     },
+    removeGiftCard: async (data: FormData) => {
+      const gift: any = await CheckoutService.removeGiftCard(dispatch, data);
+      if (gift.status) {
+        BasketService.fetchBasket(dispatch);
+      }
+      return gift;
+    },
+    removePromo: async (data: FormData) => {
+      const promo: any = await CheckoutService.removePromo(dispatch, data);
+      if (promo.status) {
+        BasketService.fetchBasket(dispatch);
+      }
+      return promo;
+    },
     applyPromo: async (data: FormData) => {
-      const promo = await CheckoutService.applyGiftCard(dispatch, data);
+      const promo: any = await CheckoutService.applyPromo(dispatch, data);
+      if (promo.status) {
+        BasketService.fetchBasket(dispatch);
+      }
       return promo;
     }
   };

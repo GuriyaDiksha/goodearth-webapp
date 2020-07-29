@@ -5,6 +5,7 @@ import { Basket } from "typings/basket";
 export type LoginProps = {
   isActive: boolean;
   user: any;
+  next?: (step: string) => void;
 };
 
 export type AddressProps = {
@@ -50,30 +51,45 @@ export type PaymentProps = {
   isActive: boolean;
   user: any;
   currency: Currency;
-  checkout: (data: any) => void;
+  checkout: (data: any) => any;
 };
 
 export type BalanceProps = {
-  emailID: string;
-  remValues: string;
-  currStatus: string | null;
-  createDate: string;
-  expiryDate: string;
-  type: string;
-  currCode: string;
-  fullValue: string;
-  issuedFrom: string;
+  cardId: string;
+  cardType: string;
+  appliedAmount: string;
+  cardValue: string;
+  remainingAmount: string;
   code: string;
+  expiryDate: string;
 };
 
 export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
+  currStatus: string;
+  currency: Currency;
+  type?: string;
+}
+
+export type voucher = {
+  code: string;
+  endDateTime: string;
+  name: string;
+  startDateTime: string;
+};
+
+export interface PromoListProps extends voucher {
+  onClose: (data: string) => void;
+  currStatus: string;
+  currency: Currency;
+  amount: string;
+  name: string;
 }
 
 export type GiftState = {
   txtvalue: string;
   error: string;
   newCardBox: boolean;
-  giftList: BalanceProps[];
-  toggelOtp: boolean;
+  toggleOtp: boolean;
+  isActivated: boolean;
 };

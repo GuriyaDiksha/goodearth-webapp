@@ -4,7 +4,6 @@ import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
-// import { Link } from "react-router-dom";
 import { Props } from "../../typings";
 import { Link } from "react-router-dom";
 
@@ -42,34 +41,26 @@ export default class Privacy extends React.Component<Props, {}> {
           </p>
           <p>
             This privacy policy tells you how we use your personal information
-            collected through the
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            . Please read this privacy policy before using the
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            or submitting any personal information. This policy will be updated
+            collected through the&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>. Please read this
+            privacy policy before using the
+            <Link to="/">&nbsp; &#34;www.goodearth.in&#34;</Link>&nbsp; or
+            submitting any personal information. This policy will be updated
             subject to any changes in information collection, activities
             performed or any applicable regulations. You are encouraged to
-            review the privacy policy whenever you visit the
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            to make sure that you understand how any personal information you
-            provide will be used.
+            review the privacy policy whenever you visit the&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>&nbsp; to make sure
+            that you understand how any personal information you provide will be
+            used.
           </p>
           <p>
             <strong>Please Note:</strong>
           </p>
           <p>
-            The privacy practices set forth in this privacy policy are for
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            only. If you link to other web sites, please review those privacy
-            policies, which may be very different.
+            The privacy practices set forth in this privacy policy are for&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>&nbsp; only. If you
+            link to other web sites, please review those privacy policies, which
+            may be very different.
           </p>
         </div>
         <div className={globalStyles.voffset4}>
@@ -77,18 +68,14 @@ export default class Privacy extends React.Component<Props, {}> {
           <h5>Collection of your information</h5>
           <p>
             Goodearth collects, processes, and retains information about you
-            when you visit our
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            . You may choose to provide us with information, such as your name,
-            email address, company information, street address, telephone
-            number, or other information, to access protected information on
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            or so we can follow up with you after your visit. Personal
-            Information may include, but is not limited to:
+            when you visit our&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>. You may choose to
+            provide us with information, such as your name, email address,
+            company information, street address, telephone number, or other
+            information, to access protected information on&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>&nbsp; or so we can
+            follow up with you after your visit. Personal Information may
+            include, but is not limited to:
           </p>
           <ul>
             <li>Your name, </li>
@@ -172,17 +159,15 @@ export default class Privacy extends React.Component<Props, {}> {
           <h5>Information Disclosure</h5>
           <p>
             Goodearth does not share, sell, rent, or trade personal information
-            collected through its
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            with third parties for their sole promotional purposes or as
-            otherwise outlined in this Privacy Policy. Goodearth may share
-            information with third party service providers contracted to provide
-            services on our behalf for processing to provide your employment
-            related services and benefits and other business purposes. These
-            third party service providers may only use information we provide to
-            them as requested and instructed by Goodearth.
+            collected through its&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>&nbsp; with third
+            parties for their sole promotional purposes or as otherwise outlined
+            in this Privacy Policy. Goodearth may share information with third
+            party service providers contracted to provide services on our behalf
+            for processing to provide your employment related services and
+            benefits and other business purposes. These third party service
+            providers may only use information we provide to them as requested
+            and instructed by Goodearth.
           </p>
           <ul>
             <li>
@@ -235,16 +220,16 @@ export default class Privacy extends React.Component<Props, {}> {
           </ul>
           <p>
             We use the services of Amazon Web Services (herein referred to as
-            “AWS”) for providing us the Cloud Services for our website
-            <Link to="https://www.goodearth.in/"> www.goodearth.in </Link>
-            .Please read the privacy policy of AWS for further information
-            <Link
-              to="https://aws.amazon.com/privacy/"
+            “AWS”) for providing us the Cloud Services for our website&nbsp;
+            <Link to="/">{`"www.goodearth.in"`}</Link>. Please read the privacy
+            policy of AWS for further information&nbsp;
+            <a
+              href="https://aws.amazon.com/privacy/"
               target="_blank"
               rel="noopener noreferrer"
             >
               https://aws.amazon.com/privacy/
-            </Link>
+            </a>
             .
           </p>
           <p>
@@ -331,20 +316,18 @@ export default class Privacy extends React.Component<Props, {}> {
           <p>
             You may request to review, correct, update, suppress, or otherwise
             modify any of your Personal Information that you have previously
-            provided to us through
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            , or object to the use or processing of such Personal Information by
-            us. If you have concerns regarding access to or the correction of
-            your Personal Information, please contact us at privacy contact
-            information mentioned within Section 11 “Privacy Contact
-            Information” of this policy. In your request, please make clear what
-            Personal Information you would like to have changed, whether you
-            would like to have your Personal Information that you have provided
-            to us suppressed from our database or otherwise let us know what
-            limitations you would like to put on our use of your Personal
-            Information that you have provided to us.
+            provided to us through&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>, or object to the use
+            or processing of such Personal Information by us. If you have
+            concerns regarding access to or the correction of your Personal
+            Information, please contact us at privacy contact information
+            mentioned within Section 11 “Privacy Contact Information” of this
+            policy. In your request, please make clear what Personal Information
+            you would like to have changed, whether you would like to have your
+            Personal Information that you have provided to us suppressed from
+            our database or otherwise let us know what limitations you would
+            like to put on our use of your Personal Information that you have
+            provided to us.
           </p>
           <p>
             While the majority of questions and issues related to access can be
@@ -357,13 +340,11 @@ export default class Privacy extends React.Component<Props, {}> {
         <div className={globalStyles.voffset4}>
           <h5>Data Storage</h5>
           <p>
-            Goodearth may transfer your information from
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            to other databases and store it on Goodearth or other supplier
-            systems. Goodearth ensures appropriate security controls while
-            storing data on its or its suppliers systems.
+            Goodearth may transfer your information from&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>&nbsp; to other
+            databases and store it on Goodearth or other supplier systems.
+            Goodearth ensures appropriate security controls while storing data
+            on its or its suppliers systems.
           </p>
         </div>
         <div className={globalStyles.voffset4}>
@@ -379,18 +360,14 @@ export default class Privacy extends React.Component<Props, {}> {
             Goodearth ensures that our supplier employs industry standard
             security measures to ensure the security of information through
             legally binding terms and conditions. However, users of our
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            are responsible for maintaining the security of any password, user
-            ID, or other form of authentication involved in obtaining access to
+            <Link to="/">&nbsp; &#34;www.goodearth.in&#34;</Link>&nbsp; are
+            responsible for maintaining the security of any password, user ID,
+            or other form of authentication involved in obtaining access to
             password protected or secure areas of any Workday websites. Access
-            to and use of password protected and/or secure area of
-            <Link to="https://www.goodearth.in/">
-              &#34;www.goodearth.in&#34;
-            </Link>
-            is restricted to authorized users only. Unauthorized access to such
-            areas is prohibited and may lead to criminal prosecution.
+            to and use of password protected and/or secure area of&nbsp;
+            <Link to="/">&#34;www.goodearth.in&#34;</Link>&nbsp; is restricted
+            to authorized users only. Unauthorized access to such areas is
+            prohibited and may lead to criminal prosecution.
           </p>
         </div>
         <div className={globalStyles.voffset4}>
@@ -410,7 +387,7 @@ export default class Privacy extends React.Component<Props, {}> {
             by third parties and is not responsible for the same. Goodearth may
             in addition also offer certain features that are only available
             through the use of a “cookie”. For more information about cookies
-            and its usage visit our
+            and its usage visit our&nbsp;
             <Link to="/customer-assistance/cookie-policy"> cookie policy </Link>
           </p>
         </div>
@@ -450,10 +427,10 @@ export default class Privacy extends React.Component<Props, {}> {
             If you have any questions regarding our Privacy Statement or if you
             need to update, change or remove information, you can do so by
             contacting&nbsp;+91 9582 999 555 / +91 9582 999 888&nbsp;or by
-            regular mail addressed to:
-            <Link to="mailto:customercare@goodearth.in">
+            regular mail addressed to:&nbsp;
+            <a href="mailto:customercare@goodearth.in">
               customercare@goodearth.in
-            </Link>
+            </a>
           </p>
         </div>
         <div className={globalStyles.voffset4}>
@@ -463,7 +440,7 @@ export default class Privacy extends React.Component<Props, {}> {
             prior notice. Your continued subscription to our Services
             constitutes an acceptance of the current Privacy Policy and Terms
             &amp; Conditions. Therefore, we encourage you to visit this page (
-            <Link to="https://www.goodearth.in/customer-assistance/privacy-policy">
+            <Link to="/customer-assistance/privacy-policy">
               https://www.goodearth.in/customer-assistance/privacy-policy
             </Link>
             ) periodically to review any changes.

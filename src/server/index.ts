@@ -19,7 +19,11 @@ const staticRoot = `${cwd}/dist`;
 const app = new Koa();
 const PORT = process.env.NODE_PORT || 3000;
 
-app.use(serve(staticRoot));
+app.use(
+  serve(staticRoot, {
+    maxAge: 31536000000
+  })
+);
 
 const pug = new Pug({
   viewPath: path.resolve(__dirname, "templates"),

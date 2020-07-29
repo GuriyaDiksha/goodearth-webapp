@@ -56,16 +56,16 @@ const LineItems: React.FC<BasketItem> = memo(
     } = product;
 
     const price = priceRecords[currency];
-
+    const isGiftCard = product.structure.toLowerCase() == "giftcard";
     return (
       <div className={cs(styles.cartItem, styles.gutter15, "cart-item")}>
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
             <div className={styles.cartRing}></div>
-            <Link to={url}>
+            <Link to={isGiftCard ? "#" : url}>
               <img
                 className={styles.productImage}
-                src={plpImages ? plpImages[0] : ""}
+                src={isGiftCard ? giftCardImage : plpImages ? plpImages[0] : ""}
               />
             </Link>
           </div>
@@ -74,7 +74,7 @@ const LineItems: React.FC<BasketItem> = memo(
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col10, styles.name)}>
                 <div>
-                  <Link to={url}>{title}</Link>
+                  <Link to={isGiftCard ? "#" : url}>{title}</Link>
                 </div>
                 <div className={styles.productPrice}>
                   {saleStatus && discount && discountedPriceRecords ? (
@@ -121,7 +121,11 @@ const LineItems: React.FC<BasketItem> = memo(
                 ></i>
               </div>
             </div>
-            <div className={cs(bootstrap.row, styles.section)}>
+            <div
+              className={cs(bootstrap.row, styles.section, {
+                [globalStyles.hiddenEye]: isGiftCard
+              })}
+            >
               <div className={bootstrap.col10}>
                 {getSize(product.attributes)}
                 <div className={styles.widgetQty}>
@@ -144,6 +148,7 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <WishlistButton
+                  basketLineId={id}
                   id={product.id}
                   showText={false}
                   className="wishlist-font"

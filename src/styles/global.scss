@@ -1,9 +1,4 @@
 @import url("https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20regular.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20300.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Amiri%20regular.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Franklin%20Gothic%20Medium.ttf");
-@import url("https://djhiy8e1dslha.cloudfront.net/static/text-fonts/Lato%20700italic.ttf");
 @import "partials/reset";
 @import "bootstrap/bootstrap-grid.scss";
 @import "partials/variables";
@@ -11,6 +6,7 @@
 @import "partials/images";
 @import "partials/common";
 @import "./stickyElements";
+@import "partials/fonts";
 
 body {
   margin: 0;
@@ -20,6 +16,11 @@ body {
   overflow-x: hidden;
   color: $default;
   @include scrollbar();
+}
+
+ul,li,ol,p,h3,h5 {
+  margin: 0;
+  padding: 0;
 }
 
 button:focus, button:active, button:visited, *:focus, *:active, *:visited {
@@ -83,6 +84,10 @@ a {
   margin-top: 50px;
 }
 
+.margin-b-10 {
+  margin-bottom: 10px;
+}
+
 .error-msg {
   &.error-radio {
     position: absolute;
@@ -90,7 +95,7 @@ a {
   }
   @include error-msg();
   text-align: left;
-  height: 15px;
+  // height: 15px;
   line-height: 15px;
   &.word-cap {
     text-transform: none;
@@ -161,9 +166,9 @@ font-weight: bold;
     font-weight: normal;
     color: #fff;
     line-height: 50px;
-  }
-  &:hover{
-    color: #fff;
+    &:hover{
+      color: #fff;
+    }
   }
 }
 
@@ -306,6 +311,9 @@ font-weight: bold;
   display: flex;
   align-items: center;
 }
+.italic{
+  font-style: italic;
+}
 .c22-A-I {
   @include c22-A-I();
   line-height: 50px;
@@ -328,4 +336,8 @@ font-weight: bold;
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+
+.content-container {
+  min-height: 100vh;
 }

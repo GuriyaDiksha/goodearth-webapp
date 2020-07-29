@@ -7,19 +7,17 @@ import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 
 const GiftCardItem = ({
-  currStatus,
-  type,
-  createDate,
+  cardId,
   expiryDate,
-  currCode,
-  fullValue,
-  remValues,
-  code,
+  type,
+  remainingAmount,
+  currStatus,
+  currency,
   onClose
 }: GiftListProps): JSX.Element => {
   let showLocked = false;
   let showExpired = false;
-  const unicode = currencyCode[currCode as Currency];
+  const unicode = currencyCode[currency as Currency];
   const conditionalRefresh = false;
   const deleteCard = (code: string) => {
     // setOpenState(!menuOpen);
@@ -35,18 +33,17 @@ const GiftCardItem = ({
   } else if (currStatus == "Expired" && type == "CNI") {
     showExpired = true;
   }
-
   return (
     <div id="gc-balance-info">
       {showExpired ? (
         <div>
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             <p className={styles.value12}>
-              {code}{" "}
+              {cardId}{" "}
               <span
                 className={styles.cross}
                 onClick={() => {
-                  closeResult(code);
+                  closeResult(cardId);
                 }}
               >
                 <i
@@ -56,17 +53,17 @@ const GiftCardItem = ({
             </p>
             <p>
               <span className={styles.op2}> Date of issue: </span>{" "}
-              <span className={styles.fontBold}> {createDate} </span>
+              <span className={styles.fontBold}> {} </span>
             </p>
             <p>
               <span className={styles.op2}> Date of expiry: </span>{" "}
-              <span className={styles.fontBold}> {expiryDate} </span>
+              <span className={styles.fontBold}> {} </span>
             </p>
             {conditionalRefresh && (
               <span
                 className={cl(styles.colorPrimary, globalStyles.pointer)}
                 onClick={() => {
-                  deleteCard(code);
+                  deleteCard(cardId);
                 }}
               >
                 <a
@@ -83,61 +80,30 @@ const GiftCardItem = ({
           </div>
         </div>
       ) : (
-        <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
-          <p className={styles.value12}>
-            {code}{" "}
-            <span
-              className={styles.cross}
-              onClick={() => {
-                closeResult(code);
-              }}
-            >
-              <i
-                className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
-              ></i>
-            </span>
-          </p>
-          <p>
-            <span className={styles.op2}> Date of issue: </span>{" "}
-            <span className={styles.fontBold}> {createDate} </span>
-          </p>
-          <p>
-            <span className={styles.op2}> Date of expiry: </span>{" "}
-            <span className={styles.fontBold}> {expiryDate} </span>
-          </p>
-          <p>
-            <span className={styles.op2}> Total value: </span>{" "}
-            <span className={styles.fontBold}>
-              {" "}
-              {String.fromCharCode(unicode)} {fullValue}{" "}
-            </span>
-          </p>
-          <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+        <div
+          className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset3)}
+        >
+          <span className={styles.txtup}>{cardId} </span>
+          <span className={styles.textMuted}>GIFT CARD APPLIED</span>
+          <span
+            className={styles.cross}
+            onClick={() => {
+              closeResult(cardId);
+            }}
+          >
+            <i
+              className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+            ></i>
+          </span>
+          <p className={cl(globalStyles.cerise, globalStyles.errorMsg)}>
             {" "}
             Balance amount:{" "}
-            <span className={styles.fontBold}>
+            <span>
               {" "}
-              {String.fromCharCode(unicode)} {remValues}{" "}
+              {String.fromCharCode(unicode)} {remainingAmount}
+              {` exipires on` + expiryDate}
             </span>
           </p>
-          {conditionalRefresh && (
-            <span
-              className={cl(styles.colorPrimary, globalStyles.pointer)}
-              onClick={() => {
-                closeResult(code);
-              }}
-            >
-              <a
-                className={cl(
-                  globalStyles.cerise,
-                  globalStyles.pointer,
-                  globalStyles.linkTextUnderline
-                )}
-              >
-                Refresh
-              </a>
-            </span>
-          )}
         </div>
       )}
     </div>

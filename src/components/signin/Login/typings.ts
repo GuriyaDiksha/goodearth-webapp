@@ -1,5 +1,7 @@
 export type loginProps = {
   loginclick?: string;
+  showRegister?: () => void;
+  nextStep?: () => void;
 };
 
 export type loginState = {
@@ -17,4 +19,5 @@ export type loginState = {
   shouldFocusOnPassword: boolean;
   successMsg: string;
   showPassword: boolean;
+  showCurrentSection?: string;
 };
