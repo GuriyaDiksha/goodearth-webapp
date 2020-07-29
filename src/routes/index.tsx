@@ -9,8 +9,9 @@ const routeMap = routes.map(({ path, component, action, exact, meta }) => {
       key={path}
       path={path}
       exact={exact}
-      render={({ match: { params } }) => {
+      render={({ match: { params }, location }) => {
         const myParams = { ...params };
+        myParams.pathname = location.pathname;
         return (
           <RouteContainer
             action={action}
