@@ -231,7 +231,12 @@ class Header extends React.Component<Props, State> {
             <meta name="twitter:site" content={meta.twitterSite} />
           )}
         </Helmet>
+
         <div className={cs(styles.headerContainer)}>
+          <div className={styles.announcement}>
+            <div className={styles.boxx1}>sfdf</div>
+            <div className={styles.boxx2}>sdf</div>
+          </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             {this.props.mobile ? (
               <div

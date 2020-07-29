@@ -464,7 +464,7 @@ class Footer extends React.Component<Props, FooterState> {
 
           <div className={cs(styles.footerBottom, bootstrap.colMd12)}>
             <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
-              <div className={cs(bootstrap.colSm12, styles.textCenter)}>
+              <div className={cs(bootstrap.colSm12, globalStyles.textCenter)}>
                 All rights reserved | &copy;{" "}
                 {new Date().getFullYear().toString()} Goodearth Design Studio
                 Private Limited
