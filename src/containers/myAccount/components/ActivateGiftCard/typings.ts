@@ -30,5 +30,6 @@ export type GiftState = {
   error: string;
   newCardBox: boolean;
   giftList: BalanceProps[];
-  toggelOtp: boolean;
+  showOTPValidationScreen: boolean;
+  isSuccess: boolean;
 };

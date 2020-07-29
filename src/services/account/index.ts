@@ -104,8 +104,8 @@ export default {
       formData
     );
     const temp = {
-      ...data,
-      ...formData
+      ...data
+      // ...formData
     };
     return temp;
   }

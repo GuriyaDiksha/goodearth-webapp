@@ -14,7 +14,8 @@ import Formsy from "formsy-react";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    user: state.user
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -25,19 +26,19 @@ class Giftcard extends React.Component<Props, GiftState> {
     super(props);
     this.state = {
       txtvalue: "",
-      firstName: "",
-      lastName: "",
+      firstName: this.props.isLoggedIn ? this.props.user.firstName : "",
+      lastName: this.props.isLoggedIn ? this.props.user.lastName : "",
       error: "",
       newCardBox: true,
       giftList: [],
-      toggelOtp: false
+      showOTPValidationScreen: false,
+      isSuccess: false
     };
   }
   ActivateGCForm = React.createRef<Formsy>();
-
-  toggelOtp = (value: boolean) => {
+  toggleOtp = (value: boolean) => {
     this.setState({
-      toggelOtp: value
+      showOTPValidationScreen: value
     });
   };
 
@@ -79,7 +80,7 @@ class Giftcard extends React.Component<Props, GiftState> {
     }
   };
 
-  gcBalanceOtp = (response: any) => {
+  updateList = (response: any) => {
     const { giftList } = this.state;
     if (response.currStatus == "Invalid-CN") {
       this.setState({
@@ -89,16 +90,21 @@ class Giftcard extends React.Component<Props, GiftState> {
       giftList.push(response);
       this.setState({
         giftList: giftList,
-        newCardBox: false
+        newCardBox: false,
+        isSuccess: true
         // txtvalue: ""
       });
+      window.scrollTo(0, 0);
     }
   };
 
   newGiftcard = () => {
-    this.setState({
-      newCardBox: true
-    });
+    // implement page refresh here
+    // this.props.history.push(this.props.history.location.pathname, {});
+    // this.setState({
+    //   newCardBox: true,
+    //   isSuccess: false,
+    // });
   };
   onClose = (code: string) => {
     let { giftList } = this.state;
@@ -171,89 +177,75 @@ class Giftcard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    const { newCardBox, toggelOtp } = this.state;
+    console.log(this.props);
+    const { newCardBox, showOTPValidationScreen } = this.state;
     const { isLoggedIn } = this.props;
     // const { firstName, lastName, giftCardCode } = this.ActivateGCForm.current ? this.ActivateGCForm.current.getModel() : {
     //   firstName: "",
     //   lastName: "",
     //   giftCardCode: ""
     // }
-    const { firstName, lastName, txtvalue } = this.state;
+    const { firstName, lastName, txtvalue, isSuccess } = this.state;
     return (
       <Fragment>
-        <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
-          {this.state.giftList.map((data, i) => {
-            return <GiftCardItem {...data} onClose={this.onClose} key={i} />;
-          })}
-          <div
-            className={cs(
-              styles.loginForm,
-              // { [globalStyles.voffset4]: newCardBox },
-              bootstrapStyles.col12
-            )}
+        {!newCardBox && isSuccess && (
+          <div className={cs(globalStyles.successMsg)}>
+            Success. Gift Card Code Activated.
+          </div>
+        )}
+        {newCardBox && (
+          <Formsy
+            ref={this.ActivateGCForm}
+            // onValidSubmit={() => console.log("submitted")}
+            onInvalidSubmit={this.scrollToErrors}
           >
-            {newCardBox ? (
-              <Formsy
-                ref={this.ActivateGCForm}
-                onValidSubmit={() => console.log("submitted")}
-                onInvalidSubmit={this.scrollToErrors}
-              >
-                <div className={styles.categorylabel}>
-                  {toggelOtp ? (
-                    ""
-                  ) : (
-                    <Fragment>
-                      <div>
-                        <FormInput
-                          name="firstName"
-                          placeholder="First Name"
-                          type="text"
-                          blur={e => this.errorOnBlur(e)}
-                          id="firstName"
-                          label={"First Name"}
-                          handleChange={e => this.handleChange(e, "firstName")}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <FormInput
-                          name="lastName"
-                          placeholder="Last Name"
-                          type="text"
-                          label={"Last Name"}
-                          blur={e => this.errorOnBlur(e)}
-                          id="lastName"
-                          handleChange={e => this.handleChange(e, "lastName")}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <FormInput
-                          name="giftCardCode"
-                          type="text"
-                          placeholder="Gift Card Code"
-                          label="Gift Card Code"
-                          blur={e => this.errorOnBlur(e)}
-                          id="gift"
-                          handleChange={e => this.handleChange(e, "txtvalue")}
-                          required
-                        />
-                        <span
-                          className={cs(
-                            styles.colorPrimary,
-                            globalStyles.pointer,
-                            { [globalStyles.hidden]: !isLoggedIn }
-                          )}
-                        >
-                          <span
-                            className={styles.arrowrightsmall}
-                            onClick={this.gcBalance}
-                          ></span>
-                        </span>
-                      </div>
-                    </Fragment>
-                  )}
-                  {/* {this.state.error ? (
+            <div className={styles.categorylabel}>
+              {showOTPValidationScreen ? (
+                ""
+              ) : (
+                <Fragment>
+                  <div>
+                    <FormInput
+                      name="firstName"
+                      placeholder="First Name"
+                      type="text"
+                      blur={e => this.errorOnBlur(e)}
+                      id="firstName"
+                      label={"First Name"}
+                      value={firstName}
+                      handleChange={e => this.handleChange(e, "firstName")}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <FormInput
+                      name="lastName"
+                      placeholder="Last Name"
+                      type="text"
+                      label={"Last Name"}
+                      blur={e => this.errorOnBlur(e)}
+                      id="lastName"
+                      value={lastName}
+                      handleChange={e => this.handleChange(e, "lastName")}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <FormInput
+                      name="giftCardCode"
+                      type="text"
+                      placeholder="Gift Card Code"
+                      label="Gift Card Code"
+                      blur={e => this.errorOnBlur(e)}
+                      id="gift"
+                      value={txtvalue}
+                      handleChange={e => this.handleChange(e, "txtvalue")}
+                      required
+                    />
+                  </div>
+                </Fragment>
+              )}
+              {/* {this.state.error ? (
                   <p
                     className={cs(
                       styles.errorMsg,
@@ -266,9 +258,46 @@ class Giftcard extends React.Component<Props, GiftState> {
                 ) : (
                   ""
                 )} */}
-                </div>
-              </Formsy>
-            ) : (
+            </div>
+          </Formsy>
+        )}
+        <OtpComponent
+          updateError={this.updateError}
+          txtvalue={txtvalue}
+          firstName={firstName}
+          lastName={lastName}
+          toggleOtp={this.toggleOtp}
+          otpFor="activateGC"
+          email={isLoggedIn ? this.props.user.email : ""}
+          // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
+          // validateInputs={this.scrollToErrors}
+          validateEmptyInputs={this.validateEmptyInputs}
+          key={200}
+          sendOtp={this.props.sendOtpGiftCard}
+          checkOtpBalance={this.props.checkOtpBalance}
+          activateGiftCard={this.props.activateGiftCard}
+          updateList={this.updateList}
+          newCardBox={this.state.newCardBox}
+        />
+        <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
+          {this.state.giftList.map((data, i) => {
+            return (
+              <GiftCardItem
+                {...data}
+                viewOnly={true}
+                onClose={this.onClose}
+                key={i}
+              />
+            );
+          })}
+          <div
+            className={cs(
+              styles.loginForm,
+              // { [globalStyles.voffset4]: newCardBox },
+              bootstrapStyles.col12
+            )}
+          >
+            {!newCardBox && (
               <div
                 className={cs(
                   styles.rtcinfo,
@@ -277,34 +306,11 @@ class Giftcard extends React.Component<Props, GiftState> {
                 )}
                 onClick={this.newGiftcard}
               >
-                [+] CHECK ANOTHER GIFT CARD CODE
+                [+] ACTIVATE ANOTHER GIFT CARD
               </div>
             )}
           </div>
         </div>
-
-        {!isLoggedIn ? (
-          !newCardBox ? (
-            ""
-          ) : (
-            <OtpComponent
-              updateError={this.updateError}
-              txtvalue={txtvalue}
-              firstName={firstName}
-              lastName={lastName}
-              toggelOtp={this.toggelOtp}
-              // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
-              // validateInputs={this.scrollToErrors}
-              validateEmptyInputs={this.validateEmptyInputs}
-              key={200}
-              sendOtp={this.props.sendOtpGiftCard}
-              checkOtpBalance={this.props.checkOtpBalance}
-              gcBalanceOtp={this.gcBalanceOtp}
-            />
-          )
-        ) : (
-          ""
-        )}
       </Fragment>
     );
   }
