@@ -32,6 +32,14 @@ export interface HeaderData {
   categoryImageUrl: string;
 }
 
+export type AnnouncementBar = {
+  url: number | null;
+  message: string;
+  bgColorcode: string;
+  bridalBgColorcode: string;
+  isBridalActive: boolean;
+};
+
 export type WishListType = {
   id: number;
   quantity: number;

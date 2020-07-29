@@ -24,11 +24,14 @@ import BasketService from "services/basket";
 import MetaService from "services/meta";
 import { Cookies } from "typings/cookies";
 
+import ReactHtmlParser from "react-html-parser";
+
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 
 const mapStateToProps = (state: AppState) => {
   return {
     data: state.header.data,
+    announcement: state.header.announcementData,
     currency: state.currency,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
@@ -119,7 +122,15 @@ class Header extends React.Component<Props, State> {
 
   render() {
     const { isLoggedIn } = this.context;
-    const { message, wishlistData, meta, goLogin, handleLogOut } = this.props;
+    const {
+      message,
+      wishlistData,
+      meta,
+      goLogin,
+      handleLogOut,
+      announcement
+    } = this.props;
+    const messageText = announcement.message.split("|");
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
     const profileItems: DropdownItem[] = [];
@@ -233,9 +244,45 @@ class Header extends React.Component<Props, State> {
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
-          <div className={styles.announcement}>
-            <div className={styles.boxx1}>sfdf</div>
-            <div className={styles.boxx2}>sdf</div>
+          <div
+            className={styles.announcement}
+            style={{ backgroundColor: announcement.bgColorcode }}
+          >
+            {messageText.map((data, i) => {
+              if (announcement.url) {
+                return (
+                  <div
+                    key={i}
+                    className={
+                      messageText.length > 1
+                        ? i == 0
+                          ? styles.boxx1
+                          : styles.boxx2
+                        : "width100"
+                    }
+                  >
+                    <Link to={announcement.url ? "" + announcement.url : "/"}>
+                      <div>{ReactHtmlParser(data)}</div>
+                    </Link>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={i}
+                    className={
+                      messageText.length > 1
+                        ? i == 0
+                          ? styles.boxx1
+                          : styles.boxx2
+                        : "width100"
+                    }
+                  >
+                    {ReactHtmlParser(data)}
+                  </div>
+                );
+              }
+            })}
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             {this.props.mobile ? (
