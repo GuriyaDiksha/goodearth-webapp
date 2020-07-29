@@ -26,7 +26,7 @@ class CreditCard extends React.Component<Props, GiftState> {
       error: "",
       newCardBox: true,
       giftList: [],
-      toggelOtp: false
+      toggleOtp: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -37,9 +37,9 @@ class CreditCard extends React.Component<Props, GiftState> {
     });
   };
 
-  toggelOtp = (value: boolean) => {
+  toggleOtp = (value: boolean) => {
     this.setState({
-      toggelOtp: value
+      toggleOtp: value
     });
   };
 
@@ -64,7 +64,7 @@ class CreditCard extends React.Component<Props, GiftState> {
     });
   };
 
-  gcBalanceOtp = (response: any) => {
+  updateList = (response: any) => {
     const { giftList } = this.state;
     if (response.currStatus == "Invalid-CN") {
       this.setState({
@@ -107,7 +107,7 @@ class CreditCard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    const { newCardBox, txtvalue, toggelOtp } = this.state;
+    const { newCardBox, txtvalue, toggleOtp } = this.state;
     const { isLoggedIn } = this.props;
     return (
       <Fragment>
@@ -124,7 +124,7 @@ class CreditCard extends React.Component<Props, GiftState> {
           >
             {newCardBox ? (
               <div>
-                {toggelOtp ? (
+                {toggleOtp ? (
                   ""
                 ) : (
                   <Fragment>
@@ -192,12 +192,12 @@ class CreditCard extends React.Component<Props, GiftState> {
             <OtpComponent
               updateError={this.updateError}
               txtvalue={this.state.txtvalue}
-              toggelOtp={this.toggelOtp}
+              toggleOtp={this.toggleOtp}
               key={100}
               sendOtp={this.props.sendOtp}
               isCredit={true}
               checkOtpBalance={this.props.checkOtpBalance}
-              gcBalanceOtp={this.gcBalanceOtp}
+              updateList={this.updateList}
             />
           )
         ) : (

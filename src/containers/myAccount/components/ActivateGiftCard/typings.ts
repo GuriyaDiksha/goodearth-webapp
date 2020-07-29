@@ -21,13 +21,15 @@ export type BalanceProps = {
 
 export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
-  viewOnly?: boolean;
 }
 
 export type GiftState = {
   txtvalue: string;
+  firstName: string;
+  lastName: string;
   error: string;
   newCardBox: boolean;
   giftList: BalanceProps[];
-  toggleOtp: boolean;
+  showOTPValidationScreen: boolean;
+  isSuccess: boolean;
 };

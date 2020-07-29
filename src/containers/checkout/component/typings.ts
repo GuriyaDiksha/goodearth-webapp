@@ -90,6 +90,6 @@ export type GiftState = {
   txtvalue: string;
   error: string;
   newCardBox: boolean;
-  toggelOtp: boolean;
+  toggleOtp: boolean;
   isActivated: boolean;
 };

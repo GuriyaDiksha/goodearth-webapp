@@ -132,7 +132,7 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Activate Gift Card",
-        href: "/search/?q=kurta&currency=INR",
+        href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },

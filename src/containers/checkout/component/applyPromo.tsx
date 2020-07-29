@@ -26,7 +26,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       txtvalue: "",
       error: "",
       newCardBox: true,
-      toggelOtp: true,
+      toggleOtp: true,
       isActivated: false
     };
   }
@@ -38,9 +38,9 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     });
   };
 
-  toggelOtp = (value: boolean) => {
+  toggleOtp = (value: boolean) => {
     this.setState({
-      toggelOtp: value
+      toggleOtp: value
     });
   };
 

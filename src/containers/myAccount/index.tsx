@@ -15,6 +15,7 @@ import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
 import { AppState } from "reducers/typings";
+import ActivateGiftCard from "./components/ActivateGiftCard";
 
 type Props = {
   isBridal: boolean;
@@ -158,7 +159,7 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "Activate Gift Card",
       href: "/account/giftcard-activation",
-      component: () => <div>Activate Gift Card</div>,
+      component: ActivateGiftCard,
       title: "Activate Gift Card",
       loggedInOnly: false
     },

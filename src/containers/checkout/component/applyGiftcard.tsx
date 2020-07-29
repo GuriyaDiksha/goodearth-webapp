@@ -28,7 +28,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       txtvalue: "",
       error: "",
       newCardBox: props.giftList.length > 0 ? false : true,
-      toggelOtp: false,
+      toggleOtp: false,
       isActivated: false
     };
   }
@@ -50,9 +50,9 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     });
   };
 
-  toggelOtp = (value: boolean) => {
+  toggleOtp = (value: boolean) => {
     this.setState({
-      toggelOtp: value
+      toggleOtp: value
     });
   };
 
@@ -112,7 +112,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    const { newCardBox, txtvalue, toggelOtp } = this.state;
+    const { newCardBox, txtvalue, toggleOtp } = this.state;
     const {
       user: { isLoggedIn },
       currency,
@@ -142,7 +142,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           >
             {newCardBox ? (
               <div>
-                {toggelOtp ? (
+                {toggleOtp ? (
                   ""
                 ) : (
                   <Fragment>

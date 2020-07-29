@@ -64,6 +64,18 @@ export default {
     );
     return data;
   },
+  sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/send_giftcard_otp/"}`,
+      formData
+    );
+    const temp = {
+      ...data,
+      ...formData
+    };
+    return temp;
+  },
   checkOtpBalance: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<BalanceProps>(
       dispatch,
@@ -84,5 +96,17 @@ export default {
       formData
     );
     return data;
+  },
+  activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/giftcard_activate/"}`,
+      formData
+    );
+    const temp = {
+      ...data
+      // ...formData
+    };
+    return temp;
   }
 };

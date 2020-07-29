@@ -161,7 +161,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Activate Gift Card",
-        href: "/about",
+        href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
@@ -173,7 +173,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Check Balance",
-        href: "/about",
+        href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
       },
