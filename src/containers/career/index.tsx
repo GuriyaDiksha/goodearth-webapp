@@ -87,31 +87,33 @@ const Career: React.FC<Props> = props => {
 
   // parse url for job specific page
   useEffect(() => {
-    if (allJobList && allJobList.length > 0) {
-      const [city, jobUrl] = decodeURI(path.substring(8))
-        .split("/")
-        .filter(a => a);
-      if (city) {
-        if (city != locationFilter && locationList.includes(city)) {
-          setLocationFilter(city);
-        }
-      }
-      if (jobUrl) {
-        const job = allJobList && allJobList.find(job => jobUrl == job.url);
-        if (job) {
-          if (selectedJob != job) {
-            openJobForm(job);
-            setMode("apply");
-          }
-        } else {
-          openJobForm();
-          setMode("applyAll");
-        }
-      } else if (locationList.includes(city)) {
-        setMode("list");
+    // if (allJobList && allJobList.length > 0) {
+    const [city, jobUrl] = decodeURI(path.substring(8))
+      .split("/")
+      .filter(a => a);
+    if (city) {
+      if (city != locationFilter && locationList.includes(city)) {
+        setLocationFilter(city);
       }
     }
-  }, [allJobList, locationList, locationFilter]);
+    if (jobUrl) {
+      const job = allJobList && allJobList.find(job => jobUrl == job.url);
+      if (job) {
+        if (selectedJob != job) {
+          openJobForm(job);
+          setMode("apply");
+        }
+      } else {
+        openJobForm();
+        setMode("applyAll");
+      }
+    }
+    // if (locationList.includes(city))
+    else {
+      setMode("list");
+    }
+    // }
+  }, [allJobList, locationList, locationFilter, props.slug1, props.slug2]);
 
   const onChangeFilter = (location?: string) => {
     if (location) {
