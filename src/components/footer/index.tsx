@@ -9,6 +9,7 @@ import iconStyles from "../../styles/iconFonts.scss";
 import { ShopLocator } from "./ShopLocator";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import fontStyles from "styles/iconFonts.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -192,8 +193,8 @@ class Footer extends React.Component<Props, FooterState> {
                                         return false;
                                       }
                                       if (
-                                        list.name == "Help" ||
-                                        list.name == "Services"
+                                        list.name == "HELP" ||
+                                        list.name == "SERVICES"
                                       ) {
                                         return (
                                           <li key={j}>
@@ -455,6 +456,32 @@ class Footer extends React.Component<Props, FooterState> {
               </div>
             </div>
           </div>
+        </div>
+        <div className={styles.cookieclass}>
+          <span
+            className={cs(
+              styles.closePopup,
+              fontStyles.icon,
+              fontStyles.iconCross
+            )}
+          ></span>
+          <h3>COOKIE POLICY</h3>
+          <p>
+            This website uses cookies in order to improve your experience. If
+            you want to learn more click the button &nbsp;
+            <Link to={"/customer-assistance/privacy-policy"}>
+              Privacy Policy
+            </Link>
+            &nbsp; and{" "}
+            <Link to={"/customer-assistance/cookie-policy"}>
+              Cookie Policy.
+            </Link>
+          </p>
+          <p>
+            {" "}
+            If you continue to use our website, you agree to the use of cookies.
+          </p>
+          <span className={styles.okBtn}>ACCEPT</span>
         </div>
       </div>
     );

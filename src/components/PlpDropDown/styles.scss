@@ -36,10 +36,11 @@
         left: 0;
         width: 100%;
         z-index: 1;
-        top: 50px;
+        top: $header-height;
         background-color: #fff;
         position: fixed;
         padding: 16px 20px 15px 20px;
+        border-bottom: 1px solid #ccc;
         .filter-cross {
             line-height: 30px;
             .icon_cross {
@@ -136,7 +137,7 @@
     position: sticky;
     position: -webkit-sticky;
     margin-top: 2%;
-    top: 44px;
+    top: $header-height;
     align-self: flex-start;
     z-index: 9;
     background-color: white;
