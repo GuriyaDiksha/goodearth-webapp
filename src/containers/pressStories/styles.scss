@@ -556,7 +556,7 @@
   z-index: 1;
   background-color: #fff;
   padding: 15px 20px 4px 20px;
-  top: 50px;
+  top: $header-height;
   height: 50px;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {

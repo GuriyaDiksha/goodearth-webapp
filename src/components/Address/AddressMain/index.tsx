@@ -31,6 +31,7 @@ const AddressMain: React.FC<Props> = props => {
   const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData>();
   const { pinCodeData } = useSelector((state: AppState) => state.address);
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const dispatch = useDispatch();
 
@@ -40,12 +41,14 @@ const AddressMain: React.FC<Props> = props => {
   };
 
   useEffect(() => {
-    AddressService.fetchPinCodeData(dispatch).then(data => {
-      const pinCodeList = Object.keys(data.data);
-      dispatch(updatePinCodeList(data.data, pinCodeList));
-    });
-    fetchCountryData();
-  }, []);
+    if (isLoggedIn) {
+      AddressService.fetchPinCodeData(dispatch).then(data => {
+        const pinCodeList = Object.keys(data.data);
+        dispatch(updatePinCodeList(data.data, pinCodeList));
+      });
+      fetchCountryData();
+    }
+  }, [isLoggedIn]);
   const [mode, setMode] = useState<AddressModes>("list");
 
   // useEffect(() => {

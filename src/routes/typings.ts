@@ -11,7 +11,7 @@ export enum ROUTES {
   GOOGLE = "/account/google/login/?next=/",
   SEARCH = "/search",
   ACCOUNT = "/account",
-  CAREER = "/careers",
+  CAREER = "/careers/:slug1?/:slug2?",
   WISHLIST = "/wishlist",
   GIFTCARD = "/giftcard",
   ResetPassword = "/password-reset/confirm/:uid/:token",
