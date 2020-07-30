@@ -142,6 +142,8 @@ class ChangePassword extends React.Component<Props, State> {
                       name="newPassword1"
                       placeholder={"Confirm Password"}
                       label={"Confirm Password"}
+                      isDrop={true}
+                      isPaste={true}
                       keyPress={e =>
                         e.key == "Enter" ? e.preventDefault() : ""
                       }

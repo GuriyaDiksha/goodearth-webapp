@@ -5,7 +5,7 @@ export type Props = {
   id: string;
   name: string;
   disable: boolean;
-  handleChange?: (event: React.ChangeEvent) => void;
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label: (string | JSX.Element)[];
   value: boolean;
 };

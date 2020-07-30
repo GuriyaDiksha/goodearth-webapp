@@ -237,7 +237,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       toggleOtp: false,
       radioType: "",
       showerrorOtp: "",
-      showerror: ""
+      showerror: "",
+      updateStatus: false
     });
     // this.setState({
     //     receivedOtp: false,
@@ -385,7 +386,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 OTP SMS SENT TO MOBILE NUMBER:
               </strong>{" "}
               <br />
-              +91{otpData.phoneNo}
+              {otpData.phoneNo}
             </p>
           )}
         </div>
@@ -463,7 +464,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 disabled={!(this.state.otp.length == 6)}
                 className={
                   !this.state.updateStatus
-                    ? cs(globalStyles.disabled, globalStyles.ceriseBtn)
+                    ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
                     : globalStyles.ceriseBtn
                 }
                 value={
@@ -571,10 +572,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   disable={this.props.isCredit}
                   inputRef={this.emailInput}
                   value={this.props.email ? this.props.email : ""}
-                  validations={{
-                    isEmail: true,
-                    maxLength: 75
-                  }}
+                  validations={
+                    radioType == "email"
+                      ? {
+                          isEmail: true,
+                          maxLength: 75
+                        }
+                      : {}
+                  }
                   validationErrors={{
                     isEmail: "Enter valid email",
                     maxLength:
@@ -626,9 +631,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                       placeholder={"Contact Number"}
                       type="number"
                       label={"Contact Number"}
-                      validations={{
-                        isLength: 10
-                      }}
+                      validations={
+                        radioType == "number"
+                          ? {
+                              isLength: 10
+                            }
+                          : {}
+                      }
                       validationErrors={{
                         isLength: "Phone Number should be 10 digit"
                       }}
@@ -684,7 +693,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   disabled={this.state.disable}
                   className={
                     this.state.disable
-                      ? cs(globalStyles.ceriseBtn, globalStyles.disable)
+                      ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
                       : globalStyles.ceriseBtn
                   }
                   value="Send otp"
