@@ -187,7 +187,7 @@ const EditRegistry: React.FC<Props> = props => {
                     minDate={new Date()}
                     selected={moment(date).toDate()}
                     onChange={onChange}
-                    ref={node => {
+                    ref={(node: any) => {
                       pickerRef = node;
                     }}
                     onClickOutside={OnOutsideClick}

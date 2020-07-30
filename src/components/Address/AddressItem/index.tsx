@@ -79,7 +79,7 @@ const AddressItem: React.FC<Props> = props => {
           changeBridalAddress(address.id);
         } else {
           setCurrentModuleData("address", {
-            userAddress: address.id.toString()
+            userAddress: address
           });
           // props.setCurrentModule('created');
         }

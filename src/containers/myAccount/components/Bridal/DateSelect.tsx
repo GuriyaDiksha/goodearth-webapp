@@ -33,7 +33,6 @@ const DateSelect: React.FC = () => {
   const [date, setDate] = useState(
     data.eventDate ? moment(data.eventDate, "DD-MM-YYYY").toDate() : undefined
   );
-  console.log(moment(""));
   let pickerRef: any = null;
   const onChange = (date: Date) => {
     setDate(date);

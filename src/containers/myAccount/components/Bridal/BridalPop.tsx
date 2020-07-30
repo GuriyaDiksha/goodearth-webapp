@@ -5,6 +5,10 @@ import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import { AppState } from "reducers/typings";
 import { NavLink } from "react-router-dom";
+import styles from "./styles.scss";
+// import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
+import cs from "classnames";
 // import * as mapper from "pages/myaccount/mappers/accountm"
 
 const BridalPop: React.FC = () => {
@@ -33,7 +37,9 @@ const BridalPop: React.FC = () => {
   const DesktopButton = () => (
     <div className="">
       <NavLink to="/">
-        <button className="cerise-btn">start adding to registry</button>
+        <button className={globalStyles.ceriseBtn}>
+          start adding to registry
+        </button>
       </NavLink>
     </div>
   );
@@ -41,31 +47,40 @@ const BridalPop: React.FC = () => {
   return (
     <div>
       {mobile ? (
-        <div className="size-block ipops centerpage-desktop text-center">
+        <div
+          className={cs(
+            styles.sizeBlockMobile,
+            styles.ipops,
+            styles.centerpageDesktopMobile,
+            globalStyles.textCenter
+          )}
+        >
           {/* <div className="cross" onClick={() => {props.close()} }><i
                         className="icon icon_cross"></i></div> */}
-          <div className="add-btn">
+          <div className={styles.addBtn}>
             <NavLink to="/">
-              <button className="cerise-btn">start adding to registry</button>
+              <button className={globalStyles.ceriseBtn}>
+                start adding to registry
+              </button>
             </NavLink>
           </div>
           <Slider {...settings} className="">
             <div className="">
               <img
-                src="\static\img\ipops\mobile\ipop3.jpg"
-                className="img-responsive"
+                src="images\bridal\ipops\mobile\ipop3.jpg"
+                className={globalStyles.imgResponsive}
               />
-              <div className="c10-L-R txt">
+              <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To add specific products while you browse, click on the ‘Add to
                 Register’ icon provided on the right of the product description.
               </div>
             </div>
             <div className="">
               <img
-                src="\static\img\ipops\mobile\ipop2.jpg"
-                className="img-responsive"
+                src="images\bridal\ipops\mobile\ipop2.jpg"
+                className={globalStyles.imgResponsive}
               />
-              <div className="c10-L-R txt">
+              <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To manage your Bridal Registry, select ‘Your Profile’ &gt;
                 ‘Bridal Registry’ &gt; ‘Manage Registry’ from the menu provided
                 in the dropdown.
@@ -73,10 +88,10 @@ const BridalPop: React.FC = () => {
             </div>
             <div className="">
               <img
-                src="\static\img\ipops\mobile\ipop4.jpg"
-                className="img-responsive"
+                src="images\bridal\ipops\mobile\ipop4.jpg"
+                className={globalStyles.imgResponsive}
               />
-              <div className="c10-L-R txt">
+              <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To manage your Bridal Registry, select ‘Your Profile’ &gt;
                 ‘Bridal Registry’ &gt; ‘Manage Registry’ from the menu provided
                 in the dropdown.
@@ -84,10 +99,10 @@ const BridalPop: React.FC = () => {
             </div>
             <div className="">
               <img
-                src="\static\img\ipops\mobile\ipop1.jpg"
-                className="img-responsive"
+                src="images\bridal\ipops\mobile\ipop1.jpg"
+                className={globalStyles.imgResponsive}
               />
-              <div className="c10-L-R txt">
+              <div className={cs(globalStyles.c10LR, styles.txt)}>
                 Adjust the quantity of requested products and see the number of
                 bought products in your Bridal Registry.
               </div>
@@ -95,13 +110,20 @@ const BridalPop: React.FC = () => {
           </Slider>
         </div>
       ) : (
-        <div className="size-block ipops centerpage-desktop text-center">
+        <div
+          className={cs(
+            styles.sizeBlock,
+            styles.ipops,
+            styles.centerpageDesktop,
+            globalStyles.textCenter
+          )}
+        >
           {/* <div className="cross" onClick={() => {props.close()} }><i
                         className="icon icon_cross"></i></div> */}
           <Slider {...settings} className="">
             <div className="">
-              <img src="\static\img\ipops\ipop3.jpg" />
-              <div className="c10-L-R txt">
+              <img src="\images\bridal\ipops\ipop3.jpg" />
+              <div className={cs(globalStyles.c10LR, styles.txt)}>
                 Thank you for registering with us! To add desired products to
                 your Bridal Registry, click the ‘Quick View’ tab under each
                 product and select ‘Add to Registry’.
@@ -109,16 +131,16 @@ const BridalPop: React.FC = () => {
               <DesktopButton />
             </div>
             <div className="">
-              <img src="\static\img\ipops\ipop2.jpg" />
-              <div className="c10-L-R txt">
+              <img src="\images\bridal\ipops\ipop2.jpg" />
+              <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To add specific products while you browse, click on the ‘Add to
                 Register’ icon provided on the right of the product description.
               </div>
               <DesktopButton />
             </div>
             <div className="">
-              <img src="\static\img\ipops\ipop1.jpg" />
-              <div className="c10-L-R txt">
+              <img src="\images\bridal\ipops\ipop1.jpg" />
+              <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To manage your Bridal Registry, select ‘Your Profile’ &gt;
                 ‘Bridal Registry’ &gt; ‘Manage Registry’ from the menu provided
                 on the left.

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { AddressData } from "components/Address/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -19,6 +19,8 @@ import BridalContext from "./context";
 import { updateComponent, updateModal } from "actions/modal";
 import BridalService from "services/bridal";
 import AddressService from "services/address";
+import CookieService from "services/cookie";
+import { AddressContext } from "components/Address/AddressMain/context";
 
 type Props = {
   bridalId: number;
@@ -99,6 +101,8 @@ const Bridal: React.FC<Props> = props => {
     setCurrentSection(data);
   };
 
+  const { isAddressValid, openAddressForm } = useContext(AddressContext);
+
   const changeAddress = () => {
     AddressService.fetchAddressList(dispatch)
       .then(data => {
@@ -146,7 +150,21 @@ const Bridal: React.FC<Props> = props => {
           newBridalDetails["registryName"] = registryName ? registryName : "";
           break;
         case "address":
-          newBridalDetails["userAddress"] = userAddress as AddressData;
+          if (userAddress) {
+            const isValid =
+              userAddress.country == "IN"
+                ? isAddressValid(userAddress.postCode, userAddress.state)
+                : true;
+            if (isValid) {
+              // this.props.onSelectAddress(address);
+              newBridalDetails["userAddress"] = userAddress;
+              setCurrentModule("created");
+            } else {
+              // this.manageAddressPostcode("edit", address);
+              openAddressForm(userAddress);
+            }
+          }
+
           break;
       }
       setBridalDetails(newBridalDetails);
@@ -165,16 +183,18 @@ const Bridal: React.FC<Props> = props => {
 
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
-          if (data.Details[0]) {
+          if (data) {
             window.removeEventListener("beforeunload", valid.myPpup);
-            document.cookie =
-              "bridal_id=" +
-              data.Details[0].bridal_id +
-              "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-            document.cookie =
-              "bridal_currency=" +
-              data.Details[0].currency +
-              "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+            CookieService.setCookie("bridalId", data.bridalId);
+            CookieService.setCookie("bridalCurrency", data.currency);
+            // document.cookie =
+            //   "bridalId=" +
+            //   data.Details[0].bridal_id +
+            //   "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+            // document.cookie =
+            //   "bridalCurrency=" +
+            //   data.Details[0].currency +
+            //   "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
             openBridalPop();
           }
         })

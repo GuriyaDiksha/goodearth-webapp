@@ -1,15 +1,13 @@
 import React, { useContext } from "react";
-// import {render} from 'react-dom';
-// import * as mapper from "mappers/header"
-// import {connect} from 'react-redux'
-// import DatePicker from 'react-datepicker';
+
 // import moment from 'moment';
 import BridalContext from "./context";
 import { Props } from "./typings";
-// import 'react-datepicker/dist/react-datepicker.css';
-// import axios from 'axios';
-// import Config from 'components/config'
 
+import styles from "./styles.scss";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
+import cs from "classnames";
 const RegistryCreated: React.FC<Props> = props => {
   // data: [],
   // const [updateDate, setUpdateDate ] = useState(false);
@@ -27,81 +25,98 @@ const RegistryCreated: React.FC<Props> = props => {
   //         setUpdateDate(true);
   // }
 
-  const onClickBack = () => {
-    setCurrentModule("address");
-  };
-
   const saveBridalDate = () => {
     props.createRegistry();
   };
 
   return (
-    <section className="gc paddTop-80">
-      <div className="row rc">
-        <div className="col-md-6 col-md-offset-3 col-xs-12 text-center popup-form-bg">
-          <div className="row voffset5">
-            <div className="col-xs-10 col-xs-offset-1 text-center">
-              <i className="arrow-up cursor-pointer" onClick={onClickBack}></i>
-              <p className="back-gc" onClick={onClickBack}>
-                Back To Shipping Address
-              </p>
-            </div>
+    <>
+      <div className={cs(bootstrapStyles.row, globalStyles.voffset5)}>
+        <div
+          className={cs(
+            bootstrapStyles.col10,
+            bootstrapStyles.offset1,
+            globalStyles.textCenter
+          )}
+        >
+          <i
+            className={cs(styles.arrowUp, globalStyles.pointer)}
+            onClick={() => setCurrentModule("address")}
+          ></i>
+          <p
+            className={styles.backGc}
+            onClick={() => setCurrentModule("address")}
+          >
+            Back To Shipping Address
+          </p>
+        </div>
+      </div>
+      <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
+        <div
+          className={cs(
+            bootstrapStyles.col10,
+            bootstrapStyles.offset1,
+            bootstrapStyles.colMd8,
+            bootstrapStyles.offsetMd2
+          )}
+        >
+          <div className={globalStyles.textCenter}>
+            <svg
+              viewBox="-3 -3 46 46"
+              width="80"
+              height="80"
+              preserveAspectRatio="xMidYMid meet"
+              x="0"
+              y="0"
+              className="bridal-ring"
+            >
+              <use xlinkHref="/images/bridal/rings.svg#bridal-ring"></use>
+            </svg>
           </div>
-          <div className="row voffset6">
-            <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-              <div className="text-center">
-                <svg
-                  viewBox="-3 -3 46 46"
-                  width="80"
-                  height="80"
-                  preserveAspectRatio="xMidYMid meet"
-                  x="0"
-                  y="0"
-                  className="bridal-ring"
-                >
-                  <use xlinkHref="/static/img/bridal/rings.svg#bridal-ring"></use>
-                </svg>
-              </div>
-              <div
-                className={
-                  data.registryName ? "c22-A-I lh40" : "c22-A-I lh40 txt-cap"
-                }
-              >
-                {data.registryName
-                  ? data.registryName
-                  : data.registrantName +
-                    " & " +
-                    data.coRegistrantName +
-                    "'s"}{" "}
-                {data.registryName ? (
-                  ""
-                ) : (
-                  <span className="txt-cap"> {data.occasion} Registry </span>
-                )}{" "}
-              </div>
-              <div className="c10-L-R voffset2">
-                Congratulations, your registry has been successfully created!
-                Now you can start adding items to your list.
-              </div>
-              <div className="login-form voffset4 text-center">
-                <form>
-                  <ul className="categorylabel">
-                    <li>
-                      <input
-                        type="button"
-                        className="cerise-btn"
-                        value="start adding to registry"
-                        onClick={saveBridalDate}
-                      />
-                    </li>
-                  </ul>
-                </form>
-              </div>
-            </div>
+          <div
+            className={cs(globalStyles.c22AI, globalStyles.lh40, {
+              [globalStyles.txtCap]: !data.registryName
+            })}
+          >
+            {data.registryName
+              ? data.registryName
+              : data.registrantName + " & " + data.coRegistrantName + "'s"}{" "}
+            {data.registryName ? (
+              ""
+            ) : (
+              <span className={globalStyles.txtCap}>
+                {" "}
+                {data.occasion} Registry{" "}
+              </span>
+            )}{" "}
+          </div>
+          <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+            Congratulations, your registry has been successfully created! Now
+            you can start adding items to your list.
+          </div>
+          <div
+            className={cs(
+              styles.loginForm,
+              globalStyles.voffset4,
+              globalStyles.textCenter
+            )}
+          >
+            <form>
+              <ul className={styles.categorylabel}>
+                <li>
+                  <input
+                    type="button"
+                    className={globalStyles.ceriseBtn}
+                    value="start adding to registry"
+                    onClick={saveBridalDate}
+                  />
+                </li>
+              </ul>
+            </form>
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 

@@ -13,7 +13,10 @@ type BridalContextType = {
   data: BridalDetailsType;
   bridalAddress?: AddressData;
   setCurrentModule: (module: string) => void;
-  setCurrentModuleData: (module: string, data: { [x: string]: string }) => void;
+  setCurrentModuleData: (
+    module: string,
+    data: Partial<BridalDetailsType>
+  ) => void;
   setCurrentScreenValue: (value: string) => void;
   changeBridalAddress: (addressId: number) => void;
 };
@@ -35,7 +38,7 @@ const initState: BridalContextType = {
   // bridalProfile: ,
   changeBridalAddress: (addressId: number) => null,
   setCurrentModule: (module: string) => null,
-  setCurrentModuleData: (module: string, data: { [x: string]: string }) => null,
+  setCurrentModuleData: (module: string, data: {}) => null,
   setCurrentScreenValue: (value: string) => null
 };
 const BridalContext = React.createContext(initState);

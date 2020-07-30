@@ -36,7 +36,7 @@ type Props = {
 // }
 
 const MyAccount: React.FC<Props> = props => {
-  const [bridalId, setBridalId] = useState(CookieService.getCookie("bridalId"));
+  const [bridalId, setBridalId] = useState("0");
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
