@@ -22,7 +22,7 @@ const Breadcrumbs: React.FC<Props> = memo(
       } else {
         breadcrumbs.push(
           <Fragment key={name}>
-            <span>{name}</span>
+            <span>{name.length > 50 ? name.slice(0, 50) + "..." : name}</span>
           </Fragment>
         );
       }

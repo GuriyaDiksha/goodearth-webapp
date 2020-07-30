@@ -170,6 +170,7 @@ class PLP extends React.Component<
             <FilterList
               onRef={(el: any) => (this.child = el)}
               onChangeFilterState={this.onChangeFilterState}
+              key={this.props.location.pathname}
             />
           </div>
           <div
@@ -203,8 +204,8 @@ class PLP extends React.Component<
               >
                 <span>
                   {count > 1
-                    ? count + " products found"
-                    : count + " product found"}{" "}
+                    ? count + 1 + " products found"
+                    : count + 1 + " product found"}{" "}
                 </span>
               </div>
             ) : (
@@ -220,8 +221,11 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
-              {data.length == 0 ||
-              (this.child.state ? !this.child.state.flag : false) ? (
+              {(this.child.state ? (
+                !this.child.state.flag
+              ) : (
+                false
+              )) ? (
                 <Loader />
               ) : (
                 ""

@@ -22,6 +22,7 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import MetaService from "services/meta";
+import ApiService from "services/api";
 import { Cookies } from "typings/cookies";
 
 import ReactHtmlParser from "react-html-parser";
@@ -54,8 +55,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       LoginService.logout(dispatch);
     },
     onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
-      basketcall && WishlistService.updateWishlist(dispatch);
+      ApiService.getCurrency(dispatch);
       MetaService.updateMeta(dispatch, cookies);
+      basketcall && WishlistService.updateWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
     }
   };
