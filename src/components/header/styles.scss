@@ -86,7 +86,7 @@
 
 @media (max-width: 992px) {
     .logo-container {
-        text-align: left;
+        text-align: center;
     }
 }
 
@@ -125,6 +125,12 @@
     cursor: pointer; 
     .inner-profile-container{
       margin-top: 6px;
+    }
+    .inner-wish-container {
+      margin-top: 3px !important;
+      //a {
+       // color: #000;
+      //}
     }
     .badge {
       position: absolute;
@@ -357,6 +363,9 @@
     @include menu-subcopy();
     text-transform: uppercase;
     line-height: 40px;
+    a {
+      color: tint(#000, 20%);
+    }
     > :nth-child(2) {
       padding-left: 20px;
     }

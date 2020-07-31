@@ -162,6 +162,9 @@ font-weight: bold;
 
 .cerise-btn {
   @include cerise-btn();
+  &:hover {
+    color: #fff;
+  }
   a {
     font-weight: normal;
     color: #fff;

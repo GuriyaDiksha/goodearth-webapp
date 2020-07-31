@@ -230,7 +230,7 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <div className={styles.iconStyle}>
+              <div className={cs(styles.iconStyle, styles.innerWishContainer)}>
                 {isLoggedIn ? (
                   <Link to="/wishlist">
                     <i

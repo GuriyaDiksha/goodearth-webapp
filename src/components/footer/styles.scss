@@ -100,6 +100,11 @@ position: fixed;
     font-family: "LatoFont","Helvetica","Arial";
     margin: 20px;
     border: 1px solid #b3b3b3;
+    .close-popup{
+      right: 20px;
+      font-size: 40px;
+      color: gray;
+    }
     h3 {
       font-size: 11px;
     font-family: "LatoFont","Helvetica","Arial";
@@ -323,11 +328,7 @@ position: fixed;
 }
 
 @media screen and (min-width: 992px) {
-  .close-popup{
-    right: 20px;
-    font-size: 40px;
-    color: gray;
-  }
+  
   .main-menu-footer {
     box-shadow: none;
     border: none;
