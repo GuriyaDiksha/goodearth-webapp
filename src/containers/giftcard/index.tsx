@@ -70,7 +70,7 @@ class GiftCard extends React.Component<
   };
 
   next = (data: any, section: string) => {
-    let { finalData } = this.state;
+    const { finalData } = this.state;
     if (section == "amount") {
       finalData["imageUrl"] = data;
     } else if (section == "form") {
@@ -78,12 +78,12 @@ class GiftCard extends React.Component<
       finalData["productId"] = data.productId;
     } else if (section == "preview") {
       finalData["message"] = data.message;
-      finalData["recipientEmail"] = data.email;
-      finalData["recipientName"] = data.firtName;
+      finalData["recipientEmail"] = data.recipientEmail;
+      finalData["recipientName"] = data.recipientName;
       finalData["senderName"] = data.senderName;
       finalData["quantity"] = 1;
     } else if (section == "card") {
-      finalData = {};
+      // finalData = {};
     }
     this.setState({
       currentSection: section
