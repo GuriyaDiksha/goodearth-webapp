@@ -52,7 +52,7 @@ a {
 }
 
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 .text-left {
@@ -162,6 +162,9 @@ font-weight: bold;
 
 .cerise-btn {
   @include cerise-btn();
+  &:hover {
+    color: #fff;
+  }
   a {
     font-weight: normal;
     color: #fff;

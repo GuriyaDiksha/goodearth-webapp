@@ -157,9 +157,8 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        href: "",
         onClick: isLoggedIn ? this.props.handleLogOut : this.props.goLogin,
-        type: "link",
+        type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
@@ -238,7 +237,7 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <div className={styles.iconStyle}>
+              <div className={cs(styles.iconStyle, styles.innerWishContainer)}>
                 {isLoggedIn ? (
                   <Link to="/wishlist">
                     <i

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -22,19 +22,6 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
     RegisterFormRef.current?.submit();
   };
 
-  useEffect(() => {
-    if (data.recipientEmail) {
-      const form = RegisterFormRef.current;
-      form &&
-        form.updateInputsWithValue({
-          firstName: data.recipientName,
-          email: data.recipientEmail,
-          email1: data.recipientEmail,
-          senderName: data.senderName
-        });
-      setTextarea(data.message);
-    }
-  });
   // const myBlurText = (event: any) => {
   //   if (event.target.value != "") {
   //     if (textarea.length <= 120) {
@@ -161,6 +148,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     label={"Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
+                    isDrop={true}
+                    isPaste={true}
                     validations={{
                       isEmail: true,
                       maxLength: 75,
@@ -181,14 +170,16 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     name="message"
                     rows={5}
                     id="sender_msg"
-                    // onChange={e => {
-                    //   myBlurText(e);
-                    // }}
+                    handleChange={e => {
+                      setTextarea(e.currentTarget.value);
+                    }}
                     required
-                    value={textarea}
+                    // value={textarea}
                     // className={ehighlight ? "error-border" : ""}
                   ></FormTextArea>
-                  <div>Character Limit: {120 - textarea.length}</div>
+                  <div className={globalStyles.textLeft}>
+                    Character Limit: {120 - textarea.length}
+                  </div>
                   {/* {emsg ? (
                     <p className={globalStyles.errorMsg}>
                       Please enter message

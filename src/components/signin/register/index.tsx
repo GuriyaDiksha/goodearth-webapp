@@ -526,6 +526,8 @@ class RegisterForm extends React.Component<Props, registerState> {
               label={"Confirm Password*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
+              isDrop={true}
+              isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
