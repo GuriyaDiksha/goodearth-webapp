@@ -19,7 +19,8 @@ const initAction: any = async (store: Store) => {
     }),
     Api.getAnnouncement(store.dispatch).then(data => {
       store.dispatch(updateAnnouncement(data));
-    })
+    }),
+    Api.getCurrency(store.dispatch)
   ];
 
   if (state.cookies.tkn) {

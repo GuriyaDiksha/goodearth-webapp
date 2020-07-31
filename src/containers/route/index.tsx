@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { Props } from "./typings";
-import { useStore } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import MetaService from "services/meta";
 import { PageMetaRequest } from "services/meta/typings";
+import { AppState } from "reducers/typings";
 
 const RouteContainer: React.FC<Props> = ({
   action,
@@ -14,7 +15,8 @@ const RouteContainer: React.FC<Props> = ({
   const store = useStore();
   const Component = component;
   const location = useLocation();
-
+  const { refresh } = useSelector((state: AppState) => state.user);
+  params.refresh = "" + refresh;
   useEffect(() => {
     action(store.dispatch, params, location);
     let request: PageMetaRequest | undefined;
@@ -26,7 +28,6 @@ const RouteContainer: React.FC<Props> = ({
         ...meta(location)
       };
     }
-
     MetaService.updatePageMeta(store.dispatch, request);
   }, [...Object.values(params)]);
 

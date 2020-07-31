@@ -9,7 +9,6 @@ import { resetPageMeta, updatePageMeta } from "actions/meta";
 import { User } from "typings/user";
 import { initialState } from "reducers/user";
 import API from "utils/api";
-import ApiService from "services/api";
 
 export default {
   fetchMeta: async function(
@@ -37,8 +36,6 @@ export default {
       user.shippingData = meta.shippingData;
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));
-    } else {
-      ApiService.getCurrency(dispatch);
     }
   },
 
