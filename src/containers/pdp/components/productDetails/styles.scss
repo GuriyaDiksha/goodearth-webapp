@@ -27,7 +27,7 @@
 
 .discounted-price {
     color: $cerise;
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
     font-size: 22px;
 }
 
@@ -35,7 +35,7 @@
     font-size: 14px;
     text-decoration: line-through;
     color: tint(#000, 50%) !important;
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
 }
 
 .label {
@@ -172,7 +172,7 @@
 }
 
 .more-details {
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 1px;

@@ -508,7 +508,7 @@
       height: 400px;
       .small-desc {
           text-transform: none;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-family: $font-Serif;
         }
     }
     .txt-disp-left {
@@ -517,7 +517,7 @@
       display: flex;
       .small-desc {
           text-transform: none;
-          font-family: "AmiriFont", "Baskerville", "Garamond";
+          font-family: $font-Serif;
         }
       .align-disp-left {
         align-self: flex-end;
@@ -526,7 +526,7 @@
     .headLink {
       line-height: 28px;
       font-size: 25px;
-      font-family: "AmiriFont", "Baskerville", "Garamond";
+      font-family: $font-Serif;
       span {
         &:after {
           content: '';
@@ -550,7 +550,7 @@
   h4 {
     &.headLink-2 {
       font-style: normal;
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       font-size: 25px;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -575,7 +575,7 @@
     }
     &.headLink-3 {
       font-style: normal;
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       text-align: center;
       span:last-child {
         text-transform: capitalize;
@@ -668,7 +668,7 @@
     h2 {
       &.headLink-2 {
         font-size: 20px;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         p:last-child {
           text-transform: uppercase;
           font-size: 14px;
@@ -742,7 +742,7 @@
       }
       h4 {
         font-size: 15px;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         span:last-child {
   
           &:before {
@@ -761,7 +761,7 @@
           padding: 30px 0;
           &.headLink-3 {
             span {
-              font-family: $font-Amiri;
+              font-family: $font-Serif;
             }
   
             span:last-child {
@@ -814,7 +814,7 @@
       }
       }
     .subtitleHead {
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       display: inline-block;
       width: 40%;
       margin-top: 5px;

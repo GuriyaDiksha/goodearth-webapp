@@ -173,7 +173,7 @@
     .product-price {
       @include plp_prod_name_desktop();
       text-align: right;
-      font-family: "AmiriFont", "Baskerville", "Garamond";
+      font-family: $font-Serif;
     }
   
     .product-qty,
@@ -216,12 +216,12 @@
   font-size: 14px;
   text-decoration: line-through;
   color: tint(#000, 50%) !important;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
 }
 
 .discountprice {
   color: $cerise;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   font-size: 16px;
 }
 .product-size {
@@ -234,7 +234,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }
