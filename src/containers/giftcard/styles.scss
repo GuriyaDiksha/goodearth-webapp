@@ -11,7 +11,7 @@
     letter-spacing: 0;
     line-height: 34px;
     font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
   }
   p {
     padding: 1em 0;
@@ -30,13 +30,13 @@ h2 {
   letter-spacing: 0;
   line-height: 34px;
   font-size: 25px;
-  font-family: "Baskerville","Amiri","Serif";
+  font-family: $font-Serif;
 }
 
 
 .clr-p {
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }
@@ -44,7 +44,7 @@ h2 {
 .gift-font {
   font-size: 14px;
   color: black;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 
@@ -352,7 +352,7 @@ input[type="number"] {
     font-style: italic;
     color: #666;
     font-size: 15px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     font-weight: 300;
   }
 }
@@ -370,6 +370,6 @@ input[type="number"] {
     font-weight: bold;
     display: inline-block;
     line-height: 50px;
-    font-family: "LatoFont", "Helvetica", "Arial";
+    font-family: $font-Lato;
     white-space: nowrap;
 }

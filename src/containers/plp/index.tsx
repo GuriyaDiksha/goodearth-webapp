@@ -176,7 +176,7 @@ class PLP extends React.Component<
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop20]: !this.state.showmobileSort },
-              { [globalStyles.spCat]: !this.state.showmobileSort },
+              { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
             )}

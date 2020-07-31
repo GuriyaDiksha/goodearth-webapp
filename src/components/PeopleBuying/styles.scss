@@ -3,7 +3,7 @@
 
 .recommend-header {
     font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     color: #333;
     line-height: 60px;
     text-transform: capitalize;
@@ -26,7 +26,7 @@
     text-transform: uppercase;
     color: #999;
     letter-spacing: 2px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     line-height: 30px;
     width: 100%;
     white-space: nowrap;
@@ -37,7 +37,7 @@
 }
 .product-n {
     font-size: 16px;
-    font-family: "AmiriFont", "Baskerville", "Garamond";
+    font-family: $font-Serif;
     color: #000;
     text-transform: capitalize;
     width: 100%;
@@ -46,7 +46,7 @@
     text-overflow: ellipsis;
     a {
         font-size: 16px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-family: $font-Serif;
         color: #000;
         text-transform: capitalize;
     }

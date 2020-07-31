@@ -261,7 +261,7 @@
   font-size: 12px;
   line-height: 18px;
   letter-spacing: 0.5px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 40ch;
@@ -687,7 +687,7 @@ input[type="radio"] {
   font-size: 12px;
   line-height: 18px;
   letter-spacing: 0.5px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
 }
 
 .p-b100 {

@@ -34,13 +34,13 @@
 } 
 .heading {
     font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     line-height: 50px;
     margin-top: 30px;
 }
 .sub-Heading {
     font-size: 12px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     color: #666;
     letter-spacing: 1px;
 }
@@ -99,7 +99,7 @@
         margin-top: 15px;
      }
     .product-n {
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         color: #000;
         width: 100%;
     white-space: nowrap;
@@ -109,7 +109,7 @@
     .small-size {
         font-size: 10px;
         color: #666;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         letter-spacing: 1px;
 
     }
