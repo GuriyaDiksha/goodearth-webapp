@@ -131,6 +131,8 @@ const ResetPassword: React.FC<Props> = props => {
               name="password2"
               placeholder={"Confirm Password"}
               label={"Confirm Password"}
+              isDrop={true}
+              isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={showPassword ? "text" : "password"}
               validations={{

@@ -179,9 +179,8 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        href: "",
         onClick: isLoggedIn ? handleLogOut : goLogin,
-        type: "link",
+        type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
@@ -494,12 +493,16 @@ class Header extends React.Component<Props, State> {
                                       this.clickToggle();
                                     }}
                                   >
-                                    <NavLink
-                                      key={item.label}
-                                      to={item.href as string}
-                                    >
-                                      {item.label}
-                                    </NavLink>
+                                    {item.type == "button" ? (
+                                      <>{item.label}</>
+                                    ) : (
+                                      <NavLink
+                                        key={item.label}
+                                        to={item.href as string}
+                                      >
+                                        {item.label}
+                                      </NavLink>
+                                    )}
                                   </li>
                                 );
                               })}

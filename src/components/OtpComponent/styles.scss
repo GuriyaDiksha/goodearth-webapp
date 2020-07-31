@@ -7,12 +7,12 @@
       letter-spacing: 1px;
       font-weight: bold;
       color: tint(#000, 30%);
-      a {
-        &:hover {
-          text-decoration: underline;
-          cursor: pointer;
-        }
-      }
+      // a {
+        // &:hover {
+        //   text-decoration: underline;
+        //   cursor: pointer;
+        // }
+      // }
     }
     .radiobtn1 {
       display: flex;
