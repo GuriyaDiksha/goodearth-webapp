@@ -1,0 +1,67 @@
+/******************* Chat *************/
+
+.chat-button {
+    width: 45px;
+    height: 45px;
+    background-image: url('https://djhiy8e1dslha.cloudfront.net/media/misc/StarChat.png');
+    background-size: cover;
+    border-radius: 50%;
+    line-height: 2.7;
+    text-align: center;
+    cursor: pointer;
+    position: fixed;
+    bottom: 75px;
+    right: 10px;
+    z-index: 999;
+    -webkit-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    transform: translateY(150px);
+    -webkit-transform: translateY(150px);
+    -moz-transform: translateY(150px);
+    -o-transform: translateY(150px);
+  }
+  
+  .chat-button.active {
+    transform: translateY(0);
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -o-transform: translateY(0);
+  }
+  
+  div#lc_chat_layout.lc-collapsed {
+    /* height: 0 !important; */
+    display: none;
+  }
+  
+  div#lc_chat_layout {
+    transition: height 0.3s;
+    -webkit-transition: height 0.3s;
+    -moz-transition: height 0.3s;
+    -o-transition: height 0.3s;
+  }
+  
+  #lc_chat_layout #lc_chat_container textarea#lc_chat_offline_textarea {
+    min-height: 80px;
+  }
+  
+  div#lc_chat_layout #lc_chat_container .lc-form-field-wrap .lc-textfield-wrap {
+    width: 100%;
+  }
+  
+  #lc_chat_layout.lc-collapsed #lc_chat_header.lc-dark-icon {
+    display: none;
+  
+  }
+  
+  #lc_chat_layout #lc_chat_header .lc-close {
+    display: none !important;
+  }
+  
+  #lc_chat_layout #lc_chat_header {
+    background-color: #c73671 !important;
+  }

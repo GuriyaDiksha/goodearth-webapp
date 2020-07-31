@@ -26,7 +26,7 @@
       line-height: 40px;
       a {
         font-size: 14px;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         color: #333;
         cursor: pointer;
         &:hover {
@@ -131,7 +131,7 @@
   z-index: 9;
   background-color: #fff;
   padding: 15px 20px 4px 20px;
-  top: 50px;
+  top: $header-height;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {
     line-height: 30px;

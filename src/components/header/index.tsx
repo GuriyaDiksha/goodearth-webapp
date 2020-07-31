@@ -22,6 +22,7 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import MetaService from "services/meta";
+import ApiService from "services/api";
 import { Cookies } from "typings/cookies";
 
 import ReactHtmlParser from "react-html-parser";
@@ -54,8 +55,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       LoginService.logout(dispatch);
     },
     onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
-      basketcall && WishlistService.updateWishlist(dispatch);
+      ApiService.getCurrency(dispatch);
       MetaService.updateMeta(dispatch, cookies);
+      basketcall && WishlistService.updateWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
     }
   };
@@ -287,7 +289,7 @@ class Header extends React.Component<Props, State> {
             {this.props.mobile ? (
               <div
                 className={cs(
-                  bootstrap.col2,
+                  bootstrap.col3,
                   bootstrap.colMd2,
                   styles.hamburger
                 )}
@@ -330,7 +332,6 @@ class Header extends React.Component<Props, State> {
               className={cs(
                 bootstrap.colMd2,
                 bootstrap.col6,
-                { [bootstrap.offset1]: this.props.mobile },
                 styles.logoContainer
               )}
             >
@@ -344,7 +345,7 @@ class Header extends React.Component<Props, State> {
               <div
                 className={cs(
                   bootstrap.colMd6,
-                  bootstrap.colLg6,
+                  bootstrap.col3,
                   bootstrap.offsetMd1
                 )}
               >

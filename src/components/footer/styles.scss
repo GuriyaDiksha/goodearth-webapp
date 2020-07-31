@@ -87,26 +87,64 @@
   width: 10%;
 }
 
-@media screen and (max-width: 992px) {
-  .form-footer {
-    span {
-      &.location {
-        position: absolute;
-        left: 0%;
-        top: -24%;
-        color: black;
-        .icon-class {
-          color: $cerise;
-        }
-        i {
-          line-height: 44px;
-          font-size: 1px;
-        }
-      }
+.cookieclass {
+position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 360px;
+    height: 280px;
+    background-color: #fff;
+    z-index: 100;
+    padding: 20px 35px;
+    text-align: center;
+    font-family: $font-Lato;
+    margin: 20px;
+    border: 1px solid #b3b3b3;
+    .close-popup{
+      right: 20px;
+      font-size: 40px;
+      color: gray;
     }
-  }
+    h3 {
+      font-size: 11px;
+    font-family: $font-Lato;
+    color: #333;
+    line-height: 50px;
+    text-transform: capitalize;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin-top: 10px;
+    }
+    p {
+      font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 5px;
+    a {
+      text-decoration: underline;
+      color: $cerise;
+    }
+    }
+    .ok-btn {
+    background-color: #ab1e56;
+    padding: 10px 50px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin: 15px 0;
+    font-size: 14px;
+    }
+}
+.close-popup {
+  position: absolute;
+  right: 0px;
+  top: 20px;
+  z-index: 8;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width: 992px) {
   
-
   .shop-locator {
     position: relative;
     .cursor-pointer {
@@ -290,6 +328,7 @@
 }
 
 @media screen and (min-width: 992px) {
+  
   .main-menu-footer {
     box-shadow: none;
     border: none;

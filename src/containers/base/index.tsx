@@ -8,6 +8,8 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import CheckoutHeader from "containers/checkout/checkoutHeader";
 import globalStyles from "styles/global.scss";
+import "styles/chat.css";
+
 const mapStateToProps = (state: AppState) => {
   return {
     refresh: state.user.refresh,

@@ -63,7 +63,7 @@
         width: 50%;
          h4 {
             font-size: 28px;
-            font-family: "Baskerville","Garamond";
+            font-family: $font-Serif;
             line-height: 60px;
         }
         h3 {
@@ -71,8 +71,8 @@
             line-height: 40px;
             text-transform: none;
             color: #333;
-            font-family: $font-Amiri;
             margin-bottom: 20px;
+            font-family: $font-Serif;
         }
         h5 {
             color: black;
@@ -285,7 +285,7 @@ p.job-description {
                 letter-spacing: 1px;
             }
             h4.job-designation {
-                font-family: "Baskerville","Garamond";
+                font-family: $font-Serif;
                 font-size: 20px;
             }
         }
@@ -486,7 +486,7 @@ p {
                 // padding: 15px 0;
                 span {
                     font-size: 14px;
-                    font-family: "LatoFont","Helvetica","Arial";
+                    font-family: $font-Lato;
                     letter-spacing: 1px;
                     text-transform: uppercase;
                     line-height: 38px;
@@ -513,7 +513,7 @@ p {
     .career-sort-cross {
         span.sort-label {
             font-size: 14px;
-            font-family: "LatoFont","Helvetica","Arial";
+            font-family: $font-Lato;
             color: gray;
             letter-spacing: 1px;
             text-transform: uppercase;

@@ -13,7 +13,7 @@
     font-style: italic;
     color: $cerise;
     font-weight: bold;
-    font-family: "LatoFont", "Helvetica", "Arial";
+    font-family: $font-Lato;
     letter-spacing: 1px;
     text-transform: none;
     line-height: 15px;
@@ -34,7 +34,7 @@
   
   .social-login-text {
     font-size: 12px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     color: #666;
     letter-spacing: 1px;
   }
@@ -42,7 +42,7 @@
 
 .form-heading {
   font-size: 25px;
-  font-family: "Baskerville","Amiri","Serif";
+  font-family: $font-Serif;
   line-height: 50px;
   margin-top: 30px;
 }
@@ -55,7 +55,7 @@
 
 .social-login-text {
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }

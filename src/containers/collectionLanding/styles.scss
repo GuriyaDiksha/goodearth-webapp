@@ -1,4 +1,6 @@
 
+@import "../../styles/partials/variables";
+
 .Dropdown-root{
     min-width: 161px;
     cursor: pointer;
@@ -32,7 +34,7 @@
 .filter-text{
     line-height: 33px;
     font-size: 14px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     letter-spacing: 1px;
     color: #ab1e56;
     text-transform: uppercase;
@@ -41,7 +43,7 @@
 .inner-header {
     display: -webkit-inline-box;
     margin-left: 8%;
-    margin-top: 3px;
+    margin-top: 7px;
 }
 
 .collection-block {
@@ -55,12 +57,12 @@
     margin: 130px 0 0 0;
     h1{
         font-size: 28px;
-        font-family: "Baskerville","Amiri","Serif";
+        font-family: $font-Serif;
         text-transform: capitalize;
     }
     p {
         font-size: 12px;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         color: #666;
         letter-spacing: 1px;
     }

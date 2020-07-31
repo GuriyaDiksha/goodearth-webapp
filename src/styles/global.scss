@@ -162,6 +162,9 @@ font-weight: bold;
 
 .cerise-btn {
   @include cerise-btn();
+  &:hover {
+    color: #fff;
+  }
   a {
     font-weight: normal;
     color: #fff;
@@ -327,7 +330,7 @@ font-weight: bold;
   margin: 2px 10px 0 0;
   color: $cerise;
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 .c10-l-r{

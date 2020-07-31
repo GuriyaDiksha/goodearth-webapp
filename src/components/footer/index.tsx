@@ -9,6 +9,8 @@ import iconStyles from "../../styles/iconFonts.scss";
 import { ShopLocator } from "./ShopLocator";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import CookieService from "services/cookie";
+import fontStyles from "styles/iconFonts.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -30,7 +32,8 @@ class Footer extends React.Component<Props, FooterState> {
       dropdown: false,
       hideImage: false,
       newsletterEmail: "",
-      newsletterMessage: ""
+      newsletterMessage: "",
+      showCookie: false
     };
   }
 
@@ -44,6 +47,14 @@ class Footer extends React.Component<Props, FooterState> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+  }
+  componentDidMount() {
+    const cookie = CookieService.getCookie("goodearth");
+    if (cookie != "show") {
+      this.setState({
+        showCookie: true
+      });
+    }
   }
 
   subMenu = (index: number) => {
@@ -83,6 +94,14 @@ class Footer extends React.Component<Props, FooterState> {
 
   makeNewsletterSignupRequest = () => {
     // api call
+  };
+
+  acceptCookies = () => {
+    CookieService.setCookie("goodearth", "show", 365);
+    // document.cookie = cookieString;
+    this.setState({
+      showCookie: false
+    });
   };
 
   render() {
@@ -192,8 +211,8 @@ class Footer extends React.Component<Props, FooterState> {
                                         return false;
                                       }
                                       if (
-                                        list.name == "Help" ||
-                                        list.name == "Services"
+                                        list.name == "HELP" ||
+                                        list.name == "SERVICES"
                                       ) {
                                         return (
                                           <li key={j}>
@@ -456,6 +475,42 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
+        {this.state.showCookie && (
+          <div
+            className={styles.cookieclass}
+            onClick={() => {
+              this.setState({ showCookie: false });
+            }}
+          >
+            <span
+              className={cs(
+                styles.closePopup,
+                fontStyles.icon,
+                fontStyles.iconCross
+              )}
+            ></span>
+            <h3>COOKIE POLICY</h3>
+            <p>
+              This website uses cookies in order to improve your experience. If
+              you want to learn more click the button &nbsp;
+              <Link to={"/customer-assistance/privacy-policy"}>
+                Privacy Policy
+              </Link>
+              &nbsp; and{" "}
+              <Link to={"/customer-assistance/cookie-policy"}>
+                Cookie Policy.
+              </Link>
+            </p>
+            <p>
+              {" "}
+              If you continue to use our website, you agree to the use of
+              cookies.
+            </p>
+            <span className={styles.okBtn} onClick={this.acceptCookies}>
+              ACCEPT
+            </span>
+          </div>
+        )}
       </div>
     );
   }
