@@ -389,6 +389,7 @@ class Header extends React.Component<Props, State> {
                 mouseOut={(data): void => {
                   this.mouseOut(data);
                 }}
+                show={this.state.show}
                 menudata={this.props.data}
                 mobile={this.props.mobile}
               />
