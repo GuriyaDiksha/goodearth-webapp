@@ -40,6 +40,8 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 class Footer extends React.Component<Props, FooterState> {
+  observer?: IntersectionObserver;
+  container: HTMLDivElement | null = null;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -49,7 +51,8 @@ class Footer extends React.Component<Props, FooterState> {
       hideImage: false,
       newsletterEmail: "",
       newsletterMessage: "",
-      showCookie: false
+      showCookie: false,
+      isInViewport: false
     };
   }
 
@@ -64,12 +67,34 @@ class Footer extends React.Component<Props, FooterState> {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
   }
+
+  onFooterInViewport: IntersectionObserverCallback = entries => {
+    if (entries.length) {
+      if (entries[0].isIntersecting) {
+        console.log("In viewport");
+        this.setState({
+          isInViewport: true
+        });
+      }
+    }
+  };
   componentDidMount() {
     const cookie = CookieService.getCookie("goodearth");
     if (cookie != "show") {
       this.setState({
         showCookie: true
       });
+    }
+
+    if (!window.IntersectionObserver) {
+      this.setState({
+        isInViewport: true
+      });
+    } else {
+      if (this.container) {
+        this.observer = new IntersectionObserver(this.onFooterInViewport);
+        this.observer.observe(this.container);
+      }
     }
   }
 
@@ -176,13 +201,18 @@ class Footer extends React.Component<Props, FooterState> {
 
   render() {
     return (
-      <div className={bootstrap.containerFluid}>
+      <div
+        className={bootstrap.containerFluid}
+        ref={ele => (this.container = ele)}
+      >
         <div id="footer-start" className={bootstrap.row}>
           <div
             className={`${
               this.state.hideImage
                 ? ""
-                : cs(styles.footerTop, bootstrap.colMd12, bootstrap.py4)
+                : cs(styles.footerTop, bootstrap.colMd12, bootstrap.py4, {
+                    [styles.footerTopBackground]: this.state.isInViewport
+                  })
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
           >
             <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
@@ -230,7 +260,11 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
           <div
             className={`${
-              this.state.hideImage ? "" : cs(styles.footer, bootstrap.colMd12)
+              this.state.hideImage
+                ? ""
+                : cs(styles.footer, bootstrap.colMd12, {
+                    [styles.footerBackground]: this.state.isInViewport
+                  })
             } ${this.props.saleStatus ? cs(styles.footerSale20) : ""}`}
           >
             <div className={cs(globalStyles.minimumWidth)}>
