@@ -169,14 +169,7 @@ const Section4: React.FC<Section4Props> = props => {
             >
               <div className={bootstrapStyles.col12}>
                 {nummsg ? (
-                  <p
-                    className={cs(
-                      globalStyles.errorMsg,
-                      globalStyles.textCenter
-                    )}
-                  >
-                    {nummsg}
-                  </p>
+                  <p className={cs(globalStyles.errorMsg)}>{nummsg}</p>
                 ) : (
                   <p className={globalStyles.errorMsg}></p>
                 )}

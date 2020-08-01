@@ -22,6 +22,12 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
     });
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps: MenuProps, prevState: MenuState) {
+    if (!nextProps.show) {
+      this.setState({ selectedCategory: -1 });
+    }
+  }
+
   render() {
     const { data, location } = this.props;
     return (
@@ -43,7 +49,7 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
                   .indexOf(data.name.toLowerCase()) > -1
               ? true
               : false;
-          return i < 5 ? (
+          return (
             <li
               key={i}
               className={styles.menuItem}
@@ -70,8 +76,6 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
                 {data.name}
               </Link>
             </li>
-          ) : (
-            ""
           );
         })}
       </ul>

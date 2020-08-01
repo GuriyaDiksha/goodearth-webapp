@@ -177,7 +177,6 @@ class Giftcard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    console.log(this.props);
     const { newCardBox, showOTPValidationScreen } = this.state;
     const { isLoggedIn } = this.props;
     // const { firstName, lastName, giftCardCode } = this.ActivateGCForm.current ? this.ActivateGCForm.current.getModel() : {
