@@ -21,6 +21,7 @@ export type Props = {
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   keyPress?: (event: React.KeyboardEvent) => void;
   keyUp?: (event: React.KeyboardEvent) => void;
+  keyDown?: (event: React.KeyboardEvent) => void;
   min?: number | string;
   max?: number | string;
   inputRef?: RefObject<HTMLInputElement>;

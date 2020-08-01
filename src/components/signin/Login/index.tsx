@@ -182,7 +182,10 @@ class LoginForm extends React.Component<Props, loginState> {
   };
 
   myBlur(event?: React.FocusEvent | React.KeyboardEvent, value?: string) {
-    if (!this.state.email || this.state.msg) return false;
+    if (!this.state.email || this.state.msg) {
+      event && event.preventDefault();
+      return false;
+    }
     value ? "" : this.checkMailValidation();
     this.setState({
       msg: "",
@@ -223,7 +226,7 @@ class LoginForm extends React.Component<Props, loginState> {
       });
     }
     if (type === "email") {
-      if (event.key == "Enter") {
+      if (event.key == "Enter" || event.key == "Tab") {
         this.myBlur(event);
       } else {
         if (valid.checkBlank(this.state.email)) {
@@ -255,6 +258,12 @@ class LoginForm extends React.Component<Props, loginState> {
     }
     if (type === "password") {
       this.myBlurP();
+    }
+  }
+
+  handleKeyDown(event: React.KeyboardEvent) {
+    if (event.key == "Tab" && this.state.msg) {
+      event.preventDefault();
     }
   }
 
@@ -303,6 +312,7 @@ class LoginForm extends React.Component<Props, loginState> {
               placeholder={"Email"}
               label={"Email"}
               border={this.state.highlight}
+              keyDown={e => this.handleKeyDown(e)}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
               error={this.state.msg}

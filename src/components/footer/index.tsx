@@ -11,6 +11,9 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import CookieService from "services/cookie";
 import fontStyles from "styles/iconFonts.scss";
+import * as valid from "utils/validate";
+import { Dispatch } from "redux";
+import HeaderFooterService from "services/headerFooter";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -21,7 +24,20 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    newsletterSignup: async (email: string) => {
+      const res = await HeaderFooterService.makeNewsletterSignupRequest(
+        dispatch,
+        email
+      );
+      return res;
+    }
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class Footer extends React.Component<Props, FooterState> {
   constructor(props: Props) {
@@ -89,11 +105,65 @@ class Footer extends React.Component<Props, FooterState> {
   }
 
   SetNewsletterEmail = (e: React.KeyboardEvent) => {
-    // api call
+    if (this.myBlur(e) && e.keyCode == 13) {
+      this.makeNewsletterSignupRequest();
+    }
+  };
+
+  myBlur = (e: any) => {
+    let update = true;
+    if (valid.checkBlank(e.target.value)) {
+      this.setState({
+        newsletterEmail: e.target.value,
+        newsletterMessage: "Please Enter Email"
+      });
+      update = false;
+    } else if (!valid.checkMail(e.target.value)) {
+      this.setState({
+        newsletterEmail: e.target.value,
+        newsletterMessage: "Enter valid email"
+      });
+      update = false;
+    } else if (e.target.value.length > 75) {
+      this.setState({
+        newsletterMessage: "You are allowed to enter upto 75 characters only"
+      });
+      update = false;
+    } else {
+      this.setState({
+        newsletterEmail: e.target.value,
+        newsletterMessage: ""
+      });
+    }
+
+    return update;
   };
 
   makeNewsletterSignupRequest = () => {
-    // api call
+    if (!this.myBlur({ target: { value: this.state.newsletterEmail } }))
+      return false;
+    const emailInput = document.getElementById(
+      "newsletter"
+    ) as HTMLInputElement;
+    if (emailInput) {
+      this.props
+        .newsletterSignup(emailInput.value)
+        .then(data => {
+          if (data.status) {
+            const msg = valid.showErrors(data.message);
+            // this.setState({newsletter_email: ""});
+            this.setState({ newsletterMessage: msg });
+          } else {
+            const msg = valid.showErrors(data.message);
+            this.setState({ newsletterMessage: msg });
+          }
+        })
+        .catch(error => {
+          const msg = valid.showErrors(error.response.data.message);
+          this.setState({ newsletterMessage: msg });
+          // console.log(error);
+        });
+    }
   };
 
   acceptCookies = () => {
@@ -145,13 +215,13 @@ class Footer extends React.Component<Props, FooterState> {
                     />
                     <div
                       className={cs(styles.arrowRight)}
-                      onClick={this.makeNewsletterSignupRequest}
+                      onClick={() => this.makeNewsletterSignupRequest()}
                     ></div>
                   </div>
-                </div>
-                <div className={cs(globalStyles.voffset1)}>
-                  <div className={cs(styles.errorMsg)}>
-                    {this.state.newsletterMessage}{" "}
+                  <div className={cs(globalStyles.voffset1)}>
+                    <div className={cs(globalStyles.errorMsg)}>
+                      {this.state.newsletterMessage}{" "}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -516,4 +586,4 @@ class Footer extends React.Component<Props, FooterState> {
   }
 }
 
-export default connect(mapStateToProps)(Footer);
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

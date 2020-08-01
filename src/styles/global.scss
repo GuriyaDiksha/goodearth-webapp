@@ -165,6 +165,11 @@ font-weight: bold;
   &:hover {
     color: #fff;
   }
+  &.disabled-btn {
+    background-color: tint(#000, 95%);
+    color: tint(#000, 50%);
+    cursor: default;
+  }
   a {
     font-weight: normal;
     color: #fff;
