@@ -75,12 +75,19 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch, true);
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
       return response;
+    },
+    getLoyaltyPoints: async (data: FormData) => {
+      const points: any = await CheckoutService.getLoyaltyPoints(
+        dispatch,
+        data
+      );
+      return points;
     }
   };
 };
@@ -110,6 +117,7 @@ type State = {
   id: string;
   addressIdError: string;
   isGoodearthShipping: boolean;
+  loyaltyData: any;
 };
 class Checkout extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -141,13 +149,36 @@ class Checkout extends React.Component<Props, State> {
       isLoading: false,
       id: "",
       addressIdError: "",
-      isGoodearthShipping: false
+      isGoodearthShipping: false,
+      loyaltyData: {}
     };
   }
   componentDidMount() {
+    const {
+      getLoyaltyPoints,
+      user: { email }
+    } = this.props;
+    const data: any = {
+      email: email
+    };
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
+    getLoyaltyPoints(data).then(loyalty => {
+      this.setState({
+        loyaltyData: loyalty
+      });
+    });
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.display = "none";
+      scrollToTopButtonElem.style.bottom = "65px";
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.display = "none";
+      chatButtonElem.style.bottom = "10px";
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -396,13 +427,10 @@ class Checkout extends React.Component<Props, State> {
                 finalizeAddress={this.finalizeAddress}
                 hidesameShipping={true}
                 activeStep={Steps.STEP_BILLING}
-                // items={this.props.basket}
-                // bridalId={this.props.bridalId}
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
                 addressType={Steps.STEP_SHIPPING}
                 addresses={this.props.addresses}
-                // user={this.props.user}
                 error={this.state.billingError}
               />
               <PromoSection
@@ -415,6 +443,7 @@ class Checkout extends React.Component<Props, State> {
                 user={this.props.user}
                 checkout={this.finalOrder}
                 currency={this.props.currency}
+                loyaltyData={this.state.loyaltyData}
               />
             </div>
             <div className={cs(bootstrap.col12, bootstrap.colMd4)}>

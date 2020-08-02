@@ -71,7 +71,6 @@ class Footer extends React.Component<Props, FooterState> {
   onFooterInViewport: IntersectionObserverCallback = entries => {
     if (entries.length) {
       if (entries[0].isIntersecting) {
-        console.log("In viewport");
         this.setState({
           isInViewport: true
         });
@@ -418,7 +417,11 @@ class Footer extends React.Component<Props, FooterState> {
                             </li>
                             <li>
                               <Link
-                                to={this.props.data.footerPlaylistData.ctaUrl}
+                                to={"/"}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  location.href = this.props.data.footerPlaylistData.ctaUrl;
+                                }}
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
@@ -543,7 +546,11 @@ class Footer extends React.Component<Props, FooterState> {
                           </div>
                           <div className={cs(styles.textCenter)}>
                             <Link
-                              to={this.props.data.footerPlaylistData.ctaUrl}
+                              to={"/"}
+                              onClick={e => {
+                                e.preventDefault();
+                                location.href = this.props.data.footerPlaylistData.ctaUrl;
+                              }}
                               target="_blank"
                               rel="noopener noreferrer"
                             >

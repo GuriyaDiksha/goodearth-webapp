@@ -64,6 +64,14 @@ export default {
     );
     return data;
   },
+  sendOtpRedeem: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/send_loyalty_otp/"}`,
+      formData
+    );
+    return data;
+  },
   sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post<BalanceProps>(
       dispatch,
@@ -88,6 +96,14 @@ export default {
     };
     temp["code"] = formData.code;
     return temp;
+  },
+  checkOtpRedeem: async (dispatch: Dispatch, formData: any) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/validate_loyalty_otp/"}`,
+      formData
+    );
+    return data;
   },
   confirmResetPassword: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<ConfirmResetPasswordResponse>(

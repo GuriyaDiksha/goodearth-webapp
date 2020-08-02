@@ -332,3 +332,11 @@
 .otp-format {
   font-size: 14px;
 }
+
+.disable-input {
+  input{
+    position: relative;
+    background-color: #f2f2f2 !important;
+  }
+  
+}

@@ -10,20 +10,25 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link } from "react-router-dom";
 import Loader from "components/Loader";
+import Reedem from "./redeem";
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
     basket,
     device: { mobile }
   } = useSelector((state: AppState) => state);
-  const { isActive, currency, checkout } = props;
+  const { isActive, currency, checkout, loyaltyData } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
   const [isactivepromo, setIsactivepromo] = useState(false);
+  const [isactiveredeem, setIsactiveredeem] = useState(false);
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
+  };
+  const toggleInputReedem = () => {
+    setIsactiveredeem(!isactiveredeem);
   };
 
   const onClikSubscribe = (event: any) => {
@@ -57,7 +62,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (basket.giftCards.length > 0) {
       setIsactivepromo(true);
     }
-  }, [basket.giftCards]);
+    if (basket.loyalty.length > 0) {
+      setIsactiveredeem(true);
+    }
+  }, [basket.giftCards, basket.loyalty]);
 
   const getMethods = () => {
     let methods = [
@@ -166,6 +174,47 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 {isactivepromo ? <ApplyGiftcard /> : ""}
                 {/* {renderInput()}
                 {renderCoupon()} */}
+              </div>
+            </div>
+            <hr className={styles.hr} />
+            <div className={bootstrapStyles.row}>
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  bootstrapStyles.colMd6,
+                  styles.title
+                )}
+              >
+                <span className={isActive ? "" : styles.closed}>
+                  REDEEM CERISE POINTS
+                </span>
+              </div>
+            </div>
+            <hr className={styles.hr} />
+            <div className={globalStyles.flex}>
+              <div
+                className={cs(
+                  styles.marginR10,
+                  globalStyles.cerise,
+                  globalStyles.pointer
+                )}
+                onClick={toggleInputReedem}
+              >
+                {isactiveredeem ? "-" : "+"}
+              </div>
+              <div className={styles.inputContainer}>
+                <div
+                  className={cs(
+                    globalStyles.c10LR,
+                    styles.promoMargin,
+                    globalStyles.cerise,
+                    globalStyles.pointer
+                  )}
+                  onClick={toggleInputReedem}
+                >
+                  REDEEM CERISE POINTS
+                </div>
+                {isactiveredeem ? <Reedem loyaltyData={loyaltyData} /> : ""}
               </div>
             </div>
             {isPaymentNeeded() && <hr className={styles.hr} />}

@@ -12,6 +12,7 @@ export type otpState = {
   otp: string;
   toggleOtp: boolean;
   showError: string;
+  isLoading: boolean;
 };
 
 export type otpProps = {
@@ -31,6 +32,24 @@ export type otpProps = {
   email?: string;
 };
 
+export type otpRedeemProps = {
+  sendOtp: (data: any) => any;
+  toggleOtp: (data: boolean) => void;
+  checkOtpRedeem: (data: any) => Promise<any>;
+  updateList: (data: any) => void;
+  isCredit?: boolean;
+  updateError: (data: boolean) => void;
+  validateEmptyInputs?: () => void;
+  otpFor?: "activateGC" | "balanceGC" | "balanceCN";
+  firstName?: string;
+  lastName?: string;
+  newCardBox?: boolean;
+  email?: string;
+  loyaltyData: any;
+  points: number | string;
+};
+
 export type otpBoxProps = {
   otpValue: (data: string) => void;
+  notFocus?: boolean;
 };

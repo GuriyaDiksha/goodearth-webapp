@@ -8,12 +8,13 @@ import API from "utils/api";
 import { ProductID } from "typings/id";
 
 export default {
-  fetchBasket: async function(dispatch: Dispatch) {
+  fetchBasket: async function(dispatch: Dispatch, isCheckout?: boolean) {
     const res = await API.get<Basket>(
       dispatch,
-      `${__API_HOST__ + "/myapi/basket/detail"}`
+      `${__API_HOST__ +
+        "/myapi/basket/detail" +
+        (isCheckout == true ? "?source=checkout" : "")}`
     );
-
     dispatch(updateBasket(res));
   },
 
