@@ -35,7 +35,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
-    BasketService.fetchBasket(dispatch);
+    BasketService.fetchBasket(dispatch, true);
     return response;
   };
 
@@ -187,7 +187,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removeGiftCard = async (data: FormData) => {
     const response = await CheckoutService.removeGiftCard(dispatch, data);
-    BasketService.fetchBasket(dispatch);
+    BasketService.fetchBasket(dispatch, true);
+    return response;
+  };
+
+  const removeRedeem = async () => {
+    const response = await CheckoutService.removeRedeem(dispatch);
+    BasketService.fetchBasket(dispatch, true);
     return response;
   };
 
@@ -201,7 +207,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const getCoupons = () => {
     let coupon = null;
     let giftCard = null;
-    // let loyalty = null;
+    let loyalty = null;
     // let voucherDiscount = this.props.voucher_discounts[0];
     if (basket.voucherDiscounts.length > 0) {
       const couponDetails = basket.voucherDiscounts?.[0];
@@ -292,27 +298,49 @@ const OrderSummary: React.FC<OrderProps> = props => {
         );
       });
     }
-    //     if(this.props.loyalty){
-    //         loyalty =(
-    //             <div className="flex gutter-between">
-    //                 <span className="subtotal">
-    //                     <span className="margin-r-10">CERISE POINTS</span>
-    //                     <span className="promo-message">
-    //                         <span className="text-muted margin-r-10">REDEEMED</span>
-    //                         <span onClick={() => this.onLoyaltyRemove()}><i
-    //                             className="icon icon_cross-narrow-big remove"></i></span>
-    //                     </span>
-    //                 </span>
-    //                 <span className="subtotal">(-) {Currency.getSymbol()} {this.props.loyalty}</span>
-    //             </div>
-    //         )
-    //     }
+    const redeemDetails = basket.loyalty?.[0];
+    if (redeemDetails) {
+      loyalty = (
+        <div
+          className={cs(
+            globalStyles.flex,
+            globalStyles.gutterBetween,
+            globalStyles.marginT20,
+            globalStyles.crossCenter
+          )}
+          key={"redeems"}
+        >
+          <span className={styles.subtotal}>
+            <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+              CERISE POINTS
+            </span>
+            <span className={styles.textMuted}>
+              {" "}
+              {"REDEEMED"}
+              <span
+                className={styles.cross}
+                onClick={() => {
+                  removeRedeem();
+                }}
+              >
+                <i
+                  className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+                ></i>
+              </span>
+            </span>
+          </span>
+          <span className={styles.subtotal}>
+            (-) {String.fromCharCode(code)} {redeemDetails.points}
+          </span>
+        </div>
+      );
+    }
     return (
       <div>
         {/* {(coupon || giftCard.length > 0) && <hr className="hr"/>} */}
         {coupon}
         {giftCard}
-        {/* {loyalty} */}
+        {loyalty}
       </div>
     );
     // }

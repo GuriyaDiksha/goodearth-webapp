@@ -13,11 +13,6 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
     onClose(code);
   };
 
-  // if (currStatus == "Locked" && type == "CNI") {
-  //   showLocked = true;
-  // } else if (currStatus == "Expired" && type == "CNI") {
-  //   showExpired = true;
-  // }
   return (
     <div id="gc-balance-info">
       {showExpired ? (

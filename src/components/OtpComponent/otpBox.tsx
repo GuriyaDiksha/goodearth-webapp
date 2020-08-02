@@ -29,7 +29,9 @@ export default class OtpBox extends Component<otpBoxProps, { otp: string }> {
   }
 
   componentDidMount() {
-    this.otpInput.current && this.otpInput.current.focus();
+    if (!this.props.notFocus) {
+      this.otpInput.current && this.otpInput.current.focus();
+    }
   }
   render() {
     return (

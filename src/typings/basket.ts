@@ -20,6 +20,10 @@ export type BasketLineItem = {
   product: BasketProduct;
 };
 
+export type Points = {
+  points: number | string;
+};
+
 export type Basket = {
   shippable: boolean;
   subtotalExclusive: number;
@@ -47,6 +51,7 @@ export type Basket = {
   total: string | number;
   subTotal: string | number;
   giftCards: BalanceProps[];
+  loyalty: Points[];
 };
 
 export interface BasketItem extends BasketLineItem {
