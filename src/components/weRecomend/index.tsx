@@ -13,6 +13,7 @@ import { Currency, currencyCode } from "../../typings/currency";
 import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
+import LazyImage from "components/LazyImage";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
@@ -26,14 +27,14 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         onMouseEnter={() => setCurrentId(item.id)}
         onMouseLeave={() => setCurrentId(-1)}
         key={item.id}
-        className={cs({
+        className={cs(styles.slide, {
           [bootstrapStyles.col6]: mobile,
           [bootstrapStyles.colMd4]: mobile,
           [bootstrapStyles.col12]: !mobile
         })}
       >
         {item.badgeImage ? (
-          <div className="badge_position_plp">
+          <div className={styles.saleBanner}>
             <img src={item.badgeImage} />
           </div>
         ) : (
@@ -58,13 +59,14 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           </div>
         )}
         <Link to={item.productUrl}>
-          <img
+          <LazyImage
+            aspectRatio="62:93"
             src={
               item.productImage
                 ? item.productImage
                 : "/static/img/noimageplp.png"
             }
-            className={cs(globalStyles.imgResponsive, styles.sliderImage)}
+            className={cs(globalStyles.imgResponsive)}
           />
         </Link>
         <div className={styles.moreBlock}>

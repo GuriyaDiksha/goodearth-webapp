@@ -56,8 +56,22 @@
     width: 100%;
     min-width: 100%;
 }
-.sliderImage {
-    padding: 0 3px;
+.slide {
+    .link {
+        display: block;
+        padding: 0 3px;
+    }
+}
+
+.sale-banner {
+    position: relative;
+
+    img {
+        position: absolute;
+        transform: translateX(-50%);
+        top: 0;
+        left: 50%;
+    }
 }
 
 @media screen and (min-width: 992px) {

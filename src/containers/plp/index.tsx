@@ -230,7 +230,7 @@ class PLP extends React.Component<
               ) : (
                 ""
               )}
-              {data.map(item => {
+              {data.map((item, index) => {
                 return (
                   <div
                     className={cs(
@@ -246,6 +246,7 @@ class PLP extends React.Component<
                       currency={currency}
                       key={item.id}
                       mobile={mobile}
+                      isVisible={index < 3 ? true : undefined}
                       onClickQuickView={this.onClickQuickView}
                     />
                   </div>
