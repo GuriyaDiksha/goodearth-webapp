@@ -169,6 +169,16 @@ class Checkout extends React.Component<Props, State> {
         loyaltyData: loyalty
       });
     });
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.display = "none";
+      scrollToTopButtonElem.style.bottom = "65px";
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.display = "none";
+      chatButtonElem.style.bottom = "10px";
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {

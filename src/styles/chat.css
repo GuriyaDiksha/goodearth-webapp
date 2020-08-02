@@ -102,3 +102,20 @@
     vertical-align: sub;
     line-height: 2.2;
   }
+
+  .icon_uparrow-black{
+    font-family: "goodearth";
+    display: inline-block;
+    line-height: 1;
+    font-weight: normal;
+    font-style: normal;
+    speak: none;
+    text-decoration: inherit;
+    text-transform: none;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-size: 22px;
+  }
+  .icon_uparrow-black::after{
+    content:"\f115";
+  }
