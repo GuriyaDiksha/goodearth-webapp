@@ -26,6 +26,7 @@ import MobileSlider from "../../components/MobileSlider";
 import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.png";
+import LazyImage from "components/LazyImage";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -390,7 +391,8 @@ class PDPContainer extends React.Component<Props, State> {
       images?.map(({ id, productImage }, i: number) => {
         return (
           <div key={id} className={globalStyles.relative}>
-            <img
+            <LazyImage
+              aspectRatio="62:93"
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
             />

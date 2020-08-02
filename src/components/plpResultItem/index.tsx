@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { PLPResultItemProps } from "./typings";
+import { PLPResultItemProps } from "./typings.d";
 import styles from "./styles.scss";
 import { Currency, currencyCode } from "../../typings/currency";
 import cs from "classnames";
@@ -9,11 +9,12 @@ import { PartialChildProductAttributes } from "src/typings/product";
 import noPlpImage from "images/noimageplp.png";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "styles/global.scss";
+import LazyImage from "components/LazyImage";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
-  const { product, currency, onClickQuickView, mobile } = props;
+  const { product, currency, onClickQuickView, mobile, isVisible } = props;
   const code = currencyCode[currency as Currency];
   const [primaryimage, setPrimaryimage] = useState(true);
 
@@ -62,9 +63,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
         <Link to={product.url} onMouseEnter={onMouseEnter}>
-          <img
+          <LazyImage
+            aspectRatio="62:93"
             src={image}
             className={styles.imageResultnew}
+            isVisible={isVisible}
             onError={(e: any) => {
               e.target.onerror = null;
               e.target.src = noPlpImage;
