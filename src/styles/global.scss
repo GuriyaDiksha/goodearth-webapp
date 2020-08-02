@@ -165,6 +165,11 @@ font-weight: bold;
   &:hover {
     color: #fff;
   }
+  &.disabled-btn {
+    background-color: tint(#000, 95%);
+    color: tint(#000, 50%);
+    cursor: default;
+  }
   a {
     font-weight: normal;
     color: #fff;
@@ -330,7 +335,7 @@ font-weight: bold;
   margin: 2px 10px 0 0;
   color: $cerise;
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 .c10-l-r{

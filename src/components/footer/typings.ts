@@ -18,6 +18,7 @@ export type FooterState = {
   newsletterEmail: string;
   newsletterMessage: string;
   showCookie: boolean;
+  isInViewport: boolean;
 };
 
 export type ShopLocations = { label: string; value: string }[];

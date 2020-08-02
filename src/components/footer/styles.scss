@@ -3,14 +3,20 @@
 
 .footer-top {
   background-size: cover;
-  background: url('../../images/footerBgTopDec.jpg') repeat-x;
   text-align: center;
 }
 
+.footer-top-background {
+  background: url('../../images/footerBgTopDec.jpg') repeat-x;
+}
+
 .footer {
-  background-image: url('../../images/footerBgDec.jpg');
   height: 600px;
   background-size: contain;
+}
+
+.footer-background {
+  background-image: url('../../images/footerBgDec.jpg');
 }
 
 .footer-icon{
@@ -97,7 +103,7 @@ position: fixed;
     z-index: 100;
     padding: 20px 35px;
     text-align: center;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     margin: 20px;
     border: 1px solid #b3b3b3;
     .close-popup{
@@ -107,7 +113,7 @@ position: fixed;
     }
     h3 {
       font-size: 11px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     color: #333;
     line-height: 50px;
     text-transform: capitalize;

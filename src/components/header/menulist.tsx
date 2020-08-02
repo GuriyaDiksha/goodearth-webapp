@@ -178,7 +178,7 @@ class MenuList extends React.Component<MenuListProps> {
       );
     });
 
-    bigimage
+    bigimage && this.props.show
       ? html.push(
           <ul
             className={cs(
@@ -205,12 +205,13 @@ class MenuList extends React.Component<MenuListProps> {
           </ul>
         )
       : "";
-    imageurl.categoryLogoImage
+    imageurl.categoryLogoImage && this.props.show
       ? html.push(
           <div className={styles.innerLogo}>
             <img
               src={imageurl.categoryLogoImage}
               className={styles.imgResponsive}
+              data-test="true"
             />
           </div>
         )

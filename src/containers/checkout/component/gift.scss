@@ -3,7 +3,7 @@
 
 .form-heading {
   font-size: 25px;
-  font-family: "Baskerville","Amiri","Serif";
+  font-family: $font-Serif;
   line-height: 50px;
   margin-top: 30px;
 }
@@ -314,7 +314,7 @@
   margin: 2px 10px 0 0;
   color: $cerise;
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 .input-container {
@@ -344,7 +344,7 @@
   font-style: italic;
   color: #ab1e56 !important;
   font-weight: bold;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
   text-align: left;
   height: 15px;

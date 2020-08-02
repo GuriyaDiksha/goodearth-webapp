@@ -38,6 +38,7 @@ export default class OtpBox extends Component<otpBoxProps, { otp: string }> {
       <div className={cs(style.redeemOtp, globalStyles.voffset4)}>
         <input
           name="otp"
+          autoComplete="off"
           ref={this.otpInput}
           value={this.state.otp}
           type="text"

@@ -3,6 +3,8 @@ import { HeaderData } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 // services
 import CacheService from "services/cache";
+import { Dispatch } from "redux";
+import API from "utils/api";
 
 export default {
   fetchHeaderDetails: async (): Promise<HeaderData[]> => {
@@ -40,5 +42,15 @@ export default {
     CacheService.set("footerData", footerData);
 
     return footerData;
+  },
+  makeNewsletterSignupRequest: async (dispatch: Dispatch, email: string) => {
+    const res = await API.post<{ status: boolean; message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/newsletter/signup/`,
+      {
+        email
+      }
+    );
+    return res;
   }
 };

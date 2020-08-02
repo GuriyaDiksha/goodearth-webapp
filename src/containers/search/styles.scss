@@ -34,7 +34,7 @@
 .filter-text{
     line-height: 33px;
     font-size: 14px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     letter-spacing: 1px;
     color: #ab1e56;
     text-transform: uppercase;
@@ -65,12 +65,12 @@
     margin: 100px 0 0 0;
     h1{
         font-size: 28px;
-        font-family: "Baskerville","Amiri","Serif";
+        font-family: $font-Serif;
         text-transform: capitalize;
     }
     p {
         font-size: 12px;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         color: #666;
         letter-spacing: 1px;
     }

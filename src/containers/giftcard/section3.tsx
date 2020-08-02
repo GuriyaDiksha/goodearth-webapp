@@ -52,9 +52,9 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
     // setEhighlight(true);
     // return false;
     // }
-    data["email"] = recipientEmail;
-    data["email1"] = recipientEmailConfirm;
-    data["firtName"] = recipientName;
+    data["recipientEmail"] = recipientEmail;
+    data["recipientEmailConfirm"] = recipientEmailConfirm;
+    data["recipientName"] = recipientName;
     data["senderName"] = senderName;
     data["message"] = message;
     next(data, "preview");
@@ -75,7 +75,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
   return (
     <div className={bootstrapStyles.row}>
       <section className={cs(globalStyles.paddTop60, styles.gc)}>
-        <div className={cs(bootstrapStyles.row)}>
+        <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
             className={cs(
               bootstrapStyles.col10,
@@ -117,6 +117,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     name="recipientName"
                     placeholder={"Recipient's Name"}
                     label={"Name"}
+                    value={data["recipientName"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
                     required
@@ -127,6 +128,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     name="recipientEmail"
                     placeholder={"Recipient's Email"}
                     label={"Email"}
+                    value={data["recipientEmail"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     validations={{
@@ -148,6 +150,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     label={"Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
+                    value={data["recipientEmail"]}
                     isDrop={true}
                     isPaste={true}
                     validations={{
@@ -169,6 +172,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     placeholder=""
                     name="message"
                     rows={5}
+                    value={data["message"]}
                     id="sender_msg"
                     handleChange={e => {
                       setTextarea(e.currentTarget.value);
@@ -193,6 +197,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     name="senderName"
                     placeholder={"Sender's Name"}
                     label={"Sender's Name"}
+                    value={data["senderName"]}
                     // className={showFieldsClass}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}

@@ -6,7 +6,7 @@
 
     h2 {
         font-size: 30px;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         color: $lgtDefault;
         line-height: 60px;
         text-transform: capitalize;
@@ -84,7 +84,7 @@
 
 .accordion-text {
     width: 90%;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     font-weight: 300;
     font-size: 13px;
     color: #4d4d4d;
