@@ -277,13 +277,11 @@ const StaticPage: React.FC<Props> = props => {
                     const Component = component;
                     return (
                       <Route key={label} exact path={href}>
-                        {/* <ScrollToId> */}
                         <Component
                           setCurrentSection={() => setCurrentSection(title)}
                           mobile={mobile}
                           currentCallBackComponent={currentCallBackComponent}
                         />
-                        {/* </ScrollToId> */}
                       </Route>
                     );
                   }
