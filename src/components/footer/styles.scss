@@ -35,6 +35,7 @@
     }
   }
   input {
+    font-size: 14px;
     width: 100%;
     outline: none;
     background-color: tint(#000, 90%);
@@ -236,6 +237,14 @@ position: fixed;
   }
 }
 
+input {
+  @include placeholder() {
+    font-family: $font-Lato;
+    font-style: italic;
+    font-size: 14px;
+  }
+}
+
 @media screen and (min-width: 992px) {
   .main-menu {
     li {
@@ -258,12 +267,6 @@ position: fixed;
     .cursor-pointer {
       &:hover {
         color: $cerise;
-      }
-    }
-    input {
-      @include placeholder() {
-        font-family: $font-Lato;
-        font-style: italic;
       }
     }
   }

@@ -508,8 +508,8 @@ class Footer extends React.Component<Props, FooterState> {
                             {this.props.data.footerPlaylistData.ctaText}
                           </div>
                           <div className={cs(styles.textCenter)}>
-                            <Link
-                              to={this.props.data.footerPlaylistData.ctaUrl}
+                            <a
+                              href={this.props.data.footerPlaylistData.ctaUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -520,7 +520,7 @@ class Footer extends React.Component<Props, FooterState> {
                                 }
                                 className={cs(globalStyles.width250)}
                               />{" "}
-                            </Link>
+                            </a>
                           </div>
                         </div>
                       )}

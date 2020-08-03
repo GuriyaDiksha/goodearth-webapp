@@ -143,7 +143,7 @@ class CheckBalance extends React.Component<Props, State> {
 
                       <div className={styles.rtc}>
                         <Link
-                          to="https://www.goodearth.in/customer-assistance/terms-conditions"
+                          to="/customer-assistance/terms-conditions"
                           className={globalStyles.cerise}
                           target="_blank"
                         >

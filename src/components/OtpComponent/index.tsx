@@ -461,7 +461,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             <div className={globalStyles.voffset4}>
               <input
                 type="button"
-                disabled={!(this.state.otp.length == 6)}
+                disabled={!this.state.updateStatus}
                 className={
                   !this.state.updateStatus
                     ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
