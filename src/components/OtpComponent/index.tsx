@@ -26,7 +26,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       showerrorOtp: "",
       showError: "",
       otp: "",
-      toggleOtp: false
+      toggleOtp: false,
+      isLoading: false
     };
   }
   timerId: any = 0;

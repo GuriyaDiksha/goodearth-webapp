@@ -122,7 +122,9 @@ const Section4: React.FC<Section4Props> = props => {
                       value={subscribe || false}
                       name="subscribe"
                       disable={false}
-                      handleChange={(event: ChangeEvent<HTMLInputElement>) => {
+                      handleChange={(
+                        event: ChangeEvent<HTMLInputElement>
+                      ): void => {
                         const checked = event.currentTarget.checked;
                         if (checked) {
                           setNummsg("");

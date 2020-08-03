@@ -52,6 +52,7 @@ export type PaymentProps = {
   user: any;
   currency: Currency;
   checkout: (data: any) => any;
+  loyaltyData: any;
 };
 
 export type BalanceProps = {
@@ -92,4 +93,16 @@ export type GiftState = {
   newCardBox: boolean;
   toggleOtp: boolean;
   isActivated: boolean;
+};
+
+export type RedeemState = {
+  txtvalue: number | string;
+  error: string;
+  newCardBox: boolean;
+  toggleOtp: boolean;
+  isActivated: boolean;
+};
+
+export type ReddemProps = {
+  loyaltyData: any;
 };

@@ -83,6 +83,8 @@ html(lang='en')
     body
         div(id='main', class='main') !{content}
         div !{scripts}
+        div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
+          i(class='icon icon_uparrow-black icon-style scrollToTop-arrow')
         div(id='chat-button', onclick='OpenChatBox()', class='chat-button')
           i(class='icon-question')
     //- <script type='text/javascript'>

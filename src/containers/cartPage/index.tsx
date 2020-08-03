@@ -23,6 +23,19 @@ class CartPage extends React.Component<
   Props,
   { catLanding: boolean; show: boolean; showbottom: boolean; isSale: boolean }
 > {
+  componentDidMount() {
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.display = "none";
+      scrollToTopButtonElem.style.bottom = "65px";
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.display = "none";
+      chatButtonElem.style.bottom = "10px";
+    }
+  }
+
   hasOutOfStockItems = () => {
     const items = this.props.cart.lineItems;
     if (items) {

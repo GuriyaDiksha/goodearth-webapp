@@ -10,6 +10,7 @@ import "../../styles/myslick.css";
 import "./slick.css";
 import { MoreCollectionSliderProps, MoreCollectionItem } from "./typings";
 import Slider from "react-slick";
+import LazyImage from "components/LazyImage";
 
 const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
   props: MoreCollectionSliderProps
@@ -31,21 +32,19 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
             {(data as MoreCollectionItem[])?.map(
               (item: MoreCollectionItem, i: number) => {
                 return (
-                  <div key={item.id}>
+                  <div key={item.id} className={styles.slide}>
                     {item.badgeImage ? (
-                      <div className="badge_position_plp">
+                      <div className={styles.saleBanner}>
                         <img src={item.badgeImage} />
                       </div>
                     ) : (
                       ""
                     )}
-                    <Link to={item.url}>
-                      <img
+                    <Link to={item.url} className={styles.link}>
+                      <LazyImage
+                        aspectRatio="62:93"
                         src={item.image || "/static/img/noimageplp.png"}
-                        className={cs(
-                          globalStyles.imgResponsive,
-                          styles.sliderImage
-                        )}
+                        className={cs(globalStyles.imgResponsive)}
                       />
                     </Link>
                     <div className={styles.moreBlock}>

@@ -65,3 +65,57 @@
   #lc_chat_layout #lc_chat_header {
     background-color: #c73671 !important;
   }
+
+  /******************  Scroll To Top  *******************/
+.scrollToTop-btn {
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    opacity: 0.8;
+    color: white;
+    background-size: cover;
+    line-height: 2.2;
+    text-align: center;
+    cursor: pointer;
+    position: fixed;
+    bottom: 130px;
+    right: 12px;
+    z-index: 9;
+    -webkit-transition: opacity 0.4s ease-in;
+    -moz-transition: opacity 0.4s ease-in;
+    -o-transition: opacity 0.4s ease-in;
+    transition: opacity 0.4s ease-in;
+    -webkit-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 0px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 0px rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 0px rgba(255, 255, 255, 0.5);
+  }
+  .scrollToTop-btn-hidden {
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+  }
+  
+  .scrollToTop-arrow {
+    font-size: 15px;
+    font-weight: bold;
+    padding-right: 3px;
+    vertical-align: sub;
+    line-height: 2.2;
+  }
+
+  .icon_uparrow-black{
+    font-family: "goodearth";
+    display: inline-block;
+    line-height: 1;
+    font-weight: normal;
+    font-style: normal;
+    speak: none;
+    text-decoration: inherit;
+    text-transform: none;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-size: 22px;
+  }
+  .icon_uparrow-black::after{
+    content:"\f115";
+  }

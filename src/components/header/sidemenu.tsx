@@ -9,18 +9,13 @@ import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
-import LoginService from "services/login";
 import { Basket } from "typings/basket";
-import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { AppState } from "reducers/typings";
-import { Cookies } from "typings/cookies";
-import MetaService from "services/meta";
-import BasketService from "services/basket";
-import { showMessage } from "actions/growlMessage";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import mapDispatchToProps from "./mapper/actions";
+
 const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
@@ -35,26 +30,6 @@ interface State {
 const mapStateToProps = (state: AppState) => {
   return {
     cookies: state.cookies
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    goLogin: (event: React.MouseEvent) => {
-      LoginService.showLogin(dispatch);
-      event.preventDefault();
-    },
-    handleLogOut: () => {
-      LoginService.logout(dispatch);
-    },
-    changeCurrency: async (data: FormData) => {
-      const response = await LoginService.changeCurrency(dispatch, data);
-      return response;
-    },
-    reloadPage: (cookies: Cookies) => {
-      MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
-    }
   };
 };
 
@@ -128,7 +103,7 @@ class SideMenu extends React.Component<Props, State> {
     profileItems.push(
       {
         label: "Track Order",
-        href: "/about",
+        href: "/account/track-order",
         type: "link"
       },
       {
@@ -145,7 +120,7 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Cerise Program",
-        href: "/about",
+        href: "/account/cerise",
         type: "link",
         value: "Cerise Program"
       },
