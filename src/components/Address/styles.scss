@@ -54,6 +54,13 @@
     padding: 35px 25px 55px 25px;
     flex-grow: 1;
     border: none;
+    .address-edit {
+      opacity: .25;
+      cursor: default;
+    }
+    .shipping-border {
+      border: 2px solid #8cb8aa;
+    }
     .ship-to-this-btn {
       position: absolute;
       bottom: 0;
@@ -322,18 +329,8 @@
     color: #333333;
   }
 }
-    
-  
-  .address-edit {
-    opacity: .25;
-    cursor: default;
-  }
 
-  .shipping-border {
-    border: 2px solid #8cb8aa;
-  }
-
-  .address-list-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
+.address-list-container {
+  display: flex;
+  flex-wrap: wrap;
+}

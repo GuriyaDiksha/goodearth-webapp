@@ -16,6 +16,7 @@ export type otpState = {
 };
 
 export type otpProps = {
+  toggleReset?: boolean;
   txtvalue: string;
   sendOtp: (data: any) => any;
   toggleOtp: (data: boolean) => void;

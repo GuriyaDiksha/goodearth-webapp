@@ -51,6 +51,10 @@ const AddressMain: React.FC<Props> = props => {
   }, [isLoggedIn]);
   const [mode, setMode] = useState<AddressModes>("list");
 
+  useEffect(() => {
+    addressList.length == 0 ? setMode("new") : setMode("list");
+  }, [addressList.length]);
+
   // useEffect(() => {
   //   (addressList.length) && openAddressForm()
   // },[props.addresses])

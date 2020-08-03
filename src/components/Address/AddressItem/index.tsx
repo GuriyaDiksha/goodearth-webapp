@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -41,6 +41,20 @@ const AddressItem: React.FC<Props> = props => {
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
+  const [deleteError, setDeleteError] = useState("");
+  const address = props.addressData;
+  const deleteAddress = () => {
+    setIsLoading(true);
+    AddressService.deleteAddress(dispatch, address.id)
+      .catch(err => {
+        const error = err.response.data;
+
+        if (typeof error == "string") {
+          setDeleteError(error);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   // deleteAddress(id) {
   //     props.setLoadingStatus(true);
@@ -118,7 +132,6 @@ const AddressItem: React.FC<Props> = props => {
   //     }
   // }
 
-  const address = props.addressData;
   const { shippingData } = useSelector((state: AppState) => state.user);
   const i = props.index;
   const id = `default_check_${i}`;
@@ -267,16 +280,7 @@ const AddressItem: React.FC<Props> = props => {
               <span className={styles.separator}>|</span>
             )}
             {!(address.isBridal || props.isOnlyAddress || address.isEdit) && (
-              <span
-                className={styles.action}
-                onClick={() => {
-                  setIsLoading(true);
-                  AddressService.deleteAddress(
-                    dispatch,
-                    address.id
-                  ).finally(() => setIsLoading(false));
-                }}
-              >
+              <span className={styles.action} onClick={deleteAddress}>
                 DELETE
               </span>
             )}
@@ -322,11 +326,14 @@ const AddressItem: React.FC<Props> = props => {
           )}
         </div>
       </div>
-      {props.shippingErrorMsg && address.id == props.addressDataIdError && (
+      {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
       )}
       {props.billingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.billingErrorMsg}</div>
+      )} */}
+      {deleteError && (
+        <div className={globalStyles.errorMsg}>{deleteError}</div>
       )}
     </div>
   );
