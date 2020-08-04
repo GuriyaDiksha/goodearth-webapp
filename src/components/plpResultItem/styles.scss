@@ -144,3 +144,19 @@
         }
     }
 }
+.outstock {
+    background: url('../../images/outofstock-cta.svg') no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #ab1e56;
+    font-family: "HeaderFont","Trebuchet MS","geneva";
+    letter-spacing: 1px;
+    opacity: .8;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    line-height: 40px;
+}

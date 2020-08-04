@@ -244,6 +244,7 @@ class PDPContainer extends React.Component<Props, State> {
       <ProductDetails
         corporatePDP={corporatePDP}
         data={data}
+        key={data.sku}
         currency={currency}
         mobile={mobile}
         wishlist={[]}

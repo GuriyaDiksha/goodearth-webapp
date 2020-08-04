@@ -391,7 +391,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               globalStyles.gutterBetween,
               globalStyles.marginT20
             )}
-            key={index}
+            key={index + "getDiscount"}
           >
             <span className={styles.subtotal}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}

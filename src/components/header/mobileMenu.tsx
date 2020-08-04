@@ -88,7 +88,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
         data.name.toLowerCase().indexOf("sale") > -1 ? styles.menucolor : "";
       html.push(
         data.url && data.children.length == 0 ? (
-          <li key={j} onClick={this.props.clickToggle}>
+          <li key={j + "leftData"} onClick={this.props.clickToggle}>
             <Link to={data.url}>
               <span
                 dangerouslySetInnerHTML={{
@@ -127,7 +127,10 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                   )}
                   {data.children.map((innerdata, i) => {
                     return (
-                      <li key={i} onClick={this.props.clickToggle}>
+                      <li
+                        key={i + "mobileChildren"}
+                        onClick={this.props.clickToggle}
+                      >
                         <Link
                           to={innerdata.url}
                           className={
@@ -171,7 +174,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
           data.name.toLowerCase().indexOf("sale") > -1 ? styles.menucolor : "";
         html.push(
           data.url && data.children.length == 0 ? (
-            <li key={j} onClick={this.props.clickToggle}>
+            <li key={data.id} onClick={this.props.clickToggle}>
               <Link to={data.url}>
                 <span
                   dangerouslySetInnerHTML={{
@@ -181,7 +184,7 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
               </Link>
             </li>
           ) : (
-            <li key={j}>
+            <li key={data.id}>
               <span
                 className={spanClass}
                 onClick={this.Clickmenulevel2.bind(this, k)}
@@ -210,7 +213,10 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                     )}
                     {data.children.map((innerdata, i) => {
                       return (
-                        <li key={i} onClick={this.props.clickToggle}>
+                        <li
+                          key={i + "data-children"}
+                          onClick={this.props.clickToggle}
+                        >
                           <Link
                             to={innerdata.url}
                             className={

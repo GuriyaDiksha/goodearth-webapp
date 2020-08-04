@@ -47,6 +47,8 @@ const PlpDropdownMenu = ({
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.value);
     setOpenState(false);
+    setShowmobileSort(false);
+    setShowmobileFilterList(false);
     onChange(data.value);
   };
   return (
