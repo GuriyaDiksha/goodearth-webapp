@@ -21,7 +21,10 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const onMouseEnter = (): void => {
     setPrimaryimage(false);
   };
-
+  const attribute: any = product.childAttributes || [];
+  const totalStock = attribute.reduce(function(total: any, num: any) {
+    return total + +num.stock;
+  }, 0);
   const onMouseLeave = (): void => {
     setPrimaryimage(true);
   };
@@ -74,6 +77,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             }}
           />
         </Link>
+        <div
+          className={cs(totalStock > 0 ? globalStyles.hidden : styles.outstock)}
+        >
+          <Link to={product.url}> NOTIFY ME</Link>
+        </div>
         {!mobile && (
           <div className={styles.combodiv}>
             <div className={styles.imageHover}>

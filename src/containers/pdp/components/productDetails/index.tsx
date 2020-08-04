@@ -408,7 +408,8 @@ const ProductDetails: React.FC<Props> = ({
               </div>
               <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
                 <Quantity
-                  id={selectedSize ? selectedSize.id : undefined}
+                  key={selectedSize?.sku}
+                  id={selectedSize?.id}
                   minValue={minQuantity}
                   maxValue={maxQuantity}
                   currentValue={quantity}

@@ -121,7 +121,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                       bootstrap.col12,
                       "collection-item"
                     )}
-                    key={i}
+                    key={i + "collection-item"}
                   >
                     <CollectionImage
                       data={data}

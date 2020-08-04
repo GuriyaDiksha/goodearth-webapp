@@ -35,7 +35,7 @@ class CollectionSpecific extends React.Component<Props, {}> {
       collectionIds
     } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={collectionIds} />,
+      <Quickview id={id} productListId={collectionIds} key={id} />,
       true
     );
     changeModalState(true);
@@ -123,13 +123,13 @@ class CollectionSpecific extends React.Component<Props, {}> {
               return (
                 <div
                   className={cs(bootstrap.colMd4, bootstrap.col6)}
-                  key={data.id}
+                  key={data.id + "plpDiv"}
                 >
                   <PlpResultItem
                     product={data}
                     addedToWishlist={false}
                     currency={this.props.currency}
-                    key={data.id}
+                    key={data.id + "plpitem"}
                     mobile={mobile}
                     onClickQuickView={this.onClickQuickView}
                   />
