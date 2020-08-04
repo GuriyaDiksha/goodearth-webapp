@@ -1523,7 +1523,7 @@ const AddressForm: React.FC<Props> = props => {
             )}
             onClick={closeAddressForm}
           >
-            &lt; back
+            &lt; back to saved addresses
           </span>
         </div>
       )}

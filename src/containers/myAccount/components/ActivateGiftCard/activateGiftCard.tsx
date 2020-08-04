@@ -32,7 +32,8 @@ class Giftcard extends React.Component<Props, GiftState> {
       newCardBox: true,
       giftList: [],
       showOTPValidationScreen: false,
-      isSuccess: false
+      isSuccess: false,
+      toggleResetOtpComponent: false
     };
   }
   ActivateGCForm = React.createRef<Formsy>();
@@ -100,11 +101,14 @@ class Giftcard extends React.Component<Props, GiftState> {
 
   newGiftcard = () => {
     // implement page refresh here
+    this.setState(prevState => {
+      return {
+        toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
+        newCardBox: true,
+        isSuccess: false
+      };
+    });
     // this.props.history.push(this.props.history.location.pathname, {});
-    // this.setState({
-    //   newCardBox: true,
-    //   isSuccess: false,
-    // });
   };
   onClose = (code: string) => {
     let { giftList } = this.state;
@@ -261,6 +265,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           </Formsy>
         )}
         <OtpComponent
+          toggleReset={this.state.toggleResetOtpComponent}
           updateError={this.updateError}
           txtvalue={txtvalue}
           firstName={firstName}
