@@ -113,11 +113,12 @@ export default {
     return res;
   },
   changeCurrency: async function(dispatch: Dispatch, formData: FormData) {
-    const res = await API.post<registerResponse>(
+    const res: any = await API.post<registerResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
       formData
     );
+    CookieService.setCookie("currency", res.currency, 365);
     return res;
   },
   fetchCountryData: (dispatch: Dispatch) => {
