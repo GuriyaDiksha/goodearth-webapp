@@ -47,7 +47,7 @@ const ReadNext: React.FC<Props> = props => {
             </span>
           </div>
           <div className={styles.para}>{str}</div>
-          <div className={globalStyles.cursorPointer}>
+          <div className={globalStyles.pointer}>
             <a onClick={props.readMore}>read more</a>
           </div>
           <div className={styles.cLogo}>

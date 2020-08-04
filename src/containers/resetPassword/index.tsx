@@ -65,9 +65,10 @@ const ResetPassword: React.FC<Props> = props => {
           CookieService.setCookie("bridalCurrency", bridalCurrency);
         dispatch(showMessage("You have been logged out of all sessions."));
         let counter = 5;
-        setInterval(function() {
+        const timer = setInterval(function() {
           if (counter < 0) {
-            history.push(data.redirect || "/");
+            history.push(data.redirectTo || "/");
+            clearInterval(timer);
           } else {
             setErrorMessage(
               data.message + " This page will redirect in " + counter + " sec."

@@ -313,7 +313,7 @@ class Checkout extends React.Component<Props, State> {
       this.props
         .specifyShippingAddress(address.id, address, this.props.user)
         .then(data => {
-          const isGoodearthShipping = address.isEdit ? address.isEdit : false;
+          const isGoodearthShipping = address.isTulsi ? address.isTulsi : false;
           this.setState({ isGoodearthShipping });
 
           this.setState({
