@@ -22,6 +22,7 @@ import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
 import { AppState } from "reducers/typings";
 import ActivateGiftCard from "./components/ActivateGiftCard";
+import TrackOrder from "./components/TrackOrder";
 
 type Props = {
   isBridal: boolean;
@@ -53,82 +54,6 @@ const MyAccount: React.FC<Props> = props => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-  // this.state = {
-  //     showregistry: location.search.split('=')[1] == 'bridal' ? true : false,
-  //     isCeriseClubMember: false
-  // }
-
-  // const setSelectedSection = () => {
-
-  //     switch (currentSection) {
-  //         case 'profile':
-  //             return <MyProfile/>
-  //             break;
-  //         case 'password':
-  //             return <ChangePassword/>
-  //             break;
-  //         case 'address':
-  //             return <ManageAddress isCeriseClubMember={this.state.isCeriseClubMember} isbridal={this.props.isbridal} currentCallBackComponent="account" id={bridalId}/>
-  //             break;
-  //         case 'orders':
-  //             return <PastOrders setAccountPage={this.setAccountPage}/>
-  //             break;
-  //         case 'track':
-  //             return <Tracking setAccountPage={this.setAccountPage}/>
-  //             break;
-  //         case 'bridal':
-  //             return <MainBridal id={bridalId} mobile={mobile}/>
-  //             break;
-  //         case 'checkbalance':
-  //             return <CheckBalance />
-  //             break;
-  //         case 'agc':
-  //             return <Activate />
-  //             break;
-  //         case 'cerise':
-  //             return <CeriseClubMain mobile={mobile}/>
-  //             break;
-  //         default:
-
-  //     }
-  // }
-
-  // const getLoyaltyTransactions = () => {
-  //     const formData = new FormData();
-  //     formData.append("email", window.user.email);
-  //     formData.append("phoneno", "");
-  //     axios.post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
-  //     .then(res => {
-  //         if (res.data.is_success) {
-  //             let isCeriseClubMember = res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
-  //             this.setState({
-  //                 slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
-  //                 isCeriseClubMember: isCeriseClubMember
-  //             }, () => {
-  //                 const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
-  //                 this.props.updateCeriseClubAccess(slab);
-  //             })
-  //         }
-  //     })
-  //     .catch(err => {
-  //         console.log(err);
-  //     });
-  // }
-
-  // const showRegistry = () => {
-  //     this.setState({
-  //         showregistry: !this.state.showregistry
-  //     })
-  // }
-
-  // componentDidMount() {
-  //     this.getLoyaltyTransactions();
-  // }
-
-  // let ceriseClubAccess;
-  // if (slab) {
-  //     ceriseClubAccess = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10" || slab.toLowerCase() == "ff15" || slab.toLowerCase() == "cerise sitara";
-  // }
 
   const accountMenuItems: AccountMenuItem[] = [
     {
@@ -163,7 +88,7 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "Track Order",
       href: "/account/track-order",
-      component: () => <div>Track Order</div>,
+      component: TrackOrder,
       title: "track",
       loggedInOnly: false
     },

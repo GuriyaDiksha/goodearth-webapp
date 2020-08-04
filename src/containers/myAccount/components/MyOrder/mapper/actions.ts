@@ -5,6 +5,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     fetchMyOrders: (data: FormData) => {
       return AccountService.fetchMyOrders(dispatch);
+    },
+    fetchOrderBy: (order: string, email: string) => {
+      return AccountService.fetchOrderBy(dispatch, order, email);
     }
   };
 };
