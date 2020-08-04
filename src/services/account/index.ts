@@ -4,6 +4,12 @@ import { ProfileResponse } from "containers/myAccount/components/MyProfile/typin
 import { MyOrdersResponse } from "containers/myAccount/components/MyOrder/typings";
 import { BalanceProps } from "containers/myAccount/components/Balance/typings";
 import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
+import CookieService from "services/cookie";
+import { updateCookies } from "actions/cookies";
+import { updateUser } from "actions/user";
+import MetaService from "services/meta";
+import WishlistService from "services/wishlist";
+import BasketService from "services/basket";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -111,6 +117,14 @@ export default {
       `${__API_HOST__}/myapi/auth/confirm_reset_password/`,
       formData
     );
+    CookieService.setCookie("atkn", data.token, 365);
+    // CookieService.setCookie("userId", data.userId, 365);
+    // CookieService.setCookie("email", data.email, 365);
+    dispatch(updateCookies({ tkn: data.token }));
+    dispatch(updateUser({ isLoggedIn: true }));
+    MetaService.updateMeta(dispatch, { tkn: data.token });
+    WishlistService.updateWishlist(dispatch);
+    BasketService.fetchBasket(dispatch);
     return data;
   },
   activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
