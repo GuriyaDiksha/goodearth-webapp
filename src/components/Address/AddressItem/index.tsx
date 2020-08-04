@@ -181,14 +181,14 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing"
             },
-            { [styles.shippingBorder]: address.isEdit },
+            { [styles.shippingBorder]: address.isTulsi },
             {
               [styles.addressInUse]:
                 props.showAddressInBridalUse && address.isBridal
             }
           )}
         >
-          {!address.isEdit && (
+          {!address.isTulsi && (
             <div className={styles.defaultContainer}>
               <div className={styles.defaultAddressDiv}>
                 {address.isDefaultForShipping && (
@@ -262,7 +262,7 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal"
             })}
           >
-            {!address.isEdit && (
+            {!address.isTulsi && (
               <span
                 className={cs(styles.action, {
                   [styles.addressEdit]: billingEditDisable
@@ -276,10 +276,10 @@ const AddressItem: React.FC<Props> = props => {
                 EDIT
               </span>
             )}
-            {!(address.isBridal || props.isOnlyAddress || address.isEdit) && (
+            {!(address.isBridal || props.isOnlyAddress || address.isTulsi) && (
               <span className={styles.separator}>|</span>
             )}
-            {!(address.isBridal || props.isOnlyAddress || address.isEdit) && (
+            {!(address.isBridal || props.isOnlyAddress || address.isTulsi) && (
               <span className={styles.action} onClick={deleteAddress}>
                 DELETE
               </span>
@@ -288,24 +288,16 @@ const AddressItem: React.FC<Props> = props => {
           {currentCallBackComponent !== "account" &&
             currentCallBackComponent !== "bridal" && (
               <div
-                className={cs(
-                  globalStyles.ceriseBtn,
-                  globalStyles.cursorPointer,
-                  styles.shipToThisBtn
-                )}
+                className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
                 onClick={() => onSelectAddress(address)}
               >
                 {activeStep == Steps.STEP_SHIPPING ? "SHIP" : "BILL"}
-                &nbsp;TO THIS ADDRESS {address.isEdit ? "(FREE)" : ""}
+                &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}
               </div>
             )}
           {currentCallBackComponent == "bridal" && !address.isBridal && (
             <div
-              className={cs(
-                globalStyles.ceriseBtn,
-                globalStyles.cursorPointer,
-                styles.ç
-              )}
+              className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
               onClick={() => props.selectAddress(address)}
             >
               USE THIS ADDRESS
@@ -314,7 +306,6 @@ const AddressItem: React.FC<Props> = props => {
           {currentCallBackComponent == "bridal" && address.isBridal && (
             <div
               className={cs(
-                globalStyles.cursorPointer,
                 globalStyles.disabledBtn,
                 styles.shipToThisBtn,
                 styles.addressInUse

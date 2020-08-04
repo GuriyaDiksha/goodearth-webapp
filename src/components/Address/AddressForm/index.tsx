@@ -59,10 +59,12 @@ const AddressForm: React.FC<Props> = props => {
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
   const { currency } = useSelector((state: AppState) => state);
-  const { countryData, pinCodeData } = useSelector(
+  const { countryData, pinCodeData, addressList } = useSelector(
     (state: AppState) => state.address
   );
-  const { email } = useSelector((state: AppState) => state.user);
+  const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
+  const { mobile } = useSelector((state: AppState) => state.device);
+
   const AddressFormRef = useRef<Formsy>(null);
   // const StateRef = useRef<typeof FormSelect>(null);
   // state = {
@@ -1137,7 +1139,7 @@ const AddressForm: React.FC<Props> = props => {
       // setPostCode(postCode);
     }
   }, [addressData, countryOptions]);
-
+  const bridalUser = { userId: 0 };
   return (
     <div
       className={cs(
@@ -1512,31 +1514,44 @@ const AddressForm: React.FC<Props> = props => {
           </div>
         </div>
       </Formsy>
-      {/* {(((props.editMode || props.newAddressMode) && props.currentCallBackComponent ===  "account") || props.shouldShowBackButton) &&  */}
-      {true && (
-        <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
-          <span
+      {(currentCallBackComponent !== "checkout-billing" &&
+        currentCallBackComponent !== "checkout-shipping") ||
+        (mobile && (
+          <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
+            <span
+              className={cs(
+                styles.backBtn,
+                globalStyles.ointer,
+                styles.formSubheading
+              )}
+              onClick={closeAddressForm}
+            >
+              &lt; back
+            </span>
+          </div>
+        ))}
+      {isLoggedIn &&
+        !mobile &&
+        (currentCallBackComponent == "checkout-billing" ||
+          currentCallBackComponent == "checkout-shipping") && (
+          <div
             className={cs(
-              styles.backBtn,
-              globalStyles.cursorPointer,
-              styles.formSubheading
+              globalStyles.textRight,
+              styles.formSubheading,
+              styles.backAddressForm
             )}
-            onClick={closeAddressForm}
           >
-            &lt; back to saved addresses
-          </span>
-        </div>
-      )}
-      {/* {(props.isLoggedIn && (props.currentCallBackComponent == "checkout")) && */}
-      {/* { true &&
-                <div className={cs(globalStyles.textRight, styles.formSubheading, "hidden-xs", "hidden-sm", styles.backAddressForm)}>
-                    <div className={globalStyles.cursorPointer} onClick={handleBackClick}>
-                        {props.addresses ? ((props.addresses.filter(data => (!data.is_bridal && !data.is_edit)).length > 0  || bridal_user.user_id)
-                        ? "< BACK TO SAVED ADDRESSES" : "")
-                        : "< BACK TO SAVED ADDRESSES"}
-                        Back to Saved Addresses
-                    </div>
-                </div>} */}
+            <div className={globalStyles.pointer} onClick={closeAddressForm}>
+              {addressList
+                ? addressList.filter(data => !data.isBridal && !data.isTulsi)
+                    .length > 0 || bridalUser.userId
+                  ? "< BACK TO SAVED ADDRESSES"
+                  : ""
+                : "< BACK TO SAVED ADDRESSES"}
+              {/* Back to Saved Addresses */}
+            </div>
+          </div>
+        )}
     </div>
   );
 };
