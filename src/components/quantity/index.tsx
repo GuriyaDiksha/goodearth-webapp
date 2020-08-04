@@ -35,6 +35,7 @@ class Quantity extends React.Component<QuantityItem, State> {
               }
               if (value > props.minValue) {
                 props.onChange(value - 1);
+                this.setState({ showError: false });
               }
             }}
           >

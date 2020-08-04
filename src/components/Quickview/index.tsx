@@ -102,6 +102,7 @@ class Quickview extends React.Component<Props, State> {
 
     return (
       <ProductDetails
+        key={data.sku}
         data={data}
         currency={currency}
         mobile={mobile}

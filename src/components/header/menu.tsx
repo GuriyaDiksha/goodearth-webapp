@@ -51,7 +51,7 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
               : false;
           return (
             <li
-              key={i}
+              key={i + "header"}
               className={styles.menuItem}
               onMouseOver={(): void => {
                 this.props.ipad ? "" : this.mouseOver(i);

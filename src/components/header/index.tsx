@@ -253,7 +253,7 @@ class Header extends React.Component<Props, State> {
               if (announcement.url) {
                 return (
                   <div
-                    key={i}
+                    key={i + "msgtext"}
                     className={
                       messageText.length > 1
                         ? i == 0
@@ -270,7 +270,7 @@ class Header extends React.Component<Props, State> {
               } else {
                 return (
                   <div
-                    key={i}
+                    key={i + "msgtext"}
                     className={
                       messageText.length > 1
                         ? i == 0
