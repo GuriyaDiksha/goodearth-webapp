@@ -10,7 +10,12 @@ module.exports = function (grunt) {
                     font: "goodearth",
                     fontFilename: 'goodearth',
                     stylesheet: "scss",
-                    relativeFontPath: "../fonts"
+                    relativeFontPath: "../fonts",
+                    template: 'fontTemplate.css',
+                    templateOptions: {
+                        baseClass: "icon",
+	                    classPrefix: "icon_"
+                    }
                 }
             }
         }

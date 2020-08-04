@@ -72,6 +72,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter message";
       case "senderName":
         return "Please enter Sender's Name";
+      case "giftCardCode":
+        return "Please enter Gift Card Code";
       default:
         return "This field is required";
     }
@@ -97,7 +99,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         value={props.value || ""}
         placeholder={placeholder}
         onChange={e => handleChange(e)}
-        autoComplete="new-password"
+        autoComplete="off"
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}

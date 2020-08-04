@@ -16,7 +16,8 @@ const initialState: State = {
   shippingCharge: 0,
   total: 0,
   subTotal: 0,
-  giftCards: []
+  giftCards: [],
+  loyalty: []
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

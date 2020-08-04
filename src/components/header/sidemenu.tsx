@@ -9,18 +9,13 @@ import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
-import LoginService from "services/login";
 import { Basket } from "typings/basket";
-import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { AppState } from "reducers/typings";
-import { Cookies } from "typings/cookies";
-import MetaService from "services/meta";
-import BasketService from "services/basket";
-import { showMessage } from "actions/growlMessage";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import mapDispatchToProps from "./mapper/actions";
+
 const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
@@ -37,30 +32,11 @@ const mapStateToProps = (state: AppState) => {
     cookies: state.cookies
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    goLogin: (event: React.MouseEvent) => {
-      LoginService.showLogin(dispatch);
-      event.preventDefault();
-    },
-    handleLogOut: () => {
-      LoginService.logout(dispatch);
-    },
-    changeCurrency: async (data: FormData) => {
-      const response = await LoginService.changeCurrency(dispatch, data);
-      return response;
-    },
-    reloadPage: (cookies: Cookies) => {
-      MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
-    }
-  };
-};
 
 type Props = SideMenuProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class SideMenu extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -77,12 +53,18 @@ class SideMenu extends React.Component<Props, State> {
   static contextType = UserContext;
 
   changeCurrency = (cur: any) => {
-    const { changeCurrency, reloadPage } = this.props;
+    const { changeCurrency, reloadPage, history, currency } = this.props;
     const data: any = {
       currency: cur
     };
     if (this.props.currency != data) {
-      changeCurrency(data).then(response => {
+      changeCurrency(data).then((response: any) => {
+        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+          const path =
+            history.location.pathname +
+            history.location.search.replace(currency, response.currency);
+          history.replace(path);
+        }
         reloadPage(this.props.cookies);
       });
     }
@@ -121,7 +103,7 @@ class SideMenu extends React.Component<Props, State> {
     profileItems.push(
       {
         label: "Track Order",
-        href: "/about",
+        href: "/account/track-order",
         type: "link"
       },
       {
@@ -132,13 +114,13 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Activate Gift Card",
-        href: "/search/?q=kurta&currency=INR",
+        href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
       {
         label: "Cerise Program",
-        href: "/about",
+        href: "/account/cerise",
         type: "link",
         value: "Cerise Program"
       },
@@ -150,9 +132,8 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        href: "",
         onClick: isLoggedIn ? this.props.handleLogOut : this.props.goLogin,
-        type: "link",
+        type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
@@ -332,5 +313,5 @@ class SideMenu extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
+const SideMenuWithRouter = withRouter(SideMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenuWithRouter);

@@ -1,6 +1,11 @@
 import loadable from "@loadable/component";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  RouteComponentProps,
+  withRouter
+} from "react-router-dom";
 import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -15,20 +20,18 @@ import gelogoCerise from "../../images/gelogoCerise.svg";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import { State } from "./typings";
-import LoginService from "services/login";
-import { Dispatch } from "redux";
 import UserContext from "contexts/user";
+import mapDispatchToProps from "./mapper/actions";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
-import WishlistService from "services/wishlist";
-import BasketService from "services/basket";
-import MetaService from "services/meta";
-import { Cookies } from "typings/cookies";
+
+import ReactHtmlParser from "react-html-parser";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 
 const mapStateToProps = (state: AppState) => {
   return {
     data: state.header.data,
+    announcement: state.header.announcementData,
     currency: state.currency,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
@@ -41,25 +44,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    goLogin: (event: React.MouseEvent) => {
-      LoginService.showLogin(dispatch);
-      event.preventDefault();
-    },
-    handleLogOut: () => {
-      LoginService.logout(dispatch);
-    },
-    onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
-      basketcall && WishlistService.updateWishlist(dispatch);
-      MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
-    }
-  };
-};
-
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class Header extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -102,12 +89,30 @@ class Header extends React.Component<Props, State> {
     this.setState({ show: data.show });
   }
 
-  showCurrency() {
+  showCurrency = () => {
     this.setState({
       showC: !this.state.showC,
       showP: false
     });
-  }
+  };
+
+  changeCurrency = (cur: any) => {
+    const { changeCurrency, reloadPage, history, currency } = this.props;
+    const data: any = {
+      currency: cur
+    };
+    if (this.props.currency != data) {
+      changeCurrency(data).then((response: any) => {
+        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+          const path =
+            history.location.pathname +
+            history.location.search.replace(currency, response.currency);
+          history.replace(path);
+        }
+        reloadPage(this.props.cookies);
+      });
+    }
+  };
 
   clickToggle = () => {
     this.setState({
@@ -119,7 +124,15 @@ class Header extends React.Component<Props, State> {
 
   render() {
     const { isLoggedIn } = this.context;
-    const { message, wishlistData, meta, goLogin, handleLogOut } = this.props;
+    const {
+      message,
+      wishlistData,
+      meta,
+      goLogin,
+      handleLogOut,
+      announcement
+    } = this.props;
+    const messageText = announcement.message.split("|");
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
     const profileItems: DropdownItem[] = [];
@@ -139,7 +152,7 @@ class Header extends React.Component<Props, State> {
     profileItems.push(
       {
         label: "Track Order",
-        href: "/about",
+        href: "/account/track-order",
         type: "link"
       },
       {
@@ -150,27 +163,26 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Activate Gift Card",
-        href: "/about",
+        href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
       {
         label: "Cerise Program",
-        href: "/about",
+        href: "/account/cerise",
         type: "link",
         value: "Cerise Program"
       },
       {
         label: "Check Balance",
-        href: "/about",
+        href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        href: "",
         onClick: isLoggedIn ? handleLogOut : goLogin,
-        type: "link",
+        type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
@@ -233,9 +245,45 @@ class Header extends React.Component<Props, State> {
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
-          <div className={styles.announcement}>
-            <div className={styles.boxx1}>sfdf</div>
-            <div className={styles.boxx2}>sdf</div>
+          <div
+            className={styles.announcement}
+            style={{ backgroundColor: announcement.bgColorcode }}
+          >
+            {messageText.map((data, i) => {
+              if (announcement.url) {
+                return (
+                  <div
+                    key={i}
+                    className={
+                      messageText.length > 1
+                        ? i == 0
+                          ? styles.boxx1
+                          : styles.boxx2
+                        : "width100"
+                    }
+                  >
+                    <Link to={announcement.url ? "" + announcement.url : "/"}>
+                      <div>{ReactHtmlParser(data)}</div>
+                    </Link>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={i}
+                    className={
+                      messageText.length > 1
+                        ? i == 0
+                          ? styles.boxx1
+                          : styles.boxx2
+                        : "width100"
+                    }
+                  >
+                    {ReactHtmlParser(data)}
+                  </div>
+                );
+              }
+            })}
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             {this.props.mobile ? (
@@ -343,6 +391,7 @@ class Header extends React.Component<Props, State> {
                 mouseOut={(data): void => {
                   this.mouseOut(data);
                 }}
+                show={this.state.show}
                 menudata={this.props.data}
                 mobile={this.props.mobile}
               />
@@ -384,8 +433,20 @@ class Header extends React.Component<Props, State> {
                                   { [iconStyles.iconWishlist]: !wishlistIcon },
                                   iconStyles.icon
                                 )}
+                                onClick={e => {
+                                  this.props.goLogin(e);
+                                  this.clickToggle();
+                                }}
                               ></i>
-                              <span> wishlist ({wishlistCount})</span>
+                              <span
+                                onClick={e => {
+                                  this.props.goLogin(e);
+                                  this.clickToggle();
+                                }}
+                              >
+                                {" "}
+                                wishlist ({wishlistCount})
+                              </span>
                             </li>
                             <li
                               className={
@@ -397,7 +458,7 @@ class Header extends React.Component<Props, State> {
                                   ? cs(styles.currency, styles.op3)
                                   : styles.currency
                               }
-                              onClick={this.showCurrency.bind(this)}
+                              onClick={this.showCurrency}
                             >
                               {" "}
                               change currency:
@@ -407,29 +468,44 @@ class Header extends React.Component<Props, State> {
                             >
                               <ul>
                                 <li
+                                  data-name="INR"
                                   className={
                                     this.props.currency == "INR"
                                       ? styles.cerise
                                       : ""
                                   }
+                                  onClick={() => {
+                                    this.changeCurrency("INR");
+                                    this.clickToggle();
+                                  }}
                                 >
                                   INR(&#8377;)
                                 </li>
                                 <li
+                                  data-name="USD"
                                   className={
                                     this.props.currency == "USD"
                                       ? styles.cerise
                                       : ""
                                   }
+                                  onClick={() => {
+                                    this.changeCurrency("USD");
+                                    this.clickToggle();
+                                  }}
                                 >
                                   USD (&#36;)
                                 </li>
                                 <li
+                                  data-name="GBP"
                                   className={
                                     this.props.currency == "GBP"
                                       ? styles.cerise
                                       : ""
                                   }
+                                  onClick={() => {
+                                    this.changeCurrency("GBP");
+                                    this.clickToggle();
+                                  }}
                                 >
                                   GBP (&#163;)
                                 </li>
@@ -446,12 +522,16 @@ class Header extends React.Component<Props, State> {
                                       this.clickToggle();
                                     }}
                                   >
-                                    <NavLink
-                                      key={item.label}
-                                      to={item.href as string}
-                                    >
-                                      {item.label}
-                                    </NavLink>
+                                    {item.type == "button" ? (
+                                      <>{item.label}</>
+                                    ) : (
+                                      <NavLink
+                                        key={item.label}
+                                        to={item.href as string}
+                                      >
+                                        {item.label}
+                                      </NavLink>
+                                    )}
                                   </li>
                                 );
                               })}
@@ -474,4 +554,5 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+const HeaderRouter = withRouter(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderRouter);

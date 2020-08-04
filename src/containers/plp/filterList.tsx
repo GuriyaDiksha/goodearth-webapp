@@ -1348,8 +1348,8 @@ class FilterList extends React.Component<Props, State> {
               className={
                 filter.availableSize[data[0]] &&
                 filter.availableSize[data[0]].isChecked
-                  ? "size-cat select_size"
-                  : "size-cat"
+                  ? cs(styles.sizeCat, styles.select_size)
+                  : styles.sizeCat
               }
             >
               {data[0]}

@@ -53,6 +53,7 @@ const InputField: React.FC<Props> = props => {
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
+        onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
         onKeyUp={e => (props.keyUp ? props.keyUp(e) : null)}
         onDrop={
           props.isDrop

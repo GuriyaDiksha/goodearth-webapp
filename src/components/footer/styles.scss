@@ -3,14 +3,20 @@
 
 .footer-top {
   background-size: cover;
-  background: url('../../images/footerBgTopDec.jpg') repeat-x;
   text-align: center;
 }
 
+.footer-top-background {
+  background: url('../../images/footerBgTopDec.jpg') repeat-x;
+}
+
 .footer {
-  background-image: url('../../images/footerBgDec.jpg');
   height: 600px;
   background-size: contain;
+}
+
+.footer-background {
+  background-image: url('../../images/footerBgDec.jpg');
 }
 
 .footer-icon{
@@ -35,6 +41,7 @@
     }
   }
   input {
+    font-size: 14px;
     width: 100%;
     outline: none;
     background-color: tint(#000, 90%);
@@ -236,6 +243,14 @@ position: fixed;
   }
 }
 
+input {
+  @include placeholder() {
+    font-family: $font-Lato;
+    font-style: italic;
+    font-size: 14px;
+  }
+}
+
 @media screen and (min-width: 992px) {
   .main-menu {
     li {
@@ -258,12 +273,6 @@ position: fixed;
     .cursor-pointer {
       &:hover {
         color: $cerise;
-      }
-    }
-    input {
-      @include placeholder() {
-        font-family: $font-Lato;
-        font-style: italic;
       }
     }
   }

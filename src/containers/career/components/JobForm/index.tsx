@@ -284,7 +284,21 @@ class JobForm extends React.Component<Props, State> {
   };
 
   resetFormData = () => {
-    this.jobForm.current && this.jobForm.current.reset();
+    const form = this.jobForm.current;
+    if (form) {
+      form.reset();
+      // reset state
+      const { state } = form.getModel();
+      if (state) {
+        form.updateInputsWithValue(
+          {
+            state: "",
+            country: ""
+          },
+          false
+        );
+      }
+    }
     this.removeFile();
     this.onLoadRecaptcha();
     this.setState({ formSubmit: false });
@@ -317,7 +331,8 @@ class JobForm extends React.Component<Props, State> {
         <h4>APPLY</h4>
         <Formsy
           onValidSubmit={this.handleSubmit}
-          onInvalidSubmit={this.handleInvalidSubmit}
+          // onInvalidSubmit={this.handleInvalidSubmit}
+          onInvalidSubmit={this.resetFormData}
           ref={this.jobForm}
         >
           <div

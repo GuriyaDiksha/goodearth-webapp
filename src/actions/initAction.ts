@@ -3,11 +3,11 @@ import HeaderService from "services/headerFooter";
 import MetaService from "services/meta";
 // actions
 import { updatefooter } from "actions/footer";
-import { updateheader } from "actions/header";
+import { updateheader, updateAnnouncement } from "actions/header";
 // typings
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
-
+import Api from "services/api";
 const initAction: any = async (store: Store) => {
   const state: AppState = store.getState();
   let apiCalls = [
@@ -16,7 +16,11 @@ const initAction: any = async (store: Store) => {
     }),
     HeaderService.fetchFooterDetails().then(footer => {
       store.dispatch(updatefooter(footer));
-    })
+    }),
+    Api.getAnnouncement(store.dispatch).then(data => {
+      store.dispatch(updateAnnouncement(data));
+    }),
+    Api.getCurrency(store.dispatch)
   ];
 
   if (state.cookies.tkn) {

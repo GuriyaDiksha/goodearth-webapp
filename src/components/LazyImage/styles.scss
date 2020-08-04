@@ -1,0 +1,20 @@
+.container {
+    position: relative;
+    width: 100%;
+
+    &.aspect {
+        height: 0;
+        overflow: hidden;
+        background: #eeeeee;
+
+        .lazy-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+}
+
+.lazy-image {
+    width: 100%;
+}

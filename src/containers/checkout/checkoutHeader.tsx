@@ -45,12 +45,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     reloadPage: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch, true);
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     updateMeta: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch, true);
     }
   };
 };

@@ -80,7 +80,7 @@ const AddressSection: React.FC<AddressProps & {
         dispatch(updateAddressList(addressList));
       });
     }
-  }, []);
+  }, [isLoggedIn]);
   const openNewAddressForm = () => {
     setSameAsShipping(false);
     openAddressForm();

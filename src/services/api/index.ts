@@ -18,5 +18,12 @@ export default {
       `${__API_HOST__ + "/myapi/common/current_currency"}`
     );
     dispatch(updateCurrency(curr));
+  },
+  getAnnouncement: async function(dispatch: Dispatch) {
+    const response: any = await API.get<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/promotions/announcement_bar/"}`
+    );
+    return response;
   }
 };

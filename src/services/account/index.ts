@@ -64,6 +64,26 @@ export default {
     );
     return data;
   },
+  sendOtpRedeem: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/send_loyalty_otp/"}`,
+      formData
+    );
+    return data;
+  },
+  sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/send_giftcard_otp/"}`,
+      formData
+    );
+    const temp = {
+      ...data,
+      ...formData
+    };
+    return temp;
+  },
   checkOtpBalance: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<BalanceProps>(
       dispatch,
@@ -77,6 +97,14 @@ export default {
     temp["code"] = formData.code;
     return temp;
   },
+  checkOtpRedeem: async (dispatch: Dispatch, formData: any) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/validate_loyalty_otp/"}`,
+      formData
+    );
+    return data;
+  },
   confirmResetPassword: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<ConfirmResetPasswordResponse>(
       dispatch,
@@ -84,5 +112,17 @@ export default {
       formData
     );
     return data;
+  },
+  activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/giftcard_activate/"}`,
+      formData
+    );
+    const temp = {
+      ...data
+      // ...formData
+    };
+    return temp;
   }
 };

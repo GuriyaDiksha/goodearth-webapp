@@ -528,6 +528,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               disable={!this.state.showFields}
               className={showFieldsClass}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              isDrop={true}
+              isPaste={true}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
                 equalsField: "password1"

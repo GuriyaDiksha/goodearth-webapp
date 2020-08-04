@@ -21,6 +21,7 @@ export type BalanceProps = {
 
 export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
+  viewOnly?: boolean;
 }
 
 export type GiftState = {
@@ -28,5 +29,6 @@ export type GiftState = {
   error: string;
   newCardBox: boolean;
   giftList: BalanceProps[];
-  toggelOtp: boolean;
+  toggleOtp: boolean;
+  toggleResetOtpComponent: boolean;
 };
