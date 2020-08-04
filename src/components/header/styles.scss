@@ -128,9 +128,9 @@
     }
     .inner-wish-container {
       margin-top: 3px !important;
-      //a {
-       // color: #000;
-      //}
+      a {
+       color: #000;
+      }
     }
     .badge {
       position: absolute;
@@ -173,6 +173,14 @@
     float: right;
     display: inline-flex;
     margin-top: 2px;
+    .curr {
+      span {
+        &:first-child{
+          margin: 0 6px 0 0;
+        }
+        
+      }
+    }
     .currency-menu{
       margin-top: 8px;
     }

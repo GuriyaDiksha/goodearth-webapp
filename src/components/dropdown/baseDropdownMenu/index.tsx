@@ -3,6 +3,7 @@ import cl from "classnames";
 import { BaseDropdownMenuProps } from "./typings";
 import styles from "./styles.scss";
 import useOutsideDetection from "../../../hooks/useOutsideDetetion";
+import cs from "classnames";
 
 const BaseDropdownMenu = ({
   align,
@@ -34,7 +35,7 @@ const BaseDropdownMenu = ({
       onClick={onInsideClick}
       ref={ref}
     >
-      <div className={styles.label}>
+      <div className={cs(styles.label)}>
         {display}
         {showCaret ? (
           <span className={menuOpen ? styles.caretUp : styles.caret}></span>
