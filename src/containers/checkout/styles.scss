@@ -699,3 +699,15 @@ input[type="radio"] {
     font-weight: bold;
     color: #000000;
 }
+.curr {
+  span {
+    &:hover {
+      cursor: pointer;
+    }
+    
+    &:first-child{
+      margin: 0 6px 0 0;
+    }
+    
+  }
+}

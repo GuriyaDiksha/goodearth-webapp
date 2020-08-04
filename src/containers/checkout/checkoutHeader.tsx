@@ -205,7 +205,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
             <div
               className={cs(
                 bootstrap.colMd2,
-                bootstrap.col6,
+                bootstrap.col5,
                 styles.logoContainer
               )}
             >
@@ -213,15 +213,16 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 <img className={styles.logo} src={gelogoCerise} />
               </Link>
             </div>
-            <div className={cs(bootstrap.col4, bootstrap.colMd8)}>
+            <div className={cs(bootstrap.col3, bootstrap.colMd8)}>
               {heading}
             </div>
             <div
               className={cs(
                 bootstrap.colMd1,
-                bootstrap.col2,
-                bootstrap.offsetMd1,
-                globalStyles.voffset2
+                bootstrap.col3,
+                bootstrap.offset1,
+                globalStyles.voffset2,
+                styles.curr
               )}
             >
               <SelectableDropdownMenu
