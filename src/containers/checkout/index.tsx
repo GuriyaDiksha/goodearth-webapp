@@ -185,17 +185,19 @@ class Checkout extends React.Component<Props, State> {
     if (this.props.user.isLoggedIn) {
       const shippingData = nextProps.user.shippingData;
       if (
-        this.state.activeStep == Steps.STEP_PAYMENT &&
-        nextProps.basket.giftCards.length > this.props.basket.giftCards.length
+        this.state.activeStep == Steps.STEP_SHIPPING &&
+        shippingData &&
+        shippingData !== this.state.shippingAddress
       ) {
-        // activeStep remains as STEP_PAYMENT
-      } else {
         this.setState({
-          activeStep: shippingData
-            ? this.state.billingAddress
-              ? Steps.STEP_PROMO
-              : Steps.STEP_BILLING
-            : Steps.STEP_SHIPPING
+          activeStep: Steps.STEP_BILLING
+        });
+      }
+      // things to reset on currency change
+      if (!shippingData) {
+        this.setState({
+          activeStep: Steps.STEP_SHIPPING,
+          billingAddress: undefined
         });
       }
       this.setState({
@@ -429,7 +431,7 @@ class Checkout extends React.Component<Props, State> {
                 activeStep={Steps.STEP_BILLING}
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
-                addressType={Steps.STEP_SHIPPING}
+                addressType={Steps.STEP_BILLING}
                 addresses={this.props.addresses}
                 error={this.state.billingError}
               />

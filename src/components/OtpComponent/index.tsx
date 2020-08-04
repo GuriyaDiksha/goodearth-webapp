@@ -54,6 +54,12 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     }
   };
 
+  UNSAFE_componentWillReceiveProps = (nextProps: otpProps) => {
+    if (this.props.toggleReset !== nextProps.toggleReset) {
+      this.clickHereOtpInvalid();
+    }
+  };
+
   handleSubmit2 = (model: any, resetForm: any, updateInputsWithError: any) => {
     const { email, phoneNo } = model;
     const data: any = {};
@@ -289,6 +295,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.setState({
             showerrorOtp: "Invalid Gift Card Code"
           });
+        } else if (data.currStatus == "Invalid-CN") {
+          this.props.updateError(true);
         } else {
           this.setState(
             {

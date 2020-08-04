@@ -30,4 +30,5 @@ export type GiftState = {
   newCardBox: boolean;
   giftList: BalanceProps[];
   toggleOtp: boolean;
+  toggleResetOtpComponent: boolean;
 };

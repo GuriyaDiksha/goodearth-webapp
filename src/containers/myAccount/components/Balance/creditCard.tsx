@@ -26,7 +26,8 @@ class CreditCard extends React.Component<Props, GiftState> {
       error: "",
       newCardBox: true,
       giftList: [],
-      toggleOtp: false
+      toggleOtp: false,
+      toggleResetOtpComponent: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();

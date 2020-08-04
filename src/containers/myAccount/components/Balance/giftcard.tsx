@@ -26,7 +26,8 @@ class Giftcard extends React.Component<Props, GiftState> {
       error: "",
       newCardBox: true,
       giftList: [],
-      toggleOtp: false
+      toggleOtp: false,
+      toggleResetOtpComponent: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -35,6 +36,9 @@ class Giftcard extends React.Component<Props, GiftState> {
     this.setState({
       txtvalue: event.target.value
     });
+    if (this.state.error) {
+      this.setState({ error: "" });
+    }
   };
 
   toggleOtp = (value: boolean) => {
@@ -93,6 +97,14 @@ class Giftcard extends React.Component<Props, GiftState> {
     this.setState({
       giftList: giftList
     });
+    if (giftList.length == 0) {
+      this.setState(prevState => {
+        return {
+          toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
+          newCardBox: true
+        };
+      });
+    }
   };
 
   updateError = (data: boolean) => {
@@ -157,13 +169,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                   </Fragment>
                 )}
                 {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
+                  <p className={cs(globalStyles.errorMsg)}>
                     {this.state.error}
                   </p>
                 ) : (
@@ -190,6 +196,7 @@ class Giftcard extends React.Component<Props, GiftState> {
             ""
           ) : (
             <OtpComponent
+              toggleReset={this.state.toggleResetOtpComponent}
               updateError={this.updateError}
               txtvalue={this.state.txtvalue}
               toggleOtp={this.toggleOtp}
