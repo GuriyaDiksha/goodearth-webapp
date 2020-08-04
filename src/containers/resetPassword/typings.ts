@@ -1,9 +1,9 @@
 export type ConfirmResetPasswordResponse = {
-  status: boolean;
+  message: string;
   errorMessage: {
     [x: string]: string[];
   };
   bridalCurrency?: string;
   bridalId?: string;
-  redirect: string;
+  redirect?: string;
 };

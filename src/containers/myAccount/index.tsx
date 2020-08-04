@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import { NavLink, Switch, Route, useRouteMatch } from "react-router-dom";
+import {
+  NavLink,
+  Switch,
+  Route,
+  useRouteMatch,
+  useLocation
+} from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -40,8 +46,13 @@ const MyAccount: React.FC<Props> = props => {
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, []);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   // this.state = {
   //     showregistry: location.search.split('=')[1] == 'bridal' ? true : false,
   //     isCeriseClubMember: false
