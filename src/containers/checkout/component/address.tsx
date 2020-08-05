@@ -267,19 +267,6 @@ const AddressSection: React.FC<AddressProps & {
     setPanError("");
   };
 
-  const calculateOffer = () => {
-    if (!basket.offerDiscounts) return 0;
-    const totalAmount = basket.totalExclTaxExclDiscounts || 0;
-    let discount = 0;
-    for (let i = 0; i < basket.offerDiscounts.length; i++) {
-      discount += +basket.offerDiscounts[i].amount;
-    }
-    for (let i = 0; i < basket.voucherDiscounts.length; i++) {
-      discount += +basket.voucherDiscounts[i].amount;
-    }
-    return +parseFloat((totalAmount - discount).toString()).toFixed(2);
-  };
-
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
     setGstPan(event.target.value);
@@ -426,7 +413,7 @@ const AddressSection: React.FC<AddressProps & {
     let validate = true;
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
-    const amountPriceCheck = amountPrice[currency] <= calculateOffer();
+    const amountPriceCheck = amountPrice[currency] <= basket.total;
 
     if (gst) {
       numberObj = Object.assign(
@@ -605,7 +592,7 @@ const AddressSection: React.FC<AddressProps & {
           ) : (
             ""
           )}
-          {amountPrice[currency] <= calculateOffer() ? (
+          {amountPrice[currency] <= basket.total ? (
             <div
               className={cs(
                 styles.input2,
