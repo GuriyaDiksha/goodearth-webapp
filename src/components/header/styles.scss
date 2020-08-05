@@ -120,14 +120,14 @@
   margin-top: -6px;
 }
 .side-menu-item {
-    margin: 6px 6px;
+    margin: 8px 6px;
     position: relative;
     cursor: pointer; 
     .inner-profile-container{
       margin-top: 6px;
     }
     .inner-wish-container {
-      margin-top: 3px !important;
+      margin-top: 4px !important;
       a {
        color: #000;
       }
@@ -174,15 +174,24 @@
     display: inline-flex;
     margin-top: 2px;
     .curr {
+      &:hover {
+        span {
+          color: $cerise;
+          &:nth-child(2) {
+            border-top: 5px solid $cerise;
+            }
+        }
+      }
       span {
         &:first-child{
           margin: 0 6px 0 0;
         }
         
+        
       }
     }
     .currency-menu{
-      margin-top: 8px;
+      margin-top: 10px;
     }
     
 }

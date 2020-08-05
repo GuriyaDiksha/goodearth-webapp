@@ -23,6 +23,13 @@ hr {
   }
   .product-name {
     @include plp_prod_name_desktop();
+    a {
+      color: #000;
+      &:hover {
+        color: $cerise;
+      }
+    }
+
   }
   .product-price {
     margin-top: 10px;

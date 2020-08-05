@@ -421,7 +421,7 @@
 }
 
 .checkbox .indicator::after {
-  top: 0px;
+  bottom: 8px;
   left: 7px;
   width: 5px;
   height: 10px;
@@ -729,5 +729,11 @@ input[type="radio"] {
       border-top: 1px solid #f2f2f2;
       font-size: 10px;
     }
+  }
+}
+.link {
+  a {
+  color: $cerise;
+  text-decoration: underline;
   }
 }

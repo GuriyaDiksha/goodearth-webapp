@@ -235,9 +235,10 @@
 }
 
 @mixin pdp_prod_title {
-  font-size: 22px;
+  font-size: 18px;
   color: #000;
-  font-family: $font-Serif;
+  font-family: $font-Lato;
+  letter-spacing: 0.5px;
 }
 
 @mixin pdp_label {

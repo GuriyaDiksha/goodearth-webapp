@@ -439,6 +439,7 @@ class Checkout extends React.Component<Props, State> {
                 isActive={this.isActiveStep(Steps.STEP_PROMO)}
                 user={this.props.user}
                 next={this.nextStep}
+                selectedAddress={this.state.billingAddress}
               />
               <PaymentSection
                 isActive={this.isActiveStep(Steps.STEP_PAYMENT)}
