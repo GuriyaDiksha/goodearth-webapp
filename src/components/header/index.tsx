@@ -23,7 +23,7 @@ import { State } from "./typings";
 import UserContext from "contexts/user";
 import mapDispatchToProps from "./mapper/actions";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
-
+import Search from "./search";
 import ReactHtmlParser from "react-html-parser";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
@@ -549,6 +549,9 @@ class Header extends React.Component<Props, State> {
           </div>
         </div>
         <GrowlMessage {...message} />
+        {this.state.showSearch && (
+          <Search ipad={false} toggle={this.clickToggle} />
+        )}
       </div>
     );
   }
