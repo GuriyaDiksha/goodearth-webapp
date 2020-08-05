@@ -240,7 +240,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     <i
                       className={cs(
                         iconStyles.icon,
-                        iconStyles.iconCrossNarrowBig
+                        iconStyles.iconCrossNarrowBig,
+                        styles.discountFont
                       )}
                     ></i>
                   </span>
@@ -285,7 +286,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <i
                     className={cs(
                       iconStyles.icon,
-                      iconStyles.iconCrossNarrowBig
+                      iconStyles.iconCrossNarrowBig,
+                      styles.discountFont
                     )}
                   ></i>
                 </span>
@@ -324,7 +326,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 }}
               >
                 <i
-                  className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.discountFont
+                  )}
                 ></i>
               </span>
             </span>

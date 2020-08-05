@@ -6,11 +6,13 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PaymentProps } from "./typings";
 import ApplyGiftcard from "./applyGiftcard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link } from "react-router-dom";
 import Loader from "components/Loader";
 import Reedem from "./redeem";
+import { updateComponent, updateModal } from "actions/modal";
+import ShippingPopup from "./shippingPopup";
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
@@ -20,10 +22,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const { isActive, currency, checkout, loyaltyData } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
+  const [subscribegbp, setSubscribegbp] = useState(false);
   const [isactivepromo, setIsactivepromo] = useState(false);
   const [isactiveredeem, setIsactiveredeem] = useState(false);
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
@@ -31,8 +36,27 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     setIsactiveredeem(!isactiveredeem);
   };
 
-  const onClikSubscribe = (event: any) => {
+  const onClickSubscribe = (event: any) => {
     setSubscribevalue(event.target.checked);
+  };
+
+  const setAccept = () => {
+    setSubscribegbp(true);
+  };
+
+  const closeModal = () => {
+    // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
+    dispatch(updateModal(false));
+  };
+
+  const onClikcSubscribeGbp = (event: any) => {
+    dispatch(
+      updateComponent(
+        <ShippingPopup closeModal={closeModal} acceptCondition={setAccept} />,
+        true
+      )
+    );
+    dispatch(updateModal(true));
   };
 
   const onsubmit = () => {
@@ -122,7 +146,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       return false;
     }
   };
-
   return (
     <div
       className={
@@ -176,47 +199,52 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 {renderCoupon()} */}
               </div>
             </div>
-            <hr className={styles.hr} />
-            <div className={bootstrapStyles.row}>
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd6,
-                  styles.title
-                )}
-              >
-                <span className={isActive ? "" : styles.closed}>
-                  REDEEM CERISE POINTS
-                </span>
-              </div>
-            </div>
-            <hr className={styles.hr} />
-            <div className={globalStyles.flex}>
-              <div
-                className={cs(
-                  styles.marginR10,
-                  globalStyles.cerise,
-                  globalStyles.pointer
-                )}
-                onClick={toggleInputReedem}
-              >
-                {isactiveredeem ? "-" : "+"}
-              </div>
-              <div className={styles.inputContainer}>
-                <div
-                  className={cs(
-                    globalStyles.c10LR,
-                    styles.promoMargin,
-                    globalStyles.cerise,
-                    globalStyles.pointer
-                  )}
-                  onClick={toggleInputReedem}
-                >
-                  REDEEM CERISE POINTS
+            {loyaltyData.detail && (
+              <Fragment>
+                <hr className={styles.hr} />
+                <div className={bootstrapStyles.row}>
+                  <div
+                    className={cs(
+                      bootstrapStyles.col12,
+                      bootstrapStyles.colMd6,
+                      styles.title
+                    )}
+                  >
+                    <span className={isActive ? "" : styles.closed}>
+                      REDEEM CERISE POINTS
+                    </span>
+                  </div>
                 </div>
-                {isactiveredeem ? <Reedem loyaltyData={loyaltyData} /> : ""}
-              </div>
-            </div>
+                <hr className={styles.hr} />
+                <div className={globalStyles.flex}>
+                  <div
+                    className={cs(
+                      styles.marginR10,
+                      globalStyles.cerise,
+                      globalStyles.pointer
+                    )}
+                    onClick={toggleInputReedem}
+                  >
+                    {isactiveredeem ? "-" : "+"}
+                  </div>
+                  <div className={styles.inputContainer}>
+                    <div
+                      className={cs(
+                        globalStyles.c10LR,
+                        styles.promoMargin,
+                        globalStyles.cerise,
+                        globalStyles.pointer
+                      )}
+                      onClick={toggleInputReedem}
+                    >
+                      REDEEM CERISE POINTS
+                    </div>
+                    {isactiveredeem ? <Reedem loyaltyData={loyaltyData} /> : ""}
+                  </div>
+                </div>
+              </Fragment>
+            )}
+
             {isPaymentNeeded() && <hr className={styles.hr} />}
             {isPaymentNeeded() && (
               <div className={globalStyles.marginT30}>
@@ -273,14 +301,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   type="checkbox"
                   id="subscribe"
                   onChange={e => {
-                    onClikSubscribe(e);
+                    onClickSubscribe(e);
                   }}
                   checked={subscribevalue}
                 />
                 <span className={styles.indicator}></span>
               </span>
             </div>
-            <div className={cs(globalStyles.c10LR, styles.link)}>
+            <div className={globalStyles.c10LR}>
               <label htmlFor="subscribe" className={globalStyles.pointer}>
                 I agree to receiving e-mails, calls and text messages for
                 service related information. To know more how we keep your data
@@ -291,6 +319,42 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </label>
             </div>
           </label>
+          {currency == "GBP" && (
+            <label
+              className={cs(
+                globalStyles.flex,
+                globalStyles.crossCenter,
+                globalStyles.voffset2
+              )}
+            >
+              <div className={styles.marginR10}>
+                <span className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    id="subscribe1"
+                    onChange={e => {
+                      onClikcSubscribeGbp(e);
+                    }}
+                    checked={subscribegbp}
+                  />
+                  <span className={styles.indicator}></span>
+                </span>
+              </div>
+              <div className={globalStyles.c10LR}>
+                <label htmlFor="subscribe1" className={globalStyles.pointer}>
+                  I agree to pay the additional applicable duties and taxes
+                  directly to the shipping agency at the time of order delivery.
+                  To know more, refer to our{" "}
+                  <Link
+                    to="/customer-assistance/shipping-payment"
+                    target="_blank"
+                  >
+                    {`Shipping & Payment Terms`}
+                  </Link>
+                </label>
+              </div>
+            </label>
+          )}
           {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}

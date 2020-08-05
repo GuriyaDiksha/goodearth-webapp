@@ -361,7 +361,6 @@
     -ms-flex-align: center;
     -webkit-align-items: center;
     align-items: center;
-    margin-bottom: 10px;
   }
   .txt-width60 {
     width: 60%;
@@ -427,6 +426,7 @@
   color: #666;
   font-size: 12px;
   margin-right: 10px;
+  margin-left: 5px;
 }
 
 .txtup{
@@ -443,4 +443,9 @@
   display: inline-block;
   font-size: 9px;
   font-weight: bold;
+}
+
+.promo-icon {
+  font-size: 12px;
+  cursor: pointer;
 }
