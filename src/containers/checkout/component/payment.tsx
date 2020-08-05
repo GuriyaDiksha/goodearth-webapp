@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useMemo } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -25,8 +25,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [subscribegbp, setSubscribegbp] = useState(false);
   const [isactivepromo, setIsactivepromo] = useState(false);
   const [isactiveredeem, setIsactiveredeem] = useState(false);
+  const [giftwrap, setGiftwrap] = useState(false);
+  const [giftwrapprice, setGiftwrapprice] = useState(false);
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
+  const [textarea, setTextarea] = useState("");
+
   const dispatch = useDispatch();
 
   const toggleInput = () => {
@@ -59,6 +63,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     dispatch(updateModal(true));
   };
 
+  // const onGiftChange =() =>{
+
+  // }
+
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     if (currentmethod.mode || isFree) {
@@ -66,6 +74,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode
       };
+      if (giftwrap) {
+        data["isGift"] = giftwrap;
+        data["giftRemovePrice"] = giftwrapprice;
+        data["giftMessage"] = textarea;
+      }
       setIsLoading(true);
       checkout(data)
         .then((response: any) => {
@@ -91,7 +104,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
   }, [basket.giftCards, basket.loyalty]);
 
-  const getMethods = () => {
+  const getMethods = useMemo(() => {
     let methods = [
       {
         key: "payu",
@@ -104,7 +117,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         mode: "DC"
       },
       {
-        key: "paypal",
+        key: "payu",
         value: "NET BANKING",
         mode: "NB"
       }
@@ -129,9 +142,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         }
       ];
     }
-
     return methods;
-  };
+  }, [currency]);
 
   const onMethodChange = (event: any, method: any) => {
     if (event.target.checked) {
@@ -139,13 +151,60 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
   };
 
-  const isPaymentNeeded = () => {
+  const isPaymentNeeded = useMemo(() => {
     if (+basket.total > 0) {
       return true;
     } else {
       return false;
     }
-  };
+  }, [basket.total]);
+
+  const giftWrapRender = useMemo(() => {
+    return (
+      <div className={globalStyles.marginT20}>
+        <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
+          <div className={styles.marginR10}>
+            <span className={styles.checkbox}>
+              <input
+                type="radio"
+                checked={giftwrap}
+                onClick={() => {
+                  setGiftwrap(!giftwrap);
+                }}
+              />
+              <span className={styles.indicator}></span>
+            </span>
+          </div>
+          <div className={globalStyles.c10LR}>{"GIFT WRAP THIS ORDER"}</div>
+        </label>
+      </div>
+    );
+  }, [giftwrap]);
+
+  const giftShowPrice = useMemo(() => {
+    return (
+      <div className={globalStyles.marginT20}>
+        <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
+          <div className={styles.marginR10}>
+            <span className={styles.checkbox}>
+              <input
+                type="radio"
+                checked={giftwrapprice}
+                onClick={() => {
+                  setGiftwrapprice(!giftwrapprice);
+                }}
+              />
+              <span className={styles.indicator}></span>
+            </span>
+          </div>
+          <div className={globalStyles.c10LR}>
+            {"PLEASE REMOVE PRICES FROM ALL ITEMS IN THIS SHIPMENT"}
+          </div>
+        </label>
+      </div>
+    );
+  }, [giftwrapprice]);
+
   return (
     <div
       className={
@@ -169,6 +228,26 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
       {isActive && (
         <Fragment>
+          {true && giftWrapRender}
+          {giftwrap && (
+            <div>
+              <textarea
+                rows={5}
+                cols={45}
+                className={styles.giftMessage}
+                value={textarea}
+                placeholder={"add message (optional)"}
+                autoComplete="new-password"
+                onChange={(e: any) => {
+                  setTextarea(e.target.value);
+                }}
+              />
+              <div className={globalStyles.textLeft}>
+                Character Limit: {120 - textarea.length}
+              </div>
+            </div>
+          )}
+          {giftwrap && giftShowPrice}
           <div className={globalStyles.marginT20}>
             <hr className={styles.hr} />
             <div className={globalStyles.flex}>
@@ -245,11 +324,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </Fragment>
             )}
 
-            {isPaymentNeeded() && <hr className={styles.hr} />}
-            {isPaymentNeeded() && (
+            {isPaymentNeeded && <hr className={styles.hr} />}
+            {isPaymentNeeded && (
               <div className={globalStyles.marginT30}>
                 <div className="title">SELECT YOUR MODE OF PAYMENT</div>
-                {getMethods().map(function(method, index) {
+                {getMethods.map(function(method, index) {
                   return (
                     <div className={globalStyles.marginT20} key={index}>
                       <label
@@ -360,7 +439,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}
           >
-            {isPaymentNeeded()
+            {isPaymentNeeded
               ? mobile
                 ? "PROCEED TO PAYMENT GATEWAY"
                 : "PROCEED TO A SECURE PAYMENT GATEWAY"
