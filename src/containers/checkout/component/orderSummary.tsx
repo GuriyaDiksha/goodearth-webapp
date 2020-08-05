@@ -423,7 +423,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>SUBTOTAL</span>
             <span className={styles.subtotal}>
-              {String.fromCharCode(code)} {basket.subTotal}
+              {String.fromCharCode(code)}{" "}
+              {parseFloat("" + basket.subTotal).toFixed(2)}
             </span>
           </div>
           <div
@@ -502,7 +503,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 TOTAL
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-                {String.fromCharCode(code)} {basket.total}
+                {String.fromCharCode(code)}{" "}
+                {parseFloat("" + basket.total).toFixed(2)}
               </span>
             </div>
             {getDeliveryStatus()}

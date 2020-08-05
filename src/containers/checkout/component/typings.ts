@@ -45,6 +45,7 @@ export type PromoProps = {
   isActive: boolean;
   user: any;
   next: (step: string) => void;
+  selectedAddress: any;
 };
 
 export type PaymentProps = {

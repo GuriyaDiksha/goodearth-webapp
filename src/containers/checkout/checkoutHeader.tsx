@@ -226,10 +226,11 @@ class CheckoutHeader extends React.Component<Props, {}> {
               )}
             >
               <SelectableDropdownMenu
-                align="right"
+                align={"left"}
                 items={items}
                 value={currency}
                 showCaret={true}
+                className={styles.checkoutHeader}
                 onChange={this.changeCurrency}
               ></SelectableDropdownMenu>
             </div>
