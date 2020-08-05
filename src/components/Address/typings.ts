@@ -7,7 +7,7 @@ export type AddressData = AddressFormData & {
   registrantName: string;
   coRegistrantName: string;
   occasion: string;
-  isEdit?: boolean;
+  isTulsi?: boolean;
 };
 
 export type specifyShippingAddressResponse = {

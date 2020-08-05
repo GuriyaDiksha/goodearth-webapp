@@ -4,12 +4,14 @@ import cl from "classnames";
 import { DropdownMenuItemProps } from "../typings";
 import { NavLink } from "react-router-dom";
 import styles from "../styles.scss";
+import globalstyles from "styles/global.scss";
 
 const DropdownMenuItem = ({
   className,
   href,
   label,
   onClick,
+  selected,
   type = "button"
 }: DropdownMenuItemProps) => {
   const props: any = {};
@@ -21,7 +23,12 @@ const DropdownMenuItem = ({
     innerHTML = <NavLink to={href as string}>{label}</NavLink>;
   }
   return (
-    <li className={cl(styles.menuItem, className)} {...props}>
+    <li
+      className={cl(styles.menuItem, className, {
+        [globalstyles.cerise]: selected
+      })}
+      {...props}
+    >
       {innerHTML}
     </li>
   );

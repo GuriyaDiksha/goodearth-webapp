@@ -182,12 +182,13 @@ class Checkout extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (this.props.user.isLoggedIn) {
+    if (nextProps.user.isLoggedIn) {
       const shippingData = nextProps.user.shippingData;
       if (
-        this.state.activeStep == Steps.STEP_SHIPPING &&
+        (this.state.activeStep == Steps.STEP_SHIPPING ||
+          this.state.activeStep == Steps.STEP_LOGIN) &&
         shippingData &&
-        shippingData !== this.state.shippingAddress
+        shippingData?.id !== this.state.shippingAddress?.id
       ) {
         this.setState({
           activeStep: Steps.STEP_BILLING
@@ -200,9 +201,11 @@ class Checkout extends React.Component<Props, State> {
           billingAddress: undefined
         });
       }
-      this.setState({
-        shippingAddress: shippingData || undefined
-      });
+      if (shippingData !== this.state.shippingAddress) {
+        this.setState({
+          shippingAddress: shippingData || undefined
+        });
+      }
     }
   }
 
@@ -313,7 +316,7 @@ class Checkout extends React.Component<Props, State> {
       this.props
         .specifyShippingAddress(address.id, address, this.props.user)
         .then(data => {
-          const isGoodearthShipping = address.isEdit ? address.isEdit : false;
+          const isGoodearthShipping = address.isTulsi ? address.isTulsi : false;
           this.setState({ isGoodearthShipping });
 
           this.setState({
@@ -439,6 +442,7 @@ class Checkout extends React.Component<Props, State> {
                 isActive={this.isActiveStep(Steps.STEP_PROMO)}
                 user={this.props.user}
                 next={this.nextStep}
+                selectedAddress={this.state.billingAddress}
               />
               <PaymentSection
                 isActive={this.isActiveStep(Steps.STEP_PAYMENT)}

@@ -34,12 +34,17 @@
 }
 
 .back-address-form {
-    position: relative;
-    bottom: 35px;
+    // position: relative;
+    // bottom: 35px;
+    // div {
+    //   width: 30%;
+    //   justify-self: end;
+    //   float: right;
+    // }
     div {
-      width: 30%;
-      justify-self: end;
-      float: right;
+      right: -325px;
+      position: absolute;
+      bottom: 20px;
     }
 }
 
@@ -52,7 +57,7 @@
     min-height: 160px;
     font-weight: 400;
     text-align: left;
-    padding: 35px 25px 55px 25px;
+    padding: 35px 25px 93px 25px;
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
@@ -60,7 +65,7 @@
       opacity: .25;
       cursor: default;
     }
-    .shipping-border {
+    &.shipping-border {
       border: 2px solid #8cb8aa;
     }
     .ship-to-this-btn {

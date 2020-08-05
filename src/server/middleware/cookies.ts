@@ -1,5 +1,6 @@
 import Koa from "koa";
 import { updateCookies } from "actions/cookies";
+import { updateCurrency } from "actions/currency";
 // import API from "utils/api";
 
 export default async function cookies(
@@ -7,14 +8,13 @@ export default async function cookies(
   next: Koa.Next
 ) {
   const token = ctx.cookies.get("atkn");
-
+  const currency: any = ctx.cookies.get("currency") || "INR";
+  const store = ctx.store;
   ctx.customCookies = {
     tkn: token
   };
-
+  store.dispatch(updateCurrency(currency));
   if (token) {
-    const store = ctx.store;
-
     store.dispatch(
       updateCookies({
         tkn: token

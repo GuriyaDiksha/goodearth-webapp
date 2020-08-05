@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 
 const PromoSection: React.FC<PromoProps> = props => {
-  const { isActive, next } = props;
+  const { isActive, next, selectedAddress } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
   const { basket } = useSelector((state: AppState) => state);
   const toggleInput = () => {
@@ -80,7 +80,11 @@ const PromoSection: React.FC<PromoProps> = props => {
             onClick={onCurrentState}
           >
             <span
-              className={isActive ? globalStyles.hidden : globalStyles.cerise}
+              className={
+                isActive || !selectedAddress
+                  ? globalStyles.hidden
+                  : globalStyles.cerise
+              }
             >
               {"APPLY PROMO CODE"}
             </span>
