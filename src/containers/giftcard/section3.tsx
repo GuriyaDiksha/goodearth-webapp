@@ -147,7 +147,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                   <FormInput
                     name="recipientEmailConfirm"
                     placeholder={"Confirm Recipient's Email"}
-                    label={"Email"}
+                    label={"Confirm Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     value={data["recipientEmail"]}
