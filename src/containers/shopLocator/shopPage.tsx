@@ -61,7 +61,8 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
 
               <div className={cs(styles.small, styles.city)}>{item.city}</div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
-                <strong className="black"> {item.opendays} </strong> <br />
+                <strong className={styles.black}> {item.opendays} </strong>{" "}
+                <br />
                 {item.time}
               </div>
               <div className={cs(styles.small, globalStyles.voffset3)}>

@@ -280,7 +280,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 <span className={styles.indicator}></span>
               </span>
             </div>
-            <div className={globalStyles.c10LR}>
+            <div className={cs(globalStyles.c10LR, styles.link)}>
               <label htmlFor="subscribe" className={globalStyles.pointer}>
                 I agree to receiving e-mails, calls and text messages for
                 service related information. To know more how we keep your data

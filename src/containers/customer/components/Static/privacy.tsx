@@ -23,7 +23,7 @@ export default class Privacy extends React.Component<Props, {}> {
           globalStyles.hello
         )}
       >
-        <h3>privacy</h3>
+        <h3>privacy policy</h3>
         <div>
           <h5>USER INFORMATION AND PRIVACY</h5>
           <p>

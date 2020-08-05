@@ -51,6 +51,7 @@ h2 {
 .gc-head {
   text-transform: uppercase;
   font-size: 14px;
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 
@@ -154,6 +155,7 @@ h2 {
   text-transform: none;
   letter-spacing: 1px;
   cursor: pointer;
+  font-family: $font-Lato;
   &:hover{
     text-decoration: underline;
   }
@@ -174,6 +176,9 @@ h2 {
 
 .select-group {
   position: relative;
+  option {
+    font-family: $font-Lato;
+  }
 }
 
 .drop-div2 {
@@ -266,6 +271,7 @@ input[type="radio"]:checked+label:before {
 .price-block {
   span {
     font-size: 14px;
+    font-family: $font-Lato;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -279,6 +285,7 @@ input[type="radio"]:checked+label:before {
   }
   > p {
     font-size: 14px;
+    font-family: $font-Lato;
   }
   span:hover {
     border: 2px solid #ab1e56;
@@ -368,6 +375,7 @@ input[type="number"] {
     text-transform: uppercase;
     font-size: 13px;
     font-weight: bold;
+    font-family: $font-Lato;
     display: inline-block;
     line-height: 50px;
     font-family: $font-Lato;
