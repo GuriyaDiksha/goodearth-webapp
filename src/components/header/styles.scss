@@ -177,9 +177,9 @@
       &:hover {
         span {
           color: $cerise;
-          &:nth-child(2) {
-            border-top: 5px solid $cerise;
-            }
+          // &:nth-child(2) {
+          //  // border-top: 5px solid $cerise;
+          //   }
         }
       }
       span {
