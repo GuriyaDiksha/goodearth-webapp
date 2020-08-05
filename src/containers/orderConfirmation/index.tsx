@@ -134,7 +134,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
                       <p>
                         {String.fromCharCode(
-                          currencyCode[currency as Currency]
+                          currencyCode[confirmData.currency as Currency]
                         )}
                         &nbsp;{confirmData.totalInclTax}
                       </p>

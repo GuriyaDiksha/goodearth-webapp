@@ -1,4 +1,5 @@
 @import "../../styles/partials/form";
+@import "../../styles/partials/variables";
 
 .back-btn-top {
     position: absolute;
@@ -54,6 +55,7 @@
     padding: 35px 25px 55px 25px;
     flex-grow: 1;
     border: none;
+    font-family: $font-Lato;
     .address-edit {
       opacity: .25;
       cursor: default;
