@@ -31,7 +31,7 @@ const PromoSection: React.FC<PromoProps> = props => {
   const onCurrentState = () => {
     next(Steps.STEP_PROMO);
   };
-  console.log(isActive, selectedAddress);
+
   return (
     <div
       className={
