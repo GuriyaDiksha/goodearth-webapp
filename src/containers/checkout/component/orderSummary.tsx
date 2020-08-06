@@ -142,23 +142,23 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.discountprice}>
                         price_excl_tax_excl_discounts
                         {String.fromCharCode(code)}{" "}
-                        {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                          ? item.product.priceRecords[currency]
+                        {item.product.structure == "GiftCard"
+                          ? item.GCValue
                           : item.product.discountedPriceRecords[currency]}
                       </span>
                       &nbsp;
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(code)}{" "}
-                        {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                          ? item.product.priceRecords[currency]
+                        {item.product.structure == "GiftCard"
+                          ? item.GCValue
                           : item.product.priceRecords[currency]}{" "}
                       </span>{" "}
                     </span>
                   ) : (
                     <span className={styles.productPrice}>
                       {String.fromCharCode(code)}{" "}
-                      {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                        ? item.product.priceRecords[currency]
+                      {item.product.structure == "GiftCard"
+                        ? item.GCValue
                         : item.product.priceRecords[currency]}
                     </span>
                   )}
