@@ -47,7 +47,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
     const filterData = collectionData.filter((item: any) => {
       return this.state.filterData == "All"
         ? true
-        : item.category
+        : item.categoryName
             .map((data: any) => {
               return data.name;
             })
