@@ -1440,7 +1440,6 @@ class FilterList extends React.Component<Props, State> {
   render() {
     const { mobile } = this.props;
     const { filter } = this.state;
-    console.log(this.productData);
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
