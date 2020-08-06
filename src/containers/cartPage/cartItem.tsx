@@ -22,7 +22,8 @@ const CartItems: React.FC<BasketItem> = memo(
     product,
     currency,
     saleStatus,
-    GCValue
+    GCValue,
+    onMoveToWishlist
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
@@ -169,6 +170,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   basketLineId={id}
                   id={product.id}
                   showText={false}
+                  onMoveToWishlist={onMoveToWishlist}
                   className="wishlist-font"
                 />
               </div>

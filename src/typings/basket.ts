@@ -56,10 +56,12 @@ export type Basket = {
   redirectToCart: string;
   isOnlyGiftCart: boolean;
   publishRemove: boolean;
+  updated: boolean;
 };
 
 export interface BasketItem extends BasketLineItem {
   currency: Currency;
   saleStatus?: boolean;
   toggleBag?: () => void;
+  onMoveToWishlist?: () => void;
 }

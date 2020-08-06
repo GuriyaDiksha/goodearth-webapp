@@ -152,6 +152,24 @@ const LineItems: React.FC<BasketItem> = memo(
                     // errorMsg="Available qty in stock is"
                   />
                 </div>
+                {product.stockRecords ? (
+                  product.stockRecords[0].numInStock < 1 ? (
+                    <div
+                      className={cs(
+                        globalStyles.italic,
+                        globalStyles.marginT10,
+                        globalStyles.bold,
+                        globalStyles.errorMsg
+                      )}
+                    >
+                      Out of stock
+                    </div>
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  ""
+                )}
               </div>
               <div
                 className={cs(

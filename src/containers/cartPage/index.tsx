@@ -11,6 +11,9 @@ import CartItems from "./cartItem";
 import OrderSummary from "containers/checkout/component/orderSummary";
 import motifTigerTree from "../../images/motifTigerTree.png";
 import { Link } from "react-router-dom";
+import { Dispatch } from "redux";
+import WishlistService from "services/wishlist";
+import { updateBasket } from "actions/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -19,12 +22,42 @@ const mapStateToProps = (state: AppState) => {
     cart: state.basket
   };
 };
-type Props = ReturnType<typeof mapStateToProps>;
 
-class CartPage extends React.Component<
-  Props,
-  { catLanding: boolean; show: boolean; showbottom: boolean; isSale: boolean }
-> {
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    undoMoveToWishlist: async () => {
+      const res = await WishlistService.undoMoveToWishlist(dispatch);
+      dispatch(updateBasket(res.basket));
+      // BasketService.fetchBasket(dispatch, true);
+      return res;
+    }
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+type State = {
+  catLanding: boolean;
+  show: boolean;
+  showbottom: boolean;
+  isSale: boolean;
+  showUndoWishlist: boolean;
+  showNotifyMessage: boolean;
+};
+class CartPage extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      catLanding: false,
+      show: false,
+      showbottom: false,
+      isSale: false,
+      showUndoWishlist: false,
+      showNotifyMessage: false
+    };
+  }
+
   componentDidMount() {
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
@@ -60,6 +93,26 @@ class CartPage extends React.Component<
     return count;
   }
 
+  onUndoWishlistClick = () => {
+    // var self = this;
+    this.props.undoMoveToWishlist().then(data => {
+      this.setState({
+        showUndoWishlist: false
+      });
+      // if (this.props.getShippingCharges) {
+      //     this.props.getShippingCharges();
+      // }
+      // CheckoutApi.reCalculateGift({}, this.props.dispatch)
+    });
+  };
+
+  onMoveToWishlist = () => {
+    this.setState({
+      showUndoWishlist: true,
+      showNotifyMessage: false
+    });
+  };
+
   getItems() {
     const {
       cart: { lineItems },
@@ -67,7 +120,14 @@ class CartPage extends React.Component<
     } = this.props;
 
     const item = lineItems.map(item => {
-      return <CartItems key={item.id} {...item} currency={currency} />;
+      return (
+        <CartItems
+          key={item.id}
+          {...item}
+          currency={currency}
+          onMoveToWishlist={this.onMoveToWishlist}
+        />
+      );
     });
     return item.length > 0 ? (
       item
@@ -117,12 +177,65 @@ class CartPage extends React.Component<
     return true;
   };
 
+  renderMessage() {
+    // if(window.ischeckout) {
+    //     return  <div className="notify-message ">
+    //                     Due to year closing activities, we will <span className="link-text-underline">not</span> be
+    //                     able to accept your orders till
+    //                     <span className="link-text-underline"> 31st March 2019, midnight IST.</span> Regret the
+    //                     inconvenience. We shall resume our normal operations soon
+    //                     after.
+    //                 </div>
+    // }
+    if (this.state.showUndoWishlist) {
+      return (
+        <div className={styles.message}>
+          Your item has been moved to wishlist.{" "}
+          <span
+            className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
+            onClick={this.onUndoWishlistClick}
+          >
+            Undo
+          </span>
+        </div>
+      );
+    }
+
+    if (this.state.showNotifyMessage) {
+      return (
+        <div className={styles.message}>
+          We’ll notify you once we have it back in stock. Your item has been
+          removed.
+        </div>
+      );
+    }
+
+    if (this.props.cart ? this.props.cart.updated : false) {
+      return (
+        <div className={styles.message}>
+          Quantity of some items have been updated.
+        </div>
+      );
+    }
+
+    // if(this.props.cart?this.props.unpublish:false) {
+    //      return (
+    //         <div className={styles.message}>
+    //             Due to unavailability of some products your cart has been updated.
+    //         </div>
+    //     )
+    // }
+
+    return null;
+  }
+
   render() {
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
           className={cs(bootstrap.col12, bootstrap.colMd8, styles.bagContents)}
         >
+          {this.renderMessage()}
           {this.getItems()}
         </div>
         <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
@@ -142,5 +255,5 @@ class CartPage extends React.Component<
   }
 }
 
-export default connect(mapStateToProps)(CartPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
 export { initActionCollection };

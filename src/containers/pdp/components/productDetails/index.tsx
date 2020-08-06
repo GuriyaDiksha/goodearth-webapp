@@ -421,7 +421,7 @@ const ProductDetails: React.FC<Props> = ({
                 <Quantity
                   source="pdp"
                   key={selectedSize?.sku}
-                  id={selectedSize?.id}
+                  id={selectedSize?.id || 0}
                   minValue={minQuantity}
                   maxValue={maxQuantity}
                   currentValue={quantity}

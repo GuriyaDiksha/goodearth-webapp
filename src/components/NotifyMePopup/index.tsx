@@ -181,7 +181,7 @@ const NotifyMePopup: React.FC<Props> = ({
         <div className={styles.qtyContainer}>
           <Quantity
             source="notifyme"
-            id={selectedSize ? selectedSize.id : undefined}
+            id={selectedSize ? selectedSize.id : 0}
             minValue={minQuantity}
             maxValue={maxQuantity}
             currentValue={quantity}
