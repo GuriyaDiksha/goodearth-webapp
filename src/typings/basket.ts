@@ -57,4 +57,5 @@ export type Basket = {
 export interface BasketItem extends BasketLineItem {
   currency: Currency;
   saleStatus?: boolean;
+  toggleBag?: () => void;
 }

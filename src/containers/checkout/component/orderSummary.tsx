@@ -7,11 +7,13 @@ import styles from "./orderStyles.scss";
 import * as Steps from "containers/checkout/constants";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
+import { AppState } from "reducers/typings";
+// import LoginService from "services/login";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -27,6 +29,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const [isSuspended, setIsSuspended] = useState(true);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
 
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
@@ -208,7 +211,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     let coupon = null;
     let giftCard = null;
     let loyalty = null;
-    // let voucherDiscount = this.props.voucher_discounts[0];
+    // let voucherDiscount = props.voucher_discounts[0];
     if (basket.voucherDiscounts.length > 0) {
       const couponDetails = basket.voucherDiscounts?.[0];
       if (couponDetails) {
@@ -349,28 +352,118 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const getDeliveryStatus = () => {
-    return true;
+    const html = [];
+    if (!basket.lineItems) return false;
+    if (basket.shippable == false) {
+      html.push();
+    } else {
+      html.push(
+        <div className="c10-L-R padd tb15 hidden-sm hidden-xs">
+          {!isSuspended &&
+            (salestatus
+              ? currency == "INR"
+                ? "Delivery within 8-10 business days"
+                : "Delivery within 10-12 business days"
+              : currency == "INR"
+              ? "Expected Delivery: 6-8 business days"
+              : "Expected Delivery: 7-10 business days")}
+          <div className="hidden-sm hidden-xs">
+            {isSuspended ? (
+              ""
+            ) : (
+              <p>
+                *Expected Delivery for Wallcoverings- within 40 business days
+              </p>
+            )}
+            {isSuspended && (
+              <p>
+                In the current scenario, the delivery time of your order(s)
+                placed during this period will vary as per restrictions imposed
+                in that area. Please bear with us and connect with our customer
+                care for assistance.
+              </p>
+            )}
+            {isSuspended && (
+              <p>
+                We have resumed International shipping and shipping within
+                India, in select zones (as per Government guidelines).
+              </p>
+            )}
+            {/* *Expected Delivery of Pichwai Art is 15 to 18 business days */}
+          </div>
+        </div>
+      );
+    }
+    return html;
+  };
+
+  const { pathname } = useLocation();
+
+  const hasOutOfStockItems = () => {
+    const items = basket.lineItems;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.product.stockRecords[0].numInStock < 1) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   const canCheckout = () => {
+    if (pathname.indexOf("checkout") > -1) {
+      return false;
+    }
+    if (
+      !basket.lineItems ||
+      hasOutOfStockItems() ||
+      basket.lineItems.length == 0
+    ) {
+      return false;
+    }
     return true;
   };
 
+  const resetInfoPopupCookie = () => {
+    const cookieString =
+      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  };
   const chkshipping = () => {
-    return true;
-  };
-
-  const hasOutOfStockItems = () => {
-    return true;
+    if (pathname.indexOf("checkout") > -1) {
+      return false;
+    }
+    if (isSuspended) {
+      resetInfoPopupCookie();
+    }
+    // let price = calculateOffer(true) - getPromoOffer();
+    // if (!state.freeShipping && price >= 45000 && price < 50000 && currency == 'INR' && basket.shippable) {
+    //     props.showShipping(50000 - price);
+    //     event.preventDefault();
+    // }
   };
 
   const onRemoveOutOfStockItemsClick = () => {
-    return true;
+    //   CartApi.removeOutOfStockItems(null, props.dispatch).then(mydata =>{
+    //     props.getShippingCharges();
+    // });
   };
 
-  const goTowishlist = () => {
-    return true;
-  };
+  // const goTowishlist = () => {
+  //   // dataLayer.push({
+  //   //   'event': 'eventsToSend',
+  //   //   'eventAction': 'wishListClick',
+  //   //   'eventCategory': 'Click',
+  //   //   'eventLabel': location.pathname
+  //   // });
+  //   if (isLoggedIn) {
+  //       location.href = '/wishlist';
+  //   } else {
+  //     LoginService.showLogin(dispatch);
+  //   }
+  // };
 
   const getDiscount = (data: any) => {
     // let initial = 0,
@@ -545,7 +638,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         ? cs(globalStyles.ceriseBtn, {
                             [globalStyles.hidden]: mobile
                           })
-                        : cs(globalStyles.ceriseBtn, globalStyles.disabled, {
+                        : cs(globalStyles.ceriseBtn, globalStyles.disabledBtn, {
                             [globalStyles.hidden]: mobile
                           })
                     }
@@ -581,19 +674,25 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   you can apply the same during payment.
                 </div>
                 <div className={styles.wishlist}>
-                  <a onClick={goTowishlist}>
-                    <span>
-                      <i
-                        className={cs(
-                          iconStyles.icon,
-                          iconStyles.iconWishlist,
-                          globalStyles.pointer
-                        )}
-                      ></i>
-                    </span>
-                    &nbsp;
-                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
-                  </a>
+                  {isLoggedIn ? (
+                    <Link to="/wishlist">
+                      <span>
+                        <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconWishlist,
+                            globalStyles.pointer
+                          )}
+                        ></i>
+                      </span>
+                      &nbsp;
+                      <span className={styles.wishlistAlign}>
+                        VIEW WISHLIST
+                      </span>
+                    </Link>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
             )}
