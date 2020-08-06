@@ -600,6 +600,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             )}
             <input
               type="submit"
+              formNoValidate
               className={
                 this.state.disableButton || !this.state.showFields
                   ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
