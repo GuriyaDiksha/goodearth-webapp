@@ -249,36 +249,39 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           )}
           {giftwrap && giftShowPrice}
           <div className={globalStyles.marginT20}>
-            <hr className={styles.hr} />
-            <div className={globalStyles.flex}>
-              <div
-                className={cs(
-                  styles.marginR10,
-                  globalStyles.cerise,
-                  globalStyles.pointer
-                )}
-                onClick={toggleInput}
-              >
-                {isactivepromo ? "-" : "+"}
-              </div>
-              <div className={styles.inputContainer}>
+            {!basket.isOnlyGiftCart && (
+              <div className={globalStyles.flex}>
+                <hr className={styles.hr} />
                 <div
                   className={cs(
-                    globalStyles.c10LR,
-                    styles.promoMargin,
+                    styles.marginR10,
                     globalStyles.cerise,
                     globalStyles.pointer
                   )}
                   onClick={toggleInput}
                 >
-                  APPLY GIFT CARD CODE/ CREDIT NOTE
+                  {isactivepromo ? "-" : "+"}
                 </div>
-                {isactivepromo ? <ApplyGiftcard /> : ""}
-                {/* {renderInput()}
+                <div className={styles.inputContainer}>
+                  <div
+                    className={cs(
+                      globalStyles.c10LR,
+                      styles.promoMargin,
+                      globalStyles.cerise,
+                      globalStyles.pointer
+                    )}
+                    onClick={toggleInput}
+                  >
+                    APPLY GIFT CARD CODE/ CREDIT NOTE
+                  </div>
+                  {isactivepromo ? <ApplyGiftcard /> : ""}
+                  {/* {renderInput()}
                 {renderCoupon()} */}
+                </div>
               </div>
-            </div>
-            {loyaltyData.detail && (
+            )}
+
+            {loyaltyData.detail && currency == "INR" && (
               <Fragment>
                 <hr className={styles.hr} />
                 <div className={bootstrapStyles.row}>
@@ -358,6 +361,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
             )}
           </div>
+
           <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
             data-name="error-msg"

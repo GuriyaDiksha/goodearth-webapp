@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     // create function for dispatch
     showNotify: (message: string) => {
-      dispatch(showMessage(message, 7000));
+      dispatch(showMessage(message, 6000));
     },
     specifyShippingAddress: async (
       shippingAddressId: number,
@@ -192,8 +192,12 @@ class Checkout extends React.Component<Props, State> {
     if (nextProps.user.isLoggedIn) {
       const shippingData = nextProps.user.shippingData;
       if (nextProps.basket.redirectToCart) {
-        console.log(nextProps.basket.redirectToCart);
         this.props.history.push("/cart", {});
+      }
+      if (nextProps.basket.publishRemove) {
+        this.props.showNotify(
+          "Due to unavailability of some products your cart has been updated."
+        );
       }
       if (
         (this.state.activeStep == Steps.STEP_SHIPPING ||
