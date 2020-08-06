@@ -22,7 +22,8 @@ const LineItems: React.FC<BasketItem> = memo(
     product,
     currency,
     saleStatus,
-    toggleBag
+    toggleBag,
+    GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
@@ -100,14 +101,14 @@ const LineItems: React.FC<BasketItem> = memo(
                     <span className={styles.oldPrice}>
                       {String.fromCharCode(currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {isGiftCard ? GCValue : price}
                     </span>
                   ) : (
                     <span>
                       {" "}
                       {String.fromCharCode(currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {isGiftCard ? GCValue : price}
                     </span>
                   )}
                 </div>

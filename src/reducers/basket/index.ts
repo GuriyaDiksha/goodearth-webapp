@@ -17,7 +17,8 @@ const initialState: State = {
   total: 0,
   subTotal: 0,
   giftCards: [],
-  loyalty: []
+  loyalty: [],
+  redirectToCart: ""
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {
