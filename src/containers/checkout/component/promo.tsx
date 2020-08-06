@@ -87,7 +87,9 @@ const PromoSection: React.FC<PromoProps> = props => {
               bootstrapStyles.colMd6,
               styles.selectedStvalue
             )}
-            onClick={onCurrentState}
+            onClick={() => {
+              basket.isOnlyGiftCart ? "" : onCurrentState();
+            }}
           >
             <span
               className={
@@ -96,52 +98,55 @@ const PromoSection: React.FC<PromoProps> = props => {
                   : globalStyles.cerise
               }
             >
-              {"APPLY PROMO CODE"}
+              {basket.isOnlyGiftCart ? "Not Applicable" : " APPLY PROMO CODE"}
             </span>
           </div>
         )}
       </div>
       {isActive && (
         <Fragment>
-          <div className={globalStyles.marginT20}>
-            <hr className={styles.hr} />
-            <div className={globalStyles.flex}>
-              <div
-                className={cs(
-                  styles.marginR10,
-                  globalStyles.cerise,
-                  globalStyles.pointer
-                )}
-                onClick={toggleInput}
-              >
-                {isactivepromo ? "-" : "+"}
-              </div>
-              <div className={styles.inputContainer}>
+          {!basket.isOnlyGiftCart && (
+            <div className={globalStyles.marginT20}>
+              <hr className={styles.hr} />
+              <div className={globalStyles.flex}>
                 <div
                   className={cs(
-                    globalStyles.c10LR,
-                    styles.promoMargin,
+                    styles.marginR10,
                     globalStyles.cerise,
                     globalStyles.pointer
                   )}
                   onClick={toggleInput}
                 >
-                  APPLY PROMO CODE
+                  {isactivepromo ? "-" : "+"}
                 </div>
-                {isactivepromo && (
-                  <ApplyPromo
-                    onRef={(el: any) => {
-                      PromoChild = el;
-                    }}
-                    onNext={onNext}
-                  />
-                )}
-                {/* {renderInput()}
+                <div className={styles.inputContainer}>
+                  <div
+                    className={cs(
+                      globalStyles.c10LR,
+                      styles.promoMargin,
+                      globalStyles.cerise,
+                      globalStyles.pointer
+                    )}
+                    onClick={toggleInput}
+                  >
+                    APPLY PROMO CODE
+                  </div>
+                  {isactivepromo && (
+                    <ApplyPromo
+                      onRef={(el: any) => {
+                        PromoChild = el;
+                      }}
+                      onNext={onNext}
+                    />
+                  )}
+                  {/* {renderInput()}
                 {renderCoupon()} */}
+                </div>
               </div>
+              <hr className={styles.hr} />
             </div>
-            <hr className={styles.hr} />
-          </div>
+          )}
+
           <button
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}

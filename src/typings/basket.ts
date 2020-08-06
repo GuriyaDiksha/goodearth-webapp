@@ -54,6 +54,8 @@ export type Basket = {
   giftCards: BalanceProps[];
   loyalty: Points[];
   redirectToCart: string;
+  isOnlyGiftCart: boolean;
+  publishRemove: boolean;
 };
 
 export interface BasketItem extends BasketLineItem {

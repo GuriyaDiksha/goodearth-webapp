@@ -24,9 +24,13 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = ReturnType<typeof mapStateToProps>;
 
-class CollectionLanding extends React.Component<Props, { filterData: string }> {
+class CollectionLanding extends React.Component<
+  Props,
+  { filterData: string; onloadState: boolean }
+> {
   state = {
-    filterData: "All"
+    filterData: "All",
+    onloadState: false
   };
 
   onchangeFilter = (data: any): void => {
@@ -34,6 +38,14 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
       filterData: data
     });
   };
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    if (nextProps.data.selectValue?.[0] && !this.state.onloadState) {
+      this.setState({
+        filterData: nextProps.data.selectValue?.[0]?.name,
+        onloadState: true
+      });
+    }
+  }
 
   render() {
     const collection = this.props.location.pathname.split("/").pop();
@@ -43,6 +55,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
       device: { mobile },
       data: { level2Categories }
     } = this.props;
+
     // Code for checking selected filter form collection list
     const filterData = collectionData.filter((item: any) => {
       return this.state.filterData == "All"
@@ -81,7 +94,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                 onChange={this.onchangeFilter}
                 showCaret={true}
                 open={false}
-                value="All"
+                value={this.state.filterData}
               />
             </div>
           ) : (
@@ -91,7 +104,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                 align="right"
                 className={styles.dropdownRoot}
                 items={level2Categories}
-                value="All"
+                value={this.state.filterData}
                 onChange={this.onchangeFilter}
                 showCaret={true}
               ></SelectableDropdownMenu>
