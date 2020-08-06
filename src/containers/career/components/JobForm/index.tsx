@@ -331,8 +331,7 @@ class JobForm extends React.Component<Props, State> {
         <h4>APPLY</h4>
         <Formsy
           onValidSubmit={this.handleSubmit}
-          // onInvalidSubmit={this.handleInvalidSubmit}
-          onInvalidSubmit={this.resetFormData}
+          onInvalidSubmit={this.handleInvalidSubmit}
           ref={this.jobForm}
         >
           <div
