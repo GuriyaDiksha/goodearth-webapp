@@ -21,7 +21,8 @@ const CartItems: React.FC<BasketItem> = memo(
     quantity,
     product,
     currency,
-    saleStatus
+    saleStatus,
+    GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
@@ -114,7 +115,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         {" "}
                         {String.fromCharCode(currencyCodes[currency])}
                         &nbsp;
-                        {price}
+                        {product.structure == "GiftCard" ? GCValue : price}
                       </span>
                     )}
                   </div>

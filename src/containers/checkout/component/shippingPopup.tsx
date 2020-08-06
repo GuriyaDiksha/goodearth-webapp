@@ -5,49 +5,55 @@ import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { PopupProps } from "./typings";
+import iconStyles from "styles/iconFonts.scss";
 const ShippingPopup: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className={cs(globalStyles.cerise, styles.cross)}>
-      <div className="size-block size-block-1 size-block-not-fixed centerpage-desktop centerpage-mobile text-center">
-        <div className="cross" onClick={props.closeModal}>
-          <i className="icon icon_cross"></i>
+    <div>
+      <div
+        className={cs(
+          styles.sizeBlockPopup,
+          styles.sizeBlockNotFixed,
+          styles.centerpageDesktop,
+          styles.centerpageMobile,
+          globalStyles.textCenter
+        )}
+      >
+        <div className={styles.cross} onClick={props.closeModal}>
+          <i
+            className={cs(
+              iconStyles.icon,
+              iconStyles.iconCrossNarrowBig,
+              styles.icon,
+              styles.iconCross
+            )}
+          ></i>
         </div>
-        <div className="gc-tnc">
-          <div className="c22-A-I voffset7">Please Note</div>
-          <div className="c10-L-R">
+        <div className={cs(styles.gcTnc, globalStyles.voffset5)}>
+          <div className={globalStyles.c22AI}>Shipping &amp; Payment</div>
+          <div className={globalStyles.c10LR}>
             <p>
-              Your safety is our priority. All standard WHO guidelines and
-              relevant precautionary measures are in place, to ensure a safe and
-              secure shopping experience for you.
+              Duties &amp; Taxes are not included in this order and will be
+              charged over and above the shipping and handling charges paid at
+              checkout.
             </p>
             <p>
-              We are delighted to have resumed shipping, both worldwide and
-              select locations within India, permissible under government
-              directives. Please use our Pincode Detector to check if your area
-              (within India) is currently serviceable.
+              Most countries charge duties on imports, which are levied at the
+              time of port entry. These are based on the destination country and
+              the products being purchased.
             </p>
             <p>
-              Apply code: <b>SAVE20</b> at checkout to avail a special discount
-              on <span className="cerise">International orders</span>, valid
-              from{" "}
-              <span className="cerise">
-                1st July till 10th July 2020, midnight IST
-              </span>
-              .
-            </p>
-            <p>
-              For any further assistance reach out to us at{" "}
-              <b className="cerise">customercare@goodearth.in</b>
-            </p>
-            <p>
-              <b>Happy shopping!</b>
+              I agree to pay the additional applicable duties and taxes directly
+              to the shipping agency at the time of order delivery.
             </p>
           </div>
-          <div className="cerise-btn">
-            <a onClick={props.acceptCondition}>OK</a>
-          </div>
+        </div>
+        <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtnWidth)}>
+          <a onClick={props.acceptCondition}>accept &amp; proceed</a>
+        </div>
+        <div className={styles.cancelBtn}>
+          <a onClick={props.acceptCondition}>Cancel</a>
         </div>
       </div>
     </div>

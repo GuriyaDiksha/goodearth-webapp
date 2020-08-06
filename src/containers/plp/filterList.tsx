@@ -771,7 +771,6 @@ class FilterList extends React.Component<Props, State> {
         </li>
       </ul>
     );
-
     return html;
   };
 
@@ -1455,7 +1454,9 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.ClickmenuCategory.bind(this, 0)}
+              onClick={() => {
+                this.ClickmenuCategory(0);
+              }}
             >
               Category
             </span>
@@ -1491,7 +1492,9 @@ class FilterList extends React.Component<Props, State> {
                       ? cs(styles.menulevel1, styles.menulevel1Open)
                       : styles.menulevel1
                   }
-                  onClick={this.toggleFilterByDiscountMenu.bind(this)}
+                  onClick={() => {
+                    this.toggleFilterByDiscountMenu();
+                  }}
                 >
                   FILTER BY DISCOUNT
                 </span>
@@ -1518,45 +1521,41 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          {this.productData.length > 0 ? (
-            <li>
-              {this.productData.length > 0 ? (
-                <span
-                  className={
-                    this.state.showProductFilter
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : globalStyles.menulevel1
-                  }
-                  onClick={this.ClickProductCategory.bind(this)}
-                >
-                  PRODUCT TYPE
-                </span>
-              ) : (
-                ""
-              )}
-              <div
+          <li>
+            {this.productData.length > 0 ? (
+              <span
                 className={
                   this.state.showProductFilter
-                    ? styles.showheader1
-                    : globalStyles.hidden
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
                 }
+                onClick={this.ClickProductCategory}
               >
-                {this.createProductType(
-                  this.props.facetObject.categoryObj,
-                  this.props.facets
-                )}
-                <div
-                  onClick={e => this.clearFilter(e, "productType")}
-                  data-name="productType"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
-                </div>
+                PRODUCT TYPE
+              </span>
+            ) : (
+              ""
+            )}
+            <div
+              className={
+                this.state.showProductFilter
+                  ? styles.showheader1
+                  : globalStyles.hidden
+              }
+            >
+              {this.createProductType(
+                this.props.facetObject.categoryObj,
+                this.props.facets
+              )}
+              <div
+                onClick={e => this.clearFilter(e, "productType")}
+                data-name="productType"
+                className={styles.plp_filter_sub}
+              >
+                Clear
               </div>
-            </li>
-          ) : (
-            ""
-          )}
+            </div>
+          </li>
           <li>
             <span
               className={
@@ -1564,7 +1563,9 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.Clickmenulevel1.bind(this, 1)}
+              onClick={() => {
+                this.Clickmenulevel1(1);
+              }}
             >
               COLOUR FAMILY
             </span>
@@ -1596,7 +1597,9 @@ class FilterList extends React.Component<Props, State> {
                       ? cs(styles.menulevel1, styles.menulevel1Open)
                       : styles.menulevel1
                   }
-                  onClick={this.Clickmenulevel1.bind(this, 2)}
+                  onClick={() => {
+                    this.Clickmenulevel1(2);
+                  }}
                 >
                   size
                 </span>
@@ -1640,7 +1643,9 @@ class FilterList extends React.Component<Props, State> {
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
-              onClick={this.Clickmenulevel1.bind(this, 3)}
+              onClick={() => {
+                this.Clickmenulevel1(3);
+              }}
             >
               Price
             </span>
