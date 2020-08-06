@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useRef } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -18,6 +18,8 @@ const PromoSection: React.FC<PromoProps> = props => {
     setIsactivepromo(!isactivepromo);
   };
 
+  let PromoChild: any = useRef<typeof ApplyPromo>(null);
+
   useEffect(() => {
     if (basket.voucherDiscounts.length > 0) {
       setIsactivepromo(true);
@@ -25,6 +27,14 @@ const PromoSection: React.FC<PromoProps> = props => {
   }, [basket.voucherDiscounts]);
 
   const onsubmit = () => {
+    if (PromoChild.gcBalance && basket.voucherDiscounts.length == 0) {
+      PromoChild.gcBalance();
+    } else {
+      next(Steps.STEP_PAYMENT);
+    }
+  };
+
+  const onNext = () => {
     next(Steps.STEP_PAYMENT);
   };
 
@@ -118,7 +128,14 @@ const PromoSection: React.FC<PromoProps> = props => {
                 >
                   APPLY PROMO CODE
                 </div>
-                {isactivepromo && <ApplyPromo />}
+                {isactivepromo && (
+                  <ApplyPromo
+                    onRef={(el: any) => {
+                      PromoChild = el;
+                    }}
+                    onNext={onNext}
+                  />
+                )}
                 {/* {renderInput()}
                 {renderCoupon()} */}
               </div>

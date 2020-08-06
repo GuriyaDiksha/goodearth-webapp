@@ -13,7 +13,6 @@ const CheckoutLoginForm = loadable(() =>
 const CheckoutRegisterForm = loadable(() =>
   import("components/signin/register/checkoutRegister")
 );
-<CheckoutRegisterForm />;
 const LoginSection: React.FC<LoginProps> = props => {
   const {
     isActive,

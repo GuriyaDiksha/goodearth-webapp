@@ -243,7 +243,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     <i
                       className={cs(
                         iconStyles.icon,
-                        iconStyles.iconCrossNarrowBig
+                        iconStyles.iconCrossNarrowBig,
+                        styles.discountFont
                       )}
                     ></i>
                   </span>
@@ -288,7 +289,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <i
                     className={cs(
                       iconStyles.icon,
-                      iconStyles.iconCrossNarrowBig
+                      iconStyles.iconCrossNarrowBig,
+                      styles.discountFont
                     )}
                   ></i>
                 </span>
@@ -327,7 +329,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 }}
               >
                 <i
-                  className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.discountFont
+                  )}
                 ></i>
               </span>
             </span>
@@ -349,52 +355,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     // }
 
     //return null;
-  };
-
-  const getDeliveryStatus = () => {
-    const html = [];
-    if (!basket.lineItems) return false;
-    if (basket.shippable == false) {
-      html.push();
-    } else {
-      html.push(
-        <div className="c10-L-R padd tb15 hidden-sm hidden-xs">
-          {!isSuspended &&
-            (salestatus
-              ? currency == "INR"
-                ? "Delivery within 8-10 business days"
-                : "Delivery within 10-12 business days"
-              : currency == "INR"
-              ? "Expected Delivery: 6-8 business days"
-              : "Expected Delivery: 7-10 business days")}
-          <div className="hidden-sm hidden-xs">
-            {isSuspended ? (
-              ""
-            ) : (
-              <p>
-                *Expected Delivery for Wallcoverings- within 40 business days
-              </p>
-            )}
-            {isSuspended && (
-              <p>
-                In the current scenario, the delivery time of your order(s)
-                placed during this period will vary as per restrictions imposed
-                in that area. Please bear with us and connect with our customer
-                care for assistance.
-              </p>
-            )}
-            {isSuspended && (
-              <p>
-                We have resumed International shipping and shipping within
-                India, in select zones (as per Government guidelines).
-              </p>
-            )}
-            {/* *Expected Delivery of Pichwai Art is 15 to 18 business days */}
-          </div>
-        </div>
-      );
-    }
-    return html;
   };
 
   const { pathname } = useLocation();
@@ -600,7 +560,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {parseFloat("" + basket.total).toFixed(2)}
               </span>
             </div>
-            {getDeliveryStatus()}
             {!mobile && getDeliveryStatusMobile()}
             {currency == "INR" ? (
               ""

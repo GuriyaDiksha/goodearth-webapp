@@ -11,13 +11,17 @@ import { AppState } from "reducers/typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    user: state.user,
     currency: state.currency,
     voucherDiscounts: state.basket.voucherDiscounts
   };
 };
+export type PromoProps = {
+  onRef: any;
+  onNext: () => void;
+};
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> &
+  PromoProps;
 
 class ApplyPromo extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -29,6 +33,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       toggleOtp: true,
       isActivated: false
     };
+    this.props.onRef(this);
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
 
@@ -60,6 +65,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             newCardBox: false,
             txtvalue: ""
           });
+          this.props.onNext();
         }
       })
       .catch(error => {
@@ -108,11 +114,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
 
   render() {
     const { newCardBox, txtvalue } = this.state;
-    const {
-      user: { isLoggedIn },
-      currency,
-      voucherDiscounts
-    } = this.props;
+    const { currency, voucherDiscounts } = this.props;
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
@@ -154,20 +156,9 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                           : styles.marginR10
                       }
                     />
-                    <span
-                      className={cs(styles.colorPrimary, globalStyles.pointer, {
-                        [globalStyles.hidden]: !isLoggedIn
-                      })}
-                    >
-                      <span
-                        className={styles.arrowrightsmall}
-                        onClick={this.gcBalance}
-                      ></span>
-                    </span>
                   </div>
                   <label>Promo Code</label>
                 </Fragment>
-
                 {this.state.error ? (
                   <p
                     className={cs(

@@ -57,9 +57,17 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   applyCard = () => {
+    if (!this.state.txtvalue) {
+      this.setState({
+        error: "Please enter a code",
+        isActivated: false
+      });
+      return false;
+    }
     const data: any = {
       cardId: this.state.txtvalue
     };
+
     this.props.applyGiftCard(data).then((response: any) => {
       if (response.status == false) {
         this.updateError(response.message, response.isNotActivated);
@@ -116,7 +124,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     const {
       user: { isLoggedIn },
       currency,
-      giftList
+      giftList,
+      total
     } = this.props;
     return (
       <Fragment>
@@ -192,7 +201,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                     className={cs(
                       styles.activeUrl,
                       globalStyles.cerise,
-                      globalStyles.voffset2
+                      globalStyles.voffset1
                     )}
                   >
                     <Link to={"/account/giftcard-activation"}>
@@ -206,6 +215,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             ) : (
               <div
                 className={cs(
+                  { [globalStyles.hidden]: +total <= 0 },
                   styles.rtcinfo,
                   globalStyles.pointer,
                   globalStyles.textLeft
