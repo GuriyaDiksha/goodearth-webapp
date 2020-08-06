@@ -56,6 +56,11 @@ export type PaymentProps = {
   loyaltyData: any;
 };
 
+export type PopupProps = {
+  closeModal: (data?: any) => any;
+  acceptCondition: (data?: any) => any;
+};
+
 export type BalanceProps = {
   cardId: string;
   cardType: string;
