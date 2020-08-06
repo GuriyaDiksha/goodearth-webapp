@@ -21,7 +21,8 @@ const LineItems: React.FC<BasketItem> = memo(
     quantity,
     product,
     currency,
-    saleStatus
+    saleStatus,
+    toggleBag
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
@@ -46,7 +47,7 @@ const LineItems: React.FC<BasketItem> = memo(
     };
 
     const {
-      plpImages,
+      images,
       collections,
       title,
       url,
@@ -62,10 +63,16 @@ const LineItems: React.FC<BasketItem> = memo(
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
             <div className={styles.cartRing}></div>
-            <Link to={isGiftCard ? "#" : url}>
+            <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
               <img
                 className={styles.productImage}
-                src={isGiftCard ? giftCardImage : plpImages ? plpImages[0] : ""}
+                src={
+                  isGiftCard
+                    ? giftCardImage
+                    : images && images.length > 0
+                    ? images[0].productImage.replace("Medium", "Micro")
+                    : ""
+                }
               />
             </Link>
           </div>
@@ -74,7 +81,9 @@ const LineItems: React.FC<BasketItem> = memo(
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col10, styles.name)}>
                 <div>
-                  <Link to={isGiftCard ? "#" : url}>{title}</Link>
+                  <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+                    {title}
+                  </Link>
                 </div>
                 <div className={styles.productPrice}>
                   {saleStatus && discount && discountedPriceRecords ? (

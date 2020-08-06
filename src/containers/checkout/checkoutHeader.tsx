@@ -109,8 +109,8 @@ class CheckoutHeader extends React.Component<Props, {}> {
             <i
               className={cs(
                 iconStyles.icon,
-                iconStyles.iconLockbtn,
-                styles.lock
+                iconStyles.iconCartFilled,
+                styles.cart
               )}
             ></i>
           </span>
@@ -213,14 +213,13 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 <img className={styles.logo} src={gelogoCerise} />
               </Link>
             </div>
-            <div className={cs(bootstrap.col3, bootstrap.colMd8)}>
+            <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
               {heading}
             </div>
             <div
               className={cs(
-                bootstrap.colMd1,
+                bootstrap.colMd2,
                 bootstrap.col3,
-                bootstrap.offset1,
                 globalStyles.voffset2,
                 styles.curr
               )}

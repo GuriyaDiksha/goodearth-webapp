@@ -4,8 +4,8 @@ import {
   NavLink,
   Switch,
   Route,
-  useRouteMatch,
-  useLocation
+  useRouteMatch
+  // useLocation
 } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -44,23 +44,11 @@ const StaticPage: React.FC<Props> = props => {
 
   const [currentSection, setCurrentSection] = useState("Profile");
 
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
     window.scrollTo(0, 0);
-    // for handling scroll to particalar element with id
-    const { hash, search } = location;
-    const id = search ? search.replace("?id=", "") : hash.replace("#", "");
-    if (id) {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView();
-        const headerHeight = 50;
-        const secondaryHeaderHeight = 48;
-        window.scrollBy(0, -(headerHeight + secondaryHeaderHeight));
-      }
-    }
   }, []);
 
   const accountMenuItems: AccountMenuItem[] = [

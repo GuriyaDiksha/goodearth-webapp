@@ -9,9 +9,26 @@ import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 
 const BaseLayout: React.FC = () => {
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { pathname } = location;
   useEffect(() => {
     window.scrollTo(0, 0);
+    // for handling scroll to particalar element with id
+    const { hash, search } = location;
+    const id = search ? search.replace("?id=", "") : hash.replace("#", "");
+    if (id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView();
+        const headerHeight = 50;
+        const secondaryHeaderHeight = 48;
+        const announcementBarHeight = 30;
+        window.scrollBy(
+          0,
+          -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+        );
+      }
+    }
   }, [pathname]);
 
   const isCheckout =

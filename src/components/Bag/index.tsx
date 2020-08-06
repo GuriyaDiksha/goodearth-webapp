@@ -5,7 +5,8 @@ import { CartProps, State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { currencyCodes } from "constants/currency";
 
 export default class Bag extends React.Component<CartProps, State> {
   constructor(props: CartProps) {
@@ -46,7 +47,14 @@ export default class Bag extends React.Component<CartProps, State> {
     } = this.props;
 
     const item = lineItems.map(item => {
-      return <LineItems key={item.id} {...item} currency={currency} />;
+      return (
+        <LineItems
+          key={item.id}
+          {...item}
+          currency={currency}
+          toggleBag={this.props.toggleBag}
+        />
+      );
     });
     return item.length > 0 ? (
       item
@@ -55,10 +63,6 @@ export default class Bag extends React.Component<CartProps, State> {
         No items added to bag.
       </p>
     );
-  }
-
-  goToCart() {
-    // history.push("/cart")
   }
 
   getFooter() {
@@ -88,9 +92,11 @@ export default class Bag extends React.Component<CartProps, State> {
             <div className={cs(styles.totalPrice, globalStyles.bold)}>
               SUBTOTAL
             </div>
-            <div className={styles.textRight}>
+            <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                {/* {Currency.getSymbol()} {this.calculateDiscount()} */}
+                {String.fromCharCode(currencyCodes[this.props.currency])}
+                &nbsp;
+                {this.props.cart.subTotal}
               </h5>
               <p className={styles.subtext}>
                 Excluding estimated cost of shipping
@@ -99,10 +105,7 @@ export default class Bag extends React.Component<CartProps, State> {
           </div>
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={cs(styles.iconCart, globalStyles.pointer)}>
-              <div
-                className={styles.innerDiv}
-                onClick={this.goToCart.bind(this)}
-              >
+              <div className={styles.innerDiv}>
                 <div className={styles.cartIconDiv}>
                   <i
                     className={cs(
@@ -112,18 +115,33 @@ export default class Bag extends React.Component<CartProps, State> {
                     )}
                   ></i>
                 </div>
-                <span className={styles.viewBag}>VIEW SHOPPING BAG</span>
+                <span className={styles.viewBag}>
+                  <Link to="/cart">VIEW SHOPPING BAG</Link>
+                </span>
               </div>
             </div>
-            <NavLink key="checkout" to="/order/checkout">
-              <button
-                className={cs(globalStyles.ceriseBtn, {
-                  [globalStyles.disabled]: !this.canCheckout()
-                })}
-              >
-                PROCEED TO CHECKOUT
-              </button>
-            </NavLink>
+            {this.canCheckout() ? (
+              <NavLink key="checkout" to="/order/checkout">
+                <button
+                  className={cs(globalStyles.ceriseBtn, {
+                    [globalStyles.disabledBtn]: !this.canCheckout()
+                  })}
+                >
+                  PROCEED TO CHECKOUT
+                </button>
+              </NavLink>
+            ) : (
+              <div>
+                <button
+                  className={cs(
+                    globalStyles.ceriseBtn,
+                    globalStyles.disabledBtn
+                  )}
+                >
+                  PROCEED TO CHECKOUT
+                </button>
+              </div>
+            )}
           </div>
         </div>
       );
@@ -131,6 +149,39 @@ export default class Bag extends React.Component<CartProps, State> {
   }
 
   canCheckout = () => {
+    // if (pathname.indexOf("checkout") > -1) {
+    //   return false;
+    // }
+    // this.amountLeft = 50000 - this.props.cart.subTotal;
+    if (
+      !this.props.cart.lineItems ||
+      this.hasOutOfStockItems() ||
+      this.props.cart.lineItems.length == 0
+    ) {
+      return false;
+    }
+    if (!this.props.cart.shippable && this.state.shipping == true) {
+      this.setState({
+        shipping: false
+      });
+    } else if (
+      this.props.cart.subTotal >= 45000 &&
+      this.props.cart.subTotal < 50000 &&
+      this.state.shipping == false &&
+      this.props.currency == "INR" &&
+      this.props.cart.shippable
+    ) {
+      this.setState({
+        shipping: true
+      });
+    } else if (
+      (this.props.cart.subTotal < 45000 || this.props.cart.subTotal >= 50000) &&
+      this.state.shipping
+    ) {
+      this.setState({
+        shipping: false
+      });
+    }
     return true;
   };
 
