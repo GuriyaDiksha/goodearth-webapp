@@ -103,7 +103,7 @@ const Career: React.FC<Props> = props => {
         openJobForm(job);
         setMode("apply");
         // }
-      } else {
+      } else if (jobUrl == "all") {
         openJobForm();
         setMode("applyAll");
       }

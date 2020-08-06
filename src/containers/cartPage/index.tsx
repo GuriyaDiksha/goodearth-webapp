@@ -9,6 +9,8 @@ import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CartItems from "./cartItem";
 import OrderSummary from "containers/checkout/component/orderSummary";
+import motifTigerTree from "../../images/motifTigerTree.png";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -70,9 +72,40 @@ class CartPage extends React.Component<
     return item.length > 0 ? (
       item
     ) : (
-      <p className={cs(globalStyles.marginT20, globalStyles.textCenter)}>
-        No items added to bag.
-      </p>
+      // <p className={cs(globalStyles.marginT20, globalStyles.textCenter)}>
+      //   No items added to bag.
+      // </p>
+      <div className={styles.cart}>
+        {/* {this.renderMessage()} */}
+        <div
+          className={cs(
+            globalStyles.marginT40,
+            globalStyles.textCenter,
+            bootstrap.colMd4,
+            bootstrap.offsetMd4,
+            bootstrap.colSm8,
+            bootstrap.offsetSm2,
+            bootstrap.col10,
+            bootstrap.offset1
+          )}
+        >
+          <div className={styles.emptyMsg}> Your bag is currently empty </div>
+          <div className={cs(globalStyles.voffset3, globalStyles.c10LR)}>
+            {" "}
+            Looking to discover some ideas?{" "}
+          </div>
+          <div className={globalStyles.voffset5}>
+            {" "}
+            <Link to="/">
+              <button className={globalStyles.ceriseBtn}>Explore</button>
+            </Link>{" "}
+          </div>
+          <div className={globalStyles.voffset5}>
+            {" "}
+            <img src={motifTigerTree} />{" "}
+          </div>
+        </div>
+      </div>
     );
   }
 

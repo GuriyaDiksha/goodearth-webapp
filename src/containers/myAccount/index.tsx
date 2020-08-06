@@ -5,7 +5,8 @@ import {
   Switch,
   Route,
   useRouteMatch,
-  useLocation
+  useLocation,
+  useHistory
 } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -50,10 +51,7 @@ const MyAccount: React.FC<Props> = props => {
     // window.scrollTo(0, 0);
   }, []);
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  const history = useHistory();
 
   const accountMenuItems: AccountMenuItem[] = [
     {
@@ -107,6 +105,19 @@ const MyAccount: React.FC<Props> = props => {
       loggedInOnly: false
     }
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (
+      accountMenuItems.filter(
+        item => item.href == pathname && item.loggedInOnly
+      ).length > 0 &&
+      !isLoggedIn
+    ) {
+      history.push("/");
+    }
+  }, [pathname, isLoggedIn]);
+
   let bgClass = cs(globalStyles.colMd10, globalStyles.col12, styles.bgProfile);
   bgClass +=
     slab && path == "/account/cerise"
