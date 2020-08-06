@@ -27,8 +27,8 @@ const LineItems: React.FC<BasketItem> = memo(
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
 
-    const handleChange = (value: number) => {
-      BasketService.updateToBasket(dispatch, id, value).then(res => {
+    const handleChange = async (value: number) => {
+      await BasketService.updateToBasket(dispatch, id, value).then(res => {
         setValue(value);
       });
     };
@@ -139,13 +139,16 @@ const LineItems: React.FC<BasketItem> = memo(
                 {getSize(product.attributes)}
                 <div className={styles.widgetQty}>
                   <Quantity
+                    source="bag"
                     key={id}
+                    id={id}
                     currentValue={value}
                     minValue={1}
-                    maxValue={100}
-                    onChange={handleChange}
-                    class="my-quantity"
-                    errorMsg="Available qty in stock is"
+                    maxValue={1000}
+                    onChange={x => null}
+                    onUpdate={handleChange}
+                    class={styles.myQuantity}
+                    // errorMsg="Available qty in stock is"
                   />
                 </div>
               </div>

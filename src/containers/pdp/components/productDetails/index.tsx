@@ -94,10 +94,12 @@ const ProductDetails: React.FC<Props> = ({
       : priceRecords[currency];
 
   const [sizeError, setSizeError] = useState("");
+  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
 
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      setQuantity(1);
       setSizeError("");
     },
     [id, childAttributes, selectedSize]
@@ -105,8 +107,6 @@ const ProductDetails: React.FC<Props> = ({
 
   const minQuantity = 1;
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
-
-  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
 
   const onQuantityChange = useCallback(
     value => {
@@ -163,12 +163,17 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
-  const addToBasket = async () => {
+  const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
     } else {
-      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+      BasketService.addToBasket(dispatch, selectedSize.id, quantity)
+        .then(() => {
+          dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+        })
+        .catch(err => {
+          dispatch(showMessage(err.response.data));
+        });
     }
   };
 
@@ -406,8 +411,15 @@ const ProductDetails: React.FC<Props> = ({
               >
                 Quantity
               </div>
-              <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colSm9,
+                  styles.widgetQty
+                )}
+              >
                 <Quantity
+                  source="pdp"
                   key={selectedSize?.sku}
                   id={selectedSize?.id}
                   minValue={minQuantity}
