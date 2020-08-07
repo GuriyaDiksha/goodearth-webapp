@@ -7,4 +7,5 @@ export type Props = {
   mobile?: boolean;
   iconClassName?: string;
   basketLineId?: ProductID;
+  onMoveToWishlist?: () => void;
 };

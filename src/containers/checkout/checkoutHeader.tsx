@@ -16,7 +16,7 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
-import { currencyCode } from "typings/currency";
+import { currencyCode, Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
@@ -39,7 +39,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    changeCurrency: async (data: FormData) => {
+    changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },

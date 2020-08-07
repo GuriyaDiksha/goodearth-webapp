@@ -17,6 +17,11 @@ body {
   color: $default;
   @include scrollbar();
 }
+a{
+  &:hover {
+    text-decoration: none;
+  }
+}
 
 ul,li,ol,p,h3,h5 {
   margin: 0;
@@ -163,6 +168,9 @@ font-weight: bold;
 .cerise-btn {
   @include cerise-btn();
   &:hover {
+    color: #fff;
+  }
+  &:focus {
     color: #fff;
   }
   &.disabled-btn {
