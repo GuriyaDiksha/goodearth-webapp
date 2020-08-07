@@ -17,6 +17,7 @@ import { updateUser } from "actions/user";
 import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
+import { Currency } from "typings/currency";
 
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -112,13 +113,16 @@ export default {
     BasketService.fetchBasket(dispatch);
     return res;
   },
-  changeCurrency: async function(dispatch: Dispatch, formData: FormData) {
+  changeCurrency: async function(
+    dispatch: Dispatch,
+    formData: { currency: Currency }
+  ) {
     const res: any = await API.post<registerResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
       formData
     );
-    CookieService.setCookie("currency", res.currency, 365);
+    CookieService.setCookie("currency", formData.currency, 365);
     return res;
   },
   fetchCountryData: (dispatch: Dispatch) => {
