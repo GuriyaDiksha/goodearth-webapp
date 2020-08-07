@@ -24,7 +24,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     salestatus,
     validbo
   } = props;
-  const [showSummary, setShowSummary] = useState(true);
+  const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
@@ -81,7 +81,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 *Expected Delivery for Wallcoverings- within 40 business days
               </p>
             )}
-            {
+            {false && (
               <div>
                 <p className={globalStyles.cerise}>
                   Apply code: <b>SAVE20</b> at checkout to avail 20% discount on
@@ -90,7 +90,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 </p>
                 <br />
               </div>
-            }
+            )}
             {isSuspended && (
               <p>
                 {" "}

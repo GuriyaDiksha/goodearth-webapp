@@ -273,7 +273,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   }
   changeEmail = () => {
     this.setState({
-      showCurrentSection: "email"
+      showCurrentSection: "email",
+      email: ""
     });
   };
 
@@ -329,13 +330,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               inputRef={this.emailInput}
               disable={this.state.isPasswordDisabled}
               disablePassword={this.disablePassword}
-              inputClass={
-                this.state.isPasswordDisabled ? styles.disabledInput : ""
-              }
             />
-            <span className={styles.loginChange} onClick={this.changeEmail}>
+            <p className={styles.loginChange} onClick={this.changeEmail}>
               Change
-            </span>
+            </p>
           </div>
           <div>
             <InputField
