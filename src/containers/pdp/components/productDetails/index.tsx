@@ -233,7 +233,7 @@ const ProductDetails: React.FC<Props> = ({
 
     return show;
   }, [childAttributes]);
-
+  console.log("enter details");
   return (
     <div className={bootstrap.row}>
       <div
