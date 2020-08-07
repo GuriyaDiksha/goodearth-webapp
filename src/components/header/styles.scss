@@ -219,9 +219,9 @@
         margin-top: 25px;
         display: inline-block;
         @include menu-heading();
-        &:hover {
-          text-decoration: underline;
-        }
+        // &:hover {
+        //   text-decoration: underline;
+        // }
         &.link-without-url {
           text-decoration: none;
           cursor: default;

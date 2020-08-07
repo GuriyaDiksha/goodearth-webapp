@@ -118,7 +118,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             {product.priceRecords[currency as Currency]}
           </span>
         </p>
-        {sizeExit && (
+        {sizeExit && !mobile && (
           <div className={cs(styles.productSizeList, bootstyles.row)}>
             <div className={styles.productSize}> size</div>
             <div className="">
