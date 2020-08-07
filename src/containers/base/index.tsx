@@ -31,6 +31,28 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    // document.addEventListener("wheel", )
+    document.addEventListener("wheel", (e: WheelEvent) => {
+      const elem = e.target as HTMLInputElement;
+      if (
+        e.target &&
+        elem.tagName.toLowerCase() === "input" &&
+        elem.type === "number" &&
+        elem === document.activeElement &&
+        !elem.readOnly
+      ) {
+        elem.readOnly = true;
+        setTimeout(
+          (el: HTMLInputElement) => {
+            el.readOnly = false;
+          },
+          0,
+          elem
+        );
+      }
+    });
+  }, []);
   const isCheckout =
     pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;

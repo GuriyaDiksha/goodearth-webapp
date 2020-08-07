@@ -86,7 +86,7 @@ const ResetPassword: React.FC<Props> = props => {
         // }
       })
       .catch((err: any) => {
-        setErrorMessage(JSON.stringify(err.response.data));
+        setErrorMessage(err.response.data.errorMessage);
       });
   };
 
@@ -143,7 +143,9 @@ const ResetPassword: React.FC<Props> = props => {
           </div>
           <div>
             {errorMessage ? (
-              <p className={globalStyles.errorMsg}>{errorMessage}</p>
+              <p className={cs(globalStyles.errorMsg, globalStyles.marginB10)}>
+                {errorMessage}
+              </p>
             ) : (
               ""
             )}

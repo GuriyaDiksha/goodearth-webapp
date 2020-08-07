@@ -22,13 +22,14 @@ const CartItems: React.FC<BasketItem> = memo(
     product,
     currency,
     saleStatus,
-    GCValue
+    GCValue,
+    onMoveToWishlist
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
 
-    const handleChange = (value: number) => {
-      BasketService.updateToBasket(dispatch, id, value).then(res => {
+    const handleChange = async (value: number) => {
+      await BasketService.updateToBasket(dispatch, id, value).then(res => {
         setValue(value);
       });
     };
@@ -128,13 +129,16 @@ const CartItems: React.FC<BasketItem> = memo(
                     <div className={styles.size}>QTY</div>
                     <div className={styles.widgetQty}>
                       <Quantity
+                        source="cartpage"
                         key={id}
+                        id={id}
                         currentValue={value}
                         minValue={1}
-                        maxValue={100}
-                        onChange={handleChange}
+                        maxValue={1000}
+                        onChange={x => null}
+                        onUpdate={handleChange}
                         class="my-quantity"
-                        errorMsg="Available qty in stock is"
+                        // errorMsg="Available qty in stock is"
                       />
                     </div>
                   </div>
@@ -166,6 +170,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   basketLineId={id}
                   id={product.id}
                   showText={false}
+                  onMoveToWishlist={onMoveToWishlist}
                   className="wishlist-font"
                 />
               </div>

@@ -118,7 +118,7 @@ class MyProfile extends React.Component<Props, State> {
     formData["panPassportNumber"] = panPassportNumber || "";
     formData["dateOfBirth"] = dateOfBirth
       ? moment(dateOfBirth).format("YYYY-MM-DD")
-      : "";
+      : null;
     formData["subscribe"] = subscribe;
     this.setState({
       showerror: ""

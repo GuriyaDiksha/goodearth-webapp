@@ -20,7 +20,8 @@ const initialState: State = {
   loyalty: [],
   redirectToCart: "",
   isOnlyGiftCart: false,
-  publishRemove: false
+  publishRemove: false,
+  updated: false
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {
