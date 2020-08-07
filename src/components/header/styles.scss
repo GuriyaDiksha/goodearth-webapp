@@ -116,9 +116,9 @@
     color: $cerise !important;
 }
 
-.menulist-overlap{
-  margin-top: -6px;
-}
+// .menulist-overlap{
+  // margin-top: -6px;
+// }
 .side-menu-item {
     margin: 8px 6px;
     position: relative;
@@ -170,6 +170,7 @@
 }
 
 .side-menu-container {
+    height: $main-header-height;
     float: right;
     display: inline-flex;
     margin-top: 2px;
@@ -569,7 +570,7 @@
 width: 100%;
 //position: fixed;
 line-height: 29px;
-height: 29px;
+height: 30px;
 text-align: center;
 font-size: 12px;
 background-color: $summerGreen;
