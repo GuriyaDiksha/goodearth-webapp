@@ -1,0 +1,4 @@
+diff a/src/containers/pdp/components/productDetails/index.tsx b/src/containers/pdp/components/productDetails/index.tsx	(rejected hunks)
+@@ -236 +236 @@ const ProductDetails: React.FC<Props> = ({
+-  console.log('enter details')
++  console.log("enter details");

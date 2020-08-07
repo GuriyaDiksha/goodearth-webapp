@@ -45,6 +45,7 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     data && data.recommendedProducts && data.recommendedProducts.length
       ? getProductSliderItems(data.recommendedProducts, state.products)
       : [];
+
   return {
     id,
     data,
