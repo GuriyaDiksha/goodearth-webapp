@@ -13,7 +13,7 @@ export default async function cookies(
   ctx.customCookies = {
     tkn: token
   };
-  if (currency != "null") {
+  if (["INR", "USD", "GBP"].indexOf(currency) > -1) {
     store.dispatch(updateCurrency(currency));
   } else {
     store.dispatch(updateCurrency("INR"));

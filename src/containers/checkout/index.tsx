@@ -176,6 +176,11 @@ class Checkout extends React.Component<Props, State> {
         loyaltyData: loyalty
       });
     });
+    if (this.props.basket.publishRemove) {
+      this.props.showNotify(
+        "Due to unavailability of some products your cart has been updated."
+      );
+    }
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
     if (scrollToTopButtonElem) {
