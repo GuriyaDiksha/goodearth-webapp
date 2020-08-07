@@ -10,11 +10,16 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import HeaderService from "services/headerFooter";
 import { WidgetImage } from "./typings";
-import { PartialProductItem } from "typings/product";
+import {
+  PartialProductItem,
+  PartialChildProductAttributes
+} from "typings/product";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
+import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
+import noImagePlp from "images/noImagePlp.png";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -30,7 +35,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return res;
     },
     fetchSearchProducts: async (url: string) => {
-      const res = HeaderService.fetchSearchProducts(dispatch, url);
+      const res = await HeaderService.fetchSearchProducts(dispatch, url);
       return res;
     }
   };
@@ -74,12 +79,12 @@ class Search extends React.Component<Props, State> {
   }
 
   addDefaultSrc = (e: any) => {
-    e.target.src = "/static/img/noimageplp.png";
+    // e.target.src = "/static/img/noimageplp.png";
   };
   searchBoxRef = React.createRef<HTMLInputElement>();
   componentDidMount() {
     this.searchBoxRef.current && this.searchBoxRef.current.focus();
-    document.body.classList.add("noscroll");
+    document.body.classList.add(globalStyles.noScroll);
     this.props
       .fetchFeaturedContent()
       .then(data => {
@@ -93,7 +98,7 @@ class Search extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    document.body.classList.remove("noscroll");
+    document.body.classList.remove(globalStyles.noScroll);
   }
 
   closeSearch = () => {
@@ -131,14 +136,14 @@ class Search extends React.Component<Props, State> {
     location.href = data.url;
   }
 
-  onClickSearch(event: any) {
+  onClickSearch = (event: any) => {
     if (this.state.value.length > 2) {
       location.href = this.state.url;
       return false;
     }
-  }
+  };
 
-  checkSearchValue(event: any) {
+  checkSearchValue = (event: any) => {
     if (event.target.value.length > 2) {
       if (event.keyCode == 13) {
         location.href = this.state.url;
@@ -154,10 +159,10 @@ class Search extends React.Component<Props, State> {
         url: "/search"
       });
     }
-  }
+  };
 
   getSearchDataApi = (name: string) => {
-    const searchUrl = "?q=" + name + "&currency=" + this.props.currency;
+    const searchUrl = "/search?q=" + name + "&currency=" + this.props.currency;
     this.setState({
       url: searchUrl
     });
@@ -191,8 +196,8 @@ class Search extends React.Component<Props, State> {
   };
 
   render() {
-    const cur = "price_" + this.props.currency.toLowerCase();
-    const originalCur = "original_price_" + this.props.currency.toLowerCase();
+    // const cur = "price" + this.props.currency.toLowerCase();
+    // const originalCur = "original_price_" + this.props.currency.toLowerCase();
     return (
       <div className={cs(bootstrapStyles.row, styles.search)}>
         <div className={bootstrapStyles.col12}>
@@ -200,7 +205,7 @@ class Search extends React.Component<Props, State> {
             <div
               className={cs(
                 bootstrapStyles.colMd8,
-                bootstrapStyles.coloffsetMd2,
+                bootstrapStyles.offsetMd2,
                 bootstrapStyles.col12,
                 styles.searchInputBlock
               )}
@@ -217,12 +222,23 @@ class Search extends React.Component<Props, State> {
                 view all results{" "}
               </span>
               <i
-                className="icon icon_search icon_search_popup"
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconSearch,
+                  styles.iconSearchPopup
+                )}
                 onClick={this.onClickSearch}
               ></i>
               <i
-                className="icon icon_cross icon_search_cross hidden-xs hidden-sm"
-                onClick={this.closeSearch.bind(this)}
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconCrossNarrowBig,
+                  styles.iconStyle,
+                  styles.iconSearchCross
+                )}
+                onClick={() => {
+                  this.closeSearch();
+                }}
               ></i>
             </div>
           </div>
@@ -299,19 +315,25 @@ class Search extends React.Component<Props, State> {
                     ? this.state.productData.map((data, i) => {
                         const isCombo =
                           data.productClass == "Product Combo" ? true : false;
-                        let totalStock = data.child.reduce((total, num) => {
-                          return total + +num.stock;
-                        }, 0);
+                        let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
+                          (
+                            total: number,
+                            num: PartialChildProductAttributes
+                          ) => {
+                            return total + +num.stock;
+                          },
+                          0
+                        );
                         totalStock = isCombo ? 100 : totalStock;
-                        const imageSource = !data.images?.[0]
-                          ? "/src/images/noimageplp.png"
-                          : !data.images?.[1]
-                          ? data.images?.[0]
+                        const imageSource = !data.plpImages?.[0]
+                          ? noImagePlp
+                          : !data.plpImages?.[1]
+                          ? data.plpImages?.[0]
                           : this.state.showDifferentImage &&
                             !this.props.mobile &&
                             this.state.currentImageIndex == i
-                          ? data.images?.[1]
-                          : data.images?.[0];
+                          ? data.plpImages?.[1]
+                          : data.plpImages?.[0];
                         return (
                           <div
                             key={i}
@@ -380,7 +402,13 @@ class Search extends React.Component<Props, State> {
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
                                     )}
-                                    &nbsp; {data[cur]} &nbsp;{" "}
+                                    &nbsp;{" "}
+                                    {
+                                      data.discountedPriceRecords[
+                                        this.props.currency
+                                      ]
+                                    }{" "}
+                                    &nbsp;{" "}
                                   </span>
                                 ) : (
                                   ""
@@ -390,14 +418,20 @@ class Search extends React.Component<Props, State> {
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
                                     )}
-                                    &nbsp; {data[originalCur]}
+                                    &nbsp;{" "}
+                                    {data.priceRecords[this.props.currency]}
                                   </span>
                                 ) : (
                                   <p className={styles.productN}>
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
                                     )}
-                                    &nbsp; {data[cur]}
+                                    &nbsp;{" "}
+                                    {
+                                      data.discountedPriceRecords[
+                                        this.props.currency
+                                      ]
+                                    }
                                   </p>
                                 )}
                               </p>
@@ -465,7 +499,13 @@ class Search extends React.Component<Props, State> {
                 ""
               )}
             </div>
-            <div className={cs(styles.searchHeading, globalStyles.textCenter)}>
+            <div
+              className={cs(
+                globalStyles.col12,
+                styles.searchHeading,
+                globalStyles.textCenter
+              )}
+            >
               <h2 className={globalStyles.voffset5}>Featured Categories</h2>
             </div>
             <div className={cs(bootstrapStyles.col12, globalStyles.voffset5)}>

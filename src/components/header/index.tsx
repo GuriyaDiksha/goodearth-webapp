@@ -114,6 +114,13 @@ class Header extends React.Component<Props, State> {
     }
   };
 
+  showSearch = () => {
+    this.setState({
+      showSearch: !this.state.showSearch,
+      showMenu: false
+    });
+  };
+
   clickToggle = () => {
     this.setState({
       showMenu: !this.state.showMenu,
@@ -365,6 +372,7 @@ class Header extends React.Component<Props, State> {
             )}
             <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
               <SideMenu
+                toggleSearch={this.showSearch}
                 mobile={this.props.mobile}
                 wishlistData={wishlistData}
                 currency={this.props.currency}
@@ -547,11 +555,11 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
+          {this.state.showSearch && (
+            <Search ipad={false} toggle={this.showSearch} />
+          )}
         </div>
         <GrowlMessage {...message} />
-        {this.state.showSearch && (
-          <Search ipad={false} toggle={this.clickToggle} />
-        )}
       </div>
     );
   }

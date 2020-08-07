@@ -26,7 +26,8 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   url: "",
   childAttributes: [],
   images: [],
-  plpImages: []
+  plpImages: [],
+  productClass: ""
 };
 
 export const product = (

@@ -63,6 +63,7 @@ export type SideMenuProps = {
   mobile: boolean;
   wishlistData: WishListType[];
   sidebagData: Basket;
+  toggleSearch: () => void;
 };
 
 export interface MouseParameter {
