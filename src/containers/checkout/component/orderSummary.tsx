@@ -4,7 +4,6 @@ import cs from "classnames";
 // import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
-import * as Steps from "containers/checkout/constants";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
 import { Link, useLocation } from "react-router-dom";
