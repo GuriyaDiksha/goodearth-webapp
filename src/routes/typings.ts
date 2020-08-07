@@ -2,7 +2,7 @@ import { InitAction, MetaAction } from "typings/actions";
 
 export enum ROUTES {
   HOME = "/",
-  CollectionLanding = "/allcollection/living_26/",
+  CollectionLanding = "/allcollection/:level1/:id",
   CollectionSpecific = "/collection/:slug",
   PDP = "/catalogue/:slug",
   PLP = "/catalogue/category/",

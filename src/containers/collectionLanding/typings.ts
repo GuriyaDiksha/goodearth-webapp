@@ -7,4 +7,5 @@ export interface CategoryMenu {
 export type CollectionProps = {
   description: string;
   level2Categories: CategoryMenu[];
+  selectValue?: any;
 };

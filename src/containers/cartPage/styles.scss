@@ -2,7 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .page-body {
-  margin-top: $header-height;
+  margin-top: $header-checkout;
   margin-left: auto;
   margin-right: auto;
 }
@@ -67,7 +67,7 @@ hr {
     line-height: 12px;
 
 
-    input {
+    .input {
       padding: 3px 12px;
       -webkit-box-flex: 1;
       -ms-flex-positive: 1;
@@ -339,4 +339,11 @@ display: inline-table;
   padding: 30px;
 }
 
+}
+
+.empty-msg {
+  font-size: 20px;
+  font-style: italic;
+  color: tint(#000, 70%);
+  letter-spacing: 1px;
 }

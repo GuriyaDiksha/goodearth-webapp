@@ -64,6 +64,9 @@ export default class Bag extends React.Component<CartProps, State> {
       </p>
     );
   }
+  removeOutOfStockItems() {
+    // implement remove out of stock
+  }
 
   getFooter() {
     if (this.props.cart) {
@@ -72,11 +75,12 @@ export default class Bag extends React.Component<CartProps, State> {
           {this.hasOutOfStockItems() && (
             <div
               className={cs(
-                styles.errorMsg,
+                globalStyles.errorMsg,
                 globalStyles.lineHt10,
                 styles.containerCost,
                 globalStyles.linkTextUnderline
               )}
+              onClick={this.removeOutOfStockItems}
               style={{ display: "inline-block" }}
             >
               Remove all Items out of stock

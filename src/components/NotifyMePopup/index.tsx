@@ -72,6 +72,8 @@ const NotifyMePopup: React.FC<Props> = ({
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      setQuantity(1);
+
       changeSize?.(selected.size);
     },
     [childAttributes, selectedSize]
@@ -178,7 +180,8 @@ const NotifyMePopup: React.FC<Props> = ({
 
         <div className={styles.qtyContainer}>
           <Quantity
-            id={selectedSize ? selectedSize.id : undefined}
+            source="notifyme"
+            id={selectedSize ? selectedSize.id : 0}
             minValue={minQuantity}
             maxValue={maxQuantity}
             currentValue={quantity}
