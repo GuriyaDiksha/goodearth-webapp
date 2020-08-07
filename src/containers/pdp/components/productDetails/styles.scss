@@ -161,11 +161,12 @@
     }
 
     .wishlist-btn-container, .add-to-bag-btn-container {
-        background: #fff;
+        background: #f2f2f2;
         padding: 0;
 
         .mobile-wishlist-icon {
             font-size: 52px;
+            color: tint(#000,60%);
         }
     }
 
