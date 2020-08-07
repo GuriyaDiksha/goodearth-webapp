@@ -60,5 +60,14 @@ export default {
     );
 
     dispatch(updateBasket(res));
+  },
+  removeOutOfStockItems: async function(dispatch: Dispatch) {
+    const res = await API.post<{ message: string; basket: Basket }>(
+      dispatch,
+      `${__API_HOST__}/myapi/basket/remove_out_of_stock/`,
+      null
+    );
+    dispatch(updateBasket(res.basket));
+    return res;
   }
 };

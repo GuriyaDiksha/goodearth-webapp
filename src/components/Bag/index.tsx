@@ -7,14 +7,33 @@ import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
 import { NavLink, Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
+import { Dispatch } from "redux";
+import BasketService from "services/basket";
+import { connect } from "react-redux";
 
-export default class Bag extends React.Component<CartProps, State> {
-  constructor(props: CartProps) {
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    removeOutOfStockItems: async () => {
+      const res = await BasketService.removeOutOfStockItems(dispatch);
+      return res;
+    }
+  };
+};
+const mapStateToProps = () => {
+  return {};
+};
+type Props = CartProps &
+  ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>;
+class Bag extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       stockError: "",
       shipping: false,
-      value: 1
+      value: 1,
+      freeShipping: false, // for all_free_shipping_india
+      isSuspended: false // for is_covid19
     };
   }
 
@@ -64,9 +83,9 @@ export default class Bag extends React.Component<CartProps, State> {
       </p>
     );
   }
-  removeOutOfStockItems() {
-    // implement remove out of stock
-  }
+  removeOutOfStockItems = () => {
+    this.props.removeOutOfStockItems();
+  };
 
   getFooter() {
     if (this.props.cart) {
@@ -100,7 +119,7 @@ export default class Bag extends React.Component<CartProps, State> {
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
                 {String.fromCharCode(currencyCodes[this.props.currency])}
                 &nbsp;
-                {this.props.cart.subTotal}
+                {parseFloat(this.props.cart.total.toString()).toFixed(2)}
               </h5>
               <p className={styles.subtext}>
                 Excluding estimated cost of shipping
@@ -127,6 +146,7 @@ export default class Bag extends React.Component<CartProps, State> {
             {this.canCheckout() ? (
               <NavLink key="checkout" to="/order/checkout">
                 <button
+                  onClick={this.chkshipping}
                   className={cs(globalStyles.ceriseBtn, {
                     [globalStyles.disabledBtn]: !this.canCheckout()
                   })}
@@ -152,6 +172,33 @@ export default class Bag extends React.Component<CartProps, State> {
     }
   }
 
+  resetInfoPopupCookie() {
+    const cookieString =
+      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  }
+
+  chkshipping = (event: React.MouseEvent) => {
+    // if (window.ischeckout) {
+    //     return false;
+    // }
+    // const self = this;
+    if (this.state.isSuspended) {
+      this.resetInfoPopupCookie();
+    }
+    if (
+      !this.state.freeShipping &&
+      this.props.cart.total >= 45000 &&
+      this.props.cart.total < 50000 &&
+      this.props.currency == "INR" &&
+      this.props.cart.shippable
+    ) {
+      this.props.showShipping(
+        50000 - parseInt(this.props.cart.total.toString())
+      );
+      event.preventDefault();
+    }
+  };
   canCheckout = () => {
     // if (pathname.indexOf("checkout") > -1) {
     //   return false;
@@ -169,8 +216,8 @@ export default class Bag extends React.Component<CartProps, State> {
         shipping: false
       });
     } else if (
-      this.props.cart.subTotal >= 45000 &&
-      this.props.cart.subTotal < 50000 &&
+      this.props.cart.total >= 45000 &&
+      this.props.cart.total < 50000 &&
       this.state.shipping == false &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
@@ -179,7 +226,7 @@ export default class Bag extends React.Component<CartProps, State> {
         shipping: true
       });
     } else if (
-      (this.props.cart.subTotal < 45000 || this.props.cart.subTotal >= 50000) &&
+      (this.props.cart.total < 45000 || this.props.cart.total >= 50000) &&
       this.state.shipping
     ) {
       this.setState({
@@ -255,3 +302,4 @@ export default class Bag extends React.Component<CartProps, State> {
     );
   }
 }
+export default connect(mapStateToProps, mapDispatchToProps)(Bag);

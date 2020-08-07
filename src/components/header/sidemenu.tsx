@@ -260,6 +260,7 @@ class SideMenu extends React.Component<Props, State> {
             <span className={styles.badge}>{bagCount}</span>
             {this.state.showBag && (
               <Bag
+                showShipping={this.props.showShipping}
                 cart={this.props.sidebagData}
                 currency={this.props.currency}
                 active={this.state.showBag}

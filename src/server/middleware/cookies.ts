@@ -8,12 +8,17 @@ export default async function cookies(
   next: Koa.Next
 ) {
   const token = ctx.cookies.get("atkn");
-  const currency: any = ctx.cookies.get("currency") || "INR";
+  const currency: any = ctx.cookies.get("currency");
   const store = ctx.store;
   ctx.customCookies = {
     tkn: token
   };
-  store.dispatch(updateCurrency(currency));
+  if (currency != "null") {
+    store.dispatch(updateCurrency(currency));
+  } else {
+    store.dispatch(updateCurrency("INR"));
+  }
+
   if (token) {
     store.dispatch(
       updateCookies({

@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import cs from "classnames";
 import { Link } from "react-router-dom";
 import styles from "./styles.scss";
@@ -27,6 +27,10 @@ const CartItems: React.FC<BasketItem> = memo(
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
+
+    useEffect(() => {
+      setValue(quantity);
+    }, [quantity]);
 
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value).then(res => {
