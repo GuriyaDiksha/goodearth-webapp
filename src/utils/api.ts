@@ -2,6 +2,8 @@ import { ThunkDispatch, ThunkAction } from "redux-thunk";
 import { AnyAction, Dispatch } from "redux";
 import { AppState } from "reducers/typings";
 import Axios, { AxiosRequestConfig } from "axios";
+import { updateCookies } from "actions/cookies";
+import CookieService from "services/cookie";
 
 class API {
   static async get<T>(
@@ -70,11 +72,14 @@ class API {
     return new Promise((resolve, reject) => {
       dispatch(
         API.apiAction((cookies: any) => {
-          let requestHeaders = cookies.tkn
-            ? {
-                Authorization: `Token ${cookies.tkn || ""}`
-              }
-            : {};
+          let requestHeaders: any = {};
+          if (cookies.tkn) {
+            requestHeaders["Authorization"] = `Token ${cookies.tkn}`;
+          }
+          if (cookies.sessionid) {
+            requestHeaders["sessionid"] = cookies.sessionid;
+          }
+
           requestHeaders = {
             ...requestHeaders,
             ...options.headers
@@ -85,6 +90,16 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
+              if (cookies.sessionid != res.headers.sessionid) {
+                if (typeof document != "undefined") {
+                  CookieService.setCookie(
+                    "sessionid",
+                    res.headers.sessionid,
+                    365
+                  );
+                  dispatch(updateCookies({ sessionid: res.headers.sessionid }));
+                }
+              }
               if (res.status == 200 || res.status == 201) {
                 resolve(res.data);
               } else {
@@ -92,6 +107,7 @@ class API {
               }
             })
             .catch(err => {
+              // debugger
               reject(err);
             });
         })

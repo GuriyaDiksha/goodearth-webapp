@@ -1,10 +1,11 @@
 import Axios from "axios";
-import { HeaderData } from "components/header/typings";
+import { HeaderData, SearchFeaturedData } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 // services
 import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
+import { PlpProps } from "containers/search/typings";
 
 export default {
   fetchHeaderDetails: async (): Promise<HeaderData[]> => {
@@ -51,6 +52,22 @@ export default {
         email
       }
     );
+    return res;
+  },
+  fetchSearchFeaturedContent: async (dispatch: Dispatch) => {
+    const res = await API.get<SearchFeaturedData>(
+      dispatch,
+      `${__API_HOST__}/myapi/promotions/multi_image_page_widget/search_featured/`
+    );
+    return res;
+  },
+  fetchSearchProducts: async function(dispatch: Dispatch, url: string) {
+    const res = await API.get<PlpProps>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/search/" + url}`
+    );
+    // dispatch(newSearchList({ ...res }));
+    // dispatch(updatePlpProduct(res.results.data));
     return res;
   }
 };
