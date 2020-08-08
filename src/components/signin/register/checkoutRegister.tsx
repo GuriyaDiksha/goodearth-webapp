@@ -69,6 +69,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
         this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+      this.firstNameInput.current?.focus();
       // this.emailInput.current.value = email;
     }
     localStorage.removeItem("tempEmail");
@@ -332,6 +333,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   };
 
+  changeEmail = (event: any) => {
+    this.props.changeEmail?.();
+  };
+
   handleFirstNameKeyPress = (e: React.KeyboardEvent) => {
     if (e.key == "Enter") {
       e.preventDefault();
@@ -367,7 +372,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
               disable={true}
-              className={styles.disabledInput}
               validations={{
                 isEmail: true,
                 maxLength: 75
@@ -378,6 +382,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
               required
             />
+            <p className={styles.loginChange} onClick={this.changeEmail}>
+              Change
+            </p>
           </div>
           <div>
             <FormInput
