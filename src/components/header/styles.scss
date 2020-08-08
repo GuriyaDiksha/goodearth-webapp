@@ -117,10 +117,12 @@
 }
 
 .menulist-overlap{
-  margin-top: -6px;
+  margin-top: -3px;
+  margin-left: 0;
+  margin-right: 0;
 }
 .side-menu-item {
-    margin: 8px 6px;
+    margin: 8px 6px 0 6px;
     position: relative;
     cursor: pointer; 
     .inner-profile-container{
@@ -166,7 +168,7 @@
   }
 
 .side-menu-item-mobile {
-  margin: 6px 6px 6px 2px;
+  margin: 6px 2px 6px 2px;
 }
 
 .side-menu-container {
@@ -304,6 +306,8 @@
   background-color: $white;
   z-index: 10;
   position: absolute;
+  width: 100%;
+  margin: 0;
 }
 .hidden{
   display: none;
@@ -558,7 +562,7 @@
     .icon-style {
       font-size: 22px;
       margin-right: 5px;
-      margin-left: -40px;
+      margin-left: -30px;
     }
   }
 }
