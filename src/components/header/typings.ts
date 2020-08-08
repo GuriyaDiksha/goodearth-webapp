@@ -63,6 +63,7 @@ export type SideMenuProps = {
   mobile: boolean;
   wishlistData: WishListType[];
   sidebagData: Basket;
+  toggleSearch: () => void;
 };
 
 export interface MouseParameter {
@@ -117,3 +118,29 @@ export interface MobileState {
   activeindex3: number;
   showmenulevel3: boolean;
 }
+
+export type SearchFeaturedData = {
+  name: string;
+  description: string;
+  widgetImages: WidgetImage[];
+  backgroundImage: string;
+  enabled: boolean;
+  products: [];
+  id: number;
+};
+
+export type WidgetImage = {
+  image: null;
+  imageType: number;
+  bannerType: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  url: string;
+  ctaImage: string;
+  ctaText: string;
+  ctaUrl: string;
+  videoUrl: string;
+  urlDisplayName: string;
+  order: number;
+};

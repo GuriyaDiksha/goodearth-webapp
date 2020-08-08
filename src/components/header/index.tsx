@@ -23,7 +23,7 @@ import { State } from "./typings";
 import UserContext from "contexts/user";
 import mapDispatchToProps from "./mapper/actions";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
-
+import Search from "./search";
 import ReactHtmlParser from "react-html-parser";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
@@ -112,6 +112,13 @@ class Header extends React.Component<Props, State> {
         reloadPage(this.props.cookies);
       });
     }
+  };
+
+  showSearch = () => {
+    this.setState({
+      showSearch: !this.state.showSearch,
+      showMenu: false
+    });
   };
 
   clickToggle = () => {
@@ -365,6 +372,7 @@ class Header extends React.Component<Props, State> {
             )}
             <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
               <SideMenu
+                toggleSearch={this.showSearch}
                 mobile={this.props.mobile}
                 wishlistData={wishlistData}
                 currency={this.props.currency}
@@ -547,6 +555,9 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
+          {this.state.showSearch && (
+            <Search ipad={false} toggle={this.showSearch} />
+          )}
         </div>
         <GrowlMessage {...message} />
       </div>
