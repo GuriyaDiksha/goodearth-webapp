@@ -124,7 +124,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   timer = () => {
     this.setState({
-      otpTimer: 120
+      otpTimer: 300
     });
     this.timerId = setInterval(() => {
       this.decrementTimeRemaining();
