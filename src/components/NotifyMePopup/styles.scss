@@ -8,16 +8,20 @@
     bottom: 0;
     padding-bottom: 55px;
     position: relative;
+
+    .input-quantity {
+        padding: 8px 0;
+    }
+
+    .size-box {
+        margin: 0 6px;
+    }
 }
 
 .header {
     height: 50px;
     margin-bottom: 30px;
     border-bottom: 1px solid #f2f2f2;
-}
-
-.size-box {
-    margin: 0 6px;
 }
 
 .collection {
@@ -57,9 +61,7 @@
     justify-content: center;
 }
 
-.input-quantity {
-    padding: 8px 0;
-}
+
 
 .email-input {
     width: 70%;
