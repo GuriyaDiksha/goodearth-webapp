@@ -128,20 +128,20 @@ class Bag extends React.Component<Props, State> {
           </div>
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={cs(styles.iconCart, globalStyles.pointer)}>
-              <div className={styles.innerDiv}>
-                <div className={styles.cartIconDiv}>
-                  <i
-                    className={cs(
-                      iconStyles.icon,
-                      iconStyles.iconCart,
-                      globalStyles.cerise
-                    )}
-                  ></i>
+              <Link to="/cart">
+                <div className={styles.innerDiv}>
+                  <div className={styles.cartIconDiv}>
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconCart,
+                        globalStyles.cerise
+                      )}
+                    ></i>
+                  </div>
+                  <span className={styles.viewBag}>VIEW SHOPPING BAG</span>
                 </div>
-                <span className={styles.viewBag}>
-                  <Link to="/cart">VIEW SHOPPING BAG</Link>
-                </span>
-              </div>
+              </Link>
             </div>
             {this.canCheckout() ? (
               <NavLink key="checkout" to="/order/checkout">
@@ -157,6 +157,7 @@ class Bag extends React.Component<Props, State> {
             ) : (
               <div>
                 <button
+                  disabled={!this.canCheckout()}
                   className={cs(
                     globalStyles.ceriseBtn,
                     globalStyles.disabledBtn

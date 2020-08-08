@@ -40,8 +40,8 @@ ul,li,ol,p,h3,h5 {
 }
 
 button:focus, button:active, button:visited, *:focus, *:active, *:visited {
-  outline: none;
-  -webkit-outline: none;
+  outline: 0;
+  -webkit-outline: 0;
 }
 
 

@@ -27,6 +27,8 @@ const AddressSection: React.FC<AddressProps & {
     isActive,
     isBridal,
     selectedAddress,
+    isGoodearthShipping,
+    hidesameShipping,
     next
   } = props;
   const { isLoggedIn } = useContext(UserContext);
@@ -40,6 +42,7 @@ const AddressSection: React.FC<AddressProps & {
   const sameShipping =
     (props.activeStep == Steps.STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
+    !isGoodearthShipping &&
     (props.activeStep == Steps.STEP_BILLING || props.isBridal);
   // state = {
   // address: "",
@@ -89,6 +92,10 @@ const AddressSection: React.FC<AddressProps & {
   const backToAddressList = () => {
     closeAddressForm();
   };
+
+  useEffect(() => {
+    setSameAsShipping(!isGoodearthShipping && hidesameShipping);
+  }, [isGoodearthShipping, hidesameShipping]);
 
   const renderActions = function() {
     if (isActive && isLoggedIn) {
@@ -769,21 +776,6 @@ const AddressSection: React.FC<AddressProps & {
             </div>
             {isActive && (
               <div>
-                {/* <AddressMainComponent addresses={props.addresses} activeStep={props.activeStep}
-                                        items={props.items} isLoggedIn={isLoggedIn}
-                                        sameAsShipping={sameAsShipping}
-                                        addressIdError={addressIdError}
-                                        removeErrorMessages={removeErrorMessages}
-                                        isBridal={props.isBridal} editMode={editMode}
-                                        newAddressMode={newAddressMode}
-                                        bridal_id={props.bridal_id}
-                                        showAllAddresses={showAddresses}
-                                        shippingErrorMsg={shippingErrorMsg}
-                                        billingErrorMsg={billingErrorMsg}
-                                        onEditAddress={onEditAddress} onSelectAddress={onSelectAddress}
-                                        toggleAddressForm={toggleAddressForm}
-                                        onDeleteAddress={onDeleteAddress} currentCallBackComponent="checkout"
-                                        selectedAddress={props.selectedAddress}/> */}
                 {children}
                 {props.error ? (
                   <div
@@ -837,114 +829,36 @@ const AddressSection: React.FC<AddressProps & {
                   props.hidesameShipping && (
                     <div>{renderBillingCheckbox()}</div>
                   )}
-                {(isLoggedIn ? (
-                  false
-                ) : props.activeStep == Steps.STEP_BILLING ? (
-                  props.isBridal ? (
-                    true
-                  ) : (
-                    false
-                  )
-                ) : (
-                  true
-                )) ? (
-                  <div>{children}</div>
-                ) : // <AddressMainComponent dispatch={props.dispatch} onSuccess={onSubmitAddress}
-                //                       addressIdError={addressIdError}
-                //                       address={selectAddress} activeStep={props.activeStep}
-                //                       isBridal={props.isBridal}
-                //                       removeErrorMessages={removeErrorMessages}
-                //                       totalAddress={props.addresses}
-                //                       showAddressForm={showAddressForm}
-                //                       shippingErrorMsg={shippingErrorMsg}
-                //                       billingErrorMsg={billingErrorMsg}
-                //                       items={props.items} currentCallBackComponent="checkout"
-                //                       toggleAddressForm={toggleAddressForm}
-                //                       isLoggedIn={isLoggedIn}
-                //                       onDeleteAddress={onDeleteAddress} data={data}
-                //                       editMode={editMode}
-                //                       newAddressMode={newAddressMode}
-                //                       showAllAddresses={showAddresses}
-                //                       setAddressModes={setAddressModes}
-                //                       setAddressAvailable={setAddressAvailable}
-                //                       sameAsShipping={sameAsShipping}
-                //                       user={props.user}
-                //                       selectedAddress={props.selectedAddress}/>
-                !props.hidesameShipping ? (
-                  <div>{children}</div>
-                ) : (
-                  // <AddressMainComponent dispatch={props.dispatch} onSuccess={onSubmitAddress}
-                  //                       showAddressForm={showAddressForm}
-                  //                       addressIdError={addressIdError}
-                  //                       address={selectAddress} activeStep={props.activeStep}
-                  //                       data={props.addresses} isBridal={props.isBridal}
-                  //                       editMode={editMode}
-                  //                       newAddressMode={newAddressMode}
-                  //                       sameAsShipping={sameAsShipping}
-                  //                       items={props.items} currentCallBackComponent="checkout"
-                  //                       data={data} toggleAddressForm={toggleAddressForm}
-                  //                       isLoggedIn={isLoggedIn}
-                  //                       onDeleteAddress={onDeleteAddress}
-                  //                       showAllAddresses={showAddresses}
-                  //                       setAddressModes={setAddressModes}
-                  //                       setAddressAvailable={setAddressAvailable}
-                  //                       shippingErrorMsg={shippingErrorMsg}
-                  //                       billingErrorMsg={billingErrorMsg}
-                  //                       user={props.user} selectedAddress={props.selectedAddress}
-                  //                       removeErrorMessages={removeErrorMessages}/>
-                  ""
-                )}
-
-                {props.isBridal
-                  ? isLoggedIn && (
-                      // !showAddressForm &&
-                      <div>{children}</div>
-                    )
-                  : // <AddressMainComponent dispatch={props.dispatch} activeStep={props.activeStep}
-                    //                       data={props.addresses} addressIdError={addressIdError}
-                    //                       items={props.items} setAddressModes={setAddressModes}
-                    //                       showAddressForm={showAddressForm}
-                    //                       bridal_id={props.bridal_id} editMode={editMode}
-                    //                       newAddressMode={newAddressMode}
-                    //                       currentCallBackComponent="checkout" onSuccess={onSubmitAddress}
-                    //                       sameAsShipping={sameAsShipping}
-                    //                       isBridal={props.isbridal} showAllAddresses={showAddresses}
-                    //                       shippingErrorMsg={shippingErrorMsg}
-                    //                       billingErrorMsg={billingErrorMsg}
-                    //                       onEditAddress={onEditAddress} onSelectAddress={onSelectAddress}
-                    //                       toggleAddressForm={toggleAddressForm}
-                    //                       setAddressAvailable={setAddressAvailable}
-                    //                       isLoggedIn={isLoggedIn}
-                    //                       removeErrorMessages={removeErrorMessages}
-                    //                       onDeleteAddress={onDeleteAddress}
-                    //                       selectedAddress={props.selectedAddress} addressesAvailable={true}
-                    //                       currentCallBackComponent="checkout"/>
-                    isLoggedIn &&
-                    // !showAddressForm &&
-                    !sameAsShipping && <div>{children}</div>
-                // <AddressMainComponent dispatch={props.dispatch} data={props.addresses}
-                //                       activeStep={props.activeStep}
-                //                       items={props.items} sameAsShipping={sameAsShipping}
-                //                       addressIdError={addressIdError}
-                //                       isBridal={props.isbridal} setAddressModes={setAddressModes}
-                //                       showAddressForm={showAddressForm}
-                //                       showAllAddresses={showAddresses}
-                //                       editMode={editMode}
-                //                       newAddressMode={newAddressMode}
-                //                       bridal_id={props.bridal_id}
-                //                       toggleAddressForm={toggleAddressForm}
-                //                       selectedAddress={props.selectedAddress}
-                //                       shippingErrorMsg={shippingErrorMsg}
-                //                       billingErrorMsg={billingErrorMsg}
-                //                       currentCallBackComponent="checkout" onSuccess={onSubmitAddress}
-                //                       removeErrorMessages={removeErrorMessages}
-                //                       setAddressAvailable={setAddressAvailable}
-                //                       isLoggedIn={isLoggedIn}
-                //                       onEditAddress={onEditAddress}
-                //                       onSelectAddress={onSelectAddress}
-                //                       onDeleteAddress={onDeleteAddress} addressesAvailable={true}
-                //                       currentCallBackComponent="checkout"/>
+                {/* {isLoggedIn && props.activeStep == Steps.STEP_BILLING
+                    ? props.isBridal
+                      ? true
+                      : false
+                    : false
+                ? <div>{children}</div> 
+                : ""
                 }
+                {
+                  (!props.hidesameShipping && props.activeStep == Steps.STEP_SHIPPING) && isLoggedIn &&
+                   <div>{children}</div> 
+                }
+
+                {props.isBridal && 
+                   isLoggedIn && (
+                      // !showAddressForm &&
+                      <div>{children}</div> 
+                    )
+                  // : 
+                    // isLoggedIn &&
+                    // // !showAddressForm &&
+                    // !sameAsShipping && <div>{children}</div>
+                } */}
+
+                {// logged in Shipping & billing
+                isLoggedIn &&
+                  (props.activeStep == Steps.STEP_SHIPPING ||
+                    (props.activeStep == Steps.STEP_BILLING &&
+                      !sameAsShipping)) && <div>{children}</div>}
+
                 {props.error ? (
                   <div
                     className={cs(
