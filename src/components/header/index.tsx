@@ -424,29 +424,51 @@ class Header extends React.Component<Props, State> {
                         <div className={styles.lowerMenu}>
                           <ul>
                             <li>
-                              <i
-                                className={cs(
-                                  { [globalStyles.cerise]: wishlistIcon },
-                                  {
-                                    [iconStyles.iconWishlistAdded]: wishlistIcon
-                                  },
-                                  { [iconStyles.iconWishlist]: !wishlistIcon },
-                                  iconStyles.icon
-                                )}
-                                onClick={e => {
-                                  this.props.goLogin(e);
-                                  this.clickToggle();
-                                }}
-                              ></i>
-                              <span
-                                onClick={e => {
-                                  this.props.goLogin(e);
-                                  this.clickToggle();
-                                }}
-                              >
-                                {" "}
-                                wishlist ({wishlistCount})
-                              </span>
+                              {isLoggedIn ? (
+                                <Link
+                                  to="/wishlist"
+                                  className={styles.wishlistLink}
+                                  onClick={this.clickToggle}
+                                >
+                                  <i
+                                    className={cs(
+                                      styles.wishlistIcon,
+                                      { [globalStyles.cerise]: wishlistIcon },
+                                      {
+                                        [iconStyles.iconWishlistAdded]: wishlistIcon
+                                      },
+                                      {
+                                        [iconStyles.iconWishlist]: !wishlistIcon
+                                      },
+                                      iconStyles.icon
+                                    )}
+                                  />
+                                  <span> wishlist ({wishlistCount})</span>
+                                </Link>
+                              ) : (
+                                <div
+                                  onClick={e => {
+                                    this.props.goLogin(e);
+                                    this.clickToggle();
+                                  }}
+                                  className={styles.wishlistLink}
+                                >
+                                  <i
+                                    className={cs(
+                                      styles.wishlistIcon,
+                                      { [globalStyles.cerise]: wishlistIcon },
+                                      {
+                                        [iconStyles.iconWishlistAdded]: wishlistIcon
+                                      },
+                                      {
+                                        [iconStyles.iconWishlist]: !wishlistIcon
+                                      },
+                                      iconStyles.icon
+                                    )}
+                                  />
+                                  <span> wishlist ({wishlistCount})</span>
+                                </div>
+                              )}
                             </li>
                             <li
                               className={

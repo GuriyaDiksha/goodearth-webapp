@@ -6,7 +6,7 @@ import { useStore } from "react-redux";
 import WishlistContext from "contexts/wishlist";
 import UserContext from "contexts/user";
 // typings
-import { Props } from "./typings";
+import { Props } from "./typings.d";
 // services
 import WishlistService from "services/wishlist";
 import LoginService from "services/login";
@@ -16,6 +16,7 @@ import styles from "./styles.scss";
 
 const WishlistButton: React.FC<Props> = ({
   id,
+  size,
   showText,
   className,
   iconClassName,
@@ -40,11 +41,11 @@ const WishlistButton: React.FC<Props> = ({
         if (addedToWishlist) {
           WishlistService.removeFromWishlist(store.dispatch, id);
         } else {
-          WishlistService.addToWishlist(store.dispatch, id);
+          WishlistService.addToWishlist(store.dispatch, id, size);
         }
       }
     }
-  }, [addedToWishlist, id, isLoggedIn, basketLineId]);
+  }, [addedToWishlist, id, isLoggedIn, basketLineId, size]);
 
   return (
     <div className={className}>

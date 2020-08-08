@@ -390,6 +390,10 @@
       position: absolute;
       left: 27px;
       top: 36px;
+
+      &.wishlist-icon {
+        top: 34px;
+      }
     }
     &.currency {
       &.before {
@@ -428,6 +432,10 @@
   .icon_heart-cerise-fill {
     color: $cerise;
   }
+}
+
+.wishlist-link {
+  padding-left: 20px;
 }
 
 .mobile-main-menu {
