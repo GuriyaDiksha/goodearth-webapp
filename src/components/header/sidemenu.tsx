@@ -286,14 +286,14 @@ class SideMenu extends React.Component<Props, State> {
         <ul>
           {mobile ? (
             <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText}>
+              <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={
                     this.state.showSearch
                       ? cs(
                           iconStyles.icon,
-                          iconStyles.iconNarrowBig,
-                          styles.iconStyle
+                          iconStyles.iconCrossNarrowBig,
+                          styles.iconStyleCross
                         )
                       : cs(
                           iconStyles.icon,
