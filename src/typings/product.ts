@@ -18,6 +18,7 @@ export interface PLPProductItem {
   salesBadgeImage?: string;
   partial: boolean;
   markAs?: string[];
+  productClass: string;
   childAttributes?: PartialChildProductAttributes[] | ChildProductAttributes[];
 }
 

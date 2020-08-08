@@ -13,6 +13,7 @@ import Loader from "components/Loader";
 import Reedem from "./redeem";
 import { updateComponent, updateModal } from "actions/modal";
 import ShippingPopup from "./shippingPopup";
+import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
@@ -176,6 +177,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             </span>
           </div>
           <div className={globalStyles.c10LR}>{"GIFT WRAP THIS ORDER"}</div>
+          <div>
+            <img src={giftwrapIcon} width="40px" />
+          </div>
         </label>
       </div>
     );
@@ -242,7 +246,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   setTextarea(e.target.value);
                 }}
               />
-              <div className={globalStyles.textLeft}>
+              <div className={cs(globalStyles.textLeft, styles.font14)}>
                 Character Limit: {120 - textarea.length}
               </div>
             </div>

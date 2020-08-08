@@ -317,7 +317,10 @@ p.job-description {
         
         .job-application {            
             width: 55%;
-            margin: 0 auto;
+            margin: 60px auto;
+            h4 {
+                font-size: 20px;
+            }
             &.job-application-mobile {
                 width: 90%;
             }
@@ -585,7 +588,7 @@ p {
       
 .career-back-button {
     width: 80%;
-    margin: 0 auto;
+    //margin: 0 auto;
     color: #666;
     p {
         .unicode {

@@ -45,6 +45,9 @@
     font-style: italic;
 }
 
-
-
+@media (max-width:992px) {
+    .img-txt-block{
+        margin: 1em auto 3em auto;
+    }
+}
 

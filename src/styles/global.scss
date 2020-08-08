@@ -17,6 +17,17 @@ body {
   color: $default;
   @include scrollbar();
 }
+::-webkit-input-placeholder { /* Edge */
+  font-weight: 300;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-weight: 300;
+}
+
+::placeholder {
+  font-weight: 300;
+}
 a{
   &:hover {
     text-decoration: none;

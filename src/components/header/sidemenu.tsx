@@ -69,6 +69,16 @@ class SideMenu extends React.Component<Props, State> {
       });
     }
   };
+
+  toggleSearch = () => {
+    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+      return false;
+    }
+    this.props.toggleSearch();
+    this.setState({
+      showSearch: !this.state.showSearch
+    });
+  };
   render() {
     const { isLoggedIn } = this.context;
     const items: DropdownItem[] = [
@@ -276,14 +286,14 @@ class SideMenu extends React.Component<Props, State> {
         <ul>
           {mobile ? (
             <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText}>
+              <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={
                     this.state.showSearch
                       ? cs(
                           iconStyles.icon,
-                          iconStyles.iconNarrowBig,
-                          styles.iconStyle
+                          iconStyles.iconCrossNarrowBig,
+                          styles.iconStyleCross
                         )
                       : cs(
                           iconStyles.icon,
@@ -297,7 +307,7 @@ class SideMenu extends React.Component<Props, State> {
             </li>
           ) : (
             <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText}>
+              <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={cs(
                     iconStyles.icon,
