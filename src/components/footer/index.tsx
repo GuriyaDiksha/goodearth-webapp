@@ -139,7 +139,7 @@ class Footer extends React.Component<Props, FooterState> {
     if (valid.checkBlank(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
-        newsletterMessage: "Please Enter Email"
+        newsletterMessage: "Please enter email"
       });
       update = false;
     } else if (!valid.checkMail(e.target.value)) {
@@ -361,7 +361,7 @@ class Footer extends React.Component<Props, FooterState> {
                           )
                     }
                   >
-                    <div className={cs(bootstrap.row, bootstrap.px5)}>
+                    <div className={cs(bootstrap.row, styles.px5)}>
                       <div className={cs(bootstrap.colMd3, bootstrap.px2)}>
                         <ul>
                           <li>find us on</li>

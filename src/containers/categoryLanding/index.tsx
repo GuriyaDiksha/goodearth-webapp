@@ -97,7 +97,8 @@ class CategoryLanding extends React.Component<
             breakpoint: 768,
             settings: {
               centerMode: true,
-              centerPadding: "30px"
+              centerPadding: "30px",
+              arrows: false
             }
           }
         ]
