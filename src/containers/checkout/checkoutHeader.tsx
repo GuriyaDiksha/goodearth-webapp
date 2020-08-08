@@ -22,6 +22,7 @@ import SelectableDropdownMenu from "../../components/dropdown/selectableDropdown
 import { Cookies } from "typings/cookies";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { showMessage } from "actions/growlMessage";
+import fabicon from "images/AppIcon.png";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -149,6 +150,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
           </title>
+          <link rel="icon" href={fabicon}></link>
           {meta.description && (
             <meta name="description" content={meta.description} />
           )}
