@@ -25,6 +25,7 @@ import mapDispatchToProps from "./mapper/actions";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import Search from "./search";
 import ReactHtmlParser from "react-html-parser";
+import fabicon from "images/AppIcon.png";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 
@@ -202,6 +203,7 @@ class Header extends React.Component<Props, State> {
           {meta.description && (
             <meta name="description" content={meta.description} />
           )}
+          <link rel="icon" href={fabicon}></link>
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}
           {meta.ogTitle && (
             <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />

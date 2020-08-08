@@ -161,21 +161,9 @@ class Checkout extends React.Component<Props, State> {
     };
   }
   componentDidMount() {
-    const {
-      getLoyaltyPoints,
-      user: { email }
-    } = this.props;
-    const data: any = {
-      email: email
-    };
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
-    getLoyaltyPoints(data).then(loyalty => {
-      this.setState({
-        loyaltyData: loyalty
-      });
-    });
     if (this.props.basket.publishRemove) {
       this.props.showNotify(
         "Due to unavailability of some products your cart has been updated."
@@ -195,7 +183,24 @@ class Checkout extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.user.isLoggedIn) {
-      const shippingData = nextProps.user.shippingData;
+      const { shippingData } = nextProps.user;
+      const {
+        user: { email },
+        getLoyaltyPoints
+      } = this.props;
+
+      // code for call loyalty point api only one time
+      if (!email && nextProps.user.email) {
+        const data: any = {
+          email: nextProps.user.email
+        };
+        getLoyaltyPoints(data).then(loyalty => {
+          this.setState({
+            loyaltyData: loyalty
+          });
+        });
+      }
+
       if (nextProps.basket.redirectToCart) {
         this.props.history.push("/cart", {});
       }
