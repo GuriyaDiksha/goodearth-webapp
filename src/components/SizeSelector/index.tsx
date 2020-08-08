@@ -5,7 +5,12 @@ import { Props } from "./typings";
 
 import styles from "./styles.scss";
 
-const SizeSelector: React.FC<Props> = ({ sizes, selected, onChange }) => {
+const SizeSelector: React.FC<Props> = ({
+  sizes,
+  selected,
+  onChange,
+  sizeClassName
+}) => {
   const getSizeClickHandler = useCallback(
     child => {
       return () => {
@@ -21,7 +26,7 @@ const SizeSelector: React.FC<Props> = ({ sizes, selected, onChange }) => {
       return (
         <div
           key={sku}
-          className={cs(styles.sizeButton, {
+          className={cs(styles.sizeButton, sizeClassName, {
             [styles.selected]: id === selected,
             [styles.unavailable]: stock === 0
           })}

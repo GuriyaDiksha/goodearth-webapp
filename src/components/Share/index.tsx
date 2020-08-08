@@ -32,7 +32,7 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
         <Whatsapp link={whatsappLink} className={styles.socialIcon} />
         <Mail link={mailContent} className={styles.socialIcon} />
         <CopyLink
-          link={mailContent}
+          link={link}
           className={cs(styles.socialIcon, styles.copyLink)}
           onClick={copyText}
         />

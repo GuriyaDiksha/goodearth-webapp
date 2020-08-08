@@ -16,6 +16,10 @@
     border-bottom: 1px solid #f2f2f2;
 }
 
+.size-box {
+    margin: 0 6px;
+}
+
 .collection {
     @include plp_coll_name_desktop();
 }
@@ -53,6 +57,10 @@
     justify-content: center;
 }
 
+.input-quantity {
+    padding: 8px 0;
+}
+
 .email-input {
     width: 70%;
     margin: 0 auto 30px;
@@ -84,6 +92,10 @@
     @include success-msg();
     position: relative;
     top: -30px;
+}
+
+.size-error {
+    @include error-msg();
 }
 
 
