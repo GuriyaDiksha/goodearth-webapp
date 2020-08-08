@@ -19,7 +19,7 @@ import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
-import noImagePlp from "images/noImagePlp.png";
+import noImagePlp from "images/noimageplp.png";
 
 const mapStateToProps = (state: AppState) => {
   return {
