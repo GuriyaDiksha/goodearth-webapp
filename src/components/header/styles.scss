@@ -549,8 +549,8 @@
   .first-menu{
     .icon-style {
       font-size: 22px;
-      margin-right: 5px;
-      margin-left: -40px;
+      margin-right: 2px;
+      margin-left: -32px;
     }
   }
 }
@@ -789,6 +789,11 @@ a {
     min-height: 300px;
     padding: 0 10rem 0 10rem;
   }
+  .checkheight-mobile {
+    min-height: 300px;
+    padding: 0 2rem 0 2rem;
+
+  }
 }
 }
 
@@ -883,7 +888,15 @@ input {
   right: 3%;
 }
 }
-
+.icon-style-cross {
+  font-size: 14px;
+  padding-top: 4px;
+  // top: 0px;
+  padding-right: 8px;
+  margin-left: -30px;
+  color: #000;
+  font-weight: bold;
+}
 .npf-msg {
 font-size: 20px;
 letter-spacing: 1px;
@@ -921,14 +934,7 @@ span {
 .banner-mobile-category {
   margin-top: 70px;
 }
-.search-products {
-  .checkheight {
-    min-height: 300px;
-    padding: 0 2rem 0 2rem;
 
-  }
-
-}
 .mobile-nosearch{
   position: relative !important;
 }

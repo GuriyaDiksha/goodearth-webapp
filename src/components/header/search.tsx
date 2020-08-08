@@ -167,7 +167,7 @@ class Search extends React.Component<Props, State> {
       url: searchUrl
     });
     this.props
-      .fetchSearchProducts(searchUrl)
+      .fetchSearchProducts(searchUrl.split("/search")[1])
       .then(data => {
         // valid.productImpression(res.data, "Search List")
         this.setState({
@@ -229,17 +229,19 @@ class Search extends React.Component<Props, State> {
                 )}
                 onClick={this.onClickSearch}
               ></i>
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCrossNarrowBig,
-                  styles.iconStyle,
-                  styles.iconSearchCross
-                )}
-                onClick={() => {
-                  this.closeSearch();
-                }}
-              ></i>
+              {!this.props.mobile && (
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.iconStyle,
+                    styles.iconSearchCross
+                  )}
+                  onClick={() => {
+                    this.closeSearch();
+                  }}
+                ></i>
+              )}
             </div>
           </div>
 
@@ -269,7 +271,8 @@ class Search extends React.Component<Props, State> {
                     bootstrapStyles.colMd12,
                     bootstrapStyles.col12,
                     globalStyles.textCenter,
-                    styles.checkheight
+                    styles.checkheight,
+                    { [styles.checkheightMobile]: this.props.mobile }
                   )}
                 >
                   {this.state.searchValue.length > 1 ? (
@@ -308,7 +311,8 @@ class Search extends React.Component<Props, State> {
                   className={cs(
                     bootstrapStyles.colMd12,
                     bootstrapStyles.col12,
-                    styles.checkheight
+                    styles.checkheight,
+                    { [styles.checkheightMobile]: this.props.mobile }
                   )}
                 >
                   {this.state.productData.length > 0
@@ -514,7 +518,8 @@ class Search extends React.Component<Props, State> {
                   className={cs(
                     bootstrapStyles.colMd12,
                     bootstrapStyles.col12,
-                    styles.checkheight
+                    styles.checkheight,
+                    { [styles.checkheightMobile]: this.props.mobile }
                   )}
                 >
                   {this.state.featureData.length > 0
