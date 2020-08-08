@@ -156,7 +156,10 @@ class Checkout extends React.Component<Props, State> {
       isLoading: false,
       id: "",
       addressIdError: "",
-      isGoodearthShipping: false,
+      isGoodearthShipping:
+        props.user.shippingData && props.user.shippingData.isTulsi
+          ? true
+          : false,
       loyaltyData: {}
     };
   }
@@ -230,6 +233,13 @@ class Checkout extends React.Component<Props, State> {
         this.setState({
           shippingAddress: shippingData || undefined
         });
+      }
+      if (
+        !this.state.isGoodearthShipping &&
+        shippingData &&
+        shippingData.isTulsi
+      ) {
+        this.setState({ isGoodearthShipping: true });
       }
     }
   }

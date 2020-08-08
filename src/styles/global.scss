@@ -40,8 +40,8 @@ ul,li,ol,p,h3,h5 {
 }
 
 button:focus, button:active, button:visited, *:focus, *:active, *:visited {
-  outline: none;
-  -webkit-outline: none;
+  outline: 0;
+  -webkit-outline: 0;
 }
 
 
@@ -183,6 +183,12 @@ font-weight: bold;
   }
   &:focus {
     color: #fff;
+    outline: 0;
+    -webkit-outline: 0;
+  }
+   
+  &:hover {
+    text-decoration: none;;
   }
   &.disabled-btn {
     background-color: tint(#000, 95%);

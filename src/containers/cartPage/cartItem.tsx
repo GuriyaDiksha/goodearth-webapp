@@ -128,7 +128,9 @@ const CartItems: React.FC<BasketItem> = memo(
               </div>
               <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionMiddle)}>
-                  <div>{getSize(product.attributes)}</div>
+                  <div className={styles.productSize}>
+                    {getSize(product.attributes)}
+                  </div>
                   <div>
                     <div className={styles.size}>QTY</div>
                     <div className={styles.widgetQty}>
@@ -169,7 +171,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   onClick={deleteItem}
                 ></i>
               </div>
-              <div className={cs(styles.wishlistDisplay)}>
+              <div>
                 <WishlistButton
                   basketLineId={id}
                   id={product.id}
