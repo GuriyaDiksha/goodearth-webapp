@@ -103,7 +103,7 @@ const Career: React.FC<Props> = props => {
         openJobForm(job);
         setMode("apply");
         // }
-      } else {
+      } else if (jobUrl == "all") {
         openJobForm();
         setMode("applyAll");
       }
@@ -344,7 +344,8 @@ const Career: React.FC<Props> = props => {
             <div
               className={cs(
                 bootstrapStyles.colMd7,
-                bootstrapStyles.offsetMd1,
+                bootstrapStyles.col10,
+                bootstrapStyles.offset1,
                 styles.careersHeader,
                 globalStyles.verticalMiddle
               )}

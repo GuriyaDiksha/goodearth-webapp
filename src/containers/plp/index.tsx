@@ -216,7 +216,7 @@ class PLP extends React.Component<
                 mobile
                   ? banner
                     ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                    : cs(bootstrap.row, bootstrap.imageContainerMobile)
+                    : cs(bootstrap.row, styles.imageContainerMobile)
                   : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"

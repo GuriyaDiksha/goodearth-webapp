@@ -45,6 +45,7 @@ export type PromoProps = {
   isActive: boolean;
   user: any;
   next: (step: string) => void;
+  selectedAddress: any;
 };
 
 export type PaymentProps = {
@@ -53,6 +54,11 @@ export type PaymentProps = {
   currency: Currency;
   checkout: (data: any) => any;
   loyaltyData: any;
+};
+
+export type PopupProps = {
+  closeModal: (data?: any) => any;
+  acceptCondition: (data?: any) => any;
 };
 
 export type BalanceProps = {

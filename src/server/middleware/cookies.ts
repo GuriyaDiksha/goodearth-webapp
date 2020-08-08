@@ -8,16 +8,31 @@ export default async function cookies(
   next: Koa.Next
 ) {
   const token = ctx.cookies.get("atkn");
-  const currency: any = ctx.cookies.get("currency") || "INR";
+  const sessionId = ctx.cookies.get("sessionid");
+  const currency: any = ctx.cookies.get("currency");
   const store = ctx.store;
+
   ctx.customCookies = {
-    tkn: token
+    tkn: token,
+    sessionid: sessionId
   };
-  store.dispatch(updateCurrency(currency));
+  if (["INR", "USD", "GBP"].indexOf(currency) > -1) {
+    store.dispatch(updateCurrency(currency));
+  } else {
+    store.dispatch(updateCurrency("INR"));
+  }
+
   if (token) {
     store.dispatch(
       updateCookies({
         tkn: token
+      })
+    );
+  }
+  if (sessionId) {
+    store.dispatch(
+      updateCookies({
+        sessionid: sessionId
       })
     );
   }

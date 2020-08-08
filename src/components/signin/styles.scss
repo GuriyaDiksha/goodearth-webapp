@@ -114,3 +114,25 @@ input[type="checkbox"]:checked + label {
   font-size: 12px;
   font-family: $font-Lato;
 }
+
+.login-change {
+  border: 1px solid #eee;
+  padding: 15px;
+  padding-left: 8px;
+  top: 0px;
+  right: 0px;
+  width: 54px;
+  border-left: none;
+  position: absolute;
+  cursor: pointer;
+  font-size: 10px;
+  font-style: italic;
+  color: #ab1e56 !important;
+  font-weight: bold;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  text-transform: none;
+  line-height: 15px;
+  text-align: left;
+  margin-bottom: 10px;
+}

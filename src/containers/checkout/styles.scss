@@ -60,9 +60,9 @@
     color: $cerise !important;
 }
 
-.menulist-overlap{
-  margin-top: -6px;
-}
+// .menulist-overlap{
+//   margin-top: -6px;
+// }
 .side-menu-item {
     margin: 6px 6px;
     position: relative;
@@ -242,12 +242,14 @@
     font-size: 14px;
     font-weight: 900;
     white-space: nowrap;
+    font-family: $font-Lato;
   }
   .closed {
     color: #b3b3b3;
     letter-spacing: 1px;
     font-weight: 900;
     font-size: 14px;
+    font-family: $font-Lato;
   }
 }
 
@@ -295,6 +297,11 @@
   position: absolute;
   top: 12px;
   left: -24px;
+}
+
+.cart {
+  font-size: 22px;
+  margin-right: 10px
 }
 
 .card {
@@ -421,7 +428,7 @@
 }
 
 .checkbox .indicator::after {
-  top: 0px;
+  bottom: 8px;
   left: 7px;
   width: 5px;
   height: 10px;
@@ -438,7 +445,79 @@
   display: block;
 }
 
+/******* Popup ********/
+.size-block-popup {
+  height: auto !important;
+    padding: 0 0 75px 0;
+    background-color: #fff;
+    width: 35vw;
+    .gc-tnc {
+      height: 100%;
+    padding-bottom: 30px;
+    overflow-y: scroll;
+    }
+    p {
+      line-height: 20px;
+    padding: 7px 57px;
+    text-align: center;
+    font-size: 12px;
+    }
+    .cerise-btn-width {
+      width: 60%;
+      margin: 0 auto;
+    }
+    .cross {
+      border-bottom: 1px solid #f2f2f2;
+          text-align: right;
+          padding: 15px;
+          cursor: pointer;
+          position: fixed;
+          z-index: 10;
+          background-color: #fff;
+          width: 100%;
+      }
+    .cancel-btn {
+    position: absolute;
+    bottom: 25px;
+    text-align: center;
+    width: 100%;
+    line-height: 40px;
+    
+    a {
+      color: #333333;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+    font-family: $font-Lato;
+    }
+    }
+}
+
+/******* Popup ********/
+@media (min-width: 992px) {
+.centerpage-desktop {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  //width: 100%;
+}
+}
 @media (max-width: 992px) {
+  .centerpage-mobile {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    height: auto !important;
+    min-height: 500px;
+    width: 80vw;
+    p {
+      padding: 7px 10%;
+    }
+}
   .margin-b-40 {
     margin-bottom: 40px;
   }
@@ -509,6 +588,7 @@
     padding: 20px;
     max-width: 100%;
     background-color: #f9f8f5;
+    font-size: 14px;
   }
 
   .input-container {
@@ -700,6 +780,7 @@ input[type="radio"] {
     color: #000000;
 }
 .curr {
+  text-align: right;
   span {
     &:hover {
       cursor: pointer;
@@ -710,4 +791,40 @@ input[type="radio"] {
     }
     
   }
+}
+
+.checkout-header {
+  ul{
+    z-index: 10;
+    left: -15px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    position: absolute;
+    background-color: #fff;
+    li {
+      cursor: pointer;
+      padding: 15px 20px;
+      line-height: normal;
+      word-break: keep-all;
+      border-top: 1px solid #f2f2f2;
+      font-size: 10px;
+    }
+  }
+}
+.link {
+  a {
+  color: $cerise;
+  text-decoration: underline;
+  }
+}
+.gift-message{
+  border: 0;
+  padding: 20px;
+  max-width: 100%;
+  background-color: #f9f8f5;
+  margin-top: 20px;
+}
+.font14 {
+  font-size: 14px;
 }

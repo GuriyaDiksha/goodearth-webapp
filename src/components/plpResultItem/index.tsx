@@ -19,14 +19,18 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const [primaryimage, setPrimaryimage] = useState(true);
 
   const onMouseEnter = (): void => {
-    setPrimaryimage(false);
+    product.plpImages?.[1] ? setPrimaryimage(false) : "";
   };
   const attribute: any = product.childAttributes || [];
   const totalStock = attribute.reduce(function(total: any, num: any) {
     return total + +num.stock;
   }, 0);
+  const sizeExit =
+    attribute.filter(function(item: any) {
+      return item.size;
+    }).length > 0;
   const onMouseLeave = (): void => {
-    setPrimaryimage(true);
+    product.plpImages?.[1] ? setPrimaryimage(true) : "";
   };
 
   const onClickQuickview = (): void => {
@@ -104,7 +108,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
       </div>
       <div className={styles.imageContent}>
-        <p className={styles.collectionName}>{product.collections}</p>
+        {/* <p className={styles.collectionName}>{product.collections}</p>  */}
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>
@@ -114,19 +118,21 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             {product.priceRecords[currency as Currency]}
           </span>
         </p>
-        <div className={cs(styles.productSizeList, bootstyles.row)}>
-          <div className={styles.productSize}> size</div>
-          <div className="">
-            <ul>
-              {(props.product
-                .childAttributes as PartialChildProductAttributes[])?.map(
-                (data: PartialChildProductAttributes, i: number) => {
-                  return <li key={i}>{data.size}</li>;
-                }
-              )}
-            </ul>
+        {sizeExit && !mobile && (
+          <div className={cs(styles.productSizeList, bootstyles.row)}>
+            <div className={styles.productSize}> size</div>
+            <div className="">
+              <ul>
+                {(props.product
+                  .childAttributes as PartialChildProductAttributes[])?.map(
+                  (data: PartialChildProductAttributes, i: number) => {
+                    return <li key={i}>{data.size}</li>;
+                  }
+                )}
+              </ul>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

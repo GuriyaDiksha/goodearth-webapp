@@ -242,7 +242,7 @@ const Section2: React.FC<Section2Props> = ({
               <p className={cs(globalStyles.voffset2, styles.clrP)}>
                 Please note: Gift cards can only be redeemed in the currency
                 they are bought in, so please choose the country based on your
-                recipient`&aposs` address
+                recipient&apos;s address
               </p>
               {countrymsg ? (
                 <p className={globalStyles.errorMsg}>{countrymsg}</p>

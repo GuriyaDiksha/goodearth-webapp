@@ -53,11 +53,18 @@
 }
 .image-container {
   margin-left: 20px;
+  .set-width {
+    padding: 0 6px;
+  }
 }
 }
 @media screen and (max-width: 992px) {
   .page-body{
     margin-top: $header-height;
+  }
+  .imageContainerMobile {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

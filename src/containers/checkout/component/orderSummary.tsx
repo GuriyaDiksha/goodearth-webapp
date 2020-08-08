@@ -4,14 +4,15 @@ import cs from "classnames";
 // import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
-import * as Steps from "containers/checkout/constants";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
+import { AppState } from "reducers/typings";
+// import LoginService from "services/login";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -23,10 +24,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     salestatus,
     validbo
   } = props;
-  const [showSummary, setShowSummary] = useState(true);
+  const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
 
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
@@ -79,7 +81,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 *Expected Delivery for Wallcoverings- within 40 business days
               </p>
             )}
-            {
+            {false && (
               <div>
                 <p className={globalStyles.cerise}>
                   Apply code: <b>SAVE20</b> at checkout to avail 20% discount on
@@ -88,7 +90,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 </p>
                 <br />
               </div>
-            }
+            )}
             {isSuspended && (
               <p>
                 {" "}
@@ -139,23 +141,23 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.discountprice}>
                         price_excl_tax_excl_discounts
                         {String.fromCharCode(code)}{" "}
-                        {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                          ? item.product.priceRecords[currency]
+                        {item.product.structure == "GiftCard"
+                          ? item.GCValue
                           : item.product.discountedPriceRecords[currency]}
                       </span>
                       &nbsp;
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(code)}{" "}
-                        {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                          ? item.product.priceRecords[currency]
+                        {item.product.structure == "GiftCard"
+                          ? item.GCValue
                           : item.product.priceRecords[currency]}{" "}
                       </span>{" "}
                     </span>
                   ) : (
                     <span className={styles.productPrice}>
                       {String.fromCharCode(code)}{" "}
-                      {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                        ? item.product.priceRecords[currency]
+                      {item.product.structure == "GiftCard"
+                        ? item.GCValue
                         : item.product.priceRecords[currency]}
                     </span>
                   )}
@@ -208,7 +210,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     let coupon = null;
     let giftCard = null;
     let loyalty = null;
-    // let voucherDiscount = this.props.voucher_discounts[0];
+    // let voucherDiscount = props.voucher_discounts[0];
     if (basket.voucherDiscounts.length > 0) {
       const couponDetails = basket.voucherDiscounts?.[0];
       if (couponDetails) {
@@ -240,7 +242,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     <i
                       className={cs(
                         iconStyles.icon,
-                        iconStyles.iconCrossNarrowBig
+                        iconStyles.iconCrossNarrowBig,
+                        styles.discountFont
                       )}
                     ></i>
                   </span>
@@ -285,7 +288,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <i
                     className={cs(
                       iconStyles.icon,
-                      iconStyles.iconCrossNarrowBig
+                      iconStyles.iconCrossNarrowBig,
+                      styles.discountFont
                     )}
                   ></i>
                 </span>
@@ -324,7 +328,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 }}
               >
                 <i
-                  className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.discountFont
+                  )}
                 ></i>
               </span>
             </span>
@@ -348,29 +356,73 @@ const OrderSummary: React.FC<OrderProps> = props => {
     //return null;
   };
 
-  const getDeliveryStatus = () => {
-    return true;
+  const { pathname } = useLocation();
+
+  const hasOutOfStockItems = () => {
+    const items = basket.lineItems;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.product.stockRecords[0].numInStock < 1) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   const canCheckout = () => {
+    if (pathname.indexOf("checkout") > -1) {
+      return false;
+    }
+    if (
+      !basket.lineItems ||
+      hasOutOfStockItems() ||
+      basket.lineItems.length == 0
+    ) {
+      return false;
+    }
     return true;
   };
 
+  const resetInfoPopupCookie = () => {
+    const cookieString =
+      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  };
   const chkshipping = () => {
-    return true;
-  };
-
-  const hasOutOfStockItems = () => {
-    return true;
+    if (pathname.indexOf("checkout") > -1) {
+      return false;
+    }
+    if (isSuspended) {
+      resetInfoPopupCookie();
+    }
+    // let price = calculateOffer(true) - getPromoOffer();
+    // if (!state.freeShipping && price >= 45000 && price < 50000 && currency == 'INR' && basket.shippable) {
+    //     props.showShipping(50000 - price);
+    //     event.preventDefault();
+    // }
   };
 
   const onRemoveOutOfStockItemsClick = () => {
-    return true;
+    //   CartApi.removeOutOfStockItems(null, props.dispatch).then(mydata =>{
+    //     props.getShippingCharges();
+    // });
   };
 
-  const goTowishlist = () => {
-    return true;
-  };
+  // const goTowishlist = () => {
+  //   // dataLayer.push({
+  //   //   'event': 'eventsToSend',
+  //   //   'eventAction': 'wishListClick',
+  //   //   'eventCategory': 'Click',
+  //   //   'eventLabel': location.pathname
+  //   // });
+  //   if (isLoggedIn) {
+  //       location.href = '/wishlist';
+  //   } else {
+  //     LoginService.showLogin(dispatch);
+  //   }
+  // };
 
   const getDiscount = (data: any) => {
     // let initial = 0,
@@ -423,7 +475,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>SUBTOTAL</span>
             <span className={styles.subtotal}>
-              {String.fromCharCode(code)} {basket.subTotal}
+              {String.fromCharCode(code)}{" "}
+              {parseFloat("" + basket.subTotal).toFixed(2)}
             </span>
           </div>
           <div
@@ -502,10 +555,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 TOTAL
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-                {String.fromCharCode(code)} {basket.total}
+                {String.fromCharCode(code)}{" "}
+                {parseFloat("" + basket.total).toFixed(2)}
               </span>
             </div>
-            {getDeliveryStatus()}
             {!mobile && getDeliveryStatusMobile()}
             {currency == "INR" ? (
               ""
@@ -543,7 +596,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         ? cs(globalStyles.ceriseBtn, {
                             [globalStyles.hidden]: mobile
                           })
-                        : cs(globalStyles.ceriseBtn, globalStyles.disabled, {
+                        : cs(globalStyles.ceriseBtn, globalStyles.disabledBtn, {
                             [globalStyles.hidden]: mobile
                           })
                     }
@@ -579,19 +632,25 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   you can apply the same during payment.
                 </div>
                 <div className={styles.wishlist}>
-                  <a onClick={goTowishlist}>
-                    <span>
-                      <i
-                        className={cs(
-                          iconStyles.icon,
-                          iconStyles.iconWishlist,
-                          globalStyles.pointer
-                        )}
-                      ></i>
-                    </span>
-                    &nbsp;
-                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
-                  </a>
+                  {isLoggedIn ? (
+                    <Link to="/wishlist">
+                      <span>
+                        <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconWishlist,
+                            globalStyles.pointer
+                          )}
+                        ></i>
+                      </span>
+                      &nbsp;
+                      <span className={styles.wishlistAlign}>
+                        VIEW WISHLIST
+                      </span>
+                    </Link>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
             )}

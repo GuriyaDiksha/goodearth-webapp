@@ -20,7 +20,8 @@ const WishlistButton: React.FC<Props> = ({
   className,
   iconClassName,
   mobile,
-  basketLineId
+  basketLineId,
+  onMoveToWishlist
 }) => {
   const items = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -28,12 +29,13 @@ const WishlistButton: React.FC<Props> = ({
 
   const addedToWishlist = items.indexOf(id) !== -1;
 
-  const onClick = useCallback(() => {
+  const onClick = useCallback(async () => {
     if (!isLoggedIn) {
       LoginService.showLogin(store.dispatch);
     } else {
       if (basketLineId) {
-        WishlistService.moveToWishlist(store.dispatch, basketLineId);
+        await WishlistService.moveToWishlist(store.dispatch, basketLineId);
+        onMoveToWishlist?.();
       } else {
         if (addedToWishlist) {
           WishlistService.removeFromWishlist(store.dispatch, id);

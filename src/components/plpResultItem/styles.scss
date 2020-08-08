@@ -100,16 +100,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 16px;
-        font-family: $font-Serif;
+        font-size: 14px;
+        font-family: $font-Lato;
         color: #000;
         text-transform: capitalize;
+        letter-spacing: 0.5px;
     }
     span {
-        font-size: 16px;
-        font-family: $font-Serif;
+        font-size: 14px;
+        font-family: $font-Lato;
         color: #000;
         text-transform: capitalize;
+        letter-spacing: 0.5px;
     }
     a:hover {
         color: #ab1e56;
@@ -159,4 +161,7 @@
     display: flex;
     justify-content: center;
     line-height: 40px;
+    a {
+        font-size: 14px;
+    }
 }

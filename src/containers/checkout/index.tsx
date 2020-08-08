@@ -28,6 +28,7 @@ import BasketService from "services/basket";
 import { User } from "typings/user";
 import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -44,6 +45,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
+    // create function for dispatch
+    showNotify: (message: string) => {
+      dispatch(showMessage(message, 6000));
+    },
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
@@ -93,7 +98,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   activeStep: string;
@@ -119,6 +125,7 @@ type State = {
   isGoodearthShipping: boolean;
   loyaltyData: any;
 };
+
 class Checkout extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -169,6 +176,11 @@ class Checkout extends React.Component<Props, State> {
         loyaltyData: loyalty
       });
     });
+    if (this.props.basket.publishRemove) {
+      this.props.showNotify(
+        "Due to unavailability of some products your cart has been updated."
+      );
+    }
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
     if (scrollToTopButtonElem) {
@@ -182,12 +194,21 @@ class Checkout extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (this.props.user.isLoggedIn) {
+    if (nextProps.user.isLoggedIn) {
       const shippingData = nextProps.user.shippingData;
+      if (nextProps.basket.redirectToCart) {
+        this.props.history.push("/cart", {});
+      }
+      if (nextProps.basket.publishRemove) {
+        this.props.showNotify(
+          "Due to unavailability of some products your cart has been updated."
+        );
+      }
       if (
-        this.state.activeStep == Steps.STEP_SHIPPING &&
+        (this.state.activeStep == Steps.STEP_SHIPPING ||
+          this.state.activeStep == Steps.STEP_LOGIN) &&
         shippingData &&
-        shippingData !== this.state.shippingAddress
+        shippingData?.id !== this.state.shippingAddress?.id
       ) {
         this.setState({
           activeStep: Steps.STEP_BILLING
@@ -200,9 +221,11 @@ class Checkout extends React.Component<Props, State> {
           billingAddress: undefined
         });
       }
-      this.setState({
-        shippingAddress: shippingData || undefined
-      });
+      if (shippingData !== this.state.shippingAddress) {
+        this.setState({
+          shippingAddress: shippingData || undefined
+        });
+      }
     }
   }
 
@@ -439,6 +462,7 @@ class Checkout extends React.Component<Props, State> {
                 isActive={this.isActiveStep(Steps.STEP_PROMO)}
                 user={this.props.user}
                 next={this.nextStep}
+                selectedAddress={this.state.billingAddress}
               />
               <PaymentSection
                 isActive={this.isActiveStep(Steps.STEP_PAYMENT)}
@@ -465,5 +489,5 @@ class Checkout extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+const checkoutRouter = withRouter(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(checkoutRouter);

@@ -27,7 +27,7 @@
 
 .discounted-price {
     color: $cerise;
-    font-family: $font-Serif;
+    font-family: $font-Lato;
     font-size: 22px;
 }
 
@@ -35,7 +35,7 @@
     font-size: 14px;
     text-decoration: line-through;
     color: tint(#000, 50%) !important;
-    font-family: $font-Serif;
+    font-family: $font-Lato;
 }
 
 .label {
@@ -161,11 +161,12 @@
     }
 
     .wishlist-btn-container, .add-to-bag-btn-container {
-        background: #fff;
+        background: #f2f2f2;
         padding: 0;
 
         .mobile-wishlist-icon {
             font-size: 52px;
+            color: tint(#000,60%);
         }
     }
 
@@ -178,4 +179,19 @@
     letter-spacing: 1px;
     color: #333;
     line-height: 80px;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.widget-qty {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    // min-width: 120px;
+    // display: inline-flex;
+    // background-color: #f1f1f1;
+    // border-radius: 10px;
+    padding: 2px 0;
+    // font-size: 12px;
+    // line-height: 12px;
 }

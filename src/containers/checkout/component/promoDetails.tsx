@@ -46,7 +46,11 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
             }}
           >
             <i
-              className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+              className={cl(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.promoIcon
+              )}
             ></i>
           </span>
         </div>

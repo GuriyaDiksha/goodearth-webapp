@@ -574,14 +574,15 @@
       font-size: 20px;
     }
     &.headLink-3 {
-      font-style: normal;
+      font-style: normal; 
+      font-size: 25px;
       font-family: $font-Serif;
       text-align: center;
       span:last-child {
         text-transform: capitalize;
         font-style: italic;
-        font-family: "Libre Baskerville" !important;
-        font-size: 18px;
+        font-family: $font-Serif;
+        font-size: 22px;
         &:before {
           content: '|';
   
@@ -597,7 +598,9 @@
         padding: 0 60px;
       }
     }
-  
+    .left-promo {
+      padding-right: 15px;
+    }
     //.image-result {
     //  height: 38vw;
     //}
@@ -753,6 +756,7 @@
   
     }
     .cat-videos-block {
+      margin-top: 100px;
       .slick-slide {
         white-space: nowrap;
         //padding: 0 5px !important;
@@ -795,9 +799,7 @@
   .level4-style{
     padding-left: 25px !important;
   }  
-  .left-promo {
-    padding-right: 15px;
-  }
+  
 
   .promo-disp {
     margin-top: 35px;

@@ -18,6 +18,7 @@ export type BasketLineItem = {
   giftCardImage: string;
   quantity: number;
   product: BasketProduct;
+  GCValue: number;
 };
 
 export type Points = {
@@ -52,9 +53,15 @@ export type Basket = {
   subTotal: string | number;
   giftCards: BalanceProps[];
   loyalty: Points[];
+  redirectToCart: string;
+  isOnlyGiftCart: boolean;
+  publishRemove: boolean;
+  updated: boolean;
 };
 
 export interface BasketItem extends BasketLineItem {
   currency: Currency;
   saleStatus?: boolean;
+  toggleBag?: () => void;
+  onMoveToWishlist?: () => void;
 }

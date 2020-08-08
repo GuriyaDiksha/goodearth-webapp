@@ -21,13 +21,15 @@ const LineItems: React.FC<BasketItem> = memo(
     quantity,
     product,
     currency,
-    saleStatus
+    saleStatus,
+    toggleBag,
+    GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
 
-    const handleChange = (value: number) => {
-      BasketService.updateToBasket(dispatch, id, value).then(res => {
+    const handleChange = async (value: number) => {
+      await BasketService.updateToBasket(dispatch, id, value).then(res => {
         setValue(value);
       });
     };
@@ -46,7 +48,7 @@ const LineItems: React.FC<BasketItem> = memo(
     };
 
     const {
-      plpImages,
+      images,
       collections,
       title,
       url,
@@ -62,10 +64,16 @@ const LineItems: React.FC<BasketItem> = memo(
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
             <div className={styles.cartRing}></div>
-            <Link to={isGiftCard ? "#" : url}>
+            <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
               <img
                 className={styles.productImage}
-                src={isGiftCard ? giftCardImage : plpImages ? plpImages[0] : ""}
+                src={
+                  isGiftCard
+                    ? giftCardImage
+                    : images && images.length > 0
+                    ? images[0].productImage.replace("Medium", "Micro")
+                    : ""
+                }
               />
             </Link>
           </div>
@@ -74,7 +82,9 @@ const LineItems: React.FC<BasketItem> = memo(
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col10, styles.name)}>
                 <div>
-                  <Link to={isGiftCard ? "#" : url}>{title}</Link>
+                  <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+                    {title}
+                  </Link>
                 </div>
                 <div className={styles.productPrice}>
                   {saleStatus && discount && discountedPriceRecords ? (
@@ -91,14 +101,14 @@ const LineItems: React.FC<BasketItem> = memo(
                     <span className={styles.oldPrice}>
                       {String.fromCharCode(currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {isGiftCard ? GCValue : price}
                     </span>
                   ) : (
                     <span>
                       {" "}
                       {String.fromCharCode(currencyCodes[currency])}
                       &nbsp;
-                      {price}
+                      {isGiftCard ? GCValue : price}
                     </span>
                   )}
                 </div>
@@ -130,15 +140,36 @@ const LineItems: React.FC<BasketItem> = memo(
                 {getSize(product.attributes)}
                 <div className={styles.widgetQty}>
                   <Quantity
+                    source="bag"
                     key={id}
+                    id={id}
                     currentValue={value}
                     minValue={1}
-                    maxValue={100}
-                    onChange={handleChange}
-                    class="my-quantity"
-                    errorMsg="Available qty in stock is"
+                    maxValue={1000}
+                    onChange={x => null}
+                    onUpdate={handleChange}
+                    class={styles.myQuantity}
+                    // errorMsg="Available qty in stock is"
                   />
                 </div>
+                {product.stockRecords ? (
+                  product.stockRecords[0].numInStock < 1 ? (
+                    <div
+                      className={cs(
+                        globalStyles.italic,
+                        globalStyles.marginT10,
+                        globalStyles.bold,
+                        globalStyles.errorMsg
+                      )}
+                    >
+                      Out of stock
+                    </div>
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  ""
+                )}
               </div>
               <div
                 className={cs(
