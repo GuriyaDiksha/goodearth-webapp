@@ -171,6 +171,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 checked={giftwrap}
                 onClick={() => {
                   setGiftwrap(!giftwrap);
+                  !giftwrap && setGiftwrapprice(false);
                 }}
               />
               <span className={styles.indicator}></span>

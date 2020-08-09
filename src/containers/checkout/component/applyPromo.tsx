@@ -58,7 +58,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       .then((response: any) => {
         if (response.status == false) {
           this.setState({
-            error: "Please enter a valid code"
+            error: response.message
           });
         } else {
           this.setState({
