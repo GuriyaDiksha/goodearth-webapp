@@ -169,7 +169,7 @@
   
 @mixin plp_prod_name_desktop {
     font-size: 16px;
-    font-family: $font-Serif;
+    font-family: $font-Lato;
 }
 
 @mixin plp_prod_quantity {
@@ -283,7 +283,7 @@
 
 @mixin plp_prod_name_desktop {
   font-size: 16px;
-  font-family: $font-Serif;
+  font-family: $font-Lato;
   color: #000;
   text-transform: capitalize;
 }

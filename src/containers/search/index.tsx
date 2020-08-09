@@ -207,7 +207,7 @@ class Search extends React.Component<
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop80]: !this.state.showmobileSort },
-              { [globalStyles.spCat]: !this.state.showmobileSort },
+              { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
             )}
@@ -228,9 +228,14 @@ class Search extends React.Component<
 
             {!mobile ? (
               <div
-                className={cs(styles.productNumber, styles.imageContainer, {
-                  [styles.border]: mobile
-                })}
+                className={cs(
+                  styles.productNumber,
+                  globalStyles.voffset5,
+                  styles.imageContainer,
+                  {
+                    [styles.border]: mobile
+                  }
+                )}
               >
                 <span>
                   {count > 1
