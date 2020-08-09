@@ -52,6 +52,17 @@ margin-top: $main-header;
   .page-body{
     margin-top: $header-height;
   }
+  .white-block{
+       background-color: #f9f8f5;
+  }
+  
+  .shop-add-block {
+    .serial-number {
+      &.enabled-sno {
+        background-color: #ab1e56;
+      }
+    }
+  } 
   .shop-addresses {
     margin-top: 25px;
   }
@@ -131,9 +142,7 @@ margin-top: $main-header;
   }
 }
 }
-.white-block {
-  background-color: #fff !important;
-}
+
 .bg-cerise {
   background-color: #ab1e56 !important;
 }
@@ -248,6 +257,9 @@ position: absolute;
     .enabled-sno {
         background-color: $cerise;
     }
+  }
+  .white-block {
+    background-color: #fff !important;
   }
   
   .cafe-content {
