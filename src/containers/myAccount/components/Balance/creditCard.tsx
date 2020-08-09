@@ -51,21 +51,28 @@ class CreditCard extends React.Component<Props, GiftState> {
     const data: any = {
       code: this.state.txtvalue
     };
-    this.props.balanceCheck(data).then(response => {
-      const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN") {
+    this.props
+      .balanceCheck(data)
+      .then(response => {
+        const { giftList } = this.state;
+        if (response.currStatus == "Invalid-CN") {
+          this.setState({
+            error: "Please enter a valid code"
+          });
+        } else {
+          giftList.push(response);
+          this.setState({
+            giftList: giftList,
+            newCardBox: false,
+            txtvalue: ""
+          });
+        }
+      })
+      .catch(err => {
         this.setState({
-          error: "Please enter a valid code"
+          error: err.response.data.message
         });
-      } else {
-        giftList.push(response);
-        this.setState({
-          giftList: giftList,
-          newCardBox: false,
-          txtvalue: ""
-        });
-      }
-    });
+      });
   };
 
   updateList = (response: any) => {

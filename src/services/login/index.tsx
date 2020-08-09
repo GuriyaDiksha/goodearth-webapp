@@ -18,6 +18,7 @@ import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import { Currency } from "typings/currency";
+import { updateCurrency } from "actions/currency";
 
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -123,6 +124,7 @@ export default {
       formData
     );
     CookieService.setCookie("currency", formData.currency, 365);
+    dispatch(updateCurrency(formData.currency));
     return res;
   },
   fetchCountryData: (dispatch: Dispatch) => {
