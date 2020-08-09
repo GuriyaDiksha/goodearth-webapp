@@ -27,7 +27,11 @@ const PromoSection: React.FC<PromoProps> = props => {
   }, [basket.voucherDiscounts]);
 
   const onsubmit = () => {
-    if (PromoChild.gcBalance && basket.voucherDiscounts.length == 0) {
+    if (
+      PromoChild.gcBalance &&
+      basket.voucherDiscounts.length == 0 &&
+      PromoChild.state.txtvalue
+    ) {
       PromoChild.gcBalance();
     } else {
       next(Steps.STEP_PAYMENT);
@@ -115,7 +119,9 @@ const PromoSection: React.FC<PromoProps> = props => {
                     globalStyles.cerise,
                     globalStyles.pointer
                   )}
-                  onClick={toggleInput}
+                  onClick={() => {
+                    basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                  }}
                 >
                   {isactivepromo ? "-" : "+"}
                 </div>
@@ -127,7 +133,9 @@ const PromoSection: React.FC<PromoProps> = props => {
                       globalStyles.cerise,
                       globalStyles.pointer
                     )}
-                    onClick={toggleInput}
+                    onClick={() => {
+                      basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                    }}
                   >
                     APPLY PROMO CODE
                   </div>

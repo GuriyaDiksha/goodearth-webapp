@@ -361,10 +361,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             </span>
           </div>
           <div className={globalStyles.textCenter}>
-            <span
+            <p
               className={cs(
                 styles.formSubheading,
-                globalStyles.voffset5,
+                globalStyles.voffset3,
                 globalStyles.pointer
               )}
               onClick={e => {
@@ -377,7 +377,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             >
               {" "}
               FORGOT PASSWORD
-            </span>
+            </p>
           </div>
           <div>
             {this.state.showerror ? (
