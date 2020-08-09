@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import cl from "classnames";
 import { BaseDropdownMenuProps } from "./typings";
-import styles from "./styles.scss";
 import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 import cs from "classnames";
+
+import styles from "./styles.scss";
 
 const BaseDropdownMenu = ({
   align,

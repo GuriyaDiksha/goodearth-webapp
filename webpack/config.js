@@ -11,6 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const env = process.env.NODE_ENV || "development";
 
@@ -58,7 +59,7 @@ let config = [
             splitChunks: {
                 chunks: 'all',
                 automaticNameDelimiter: "-",
-                minChunks: 2
+                minChunks: 3
             }
         },
         entry: {
@@ -77,7 +78,8 @@ let config = [
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain
-              }),
+            }),
+            new ForkTsCheckerWebpackPlugin(),
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
@@ -168,6 +170,8 @@ let config = [
                         {
                             loader: "ts-loader",
                             options: {
+                                // disable type checker - we will use it in fork plugin
+                                transpileOnly: true,
                                 onlyCompileBundledFiles: true
                             }
                         }],
@@ -236,7 +240,12 @@ let config = [
             __dirname: false,
         },
         optimization: {
-            minimize: false
+            minimize: false,
+            splitChunks: {
+                chunks: 'all',
+                automaticNameDelimiter: "-",
+                minChunks: 3
+            }
         },
         entry: {
             'server': './src/server/index.ts'
@@ -256,6 +265,7 @@ let config = [
                         }
         })],
         plugins: [
+            new ForkTsCheckerWebpackPlugin(),
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain
@@ -292,6 +302,8 @@ let config = [
                     {
                         loader: "ts-loader",
                         options: {
+                            // disable type checker - we will use it in fork plugin
+                            transpileOnly: true,
                             onlyCompileBundledFiles: true
                         }
                     }]

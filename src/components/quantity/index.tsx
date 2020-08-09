@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./styles.scss";
-import { QuantityItem, State } from "./typings";
+import { QuantityItem, State } from "./typings.d";
 import cs from "classnames";
 
 class Quantity extends React.Component<QuantityItem, State> {
@@ -66,6 +66,7 @@ class Quantity extends React.Component<QuantityItem, State> {
         <span
           className={cs(
             styles.input,
+            props.inputClass,
             { [styles.inputPdp]: props.source == "pdp" },
             {}
           )}

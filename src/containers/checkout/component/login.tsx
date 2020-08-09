@@ -25,6 +25,10 @@ const LoginSection: React.FC<LoginProps> = props => {
     setIsRegister(true);
   };
 
+  const changeEmail = () => {
+    setIsRegister(false);
+  };
+
   const nextStep = () => {
     if (next) next(Steps.STEP_SHIPPING);
   };
@@ -48,7 +52,10 @@ const LoginSection: React.FC<LoginProps> = props => {
           <div>
             {!isLoggedIn ? (
               isRegister ? (
-                <CheckoutRegisterForm nextStep={nextStep} />
+                <CheckoutRegisterForm
+                  nextStep={nextStep}
+                  changeEmail={changeEmail}
+                />
               ) : (
                 <CheckoutLoginForm
                   showRegister={goToRegister}

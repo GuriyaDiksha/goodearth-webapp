@@ -199,7 +199,7 @@ const ProductDetails: React.FC<Props> = ({
       <NotifyMePopup
         collection={collection}
         price={priceRecords[currency]}
-        currency={String.fromCharCode(currencyCodes[currency])}
+        currency={currency}
         childAttributes={childAttributes}
         title={title}
         selectedIndex={selectedIndex}
@@ -210,12 +210,19 @@ const ProductDetails: React.FC<Props> = ({
     changeModalState(true);
   };
 
+  let allOutOfStock = true;
+  childAttributes.forEach(({ stock }) => {
+    if (stock > 0) {
+      allOutOfStock = false;
+    }
+  });
+
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
-    } else if (selectedSize && selectedSize.stock == 0) {
+    } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = notifyMeClick;
     } else {
@@ -495,6 +502,7 @@ const ProductDetails: React.FC<Props> = ({
             <WishlistButton
               id={id}
               showText={!mobile}
+              size={selectedSize ? selectedSize.size : undefined}
               iconClassName={cs({
                 [styles.mobileWishlistIcon]: mobile
               })}

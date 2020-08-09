@@ -8,6 +8,14 @@
     bottom: 0;
     padding-bottom: 55px;
     position: relative;
+
+    .input-quantity {
+        padding: 8px 0;
+    }
+
+    .size-box {
+        margin: 0 6px;
+    }
 }
 
 .header {
@@ -53,6 +61,8 @@
     justify-content: center;
 }
 
+
+
 .email-input {
     width: 70%;
     margin: 0 auto 30px;
@@ -84,6 +94,10 @@
     @include success-msg();
     position: relative;
     top: -30px;
+}
+
+.size-error {
+    @include error-msg();
 }
 
 

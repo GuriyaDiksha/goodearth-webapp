@@ -6,12 +6,7 @@ import React from "react";
 import { connect } from "react-redux";
 // import Size from './size.jsx'
 // import Notify from './notify'
-
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
-import styles from "./styles.scss";
-import globalStyles from "../../styles/global.scss";
 // import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
-import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
 import createAbsoluteGrid from "react-absolute-grid";
 import SampleDisplay from "./display";
@@ -21,6 +16,7 @@ import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import Loader from "components/Loader";
 import SecondaryHeader from "components/SecondaryHeader";
+import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 // import WishlistGrid from './gridLayout';
 import { WishlistItem, WishListGridItem } from "typings/wishlist";
 import WishlistService from "services/wishlist";
@@ -29,6 +25,9 @@ import * as _ from "lodash";
 import NotifyMePopup from "components/NotifyMePopup";
 import { updateComponent, updateModal } from "../../actions/modal";
 import { Currency } from "typings/currency";
+import globalStyles from "../../styles/global.scss";
+import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
+import styles from "./styles.scss";
 
 let AbsoluteGrid: any;
 
@@ -41,8 +40,12 @@ const mapStateToProps = (state: AppState) => {
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    removeFromWishlist: async (productId: number, sortBy: string) =>
-      await WishlistService.removeFromWishlist(dispatch, productId, sortBy),
+    removeFromWishlist: async (
+      sortBy: string,
+      productId?: number,
+      id?: number
+    ) =>
+      await WishlistService.removeFromWishlist(dispatch, productId, id, sortBy),
     updateWishlist: async (sortBy: string) =>
       await WishlistService.updateWishlist(dispatch, sortBy),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
@@ -61,10 +64,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           };
         }
       );
-      let selectedIndex = 0;
+      let selectedIndex;
+      let price = item.price[currency];
       childAttributes.map((v, i) => {
         if (v.size === item?.size) {
           selectedIndex = i;
+          price = v.priceRecords[currency];
         }
       });
       const changeSize = async (size: string, quantity?: number) => {
@@ -75,11 +80,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           quantity
         );
       };
+
       dispatch(
         updateComponent(
           <NotifyMePopup
-            price={item.price[currency]}
-            currency={String.fromCharCode(currencyCodes[currency])}
+            price={price}
+            currency={currency}
             title={item.productName}
             childAttributes={childAttributes}
             selectedIndex={selectedIndex}
@@ -281,7 +287,7 @@ class Wishlist extends React.Component<Props, State> {
     });
 
     this.props
-      .removeFromWishlist(data.productId, this.state.defaultOption.value)
+      .removeFromWishlist(this.state.defaultOption.value, undefined, data.id)
       .finally(() => {
         this.setState({ isLoading: false });
       });
@@ -323,13 +329,16 @@ class Wishlist extends React.Component<Props, State> {
         const gridItem: WishListGridItem = Object.assign(
           {},
           { key: item.key, sort: data.dndSequence },
-          item
+          item,
+          {
+            size: data.size
+          }
         );
         return gridItem;
       });
     } else {
       newWishlistData = nextProps.wishlistData.map((data, i) => {
-        return Object.assign({}, { key: i, sort: i }, data);
+        return Object.assign({}, { key: data.id, sort: i }, data);
       });
     }
     const product = nextProps.wishlistData.map((prod, i) => {

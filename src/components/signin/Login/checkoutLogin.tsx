@@ -125,7 +125,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     if (email) {
       this.setState({ email });
     }
-    this.emailInput.current && this.emailInput.current.focus();
+    this.firstEmailInput.current?.focus();
+    // this.emailInput.current && this.emailInput.current.focus();
     localStorage.removeItem("tempEmail");
   }
 
@@ -274,8 +275,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   changeEmail = () => {
     this.setState({
       showCurrentSection: "email",
-      email: ""
+      email: "",
+      isLoginDisabled: true
     });
+    this.firstEmailInput.current?.focus();
   };
 
   emailForm = () => {
@@ -352,11 +355,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             />
             <span
               className={styles.togglePasswordBtn}
-              onClick={
-                !this.state.isPasswordDisabled
-                  ? () => this.togglePassword()
-                  : () => false
-              }
+              onClick={() => this.togglePassword()}
             >
               <img src={this.state.showPassword ? show : hide} />
             </span>

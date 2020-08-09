@@ -25,6 +25,14 @@
     font-weight: 300;
     font-display: swap;
   }
+
+  @font-face {
+    font-family: "LatoFont";
+    src: url("../fonts/Lato%20700italic.ttf");
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+  }
 //   @font-face {
 //     font-family: "LatoFont";
 //     src: url("../../fonts/Lato\ 300italic.ttf") format('truetype');
