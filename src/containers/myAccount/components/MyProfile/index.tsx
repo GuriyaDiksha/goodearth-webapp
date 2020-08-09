@@ -214,6 +214,7 @@ class MyProfile extends React.Component<Props, State> {
                   name="gender"
                   required
                   options={genderOptions}
+                  value={gender || undefined}
                   label="Select Gender"
                   placeholder="Select Gender"
                   handleChange={() => {

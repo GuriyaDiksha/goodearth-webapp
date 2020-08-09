@@ -184,13 +184,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                   </Fragment>
                 )}
                 {this.state.error ? (
-                  <span
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
+                  <span className={cs(globalStyles.errorMsg)}>
                     {this.state.error}
                   </span>
                 ) : (

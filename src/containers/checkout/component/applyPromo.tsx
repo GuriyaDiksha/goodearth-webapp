@@ -160,13 +160,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                   <label>Promo Code</label>
                 </Fragment>
                 {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
+                  <p className={cs(globalStyles.errorMsg)}>
                     {this.state.error}
                   </p>
                 ) : (

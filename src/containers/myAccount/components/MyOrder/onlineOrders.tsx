@@ -131,8 +131,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     return html;
   };
 
-  const closeDetails = (index: number): any => {
-    setIsOpenAddressIndex(index);
+  const closeDetails = () => {
+    setIsOpenAddressIndex(-1);
   };
 
   const openAddress = (data: any, index: number) => {
@@ -174,10 +174,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </p>
               </div>
               <p className={styles.edit}>
-                <a
-                  className={globalStyles.cerise}
-                  onClick={() => closeDetails(index)}
-                >
+                <a className={globalStyles.cerise} onClick={closeDetails}>
                   {" "}
                   close{" "}
                 </a>
@@ -317,10 +314,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               );
             })}
             <div className={styles.edit}>
-              <a
-                className={globalStyles.cerise}
-                onClick={() => closeDetails(index)}
-              >
+              <a className={globalStyles.cerise} onClick={() => closeDetails()}>
                 {" "}
                 close{" "}
               </a>
