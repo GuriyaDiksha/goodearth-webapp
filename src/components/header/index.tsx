@@ -453,7 +453,11 @@ class Header extends React.Component<Props, State> {
                                       iconStyles.icon
                                     )}
                                   />
-                                  <span> wishlist ({wishlistCount})</span>
+                                  <span>
+                                    {" "}
+                                    wishlist{" "}
+                                    {wishlistCount ? `(${wishlistCount})` : ""}
+                                  </span>
                                 </Link>
                               ) : (
                                 <div
@@ -476,7 +480,7 @@ class Header extends React.Component<Props, State> {
                                       iconStyles.icon
                                     )}
                                   />
-                                  <span> wishlist ({wishlistCount})</span>
+                                  <span> wishlist</span>
                                 </div>
                               )}
                             </li>
