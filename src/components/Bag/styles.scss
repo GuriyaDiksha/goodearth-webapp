@@ -220,6 +220,13 @@
           text-align: left;
           font-size: 12px;
           cursor: pointer;
+          a {
+            color: $cerise;
+            &:hover {
+              color: $cerise;
+              text-decoration: none;
+            }
+          }
         }
       }
   

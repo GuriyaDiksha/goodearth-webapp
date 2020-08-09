@@ -334,7 +334,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             {isPaymentNeeded && <hr className={styles.hr} />}
             {isPaymentNeeded && (
               <div className={globalStyles.marginT30}>
-                <div className="title">SELECT YOUR MODE OF PAYMENT</div>
+                <div className={styles.title}>SELECT YOUR MODE OF PAYMENT</div>
                 {getMethods.map(function(method, index) {
                   return (
                     <div className={globalStyles.marginT20} key={index}>
@@ -396,7 +396,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </span>
             </div>
             <div className={globalStyles.c10LR}>
-              <label htmlFor="subscribe" className={globalStyles.pointer}>
+              <label
+                htmlFor="subscribe"
+                className={cs(globalStyles.pointer, styles.linkCerise)}
+              >
                 I agree to receiving e-mails, calls and text messages for
                 service related information. To know more how we keep your data
                 safe, refer to our{" "}
