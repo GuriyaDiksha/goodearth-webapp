@@ -1,5 +1,6 @@
 // services
 import HeaderService from "services/headerFooter";
+import ApiService from "services/api";
 // import MetaService from "services/meta";
 // actions
 import { updatefooter } from "actions/footer";
@@ -19,7 +20,8 @@ const initAction: any = async (store: Store) => {
     }),
     Api.getAnnouncement(store.dispatch).then(data => {
       store.dispatch(updateAnnouncement(data));
-    })
+    }),
+    ApiService.getCurrency(store.dispatch)
   ];
 
   // if (state.cookies.tkn) {
