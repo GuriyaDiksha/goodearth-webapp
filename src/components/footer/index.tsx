@@ -319,7 +319,12 @@ class Footer extends React.Component<Props, FooterState> {
                                       ) {
                                         return (
                                           <li key={j}>
-                                            <Link to={currentValue.link}>
+                                            <Link
+                                              to={currentValue.link}
+                                              onClick={() => {
+                                                this.subMenu(i);
+                                              }}
+                                            >
                                               {currentValue.text}
                                             </Link>
                                           </li>
