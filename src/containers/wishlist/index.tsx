@@ -28,6 +28,7 @@ import { Currency } from "typings/currency";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
+import ModalStyles from "components/Modal/styles.scss";
 
 let AbsoluteGrid: any;
 
@@ -91,7 +92,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             selectedIndex={selectedIndex}
             changeSize={changeSize}
           />,
-          false
+          false,
+          ModalStyles.bottomAlign
         )
       );
       dispatch(updateModal(true));

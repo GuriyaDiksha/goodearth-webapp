@@ -489,15 +489,10 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
           <div
-            className={cs(
-              bootstrap.colSm4,
-              bootstrap.col3,
-              globalStyles.textCenter,
-              {
-                [styles.wishlistBtnContainer]: mobile,
-                [globalStyles.hidden]: corporatePDP
-              }
-            )}
+            className={cs(bootstrap.col3, globalStyles.textCenter, {
+              [styles.wishlistBtnContainer]: mobile,
+              [globalStyles.hidden]: corporatePDP
+            })}
           >
             <WishlistButton
               id={id}

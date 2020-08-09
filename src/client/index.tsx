@@ -4,10 +4,13 @@ import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { configureStore } from "store/configure";
 import { getHistory } from "routerHistory/index";
+import debounce from "lodash/debounce";
 // import { getDevice } from "utils/device";
 // import CookieService from "services/cookie";
 
 import App from "containers/app";
+import { getDevice } from "utils/device";
+import { updateDeviceInfo } from "actions/device";
 // import { updateDeviceInfo } from "actions/device";
 // import initAction from "actions/initAction";
 // import { updateCookies } from "actions/cookies";
@@ -19,8 +22,6 @@ const store = configureStore(true, history, initialState);
 // store.dispatch(updateCookies(cookies));
 
 // initAction(store);
-// const { mobile, tablet } = getDevice(window.navigator.userAgent);
-// store.dispatch(updateDeviceInfo(mobile, tablet));
 
 const application = (
   <Provider store={store}>
@@ -36,6 +37,18 @@ window.onload = () => {
   // document.body.appendChild(modalContainer);
   // document.body.appendChild(root);
   hydrate(application, root);
+
+  window.addEventListener(
+    "resize",
+    debounce(() => {
+      const updatedDevice = getDevice(window.navigator.userAgent);
+      const mobile = updatedDevice.mobile || window.innerWidth < 992;
+      const device = store.getState().device;
+      if (device.mobile !== mobile || device.tablet !== updatedDevice.tablet) {
+        store.dispatch(updateDeviceInfo(mobile, updatedDevice.tablet));
+      }
+    }, 100)
+  );
 };
 
 export default store;
