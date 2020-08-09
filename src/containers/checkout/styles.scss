@@ -237,6 +237,7 @@
 }
 
 .title {
+  font-size: 14px;
   span {
     color: #000;
     font-size: 14px;
@@ -827,4 +828,14 @@ input[type="radio"] {
 }
 .font14 {
   font-size: 14px;
+}
+.linkCerise {
+  a {
+    color: $cerise;
+    text-decoration: underline;
+    &:hover {
+      color: $cerise;
+      text-decoration: underline;
+    }
+  }
 }

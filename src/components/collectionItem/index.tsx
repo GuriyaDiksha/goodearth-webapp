@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import { CollectionDataProps } from "./typings";
 import Slider from "react-slick";
 import { Settings } from "react-slick";
+import "styles/myslick.css";
 
 const CollectionImage: React.FC<CollectionDataProps> = (
   props: CollectionDataProps
