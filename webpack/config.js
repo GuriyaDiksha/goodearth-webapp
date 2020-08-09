@@ -71,7 +71,7 @@ let config = [
             filename: `${fileNamePattern}.js`
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico"],
             alias
         },
         plugins: [
@@ -96,7 +96,7 @@ let config = [
                       cacheName: 'home'
                     },
                   }, {
-                    urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|ico)$/,
                     handler: 'CacheFirst',
                     options: {
                       cacheName: 'ge-images',
@@ -219,7 +219,7 @@ let config = [
                     use: ['@svgr/webpack']
                 },
                 {
-                    test: /\.(jpg|svg|jpeg|png|gif)(\?.*)?$/,
+                    test: /\.(jpg|svg|jpeg|png|gif|ico)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: `${fileNamePattern}.[ext]`,
@@ -256,7 +256,7 @@ let config = [
             filename: `[name].js`,
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico"],
             alias
         },
         externals: [nodeExternals({
@@ -351,7 +351,7 @@ let config = [
                     use: ['@svgr/webpack']
                 },
                 {
-                    test: /\.(jpg|svg|jpeg|png|gif)(\?.*)?$/,
+                    test: /\.(jpg|svg|jpeg|png|gif|ico)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: `${fileNamePattern}.[ext]`,

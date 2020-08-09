@@ -22,7 +22,7 @@ import SelectableDropdownMenu from "../../components/dropdown/selectableDropdown
 import { Cookies } from "typings/cookies";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { showMessage } from "actions/growlMessage";
-import fabicon from "images/AppIcon.png";
+import fabicon from "images/favicon.ico";
 
 const mapStateToProps = (state: AppState) => {
   return {

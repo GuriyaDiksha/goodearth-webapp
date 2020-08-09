@@ -25,7 +25,7 @@ import mapDispatchToProps from "./mapper/actions";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import Search from "./search";
 import ReactHtmlParser from "react-html-parser";
-import fabicon from "images/AppIcon.png";
+import fabicon from "images/favicon.ico";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 

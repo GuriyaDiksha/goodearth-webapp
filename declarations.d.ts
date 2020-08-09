@@ -5,6 +5,7 @@ declare module "*.scss" {
 
 declare module "*.svg";
 declare module "*.png";
+declare module "*.ico";
 declare module "*.jpg";
 declare module "*.ttf";
 declare module "maker-enhance";
@@ -14,6 +15,7 @@ declare module "rc-slider";
 declare module "react-google-recaptcha";
 declare module "react-absolute-grid";
 declare module "react-html-parser";
+declare module "react-social-login";
 
 declare const __API_HOST__: string;
 declare const __DOMAIN__: string;
