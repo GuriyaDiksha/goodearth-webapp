@@ -152,7 +152,7 @@ class Header extends React.Component<Props, State> {
         },
         {
           label: "My Orders",
-          href: "/account/orders",
+          href: "/account/my-orders",
           type: "link"
         }
       );

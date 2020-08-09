@@ -176,13 +176,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 <label>Redeem Points</label>
 
                 {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
+                  <p className={cs(globalStyles.errorMsg)}>
                     {this.state.error}
                   </p>
                 ) : (

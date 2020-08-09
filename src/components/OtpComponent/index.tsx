@@ -377,7 +377,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               globalStyles.voffset2
             )}
           >
-            GIFT CARD CODE
+            {this.props.otpFor == "balanceCN"
+              ? "CREDIT NOTE"
+              : "GIFT CARD CODE"}
           </p>
           <p>{this.props.txtvalue}</p>
           {radioType == "email" ? (

@@ -36,6 +36,9 @@ class CreditCard extends React.Component<Props, GiftState> {
     this.setState({
       txtvalue: event.target.value
     });
+    if (this.state.error) {
+      this.setState({ error: "" });
+    }
   };
 
   toggleOtp = (value: boolean) => {
@@ -158,13 +161,7 @@ class CreditCard extends React.Component<Props, GiftState> {
                   </Fragment>
                 )}
                 {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
+                  <p className={cs(globalStyles.errorMsg)}>
                     {this.state.error}
                   </p>
                 ) : (
@@ -191,6 +188,7 @@ class CreditCard extends React.Component<Props, GiftState> {
             ""
           ) : (
             <OtpComponent
+              otpFor="balanceCN"
               updateError={this.updateError}
               txtvalue={this.state.txtvalue}
               toggleOtp={this.toggleOtp}
