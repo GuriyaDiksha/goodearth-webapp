@@ -115,7 +115,9 @@ const PromoSection: React.FC<PromoProps> = props => {
                     globalStyles.cerise,
                     globalStyles.pointer
                   )}
-                  onClick={toggleInput}
+                  onClick={() => {
+                    basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                  }}
                 >
                   {isactivepromo ? "-" : "+"}
                 </div>
@@ -127,7 +129,9 @@ const PromoSection: React.FC<PromoProps> = props => {
                       globalStyles.cerise,
                       globalStyles.pointer
                     )}
-                    onClick={toggleInput}
+                    onClick={() => {
+                      basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                    }}
                   >
                     APPLY PROMO CODE
                   </div>

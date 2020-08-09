@@ -232,8 +232,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
       {isActive && (
         <Fragment>
-          {true && giftWrapRender}
-          {giftwrap && (
+          {!basket.isOnlyGiftCart && giftWrapRender}
+          {giftwrap && !basket.isOnlyGiftCart && (
             <div>
               <textarea
                 rows={5}
@@ -251,7 +251,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
             </div>
           )}
-          {giftwrap && giftShowPrice}
+          {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
           <div className={globalStyles.marginT20}>
             {!basket.isOnlyGiftCart && (
               <div className={globalStyles.flex}>

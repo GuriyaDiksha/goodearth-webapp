@@ -29,7 +29,7 @@ const SocialLogin: React.FC = () => {
         {/* </Link> */}
         <SocialButton
           provider="facebook"
-          appId={"2673533759570589"}
+          appId="2759423167667301"
           onLoginSuccess={onLoginSuccess}
           onLoginFailure={onLoginFailure}
           key={"facebook"}
@@ -39,7 +39,7 @@ const SocialLogin: React.FC = () => {
 
         <SocialButton
           provider="google"
-          appId={"2413000155586259"}
+          appId="837034702464-l6tdm1d9enjdb28pt1qlr24797cvstdp.apps.googleusercontent.com"
           onLoginSuccess={onLoginSuccess}
           onLoginFailure={onLoginFailure}
           key={"google"}
