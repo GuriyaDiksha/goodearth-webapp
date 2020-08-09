@@ -198,16 +198,16 @@ sup {
 // Links
 //
 
-a {
-  color: $link-color;
-  text-decoration: $link-decoration;
-  background-color: transparent; // Remove the gray background on active links in IE 10.
+// a {
+//   color: $link-color;
+//   text-decoration: $link-decoration;
+//   background-color: transparent; // Remove the gray background on active links in IE 10.
 
-  @include hover() {
-    color: $link-hover-color;
-    text-decoration: $link-hover-decoration;
-  }
-}
+//   @include hover() {
+//     color: $link-hover-color;
+//     text-decoration: $link-hover-decoration;
+//   }
+// }
 
 // And undo these styles for placeholder links/named anchors (without href).
 // It would be more straightforward to just use a[href] in previous block, but that

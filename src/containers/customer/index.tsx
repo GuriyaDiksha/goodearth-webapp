@@ -180,6 +180,9 @@ const StaticPage: React.FC<Props> = props => {
                               key={item.label}
                               to={item.href}
                               activeClassName={globalStyles.cerise}
+                              onClick={() => {
+                                setAccountListing(false);
+                              }}
                             >
                               {item.label}
                             </NavLink>
