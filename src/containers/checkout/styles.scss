@@ -782,15 +782,16 @@ input[type="radio"] {
 }
 .curr {
   text-align: right;
-  span {
-    &:hover {
+  &:hover {
+    span { 
       cursor: pointer;
+      color: $cerise;
     }
-    
+  }
+  span {    
     &:first-child{
       margin: 0 6px 0 0;
     }
-    
   }
 }
 
