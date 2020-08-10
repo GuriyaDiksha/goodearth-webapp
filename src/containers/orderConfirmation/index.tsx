@@ -112,7 +112,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       )}
                     >
                       <p>
-                        {moment(confirmData.datePlaced).format("D MMM,YYYY")}
+                        {moment(confirmData.datePlaced).format("MMM D, YYYY")}
                       </p>
 
                       <p>

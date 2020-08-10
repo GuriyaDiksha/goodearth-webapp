@@ -50,10 +50,17 @@ const ShippingPopup: React.FC<PopupProps> = props => {
           </div>
         </div>
         <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtnWidth)}>
-          <a onClick={props.acceptCondition}>accept &amp; proceed</a>
+          <a
+            onClick={() => {
+              props.acceptCondition();
+              props.closeModal();
+            }}
+          >
+            accept &amp; proceed
+          </a>
         </div>
         <div className={styles.cancelBtn}>
-          <a onClick={props.acceptCondition}>Cancel</a>
+          <a onClick={props.closeModal}>Cancel</a>
         </div>
       </div>
     </div>

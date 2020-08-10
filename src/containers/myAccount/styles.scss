@@ -137,7 +137,7 @@
       &:after {
         content: '';
         right: 10px;
-        top: 40%;
+        top: 43%;
         position: absolute;
         width: 0;
         height: 0;
@@ -163,7 +163,7 @@
   position: fixed;
   z-index: 9;
   background-color: #fff;
-  padding: 15px 20px 4px 20px;
+  padding: 11px 20px 4px 20px;
   top: $header-height;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {
@@ -176,13 +176,19 @@
     @include plp_subhdr_open_mob();
     letter-spacing: 1px;
     text-transform: uppercase;
-
+    i {
+      &:before {
+        font-weight: bold;
+      }
+    }
     &:first-child {
       float: left;
       margin-left: 0px;
     }
     &:last-child {
       float: right;
+      margin-right: 10px;
+      
     }
   }
 }
