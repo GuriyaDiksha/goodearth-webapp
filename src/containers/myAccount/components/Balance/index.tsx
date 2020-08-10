@@ -66,7 +66,9 @@ class CheckBalance extends React.Component<Props, State> {
                       bootstrapStyles.offset1
                     )}
                   >
-                    <hr className={globalStyles.voffset5} />
+                    <hr
+                      className={cs(styles.hrMargin, globalStyles.voffset5)}
+                    />
                     <div>
                       <div className={styles.flex} id="gc-balance">
                         <div
@@ -78,12 +80,7 @@ class CheckBalance extends React.Component<Props, State> {
                         >
                           {this.state.isActive ? "-" : "+"}
                         </div>
-                        <div
-                          className={cs(
-                            styles.inputContainer,
-                            globalStyles.voffset1
-                          )}
-                        >
+                        <div className={cs(styles.inputContainer)}>
                           <div
                             className={cs(styles.colorPrimary, styles.textLeft)}
                           >
@@ -103,7 +100,7 @@ class CheckBalance extends React.Component<Props, State> {
                           </div>
                         </div>
                       </div>
-                      <hr />
+                      <hr className={styles.hrMargin} />
                       <div className={styles.flex} id="cc-balance">
                         <div
                           className={cs(
@@ -114,12 +111,7 @@ class CheckBalance extends React.Component<Props, State> {
                         >
                           {this.state.isActiveCN ? "-" : "+"}
                         </div>
-                        <div
-                          className={cs(
-                            styles.inputContainer,
-                            globalStyles.voffset1
-                          )}
-                        >
+                        <div className={cs(styles.inputContainer)}>
                           <div
                             className={cs(styles.colorPrimary, styles.textLeft)}
                           >
@@ -139,7 +131,7 @@ class CheckBalance extends React.Component<Props, State> {
                           </div>
                         </div>
                       </div>
-                      <hr />
+                      <hr className={styles.hrMargin} />
 
                       <div className={styles.rtc}>
                         <Link
