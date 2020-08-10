@@ -1,5 +1,6 @@
 {
-    "domain": "https://devapi.goodearth.in",
+    "domain": "https://devbeta.goodearth.in/",
+    "apidomain":"https://devapi.goodearth.in/",
     "manifestVersion": 3,
     "publicPath": "/static/"
 }
