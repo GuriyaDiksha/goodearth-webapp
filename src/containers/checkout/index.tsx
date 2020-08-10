@@ -167,6 +167,23 @@ class Checkout extends React.Component<Props, State> {
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
+    const {
+      user: { email },
+      getLoyaltyPoints
+    } = this.props;
+
+    // code for call loyalty point api only one time
+    if (email) {
+      const data: any = {
+        email: email
+      };
+
+      getLoyaltyPoints(data).then(loyalty => {
+        this.setState({
+          loyaltyData: loyalty
+        });
+      });
+    }
     if (this.props.basket.publishRemove) {
       this.props.showNotify(
         "Due to unavailability of some products your cart has been updated."
