@@ -221,7 +221,7 @@ class JobForm extends React.Component<Props, State> {
     const formData = new FormData();
     const {
       cvForJob,
-      emailId,
+      email,
       firstName,
       lastName,
       currentEmployer,
@@ -231,7 +231,7 @@ class JobForm extends React.Component<Props, State> {
       state,
       city,
       isd,
-      phoneNumber,
+      phoneNo,
       aboutUser
     } = model;
     const { job, mode, applyAllJob } = this.props;
@@ -245,7 +245,7 @@ class JobForm extends React.Component<Props, State> {
       formData.append("location", job.locationName);
     }
     // common fields
-    formData.append("email", emailId);
+    formData.append("email", email);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     const countryCode = country;
@@ -254,7 +254,7 @@ class JobForm extends React.Component<Props, State> {
     )[0].label;
     formData.append("country", countryName);
     formData.append("state", state);
-    formData.append("phoneNumber", `${isd}-${phoneNumber}`);
+    formData.append("phoneNumber", `${isd}-${phoneNo}`);
     formData.append("aboutUser", aboutUser);
     formData.append("city", city);
     formData.append("currentEmployer", currentEmployer || "");
@@ -263,24 +263,31 @@ class JobForm extends React.Component<Props, State> {
     if (this.state.file && this.state.fileName) {
       formData.append("resume", this.state.file, this.state.fileName);
     }
-    this.props.saveJobApplication(formData).then(data => {
-      if (data.success) {
-        this.setState(
-          {
-            successMessage: data.message,
+    this.props
+      .saveJobApplication(formData)
+      .then(data => {
+        if (data.success) {
+          this.setState(
+            {
+              successMessage: data.message,
+              isLoading: false
+            },
+            () => {
+              this.resetFormData();
+            }
+          );
+        } else {
+          this.setState({
+            successMessage: "Something went wrong. Please try again.",
             isLoading: false
-          },
-          () => {
-            this.resetFormData();
-          }
-        );
-      } else {
+          });
+        }
+      })
+      .finally(() => {
         this.setState({
-          successMessage: "Something went wrong. Please try again.",
           isLoading: false
         });
-      }
-    });
+      });
   };
 
   resetFormData = () => {
@@ -366,7 +373,7 @@ class JobForm extends React.Component<Props, State> {
             <div>
               <FormInput
                 required
-                name="emailId"
+                name="email"
                 label="Email Address"
                 className="input-field"
                 placeholder="Email Address"
@@ -527,7 +534,7 @@ class JobForm extends React.Component<Props, State> {
               />
               <FormInput
                 required
-                name="phoneNumber"
+                name="phoneNo"
                 label="Contact Number"
                 placeholder="Contact Number"
                 validations={{

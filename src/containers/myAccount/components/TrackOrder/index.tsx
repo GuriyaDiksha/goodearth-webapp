@@ -6,7 +6,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import FormInput from "../../../../components/Formsy/FormInput";
 import Formsy from "formsy-react";
-import { PasswordProps, State } from "./typings";
+import { TrackOrderProps, State } from "./typings";
 import mapDispatchToProps from "../MyOrder/mapper/actions";
 import { AppState } from "reducers/typings";
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state: AppState) => {
     user: state.user
   };
 };
-type Props = PasswordProps &
+type Props = TrackOrderProps &
   ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps>;
 
@@ -29,14 +29,14 @@ class TrackOrder extends React.Component<Props, State> {
     };
   }
 
-  ProfileFormRef: RefObject<Formsy> = React.createRef();
+  TrackOrderFormRef: RefObject<Formsy> = React.createRef();
   emailInput: RefObject<HTMLInputElement> = React.createRef();
-  //   ProfileFormRef: RefObject<Formsy> = React.createRef();
+  //   TrackOrderFormRef: RefObject<Formsy> = React.createRef();
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
-    const { email, ordernumber } = model;
-
-    this.props.fetchOrderBy(ordernumber, email).then((response: any) => {
+    const { email, orderNumber } = model;
+    this;
+    this.props.fetchOrderBy(orderNumber, email).then((response: any) => {
       if (response.count == 0) {
         // resetForm();
         this.setState({
@@ -45,7 +45,7 @@ class TrackOrder extends React.Component<Props, State> {
       } else {
         // Object.keys(response.error_message).map(data => {
         //   switch (data) {
-        //     case "ordernumber":
+        //     case "orderNumber":
         //       updateInputsWithError(
         //         {
         //           [data]: response.error_message[data][0]
@@ -79,6 +79,22 @@ class TrackOrder extends React.Component<Props, State> {
     }
   };
 
+  errorOnBlur = (event: React.FocusEvent<Element>) => {
+    const elem = event.currentTarget as HTMLInputElement;
+    const value = elem.value;
+    const name = elem.name;
+
+    if (!value) {
+      this.TrackOrderFormRef.current &&
+        this.TrackOrderFormRef.current.updateInputsWithValue(
+          {
+            [name]: ""
+          },
+          true
+        );
+    }
+  };
+
   render() {
     const { updateSubmit } = this.state;
     const {
@@ -101,7 +117,7 @@ class TrackOrder extends React.Component<Props, State> {
           <div className={cs(styles.loginForm, globalStyles.voffset4)}>
             <div>
               <Formsy
-                ref={this.ProfileFormRef}
+                ref={this.TrackOrderFormRef}
                 onValidSubmit={this.handleSubmit}
                 onValid={this.handleValid}
                 onInvalid={this.handleInvalid}
@@ -109,12 +125,13 @@ class TrackOrder extends React.Component<Props, State> {
                 <div className={styles.categorylabel}>
                   <div>
                     <FormInput
-                      name="ordernumber"
+                      name="orderNumber"
                       placeholder={"Order Number"}
                       label={"Order Number"}
                       keyPress={e =>
                         e.key == "Enter" ? e.preventDefault() : ""
                       }
+                      blur={e => this.errorOnBlur(e)}
                       required
                     />
                   </div>
@@ -128,6 +145,7 @@ class TrackOrder extends React.Component<Props, State> {
                       keyPress={e =>
                         e.key == "Enter" ? e.preventDefault() : ""
                       }
+                      blur={e => this.errorOnBlur(e)}
                       inputRef={this.emailInput}
                       validations={{
                         isEmail: true,
@@ -145,7 +163,7 @@ class TrackOrder extends React.Component<Props, State> {
                   </div>
                   <div>
                     {this.state.showerror ? (
-                      <p className={styles.loginErrMsg}>
+                      <p className={globalStyles.errorMsg}>
                         {this.state.showerror}
                       </p>
                     ) : (
@@ -158,7 +176,7 @@ class TrackOrder extends React.Component<Props, State> {
                         { [globalStyles.disabledBtn]: !updateSubmit },
                         globalStyles.ceriseBtn
                       )}
-                      value={updateSubmit ? "CHECK ORDER STATUS" : "Updated"}
+                      value={"CHECK ORDER STATUS"}
                     />
                   </div>
                 </div>

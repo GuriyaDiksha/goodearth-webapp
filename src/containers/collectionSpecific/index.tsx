@@ -132,6 +132,7 @@ class CollectionSpecific extends React.Component<Props, {}> {
                     key={data.id + "plpitem"}
                     mobile={mobile}
                     onClickQuickView={this.onClickQuickView}
+                    isCollection={true}
                   />
                 </div>
               );

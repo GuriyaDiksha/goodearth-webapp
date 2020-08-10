@@ -7,5 +7,6 @@ export type PLPResultItemProps = {
   currency: Currency;
   mobile: boolean;
   isVisible?: boolean;
+  isCollection?: boolean;
   onClickQuickView?: (id: number) => void;
 };

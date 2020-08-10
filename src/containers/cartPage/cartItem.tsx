@@ -69,6 +69,12 @@ const CartItems: React.FC<BasketItem> = memo(
     } = product;
 
     const price = priceRecords[currency];
+    const imageUrl =
+      product.structure == "GiftCard"
+        ? giftCardImage
+        : plpImages
+        ? plpImages[0]?.replace("Medium", "Micro")
+        : "";
 
     return (
       <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
@@ -78,10 +84,7 @@ const CartItems: React.FC<BasketItem> = memo(
           >
             <div className={styles.cartRing}></div>
             <Link to={url}>
-              <img
-                className={styles.productImage}
-                src={plpImages ? plpImages[0] : ""}
-              />
+              <img className={styles.productImage} src={imageUrl} />
             </Link>
           </div>
           <div

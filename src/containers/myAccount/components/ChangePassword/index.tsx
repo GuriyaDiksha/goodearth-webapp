@@ -33,16 +33,21 @@ class ChangePassword extends React.Component<Props, State> {
       newPassword2: newPassword1
     };
 
-    this.props.changePassword(data).then(response => {
-      if (response.status) {
-        resetForm();
-      } else {
-        Object.keys(response.error_message).map(data => {
+    this.props
+      .changePassword(data)
+      .then(res => {
+        if (res.success) {
+          resetForm();
+        }
+      })
+      .catch(err => {
+        const errorMessage = err.response.data.message;
+        Object.keys(errorMessage).map(data => {
           switch (data) {
             case "oldPassword":
               updateInputsWithError(
                 {
-                  [data]: response.error_message[data][0]
+                  [data]: errorMessage[data]
                 },
                 true
               );
@@ -51,15 +56,14 @@ class ChangePassword extends React.Component<Props, State> {
             case "newPassword2":
               updateInputsWithError(
                 {
-                  newPassword: response.error_message[data][0]
+                  newPassword: errorMessage[data]
                 },
                 true
               );
               break;
           }
         });
-      }
-    });
+      });
   };
 
   handleValid = () => {

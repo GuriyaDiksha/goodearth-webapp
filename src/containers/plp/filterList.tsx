@@ -400,7 +400,14 @@ class FilterList extends React.Component<Props, State> {
   appendData = () => {
     const minMaxvalue: any = [];
     let currentRange: any = [];
-    const { nextUrl, mobile, listdata, currency, updateProduct } = this.props;
+    const {
+      nextUrl,
+      mobile,
+      listdata,
+      currency,
+      updateProduct,
+      changeLoader
+    } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
       this.setState({
@@ -409,11 +416,13 @@ class FilterList extends React.Component<Props, State> {
     }
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
+      changeLoader?.(true);
       const filterUrl = "?" + nextUrl.split("?")[1];
       const pageSize = mobile ? 10 : 20;
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           this.createFilterfromUrl();
+          changeLoader?.(false);
           const pricearray: any = [],
             currentCurrency =
               "price" +
@@ -467,18 +476,16 @@ class FilterList extends React.Component<Props, State> {
   };
 
   updateDataFromAPI = (onload?: string) => {
-    const { mobile, fetchPlpProducts, history } = this.props;
+    const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
     if (!onload && mobile) {
       return true;
     }
-    // this.setState({
-    //     disableSelectedbox: true
-    // });
+    changeLoader?.(true);
     const url = decodeURI(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
-
     const pageSize = mobile ? 10 : 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
+      changeLoader?.(false);
       this.createList(plpList);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
     });
@@ -1521,8 +1528,8 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          <li>
-            {this.productData.length > 0 ? (
+          {this.productData.length > 0 && (
+            <li>
               <span
                 className={
                   this.state.showProductFilter
@@ -1533,29 +1540,27 @@ class FilterList extends React.Component<Props, State> {
               >
                 PRODUCT TYPE
               </span>
-            ) : (
-              ""
-            )}
-            <div
-              className={
-                this.state.showProductFilter
-                  ? styles.showheader1
-                  : globalStyles.hidden
-              }
-            >
-              {this.createProductType(
-                this.props.facetObject.categoryObj,
-                this.props.facets
-              )}
               <div
-                onClick={e => this.clearFilter(e, "productType")}
-                data-name="productType"
-                className={styles.plp_filter_sub}
+                className={
+                  this.state.showProductFilter
+                    ? styles.showheader1
+                    : globalStyles.hidden
+                }
               >
-                Clear
+                {this.createProductType(
+                  this.props.facetObject.categoryObj,
+                  this.props.facets
+                )}
+                <div
+                  onClick={e => this.clearFilter(e, "productType")}
+                  data-name="productType"
+                  className={styles.plp_filter_sub}
+                >
+                  Clear
+                </div>
               </div>
-            </div>
-          </li>
+            </li>
+          )}
           <li>
             <span
               className={
