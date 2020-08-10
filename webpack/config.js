@@ -21,7 +21,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const domain = JSON.stringify(envConfig.domain);
-const apiDomain = JSON.stringify("https://devapi.goodearth.in");
+const apiDomain = JSON.stringify(envConfig.domain);
 const publicPath = "/static/";
 
 const alias = {

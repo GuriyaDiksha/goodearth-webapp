@@ -1,5 +1,5 @@
 {
-    "domain": "https://www.goodearth.in",
+    "domain": "https://devapi.goodearth.in",
     "manifestVersion": 3,
     "publicPath": "/static/"
 }
