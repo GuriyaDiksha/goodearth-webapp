@@ -650,7 +650,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                           : {}
                       }
                       validationErrors={{
-                        isLength: "Phone Number should be 10 digit"
+                        isLength: "Phone number should be 10 digit"
                       }}
                       required={radioType != "number" ? "isFalse" : true}
                     />

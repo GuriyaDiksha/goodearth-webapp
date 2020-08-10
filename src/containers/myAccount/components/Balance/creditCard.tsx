@@ -64,7 +64,8 @@ class CreditCard extends React.Component<Props, GiftState> {
           this.setState({
             giftList: giftList,
             newCardBox: false,
-            txtvalue: ""
+            txtvalue: "",
+            error: ""
           });
         }
       })
