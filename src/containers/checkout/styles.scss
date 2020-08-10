@@ -783,7 +783,7 @@ input[type="radio"] {
 .curr {
   text-align: right;
   &:hover {
-    span { 
+    span {
       cursor: pointer;
       color: $cerise;
     }

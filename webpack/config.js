@@ -21,7 +21,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const domain = JSON.stringify(envConfig.domain);
-const apiDomain = JSON.stringify("https://devapi.goodearth.in");
+const apiDomain = JSON.stringify(envConfig.domain);
 const publicPath = "/static/";
 
 const alias = {
@@ -79,7 +79,7 @@ let config = [
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain
             }),
-            new ForkTsCheckerWebpackPlugin(),
+            env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
@@ -265,7 +265,7 @@ let config = [
                         }
         })],
         plugins: [
-            new ForkTsCheckerWebpackPlugin(),
+            env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain
