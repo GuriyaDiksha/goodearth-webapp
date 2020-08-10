@@ -79,7 +79,7 @@ let config = [
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain
             }),
-            new ForkTsCheckerWebpackPlugin(),
+            env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
@@ -265,7 +265,7 @@ let config = [
                         }
         })],
         plugins: [
-            new ForkTsCheckerWebpackPlugin(),
+            env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain
