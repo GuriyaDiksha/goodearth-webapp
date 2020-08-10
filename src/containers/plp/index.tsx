@@ -41,6 +41,7 @@ class PLP extends React.Component<
     showmobileSort: boolean;
     mobileFilter: boolean;
     sortValue: string;
+    flag: boolean;
   }
 > {
   constructor(props: Props) {
@@ -53,7 +54,8 @@ class PLP extends React.Component<
       filterData: "All",
       showmobileSort: false,
       mobileFilter: false,
-      sortValue: param ? param : "hc"
+      sortValue: param ? param : "hc",
+      flag: false
     };
   }
   private child: any = FilterList;
@@ -76,6 +78,12 @@ class PLP extends React.Component<
       true
     );
     changeModalState(true);
+  };
+
+  changeLoader = (value: boolean) => {
+    this.setState({
+      flag: value
+    });
   };
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
@@ -171,6 +179,7 @@ class PLP extends React.Component<
               onRef={(el: any) => (this.child = el)}
               onChangeFilterState={this.onChangeFilterState}
               key={this.props.location.pathname}
+              changeLoader={this.changeLoader}
             />
           </div>
           <div
@@ -221,15 +230,7 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
-              {(this.child.state ? (
-                !this.child.state.flag
-              ) : (
-                false
-              )) ? (
-                <Loader />
-              ) : (
-                ""
-              )}
+              {this.state.flag ? <Loader /> : ""}
               {data.map((item, index) => {
                 return (
                   <div
