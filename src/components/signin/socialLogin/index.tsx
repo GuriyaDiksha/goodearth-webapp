@@ -43,6 +43,7 @@ const SocialLogin: React.FC = () => {
           onLoginSuccess={onLoginSuccess}
           onLoginFailure={onLoginFailure}
           key={"google"}
+          scope={"https://www.googleapis.com/auth/user.gender.read"}
         >
           <img src={loginGoogle} width="40px" />
         </SocialButton>
