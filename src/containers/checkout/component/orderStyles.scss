@@ -12,6 +12,14 @@
   cursor: pointer;
   margin-top: 20px;
   text-align: center;
+  a {
+    display: flex;
+    justify-content: center;
+    span {
+      justify-content: center;
+    align-self: center;
+    }
+  }
   .wishlist-align {
     font-size: 12px;
       font-family: $font-Lato;
@@ -21,7 +29,11 @@
   }
 }
 
+
 @media (min-width: 992px) {
+  .font30 {
+    font-size: 30px;
+  }
     .fix-ordersummary {
       position: sticky;
       position: -webkit-sticky;

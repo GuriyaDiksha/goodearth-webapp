@@ -51,7 +51,7 @@ const CartItems: React.FC<BasketItem> = memo(
       return size ? (
         <div>
           <div className={styles.size}>Size: </div>
-          <div>{size.value}</div>
+          <div className={styles.productSize}>{size.value}</div>
         </div>
       ) : (
         ""
