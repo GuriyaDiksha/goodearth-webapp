@@ -137,7 +137,7 @@ const MyAccount: React.FC<Props> = props => {
     <div className={globalStyles.containerStart}>
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
-          <span className={styles.heading}>
+          <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
             <i
               className={cs(
                 iconStyles.icon,
@@ -213,19 +213,24 @@ const MyAccount: React.FC<Props> = props => {
                     )}
                   >
                     <ul className={styles.sort}>
-                      {accountMenuItems.map(item => {
-                        return (
-                          <li key={item.label}>
-                            <NavLink
-                              key={item.label}
-                              to={item.href}
-                              activeClassName={globalStyles.cerise}
-                            >
-                              {item.label}
-                            </NavLink>
-                          </li>
-                        );
-                      })}
+                      {accountMenuItems
+                        .filter(item =>
+                          isLoggedIn ? true : !item.loggedInOnly
+                        )
+                        .map(item => {
+                          return (
+                            <li key={item.label}>
+                              <NavLink
+                                onClick={() => setAccountListing(false)}
+                                key={item.label}
+                                to={item.href}
+                                activeClassName={globalStyles.cerise}
+                              >
+                                {item.label}
+                              </NavLink>
+                            </li>
+                          );
+                        })}
                       {/* <li>
                         {ceriseClubAccess && 
                             <li>
