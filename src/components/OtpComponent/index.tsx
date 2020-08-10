@@ -61,7 +61,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   handleSubmit2 = (model: any, resetForm: any, updateInputsWithError: any) => {
-    const { email, phoneNo } = model;
+    const { email } = model;
+    const { phoneNo } = this.RegisterFormRef.current?.getModel();
     const data: any = {};
     if (this.state.radioType == "email") {
       data["email"] = email;
@@ -650,7 +651,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                           : {}
                       }
                       validationErrors={{
-                        isLength: "Phone Number should be 10 digit"
+                        isLength: "Phone number should be 10 digit"
                       }}
                       required={radioType != "number" ? "isFalse" : true}
                     />
