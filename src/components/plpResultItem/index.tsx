@@ -14,7 +14,14 @@ import LazyImage from "components/LazyImage";
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
-  const { product, currency, onClickQuickView, mobile, isVisible } = props;
+  const {
+    product,
+    currency,
+    onClickQuickView,
+    mobile,
+    isVisible,
+    isCollection
+  } = props;
   const code = currencyCode[currency as Currency];
   const [primaryimage, setPrimaryimage] = useState(true);
 
@@ -108,7 +115,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
       </div>
       <div className={styles.imageContent}>
-        {/* <p className={styles.collectionName}>{product.collections}</p>  */}
+        {isCollection ? (
+          <p className={styles.collectionName}>{product.collections}</p>
+        ) : (
+          ""
+        )}
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>

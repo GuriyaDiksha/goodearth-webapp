@@ -13,6 +13,7 @@ const GiftCardItem = ({
   remainingAmount,
   currStatus,
   currency,
+  cardType,
   onClose
 }: GiftListProps): JSX.Element => {
   let showLocked = false;
@@ -47,7 +48,11 @@ const GiftCardItem = ({
                 }}
               >
                 <i
-                  className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+                  className={cl(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.promoIcon
+                  )}
                 ></i>
               </span>
             </p>
@@ -84,7 +89,11 @@ const GiftCardItem = ({
           className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset3)}
         >
           <span className={styles.txtup}>{cardId} </span>
-          <span className={styles.textMuted}>GIFT CARD APPLIED</span>
+          <span className={styles.textMuted}>
+            {cardType == "CREDITNOTE"
+              ? "CREDIT NOTE APPLIED"
+              : "GIFT CARD APPLIED"}
+          </span>
           <span
             className={styles.cross}
             onClick={() => {
@@ -92,12 +101,16 @@ const GiftCardItem = ({
             }}
           >
             <i
-              className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+              className={cl(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.promoIcon
+              )}
             ></i>
           </span>
           <p className={cl(globalStyles.cerise, globalStyles.errorMsg)}>
             {" "}
-            Balance amount:{" "}
+            Balance:{" "}
             <span>
               {" "}
               {String.fromCharCode(unicode)} {remainingAmount}

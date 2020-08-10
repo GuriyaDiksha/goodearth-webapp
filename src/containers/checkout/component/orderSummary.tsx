@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
-// import LoginService from "services/login";
+import LoginService from "services/login";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -632,26 +632,28 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   you can apply the same during payment.
                 </div>
                 <div className={styles.wishlist}>
-                  {isLoggedIn ? (
-                    <Link to="/wishlist">
-                      <span>
-                        <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconWishlist,
-                            styles.font30,
-                            globalStyles.pointer
-                          )}
-                        ></i>
-                      </span>
-                      &nbsp;
-                      <span className={styles.wishlistAlign}>
-                        VIEW WISHLIST
-                      </span>
-                    </Link>
-                  ) : (
-                    <div></div>
-                  )}
+                  <Link
+                    to="/wishlist"
+                    onClick={e => {
+                      if (!isLoggedIn) {
+                        e.preventDefault();
+                        LoginService.showLogin(dispatch);
+                      }
+                    }}
+                  >
+                    <span>
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconWishlist,
+                          styles.font30,
+                          globalStyles.pointer
+                        )}
+                      ></i>
+                    </span>
+                    &nbsp;
+                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
+                  </Link>
                 </div>
               </div>
             )}

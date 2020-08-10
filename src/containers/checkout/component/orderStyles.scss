@@ -20,6 +20,12 @@
     align-self: center;
     }
   }
+  &:hover{
+    span{
+      color: $cerise;
+    }
+    
+  }
   .wishlist-align {
     font-size: 12px;
       font-family: $font-Lato;

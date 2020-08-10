@@ -32,6 +32,7 @@ export type FilterProps = {
   onRef: any;
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
   history: any;
+  changeLoader?: (data: boolean) => void;
 };
 
 export type State = {

@@ -180,7 +180,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         ></span>
                       </span>
                     </div>
-                    <label>Gift Card Code</label>
+                    <label>Gift Card Code / Credit Note</label>
                   </Fragment>
                 )}
                 {this.state.error ? (
