@@ -198,6 +198,7 @@ position: fixed;
 
   .footer-socialicons {
     margin: 20px auto 0 auto;
+    
   }
   .main-menu-footer {
     box-shadow: none;
@@ -223,7 +224,7 @@ position: fixed;
       a {
         @include ftr-copy-white-desktop();
         font-weight: normal;
-      }
+     }
     }
   }
 
@@ -366,6 +367,9 @@ input {
         @include ftr-copy-white-desktop();
         font-weight: normal;
         text-transform: capitalize;
+        &:nth-child(2) {
+          margin-right: 8px;
+        }
         &.email {
           text-transform: lowercase;
         }

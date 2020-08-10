@@ -340,7 +340,6 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           </div>
           <div>
             <InputField
-              blur={this.myBlurP.bind(this)}
               placeholder={"Password"}
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}

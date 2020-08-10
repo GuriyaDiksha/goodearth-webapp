@@ -55,13 +55,17 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   const onClikcSubscribeGbp = (event: any) => {
-    dispatch(
-      updateComponent(
-        <ShippingPopup closeModal={closeModal} acceptCondition={setAccept} />,
-        true
-      )
-    );
-    dispatch(updateModal(true));
+    if (!subscribegbp) {
+      dispatch(
+        updateComponent(
+          <ShippingPopup closeModal={closeModal} acceptCondition={setAccept} />,
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    } else {
+      setSubscribegbp(false);
+    }
   };
 
   // const onGiftChange =() =>{
@@ -171,7 +175,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 checked={giftwrap}
                 onClick={() => {
                   setGiftwrap(!giftwrap);
-                  !giftwrap && setGiftwrapprice(false);
+                  setGiftwrapprice(!giftwrap);
                 }}
               />
               <span className={styles.indicator}></span>
@@ -432,7 +436,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </span>
               </div>
               <div className={globalStyles.c10LR}>
-                <label htmlFor="subscribe1" className={globalStyles.pointer}>
+                <label
+                  htmlFor="subscribe1"
+                  className={cs(globalStyles.pointer, styles.linkCerise)}
+                >
                   I agree to pay the additional applicable duties and taxes
                   directly to the shipping agency at the time of order delivery.
                   To know more, refer to our{" "}

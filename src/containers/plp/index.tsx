@@ -7,9 +7,9 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterList from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
@@ -145,7 +145,7 @@ class PLP extends React.Component<
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
                 <PlpBreadcrumbs
                   levels={breadcrumb}
-                  className={cs(bootstrap.colMd7)}
+                  className={cs(bootstrap.colMd12)}
                   isViewAll={false}
                 />
               </div>
