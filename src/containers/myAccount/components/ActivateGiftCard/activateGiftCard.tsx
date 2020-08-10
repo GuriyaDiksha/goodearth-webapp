@@ -33,7 +33,8 @@ class Giftcard extends React.Component<Props, GiftState> {
       giftList: [],
       showOTPValidationScreen: false,
       isSuccess: false,
-      toggleResetOtpComponent: false
+      toggleResetOtpComponent: false,
+      disable: true
     };
   }
   ActivateGCForm = React.createRef<Formsy>();
@@ -68,6 +69,7 @@ class Giftcard extends React.Component<Props, GiftState> {
     event: React.ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
+    this.state.disable && this.setState({ disable: false });
     const value = event.target.value;
     switch (field) {
       case "firstName":
@@ -265,6 +267,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           </Formsy>
         )}
         <OtpComponent
+          disableSendOtpButton={this.state.disable}
           toggleReset={this.state.toggleResetOtpComponent}
           updateError={this.updateError}
           txtvalue={txtvalue}

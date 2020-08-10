@@ -14,7 +14,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
     this.state = {
-      disable: false,
+      disable: props.disableSendOtpButton && true,
       msgt: "",
       showFields: false,
       radioType: "",
@@ -57,6 +57,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   UNSAFE_componentWillReceiveProps = (nextProps: otpProps) => {
     if (this.props.toggleReset !== nextProps.toggleReset) {
       this.clickHereOtpInvalid();
+    }
+    if (this.state.disable && !nextProps.disableSendOtpButton) {
+      this.setState({ disable: false });
     }
   };
 
@@ -183,7 +186,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           })
           .catch(err => {
             this.setState({
-              showerror: err.response.data.message
+              showerror: err.response.data.message,
+              updateStatus: false
             });
           })
           .finally(() => {
@@ -204,7 +208,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         })
         .catch((error: any) => {
           this.setState({
-            showerror: error.response.data.message
+            showerror: error.response.data.message,
+            updateStatus: false
           });
         })
         .finally(() => {
@@ -246,7 +251,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       radioType: "",
       showerrorOtp: "",
       showerror: "",
-      updateStatus: false
+      updateStatus: false,
+      disable: true
     });
     // this.setState({
     //     receivedOtp: false,
@@ -313,6 +319,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         }
       })
       .catch((error: any) => {
+        if (!error.response.data.status) {
+          if (error.response.data.currStatus == "Invalid-CN") {
+            this.props.updateError(true);
+          }
+        }
         this.setState({
           showError: "Server Error"
         });
@@ -524,14 +535,17 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             {this.props.isCredit ? (
               <Formsy
                 ref={this.RegisterFormRef1}
+                onChange={() => {
+                  this.state.disable && this.setState({ disable: false });
+                }}
                 onValidSubmit={this.handleSubmit2}
               >
                 <FormInput
                   name="email"
-                  placeholder={"Email*"}
-                  label={"Email*"}
+                  placeholder={"Email Address"}
+                  label={"Email Address"}
                   className={cs(styles.relative, globalStyles.voffset2)}
-                  keyUp={this.onMailChange}
+                  handleChange={this.onMailChange}
                   value={this.props.email ? this.props.email : ""}
                   validations={{
                     isEmail: true,
@@ -561,6 +575,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             </li>
             <Formsy
               ref={this.RegisterFormRef}
+              onChange={() => {
+                this.state.disable && this.setState({ disable: false });
+              }}
               onValidSubmit={this.handleSubmit}
               onInvalidSubmit={this.handleInvalidSubmit}
             >

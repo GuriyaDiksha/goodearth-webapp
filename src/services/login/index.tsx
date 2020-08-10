@@ -95,6 +95,7 @@ export default {
       MetaService.updateMeta(dispatch, {});
       WishlistService.resetWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
+      dispatch(updateUser({ shippingData: null }));
       return res;
     }
   },

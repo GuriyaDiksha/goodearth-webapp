@@ -91,13 +91,7 @@ class CheckBalance extends React.Component<Props, State> {
                               ENTER YOUR GIFT CARD CODE{" "}
                             </span>
                           </div>
-                          <div
-                            className={
-                              this.state.isActive ? "" : globalStyles.hidden
-                            }
-                          >
-                            <Giftcard />
-                          </div>
+                          <div>{this.state.isActive && <Giftcard />}</div>
                         </div>
                       </div>
                       <hr className={styles.hrMargin} />
@@ -122,13 +116,7 @@ class CheckBalance extends React.Component<Props, State> {
                               ENTER YOUR CREDIT NOTE CODE
                             </span>
                           </div>
-                          <div
-                            className={
-                              this.state.isActiveCN ? "" : globalStyles.hidden
-                            }
-                          >
-                            <CreditCard />
-                          </div>
+                          <div>{this.state.isActiveCN && <CreditCard />}</div>
                         </div>
                       </div>
                       <hr className={styles.hrMargin} />

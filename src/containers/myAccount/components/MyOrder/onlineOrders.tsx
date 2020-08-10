@@ -7,15 +7,13 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
-import { useStore } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState([]);
   const [hasShopped, setHasShopped] = useState(false);
   const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
-  const store = useStore();
-  const { currency } = store.getState();
-  const { dispatch } = store;
+  const { dispatch } = useDispatch();
   useEffect(() => {
     props.isLoading(true);
     AccountService.fetchMyOrders(dispatch)
@@ -87,7 +85,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p className={cs(styles.bold, styles.price)}>
-                  {String.fromCharCode(currencyCode[currency as Currency])}
+                  {String.fromCharCode(currencyCode[data.currency as Currency])}
                   &nbsp;{data.totalInclTax}
                 </p>
               </div>
@@ -169,7 +167,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode[currency as Currency])}{" "}
+                  {String.fromCharCode(currencyCode[data.currency as Currency])}{" "}
                   &nbsp;{data.totalInclTax}
                 </p>
               </div>

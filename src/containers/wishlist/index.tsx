@@ -29,6 +29,7 @@ import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import ModalStyles from "components/Modal/styles.scss";
+import { withRouter, RouteComponentProps } from "react-router";
 
 let AbsoluteGrid: any;
 
@@ -36,7 +37,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
     currency: state.currency,
-    wishlistData: state.wishlist.items
+    wishlistData: state.wishlist.items,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -107,7 +109,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export type Props = {
   wishlistData: WishlistItem[];
 } & ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   isLoading: boolean;
@@ -299,11 +302,17 @@ class Wishlist extends React.Component<Props, State> {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
+    if (!this.props.isLoggedIn) {
+      this.props.history.push("/");
+    }
     this.updateGrid(this.props);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
+    if (!nextProps.isLoggedIn) {
+      this.props.history.push("/");
+    }
   }
 
   updateGrid = (nextProps: Props) => {
@@ -709,5 +718,6 @@ class Wishlist extends React.Component<Props, State> {
     );
   }
 }
+const WishlistRoute = withRouter(Wishlist);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wishlist);
+export default connect(mapStateToProps, mapDispatchToProps)(WishlistRoute);

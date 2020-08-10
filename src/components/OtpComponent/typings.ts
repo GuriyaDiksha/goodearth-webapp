@@ -31,6 +31,7 @@ export type otpProps = {
   lastName?: string;
   newCardBox?: boolean;
   email?: string;
+  disableSendOtpButton: boolean;
 };
 
 export type otpRedeemProps = {

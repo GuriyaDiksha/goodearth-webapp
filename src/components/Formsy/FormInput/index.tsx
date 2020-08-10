@@ -74,6 +74,10 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter Sender's Name";
       case "giftCardCode":
         return "Please enter Gift Card Code";
+      case "orderNumber":
+        return "Please enter Order Number";
+      case "city":
+        return "Please enter City";
       default:
         return "This field is required";
     }
@@ -103,7 +107,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
-        onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)}
+        onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)} // use Key up if you want change only if input is valid
         onDrop={
           props.isDrop
             ? e => {
