@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MenuProps, HeaderData, MenuState } from "./typings";
 import styles from "./styles.scss";
+import cs from "classnames";
 
 export default class MainMenu extends React.Component<MenuProps, MenuState> {
   constructor(props: MenuProps) {
@@ -40,15 +41,8 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
               ? styles.iconStyleDisabled
               : "";
           const highlightStories =
-            location.pathname.toLowerCase().indexOf("stories") > -1
-              ? data.name.toLowerCase() == "stories"
-                ? true
-                : false
-              : location.pathname
-                  .toLowerCase()
-                  .indexOf(data.name.toLowerCase()) > -1
-              ? true
-              : false;
+            data.name.toLowerCase() == "stories" ? true : false;
+
           return (
             <li
               key={i + "header"}
@@ -60,21 +54,36 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
                 this.props.ipad ? "" : this.mouseLeave(i);
               }}
             >
-              <Link
-                to={
-                  isBridalRegistryPage
-                    ? "javascript:void(0)"
-                    : data.catLandingUrl
-                }
-                className={
-                  this.state.selectedCategory == i ||
-                  (highlightStories && this.props.ipad)
-                    ? disbaleClass + styles.hoverA
-                    : disbaleClass + styles.hoverB
-                }
-              >
-                {data.name}
-              </Link>
+              {highlightStories ? (
+                <a
+                  className={
+                    this.props.ipad
+                      ? cs(disbaleClass + styles.hoverA, styles.cerise)
+                      : cs(disbaleClass + styles.hoverB, styles.cerise)
+                  }
+                  href={data.catLandingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {data.name}
+                </a>
+              ) : (
+                <Link
+                  to={
+                    isBridalRegistryPage
+                      ? "javascript:void(0)"
+                      : data.catLandingUrl
+                  }
+                  className={
+                    this.state.selectedCategory == i ||
+                    (highlightStories && this.props.ipad)
+                      ? disbaleClass + styles.hoverA
+                      : disbaleClass + styles.hoverB
+                  }
+                >
+                  {data.name}
+                </Link>
+              )}
             </li>
           );
         })}
