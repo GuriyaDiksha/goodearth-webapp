@@ -27,12 +27,14 @@ class CreditCard extends React.Component<Props, GiftState> {
       newCardBox: true,
       giftList: [],
       toggleOtp: false,
-      toggleResetOtpComponent: false
+      toggleResetOtpComponent: false,
+      disable: true
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
 
   changeValue = (event: any) => {
+    this.state.disable && this.setState({ disable: false });
     this.setState({
       txtvalue: event.target.value
     });
@@ -196,6 +198,7 @@ class CreditCard extends React.Component<Props, GiftState> {
             ""
           ) : (
             <OtpComponent
+              disableSendOtpButton={this.state.disable}
               otpFor="balanceCN"
               updateError={this.updateError}
               txtvalue={this.state.txtvalue}

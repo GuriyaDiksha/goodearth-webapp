@@ -67,7 +67,7 @@ const BaseLayout: React.FC = () => {
     return (
       <Fragment>
         {isCheckout ? <CheckoutHeader /> : <Header />}
-        <div className={globalStyles.contentContainer}>
+        <div className={globalStyles.contentContainer} id="no-content">
           <Switch>{routes}</Switch>
         </div>
         {isCheckout ? "" : <Footer />}

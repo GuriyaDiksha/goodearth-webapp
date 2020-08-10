@@ -31,4 +31,5 @@ export type GiftState = {
   giftList: BalanceProps[];
   toggleOtp: boolean;
   toggleResetOtpComponent: boolean;
+  disable: boolean;
 };

@@ -48,6 +48,14 @@ const MyAccount: React.FC<Props> = props => {
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
+    const noContentContainerElem = document.getElementById(
+      "no-content"
+    ) as HTMLDivElement;
+    if (
+      noContentContainerElem.classList.contains(globalStyles.contentContainer)
+    ) {
+      noContentContainerElem.classList.remove(globalStyles.contentContainer);
+    }
     // window.scrollTo(0, 0);
   }, []);
   const { pathname } = useLocation();

@@ -1,4 +1,4 @@
-export type PasswordProps = {
+export type TrackOrderProps = {
   setCurrentSection: () => void;
 };
 export type State = {

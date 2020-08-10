@@ -33,4 +33,5 @@ export type GiftState = {
   giftList: BalanceProps[];
   showOTPValidationScreen: boolean;
   isSuccess: boolean;
+  disable: boolean;
 };
