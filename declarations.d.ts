@@ -19,3 +19,4 @@ declare module "react-social-login";
 
 declare const __API_HOST__: string;
 declare const __DOMAIN__: string;
+declare const __OMNI_HOST__: string;

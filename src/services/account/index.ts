@@ -42,6 +42,14 @@ export default {
     );
     return data;
   },
+  fetchInShopOrders: async (dispatch: Dispatch, email: string) => {
+    const data = await API.post<any>(
+      dispatch,
+      `${__OMNI_HOST__}/customer_offline_orders/?email=${email}`,
+      {}
+    );
+    return data;
+  },
   fetchOrderBy: async (dispatch: Dispatch, id: string, email: string) => {
     const data = await API.get<MyOrdersResponse>(
       dispatch,

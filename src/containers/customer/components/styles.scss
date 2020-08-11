@@ -58,6 +58,19 @@ ol {
     }
   }
 }
+ol {
+  li {
+    font-size: 12px;
+    font-family: "LatoFont","Helvetica","Arial";
+    color: #666;
+    letter-spacing: 1px;
+    list-style-type: decimal;
+    line-height: 20px;
+    letter-spacing: .5px;
+    margin-left: 12px;
+  }
+}
+
 }
 .table {
   border: 1px solid #ccc;

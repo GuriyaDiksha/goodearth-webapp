@@ -11,19 +11,19 @@ import { useDispatch } from "react-redux";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState([]);
-  const [hasShopped, setHasShopped] = useState(false);
+  // const [hasShopped, setHasShopped] = useState(false);
   const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
-  const { dispatch } = useDispatch();
+  const dispatch = useDispatch();
   useEffect(() => {
     props.isLoading(true);
     AccountService.fetchMyOrders(dispatch)
       .then(data => {
         setData(data.results.slice(0, 14));
-        setHasShopped(data.results.length > 0);
+        // setHasShopped(data.results.length > 0);
+        props.hasShopped(data.results.length > 0);
         props.isDataAvaliable(data.results.length > 0);
       })
       .then(() => {
-        props.hasShopped(hasShopped);
         props.isLoading(false);
         const orderNum = localStorage.getItem("orderNum");
         const orderElem = orderNum && document.getElementById(orderNum);

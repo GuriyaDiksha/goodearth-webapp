@@ -11,11 +11,15 @@ export type AddressData = AddressFormData & {
 };
 
 export type specifyShippingAddressResponse = {
-  publishRemove: boolean;
-  redirectHomepage: boolean;
-  shippingCharge: number;
-  pageReload: boolean;
-  basket: Basket;
+  status: boolean;
+  message: string;
+  data: {
+    publishRemove: boolean;
+    redirectHomepage: boolean;
+    shippingCharge: number;
+    pageReload: boolean;
+    basket: Basket;
+  };
 };
 
 export type AddressFormData = {
