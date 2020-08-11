@@ -179,7 +179,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setEmailError("");
     setSizeErrorMsg("");
   }, [selectedSize]);
-
+  console.log(email);
   return (
     <div className={cs(styles.container)}>
       <div className={styles.header}>

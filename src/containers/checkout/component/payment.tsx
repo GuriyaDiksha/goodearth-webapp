@@ -257,6 +257,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             </div>
           )}
           {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+          {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
           <div className={globalStyles.marginT20}>
             {!basket.isOnlyGiftCart && (
               <div className={globalStyles.flex}>

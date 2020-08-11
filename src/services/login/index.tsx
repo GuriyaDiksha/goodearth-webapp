@@ -13,7 +13,7 @@ import {
 import { updateCookies } from "actions/cookies";
 import { updateComponent, updateModal } from "../../actions/modal";
 import CookieService from "services/cookie";
-import { updateUser } from "actions/user";
+import { updateUser, resetMeta } from "actions/user";
 import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
@@ -91,11 +91,10 @@ export default {
         "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       dispatch(updateCookies({ tkn: "" }));
-      dispatch(updateUser({ isLoggedIn: false }));
       MetaService.updateMeta(dispatch, {});
       WishlistService.resetWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
-      dispatch(updateUser({ shippingData: null }));
+      dispatch(resetMeta(undefined));
       return res;
     }
   },

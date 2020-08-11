@@ -60,7 +60,8 @@ const ProductDetails: React.FC<Props> = ({
     compAndCare,
     sku,
     url,
-    groupedProducts
+    groupedProducts,
+    salesBadgeImage
   },
   corporatePDP,
   mobile,
@@ -71,7 +72,7 @@ const ProductDetails: React.FC<Props> = ({
 }) => {
   const [productTitle, subtitle] = title.split("(");
 
-  const [img] = images;
+  // const [img] = images;
 
   const location = useLocation();
 
@@ -95,6 +96,18 @@ const ProductDetails: React.FC<Props> = ({
 
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
+
+  const showError = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        "show-error"
+      )[0] as HTMLDivElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
+  };
 
   const onSizeSelect = useCallback(
     selected => {
@@ -166,6 +179,7 @@ const ProductDetails: React.FC<Props> = ({
   const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
+      showError();
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
@@ -245,7 +259,6 @@ const ProductDetails: React.FC<Props> = ({
 
     return show;
   }, [childAttributes]);
-
   return (
     <div className={bootstrap.row}>
       <div
@@ -257,16 +270,10 @@ const ProductDetails: React.FC<Props> = ({
         )}
       >
         <div className={cs(bootstrap.row)}>
-          {img ? (
-            img.badgeImagePDP ? (
-              <div className={bootstrap.col12}>
-                <img src={img.badgeImagePDP} width="100" />
-              </div>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
+          {salesBadgeImage && (
+            <div className={bootstrap.col12}>
+              <img src={salesBadgeImage} width="100" />
+            </div>
           )}
 
           {mobile && (
@@ -279,7 +286,13 @@ const ProductDetails: React.FC<Props> = ({
               />
             </div>
           )}
-          <div className={cs(bootstrap.col12, styles.collectionHeader)}>
+          <div
+            className={cs(
+              bootstrap.col12,
+              styles.collectionHeader,
+              globalStyles.voffset3
+            )}
+          >
             {collection && (
               <Link to={collectionUrl || "#"}> {collection} </Link>
             )}
@@ -373,7 +386,9 @@ const ProductDetails: React.FC<Props> = ({
                     onChange={onSizeSelect}
                     selected={selectedSize ? selectedSize.id : undefined}
                   />
-                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
+                  <span className={cs(styles.sizeErrorMessage, "show-error")}>
+                    {sizeError}
+                  </span>
                 </div>
               </div>
             </div>

@@ -22,6 +22,11 @@ export const user = (state = initialState, action: UserActions): State => {
       newState.refresh = !newState.refresh;
       return { ...newState };
     }
+
+    case "RESET_META": {
+      const state = initialState;
+      return { ...state };
+    }
   }
 
   return state;
