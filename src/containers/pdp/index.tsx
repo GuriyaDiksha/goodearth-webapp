@@ -5,7 +5,7 @@ import cs from "classnames";
 import { Props as PDPProps, State } from "./typings";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
-
+import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
@@ -502,6 +502,7 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
+        <MakerEnhance user="goodearth" />
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}

@@ -17,6 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
+import MakerEnhance from "maker-enhance";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -204,6 +205,7 @@ class PLP extends React.Component<
                           <img src={banner} className="img-responsive" />
                       </div>
                   </div> : ""} */}
+            <MakerEnhance user="goodearth" />
 
             {!mobile ? (
               <div

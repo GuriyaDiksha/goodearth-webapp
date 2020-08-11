@@ -12,6 +12,7 @@ import { Settings } from "react-slick";
 import CollectionImage from "components/collectionItem";
 import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
+import MakerEnhance from "maker-enhance";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -111,6 +112,7 @@ class CollectionLanding extends React.Component<
             </div>
           )}
         </SecondaryHeader>
+        <MakerEnhance user="goodearth" />
         {!mobile && (
           <div className={cs(bootstrap.row, styles.subcHeader)}>
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>

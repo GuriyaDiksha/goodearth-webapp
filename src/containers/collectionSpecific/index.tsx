@@ -13,6 +13,7 @@ import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
+import MakerEnhance from "maker-enhance";
 const Quickview = loadable(() => import("components/Quickview"));
 
 const mapStateToProps = (state: AppState) => {
@@ -59,6 +60,7 @@ class CollectionSpecific extends React.Component<Props, {}> {
             />
           </SecondaryHeader>
         )}
+        <MakerEnhance user="goodearth" index="1" />
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
@@ -139,6 +141,7 @@ class CollectionSpecific extends React.Component<Props, {}> {
             })}
           </div>
         </div>
+        <MakerEnhance user="goodearth" index="2" />
       </div>
     );
   }
