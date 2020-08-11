@@ -22,6 +22,7 @@ const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const domain = JSON.stringify(envConfig.domain);
 const apiDomain = JSON.stringify(envConfig.apidomain);
+const omniApiDomain = JSON.stringify(envConfig.omniApiDomain);
 const publicPath = "/static/";
 
 const alias = {
@@ -77,7 +78,8 @@ let config = [
         plugins: [
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
-                __DOMAIN__: domain
+                __DOMAIN__: domain,
+                __OMNI_HOST__: omniApiDomain
             }),
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new LoadablePlugin(),
@@ -268,7 +270,8 @@ let config = [
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
-                __DOMAIN__: domain
+                __DOMAIN__: domain,
+                __OMNI_HOST__: omniApiDomain
             }),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`,

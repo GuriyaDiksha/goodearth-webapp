@@ -22,6 +22,7 @@ import Terms from "./components/Static/terms";
 import CeriseTerms from "./components/Static/ceriseterms";
 import Cookie from "./components/Static/cookie";
 import Privacy from "./components/Static/privacy";
+import SaleTnc from "./components/Static/saletnc";
 
 type Props = {
   isbridal: boolean;
@@ -42,7 +43,7 @@ const StaticPage: React.FC<Props> = props => {
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { path } = useRouteMatch();
 
-  const [currentSection, setCurrentSection] = useState("Profile");
+  const [currentSection, setCurrentSection] = useState("");
 
   // const location = useLocation();
 
@@ -78,6 +79,13 @@ const StaticPage: React.FC<Props> = props => {
       href: "/customer-assistance/terms",
       component: CeriseTerms,
       title: "Cerise: Terms of Use",
+      loggedInOnly: false
+    },
+    {
+      label: "Joy Store Terms of Use",
+      href: "/customer-assistance/sales-conditions",
+      component: SaleTnc,
+      title: "Joy Store Terms of Use",
       loggedInOnly: false
     },
     {

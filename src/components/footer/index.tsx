@@ -282,24 +282,37 @@ class Footer extends React.Component<Props, FooterState> {
                           (list: FooterList, i: number) => {
                             return (
                               <li key={i}>
-                                <span
-                                  className={`${
-                                    this.state.isOpened &&
-                                    this.state.currentIndex == i
-                                      ? cs(styles.detailShow)
-                                      : cs(styles.detail)
-                                  } ${
-                                    this.props.saleStatus
-                                      ? cs(styles.cerise)
-                                      : ""
-                                  }`}
-                                  onClick={() => {
-                                    this.subMenu(i);
-                                  }}
-                                >
-                                  {" "}
-                                  {list.name}{" "}
-                                </span>
+                                {list.value.length > 0 ? (
+                                  <span
+                                    className={`${
+                                      this.state.isOpened &&
+                                      this.state.currentIndex == i
+                                        ? cs(styles.detailShow)
+                                        : cs(styles.detail)
+                                    } ${
+                                      this.props.saleStatus
+                                        ? cs(styles.cerise)
+                                        : ""
+                                    }`}
+                                    onClick={() => {
+                                      this.subMenu(i);
+                                    }}
+                                  >
+                                    {" "}
+                                    {list.name}{" "}
+                                  </span>
+                                ) : (
+                                  <Link
+                                    to={list.link || "#"}
+                                    className={
+                                      this.props.saleStatus
+                                        ? cs(styles.cerise)
+                                        : ""
+                                    }
+                                  >
+                                    {list.name}
+                                  </Link>
+                                )}
                                 <ul
                                   className={
                                     this.state.isOpened &&
@@ -331,7 +344,19 @@ class Footer extends React.Component<Props, FooterState> {
                                         );
                                       } else {
                                         return (
-                                          <li key={j}> {currentValue.text} </li>
+                                          <li
+                                            className={globalStyles.txtNormal}
+                                            key={j}
+                                          >
+                                            {" "}
+                                            {currentValue.link ? (
+                                              <a href={currentValue.link}>
+                                                {currentValue.text}
+                                              </a>
+                                            ) : (
+                                              currentValue.text
+                                            )}{" "}
+                                          </li>
                                         );
                                       }
                                     }
@@ -438,25 +463,86 @@ class Footer extends React.Component<Props, FooterState> {
                           </ul>
                         )}
                       </div>
-                      {this.props.data.footerList.map((footerItems, index) => (
-                        <div
-                          key={index}
-                          className={cs(bootstrap.colMd3, bootstrap.px2)}
-                        >
-                          <ul>
-                            <li>{footerItems.name}</li>
-                            {footerItems.value.map((Item, index) => (
-                              <li key={index}>
-                                {Item.link !== "" ? (
-                                  <Link to={Item.link}>{Item.text}</Link>
-                                ) : (
-                                  Item.text
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                      {this.props.data.footerList.map((footerItems, index) => {
+                        let res: any = "";
+                        if (index == 0) {
+                          res = (
+                            <div
+                              key={index}
+                              className={cs(bootstrap.colMd3, bootstrap.px2)}
+                            >
+                              <ul key="about-us">
+                                <li>
+                                  {footerItems.link ? (
+                                    <Link to={footerItems.link || "#"}>
+                                      {footerItems.name}
+                                    </Link>
+                                  ) : (
+                                    footerItems.name
+                                  )}
+                                </li>
+                                {footerItems.value.map((Item, index) => (
+                                  <li key={index}>
+                                    {Item.link !== "" ? (
+                                      <Link to={Item.link}>{Item.text}</Link>
+                                    ) : (
+                                      Item.text
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                              <ul key="services">
+                                <li>
+                                  {this.props.data.footerList[index + 1].name}
+                                </li>
+                                {this.props.data.footerList[
+                                  index + 1
+                                ].value.map((Item, index) => (
+                                  <li key={index}>
+                                    {Item.link !== "" ? (
+                                      <Link to={Item.link}>{Item.text}</Link>
+                                    ) : (
+                                      Item.text
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        } else if (index == 1) {
+                          // do nothing
+                        } else {
+                          res = (
+                            <div
+                              key={index}
+                              className={cs(bootstrap.colMd3, bootstrap.px2)}
+                            >
+                              <ul>
+                                <li>{footerItems.name}</li>
+                                {footerItems.value.map((Item, index) => (
+                                  <li key={index}>
+                                    {Item.link !== "" ? (
+                                      footerItems.name == "CONNECT" ? (
+                                        <a
+                                          className={globalStyles.txtNormal}
+                                          href={Item.link}
+                                        >
+                                          {Item.text}
+                                        </a>
+                                      ) : (
+                                        <Link to={Item.link}>{Item.text}</Link>
+                                      )
+                                    ) : (
+                                      Item.text
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        }
+                        return res;
+                      })}
                     </div>
                   </div>
                 )}

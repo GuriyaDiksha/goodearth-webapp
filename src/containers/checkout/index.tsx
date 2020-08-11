@@ -368,26 +368,34 @@ class Checkout extends React.Component<Props, State> {
       this.props
         .specifyShippingAddress(address.id, address, this.props.user)
         .then(data => {
-          const isGoodearthShipping = address.isTulsi ? address.isTulsi : false;
-          this.setState({ isGoodearthShipping });
+          if (data.status) {
+            const isGoodearthShipping = address.isTulsi
+              ? address.isTulsi
+              : false;
+            this.setState({ isGoodearthShipping });
 
-          this.setState({
-            shippingCharge: data.shippingCharge,
-            shippingAddress: address,
-            billingAddress: undefined,
-            activeStep: Steps.STEP_BILLING,
-            shippingError: ""
-          });
+            this.setState({
+              shippingCharge: data.data.shippingCharge,
+              shippingAddress: address,
+              billingAddress: undefined,
+              activeStep: Steps.STEP_BILLING,
+              shippingError: ""
+            });
 
-          if (data.pageReload) {
-            // window.location.reload();
-            this.props.reloadPage(this.props.cookies);
+            if (data.data.pageReload) {
+              // window.location.reload();
+              this.props.reloadPage(this.props.cookies);
+            }
           }
         })
         .catch(err => {
           // console.log(err.response.data);
-          this.setState({ shippingError: valid.showErrors(err.response.data) });
-          this.showErrorMsg();
+          if (!err.response.data.status) {
+            this.setState({
+              shippingError: valid.showErrors(err.response.data)
+            });
+            this.showErrorMsg();
+          }
         });
     } else {
       let data: specifyBillingAddressData;

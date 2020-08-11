@@ -206,25 +206,31 @@ position: fixed;
     margin-bottom: 0;
     margin-top: 10px;
 
-    li {
+    >li {
       @include ftr-heading-white();
-      line-height: 44px;
+      line-height: 50px;
       font-weight: normal;
+      >a {
+        text-transform: uppercase;
+        @include ftr-heading-white();
+        line-height: 44px;
+        font-weight: normal;
+      }
       li {
         @include ftr-copy-white-desktop();
         text-transform: capitalize;
         font-weight: normal;
         line-height: 30px;
+        a {
+          @include ftr-copy-white-desktop();
+          font-weight: normal;
+        }
       }
       span {
         @include ftr-heading-white();
         text-transform: uppercase;
         font-weight: normal;
-      }
-      a {
-        @include ftr-copy-white-desktop();
-        font-weight: normal;
-     }
+      } 
     }
   }
 
@@ -362,6 +368,12 @@ input {
         @include ftr-heading-white();
         line-height: 44px;
         font-weight: normal;
+        a {
+          text-transform: uppercase;
+          @include ftr-heading-white();
+          line-height: 44px;
+          font-weight: normal;
+        }
       }
       a {
         @include ftr-copy-white-desktop();

@@ -8,6 +8,7 @@ export type List = {
 export type FooterList = {
   name: string;
   value: List[];
+  link?: string;
 };
 
 export type FooterState = {

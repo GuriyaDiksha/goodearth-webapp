@@ -67,7 +67,7 @@ export default {
       `${__API_HOST__}/myapi/address/specify_shipping_address/`,
       { shippingAddressId: id }
     );
-    dispatch(updateBasket(data.basket));
+    dispatch(updateBasket(data.data.basket));
     return data;
   },
   specifyBillingAddress: async (

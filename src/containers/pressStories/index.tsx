@@ -40,7 +40,7 @@ const PressStories: React.FC = () => {
       // updatePressStoriesData(data)
       updatePressStoriesData({
         archive: data.archive,
-        data: [...data.data, ...data.data]
+        data: data.data
       })
     );
   }, []);

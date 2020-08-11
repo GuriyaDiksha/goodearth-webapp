@@ -476,7 +476,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             </div>
             <div className={cs(globalStyles.voffset3, globalStyles.relative)}>
               {this.state.showerror ? (
-                <p className={globalStyles.errorMsg}>{this.state.showerror}</p>
+                <p
+                  className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
+                >
+                  {this.state.showerror}
+                </p>
               ) : (
                 <p className={globalStyles.errorMsg}></p>
               )}
