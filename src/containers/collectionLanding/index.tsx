@@ -27,11 +27,12 @@ type Props = ReturnType<typeof mapStateToProps>;
 
 class CollectionLanding extends React.Component<
   Props,
-  { filterData: string; onloadState: boolean }
+  { filterData: string; onloadState: boolean; landingMaker: boolean }
 > {
   state = {
     filterData: "All",
-    onloadState: false
+    onloadState: false,
+    landingMaker: false
   };
 
   onchangeFilter = (data: any): void => {
@@ -46,6 +47,11 @@ class CollectionLanding extends React.Component<
         onloadState: true
       });
     }
+  }
+  componentDidMount() {
+    this.setState({
+      landingMaker: true
+    });
   }
 
   render() {
@@ -112,7 +118,7 @@ class CollectionLanding extends React.Component<
             </div>
           )}
         </SecondaryHeader>
-        <MakerEnhance user="goodearth" />
+
         {!mobile && (
           <div className={cs(bootstrap.row, styles.subcHeader)}>
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
@@ -124,6 +130,11 @@ class CollectionLanding extends React.Component<
               ></p>
             </div>
           </div>
+        )}
+        {this.state.landingMaker ? (
+          <MakerEnhance user="goodearth" index="1" />
+        ) : (
+          ""
         )}
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
           <div className={cs(bootstrap.colMd8, bootstrap.offsetMd2)}>

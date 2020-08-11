@@ -325,7 +325,7 @@ select,
 optgroup,
 textarea {
   margin: 0; // Remove the margin in Firefox and Safari
-  //font-family: inherit;
+  font-family: inherit;
   @include font-size(inherit);
   line-height: inherit;
 }
