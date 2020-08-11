@@ -43,6 +43,7 @@ class PLP extends React.Component<
     mobileFilter: boolean;
     sortValue: string;
     flag: boolean;
+    plpMaker: boolean;
   }
 > {
   constructor(props: Props) {
@@ -56,7 +57,8 @@ class PLP extends React.Component<
       showmobileSort: false,
       mobileFilter: false,
       sortValue: param ? param : "hc",
-      flag: false
+      flag: false,
+      plpMaker: false
     };
   }
   private child: any = FilterList;
@@ -71,6 +73,12 @@ class PLP extends React.Component<
     }
     this.setState({ sortValue: data });
   };
+
+  componentDidMount() {
+    this.setState({
+      plpMaker: true
+    });
+  }
 
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
@@ -206,7 +214,7 @@ class PLP extends React.Component<
                       </div>
                   </div> : ""} */}
 
-            <MakerEnhance user="goodearth" />
+            {this.state.plpMaker ? <MakerEnhance user="goodearth" /> : ""}
 
             {!mobile ? (
               <div
