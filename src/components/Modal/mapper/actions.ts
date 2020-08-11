@@ -1,4 +1,5 @@
 import { updateComponent, updateModal } from "../../../actions/modal";
+import { updateQuickviewId } from "actions/quickview";
 import { ReactNode } from "react";
 import { Dispatch } from "redux";
 
@@ -9,6 +10,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
+    },
+    updateQuickviewId: async () => {
+      dispatch(updateQuickviewId(0));
     }
   };
 };

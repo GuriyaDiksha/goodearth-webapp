@@ -27,8 +27,9 @@ class Modal extends React.Component<ModalProps> {
   prevScroll = 0;
   closeModal = () => {
     localStorage.removeItem("tempEmail");
-    const { changeModalState } = this.props;
+    const { changeModalState, updateQuickviewId } = this.props;
     changeModalState(false);
+    updateQuickviewId();
   };
 
   componentDidUpdate(prevProps: Props) {
