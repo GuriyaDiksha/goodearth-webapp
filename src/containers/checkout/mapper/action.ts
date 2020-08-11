@@ -11,7 +11,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     sendOtpRedeem: async (data: FormData) => {
       const otp = await AccountService.sendOtpRedeem(dispatch, data);
-      BasketService.fetchBasket(dispatch, true);
       return otp;
     },
     checkOtpBalance: async (data: FormData) => {
@@ -20,6 +19,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     checkOtpRedeem: async (data: FormData) => {
       const balance = await AccountService.checkOtpRedeem(dispatch, data);
+      BasketService.fetchBasket(dispatch, true);
       return balance;
     },
     applyGiftCard: async (data: FormData) => {

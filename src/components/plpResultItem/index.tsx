@@ -53,6 +53,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     : "";
   return (
     <div className={styles.plpMain}>
+      {product.salesBadgeImage && (
+        <div className={styles.badgeImage}>
+          <img src={product.salesBadgeImage} />
+        </div>
+      )}
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}

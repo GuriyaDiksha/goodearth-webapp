@@ -1447,6 +1447,10 @@ class FilterList extends React.Component<Props, State> {
   render() {
     const { mobile } = this.props;
     const { filter } = this.state;
+    const productHtml = this.createProductType(
+      this.props.facetObject.categoryObj,
+      this.props.facets
+    );
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
@@ -1528,39 +1532,39 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          {this.productData.length > 0 && (
-            <li>
-              <span
-                className={
-                  this.state.showProductFilter
-                    ? cs(styles.menulevel1, styles.menulevel1Open)
-                    : styles.menulevel1
-                }
-                onClick={this.ClickProductCategory}
-              >
-                PRODUCT TYPE
-              </span>
+
+          <li
+            className={cs({
+              [globalStyles.hidden]: this.productData.length == 0
+            })}
+          >
+            <span
+              className={
+                this.state.showProductFilter
+                  ? cs(styles.menulevel1, styles.menulevel1Open)
+                  : styles.menulevel1
+              }
+              onClick={this.ClickProductCategory}
+            >
+              PRODUCT TYPE
+            </span>
+            <div
+              className={
+                this.state.showProductFilter
+                  ? styles.showheader1
+                  : globalStyles.hidden
+              }
+            >
+              {productHtml}
               <div
-                className={
-                  this.state.showProductFilter
-                    ? styles.showheader1
-                    : globalStyles.hidden
-                }
+                onClick={e => this.clearFilter(e, "productType")}
+                data-name="productType"
+                className={styles.plp_filter_sub}
               >
-                {this.createProductType(
-                  this.props.facetObject.categoryObj,
-                  this.props.facets
-                )}
-                <div
-                  onClick={e => this.clearFilter(e, "productType")}
-                  data-name="productType"
-                  className={styles.plp_filter_sub}
-                >
-                  Clear
-                </div>
+                Clear
               </div>
-            </li>
-          )}
+            </div>
+          </li>
           <li>
             <span
               className={
@@ -1695,7 +1699,7 @@ class FilterList extends React.Component<Props, State> {
         {mobile ? (
           <div className={styles.filterButton}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems} Product found</span>
+              <span>{this.state.totalItems + 1} Product found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

@@ -257,7 +257,8 @@ class PDPContainer extends React.Component<Props, State> {
   getRecommendedSection() {
     const {
       recommendedSliderItems,
-      device: { mobile }
+      device: { mobile },
+      currency
     } = this.props;
 
     if (!recommendedSliderItems.length) {
@@ -269,6 +270,7 @@ class PDPContainer extends React.Component<Props, State> {
       infinite: true,
       speed: 500,
       slidesToShow: 4,
+      arrows: true,
       slidesToScroll: 1,
       initialSlide: 0,
       responsive: [
@@ -285,7 +287,7 @@ class PDPContainer extends React.Component<Props, State> {
       <WeRecommendSlider
         data={recommendedSliderItems}
         setting={config as Settings}
-        currency={"INR"}
+        currency={currency}
         mobile={mobile}
       />
     );
@@ -314,7 +316,8 @@ class PDPContainer extends React.Component<Props, State> {
           settings: {
             slidesToShow: 4,
             slidesToScroll: 1,
-            infinite: true
+            infinite: true,
+            arrows: true
           }
         },
         {
