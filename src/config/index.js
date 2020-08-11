@@ -3,7 +3,7 @@ const defaultConfig = require("./default.json");
 let conf = {...defaultConfig};
 
 try {
-    const envConfig = require("./enviroment.json");
+    const envConfig = require("./environment.json");
     conf = {
         ...conf,
         ...envConfig
