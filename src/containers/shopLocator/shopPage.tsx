@@ -107,9 +107,13 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                   <Link to={viewLink}> VIEW </Link>
                 </div>
                 <div className={cs(globalStyles.col6, globalStyles.textRight)}>
-                  <Link to={item.direction} target="_blank">
+                  <a
+                    href={item.direction}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
                     directions{" "}
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
