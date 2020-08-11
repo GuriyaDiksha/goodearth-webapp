@@ -313,6 +313,7 @@
     .colorlabel {
       label {
         padding-left: 35px;
+        margin-bottom: 0;
       }
     }
   }
@@ -349,6 +350,9 @@
 }
 
 .categorylabel {
+  label {
+    margin-bottom: 0;
+  }
   li {
     position: relative;
     div {

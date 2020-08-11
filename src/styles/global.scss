@@ -17,9 +17,10 @@ body {
   color: $default;
   @include scrollbar();
 }
-h1, h2 {
+h1, h2, h3, b, strong {
   font-weight: 400;
 }
+
 ::-webkit-input-placeholder { /* Edge */
   font-weight: 300;
   font-family: $font-Lato;
