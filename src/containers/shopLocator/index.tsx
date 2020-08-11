@@ -6,7 +6,7 @@ import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
 // import iconStyles from "../../styles/iconFonts.scss";
 import styles from "./styles.scss";
-// import globalStyles from "styles/global.scss";
+import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
@@ -16,7 +16,7 @@ import ShopPage from "./shopPage";
 import ShopDetail from "./shopDetails";
 import locIcon from "../../images/location-icon.svg";
 import iconStyles from "../../styles/iconFonts.scss";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -25,7 +25,10 @@ const mapStateToProps = (state: AppState) => {
     shopData: state.shop.shopData
   };
 };
-type Props = ShopProps & ReturnType<typeof mapStateToProps> & DispatchProp;
+type Props = ShopProps &
+  ReturnType<typeof mapStateToProps> &
+  DispatchProp &
+  RouteComponentProps;
 
 class ShopLocator extends React.Component<
   Props,
@@ -46,6 +49,43 @@ class ShopLocator extends React.Component<
       city: this.props.city
     };
   }
+
+  setCurrentSection = (section: string) => {
+    this.setState({
+      currentSection: section
+    });
+  };
+
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    if (nextProps.city !== this.props.city) {
+      this.setState({
+        city: nextProps.city
+      });
+    }
+    if (nextProps.shopname !== this.props.shopname) {
+      this.setCurrentSection(nextProps.shopname ? "details" : "shop");
+    }
+
+    if (nextProps.location !== this.props.location) {
+      window.scrollTo(0, 0);
+      // for handling scroll to particalar element with hash
+      let { hash } = nextProps.location;
+      hash = hash.replace("#", "");
+      if (hash) {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView();
+          const headerHeight = 50;
+          const secondaryHeaderHeight = 50;
+          const announcementBarHeight = 30;
+          window.scrollBy(
+            0,
+            -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+          );
+        }
+      }
+    }
+  };
 
   setSelectedSection = () => {
     const {
@@ -69,15 +109,22 @@ class ShopLocator extends React.Component<
   };
 
   onchangeFilter = (data: any): void => {
-    const {
-      device: { mobile }
-    } = this.props;
-    if (mobile) {
-      // this.child.clickCloseFilter();
-    } else {
-      this.setState({
-        city: data
-      });
+    if (data !== this.state.city) {
+      const newPath = this.props.location.pathname.replace(
+        this.state.city,
+        data
+      );
+      this.props.history.push(newPath);
+      const {
+        device: { mobile }
+      } = this.props;
+      if (mobile) {
+        // this.child.clickCloseFilter();
+      } else {
+        this.setState({
+          city: data
+        });
+      }
     }
   };
 
@@ -88,14 +135,45 @@ class ShopLocator extends React.Component<
 
     return (
       <SecondaryHeader>
-        <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
-          <Link to={"/Cafe-Shop/" + this.state.city}>
-            <span className={styles.heading}>
-              {" "}
-              {`<`} {!mobile && `Back To Shops`}{" "}
+        {!mobile && (
+          <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
+            <Link to={"/Cafe-Shop/" + this.state.city}>
+              <span className={styles.heading}>
+                {" "}
+                {!mobile && `< Back To Shops`}{" "}
+              </span>
+            </Link>
+          </div>
+        )}
+        {mobile && (
+          <div
+            className={cs(
+              bootstrap.col12,
+              styles.moveLink,
+              styles.moveLinkMobile,
+              globalStyles.textCenter
+            )}
+          >
+            <span className={styles.shopLink}>
+              <Link to="#shop" id="shopname">
+                SHOP{" "}
+              </Link>
+            </span>{" "}
+            &nbsp;
+            {this.props.shopData[0]?.cafeHeading2 && (
+              <span className={styles.cafeLink}>
+                <Link to="#cafe" id="cafename">
+                  | &nbsp; CAFE{" "}
+                </Link>
+              </span>
+            )}
+            <span className={styles.lessthan}>
+              <Link to={"/Cafe-Shop/" + this.state.city}>
+                <span className={styles.lessthan}>{"<"}</span>
+              </Link>
             </span>
-          </Link>
-        </div>
+          </div>
+        )}
       </SecondaryHeader>
     );
   };
@@ -174,6 +252,7 @@ class ShopLocator extends React.Component<
     );
   }
 }
+const ShopLocatorRoute = withRouter(ShopLocator);
 
-export default connect(mapStateToProps)(ShopLocator);
+export default connect(mapStateToProps)(ShopLocatorRoute);
 export { initActionSearch };

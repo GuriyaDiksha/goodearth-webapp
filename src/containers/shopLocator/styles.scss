@@ -106,6 +106,8 @@ margin-top: $main-header;
     line-height: 22px;
     text-transform: capitalize;
     letter-spacing: 1px;
+    padding: 0;
+    margin: 0;
   }
 &.shop-add-block-1 {
     padding: 40px 50px 40px 60px;
@@ -113,6 +115,9 @@ margin-top: $main-header;
     cursor: pointer;
     min-height: 270px;
     background-color: #f9f8f5;
+    &:hover {
+      background-color: #fff;
+    }
 }
 .small {
   font-size: 12px;
@@ -196,9 +201,24 @@ position: absolute;
     
     a{
       color: #000;
+      font-size: 14px;
     }
 }
-
+.move-link-mobile {
+  position: fixed;
+  z-index: 9;
+  background-color: $white;
+  a {
+    color: #000;
+    font-size: 14px;
+  }
+  .lessthan {
+    position: absolute;
+    left: 20px;
+    font-size: 20px;
+    font-weight: 300;
+  }
+}
  
   .dropdown-center {
     margin: 2px 0 0 8px;
