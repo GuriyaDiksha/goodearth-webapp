@@ -205,6 +205,7 @@ class PLP extends React.Component<
                           <img src={banner} className="img-responsive" />
                       </div>
                   </div> : ""} */}
+
             <MakerEnhance user="goodearth" />
 
             {!mobile ? (
