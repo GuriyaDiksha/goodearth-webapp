@@ -699,7 +699,7 @@ class Wishlist extends React.Component<Props, State> {
               id="wishlist"
             ></div>
             {this.state.wishlistCount > 0 && (
-              <div className={globalStyles.textCenter}>
+              <div className={cs({ [globalStyles.textCenter]: mobile })}>
                 <div
                   className={cs(styles.wishlistBottom, styles.wishlistSubtotal)}
                 >

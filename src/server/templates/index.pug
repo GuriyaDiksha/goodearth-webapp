@@ -67,13 +67,13 @@ html(lang='en')
           window.addEventListener('scroll', function () {
               if (window.innerHeight - window.pageYOffset < 0) {
                   const scrollToTopButton = document.getElementById("scrollToTop-btn");
-                  if (scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
+                  if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
                       scrollToTopButton.classList.replace("scrollToTop-btn-hidden", "scrollToTop-btn");
                   }
               }
               else {
                   const scrollToTopButton = document.getElementById("scrollToTop-btn");
-                  if (scrollToTopButton.classList.contains("scrollToTop-btn")) {
+                  if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn")) {
                       scrollToTopButton.classList.replace("scrollToTop-btn", "scrollToTop-btn-hidden");
                   }
               }

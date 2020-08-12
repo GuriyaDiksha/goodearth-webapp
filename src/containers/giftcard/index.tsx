@@ -63,6 +63,13 @@ class GiftCard extends React.Component<
       });
     });
   }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.currency !== this.props.currency) {
+      this.goback("card");
+    }
+  }
+
   goback = (section: string) => {
     this.setState({
       currentSection: section

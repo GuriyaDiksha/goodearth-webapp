@@ -485,7 +485,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 <p className={globalStyles.errorMsg}></p>
               )}
             </div>
-            <div className={globalStyles.voffset4}>
+            <div className={globalStyles.voffset2}>
               <input
                 type="button"
                 disabled={!this.state.updateStatus}

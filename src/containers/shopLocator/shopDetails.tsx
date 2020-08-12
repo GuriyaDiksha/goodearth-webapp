@@ -77,7 +77,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
             </Link>
           </span>{" "}
           &nbsp;
-          {data[0]?.cafeHeading2 && (
+          {data && data.length > 0 && data[0]?.cafeHeading2 && (
             <span className={styles.cafeLink}>
               <Link to="#cafe" id="cafename">
                 | &nbsp; CAFE{" "}
