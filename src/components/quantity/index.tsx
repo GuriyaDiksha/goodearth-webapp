@@ -68,6 +68,7 @@ class Quantity extends React.Component<QuantityItem, State> {
             styles.input,
             props.inputClass,
             { [styles.inputPdp]: props.source == "pdp" },
+            { [styles.inputCart]: props.source == "cartPage" },
             {}
           )}
         >
