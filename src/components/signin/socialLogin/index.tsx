@@ -23,7 +23,6 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         provider: "facebook",
         uid: user.userID,
         accessToken: user.accessToken,
-        TokenExpiresTime: user.data_access_expiration_time,
         email: user.email,
         fname: user.name.split(" ")[0],
         lname: user.name.split(" ")[1]
@@ -46,14 +45,17 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         provider: "google",
         uid: user.googleId,
         accessToken: user.tokenId,
-        TokenExpiresTime: user.tokenObj.expires_at,
         email: user.profileObj.email,
         fname: user.profileObj.givenName,
         lname: user.profileObj.familyName
       };
-      LoginService.loginSocial(dispatch, data).catch(err => {
-        console.log("Cant Login due to ankur sir !!!!!!");
-      });
+      LoginService.loginSocial(dispatch, data)
+        .then(res => {
+          closeModel();
+        })
+        .catch(err => {
+          console.log("Cant Login due to ankur sir !!!!!!");
+        });
     } else {
       console.log("Cant Login due not avalable number!!!!!!");
     }
