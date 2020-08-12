@@ -13,8 +13,8 @@ import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
-import MakerEnhance from "maker-enhance";
 const Quickview = loadable(() => import("components/Quickview"));
+const MakerEnhance = loadable(() => import("maker-enhance"));
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -62,6 +62,7 @@ class CollectionSpecific extends React.Component<
     } = this.props;
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
+    const { specificMaker } = this.state;
     return (
       <div className={styles.collectionContainer}>
         {!mobile && (
@@ -72,11 +73,7 @@ class CollectionSpecific extends React.Component<
             />
           </SecondaryHeader>
         )}
-        {this.state.specificMaker ? (
-          <MakerEnhance user="goodearth" index="1" />
-        ) : (
-          ""
-        )}
+        {specificMaker && <MakerEnhance user="goodearth" index="1" />}
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
@@ -157,7 +154,7 @@ class CollectionSpecific extends React.Component<
             })}
           </div>
         </div>
-        <MakerEnhance user="goodearth" index="2" />
+        {specificMaker && <MakerEnhance user="goodearth" index="2" />}
       </div>
     );
   }

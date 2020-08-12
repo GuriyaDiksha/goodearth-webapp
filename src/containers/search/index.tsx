@@ -16,6 +16,7 @@ import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
+import MakerEnhance from "maker-enhance";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -41,6 +42,7 @@ class Search extends React.Component<
     mobileFilter: boolean;
     searchText: string;
     sortValue: string;
+    searchMaker: boolean;
   }
 > {
   private child: any = FilterListSearch;
@@ -55,7 +57,8 @@ class Search extends React.Component<
       showmobileSort: false,
       mobileFilter: false,
       searchText: searchValue ? searchValue : "",
-      sortValue: param ? param : "hc"
+      sortValue: param ? param : "hc",
+      searchMaker: false
     };
   }
 
@@ -77,6 +80,11 @@ class Search extends React.Component<
     );
     changeModalState(true);
   };
+  componentDidMount() {
+    this.setState({
+      searchMaker: true
+    });
+  }
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
     if (cross) {
@@ -117,6 +125,7 @@ class Search extends React.Component<
         count
       }
     } = this.props;
+    const { searchMaker } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -225,7 +234,7 @@ class Search extends React.Component<
                           <img src={banner} className="img-responsive" />
                       </div>
                   </div> : ""} */}
-
+            {searchMaker && <MakerEnhance user="goodearth" />}
             {!mobile ? (
               <div
                 className={cs(
