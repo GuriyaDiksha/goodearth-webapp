@@ -154,7 +154,7 @@ const ProductDetails: React.FC<Props> = ({
       />
     );
     changeModalState(true);
-  }, [height, width]);
+  }, [height, width, currency]);
 
   const accordionSections = useMemo(() => {
     return [

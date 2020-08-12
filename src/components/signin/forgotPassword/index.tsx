@@ -75,6 +75,18 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     }
   };
 
+  closeModal = () => {
+    this.setState({
+      err: false,
+      msg: "",
+      forgotSuccess: true,
+      successMsg: "Sucessfully Login",
+      disableSelectedbox: false
+    });
+    const email = document.getElementById("email") as HTMLInputElement;
+    email.disabled = true;
+  };
+
   componentDidMount() {
     if (this.emailInput.current) {
       this.emailInput.current.focus();
@@ -160,7 +172,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
 
     const footer = (
       <>
-        <SocialLogin />
+        <SocialLogin closeModel={this.closeModal} />
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Not a member?{" "}

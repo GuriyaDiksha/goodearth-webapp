@@ -79,6 +79,22 @@ export default {
     BasketService.fetchBasket(dispatch);
     return res;
   },
+  loginSocial: async function(dispatch: Dispatch, formdata: any) {
+    const res = await API.post<loginResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/auth/sociallogin/"}`,
+      formdata
+    );
+    CookieService.setCookie("atkn", res.token, 365);
+    CookieService.setCookie("userId", res.userId, 365);
+    CookieService.setCookie("email", res.email, 365);
+    dispatch(updateCookies({ tkn: res.token }));
+    dispatch(updateUser({ isLoggedIn: true }));
+    MetaService.updateMeta(dispatch, { tkn: res.token });
+    WishlistService.updateWishlist(dispatch);
+    BasketService.fetchBasket(dispatch);
+    return res;
+  },
   logout: async function(dispatch: Dispatch) {
     const res = await API.post<logoutResponse>(
       dispatch,
