@@ -971,9 +971,11 @@ visibility: visible !important;
   width: 30%;
   // height: 100px;
   position: absolute;
-  top: 0;
+  top: 10px;
   z-index: 4;
-  left: 6px;
+  left: 10px;
+  position: absolute;
+  z-index: 1;
   img {
      width: 100%;
   }
