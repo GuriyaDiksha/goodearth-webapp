@@ -64,4 +64,5 @@ export interface BasketItem extends BasketLineItem {
   saleStatus?: boolean;
   toggleBag?: () => void;
   onMoveToWishlist?: () => void;
+  mobile?: boolean;
 }

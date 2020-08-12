@@ -396,8 +396,8 @@ class Footer extends React.Component<Props, FooterState> {
                         <ul>
                           <li>find us on</li>
                           <li className={cs(styles.footerSocialicons)}>
-                            <Link
-                              to="http://www.facebook.com/goodearthindia"
+                            <a
+                              href="http://www.facebook.com/goodearthindia"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -408,9 +408,9 @@ class Footer extends React.Component<Props, FooterState> {
                                   styles.footerIcon
                                 )}
                               ></i>
-                            </Link>
-                            <Link
-                              to="http://www.instagram.com/goodearthindia"
+                            </a>
+                            <a
+                              href="http://www.instagram.com/goodearthindia"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -421,9 +421,9 @@ class Footer extends React.Component<Props, FooterState> {
                                   styles.footerIcon
                                 )}
                               ></i>
-                            </Link>
-                            <Link
-                              to="http://pinterest.com/goodearthindia/"
+                            </a>
+                            <a
+                              href="http://pinterest.com/goodearthindia/"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -434,7 +434,7 @@ class Footer extends React.Component<Props, FooterState> {
                                   styles.footerIcon
                                 )}
                               ></i>
-                            </Link>
+                            </a>
                           </li>
                         </ul>
                         {this.props.saleStatus ? (

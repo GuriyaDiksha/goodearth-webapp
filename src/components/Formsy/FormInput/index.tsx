@@ -58,6 +58,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "dateOfBirth":
         return "Please enter valid date of birth";
       case "phoneNo":
+      case "phoneNumber":
         return "Please enter Phone Number";
       case "password1":
         return "Please enter at least 6 characters for the password";
@@ -78,6 +79,10 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter Order Number";
       case "city":
         return "Please enter City";
+      case "postCode":
+        return "Please enter valid Pin/Zip code";
+      case "line1":
+        return "Please enter Address Line 1";
       default:
         return "This field is required";
     }

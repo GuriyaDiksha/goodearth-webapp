@@ -4,6 +4,7 @@ import { AppState } from "reducers/typings";
 import Axios, { AxiosRequestConfig } from "axios";
 import { updateCookies } from "actions/cookies";
 import CookieService from "services/cookie";
+import LoginService from "services/login";
 
 class API {
   static async get<T>(
@@ -108,7 +109,15 @@ class API {
             })
             .catch(err => {
               // debugger
-              reject(err);
+              if (typeof document != "undefined") {
+                if (err.response.status == 401) {
+                  LoginService.logoutClient(dispatch);
+                } else {
+                  reject(err);
+                }
+              } else {
+                reject(err);
+              }
             });
         })
       );

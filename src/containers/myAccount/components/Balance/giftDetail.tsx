@@ -14,17 +14,20 @@ const GiftCardItem = ({
   currCode,
   fullValue,
   remValues,
+  conditionalRefresh,
+  showLocked,
+  showExpired,
   code,
   onClose,
   viewOnly
 }: GiftListProps): JSX.Element => {
-  let showLocked = false;
-  let showExpired = false;
+  // const [showLocked, set = false;
+  // let showExpired = false;
   const unicode = currencyCode[currCode as Currency];
-  const conditionalRefresh = false;
+  // const conditionalRefresh = false;
   const deleteCard = (code: string) => {
     // setOpenState(!menuOpen);
-    console.log(showLocked);
+    // console.log(showLocked);
   };
 
   const closeResult = (code: string) => {

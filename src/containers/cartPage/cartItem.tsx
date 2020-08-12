@@ -12,9 +12,13 @@ import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useStore } from "react-redux";
+import { updateModal, updateComponent } from "actions/modal";
+import NotifyMePopup from "components/NotifyMePopup";
+import ModalStyles from "components/Modal/styles.scss";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
+    mobile,
     id,
     bridalProfile,
     giftCardImage,
@@ -58,8 +62,64 @@ const CartItems: React.FC<BasketItem> = memo(
       );
     };
 
+    const showNotifyPopup = () => {
+      dispatch(
+        updateComponent(
+          <NotifyMePopup
+            price={0}
+            currency={currency}
+            title={""}
+            childAttributes={[]}
+            selectedIndex={0}
+            // changeSize={changeSize}
+          />,
+          false,
+          ModalStyles.bottomAlign
+        )
+      );
+      dispatch(updateModal(true));
+    };
+
+    const renderNotifyTrigger = () => {
+      const isOutOfStock = product.stockRecords[0].numInStock < 1;
+      if (isOutOfStock) {
+        if (!mobile) {
+          return (
+            <div>
+              <div
+                className={cs(
+                  globalStyles.colorPrimary,
+                  globalStyles.italic,
+                  globalStyles.marginT10,
+                  globalStyles.bold,
+                  globalStyles.c10LR
+                )}
+              >
+                Out of stock
+              </div>
+              <div
+                className={cs(globalStyles.marginT10, styles.triggerNotify)}
+                onClick={showNotifyPopup}
+              >
+                NOTIFY ME &#62;
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div
+            className={cs(globalStyles.marginT10, styles.triggerNotify)}
+            onClick={showNotifyPopup}
+          >
+            NOTIFY ME &#62;
+          </div>
+        );
+      }
+
+      return null;
+    };
     const {
-      plpImages,
+      images,
       collections,
       title,
       url,
@@ -72,8 +132,8 @@ const CartItems: React.FC<BasketItem> = memo(
     const imageUrl =
       product.structure == "GiftCard"
         ? giftCardImage
-        : plpImages
-        ? plpImages[0]?.replace("Medium", "Micro")
+        : images && images.length > 0
+        ? images[0].productImage.replace("Medium", "Micro")
         : "";
 
     return (
@@ -183,6 +243,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   className="wishlist-font"
                 />
               </div>
+              {renderNotifyTrigger()}
             </div>
           </div>
         </div>

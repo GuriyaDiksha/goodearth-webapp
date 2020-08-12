@@ -28,7 +28,11 @@ class CreditCard extends React.Component<Props, GiftState> {
       giftList: [],
       toggleOtp: false,
       toggleResetOtpComponent: false,
-      disable: true
+      disable: true,
+      showExpired: false,
+      showInactive: false,
+      showLocked: false,
+      conditionalRefresh: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -127,7 +131,16 @@ class CreditCard extends React.Component<Props, GiftState> {
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           {this.state.giftList.map((data, i) => {
-            return <GiftCardItem {...data} onClose={this.onClose} key={i} />;
+            return (
+              <GiftCardItem
+                {...data}
+                onClose={this.onClose}
+                conditionalRefresh={this.state.conditionalRefresh}
+                showLocked={this.state.showLocked}
+                showExpired={this.state.showExpired}
+                key={i}
+              />
+            );
           })}
           <div
             className={cs(

@@ -22,6 +22,10 @@ class Giftcard extends React.Component<Props, GiftState> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      showInactive: false,
+      showLocked: false,
+      showExpired: false,
+      conditionalRefresh: false,
       txtvalue: "",
       error: "",
       newCardBox: true,
@@ -55,9 +59,21 @@ class Giftcard extends React.Component<Props, GiftState> {
     };
     this.props.balanceCheck(data).then(response => {
       const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN") {
+      if (response.currStatus == "Invalid-CN" || response.type == "GIFT") {
         this.setState({
           error: "Please enter a valid code"
+        });
+      } else if (response.currStatus == "Locked" && response.type == "CNI") {
+        this.setState({
+          showLocked: true,
+          error:
+            "Please try again in sometime. For security reasons, your credit note / gift card is temporarily locked",
+          conditionalRefresh: true
+        });
+      } else if (response.currStatus == "Expired" && response.type == "CNI") {
+        this.setState({
+          showExpired: true,
+          conditionalRefresh: true
         });
       } else {
         giftList.push(response);
@@ -65,7 +81,8 @@ class Giftcard extends React.Component<Props, GiftState> {
           giftList: giftList,
           newCardBox: false,
           txtvalue: "",
-          error: ""
+          error: "",
+          conditionalRefresh: true
         });
       }
     });
@@ -128,7 +145,16 @@ class Giftcard extends React.Component<Props, GiftState> {
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           {this.state.giftList.map((data, i) => {
-            return <GiftCardItem {...data} onClose={this.onClose} key={i} />;
+            return (
+              <GiftCardItem
+                {...data}
+                showExpired={this.state.showExpired}
+                showLocked={this.state.showLocked}
+                conditionalRefresh={this.state.conditionalRefresh}
+                onClose={this.onClose}
+                key={i}
+              />
+            );
           })}
           <div
             className={cs(

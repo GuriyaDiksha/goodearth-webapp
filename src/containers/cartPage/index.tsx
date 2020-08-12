@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
+import { showMessage } from "actions/growlMessage";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -25,6 +26,9 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
+    showNotify: (message: string) => {
+      dispatch(showMessage(message, 6000));
+    },
     undoMoveToWishlist: async () => {
       const res = await WishlistService.undoMoveToWishlist(dispatch);
       dispatch(updateBasket(res.basket));
@@ -69,6 +73,11 @@ class CartPage extends React.Component<Props, State> {
       chatButtonElem.style.display = "none";
       chatButtonElem.style.bottom = "10px";
     }
+    if (this.props.cart.publishRemove) {
+      this.props.showNotify(
+        "Due to unavailability of some products your cart has been updated."
+      );
+    }
   }
 
   hasOutOfStockItems = () => {
@@ -82,6 +91,14 @@ class CartPage extends React.Component<Props, State> {
       }
     }
     return false;
+  };
+
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    if (nextProps.cart.publishRemove && !this.props.cart.publishRemove) {
+      this.props.showNotify(
+        "Due to unavailability of some products your cart has been updated."
+      );
+    }
   };
 
   getItemsCount() {
@@ -122,6 +139,7 @@ class CartPage extends React.Component<Props, State> {
     const item = lineItems.map(item => {
       return (
         <CartItems
+          mobile={this.props.mobile}
           key={item.id}
           {...item}
           currency={currency}

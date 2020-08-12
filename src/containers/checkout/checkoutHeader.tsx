@@ -44,14 +44,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies) => {
+    reloadPage: (cookies: Cookies, pathname: string) => {
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch, true);
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      if (pathname.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch, true);
+        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      } else if (pathname.includes("/cart")) {
+        BasketService.fetchBasket(dispatch);
+        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      }
     },
-    updateMeta: (cookies: Cookies) => {
+    updateMeta: (cookies: Cookies, pathname: string) => {
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch, true);
+      if (pathname.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch, true);
+      } else if (pathname.includes("/cart")) {
+        BasketService.fetchBasket(dispatch);
+      }
     }
   };
 };
@@ -72,7 +81,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
     };
     if (this.props.currency != data) {
       changeCurrency(data).then(response => {
-        reloadPage(this.props.cookies);
+        reloadPage(this.props.cookies, this.props.location.pathname);
       });
     }
     // this.setState({
@@ -82,7 +91,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
   };
 
   componentDidMount() {
-    this.props.updateMeta(this.props.cookies);
+    this.props.updateMeta(this.props.cookies, this.props.location.pathname);
   }
 
   render() {

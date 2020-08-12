@@ -19,6 +19,8 @@ import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
+import { showMessage } from "actions/growlMessage";
+import { INVALID_SESSION_LOGOUT } from "constants/messages";
 
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -113,6 +115,17 @@ export default {
       dispatch(resetMeta(undefined));
       return res;
     }
+  },
+  logoutClient: async function(dispatch: Dispatch) {
+    document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    dispatch(updateCookies({ tkn: "" }));
+    MetaService.updateMeta(dispatch, {});
+    WishlistService.resetWishlist(dispatch);
+    BasketService.fetchBasket(dispatch);
+    dispatch(resetMeta(undefined));
+    dispatch(showMessage(INVALID_SESSION_LOGOUT, 5000));
   },
   register: async function(dispatch: Dispatch, formData: FormData) {
     const res = await API.post<registerResponse>(
