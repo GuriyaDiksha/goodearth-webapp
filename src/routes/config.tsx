@@ -10,6 +10,7 @@ import initActionCategory from "containers/categoryLanding/initAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
+import initActionWishlist from "containers/wishlist/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -67,7 +68,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.WISHLIST,
     component: loadable(() => import("containers/wishlist")),
-    action: async () => null,
+    action: initActionWishlist,
     exact: true
   },
   {

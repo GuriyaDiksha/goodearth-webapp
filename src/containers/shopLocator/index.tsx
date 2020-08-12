@@ -160,13 +160,14 @@ class ShopLocator extends React.Component<
               </Link>
             </span>{" "}
             &nbsp;
-            {this.props.shopData[0]?.cafeHeading2 && (
-              <span className={styles.cafeLink}>
-                <Link to="#cafe" id="cafename">
-                  | &nbsp; CAFE{" "}
-                </Link>
-              </span>
-            )}
+            {this.props.shopData.length > 0 &&
+              this.props.shopData[0]?.cafeHeading2 && (
+                <span className={styles.cafeLink}>
+                  <Link to="#cafe" id="cafename">
+                    | &nbsp; CAFE{" "}
+                  </Link>
+                </span>
+              )}
             <span className={styles.lessthan}>
               <Link to={"/Cafe-Shop/" + this.state.city}>
                 <span className={styles.lessthan}>{"<"}</span>

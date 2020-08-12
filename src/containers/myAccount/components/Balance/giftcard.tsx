@@ -146,6 +146,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                     <div className={cs(styles.flex, styles.vCenter)}>
                       <input
                         type="text"
+                        autoComplete="off"
                         value={txtvalue}
                         onChange={this.changeValue}
                         id="gift"
