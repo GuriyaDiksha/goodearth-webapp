@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import initActionCollection from "./initAction";
 import cs from "classnames";
+import loadable from "@loadable/component";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -15,6 +15,7 @@ import Shopthelook from "../../images/Shopthelook.svg";
 import bird from "../../images/bird-motif.png";
 import "./slick.css";
 
+const MakerEnhance = loadable(() => import("maker-enhance"));
 // import { Settings } from "react-slick";
 // import CollectionImage from "components/collectionItem";
 // import { CollectionItem } from "components/collectionItem/typings";
