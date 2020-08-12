@@ -37,6 +37,13 @@ class Bag extends React.Component<Props, State> {
     };
   }
 
+  componentDidMount = () => {
+    document.body.classList.add(globalStyles.noScroll);
+  };
+  componentWillUnmount = () => {
+    document.body.classList.remove(globalStyles.noScroll);
+  };
+
   hasOutOfStockItems = () => {
     const items = this.props.cart.lineItems;
     if (items) {

@@ -142,7 +142,9 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        onClick: isLoggedIn ? this.props.handleLogOut : this.props.goLogin,
+        onClick: isLoggedIn
+          ? () => this.props.handleLogOut(this.props.history)
+          : this.props.goLogin,
         type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }

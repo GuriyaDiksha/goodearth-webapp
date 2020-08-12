@@ -34,7 +34,11 @@ class Giftcard extends React.Component<Props, GiftState> {
       showOTPValidationScreen: false,
       isSuccess: false,
       toggleResetOtpComponent: false,
-      disable: true
+      disable: true,
+      conditionalRefresh: false,
+      showLocked: false,
+      showExpired: false,
+      showInactive: false
     };
   }
   ActivateGCForm = React.createRef<Formsy>();
@@ -294,6 +298,9 @@ class Giftcard extends React.Component<Props, GiftState> {
                 viewOnly={true}
                 onClose={this.onClose}
                 key={i}
+                conditionalRefresh={this.state.conditionalRefresh}
+                showLocked={this.state.showLocked}
+                showExpired={this.state.showExpired}
               />
             );
           })}

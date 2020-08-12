@@ -19,8 +19,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       LoginService.showLogin(dispatch);
       event.preventDefault();
     },
-    handleLogOut: () => {
+    handleLogOut: (history: any) => {
       LoginService.logout(dispatch);
+      history.push("/");
     },
     onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);

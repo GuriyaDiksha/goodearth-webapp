@@ -189,7 +189,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        onClick: isLoggedIn ? handleLogOut : goLogin,
+        onClick: isLoggedIn ? () => handleLogOut(this.props.history) : goLogin,
         type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }

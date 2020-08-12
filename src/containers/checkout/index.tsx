@@ -224,7 +224,7 @@ class Checkout extends React.Component<Props, State> {
       if (nextProps.basket.redirectToCart) {
         this.props.history.push("/cart", {});
       }
-      if (nextProps.basket.publishRemove) {
+      if (nextProps.basket.publishRemove && !this.props.basket.publishRemove) {
         this.props.showNotify(
           "Due to unavailability of some products your cart has been updated."
         );

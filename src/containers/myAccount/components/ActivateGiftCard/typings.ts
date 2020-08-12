@@ -34,4 +34,8 @@ export type GiftState = {
   showOTPValidationScreen: boolean;
   isSuccess: boolean;
   disable: boolean;
+  showInactive: boolean;
+  showLocked: boolean;
+  showExpired: boolean;
+  conditionalRefresh: boolean;
 };

@@ -130,7 +130,7 @@ class PressStoriesContent extends React.Component<
         const pathArray = location.pathname.split("/");
         pathArray[len - 1] = year.toString();
         this.props.history.push(pathArray.join("/"), {});
-        document.body.classList.remove("noscroll");
+        document.body.classList.remove(globalStyles.noscroll);
       });
       window.scrollTo(0, 0);
     }

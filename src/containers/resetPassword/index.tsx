@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import myAccountComponentStyles from "../myAccount/components/styles.scss";
@@ -15,6 +15,7 @@ import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
 import { showMessage } from "actions/growlMessage";
 import CookieService from "services/cookie";
+import { ALL_SESSION_LOGOUT } from "constants/messages";
 
 type Props = {
   uid: string;
@@ -30,6 +31,17 @@ const ResetPassword: React.FC<Props> = props => {
 
   const { uid, token } = props;
   const history = useHistory();
+
+  useEffect(() => {
+    const noContentContainerElem = document.getElementById(
+      "no-content"
+    ) as HTMLDivElement;
+    if (
+      noContentContainerElem.classList.contains(globalStyles.contentContainer)
+    ) {
+      noContentContainerElem.classList.remove(globalStyles.contentContainer);
+    }
+  }, []);
   const handleInvalidSubmit = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
@@ -63,7 +75,7 @@ const ResetPassword: React.FC<Props> = props => {
         bridalId && CookieService.setCookie("bridalId", bridalId);
         bridalCurrency &&
           CookieService.setCookie("bridalCurrency", bridalCurrency);
-        dispatch(showMessage("You have been logged out of all sessions."));
+        dispatch(showMessage(ALL_SESSION_LOGOUT));
         let counter = 5;
         const timer = setInterval(function() {
           if (counter < 0) {

@@ -58,8 +58,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     if (this.props.toggleReset !== nextProps.toggleReset) {
       this.clickHereOtpInvalid();
     }
-    if (this.state.disable && !nextProps.disableSendOtpButton) {
-      this.setState({ disable: false });
+    // if (this.state.disable && !nextProps.disableSendOtpButton) {
+    //   this.setState({ disable: false });
+    // }
+    if (nextProps.disableSendOtpButton != this.props.disableSendOtpButton) {
+      this.setState({ disable: nextProps.disableSendOtpButton });
     }
   };
 
@@ -170,7 +173,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             // if(res.currStatus) {
             if (data.message) {
               this.setState({
-                showerror: data.message
+                showerror: data.message,
+                disable: true
               });
             } else {
               this.props.updateList(data);
@@ -178,7 +182,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 toggleOtp: true,
                 // radioType: "",
                 showerrorOtp: "",
-                showerror: ""
+                showerror: "",
+                disable: true
               });
             }
             // this.props.toggleOtp(false);
@@ -187,7 +192,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           .catch(err => {
             this.setState({
               showerror: err.response.data.message,
-              updateStatus: false
+              updateStatus: false,
+              disable: true
             });
           })
           .finally(() => {
@@ -202,14 +208,16 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             toggleOtp: false,
             radioType: "",
             showerrorOtp: "",
-            showerror: ""
+            showerror: "",
+            disable: true
           });
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
           this.setState({
             showerror: error.response.data.message,
-            updateStatus: false
+            updateStatus: false,
+            disable: true
           });
         })
         .finally(() => {
