@@ -17,7 +17,7 @@ body {
   color: $default;
   @include scrollbar();
 }
-h1, h2, h3, b, strong {
+h1, h2, h3, h4, b, strong {
   font-weight: 400;
 }
 

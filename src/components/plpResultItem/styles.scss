@@ -167,9 +167,12 @@
 }
 
 .badge-image{
-    width: 30%;
+    width: 40%;
     position: absolute;
     top: 0;
     z-index: 4;
     left: 6px;
+    img {
+        width: 100%;
+    }
 }
