@@ -1,17 +1,17 @@
 // services
 import HeaderService from "services/headerFooter";
 import ApiService from "services/api";
-// import MetaService from "services/meta";
+import MetaService from "services/meta";
 // actions
 import { updatefooter } from "actions/footer";
 import { updateheader, updateAnnouncement } from "actions/header";
 // typings
 import { Store } from "redux";
-// import { AppState } from "reducers/typings";
+import { AppState } from "reducers/typings";
 import Api from "services/api";
 const initAction: any = async (store: Store) => {
-  // const state: AppState = store.getState();
-  const apiCalls = [
+  const state: AppState = store.getState();
+  let apiCalls = [
     HeaderService.fetchHeaderDetails()
       .then(header => {
         store.dispatch(updateheader(header));
@@ -38,11 +38,13 @@ const initAction: any = async (store: Store) => {
     })
   ];
 
-  // if (state.cookies.tkn) {
-  //   apiCalls = apiCalls.concat([
-  //     MetaService.updateMeta(store.dispatch, state.cookies)
-  //   ]);
-  // }
+  if (state.cookies.tkn) {
+    apiCalls = apiCalls.concat([
+      MetaService.updateMeta(store.dispatch, state.cookies).catch(err => {
+        console.log("META API ERROR ==== " + err);
+      })
+    ]);
+  }
   return Promise.all(apiCalls);
 };
 export default initAction;
