@@ -38,7 +38,7 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
           className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset3)}
         >
           <span className={styles.txtup}>{code} </span>
-          <span className={styles.textMuted}>PROMO CARD APPLIED</span>
+          <span className={styles.textMuted}>PROMO CODE APPLIED</span>
           <span
             className={styles.cross}
             onClick={() => {

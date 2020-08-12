@@ -102,7 +102,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                   : globalStyles.cerise
               }
             >
-              {basket.isOnlyGiftCart ? "Not Applicable" : " APPLY PROMO CODE"}
+              {basket.isOnlyGiftCart ? "Not Applicable" : " PROMO CODE APPLIED"}
             </span>
           </div>
         )}

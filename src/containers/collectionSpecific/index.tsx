@@ -28,7 +28,13 @@ const mapStateToProps = (state: AppState) => {
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class CollectionSpecific extends React.Component<Props, {}> {
+class CollectionSpecific extends React.Component<
+  Props,
+  { specificMaker: boolean }
+> {
+  state = {
+    specificMaker: false
+  };
   onClickQuickView = (id: number) => {
     const {
       updateComponentModal,
@@ -41,6 +47,12 @@ class CollectionSpecific extends React.Component<Props, {}> {
     );
     changeModalState(true);
   };
+
+  componentDidMount() {
+    this.setState({
+      specificMaker: true
+    });
+  }
 
   render() {
     const {
@@ -60,7 +72,11 @@ class CollectionSpecific extends React.Component<Props, {}> {
             />
           </SecondaryHeader>
         )}
-        <MakerEnhance user="goodearth" index="1" />
+        {this.state.specificMaker ? (
+          <MakerEnhance user="goodearth" index="1" />
+        ) : (
+          ""
+        )}
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
