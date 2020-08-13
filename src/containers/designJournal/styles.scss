@@ -260,3 +260,259 @@
 .container-start-dj {
   margin-top: $header-height + $secondary-header-height;
 }
+
+@media screen and (max-width: 992px) {
+  .container-start-dj {
+    margin-top: $header-height;
+  }
+  .terms {
+    padding: 60px 0 80px 0;
+  }
+  .collection-header {
+    min-height: 30px;
+    .yr-right {
+      border-left: none !important;
+      float: right;
+      margin-top: 10px;
+      margin-right: 35px;
+    }
+  }
+  .ht20 {
+    padding: 20px;
+  }
+  .back-pressstory {
+    position: fixed;
+    width: 100%;
+    background-color: #fff;
+    z-index: 9;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 400;
+    padding: 20px 20px 20px 0;
+    border-bottom: 1px solid tint(#000, 80%);
+    a {
+      color: #666;
+      margin-left: 40px;
+      &:before {
+        content: '';
+        float: right;
+        border: solid gray;
+        border-width: 0 1px 1px 0;
+        width: 8px;
+        height: 8px;
+        transform: rotate(133deg);
+        top: 24px;
+        position: absolute;
+        left: 25px;
+      }
+    }
+  }
+  .block-right {
+    .heading {
+      font-family: $font-Lato;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 20px 0;
+    }
+    .para {
+      font-family: $font-Lato;
+      font-size: 13px;
+      line-height: 21px;
+
+      a {
+        color: $cerise;
+      }
+    }
+    textarea {
+      border: 1px solid tint(#000, 90%);
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      @include placeholder();
+    }
+    .overflow {
+      overflow: scroll;
+    }
+  }
+  .pressinternal {
+    .date {
+      padding: 80px 0 50px 0;
+    }
+    .details {
+      .heading {
+        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-size: 25px;
+        letter-spacing: 1px;
+      }
+      .sub-heading {
+        font-size: 18px;
+        color: #888;
+        font-weight: 300;
+      }
+      .first-para {
+        display: block;
+        margin: 30px 0 50px 0;
+        p {
+          margin: 0 20px;
+          font-family: amiri;
+          font-size: 15px;
+          padding-bottom: 30px;
+        }
+      }
+    }
+  }
+  .press-stories {
+    &.order-summary {
+      background-color: $white;
+      z-index: 9;
+    }
+  }
+  .press {
+    background-color: #f9f8f5;
+    &:last-child {
+      padding-bottom: 20px;
+    }
+    .block {
+      .block-1 {
+
+      }
+      .block-2 {
+        margin: 30px 30px 0 30px;
+        font-family: $font-Lato;
+        .heading {
+          width: 80%;
+          font-family: "AmiriFont", "Baskerville", "Garamond";
+          font-size: 25px;
+          line-height: 30px;
+          text-transform: capitalize;
+        }
+        .date {
+          font-size: 13px;
+          padding-top: 10px;
+        }
+        .para {
+          line-height: 21px;
+          font-size: 13px;
+          padding: 20px 0;
+        }
+        a {
+          color: $cerise;
+          font-size: 12px;
+          letter-spacing: 1px;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+        .c-logo {
+          margin-top: 30px;
+          margin-bottom: 40px;
+          img {
+            width: 120px;
+          }
+        }
+      }
+    }
+  }
+  .gota {
+    .bg {
+      .lookbook {
+
+        li {
+          margin-bottom: 30px;
+          &.img-space {
+            margin-top: 0;
+          }
+          .showtxt {
+            display: none;
+          }
+          &:hover {
+            .showtxt {
+              display: none;
+            }
+          }
+
+        }
+      }
+      p {
+        font-size: 28px;
+        &.text-mail {
+          font-size: 22px;
+        }
+      }
+    }
+
+    .para {
+      font-size: 28px;
+    }
+    .gota-footer {
+      height: 350px;
+      font-size: 20px;
+      padding: 10% 10% 0 10%;
+      background-size: cover;
+    }
+  }
+
+  .get-directions {
+    margin-bottom: 40px;
+  }
+  .shop-addresses {
+    margin-top: 25px;
+  }
+
+  .shop-add-block {
+    &.shop-add-block-1 {
+      &:hover {
+        background-color: #f9f8f5;
+      }
+    }
+    .serial-number {
+      background-color: $cerise;
+      &.enabled-sno {
+        background-color: $cerise;
+      }
+    }
+  }
+  .designjournal {
+    .txt-block {
+      width: 200px;
+      &.pos-1 {
+        right: 5%;
+        top: 10%;
+        text-align: right;
+      }
+      &.pos-4 {
+        left: 5%;
+        top: 0;
+      }
+      &.pos-6 {
+        right: 5%;
+        top: 20%;
+        text-align: right;
+      }
+      &.pos-9a {
+        left: 5%;
+        top: 20%;
+      }
+      .pdp_prod_name {
+        line-height: 17px;
+      }
+      .txt-link {
+        a {
+          font-size: 10px;
+        }
+      }
+
+    }
+  }
+
+  .expired-link {
+    background-color: $white;
+    border-top: 2px solid #f9f8f5;
+  .block {
+    background-color: $white;
+    margin-top: 2px;
+    margin-bottom: 50px;
+    padding: 60px 10px 100px 10px;
+  }
+}
+
+}
