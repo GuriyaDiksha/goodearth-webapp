@@ -9961,8 +9961,10 @@ make-iterator@^1.0.0:
   dependencies:
     kind-of "^6.0.2"
 
-"maker-enhance@file:./src/maker-enhance":
+maker-enhance@^0.0.4:
   version "0.0.4"
+  resolved "https://registry.yarnpkg.com/maker-enhance/-/maker-enhance-0.0.4.tgz#cbfbf6f31e06a01de352aa2bda66cfc91019584d"
+  integrity sha512-dqlYyFZz2ez2972I3qNYhjTkGkC2g1HvLqZYtp4ujkT/NM4+5b+2qXKSRYJbE7jUCKCiO322rpOCIJPpsD7mIw==
   dependencies:
     prop-types "^15.6.1"
 
