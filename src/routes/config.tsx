@@ -90,6 +90,12 @@ const routes: RouteConfig = [
     exact: false
   },
   {
+    path: ROUTES.SAFETYMEASURES,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.STATIC,
     component: loadable(() => import("containers/customer")), // StaticPage,
     action: async () => null,
@@ -124,6 +130,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/pressStories")),
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.ABOUTUS,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
   }
 ];
 

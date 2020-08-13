@@ -20,7 +20,9 @@ export enum ROUTES {
   SHOP = "/Cafe-Shop/:city/:shopname?",
   ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
   CARTPAGE = "/cart/",
-  PressStories = "/press-stories"
+  PressStories = "/press-stories",
+  ABOUTUS = "/about-us",
+  SAFETYMEASURES = "/customer-assistance/safety-measures"
 }
 
 export type RouteConfig = RouteObject[];
