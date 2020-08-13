@@ -23,7 +23,9 @@ import { RegisterProps } from "./typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    location: state.router.location
+    location: state.router.location,
+    basket: state.basket,
+    currency: state.currency
   };
 };
 
@@ -76,6 +78,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.emailInput.current && this.emailInput.current.focus();
     this.props.fetchCountryData();
   }
+  gtmPushRegister = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signup",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
+  };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const {
@@ -112,6 +122,17 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.props
       .register(formData)
       .then(data => {
+        this.gtmPushRegister();
+        dataLayer.push({
+          event: "checkout",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            checkout: {
+              actionField: { step: 1 },
+              products: this.props.basket.products
+            }
+          }
+        });
         this.props.nextStep?.();
       })
       .catch(err => {

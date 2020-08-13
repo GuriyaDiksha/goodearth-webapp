@@ -16,6 +16,7 @@ import styles from "./styles.scss";
 import { AppState } from "reducers/typings";
 
 const WishlistButton: React.FC<Props> = ({
+  gtmListType,
   id,
   size,
   showText,
@@ -35,35 +36,37 @@ const WishlistButton: React.FC<Props> = ({
   const { currency } = useSelector((state: AppState) => state);
   const addedToWishlist = items.indexOf(id) !== -1;
   const gtmPushAddToWishlist = () => {
-    const index = categories ? categories.length - 1 : 0;
-    let category =
-      categories &&
-      categories.length > 0 &&
-      categories[index].replace(/\s/g, "");
-    category = category && category.replace(/>/g, "/");
-    dataLayer.push({
-      event: "AddtoWishlist",
-      ecommerce: {
-        currencyCode: currency,
-        add: {
-          products: [
-            {
-              name: title,
-              id: childAttributes?.[0].sku,
-              price: priceRecords ? priceRecords[currency] : null,
-              brand: "Goodearth",
-              category: category,
-              variant:
-                childAttributes && childAttributes[0].color
-                  ? childAttributes[0].color[0]
-                  : "",
-              quantity: 1,
-              list: "Search"
-            }
-          ]
+    if (gtmListType) {
+      const index = categories ? categories.length - 1 : 0;
+      let category =
+        categories &&
+        categories.length > 0 &&
+        categories[index].replace(/\s/g, "");
+      category = category && category.replace(/>/g, "/");
+      dataLayer.push({
+        event: "AddtoWishlist",
+        ecommerce: {
+          currencyCode: currency,
+          add: {
+            products: [
+              {
+                name: title,
+                id: childAttributes?.[0].sku,
+                price: priceRecords ? priceRecords[currency] : null,
+                brand: "Goodearth",
+                category: category,
+                variant:
+                  childAttributes && childAttributes[0].color
+                    ? childAttributes[0].color[0]
+                    : "",
+                quantity: 1,
+                list: gtmListType
+              }
+            ]
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   const onClick = useCallback(async () => {

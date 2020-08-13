@@ -13,7 +13,7 @@ import { AppState } from "reducers/typings";
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, selectedAddress } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const { basket } = useSelector((state: AppState) => state);
+  const { basket, currency } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
@@ -34,11 +34,31 @@ const PromoSection: React.FC<PromoProps> = props => {
     ) {
       PromoChild.gcBalance();
     } else {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          checkout: {
+            actionField: { step: 4 },
+            products: basket.products
+          }
+        }
+      });
       next(Steps.STEP_PAYMENT);
     }
   };
 
   const onNext = () => {
+    dataLayer.push({
+      event: "checkout",
+      ecommerce: {
+        currencyCode: currency,
+        checkout: {
+          actionField: { step: 4 },
+          products: basket.products
+        }
+      }
+    });
     next(Steps.STEP_PAYMENT);
   };
 

@@ -6,6 +6,7 @@ import {
 import { PriceRecord } from "typings/price";
 
 export type Props = {
+  gtmListType?: string;
   title?: string;
   childAttributes?: ChildProductAttributes[] | PartialChildProductAttributes[];
   priceRecords?: PriceRecord;

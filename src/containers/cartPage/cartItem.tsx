@@ -42,8 +42,42 @@ const CartItems: React.FC<BasketItem> = memo(
       });
     };
 
+    const gtmPushDeleteCartItem = () => {
+      const price = saleStatus
+        ? product.discountedPriceRecords[currency]
+        : product.priceRecords[currency];
+      const index = product.categories.length - 1;
+      const category = product.categories[index]
+        ? product.categories[index].replace(/\s/g, "")
+        : "";
+
+      dataLayer.push({
+        event: "removeFromCart",
+        ecommerce: {
+          currencyCode: currency,
+          remove: {
+            products: [
+              {
+                name: product.title,
+                id: product.sku,
+                price: price,
+                brand: "Goodearth",
+                category: category,
+                // 'variant': product.ga_variant,
+                variant: "",
+                list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
+                quantity: quantity
+              }
+            ]
+          }
+        }
+      });
+    };
+
     const deleteItem = () => {
-      BasketService.deleteBasket(dispatch, id);
+      BasketService.deleteBasket(dispatch, id).then(() => {
+        gtmPushDeleteCartItem();
+      });
     };
 
     const getSize = (data: any) => {
@@ -236,6 +270,7 @@ const CartItems: React.FC<BasketItem> = memo(
               </div>
               <div>
                 <WishlistButton
+                  gtmListType=""
                   title={title}
                   childAttributes={
                     product.childAttributes ? product.childAttributes : []

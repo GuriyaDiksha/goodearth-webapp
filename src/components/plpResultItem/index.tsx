@@ -74,6 +74,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             )}
           >
             <WishlistButton
+              gtmListType="Search"
               title={product.title}
               childAttributes={product.childAttributes}
               priceRecords={product.priceRecords}
@@ -114,6 +115,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 })}
               >
                 <WishlistButton
+                  gtmListType="Search"
                   title={product.title}
                   childAttributes={product.childAttributes}
                   priceRecords={product.priceRecords}
