@@ -21,6 +21,7 @@ import { searchList } from "./search";
 import { category } from "./category";
 import { address } from "./address";
 import { shop } from "./shop";
+import { info } from "./info";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -43,7 +44,8 @@ const createRootReducer = (history: History) => {
     searchList,
     category,
     address,
-    shop
+    shop,
+    info
   });
 };
 
