@@ -227,9 +227,9 @@ class PLP extends React.Component<
 
             {plpMaker &&
               (toggel ? (
-                <MakerEnhance user="goodearth" />
+                <MakerEnhance user="goodearth" location={this.props.location} />
               ) : (
-                <MakerEnhance user="goodearth" />
+                <MakerEnhance user="goodearth" location={this.props.location} />
               ))}
 
             {!mobile ? (
