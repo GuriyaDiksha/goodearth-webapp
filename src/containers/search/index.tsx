@@ -17,6 +17,7 @@ import PlpResultItem from "components/plpResultItem";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
+import { PartialProductItem } from "typings/product";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -109,6 +110,37 @@ class Search extends React.Component<
   onEnterSearch = (event: any) => {
     if (event.keyCode == 13) {
       this.child.changeSearchValue(this.state.searchText);
+    }
+  };
+
+  gtmPushSearchClick = (e: any, item: PartialProductItem, i: number) => {
+    const index = item.categories.length - 1;
+    let category = item.categories[index].replace(/\s/g, "");
+    category = category.replace(/>/g, "/");
+    localStorage.setItem("list", "Search Page");
+    if (item.childAttributes && item.childAttributes.length > 0) {
+      const product = (item.childAttributes as any).map((skuItem: any) => {
+        return {
+          name: item.title,
+          id: skuItem.sku,
+          price: skuItem.priceRecords[this.props.currency],
+          brand: "Goodearth",
+          category: category,
+          variant: skuItem.color ? skuItem.color[0] : "",
+          position: i
+        };
+      });
+      // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          click: {
+            actionField: { list: "Search Page" },
+            products: product
+          }
+        }
+      });
     }
   };
 
@@ -271,7 +303,7 @@ class Search extends React.Component<
               ) : (
                 ""
               )}
-              {data.map(item => {
+              {data.map((item, i) => {
                 return (
                   <div
                     className={cs(
@@ -280,6 +312,9 @@ class Search extends React.Component<
                       styles.setWidth
                     )}
                     key={item.id}
+                    onClick={e => {
+                      this.gtmPushSearchClick(e, item, i);
+                    }}
                   >
                     <PlpResultItem
                       product={item}
