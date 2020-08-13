@@ -127,6 +127,7 @@ type State = {
 
 class Wishlist extends React.Component<Props, State> {
   dragFlag: boolean;
+  impression: boolean;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -149,7 +150,7 @@ class Wishlist extends React.Component<Props, State> {
       totalPrice: 0,
       saleStatus: false
     };
-    // let impression = true;
+    this.impression = true;
     this.dragFlag = false;
     AbsoluteGrid = createAbsoluteGrid(
       SampleDisplay,
@@ -378,19 +379,15 @@ class Wishlist extends React.Component<Props, State> {
         );
       });
     });
-    if (
-      product.length > 0 &&
-      //  this.impression
-      true
-    ) {
-      // impression = false;
-      // dataLayer.push({
-      //     event: 'productImpression',
-      //     ecommerce: {
-      //         'currencyCode': window.currency,
-      //         'impressions': product
-      //     }
-      // })
+    if (product.length > 0 && this.impression) {
+      this.impression = false;
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          impressions: product
+        }
+      });
     }
 
     const wishlistTotal = nextProps.wishlistData.map(item => {
