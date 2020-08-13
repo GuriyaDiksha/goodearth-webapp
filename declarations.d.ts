@@ -8,7 +8,6 @@ declare module "*.png";
 declare module "*.ico";
 declare module "*.jpg";
 declare module "*.ttf";
-declare module "maker-enhance";
 declare module "@loadable/component";
 declare module "@loadable/server";
 declare module "rc-slider";
