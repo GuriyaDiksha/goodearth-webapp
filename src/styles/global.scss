@@ -20,6 +20,9 @@ body {
 h1, h2, h3, h4, b, strong {
   font-weight: 400;
 }
+h2 {
+  margin-bottom: 0;
+}
 
 ::-webkit-input-placeholder { /* Edge */
   font-weight: 300;

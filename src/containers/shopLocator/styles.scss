@@ -55,7 +55,21 @@ margin-top: $main-header;
   .white-block{
        background-color: #f9f8f5;
   }
-  
+  .move-link-mobile {
+    position: fixed;
+    z-index: 9;
+    background-color: $white;
+    a {
+      color: #000;
+      font-size: 14px;
+    }
+    .lessthan {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      font-weight: 300;
+    }
+  }
   .shop-add-block {
     .serial-number {
       &.enabled-sno {
@@ -204,21 +218,7 @@ position: absolute;
       font-size: 14px;
     }
 }
-.move-link-mobile {
-  position: fixed;
-  z-index: 9;
-  background-color: $white;
-  a {
-    color: #000;
-    font-size: 14px;
-  }
-  .lessthan {
-    position: absolute;
-    left: 20px;
-    font-size: 20px;
-    font-weight: 300;
-  }
-}
+
  
   .dropdown-center {
     margin: 2px 0 0 8px;
