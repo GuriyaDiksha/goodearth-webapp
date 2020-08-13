@@ -24,6 +24,7 @@ const domain = JSON.stringify(envConfig.domain);
 const apiDomain = JSON.stringify(envConfig.apidomain);
 const omniApiDomain = JSON.stringify(envConfig.omniApiDomain);
 const publicPath = "/static/";
+const cdnDomain = JSON.stringify("https://djhiy8e1dslha.cloudfront.net");
 
 const alias = {
     components : context + "/src/components",
@@ -79,6 +80,7 @@ let config = [
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain,
+                __CDN_HOST__: cdnDomain,
                 __OMNI_HOST__: omniApiDomain
             }),
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
@@ -271,6 +273,7 @@ let config = [
             new webpack.DefinePlugin({
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain,
+                __CDN_HOST__: cdnDomain,
                 __OMNI_HOST__: omniApiDomain
             }),
             new MiniCssExtractPlugin({
