@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useRef } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -9,13 +9,16 @@ import * as Steps from "../constants";
 import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+
 const PromoSection: React.FC<PromoProps> = props => {
-  const { isActive, next } = props;
+  const { isActive, next, selectedAddress } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
   const { basket } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
+
+  let PromoChild: any = useRef<typeof ApplyPromo>(null);
 
   useEffect(() => {
     if (basket.voucherDiscounts.length > 0) {
@@ -24,6 +27,18 @@ const PromoSection: React.FC<PromoProps> = props => {
   }, [basket.voucherDiscounts]);
 
   const onsubmit = () => {
+    if (
+      PromoChild.gcBalance &&
+      basket.voucherDiscounts.length == 0 &&
+      PromoChild.state.txtvalue
+    ) {
+      PromoChild.gcBalance();
+    } else {
+      next(Steps.STEP_PAYMENT);
+    }
+  };
+
+  const onNext = () => {
     next(Steps.STEP_PAYMENT);
   };
 
@@ -76,50 +91,70 @@ const PromoSection: React.FC<PromoProps> = props => {
               bootstrapStyles.colMd6,
               styles.selectedStvalue
             )}
-            onClick={onCurrentState}
+            onClick={() => {
+              basket.isOnlyGiftCart ? "" : onCurrentState();
+            }}
           >
             <span
-              className={isActive ? globalStyles.hidden : globalStyles.cerise}
+              className={
+                isActive || !selectedAddress
+                  ? globalStyles.hidden
+                  : globalStyles.cerise
+              }
             >
-              {"APPLY PROMO CODE"}
+              {basket.isOnlyGiftCart ? "Not Applicable" : " PROMO CODE APPLIED"}
             </span>
           </div>
         )}
       </div>
       {isActive && (
         <Fragment>
-          <div className={globalStyles.marginT20}>
-            <hr className={styles.hr} />
-            <div className={globalStyles.flex}>
-              <div
-                className={cs(
-                  styles.marginR10,
-                  globalStyles.cerise,
-                  globalStyles.pointer
-                )}
-                onClick={toggleInput}
-              >
-                {isactivepromo ? "-" : "+"}
-              </div>
-              <div className={styles.inputContainer}>
+          {!basket.isOnlyGiftCart && (
+            <div className={globalStyles.marginT20}>
+              <hr className={styles.hr} />
+              <div className={globalStyles.flex}>
                 <div
                   className={cs(
-                    globalStyles.c10LR,
-                    styles.promoMargin,
+                    styles.marginR10,
                     globalStyles.cerise,
                     globalStyles.pointer
                   )}
-                  onClick={toggleInput}
+                  onClick={() => {
+                    basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                  }}
                 >
-                  APPLY PROMO CODE
+                  {isactivepromo ? "-" : "+"}
                 </div>
-                {isactivepromo && <ApplyPromo />}
-                {/* {renderInput()}
+                <div className={styles.inputContainer}>
+                  <div
+                    className={cs(
+                      globalStyles.c10LR,
+                      styles.promoMargin,
+                      globalStyles.cerise,
+                      globalStyles.pointer
+                    )}
+                    onClick={() => {
+                      basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                    }}
+                  >
+                    APPLY PROMO CODE
+                  </div>
+                  {isactivepromo && (
+                    <ApplyPromo
+                      onRef={(el: any) => {
+                        PromoChild = el;
+                      }}
+                      onNext={onNext}
+                    />
+                  )}
+                  {/* {renderInput()}
                 {renderCoupon()} */}
+                </div>
               </div>
+              <hr className={styles.hr} />
             </div>
-            <hr className={styles.hr} />
-          </div>
+          )}
+
           <button
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}

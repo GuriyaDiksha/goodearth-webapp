@@ -4,6 +4,12 @@ import { ProfileResponse } from "containers/myAccount/components/MyProfile/typin
 import { MyOrdersResponse } from "containers/myAccount/components/MyOrder/typings";
 import { BalanceProps } from "containers/myAccount/components/Balance/typings";
 import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
+import CookieService from "services/cookie";
+import { updateCookies } from "actions/cookies";
+import { updateUser } from "actions/user";
+import MetaService from "services/meta";
+import WishlistService from "services/wishlist";
+import BasketService from "services/basket";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -36,6 +42,14 @@ export default {
     );
     return data;
   },
+  fetchInShopOrders: async (dispatch: Dispatch, email: string) => {
+    const data = await API.post<any>(
+      dispatch,
+      `${__OMNI_HOST__}/customer_offline_orders/?email=${email}`,
+      {}
+    );
+    return data;
+  },
   fetchOrderBy: async (dispatch: Dispatch, id: string, email: string) => {
     const data = await API.get<MyOrdersResponse>(
       dispatch,
@@ -64,6 +78,26 @@ export default {
     );
     return data;
   },
+  sendOtpRedeem: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/send_loyalty_otp/"}`,
+      formData
+    );
+    return data;
+  },
+  sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/send_giftcard_otp/"}`,
+      formData
+    );
+    const temp = {
+      ...data,
+      ...formData
+    };
+    return temp;
+  },
   checkOtpBalance: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<BalanceProps>(
       dispatch,
@@ -77,12 +111,40 @@ export default {
     temp["code"] = formData.code;
     return temp;
   },
+  checkOtpRedeem: async (dispatch: Dispatch, formData: any) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/validate_loyalty_otp/"}`,
+      formData
+    );
+    return data;
+  },
   confirmResetPassword: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<ConfirmResetPasswordResponse>(
       dispatch,
       `${__API_HOST__}/myapi/auth/confirm_reset_password/`,
       formData
     );
+    CookieService.setCookie("atkn", data.token, 365);
+    // CookieService.setCookie("userId", data.userId, 365);
+    // CookieService.setCookie("email", data.email, 365);
+    dispatch(updateCookies({ tkn: data.token }));
+    dispatch(updateUser({ isLoggedIn: true }));
+    MetaService.updateMeta(dispatch, { tkn: data.token });
+    WishlistService.updateWishlist(dispatch);
+    BasketService.fetchBasket(dispatch);
     return data;
+  },
+  activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/giftcard/giftcard_activate/"}`,
+      formData
+    );
+    const temp = {
+      ...data
+      // ...formData
+    };
+    return temp;
   }
 };

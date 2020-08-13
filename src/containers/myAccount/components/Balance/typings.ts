@@ -20,13 +20,23 @@ export type BalanceProps = {
 };
 
 export interface GiftListProps extends BalanceProps {
+  conditionalRefresh: boolean;
+  showLocked: boolean;
+  showExpired: boolean;
   onClose: (data: string) => void;
+  viewOnly?: boolean;
 }
 
 export type GiftState = {
+  showInactive: boolean;
+  showLocked: boolean;
+  showExpired: boolean;
+  conditionalRefresh: boolean;
   txtvalue: string;
   error: string;
   newCardBox: boolean;
   giftList: BalanceProps[];
-  toggelOtp: boolean;
+  toggleOtp: boolean;
+  toggleResetOtpComponent: boolean;
+  disable: boolean;
 };

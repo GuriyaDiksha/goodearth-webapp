@@ -21,7 +21,8 @@ export const PRODUCT_INIT_STATE: PLPProductItem = {
   title: "",
   url: "",
   childAttributes: [],
-  plpImages: []
+  plpImages: [],
+  productClass: ""
 };
 
 const initialState: State = {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -9,9 +9,10 @@ import AddressService from "services/address";
 // import axios from 'axios';
 // import Config from "components/config";
 import * as Steps from "containers/checkout/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { CheckoutAddressContext } from "containers/checkout/component/context";
+import { AppState } from "reducers/typings";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
 type Props = {
@@ -40,6 +41,20 @@ const AddressItem: React.FC<Props> = props => {
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
+  const [deleteError, setDeleteError] = useState("");
+  const address = props.addressData;
+  const deleteAddress = () => {
+    setIsLoading(true);
+    AddressService.deleteAddress(dispatch, address.id)
+      .catch(err => {
+        const error = err.response.data;
+
+        if (typeof error == "string") {
+          setDeleteError(error);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   // deleteAddress(id) {
   //     props.setLoadingStatus(true);
@@ -117,7 +132,7 @@ const AddressItem: React.FC<Props> = props => {
   //     }
   // }
 
-  const address = props.addressData;
+  const { shippingData } = useSelector((state: AppState) => state.user);
   const i = props.index;
   const id = `default_check_${i}`;
   const addressLineOneWithSpace =
@@ -130,8 +145,7 @@ const AddressItem: React.FC<Props> = props => {
       ? "text"
       : "div";
   const billingEditDisable =
-    activeStep == "BILLING" &&
-    address.id.toString() == localStorage.getItem("shippingDataUserAddressId");
+    activeStep == "BILLING" && shippingData && address.id == shippingData.id;
   return (
     <div
       className={
@@ -167,14 +181,14 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing"
             },
-            { [styles.shippingBorder]: address.isEdit },
+            { [styles.shippingBorder]: address.isTulsi },
             {
               [styles.addressInUse]:
                 props.showAddressInBridalUse && address.isBridal
             }
           )}
         >
-          {!address.isEdit && (
+          {!address.isTulsi && (
             <div className={styles.defaultContainer}>
               <div className={styles.defaultAddressDiv}>
                 {address.isDefaultForShipping && (
@@ -248,7 +262,7 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal"
             })}
           >
-            {!address.isEdit && (
+            {!address.isTulsi && (
               <span
                 className={cs(styles.action, {
                   [styles.addressEdit]: billingEditDisable
@@ -262,20 +276,11 @@ const AddressItem: React.FC<Props> = props => {
                 EDIT
               </span>
             )}
-            {!(address.isBridal || props.isOnlyAddress || address.isEdit) && (
+            {!(address.isBridal || props.isOnlyAddress || address.isTulsi) && (
               <span className={styles.separator}>|</span>
             )}
-            {!(address.isBridal || props.isOnlyAddress || address.isEdit) && (
-              <span
-                className={styles.action}
-                onClick={() => {
-                  setIsLoading(true);
-                  AddressService.deleteAddress(
-                    dispatch,
-                    address.id
-                  ).finally(() => setIsLoading(false));
-                }}
-              >
+            {!(address.isBridal || props.isOnlyAddress || address.isTulsi) && (
+              <span className={styles.action} onClick={deleteAddress}>
                 DELETE
               </span>
             )}
@@ -283,24 +288,16 @@ const AddressItem: React.FC<Props> = props => {
           {currentCallBackComponent !== "account" &&
             currentCallBackComponent !== "bridal" && (
               <div
-                className={cs(
-                  globalStyles.ceriseBtn,
-                  globalStyles.cursorPointer,
-                  styles.shipToThisBtn
-                )}
+                className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
                 onClick={() => onSelectAddress(address)}
               >
                 {activeStep == Steps.STEP_SHIPPING ? "SHIP" : "BILL"}
-                &nbsp;TO THIS ADDRESS {address.isEdit ? "(FREE)" : ""}
+                &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}
               </div>
             )}
           {currentCallBackComponent == "bridal" && !address.isBridal && (
             <div
-              className={cs(
-                globalStyles.ceriseBtn,
-                globalStyles.cursorPointer,
-                styles.ç
-              )}
+              className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
               onClick={() => props.selectAddress(address)}
             >
               USE THIS ADDRESS
@@ -309,7 +306,6 @@ const AddressItem: React.FC<Props> = props => {
           {currentCallBackComponent == "bridal" && address.isBridal && (
             <div
               className={cs(
-                globalStyles.cursorPointer,
                 globalStyles.disabledBtn,
                 styles.shipToThisBtn,
                 styles.addressInUse
@@ -321,11 +317,14 @@ const AddressItem: React.FC<Props> = props => {
           )}
         </div>
       </div>
-      {props.shippingErrorMsg && address.id == props.addressDataIdError && (
+      {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
       )}
       {props.billingErrorMsg && address.id == props.addressDataIdError && (
         <div className={globalStyles.errorMsg}>{props.billingErrorMsg}</div>
+      )} */}
+      {deleteError && (
+        <div className={globalStyles.errorMsg}>{deleteError}</div>
       )}
     </div>
   );

@@ -11,13 +11,32 @@
     letter-spacing: 0;
     line-height: 34px;
     font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
+  }
+  p {
+    padding: 1em 0;
+    line-height: 20px;
+    font-size: 14px;
   }
 }
+.txt-settings-mobile {
+  padding: 0;
+}
+
+h2 {
+  padding-top: 40px;
+  color: #000;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 34px;
+  font-size: 25px;
+  font-family: $font-Serif;
+}
+
 
 .clr-p {
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }
@@ -25,18 +44,15 @@
 .gift-font {
   font-size: 14px;
   color: black;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 
 .gc-head {
   text-transform: uppercase;
   font-size: 14px;
+  font-family: $font-Lato;
   letter-spacing: 1px;
-}
-
-.card-img-hover {
-  border-color: #ab1e56;
 }
 
 .card-img {
@@ -49,6 +65,11 @@
   border-color: #ab1e56;
   cursor: pointer;
 }
+
+.card-img-hover {
+  border-color: #ab1e56;
+}
+
 .btn-gc {
   position: relative;
   .imgsetleft {
@@ -93,7 +114,7 @@
     opacity: 1;
     position: absolute;
     left: -46px;
-    top: -5px;
+    top: -4px;
     font-size: 60px;
 
   }
@@ -133,6 +154,8 @@
   color: #000;
   text-transform: none;
   letter-spacing: 1px;
+  cursor: pointer;
+  font-family: $font-Lato;
   &:hover{
     text-decoration: underline;
   }
@@ -153,6 +176,9 @@
 
 .select-group {
   position: relative;
+  option {
+    font-family: $font-Lato;
+  }
 }
 
 .drop-div2 {
@@ -168,6 +194,11 @@
   line-height: 48px;
 }
 
+  [type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
 
   input[type="radio"]:checked+label:after {
     opacity: 1;
@@ -221,6 +252,7 @@ input[type="radio"]:checked+label:before {
   background: #fff;
 }
 
+
 .grey {
   span {
     color: #000;
@@ -238,6 +270,8 @@ input[type="radio"]:checked+label:before {
 
 .price-block {
   span {
+    font-size: 14px;
+    font-family: $font-Lato;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -248,6 +282,10 @@ input[type="radio"]:checked+label:before {
     letter-spacing: 1px;
     font-weight: bold;
     border: 2px solid transparent;
+  }
+  > p {
+    font-size: 14px;
+    font-family: $font-Lato;
   }
   span:hover {
     border: 2px solid #ab1e56;
@@ -268,7 +306,20 @@ input[type="radio"]:checked+label:before {
   background: url('../../images/greyBg.jpg') repeat;
   height: 100%;
   width: 100%;
-  padding: 50px 0;
+  padding: ($header-height + $secondary-header-height) 0 50px 0;
+
+  [type="radio"]:checked + label,
+  [type="radio"]:not(:checked) + label {
+    position: relative;
+    cursor: pointer;
+    line-height: 40px;
+    padding-left: 28px;
+  }
+  textarea, textarea:focus {
+    background-color: #f2f2f2;
+    border: none;
+    width: 100%;
+  }
 }
 
 form {
@@ -300,12 +351,21 @@ input[type="number"] {
   background-color: #fff;
   padding: 15px 15px 15px 25px;
   width: 100%;
+  border: none;
   -moz-appearance: textfield;
   box-shadow: none;
   text-align: left;
+  @include placeholder {
+    font-style: italic;
+    color: #666;
+    font-size: 15px;
+    font-family: $font-Lato;
+    font-weight: 300;
+  }
 }
 
 .input-button {
+    border: none;
     background-color: #ab1e56;
     opacity: 1;
     color: #fff;
@@ -315,8 +375,9 @@ input[type="number"] {
     text-transform: uppercase;
     font-size: 13px;
     font-weight: bold;
+    font-family: $font-Lato;
     display: inline-block;
     line-height: 50px;
-    font-family: "LatoFont", "Helvetica", "Arial";
+    font-family: $font-Lato;
     white-space: nowrap;
 }

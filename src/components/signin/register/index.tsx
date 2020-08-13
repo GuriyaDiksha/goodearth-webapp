@@ -171,6 +171,14 @@ class RegisterForm extends React.Component<Props, registerState> {
       });
   };
 
+  closeModalForm = () => {
+    this.setState({
+      disableButton: false
+    });
+    this.context.closeModal();
+    window.scrollTo(0, 0);
+  };
+
   handleInvalidSubmit = () => {
     const elem = this.subscribeRef.current;
     if (elem && elem.checked == false) {
@@ -526,6 +534,8 @@ class RegisterForm extends React.Component<Props, registerState> {
               label={"Confirm Password*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
+              isDrop={true}
+              isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
@@ -598,6 +608,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             )}
             <input
               type="submit"
+              formNoValidate
               className={
                 this.state.disableButton || !this.state.showFields
                   ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
@@ -612,7 +623,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     );
     const footer = (
       <>
-        <SocialLogin />
+        <SocialLogin closeModel={this.closeModalForm} />
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Already registered?{" "}

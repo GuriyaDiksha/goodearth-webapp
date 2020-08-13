@@ -2,10 +2,10 @@ import loadable from "@loadable/component";
 import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
-import { Props as PDPProps, State } from "./typings";
+import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
-
+import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
@@ -26,6 +26,7 @@ import MobileSlider from "../../components/MobileSlider";
 import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.png";
+import LazyImage from "components/LazyImage";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -64,7 +65,8 @@ class PDPContainer extends React.Component<Props, State> {
     sidebarSticky: true,
     detailsSticky: true,
     activeImage: 0,
-    detailStickyEnabled: true
+    detailStickyEnabled: true,
+    mounted: false
   };
 
   imageOffsets: number[] = [];
@@ -92,20 +94,46 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    this.setState(
+      {
+        mounted: true
+      },
+      () => {
+        window.setTimeout(() => {
+          document.addEventListener("scroll", this.onScroll);
+        }, 100);
+      }
+    );
     this.fetchMoreProductsFromCollection();
-    this.onScroll();
-    document.addEventListener("scroll", this.onScroll);
   }
 
-  componentDidUpdate() {
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.onScroll);
+  }
+
+  componentDidUpdate(props: Props) {
     const { data } = this.props;
     if (!data) {
       return;
     }
     const productImages = this.getProductImagesData();
-    if (productImages.length === 1 && this.state.detailStickyEnabled) {
-      this.setState({
-        detailStickyEnabled: false
+    if (props.data && props.data.id !== data.id) {
+      document.removeEventListener("scroll", this.onScroll);
+      window.scrollTo({
+        top: 0
+      });
+
+      const state: any = {
+        sidebarSticky: true,
+        detailsSticky: true
+      };
+
+      if (productImages.length === 1 && this.state.detailStickyEnabled) {
+        state.detailStickyEnabled = false;
+      }
+
+      this.setState(state, () => {
+        document.addEventListener("scroll", this.onScroll);
       });
     }
   }
@@ -243,6 +271,7 @@ class PDPContainer extends React.Component<Props, State> {
       <ProductDetails
         corporatePDP={corporatePDP}
         data={data}
+        key={data.sku}
         currency={currency}
         mobile={mobile}
         wishlist={[]}
@@ -255,7 +284,8 @@ class PDPContainer extends React.Component<Props, State> {
   getRecommendedSection() {
     const {
       recommendedSliderItems,
-      device: { mobile }
+      device: { mobile },
+      currency
     } = this.props;
 
     if (!recommendedSliderItems.length) {
@@ -267,6 +297,7 @@ class PDPContainer extends React.Component<Props, State> {
       infinite: true,
       speed: 500,
       slidesToShow: 4,
+      arrows: true,
       slidesToScroll: 1,
       initialSlide: 0,
       responsive: [
@@ -283,7 +314,7 @@ class PDPContainer extends React.Component<Props, State> {
       <WeRecommendSlider
         data={recommendedSliderItems}
         setting={config as Settings}
-        currency={"INR"}
+        currency={currency}
         mobile={mobile}
       />
     );
@@ -312,7 +343,8 @@ class PDPContainer extends React.Component<Props, State> {
           settings: {
             slidesToShow: 4,
             slidesToScroll: 1,
-            infinite: true
+            infinite: true,
+            arrows: true
           }
         },
         {
@@ -390,7 +422,8 @@ class PDPContainer extends React.Component<Props, State> {
       images?.map(({ id, productImage }, i: number) => {
         return (
           <div key={id} className={globalStyles.relative}>
-            <img
+            <LazyImage
+              aspectRatio="62:93"
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
             />
@@ -409,7 +442,8 @@ class PDPContainer extends React.Component<Props, State> {
       sidebarSticky,
       detailsSticky,
       activeImage,
-      detailStickyEnabled
+      detailStickyEnabled,
+      mounted
     } = this.state;
 
     return (
@@ -447,9 +481,9 @@ class PDPContainer extends React.Component<Props, State> {
                 bootstrap.colMd1,
                 bootstrap.offsetMd1,
                 styles.sidebar,
+                globalStyles.pageStickyElement,
                 {
-                  [globalStyles.pageStickyElement]: !mobile,
-                  [globalStyles.pageStickyScrolling]: !sidebarSticky && !mobile
+                  [globalStyles.pageStickyScrolling]: !sidebarSticky
                 }
               )}
               ref={this.sidebarRef}
@@ -499,6 +533,7 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
+        {mounted && <MakerEnhance user="goodearth" />}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}

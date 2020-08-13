@@ -38,6 +38,17 @@ const PastOrders: React.FC = () => {
     setIsLoading(false);
     setIsData(false);
   };
+  const browseButton = (
+    <div className={styles.browseButton}>
+      <Link to="/">
+        <input
+          type="button"
+          className={globalStyles.ceriseBtn}
+          value="Browse"
+        />
+      </Link>
+    </div>
+  );
   const mainContent = (
     <>
       <div className={styles.orderTabs}>
@@ -72,25 +83,26 @@ const PastOrders: React.FC = () => {
         </div>
       )}
       {hasShoppedOnlineitems && (
-        <OnlineOrders
+        <>
+          <OnlineOrders
+            orderType={"online"}
+            hasShopped={setHasShopped}
+            isLoading={setIsLoading}
+            isDataAvaliable={isDataAvaliable}
+          />
+          {!hasShopped && !isLoading && browseButton}
+        </>
+      )}
+      {hasShoppedAtStore && (
+        <>
+          {/* <OnlineOrders
+          orderType={"inShop"}
           hasShopped={setHasShopped}
           isLoading={setIsLoading}
           isDataAvaliable={isDataAvaliable}
-        />
-      )}
-      {/* {hasShoppedAtStore && (
-        <InShopOrders hasShopped={setHasShopped} isLoading={setIsLoading} />
-      )} */}
-      {!hasShopped && !isLoading && (
-        <div className={styles.browseButton}>
-          <Link to="/">
-            <input
-              type="button"
-              className={globalStyles.ceriseBtn}
-              value="Browse"
-            />
-          </Link>
-        </div>
+        /> */}
+          {!hasShopped && !isLoading && browseButton}
+        </>
       )}
     </>
   );

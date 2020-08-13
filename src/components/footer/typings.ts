@@ -8,6 +8,7 @@ export type List = {
 export type FooterList = {
   name: string;
   value: List[];
+  link?: string;
 };
 
 export type FooterState = {
@@ -17,6 +18,8 @@ export type FooterState = {
   hideImage: boolean;
   newsletterEmail: string;
   newsletterMessage: string;
+  showCookie: boolean;
+  isInViewport: boolean;
 };
 
 export type ShopLocations = { label: string; value: string }[];

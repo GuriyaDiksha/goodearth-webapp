@@ -66,7 +66,9 @@ class CheckBalance extends React.Component<Props, State> {
                       bootstrapStyles.offset1
                     )}
                   >
-                    <hr className={globalStyles.voffset5} />
+                    <hr
+                      className={cs(styles.hrMargin, globalStyles.voffset5)}
+                    />
                     <div>
                       <div className={styles.flex} id="gc-balance">
                         <div
@@ -78,12 +80,7 @@ class CheckBalance extends React.Component<Props, State> {
                         >
                           {this.state.isActive ? "-" : "+"}
                         </div>
-                        <div
-                          className={cs(
-                            styles.inputContainer,
-                            globalStyles.voffset1
-                          )}
-                        >
+                        <div className={cs(styles.inputContainer)}>
                           <div
                             className={cs(styles.colorPrimary, styles.textLeft)}
                           >
@@ -94,16 +91,10 @@ class CheckBalance extends React.Component<Props, State> {
                               ENTER YOUR GIFT CARD CODE{" "}
                             </span>
                           </div>
-                          <div
-                            className={
-                              this.state.isActive ? "" : globalStyles.hidden
-                            }
-                          >
-                            <Giftcard />
-                          </div>
+                          <div>{this.state.isActive && <Giftcard />}</div>
                         </div>
                       </div>
-                      <hr />
+                      <hr className={styles.hrMargin} />
                       <div className={styles.flex} id="cc-balance">
                         <div
                           className={cs(
@@ -114,12 +105,7 @@ class CheckBalance extends React.Component<Props, State> {
                         >
                           {this.state.isActiveCN ? "-" : "+"}
                         </div>
-                        <div
-                          className={cs(
-                            styles.inputContainer,
-                            globalStyles.voffset1
-                          )}
-                        >
+                        <div className={cs(styles.inputContainer)}>
                           <div
                             className={cs(styles.colorPrimary, styles.textLeft)}
                           >
@@ -130,20 +116,14 @@ class CheckBalance extends React.Component<Props, State> {
                               ENTER YOUR CREDIT NOTE CODE
                             </span>
                           </div>
-                          <div
-                            className={
-                              this.state.isActiveCN ? "" : globalStyles.hidden
-                            }
-                          >
-                            <CreditCard />
-                          </div>
+                          <div>{this.state.isActiveCN && <CreditCard />}</div>
                         </div>
                       </div>
-                      <hr />
+                      <hr className={styles.hrMargin} />
 
                       <div className={styles.rtc}>
                         <Link
-                          to="https://www.goodearth.in/customer-assistance/terms-conditions"
+                          to="/customer-assistance/terms-conditions"
                           className={globalStyles.cerise}
                           target="_blank"
                         >

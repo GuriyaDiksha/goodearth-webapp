@@ -10,20 +10,49 @@ export type otpState = {
   showerror: string;
   showerrorOtp: string;
   otp: string;
-  toggelOtp: boolean;
+  toggleOtp: boolean;
   showError: string;
+  isLoading: boolean;
 };
 
 export type otpProps = {
+  toggleReset?: boolean;
   txtvalue: string;
   sendOtp: (data: any) => any;
-  toggelOtp: (data: boolean) => void;
+  toggleOtp: (data: boolean) => void;
   checkOtpBalance: (data: any) => any;
-  gcBalanceOtp: (data: any) => void;
+  activateGiftCard?: (data: any) => Promise<any>;
+  updateList: (data: any) => void;
   isCredit?: boolean;
   updateError: (data: boolean) => void;
+  validateEmptyInputs?: () => void;
+  otpFor?: "activateGC" | "balanceGC" | "balanceCN";
+  firstName?: string;
+  lastName?: string;
+  newCardBox?: boolean;
+  email?: string;
+  disableSendOtpButton: boolean;
+};
+
+export type otpRedeemProps = {
+  sendOtp: (data: any) => any;
+  toggleOtp: (data: boolean) => void;
+  checkOtpRedeem: (data: any) => Promise<any>;
+  updateList: (data: any) => void;
+  isCredit?: boolean;
+  updateError: (data: boolean) => void;
+  validateEmptyInputs?: () => void;
+  otpFor?: "activateGC" | "balanceGC" | "balanceCN";
+  firstName?: string;
+  lastName?: string;
+  newCardBox?: boolean;
+  email?: string;
+  loyaltyData: any;
+  points: number | string;
+  number?: string;
 };
 
 export type otpBoxProps = {
   otpValue: (data: string) => void;
+  notFocus?: boolean;
 };

@@ -36,10 +36,13 @@ export type CartProps = {
   currency: Currency;
   active: boolean;
   toggleBag: () => void;
+  showShipping: (remainingAmount: number) => void;
 };
 
 export interface State {
   stockError: string;
   shipping: boolean;
   value: number;
+  freeShipping: boolean;
+  isSuspended: boolean;
 }

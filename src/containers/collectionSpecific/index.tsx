@@ -14,6 +14,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 const Quickview = loadable(() => import("components/Quickview"));
+const MakerEnhance = loadable(() => import("maker-enhance"));
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -27,7 +28,13 @@ const mapStateToProps = (state: AppState) => {
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class CollectionSpecific extends React.Component<Props, {}> {
+class CollectionSpecific extends React.Component<
+  Props,
+  { specificMaker: boolean }
+> {
+  state = {
+    specificMaker: false
+  };
   onClickQuickView = (id: number) => {
     const {
       updateComponentModal,
@@ -35,11 +42,17 @@ class CollectionSpecific extends React.Component<Props, {}> {
       collectionIds
     } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={collectionIds} />,
+      <Quickview id={id} productListId={collectionIds} key={id} />,
       true
     );
     changeModalState(true);
   };
+
+  componentDidMount() {
+    this.setState({
+      specificMaker: true
+    });
+  }
 
   render() {
     const {
@@ -49,6 +62,7 @@ class CollectionSpecific extends React.Component<Props, {}> {
     } = this.props;
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
+    const { specificMaker } = this.state;
     return (
       <div className={styles.collectionContainer}>
         {!mobile && (
@@ -59,6 +73,7 @@ class CollectionSpecific extends React.Component<Props, {}> {
             />
           </SecondaryHeader>
         )}
+        {specificMaker && <MakerEnhance user="goodearth" index="1" />}
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
@@ -123,21 +138,23 @@ class CollectionSpecific extends React.Component<Props, {}> {
               return (
                 <div
                   className={cs(bootstrap.colMd4, bootstrap.col6)}
-                  key={data.id}
+                  key={data.id + "plpDiv"}
                 >
                   <PlpResultItem
                     product={data}
                     addedToWishlist={false}
                     currency={this.props.currency}
-                    key={data.id}
+                    key={data.id + "plpitem"}
                     mobile={mobile}
                     onClickQuickView={this.onClickQuickView}
+                    isCollection={true}
                   />
                 </div>
               );
             })}
           </div>
         </div>
+        {specificMaker && <MakerEnhance user="goodearth" index="2" />}
       </div>
     );
   }

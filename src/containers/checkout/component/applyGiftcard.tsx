@@ -8,12 +8,14 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
     currency: state.currency,
-    giftList: state.basket.giftCards
+    giftList: state.basket.giftCards,
+    total: state.basket.total
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -26,7 +28,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       txtvalue: "",
       error: "",
       newCardBox: props.giftList.length > 0 ? false : true,
-      toggelOtp: false
+      toggleOtp: false,
+      isActivated: false
     };
   }
   private firstLoad = true;
@@ -47,19 +50,27 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     });
   };
 
-  toggelOtp = (value: boolean) => {
+  toggleOtp = (value: boolean) => {
     this.setState({
-      toggelOtp: value
+      toggleOtp: value
     });
   };
 
-  gcBalance = () => {
+  applyCard = () => {
+    if (!this.state.txtvalue) {
+      this.setState({
+        error: "Please enter a code",
+        isActivated: false
+      });
+      return false;
+    }
     const data: any = {
       cardId: this.state.txtvalue
     };
+
     this.props.applyGiftCard(data).then((response: any) => {
-      if (response.currStatus == false) {
-        this.updateError();
+      if (response.status == false) {
+        this.updateError(response.message, response.isNotActivated);
       } else {
         this.setState({
           newCardBox: false,
@@ -98,9 +109,10 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     });
   };
 
-  updateError = () => {
+  updateError = (value?: string, activate?: boolean) => {
     this.setState({
-      error: "Please enter a valid code"
+      error: value ? value : "Please enter a valid code",
+      isActivated: activate ? true : false
     });
     const elem: any = document.getElementById("gift");
     elem.scrollIntoView();
@@ -108,11 +120,12 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    const { newCardBox, txtvalue, toggelOtp } = this.state;
+    const { newCardBox, txtvalue, toggleOtp } = this.state;
     const {
       user: { isLoggedIn },
       currency,
-      giftList
+      giftList,
+      total
     } = this.props;
     return (
       <Fragment>
@@ -138,7 +151,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           >
             {newCardBox ? (
               <div>
-                {toggelOtp ? (
+                {toggleOtp ? (
                   ""
                 ) : (
                   <Fragment>
@@ -163,22 +176,31 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                       >
                         <span
                           className={styles.arrowrightsmall}
-                          onClick={this.gcBalance}
+                          onClick={this.applyCard}
                         ></span>
                       </span>
                     </div>
-                    <label>Gift Card Code</label>
+                    <label>Gift Card Code / Credit Note</label>
                   </Fragment>
                 )}
                 {this.state.error ? (
+                  <span className={cs(globalStyles.errorMsg)}>
+                    {this.state.error}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {this.state.isActivated ? (
                   <p
                     className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
+                      styles.activeUrl,
+                      globalStyles.cerise,
+                      globalStyles.voffset1
                     )}
                   >
-                    {this.state.error}
+                    <Link to={"/account/giftcard-activation"}>
+                      ACTIVATE GIFT CARD
+                    </Link>
                   </p>
                 ) : (
                   ""
@@ -187,6 +209,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             ) : (
               <div
                 className={cs(
+                  { [globalStyles.hidden]: +total <= 0 },
                   styles.rtcinfo,
                   globalStyles.pointer,
                   globalStyles.textLeft
@@ -198,24 +221,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             )}
           </div>
         </div>
-
-        {/* {!isLoggedIn ? (
-          !newCardBox ? (
-            ""
-          ) : (
-            <OtpComponent
-              updateError={this.updateError}
-              txtvalue={this.state.txtvalue}
-              toggelOtp={this.toggelOtp}
-              key={200}
-              sendOtp={this.props.sendOtp}
-              checkOtpBalance={this.props.checkOtpBalance}
-              gcBalanceOtp={this.gcBalanceOtp}
-            />
-          )
-        ) : (
-          ""
-        )} */}
       </Fragment>
     );
   }

@@ -1,16 +1,18 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+
 .footer-top {
   background-size: cover;
-  background: url('../../images/footerBgTopDec.jpg') repeat-x;
   text-align: center;
 }
 
-.footer {
+.footer-top-background {
+  background: url('../../images/footerBgTopDec.jpg') repeat-x;
+}
+
+.footer-background {
   background-image: url('../../images/footerBgDec.jpg');
-  height: 600px;
-  background-size: contain;
 }
 
 .footer-icon{
@@ -22,25 +24,27 @@
   span {
     &.location {
       position: absolute;
-      left: 0%;
-      top: -25%;
+      left: 2%;
+      top: 5%;
       color: black;
       .icon-class {
         color: $cerise;
       }
       i {
         line-height: 44px;
-        font-size: 1px;
+        font-size: 20px;
       }
     }
   }
   input {
+    font-size: 14px;
     width: 100%;
     outline: none;
     background-color: tint(#000, 90%);
     border: 0;
     padding: 0 10px 0 30px;
     line-height: 50px;
+    font-family: $font-Lato;
     &.open-state {
       background-color: tint(#000, 60%);
     }
@@ -56,8 +60,10 @@
 .footer-socialicons {
   a {
     font-size: 20px;
+    color: $white;
     &:hover {
       color: $cerise;
+      text-decoration: none;
     }
   }
   .icon_footer-fb {
@@ -86,26 +92,65 @@
   width: 10%;
 }
 
-@media screen and (max-width: 992px) {
-  .form-footer {
-    span {
-      &.location {
-        position: absolute;
-        left: 0%;
-        top: -24%;
-        color: black;
-        .icon-class {
-          color: $cerise;
-        }
-        i {
-          line-height: 44px;
-          font-size: 1px;
-        }
-      }
+.cookieclass {
+position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 360px;
+    height: 280px;
+    background-color: #fff;
+    z-index: 100;
+    padding: 20px 35px;
+    text-align: center;
+    font-family: $font-Lato;
+    margin: 20px;
+    border: 1px solid #b3b3b3;
+    .close-popup{
+      right: 20px;
+      font-size: 40px;
+      color: gray;
     }
-  }
+    h3 {
+      font-size: 11px;
+    font-family: $font-Lato;
+    color: #333;
+    line-height: 50px;
+    text-transform: capitalize;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin-top: 10px;
+    padding: 0;
+    }
+    p {
+      font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 5px;
+    a {
+      text-decoration: underline;
+      color: $cerise;
+    }
+    }
+    .ok-btn {
+    background-color: #ab1e56;
+    padding: 10px 50px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin: 15px 0;
+    font-size: 14px;
+    }
+}
+.close-popup {
+  position: absolute;
+  right: 0px;
+  top: 20px;
+  z-index: 8;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width: 992px) {
   
-
   .shop-locator {
     position: relative;
     .cursor-pointer {
@@ -126,7 +171,7 @@
     left: 15px;
   }
   .footer {
-    height: 680px;
+    min-height: 680px;
     background-color: #001737;
   }
   .grand-outer {
@@ -154,6 +199,7 @@
 
   .footer-socialicons {
     margin: 20px auto 0 auto;
+    
   }
   .main-menu-footer {
     box-shadow: none;
@@ -161,25 +207,31 @@
     margin-bottom: 0;
     margin-top: 10px;
 
-    li {
+    >li {
       @include ftr-heading-white();
-      line-height: 44px;
+      line-height: 50px;
       font-weight: normal;
+      >a {
+        text-transform: uppercase;
+        @include ftr-heading-white();
+        line-height: 44px;
+        font-weight: normal;
+      }
       li {
         @include ftr-copy-white-desktop();
         text-transform: capitalize;
         font-weight: normal;
         line-height: 30px;
+        a {
+          @include ftr-copy-white-desktop();
+          font-weight: normal;
+        }
       }
       span {
         @include ftr-heading-white();
         text-transform: uppercase;
         font-weight: normal;
-      }
-      a {
-        @include ftr-copy-white-desktop();
-        font-weight: normal;
-      }
+      } 
     }
   }
 
@@ -197,13 +249,24 @@
   }
 }
 
+input {
+  @include placeholder() {
+    font-family: $font-Lato;
+    font-style: italic;
+    font-size: 14px;
+  }
+}
+
 @media screen and (min-width: 992px) {
   .main-menu {
     li {
       border-bottom: none;
     }
   }
-
+  .footer {
+    height: 600px;
+    background-size: contain;
+  }
   .footer-socialicons {
     float: left;
     .icon {
@@ -214,17 +277,11 @@
   .shop-locator {
     float: left;
     position: absolute;
-    left: 70%;
-    width: 25%;
+    left: 76%;
+    width: 21%;
     .cursor-pointer {
       &:hover {
         color: $cerise;
-      }
-    }
-    input {
-      @include placeholder() {
-        font-family: $font-Lato;
-        font-style: italic;
       }
     }
   }
@@ -289,6 +346,7 @@
 }
 
 @media screen and (min-width: 992px) {
+  
   .main-menu-footer {
     box-shadow: none;
     border: none;
@@ -311,16 +369,26 @@
         @include ftr-heading-white();
         line-height: 44px;
         font-weight: normal;
+        a {
+          text-transform: uppercase;
+          @include ftr-heading-white();
+          line-height: 44px;
+          font-weight: normal;
+        }
       }
       a {
         @include ftr-copy-white-desktop();
         font-weight: normal;
         text-transform: capitalize;
+        &:nth-child(2) {
+          margin-right: 8px;
+        }
         &.email {
           text-transform: lowercase;
         }
         &:hover {
           color: $cerise !important;
+          text-decoration: none !important;
         }
       }
     }
@@ -369,4 +437,8 @@
 
 .arrow-right-enabled {
   border-left: 6px solid tint(#000, 30%);
+}
+.px5 {
+  padding-left: 8rem !important;
+  padding-right: 8rem !important;
 }

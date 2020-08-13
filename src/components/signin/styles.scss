@@ -13,7 +13,7 @@
     font-style: italic;
     color: $cerise;
     font-weight: bold;
-    font-family: "LatoFont", "Helvetica", "Arial";
+    font-family: $font-Lato;
     letter-spacing: 1px;
     text-transform: none;
     line-height: 15px;
@@ -34,7 +34,7 @@
   
   .social-login-text {
     font-size: 12px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     color: #666;
     letter-spacing: 1px;
   }
@@ -42,7 +42,7 @@
 
 .form-heading {
   font-size: 25px;
-  font-family: "Baskerville","Amiri","Serif";
+  font-family: $font-Serif;
   line-height: 50px;
   margin-top: 30px;
 }
@@ -55,7 +55,7 @@
 
 .social-login-text {
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }
@@ -113,4 +113,26 @@ input[type="checkbox"]:checked + label {
   font-weight: normal;
   font-size: 12px;
   font-family: $font-Lato;
+}
+
+.login-change {
+  border: 1px solid #eee;
+  padding: 15px;
+  padding-left: 8px;
+  top: 0px;
+  right: 0px;
+  width: 54px;
+  border-left: none;
+  position: absolute;
+  cursor: pointer;
+  font-size: 10px;
+  font-style: italic;
+  color: #ab1e56 !important;
+  font-weight: bold;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  text-transform: none;
+  line-height: 15px;
+  text-align: left;
+  margin-bottom: 10px;
 }

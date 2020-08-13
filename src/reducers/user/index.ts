@@ -8,8 +8,9 @@ export const initialState: State = {
   bridal: false,
   loyalityEligible: false,
   isLoggedIn: false,
-  refresh: "",
-  shippingData: null
+  refresh: true,
+  shippingData: null,
+  phone: ""
 };
 
 export const user = (state = initialState, action: UserActions): State => {
@@ -19,8 +20,13 @@ export const user = (state = initialState, action: UserActions): State => {
     }
     case "REFRESH_PAGE": {
       const newState = { ...state };
-      newState.refresh = "true";
+      newState.refresh = !newState.refresh;
       return { ...newState };
+    }
+
+    case "RESET_META": {
+      const state = initialState;
+      return { ...state };
     }
   }
 

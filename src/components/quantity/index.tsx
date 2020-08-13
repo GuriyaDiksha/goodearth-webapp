@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./styles.scss";
-import { QuantityItem, State } from "./typings";
+import { QuantityItem, State } from "./typings.d";
 import cs from "classnames";
 
 class Quantity extends React.Component<QuantityItem, State> {
   constructor(props: QuantityItem) {
     super(props);
     this.state = {
-      showError: false
+      showError: false,
+      errorMsg: `Available qty in stock is ${props.currentValue}`
     };
   }
 
@@ -18,48 +19,89 @@ class Quantity extends React.Component<QuantityItem, State> {
       });
     }
   }
+
+  // for updating quantity of line item
+  onUpdate = (value: number) => {
+    this.props.onUpdate &&
+      this.props
+        .onUpdate(value)
+        .then(() => {
+          this.setState({ showError: false });
+        })
+        .catch(err => {
+          this.setState({
+            showError: true,
+            errorMsg: `Available qty in stock is ${this.props.currentValue}`
+          });
+        });
+  };
+
   render() {
     const value = this.props.currentValue;
     const props = this.props;
     const { disabled } = this.props;
-    const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
+    // const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
+    // const error
 
     return (
       <>
-        <div className={cs(styles.quantityWrap, props.className)}>
-          <span
-            className={cs(styles.minusQuantity, styles.quantity, props.class)}
-            onClick={(): void => {
-              if (disabled) {
-                return;
-              }
-              if (value > props.minValue) {
+        <span
+          className={cs(styles.minusQuantity, styles.quantity, props.class)}
+          onClick={(): void => {
+            if (disabled) {
+              return;
+            }
+            if (value > props.minValue) {
+              if (props.source == "bag" || props.source == "cartpage") {
+                this.onUpdate(value - 1);
+              } else {
                 props.onChange(value - 1);
+                this.setState({ showError: false });
               }
-            }}
-          >
-            -
-          </span>
-          <input type="text" value={value} readOnly className={styles.input} />
-          <span
-            className={cs(styles.plusQuantity, styles.quantity, props.class)}
-            onClick={(): void => {
-              if (disabled) {
-                return;
-              }
-              if (value < props.maxValue) {
+            }
+          }}
+        >
+          -
+        </span>
+        <span
+          className={cs(
+            styles.input,
+            props.inputClass,
+            { [styles.inputPdp]: props.source == "pdp" },
+            {}
+          )}
+        >
+          {value}
+        </span>
+        <span
+          className={cs(styles.plusQuantity, styles.quantity, props.class)}
+          onClick={(): void => {
+            if (disabled) {
+              return;
+            }
+            if (value < props.maxValue) {
+              if (props.source == "bag" || props.source == "cartpage") {
+                this.onUpdate(value + 1);
+              } else {
                 props.onChange(value + 1);
                 this.setState({ showError: false });
-              } else {
-                props.onChange(value);
-                this.setState({ showError: true });
               }
-            }}
-          >
-            +
-          </span>
-        </div>
-        <p className={styles.errorMsg}>{this.state.showError ? error : ""}</p>
+            } else {
+              props.onChange(value);
+              if (props.id) {
+                this.setState({
+                  showError: true,
+                  errorMsg: `Available qty in stock is ${props.currentValue}`
+                });
+              }
+            }
+          }}
+        >
+          +
+        </span>
+        <p className={styles.errorMsg}>
+          {this.state.showError ? this.state.errorMsg : ""}
+        </p>
       </>
     );
   }

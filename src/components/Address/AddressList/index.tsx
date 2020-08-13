@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import cs from "classnames";
 import AddressItem from "../AddressItem";
 import Loader from "components/Loader";
@@ -20,27 +20,29 @@ type Props = {
 };
 
 const AddressList: React.FC<Props> = props => {
-  let addressData =
-    Object.keys(props.addressDataList).length === 0 &&
-    props.addressDataList.constructor === Object
-      ? props.addressDataList
-      : Array.isArray(props.addressDataList)
-      ? props.addressDataList
-      : [props.addressDataList];
   const { activeStep } = useContext(AddressContext);
-  if (
-    activeStep == "BILLING" &&
-    props.currentCallBackComponent == "checkout-billing"
-  ) {
-    addressData = addressData.filter(address => !address.isEdit);
-    if (props.isBridal) {
-      addressData = addressData.filter(address => !address.isBridal);
-      // && window.user.email == address.Email_Id);
+  const [addressData, setAddressData] = useState(props.addressDataList);
+  const { addressDataList, isBridal } = props;
+  useEffect(() => {
+    let addressData = addressDataList;
+    if (
+      (activeStep == "BILLING" &&
+        props.currentCallBackComponent == "checkout-billing") ||
+      props.currentCallBackComponent == "account"
+    ) {
+      if (addressData) {
+        addressData = addressData.filter(address => !address.isTulsi);
+        if (isBridal) {
+          addressData = addressData.filter(address => !address.isBridal);
+          // && window.user.email == address.Email_Id);
+        }
+      }
     }
-  }
-  if (props.addressDataList && props.addressDataList.length > 0) {
-    addressData = addressData.filter(data => data.id !== props.bridalId);
-  }
+    // if (props.addressDataList && props.addressDataList.length > 0) {
+    //   addressData = addressData.filter(data => data.id !== props.bridalId);
+    // }
+    setAddressData(addressData);
+  }, [addressDataList]);
 
   // const [ addressDataList: addressData || [],
   const [isLoading] = useState(false);
@@ -139,10 +141,10 @@ const AddressList: React.FC<Props> = props => {
         className={cs(bootstrapStyles.row, styles.addressListContainer)}
         id="addressData"
       >
-        {props.addressDataList &&
-          props.addressDataList.length > 0 &&
-          Object.entries(props.addressDataList).length !== 0 &&
-          props.addressDataList.map((data, i) => {
+        {addressData &&
+          addressData.length > 0 &&
+          Object.entries(addressData).length !== 0 &&
+          addressData.map((data, i) => {
             return (
               <AddressItem
                 key={data.id}
@@ -154,7 +156,7 @@ const AddressList: React.FC<Props> = props => {
                 // setUpdatedDefaultAddress={this.setUpdatedDefaultAddress}
                 // setMode={props.setMode}
                 // isbridal={props.isbridal}
-                isOnlyAddress={props.addressDataList.length === 1}
+                isOnlyAddress={addressData.length === 1}
                 // setCurrentModule={props.setCurrentModule}
                 // setCurrentModuleData={props.setCurrentModuleData}
                 // addressType={props.addressType}

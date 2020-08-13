@@ -74,7 +74,7 @@
           font-family: $font-Lato;
           .heading {
             width: 80%;
-            font-family: $font-Amiri;
+            font-family: $font-Serif;
             font-size: 22px;
             line-height: 30px;
             text-transform: uppercase;
@@ -294,7 +294,7 @@
     }
     .details {
       .heading {
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         font-size: 25px;
         letter-spacing: 1px;
       }
@@ -325,7 +325,7 @@
     letter-spacing: 0.5px;
   //  -webkit-justify-content: space-between;
    // justify-content: space-between;
-    font-family: "AmiriFont", "Baskerville", "Garamond";
+    font-family: $font-Serif;
     img {
       width: 100% !important;
       max-width: 100%;
@@ -349,7 +349,7 @@
   }
   .details {
     .heading {
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       font-size: 28px;
       letter-spacing: 1px;
       text-transform: capitalize;
@@ -421,7 +421,7 @@
     font-size: 25px;
     text-transform: capitalize;
     color: #000;
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
     letter-spacing: 2px;
   }
 }
@@ -443,7 +443,7 @@
       font-family: $font-Lato;
       .heading {
         width: 80%;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         font-size: 25px;
         line-height: 30px;
         text-transform: capitalize;
@@ -556,7 +556,7 @@
   z-index: 1;
   background-color: #fff;
   padding: 15px 20px 4px 20px;
-  top: 50px;
+  top: $header-height;
   height: 50px;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {

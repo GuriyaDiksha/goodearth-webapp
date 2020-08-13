@@ -9,12 +9,13 @@ import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
-import LoginService from "services/login";
 import { Basket } from "typings/basket";
-import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import { AppState } from "reducers/typings";
+import mapDispatchToProps from "./mapper/actions";
+
 const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
@@ -26,24 +27,16 @@ interface State {
   openProfile: boolean;
 }
 
-const mapStateToProps = () => {
-  return {};
-};
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapStateToProps = (state: AppState) => {
   return {
-    goLogin: (event: React.MouseEvent) => {
-      LoginService.showLogin(dispatch);
-      event.preventDefault();
-    },
-    handleLogOut: () => {
-      LoginService.logout(dispatch);
-    }
+    cookies: state.cookies
   };
 };
 
 type Props = SideMenuProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class SideMenu extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -59,6 +52,33 @@ class SideMenu extends React.Component<Props, State> {
   }
   static contextType = UserContext;
 
+  changeCurrency = (cur: any) => {
+    const { changeCurrency, reloadPage, history, currency } = this.props;
+    const data: any = {
+      currency: cur
+    };
+    if (this.props.currency != data) {
+      changeCurrency(data).then((response: any) => {
+        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+          const path =
+            history.location.pathname +
+            history.location.search.replace(currency, response.currency);
+          history.replace(path);
+        }
+        reloadPage(this.props.cookies);
+      });
+    }
+  };
+
+  toggleSearch = () => {
+    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+      return false;
+    }
+    this.props.toggleSearch();
+    this.setState({
+      showSearch: !this.state.showSearch
+    });
+  };
   render() {
     const { isLoggedIn } = this.context;
     const items: DropdownItem[] = [
@@ -86,14 +106,14 @@ class SideMenu extends React.Component<Props, State> {
         },
         {
           label: "My Orders",
-          href: "/account/orders",
+          href: "/account/my-orders",
           type: "link"
         }
       );
     profileItems.push(
       {
         label: "Track Order",
-        href: "/about",
+        href: "/account/track-order",
         type: "link"
       },
       {
@@ -104,13 +124,13 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Activate Gift Card",
-        href: "/search/?q=kurta&currency=INR",
+        href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
       {
         label: "Cerise Program",
-        href: "/about",
+        href: "/account/cerise",
         type: "link",
         value: "Cerise Program"
       },
@@ -122,9 +142,10 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        href: "",
-        onClick: isLoggedIn ? this.props.handleLogOut : this.props.goLogin,
-        type: "link",
+        onClick: isLoggedIn
+          ? () => this.props.handleLogOut(this.props.history)
+          : this.props.goLogin,
+        type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
@@ -162,8 +183,9 @@ class SideMenu extends React.Component<Props, State> {
                 align="right"
                 className={storyStyles.greyBG}
                 items={items}
-                value="INR"
+                value={this.props.currency}
                 showCaret={true}
+                onChange={this.changeCurrency}
               ></SelectableDropdownMenu>
             </li>
           )}
@@ -202,7 +224,7 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <div className={styles.iconStyle}>
+              <div className={cs(styles.iconStyle, styles.innerWishContainer)}>
                 {isLoggedIn ? (
                   <Link to="/wishlist">
                     <i
@@ -250,6 +272,7 @@ class SideMenu extends React.Component<Props, State> {
             <span className={styles.badge}>{bagCount}</span>
             {this.state.showBag && (
               <Bag
+                showShipping={this.props.showShipping}
                 cart={this.props.sidebagData}
                 currency={this.props.currency}
                 active={this.state.showBag}
@@ -265,14 +288,14 @@ class SideMenu extends React.Component<Props, State> {
         <ul>
           {mobile ? (
             <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText}>
+              <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={
                     this.state.showSearch
                       ? cs(
                           iconStyles.icon,
-                          iconStyles.iconNarrowBig,
-                          styles.iconStyle
+                          iconStyles.iconCrossNarrowBig,
+                          styles.iconStyleCross
                         )
                       : cs(
                           iconStyles.icon,
@@ -286,7 +309,7 @@ class SideMenu extends React.Component<Props, State> {
             </li>
           ) : (
             <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText}>
+              <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={cs(
                     iconStyles.icon,
@@ -303,5 +326,5 @@ class SideMenu extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
+const SideMenuWithRouter = withRouter(SideMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenuWithRouter);

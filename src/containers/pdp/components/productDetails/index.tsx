@@ -60,7 +60,8 @@ const ProductDetails: React.FC<Props> = ({
     compAndCare,
     sku,
     url,
-    groupedProducts
+    groupedProducts,
+    salesBadgeImage
   },
   corporatePDP,
   mobile,
@@ -71,7 +72,7 @@ const ProductDetails: React.FC<Props> = ({
 }) => {
   const [productTitle, subtitle] = title.split("(");
 
-  const [img] = images;
+  // const [img] = images;
 
   const location = useLocation();
 
@@ -94,10 +95,24 @@ const ProductDetails: React.FC<Props> = ({
       : priceRecords[currency];
 
   const [sizeError, setSizeError] = useState("");
+  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
+
+  const showError = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        "show-error"
+      )[0] as HTMLDivElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
+  };
 
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      setQuantity(1);
       setSizeError("");
     },
     [id, childAttributes, selectedSize]
@@ -105,8 +120,6 @@ const ProductDetails: React.FC<Props> = ({
 
   const minQuantity = 1;
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
-
-  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
 
   const onQuantityChange = useCallback(
     value => {
@@ -141,7 +154,7 @@ const ProductDetails: React.FC<Props> = ({
       />
     );
     changeModalState(true);
-  }, [height, width]);
+  }, [height, width, currency]);
 
   const accordionSections = useMemo(() => {
     return [
@@ -163,12 +176,18 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
-  const addToBasket = async () => {
+  const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
+      showError();
     } else {
-      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+      BasketService.addToBasket(dispatch, selectedSize.id, quantity)
+        .then(() => {
+          dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+        })
+        .catch(err => {
+          dispatch(showMessage(err.response.data));
+        });
     }
   };
 
@@ -194,7 +213,7 @@ const ProductDetails: React.FC<Props> = ({
       <NotifyMePopup
         collection={collection}
         price={priceRecords[currency]}
-        currency={String.fromCharCode(currencyCodes[currency])}
+        currency={currency}
         childAttributes={childAttributes}
         title={title}
         selectedIndex={selectedIndex}
@@ -205,12 +224,19 @@ const ProductDetails: React.FC<Props> = ({
     changeModalState(true);
   };
 
+  let allOutOfStock = true;
+  childAttributes.forEach(({ stock }) => {
+    if (stock > 0) {
+      allOutOfStock = false;
+    }
+  });
+
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
-    } else if (selectedSize && selectedSize.stock == 0) {
+    } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = notifyMeClick;
     } else {
@@ -233,7 +259,6 @@ const ProductDetails: React.FC<Props> = ({
 
     return show;
   }, [childAttributes]);
-
   return (
     <div className={bootstrap.row}>
       <div
@@ -245,16 +270,10 @@ const ProductDetails: React.FC<Props> = ({
         )}
       >
         <div className={cs(bootstrap.row)}>
-          {img ? (
-            img.badgeImagePDP ? (
-              <div className={bootstrap.col12}>
-                <img src={img.badgeImagePDP} width="100" />
-              </div>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
+          {salesBadgeImage && (
+            <div className={bootstrap.col12}>
+              <img src={salesBadgeImage} width="100" />
+            </div>
           )}
 
           {mobile && (
@@ -267,7 +286,13 @@ const ProductDetails: React.FC<Props> = ({
               />
             </div>
           )}
-          <div className={cs(bootstrap.col12, styles.collectionHeader)}>
+          <div
+            className={cs(
+              bootstrap.col12,
+              styles.collectionHeader,
+              globalStyles.voffset3
+            )}
+          >
             {collection && (
               <Link to={collectionUrl || "#"}> {collection} </Link>
             )}
@@ -361,7 +386,9 @@ const ProductDetails: React.FC<Props> = ({
                     onChange={onSizeSelect}
                     selected={selectedSize ? selectedSize.id : undefined}
                   />
-                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
+                  <span className={cs(styles.sizeErrorMessage, "show-error")}>
+                    {sizeError}
+                  </span>
                 </div>
               </div>
             </div>
@@ -406,9 +433,17 @@ const ProductDetails: React.FC<Props> = ({
               >
                 Quantity
               </div>
-              <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colSm9,
+                  styles.widgetQty
+                )}
+              >
                 <Quantity
-                  id={selectedSize ? selectedSize.id : undefined}
+                  source="pdp"
+                  key={selectedSize?.sku}
+                  id={selectedSize?.id || 0}
                   minValue={minQuantity}
                   maxValue={maxQuantity}
                   currentValue={quantity}
@@ -469,19 +504,15 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
           <div
-            className={cs(
-              bootstrap.colSm4,
-              bootstrap.col3,
-              globalStyles.textCenter,
-              {
-                [styles.wishlistBtnContainer]: mobile,
-                [globalStyles.hidden]: corporatePDP
-              }
-            )}
+            className={cs(bootstrap.col3, globalStyles.textCenter, {
+              [styles.wishlistBtnContainer]: mobile,
+              [globalStyles.hidden]: corporatePDP
+            })}
           >
             <WishlistButton
               id={id}
               showText={!mobile}
+              size={selectedSize ? selectedSize.size : undefined}
               iconClassName={cs({
                 [styles.mobileWishlistIcon]: mobile
               })}

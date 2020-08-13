@@ -6,6 +6,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import useOutsideDetection from "../../hooks/useOutsideDetetion";
 import iconStyles from "../../styles/iconFonts.scss";
 import { useHistory } from "react-router-dom";
+import globalStyles from "../../styles/global.scss";
 
 export const ShopLocator: React.FC<ShopLocatorProps> = ({
   goToShopLocator,
@@ -53,7 +54,8 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
               className={cs(
                 { [styles.iconClass]: menuOpen },
                 iconStyles.icon,
-                iconStyles.iconLocation
+                iconStyles.iconLocation,
+                styles.iconStore
               )}
             ></i>
           </span>
@@ -73,7 +75,11 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             }
           ></div>
         </div>
-        <div className={menuOpen ? cs(styles.shopDropdown) : cs(styles.hidden)}>
+        <div
+          className={
+            menuOpen ? cs(styles.shopDropdown) : cs(globalStyles.hidden)
+          }
+        >
           <ul>
             {shopLocations.map(
               (data: { label: string; value: string }, index: number) => {

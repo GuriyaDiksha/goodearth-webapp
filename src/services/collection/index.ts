@@ -7,11 +7,17 @@ import {
 import Axios from "axios";
 
 export default {
-  fetchCollectionMapping: async (id: number): Promise<CollectionFilter> => {
+  fetchCollectionMapping: async (
+    id: number,
+    selectId?: string
+  ): Promise<CollectionFilter> => {
     const res = await Axios.get(
       `${__API_HOST__ + "/myapi/collection/level_2_cat_coll_mapping/" + id}`,
       {}
     );
+    res.data["selectValue"] = res.data.level2Categories.filter((item: any) => {
+      return item.id == selectId;
+    });
     res.data.level2Categories = res.data.level2Categories.map((data: any) => {
       return { label: data.name, value: data.name };
     });

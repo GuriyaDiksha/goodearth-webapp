@@ -1,5 +1,8 @@
 {
-    "domain": "https://www.goodearth.in",
+
+    "domain": "https://api.goodearth.in",
+    "apidomain": "https://api.goodearth.in",
+    "omniApiDomain": "https://web.goodearth.in/omni/",
     "manifestVersion": 3,
     "publicPath": "/static/"
 }

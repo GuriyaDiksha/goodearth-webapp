@@ -11,3 +11,8 @@ export type registerState = {
   showDOBLabel: boolean;
   genderOptions: { value: string; label: string }[];
 };
+
+export type RegisterProps = {
+  nextStep?: () => void;
+  changeEmail?: () => void;
+};

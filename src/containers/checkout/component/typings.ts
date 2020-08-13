@@ -5,6 +5,7 @@ import { Basket } from "typings/basket";
 export type LoginProps = {
   isActive: boolean;
   user: any;
+  next?: (step: string) => void;
 };
 
 export type AddressProps = {
@@ -44,6 +45,7 @@ export type PromoProps = {
   isActive: boolean;
   user: any;
   next: (step: string) => void;
+  selectedAddress: any;
 };
 
 export type PaymentProps = {
@@ -51,6 +53,12 @@ export type PaymentProps = {
   user: any;
   currency: Currency;
   checkout: (data: any) => any;
+  loyaltyData: any;
+};
+
+export type PopupProps = {
+  closeModal: (data?: any) => any;
+  acceptCondition: (data?: any) => any;
 };
 
 export type BalanceProps = {
@@ -89,5 +97,18 @@ export type GiftState = {
   txtvalue: string;
   error: string;
   newCardBox: boolean;
-  toggelOtp: boolean;
+  toggleOtp: boolean;
+  isActivated: boolean;
+};
+
+export type RedeemState = {
+  txtvalue: number | string;
+  error: string;
+  newCardBox: boolean;
+  toggleOtp: boolean;
+  isActivated: boolean;
+};
+
+export type ReddemProps = {
+  loyaltyData: any;
 };

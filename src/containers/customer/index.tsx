@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import { NavLink, Switch, Route, useRouteMatch } from "react-router-dom";
+import {
+  NavLink,
+  Switch,
+  Route,
+  useRouteMatch
+  // useLocation
+} from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -16,6 +22,7 @@ import Terms from "./components/Static/terms";
 import CeriseTerms from "./components/Static/ceriseterms";
 import Cookie from "./components/Static/cookie";
 import Privacy from "./components/Static/privacy";
+import SaleTnc from "./components/Static/saletnc";
 
 type Props = {
   isbridal: boolean;
@@ -36,7 +43,9 @@ const StaticPage: React.FC<Props> = props => {
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { path } = useRouteMatch();
 
-  const [currentSection, setCurrentSection] = useState("Profile");
+  const [currentSection, setCurrentSection] = useState("");
+
+  // const location = useLocation();
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
@@ -70,6 +79,13 @@ const StaticPage: React.FC<Props> = props => {
       href: "/customer-assistance/terms",
       component: CeriseTerms,
       title: "Cerise: Terms of Use",
+      loggedInOnly: false
+    },
+    {
+      label: "Joy Store Terms of Use",
+      href: "/customer-assistance/sales-conditions",
+      component: SaleTnc,
+      title: "Joy Store Terms of Use",
       loggedInOnly: false
     },
     {
@@ -172,6 +188,9 @@ const StaticPage: React.FC<Props> = props => {
                               key={item.label}
                               to={item.href}
                               activeClassName={globalStyles.cerise}
+                              onClick={() => {
+                                setAccountListing(false);
+                              }}
                             >
                               {item.label}
                             </NavLink>

@@ -6,7 +6,7 @@ import { useStore } from "react-redux";
 import WishlistContext from "contexts/wishlist";
 import UserContext from "contexts/user";
 // typings
-import { Props } from "./typings";
+import { Props } from "./typings.d";
 // services
 import WishlistService from "services/wishlist";
 import LoginService from "services/login";
@@ -16,11 +16,13 @@ import styles from "./styles.scss";
 
 const WishlistButton: React.FC<Props> = ({
   id,
+  size,
   showText,
   className,
   iconClassName,
   mobile,
-  basketLineId
+  basketLineId,
+  onMoveToWishlist
 }) => {
   const items = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -28,21 +30,22 @@ const WishlistButton: React.FC<Props> = ({
 
   const addedToWishlist = items.indexOf(id) !== -1;
 
-  const onClick = useCallback(() => {
+  const onClick = useCallback(async () => {
     if (!isLoggedIn) {
       LoginService.showLogin(store.dispatch);
     } else {
       if (basketLineId) {
-        WishlistService.moveToWishlist(store.dispatch, basketLineId);
+        await WishlistService.moveToWishlist(store.dispatch, basketLineId);
+        onMoveToWishlist?.();
       } else {
         if (addedToWishlist) {
           WishlistService.removeFromWishlist(store.dispatch, id);
         } else {
-          WishlistService.addToWishlist(store.dispatch, id);
+          WishlistService.addToWishlist(store.dispatch, id, size);
         }
       }
     }
-  }, [addedToWishlist, id, isLoggedIn, basketLineId]);
+  }, [addedToWishlist, id, isLoggedIn, basketLineId, size]);
 
   return (
     <div className={className}>

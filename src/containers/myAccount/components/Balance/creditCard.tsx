@@ -26,20 +26,30 @@ class CreditCard extends React.Component<Props, GiftState> {
       error: "",
       newCardBox: true,
       giftList: [],
-      toggelOtp: false
+      toggleOtp: false,
+      toggleResetOtpComponent: false,
+      disable: true,
+      showExpired: false,
+      showInactive: false,
+      showLocked: false,
+      conditionalRefresh: false
     };
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
 
   changeValue = (event: any) => {
+    this.state.disable && this.setState({ disable: false });
     this.setState({
       txtvalue: event.target.value
     });
+    if (this.state.error) {
+      this.setState({ error: "" });
+    }
   };
 
-  toggelOtp = (value: boolean) => {
+  toggleOtp = (value: boolean) => {
     this.setState({
-      toggelOtp: value
+      toggleOtp: value
     });
   };
 
@@ -47,24 +57,32 @@ class CreditCard extends React.Component<Props, GiftState> {
     const data: any = {
       code: this.state.txtvalue
     };
-    this.props.balanceCheck(data).then(response => {
-      const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN") {
+    this.props
+      .balanceCheck(data)
+      .then(response => {
+        const { giftList } = this.state;
+        if (response.currStatus == "Invalid-CN") {
+          this.setState({
+            error: "Please enter a valid code"
+          });
+        } else {
+          giftList.push(response);
+          this.setState({
+            giftList: giftList,
+            newCardBox: false,
+            txtvalue: "",
+            error: ""
+          });
+        }
+      })
+      .catch(err => {
         this.setState({
-          error: "Please enter a valid code"
+          error: err.response.data.message
         });
-      } else {
-        giftList.push(response);
-        this.setState({
-          giftList: giftList,
-          newCardBox: false,
-          txtvalue: ""
-        });
-      }
-    });
+      });
   };
 
-  gcBalanceOtp = (response: any) => {
+  updateList = (response: any) => {
     const { giftList } = this.state;
     if (response.currStatus == "Invalid-CN") {
       this.setState({
@@ -107,13 +125,22 @@ class CreditCard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    const { newCardBox, txtvalue, toggelOtp } = this.state;
+    const { newCardBox, txtvalue, toggleOtp } = this.state;
     const { isLoggedIn } = this.props;
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
           {this.state.giftList.map((data, i) => {
-            return <GiftCardItem {...data} onClose={this.onClose} key={i} />;
+            return (
+              <GiftCardItem
+                {...data}
+                onClose={this.onClose}
+                conditionalRefresh={this.state.conditionalRefresh}
+                showLocked={this.state.showLocked}
+                showExpired={this.state.showExpired}
+                key={i}
+              />
+            );
           })}
           <div
             className={cs(
@@ -124,13 +151,14 @@ class CreditCard extends React.Component<Props, GiftState> {
           >
             {newCardBox ? (
               <div>
-                {toggelOtp ? (
+                {toggleOtp ? (
                   ""
                 ) : (
                   <Fragment>
                     <div className={cs(styles.flex, styles.vCenter)}>
                       <input
                         type="text"
+                        autoComplete="off"
                         value={txtvalue}
                         onChange={this.changeValue}
                         id="credit"
@@ -157,13 +185,7 @@ class CreditCard extends React.Component<Props, GiftState> {
                   </Fragment>
                 )}
                 {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
+                  <p className={cs(globalStyles.errorMsg)}>
                     {this.state.error}
                   </p>
                 ) : (
@@ -190,14 +212,16 @@ class CreditCard extends React.Component<Props, GiftState> {
             ""
           ) : (
             <OtpComponent
+              disableSendOtpButton={this.state.disable}
+              otpFor="balanceCN"
               updateError={this.updateError}
               txtvalue={this.state.txtvalue}
-              toggelOtp={this.toggelOtp}
+              toggleOtp={this.toggleOtp}
               key={100}
               sendOtp={this.props.sendOtp}
               isCredit={true}
               checkOtpBalance={this.props.checkOtpBalance}
-              gcBalanceOtp={this.gcBalanceOtp}
+              updateList={this.updateList}
             />
           )
         ) : (

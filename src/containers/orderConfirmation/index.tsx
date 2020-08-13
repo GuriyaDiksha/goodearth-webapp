@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
@@ -7,15 +7,14 @@ import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import logoImage from "images/gelogoCerise.svg";
+import birdImage from "images/birdMotif.png";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
-// import media from "images/serai.png"
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
     device: { mobile },
-    currency,
     user: { email }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
@@ -48,7 +47,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   return (
     <div>
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
-        <div className={cs(bootstrapStyles.col2, styles.logoContainer)}>
+        <div
+          className={cs(
+            bootstrapStyles.col12,
+            bootstrapStyles.colMd2,
+            styles.logoContainer
+          )}
+        >
           <Link to="/">
             <img className={styles.logo} src={logoImage} />
           </Link>
@@ -62,11 +67,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             bootstrapStyles.colMd6,
             bootstrapStyles.offsetMd3,
             globalStyles.textCenter,
-            styles.popupFormBg
+            styles.popupFormBg,
+            styles.bgOrder
           )}
         >
           <div className={styles.motif}>
-            <img src={""} width="120px" />
+            <img src={birdImage} width="120px" />
           </div>
 
           <div className={bootstrapStyles.row}>
@@ -106,7 +112,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       )}
                     >
                       <p>
-                        {moment(confirmData.datePlaced).format("D MMM,YYYY")}
+                        {moment(confirmData.datePlaced).format("MMM D, YYYY")}
                       </p>
 
                       <p>
@@ -126,9 +132,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
                       <p>
                         {String.fromCharCode(
-                          currencyCode[currency as Currency]
+                          currencyCode[confirmData.currency as Currency]
                         )}
-                        &nbsp;{confirmData.totalInclTax}
+                        &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -239,19 +245,25 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {String.fromCharCode(
                                 currencyCode[item.priceCurrency as Currency]
                               )}
-                              &nbsp; {item.priceInclTax}
+                              &nbsp; {parseFloat(item.priceInclTax).toFixed(2)}
                             </p>
-                            <div
-                              className={cs(
-                                styles.smallSize,
-                                globalStyles.voffset2
-                              )}
-                            >
-                              Size:&nbsp; {item.product.size}
-                            </div>
-                            <div className={styles.smallSize}>
-                              Qty:&nbsp; {item.quantity}
-                            </div>
+                            {item.product?.structure == "GiftCard" ? (
+                              ""
+                            ) : (
+                              <Fragment>
+                                <div
+                                  className={cs(
+                                    styles.smallSize,
+                                    globalStyles.voffset2
+                                  )}
+                                >
+                                  Size:&nbsp; {item.product.size}
+                                </div>
+                                <div className={styles.smallSize}>
+                                  Qty:&nbsp; {item.quantity}
+                                </div>
+                              </Fragment>
+                            )}
                           </div>
                         </div>
                       </div>

@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
-import { NavLink, Switch, Route, useRouteMatch } from "react-router-dom";
+import {
+  NavLink,
+  Switch,
+  Route,
+  useRouteMatch,
+  useLocation,
+  useHistory
+} from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
@@ -15,6 +22,8 @@ import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
 import { AppState } from "reducers/typings";
+import ActivateGiftCard from "./components/ActivateGiftCard";
+import TrackOrder from "./components/TrackOrder";
 
 type Props = {
   isBridal: boolean;
@@ -39,84 +48,18 @@ const MyAccount: React.FC<Props> = props => {
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
-    window.scrollTo(0, 0);
+    const noContentContainerElem = document.getElementById(
+      "no-content"
+    ) as HTMLDivElement;
+    if (
+      noContentContainerElem.classList.contains(globalStyles.contentContainer)
+    ) {
+      noContentContainerElem.classList.remove(globalStyles.contentContainer);
+    }
+    // window.scrollTo(0, 0);
   }, []);
-  // this.state = {
-  //     showregistry: location.search.split('=')[1] == 'bridal' ? true : false,
-  //     isCeriseClubMember: false
-  // }
-
-  // const setSelectedSection = () => {
-
-  //     switch (currentSection) {
-  //         case 'profile':
-  //             return <MyProfile/>
-  //             break;
-  //         case 'password':
-  //             return <ChangePassword/>
-  //             break;
-  //         case 'address':
-  //             return <ManageAddress isCeriseClubMember={this.state.isCeriseClubMember} isbridal={this.props.isbridal} currentCallBackComponent="account" id={bridalId}/>
-  //             break;
-  //         case 'orders':
-  //             return <PastOrders setAccountPage={this.setAccountPage}/>
-  //             break;
-  //         case 'track':
-  //             return <Tracking setAccountPage={this.setAccountPage}/>
-  //             break;
-  //         case 'bridal':
-  //             return <MainBridal id={bridalId} mobile={mobile}/>
-  //             break;
-  //         case 'checkbalance':
-  //             return <CheckBalance />
-  //             break;
-  //         case 'agc':
-  //             return <Activate />
-  //             break;
-  //         case 'cerise':
-  //             return <CeriseClubMain mobile={mobile}/>
-  //             break;
-  //         default:
-
-  //     }
-  // }
-
-  // const getLoyaltyTransactions = () => {
-  //     const formData = new FormData();
-  //     formData.append("email", window.user.email);
-  //     formData.append("phoneno", "");
-  //     axios.post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
-  //     .then(res => {
-  //         if (res.data.is_success) {
-  //             let isCeriseClubMember = res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
-  //             this.setState({
-  //                 slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
-  //                 isCeriseClubMember: isCeriseClubMember
-  //             }, () => {
-  //                 const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
-  //                 this.props.updateCeriseClubAccess(slab);
-  //             })
-  //         }
-  //     })
-  //     .catch(err => {
-  //         console.log(err);
-  //     });
-  // }
-
-  // const showRegistry = () => {
-  //     this.setState({
-  //         showregistry: !this.state.showregistry
-  //     })
-  // }
-
-  // componentDidMount() {
-  //     this.getLoyaltyTransactions();
-  // }
-
-  // let ceriseClubAccess;
-  // if (slab) {
-  //     ceriseClubAccess = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10" || slab.toLowerCase() == "ff15" || slab.toLowerCase() == "cerise sitara";
-  // }
+  const { pathname } = useLocation();
+  const history = useHistory();
 
   const accountMenuItems: AccountMenuItem[] = [
     {
@@ -151,14 +94,14 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "Track Order",
       href: "/account/track-order",
-      component: () => <div>Track Order</div>,
+      component: TrackOrder,
       title: "track",
       loggedInOnly: false
     },
     {
       label: "Activate Gift Card",
       href: "/account/giftcard-activation",
-      component: () => <div>Activate Gift Card</div>,
+      component: ActivateGiftCard,
       title: "Activate Gift Card",
       loggedInOnly: false
     },
@@ -170,6 +113,19 @@ const MyAccount: React.FC<Props> = props => {
       loggedInOnly: false
     }
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (
+      accountMenuItems.filter(
+        item => item.href == pathname && item.loggedInOnly
+      ).length > 0 &&
+      !isLoggedIn
+    ) {
+      history.push("/");
+    }
+  }, [pathname, isLoggedIn]);
+
   let bgClass = cs(globalStyles.colMd10, globalStyles.col12, styles.bgProfile);
   bgClass +=
     slab && path == "/account/cerise"
@@ -181,7 +137,7 @@ const MyAccount: React.FC<Props> = props => {
     <div className={globalStyles.containerStart}>
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
-          <span className={styles.heading}>
+          <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
             <i
               className={cs(
                 iconStyles.icon,
@@ -257,19 +213,25 @@ const MyAccount: React.FC<Props> = props => {
                     )}
                   >
                     <ul className={styles.sort}>
-                      {accountMenuItems.map(item => {
-                        return (
-                          <li key={item.label}>
-                            <NavLink
-                              key={item.label}
-                              to={item.href}
-                              activeClassName={globalStyles.cerise}
-                            >
-                              {item.label}
-                            </NavLink>
-                          </li>
-                        );
-                      })}
+                      {accountMenuItems
+                        .filter(item =>
+                          isLoggedIn ? true : !item.loggedInOnly
+                        )
+                        .map(item => {
+                          return (
+                            <li key={item.label}>
+                              <NavLink
+                                onClick={() => setAccountListing(false)}
+                                key={item.label}
+                                to={item.href}
+                                activeClassName={globalStyles.cerise}
+                              >
+                                {item.label}
+                              </NavLink>
+                            </li>
+                          );
+                        })}
+
                       {/* <li>
                         {ceriseClubAccess && 
                             <li>

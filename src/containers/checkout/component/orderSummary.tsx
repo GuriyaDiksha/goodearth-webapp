@@ -4,14 +4,15 @@ import cs from "classnames";
 // import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
-import * as Steps from "containers/checkout/constants";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
+import { AppState } from "reducers/typings";
+import LoginService from "services/login";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -23,10 +24,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     salestatus,
     validbo
   } = props;
-  const [showSummary, setShowSummary] = useState(true);
+  const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
 
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
@@ -35,7 +37,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
-    BasketService.fetchBasket(dispatch);
+    BasketService.fetchBasket(dispatch, true);
     return response;
   };
 
@@ -79,7 +81,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 *Expected Delivery for Wallcoverings- within 40 business days
               </p>
             )}
-            {
+            {false && (
               <div>
                 <p className={globalStyles.cerise}>
                   Apply code: <b>SAVE20</b> at checkout to avail 20% discount on
@@ -88,7 +90,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 </p>
                 <br />
               </div>
-            }
+            )}
             {isSuspended && (
               <p>
                 {" "}
@@ -139,23 +141,23 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.discountprice}>
                         price_excl_tax_excl_discounts
                         {String.fromCharCode(code)}{" "}
-                        {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                          ? item.product.priceRecords[currency]
+                        {item.product.structure == "GiftCard"
+                          ? item.GCValue
                           : item.product.discountedPriceRecords[currency]}
                       </span>
                       &nbsp;
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(code)}{" "}
-                        {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                          ? item.product.priceRecords[currency]
+                        {item.product.structure == "GiftCard"
+                          ? item.GCValue
                           : item.product.priceRecords[currency]}{" "}
                       </span>{" "}
                     </span>
                   ) : (
                     <span className={styles.productPrice}>
                       {String.fromCharCode(code)}{" "}
-                      {item.product.sku == Steps.DYNAMIC_GIFTCARD_SKU
-                        ? item.product.priceRecords[currency]
+                      {item.product.structure == "GiftCard"
+                        ? item.GCValue
                         : item.product.priceRecords[currency]}
                     </span>
                   )}
@@ -187,7 +189,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removeGiftCard = async (data: FormData) => {
     const response = await CheckoutService.removeGiftCard(dispatch, data);
-    BasketService.fetchBasket(dispatch);
+    BasketService.fetchBasket(dispatch, true);
+    return response;
+  };
+
+  const removeRedeem = async () => {
+    const response = await CheckoutService.removeRedeem(dispatch);
+    BasketService.fetchBasket(dispatch, true);
     return response;
   };
 
@@ -201,8 +209,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const getCoupons = () => {
     let coupon = null;
     let giftCard = null;
-    // let loyalty = null;
-    // let voucherDiscount = this.props.voucher_discounts[0];
+    let loyalty = null;
+    // let voucherDiscount = props.voucher_discounts[0];
     if (basket.voucherDiscounts.length > 0) {
       const couponDetails = basket.voucherDiscounts?.[0];
       if (couponDetails) {
@@ -234,7 +242,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     <i
                       className={cs(
                         iconStyles.icon,
-                        iconStyles.iconCrossNarrowBig
+                        iconStyles.iconCrossNarrowBig,
+                        styles.discountFont
                       )}
                     ></i>
                   </span>
@@ -279,7 +288,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <i
                     className={cs(
                       iconStyles.icon,
-                      iconStyles.iconCrossNarrowBig
+                      iconStyles.iconCrossNarrowBig,
+                      styles.discountFont
                     )}
                   ></i>
                 </span>
@@ -292,27 +302,53 @@ const OrderSummary: React.FC<OrderProps> = props => {
         );
       });
     }
-    //     if(this.props.loyalty){
-    //         loyalty =(
-    //             <div className="flex gutter-between">
-    //                 <span className="subtotal">
-    //                     <span className="margin-r-10">CERISE POINTS</span>
-    //                     <span className="promo-message">
-    //                         <span className="text-muted margin-r-10">REDEEMED</span>
-    //                         <span onClick={() => this.onLoyaltyRemove()}><i
-    //                             className="icon icon_cross-narrow-big remove"></i></span>
-    //                     </span>
-    //                 </span>
-    //                 <span className="subtotal">(-) {Currency.getSymbol()} {this.props.loyalty}</span>
-    //             </div>
-    //         )
-    //     }
+    const redeemDetails = basket.loyalty?.[0];
+    if (redeemDetails) {
+      loyalty = (
+        <div
+          className={cs(
+            globalStyles.flex,
+            globalStyles.gutterBetween,
+            globalStyles.marginT20,
+            globalStyles.crossCenter
+          )}
+          key={"redeems"}
+        >
+          <span className={styles.subtotal}>
+            <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+              CERISE POINTS
+            </span>
+            <span className={styles.textMuted}>
+              {" "}
+              {"REDEEMED"}
+              <span
+                className={styles.cross}
+                onClick={() => {
+                  removeRedeem();
+                }}
+              >
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.discountFont
+                  )}
+                ></i>
+              </span>
+            </span>
+          </span>
+          <span className={styles.subtotal}>
+            (-) {String.fromCharCode(code)} {redeemDetails.points}
+          </span>
+        </div>
+      );
+    }
     return (
       <div>
         {/* {(coupon || giftCard.length > 0) && <hr className="hr"/>} */}
         {coupon}
         {giftCard}
-        {/* {loyalty} */}
+        {loyalty}
       </div>
     );
     // }
@@ -320,29 +356,73 @@ const OrderSummary: React.FC<OrderProps> = props => {
     //return null;
   };
 
-  const getDeliveryStatus = () => {
-    return true;
+  const { pathname } = useLocation();
+
+  const hasOutOfStockItems = () => {
+    const items = basket.lineItems;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.product.stockRecords[0].numInStock < 1) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   const canCheckout = () => {
+    if (pathname.indexOf("checkout") > -1) {
+      return false;
+    }
+    if (
+      !basket.lineItems ||
+      hasOutOfStockItems() ||
+      basket.lineItems.length == 0
+    ) {
+      return false;
+    }
     return true;
   };
 
+  const resetInfoPopupCookie = () => {
+    const cookieString =
+      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  };
   const chkshipping = () => {
-    return true;
-  };
-
-  const hasOutOfStockItems = () => {
-    return true;
+    if (pathname.indexOf("checkout") > -1) {
+      return false;
+    }
+    if (isSuspended) {
+      resetInfoPopupCookie();
+    }
+    // let price = calculateOffer(true) - getPromoOffer();
+    // if (!state.freeShipping && price >= 45000 && price < 50000 && currency == 'INR' && basket.shippable) {
+    //     props.showShipping(50000 - price);
+    //     event.preventDefault();
+    // }
   };
 
   const onRemoveOutOfStockItemsClick = () => {
-    return true;
+    //   CartApi.removeOutOfStockItems(null, props.dispatch).then(mydata =>{
+    //     props.getShippingCharges();
+    // });
   };
 
-  const goTowishlist = () => {
-    return true;
-  };
+  // const goTowishlist = () => {
+  //   // dataLayer.push({
+  //   //   'event': 'eventsToSend',
+  //   //   'eventAction': 'wishListClick',
+  //   //   'eventCategory': 'Click',
+  //   //   'eventLabel': location.pathname
+  //   // });
+  //   if (isLoggedIn) {
+  //       location.href = '/wishlist';
+  //   } else {
+  //     LoginService.showLogin(dispatch);
+  //   }
+  // };
 
   const getDiscount = (data: any) => {
     // let initial = 0,
@@ -363,7 +443,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               globalStyles.gutterBetween,
               globalStyles.marginT20
             )}
-            key={index}
+            key={index + "getDiscount"}
           >
             <span className={styles.subtotal}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
@@ -395,7 +475,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>SUBTOTAL</span>
             <span className={styles.subtotal}>
-              {String.fromCharCode(code)} {basket.subTotal}
+              {String.fromCharCode(code)}{" "}
+              {parseFloat("" + basket.subTotal).toFixed(2)}
             </span>
           </div>
           <div
@@ -474,10 +555,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 TOTAL
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-                {String.fromCharCode(code)} {basket.total}
+                {String.fromCharCode(code)}{" "}
+                {parseFloat("" + basket.total).toFixed(2)}
               </span>
             </div>
-            {getDeliveryStatus()}
             {!mobile && getDeliveryStatusMobile()}
             {currency == "INR" ? (
               ""
@@ -515,7 +596,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         ? cs(globalStyles.ceriseBtn, {
                             [globalStyles.hidden]: mobile
                           })
-                        : cs(globalStyles.ceriseBtn, globalStyles.disabled, {
+                        : cs(globalStyles.ceriseBtn, globalStyles.disabledBtn, {
                             [globalStyles.hidden]: mobile
                           })
                     }
@@ -532,11 +613,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     )}
                     onClick={onRemoveOutOfStockItemsClick}
                   >
-                    Please
+                    Please&nbsp;
                     <span className={styles.triggerRemoveItems}>
                       REMOVE ALL ITEMS
                     </span>
-                    which are out of stock to proceed
+                    &nbsp; which are out of stock to proceed
                   </p>
                 )}
                 <div
@@ -550,20 +631,29 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <br />
                   you can apply the same during payment.
                 </div>
-                <div className="wishlist">
-                  <a onClick={goTowishlist}>
+                <div className={styles.wishlist}>
+                  <Link
+                    to="/wishlist"
+                    onClick={e => {
+                      if (!isLoggedIn) {
+                        e.preventDefault();
+                        LoginService.showLogin(dispatch);
+                      }
+                    }}
+                  >
                     <span>
                       <i
                         className={cs(
                           iconStyles.icon,
                           iconStyles.iconWishlist,
+                          styles.font30,
                           globalStyles.pointer
                         )}
                       ></i>
                     </span>
                     &nbsp;
                     <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}
@@ -579,8 +669,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   onClick={chkshipping}
                   className={
                     canCheckout()
-                      ? styles.ceriseBtn
-                      : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                      ? cs(globalStyles.ceriseBtn, styles.posFixed)
+                      : cs(
+                          globalStyles.ceriseBtn,
+                          globalStyles.disabled,
+                          styles.posFixed
+                        )
                   }
                 >
                   PROCEED TO CHECKOUT

@@ -1,3 +1,5 @@
+import { Basket } from "typings/basket";
+
 export type AddressData = AddressFormData & {
   id: number;
   countryName: string;
@@ -5,25 +7,19 @@ export type AddressData = AddressFormData & {
   registrantName: string;
   coRegistrantName: string;
   occasion: string;
-  isEdit?: boolean;
+  isTulsi?: boolean;
 };
 
 export type specifyShippingAddressResponse = {
-  loyaltyUpdated: boolean;
-  shippable: boolean;
-  currency: string | null;
-  subTotal: number;
-  total: number;
-  voucherDiscounts: [];
-  offerDiscounts: [];
-  bridal: boolean;
-  lineItems: [];
-  totalWithOutGCItems: number;
-  isTaxKnown: boolean;
-  publishRemove: boolean;
-  redirectHomepage: boolean;
-  shippingCharge: number;
-  pageReload: boolean;
+  status: boolean;
+  message: string;
+  data: {
+    publishRemove: boolean;
+    redirectHomepage: boolean;
+    shippingCharge: number;
+    pageReload: boolean;
+    basket: Basket;
+  };
 };
 
 export type AddressFormData = {

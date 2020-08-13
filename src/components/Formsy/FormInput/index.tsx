@@ -58,11 +58,31 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "dateOfBirth":
         return "Please enter valid date of birth";
       case "phoneNo":
+      case "phoneNumber":
         return "Please enter Phone Number";
       case "password1":
         return "Please enter at least 6 characters for the password";
       case "password2":
         return "Please enter at least 6 characters for the password";
+      case "recipientName":
+        return "Please enter Recipient's Name";
+      case "recipientEmailConfirm":
+      case "recipientEmail":
+        return "Please enter Recipient's Email";
+      case "message":
+        return "Please enter message";
+      case "senderName":
+        return "Please enter Sender's Name";
+      case "giftCardCode":
+        return "Please enter Gift Card Code";
+      case "orderNumber":
+        return "Please enter Order Number";
+      case "city":
+        return "Please enter City";
+      case "postCode":
+        return "Please enter valid Pin/Zip code";
+      case "line1":
+        return "Please enter Address Line 1";
       default:
         return "This field is required";
     }
@@ -88,11 +108,11 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         value={props.value || ""}
         placeholder={placeholder}
         onChange={e => handleChange(e)}
-        autoComplete="new-password"
+        autoComplete="off"
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
-        onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)}
+        onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)} // use Key up if you want change only if input is valid
         onDrop={
           props.isDrop
             ? e => {

@@ -8,6 +8,7 @@ import API from "utils/api";
 import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
+import { Basket } from "typings/basket";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "sequence") {
@@ -23,12 +24,17 @@ export default {
     dispatch(updateWishlist([]));
   },
 
-  addToWishlist: async function(dispatch: Dispatch, productId: ProductID) {
+  addToWishlist: async function(
+    dispatch: Dispatch,
+    productId: ProductID,
+    size?: string
+  ) {
     const res = await API.post<ApiResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/wishlist/"}`,
       {
-        productId
+        productId,
+        size
       }
     );
     this.updateWishlist(dispatch);
@@ -37,14 +43,16 @@ export default {
 
   removeFromWishlist: async function(
     dispatch: Dispatch,
-    productId: ProductID,
+    productId?: ProductID,
+    id?: number,
     sortyBy = "sequence"
   ) {
     const res = await API.delete<ApiResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/wishlist/"}`,
       {
-        productId
+        productId,
+        id
       }
     );
     await this.updateWishlist(dispatch, sortyBy);
@@ -79,6 +87,14 @@ export default {
       this.updateWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
     }
+  },
+  undoMoveToWishlist: async function(dispatch: Dispatch) {
+    const res = await API.post<{
+      basket: Basket;
+      isSuccess: boolean;
+      message: string;
+    }>(dispatch, `${__API_HOST__}/myapi/wishlist/wishlist_undo/`, null);
+    return res;
   },
 
   modifyWishlistItem: async function(

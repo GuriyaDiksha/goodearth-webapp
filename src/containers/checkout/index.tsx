@@ -14,17 +14,21 @@ import { AddressData } from "components/Address/typings";
 import CookieService from "services/cookie";
 import AddressService from "services/address";
 import CheckoutService from "services/checkout";
-import MetaService from "services/meta";
-import BasketService from "services/basket";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
 import * as valid from "utils/validate";
-import { refreshPage } from "actions/user";
+import { refreshPage, updateUser } from "actions/user";
 import OrderSummary from "./component/orderSummary";
 import PromoSection from "./component/promo";
 import PaymentSection from "./component/payment";
 import { Cookies } from "typings/cookies";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
+import { User } from "typings/user";
+import { showMessage } from "actions/growlMessage";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -41,11 +45,21 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    specifyShippingAddress: async (shippingAddressId: number) => {
+    // create function for dispatch
+    showNotify: (message: string) => {
+      dispatch(showMessage(message, 6000));
+    },
+    specifyShippingAddress: async (
+      shippingAddressId: number,
+      shippingAddress: AddressData,
+      user: User
+    ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId
       );
+      const userData = { ...user, shippingData: shippingAddress };
+      dispatch(updateUser(userData));
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
@@ -63,22 +77,29 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       return data;
     },
-    refreshPage: () => {
+    reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
-    },
-    updateMeta: (cookies: Cookies) => {
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch, true);
+      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
       return response;
+    },
+    getLoyaltyPoints: async (data: FormData) => {
+      const points: any = await CheckoutService.getLoyaltyPoints(
+        dispatch,
+        data
+      );
+      return points;
     }
   };
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   activeStep: string;
@@ -102,7 +123,9 @@ type State = {
   id: string;
   addressIdError: string;
   isGoodearthShipping: boolean;
+  loyaltyData: any;
 };
+
 class Checkout extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -133,23 +156,108 @@ class Checkout extends React.Component<Props, State> {
       isLoading: false,
       id: "",
       addressIdError: "",
-      isGoodearthShipping: false
+      isGoodearthShipping:
+        props.user.shippingData && props.user.shippingData.isTulsi
+          ? true
+          : false,
+      loyaltyData: {}
     };
   }
   componentDidMount() {
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
-    this.props.updateMeta(this.props.cookies);
+    const {
+      user: { email },
+      getLoyaltyPoints
+    } = this.props;
+
+    // code for call loyalty point api only one time
+    if (email) {
+      const data: any = {
+        email: email
+      };
+
+      getLoyaltyPoints(data).then(loyalty => {
+        this.setState({
+          loyaltyData: loyalty
+        });
+      });
+    }
+    if (this.props.basket.publishRemove) {
+      this.props.showNotify(
+        "Due to unavailability of some products your cart has been updated."
+      );
+    }
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.display = "none";
+      scrollToTopButtonElem.style.bottom = "65px";
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.display = "none";
+      chatButtonElem.style.bottom = "10px";
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const shippingData = nextProps.user.shippingData;
-    if (shippingData && !this.props.user.shippingData) {
-      this.setState({
-        shippingAddress: shippingData,
-        activeStep: shippingData ? Steps.STEP_BILLING : Steps.STEP_SHIPPING
-      });
+    if (nextProps.user.isLoggedIn) {
+      const { shippingData } = nextProps.user;
+      const {
+        user: { email },
+        getLoyaltyPoints
+      } = this.props;
+
+      // code for call loyalty point api only one time
+      if (!email && nextProps.user.email) {
+        const data: any = {
+          email: nextProps.user.email
+        };
+        getLoyaltyPoints(data).then(loyalty => {
+          this.setState({
+            loyaltyData: loyalty
+          });
+        });
+      }
+
+      if (nextProps.basket.redirectToCart) {
+        this.props.history.push("/cart", {});
+      }
+      if (nextProps.basket.publishRemove && !this.props.basket.publishRemove) {
+        this.props.showNotify(
+          "Due to unavailability of some products your cart has been updated."
+        );
+      }
+      if (
+        (this.state.activeStep == Steps.STEP_SHIPPING ||
+          this.state.activeStep == Steps.STEP_LOGIN) &&
+        shippingData &&
+        shippingData?.id !== this.state.shippingAddress?.id
+      ) {
+        this.setState({
+          activeStep: Steps.STEP_BILLING
+        });
+      }
+      // things to reset on currency change
+      if (!shippingData) {
+        this.setState({
+          activeStep: Steps.STEP_SHIPPING,
+          billingAddress: undefined
+        });
+      }
+      if (shippingData !== this.state.shippingAddress) {
+        this.setState({
+          shippingAddress: shippingData || undefined
+        });
+      }
+      if (
+        !this.state.isGoodearthShipping &&
+        shippingData &&
+        shippingData.isTulsi
+      ) {
+        this.setState({ isGoodearthShipping: true });
+      }
     }
   }
 
@@ -258,30 +366,36 @@ class Checkout extends React.Component<Props, State> {
       // }
 
       this.props
-        .specifyShippingAddress(address.id)
+        .specifyShippingAddress(address.id, address, this.props.user)
         .then(data => {
-          const isGoodearthShipping = address.isEdit ? address.isEdit : false;
-          this.setState({ isGoodearthShipping });
-          localStorage.setItem(
-            "shippingDataUserAddressId",
-            address.id.toString()
-          );
+          if (data.status) {
+            const isGoodearthShipping = address.isTulsi
+              ? address.isTulsi
+              : false;
+            this.setState({ isGoodearthShipping });
 
-          this.setState({
-            shippingCharge: data.shippingCharge,
-            shippingAddress: address,
-            activeStep: Steps.STEP_BILLING,
-            shippingError: ""
-          });
-          if (data.pageReload) {
-            window.location.reload();
-            this.props.refreshPage();
+            this.setState({
+              shippingCharge: data.data.shippingCharge,
+              shippingAddress: address,
+              billingAddress: undefined,
+              activeStep: Steps.STEP_BILLING,
+              shippingError: ""
+            });
+
+            if (data.data.pageReload) {
+              // window.location.reload();
+              this.props.reloadPage(this.props.cookies);
+            }
           }
         })
         .catch(err => {
           // console.log(err.response.data);
-          this.setState({ shippingError: valid.showErrors(err.response.data) });
-          this.showErrorMsg();
+          if (!err.response.data.status) {
+            this.setState({
+              shippingError: valid.showErrors(err.response.data)
+            });
+            this.showErrorMsg();
+          }
         });
     } else {
       let data: specifyBillingAddressData;
@@ -349,6 +463,7 @@ class Checkout extends React.Component<Props, State> {
               <LoginSection
                 isActive={this.isActiveStep(Steps.STEP_LOGIN)}
                 user={this.props.user}
+                next={this.nextStep}
               />
               <AddressMain
                 isActive={this.isActiveStep(Steps.STEP_SHIPPING)}
@@ -377,25 +492,24 @@ class Checkout extends React.Component<Props, State> {
                 finalizeAddress={this.finalizeAddress}
                 hidesameShipping={true}
                 activeStep={Steps.STEP_BILLING}
-                // items={this.props.basket}
-                // bridalId={this.props.bridalId}
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
-                addressType={Steps.STEP_SHIPPING}
+                addressType={Steps.STEP_BILLING}
                 addresses={this.props.addresses}
-                // user={this.props.user}
                 error={this.state.billingError}
               />
               <PromoSection
                 isActive={this.isActiveStep(Steps.STEP_PROMO)}
                 user={this.props.user}
                 next={this.nextStep}
+                selectedAddress={this.state.billingAddress}
               />
               <PaymentSection
                 isActive={this.isActiveStep(Steps.STEP_PAYMENT)}
                 user={this.props.user}
                 checkout={this.finalOrder}
                 currency={this.props.currency}
+                loyaltyData={this.state.loyaltyData}
               />
             </div>
             <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
@@ -415,5 +529,5 @@ class Checkout extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+const checkoutRouter = withRouter(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(checkoutRouter);

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 
 import { SelectableDropdownMenuProps } from "./typings";
 
@@ -19,13 +19,18 @@ const DropdownMenu = ({
   showCaret
 }: SelectableDropdownMenuProps): JSX.Element => {
   const [currentValue, setCurrentValue] = useState(value);
-
   const mounted = useRef(false);
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
+  const onChangeValue = (val: string | undefined) => {
+    setCurrentValue(val);
+    onChange ? onChange(val) : "";
+  };
   useLayoutEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
-    } else if (onChange) {
-      onChange(currentValue);
     }
   }, [currentValue]);
   const getMenuItems = (): JSX.Element[] => {
@@ -33,7 +38,7 @@ const DropdownMenu = ({
       const itemProps: DropdownMenuItemProps = {
         label: item.label,
         onClick: () => {
-          setCurrentValue(item.value);
+          onChangeValue(item.value);
         },
         selected: item.value == currentValue,
         type: item.type || "button"

@@ -63,7 +63,7 @@
         width: 50%;
          h4 {
             font-size: 28px;
-            font-family: "Baskerville","Garamond";
+            font-family: $font-Serif;
             line-height: 60px;
         }
         h3 {
@@ -71,7 +71,8 @@
             line-height: 40px;
             text-transform: none;
             color: #333;
-            font-family: $font-Amiri;
+            margin-bottom: 20px;
+            font-family: $font-Serif;
         }
         h5 {
             color: black;
@@ -89,7 +90,7 @@
 
 .jobs-section {
     position: relative;
-    top: 5rem;
+    top: 1rem;
     width: 80%;
     margin: 0 auto;
     margin-bottom: 150px;
@@ -141,6 +142,7 @@ p.job-description {
     }
     h6 {
         font-size: 16px;
+        margin-bottom: 0;
     }
 }
 
@@ -240,13 +242,13 @@ p.job-description {
     }
 }
 
-.newcareers-content {
-    margin-bottom:70px;
-}
+// .newcareers-content {
+//     margin-bottom:70px;
+// }
 
-.newcareers-content-jobform {
+// .newcareers-content-jobform {
     // margin-bottom: 120px;
-}
+// }
 
 .social-icons-share li {
     display: inline-block;
@@ -283,7 +285,7 @@ p.job-description {
                 letter-spacing: 1px;
             }
             h4.job-designation {
-                font-family: "Baskerville","Garamond";
+                font-family: $font-Serif;
                 font-size: 20px;
             }
         }
@@ -315,7 +317,10 @@ p.job-description {
         
         .job-application {            
             width: 55%;
-            margin: 0 auto;
+            margin: 60px auto;
+            h4 {
+                font-size: 20px;
+            }
             &.job-application-mobile {
                 width: 90%;
             }
@@ -474,17 +479,17 @@ p {
         top: $header-height;
         h5 {
             color: #666;
-            padding: 22px 0;
+            // padding: 22px 0;
             letter-spacing: 1px;
             margin-left: 32%;
         }
         .career-mobile-drop-down {
             margin-left: 4%;
             .career-key-all {
-                padding: 15px 0;
+                // padding: 15px 0;
                 span {
                     font-size: 14px;
-                    font-family: "LatoFont","Helvetica","Arial";
+                    font-family: $font-Lato;
                     letter-spacing: 1px;
                     text-transform: uppercase;
                     line-height: 38px;
@@ -511,17 +516,17 @@ p {
     .career-sort-cross {
         span.sort-label {
             font-size: 14px;
-            font-family: "LatoFont","Helvetica","Arial";
+            font-family: $font-Lato;
             color: gray;
             letter-spacing: 1px;
             text-transform: uppercase;
-            padding: 24px 0;
+            // padding: 24px 0;
             margin-left: 32%;
         }
         span.cross {
             font-size: 14px;
             color: gray;
-            padding: 20px 0;
+            // padding: 20px 0;
             justify-self: end;
             margin-right: 6%;
             cursor: pointer;
@@ -582,9 +587,8 @@ p {
       }
       
 .career-back-button {
-    padding: 17px 0;
     width: 80%;
-    margin: 0 auto;
+    //margin: 0 auto;
     color: #666;
     p {
         .unicode {
@@ -600,4 +604,8 @@ p {
         color: #666;
     }
 
+}
+
+career-filter {
+    padding-left: 48px;
 }

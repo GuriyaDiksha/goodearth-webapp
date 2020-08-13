@@ -14,16 +14,20 @@ const GiftCardItem = ({
   currCode,
   fullValue,
   remValues,
+  conditionalRefresh,
+  showLocked,
+  showExpired,
   code,
-  onClose
+  onClose,
+  viewOnly
 }: GiftListProps): JSX.Element => {
-  let showLocked = false;
-  let showExpired = false;
+  // const [showLocked, set = false;
+  // let showExpired = false;
   const unicode = currencyCode[currCode as Currency];
-  const conditionalRefresh = false;
+  // const conditionalRefresh = false;
   const deleteCard = (code: string) => {
     // setOpenState(!menuOpen);
-    console.log(showLocked);
+    // console.log(showLocked);
   };
 
   const closeResult = (code: string) => {
@@ -84,19 +88,21 @@ const GiftCardItem = ({
         </div>
       ) : (
         <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
-          <p className={styles.value12}>
-            {code}{" "}
-            <span
-              className={styles.cross}
-              onClick={() => {
-                closeResult(code);
-              }}
-            >
-              <i
-                className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
-              ></i>
-            </span>
-          </p>
+          {!viewOnly && (
+            <p className={styles.value12}>
+              {code}{" "}
+              <span
+                className={styles.cross}
+                onClick={() => {
+                  closeResult(code);
+                }}
+              >
+                <i
+                  className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+                ></i>
+              </span>
+            </p>
+          )}
           <p>
             <span className={styles.op2}> Date of issue: </span>{" "}
             <span className={styles.fontBold}> {createDate} </span>

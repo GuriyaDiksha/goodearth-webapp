@@ -19,6 +19,14 @@ export default {
     );
     return res;
   },
+  removeRedeem: async function(dispatch: Dispatch) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/remove_loyalty_points/"}`,
+      {}
+    );
+    return res;
+  },
   removePromo: async function(dispatch: Dispatch, formData: any) {
     const res = await API.post<ApiResponse>(
       dispatch,
@@ -39,6 +47,14 @@ export default {
     const res = await API.post<ApiResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/checkout/"}`,
+      formData
+    );
+    return res;
+  },
+  getLoyaltyPoints: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/mobiquest/loyalty_points_and_history/"}`,
       formData
     );
     return res;

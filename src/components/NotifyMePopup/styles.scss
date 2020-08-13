@@ -8,6 +8,14 @@
     bottom: 0;
     padding-bottom: 55px;
     position: relative;
+
+    .input-quantity {
+        padding: 8px 0;
+    }
+
+    .size-box {
+        margin: 0 6px;
+    }
 }
 
 .header {
@@ -40,17 +48,20 @@
 .price {
     font-size: 12px;
     line-height: 30px;
-    font-family: "AmiriFont", "Baskerville", "Garamond";
+    font-family: $font-Serif;
     margin-top: 0;
 }
 .qty-container {
     display: flex;
     margin-bottom: 20px;
+    justify-content: center;
 }
 
 .quantity-wrapper {
     justify-content: center;
 }
+
+
 
 .email-input {
     width: 70%;
@@ -83,6 +94,10 @@
     @include success-msg();
     position: relative;
     top: -30px;
+}
+
+.size-error {
+    @include error-msg();
 }
 
 

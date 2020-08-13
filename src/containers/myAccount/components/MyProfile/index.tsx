@@ -118,7 +118,7 @@ class MyProfile extends React.Component<Props, State> {
     formData["panPassportNumber"] = panPassportNumber || "";
     formData["dateOfBirth"] = dateOfBirth
       ? moment(dateOfBirth).format("YYYY-MM-DD")
-      : "";
+      : null;
     formData["subscribe"] = subscribe;
     this.setState({
       showerror: ""
@@ -214,6 +214,7 @@ class MyProfile extends React.Component<Props, State> {
                   name="gender"
                   required
                   options={genderOptions}
+                  value={gender || undefined}
                   label="Select Gender"
                   placeholder="Select Gender"
                   handleChange={() => {

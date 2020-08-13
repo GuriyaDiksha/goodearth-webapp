@@ -87,31 +87,33 @@ const Career: React.FC<Props> = props => {
 
   // parse url for job specific page
   useEffect(() => {
-    if (allJobList && allJobList.length > 0) {
-      const [city, jobUrl] = decodeURI(path.substring(8))
-        .split("/")
-        .filter(a => a);
-      if (city) {
-        if (city != locationFilter && locationList.includes(city)) {
-          setLocationFilter(city);
-        }
-      }
-      if (jobUrl) {
-        const job = allJobList && allJobList.find(job => jobUrl == job.url);
-        if (job) {
-          if (selectedJob != job) {
-            openJobForm(job);
-            setMode("apply");
-          }
-        } else {
-          openJobForm();
-          setMode("applyAll");
-        }
-      } else if (locationList.includes(city)) {
-        setMode("list");
+    // if (allJobList && allJobList.length > 0) {
+    const [city, jobUrl] = decodeURI(path.substring(8))
+      .split("/")
+      .filter(a => a);
+    if (city) {
+      if (city != locationFilter && locationList.includes(city)) {
+        setLocationFilter(city);
       }
     }
-  }, [allJobList, locationList, locationFilter]);
+    if (jobUrl) {
+      const job = allJobList && allJobList.find(job => jobUrl == job.url);
+      if (job) {
+        // if (selectedJob != job) {
+        openJobForm(job);
+        setMode("apply");
+        // }
+      } else if (jobUrl == "all") {
+        openJobForm();
+        setMode("applyAll");
+      }
+    }
+    // if (locationList.includes(city))
+    else {
+      setMode("list");
+    }
+    // }
+  }, [allJobList, locationList, locationFilter, props.slug2]);
 
   const onChangeFilter = (location?: string) => {
     if (location) {
@@ -152,11 +154,14 @@ const Career: React.FC<Props> = props => {
                       styles.customDropdown
                     )}
                   >
-                    <h5>
+                    <h5 className={globalStyles.verticalMiddle}>
                       <span className={globalStyles.cerise}>LOCATION</span>
                     </h5>
                     <div
-                      className={styles.careerMobileDropDown}
+                      className={cs(
+                        styles.careerMobileDropDown,
+                        globalStyles.verticalMiddle
+                      )}
                       onClick={mobile ? showAvailableCareerCities : () => null}
                     >
                       <div className={styles.careerKeyAll}>
@@ -174,9 +179,19 @@ const Career: React.FC<Props> = props => {
                         styles.careerSortCross
                       )}
                     >
-                      <span className={styles.sortLabel}>Location</span>
                       <span
-                        className={styles.cross}
+                        className={cs(
+                          styles.sortLabel,
+                          globalStyles.verticalMiddle
+                        )}
+                      >
+                        Location
+                      </span>
+                      <span
+                        className={cs(
+                          styles.cross,
+                          globalStyles.verticalMiddle
+                        )}
                         onClick={showAvailableCareerCities}
                       >
                         &#x2715;
@@ -252,7 +267,8 @@ const Career: React.FC<Props> = props => {
                 className={cs(
                   bootstrapStyles.colMd3,
                   bootstrapStyles.offsetMd1,
-                  globalStyles.verticalMiddle
+                  globalStyles.verticalMiddle,
+                  styles.careerFilter
                 )}
               >
                 <p className={styles.filterText}>LOCATION</p>
@@ -314,7 +330,7 @@ const Career: React.FC<Props> = props => {
               <div className={styles.newcareersInput}>
                 <input
                   type="button"
-                  className={globalStyles.ceriseBtn}
+                  className={cs(globalStyles.ceriseBtn, styles.ceriseBtn)}
                   value="Get in touch"
                   onClick={() => openJobForm()}
                 />
@@ -328,7 +344,8 @@ const Career: React.FC<Props> = props => {
             <div
               className={cs(
                 bootstrapStyles.colMd7,
-                bootstrapStyles.offsetMd1,
+                bootstrapStyles.col10,
+                bootstrapStyles.offset1,
                 styles.careersHeader,
                 globalStyles.verticalMiddle
               )}

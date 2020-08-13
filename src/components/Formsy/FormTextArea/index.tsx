@@ -63,6 +63,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter at least 6 characters for the password";
       case "password2":
         return "Please enter at least 6 characters for the password";
+      case "message":
+        return "Please enter message";
       default:
         return "This field is required";
     }
@@ -77,7 +79,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   return (
     <div className={props.className}>
       <textarea
-        rows={3}
+        rows={props.rows || 3}
         cols={60}
         id={props.id}
         name={props.name}

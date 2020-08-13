@@ -16,7 +16,12 @@ const initialState: State = {
   shippingCharge: 0,
   total: 0,
   subTotal: 0,
-  giftCards: []
+  giftCards: [],
+  loyalty: [],
+  redirectToCart: "",
+  isOnlyGiftCart: false,
+  publishRemove: false,
+  updated: false
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

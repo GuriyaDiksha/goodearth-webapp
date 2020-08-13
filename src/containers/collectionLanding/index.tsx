@@ -12,6 +12,7 @@ import { Settings } from "react-slick";
 import CollectionImage from "components/collectionItem";
 import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
+import MakerEnhance from "maker-enhance";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -24,9 +25,14 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = ReturnType<typeof mapStateToProps>;
 
-class CollectionLanding extends React.Component<Props, { filterData: string }> {
+class CollectionLanding extends React.Component<
+  Props,
+  { filterData: string; onloadState: boolean; landingMaker: boolean }
+> {
   state = {
-    filterData: "All"
+    filterData: "All",
+    onloadState: false,
+    landingMaker: false
   };
 
   onchangeFilter = (data: any): void => {
@@ -34,6 +40,19 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
       filterData: data
     });
   };
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    if (nextProps.data.selectValue?.[0] && !this.state.onloadState) {
+      this.setState({
+        filterData: nextProps.data.selectValue?.[0]?.name,
+        onloadState: true
+      });
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      landingMaker: true
+    });
+  }
 
   render() {
     const collection = this.props.location.pathname.split("/").pop();
@@ -43,11 +62,12 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
       device: { mobile },
       data: { level2Categories }
     } = this.props;
+
     // Code for checking selected filter form collection list
     const filterData = collectionData.filter((item: any) => {
       return this.state.filterData == "All"
         ? true
-        : item.category
+        : item.categoryName
             .map((data: any) => {
               return data.name;
             })
@@ -81,7 +101,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                 onChange={this.onchangeFilter}
                 showCaret={true}
                 open={false}
-                value="All"
+                value={this.state.filterData}
               />
             </div>
           ) : (
@@ -91,13 +111,14 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                 align="right"
                 className={styles.dropdownRoot}
                 items={level2Categories}
-                value="All"
+                value={this.state.filterData}
                 onChange={this.onchangeFilter}
                 showCaret={true}
               ></SelectableDropdownMenu>
             </div>
           )}
         </SecondaryHeader>
+
         {!mobile && (
           <div className={cs(bootstrap.row, styles.subcHeader)}>
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
@@ -110,6 +131,11 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
             </div>
           </div>
         )}
+        {this.state.landingMaker ? (
+          <MakerEnhance user="goodearth" index="1" />
+        ) : (
+          ""
+        )}
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
           <div className={cs(bootstrap.colMd8, bootstrap.offsetMd2)}>
             <div className={bootstrap.row}>
@@ -121,7 +147,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                       bootstrap.col12,
                       "collection-item"
                     )}
-                    key={i}
+                    key={i + "collection-item"}
                   >
                     <CollectionImage
                       data={data}

@@ -12,12 +12,17 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 // import { State } from "./typings";
 import LoginService from "services/login";
+import MetaService from "services/meta";
+import BasketService from "services/basket";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
-import { currencyCode } from "typings/currency";
+import { currencyCode, Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
-import { refreshPage } from "actions/user";
+import { Cookies } from "typings/cookies";
+import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { showMessage } from "actions/growlMessage";
+import fabicon from "images/favicon.ico";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -28,18 +33,34 @@ const mapStateToProps = (state: AppState) => {
     cart: state.basket,
     message: state.message,
     location: state.router.location,
-    meta: state.meta
+    meta: state.meta,
+    cookies: state.cookies
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    changeCurrency: async (data: FormData) => {
+    changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: () => {
-      dispatch(refreshPage(undefined));
+    reloadPage: (cookies: Cookies, pathname: string) => {
+      MetaService.updateMeta(dispatch, cookies);
+      if (pathname.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch, true);
+        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      } else if (pathname.includes("/cart")) {
+        BasketService.fetchBasket(dispatch);
+        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      }
+    },
+    updateMeta: (cookies: Cookies, pathname: string) => {
+      MetaService.updateMeta(dispatch, cookies);
+      if (pathname.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch, true);
+      } else if (pathname.includes("/cart")) {
+        BasketService.fetchBasket(dispatch);
+      }
     }
   };
 };
@@ -60,7 +81,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
     };
     if (this.props.currency != data) {
       changeCurrency(data).then(response => {
-        reloadPage();
+        reloadPage(this.props.cookies, this.props.location.pathname);
       });
     }
     // this.setState({
@@ -69,8 +90,12 @@ class CheckoutHeader extends React.Component<Props, {}> {
     // });
   };
 
+  componentDidMount() {
+    this.props.updateMeta(this.props.cookies, this.props.location.pathname);
+  }
+
   render() {
-    const { message, meta, mobile } = this.props;
+    const { message, meta, mobile, currency } = this.props;
     const items: DropdownItem[] = [
       {
         label: "INR" + " " + String.fromCharCode(currencyCode["INR"]),
@@ -86,14 +111,27 @@ class CheckoutHeader extends React.Component<Props, {}> {
       }
     ];
 
-    let heading = (
-      <span className="flex v-center">
-        <span className="reset-lineheight margin-r-10">
-          <i className="icon icon_cart_filled"></i>
+    let heading = null;
+    if (this.props.location.pathname.indexOf("cart") > -1) {
+      heading = (
+        <span className={styles.vCenter}>
+          <span>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCartFilled,
+                styles.cart
+              )}
+            ></i>
+          </span>
+          {mobile ? (
+            <span className={styles.headLineheight}> BAG</span>
+          ) : (
+            <span className={styles.headLineheight}>SHOPPING BAG</span>
+          )}
         </span>
-        {mobile ? <span> BAG</span> : <span>SHOPPING BAG</span>}
-      </span>
-    );
+      );
+    }
 
     if (this.props.location.pathname.indexOf("checkout") > -1) {
       heading = (
@@ -115,13 +153,13 @@ class CheckoutHeader extends React.Component<Props, {}> {
         </span>
       );
     }
-
     return (
       <div>
         <Helmet>
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
           </title>
+          <link rel="icon" href={fabicon}></link>
           {meta.description && (
             <meta name="description" content={meta.description} />
           )}
@@ -178,7 +216,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
             <div
               className={cs(
                 bootstrap.colMd2,
-                bootstrap.col6,
+                bootstrap.col5,
                 styles.logoContainer
               )}
             >
@@ -186,22 +224,23 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 <img className={styles.logo} src={gelogoCerise} />
               </Link>
             </div>
-            <div className={cs(bootstrap.col4, bootstrap.colMd8)}>
+            <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
               {heading}
             </div>
             <div
               className={cs(
-                bootstrap.colMd1,
-                bootstrap.col2,
-                bootstrap.offsetMd1,
-                globalStyles.voffset2
+                bootstrap.colMd2,
+                bootstrap.col3,
+                globalStyles.voffset2,
+                styles.curr
               )}
             >
               <SelectableDropdownMenu
-                align="right"
+                align={"left"}
                 items={items}
-                value="INR"
+                value={currency}
                 showCaret={true}
+                className={styles.checkoutHeader}
                 onChange={this.changeCurrency}
               ></SelectableDropdownMenu>
             </div>

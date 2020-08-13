@@ -16,6 +16,7 @@ import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
+import MakerEnhance from "maker-enhance";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -40,23 +41,24 @@ class Search extends React.Component<
     showmobileSort: boolean;
     mobileFilter: boolean;
     searchText: string;
+    sortValue: string;
+    searchMaker: boolean;
   }
 > {
   private child: any = FilterListSearch;
   constructor(props: Props) {
     super(props);
-    const vars: any = {};
-    const url = decodeURI(props.location.search.replace(/\+/g, " "));
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match;
-    while ((match = re.exec(url))) {
-      vars[match[1]] = match[2];
-    }
+    const queryString = props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const param = urlParams.get("sort_by");
+    const searchValue = urlParams.get("q");
     this.state = {
       filterData: "All",
       showmobileSort: false,
       mobileFilter: false,
-      searchText: vars.q
+      searchText: searchValue ? searchValue : "",
+      sortValue: param ? param : "hc",
+      searchMaker: false
     };
   }
 
@@ -78,6 +80,11 @@ class Search extends React.Component<
     );
     changeModalState(true);
   };
+  componentDidMount() {
+    this.setState({
+      searchMaker: true
+    });
+  }
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
     if (cross) {
@@ -118,6 +125,7 @@ class Search extends React.Component<
         count
       }
     } = this.props;
+    const { searchMaker } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -208,7 +216,7 @@ class Search extends React.Component<
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop80]: !this.state.showmobileSort },
-              { [globalStyles.spCat]: !this.state.showmobileSort },
+              { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
             )}
@@ -226,12 +234,17 @@ class Search extends React.Component<
                           <img src={banner} className="img-responsive" />
                       </div>
                   </div> : ""} */}
-
+            {searchMaker && <MakerEnhance user="goodearth" />}
             {!mobile ? (
               <div
-                className={cs(styles.productNumber, styles.imageContainer, {
-                  [styles.border]: mobile
-                })}
+                className={cs(
+                  styles.productNumber,
+                  globalStyles.voffset5,
+                  styles.imageContainer,
+                  {
+                    [styles.border]: mobile
+                  }
+                )}
               >
                 <span>
                   {count > 1

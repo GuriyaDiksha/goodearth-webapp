@@ -3,7 +3,7 @@
 
 .input {
     background-color: #fff;
-    border: 1px solid #eee;
+    border: none;
     width: 100%;
     padding: 10px;
     font-size: 14px;
@@ -19,6 +19,7 @@
       color: tint(#000,60%);
       font-style: normal;
       letter-spacing:1px;
+      font-weight: 300;
       font-family: $font-Lato;
     }
 

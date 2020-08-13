@@ -135,13 +135,13 @@
     text-overflow: ellipsis;
     a {
         font-size: 16px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-family: $font-Serif;
         color: #000;
         text-transform: capitalize;
     }
     span {
         font-size: 16px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-family: $font-Serif;
         color: #000;
         text-transform: capitalize;
     }
@@ -151,7 +151,7 @@
     }
 }
 .product-size {
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     font-size: 9px;
     text-transform: uppercase;
     color: #b3b3b3;
@@ -180,14 +180,14 @@
 }
 .discountprice {
     color: $cerise;
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
     font-size: 16px;
   }
   .strikeprice {
     font-size: 14px;
     text-decoration: line-through;
     color: tint(#000, 50%) !important;
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
   }
 .wishlist-block-outer {
     margin: 150px 0 100px 0;
@@ -217,6 +217,7 @@
   .wishlistSubtotal {
     font-weight: bold;
     font-size: 14px;
+    font-family: $font-Lato;
   }
   
 .awesome {

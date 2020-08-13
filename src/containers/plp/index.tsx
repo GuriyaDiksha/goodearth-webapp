@@ -7,9 +7,9 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterList from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
@@ -17,6 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
+import MakerEnhance from "maker-enhance";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -36,15 +37,31 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class PLP extends React.Component<
   Props,
-  { filterData: string; showmobileSort: boolean; mobileFilter: boolean }
+  {
+    filterData: string;
+    showmobileSort: boolean;
+    mobileFilter: boolean;
+    sortValue: string;
+    flag: boolean;
+    plpMaker: boolean;
+  }
 > {
+  constructor(props: Props) {
+    super(props);
+    // get the required parameter
+    const queryString = props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const param = urlParams.get("sort_by");
+    this.state = {
+      filterData: "All",
+      showmobileSort: false,
+      mobileFilter: false,
+      sortValue: param ? param : "hc",
+      flag: false,
+      plpMaker: false
+    };
+  }
   private child: any = FilterList;
-
-  state = {
-    filterData: "All",
-    showmobileSort: false,
-    mobileFilter: false
-  };
 
   onchangeFilter = (data: any): void => {
     this.child.changeValue(null, data);
@@ -54,7 +71,14 @@ class PLP extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
+    this.setState({ sortValue: data });
   };
+
+  componentDidMount() {
+    this.setState({
+      plpMaker: true
+    });
+  }
 
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
@@ -63,6 +87,12 @@ class PLP extends React.Component<
       true
     );
     changeModalState(true);
+  };
+
+  changeLoader = (value: boolean) => {
+    this.setState({
+      flag: value
+    });
   };
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
@@ -88,6 +118,7 @@ class PLP extends React.Component<
         count
       }
     } = this.props;
+    const { plpMaker } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -115,7 +146,8 @@ class PLP extends React.Component<
             onStateChange={this.onChangeFilterState}
             showCaret={this.state.showmobileSort}
             open={false}
-            value="hc"
+            value={this.state.sortValue}
+            key={"plpPageMobile"}
           />
         ) : (
           <SecondaryHeader>
@@ -123,7 +155,7 @@ class PLP extends React.Component<
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
                 <PlpBreadcrumbs
                   levels={breadcrumb}
-                  className={cs(bootstrap.colMd7)}
+                  className={cs(bootstrap.colMd12)}
                   isViewAll={false}
                 />
               </div>
@@ -133,9 +165,10 @@ class PLP extends React.Component<
                   align="right"
                   className={styles.dropdownRoot}
                   items={items}
-                  value="hc"
                   onChange={this.onchangeFilter}
                   showCaret={true}
+                  value={this.state.sortValue}
+                  key={"plpPage"}
                 ></SelectableDropdownMenu>
               </div>
             </Fragment>
@@ -155,13 +188,15 @@ class PLP extends React.Component<
             <FilterList
               onRef={(el: any) => (this.child = el)}
               onChangeFilterState={this.onChangeFilterState}
+              key={this.props.location.pathname}
+              changeLoader={this.changeLoader}
             />
           </div>
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop20]: !this.state.showmobileSort },
-              { [globalStyles.spCat]: !this.state.showmobileSort },
+              { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
             )}
@@ -180,6 +215,8 @@ class PLP extends React.Component<
                       </div>
                   </div> : ""} */}
 
+            {plpMaker && <MakerEnhance user="goodearth" />}
+
             {!mobile ? (
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {
@@ -188,8 +225,8 @@ class PLP extends React.Component<
               >
                 <span>
                   {count > 1
-                    ? count + " products found"
-                    : count + " product found"}{" "}
+                    ? count + 1 + " products found"
+                    : count + 1 + " product found"}{" "}
                 </span>
               </div>
             ) : (
@@ -200,18 +237,13 @@ class PLP extends React.Component<
                 mobile
                   ? banner
                     ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                    : cs(bootstrap.row, bootstrap.imageContainerMobile)
+                    : cs(bootstrap.row, styles.imageContainerMobile)
                   : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"
             >
-              {data.length == 0 ||
-              (this.child.state ? !this.child.state.flag : false) ? (
-                <Loader />
-              ) : (
-                ""
-              )}
-              {data.map(item => {
+              {this.state.flag ? <Loader /> : ""}
+              {data.map((item, index) => {
                 return (
                   <div
                     className={cs(
@@ -227,6 +259,7 @@ class PLP extends React.Component<
                       currency={currency}
                       key={item.id}
                       mobile={mobile}
+                      isVisible={index < 3 ? true : undefined}
                       onClickQuickView={this.onClickQuickView}
                     />
                   </div>

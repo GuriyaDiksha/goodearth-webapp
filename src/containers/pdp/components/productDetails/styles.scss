@@ -27,7 +27,7 @@
 
 .discounted-price {
     color: $cerise;
-    font-family: $font-Amiri;
+    font-family: $font-Lato;
     font-size: 22px;
 }
 
@@ -35,7 +35,7 @@
     font-size: 14px;
     text-decoration: line-through;
     color: tint(#000, 50%) !important;
-    font-family: $font-Amiri;
+    font-family: $font-Lato;
 }
 
 .label {
@@ -128,16 +128,17 @@
 
     .title, .price-container {
         @include pdp_prod_title_mobile();
+        padding-bottom: 10px;
     }
 
     .spacer {
-        margin-top: 0;
+        margin-top: 20px;
     }
 
     .label {
 
         &.size {
-            margin-top: 15px;
+           // margin-top: 15px;
             line-height: 25px;
         }
 
@@ -155,27 +156,43 @@
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 5;
+        z-index: 9;
         flex-direction: row-reverse;
         margin: 0;
     }
 
     .wishlist-btn-container, .add-to-bag-btn-container {
-        background: #fff;
+        background: #f2f2f2;
         padding: 0;
 
         .mobile-wishlist-icon {
             font-size: 52px;
+            color: tint(#000,60%);
         }
     }
 
 }
 
 .more-details {
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 1px;
     color: #333;
     line-height: 80px;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.widget-qty {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    // min-width: 120px;
+    // display: inline-flex;
+    // background-color: #f1f1f1;
+    // border-radius: 10px;
+    padding: 2px 0;
+    // font-size: 12px;
+    // line-height: 12px;
 }

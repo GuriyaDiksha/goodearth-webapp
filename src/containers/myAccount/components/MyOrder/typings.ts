@@ -6,6 +6,7 @@ export type MyOrderState = {
 };
 
 export type OrdersProps = {
+  orderType: "online" | "inShop";
   hasShopped: (x: boolean) => void;
   isLoading: (x: boolean) => void;
   isDataAvaliable: (x: boolean) => void;

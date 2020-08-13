@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import myAccountComponentStyles from "../myAccount/components/styles.scss";
@@ -11,10 +11,11 @@ import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import show from "../../images/show.svg";
 import hide from "../../images/hide.svg";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
 import { showMessage } from "actions/growlMessage";
 import CookieService from "services/cookie";
+import { ALL_SESSION_LOGOUT } from "constants/messages";
 
 type Props = {
   uid: string;
@@ -28,8 +29,19 @@ const ResetPassword: React.FC<Props> = props => {
   const [enableSubmit, setEnableSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { uid, token, history } = props;
+  const { uid, token } = props;
+  const history = useHistory();
 
+  useEffect(() => {
+    const noContentContainerElem = document.getElementById(
+      "no-content"
+    ) as HTMLDivElement;
+    if (
+      noContentContainerElem.classList.contains(globalStyles.contentContainer)
+    ) {
+      noContentContainerElem.classList.remove(globalStyles.contentContainer);
+    }
+  }, []);
   const handleInvalidSubmit = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
@@ -59,37 +71,34 @@ const ResetPassword: React.FC<Props> = props => {
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
         resetForm();
-        if (data.status) {
-          const { bridalCurrency, bridalId } = data;
-          bridalId && CookieService.setCookie("bridalId", bridalId);
-          bridalCurrency &&
-            CookieService.setCookie("bridalCurrency", bridalCurrency);
-          dispatch(showMessage("You have been logged out of all sessions."));
-          let counter = 5;
-          setInterval(function() {
-            if (counter < 0) {
-              history.push(data.redirect || "/");
-            } else {
-              setErrorMessage(
-                data.errorMessage +
-                  " This page will redirect in " +
-                  counter +
-                  " sec."
-              );
-            }
-            counter--;
-          }, 1000);
-        } else {
-          // const msg = (typeof data.errorMessage) == "string" ? data.errorMessage : "Something went wrong Please try again later!";
-          const { newPassword1, newPassword2 } = data.errorMessage;
-          // setErrorMessage(msg);
-          if (newPassword1 || newPassword2) {
-            updateInputWithError({ newPassword1, newPassword2 });
+        const { bridalCurrency, bridalId } = data;
+        bridalId && CookieService.setCookie("bridalId", bridalId);
+        bridalCurrency &&
+          CookieService.setCookie("bridalCurrency", bridalCurrency);
+        dispatch(showMessage(ALL_SESSION_LOGOUT));
+        let counter = 5;
+        const timer = setInterval(function() {
+          if (counter < 0) {
+            history.push(data.redirectTo || "/");
+            clearInterval(timer);
+          } else {
+            setErrorMessage(
+              data.message + " This page will redirect in " + counter + " sec."
+            );
           }
-        }
+          counter--;
+        }, 1000);
+        //  else {
+        // const msg = (typeof data.errorMessage) == "string" ? data.errorMessage : "Something went wrong Please try again later!";
+        // const { newPassword1, newPassword2 } = data.errorMessage;
+        // setErrorMessage(msg);
+        // if (newPassword1 || newPassword2) {
+        //   updateInputWithError({ newPassword1, newPassword2 });
+        // }
+        // }
       })
       .catch((err: any) => {
-        setErrorMessage(JSON.stringify(err.response.data));
+        setErrorMessage(err.response.data.errorMessage);
       });
   };
 
@@ -131,6 +140,8 @@ const ResetPassword: React.FC<Props> = props => {
               name="password2"
               placeholder={"Confirm Password"}
               label={"Confirm Password"}
+              isDrop={true}
+              isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={showPassword ? "text" : "password"}
               validations={{
@@ -144,7 +155,9 @@ const ResetPassword: React.FC<Props> = props => {
           </div>
           <div>
             {errorMessage ? (
-              <p className={globalStyles.errorMsg}>{errorMessage}</p>
+              <p className={cs(globalStyles.errorMsg, globalStyles.marginB10)}>
+                {errorMessage}
+              </p>
             ) : (
               ""
             )}
@@ -219,4 +232,4 @@ const ResetPassword: React.FC<Props> = props => {
   );
 };
 
-export default ResetPassword;
+export default withRouter(ResetPassword);

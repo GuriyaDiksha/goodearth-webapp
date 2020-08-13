@@ -28,10 +28,12 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
+import { Currency } from "typings/currency";
+import { currencyCodes } from "constants/currency";
 
 type Props = {
   price: number;
-  currency: string;
+  currency: Currency;
   title: string;
   childAttributes: ChildProductAttributes[];
   collection?: string;
@@ -53,8 +55,11 @@ const NotifyMePopup: React.FC<Props> = ({
   const user = useContext(UserContext);
 
   const { closeModal } = useContext(ModalContext);
-  const [selectedSize, setSelectedSize] = useState<ChildProductAttributes>(
-    childAttributes[selectedIndex || 0]
+  const [
+    selectedSize,
+    setSelectedSize
+  ] = useState<ChildProductAttributes | null>(
+    selectedIndex !== undefined ? childAttributes[selectedIndex] : null
   );
 
   const minQuantity = 1;
@@ -72,6 +77,8 @@ const NotifyMePopup: React.FC<Props> = ({
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      setQuantity(1);
+
       changeSize?.(selected.size);
     },
     [childAttributes, selectedSize]
@@ -80,6 +87,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const userExists = !!(user && user.email);
 
   const [msg, setMsg] = useState("");
+  const [sizeErrorMsg, setSizeErrorMsg] = useState("");
 
   const [email, setEmail] = useState(userExists ? user.email : "");
   const [emailError, setEmailError] = useState("");
@@ -111,9 +119,13 @@ const NotifyMePopup: React.FC<Props> = ({
   };
 
   const addToBasket = async () => {
-    await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-    dispatch(showMessage(ADD_TO_BAG_SUCCESS));
-    closeModal();
+    if (selectedSize) {
+      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+      closeModal();
+    } else {
+      setSizeErrorMsg("Please select size");
+    }
   };
 
   const onNotifyClick = async () => {
@@ -122,23 +134,34 @@ const NotifyMePopup: React.FC<Props> = ({
     if (!valid) {
       setEmailError(message);
     } else {
-      const { successful, message } = await ProductService.notifyMe(
-        dispatch,
-        selectedSize.id,
-        email
-      );
+      if (selectedSize) {
+        const { successful, message } = await ProductService.notifyMe(
+          dispatch,
+          selectedSize.id,
+          email
+        );
 
-      if (!successful) {
-        setEmailError(message);
+        if (!successful) {
+          setEmailError(message);
+        } else {
+          setMsg(message);
+        }
       } else {
-        setMsg(message);
+        setSizeErrorMsg("Please select size");
       }
     }
   };
 
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
-    if (selectedSize && selectedSize.stock == 0) {
+    let allOutOfStock = true;
+
+    childAttributes.forEach(({ stock }) => {
+      if (stock > 0) {
+        allOutOfStock = false;
+      }
+    });
+    if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = onNotifyClick;
     } else {
@@ -154,6 +177,7 @@ const NotifyMePopup: React.FC<Props> = ({
   useEffect(() => {
     setMsg("");
     setEmailError("");
+    setSizeErrorMsg("");
   }, [selectedSize]);
 
   return (
@@ -166,26 +190,33 @@ const NotifyMePopup: React.FC<Props> = ({
         <div className={styles.collection}>{collection}</div>
         <div className={styles.title}>{title}</div>
         <div className={styles.price}>
-          {currency} {price}
+          {String.fromCharCode(currencyCodes[currency])}&nbsp;
+          {selectedSize ? selectedSize.priceRecords[currency] : price}
         </div>
         <div className={cs(styles.label, styles.sizeLabel)}>SELECT SIZE</div>
         <SizeSelector
           sizes={childAttributes}
           onChange={onSizeSelect}
+          sizeClassName={styles.sizeBox}
           selected={selectedSize ? selectedSize.id : undefined}
         />
+        {sizeErrorMsg && (
+          <span className={styles.sizeError}>{sizeErrorMsg}</span>
+        )}
         <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
 
         <div className={styles.qtyContainer}>
           <Quantity
-            id={selectedSize ? selectedSize.id : undefined}
+            source="notifyme"
+            id={selectedSize ? selectedSize.id : 0}
             minValue={minQuantity}
             maxValue={maxQuantity}
             currentValue={quantity}
             onChange={onQuantityChange}
             errorMsg={selectedSize ? "Available qty in stock is" : ""}
-            disabled={selectedSize && selectedSize.stock == 0}
+            disabled={(selectedSize && selectedSize.stock == 0) || false}
             className={styles.quantityWrapper}
+            inputClass={styles.inputQuantity}
           />
         </div>
         {selectedSize && selectedSize.stock === 0 && (
@@ -196,7 +227,7 @@ const NotifyMePopup: React.FC<Props> = ({
               onChange={onEmailChange}
               validator={validator}
               className={styles.field}
-              label="EMAIL"
+              label="Email"
               placeholder="Email Address"
               errorMsg={emailError}
               disabled={userExists}

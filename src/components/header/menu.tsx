@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MenuProps, HeaderData, MenuState } from "./typings";
 import styles from "./styles.scss";
+import cs from "classnames";
 
 export default class MainMenu extends React.Component<MenuProps, MenuState> {
   constructor(props: MenuProps) {
@@ -22,6 +23,12 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
     });
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps: MenuProps, prevState: MenuState) {
+    if (!nextProps.show) {
+      this.setState({ selectedCategory: -1 });
+    }
+  }
+
   render() {
     const { data, location } = this.props;
     return (
@@ -34,44 +41,50 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
               ? styles.iconStyleDisabled
               : "";
           const highlightStories =
-            location.pathname.toLowerCase().indexOf("stories") > -1
-              ? data.name.toLowerCase() == "stories"
-                ? true
-                : false
-              : location.pathname
-                  .toLowerCase()
-                  .indexOf(data.name.toLowerCase()) > -1
-              ? true
-              : false;
-          return i < 5 ? (
+            data.name.toLowerCase() == "stories" ? true : false;
+
+          return (
             <li
-              key={i}
+              key={i + "header"}
               className={styles.menuItem}
               onMouseOver={(): void => {
-                this.props.ipad ? "" : this.mouseOver(i);
+                this.props.ipad || highlightStories ? "" : this.mouseOver(i);
               }}
               onMouseLeave={(): void => {
-                this.props.ipad ? "" : this.mouseLeave(i);
+                this.props.ipad || highlightStories ? "" : this.mouseLeave(i);
               }}
             >
-              <Link
-                to={
-                  isBridalRegistryPage
-                    ? "javascript:void(0)"
-                    : data.catLandingUrl
-                }
-                className={
-                  this.state.selectedCategory == i ||
-                  (highlightStories && this.props.ipad)
-                    ? disbaleClass + styles.hoverA
-                    : disbaleClass + styles.hoverB
-                }
-              >
-                {data.name}
-              </Link>
+              {highlightStories ? (
+                <a
+                  className={cs(
+                    disbaleClass,
+                    styles.hoverStories,
+                    styles.cerise
+                  )}
+                  href={data.catLandingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {data.name}
+                </a>
+              ) : (
+                <Link
+                  to={
+                    isBridalRegistryPage
+                      ? "javascript:void(0)"
+                      : data.catLandingUrl
+                  }
+                  className={
+                    this.state.selectedCategory == i ||
+                    (highlightStories && this.props.ipad)
+                      ? cs(disbaleClass, styles.hoverA)
+                      : cs(disbaleClass, styles.hoverB)
+                  }
+                >
+                  {data.name}
+                </Link>
+              )}
             </li>
-          ) : (
-            ""
           );
         })}
       </ul>

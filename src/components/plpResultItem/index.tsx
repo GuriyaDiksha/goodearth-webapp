@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { PLPResultItemProps } from "./typings";
+import { PLPResultItemProps } from "./typings.d";
 import styles from "./styles.scss";
 import { Currency, currencyCode } from "../../typings/currency";
 import cs from "classnames";
@@ -9,20 +9,35 @@ import { PartialChildProductAttributes } from "src/typings/product";
 import noPlpImage from "images/noimageplp.png";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "styles/global.scss";
+import LazyImage from "components/LazyImage";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
-  const { product, currency, onClickQuickView, mobile } = props;
+  const {
+    product,
+    currency,
+    onClickQuickView,
+    mobile,
+    isVisible,
+    isCollection
+  } = props;
   const code = currencyCode[currency as Currency];
   const [primaryimage, setPrimaryimage] = useState(true);
 
   const onMouseEnter = (): void => {
-    setPrimaryimage(false);
+    product.plpImages?.[1] ? setPrimaryimage(false) : "";
   };
-
+  const attribute: any = product.childAttributes || [];
+  const totalStock = attribute.reduce(function(total: any, num: any) {
+    return total + +num.stock;
+  }, 0);
+  const sizeExit =
+    attribute.filter(function(item: any) {
+      return item.size;
+    }).length > 0;
   const onMouseLeave = (): void => {
-    setPrimaryimage(true);
+    product.plpImages?.[1] ? setPrimaryimage(true) : "";
   };
 
   const onClickQuickview = (): void => {
@@ -38,6 +53,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     : "";
   return (
     <div className={styles.plpMain}>
+      {product.salesBadgeImage && (
+        <div className={styles.badgeImage}>
+          <img src={product.salesBadgeImage} />
+        </div>
+      )}
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}
@@ -62,15 +82,22 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
         <Link to={product.url} onMouseEnter={onMouseEnter}>
-          <img
+          <LazyImage
+            aspectRatio="62:93"
             src={image}
             className={styles.imageResultnew}
+            isVisible={isVisible}
             onError={(e: any) => {
               e.target.onerror = null;
               e.target.src = noPlpImage;
             }}
           />
         </Link>
+        <div
+          className={cs(totalStock > 0 ? globalStyles.hidden : styles.outstock)}
+        >
+          <Link to={product.url}> NOTIFY ME</Link>
+        </div>
         {!mobile && (
           <div className={styles.combodiv}>
             <div className={styles.imageHover}>
@@ -93,7 +120,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
       </div>
       <div className={styles.imageContent}>
-        <p className={styles.collectionName}>{product.collections}</p>
+        {isCollection ? (
+          <p className={styles.collectionName}>{product.collections}</p>
+        ) : (
+          ""
+        )}
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>
@@ -103,19 +134,21 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             {product.priceRecords[currency as Currency]}
           </span>
         </p>
-        <div className={cs(styles.productSizeList, bootstyles.row)}>
-          <div className={styles.productSize}> size</div>
-          <div className="">
-            <ul>
-              {(props.product
-                .childAttributes as PartialChildProductAttributes[])?.map(
-                (data: PartialChildProductAttributes, i: number) => {
-                  return <li key={i}>{data.size}</li>;
-                }
-              )}
-            </ul>
+        {sizeExit && !mobile && (
+          <div className={cs(styles.productSizeList, bootstyles.row)}>
+            <div className={styles.productSize}> size</div>
+            <div className="">
+              <ul>
+                {(props.product
+                  .childAttributes as PartialChildProductAttributes[])?.map(
+                  (data: PartialChildProductAttributes, i: number) => {
+                    return <li key={i}>{data.size}</li>;
+                  }
+                )}
+              </ul>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

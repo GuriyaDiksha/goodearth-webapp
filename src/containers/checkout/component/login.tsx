@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-// import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { LoginProps } from "./typings";
+import * as Steps from "../constants";
+import loadable from "@loadable/component";
 
+const CheckoutLoginForm = loadable(() =>
+  import("components/signin/Login/checkoutLogin")
+);
+const CheckoutRegisterForm = loadable(() =>
+  import("components/signin/register/checkoutRegister")
+);
 const LoginSection: React.FC<LoginProps> = props => {
   const {
     isActive,
-    user: { isLoggedIn, email }
+    user: { isLoggedIn, email },
+    next
   } = props;
+  const [isRegister, setIsRegister] = useState(false);
 
+  const goToRegister = () => {
+    setIsRegister(true);
+  };
+
+  const changeEmail = () => {
+    setIsRegister(false);
+  };
+
+  const nextStep = () => {
+    if (next) next(Steps.STEP_SHIPPING);
+  };
   return (
     <div
       className={
@@ -28,8 +48,26 @@ const LoginSection: React.FC<LoginProps> = props => {
             styles.title
           )}
         >
-          <span className={isActive ? "" : styles.closed}>LOGIN</span>
+          <p className={isActive ? "" : styles.closed}>LOGIN</p>
+          <div>
+            {!isLoggedIn ? (
+              isRegister ? (
+                <CheckoutRegisterForm
+                  nextStep={nextStep}
+                  changeEmail={changeEmail}
+                />
+              ) : (
+                <CheckoutLoginForm
+                  showRegister={goToRegister}
+                  nextStep={nextStep}
+                />
+              )
+            ) : (
+              ""
+            )}
+          </div>
         </div>
+
         {!isActive && (
           <div
             className={cs(
@@ -39,9 +77,11 @@ const LoginSection: React.FC<LoginProps> = props => {
             )}
           >
             <span className={styles.marginR10}>{email}</span>
-            {!isLoggedIn && (
-              <span className="color-primary cursor-pointer">Edit</span>
-            )}
+            {/* {!isLoggedIn && (
+              <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
+                Edit
+              </span>
+            )} */}
           </div>
         )}
       </div>

@@ -69,7 +69,7 @@ class MenuList extends React.Component<MenuListProps> {
                 : styles.subheading;
             const columnUrlClass = column.url ? "" : styles.linkWithoutUrl;
             return (
-              <div key={j}>
+              <div key={j + "left-menu"}>
                 <li>
                   <Link
                     className={spanClass + columnUrlClass}
@@ -88,7 +88,7 @@ class MenuList extends React.Component<MenuListProps> {
                 {column.children
                   ? column.children.map((data1, index) => {
                       return (
-                        <li key={index}>
+                        <li key={index + "colChildren"}>
                           <Link to={data1.url} onClick={this.mouseLeave}>
                             <span
                               dangerouslySetInnerHTML={{
@@ -113,7 +113,7 @@ class MenuList extends React.Component<MenuListProps> {
     headerData.map((data, i) => {
       html.push(
         <ul
-          key={i}
+          key={i + "headerData"}
           className={
             headerData.length - 1 == i ? bootstrap.colMd2 : bootstrap.colMd2
           }
@@ -128,7 +128,7 @@ class MenuList extends React.Component<MenuListProps> {
                 ? cs(styles.menucolor, styles.subheading)
                 : styles.subheading;
             return (
-              <div key={j}>
+              <div key={j + "header-data"}>
                 <li>
                   <Link
                     onClick={this.mouseLeave}
@@ -178,7 +178,7 @@ class MenuList extends React.Component<MenuListProps> {
       );
     });
 
-    bigimage
+    bigimage && this.props.show
       ? html.push(
           <ul
             className={cs(
@@ -205,12 +205,13 @@ class MenuList extends React.Component<MenuListProps> {
           </ul>
         )
       : "";
-    imageurl.categoryLogoImage
+    imageurl.categoryLogoImage && this.props.show
       ? html.push(
           <div className={styles.innerLogo}>
             <img
               src={imageurl.categoryLogoImage}
               className={styles.imgResponsive}
+              data-test="true"
             />
           </div>
         )

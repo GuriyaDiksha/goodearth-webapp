@@ -508,7 +508,7 @@
       height: 400px;
       .small-desc {
           text-transform: none;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-family: $font-Serif;
         }
     }
     .txt-disp-left {
@@ -517,7 +517,7 @@
       display: flex;
       .small-desc {
           text-transform: none;
-          font-family: "AmiriFont", "Baskerville", "Garamond";
+          font-family: $font-Serif;
         }
       .align-disp-left {
         align-self: flex-end;
@@ -526,7 +526,7 @@
     .headLink {
       line-height: 28px;
       font-size: 25px;
-      font-family: "AmiriFont", "Baskerville", "Garamond";
+      font-family: $font-Serif;
       span {
         &:after {
           content: '';
@@ -550,7 +550,7 @@
   h4 {
     &.headLink-2 {
       font-style: normal;
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       font-size: 25px;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -574,14 +574,16 @@
       font-size: 20px;
     }
     &.headLink-3 {
-      font-style: normal;
-      font-family: $font-Amiri;
+      font-style: normal; 
+      font-size: 25px;
+      font-family: $font-Serif;
       text-align: center;
+      font-weight: 400;
       span:last-child {
         text-transform: capitalize;
         font-style: italic;
-        font-family: "Libre Baskerville" !important;
-        font-size: 18px;
+        font-family: $font-Serif;
+        font-size: 22px;
         &:before {
           content: '|';
   
@@ -597,7 +599,9 @@
         padding: 0 60px;
       }
     }
-  
+    .left-promo {
+      padding-right: 15px;
+    }
     //.image-result {
     //  height: 38vw;
     //}
@@ -668,7 +672,7 @@
     h2 {
       &.headLink-2 {
         font-size: 20px;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         p:last-child {
           text-transform: uppercase;
           font-size: 14px;
@@ -742,7 +746,7 @@
       }
       h4 {
         font-size: 15px;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         span:last-child {
   
           &:before {
@@ -753,6 +757,7 @@
   
     }
     .cat-videos-block {
+      margin-top: 100px;
       .slick-slide {
         white-space: nowrap;
         //padding: 0 5px !important;
@@ -761,7 +766,7 @@
           padding: 30px 0;
           &.headLink-3 {
             span {
-              font-family: $font-Amiri;
+              font-family: $font-Serif;
             }
   
             span:last-child {
@@ -795,9 +800,7 @@
   .level4-style{
     padding-left: 25px !important;
   }  
-  .left-promo {
-    padding-right: 15px;
-  }
+  
 
   .promo-disp {
     margin-top: 35px;
@@ -814,7 +817,7 @@
       }
       }
     .subtitleHead {
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       display: inline-block;
       width: 40%;
       margin-top: 5px;

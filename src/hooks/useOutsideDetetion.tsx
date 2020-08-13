@@ -12,10 +12,11 @@ export default function useOutsideDetection<T extends HTMLElement>(
   };
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-
+    document.addEventListener("click", handleClickOutside, { capture: true });
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside, {
+        capture: true
+      });
     };
   });
 

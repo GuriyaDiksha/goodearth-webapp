@@ -23,7 +23,7 @@ export default class Privacy extends React.Component<Props, {}> {
           globalStyles.hello
         )}
       >
-        <h3>privacy</h3>
+        <h3>privacy policy</h3>
         <div>
           <h5>USER INFORMATION AND PRIVACY</h5>
           <p>
@@ -440,7 +440,12 @@ export default class Privacy extends React.Component<Props, {}> {
             prior notice. Your continued subscription to our Services
             constitutes an acceptance of the current Privacy Policy and Terms
             &amp; Conditions. Therefore, we encourage you to visit this page (
-            <Link to="/customer-assistance/privacy-policy">
+            <Link
+              to="/customer-assistance/privacy-policy"
+              onClick={() => {
+                window.scroll(0, 0);
+              }}
+            >
               https://www.goodearth.in/customer-assistance/privacy-policy
             </Link>
             ) periodically to review any changes.

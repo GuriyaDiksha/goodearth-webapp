@@ -47,12 +47,13 @@ const InputField: React.FC<Props> = props => {
         }
         value={props.value || ""}
         placeholder={placeholder}
-        onChange={e => props.handleChange(e)}
+        onChange={e => props.handleChange?.(e)}
         autoComplete="new-password"
         onClick={e => handleClick(e)}
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
+        onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
         onKeyUp={e => (props.keyUp ? props.keyUp(e) : null)}
         onDrop={
           props.isDrop

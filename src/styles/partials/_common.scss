@@ -44,7 +44,7 @@ button {
 
 :focus {
   outline: 0;
-  outline: none;
+  // outline: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -60,15 +60,12 @@ input:focus, textarea:focus {
   box-shadow: none;
 }
 
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+textarea {
+  resize: none;
 }
 
-:focus {
-  outline: 0;
-  outline: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
 }
 
 
