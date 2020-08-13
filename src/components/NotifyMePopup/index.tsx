@@ -117,11 +117,35 @@ const NotifyMePopup: React.FC<Props> = ({
       message
     };
   };
+  const gtmPushAddToBag = () => {
+    dataLayer.push({
+      event: "addToCart",
+      ecommerce: {
+        currencyCode: currency,
+        add: {
+          products: [
+            {
+              name: title,
+              id: childAttributes[0].sku,
+              price: price,
+              brand: "Goodearth",
+              category: collection,
+              variant: null,
+              // 'variant': this.props.wishlist_product.ga_variant,
+              quantity: quantity,
+              list: localStorage.getItem("list")
+            }
+          ]
+        }
+      }
+    });
+  };
 
   const addToBasket = async () => {
     if (selectedSize) {
       await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
       dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+      gtmPushAddToBag();
       closeModal();
     } else {
       setSizeErrorMsg("Please select size");

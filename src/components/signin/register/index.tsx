@@ -111,6 +111,7 @@ class RegisterForm extends React.Component<Props, registerState> {
         this.setState({
           disableButton: false
         });
+        this.gtmPushRegister();
         this.context.closeModal();
         window.scrollTo(0, 0);
       })
@@ -169,6 +170,15 @@ class RegisterForm extends React.Component<Props, registerState> {
           }
         });
       });
+  };
+
+  gtmPushRegister = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signup",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
   };
 
   closeModalForm = () => {

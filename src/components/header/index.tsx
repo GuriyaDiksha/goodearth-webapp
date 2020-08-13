@@ -130,6 +130,15 @@ class Header extends React.Component<Props, State> {
     window.scrollTo(0, 0);
   };
 
+  gtmPushLogoClick = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "logo",
+      eventCategory: "Click",
+      eventLabel: location.pathname
+    });
+  };
+
   render() {
     const { isLoggedIn } = this.context;
     const {
@@ -349,7 +358,7 @@ class Header extends React.Component<Props, State> {
                 styles.logoContainer
               )}
             >
-              <Link to="/">
+              <Link to="/" onClick={this.gtmPushLogoClick}>
                 <img className={styles.logo} src={gelogoCerise} />
               </Link>
             </div>

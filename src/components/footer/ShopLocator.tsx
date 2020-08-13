@@ -26,6 +26,12 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   const redirectToShop = (e: React.MouseEvent, data: any) => {
     if (data.label) {
       history.push("/Cafe-Shop/" + data.label);
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "shopCafeLocatorClick",
+        eventCategory: "Click",
+        eventLabel: location.pathname
+      });
     }
   };
 

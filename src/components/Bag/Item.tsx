@@ -179,6 +179,10 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <WishlistButton
+                  title={product.title}
+                  childAttributes={product.childAttributes}
+                  priceRecords={product.priceRecords}
+                  categories={product.categories}
                   basketLineId={id}
                   id={product.id}
                   showText={false}
