@@ -215,7 +215,7 @@ class PLP extends React.Component<
                       </div>
                   </div> : ""} */}
 
-            {plpMaker && <MakerEnhance user="goodearth" />}
+            {plpMaker && <MakerEnhance user="goodearth" index="1" />}
 
             {!mobile ? (
               <div

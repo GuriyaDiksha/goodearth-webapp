@@ -1,5 +1,6 @@
 import loadable from "@loadable/component";
 import React from "react";
+import MakerEnhance from "maker-enhance";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";
@@ -14,7 +15,6 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 const Quickview = loadable(() => import("components/Quickview"));
-const MakerEnhance = loadable(() => import("maker-enhance"));
 
 const mapStateToProps = (state: AppState) => {
   return {
