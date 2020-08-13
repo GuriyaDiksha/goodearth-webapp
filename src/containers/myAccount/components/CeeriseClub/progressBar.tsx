@@ -1,12 +1,12 @@
-import React from 'react';
-import CircularProgressbar from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import React from "react";
+import CircularProgressbar from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 type Props = {
   percentage: any;
   text: string;
-}
-function StyledProgressbar (props: Props) {
+};
+function StyledProgressbar(props: Props) {
   return (
     <CircularProgressbar
       percentage={props.percentage}
@@ -15,16 +15,16 @@ function StyledProgressbar (props: Props) {
       styles={{
         root: {},
         path: {
-          stroke: '#ab1e56',
-          strokeLinecap: 'butt',
-          transition: 'stroke-dashoffset 0.5s ease 0.5s',
+          stroke: "#ab1e56",
+          strokeLinecap: "butt",
+          transition: "stroke-dashoffset 0.5s ease 0.5s"
         },
         trail: {
-          stroke: 'rgb(230, 216, 216)',
+          stroke: "rgb(230, 216, 216)"
         },
         text: {
-          fill: '#ab1e56',
-          fontSize: '12px'
+          fill: "#ab1e56",
+          fontSize: "12px"
         },
         initialAnimation: true
       }}
