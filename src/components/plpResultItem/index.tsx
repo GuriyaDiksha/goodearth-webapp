@@ -10,6 +10,8 @@ import noPlpImage from "images/noimageplp.png";
 import WishlistButton from "components/WishlistButton";
 import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -23,7 +25,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     isCollection
   } = props;
   const code = currencyCode[currency as Currency];
+  // const {} = useStore({state:App})
   const [primaryimage, setPrimaryimage] = useState(true);
+  const { info } = useSelector((state: AppState) => state);
 
   const onMouseEnter = (): void => {
     product.plpImages?.[1] ? setPrimaryimage(false) : "";
@@ -129,10 +133,26 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <Link to={product.url}> {product.title} </Link>
         </p>
         <p className={styles.productN}>
-          <span>
-            {String.fromCharCode(code)}{" "}
-            {product.priceRecords[currency as Currency]}
-          </span>
+          {info.isSale && product.discount ? (
+            <span className={styles.discountprice}>
+              {String.fromCharCode(code)}{" "}
+              {product.discountedPriceRecords[currency as Currency]}
+            </span>
+          ) : (
+            ""
+          )}
+          {info.isSale && product.discount ? (
+            <span className={styles.strikeprice}>
+              {" "}
+              {String.fromCharCode(code)}{" "}
+              {product.priceRecords[currency as Currency]}{" "}
+            </span>
+          ) : (
+            <span>
+              {String.fromCharCode(code)}{" "}
+              {product.priceRecords[currency as Currency]}
+            </span>
+          )}
         </p>
         {sizeExit && !mobile && (
           <div className={cs(styles.productSizeList, bootstyles.row)}>

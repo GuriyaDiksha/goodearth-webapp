@@ -88,17 +88,17 @@ const LineItems: React.FC<BasketItem> = memo(
                 </div>
                 <div className={styles.productPrice}>
                   {saleStatus && discount && discountedPriceRecords ? (
-                    <span className={styles.discountedPrice}>
+                    <span className={styles.discountprice}>
                       {String.fromCharCode(currencyCodes[currency])}
                       &nbsp;
                       {discountedPriceRecords[currency]}
-                      <br />
+                      &nbsp; &nbsp;
                     </span>
                   ) : (
                     ""
                   )}
                   {saleStatus && discount ? (
-                    <span className={styles.oldPrice}>
+                    <span className={styles.strikeprice}>
                       {String.fromCharCode(currencyCodes[currency])}
                       &nbsp;
                       {isGiftCard ? GCValue : price}

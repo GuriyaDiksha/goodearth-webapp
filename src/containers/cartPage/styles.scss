@@ -366,3 +366,16 @@ display: inline-table;
   cursor: pointer;
   text-align: center;
 }
+
+.discountprice {
+  color: #ab1e56;
+  font-family:  $font-Lato;
+  font-size: 16px;
+}
+
+.strikeprice {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: gray;
+  font-family: $font-Lato;
+}

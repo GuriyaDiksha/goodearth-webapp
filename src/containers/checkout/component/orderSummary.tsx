@@ -139,13 +139,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   {salestatus && item.product.discount ? (
                     <span className={styles.productPrice}>
                       <span className={styles.discountprice}>
-                        price_excl_tax_excl_discounts
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
                           ? item.GCValue
                           : item.product.discountedPriceRecords[currency]}
                       </span>
-                      &nbsp;
+                      &nbsp; &nbsp;
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
