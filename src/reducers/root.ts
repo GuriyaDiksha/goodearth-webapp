@@ -22,6 +22,7 @@ import { category } from "./category";
 import { address } from "./address";
 import { shop } from "./shop";
 import { info } from "./info";
+import { designJournal } from "./designJournal";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -45,7 +46,8 @@ const createRootReducer = (history: History) => {
     category,
     address,
     shop,
-    info
+    info,
+    designJournal
   });
 };
 

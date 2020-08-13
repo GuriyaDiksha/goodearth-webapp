@@ -332,14 +332,25 @@ class Footer extends React.Component<Props, FooterState> {
                                       ) {
                                         return (
                                           <li key={j}>
-                                            <Link
-                                              to={currentValue.link}
-                                              onClick={() => {
-                                                this.subMenu(i);
-                                              }}
-                                            >
-                                              {currentValue.text}
-                                            </Link>
+                                            {currentValue.text.toLowerCase() ==
+                                            "good earth registry" ? (
+                                              <a
+                                                href={currentValue.link}
+                                                target="_blank"
+                                                rel="noreferrer noopener"
+                                              >
+                                                {currentValue.text}
+                                              </a>
+                                            ) : (
+                                              <Link
+                                                to={currentValue.link}
+                                                onClick={() => {
+                                                  this.subMenu(i);
+                                                }}
+                                              >
+                                                {currentValue.text}
+                                              </Link>
+                                            )}
                                           </li>
                                         );
                                       } else {
@@ -500,7 +511,18 @@ class Footer extends React.Component<Props, FooterState> {
                                 ].value.map((Item, index) => (
                                   <li key={index}>
                                     {Item.link !== "" ? (
-                                      <Link to={Item.link}>{Item.text}</Link>
+                                      Item.text.toLowerCase() ==
+                                      "good earth registry" ? (
+                                        <a
+                                          href={Item.link}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {Item.text}
+                                        </a>
+                                      ) : (
+                                        <Link to={Item.link}>{Item.text}</Link>
+                                      )
                                     ) : (
                                       Item.text
                                     )}

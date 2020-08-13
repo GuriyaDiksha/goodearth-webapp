@@ -22,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
     collectionSpecficBanner: state.collection.collectionSpecficBanner,
     collectionSpecificData: state.collection.collectionSpecficdata,
     currency: state.currency,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    location: state.router.location
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -73,7 +74,13 @@ class CollectionSpecific extends React.Component<
             />
           </SecondaryHeader>
         )}
-        {specificMaker && <MakerEnhance user="goodearth" index="1" />}
+        {specificMaker && (
+          <MakerEnhance
+            user="goodearth"
+            index="1"
+            location={this.props.location}
+          />
+        )}
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
@@ -154,7 +161,13 @@ class CollectionSpecific extends React.Component<
             })}
           </div>
         </div>
-        {specificMaker && <MakerEnhance user="goodearth" index="2" />}
+        {specificMaker && (
+          <MakerEnhance
+            user="goodearth"
+            index="2"
+            location={this.props.location}
+          />
+        )}
       </div>
     );
   }

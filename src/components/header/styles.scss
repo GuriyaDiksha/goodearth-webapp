@@ -58,6 +58,12 @@
         &.hover-a {
           text-decoration: underline;
         }
+        &.hover-stories:hover {
+          text-decoration: underline;
+        }
+        &.hover-stories {
+          text-decoration: none;
+        }
       }
       .icon-style {
         font-size: 16px;
@@ -119,6 +125,7 @@
     margin: 8px 6px 0 6px;
     position: relative;
     cursor: pointer; 
+    z-index: 1;
     .inner-profile-container{
       margin-top: 6px;
     }

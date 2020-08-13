@@ -625,3 +625,18 @@ $list: $grey 92%, $white 8%;
   color: tint(#000, 70%);
   letter-spacing: 2px;
 }
+
+@mixin pdp_prod_name {
+  font-size: 22px;
+  color: #000;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+}
+
+@mixin pdp_coll_name {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: tint(#000, 60%);
+  letter-spacing: 2px;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+  line-height: 30px;
+}
