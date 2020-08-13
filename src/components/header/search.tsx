@@ -20,6 +20,7 @@ import styles from "./styles.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
 import noImagePlp from "images/noimageplp.png";
+import { withRouter, RouteComponentProps } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -45,7 +46,8 @@ type Props = {
   toggle: () => void;
   ipad: boolean;
 } & ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   searchValue: string;
@@ -107,6 +109,12 @@ class Search extends React.Component<Props, State> {
 
   handleChange = (e: any) => {
     this.setState({ searchValue: e.target.value });
+  };
+
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      this.props.toggle();
+    }
   };
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
@@ -579,5 +587,5 @@ class Search extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+const SearchRoute = withRouter(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchRoute);

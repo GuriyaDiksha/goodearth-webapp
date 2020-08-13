@@ -48,19 +48,19 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
               key={i + "header"}
               className={styles.menuItem}
               onMouseOver={(): void => {
-                this.props.ipad ? "" : this.mouseOver(i);
+                this.props.ipad || highlightStories ? "" : this.mouseOver(i);
               }}
               onMouseLeave={(): void => {
-                this.props.ipad ? "" : this.mouseLeave(i);
+                this.props.ipad || highlightStories ? "" : this.mouseLeave(i);
               }}
             >
               {highlightStories ? (
                 <a
-                  className={
-                    this.props.ipad
-                      ? cs(disbaleClass + styles.hoverA, styles.cerise)
-                      : cs(disbaleClass + styles.hoverB, styles.cerise)
-                  }
+                  className={cs(
+                    disbaleClass,
+                    styles.hoverStories,
+                    styles.cerise
+                  )}
                   href={data.catLandingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -77,8 +77,8 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
                   className={
                     this.state.selectedCategory == i ||
                     (highlightStories && this.props.ipad)
-                      ? disbaleClass + styles.hoverA
-                      : disbaleClass + styles.hoverB
+                      ? cs(disbaleClass, styles.hoverA)
+                      : cs(disbaleClass, styles.hoverB)
                   }
                 >
                   {data.name}
