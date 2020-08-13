@@ -236,6 +236,12 @@ const CartItems: React.FC<BasketItem> = memo(
               </div>
               <div>
                 <WishlistButton
+                  title={title}
+                  childAttributes={
+                    product.childAttributes ? product.childAttributes : []
+                  }
+                  priceRecords={priceRecords}
+                  categories={product.categories}
                   basketLineId={id}
                   id={product.id}
                   showText={false}

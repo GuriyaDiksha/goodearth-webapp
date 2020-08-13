@@ -19,12 +19,15 @@ const WishlistButton: React.FC<Props> = ({
   id,
   size,
   showText,
+  title,
+  categories,
+  priceRecords,
+  childAttributes,
   className,
   iconClassName,
   mobile,
   basketLineId,
-  onMoveToWishlist,
-  product
+  onMoveToWishlist
 }) => {
   const items = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -32,9 +35,12 @@ const WishlistButton: React.FC<Props> = ({
   const { currency } = useSelector((state: AppState) => state);
   const addedToWishlist = items.indexOf(id) !== -1;
   const gtmPushAddToWishlist = () => {
-    const index = product.categories.length - 1;
-    let category = product.categories[index].replace(/\s/g, "");
-    category = category.replace(/>/g, "/");
+    const index = categories ? categories.length - 1 : 0;
+    let category =
+      categories &&
+      categories.length > 0 &&
+      categories[index].replace(/\s/g, "");
+    category = category && category.replace(/>/g, "/");
     dataLayer.push({
       event: "AddtoWishlist",
       ecommerce: {
@@ -42,14 +48,14 @@ const WishlistButton: React.FC<Props> = ({
         add: {
           products: [
             {
-              name: product.title,
-              id: product.childAttributes?.[0].sku,
-              price: product.priceRecords[currency],
+              name: title,
+              id: childAttributes?.[0].sku,
+              price: priceRecords ? priceRecords[currency] : null,
               brand: "Goodearth",
               category: category,
               variant:
-                product.childAttributes && product.childAttributes[0].color
-                  ? product.childAttributes[0].color[0]
+                childAttributes && childAttributes[0].color
+                  ? childAttributes[0].color[0]
                   : "",
               quantity: 1,
               list: "Search"

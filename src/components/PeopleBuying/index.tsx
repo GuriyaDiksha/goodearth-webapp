@@ -50,6 +50,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             )}
           >
             <WishlistButton
+              title={item.title}
               id={item.id}
               showText={false}
               key={item.id}

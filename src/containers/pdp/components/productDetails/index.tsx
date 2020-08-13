@@ -510,6 +510,10 @@ const ProductDetails: React.FC<Props> = ({
             })}
           >
             <WishlistButton
+              title={title}
+              childAttributes={childAttributes}
+              priceRecords={priceRecords}
+              categories={categories}
               id={id}
               showText={!mobile}
               size={selectedSize ? selectedSize.size : undefined}
