@@ -1,5 +1,6 @@
 import loadable from "@loadable/component";
 import React from "react";
+import MakerEnhance from "maker-enhance";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";
@@ -14,7 +15,6 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 const Quickview = loadable(() => import("components/Quickview"));
-const MakerEnhance = loadable(() => import("maker-enhance"));
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -73,7 +73,9 @@ class CollectionSpecific extends React.Component<
             />
           </SecondaryHeader>
         )}
-        {specificMaker && <MakerEnhance user="goodearth" index="1" />}
+        {specificMaker && (
+          <MakerEnhance user="goodearth" index="1" key={"collection1"} />
+        )}
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
@@ -154,7 +156,9 @@ class CollectionSpecific extends React.Component<
             })}
           </div>
         </div>
-        {specificMaker && <MakerEnhance user="goodearth" index="2" />}
+        {specificMaker && (
+          <MakerEnhance user="goodearth" index="2" key={"collection2"} />
+        )}
       </div>
     );
   }

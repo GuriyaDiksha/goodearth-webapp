@@ -44,6 +44,7 @@ class PLP extends React.Component<
     sortValue: string;
     flag: boolean;
     plpMaker: boolean;
+    toggel: boolean;
   }
 > {
   constructor(props: Props) {
@@ -58,7 +59,8 @@ class PLP extends React.Component<
       mobileFilter: false,
       sortValue: param ? param : "hc",
       flag: false,
-      plpMaker: false
+      plpMaker: false,
+      toggel: false
     };
   }
   private child: any = FilterList;
@@ -109,6 +111,15 @@ class PLP extends React.Component<
     }
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      // this.setState({toggel:})
+      this.setState(prevState => ({
+        toggel: !prevState.toggel
+      }));
+    }
+  }
+
   render() {
     const {
       device: { mobile },
@@ -118,7 +129,7 @@ class PLP extends React.Component<
         count
       }
     } = this.props;
-    const { plpMaker } = this.state;
+    const { plpMaker, toggel } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -215,7 +226,12 @@ class PLP extends React.Component<
                       </div>
                   </div> : ""} */}
 
-            {plpMaker && <MakerEnhance user="goodearth" />}
+            {plpMaker &&
+              (toggel ? (
+                <MakerEnhance user="goodearth" index="1" key={"plp"} />
+              ) : (
+                <MakerEnhance user="goodearth" index="1" key={"plp"} />
+              ))}
 
             {!mobile ? (
               <div

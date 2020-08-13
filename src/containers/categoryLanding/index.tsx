@@ -302,7 +302,7 @@ class CategoryLanding extends React.Component<
         {catLanding && (
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
-              <MakerEnhance user="goodearth" />
+              <MakerEnhance user="goodearth" index="1" />
             </div>
           </div>
         )}

@@ -533,7 +533,7 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
-        {mounted && <MakerEnhance user="goodearth" />}
+        {mounted && <MakerEnhance user="goodearth" index="1" key={"pdp"} />}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}
