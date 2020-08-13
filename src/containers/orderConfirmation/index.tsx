@@ -14,7 +14,6 @@ import moment from "moment";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
-    device: { mobile },
     user: { email }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
@@ -30,7 +29,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     return data;
   };
 
-  console.log(mobile, props, confirmData);
   useEffect(() => {
     fetchData().then(response => {
       setConfirmData(response.results?.[0]);
@@ -245,7 +243,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {String.fromCharCode(
                                 currencyCode[item.priceCurrency as Currency]
                               )}
-                              &nbsp; {parseFloat(item.priceInclTax).toFixed(2)}
+                              &nbsp;{" "}
+                              {parseFloat(
+                                item.product.pricerecords[item.priceCurrency]
+                              ).toFixed(2)}
                             </p>
                             {item.product?.structure == "GiftCard" ? (
                               ""
