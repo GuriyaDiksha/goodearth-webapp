@@ -234,9 +234,7 @@ class Search extends React.Component<
                           <img src={banner} className="img-responsive" />
                       </div>
                   </div> : ""} */}
-            {searchMaker && (
-              <MakerEnhance user="goodearth" index="1" key={"search"} />
-            )}
+            {searchMaker && <MakerEnhance user="goodearth" index="1" />}
             {!mobile ? (
               <div
                 className={cs(

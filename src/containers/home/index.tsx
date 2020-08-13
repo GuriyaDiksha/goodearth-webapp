@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   });
   return (
     <div className={styles.makerTop}>
-      {mounted && <MakerEnhance user="goodearth" index="1" key={"home"} />}
+      {mounted && <MakerEnhance user="goodearth" index="1" />}
     </div>
   );
 };

@@ -113,7 +113,6 @@ class PLP extends React.Component<
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.location.pathname != nextProps.location.pathname) {
-      // this.setState({toggel:})
       this.setState(prevState => ({
         toggel: !prevState.toggel
       }));
@@ -228,9 +227,9 @@ class PLP extends React.Component<
 
             {plpMaker &&
               (toggel ? (
-                <MakerEnhance user="goodearth" index="1" key={"plp"} />
+                <MakerEnhance user="goodearth" />
               ) : (
-                <MakerEnhance user="goodearth" index="1" key={"plp"} />
+                <MakerEnhance user="goodearth" />
               ))}
 
             {!mobile ? (
