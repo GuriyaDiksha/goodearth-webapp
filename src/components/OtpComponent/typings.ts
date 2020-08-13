@@ -49,6 +49,7 @@ export type otpRedeemProps = {
   email?: string;
   loyaltyData: any;
   points: number | string;
+  number?: string;
 };
 
 export type otpBoxProps = {

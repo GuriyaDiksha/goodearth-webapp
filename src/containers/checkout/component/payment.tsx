@@ -31,6 +31,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
+  const [gbpError, setGbpError] = useState("");
 
   const dispatch = useDispatch();
 
@@ -47,6 +48,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const setAccept = () => {
     setSubscribegbp(true);
+    setGbpError("");
   };
 
   const closeModal = () => {
@@ -65,6 +67,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       dispatch(updateModal(true));
     } else {
       setSubscribegbp(false);
+      setGbpError("");
     }
   };
 
@@ -83,6 +86,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         data["isGift"] = giftwrap;
         data["giftRemovePrice"] = giftwrapprice;
         data["giftMessage"] = textarea;
+      }
+      if (currency == "GBP" && !subscribegbp) {
+        setGbpError("Please agree to shipping & payment terms.");
+        return false;
       }
       setIsLoading(true);
       checkout(data)
@@ -153,6 +160,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onMethodChange = (event: any, method: any) => {
     if (event.target.checked) {
       setCurrentmethod(method);
+      setPaymentError("");
     }
   };
 
@@ -454,9 +462,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
             </label>
           )}
+          <div
+            className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+            data-name="error-msg"
+          >
+            {gbpError}
+          </div>
           {isLoading && <Loader />}
           <button
-            className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
+            className={cs(globalStyles.marginT10, globalStyles.ceriseBtn)}
             onClick={onsubmit}
           >
             {isPaymentNeeded

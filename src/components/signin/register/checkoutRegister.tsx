@@ -644,7 +644,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     const footer = (
       <>
         <div className={globalStyles.textCenter}>
-          <SocialLogin />
+          <SocialLogin
+            closeModel={() => {
+              this.props.nextStep?.();
+            }}
+          />
         </div>
       </>
     );

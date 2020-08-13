@@ -400,7 +400,7 @@ class LoginForm extends React.Component<Props, loginState> {
     );
     const footer = (
       <>
-        <SocialLogin />
+        <SocialLogin closeModel={this.context.closeModal} />
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Not a member?{" "}

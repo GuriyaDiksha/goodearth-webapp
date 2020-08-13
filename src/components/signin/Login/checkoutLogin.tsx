@@ -298,7 +298,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     this.setState({
       showCurrentSection: "email",
       email: "",
-      isLoginDisabled: true
+      isLoginDisabled: true,
+      showerror: "",
+      password: ""
     });
     this.firstEmailInput.current?.focus();
   };
@@ -423,7 +425,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const footer = (
       <>
         <div className={globalStyles.textCenter}>
-          <SocialLogin />
+          <SocialLogin closeModel={this.context.closeModal} />
         </div>
 
         {/* <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>

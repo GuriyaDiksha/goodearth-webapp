@@ -52,6 +52,7 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     recommendedSliderItems,
     currency: state.currency,
     device: state.device,
+    location: state.router.location,
     corporatePDP: state.meta.templateType === "corporate_pdp"
   };
 };
@@ -533,7 +534,13 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
-        {mounted && <MakerEnhance user="goodearth" />}
+        {mounted && (
+          <MakerEnhance
+            user="goodearth"
+            index="1"
+            location={this.props.location}
+          />
+        )}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}

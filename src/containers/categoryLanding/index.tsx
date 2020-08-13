@@ -13,6 +13,7 @@ import bannerborder from "../../images/banner2-border.jpg";
 import closeShopthelook from "../../images/close-Shopthelook.svg";
 import Shopthelook from "../../images/Shopthelook.svg";
 import bird from "../../images/bird-motif.png";
+// import Instagram from "components/Instagram"
 import "./slick.css";
 
 // import { Settings } from "react-slick";
@@ -48,38 +49,6 @@ class CategoryLanding extends React.Component<
     isSale: false
   };
 
-  getInstagram = () => {
-    // let settings = {
-    //     infinite: true,
-    //     speed: 500,
-    //     slidesToShow: 10,
-    //     slidesToScroll: 1,
-    //     initialSlide: 0,
-    //     autoplay: true,
-    //     autoplayspeed: 3000,
-    //     arrows: false,
-    //     responsive: [{
-    //         breakpoint: 768,
-    //         settings: {
-    //             slidesToShow: 2,
-    //             centerMode: true,
-    //             className: 'center'
-    //         }
-    //     }]
-    // };
-    // if (this.props.instData.length > 0) {
-    //     return <div className="no-arrows ">
-    //         <Slider {...settings}>
-    //             {this.state.instData.map(data => {
-    //                 return <div>
-    //                     <Link to={data.link} target="_blank"> <img src={data.images.thumbnail.url}
-    //                                                               className="img-responsive"/> </Link>
-    //                 </div>
-    //             })
-    //             }</Slider>
-    //     </div>
-    // }
-  };
   componentDidMount() {
     this.setState({
       catLanding: true
@@ -333,7 +302,11 @@ class CategoryLanding extends React.Component<
         {catLanding && (
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
-              <MakerEnhance user="goodearth" />
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                location={this.props.location}
+              />
             </div>
           </div>
         )}
@@ -601,22 +574,25 @@ class CategoryLanding extends React.Component<
         )}
         <section>
           <div id="inst" className={styles.instafeed1}>
+            {/* <Instagram/> */}
             {/* {this.getInstagram()} */}
           </div>
           <div className={cs(styles.iconInsta, globalStyles.textCenter)}>
-            <Link
-              to="http://www.instagram.com/goodearthindia"
+            <a
+              href="http://www.instagram.com/goodearthindia"
               target="_blank"
+              rel="noopener noreferrer"
               className="icon icon_footer-instagram"
-            ></Link>
+            ></a>
             <br />
-            <Link
-              to="http://www.instagram.com/goodearthindia"
+            <a
+              href="http://www.instagram.com/goodearthindia"
               target="_blank"
+              rel="noopener noreferrer"
               className={styles.iconInsta}
             >
               @goodearthindia
-            </Link>
+            </a>
           </div>
         </section>
       </div>

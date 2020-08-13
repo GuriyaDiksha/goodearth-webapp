@@ -29,6 +29,7 @@ module.exports = {
   globals: {
     __DOMAIN__: false,
     __API_HOST__:false,
+    __CDN_HOST__:false,
     __OMNI_HOST__: false,
     dataLayer: false,
 }

@@ -147,7 +147,8 @@ class Header extends React.Component<Props, State> {
       meta,
       goLogin,
       handleLogOut,
-      announcement
+      announcement,
+      location
     } = this.props;
     const messageText = announcement.message.split("|");
     const wishlistCount = wishlistData.length;
@@ -212,6 +213,10 @@ class Header extends React.Component<Props, State> {
           {meta.description && (
             <meta name="description" content={meta.description} />
           )}
+          <link
+            rel="canonical"
+            href={__DOMAIN__ + location.pathname + location.search}
+          ></link>
           <link rel="icon" href={fabicon}></link>
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}
           {meta.ogTitle && (

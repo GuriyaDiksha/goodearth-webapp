@@ -10,6 +10,7 @@ import initActionCategory from "containers/categoryLanding/initAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
+// import initActionDesignJournalBook from "containers/designJournalBook/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
 
 const paths: string[] = [];
@@ -132,11 +133,23 @@ const routes: RouteConfig = [
     exact: false
   },
   {
+    path: ROUTES.DESIGNJOURNAL,
+    component: loadable(() => import("containers/designJournal")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.ABOUTUS,
     component: loadable(() => import("containers/home")),
     action: async () => null,
     exact: true
   }
+  // {
+  //   path: ROUTES.DESIGNJOURNALBOOK,
+  //   component: loadable(() => import("containers/designJournalBook")),
+  //   action: initActionDesignJournalBook,
+  //   exact: false
+  // }
 ];
 
 routes.forEach(route => {
