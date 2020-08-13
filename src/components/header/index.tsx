@@ -206,7 +206,7 @@ class Header extends React.Component<Props, State> {
     );
     return (
       <div className="">
-        <Helmet>
+        <Helmet defer={false}>
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
           </title>
