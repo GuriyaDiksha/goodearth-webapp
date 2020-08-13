@@ -4,13 +4,18 @@ import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
 import Modal from "components/Modal";
+import LoginService from "services/login";
 import CheckoutHeader from "containers/checkout/checkoutHeader";
 import globalStyles from "styles/global.scss";
 import "styles/chat.css";
+import { AppState } from "reducers/typings";
+import { useSelector, useDispatch } from "react-redux";
 
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
+  const dispatch = useDispatch();
+  const { currency } = useSelector((state: AppState) => state);
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
@@ -52,7 +57,23 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
+    setTimeout(() => {
+      const goCurrencyElem: any = document.getElementById("defaultcurrency");
+      if (goCurrencyElem) {
+        const goCurrencyValue: any = goCurrencyElem.value;
+        if (
+          goCurrencyValue.toString().toLowerCase() !=
+          currency.toString().toLowerCase()
+        ) {
+          const data: any = {
+            currency: goCurrencyValue.toString().toLowerCase()
+          };
+          LoginService.changeCurrency(dispatch, data);
+        }
+      }
+    }, 2000);
   }, []);
+
   const isCheckout =
     pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
