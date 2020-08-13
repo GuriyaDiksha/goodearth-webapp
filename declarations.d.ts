@@ -20,3 +20,4 @@ declare module "react-facebook-login/dist/facebook-login-render-props";
 declare const __API_HOST__: string;
 declare const __DOMAIN__: string;
 declare const __OMNI_HOST__: string;
+declare const dataLayer: any[];
