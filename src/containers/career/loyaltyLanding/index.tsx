@@ -6,52 +6,52 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import ceriseMainlogo from "../../../images/loyalty/ceriseMainlogo.svg";
 import butterfly from "../../../images/loyalty/animate-img/butterfly.png";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
-import ceriseMainLogo from "../../../images/loyalty.svg";
+import flower4 from "../../../images/loyalty/animate-img/flower4.png";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -273,7 +273,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img
-                  src="/images/loyalty/animate-img/butterfly.png"
+                  src={butterfly}
                   className={styles.imgResponsive}
                 />
               </div>
@@ -285,7 +285,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img
-                  src="/images/loyalty/animate-img/flower4.png"
+                  src={flower4}
                   className={styles.imgResponsive}
                 />
               </div>
