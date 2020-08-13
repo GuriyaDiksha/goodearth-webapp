@@ -73,7 +73,9 @@ class CollectionSpecific extends React.Component<
             />
           </SecondaryHeader>
         )}
-        {specificMaker && <MakerEnhance user="goodearth" index="1" />}
+        {specificMaker && (
+          <MakerEnhance user="goodearth" index="1" key={"collection1"} />
+        )}
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
@@ -154,7 +156,9 @@ class CollectionSpecific extends React.Component<
             })}
           </div>
         </div>
-        {specificMaker && <MakerEnhance user="goodearth" index="2" />}
+        {specificMaker && (
+          <MakerEnhance user="goodearth" index="2" key={"collection2"} />
+        )}
       </div>
     );
   }
