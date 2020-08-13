@@ -7,51 +7,27 @@ import cs from "classnames";
 import ceriseMainlogo from "../../../images/loyalty/ceriseMainlogo.svg";
 import butterfly from "../../../images/loyalty/animate-img/butterfly.png";
 import flower4 from "../../../images/loyalty/animate-img/flower4.png";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import ceriseMainLogo from "../../../images/loyalty/ceriseMainlogo.svg";
+import midPoints from "../../../images/loyalty/points/midPoints.svg";
+import flower2 from "../../../images/loyalty/animate-img/flower2.png";
+import ceriseClub from "../../../images/loyalty/ceriseClub.svg";
+import ceriseSitaraLogoActive from "../../../images/loyalty/ceriseSitaraLogoActive.svg";
+import rewardPoints from "../../..//images/loyalty/points/rewardPoints.svg";
+import inShop from "../../../images/loyalty/points/inShop.svg";
+import redeem from "../../../images/loyalty/points/redeem.svg";
+import ps from "../../../images/loyalty/points/ps.svg";
+import styling from "../../../images/loyalty/points/styling.svg";
+import gifting from "../../../images/loyalty/points/gifting.svg";
+import invites from "../../../images/loyalty/points/invites.svg";
+import specialPreviews from "../../../images/loyalty/points/specialPreviews.svg";
+import list1 from "../../../images/loyalty/howitworks/list1.svg";
+import list2 from "../../../images/loyalty/howitworks/list2.svg";
+import list3 from "../../../images/loyalty/howitworks/list3.svg";
+import flower6 from "../../../images/loyalty/animate-img/flower6.png";
+import flower1 from "../../../images/loyalty/animate-img/flower1.png";
+import flower3 from "../../../images/loyalty/animate-img/flower3.png";
+import flower5 from "../../../images/loyalty/animate-img/flower5.png";
+import customerCare from "../../..//images/loyalty/points/customerCare.svg";
+
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -318,7 +294,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
             <div className={cs(bootstrapStyles.row, styles.basic)}>
               <div className={cs(bootstrapStyles.col12, globalStyles.voffset3)}>
                 <img
-                  src="/images/loyalty/points/mid-points.svg"
+                  src={midPoints}
                   className={styles.points}
                 />
               </div>
@@ -330,7 +306,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img
-                  src="/images/loyalty/animate-img/flower2.png"
+                  src={flower2}
                   className={styles.imgResponsive}
                 />
               </div>
@@ -365,12 +341,12 @@ export default class LoyaltyLanding extends Component<Props, State> {
                     >
                       {this.state.tabs ? (
                         <img
-                          src="/images/loyalty/cerise-club.svg"
+                          src={ceriseClub}
                           width="80%"
                         />
                       ) : (
                         <img
-                          src="/images/loyalty/cerise-club.svg"
+                          src={ceriseClub}
                           width="80%"
                           className={styles.grayimg}
                         />
@@ -386,13 +362,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                     >
                       {this.state.tabs ? (
                         <img
-                          src="/images/loyalty/cerise-sitara-logo-active.svg"
+                          src={ceriseSitaraLogoActive}
                           width="80%"
                           className={styles.grayimg}
                         />
                       ) : (
                         <img
-                          src="/images/loyalty/cerise-sitara-logo-active.svg"
+                          src={ceriseSitaraLogoActive}
                           width="80%"
                         />
                       )}{" "}
@@ -406,7 +382,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/rewardpoints.svg" />
+                                <img src={rewardPoints} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -425,7 +401,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/inshop.svg" />
+                                <img src={inShop} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -444,7 +420,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/redeem.svg" />
+                                <img src={redeem} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -477,7 +453,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/ps.svg" />
+                                <img src={ps} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -494,7 +470,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/styling.svg" />
+                                <img src={styling} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -510,7 +486,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/gifting.svg" />
+                                <img src={gifting} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -531,7 +507,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/invites.svg" />
+                                <img src={invites} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -552,7 +528,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/rewardpoints.svg" />
+                                <img src={rewardPoints} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -571,7 +547,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/redeem.svg" />
+                                <img src={redeem} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -588,7 +564,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/specialPreviews.svg" />
+                                <img src={specialPreviews} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -607,7 +583,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/ps.svg" />
+                                <img src={ps} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -627,7 +603,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/styling.svg" />
+                                <img src={styling} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -646,7 +622,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/gifting.svg" />
+                                <img src={gifting} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -667,7 +643,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/invites.svg" />
+                                <img src={invites} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -703,13 +679,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 <div className={cs(styles.list, globalStyles.voffset3)}>
                   <ul>
                     <li>
-                      <img src="/images/loyalty/howitworks/list1.svg" />
+                      <img src={list1} />
                       <div className={globalStyles.txtNormal}>
                         Shop in-store or online.
                       </div>
                     </li>
                     <li>
-                      <img src="/images/loyalty/howitworks/list2.svg" />
+                      <img src={list2} />
                       <div className={globalStyles.txtNormal}>
                         Earn upto 15% of your purchase value as Cerise Points.
                       </div>
@@ -747,7 +723,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       </a>
                     </li>
                     <li>
-                      <img src="/images/loyalty/howitworks/list3.svg" />
+                      <img src={list3} />
                       <div className={globalStyles.txtNormal}>
                         {" "}
                         Redeem earned reward points on future online or in-store
@@ -831,11 +807,11 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img
-                  src="/images/loyalty/animate-img/butterfly.png"
+                  src={butterfly}
                   className={styles.btfly}
                 />
                 <img
-                  src="/images/loyalty/animate-img/flower6.png"
+                  src={flower6}
                   className={styles.imgResponsive}
                 />
               </div>
@@ -852,7 +828,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img
-                  src="/images/loyalty/animate-img/butterfly.png"
+                  src={butterfly}
                   className={styles.imgResponsive}
                 />
               </div>
@@ -865,7 +841,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   )}
                 >
                   <img
-                    src="/images/loyalty/animate-img/flower1.png"
+                    src={flower1}
                     className={styles.imgResponsive}
                   />
                 </div>
@@ -875,7 +851,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 id="ele3"
               >
                 <img
-                  src="/images/loyalty/animate-img/flower2.png"
+                  src={flower2}
                   className={styles.imgResponsive}
                 />
               </div>
@@ -885,7 +861,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   id="ele4"
                 >
                   <img
-                    src="/images/loyalty/animate-img/flower3.png"
+                    src={flower3}
                     className={styles.imgResponsive}
                   />
                 </div>
@@ -896,7 +872,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   id="ele7"
                 >
                   <img
-                    src="/images/loyalty/animate-img/flower1.png"
+                    src={flower1}
                     className={styles.imgResponsive}
                   />
                 </div>
@@ -905,7 +881,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 className={cs(styles.bgAnimation, styles.flowerR1, styles.ele5)}
               >
                 <img
-                  src="/images/loyalty/animate-img/flower4.png"
+                  src={flower4}
                   className={styles.imgResponsive}
                 />
               </div>
@@ -914,7 +890,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 id="ele6"
               >
                 <img
-                  src="/images/loyalty/animate-img/flower5.png"
+                  src={flower5}
                   className={styles.imgResponsive}
                 />
               </div>
@@ -952,7 +928,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img
-                  src="/images/loyalty/cerise-mainlogo.svg"
+                  src={ceriseMainlogo}
                   className={styles.imgLoyalty}
                 />
                 <div
@@ -1008,7 +984,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
               >
                 <div className={globalStyles.voffset3}>
                   <img
-                    src="/images/loyalty/points/mid-points.svg"
+                    src={midPoints}
                     className={styles.points}
                   />
                 </div>
@@ -1034,12 +1010,12 @@ export default class LoyaltyLanding extends Component<Props, State> {
                     >
                       {this.state.tabs ? (
                         <img
-                          src="/images/loyalty/cerise-club.svg"
+                          src={ceriseClub}
                           width="50%"
                         />
                       ) : (
                         <img
-                          src="/images/loyalty/cerise-club.svg"
+                          src={ceriseClub}
                           width="50%"
                           className={styles.grayimg}
                         />
@@ -1055,13 +1031,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                     >
                       {this.state.tabs ? (
                         <img
-                          src="/images/loyalty/cerise-sitara-logo-active.svg"
+                          src={ceriseSitaraLogoActive}
                           width="50%"
                           className={styles.grayimg}
                         />
                       ) : (
                         <img
-                          src="/images/loyalty/cerise-sitara-logo-active.svg"
+                          src={ceriseSitaraLogoActive}
                           width="50%"
                         />
                       )}
@@ -1075,7 +1051,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/rewardpoints.svg" />
+                                <img src={rewardPoints} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1094,7 +1070,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/redeem.svg" />
+                                <img src={redeem} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1111,7 +1087,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/specialPreviews.svg" />
+                                <img src={specialPreviews} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1130,7 +1106,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/customerCare.svg" />
+                                <img src={customerCare} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1149,7 +1125,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/ps.svg" />
+                                <img src={ps} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1166,7 +1142,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/styling.svg" />
+                                <img src={styling} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1203,7 +1179,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/invites.svg" />
+                                <img src={invites} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1225,7 +1201,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/rewardpoints.svg" />
+                                <img src={rewardPoints} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1244,7 +1220,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/redeem.svg" />
+                                <img src={redeem} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1261,7 +1237,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/specialPreviews.svg" />
+                                <img src={specialPreviews} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1280,7 +1256,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/customerCare.svg" />
+                                <img src={customerCare} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1299,7 +1275,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/ps.svg" />
+                                <img src={ps} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1319,7 +1295,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/styling.svg" />
+                                <img src={styling} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1338,7 +1314,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/gifting.svg" />
+                                <img src={gifting} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1359,7 +1335,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           <div className={styles.tabs}>
                             <div>
                               <p className={styles.icon}>
-                                <img src="/images/loyalty/points/invites.svg" />
+                                <img src={invites} />
                               </p>
                             </div>
                             <div className={styles.tabsTxt}>
@@ -1386,13 +1362,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 <div className={cs(styles.list, globalStyles.voffset3)}>
                   <ul>
                     <li>
-                      <img src="/images/loyalty/howitworks/list1.svg" />
+                      <img src={list1} />
                       <div className={globalStyles.txtNormal}>
                         Shop in-store or online.
                       </div>
                     </li>
                     <li>
-                      <img src="/images/loyalty/howitworks/list2.svg" />
+                      <img src={list2} />
                       <div className={globalStyles.txtNormal}>
                         Earn upto 15% of your purchase value as Cerise Points.
                       </div>
@@ -1427,7 +1403,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       </a>
                     </li>
                     <li>
-                      <img src="/images/loyalty/howitworks/list3.svg" />
+                      <img src={list3} />
                       <div className={globalStyles.txtNormal}>
                         {" "}
                         Redeem accumulated Cerise Points online or in-store.
