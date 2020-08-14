@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 // import Notify from './notify'
 // import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
 import cs from "classnames";
+import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
 import SampleDisplay from "./display";
 import ReactDOM from "react-dom";
@@ -595,39 +596,59 @@ class Wishlist extends React.Component<Props, State> {
     return (
       <>
         {mobile ? (
-          <div className="row hidden-lg hidden-md">
-            <div className="c-sort subheader-account">
+          <div className={cs(bootstrapStyles.row, globalStyles.voffset7)}>
+            <div className={cs(styles.cSort, styles.subheaderAccount)}>
               <div
-                className="col-xs-12 product-number"
+                className={cs(bootstrapStyles.col12, styles.productNumber)}
                 style={{ borderBottom: "1px solid #efeaea" }}
               >
-                <div className=" col-xs-10 wishlist-header">Wishlist</div>
-                <div className="hidden-md hidden-lg col-xs-2">
+                <div
+                  className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
+                >
+                  Wishlist
+                </div>
+                <div className={bootstrapStyles.col2}>
                   <i
-                    className="icon icon_sort"
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconSort,
+                      styles.iconSort
+                      // globalStyles.cerise
+                    )}
                     onClick={() => this.setState({ filterListing: true })}
                   ></i>
                 </div>
                 <div
                   className={
                     this.state.filterListing
-                      ? "row hidden-lg hidden-md"
-                      : "hidden"
+                      ? bootstrapStyles.row
+                      : globalStyles.hidden
                   }
                 >
-                  <div className="mobile-filter-header">
-                    <div className="filter-cross">
+                  <div className={styles.mobileFilterHeader}>
+                    <div className={styles.filterCross}>
                       <span>Wishlist</span>
                       <span
                         onClick={() => this.setState({ filterListing: false })}
                       >
-                        <i className="icon icon_cross"></i>
+                        <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconCrossNarrowBig,
+                            styles.iconClose
+                          )}
+                        ></i>
                       </span>
                     </div>
                   </div>
-                  <div className="row minimumWidth">
-                    <div className="col-xs-12 col-sm-12 mobile-filter-menu ">
-                      <ul className="sort hidden-md hidden-lg">
+                  <div className={bootstrapStyles.row}>
+                    <div
+                      className={cs(
+                        bootstrapStyles.col12,
+                        styles.mobileFilterMenu
+                      )}
+                    >
+                      <ul className={styles.sort}>
                         {this.state.options.map((data, index) => {
                           return (
                             <li key={index}>
@@ -635,7 +656,7 @@ class Wishlist extends React.Component<Props, State> {
                                 onClick={() => this.setWishlistFilter(data)}
                                 className={
                                   this.state.currentFilter == data.value
-                                    ? "cerise"
+                                    ? globalStyles.cerise
                                     : ""
                                 }
                               >
