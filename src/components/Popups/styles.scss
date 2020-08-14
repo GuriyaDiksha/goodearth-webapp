@@ -59,6 +59,14 @@
       transform: translate(-50%, -50%);
       //width: 100%;
     }
+    .centerpage-desktop-fs {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      //width: 100%;
+    }
     }
     .free-shipping {
       padding: 0 45px;
@@ -310,9 +318,19 @@
 }
 
 @media (max-width: 992px) {
+  .centerpage-desktop-fs {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
   .size-block-not-fixed.form-block {
     .gc-tnc {
       padding: 0px 0px 30px 0px;
+      .font-ht {
+        padding: 0px 10%;
+  line-height: 32px;
+  margin-top: 40px;
+      }
       .cerise-btn {
         width: 100%;
         min-width: 0px;
@@ -329,6 +347,8 @@
         cursor: default;
       }
     }
+   
+    
   }
   .centerpage-mobile {
     position: fixed;
