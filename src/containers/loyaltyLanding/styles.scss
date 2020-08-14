@@ -1,6 +1,7 @@
 @import "../../styles/partials/variables";
 
 .loyalty {
+  margin-top: $main-header;
     .paddlr-30 {
       padding: 0 30px;
     }
@@ -317,5 +318,19 @@
         }
       }
   
+    }
+  }
+
+  .heading {
+    text-transform: uppercase;
+    color: tint(#000, 40%);
+    letter-spacing: 1px;
+    font-size: 14px;
+    line-height: 48px;
+    .icon {
+      font-size: 18px;
+      color: $cerise;
+      margin-right: 5px;
+      font-weight: bold;
     }
   }

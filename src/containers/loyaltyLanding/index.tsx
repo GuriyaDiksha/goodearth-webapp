@@ -27,6 +27,7 @@ import flower1 from "../../images/loyalty/animate-img/flower1.png";
 import flower3 from "../../images/loyalty/animate-img/flower3.png";
 import flower5 from "../../images/loyalty/animate-img/flower5.png";
 import customerCare from "../../images/loyalty/points/customerCare.svg";
+import SecondaryHeader from "components/SecondaryHeader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -858,13 +859,27 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 />
               </div>
             </div>
-            <div className={styles.commonSubheader}>
+            {/* <div className={styles.commonSubheader}>
               <div
                 className={cs(bootstrapStyles.col11, bootstrapStyles.offset1)}
               >
                 <span className={styles.heading}> cerise program</span>
               </div>
-            </div>
+            </div> */}
+            <SecondaryHeader>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  bootstrapStyles.offsetMd1,
+                  styles.header,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <div>
+                  <span className={styles.heading}>Cerise Program</span>
+                </div>
+              </div>
+            </SecondaryHeader>
             <div
               className={cs(
                 bootstrapStyles.row,
