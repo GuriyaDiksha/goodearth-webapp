@@ -705,7 +705,13 @@ class Wishlist extends React.Component<Props, State> {
             </div>
           </SecondaryHeader>
         )}
-        <div className={cs(bootstrapStyles.row, styles.wishlistBlockOuter)}>
+        <div
+          className={cs(
+            bootstrapStyles.row,
+            { [styles.wishlistBlockOuter]: !mobile },
+            { [styles.wishlistBlockOuterMobile]: mobile }
+          )}
+        >
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
             {this.state.wishlistCount > 0 && (
               <div className={cs(styles.wishlistTop, styles.wishlistSubtotal)}>
