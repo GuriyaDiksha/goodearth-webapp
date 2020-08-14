@@ -29,6 +29,8 @@ import { User } from "typings/user";
 import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import { updateComponent, updateModal } from "actions/modal";
+import InfoPopup from "components/Popups/InfoPopup";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -93,6 +95,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         data
       );
       return points;
+    },
+    showPopup: (setInfoPopupCookie: () => void) => {
+      dispatch(
+        updateComponent(
+          <InfoPopup acceptCondition={setInfoPopupCookie} />,
+          true
+        )
+      );
+      dispatch(updateModal(true));
     }
   };
 };
@@ -124,6 +135,7 @@ type State = {
   addressIdError: string;
   isGoodearthShipping: boolean;
   loyaltyData: any;
+  isSuspended: boolean;
 };
 
 class Checkout extends React.Component<Props, State> {
@@ -156,6 +168,7 @@ class Checkout extends React.Component<Props, State> {
       isLoading: false,
       id: "",
       addressIdError: "",
+      isSuspended: true,
       isGoodearthShipping:
         props.user.shippingData && props.user.shippingData.isTulsi
           ? true
@@ -163,10 +176,22 @@ class Checkout extends React.Component<Props, State> {
       loyaltyData: {}
     };
   }
+  setInfoPopupCookie() {
+    const cookieString =
+      "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    // this.setState({
+    //     showInfoPopup: 'show'
+    // })
+  }
   componentDidMount() {
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
+    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
+    if (this.state.isSuspended && checkoutPopupCookie !== "show") {
+      this.props.showPopup(this.setInfoPopupCookie);
+    }
     const {
       user: { email },
       getLoyaltyPoints

@@ -11,17 +11,23 @@ import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
+import { updateComponent, updateModal } from "actions/modal";
+import InfoPopup from "components/Popups/InfoPopup";
 
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
   const { currency } = useSelector((state: AppState) => state);
+  // const [showInfoPopup, setShowInfoPopup] = useState("yes");
+  const isSuspended = true;
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
     const { hash, search } = location;
     const id = search ? search.replace("?id=", "") : hash.replace("#", "");
+
     if (id) {
       const element = document.getElementById(id);
       if (element) {
@@ -36,6 +42,14 @@ const BaseLayout: React.FC = () => {
       }
     }
   }, [pathname]);
+
+  const setInfoPopupCookie = () => {
+    const cookieString =
+      "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    CookieService.setCookie("suspensioninfo", "show", 365);
+    // setShowInfoPopup("show");
+  };
 
   useEffect(() => {
     // document.addEventListener("wheel", )
@@ -58,6 +72,17 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
+    const popupCookie = CookieService.getCookie("suspensioninfo");
+    // setShowInfoPopup(popupCookie);
+    if (isSuspended && popupCookie != "show") {
+      dispatch(
+        updateComponent(
+          <InfoPopup acceptCondition={setInfoPopupCookie} />,
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    }
     setTimeout(() => {
       const goCurrencyElem: any = document.getElementById("defaultcurrency");
       const cookieCurrency = CookieService.getCookie("currency");

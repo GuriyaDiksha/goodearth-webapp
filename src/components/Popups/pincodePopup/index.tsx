@@ -64,12 +64,15 @@ class PincodePopup extends React.Component<Props, State> {
     this.props
       .checkPinCodeShippable(pinCode)
       .then(data => {
-        this.setState({ status: "yes" });
+        if (data.status) {
+          this.setState({ status: "yes" });
+        } else {
+          this.setState({ status: "no" });
+        }
         localStorage.setItem("selectedPincode", pinCode);
         this.props.setPincode(pinCode);
       })
       .catch(err => {
-        this.setState({ status: "no" });
         console.log(err);
       });
   }

@@ -3,7 +3,7 @@
 
 .size-block-popup {
     height: auto !important;
-      padding: 0 0 75px 0;
+      // padding: 0 0 75px 0;
       background-color: #fff;
       // width: 35vw;
       width: 430px;
@@ -241,6 +241,7 @@
 
 
 .size-block-not-fixed.form-block {
+
   .gc-tnc {
     padding: 0px 50px 10px 50px;
     .c10-L-R {
@@ -385,4 +386,14 @@
     }
   }
 
+}
+.btn-popup {
+
+}
+.cerise-btn30 {
+  width: 30%;
+  min-width: 200px;
+  position: relative;
+  transform: translateX(-50%);
+  left: 50%;
 }

@@ -71,7 +71,7 @@ export default {
     return res;
   },
   checkPinCodeShippable: async function(dispatch: Dispatch, pinCode: string) {
-    const res = await API.post(
+    const res = await API.post<{ message: string; status: boolean }>(
       dispatch,
       `${__API_HOST__}/myapi/address/pincode_shippable_check/`,
       { pinCode }
