@@ -12,6 +12,7 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import { currency } from "reducers/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -505,6 +506,11 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateOnload(false);
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
+    }
+    if (this.props.currency != nextProps.currency) {
+      nextProps.mobile
+        ? this.updateDataFromAPI("load")
+        : this.updateDataFromAPI();
     }
   };
 

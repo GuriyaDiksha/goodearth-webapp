@@ -117,11 +117,6 @@ class PLP extends React.Component<
         toggel: !prevState.toggel
       }));
     }
-    if (this.props.currency != nextProps.currency) {
-      // this.setState(prevState => ({
-      //   toggel: !prevState.toggel
-      // }));
-    }
   }
 
   render() {
