@@ -33,7 +33,14 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      props.setValue(event.currentTarget.value);
+      const value = event.target.value;
+      if (props.maxlength) {
+        if (value.toString().length <= props.maxlength) {
+          props.setValue(value);
+        }
+      } else {
+        props.setValue(event.currentTarget.value);
+      }
       if (props.handleChange) {
         props.handleChange(event);
       }

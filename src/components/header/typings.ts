@@ -104,6 +104,8 @@ export interface State {
   showP: boolean;
   urlParams: object;
   activeIndex: number;
+  selectedPincode: string | null;
+  showPincodePopup: boolean;
 }
 
 export interface MenuState {

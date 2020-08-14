@@ -12,6 +12,7 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -415,6 +416,12 @@ class FilterList extends React.Component<Props, State> {
       const pageSize = mobile ? 10 : 20;
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         searchList => {
+          valid.productImpression(
+            searchList.results.data,
+            "PLP",
+            this.props.currency,
+            searchList.results.data.length
+          );
           this.createFilterfromUrl();
           const pricearray: any = [],
             currentCurrency =
@@ -481,6 +488,11 @@ class FilterList extends React.Component<Props, State> {
     const pageSize = mobile ? 10 : 20;
     fetchSearchProducts(filterUrl + `&page_size=${pageSize}`).then(
       searchList => {
+        valid.productImpression(
+          searchList.results.data,
+          "PLP",
+          this.props.currency
+        );
         this.createList(searchList);
       }
     );

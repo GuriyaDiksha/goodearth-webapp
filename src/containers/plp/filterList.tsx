@@ -12,6 +12,7 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -421,6 +422,12 @@ class FilterList extends React.Component<Props, State> {
       const pageSize = mobile ? 10 : 20;
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
+          valid.productImpression(
+            plpList.results.data,
+            "PLP",
+            this.props.currency,
+            plpList.results.data.length
+          );
           this.createFilterfromUrl();
           changeLoader?.(false);
           const pricearray: any = [],
@@ -485,6 +492,7 @@ class FilterList extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
     const pageSize = mobile ? 10 : 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
+      valid.productImpression(plpList.results.data, "PLP", this.props.currency);
       changeLoader?.(false);
       this.createList(plpList);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
