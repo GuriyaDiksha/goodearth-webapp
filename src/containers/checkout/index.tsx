@@ -499,9 +499,15 @@ class Checkout extends React.Component<Props, State> {
   };
 
   finalOrder = async (data: any) => {
-    // console.log(this.state)
-    // debugger
-    // const response = await this.props.finalCheckout(data);
+    if (this.state.gstType) {
+      data["gstNo"] = this.state.gstNo;
+      data["gstType"] = this.state.gstType;
+    }
+
+    if (this.state.pancardNo) {
+      data["panPassportNo"] = this.state.pancardNo;
+    }
+    const response = await this.props.finalCheckout(data);
     dataLayer.push({
       event: "checkout",
       ecommerce: {
@@ -512,7 +518,7 @@ class Checkout extends React.Component<Props, State> {
         }
       }
     });
-    // return response;
+    return response;
   };
 
   render() {
