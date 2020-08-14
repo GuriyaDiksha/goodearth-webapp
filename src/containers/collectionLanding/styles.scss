@@ -57,6 +57,9 @@
     background-color: #e6e6e6;
     padding: 15px 0;
     margin: 130px 0 0 0;
+    &.subcHeaderNew {
+        margin-top: $header-height;
+    }
     h1{
         font-size: 28px;
         font-family: $font-Serif;

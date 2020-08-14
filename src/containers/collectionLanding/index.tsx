@@ -123,7 +123,11 @@ class CollectionLanding extends React.Component<
         )}
 
         {!mobile && (
-          <div className={cs(bootstrap.row, styles.subcHeader)}>
+          <div
+            className={cs(bootstrap.row, styles.subcHeader, {
+              [styles.subcHeaderNew]: !isLivingpage
+            })}
+          >
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
               <h1>{collectionName} Collections </h1>
               <p
