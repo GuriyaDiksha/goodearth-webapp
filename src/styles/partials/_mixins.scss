@@ -51,7 +51,7 @@
   text-transform: uppercase;
   font-family: $font-Lato;
   letter-spacing: 1px;
-  color: $white;
+  color: #000;
 }
 
 @mixin ftr-heading-80blk {
@@ -70,7 +70,7 @@
 
 @mixin ftr-copy-white-desktop {
   @include hdr-curr;
-  color: $white;
+  color: #000;
 }
 
 @mixin ftr-copy-70blk {
