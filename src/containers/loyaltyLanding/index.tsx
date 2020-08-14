@@ -1,33 +1,32 @@
 import React, { Component } from "react";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
+import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
-import ceriseMainlogo from "../../../images/loyalty/ceriseMainlogo.svg";
-import butterfly from "../../../images/loyalty/animate-img/butterfly.png";
-import flower4 from "../../../images/loyalty/animate-img/flower4.png";
-import midPoints from "../../../images/loyalty/points/midPoints.svg";
-import flower2 from "../../../images/loyalty/animate-img/flower2.png";
-import ceriseClub from "../../../images/loyalty/ceriseClub.svg";
-import ceriseSitaraLogoActive from "../../../images/loyalty/ceriseSitaraLogoActive.svg";
-import rewardPoints from "../../..//images/loyalty/points/rewardPoints.svg";
-import inShop from "../../../images/loyalty/points/inShop.svg";
-import redeem from "../../../images/loyalty/points/redeem.svg";
-import ps from "../../../images/loyalty/points/ps.svg";
-import styling from "../../../images/loyalty/points/styling.svg";
-import gifting from "../../../images/loyalty/points/gifting.svg";
-import invites from "../../../images/loyalty/points/invites.svg";
-import specialPreviews from "../../../images/loyalty/points/specialPreviews.svg";
-import list1 from "../../../images/loyalty/howitworks/list1.svg";
-import list2 from "../../../images/loyalty/howitworks/list2.svg";
-import list3 from "../../../images/loyalty/howitworks/list3.svg";
-import flower6 from "../../../images/loyalty/animate-img/flower6.png";
-import flower1 from "../../../images/loyalty/animate-img/flower1.png";
-import flower3 from "../../../images/loyalty/animate-img/flower3.png";
-import flower5 from "../../../images/loyalty/animate-img/flower5.png";
-import customerCare from "../../..//images/loyalty/points/customerCare.svg";
-
+import ceriseMainlogo from "../../images/loyalty/ceriseMainlogo.svg";
+import butterfly from "../../images/loyalty/animate-img/butterfly.png";
+import flower4 from "../../images/loyalty/animate-img/flower4.png";
+import midPoints from "../../images/loyalty/points/midPoints.svg";
+import flower2 from "../../images/loyalty/animate-img/flower2.png";
+import ceriseClub from "../../images/loyalty/ceriseClub.svg";
+import ceriseSitaraLogoActive from "../../images/loyalty/ceriseSitaraLogoActive.svg";
+import rewardPoints from "../..//images/loyalty/points/rewardPoints.svg";
+import inShop from "../../images/loyalty/points/inShop.svg";
+import redeem from "../../images/loyalty/points/redeem.svg";
+import ps from "../../images/loyalty/points/ps.svg";
+import styling from "../../images/loyalty/points/styling.svg";
+import gifting from "../../images/loyalty/points/gifting.svg";
+import invites from "../../images/loyalty/points/invites.svg";
+import specialPreviews from "../../images/loyalty/points/specialPreviews.svg";
+import list1 from "../../images/loyalty/howitworks/list1.svg";
+import list2 from "../../images/loyalty/howitworks/list2.svg";
+import list3 from "../../images/loyalty/howitworks/list3.svg";
+import flower6 from "../../images/loyalty/animate-img/flower6.png";
+import flower1 from "../../images/loyalty/animate-img/flower1.png";
+import flower3 from "../../images/loyalty/animate-img/flower3.png";
+import flower5 from "../../images/loyalty/animate-img/flower5.png";
+import customerCare from "../../images/loyalty/points/customerCare.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -158,11 +157,11 @@ export default class LoyaltyLanding extends Component<Props, State> {
   }
 
   scroll() {
-    let ele3 = document.getElementById("ele3");
-    let ele4 = document.getElementById("ele4");
-    let ele7 = document.getElementById("ele7");
-    let ele6 = document.getElementById("ele6");
-    let ele8 = document.getElementById("ele8");
+    const ele3 = document.getElementById("ele3");
+    const ele4 = document.getElementById("ele4");
+    const ele7 = document.getElementById("ele7");
+    const ele6 = document.getElementById("ele6");
+    const ele8 = document.getElementById("ele8");
 
     if (ele3 && this.checkInView(ele3)) {
       ele3.classList.add("ele3");
@@ -248,10 +247,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   styles.butterfly
                 )}
               >
-                <img
-                  src={butterfly}
-                  className={styles.imgResponsive}
-                />
+                <img src={butterfly} className={styles.imgResponsive} />
               </div>
               <div
                 className={cs(
@@ -260,10 +256,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   styles.flowerR1
                 )}
               >
-                <img
-                  src={flower4}
-                  className={styles.imgResponsive}
-                />
+                <img src={flower4} className={styles.imgResponsive} />
               </div>
             </div>
             <div className={cs(bootstrapStyles.row, styles.basic)}>
@@ -293,10 +286,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
             </div>
             <div className={cs(bootstrapStyles.row, styles.basic)}>
               <div className={cs(bootstrapStyles.col12, globalStyles.voffset3)}>
-                <img
-                  src={midPoints}
-                  className={styles.points}
-                />
+                <img src={midPoints} className={styles.points} />
               </div>
               <div
                 className={cs(
@@ -305,10 +295,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   styles.flowerL2
                 )}
               >
-                <img
-                  src={flower2}
-                  className={styles.imgResponsive}
-                />
+                <img src={flower2} className={styles.imgResponsive} />
               </div>
             </div>
             <div className={cs(bootstrapStyles.row, styles.basic)}>
@@ -340,10 +327,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       onClick={this.tabFirst.bind(this)}
                     >
                       {this.state.tabs ? (
-                        <img
-                          src={ceriseClub}
-                          width="80%"
-                        />
+                        <img src={ceriseClub} width="80%" />
                       ) : (
                         <img
                           src={ceriseClub}
@@ -367,10 +351,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           className={styles.grayimg}
                         />
                       ) : (
-                        <img
-                          src={ceriseSitaraLogoActive}
-                          width="80%"
-                        />
+                        <img src={ceriseSitaraLogoActive} width="80%" />
                       )}{" "}
                     </li>
                   </ul>
@@ -806,14 +787,8 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   styles.list
                 )}
               >
-                <img
-                  src={butterfly}
-                  className={styles.btfly}
-                />
-                <img
-                  src={flower6}
-                  className={styles.imgResponsive}
-                />
+                <img src={butterfly} className={styles.btfly} />
+                <img src={flower6} className={styles.imgResponsive} />
               </div>
             </div>
           </div>
@@ -827,10 +802,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   styles.ele1
                 )}
               >
-                <img
-                  src={butterfly}
-                  className={styles.imgResponsive}
-                />
+                <img src={butterfly} className={styles.imgResponsive} />
               </div>
               {!this.props.mobile && (
                 <div
@@ -840,30 +812,21 @@ export default class LoyaltyLanding extends Component<Props, State> {
                     styles.ele2
                   )}
                 >
-                  <img
-                    src={flower1}
-                    className={styles.imgResponsive}
-                  />
+                  <img src={flower1} className={styles.imgResponsive} />
                 </div>
               )}
               <div
                 className={cs(styles.bgAnimation, styles.flowerL2)}
                 id="ele3"
               >
-                <img
-                  src={flower2}
-                  className={styles.imgResponsive}
-                />
+                <img src={flower2} className={styles.imgResponsive} />
               </div>
               {!this.props.mobile && (
                 <div
                   className={cs(styles.bgAnimation, styles.flowerL3)}
                   id="ele4"
                 >
-                  <img
-                    src={flower3}
-                    className={styles.imgResponsive}
-                  />
+                  <img src={flower3} className={styles.imgResponsive} />
                 </div>
               )}
               {!this.props.mobile && (
@@ -871,28 +834,19 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   className={cs(styles.bgAnimation, styles.flowerL4)}
                   id="ele7"
                 >
-                  <img
-                    src={flower1}
-                    className={styles.imgResponsive}
-                  />
+                  <img src={flower1} className={styles.imgResponsive} />
                 </div>
               )}
               <div
                 className={cs(styles.bgAnimation, styles.flowerR1, styles.ele5)}
               >
-                <img
-                  src={flower4}
-                  className={styles.imgResponsive}
-                />
+                <img src={flower4} className={styles.imgResponsive} />
               </div>
               <div
                 className={cs(styles.bgAnimation, styles.flowerR2)}
                 id="ele6"
               >
-                <img
-                  src={flower5}
-                  className={styles.imgResponsive}
-                />
+                <img src={flower5} className={styles.imgResponsive} />
               </div>
               <div
                 className={cs(styles.bgAnimation, styles.flowerR3)}
@@ -927,10 +881,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   globalStyles.textCenter
                 )}
               >
-                <img
-                  src={ceriseMainlogo}
-                  className={styles.imgLoyalty}
-                />
+                <img src={ceriseMainlogo} className={styles.imgLoyalty} />
                 <div
                   className={cs(
                     globalStyles.txtNormal,
@@ -983,10 +934,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <div className={globalStyles.voffset3}>
-                  <img
-                    src={midPoints}
-                    className={styles.points}
-                  />
+                  <img src={midPoints} className={styles.points} />
                 </div>
                 <div className={cs(styles.heading1, globalStyles.voffset4)}>
                   Rewards and Benefits
@@ -1009,10 +957,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       onClick={this.tabFirst.bind(this)}
                     >
                       {this.state.tabs ? (
-                        <img
-                          src={ceriseClub}
-                          width="50%"
-                        />
+                        <img src={ceriseClub} width="50%" />
                       ) : (
                         <img
                           src={ceriseClub}
@@ -1036,10 +981,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                           className={styles.grayimg}
                         />
                       ) : (
-                        <img
-                          src={ceriseSitaraLogoActive}
-                          width="50%"
-                        />
+                        <img src={ceriseSitaraLogoActive} width="50%" />
                       )}
                     </li>
                   </ul>

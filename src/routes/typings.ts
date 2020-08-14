@@ -27,7 +27,8 @@ export enum ROUTES {
   SAFETYMEASURES = "/customer-assistance/safety-measures",
   CORPORATEGIFTING = "/corporate-gifts-catalogue",
   GIFTINGLANDING = "/gifting",
-  BRIDAL = "/the-good-earth-registry"
+  BRIDAL = "/the-good-earth-registry",
+  LOYALTYLANDING = "/cerise"
 }
 
 export type RouteConfig = RouteObject[];
