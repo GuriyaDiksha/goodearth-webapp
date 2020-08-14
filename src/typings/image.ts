@@ -7,5 +7,5 @@ export interface ProductImage {
   displayOrder: number;
   social: boolean;
   badgeImage?: string;
-  badgeImagePDP?: string;
+  badgeImagePdp?: string;
 }
