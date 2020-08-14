@@ -57,6 +57,7 @@ class CollectionLanding extends React.Component<
   render() {
     const collection = this.props.location.pathname.split("/").pop();
     const collectionName = collection ? collection.split("_")[0] : "";
+    const isLivingpage = this.props.location.pathname.includes("living");
     const {
       collectionData,
       device: { mobile },
@@ -93,31 +94,33 @@ class CollectionLanding extends React.Component<
 
     return (
       <div>
-        <SecondaryHeader>
-          {mobile ? (
-            <div>
-              <MobileDropdownMenu
-                list={level2Categories}
-                onChange={this.onchangeFilter}
-                showCaret={true}
-                open={false}
-                value={this.state.filterData}
-              />
-            </div>
-          ) : (
-            <div className={styles.innerHeader}>
-              <p className={styles.filterText}>FILTER BY</p>
-              <SelectableDropdownMenu
-                align="right"
-                className={styles.dropdownRoot}
-                items={level2Categories}
-                value={this.state.filterData}
-                onChange={this.onchangeFilter}
-                showCaret={true}
-              ></SelectableDropdownMenu>
-            </div>
-          )}
-        </SecondaryHeader>
+        {isLivingpage && (
+          <SecondaryHeader>
+            {mobile ? (
+              <div>
+                <MobileDropdownMenu
+                  list={level2Categories}
+                  onChange={this.onchangeFilter}
+                  showCaret={true}
+                  open={false}
+                  value={this.state.filterData}
+                />
+              </div>
+            ) : (
+              <div className={styles.innerHeader}>
+                <p className={styles.filterText}>FILTER BY</p>
+                <SelectableDropdownMenu
+                  align="right"
+                  className={styles.dropdownRoot}
+                  items={level2Categories}
+                  value={this.state.filterData}
+                  onChange={this.onchangeFilter}
+                  showCaret={true}
+                ></SelectableDropdownMenu>
+              </div>
+            )}
+          </SecondaryHeader>
+        )}
 
         {!mobile && (
           <div className={cs(bootstrap.row, styles.subcHeader)}>

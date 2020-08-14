@@ -299,9 +299,9 @@ const ProductDetails: React.FC<Props> = ({
         )}
       >
         <div className={cs(bootstrap.row)}>
-          {salesBadgeImage && (
+          {images && (
             <div className={bootstrap.col12}>
-              <img src={salesBadgeImage} width="100" />
+              <img src={images[0]?.badgeImagePdp} width="100" />
             </div>
           )}
 
