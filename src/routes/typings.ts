@@ -24,7 +24,9 @@ export enum ROUTES {
   CARTPAGE = "/cart/",
   PressStories = "/press-stories",
   ABOUTUS = "/about-us",
-  SAFETYMEASURES = "/customer-assistance/safety-measures"
+  SAFETYMEASURES = "/customer-assistance/safety-measures",
+  CORPORATEGIFTING = "/corporate-gifts-catalogue",
+  GIFTINGLANDING = "/gifting"
 }
 
 export type RouteConfig = RouteObject[];

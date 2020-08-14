@@ -143,13 +143,25 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/home")),
     action: async () => null,
     exact: true
-  }
+  },
   // {
   //   path: ROUTES.DESIGNJOURNALBOOK,
   //   component: loadable(() => import("containers/designJournalBook")),
   //   action: initActionDesignJournalBook,
   //   exact: false
   // }
+  {
+    path: ROUTES.CORPORATEGIFTING,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.GIFTINGLANDING,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  }
 ];
 
 routes.forEach(route => {

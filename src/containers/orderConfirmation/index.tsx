@@ -17,7 +17,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     user: { email }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
-  // const [confirmData, setConfirmData] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -29,11 +28,43 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     return data;
   };
 
+  const gtmPushOrderConfirmation = (result: any) => {
+    const products = result.lines.map((line: any) => {
+      return {
+        name: line.title,
+        id: line.product.sku,
+        price: line.priceInclTax,
+        brand: "Good Earth",
+        category: line.product.collection,
+        variant: null,
+        quantity: line.quantity,
+        coupon: result.offerDisounts?.[0].name
+      };
+    });
+    dataLayer.push({
+      event: "purchase",
+      ecommerce: {
+        currencyCode: result.currency,
+        purchase: {
+          actionField: {
+            id: result.transactionId,
+            affiliation: "Online Store",
+            revenue: result.totalInclTax,
+            tax: 0,
+            shipping: result.shippingInclTax,
+            coupon: result.offerDiscounts?.[0].name
+          },
+          products: products
+        }
+      }
+    });
+  };
   useEffect(() => {
     fetchData().then(response => {
       setConfirmData(response.results?.[0]);
+      gtmPushOrderConfirmation(response.results?.[0]);
     });
-  }, [confirmData.number]);
+  }, []);
 
   let totalItem = 0;
   for (let i = 0; i < confirmData.lines?.length; i++) {

@@ -423,7 +423,7 @@ class FilterList extends React.Component<Props, State> {
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           valid.productImpression(
-            plpList.results.data,
+            plpList,
             "PLP",
             this.props.currency,
             plpList.results.data.length
@@ -492,7 +492,7 @@ class FilterList extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
     const pageSize = mobile ? 10 : 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
-      valid.productImpression(plpList.results.data, "PLP", this.props.currency);
+      valid.productImpression(plpList, "PLP", this.props.currency);
       changeLoader?.(false);
       this.createList(plpList);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));

@@ -69,5 +69,13 @@ export default {
     // dispatch(newSearchList({ ...res }));
     // dispatch(updatePlpProduct(res.results.data));
     return res;
+  },
+  checkPinCodeShippable: async function(dispatch: Dispatch, pinCode: string) {
+    const res = await API.post(
+      dispatch,
+      `${__API_HOST__}/myapi/address/pincode_shippable_check/`,
+      { pinCode }
+    );
+    return res;
   }
 };
