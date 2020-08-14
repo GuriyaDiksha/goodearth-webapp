@@ -474,7 +474,9 @@ class Checkout extends React.Component<Props, State> {
   };
 
   finalOrder = async (data: any) => {
-    const response = await this.props.finalCheckout(data);
+    // console.log(this.state)
+    // debugger
+    // const response = await this.props.finalCheckout(data);
     dataLayer.push({
       event: "checkout",
       ecommerce: {
@@ -485,7 +487,7 @@ class Checkout extends React.Component<Props, State> {
         }
       }
     });
-    return response;
+    // return response;
   };
 
   render() {
