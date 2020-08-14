@@ -73,7 +73,7 @@ const SampleDisplay: React.FC<Props> = props => {
               className={cs(
                 iconStyles.icon,
                 iconStyles.iconCross,
-                styles.iconCross
+                styles.iconCrossMobile
               )}
               onTouchStart={e => {
                 props.removeProduct(data);
