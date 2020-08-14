@@ -191,7 +191,7 @@
     .product-price {
       @include plp_prod_name_desktop();
       text-align: right;
-      font-family: $font-Serif;
+      font-family: $font-Lato;
     }
   
     .product-qty,
