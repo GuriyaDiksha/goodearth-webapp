@@ -36,7 +36,7 @@ class Bag extends React.Component<Props, State> {
       shipping: false,
       value: 1,
       freeShipping: false, // for all_free_shipping_india
-      isSuspended: false // for is_covid19
+      isSuspended: true // for is_covid19
     };
   }
 

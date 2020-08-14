@@ -571,15 +571,7 @@
   }
 }
 
-@media (max-width:992px) {
-  .first-menu{
-    .icon-style {
-      font-size: 22px;
-      margin-right: 2px;
-      margin-left: -32px;
-    }
-  }
-}
+
 
 
 .announcement {
@@ -1141,4 +1133,56 @@ visibility: visible !important;
     color: white;
     line-height: 30px;
   }
+}
+@media (max-width:992px) {
+  .first-menu{
+    .icon-style {
+      font-size: 22px;
+      margin-right: 2px;
+      margin-left: -32px;
+    }
+  }
+  .fixed-pincode-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: auto;
+    letter-spacing: 0.5px;
+    font-size: 13px;
+    z-index: 6;
+    background-color: #00425b;
+    padding: 10px;
+    text-align: center;
+    font-family: $font-Lato;
+    div {
+      display: flex;
+    align-items: center;
+    justify-content: space-between;
+    >span {
+       
+    line-height: 17px;
+    text-align: left;
+    font-size: 11px;
+     
+    }
+    a{
+      &.pincode-bar-btn {
+      border: 1px solid white;
+    margin-left: 20px;
+    padding: 0px 20px 0px 0px;
+    height: 30px;
+    display: inline-flex;
+    cursor: pointer;
+    span {
+      &.location {
+        font-size: 18px;
+    margin: 0px 5px;
+      }
+    }
+      }
+    }
+    }
+  }
+  
+  
 }
