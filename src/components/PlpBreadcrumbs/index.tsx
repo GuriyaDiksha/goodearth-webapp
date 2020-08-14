@@ -5,7 +5,7 @@ import { Props } from "./typings";
 import cs from "classnames";
 
 const Breadcrumbs: React.FC<Props> = memo(
-  ({ levels = [], separator = " > ", className }) => {
+  ({ levels = [], separator = " > ", className, isViewAll }) => {
     const breadcrumbs: ReactNode[] = [];
 
     levels.map(({ name, url }, index) => {
@@ -20,11 +20,19 @@ const Breadcrumbs: React.FC<Props> = memo(
           </Fragment>
         );
       } else {
-        breadcrumbs.push(
-          <Fragment key={name}>
-            <span>{name.length > 50 ? name.slice(0, 50) + "..." : name}</span>
-          </Fragment>
-        );
+        if (isViewAll) {
+          breadcrumbs.push(
+            <Fragment key={name}>
+              <span>{" View all"}</span>
+            </Fragment>
+          );
+        } else {
+          breadcrumbs.push(
+            <Fragment key={name}>
+              <span>{name.length > 50 ? name.slice(0, 50) + "..." : name}</span>
+            </Fragment>
+          );
+        }
       }
     });
     return (

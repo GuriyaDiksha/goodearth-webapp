@@ -166,7 +166,7 @@ class PLP extends React.Component<
                 <PlpBreadcrumbs
                   levels={breadcrumb}
                   className={cs(bootstrap.colMd12)}
-                  isViewAll={false}
+                  isViewAll={this.child.state?.isViewAll}
                 />
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
