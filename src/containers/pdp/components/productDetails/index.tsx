@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
-import { useStore } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 // components
 import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
@@ -38,8 +38,7 @@ import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { useLocation } from "react-router";
-
-const saleStatus = true;
+import { AppState } from "reducers/typings";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -72,7 +71,7 @@ const ProductDetails: React.FC<Props> = ({
   updateComponentModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
-
+  const { info } = useSelector((state: AppState) => state);
   // const [img] = images;
 
   const location = useLocation();
@@ -334,7 +333,7 @@ const ProductDetails: React.FC<Props> = ({
               { [globalStyles.textCenter]: !mobile }
             )}
           >
-            {saleStatus && discount && discountedPriceRecords ? (
+            {info.isSale && discount && discountedPriceRecords ? (
               <span className={styles.discountedPrice}>
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
@@ -344,7 +343,7 @@ const ProductDetails: React.FC<Props> = ({
             ) : (
               ""
             )}
-            {saleStatus && discount ? (
+            {info.isSale && discount ? (
               <span className={styles.oldPrice}>
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
@@ -505,8 +504,33 @@ const ProductDetails: React.FC<Props> = ({
             }
           )}
         >
+          {info.isSale ? (
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd10,
+                globalStyles.voffset3,
+                styles.errorMsg
+              )}
+            >
+              For any required assistance, write to us at
+              <a href="mailto:customercare@goodearth.in">
+                <u>customercare@goodearth.in</u>
+              </a>{" "}
+              or call us at{" "}
+              <a href="tel:+91 9582 999 555">
+                <u>+91 9582 999 555</u>
+              </a>{" "}
+              / at{" "}
+              <a href="tel:+91 9582 999 888">
+                <u>+91 9582 999 888</u>
+              </a>
+            </div>
+          ) : (
+            ""
+          )}
           <div
-            className={cs(globalStyles.textCenter, {
+            className={cs(globalStyles.textCenter, globalStyles.voffset1, {
               [bootstrap.col9]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
               [bootstrap.colSm8]: !mobile,

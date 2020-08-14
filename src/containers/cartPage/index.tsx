@@ -20,7 +20,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
     mobile: state.device.mobile,
-    cart: state.basket
+    cart: state.basket,
+    isSale: state.info.isSale
   };
 };
 
@@ -143,6 +144,7 @@ class CartPage extends React.Component<Props, State> {
           key={item.id}
           {...item}
           currency={currency}
+          saleStatus={this.props.isSale}
           onMoveToWishlist={this.onMoveToWishlist}
         />
       );
@@ -261,7 +263,7 @@ class CartPage extends React.Component<Props, State> {
             mobile={this.props.mobile}
             currency={this.props.currency}
             shippingAddress={{}}
-            salestatus={false}
+            salestatus={this.props.isSale}
             validbo={false}
             basket={this.props.cart}
             page="cart"

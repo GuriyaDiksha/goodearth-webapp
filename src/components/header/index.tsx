@@ -218,7 +218,7 @@ class Header extends React.Component<Props, State> {
     );
     return (
       <div className="">
-        <Helmet>
+        <Helmet defer={false}>
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
           </title>
@@ -227,9 +227,11 @@ class Header extends React.Component<Props, State> {
           )}
           <link
             rel="canonical"
-            href={__DOMAIN__ + location.pathname + location.search}
+            href={`${__DOMAIN__}${location.pathname}${
+              location.search ? "?" + location.search : ""
+            }`}
           ></link>
-          <link rel="icon" href={fabicon}></link>
+          <link rel="icon" href={fabicon} data-defer={false}></link>
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}
           {meta.ogTitle && (
             <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />

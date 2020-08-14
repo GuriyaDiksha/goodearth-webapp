@@ -39,7 +39,8 @@ const mapStateToProps = (state: AppState) => {
     addresses: state.address.addressList,
     mobile: state.device.mobile,
     currency: state.currency,
-    cookies: state.cookies
+    cookies: state.cookies,
+    isSale: state.info.isSale
   };
 };
 
@@ -557,7 +558,7 @@ class Checkout extends React.Component<Props, State> {
                 mobile={this.props.mobile}
                 currency={this.props.currency}
                 shippingAddress={this.state.shippingAddress}
-                salestatus={false}
+                salestatus={this.props.isSale}
                 validbo={false}
                 basket={this.props.basket}
                 page="checkout"

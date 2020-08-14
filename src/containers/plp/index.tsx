@@ -17,7 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
-import MakerEnhance from "maker-enhance";
+import MakerEnhance from "../../components/maker";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -227,9 +227,15 @@ class PLP extends React.Component<
 
             {plpMaker &&
               (toggel ? (
-                <MakerEnhance user="goodearth" location={this.props.location} />
+                <MakerEnhance
+                  user="goodearth"
+                  href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+                />
               ) : (
-                <MakerEnhance user="goodearth" location={this.props.location} />
+                <MakerEnhance
+                  user="goodearth"
+                  href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+                />
               ))}
 
             {!mobile ? (

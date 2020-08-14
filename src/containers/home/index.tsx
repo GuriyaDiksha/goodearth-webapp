@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import MakerEnhance from "maker-enhance";
+import MakerEnhance from "../../components/maker";
 import styles from "./styles.scss";
 import { useLocation } from "react-router";
 
@@ -14,7 +14,11 @@ const Home: React.FC = () => {
   return (
     <div className={styles.makerTop}>
       {mounted && (
-        <MakerEnhance user="goodearth" index="1" location={location} />
+        <MakerEnhance
+          user="goodearth"
+          index="1"
+          href={`${window.location.origin}${location.pathname}?${location.search}`}
+        />
       )}
     </div>
   );
