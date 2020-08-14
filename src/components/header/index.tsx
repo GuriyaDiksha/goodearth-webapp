@@ -208,7 +208,7 @@ class Header extends React.Component<Props, State> {
             rel="canonical"
             href={__DOMAIN__ + location.pathname + location.search}
           ></link>
-          <link rel="icon" href={fabicon}></link>
+          <link rel="icon" href={fabicon} data-defer={false}></link>
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}
           {meta.ogTitle && (
             <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />
