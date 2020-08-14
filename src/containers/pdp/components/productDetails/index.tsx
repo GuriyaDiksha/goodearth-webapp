@@ -5,7 +5,8 @@ import React, {
   useMemo,
   EventHandler,
   MouseEvent,
-  useEffect
+  useEffect,
+  useLayoutEffect
 } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
@@ -75,13 +76,17 @@ const ProductDetails: React.FC<Props> = ({
   // const [img] = images;
 
   const location = useLocation();
-
+  const [gtmListType, setGtmListType] = useState("");
   const [
     selectedSize,
     setSelectedSize
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
+
+  useLayoutEffect(() => {
+    setGtmListType(localStorage?.getItem("list") || "");
+  });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
       setSelectedSize(childAttributes[0]);
@@ -559,7 +564,7 @@ const ProductDetails: React.FC<Props> = ({
             })}
           >
             <WishlistButton
-              gtmListType={localStorage.getItem("list") || ""}
+              gtmListType={gtmListType}
               title={title}
               childAttributes={childAttributes}
               priceRecords={priceRecords}
