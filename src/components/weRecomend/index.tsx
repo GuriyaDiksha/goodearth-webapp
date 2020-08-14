@@ -21,6 +21,43 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   const { data, setting, currency, mobile } = props;
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
+  const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
+    // let index = data.categories.length - 1;
+    // let category = data.categories[index].replace(/\s/g, '');
+    // category = category.replace(/>/g, '/');
+    // let cur = this.state.salestatus ? data.discounted}ricerecords[currency] : data.pricerecords[currency];
+    localStorage.setItem("list", "We Recommend");
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: currency,
+        click: {
+          actionField: { list: "We Recommend" },
+          products: [
+            {
+              name: data.productName,
+              id: data.id,
+              price: data.pricerecords[currency],
+              brand: "Goodearth",
+              category: "",
+              variant: "",
+              position: i
+            }
+          ]
+        }
+      }
+    });
+    // if (ga_traking) {
+    //     ga('gtm24.send', {
+    //             hitType: 'event',
+    //             eventCategory: 'Recommendation',
+    //             eventAction: this.props.parentsku,
+    //             eventLabel: data.sku,
+    //             eventValue: data.recommendation_final_score
+    //         }
+    //     )
+    // }
+  };
   const items = data?.map((item: RecommendData, i: number) => {
     return (
       <div
@@ -51,6 +88,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             )}
           >
             <WishlistButton
+              gtmListType="We Recommend"
               id={item.id}
               showText={false}
               key={item.id}
@@ -58,7 +96,10 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             />
           </div>
         )}
-        <Link to={item.productUrl}>
+        <Link
+          to={item.productUrl}
+          onClick={e => gtmPushWeRecommendClick(e, item, i)}
+        >
           <LazyImage
             aspectRatio="62:93"
             src={

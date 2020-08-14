@@ -59,6 +59,7 @@ const ProductDetails: React.FC<Props> = ({
     compAndCare,
     sku,
     url,
+    gaVariant,
     groupedProducts,
     salesBadgeImage
   },
@@ -175,6 +176,29 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
+  const gtmPushAddToBag = () => {
+    dataLayer.push({
+      event: "addToCart",
+      ecommerce: {
+        currencyCode: currency,
+        add: {
+          products: [
+            {
+              name: title,
+              id: childAttributes[0].sku,
+              price: priceRecords[currency],
+              brand: "Goodearth",
+              category: collection,
+              variant: gaVariant,
+              quantity: quantity,
+              list: localStorage.getItem("list")
+            }
+          ]
+        }
+      }
+    });
+  };
+
   const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
@@ -183,6 +207,7 @@ const ProductDetails: React.FC<Props> = ({
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
           dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+          gtmPushAddToBag();
         })
         .catch(err => {
           dispatch(showMessage(err.response.data));
@@ -534,6 +559,11 @@ const ProductDetails: React.FC<Props> = ({
             })}
           >
             <WishlistButton
+              gtmListType={localStorage.getItem("list") || ""}
+              title={title}
+              childAttributes={childAttributes}
+              priceRecords={priceRecords}
+              categories={categories}
               id={id}
               showText={!mobile}
               size={selectedSize ? selectedSize.size : undefined}
