@@ -473,17 +473,16 @@ class Checkout extends React.Component<Props, State> {
   };
 
   finalOrder = async (data: any) => {
-    const response = await this.props.finalCheckout(data).then(() => {
-      dataLayer.push({
-        event: "checkout",
-        ecommerce: {
-          currencyCode: this.props.currency,
-          checkout: {
-            actionField: { step: 5 },
-            products: this.props.basket.products
-          }
+    const response = await this.props.finalCheckout(data);
+    dataLayer.push({
+      event: "checkout",
+      ecommerce: {
+        currencyCode: this.props.currency,
+        checkout: {
+          actionField: { step: 5 },
+          products: this.props.basket.products
         }
-      });
+      }
     });
     return response;
   };
