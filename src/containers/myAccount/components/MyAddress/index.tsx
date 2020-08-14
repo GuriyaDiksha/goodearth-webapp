@@ -6,8 +6,13 @@ import { updateAddressList } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch } from "react-redux";
 
-const MyAddress = (props: { mode: string; children: React.ReactNode }) => {
+const MyAddress = (props: {
+  mode: string;
+  children: React.ReactNode;
+  setCurrentSection: () => void;
+}) => {
   const { mode, children } = props;
+  props.setCurrentSection();
   const dispatch = useDispatch();
   useEffect(() => {
     AddressService.fetchAddressList(dispatch).then(addressList => {
