@@ -10,7 +10,10 @@ import styles from "../styles.scss";
 import { Link } from "react-router-dom";
 import { useStore } from "react-redux";
 
-const PastOrders: React.FC = () => {
+type Props = {
+  setCurrentSection: () => void;
+};
+const PastOrders: React.FC<Props> = (props: Props) => {
   const [hasShoppedOnlineitems, setHasShoppedOnlineitems] = useState(true);
   const [hasShoppedAtStore, setHasShoppedAtStore] = useState(false);
   const [hasShopped, setHasShopped] = useState(true);
@@ -18,7 +21,7 @@ const PastOrders: React.FC = () => {
   const [isData, setIsData] = useState(false);
   const store = useStore();
   const { mobile } = store.getState();
-
+  props.setCurrentSection();
   const switchToStoreOrders = () => {
     setHasShoppedOnlineitems(false);
     setHasShoppedAtStore(true);

@@ -254,7 +254,12 @@ const AddressMain: React.FC<Props> = props => {
             setIsLoading: setIsLoading
           }}
         >
-          <MyAddress mode={mode}>{addressContent}</MyAddress>
+          <MyAddress
+            setCurrentSection={() => props.setCurrentSection?.()}
+            mode={mode}
+          >
+            {addressContent}
+          </MyAddress>
         </AddressContext.Provider>
       );
     case "checkout-shipping":
@@ -355,7 +360,12 @@ const AddressMain: React.FC<Props> = props => {
             setIsLoading: setIsLoading
           }}
         >
-          <MyAddress mode={mode}>{addressContent}</MyAddress>
+          <MyAddress
+            setCurrentSection={() => props.setCurrentSection?.()}
+            mode={mode}
+          >
+            {addressContent}
+          </MyAddress>
         </AddressContext.Provider>
       );
   }

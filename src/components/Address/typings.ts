@@ -56,6 +56,7 @@ export type Props = {
   isGoodearthShipping: boolean;
   addressType: string;
   addresses: AddressData[];
+  setCurrentSection?: () => void;
   // user:
   error: string;
 };
