@@ -22,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
     facets: state.plplist.data.results.facets,
     facetObject: state.plplist.facetObject,
     nextUrl: state.plplist.data.next,
-    listdata: state.plplist.data.results.data
+    listdata: state.plplist.data.results.data,
+    salestatus: state.info.isSale
   };
 };
 
@@ -42,7 +43,6 @@ class FilterList extends React.Component<Props, State> {
       showmobileFilterList: false,
       show: false,
       showDifferentImage: false,
-      salestatus: false,
       flag: true,
       showmenulevel2: false,
       banner: "",
@@ -1484,7 +1484,7 @@ class FilterList extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          {this.state.salestatus && (
+          {this.props.salestatus && (
             <li
               className={
                 this.props.facets &&
