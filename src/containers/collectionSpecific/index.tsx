@@ -1,6 +1,6 @@
 import loadable from "@loadable/component";
 import React from "react";
-import MakerEnhance from "maker-enhance";
+import MakerEnhance from "../../components/maker";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";
@@ -78,7 +78,7 @@ class CollectionSpecific extends React.Component<
           <MakerEnhance
             user="goodearth"
             index="1"
-            location={this.props.location}
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
         <section>
@@ -165,7 +165,7 @@ class CollectionSpecific extends React.Component<
           <MakerEnhance
             user="goodearth"
             index="2"
-            location={this.props.location}
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
       </div>

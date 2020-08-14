@@ -41,7 +41,6 @@ export type State = {
   show: false;
   showDifferentImage: boolean;
   showmenulevel2: boolean;
-  salestatus: boolean;
   flag: boolean;
   banner: string;
   initialrangevalue: any;

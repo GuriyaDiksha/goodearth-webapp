@@ -4,7 +4,7 @@ import initActionCollection from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import MakerEnhance from "maker-enhance";
+import MakerEnhance from "../../components/maker";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -305,7 +305,7 @@ class CategoryLanding extends React.Component<
               <MakerEnhance
                 user="goodearth"
                 index="1"
-                location={this.props.location}
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
             </div>
           </div>

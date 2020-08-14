@@ -5,7 +5,7 @@ import cs from "classnames";
 import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
-import MakerEnhance from "maker-enhance";
+import MakerEnhance from "../../components/maker";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
@@ -550,7 +550,7 @@ class PDPContainer extends React.Component<Props, State> {
           <MakerEnhance
             user="goodearth"
             index="1"
-            location={this.props.location}
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>

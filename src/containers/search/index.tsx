@@ -16,7 +16,7 @@ import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
-import MakerEnhance from "maker-enhance";
+import MakerEnhance from "../../components/maker";
 import { PartialProductItem } from "typings/product";
 
 const Quickview = loadable(() => import("components/Quickview"));
@@ -270,7 +270,7 @@ class Search extends React.Component<
               <MakerEnhance
                 user="goodearth"
                 index="1"
-                location={this.props.location}
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
             )}
             {!mobile ? (

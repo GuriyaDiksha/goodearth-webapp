@@ -23,7 +23,8 @@ const mapStateToProps = (state: AppState) => {
     facets: state.plplist.data.results.facets,
     facetObject: state.plplist.facetObject,
     nextUrl: state.plplist.data.next,
-    listdata: state.plplist.data.results.data
+    listdata: state.plplist.data.results.data,
+    salestatus: state.info.isSale
   };
 };
 
@@ -43,7 +44,6 @@ class FilterList extends React.Component<Props, State> {
       showmobileFilterList: false,
       show: false,
       showDifferentImage: false,
-      salestatus: false,
       flag: true,
       showmenulevel2: false,
       banner: "",
@@ -422,6 +422,7 @@ class FilterList extends React.Component<Props, State> {
       const pageSize = mobile ? 10 : 20;
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
+          changeLoader?.(false);
           valid.productImpression(
             plpList,
             "PLP",
@@ -429,7 +430,6 @@ class FilterList extends React.Component<Props, State> {
             plpList.results.data.length
           );
           this.createFilterfromUrl();
-          changeLoader?.(false);
           const pricearray: any = [],
             currentCurrency =
               "price" +
@@ -513,6 +513,11 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateOnload(false);
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
+    }
+    if (this.props.currency != nextProps.currency) {
+      nextProps.mobile
+        ? this.updateDataFromAPI("load")
+        : this.updateDataFromAPI();
     }
   };
 
@@ -1492,7 +1497,7 @@ class FilterList extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          {this.state.salestatus && (
+          {this.props.salestatus && (
             <li
               className={
                 this.props.facets &&

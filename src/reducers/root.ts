@@ -21,6 +21,7 @@ import { searchList } from "./search";
 import { category } from "./category";
 import { address } from "./address";
 import { shop } from "./shop";
+import { info } from "./info";
 import { designJournal } from "./designJournal";
 
 const createRootReducer = (history: History) => {
@@ -45,6 +46,7 @@ const createRootReducer = (history: History) => {
     category,
     address,
     shop,
+    info,
     designJournal
   });
 };
