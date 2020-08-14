@@ -59,7 +59,9 @@ class Header extends React.Component<Props, State> {
       showC: false,
       showP: false,
       activeIndex: 0,
-      urlParams: new URLSearchParams(props.location.search.slice(1))
+      urlParams: new URLSearchParams(props.location.search.slice(1)),
+      selectedPincode: "",
+      showPincodePopup: false
     };
   }
   static contextType = UserContext;
@@ -84,6 +86,9 @@ class Header extends React.Component<Props, State> {
 
   componentDidMount() {
     this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
+    this.setState({
+      selectedPincode: localStorage.getItem("selectedPincode")
+    });
   }
 
   mouseOut(data: { show: boolean }) {
@@ -138,6 +143,13 @@ class Header extends React.Component<Props, State> {
       eventLabel: location.pathname
     });
   };
+
+  showPincode() {
+    this.setState({ showPincodePopup: true });
+  }
+  setPincode(pincode: string) {
+    this.setState({ selectedPincode: pincode });
+  }
 
   render() {
     const { isLoggedIn } = this.context;
@@ -602,6 +614,44 @@ class Header extends React.Component<Props, State> {
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
+          {this.props.currency.toString().toUpperCase() == "INR" && (
+            <div className={styles.fixedPincodeBar} id="pincode-bar">
+              <div>
+                <span>
+                  We have resumed deliveries Pan India. Enter your Pincode to
+                  check if your location is serviceable.
+                </span>
+                <a
+                  className={styles.pincodeBarBtn}
+                  onClick={() => this.showPincode()}
+                >
+                  <span className={cs(styles.location)}>
+                    <i
+                      className={cs(
+                        // { [styles.iconClass]: menuOpen },
+                        iconStyles.icon,
+                        iconStyles.iconLocation,
+                        styles.iconStore
+                      )}
+                    ></i>
+                  </span>
+                  <span>
+                    {this.state.selectedPincode
+                      ? this.state.selectedPincode
+                      : "Pincode"}
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
+          {
+            this.state.showPincodePopup
+            // &&
+            // <PincodePopup
+            //     setPincode={(pincode: string) => this.setPincode(pincode)}
+            //     closePopup={()=>this.setState({ showPincodePopup: false })}
+            // />
+          }
         </div>
         <GrowlMessage {...message} />
       </div>

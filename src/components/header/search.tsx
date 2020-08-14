@@ -3,7 +3,7 @@ import React from "react";
 // import {connect} from 'react-redux'
 // import axios from 'axios';
 // import Config from 'components/config'
-// import * as valid from 'components/common/validation/validate'
+import * as valid from "utils/validate";
 import { currencyCodes } from "constants/currency";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
@@ -179,7 +179,7 @@ class Search extends React.Component<Props, State> {
     this.props
       .fetchSearchProducts(searchUrl.split("/search")[1])
       .then(data => {
-        // valid.productImpression(res.data, "Search List")
+        valid.productImpression(data, "Search List", this.props.currency);
         this.setState({
           productData: data.results.data,
           url: searchUrl,

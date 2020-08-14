@@ -72,6 +72,12 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       if (response.status == false) {
         this.updateError(response.message, response.isNotActivated);
       } else {
+        dataLayer.push({
+          event: "eventsToSend",
+          eventAction: "giftCard",
+          eventCategory: "promoCoupons",
+          eventLabel: data.cardId
+        });
         this.setState({
           newCardBox: false,
           txtvalue: ""
