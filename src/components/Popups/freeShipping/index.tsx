@@ -29,8 +29,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
         className={cs(
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
-          styles.centerpageDesktop,
-          styles.centerpageMobile,
+          styles.centerpageDesktopFs,
           globalStyles.textCenter
         )}
       >

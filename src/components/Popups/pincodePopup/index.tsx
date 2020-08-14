@@ -91,7 +91,13 @@ class PincodePopup extends React.Component<Props, State> {
     const { closeModal } = this.context;
     const pincodeForm = (
       <div>
-        <div className={cs(globalStyles.c22AI, globalStyles.voffset7)}>
+        <div
+          className={cs(
+            globalStyles.c22AI,
+            globalStyles.voffset7,
+            styles.fontHt
+          )}
+        >
           We have resumed deliveries Pan India.
         </div>
         <div className={globalStyles.c10LR}>
@@ -134,7 +140,13 @@ class PincodePopup extends React.Component<Props, State> {
     );
     const pincodeSuccess = (
       <div>
-        <div className={cs(globalStyles.c22AI, globalStyles.voffset7)}>
+        <div
+          className={cs(
+            globalStyles.c22AI,
+            globalStyles.voffset7,
+            styles.fontHt
+          )}
+        >
           Start shopping!
         </div>
         <div className={globalStyles.c10LR}>
