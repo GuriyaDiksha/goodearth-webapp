@@ -144,12 +144,13 @@ class Header extends React.Component<Props, State> {
     });
   };
 
-  showPincode() {
+  showPincode = () => {
     this.setState({ showPincodePopup: true });
-  }
-  setPincode(pincode: string) {
+    this.props.showPincodePopup(this.setPincode);
+  };
+  setPincode = (pincode: string) => {
     this.setState({ selectedPincode: pincode });
-  }
+  };
 
   render() {
     const { isLoggedIn } = this.context;

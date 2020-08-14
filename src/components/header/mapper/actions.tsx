@@ -11,7 +11,7 @@ import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
-// import FreeShipping from "components/Popups/freeShipping";
+import PincodePopup from "components/Popups/pincodePopup";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -44,6 +44,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           true
         )
       );
+      dispatch(updateModal(true));
+    },
+    showPincodePopup: (setPincode: (pinCode: string) => void) => {
+      dispatch(updateComponent(<PincodePopup setPincode={setPincode} />, true));
       dispatch(updateModal(true));
     }
   };
