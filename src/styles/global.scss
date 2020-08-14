@@ -17,8 +17,11 @@ body {
   color: $default;
   @include scrollbar();
 }
-h1, h2, h3, b, strong {
+h1, h2, h3, h4, b, strong {
   font-weight: 400;
+}
+h2 {
+  margin-bottom: 0;
 }
 
 ::-webkit-input-placeholder { /* Edge */
@@ -257,6 +260,7 @@ font-weight: bold;
   position: relative;
   width: 100%;
   font-size: 0;
+  border: 1px solid #eee;
 }
 
 .bg-grey {

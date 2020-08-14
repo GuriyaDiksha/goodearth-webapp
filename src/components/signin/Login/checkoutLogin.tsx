@@ -18,7 +18,9 @@ import { AppState } from "reducers/typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    location: state.router.location
+    location: state.router.location,
+    basket: state.basket,
+    currency: state.currency
   };
 };
 
@@ -135,6 +137,15 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     this.myBlur(event);
   };
 
+  gtmPushSignIn = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signIn",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
+  };
+
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.myBlur(undefined, "submit");
@@ -143,6 +154,17 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       this.props
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
+          this.gtmPushSignIn();
+          dataLayer.push({
+            event: "checkout",
+            ecommerce: {
+              currencyCode: this.props.currency,
+              checkout: {
+                actionField: { step: 1 },
+                products: this.props.basket.products
+              }
+            }
+          });
           // this.context.closeModal();
           this.props.nextStep?.();
         })
@@ -276,7 +298,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     this.setState({
       showCurrentSection: "email",
       email: "",
-      isLoginDisabled: true
+      isLoginDisabled: true,
+      showerror: "",
+      password: ""
     });
     this.firstEmailInput.current?.focus();
   };
@@ -401,7 +425,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const footer = (
       <>
         <div className={globalStyles.textCenter}>
-          <SocialLogin />
+          <SocialLogin closeModel={this.context.closeModal} />
         </div>
 
         {/* <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>

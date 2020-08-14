@@ -44,6 +44,7 @@
     border: 0;
     padding: 0 10px 0 30px;
     line-height: 50px;
+    font-family: $font-Lato;
     &.open-state {
       background-color: tint(#000, 60%);
     }

@@ -23,6 +23,7 @@ export type Props = {
   max?: number | string;
   inputRef?: RefObject<HTMLInputElement>;
   isPlaceholderVisible?: boolean;
+  maxlength?: number;
 };
 
 export type State = {

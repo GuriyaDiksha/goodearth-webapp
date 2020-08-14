@@ -61,6 +61,7 @@ export interface PartialChildProductAttributes {
   priceRecords: PriceRecord;
   stock: number;
   size: string;
+  color?: string[];
 }
 
 export interface ChildProductAttributes extends PartialChildProductAttributes {

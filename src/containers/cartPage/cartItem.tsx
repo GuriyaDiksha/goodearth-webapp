@@ -42,8 +42,42 @@ const CartItems: React.FC<BasketItem> = memo(
       });
     };
 
+    const gtmPushDeleteCartItem = () => {
+      const price = saleStatus
+        ? product.discountedPriceRecords[currency]
+        : product.priceRecords[currency];
+      const index = product.categories.length - 1;
+      const category = product.categories[index]
+        ? product.categories[index].replace(/\s/g, "")
+        : "";
+
+      dataLayer.push({
+        event: "removeFromCart",
+        ecommerce: {
+          currencyCode: currency,
+          remove: {
+            products: [
+              {
+                name: product.title,
+                id: product.sku,
+                price: price,
+                brand: "Goodearth",
+                category: category,
+                // 'variant': product.ga_variant,
+                variant: "",
+                list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
+                quantity: quantity
+              }
+            ]
+          }
+        }
+      });
+    };
+
     const deleteItem = () => {
-      BasketService.deleteBasket(dispatch, id);
+      BasketService.deleteBasket(dispatch, id).then(() => {
+        gtmPushDeleteCartItem();
+      });
     };
 
     const getSize = (data: any) => {
@@ -163,17 +197,17 @@ const CartItems: React.FC<BasketItem> = memo(
                   </div>
                   <div className={styles.productPrice}>
                     {saleStatus && discount && discountedPriceRecords ? (
-                      <span className={styles.discountedPrice}>
+                      <span className={styles.discountprice}>
                         {String.fromCharCode(currencyCodes[currency])}
                         &nbsp;
                         {discountedPriceRecords[currency]}
-                        <br />
+                        &nbsp;&nbsp;&nbsp;
                       </span>
                     ) : (
                       ""
                     )}
                     {saleStatus && discount ? (
-                      <span className={styles.oldPrice}>
+                      <span className={styles.strikeprice}>
                         {String.fromCharCode(currencyCodes[currency])}
                         &nbsp;
                         {price}
@@ -236,6 +270,13 @@ const CartItems: React.FC<BasketItem> = memo(
               </div>
               <div>
                 <WishlistButton
+                  gtmListType=""
+                  title={title}
+                  childAttributes={
+                    product.childAttributes ? product.childAttributes : []
+                  }
+                  priceRecords={priceRecords}
+                  categories={product.categories}
                   basketLineId={id}
                   id={product.id}
                   showText={false}

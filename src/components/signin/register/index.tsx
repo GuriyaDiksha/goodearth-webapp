@@ -111,6 +111,7 @@ class RegisterForm extends React.Component<Props, registerState> {
         this.setState({
           disableButton: false
         });
+        this.gtmPushRegister();
         this.context.closeModal();
         window.scrollTo(0, 0);
       })
@@ -169,6 +170,23 @@ class RegisterForm extends React.Component<Props, registerState> {
           }
         });
       });
+  };
+
+  gtmPushRegister = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signup",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
+  };
+
+  closeModalForm = () => {
+    this.setState({
+      disableButton: false
+    });
+    this.context.closeModal();
+    window.scrollTo(0, 0);
   };
 
   handleInvalidSubmit = () => {
@@ -615,7 +633,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     );
     const footer = (
       <>
-        <SocialLogin />
+        <SocialLogin closeModel={this.closeModalForm} />
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Already registered?{" "}

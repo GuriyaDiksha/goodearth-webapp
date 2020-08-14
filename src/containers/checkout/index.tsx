@@ -39,7 +39,8 @@ const mapStateToProps = (state: AppState) => {
     addresses: state.address.addressList,
     mobile: state.device.mobile,
     currency: state.currency,
-    cookies: state.cookies
+    cookies: state.cookies,
+    isSale: state.info.isSale
   };
 };
 
@@ -171,7 +172,18 @@ class Checkout extends React.Component<Props, State> {
       user: { email },
       getLoyaltyPoints
     } = this.props;
-
+    this.state.isGoodearthShipping
+      ? dataLayer.push({
+          event: "checkout",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            checkout: {
+              actionField: { step: 2 },
+              products: this.props.basket.products
+            }
+          }
+        })
+      : "";
     // code for call loyalty point api only one time
     if (email) {
       const data: any = {
@@ -381,7 +393,16 @@ class Checkout extends React.Component<Props, State> {
               activeStep: Steps.STEP_BILLING,
               shippingError: ""
             });
-
+            dataLayer.push({
+              event: "checkout",
+              ecommerce: {
+                currencyCode: this.props.currency,
+                checkout: {
+                  actionField: { step: 2 },
+                  products: this.props.basket.products
+                }
+              }
+            });
             if (data.data.pageReload) {
               // window.location.reload();
               this.props.reloadPage(this.props.cookies);
@@ -430,6 +451,16 @@ class Checkout extends React.Component<Props, State> {
               gstNo: obj.gstNo || "",
               gstType: obj.gstType || ""
             });
+            dataLayer.push({
+              event: "checkout",
+              ecommerce: {
+                currencyCode: this.props.currency,
+                checkout: {
+                  actionField: { step: 3 },
+                  products: this.props.basket.products
+                }
+              }
+            });
           })
           .catch(err => {
             // console.log(err.response.data);
@@ -444,6 +475,16 @@ class Checkout extends React.Component<Props, State> {
 
   finalOrder = async (data: any) => {
     const response = await this.props.finalCheckout(data);
+    dataLayer.push({
+      event: "checkout",
+      ecommerce: {
+        currencyCode: this.props.currency,
+        checkout: {
+          actionField: { step: 5 },
+          products: this.props.basket.products
+        }
+      }
+    });
     return response;
   };
 
@@ -517,7 +558,7 @@ class Checkout extends React.Component<Props, State> {
                 mobile={this.props.mobile}
                 currency={this.props.currency}
                 shippingAddress={this.state.shippingAddress}
-                salestatus={false}
+                salestatus={this.props.isSale}
                 validbo={false}
                 basket={this.props.basket}
                 page="checkout"

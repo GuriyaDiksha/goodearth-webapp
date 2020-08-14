@@ -5,7 +5,7 @@ import cs from "classnames";
 import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
-import MakerEnhance from "maker-enhance";
+import MakerEnhance from "../../components/maker";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
@@ -52,6 +52,7 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     recommendedSliderItems,
     currency: state.currency,
     device: state.device,
+    location: state.router.location,
     corporatePDP: state.meta.templateType === "corporate_pdp"
   };
 };
@@ -94,6 +95,18 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    if (this.props.device.mobile) {
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add("hidden");
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
     this.setState(
       {
         mounted: true
@@ -533,7 +546,13 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
-        {mounted && <MakerEnhance user="goodearth" />}
+        {mounted && (
+          <MakerEnhance
+            user="goodearth"
+            index="1"
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}

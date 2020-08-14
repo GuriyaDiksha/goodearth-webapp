@@ -149,6 +149,14 @@ class SideMenu extends React.Component<Props, State> {
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
+    const gtmPushWishlistClick = () => {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "wishListClick",
+        eventCategory: "Click",
+        eventLabel: location.pathname
+      });
+    };
     const selectClass = this.state.showp
       ? cs(
           iconStyles.icon,
@@ -226,7 +234,7 @@ class SideMenu extends React.Component<Props, State> {
             >
               <div className={cs(styles.iconStyle, styles.innerWishContainer)}>
                 {isLoggedIn ? (
-                  <Link to="/wishlist">
+                  <Link to="/wishlist" onClick={gtmPushWishlistClick}>
                     <i
                       className={cs(
                         iconStyles.icon,

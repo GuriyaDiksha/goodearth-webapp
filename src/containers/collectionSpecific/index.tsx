@@ -1,5 +1,6 @@
 import loadable from "@loadable/component";
 import React from "react";
+import MakerEnhance from "../../components/maker";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";
@@ -14,7 +15,6 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 const Quickview = loadable(() => import("components/Quickview"));
-const MakerEnhance = loadable(() => import("maker-enhance"));
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -22,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
     collectionSpecficBanner: state.collection.collectionSpecficBanner,
     collectionSpecificData: state.collection.collectionSpecficdata,
     currency: state.currency,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    location: state.router.location
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -73,7 +74,13 @@ class CollectionSpecific extends React.Component<
             />
           </SecondaryHeader>
         )}
-        {specificMaker && <MakerEnhance user="goodearth" index="1" />}
+        {specificMaker && (
+          <MakerEnhance
+            user="goodearth"
+            index="1"
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
         <section>
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={bootstrap.col12}>
@@ -154,7 +161,13 @@ class CollectionSpecific extends React.Component<
             })}
           </div>
         </div>
-        {specificMaker && <MakerEnhance user="goodearth" index="2" />}
+        {specificMaker && (
+          <MakerEnhance
+            user="goodearth"
+            index="2"
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
       </div>
     );
   }

@@ -19,6 +19,8 @@ export enum ROUTES {
   CHECKOUT = "/order/checkout/",
   SHOP = "/Cafe-Shop/:city/:shopname?",
   ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
+  DESIGNJOURNAL = "/designjournal",
+  DESIGNJOURNALBOOK = "/designjournalbook/",
   CARTPAGE = "/cart/",
   PressStories = "/press-stories",
   ABOUTUS = "/about-us",

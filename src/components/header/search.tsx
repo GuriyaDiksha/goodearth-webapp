@@ -3,7 +3,7 @@ import React from "react";
 // import {connect} from 'react-redux'
 // import axios from 'axios';
 // import Config from 'components/config'
-// import * as valid from 'components/common/validation/validate'
+import * as valid from "utils/validate";
 import { currencyCodes } from "constants/currency";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
@@ -118,30 +118,32 @@ class Search extends React.Component<Props, State> {
   };
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
-    // let index = data.categoryShop.length - 1;
-    // let category = data.categoryShop[index].replace(/\s/g, '');
-    // category = category.replace(/>/g, '/');
-    // let cur = this.state.isSale ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
-    // dataLayer.push({
-    //     'event': 'productClick',
-    //     'ecommerce': {
-    //         'currencyCode': window.currency,
-    //         'click': {
-    //             'actionField': {'list': 'Search Popup'},
-    //             'products': [
-    //                 {
-    //                     'name': data.title,
-    //                     'id': data.sku[0],
-    //                     'price': null,
-    //                     'brand': 'Goodearth',
-    //                     'category': category,
-    //                     'variant': data.color ? data.color[0] : "",
-    //                     'position': indices
-    //                 }]
-    //         }
-    //     },
-    // });
-    location.href = data.url;
+    const itemData = data as PartialProductItem;
+    const index = itemData.categories.length - 1;
+    let category = itemData.categories[index].replace(/\s/g, "");
+    category = category.replace(/>/g, "/");
+    // const cur = this.state.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: this.props.currency,
+        click: {
+          actionField: { list: "Search Popup" },
+          products: [
+            {
+              name: data.title,
+              id: itemData.childAttributes?.[0].sku,
+              price: null,
+              brand: "Goodearth",
+              category: category,
+              variant: itemData.gaVariant ? itemData.gaVariant : "",
+              position: indices
+            }
+          ]
+        }
+      }
+    });
+    this.props.history.push(data.url);
   }
 
   onClickSearch = (event: any) => {
@@ -170,14 +172,14 @@ class Search extends React.Component<Props, State> {
   };
 
   getSearchDataApi = (name: string) => {
-    const searchUrl = "/search?q=" + name + "&currency=" + this.props.currency;
+    const searchUrl = "/search?q=" + name;
     this.setState({
       url: searchUrl
     });
     this.props
       .fetchSearchProducts(searchUrl.split("/search")[1])
       .then(data => {
-        // valid.productImpression(res.data, "Search List")
+        valid.productImpression(data, "Search List", this.props.currency);
         this.setState({
           productData: data.results.data,
           url: searchUrl,

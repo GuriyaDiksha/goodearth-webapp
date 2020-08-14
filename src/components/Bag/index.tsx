@@ -10,6 +10,7 @@ import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -19,8 +20,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     }
   };
 };
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    isSale: state.info.isSale
+  };
 };
 type Props = CartProps &
   ReturnType<typeof mapDispatchToProps> &
@@ -78,6 +81,7 @@ class Bag extends React.Component<Props, State> {
           key={item.id}
           {...item}
           currency={currency}
+          saleStatus={this.props.isSale}
           toggleBag={this.props.toggleBag}
         />
       );

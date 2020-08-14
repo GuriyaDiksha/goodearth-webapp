@@ -113,6 +113,18 @@
         text-transform: capitalize;
         letter-spacing: 0.5px;
     }
+    .discountprice {
+        color: #ab1e56;
+        font-family:  $font-Lato;
+        font-size: 16px;
+    }
+    
+    .strikeprice {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: gray;
+        font-family: $font-Lato;
+    }
     a:hover {
         color: #ab1e56;
         text-decoration: none;
@@ -172,4 +184,8 @@
     top: 0;
     z-index: 4;
     left: 6px;
+    img {
+        width: 100%;
+    }
 }
+

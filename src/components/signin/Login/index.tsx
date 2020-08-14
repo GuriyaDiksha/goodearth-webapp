@@ -136,6 +136,14 @@ class LoginForm extends React.Component<Props, loginState> {
     this.emailInput.current && this.emailInput.current.focus();
     localStorage.removeItem("tempEmail");
   }
+  gtmPushSignIn = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signIn",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
+  };
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -145,6 +153,7 @@ class LoginForm extends React.Component<Props, loginState> {
       this.props
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
+          this.gtmPushSignIn();
           this.context.closeModal();
           window.scrollTo(0, 0);
         })
@@ -391,7 +400,7 @@ class LoginForm extends React.Component<Props, loginState> {
     );
     const footer = (
       <>
-        <SocialLogin />
+        <SocialLogin closeModel={this.context.closeModal} />
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Not a member?{" "}

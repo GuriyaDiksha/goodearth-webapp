@@ -9,7 +9,8 @@ export const initialState: State = {
   loyalityEligible: false,
   isLoggedIn: false,
   refresh: true,
-  shippingData: null
+  shippingData: null,
+  phone: ""
 };
 
 export const user = (state = initialState, action: UserActions): State => {

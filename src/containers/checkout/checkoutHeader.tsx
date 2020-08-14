@@ -23,6 +23,7 @@ import { Cookies } from "typings/cookies";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { showMessage } from "actions/growlMessage";
 import fabicon from "images/favicon.ico";
+import { Basket } from "typings/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -54,10 +55,26 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
       }
     },
-    updateMeta: (cookies: Cookies, pathname: string) => {
+    updateMeta: (
+      cookies: Cookies,
+      pathname: string,
+      currency: Currency,
+      cart: Basket
+    ) => {
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch, true);
+        BasketService.fetchBasket(dispatch, true).then(() => {
+          dataLayer.push({
+            event: "checkout",
+            ecommerce: {
+              currencyCode: currency,
+              checkout: {
+                actionField: { step: 1 },
+                products: cart.products
+              }
+            }
+          });
+        });
       } else if (pathname.includes("/cart")) {
         BasketService.fetchBasket(dispatch);
       }
@@ -91,7 +108,12 @@ class CheckoutHeader extends React.Component<Props, {}> {
   };
 
   componentDidMount() {
-    this.props.updateMeta(this.props.cookies, this.props.location.pathname);
+    this.props.updateMeta(
+      this.props.cookies,
+      this.props.location.pathname,
+      this.props.currency,
+      this.props.cart
+    );
   }
 
   render() {

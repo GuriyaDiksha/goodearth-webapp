@@ -1,0 +1,3 @@
+[submodule "src/maker-enhance"]
+	path = src/maker-enhance
+	url = https://github.com/darpanrawat/maker-enhance.git

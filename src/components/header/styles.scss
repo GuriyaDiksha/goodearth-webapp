@@ -978,9 +978,11 @@ visibility: visible !important;
   width: 30%;
   // height: 100px;
   position: absolute;
-  top: 0;
+  top: 10px;
   z-index: 4;
-  left: 6px;
+  left: 10px;
+  position: absolute;
+  z-index: 1;
   img {
      width: 100%;
   }
@@ -1111,4 +1113,32 @@ visibility: visible !important;
   text-decoration: line-through;
   color: tint(#000, 50%) !important;
   font-family: $font-Serif;
+}
+
+.fixed-pincode-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 50px;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+  z-index: 6;
+  background-color: #00425b;
+  padding: 10px;
+  text-align: center;
+  font-family: $font-Lato;
+  a.pincode-bar-btn {
+    border: 1px solid white;
+    margin-left: 20px;
+    padding: 5px 30px 5px 0px;
+    cursor: pointer;
+    .location {
+      font-size: 18px;
+      margin: 5px 10px;
+    }
+  }
+  span {
+    color: white;
+    line-height: 30px;
+  }
 }

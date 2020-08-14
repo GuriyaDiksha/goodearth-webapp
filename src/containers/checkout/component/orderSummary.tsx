@@ -139,13 +139,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   {salestatus && item.product.discount ? (
                     <span className={styles.productPrice}>
                       <span className={styles.discountprice}>
-                        price_excl_tax_excl_discounts
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
                           ? item.GCValue
                           : item.product.discountedPriceRecords[currency]}
                       </span>
-                      &nbsp;
+                      &nbsp; &nbsp;
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
@@ -410,19 +409,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
     // });
   };
 
-  // const goTowishlist = () => {
-  //   // dataLayer.push({
-  //   //   'event': 'eventsToSend',
-  //   //   'eventAction': 'wishListClick',
-  //   //   'eventCategory': 'Click',
-  //   //   'eventLabel': location.pathname
-  //   // });
-  //   if (isLoggedIn) {
-  //       location.href = '/wishlist';
-  //   } else {
-  //     LoginService.showLogin(dispatch);
-  //   }
-  // };
+  const goToWishlist = (e: any) => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "wishListClick",
+      eventCategory: "Click",
+      eventLabel: location.pathname
+    });
+    if (!isLoggedIn) {
+      e.preventDefault();
+      LoginService.showLogin(dispatch);
+    }
+  };
 
   const getDiscount = (data: any) => {
     // let initial = 0,
@@ -632,15 +630,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   you can apply the same during payment.
                 </div>
                 <div className={styles.wishlist}>
-                  <Link
-                    to="/wishlist"
-                    onClick={e => {
-                      if (!isLoggedIn) {
-                        e.preventDefault();
-                        LoginService.showLogin(dispatch);
-                      }
-                    }}
-                  >
+                  <Link to="/wishlist" onClick={goToWishlist}>
                     <span>
                       <i
                         className={cs(

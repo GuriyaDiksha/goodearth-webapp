@@ -59,7 +59,9 @@ class Header extends React.Component<Props, State> {
       showC: false,
       showP: false,
       activeIndex: 0,
-      urlParams: new URLSearchParams(props.location.search.slice(1))
+      urlParams: new URLSearchParams(props.location.search.slice(1)),
+      selectedPincode: "",
+      showPincodePopup: false
     };
   }
   static contextType = UserContext;
@@ -84,6 +86,9 @@ class Header extends React.Component<Props, State> {
 
   componentDidMount() {
     this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
+    this.setState({
+      selectedPincode: localStorage.getItem("selectedPincode")
+    });
   }
 
   mouseOut(data: { show: boolean }) {
@@ -130,6 +135,22 @@ class Header extends React.Component<Props, State> {
     window.scrollTo(0, 0);
   };
 
+  gtmPushLogoClick = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "logo",
+      eventCategory: "Click",
+      eventLabel: location.pathname
+    });
+  };
+
+  showPincode() {
+    this.setState({ showPincodePopup: true });
+  }
+  setPincode(pincode: string) {
+    this.setState({ selectedPincode: pincode });
+  }
+
   render() {
     const { isLoggedIn } = this.context;
     const {
@@ -138,7 +159,8 @@ class Header extends React.Component<Props, State> {
       meta,
       goLogin,
       handleLogOut,
-      announcement
+      announcement,
+      location
     } = this.props;
     const messageText = announcement.message.split("|");
     const wishlistCount = wishlistData.length;
@@ -196,14 +218,20 @@ class Header extends React.Component<Props, State> {
     );
     return (
       <div className="">
-        <Helmet>
+        <Helmet defer={false}>
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
           </title>
           {meta.description && (
             <meta name="description" content={meta.description} />
           )}
-          <link rel="icon" href={fabicon}></link>
+          <link
+            rel="canonical"
+            href={`${__DOMAIN__}${location.pathname}${
+              location.search ? "?" + location.search : ""
+            }`}
+          ></link>
+          <link rel="icon" href={fabicon} data-defer={false}></link>
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}
           {meta.ogTitle && (
             <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />
@@ -344,7 +372,7 @@ class Header extends React.Component<Props, State> {
                 styles.logoContainer
               )}
             >
-              <Link to="/">
+              <Link to="/" onClick={this.gtmPushLogoClick}>
                 <img className={styles.logo} src={gelogoCerise} />
               </Link>
             </div>
@@ -586,6 +614,44 @@ class Header extends React.Component<Props, State> {
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
+          {this.props.currency.toString().toUpperCase() == "INR" && (
+            <div className={styles.fixedPincodeBar} id="pincode-bar">
+              <div>
+                <span>
+                  We have resumed deliveries Pan India. Enter your Pincode to
+                  check if your location is serviceable.
+                </span>
+                <a
+                  className={styles.pincodeBarBtn}
+                  onClick={() => this.showPincode()}
+                >
+                  <span className={cs(styles.location)}>
+                    <i
+                      className={cs(
+                        // { [styles.iconClass]: menuOpen },
+                        iconStyles.icon,
+                        iconStyles.iconLocation,
+                        styles.iconStore
+                      )}
+                    ></i>
+                  </span>
+                  <span>
+                    {this.state.selectedPincode
+                      ? this.state.selectedPincode
+                      : "Pincode"}
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
+          {
+            this.state.showPincodePopup
+            // &&
+            // <PincodePopup
+            //     setPincode={(pincode: string) => this.setPincode(pincode)}
+            //     closePopup={()=>this.setState({ showPincodePopup: false })}
+            // />
+          }
         </div>
         <GrowlMessage {...message} />
       </div>
