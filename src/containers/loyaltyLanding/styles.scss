@@ -1,5 +1,11 @@
 @import "../../styles/partials/variables";
-
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+  min-width: 100%;
+}
 .loyalty {
   margin-top: $main-header;
     .paddlr-30 {
@@ -15,6 +21,7 @@
     }
     .basic {
       background-color: #fbf6f0;
+      padding-top: 20px;
     }
     .txt-underline {
       text-decoration: underline;
