@@ -51,7 +51,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   sizeChartHtml?: string;
   loyalityDisabled?: boolean;
   designJournalTagging?: DesignJournalTag[];
-  fillerMessage?: string;
+  fillerMessage: string;
   collectionProducts?: CollectionProductItem[];
   groupedProducts?: GroupedProductItem[];
 }

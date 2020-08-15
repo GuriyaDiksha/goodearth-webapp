@@ -62,7 +62,8 @@ const ProductDetails: React.FC<Props> = ({
     url,
     gaVariant,
     groupedProducts,
-    salesBadgeImage
+    salesBadgeImage,
+    fillerMessage
   },
   corporatePDP,
   mobile,
@@ -517,20 +518,8 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.voffset3,
                 styles.errorMsg
               )}
-            >
-              For any required assistance, write to us at
-              <a href="mailto:customercare@goodearth.in">
-                <u>customercare@goodearth.in</u>
-              </a>{" "}
-              or call us at{" "}
-              <a href="tel:+91 9582 999 555">
-                <u>+91 9582 999 555</u>
-              </a>{" "}
-              / at{" "}
-              <a href="tel:+91 9582 999 888">
-                <u>+91 9582 999 888</u>
-              </a>
-            </div>
+              dangerouslySetInnerHTML={{ __html: fillerMessage || "" }}
+            ></div>
           ) : (
             ""
           )}
