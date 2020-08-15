@@ -16,12 +16,24 @@ const initActionCategory: InitAction = async (dispatch, { slug }) => {
       peoplebuying,
       newarrival
     ] = await Promise.all([
-      CategoryService.fetchCategoryMultiImage(`CAT_${id}_1`),
-      CategoryService.fetchCategoryMultiImage(`CAT_${id}_2`),
-      CategoryService.fetchCategoryMultiImage(`${name}CURATED`),
-      CategoryService.fetchCategoryMultiImage(`TOP${name}`),
-      CategoryService.fetchLatestProduct(id),
-      CategoryService.newarrivals(id)
+      CategoryService.fetchCategoryMultiImage(`CAT_${id}_1`).catch(err => {
+        console.log("Colloection Page error =" + id);
+      }),
+      CategoryService.fetchCategoryMultiImage(`CAT_${id}_2`).catch(err => {
+        console.log("Colloection Page error CAT_=" + id);
+      }),
+      CategoryService.fetchCategoryMultiImage(`${name}CURATED`).catch(err => {
+        console.log("Colloection Page error CURATED =" + id);
+      }),
+      CategoryService.fetchCategoryMultiImage(`TOP${name}`).catch(err => {
+        console.log("Colloection Page error TOP =" + id);
+      }),
+      CategoryService.fetchLatestProduct(id).catch(err => {
+        console.log("Colloection Page error =" + id);
+      }),
+      CategoryService.newarrivals(id).catch(err => {
+        console.log("Colloection Page error =" + id);
+      })
     ]);
     const data: CategoryProps = {
       shopthelook1: shopthelook1,
