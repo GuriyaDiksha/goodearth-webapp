@@ -13,6 +13,7 @@ import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import * as valid from "utils/validate";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -63,6 +64,7 @@ class FilterList extends React.Component<Props, State> {
         availableDiscount: {},
         q: {}
       },
+      isLoading: false,
       searchUrl: this.props.history.location,
       mobileFilter: false,
       showmobileSort: false,
@@ -414,10 +416,11 @@ class FilterList extends React.Component<Props, State> {
       this.setState({ flag: false });
       const filterUrl = "?" + nextUrl.split("?")[1];
       const pageSize = mobile ? 10 : 20;
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        searchList => {
+      this.setState({ isLoading: true });
+      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
+        .then(searchList => {
           valid.productImpression(
-            searchList.results.data,
+            searchList,
             "PLP",
             this.props.currency,
             searchList.results.data.length
@@ -469,8 +472,10 @@ class FilterList extends React.Component<Props, State> {
               }
             }
           );
-        }
-      );
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
     }
   };
 
@@ -486,16 +491,15 @@ class FilterList extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
 
     const pageSize = mobile ? 10 : 20;
-    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`).then(
-      searchList => {
-        valid.productImpression(
-          searchList.results.data,
-          "PLP",
-          this.props.currency
-        );
+    this.setState({ isLoading: true });
+    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
+      .then(searchList => {
+        valid.productImpression(searchList, "PLP", this.props.currency);
         this.createList(searchList);
-      }
-    );
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
   };
 
   componentDidMount() {
@@ -1211,6 +1215,7 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     return (
       <Fragment>
+        {this.state.isLoading && <Loader />}
         <ul id="inner_filter" className={styles.filterSideMenu}>
           <li className={styles.filterElements}>
             <span>Filtered By</span>

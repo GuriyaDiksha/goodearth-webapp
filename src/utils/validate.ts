@@ -127,6 +127,7 @@ export function productImpression(
     let product = [];
     position = position || 0;
     if (!data) return false;
+    if (data.length < 1) return false;
     product = data.results.data.map((prod: any, i: number) => {
       const index = prod.categories.length - 1;
       let category = prod.categories[index]
