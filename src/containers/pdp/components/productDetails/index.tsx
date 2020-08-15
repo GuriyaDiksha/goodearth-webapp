@@ -94,6 +94,12 @@ const ProductDetails: React.FC<Props> = ({
     }
   }, [childAttributes, selectedSize]);
 
+  useEffect(() => {
+    if (childAttributes.length === 1 && !selectedSize) {
+      setSelectedSize(childAttributes[0]);
+    }
+  }, [currency]);
+
   const { dispatch } = useStore();
   const price =
     selectedSize && selectedSize.priceRecords
