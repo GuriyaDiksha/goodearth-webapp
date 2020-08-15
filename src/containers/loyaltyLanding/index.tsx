@@ -744,7 +744,9 @@ class LoyaltyLanding extends Component<Props, State> {
                 </div>
               </div>
             </div>
-            <div className={cs(bootstrapStyles.row, styles.basic)}>
+            <div
+              className={cs(bootstrapStyles.row, styles.basic, styles.center)}
+            >
               <div className={globalStyles.voffset3}>
                 <div className={cs(styles.txtNormal, globalStyles.textCenter)}>
                   For further information, please refer to <br />{" "}
@@ -865,9 +867,7 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <div>
-                  <span className={styles.heading}>
-                    Cerise Program - mobile
-                  </span>
+                  <span className={styles.heading}>Cerise Program</span>
                 </div>
               </div>
             </SecondaryHeader>

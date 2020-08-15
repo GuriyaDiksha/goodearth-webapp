@@ -276,7 +276,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               )}
                               &nbsp;{" "}
                               {item.product?.structure == "GiftCard"
-                                ? item.product.GCValue
+                                ? item.product.priceInclTax
                                 : parseFloat(
                                     item.product.pricerecords[
                                       item.priceCurrency
