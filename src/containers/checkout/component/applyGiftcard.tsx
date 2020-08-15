@@ -222,7 +222,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 )}
                 onClick={this.newGiftcard}
               >
-                [+] ADD ANOTHER GIFT CARD CODE
+                [+] ADD ANOTHER GIFT CARD CODE / CREDIT NOTE
               </div>
             )}
           </div>

@@ -16,7 +16,7 @@ import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 // import Loader from "components/Loader";
-import MakerEnhance from "../../components/maker";
+import MakerEnhance from "maker-enhance";
 import { PartialProductItem } from "typings/product";
 
 const Quickview = loadable(() => import("components/Quickview"));

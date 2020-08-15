@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import MakerEnhance from "../../components/maker";
+import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 import { useLocation } from "react-router";
 

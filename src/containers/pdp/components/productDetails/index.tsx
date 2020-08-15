@@ -38,7 +38,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
-import { useLocation } from "react-router";
+import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 
 const ProductDetails: React.FC<Props> = ({
@@ -62,7 +62,8 @@ const ProductDetails: React.FC<Props> = ({
     url,
     gaVariant,
     groupedProducts,
-    salesBadgeImage
+    salesBadgeImage,
+    fillerMessage
   },
   corporatePDP,
   mobile,
@@ -76,6 +77,7 @@ const ProductDetails: React.FC<Props> = ({
   // const [img] = images;
 
   const location = useLocation();
+  const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
   const [
     selectedSize,
@@ -92,6 +94,12 @@ const ProductDetails: React.FC<Props> = ({
       setSelectedSize(childAttributes[0]);
     }
   }, [childAttributes, selectedSize]);
+
+  useEffect(() => {
+    if (priceRecords[currency] == 0) {
+      history.push("/", {});
+    }
+  }, [currency]);
 
   const { dispatch } = useStore();
   const price =
@@ -517,20 +525,8 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.voffset3,
                 styles.errorMsg
               )}
-            >
-              For any required assistance, write to us at
-              <a href="mailto:customercare@goodearth.in">
-                <u>customercare@goodearth.in</u>
-              </a>{" "}
-              or call us at{" "}
-              <a href="tel:+91 9582 999 555">
-                <u>+91 9582 999 555</u>
-              </a>{" "}
-              / at{" "}
-              <a href="tel:+91 9582 999 888">
-                <u>+91 9582 999 888</u>
-              </a>
-            </div>
+              dangerouslySetInnerHTML={{ __html: fillerMessage || "" }}
+            ></div>
           ) : (
             ""
           )}

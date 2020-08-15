@@ -5,7 +5,7 @@ import cs from "classnames";
 import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
-import MakerEnhance from "../../components/maker";
+import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";

@@ -4,7 +4,7 @@ import initActionCollection from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
-import MakerEnhance from "../../components/maker";
+import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -54,6 +54,23 @@ class CategoryLanding extends React.Component<
       catLanding: true
     });
   }
+
+  UNSAFE_componentWillReceiveProps(newprops: any) {
+    if (this.props.location.pathname != newprops.pathname) {
+      this.setState({
+        catLanding: false
+      });
+    }
+  }
+
+  componentDidUpdate(previous: any, nextprops: any) {
+    if (this.props.location.pathname != previous.pathname) {
+      this.setState({
+        catLanding: true
+      });
+    }
+  }
+
   createTopliving() {
     const html = [],
       data = this.props.topliving,
