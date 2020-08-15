@@ -217,7 +217,14 @@ class Footer extends React.Component<Props, FooterState> {
             <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
               <div className={cs(bootstrap.col1, bootstrap.colMd3)}></div>
               <div className={cs(bootstrap.col10, bootstrap.colMd6)}>
-                <div className={cs(styles.ftrHeadingWhite)}>be in the know</div>
+                <div
+                  className={cs(
+                    styles.ftrHeadingWhite,
+                    styles.ftrHeadingWhite2
+                  )}
+                >
+                  be in the know
+                </div>
                 <div className={cs(styles.ftrCopyWhiteDesktop)}>
                   By signing up for alerts, you agree to receive e-mails, calls
                   and text messages from Goodearth. To know more how we keep

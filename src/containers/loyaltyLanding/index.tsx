@@ -210,7 +210,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 <img src={ceriseMainlogo} className={styles.imgLoyalty} />
                 <div
                   className={cs(
-                    globalStyles.txtNormal,
+                    styles.txtNormal,
                     styles.txtBold,
                     globalStyles.voffset4
                   )}
@@ -218,17 +218,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   {" "}
                   FROM OUR HEARTS TO YOUR HOME
                 </div>
-                <div
-                  className={cs(globalStyles.txtNormal, globalStyles.voffset4)}
-                >
+                <div className={cs(styles.txtNormal, globalStyles.voffset4)}>
                   {" "}
                   You have supported us on our journey of over two decades to
                   bring joy in the everyday through design stories and craft
                   traditions rooted in Asia.
                 </div>
-                <div
-                  className={cs(globalStyles.txtNormal, globalStyles.voffset2)}
-                >
+                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
                   We are delighted to welcome you to Cerise Program as an
                   extended member of the Good Earth family to become a part of
                   our world and give us an opportunity to get to know you
@@ -273,9 +269,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 <div className={cs(styles.heading1, globalStyles.voffset6)}>
                   PROGRAM INTRODUCTION
                 </div>
-                <div
-                  className={cs(globalStyles.txtNormal, globalStyles.voffset2)}
-                >
+                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
                   Once you are naturally selected as a member of the Cerise
                   Program based on your purchase value in one year, you are
                   entitled to various privileges listed below. As soon as the
@@ -662,13 +656,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   <ul>
                     <li>
                       <img src={list1} />
-                      <div className={globalStyles.txtNormal}>
+                      <div className={styles.txtNormal}>
                         Shop in-store or online.
                       </div>
                     </li>
                     <li>
                       <img src={list2} />
-                      <div className={globalStyles.txtNormal}>
+                      <div className={styles.txtNormal}>
                         Earn upto 15% of your purchase value as Cerise Points.
                       </div>
                       <a
@@ -683,8 +677,8 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       <div
                         className={
                           this.state.showblock1
-                            ? globalStyles.txtNormal
-                            : cs(globalStyles.txtNormal, globalStyles.hidden)
+                            ? styles.txtNormal
+                            : cs(styles.txtNormal, globalStyles.hidden)
                         }
                       >
                         For Cerise Club members, 10% of the purchase value and
@@ -706,7 +700,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                     </li>
                     <li>
                       <img src={list3} />
-                      <div className={globalStyles.txtNormal}>
+                      <div className={styles.txtNormal}>
                         {" "}
                         Redeem earned reward points on future online or in-store
                         purchases.
@@ -723,8 +717,8 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       <div
                         className={
                           this.state.showblock2
-                            ? globalStyles.txtNormal
-                            : cs(globalStyles.txtNormal, globalStyles.hidden)
+                            ? styles.txtNormal
+                            : cs(styles.txtNormal, globalStyles.hidden)
                         }
                       >
                         When a member redeems the reward points in the next
@@ -751,12 +745,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
             </div>
             <div className={cs(bootstrapStyles.row, styles.basic)}>
               <div className={globalStyles.voffset3}>
-                <div
-                  className={cs(
-                    globalStyles.txtNormal,
-                    globalStyles.textCenter
-                  )}
-                >
+                <div className={cs(styles.txtNormal, globalStyles.textCenter)}>
                   For further information, please refer to <br />{" "}
                   <a
                     href="/customer-assistance/terms"
@@ -853,10 +842,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 className={cs(styles.bgAnimation, styles.flowerR3)}
                 id="ele8"
               >
-                <img
-                  src="/images/loyalty/animate-img/flower4.png"
-                  className={styles.imgResponsive}
-                />
+                <img src={flower4} className={styles.imgResponsive} />
               </div>
             </div>
             {/* <div className={styles.commonSubheader}>
@@ -871,12 +857,16 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 className={cs(
                   bootstrapStyles.colMd12,
                   bootstrapStyles.offsetMd1,
+                  bootstrapStyles.col11,
+                  bootstrapStyles.offset1,
                   styles.header,
                   globalStyles.verticalMiddle
                 )}
               >
                 <div>
-                  <span className={styles.heading}>Cerise Program</span>
+                  <span className={styles.heading}>
+                    Cerise Program - mobile
+                  </span>
                 </div>
               </div>
             </SecondaryHeader>
@@ -899,7 +889,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 <img src={ceriseMainlogo} className={styles.imgLoyalty} />
                 <div
                   className={cs(
-                    globalStyles.txtNormal,
+                    styles.txtNormal,
                     styles.txtBold,
                     globalStyles.voffset4
                   )}
@@ -907,17 +897,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   {" "}
                   FROM OUR HEARTS TO YOUR HOME
                 </div>
-                <div
-                  className={cs(globalStyles.txtNormal, globalStyles.voffset4)}
-                >
+                <div className={cs(styles.txtNormal, globalStyles.voffset4)}>
                   {" "}
                   You have supported us on our journey of over two decades to
                   bring joy in the everyday through design stories and craft
                   traditions rooted in Asia.
                 </div>
-                <div
-                  className={cs(globalStyles.txtNormal, globalStyles.voffset2)}
-                >
+                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
                   We are delighted to welcome you to Cerise Program as an
                   extended member of the Good Earth family to become a part of
                   our world and give us an opportunity to get to know you
@@ -927,9 +913,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                 <div className={cs(styles.heading1, globalStyles.voffset6)}>
                   PROGRAM INTRODUCTION
                 </div>
-                <div
-                  className={cs(globalStyles.txtNormal, globalStyles.voffset2)}
-                >
+                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
                   Once you are naturally selected as a member of the Cerise
                   Program based on your purchase value in one year, you are
                   entitled to various privileges listed below. As soon as the
@@ -1320,13 +1304,13 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   <ul>
                     <li>
                       <img src={list1} />
-                      <div className={globalStyles.txtNormal}>
+                      <div className={styles.txtNormal}>
                         Shop in-store or online.
                       </div>
                     </li>
                     <li>
                       <img src={list2} />
-                      <div className={globalStyles.txtNormal}>
+                      <div className={styles.txtNormal}>
                         Earn upto 15% of your purchase value as Cerise Points.
                       </div>
                       <a
@@ -1341,8 +1325,8 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       <div
                         className={
                           this.state.showblock1
-                            ? globalStyles.txtNormal
-                            : cs(globalStyles.txtNormal, globalStyles.hidden)
+                            ? styles.txtNormal
+                            : cs(styles.txtNormal, globalStyles.hidden)
                         }
                       >
                         Cerise points are automatically credited to the member’s
@@ -1361,7 +1345,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                     </li>
                     <li>
                       <img src={list3} />
-                      <div className={globalStyles.txtNormal}>
+                      <div className={styles.txtNormal}>
                         {" "}
                         Redeem accumulated Cerise Points online or in-store.
                       </div>
@@ -1377,8 +1361,8 @@ export default class LoyaltyLanding extends Component<Props, State> {
                       <div
                         className={
                           this.state.showblock2
-                            ? globalStyles.txtNormal
-                            : cs(globalStyles.txtNormal, globalStyles.hidden)
+                            ? styles.txtNormal
+                            : cs(styles.txtNormal, globalStyles.hidden)
                         }
                       >
                         When a member redeems his/her Cerise points on a
@@ -1399,7 +1383,7 @@ export default class LoyaltyLanding extends Component<Props, State> {
                   </ul>
                 </div>
                 <div className={cs(globalStyles.voffset5, styles.btm)}>
-                  <div className={globalStyles.txtNormal}>
+                  <div className={styles.txtNormal}>
                     For further information, please refer to{" "}
                     <a
                       href="/customer-assistance/terms"
