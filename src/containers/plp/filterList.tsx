@@ -80,7 +80,8 @@ class FilterList extends React.Component<Props, State> {
       showFilterByDiscountMenu: true,
       categoryindex: -1,
       activeindex: -1,
-      activeindex2: 1
+      activeindex2: 1,
+      isViewAll: false
     };
     this.props.onRef(this);
   }
@@ -95,6 +96,7 @@ class FilterList extends React.Component<Props, State> {
     while ((match = re.exec(url))) {
       vars[match[1]] = match[2];
     }
+    let isViewAll = false;
     for (const key in vars) {
       if (Object.prototype.hasOwnProperty.call(vars, key)) {
         const cc = vars[key].replace(/%26/g, "&").split("|");
@@ -123,6 +125,9 @@ class FilterList extends React.Component<Props, State> {
                 filter.categoryShop[csKey]
               );
               filter.categoryShop[csKey][cc[i].replace(/%2B/g, "+")] = true;
+              if (cc[i].split(">").length == 2) {
+                isViewAll = true;
+              }
             }
             break;
           case "min_price":
@@ -162,7 +167,8 @@ class FilterList extends React.Component<Props, State> {
       categoryindex: 0,
       activeindex: this.state.openMenu,
       activeindex2: 1,
-      categorylevel1: true
+      categorylevel1: true,
+      isViewAll: isViewAll
     });
   };
 
@@ -1015,6 +1021,9 @@ class FilterList extends React.Component<Props, State> {
           });
         }
       });
+      this.setState({
+        isViewAll: true
+      });
     } else {
       filter.categoryShop[event.target.value] = Object.assign(
         {},
@@ -1039,6 +1048,9 @@ class FilterList extends React.Component<Props, State> {
       filter.categoryShop[event.target.value][
         viewData.join(">").trim()
       ] = checkallSelectedValue ? true : false;
+      this.setState({
+        isViewAll: checkallSelectedValue
+      });
     }
 
     const atleastOneSelected = Object.keys(categoryObj).every((data, i) => {

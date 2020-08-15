@@ -144,6 +144,12 @@ const routes: RouteConfig = [
     action: async () => null,
     exact: true
   },
+  {
+    path: ROUTES.LOYALTYLANDING,
+    component: loadable(() => import("containers/loyaltyLanding")),
+    action: async () => null,
+    exact: true
+  },
   // {
   //   path: ROUTES.DESIGNJOURNALBOOK,
   //   component: loadable(() => import("containers/designJournalBook")),

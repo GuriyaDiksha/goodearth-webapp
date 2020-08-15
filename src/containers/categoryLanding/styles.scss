@@ -535,6 +535,7 @@
     }
     .small-desc {
       font-size: 16px;
+      text-transform: uppercase;
       font-family: $font-Lato;
       letter-spacing: 0.5px;
       padding-top: 10px;
@@ -849,6 +850,7 @@
      } */
   }
   .heroBannerHome {
+    
     .imgsetleft {
       position: absolute;
       bottom: 20%;
@@ -916,4 +918,8 @@
   
     }
   
+  }
+
+  .page-body {
+    margin-top: $header-height;
   }
