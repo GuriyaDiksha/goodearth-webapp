@@ -10,7 +10,7 @@ const Breadcrumbs: React.FC<Props> = memo(
 
     levels.map(({ name, url }, index) => {
       if (index !== levels.length - 1) {
-        const href = url ? url : "";
+        const href = url ? url : "#";
         breadcrumbs.push(
           <Fragment key={name}>
             <Link to={href}>{name}</Link>
@@ -21,6 +21,17 @@ const Breadcrumbs: React.FC<Props> = memo(
         );
       } else {
         if (isViewAll) {
+          if (levels.length == 3) {
+            const href = url ? url : "#";
+            breadcrumbs.push(
+              <Fragment key={name}>
+                <Link to={href}>{name.split(":")[0]}</Link>
+                <span className={styles.separator} key={`separator-${index}`}>
+                  {separator}
+                </span>
+              </Fragment>
+            );
+          }
           breadcrumbs.push(
             <Fragment key={name}>
               <span>{" View all"}</span>

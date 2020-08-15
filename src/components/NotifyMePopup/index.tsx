@@ -20,6 +20,7 @@ import { showMessage } from "actions/growlMessage";
 // services
 import BasketService from "services/basket";
 import ProductService from "services/product";
+import WishlistService from "services/wishlist";
 // contexts
 import UserContext from "contexts/user";
 import { Context as ModalContext } from "components/Modal/context";
@@ -144,6 +145,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const addToBasket = async () => {
     if (selectedSize) {
       await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+      await WishlistService.removeFromWishlist(dispatch, selectedSize.id);
       dispatch(showMessage(ADD_TO_BAG_SUCCESS));
       gtmPushAddToBag();
       closeModal();

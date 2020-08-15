@@ -14,6 +14,8 @@ import Reedem from "./redeem";
 import { updateComponent, updateModal } from "actions/modal";
 import ShippingPopup from "./shippingPopup";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
+import * as valid from "utils/validate";
+
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
@@ -98,7 +100,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           setIsLoading(false);
         })
         .catch((error: any) => {
-          const msg = error.response?.data?.paymentMode?.[0];
+          const msg = valid.showErrors(error.response?.data);
           setPaymentError(msg);
           setIsLoading(false);
         });

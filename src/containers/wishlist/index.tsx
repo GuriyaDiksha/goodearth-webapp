@@ -315,6 +315,19 @@ class Wishlist extends React.Component<Props, State> {
     if (!nextProps.isLoggedIn) {
       this.props.history.push("/");
     }
+    if (this.props.currency !== nextProps.currency) {
+      this.getWishlist(this.state.defaultOption.value);
+      AbsoluteGrid = createAbsoluteGrid(
+        SampleDisplay,
+        {
+          grid: nextProps,
+          removeProduct: this.removeProduct,
+          mobile: nextProps.mobile,
+          currency: nextProps.currency
+        },
+        false
+      );
+    }
   }
 
   updateGrid = (nextProps: Props) => {
@@ -475,6 +488,7 @@ class Wishlist extends React.Component<Props, State> {
         ReactDOM.render(
           <AbsoluteGrid
             items={data}
+            currency={this.props.currency}
             dragEnabled={this.state.dragDrop}
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
@@ -488,6 +502,7 @@ class Wishlist extends React.Component<Props, State> {
       } else {
         ReactDOM.render(
           <AbsoluteGrid
+            currency={this.props.currency}
             items={data}
             dragEnabled={this.state.dragDrop}
             onDragEnd={() => this.onDropWishlist()}
