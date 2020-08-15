@@ -15,7 +15,7 @@ import FilterListSearch from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
-import Loader from "components/Loader";
+// import Loader from "components/Loader";
 import MakerEnhance from "../../components/maker";
 import { PartialProductItem } from "typings/product";
 
@@ -303,12 +303,6 @@ class Search extends React.Component<
               }
               id="product_images"
             >
-              {data.length == 0 ||
-              (this.child.state ? !this.child.state.flag : false) ? (
-                <Loader />
-              ) : (
-                ""
-              )}
               {data.map((item, i) => {
                 return (
                   <div
