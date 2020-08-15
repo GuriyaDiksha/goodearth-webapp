@@ -1,4 +1,5 @@
 import React from "react";
+import { Dispatch } from "redux";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import initActionCollection from "./initAction";
@@ -13,6 +14,9 @@ import CollectionImage from "components/collectionItem";
 import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
 import MakerEnhance from "maker-enhance";
+import CollectionService from "services/collection";
+import { updateCollectionFilter } from "actions/collection";
+import { getProductIdFromSlug } from "utils/url.ts";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -23,7 +27,26 @@ const mapStateToProps = (state: AppState) => {
     device: state.device
   };
 };
-type Props = ReturnType<typeof mapStateToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
+  return {
+    // create function for dispatch
+    fetchCollectionMapping: async () => {
+      const id = getProductIdFromSlug(params.level1);
+      if (id) {
+        const filterData = await CollectionService.fetchCollectionMapping(
+          id,
+          params.id
+        );
+        console.log(filterData, id);
+        dispatch(updateCollectionFilter({ ...filterData }));
+      }
+    }
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class CollectionLanding extends React.Component<
   Props,
@@ -50,7 +73,8 @@ class CollectionLanding extends React.Component<
     }
     if (this.props.location.pathname != nextProps.location.pathname) {
       this.setState({
-        landingMaker: false
+        landingMaker: false,
+        onloadState: false
       });
     }
   }
@@ -65,6 +89,7 @@ class CollectionLanding extends React.Component<
       this.setState({
         landingMaker: true
       });
+      this.props.fetchCollectionMapping();
     }
   }
 
@@ -190,5 +215,5 @@ class CollectionLanding extends React.Component<
   }
 }
 
-export default connect(mapStateToProps)(CollectionLanding);
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionLanding);
 export { initActionCollection };

@@ -10,7 +10,9 @@ const initAction: InitAction = async (dispatch, { slug }) => {
   const id = getProductIdFromSlug(slug);
 
   if (id) {
-    const product = await ProductService.fetchProductDetails(id);
+    const product = await ProductService.fetchProductDetails(id).catch(err => {
+      console.log("PDP API FAIL", err);
+    });
     dispatch(
       updateProduct({ ...product, partial: false } as Product<
         PartialProductItem
