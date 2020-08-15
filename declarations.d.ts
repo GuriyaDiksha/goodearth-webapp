@@ -16,6 +16,7 @@ declare module "react-absolute-grid";
 declare module "jquery";
 declare module "turn.js";
 declare module "react-html-parser";
+declare module "maker-enhance";
 declare module "react-facebook-login/dist/facebook-login-render-props";
 
 declare const __API_HOST__: string;

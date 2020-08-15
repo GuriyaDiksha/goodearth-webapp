@@ -1,6 +1,6 @@
 import loadable from "@loadable/component";
 import React from "react";
-import MakerEnhance from "../../components/maker";
+import MakerEnhance from "maker-enhance";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import { PLPProductItem } from "src/typings/product";

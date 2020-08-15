@@ -12,7 +12,7 @@ import { Settings } from "react-slick";
 import CollectionImage from "components/collectionItem";
 import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
-import MakerEnhance from "../../components/maker";
+import MakerEnhance from "maker-enhance";
 
 const mapStateToProps = (state: AppState) => {
   return {
