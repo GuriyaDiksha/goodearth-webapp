@@ -25,6 +25,8 @@ const apiDomain = JSON.stringify(envConfig.apidomain);
 const omniApiDomain = JSON.stringify(envConfig.omniApiDomain);
 const publicPath = "/static/";
 const cdnDomain = JSON.stringify("https://djhiy8e1dslha.cloudfront.net");
+const fbAppID = JSON.stringify(envConfig.fbAppID);
+const googleClientID = JSON.stringify(envConfig.googleClientID);
 
 const alias = {
     components : context + "/src/components",
@@ -81,7 +83,9 @@ let config = [
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain,
                 __CDN_HOST__: cdnDomain,
-                __OMNI_HOST__: omniApiDomain
+                __OMNI_HOST__: omniApiDomain,
+                __FB_APP_ID__: fbAppID,
+                __GOOGLE_CLIENT_ID__: googleClientID
             }),
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new LoadablePlugin(),

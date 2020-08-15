@@ -332,7 +332,7 @@ class Footer extends React.Component<Props, FooterState> {
                                       ) {
                                         return (
                                           <li key={j}>
-                                            {currentValue.text.toLowerCase() ==
+                                            {/* {currentValue.text.toLowerCase() ==
                                             "good earth registry" ? (
                                               <a
                                                 href={currentValue.link}
@@ -341,16 +341,16 @@ class Footer extends React.Component<Props, FooterState> {
                                               >
                                                 {currentValue.text}
                                               </a>
-                                            ) : (
-                                              <Link
-                                                to={currentValue.link}
-                                                onClick={() => {
-                                                  this.subMenu(i);
-                                                }}
-                                              >
-                                                {currentValue.text}
-                                              </Link>
-                                            )}
+                                            ) : ( */}
+                                            <Link
+                                              to={currentValue.link}
+                                              onClick={() => {
+                                                this.subMenu(i);
+                                              }}
+                                            >
+                                              {currentValue.text}
+                                            </Link>
+                                            {/* )} */}
                                           </li>
                                         );
                                       } else {
@@ -510,7 +510,7 @@ class Footer extends React.Component<Props, FooterState> {
                                   index + 1
                                 ].value.map((Item, index) => (
                                   <li key={index}>
-                                    {Item.link !== "" ? (
+                                    {/* {Item.link !== "" ? (
                                       Item.text.toLowerCase() ==
                                       "good earth registry" ? (
                                         <a
@@ -520,12 +520,10 @@ class Footer extends React.Component<Props, FooterState> {
                                         >
                                           {Item.text}
                                         </a>
-                                      ) : (
-                                        <Link to={Item.link}>{Item.text}</Link>
-                                      )
-                                    ) : (
-                                      Item.text
-                                    )}
+                                      ) : ( */}
+                                    <Link to={Item.link}>{Item.text}</Link>) ) :
+                                    ( Item.text
+                                    {/* )} */}
                                   </li>
                                 ))}
                               </ul>

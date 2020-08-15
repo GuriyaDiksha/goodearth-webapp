@@ -28,6 +28,7 @@ import flower3 from "../../images/loyalty/animate-img/flower3.png";
 import flower5 from "../../images/loyalty/animate-img/flower5.png";
 import customerCare from "../../images/loyalty/points/customerCare.svg";
 import SecondaryHeader from "components/SecondaryHeader";
+import { connect } from "react-redux";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -53,7 +54,7 @@ type State = {
   showBlockMore2: boolean;
 };
 
-export default class LoyaltyLanding extends Component<Props, State> {
+class LoyaltyLanding extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -1427,3 +1428,5 @@ export default class LoyaltyLanding extends Component<Props, State> {
     );
   }
 }
+
+export default connect(mapStateToProps, {})(LoyaltyLanding);

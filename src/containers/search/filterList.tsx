@@ -508,7 +508,13 @@ class FilterList extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (nextProps.onload && nextProps.facets.categoryShop) {
+      this.props.updateOnload(false);
       this.createList(nextProps.data);
+    }
+    if (this.props.currency != nextProps.currency) {
+      nextProps.mobile
+        ? this.updateDataFromAPI("load")
+        : this.updateDataFromAPI();
     }
   };
 
@@ -1192,9 +1198,9 @@ class FilterList extends React.Component<Props, State> {
       availableSize: {},
       categoryShop: {},
       price: {},
-      currency: {
-        currency: this.props.currency
-      },
+      // currency: {
+      //   currency: this.props.currency
+      // },
       sortBy: {},
       q: {
         q: value

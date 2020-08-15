@@ -53,7 +53,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               <h3>
                 {item.place}
                 {item.cafeAddress && (
-                  <Link to="#cafe">
+                  <Link to={`${viewLink}#cafe`}>
                     <img src={cafeicon} className={styles.iconCafe} />
                   </Link>
                 )}

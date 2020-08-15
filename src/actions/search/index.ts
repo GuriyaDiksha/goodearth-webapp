@@ -10,3 +10,6 @@ export const newSearchList = (plpList: PlpProps) =>
 
 export const updateFilterState = (data: boolean) =>
   actionCreator("UPDATE_FILTER", data);
+
+export const updateOnload = (data: boolean) =>
+  actionCreator("UPDATE_ONLOAD", data);
