@@ -13,7 +13,7 @@ import { AppState } from "reducers/typings";
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, selectedAddress } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const { basket, currency } = useSelector((state: AppState) => state);
+  const { basket, currency, info } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
@@ -112,17 +112,23 @@ const PromoSection: React.FC<PromoProps> = props => {
               styles.selectedStvalue
             )}
             onClick={() => {
-              basket.isOnlyGiftCart ? "" : onCurrentState();
+              basket.isOnlyGiftCart || info.isSale ? "" : onCurrentState();
             }}
           >
             <span
-              className={
-                isActive || !selectedAddress
+              className={cs(
+                info.isSale
+                  ? styles.notSelected
+                  : isActive || !selectedAddress
                   ? globalStyles.hidden
                   : globalStyles.cerise
-              }
+              )}
             >
-              {basket.isOnlyGiftCart ? "Not Applicable" : " PROMO CODE APPLIED"}
+              {info.isSale
+                ? "Not Applicable during Sale"
+                : basket.isOnlyGiftCart
+                ? "Not Applicable"
+                : " APPLY PROMO CODE"}
             </span>
           </div>
         )}
