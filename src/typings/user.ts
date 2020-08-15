@@ -6,7 +6,7 @@ export type User = {
   email: string;
   id: string;
   panPassport?: string;
-  phone?: string;
+  phoneNumber?: string;
   loyalityEligible: boolean;
   bridal: boolean;
   gender?: "male" | "female";

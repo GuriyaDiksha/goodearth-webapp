@@ -11,8 +11,13 @@ const routeMap = routes.map(({ path, component, action, exact, meta }) => {
       exact={exact}
       render={({ match: { params }, location }) => {
         const myParams = { ...params };
+        // const vars:any = location.state;
         myParams.pathname = location.pathname;
-
+        // if(vars){
+        //   //debugger
+        //   debugger
+        //   myParams.toggel = !myParams.toggel
+        // }
         return (
           <RouteContainer
             action={action}
