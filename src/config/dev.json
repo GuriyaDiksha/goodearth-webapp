@@ -1,3 +1,10 @@
 {
-    "apidomain": "https://devapi.goodearth.in"
+    "apidomain": "https://devapi.goodearth.in",
+    "domain": "https://devbeta.goodearth.in",
+    "omniApiDomain": "https://web.goodearth.in/omni/",
+    "manifestVersion": 3,
+    "publicPath": "/static/",
+    "fbAppID": "2759423167667301",
+    "googleClientID": "837034702464-l6tdm1d9enjdb28pt1qlr24797cvstdp.apps.googleusercontent.com",
+    "gtmID": "GTM-NTCX6G8"
 }

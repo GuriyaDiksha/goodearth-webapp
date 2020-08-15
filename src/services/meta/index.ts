@@ -30,7 +30,7 @@ export default {
     let user: Partial<User> = initialState;
     if (cookies.tkn) {
       const meta: MetaResponse = await this.fetchMeta(dispatch, cookies);
-      user = meta.user;
+      user = meta.user || {};
       user.bridal = meta.bridalUser;
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
