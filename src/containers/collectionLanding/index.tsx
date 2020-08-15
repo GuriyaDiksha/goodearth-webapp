@@ -40,11 +40,17 @@ class CollectionLanding extends React.Component<
       filterData: data
     });
   };
-  UNSAFE_componentWillReceiveProps(nextProps: any) {
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.data.selectValue?.[0] && !this.state.onloadState) {
       this.setState({
         filterData: nextProps.data.selectValue?.[0]?.name,
         onloadState: true
+      });
+    }
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.setState({
+        landingMaker: false
       });
     }
   }
@@ -52,6 +58,14 @@ class CollectionLanding extends React.Component<
     this.setState({
       landingMaker: true
     });
+  }
+
+  componentDidUpdate(previous: Props) {
+    if (this.props.location.pathname != previous.location.pathname) {
+      this.setState({
+        landingMaker: true
+      });
+    }
   }
 
   render() {

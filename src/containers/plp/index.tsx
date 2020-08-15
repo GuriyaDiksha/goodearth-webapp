@@ -82,6 +82,14 @@ class PLP extends React.Component<
     });
   }
 
+  componentDidUpdate(nextProps: Props) {
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.setState({
+        plpMaker: true
+      });
+    }
+  }
+
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
@@ -113,9 +121,9 @@ class PLP extends React.Component<
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.location.pathname != nextProps.location.pathname) {
-      this.setState(prevState => ({
-        toggel: !prevState.toggel
-      }));
+      this.setState({
+        plpMaker: false
+      });
     }
   }
 

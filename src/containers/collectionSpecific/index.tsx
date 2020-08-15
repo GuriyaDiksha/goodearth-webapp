@@ -55,6 +55,14 @@ class CollectionSpecific extends React.Component<
     });
   }
 
+  componentDidUpdate(previous: Props) {
+    if (this.props.location.pathname != previous.location.pathname) {
+      this.setState({
+        specificMaker: true
+      });
+    }
+  }
+
   render() {
     const {
       mobile,
