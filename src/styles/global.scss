@@ -16,15 +16,21 @@ body {
   overflow-x: hidden;
   color: $default;
   touch-action: manipulation;
+  -ms-touch-action: manipulation;
   @include scrollbar();
 }
 h1, h2, h3, h4, b, strong {
   font-weight: 400;
 }
+
 h2 {
   margin-bottom: 0;
 }
 
+input {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
 ::-webkit-input-placeholder { /* Edge */
   font-weight: 300;
   font-family: $font-Lato;
