@@ -613,9 +613,6 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {this.state.showSearch && (
-            <Search ipad={false} toggle={this.showSearch} />
-          )}
           {this.props.currency.toString().toUpperCase() == "INR" &&
             (this.props.location.pathname.includes("/catalogue/")
               ? this.props.location.pathname.includes("/category/")
@@ -651,6 +648,9 @@ class Header extends React.Component<Props, State> {
                 </div>
               </div>
             )}
+          {this.state.showSearch && (
+            <Search ipad={false} toggle={this.showSearch} />
+          )}
           {
             this.state.showPincodePopup
             // &&
