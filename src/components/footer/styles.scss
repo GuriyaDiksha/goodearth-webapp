@@ -60,7 +60,7 @@
 .footer-socialicons {
   a {
     font-size: 20px;
-    color: $white;
+    color: #000;
     &:hover {
       color: $cerise;
       text-decoration: none;
@@ -172,7 +172,7 @@ position: fixed;
   }
   .footer {
     min-height: 680px;
-    background-color: #001737;
+    background-color: #EEF1E2;
   }
   .grand-outer {
     .pressinternal {
@@ -301,7 +301,7 @@ input {
   content: "+";
   padding-left: 10px;
   float: right;
-  color: tint(#000, 80%);
+  color: #000;
   font-size: 25px;
 }
 
@@ -309,7 +309,7 @@ input {
   content: "-";
   padding-left: 10px;
   float: right;
-  color: tint(#000, 80%);
+  color: #000;
   font-size: 25px;
 }
 
@@ -441,4 +441,7 @@ input {
 .px5 {
   padding-left: 8rem !important;
   padding-right: 8rem !important;
+}
+.ftrHeadingWhite2 {
+  color: #fff;
 }

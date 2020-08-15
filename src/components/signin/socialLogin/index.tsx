@@ -68,7 +68,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
       </div>
       <div className={globalStyles.voffset3}>
         <FacebookLogin
-          appId="2759423167667301"
+          appId={__FB_APP_ID__}
           autoLoad={false}
           fields="name,email,picture"
           callback={onLoginSuccess}
@@ -83,7 +83,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         />
 
         <GoogleLogin
-          clientId="837034702464-l6tdm1d9enjdb28pt1qlr24797cvstdp.apps.googleusercontent.com"
+          clientId={__GOOGLE_CLIENT_ID__}
           render={(renderProps: any) => (
             <img src={loginGoogle} width="40px" onClick={renderProps.onClick} />
           )}

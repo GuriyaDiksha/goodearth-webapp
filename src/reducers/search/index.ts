@@ -66,6 +66,11 @@ export const searchList = (
       newState.searchProductId = list;
       return newState;
     }
+    case "UPDATE_ONLOAD": {
+      const newState = { ...state };
+      newState.onload = action.payload;
+      return newState;
+    }
   }
   return state;
 };
