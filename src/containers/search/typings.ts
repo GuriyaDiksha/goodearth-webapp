@@ -34,6 +34,7 @@ export type FilterProps = {
 };
 
 export type State = {
+  isLoading: boolean;
   showmobileFilterList: boolean;
   filter: any;
   show: false;

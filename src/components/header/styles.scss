@@ -804,7 +804,7 @@ a {
   .checkheight {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 300px;
     padding: 0 10rem 0 10rem;
   }

@@ -169,6 +169,7 @@ const CartItems: React.FC<BasketItem> = memo(
         : images && images.length > 0
         ? images[0].productImage.replace("Medium", "Micro")
         : "";
+    const isGiftCard = product.structure.toLowerCase() == "giftcard";
 
     return (
       <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
@@ -177,7 +178,7 @@ const CartItems: React.FC<BasketItem> = memo(
             className={cs(bootstrap.col5, bootstrap.colMd2, styles.cartPadding)}
           >
             <div className={styles.cartRing}></div>
-            <Link to={url}>
+            <Link to={isGiftCard ? "#" : url}>
               <img className={styles.productImage} src={imageUrl} />
             </Link>
           </div>
@@ -192,7 +193,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       {collections[0]}
                     </div>
                     <div className={styles.productName}>
-                      <Link to={url}>{title}</Link>
+                      <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>
                   </div>
                   <div className={styles.productPrice}>
@@ -224,7 +225,11 @@ const CartItems: React.FC<BasketItem> = memo(
                 </div>
               </div>
               <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
-                <div className={cs(styles.section, styles.sectionMiddle)}>
+                <div
+                  className={cs(styles.section, styles.sectionMiddle, {
+                    [globalStyles.hiddenEye]: isGiftCard
+                  })}
+                >
                   <div className={styles.productSize}>
                     {getSize(product.attributes)}
                   </div>
@@ -268,7 +273,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   onClick={deleteItem}
                 ></i>
               </div>
-              <div>
+              <div className={cs({ [globalStyles.hiddenEye]: isGiftCard })}>
                 <WishlistButton
                   gtmListType=""
                   title={title}

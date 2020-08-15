@@ -59,21 +59,9 @@ class Giftcard extends React.Component<Props, GiftState> {
     };
     this.props.balanceCheck(data).then(response => {
       const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN" || response.type == "GIFT") {
+      if (response.currStatus == "Invalid-CN") {
         this.setState({
           error: "Please enter a valid code"
-        });
-      } else if (response.currStatus == "Locked" && response.type == "CNI") {
-        this.setState({
-          showLocked: true,
-          error:
-            "Please try again in sometime. For security reasons, your credit note / gift card is temporarily locked",
-          conditionalRefresh: true
-        });
-      } else if (response.currStatus == "Expired" && response.type == "CNI") {
-        this.setState({
-          showExpired: true,
-          conditionalRefresh: true
         });
       } else {
         giftList.push(response);

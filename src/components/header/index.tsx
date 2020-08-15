@@ -186,12 +186,12 @@ class Header extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-      {
-        label: "Good Earth Registry",
-        href: "/about",
-        type: "link",
-        value: "Good Earth Registry"
-      },
+      // {
+      //   label: "Good Earth Registry",
+      //   href: "/about",
+      //   type: "link",
+      //   value: "Good Earth Registry"
+      // },
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
@@ -615,36 +615,41 @@ class Header extends React.Component<Props, State> {
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
-          {this.props.currency.toString().toUpperCase() == "INR" && (
-            <div className={styles.fixedPincodeBar} id="pincode-bar">
-              <div>
-                <span>
-                  We have resumed deliveries Pan India. Enter your Pincode to
-                  check if your location is serviceable.
-                </span>
-                <a
-                  className={styles.pincodeBarBtn}
-                  onClick={() => this.showPincode()}
-                >
-                  <span className={cs(styles.location)}>
-                    <i
-                      className={cs(
-                        // { [styles.iconClass]: menuOpen },
-                        iconStyles.icon,
-                        iconStyles.iconLocation,
-                        styles.iconStore
-                      )}
-                    ></i>
-                  </span>
+          {this.props.currency.toString().toUpperCase() == "INR" &&
+            (this.props.location.pathname.includes("/catalogue/")
+              ? this.props.location.pathname.includes("/category/")
+                ? true
+                : false
+              : true) && (
+              <div className={styles.fixedPincodeBar} id="pincode-bar">
+                <div>
                   <span>
-                    {this.state.selectedPincode
-                      ? this.state.selectedPincode
-                      : "Pincode"}
+                    We have resumed deliveries Pan India. Enter your Pincode to
+                    check if your location is serviceable.
                   </span>
-                </a>
+                  <a
+                    className={styles.pincodeBarBtn}
+                    onClick={() => this.showPincode()}
+                  >
+                    <span className={cs(styles.location)}>
+                      <i
+                        className={cs(
+                          // { [styles.iconClass]: menuOpen },
+                          iconStyles.icon,
+                          iconStyles.iconLocation,
+                          styles.iconStore
+                        )}
+                      ></i>
+                    </span>
+                    <span>
+                      {this.state.selectedPincode
+                        ? this.state.selectedPincode
+                        : "Pincode"}
+                    </span>
+                  </a>
+                </div>
               </div>
-            </div>
-          )}
+            )}
           {
             this.state.showPincodePopup
             // &&

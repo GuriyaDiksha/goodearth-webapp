@@ -275,9 +275,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 currencyCode[item.priceCurrency as Currency]
                               )}
                               &nbsp;{" "}
-                              {parseFloat(
-                                item.product.pricerecords[item.priceCurrency]
-                              ).toFixed(2)}
+                              {item.product?.structure == "GiftCard"
+                                ? item.product.GCValue
+                                : parseFloat(
+                                    item.product.pricerecords[
+                                      item.priceCurrency
+                                    ]
+                                  ).toFixed(2)}
                             </p>
                             {item.product?.structure == "GiftCard" ? (
                               ""

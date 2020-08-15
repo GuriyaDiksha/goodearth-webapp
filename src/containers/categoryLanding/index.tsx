@@ -290,7 +290,7 @@ class CategoryLanding extends React.Component<
   }
 
   render() {
-    const { catLanding, isSale, show, showbottom } = this.state;
+    const { catLanding, show, showbottom } = this.state;
     const {
       shopthelook1,
       shopthelook2,
@@ -298,7 +298,7 @@ class CategoryLanding extends React.Component<
       device: { mobile }
     } = this.props;
     return (
-      <div className="category-landing">
+      <div className={cs("category-landing", styles.pageBody)}>
         {catLanding && (
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
@@ -365,10 +365,10 @@ class CategoryLanding extends React.Component<
         ) : (
           ""
         )}
-        {isSale ? (
+        {/*  {isSale ? (
           ""
         ) : (
-          <section>
+         <section>
             <div className={cs(bootstrap.row, styles.heroBannerHome)}>
               <div
                 className={cs(
@@ -377,12 +377,22 @@ class CategoryLanding extends React.Component<
                   styles.newArrivals
                 )}
               >
-                {/* <NewArrivals /> */}
+               <NewArrivals /> 
               </div>
             </div>
           </section>
+        )}  */}
+        {catLanding && (
+          <div className={cs(bootstrap.row, styles.firstBlock)}>
+            <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
+              <MakerEnhance
+                user="goodearth"
+                index="2"
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+              />
+            </div>
+          </div>
         )}
-
         <section>
           <div className={cs(styles.catVideosBlock, "featured-section")}>
             <div className={styles.textCenter}>{this.createTopliving()}</div>
