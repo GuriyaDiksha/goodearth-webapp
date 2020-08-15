@@ -38,7 +38,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
-import { useLocation } from "react-router";
+import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 
 const ProductDetails: React.FC<Props> = ({
@@ -77,6 +77,7 @@ const ProductDetails: React.FC<Props> = ({
   // const [img] = images;
 
   const location = useLocation();
+  const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
   const [
     selectedSize,
@@ -95,8 +96,8 @@ const ProductDetails: React.FC<Props> = ({
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
-    if (childAttributes.length === 1 && !selectedSize) {
-      setSelectedSize(childAttributes[0]);
+    if (priceRecords[currency] == 0) {
+      history.push("/", {});
     }
   }, [currency]);
 
