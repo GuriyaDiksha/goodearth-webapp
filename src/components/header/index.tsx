@@ -231,6 +231,7 @@ class Header extends React.Component<Props, State> {
             href={`${__DOMAIN__}${location.pathname}${
               location.search ? "?" + location.search : ""
             }`}
+            data-defer={false}
           ></link>
           <link rel="icon" href={fabicon} data-defer={false}></link>
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}

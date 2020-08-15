@@ -54,6 +54,7 @@ class CategoryLanding extends React.Component<
       catLanding: true
     });
   }
+
   createTopliving() {
     const html = [],
       data = this.props.topliving,
