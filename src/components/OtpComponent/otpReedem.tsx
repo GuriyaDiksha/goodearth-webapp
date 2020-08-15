@@ -340,8 +340,10 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   render() {
     const { radioType, isLoading } = this.state;
     const {
-      loyaltyData: { detail, phoneNo }
+      loyaltyData: { detail },
+      number
     } = this.props;
+    console.log(number);
     return (
       <Fragment>
         <div
@@ -437,9 +439,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 <div className={styles.contactNumber}>
                   <FormInput
                     name="phoneNo"
-                    value={phoneNo ? phoneNo : ""}
-                    disable={phoneNo ? true : false}
-                    className={cs({ [styles.disableInput]: phoneNo })}
+                    value={number ? number : ""}
+                    disable={number ? true : false}
+                    className={cs({ [styles.disableInput]: number })}
                     inputRef={this.phoneInput}
                     placeholder={"Contact Number"}
                     type="number"

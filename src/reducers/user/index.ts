@@ -10,7 +10,7 @@ export const initialState: State = {
   isLoggedIn: false,
   refresh: true,
   shippingData: null,
-  phone: ""
+  phoneNumber: ""
 };
 
 export const user = (state = initialState, action: UserActions): State => {
