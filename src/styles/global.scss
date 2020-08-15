@@ -24,6 +24,8 @@ body {
   textarea,
   input {
     font-size: 16px;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
 }
 
@@ -35,10 +37,6 @@ h2 {
   margin-bottom: 0;
 }
 
-input {
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-}
 ::-webkit-input-placeholder { /* Edge */
   font-weight: 300;
   font-family: $font-Lato;
