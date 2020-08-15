@@ -560,6 +560,7 @@ const ProductDetails: React.FC<Props> = ({
           <div
             className={cs(bootstrap.col3, globalStyles.textCenter, {
               [styles.wishlistBtnContainer]: mobile,
+              [globalStyles.voffset1]: mobile,
               [globalStyles.hidden]: corporatePDP
             })}
           >

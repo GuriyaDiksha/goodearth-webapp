@@ -97,7 +97,7 @@ class PDPContainer extends React.Component<Props, State> {
   componentDidMount() {
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
-      elem && elem.classList.add("hidden");
+      elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");
       const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
       if (scrollToTopButtonElem) {
@@ -122,6 +122,20 @@ class PDPContainer extends React.Component<Props, State> {
 
   componentWillUnmount() {
     document.removeEventListener("scroll", this.onScroll);
+    if (this.props.device.mobile) {
+      const elem = document.getElementById("pincode-bar");
+      elem &&
+        elem.classList.contains(globalStyles.hiddenEye) &&
+        elem.classList.remove(globalStyles.hiddenEye);
+      // const chatButtonElem = document.getElementById("chat-button");
+      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      // if (scrollToTopButtonElem) {
+      //   scrollToTopButtonElem.style.bottom = "65px";
+      // }
+      // if (chatButtonElem) {
+      //   chatButtonElem.style.bottom = "10px";
+      // }
+    }
   }
 
   componentDidUpdate(props: Props) {
