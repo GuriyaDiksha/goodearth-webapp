@@ -14,10 +14,14 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterListSearch from "./filterList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
-import mapDispatchToProps from "../../components/Modal/mapper/actions";
+import ModalActions from "../../components/Modal/mapper/actions";
 // import Loader from "components/Loader";
 import MakerEnhance from "../../components/maker";
 import { PartialProductItem } from "typings/product";
+import { WidgetImage } from "components/header/typings";
+import { Dispatch } from "redux";
+import HeaderService from "services/headerFooter";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -31,8 +35,19 @@ const mapStateToProps = (state: AppState) => {
     device: state.device
   };
 };
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    fetchFeaturedContent: async () => {
+      const res = HeaderService.fetchSearchFeaturedContent(dispatch);
+      return res;
+    }
+  };
+};
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof ModalActions> &
+  RouteComponentProps &
   DispatchProp;
 
 class Search extends React.Component<
@@ -44,6 +59,7 @@ class Search extends React.Component<
     searchText: string;
     sortValue: string;
     searchMaker: boolean;
+    featureData: WidgetImage[];
   }
 > {
   private child: any = FilterListSearch;
@@ -59,7 +75,8 @@ class Search extends React.Component<
       mobileFilter: false,
       searchText: searchValue ? searchValue : "",
       sortValue: param ? param : "hc",
-      searchMaker: false
+      searchMaker: false,
+      featureData: []
     };
   }
 
@@ -85,6 +102,16 @@ class Search extends React.Component<
     this.setState({
       searchMaker: true
     });
+    this.props
+      .fetchFeaturedContent()
+      .then(data => {
+        this.setState({
+          featureData: data.widgetImages
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
@@ -142,6 +169,39 @@ class Search extends React.Component<
         }
       });
     }
+  };
+
+  showProduct(data: PartialProductItem | WidgetImage, indices: number) {
+    const itemData = data as PartialProductItem;
+    const index = itemData.categories.length - 1;
+    let category = itemData.categories[index].replace(/\s/g, "");
+    category = category.replace(/>/g, "/");
+    // const cur = this.state.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: this.props.currency,
+        click: {
+          actionField: { list: "Search Popup" },
+          products: [
+            {
+              name: data.title,
+              id: itemData.childAttributes?.[0].sku,
+              price: null,
+              brand: "Goodearth",
+              category: category,
+              variant: itemData.gaVariant ? itemData.gaVariant : "",
+              position: indices
+            }
+          ]
+        }
+      }
+    });
+    this.props.history.push(data.url);
+  }
+
+  addDefaultSrc = (e: any) => {
+    // e.target.src = "/static/img/noimageplp.png";
   };
 
   onClickSearch = (event: any) => {
@@ -273,7 +333,7 @@ class Search extends React.Component<
                 href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
             )}
-            {!mobile ? (
+            {!mobile && data.length ? (
               <div
                 className={cs(
                   styles.productNumber,
@@ -328,6 +388,118 @@ class Search extends React.Component<
                 );
               })}
             </div>
+            <div
+              className={
+                (data && this.state.searchText
+                ? data.length == 0 && this.state.searchText.length > 2
+                : false)
+                  ? " voffset5 row image-container search searchpage mobile-nosearch"
+                  : "hidden"
+              }
+            >
+              <div
+                className={cs(
+                  bootstrap.row,
+                  globalStyles.marginT50,
+                  styles.minheight
+                )}
+              >
+                <div
+                  className={cs(
+                    bootstrap.colMd12,
+                    bootstrap.col12,
+                    globalStyles.textCenter
+                  )}
+                >
+                  {(this.state.searchText ? (
+                    this.state.searchText.length > 1
+                  ) : (
+                    false
+                  )) ? (
+                    <div className={styles.npfMsg}>
+                      No products were found matching &nbsp;
+                      <span>{this.state.searchText}</span>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div
+                  className={cs(
+                    bootstrap.colMd12,
+                    styles.searchHeading,
+                    globalStyles.textCenter
+                  )}
+                >
+                  <h2 className={globalStyles.voffset5}>Featured Categories</h2>
+                </div>
+                <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
+                  <div className={bootstrap.row}>
+                    <div
+                      className={cs(
+                        bootstrap.colMd12,
+                        bootstrap.col12,
+                        styles.noResultPadding,
+                        styles.checkheight,
+                        { [styles.checkheightMobile]: mobile }
+                      )}
+                    >
+                      {this.state.featureData.length > 0
+                        ? this.state.featureData.map((data, i) => {
+                            return (
+                              <div
+                                key={i}
+                                className={cs(bootstrap.colMd3, bootstrap.col6)}
+                              >
+                                <div className={styles.searchImageboxNew}>
+                                  <a
+                                    href={data.ctaUrl}
+                                    onClick={this.showProduct.bind(
+                                      this,
+                                      data,
+                                      i
+                                    )}
+                                  >
+                                    <img
+                                      src={
+                                        data.ctaImage == ""
+                                          ? "/src/image/noimageplp.png"
+                                          : data.ctaImage
+                                      }
+                                      onError={this.addDefaultSrc}
+                                      alt=""
+                                      className={styles.imageResultNew}
+                                    />
+                                  </a>
+                                </div>
+                                <div className={styles.imageContent}>
+                                  <p className={styles.searchImageTitle}>
+                                    {data.ctaText}
+                                  </p>
+                                  <p className={styles.searchFeature}>
+                                    <a href={data.ctaUrl}>{data.title}</a>
+                                  </p>
+                                </div>
+                              </div>
+                            );
+                          })
+                        : ""}
+                    </div>
+                  </div>
+                  {mobile ? (
+                    ""
+                  ) : (
+                    <div className={bootstrap.row}>
+                      <div className={cs(bootstrap.colMd12, bootstrap.col12)}>
+                        <div className={cs(styles.searchBottomBlockSecond)}>
+                          <div className=" text-center"></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -335,5 +507,6 @@ class Search extends React.Component<
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+const SearchRoute = withRouter(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchRoute);
 export { initActionSearch };
