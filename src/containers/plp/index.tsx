@@ -228,13 +228,15 @@ class PLP extends React.Component<
                       </div>
                   </div>
               </div> */}
-            {/* {banner ?
-                  <div className="row banner-mobile-category">
-                      {window.maker.plp ? <MakerEnhance user='goodearth'/> : ""}
-                      <div className="col-xs-12 text-center" >
-                          <img src={banner} className="img-responsive" />
-                      </div>
-                  </div> : ""} */}
+            {banner ? (
+              <div className={cs(bootstrap.row, styles.bannerMobileCategory)}>
+                <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
+                  <img src={banner} className={globalStyles.imgResponsive} />
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
 
             {plpMaker &&
               (toggel ? (
