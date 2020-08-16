@@ -37,7 +37,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
-    BasketService.fetchBasket(dispatch, true);
+    BasketService.fetchBasket(dispatch, "checkout");
     return response;
   };
 
@@ -196,13 +196,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removeGiftCard = async (data: FormData) => {
     const response = await CheckoutService.removeGiftCard(dispatch, data);
-    BasketService.fetchBasket(dispatch, true);
+    BasketService.fetchBasket(dispatch, "checkout");
     return response;
   };
 
   const removeRedeem = async () => {
     const response = await CheckoutService.removeRedeem(dispatch);
-    BasketService.fetchBasket(dispatch, true);
+    BasketService.fetchBasket(dispatch, "checkout");
     return response;
   };
 
