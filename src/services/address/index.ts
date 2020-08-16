@@ -64,7 +64,7 @@ export default {
   specifyShippingAddress: async (dispatch: Dispatch, id: number) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/address/specify_shipping_address/`,
+      `${__API_HOST__}/myapi/address/specify_shipping_address/?source=checkout`,
       { shippingAddressId: id }
     );
     dispatch(updateBasket(data.data.basket));

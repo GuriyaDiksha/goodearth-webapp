@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch, true);
+      BasketService.fetchBasket(dispatch, "checkout");
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     finalCheckout: async (data: FormData) => {
