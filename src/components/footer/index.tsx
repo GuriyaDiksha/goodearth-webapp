@@ -285,7 +285,7 @@ class Footer extends React.Component<Props, FooterState> {
                             : cs(styles.mainMenuFooter)
                         }
                       >
-                        {this.props.data.footerList.map(
+                        {this.props.data.footerList?.map(
                           (list: FooterList, i: number) => {
                             return (
                               <li key={i}>
@@ -461,18 +461,20 @@ class Footer extends React.Component<Props, FooterState> {
                           <ul className={cs(styles.footerPlaylist)}>
                             <li>
                               {" "}
-                              {this.props.data.footerPlaylistData.ctaText}
+                              {this.props.data.footerPlaylistData?.ctaText}
                             </li>
                             <li>
                               <a
-                                href={this.props.data.footerPlaylistData.ctaUrl}
+                                href={
+                                  this.props.data.footerPlaylistData?.ctaUrl
+                                }
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
                                 {" "}
                                 <img
                                   src={
-                                    this.props.data.footerPlaylistData.ctaImage
+                                    this.props.data.footerPlaylistData?.ctaImage
                                   }
                                   className={cs(styles.imgResponsive)}
                                 />{" "}
@@ -481,7 +483,7 @@ class Footer extends React.Component<Props, FooterState> {
                           </ul>
                         )}
                       </div>
-                      {this.props.data.footerList.map((footerItems, index) => {
+                      {this.props.data.footerList?.map((footerItems, index) => {
                         let res: any = "";
                         if (index == 0) {
                           res = (
@@ -658,11 +660,11 @@ class Footer extends React.Component<Props, FooterState> {
                             }
                           >
                             {" "}
-                            {this.props.data.footerPlaylistData.ctaText}
+                            {this.props.data.footerPlaylistData?.ctaText}
                           </div>
                           <div className={cs(styles.textCenter)}>
                             <a
-                              href={this.props.data.footerPlaylistData.ctaUrl}
+                              href={this.props.data.footerPlaylistData?.ctaUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >

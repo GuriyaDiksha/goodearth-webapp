@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, NavLink } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
@@ -590,10 +590,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 }
               >
                 <hr className={styles.hr} />
-                <a
-                  href={
-                    canCheckout() ? "/order/checkout/" : "javascript:void(0)"
-                  }
+                <NavLink
+                  key="cartCheckout"
+                  to={canCheckout() ? "/order/checkout/" : "javascript:void(0)"}
                 >
                   <button
                     onClick={chkshipping}
@@ -609,7 +608,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   >
                     PROCEED TO CHECKOUT
                   </button>
-                </a>
+                </NavLink>
                 {hasOutOfStockItems() && (
                   <p
                     className={cs(
@@ -662,7 +661,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 [globalStyles.hidden]: !mobile
               })}
             >
-              <a href={canCheckout() ? "/order/checkout" : "#"}>
+              <NavLink
+                key="cartCheckoutMobile"
+                to={canCheckout() ? "/order/checkout" : "#"}
+              >
                 <button
                   onClick={chkshipping}
                   className={
@@ -677,7 +679,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 >
                   PROCEED TO CHECKOUT
                 </button>
-              </a>
+              </NavLink>
             </div>
           )}
         </div>
