@@ -33,7 +33,7 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
     const { data, location } = this.props;
     return (
       <ul className={styles.menuContainer}>
-        {data.map((data: HeaderData, i: number) => {
+        {data?.map((data: HeaderData, i: number) => {
           const isBridalRegistryPage =
             location.pathname.indexOf("/bridal/") > 0;
           const disbaleClass =

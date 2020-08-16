@@ -163,7 +163,7 @@ class Header extends React.Component<Props, State> {
       announcement,
       location
     } = this.props;
-    const messageText = announcement.message.split("|");
+    const messageText = announcement.message?.split("|");
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
     const profileItems: DropdownItem[] = [];
@@ -200,8 +200,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Cerise Program",
-        // href: "/account/cerise",
-        href: "/cerise",
+        href: "/account/cerise",
         type: "link",
         value: "Cerise Program"
       },
@@ -289,7 +288,7 @@ class Header extends React.Component<Props, State> {
             className={styles.announcement}
             style={{ backgroundColor: announcement.bgColorcode }}
           >
-            {messageText.map((data, i) => {
+            {messageText?.map((data, i) => {
               if (announcement.url) {
                 return (
                   <div
@@ -614,6 +613,9 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
+          {this.state.showSearch && (
+            <Search ipad={false} toggle={this.showSearch} />
+          )}
           {this.props.currency.toString().toUpperCase() == "INR" &&
             (this.props.location.pathname.includes("/catalogue/")
               ? this.props.location.pathname.includes("/category/")
@@ -649,9 +651,6 @@ class Header extends React.Component<Props, State> {
                 </div>
               </div>
             )}
-          {this.state.showSearch && (
-            <Search ipad={false} toggle={this.showSearch} />
-          )}
           {
             this.state.showPincodePopup
             // &&

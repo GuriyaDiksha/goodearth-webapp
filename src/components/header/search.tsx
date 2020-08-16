@@ -561,7 +561,7 @@ class Search extends React.Component<Props, State> {
                             </div>
                             <div className={styles.imageContent}>
                               <p className={styles.searchImageTitle}>
-                                {data.ctaText}
+                                {data?.ctaText}
                               </p>
                               <p className={styles.searchFeature}>
                                 <a href={data.ctaUrl}>{data.title}</a>

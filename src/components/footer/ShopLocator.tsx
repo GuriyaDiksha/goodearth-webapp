@@ -87,7 +87,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
           }
         >
           <ul>
-            {shopLocations.map(
+            {shopLocations?.map(
               (data: { label: string; value: string }, index: number) => {
                 return (
                   <li key={index} onClick={e => redirectToShop(e, data)}>
