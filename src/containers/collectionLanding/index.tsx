@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
           id,
           params.id
         );
-        console.log(filterData, id);
+
         dispatch(updateCollectionFilter({ ...filterData }));
       }
     }
