@@ -87,7 +87,7 @@ class Quantity extends React.Component<QuantityItem, State> {
                 props.onChange(value + 1);
                 this.setState({ showError: false });
               }
-            } else {
+            } else if (props.maxValue) {
               props.onChange(value);
               if (props.id) {
                 this.setState({
