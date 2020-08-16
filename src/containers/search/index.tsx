@@ -1,12 +1,12 @@
 import loadable from "@loadable/component";
-import React, { Fragment } from "react";
+import React, { Fragment, ReactNode } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import initActionSearch from "./initAction";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
-import { connect, DispatchProp } from "react-redux";
+import { connect } from "react-redux";
 import iconStyles from "../../styles/iconFonts.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
@@ -22,6 +22,7 @@ import { WidgetImage } from "components/header/typings";
 import { Dispatch } from "redux";
 import HeaderService from "services/headerFooter";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import { updateComponent, updateModal } from "actions/modal";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -40,6 +41,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchFeaturedContent: async () => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
+    },
+    updateComponentModal: (component: ReactNode, fullscreen?: boolean) => {
+      dispatch(updateComponent(component, fullscreen));
+    },
+    changeModalState: (data: boolean) => {
+      dispatch(updateModal(data));
     }
   };
 };
@@ -47,8 +54,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof ModalActions> &
-  RouteComponentProps &
-  DispatchProp;
+  RouteComponentProps;
+// &
+// DispatchProp;
 
 class Search extends React.Component<
   Props,
