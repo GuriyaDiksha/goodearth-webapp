@@ -60,7 +60,6 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
       console.log("Cant Login due not avalable number!!!!!!");
     }
   };
-  console.log(__FB_APP_ID__, "helllooooo");
   return (
     <>
       <div className={cs(styles.socialLoginText, globalStyles.voffset5)}>
