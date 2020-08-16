@@ -278,7 +278,10 @@ let config = [
                 __API_HOST__: apiDomain,
                 __DOMAIN__: domain,
                 __CDN_HOST__: cdnDomain,
-                __OMNI_HOST__: omniApiDomain
+                __OMNI_HOST__: omniApiDomain,
+                __FB_APP_ID__: fbAppID,
+                __GOOGLE_CLIENT_ID__: googleClientID
+
             }),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`,
