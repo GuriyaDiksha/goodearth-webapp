@@ -48,10 +48,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (cookies: Cookies, pathname: string) => {
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch, true);
+        BasketService.fetchBasket(dispatch, "checkout");
         dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
       } else if (pathname.includes("/cart")) {
-        BasketService.fetchBasket(dispatch);
+        BasketService.fetchBasket(dispatch, "cart");
         dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
       }
     },
@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     ) => {
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch, true).then(() => {
+        BasketService.fetchBasket(dispatch, "checkout").then(() => {
           dataLayer.push({
             event: "checkout",
             ecommerce: {
@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           });
         });
       } else if (pathname.includes("/cart")) {
-        BasketService.fetchBasket(dispatch);
+        BasketService.fetchBasket(dispatch, "cart");
       }
     }
   };

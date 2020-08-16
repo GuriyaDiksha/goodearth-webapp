@@ -79,7 +79,7 @@ html(lang='en')
               }
           })
 
-          
+        
         script.
           window.dataLayer = window.dataLayer || [];
           (function (a, s, y, n, c, h, i, d, e) {
@@ -94,7 +94,7 @@ html(lang='en')
                 h.end = null
             }, c);
             h.timeout = c;
-            })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {'GTM-TQTZ8G7': true});
+            })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {!{gtmdata}: true});
 
           (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -107,10 +107,10 @@ html(lang='en')
             j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-          })(window, document, 'script', 'dataLayer', 'GTM-TQTZ8G7')
+          })(window, document, 'script', 'dataLayer', !{gtmdata})
 
         noscript.
-          <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQTZ8G7"
+          <iframe src="https://www.googletagmanager.com/ns.html?id="+!{gtmdata}
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 
     body

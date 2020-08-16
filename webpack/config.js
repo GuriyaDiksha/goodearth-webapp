@@ -19,7 +19,6 @@ const envConfig = require("../src/config");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LoadablePlugin = require('@loadable/webpack-plugin');
-
 const domain = JSON.stringify(envConfig.domain);
 const apiDomain = JSON.stringify(envConfig.apidomain);
 const omniApiDomain = JSON.stringify(envConfig.omniApiDomain);
@@ -27,6 +26,7 @@ const publicPath = "/static/";
 const cdnDomain = JSON.stringify("https://djhiy8e1dslha.cloudfront.net");
 const fbAppID = JSON.stringify(envConfig.fbAppID);
 const googleClientID = JSON.stringify(envConfig.googleClientID);
+const gtmId = JSON.stringify(envConfig.gtmID);
 
 const alias = {
     components : context + "/src/components",
@@ -85,7 +85,8 @@ let config = [
                 __CDN_HOST__: cdnDomain,
                 __OMNI_HOST__: omniApiDomain,
                 __FB_APP_ID__: fbAppID,
-                __GOOGLE_CLIENT_ID__: googleClientID
+                __GOOGLE_CLIENT_ID__: googleClientID,
+                __GTM_ID__:gtmId
             }),
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new LoadablePlugin(),
@@ -280,7 +281,8 @@ let config = [
                 __CDN_HOST__: cdnDomain,
                 __OMNI_HOST__: omniApiDomain,
                 __FB_APP_ID__: fbAppID,
-                __GOOGLE_CLIENT_ID__: googleClientID
+                __GOOGLE_CLIENT_ID__: googleClientID,
+                __GTM_ID__:gtmId
 
             }),
             new MiniCssExtractPlugin({

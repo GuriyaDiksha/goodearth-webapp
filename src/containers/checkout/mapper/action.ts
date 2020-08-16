@@ -19,39 +19,39 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     checkOtpRedeem: async (data: FormData) => {
       const balance = await AccountService.checkOtpRedeem(dispatch, data);
-      BasketService.fetchBasket(dispatch, true);
+      BasketService.fetchBasket(dispatch, "checkout");
       return balance;
     },
     applyGiftCard: async (data: FormData) => {
       const gift: any = await CheckoutService.applyGiftCard(dispatch, data);
       if (gift.status) {
-        BasketService.fetchBasket(dispatch, true);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
       return gift;
     },
     removeGiftCard: async (data: FormData) => {
       const gift: any = await CheckoutService.removeGiftCard(dispatch, data);
       if (gift.status) {
-        BasketService.fetchBasket(dispatch, true);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
       return gift;
     },
     removePromo: async (data: FormData) => {
       const promo: any = await CheckoutService.removePromo(dispatch, data);
       if (promo.status) {
-        BasketService.fetchBasket(dispatch, true);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
       return promo;
     },
     removeRedeem: async () => {
       const promo: any = await CheckoutService.removeRedeem(dispatch);
-      BasketService.fetchBasket(dispatch, true);
+      BasketService.fetchBasket(dispatch, "checkout");
       return promo;
     },
     applyPromo: async (data: FormData) => {
       const promo: any = await CheckoutService.applyPromo(dispatch, data);
       if (promo.status) {
-        BasketService.fetchBasket(dispatch, true);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
       return promo;
     }
