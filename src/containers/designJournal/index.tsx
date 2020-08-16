@@ -98,7 +98,7 @@ const DesignJournal: React.FC = () => {
             )}
           >
             <span>
-              <Link to="/stories">Stories</Link>
+              <Link to="#">Stories</Link>
               &nbsp;&gt;&nbsp;
             </span>
             <span>Design Journals</span>
