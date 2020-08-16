@@ -22,62 +22,6 @@ import "./slick.css";
 // import MobileDropdownMenu from "components/MobileDropdown";
 import Slider from "react-slick";
 
-import { Dispatch } from "redux";
-import CategoryService from "services/category";
-import { CategoryProps } from "typings/category";
-import { addCategoryData } from "actions/category";
-import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
-
-const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
-  return {
-    // create function for dispatch
-    fetchCategoryPage: async () => {
-      const id = getProductIdFromSlug(params.slug);
-      const name = getProductNameFromSlug(params.slug)?.toUpperCase();
-      if (id) {
-        const [
-          shopthelook1,
-          shopthelook2,
-          editSection,
-          topliving,
-          peoplebuying,
-          newarrival
-        ] = await Promise.all([
-          CategoryService.fetchCategoryMultiImage(`CAT_${id}_1`).catch(err => {
-            console.log("Colloection Page error =" + id);
-          }),
-          CategoryService.fetchCategoryMultiImage(`CAT_${id}_2`).catch(err => {
-            console.log("Colloection Page error CAT_=" + id);
-          }),
-          CategoryService.fetchCategoryMultiImage(`${name}CURATED`).catch(
-            err => {
-              console.log("Colloection Page error CURATED =" + id);
-            }
-          ),
-          CategoryService.fetchCategoryMultiImage(`TOP${name}`).catch(err => {
-            console.log("Colloection Page error TOP =" + id);
-          }),
-          CategoryService.fetchLatestProduct(id).catch(err => {
-            console.log("Colloection Page error =" + id);
-          }),
-          CategoryService.newarrivals(id).catch(err => {
-            console.log("Colloection Page error =" + id);
-          })
-        ]);
-        const data: CategoryProps = {
-          shopthelook1: shopthelook1,
-          shopthelook2: shopthelook2,
-          editSection: editSection,
-          topliving: topliving,
-          peoplebuying: peoplebuying,
-          newarrival: newarrival
-        };
-        dispatch(addCategoryData({ ...data }));
-      }
-    }
-  };
-};
-
 const mapStateToProps = (state: AppState) => {
   return {
     shopthelook1: state.category.shopthelook1,
@@ -92,8 +36,7 @@ const mapStateToProps = (state: AppState) => {
     device: state.device
   };
 };
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapStateToProps>;
 
 class CategoryLanding extends React.Component<
   Props,
@@ -125,7 +68,6 @@ class CategoryLanding extends React.Component<
       this.setState({
         catLanding: true
       });
-      // this.props.fetchCategoryPage();
     }
   }
 
@@ -685,5 +627,5 @@ class CategoryLanding extends React.Component<
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryLanding);
+export default connect(mapStateToProps)(CategoryLanding);
 export { initActionCollection };
