@@ -56,7 +56,10 @@ class CollectionSpecific extends React.Component<
   }
 
   componentDidUpdate(previous: Props) {
-    if (this.props.location.pathname != previous.location.pathname) {
+    if (
+      this.props.location.pathname != previous.location.pathname &&
+      !this.state.specificMaker
+    ) {
       this.setState({
         specificMaker: true
       });
