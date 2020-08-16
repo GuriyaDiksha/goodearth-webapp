@@ -107,6 +107,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       styles: styleSheets,
       styleSheets: linkTags,
       head: meta,
+      gtmdata: JSON.stringify(__GTM_ID__),
       manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });
   }
