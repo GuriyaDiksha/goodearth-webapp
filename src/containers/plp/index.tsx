@@ -83,7 +83,10 @@ class PLP extends React.Component<
   }
 
   componentDidUpdate(nextProps: Props) {
-    if (this.props.location.pathname != nextProps.location.pathname) {
+    if (
+      this.props.location.pathname != nextProps.location.pathname &&
+      !this.state.plpMaker
+    ) {
       this.setState({
         plpMaker: true
       });

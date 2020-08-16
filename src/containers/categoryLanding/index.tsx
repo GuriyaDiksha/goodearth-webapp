@@ -64,7 +64,10 @@ class CategoryLanding extends React.Component<
   }
 
   componentDidUpdate(previous: any, nextprops: any) {
-    if (this.props.location.pathname != previous.pathname) {
+    if (
+      this.props.location.pathname != previous.pathname &&
+      !this.state.catLanding
+    ) {
       this.setState({
         catLanding: true
       });
