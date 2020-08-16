@@ -34,5 +34,6 @@ module.exports = {
     dataLayer: false,
     __FB_APP_ID__: false,
     __GOOGLE_CLIENT_ID__: false,
+    __GTM_ID__: false
 }
 };
