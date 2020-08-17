@@ -6,6 +6,7 @@ export type Props = {
   containerClassName?: string;
   isVisible?: boolean;
   src: string;
+  alt?: string;
   onClick?: () => void;
   onLoad?: EventHandler<SyntheticEvent<HTMLImageElement>>;
   onError?: EventHandler<SyntheticEvent<HTMLImageElement>>;

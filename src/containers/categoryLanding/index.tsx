@@ -21,6 +21,7 @@ import "./slick.css";
 // import { CollectionItem } from "components/collectionItem/typings";
 // import MobileDropdownMenu from "components/MobileDropdown";
 import Slider from "react-slick";
+import LazyImage from "components/LazyImage";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -48,7 +49,7 @@ class CategoryLanding extends React.Component<
     showbottom: false,
     isSale: false
   };
-
+  isClient = typeof document !== "undefined";
   componentDidMount() {
     this.setState({
       catLanding: true
@@ -99,39 +100,48 @@ class CategoryLanding extends React.Component<
     if (!data.widgetImages) return false;
 
     html.push(
-      <Slider
-        {...settings}
-        className={
-          this.props.device.mobile ? styles.noArrows : styles.categoryArrow
-        }
-      >
-        {data.widgetImages.map((img: any, i: number) => {
-          return (
-            <div className={styles.imgWidth} key={i}>
-              <h2 className={styles.headLink3}>
-                <span>&nbsp;{img.title.split("|")[0]}</span>
-                <span>{img.title.split("|")[1]}&nbsp;</span>
-              </h2>
-              {img.banner_type == 1 ? (
-                <iframe width="70%" height="474px" src={img.video_url}></iframe>
-              ) : (
-                <Link to={img.ctaUrl}>
-                  <img src={img.image} className={globalStyles.imgResponsive} />
-                </Link>
-              )}
-              <div
-                className={cs(
-                  globalStyles.textCenter,
-                  globalStyles.voffset2,
-                  styles.ctaCurly
+      typeof document !== "undefined" && (
+        <Slider
+          {...settings}
+          className={
+            this.props.device.mobile ? styles.noArrows : styles.categoryArrow
+          }
+        >
+          {data.widgetImages.map((img: any, i: number) => {
+            return (
+              <div className={styles.imgWidth} key={i}>
+                <h2 className={styles.headLink3}>
+                  <span>&nbsp;{img.title.split("|")[0]}</span>
+                  <span>{img.title.split("|")[1]}&nbsp;</span>
+                </h2>
+                {img.banner_type == 1 ? (
+                  <iframe
+                    width="70%"
+                    height="474px"
+                    src={img.video_url}
+                  ></iframe>
+                ) : (
+                  <Link to={img.ctaUrl}>
+                    <img
+                      src={img.image}
+                      className={globalStyles.imgResponsive}
+                    />
+                  </Link>
                 )}
-              >
-                <Link to={img.ctaUrl}>{img.ctaText}</Link>
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    globalStyles.voffset2,
+                    styles.ctaCurly
+                  )}
+                >
+                  <Link to={img.ctaUrl}>{img.ctaText}</Link>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </Slider>
+            );
+          })}
+        </Slider>
+      )
     );
 
     return html;
@@ -438,7 +448,7 @@ class CategoryLanding extends React.Component<
                                 className={cs(bootstrap.row, styles.promoDisp)}
                               >
                                 <Link to={data.ctaUrl}>
-                                  <img
+                                  <LazyImage
                                     src={data.image}
                                     alt={data.alt}
                                     className={globalStyles.imgResponsive}
