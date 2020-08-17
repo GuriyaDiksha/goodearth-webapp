@@ -97,7 +97,7 @@ const ProductDetails: React.FC<Props> = ({
 
   useEffect(() => {
     if (priceRecords[currency] == 0) {
-      history.push("/", {});
+      history.push("/error-page", {});
     }
   }, [currency]);
 

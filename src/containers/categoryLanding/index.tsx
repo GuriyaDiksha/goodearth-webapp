@@ -5,6 +5,7 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import MakerEnhance from "maker-enhance";
+// import "../../styles/myslick.css";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -21,6 +22,7 @@ import "./slick.css";
 // import { CollectionItem } from "components/collectionItem/typings";
 // import MobileDropdownMenu from "components/MobileDropdown";
 import Slider from "react-slick";
+import LazyImage from "components/LazyImage";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -48,7 +50,6 @@ class CategoryLanding extends React.Component<
     showbottom: false,
     isSale: false
   };
-
   componentDidMount() {
     this.setState({
       catLanding: true
@@ -438,7 +439,7 @@ class CategoryLanding extends React.Component<
                                 className={cs(bootstrap.row, styles.promoDisp)}
                               >
                                 <Link to={data.ctaUrl}>
-                                  <img
+                                  <LazyImage
                                     src={data.image}
                                     alt={data.alt}
                                     className={globalStyles.imgResponsive}
