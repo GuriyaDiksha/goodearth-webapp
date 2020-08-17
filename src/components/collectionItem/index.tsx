@@ -8,6 +8,7 @@ import { CollectionDataProps } from "./typings";
 import Slider from "react-slick";
 import { Settings } from "react-slick";
 import "styles/myslick.css";
+import LazyImage from "components/LazyImage";
 
 const CollectionImage: React.FC<CollectionDataProps> = (
   props: CollectionDataProps
@@ -18,7 +19,8 @@ const CollectionImage: React.FC<CollectionDataProps> = (
       return (
         <div key={i}>
           <Link to={data.url || "#"}>
-            <img
+            <LazyImage
+              aspectRatio="62:93"
               src={image ? image : "/static/img/noimageplp.png"}
               className={styles.imgResponsiveImg}
             />
@@ -29,7 +31,9 @@ const CollectionImage: React.FC<CollectionDataProps> = (
   );
   return (
     <div className={styles.row}>
-      <Slider {...(setting as Settings)}>{childern}</Slider>
+      {typeof document !== "undefined" && (
+        <Slider {...(setting as Settings)}>{childern}</Slider>
+      )}
       <div className={styles.imgTxtBlock}>
         <Link to={data.url || "#"}>
           <p>

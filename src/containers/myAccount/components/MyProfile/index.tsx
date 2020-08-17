@@ -286,7 +286,7 @@ class MyProfile extends React.Component<Props, State> {
                   id="isd_code"
                   validations={{
                     isCodeValid: (values, value) => {
-                      return !(values.phone && value == "");
+                      return !(values.phoneNumber && value == "");
                     }
                   }}
                   validationErrors={{
@@ -306,7 +306,7 @@ class MyProfile extends React.Component<Props, State> {
                   className={cs({ [styles.disabledInput]: phoneNumber })}
                   validations={{
                     isPhoneValid: (values, value) => {
-                      return !(values.code && value == "");
+                      return !(values.phoneCountryCode && value == "");
                     }
                   }}
                   validationErrors={{

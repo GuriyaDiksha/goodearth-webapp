@@ -884,6 +884,7 @@ p {
 .header-container {
 .search {
   visibility: visible;
+  z-index: 1;
   @include transition(all, 1s, ease-in-out);
   top: $header-height;
 }

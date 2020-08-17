@@ -44,7 +44,7 @@ export default class LazyImage extends React.Component<Props, State> {
   };
 
   render() {
-    const { src, className, aspectRatio, containerClassName } = this.props;
+    const { src, alt, className, aspectRatio, containerClassName } = this.props;
     let imgHeight: number,
       style: any = {};
     if (aspectRatio) {
@@ -68,6 +68,7 @@ export default class LazyImage extends React.Component<Props, State> {
         {isVisible && (
           <img
             src={src}
+            alt={alt || "image"}
             className={cs(styles.lazyImage, className)}
             onClick={this.props.onClick}
             onLoad={this.props.onLoad}
