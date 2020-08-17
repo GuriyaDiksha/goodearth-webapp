@@ -7,8 +7,8 @@ export default async function device(
   try {
     await next();
   } catch (err) {
-    if (err.response.status == 500) {
-      ctx.redirect("/");
+    if (err?.response?.status == 500) {
+      ctx.redirect("/error-page");
     }
   }
 }

@@ -150,6 +150,12 @@ const routes: RouteConfig = [
     action: async () => null,
     exact: true
   },
+  {
+    path: ROUTES.ERROR,
+    component: loadable(() => import("containers/error")),
+    action: async () => null,
+    exact: true
+  },
   // {
   //   path: ROUTES.DESIGNJOURNALBOOK,
   //   component: loadable(() => import("containers/designJournalBook")),
