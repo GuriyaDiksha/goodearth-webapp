@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import { Settings } from "react-slick";
 import "styles/myslick.css";
 import LazyImage from "components/LazyImage";
+import ReactHtmlParser from "react-html-parser";
 
 const CollectionImage: React.FC<CollectionDataProps> = (
   props: CollectionDataProps
@@ -31,9 +32,7 @@ const CollectionImage: React.FC<CollectionDataProps> = (
   );
   return (
     <div className={styles.row}>
-      {typeof document !== "undefined" && (
-        <Slider {...(setting as Settings)}>{childern}</Slider>
-      )}
+      <Slider {...(setting as Settings)}>{childern}</Slider>
       <div className={styles.imgTxtBlock}>
         <Link to={data.url || "#"}>
           <p>
@@ -49,9 +48,11 @@ const CollectionImage: React.FC<CollectionDataProps> = (
           </p>
           <p className={styles.para}>
             <small>
-              {data.shortDescription.length > 140
-                ? data.shortDescription.slice(0, 140) + "..."
-                : data.shortDescription}
+              {ReactHtmlParser(
+                data.shortDescription.length > 140
+                  ? data.shortDescription.slice(0, 140) + "..."
+                  : data.shortDescription
+              )}
             </small>
           </p>
         </Link>

@@ -20,6 +20,7 @@ import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
 import Loader from "components/Loader";
+import ReactHtmlParser from "react-html-parser";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -235,7 +236,7 @@ class CollectionSpecific extends React.Component<
               globalStyles.textCenter
             )}
           >
-            {longDescription}
+            {ReactHtmlParser(longDescription)}
           </div>
         </div>
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
