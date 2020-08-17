@@ -47,13 +47,16 @@ background: url('../../images/category/arrow_right.svg') no-repeat;
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
+.featured-section .slick-arrow{
+  width:250px !important;
+}
 
 .featured-section .slick-track {
   display: flex;
 }
 /* common */
 
-.featured-section .slick-arrow {
+/* .featured-section .slick-arrow {
   background-color: transparent;
   border-color: transparent;
   color: transparent;
@@ -87,7 +90,7 @@ background: url('../../images/category/arrow_right.svg') no-repeat;
 }
 .featured-section .slick-arrow.slick-next {
   right: 0;
-}
+} */
 
 .more-collection .slick-slider:hover .slick-arrow.slick-next, .more-collection .slick-slider:hover .slick-arrow.slick-prev {
   height: 70px;

@@ -1,11 +1,13 @@
 import { Dispatch } from "redux";
 import LoginService from "services/login";
 import AccountService from "services/account";
+import { updateCountryData } from "actions/address";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    fetchCountryData: () => {
-      return LoginService.fetchCountryData(dispatch);
+    fetchCountryData: async () => {
+      const countryData = await LoginService.fetchCountryData(dispatch);
+      dispatch(updateCountryData(countryData));
     },
     fetchProfileData: () => {
       return AccountService.fetchProfileData(dispatch);
