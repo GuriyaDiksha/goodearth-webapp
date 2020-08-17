@@ -20,6 +20,7 @@ import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
 import Loader from "components/Loader";
+import ReactHtmlParser from "react-html-parser";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -30,7 +31,8 @@ const mapStateToProps = (state: AppState) => {
     collectionSpecificData: state.collection.collectionSpecficdata,
     currency: state.currency,
     mobile: state.device.mobile,
-    location: state.router.location
+    location: state.router.location,
+    sale: state.info.isSale
   };
 };
 
@@ -57,6 +59,9 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         filterData.results = data.concat(filterData.results);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
+    },
+    clearDataForCollection: async (filterData: any) => {
+      dispatch(updateCollectionSpecificData({ ...filterData }));
     }
   };
 };
@@ -126,6 +131,28 @@ class CollectionSpecific extends React.Component<
     ) {
       this.appendData();
     }
+  };
+
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    if (this.props.currency != nextProps.currency) {
+      const filterResult = this.clearDataForCollection(
+        this.props.collectionSpecificData.results
+      );
+      const filterData = this.props.collectionSpecificData;
+      filterData.results = filterResult;
+      this.props.clearDataForCollection(filterData);
+    }
+  };
+
+  clearDataForCollection = (data: any) => {
+    data = data.filter((product: any) => {
+      if (this.props.sale) {
+        return !(+product.discountedPriceRecords[this.props.currency] == 0);
+      } else {
+        return !(+product.pricerecords[this.props.currency] == 0);
+      }
+    });
+    return data;
   };
 
   appendData = () => {
@@ -235,7 +262,7 @@ class CollectionSpecific extends React.Component<
               globalStyles.textCenter
             )}
           >
-            {longDescription}
+            {ReactHtmlParser(longDescription)}
           </div>
         </div>
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
