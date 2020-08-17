@@ -12,10 +12,10 @@ const initActionSpecific: InitAction = async (dispatch, { slug }) => {
   if (id) {
     const [filterData, bannerData] = await Promise.all([
       CollectionService.fetchCollectioSpecificData(id).catch(error => {
-        console.log("Collection Error", error);
+        console.log(`Collection Error id=${id}`, error);
       }),
       CollectionService.fetchCollectioSpecificBanner(id).catch(error => {
-        console.log("Collection Error", error);
+        console.log(`Collection Error id=${id}`, error);
       })
     ]);
     const plpProduct: any = filterData && filterData.results;
