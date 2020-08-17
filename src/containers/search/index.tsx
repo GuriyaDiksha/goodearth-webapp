@@ -402,7 +402,7 @@ class Search extends React.Component<
                 ? data.length == 0 && this.state.searchText.length > 2
                 : false)
                   ? " voffset5 row image-container search searchpage mobile-nosearch"
-                  : globalStyles.hiddenEye
+                  : globalStyles.hidden
               }
             >
               <div

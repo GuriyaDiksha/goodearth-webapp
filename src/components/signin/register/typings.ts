@@ -9,7 +9,6 @@ export type registerState = {
   minDate: string;
   maxDate: string;
   showDOBLabel: boolean;
-  genderOptions: { value: string; label: string }[];
 };
 
 export type RegisterProps = {
