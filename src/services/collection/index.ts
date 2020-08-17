@@ -26,10 +26,15 @@ export default {
     return data;
   },
   fetchCollectioSpecificData: async (
-    id: number
+    id: number,
+    page?: number
   ): Promise<CollectionSpecificProps> => {
     const res = await Axios.get(
-      `${__API_HOST__ + "/myapi/collection/collectionspecific/" + id}`,
+      `${__API_HOST__ +
+        "/myapi/collection/collectionspecific/" +
+        id +
+        "/?page_no=" +
+        (page || "0")}`,
       {}
     );
     const data: CollectionSpecificProps = res.data;
