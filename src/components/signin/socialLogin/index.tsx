@@ -10,11 +10,6 @@ import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import { props } from "./typings";
 
-// import { Context } from "components/Modal/context.ts";
-// import UserContext from "contexts/user";
-// import { Link } from "react-router-dom";
-// import SocialButton from "./button";
-
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
   const onLoginSuccess = (user: any) => {
@@ -92,24 +87,6 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           onFailure={responseGoogle}
           cookiePolicy={"single_host_origin"}
         />
-
-        {/* </SocialButton> */}
-
-        {/* <SocialButton
-          provider="google"
-          appId="837034702464-l6tdm1d9enjdb28pt1qlr24797cvstdp.apps.googleusercontent.com"
-          onLoginSuccess={onLoginSuccess}
-          onLoginFailure={onLoginFailure}
-          key={"google"}
-          scope={"https://www.googleapis.com/auth/user.gender.read"}
-        >
-          <img src={loginGoogle} width="40px" />
-        </SocialButton> */}
-
-        {/* <Link to={ROUTES.GOOGLE}> */}
-        {/* <i className={cs(iconStyles.icon, iconStyles.iconLoginGoogle)}></i> */}
-        {/* <img src={loginGoogle} width="40px" /> */}
-        {/* </Link> */}
       </div>
     </>
   );

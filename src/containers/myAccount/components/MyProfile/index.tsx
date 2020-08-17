@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import SignedIn from "../SignedIn";
+import { genderOptions } from "constants/profile";
 
 const mapStateToProps = () => {
   return {};
@@ -46,11 +47,6 @@ class MyProfile extends React.Component<Props, State> {
       phonecodeError: "",
       highlightCode: false,
       numHighlight: false,
-      genderOptions: [
-        { value: "Female", label: "Female" },
-        { value: "Male", label: "Male" },
-        { value: "Others", label: "Others" }
-      ],
       minDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 110)
       ).format("YYYY-MM-DD"),
@@ -153,7 +149,7 @@ class MyProfile extends React.Component<Props, State> {
   };
 
   render() {
-    const { genderOptions, loginVia } = this.state;
+    const { loginVia } = this.state;
     const {
       firstName,
       lastName,
@@ -267,7 +263,7 @@ class MyProfile extends React.Component<Props, State> {
                     }
                   }}
                   validationErrors={{
-                    isValidDate: "Please enter valid date oof birth",
+                    isValidDate: "Please enter valid date of birth",
                     isMinAllowedDate: "Please enter valid date of birth",
                     isMaxAllowedDate: "Age should be at least 15 years"
                   }}
