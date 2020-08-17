@@ -260,7 +260,7 @@ class PDPContainer extends React.Component<Props, State> {
   getProductImages() {
     const productImages = this.getProductImagesData();
 
-    return productImages.map((image, index) => {
+    return productImages?.map((image, index) => {
       const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
         const ele = event.currentTarget;
         const { naturalHeight, naturalWidth } = ele;
