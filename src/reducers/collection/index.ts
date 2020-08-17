@@ -12,7 +12,8 @@ const initialState: CollectionState = {
     breadcrumbs: [],
     shortDescription: "",
     longDescription: "",
-    results: []
+    results: [],
+    next: 0
   },
   collectionSpecficBanner: {
     name: "",
