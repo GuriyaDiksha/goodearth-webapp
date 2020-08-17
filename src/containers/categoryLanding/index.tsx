@@ -5,7 +5,7 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import MakerEnhance from "maker-enhance";
-import "../../styles/myslick.css";
+// import "../../styles/myslick.css";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
