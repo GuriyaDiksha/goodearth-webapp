@@ -71,6 +71,7 @@ class MyProfile extends React.Component<Props, State> {
           showerror: "Something went wrong, please try again"
         });
       });
+    this.props.fetchCountryData();
   }
 
   setApiResponse = (data: ProfileResponse) => {
