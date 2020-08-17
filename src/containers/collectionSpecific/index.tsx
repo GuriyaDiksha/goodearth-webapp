@@ -1,5 +1,5 @@
 import loadable from "@loadable/component";
-import React from "react";
+import React, { ReactNode } from "react";
 import MakerEnhance from "maker-enhance";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
@@ -9,11 +9,18 @@ import initActionSpecific from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
+import { updateCollectionSpecificData } from "actions/collection";
+import { updateComponent, updateModal } from "actions/modal";
+import { updateQuickviewId } from "actions/quickview";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
-import mapDispatchToProps from "../../components/Modal/mapper/actions";
+import CollectionService from "services/collection";
+import { getProductIdFromSlug } from "utils/url.ts";
+import Loader from "components/Loader";
+
 const Quickview = loadable(() => import("components/Quickview"));
 
 const mapStateToProps = (state: AppState) => {
@@ -26,16 +33,52 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location
   };
 };
+
+const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
+  return {
+    updateComponentModal: (component: ReactNode, fullscreen?: boolean) => {
+      dispatch(updateComponent(component, fullscreen));
+    },
+    changeModalState: (data: boolean) => {
+      dispatch(updateModal(data));
+    },
+    updateQuickviewId: async () => {
+      dispatch(updateQuickviewId(0));
+    },
+    fetchCollectioSpecificData: async (data: any, page: any) => {
+      const id: any = getProductIdFromSlug(params.slug);
+      const filterData = await CollectionService.fetchCollectioSpecificData(
+        id,
+        page
+      ).catch(error => {
+        console.log("Collection Error", error);
+      });
+      if (filterData) {
+        filterData.results = data.concat(filterData.results);
+        dispatch(updateCollectionSpecificData({ ...filterData }));
+      }
+    }
+  };
+};
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 class CollectionSpecific extends React.Component<
   Props,
-  { specificMaker: boolean }
+  { specificMaker: boolean; nextPage: number | null; loader: boolean }
 > {
-  state = {
-    specificMaker: false
-  };
+  private scrollload = true;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      specificMaker: false,
+      nextPage: null,
+      loader: false
+    };
+  }
+
   onClickQuickView = (id: number) => {
     const {
       updateComponentModal,
@@ -49,11 +92,63 @@ class CollectionSpecific extends React.Component<
     changeModalState(true);
   };
 
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
   componentDidMount() {
     this.setState({
       specificMaker: true
     });
+    window.addEventListener("scroll", this.handleScroll);
   }
+
+  handleScroll = () => {
+    const windowHeight =
+      "innerHeight" in window
+        ? window.innerHeight
+        : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html: any = document.getElementById("product_images");
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+    const windowBottom = windowHeight + window.pageYOffset;
+
+    if (
+      windowBottom + 2000 >= docHeight &&
+      this.scrollload &&
+      this.props.collectionSpecificData.next
+    ) {
+      this.appendData();
+    }
+  };
+
+  appendData = () => {
+    const { results, next } = this.props.collectionSpecificData;
+    this.scrollload = false;
+    this.setState({
+      loader: this.scrollload
+    });
+    this.props
+      .fetchCollectioSpecificData(results, next)
+      .then(res => {
+        this.scrollload = true;
+        this.setState({
+          loader: this.scrollload
+        });
+      })
+      .catch(error => {
+        this.scrollload = true;
+        this.setState({
+          loader: this.scrollload
+        });
+      });
+  };
 
   componentDidUpdate(previous: Props) {
     if (
@@ -145,6 +240,7 @@ class CollectionSpecific extends React.Component<
         </div>
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
           <div
+            id="product_images"
             className={cs(
               bootstrap.colMd10,
               bootstrap.offsetMd1,
@@ -171,6 +267,7 @@ class CollectionSpecific extends React.Component<
               );
             })}
           </div>
+          {!this.scrollload ? <Loader /> : ""}
         </div>
         {specificMaker && (
           <MakerEnhance
