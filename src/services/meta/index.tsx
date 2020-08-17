@@ -9,6 +9,9 @@ import { resetPageMeta, updatePageMeta } from "actions/meta";
 import { User } from "typings/user";
 import { initialState } from "reducers/user";
 import API from "utils/api";
+import { updateComponent, updateModal } from "actions/modal";
+import ProfileUpdater from "components/signin/profileUpdater";
+import React from "react";
 
 export default {
   fetchMeta: async function(
@@ -34,6 +37,10 @@ export default {
       user.bridal = meta.bridalUser;
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
+      if (typeof document != "undefined" && !user.gender) {
+        dispatch(updateComponent(<ProfileUpdater />, true));
+        dispatch(updateModal(true));
+      }
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));
     }

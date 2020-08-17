@@ -7,7 +7,9 @@ const initActionDesignJournalBook: InitAction = async (
   params,
   { search }
 ) => {
-  DesignJournalService.onLoadDesignJournalBook(dispatch, search);
+  DesignJournalService.onLoadDesignJournalBook(dispatch, search).catch(err => {
+    console.log("Design Journal Error", err);
+  });
 };
 
 export default initActionDesignJournalBook;

@@ -135,11 +135,11 @@ class PLP extends React.Component<
       device: { mobile },
       currency,
       data: {
-        results: { breadcrumb, banner, data },
+        results: { breadcrumb, banner, bannerMobile, data },
         count
       }
     } = this.props;
-    const { plpMaker, toggel } = this.state;
+    const { plpMaker } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -228,28 +228,25 @@ class PLP extends React.Component<
                       </div>
                   </div>
               </div> */}
-            {banner ? (
+            {banner || bannerMobile ? (
               <div className={cs(bootstrap.row, styles.bannerMobileCategory)}>
                 <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
-                  <img src={banner} className={globalStyles.imgResponsive} />
+                  <img
+                    src={mobile ? bannerMobile : banner}
+                    className={globalStyles.imgResponsive}
+                  />
                 </div>
               </div>
             ) : (
               ""
             )}
 
-            {plpMaker &&
-              (toggel ? (
-                <MakerEnhance
-                  user="goodearth"
-                  href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
-                />
-              ) : (
-                <MakerEnhance
-                  user="goodearth"
-                  href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
-                />
-              ))}
+            {plpMaker && (
+              <MakerEnhance
+                user="goodearth"
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+              />
+            )}
 
             {!mobile ? (
               <div

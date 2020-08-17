@@ -1,6 +1,5 @@
 import { InitAction } from "typings/actions";
 import CollectionService from "services/collection";
-import { PartialProductItem } from "typings/product";
 import {
   updateCollectionSpecificData,
   updateCollectionSpecificBanner
@@ -12,13 +11,24 @@ const initActionSpecific: InitAction = async (dispatch, { slug }) => {
   const id = getProductIdFromSlug(slug);
   if (id) {
     const [filterData, bannerData] = await Promise.all([
-      CollectionService.fetchCollectioSpecificData(id),
-      CollectionService.fetchCollectioSpecificBanner(id)
+      CollectionService.fetchCollectioSpecificData(id).catch(error => {
+        console.log(`Collection Error id=${id}`, error);
+      }),
+      CollectionService.fetchCollectioSpecificBanner(id).catch(error => {
+        console.log(`Collection Error id=${id}`, error);
+      })
     ]);
-    const plpProduct: PartialProductItem[] = filterData.results;
-    dispatch(updateCollectionSpecificData({ ...filterData }));
-    dispatch(updateCollectionSpecificBanner({ ...bannerData }));
-    dispatch(updatePartialProducts(plpProduct));
+    const plpProduct: any = filterData && filterData.results;
+
+    if (filterData) {
+      dispatch(updateCollectionSpecificData({ ...filterData }));
+    }
+    if (bannerData) {
+      dispatch(updateCollectionSpecificBanner({ ...bannerData }));
+    }
+    if (plpProduct) {
+      dispatch(updatePartialProducts(plpProduct));
+    }
   }
 };
 

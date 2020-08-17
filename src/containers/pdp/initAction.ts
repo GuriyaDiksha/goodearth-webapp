@@ -6,18 +6,20 @@ import { updateProduct } from "actions/product";
 import { getProductIdFromSlug } from "utils/url.ts";
 import { Product, PartialProductItem } from "typings/product.js";
 
-const initAction: InitAction = async (dispatch, { slug }) => {
+const initAction: InitAction = async (dispatch, path) => {
+  const { slug } = path;
   const id = getProductIdFromSlug(slug);
-
   if (id) {
     const product = await ProductService.fetchProductDetails(id).catch(err => {
       console.log("PDP API FAIL", err);
     });
-    dispatch(
-      updateProduct({ ...product, partial: false } as Product<
-        PartialProductItem
-      >)
-    );
+    if (product) {
+      dispatch(
+        updateProduct({ ...product, partial: false } as Product<
+          PartialProductItem
+        >)
+      );
+    }
   }
 };
 
