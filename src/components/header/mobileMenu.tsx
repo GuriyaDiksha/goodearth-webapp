@@ -65,7 +65,8 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
     const html = [];
     const leftData = headerData.leftMenu || [];
     const rightData = headerData.rightMenu || [];
-    headerData.name.toLowerCase() == "stories"
+    const isStories = headerData.name.toLowerCase() == "stories";
+    isStories
       ? ""
       : html.push(
           <li onClick={this.props.clickToggle}>
@@ -263,25 +264,38 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                   : ""
               }
             >
-              <span
-                className={
-                  this.state.activeindex == i && this.state.showmenulevel1
-                    ? cs(styles.menulevel1, styles.menulevel1Open)
-                    : styles.menulevel1
-                }
-                onClick={this.Clickmenulevel1.bind(this, i)}
-              >
-                {data.name}
-              </span>
-              <p
-                className={
-                  this.state.activeindex == i && this.state.showmenulevel1
-                    ? styles.showheader1
-                    : styles.hidden
-                }
-              >
-                <ul>{this.createListElement(this.props.menudata[i])}</ul>
-              </p>
+              {data.name.toLowerCase() != "stories" ? (
+                <>
+                  <span
+                    className={
+                      this.state.activeindex == i && this.state.showmenulevel1
+                        ? cs(styles.menulevel1, styles.menulevel1Open)
+                        : styles.menulevel1
+                    }
+                    onClick={this.Clickmenulevel1.bind(this, i)}
+                  >
+                    {data.name}
+                  </span>
+                  <p
+                    className={
+                      this.state.activeindex == i && this.state.showmenulevel1
+                        ? styles.showheader1
+                        : styles.hidden
+                    }
+                  >
+                    <ul>{this.createListElement(this.props.menudata[i])}</ul>
+                  </p>
+                </>
+              ) : (
+                <a
+                  className={cs(styles.menulevel1Stories, styles.cerise)}
+                  href={data.catLandingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {data.name}
+                </a>
+              )}
             </li>
           );
         })}

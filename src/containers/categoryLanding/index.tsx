@@ -5,6 +5,7 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import MakerEnhance from "maker-enhance";
+import "../../styles/myslick.css";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -49,7 +50,6 @@ class CategoryLanding extends React.Component<
     showbottom: false,
     isSale: false
   };
-  isClient = typeof document !== "undefined";
   componentDidMount() {
     this.setState({
       catLanding: true
@@ -100,48 +100,39 @@ class CategoryLanding extends React.Component<
     if (!data.widgetImages) return false;
 
     html.push(
-      typeof document !== "undefined" && (
-        <Slider
-          {...settings}
-          className={
-            this.props.device.mobile ? styles.noArrows : styles.categoryArrow
-          }
-        >
-          {data.widgetImages.map((img: any, i: number) => {
-            return (
-              <div className={styles.imgWidth} key={i}>
-                <h2 className={styles.headLink3}>
-                  <span>&nbsp;{img.title.split("|")[0]}</span>
-                  <span>{img.title.split("|")[1]}&nbsp;</span>
-                </h2>
-                {img.banner_type == 1 ? (
-                  <iframe
-                    width="70%"
-                    height="474px"
-                    src={img.video_url}
-                  ></iframe>
-                ) : (
-                  <Link to={img.ctaUrl}>
-                    <img
-                      src={img.image}
-                      className={globalStyles.imgResponsive}
-                    />
-                  </Link>
+      <Slider
+        {...settings}
+        className={
+          this.props.device.mobile ? styles.noArrows : styles.categoryArrow
+        }
+      >
+        {data.widgetImages.map((img: any, i: number) => {
+          return (
+            <div className={styles.imgWidth} key={i}>
+              <h2 className={styles.headLink3}>
+                <span>&nbsp;{img.title.split("|")[0]}</span>
+                <span>{img.title.split("|")[1]}&nbsp;</span>
+              </h2>
+              {img.banner_type == 1 ? (
+                <iframe width="70%" height="474px" src={img.video_url}></iframe>
+              ) : (
+                <Link to={img.ctaUrl}>
+                  <img src={img.image} className={globalStyles.imgResponsive} />
+                </Link>
+              )}
+              <div
+                className={cs(
+                  globalStyles.textCenter,
+                  globalStyles.voffset2,
+                  styles.ctaCurly
                 )}
-                <div
-                  className={cs(
-                    globalStyles.textCenter,
-                    globalStyles.voffset2,
-                    styles.ctaCurly
-                  )}
-                >
-                  <Link to={img.ctaUrl}>{img.ctaText}</Link>
-                </div>
+              >
+                <Link to={img.ctaUrl}>{img.ctaText}</Link>
               </div>
-            );
-          })}
-        </Slider>
-      )
+            </div>
+          );
+        })}
+      </Slider>
     );
 
     return html;
