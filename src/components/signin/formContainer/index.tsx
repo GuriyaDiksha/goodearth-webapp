@@ -7,7 +7,7 @@ const FormContainer: React.FC<{
   heading: string;
   subheading: string;
   formContent: JSX.Element;
-  footer: JSX.Element;
+  footer?: JSX.Element;
 }> = ({ heading, subheading, formContent, footer }) => {
   return (
     <div className={cs(bootstrapStyles.col8, bootstrapStyles.offset2)}>

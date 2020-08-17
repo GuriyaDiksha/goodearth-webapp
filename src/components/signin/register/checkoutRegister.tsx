@@ -20,6 +20,7 @@ import { checkMail } from "utils/validate";
 import { AppState } from "reducers/typings";
 import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
+import { genderOptions } from "constants/profile";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -44,11 +45,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       showFields: true,
       successMsg: "",
       showPassword: false,
-      genderOptions: [
-        { value: "Female", label: "Female" },
-        { value: "Male", label: "Male" },
-        { value: "Others", label: "Others" }
-      ],
       minDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 110)
       ).format("YYYY-MM-DD"),
@@ -437,7 +433,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               name="gender"
               label="Select Gender*"
               placeholder="Select Gender*"
-              options={this.state.genderOptions}
+              options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
             />

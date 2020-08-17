@@ -7,7 +7,10 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import geLogo from "../../../images/gelogoCerise.svg";
 import { Context } from "components/Modal/context.ts";
 
-const Popup: React.FC = ({ children }) => {
+const Popup: React.FC<{ disableClose?: boolean }> = ({
+  disableClose,
+  children
+}) => {
   const closePopup = useContext(Context).closeModal;
   return (
     <div className={cs(bootstrapStyles.row, styles.row, styles.centerpage)}>
@@ -50,14 +53,16 @@ const Popup: React.FC = ({ children }) => {
                   className={cs(globalStyles.logo, styles.logoPopup)}
                 />
               </div>
-              <button
-                className={cs(
-                  styles.closePopup,
-                  iconStyles.icon,
-                  iconStyles.iconCross
-                )}
-                onClick={closePopup}
-              ></button>
+              {!disableClose && (
+                <button
+                  className={cs(
+                    styles.closePopup,
+                    iconStyles.icon,
+                    iconStyles.iconCross
+                  )}
+                  onClick={closePopup}
+                ></button>
+              )}
             </div>
             <div className={cs(bootstrapStyles.row, styles.row, styles.mTop72)}>
               {children}
