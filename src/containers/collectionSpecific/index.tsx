@@ -20,7 +20,6 @@ import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
 import Loader from "components/Loader";
-import ReactHtmlParser from "react-html-parser";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -106,6 +105,7 @@ class CollectionSpecific extends React.Component<
       specificMaker: true
     });
     window.addEventListener("scroll", this.handleScroll);
+    // this.updateCollectionFilter(this.props.currency);
   }
 
   handleScroll = () => {
@@ -133,26 +133,15 @@ class CollectionSpecific extends React.Component<
     }
   };
 
-  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    if (this.props.currency != nextProps.currency) {
-      const filterResult = this.clearDataForCollection(
-        this.props.collectionSpecificData.results
-      );
-      const filterData = this.props.collectionSpecificData;
-      filterData.results = filterResult;
-      this.props.clearDataForCollection(filterData);
-    }
-  };
-
-  clearDataForCollection = (data: any) => {
-    data = data.filter((product: any) => {
+  clearDataForCollection = (data: any, curr: any) => {
+    const filterdata = data.filter((product: any) => {
       if (this.props.sale) {
-        return !(+product.discountedPriceRecords[this.props.currency] == 0);
+        return !(+product.discountedPriceRecords[curr] == 0);
       } else {
-        return !(+product.pricerecords[this.props.currency] == 0);
+        return !(+product.pricerecords[curr] == 0);
       }
     });
-    return data;
+    return filterdata;
   };
 
   appendData = () => {
@@ -197,6 +186,11 @@ class CollectionSpecific extends React.Component<
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
+
+    const filterData = this.clearDataForCollection(
+      results,
+      this.props.currency
+    );
     return (
       <div className={styles.collectionContainer}>
         {!mobile && (
@@ -262,7 +256,7 @@ class CollectionSpecific extends React.Component<
               globalStyles.textCenter
             )}
           >
-            {ReactHtmlParser(longDescription)}
+            {longDescription}
           </div>
         </div>
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
@@ -275,7 +269,7 @@ class CollectionSpecific extends React.Component<
               bootstrap.row
             )}
           >
-            {results.map((data: PLPProductItem, i: number) => {
+            {filterData.map((data: PLPProductItem, i: number) => {
               return (
                 <div
                   className={cs(bootstrap.colMd4, bootstrap.col6)}
