@@ -14,7 +14,7 @@ import { PeopleRecommend, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
 
-const WeRecommend: React.FC<RecommenedSliderProps> = (
+const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
   const { data, setting, currency, mobile } = props;
@@ -82,12 +82,12 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
       className={cs(
         styles.recommendBg,
         bootstrapStyles.colMd12,
-        "we-recommend"
+        "people-buying"
       )}
     >
       <div className={cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)}>
         <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
-          We Recommend
+          What People Are Buying
         </h2>
         <div className={bootstrapStyles.col12}>
           {!mobile && <Slider {...setting}>{items}</Slider>}
@@ -98,4 +98,4 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   );
 };
 
-export default WeRecommend;
+export default WhatPeopleBuying;
