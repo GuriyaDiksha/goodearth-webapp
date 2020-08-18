@@ -10,7 +10,7 @@
       min-height: 360px;
       .gc-tnc {
         height: 100%;
-      padding-bottom: 30px;
+      padding: 50px 0 30px 0;
       overflow-y: scroll;
       }
       p {
@@ -294,6 +294,7 @@
     height: 95%;
     padding-bottom: 30px;
     overflow-y: scroll;
+    padding-top: 50px;
     &::-webkit-scrollbar {
       // background-color:#fff;
       width: 8px;
@@ -325,7 +326,7 @@
   }
   .size-block-not-fixed.form-block {
     .gc-tnc {
-      padding: 0px 0px 30px 0px;
+      padding: 50px 0px 30px 0px;
       .font-ht {
         padding: 0px 10%;
   line-height: 32px;
@@ -410,10 +411,19 @@
 .btn-popup {
 
 }
-.cerise-btn30 {
-  width: 30%;
-  min-width: 200px;
-  position: relative;
-  transform: translateX(-50%);
-  left: 50%;
+.gc-tnc {
+  .cerise-btn30 {
+    width: 30%;
+    min-width: 200px;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+.centerpage-mobile {
+    height: 75vh !important;
+    width: 80vw;
+  }
 }
