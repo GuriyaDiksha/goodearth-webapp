@@ -23,7 +23,6 @@ interface State {
   showp: boolean;
   showBag: boolean;
   cartCount: number;
-  showSearch: boolean;
   openProfile: boolean;
 }
 
@@ -46,8 +45,7 @@ class SideMenu extends React.Component<Props, State> {
       showp: false,
       showBag: false,
       cartCount: 0,
-      openProfile: false,
-      showSearch: false
+      openProfile: false
     };
   }
   static contextType = UserContext;
@@ -75,9 +73,6 @@ class SideMenu extends React.Component<Props, State> {
       return false;
     }
     this.props.toggleSearch();
-    this.setState({
-      showSearch: !this.state.showSearch
-    });
   };
   render() {
     const { isLoggedIn } = this.context;
@@ -300,7 +295,7 @@ class SideMenu extends React.Component<Props, State> {
               <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={
-                    this.state.showSearch
+                    this.props.showSearch
                       ? cs(
                           iconStyles.icon,
                           iconStyles.iconCrossNarrowBig,
