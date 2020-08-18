@@ -507,6 +507,19 @@ const ProductDetails: React.FC<Props> = ({
             <p className={styles.label}>add to registry</p>
           </div> */}
         </div>
+        {info.isSale && fillerMessage ? (
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd10,
+              globalStyles.voffset3,
+              styles.errorMsg
+            )}
+            dangerouslySetInnerHTML={{ __html: fillerMessage || "" }}
+          ></div>
+        ) : (
+          ""
+        )}
         <div
           className={cs(
             bootstrap.row,
@@ -517,19 +530,6 @@ const ProductDetails: React.FC<Props> = ({
             }
           )}
         >
-          {info.isSale ? (
-            <div
-              className={cs(
-                bootstrap.col12,
-                bootstrap.colMd10,
-                globalStyles.voffset3,
-                styles.errorMsg
-              )}
-              dangerouslySetInnerHTML={{ __html: fillerMessage || "" }}
-            ></div>
-          ) : (
-            ""
-          )}
           <div
             className={cs(globalStyles.textCenter, globalStyles.voffset1, {
               [bootstrap.col9]: !corporatePDP,

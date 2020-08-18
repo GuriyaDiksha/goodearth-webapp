@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../../styles/myslick.css";
 import "./slick.css";
 
-import { Currency, currencyCode } from "../../typings/currency";
+// import { Currency, currencyCode } from "../../typings/currency";
 import { PeopleRecommend, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
@@ -17,9 +17,11 @@ import WishlistButton from "components/WishlistButton";
 const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
-  const { data, setting, currency, mobile } = props;
-  const code = currencyCode[currency as Currency];
+  const { data, setting, mobile } = props;
   const [currentId, setCurrentId] = useState(-1);
+  if (typeof document == "undefined") {
+    return null;
+  }
   const items = data?.map((item: PeopleRecommend, i: number) => {
     return (
       <div
@@ -33,7 +35,7 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
         })}
       >
         {item.badgeImage ? (
-          <div className="badge_position_plp">
+          <div className={styles.badge_position_plp}>
             <img src={item.badgeImage} />
           </div>
         ) : (
@@ -85,11 +87,11 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
         "people-buying"
       )}
     >
-      <div className={cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)}>
+      <div className={cs(bootstrapStyles.colMd12)}>
         <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
           What People Are Buying
         </h2>
-        <div className={bootstrapStyles.col12}>
+        <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
           {!mobile && <Slider {...setting}>{items}</Slider>}
           {mobile && <div className={bootstrapStyles.row}>{items}</div>}
         </div>
