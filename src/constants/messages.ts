@@ -5,3 +5,5 @@ export const CURRENCY_CHANGED_SUCCESS =
 export const ALL_SESSION_LOGOUT = "You have been logged out of all sessions.";
 export const INVALID_SESSION_LOGOUT =
   "You have been logged out of all sessions. Please login again";
+export const PRODUCT_UNPUBLISHED =
+  "Due to unavailability of some products your cart has been updated.";

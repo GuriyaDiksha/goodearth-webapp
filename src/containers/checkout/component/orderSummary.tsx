@@ -412,9 +412,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const onRemoveOutOfStockItemsClick = () => {
-    //   CartApi.removeOutOfStockItems(null, props.dispatch).then(mydata =>{
-    //     props.getShippingCharges();
-    // });
+    BasketService.removeOutOfStockItems(dispatch, "cart");
   };
 
   const goToWishlist = (e: any) => {
@@ -614,7 +612,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <hr className={styles.hr} />
                 <NavLink
                   key="cartCheckout"
-                  to={canCheckout() ? "/order/checkout/" : "javascript:void(0)"}
+                  to={canCheckout() ? "/order/checkout/" : "#"}
                 >
                   <button
                     onClick={chkshipping}

@@ -15,6 +15,7 @@ import { useStore } from "react-redux";
 import { updateModal, updateComponent } from "actions/modal";
 import NotifyMePopup from "components/NotifyMePopup";
 import ModalStyles from "components/Modal/styles.scss";
+import { ChildProductAttributes } from "typings/product";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -27,7 +28,8 @@ const CartItems: React.FC<BasketItem> = memo(
     currency,
     saleStatus,
     GCValue,
-    onMoveToWishlist
+    onMoveToWishlist,
+    onNotifyCart
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
@@ -102,11 +104,15 @@ const CartItems: React.FC<BasketItem> = memo(
       dispatch(
         updateComponent(
           <NotifyMePopup
-            price={0}
+            basketLineId={id}
+            price={product.priceRecords[currency]}
             currency={currency}
-            title={""}
-            childAttributes={[]}
+            title={product.title}
+            childAttributes={
+              product.childAttributes as ChildProductAttributes[]
+            }
             selectedIndex={0}
+            onNotifyCart={onNotifyCart}
             // changeSize={changeSize}
           />,
           false,
@@ -116,25 +122,27 @@ const CartItems: React.FC<BasketItem> = memo(
       dispatch(updateModal(true));
     };
 
-    const renderNotifyTrigger = () => {
+    const renderNotifyTrigger = (section: string) => {
       const isOutOfStock = product.stockRecords[0].numInStock < 1;
       if (isOutOfStock) {
-        if (!mobile) {
+        if (section == "info") {
           return (
             <div>
               <div
                 className={cs(
-                  globalStyles.colorPrimary,
                   globalStyles.italic,
                   globalStyles.marginT10,
                   globalStyles.bold,
-                  globalStyles.c10LR
+                  globalStyles.c10LR,
+                  globalStyles.cerise
                 )}
               >
                 Out of stock
               </div>
               <div
-                className={cs(globalStyles.marginT10, styles.triggerNotify)}
+                className={cs(globalStyles.marginT10, styles.triggerNotify, {
+                  [globalStyles.hidden]: !mobile
+                })}
                 onClick={showNotifyPopup}
               >
                 NOTIFY ME &#62;
@@ -144,7 +152,9 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         return (
           <div
-            className={cs(globalStyles.marginT10, styles.triggerNotify)}
+            className={cs(globalStyles.marginT10, styles.triggerNotify, {
+              [globalStyles.hidden]: mobile
+            })}
             onClick={showNotifyPopup}
           >
             NOTIFY ME &#62;
@@ -169,7 +179,7 @@ const CartItems: React.FC<BasketItem> = memo(
       product.structure == "GiftCard"
         ? giftCardImage
         : images && images.length > 0
-        ? images[0].productImage.replace("Medium", "Micro")
+        ? images[0].productImage
         : "";
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
 
@@ -251,6 +261,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         // errorMsg="Available qty in stock is"
                       />
                     </div>
+                    {renderNotifyTrigger("info")}
                   </div>
                 </div>
               </div>
@@ -291,8 +302,8 @@ const CartItems: React.FC<BasketItem> = memo(
                   onMoveToWishlist={onMoveToWishlist}
                   className="wishlist-font"
                 />
+                {renderNotifyTrigger("action")}
               </div>
-              {renderNotifyTrigger()}
             </div>
           </div>
         </div>

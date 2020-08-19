@@ -9,6 +9,8 @@ import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
 import { Basket } from "typings/basket";
+import { showMessage } from "actions/growlMessage";
+import { PRODUCT_UNPUBLISHED } from "constants/messages";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "sequence") {
@@ -102,6 +104,9 @@ export default {
       `${__API_HOST__}/myapi/wishlist/wishlist_undo/?source=cart`,
       null
     );
+    if (res.basket.publishRemove) {
+      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+    }
     return res;
   },
 
