@@ -1,7 +1,7 @@
 import { State, InfoActions } from "./typings";
 
 const initialState: State = {
-  isSale: true
+  isSale: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
