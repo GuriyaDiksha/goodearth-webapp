@@ -43,7 +43,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
             )}
           ></i>
         </div>
-        <div className={cs(styles.gcTnc, globalStyles.voffset5)}>
+        <div className={cs(styles.gcTnc)}>
           <div className={globalStyles.c22AI}>Free Shipping</div>
           {/* <div className={globalStyles.c10LR}> */}
           <div className={styles.freeShipping}>
