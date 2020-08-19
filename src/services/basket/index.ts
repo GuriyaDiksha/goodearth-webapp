@@ -35,11 +35,14 @@ export default {
   updateToBasket: async function(
     dispatch: Dispatch,
     line: ProductID,
-    quantity: number
+    quantity: number,
+    source?: string
   ) {
     const res = await API.post<Basket>(
       dispatch,
-      `${__API_HOST__ + "/myapi/basket/update_product/"}`,
+      `${__API_HOST__}/myapi/basket/update_product/${
+        source ? "?source=" + source : ""
+      }`,
       {
         line,
         quantity
@@ -48,10 +51,16 @@ export default {
     dispatch(updateBasket(res));
     return res;
   },
-  deleteBasket: async function(dispatch: Dispatch, basketLineId: ProductID) {
+  deleteBasket: async function(
+    dispatch: Dispatch,
+    basketLineId: ProductID,
+    source?: string
+  ) {
     const res = await API.post<Basket>(
       dispatch,
-      `${__API_HOST__ + "/myapi/basket/remove_basket_line/"}`,
+      `${__API_HOST__}/myapi/basket/remove_basket_line/${
+        source ? "?source=" + source : ""
+      }`,
       {
         basketLineId
       }

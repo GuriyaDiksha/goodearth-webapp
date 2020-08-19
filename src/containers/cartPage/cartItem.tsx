@@ -37,9 +37,11 @@ const CartItems: React.FC<BasketItem> = memo(
     }, [quantity]);
 
     const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value).then(res => {
-        setValue(value);
-      });
+      await BasketService.updateToBasket(dispatch, id, value, "cart").then(
+        res => {
+          setValue(value);
+        }
+      );
     };
 
     const gtmPushDeleteCartItem = () => {
@@ -75,7 +77,7 @@ const CartItems: React.FC<BasketItem> = memo(
     };
 
     const deleteItem = () => {
-      BasketService.deleteBasket(dispatch, id).then(() => {
+      BasketService.deleteBasket(dispatch, id, "cart").then(() => {
         gtmPushDeleteCartItem();
       });
     };
@@ -275,6 +277,7 @@ const CartItems: React.FC<BasketItem> = memo(
               </div>
               <div className={cs({ [globalStyles.hiddenEye]: isGiftCard })}>
                 <WishlistButton
+                  source="cart"
                   gtmListType=""
                   title={title}
                   childAttributes={
