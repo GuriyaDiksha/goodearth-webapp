@@ -39,7 +39,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     wishlistData: state.wishlist.items,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    isSale: state.info.isSale
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -159,7 +160,8 @@ class Wishlist extends React.Component<Props, State> {
         grid: props,
         removeProduct: this.removeProduct,
         mobile: this.props.mobile,
-        currency: this.props.currency
+        currency: this.props.currency,
+        isSale: this.props.isSale
       },
       false
     );
