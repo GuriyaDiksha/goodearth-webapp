@@ -54,6 +54,9 @@ const initAction: any = async (store: Store) => {
       }),
     ApiService.getCurrency(store.dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
+    }),
+    ApiService.getSalesStatus(store.dispatch).catch(err => {
+      console.log("Sales Api Status ==== " + err);
     })
   ];
 

@@ -179,17 +179,21 @@
         }
     }
 }
-.discountprice {
-    color: $cerise;
-    font-family: $font-Serif;
-    font-size: 14px;
-  }
-  .strikeprice {
-    font-size: 14px;
-    text-decoration: line-through;
-    color: tint(#000, 50%) !important;
-    font-family: $font-Serif;
-  }
+span{
+  &.discountprice {
+      color: $cerise;
+      font-family: $font-Serif;
+      font-size: 16px;
+      color:$cerise;
+    }
+    &.strikeprice {
+      font-size: 14px;
+      text-decoration: line-through;
+      color: tint(#000, 50%) !important;
+      font-family: $font-Serif;
+    }
+}
+  
 .wishlist-block-outer {
     margin: 150px 0 100px 0;
 }

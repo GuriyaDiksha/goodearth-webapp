@@ -39,6 +39,8 @@ type Props = {
   childAttributes: ChildProductAttributes[];
   collection?: string;
   selectedIndex?: number;
+  isSale?: boolean;
+  discount: boolean;
   changeSize?: (size: string, quantity?: number) => void;
 };
 
@@ -49,12 +51,13 @@ const NotifyMePopup: React.FC<Props> = ({
   childAttributes,
   title,
   selectedIndex,
-  changeSize
+  changeSize,
+  isSale,
+  discount
 }) => {
   const { dispatch } = useStore();
 
   const user = useContext(UserContext);
-
   const { closeModal } = useContext(ModalContext);
   const [
     selectedSize,
@@ -216,8 +219,30 @@ const NotifyMePopup: React.FC<Props> = ({
         <div className={styles.collection}>{collection}</div>
         <div className={styles.title}>{title}</div>
         <div className={styles.price}>
-          {String.fromCharCode(currencyCodes[currency])}&nbsp;
-          {selectedSize ? selectedSize.priceRecords[currency] : price}
+          <p className={styles.productN}>
+            {isSale && discount && selectedSize?.discountedPriceRecords ? (
+              <span className={styles.discountprice}>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize
+                  ? selectedSize.discountedPriceRecords[currency]
+                  : price}
+                &nbsp;{" "}
+              </span>
+            ) : (
+              ""
+            )}
+            {isSale && discount && selectedSize?.discountedPriceRecords ? (
+              <span className={styles.strikeprice}>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize ? selectedSize.priceRecords[currency] : price}
+              </span>
+            ) : (
+              <span>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize ? selectedSize.priceRecords[currency] : price}
+              </span>
+            )}
+          </p>
         </div>
         <div className={cs(styles.label, styles.sizeLabel)}>SELECT SIZE</div>
         <SizeSelector

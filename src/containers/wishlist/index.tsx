@@ -39,7 +39,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     wishlistData: state.wishlist.items,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    isSale: state.info.isSale
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -54,7 +55,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       await WishlistService.updateWishlist(dispatch, sortBy),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
-    openPopup: (item: WishListGridItem, currency: Currency) => {
+    openPopup: (
+      item: WishListGridItem,
+      currency: Currency,
+      isSale?: boolean
+    ) => {
       const childAttributes = item.stockDetails.map(
         ({ discountedPrice, productId, stock, size, price, sku }) => {
           return {
@@ -94,6 +99,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             childAttributes={childAttributes}
             selectedIndex={selectedIndex}
             changeSize={changeSize}
+            isSale={isSale}
+            discount={item.discount}
           />,
           false,
           ModalStyles.bottomAlign
@@ -159,43 +166,12 @@ class Wishlist extends React.Component<Props, State> {
         grid: props,
         removeProduct: this.removeProduct,
         mobile: this.props.mobile,
-        currency: this.props.currency
+        currency: this.props.currency,
+        isSale: this.props.isSale
       },
       false
     );
   }
-
-  // findPopup(popupType) {
-  //     let temp = null;
-  //     switch (popupType) {
-  //         case 'SIZE':
-  //             for (let wishlist_item of this.state.sampleItems) {
-  //                 if (this.props.popup.data.id === wishlist_item.id) {
-  //                     temp = wishlist_item;
-  //                     break;
-  //                 }
-  //             }
-  //             return <Size wishlist_product={temp} closePopup={this.props.closePopup}
-  //                          dispatch={this.props.dispatch}
-  //                          removeProduct={this.removeProduct} callWishlist={this.getWishlist}
-  //                          notifymsg={this.notifymsg} showNotify={this.props.showNotify}
-  //                          showNotification={this.props.showNotification}/>;
-  //         case 'NOTIFY' :
-  //             for (let wishlist_item of this.state.sampleItems) {
-  //                 if (this.props.popup.data == wishlist_item.product_id) {
-  //                     temp = wishlist_item;
-  //                     break;
-  //                 }
-  //             }
-  //             return <Size wishlist_product={temp} closePopup={this.props.closePopup}
-  //                          dispatch={this.props.dispatch}
-  //                          removeProduct={this.removeProduct} callWishlist={this.getWishlist}
-  //                          notifymsg={this.notifymsg} showNotify={this.props.showNotify}
-  //                          showNotification={this.props.showNotification}/>;
-  //         default:
-  //             return null;
-  //     }
-  // }
 
   getWishlist = (sortBy: string) => {
     this.setState({
@@ -323,7 +299,8 @@ class Wishlist extends React.Component<Props, State> {
           grid: nextProps,
           removeProduct: this.removeProduct,
           mobile: nextProps.mobile,
-          currency: nextProps.currency
+          currency: nextProps.currency,
+          isSale: nextProps.isSale
         },
         false
       );

@@ -15,13 +15,14 @@ type Props = {
   item: WishListGridItem;
   currency: Currency;
   mobile: boolean;
+  isSale: boolean;
 };
 
 const SampleDisplay: React.FC<Props> = props => {
   // const { currency } = useSelector((state: AppState) => state);
   // const { mobile } = useSelector((state: AppState) => state.device);
 
-  const isSale = false;
+  const { isSale } = props;
 
   const atbOrNotify = (item: WishListGridItem) => {
     let flag = false;
@@ -43,7 +44,7 @@ const SampleDisplay: React.FC<Props> = props => {
 
   const openPopup = (productId: number) => {
     const { item, currency } = props;
-    props.grid.openPopup(item, currency);
+    props.grid.openPopup(item, currency, isSale);
   };
 
   const sizeText = (item: WishListGridItem) => {
