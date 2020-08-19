@@ -189,7 +189,13 @@ class CollectionLanding extends React.Component<
         ) : (
           ""
         )}
-        <div className={cs(bootstrap.row, styles.collectionBlock)}>
+        <div
+          className={cs(
+            bootstrap.row,
+            { [styles.collectionBlockNonliving]: !isLivingpage },
+            { [styles.collectionBlock]: isLivingpage }
+          )}
+        >
           <div className={cs(bootstrap.colMd8, bootstrap.offsetMd2)}>
             <div className={bootstrap.row}>
               {filterData.map((data: CollectionItem, i: number) => {

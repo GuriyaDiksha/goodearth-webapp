@@ -1,4 +1,4 @@
 import { actionCreator } from "utils/actionCreator";
 
-export const updateCurrency = (isSale: boolean) =>
+export const updateSales = (isSale: boolean) =>
   actionCreator("UPDATE_SALE", isSale);

@@ -10,5 +10,6 @@ export default async function device(
     if (err?.response?.status == 500) {
       ctx.redirect("/error-page");
     }
+    console.log(err, ctx);
   }
 }

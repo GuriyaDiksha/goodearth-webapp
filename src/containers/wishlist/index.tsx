@@ -39,7 +39,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     wishlistData: state.wishlist.items,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    isSale: state.info.isSale
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -54,7 +55,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       await WishlistService.updateWishlist(dispatch, sortBy),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
-    openPopup: (item: WishListGridItem, currency: Currency) => {
+    openPopup: (
+      item: WishListGridItem,
+      currency: Currency,
+      isSale?: boolean
+    ) => {
       const childAttributes = item.stockDetails.map(
         ({ discountedPrice, productId, stock, size, price, sku }) => {
           return {
@@ -94,6 +99,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             childAttributes={childAttributes}
             selectedIndex={selectedIndex}
             changeSize={changeSize}
+            isSale={isSale}
+            discount={item.discount}
           />,
           false,
           ModalStyles.bottomAlign
@@ -159,7 +166,8 @@ class Wishlist extends React.Component<Props, State> {
         grid: props,
         removeProduct: this.removeProduct,
         mobile: this.props.mobile,
-        currency: this.props.currency
+        currency: this.props.currency,
+        isSale: this.props.isSale
       },
       false
     );
@@ -323,7 +331,8 @@ class Wishlist extends React.Component<Props, State> {
           grid: nextProps,
           removeProduct: this.removeProduct,
           mobile: nextProps.mobile,
-          currency: nextProps.currency
+          currency: nextProps.currency,
+          isSale: nextProps.isSale
         },
         false
       );

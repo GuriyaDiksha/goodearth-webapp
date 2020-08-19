@@ -20,6 +20,6 @@ export interface PeopleRecommend {
 export type RecommenedSliderProps = {
   data: PeopleRecommend[];
   setting: Settings;
-  currency: Currency;
+  currency?: Currency;
   mobile?: boolean;
 };

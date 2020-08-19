@@ -14,6 +14,7 @@ import bannerborder from "../../images/banner2-border.jpg";
 import closeShopthelook from "../../images/close-Shopthelook.svg";
 import Shopthelook from "../../images/Shopthelook.svg";
 import bird from "../../images/bird-motif.png";
+import WhatPeopleBuying from "components/PeopleBuying";
 // import Instagram from "components/Instagram"
 import "./slick.css";
 
@@ -21,7 +22,7 @@ import "./slick.css";
 // import CollectionImage from "components/collectionItem";
 // import { CollectionItem } from "components/collectionItem/typings";
 // import MobileDropdownMenu from "components/MobileDropdown";
-import Slider from "react-slick";
+import Slider, { Settings } from "react-slick";
 import LazyImage from "components/LazyImage";
 
 const mapStateToProps = (state: AppState) => {
@@ -316,8 +317,31 @@ class CategoryLanding extends React.Component<
       shopthelook1,
       shopthelook2,
       editSection,
+      peoplebuying,
       device: { mobile }
     } = this.props;
+
+    // if (!peoplebuying.length) {
+    //   return null;
+    // }
+    const config: Settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      arrows: true,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 992,
+          settings: {
+            dots: false,
+            arrows: true
+          }
+        }
+      ]
+    };
     return (
       <div className={cs("category-landing", styles.pageBody)}>
         {catLanding && (
@@ -537,17 +561,17 @@ class CategoryLanding extends React.Component<
         )}
 
         <section>
-          <div className={cs(bootstrap.row, styles.recommendBg, styles.fBlock)}>
-            <div
-              className={cs(
-                bootstrap.colMd10,
-                bootstrap.offset1,
-                globalStyles.textCenter
-              )}
-            >
-              {/* <WhatPeopleBuying recommended={peoplebuying}/> */}
+          {peoplebuying.results?.length >= 0 && (
+            <div className={cs(bootstrap.row, styles.fBlock)}>
+              <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
+                <WhatPeopleBuying
+                  data={peoplebuying.results}
+                  setting={config}
+                  mobile={mobile}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </section>
         {shopthelook2.widgetImages ? (
           shopthelook2.widgetImages.length > 0 ? (

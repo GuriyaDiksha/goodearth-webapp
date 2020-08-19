@@ -4,7 +4,7 @@ import globalStyles from "../../../styles/global.scss";
 import styles from "./styles.scss";
 import loginFb from "../../../images/loginFb.svg";
 import loginGoogle from "../../../images/loginGoogle.svg";
-import { GoogleLogin } from "react-google-login";
+import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
@@ -79,11 +79,15 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         <GoogleLogin
           clientId={__GOOGLE_CLIENT_ID__}
           render={(renderProps: any) => (
-            <img src={loginGoogle} width="40px" onClick={renderProps.onClick} />
+            <img
+              src={loginGoogle}
+              width="40px"
+              className={styles.socialLogin}
+              onClick={renderProps.onClick}
+            />
           )}
-          buttonText="Login"
+          autoLoad={false}
           onSuccess={responseGoogle}
-          onFailure={responseGoogle}
           cookiePolicy={"single_host_origin"}
         />
       </div>
