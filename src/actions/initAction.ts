@@ -9,6 +9,10 @@ import { updateheader, updateAnnouncement } from "actions/header";
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
 import Api from "services/api";
+import AddressService from "services/address";
+import LoginService from "services/login";
+import { updatePinCodeList, updateCountryData } from "./address";
+
 const initAction: any = async (store: Store) => {
   const state: AppState = store.getState();
   let apiCalls = [
@@ -25,6 +29,21 @@ const initAction: any = async (store: Store) => {
       })
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
+      }),
+    AddressService.fetchPinCodeData(store.dispatch)
+      .then(data => {
+        const pinCodeList = Object.keys(data);
+        store.dispatch(updatePinCodeList(data, pinCodeList));
+      })
+      .catch(err => {
+        console.log("PINCODE API ERROR ====" + err);
+      }),
+    LoginService.fetchCountryData(store.dispatch)
+      .then(data => {
+        store.dispatch(updateCountryData(data));
+      })
+      .catch(err => {
+        console.log("COUNTRYSTATE API ERROR ====" + err);
       }),
     Api.getAnnouncement(store.dispatch)
       .then(data => {
