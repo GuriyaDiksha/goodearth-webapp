@@ -15,6 +15,7 @@ import { Dispatch } from "redux";
 import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
 import { showMessage } from "actions/growlMessage";
+import BasketService from "services/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -35,6 +36,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(updateBasket(res.basket));
       // BasketService.fetchBasket(dispatch, true);
       return res;
+    },
+    fetchBasket: () => {
+      BasketService.fetchBasket(dispatch, "cart");
     }
   };
 };
@@ -79,6 +83,7 @@ class CartPage extends React.Component<Props, State> {
         "Due to unavailability of some products your cart has been updated."
       );
     }
+    this.props.fetchBasket();
   }
 
   hasOutOfStockItems = () => {

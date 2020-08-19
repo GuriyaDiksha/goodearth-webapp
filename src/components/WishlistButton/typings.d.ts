@@ -19,4 +19,5 @@ export type Props = {
   iconClassName?: string;
   basketLineId?: ProductID;
   onMoveToWishlist?: () => void;
+  source?: string;
 };

@@ -74,7 +74,11 @@ export default {
     return res;
   },
 
-  moveToWishlist: async function(dispatch: Dispatch, basketLineId: ProductID) {
+  moveToWishlist: async function(
+    dispatch: Dispatch,
+    basketLineId: ProductID,
+    source?: string
+  ) {
     const res = await API.post<ApiResponse>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
@@ -85,15 +89,19 @@ export default {
 
     if (res.success) {
       this.updateWishlist(dispatch);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch, source);
     }
   },
-  undoMoveToWishlist: async function(dispatch: Dispatch) {
+  undoMoveToWishlist: async function(dispatch: Dispatch, source?: string) {
     const res = await API.post<{
       basket: Basket;
       isSuccess: boolean;
       message: string;
-    }>(dispatch, `${__API_HOST__}/myapi/wishlist/wishlist_undo/`, null);
+    }>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/wishlist_undo/?source=cart`,
+      null
+    );
     return res;
   },
 
