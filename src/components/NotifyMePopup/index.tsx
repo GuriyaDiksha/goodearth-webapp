@@ -54,7 +54,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const { dispatch } = useStore();
 
   const user = useContext(UserContext);
-
+  const isSale = true;
   const { closeModal } = useContext(ModalContext);
   const [
     selectedSize,
@@ -97,7 +97,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setEmail(value);
     setEmailError(error);
   };
-
+  console.log(childAttributes);
   const validator = (value: string) => {
     let valid = true,
       message = "";
@@ -216,8 +216,32 @@ const NotifyMePopup: React.FC<Props> = ({
         <div className={styles.collection}>{collection}</div>
         <div className={styles.title}>{title}</div>
         <div className={styles.price}>
-          {String.fromCharCode(currencyCodes[currency])}&nbsp;
-          {selectedSize ? selectedSize.priceRecords[currency] : price}
+          <p className={styles.productN}>
+            {isSale && selectedSize?.discountedPriceRecords ? (
+              <span className={styles.discountprice}>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize
+                  ? selectedSize.discountedPriceRecords[currency]
+                  : price}
+                &nbsp;{" "}
+              </span>
+            ) : (
+              ""
+            )}
+            {isSale && selectedSize?.discountedPriceRecords ? (
+              <span className={styles.strikeprice}>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize
+                  ? selectedSize.discountedPriceRecords[currency]
+                  : price}
+              </span>
+            ) : (
+              <span>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize ? selectedSize.priceRecords[currency] : price}
+              </span>
+            )}
+          </p>
         </div>
         <div className={cs(styles.label, styles.sizeLabel)}>SELECT SIZE</div>
         <SizeSelector
