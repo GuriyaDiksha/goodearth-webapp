@@ -15,6 +15,9 @@ import { Dispatch } from "redux";
 import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
 import { showMessage } from "actions/growlMessage";
+import BasketService from "services/basket";
+import { ProductID } from "typings/id";
+import { updateModal } from "actions/modal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -34,6 +37,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const res = await WishlistService.undoMoveToWishlist(dispatch);
       dispatch(updateBasket(res.basket));
       // BasketService.fetchBasket(dispatch, true);
+      return res;
+    },
+    fetchBasket: () => {
+      BasketService.fetchBasket(dispatch, "cart");
+    },
+    deleteBasket: async (basketLineId: ProductID) => {
+      const res = await BasketService.deleteBasket(
+        dispatch,
+        basketLineId,
+        "cart"
+      );
+      dispatch(updateModal(false));
       return res;
     }
   };
@@ -79,7 +94,16 @@ class CartPage extends React.Component<Props, State> {
         "Due to unavailability of some products your cart has been updated."
       );
     }
+    this.props.fetchBasket();
   }
+
+  onNotifyCart = (basketLineId: ProductID) => {
+    this.props.deleteBasket(basketLineId).then(res => {
+      this.setState({
+        showNotifyMessage: true
+      });
+    });
+  };
 
   hasOutOfStockItems = () => {
     const items = this.props.cart.lineItems;
@@ -140,6 +164,7 @@ class CartPage extends React.Component<Props, State> {
     const item = lineItems.map(item => {
       return (
         <CartItems
+          onNotifyCart={this.onNotifyCart}
           mobile={this.props.mobile}
           key={item.id}
           {...item}

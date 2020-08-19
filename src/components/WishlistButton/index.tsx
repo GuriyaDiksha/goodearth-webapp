@@ -28,6 +28,7 @@ const WishlistButton: React.FC<Props> = ({
   iconClassName,
   mobile,
   basketLineId,
+  source,
   onMoveToWishlist
 }) => {
   const items = useContext(WishlistContext);
@@ -74,7 +75,11 @@ const WishlistButton: React.FC<Props> = ({
       LoginService.showLogin(store.dispatch);
     } else {
       if (basketLineId) {
-        await WishlistService.moveToWishlist(store.dispatch, basketLineId);
+        await WishlistService.moveToWishlist(
+          store.dispatch,
+          basketLineId,
+          source
+        );
         onMoveToWishlist?.();
       } else {
         if (addedToWishlist) {

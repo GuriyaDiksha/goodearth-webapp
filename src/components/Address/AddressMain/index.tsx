@@ -12,8 +12,7 @@ import MyAddress from "containers/myAccount/components/MyAddress";
 import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
-import LoginService from "services/login";
-import { updatePinCodeList, updateCountryData } from "actions/address";
+import { updatePinCodeList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
 import * as Steps from "../../../containers/checkout/constants";
@@ -31,29 +30,27 @@ const AddressMain: React.FC<Props> = props => {
   const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData>();
   const { pinCodeData } = useSelector((state: AppState) => state.address);
-  const { isLoggedIn } = useSelector((state: AppState) => state.user);
+  // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const dispatch = useDispatch();
 
-  const fetchCountryData = async () => {
-    const countryData = await LoginService.fetchCountryData(dispatch);
-    dispatch(updateCountryData(countryData));
-  };
-
   useEffect(() => {
-    if (isLoggedIn) {
+    if (Object.keys(pinCodeData).length < 1) {
+      setIsLoading(true);
       AddressService.fetchPinCodeData(dispatch).then(data => {
-        const pinCodeList = Object.keys(data.data);
-        dispatch(updatePinCodeList(data.data, pinCodeList));
+        setIsLoading(false);
+        const pinCodeList = Object.keys(data);
+        dispatch(updatePinCodeList(data, pinCodeList));
       });
-      fetchCountryData();
     }
-  }, [isLoggedIn]);
+  }, []);
   const [mode, setMode] = useState<AddressModes>("list");
 
   useEffect(() => {
-    addressList.length == 0 ? setMode("new") : setMode("list");
-  }, [addressList.length]);
+    if (Object.keys(pinCodeData).length > 0) {
+      addressList.length == 0 ? setMode("new") : setMode("list");
+    }
+  }, [addressList.length, Object.keys(pinCodeData).length]);
 
   // useEffect(() => {
   //   (addressList.length) && openAddressForm()

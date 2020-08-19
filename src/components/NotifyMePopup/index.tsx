@@ -31,8 +31,10 @@ import { ChildProductAttributes } from "typings/product";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
+import { ProductID } from "typings/id";
 
 type Props = {
+  basketLineId?: ProductID;
   price: number;
   currency: Currency;
   title: string;
@@ -42,9 +44,11 @@ type Props = {
   isSale?: boolean;
   discount: boolean;
   changeSize?: (size: string, quantity?: number) => void;
+  onNotifyCart?: (basketLineId: ProductID) => void;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
+  basketLineId,
   currency,
   price,
   collection,
@@ -52,6 +56,7 @@ const NotifyMePopup: React.FC<Props> = ({
   title,
   selectedIndex,
   changeSize,
+  onNotifyCart,
   isSale,
   discount
 }) => {
@@ -174,6 +179,7 @@ const NotifyMePopup: React.FC<Props> = ({
           setEmailError(message);
         } else {
           setMsg(message);
+          basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {
         setSizeErrorMsg("Please select size");
@@ -234,9 +240,7 @@ const NotifyMePopup: React.FC<Props> = ({
             {isSale && discount && selectedSize?.discountedPriceRecords ? (
               <span className={styles.strikeprice}>
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;
-                {selectedSize
-                  ? selectedSize.discountedPriceRecords[currency]
-                  : price}
+                {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             ) : (
               <span>

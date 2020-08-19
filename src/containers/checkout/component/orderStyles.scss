@@ -290,3 +290,15 @@
   color: gray;
   font-family: $font-Lato;
 }
+
+.text-remove-items {
+  font-size: 14px;
+  margin-top: 10px;
+  font-style: italic;
+
+  .trigger-remove-items {
+    cursor: pointer;
+    font-style: normal;
+    text-decoration: underline;
+  }
+}

@@ -6,6 +6,8 @@ import { updateBasket } from "actions/basket";
 // utils
 import API from "utils/api";
 import { ProductID } from "typings/id";
+import { showMessage } from "actions/growlMessage";
+import { PRODUCT_UNPUBLISHED } from "constants/messages";
 
 export default {
   fetchBasket: async function(dispatch: Dispatch, source?: string) {
@@ -13,6 +15,9 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/basket/detail${source ? "?source=" + source : ""}`
     );
+    if (res.publishRemove) {
+      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+    }
     dispatch(updateBasket(res));
   },
 
@@ -35,36 +40,55 @@ export default {
   updateToBasket: async function(
     dispatch: Dispatch,
     line: ProductID,
-    quantity: number
+    quantity: number,
+    source?: string
   ) {
     const res = await API.post<Basket>(
       dispatch,
-      `${__API_HOST__ + "/myapi/basket/update_product/"}`,
+      `${__API_HOST__}/myapi/basket/update_product/${
+        source ? "?source=" + source : ""
+      }`,
       {
         line,
         quantity
       }
     );
+    if (res.publishRemove) {
+      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+    }
     dispatch(updateBasket(res));
     return res;
   },
-  deleteBasket: async function(dispatch: Dispatch, basketLineId: ProductID) {
+  deleteBasket: async function(
+    dispatch: Dispatch,
+    basketLineId: ProductID,
+    source?: string
+  ) {
     const res = await API.post<Basket>(
       dispatch,
-      `${__API_HOST__ + "/myapi/basket/remove_basket_line/"}`,
+      `${__API_HOST__}/myapi/basket/remove_basket_line/${
+        source ? "?source=" + source : ""
+      }`,
       {
         basketLineId
       }
     );
-
+    if (res.publishRemove) {
+      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+    }
     dispatch(updateBasket(res));
   },
-  removeOutOfStockItems: async function(dispatch: Dispatch) {
+  removeOutOfStockItems: async function(dispatch: Dispatch, source?: string) {
     const res = await API.post<{ message: string; basket: Basket }>(
       dispatch,
-      `${__API_HOST__}/myapi/basket/remove_out_of_stock/`,
+      `${__API_HOST__}/myapi/basket/remove_out_of_stock/${
+        source ? "?source=" + source : ""
+      }`,
       null
     );
+    if (res.basket.publishRemove) {
+      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+    }
     dispatch(updateBasket(res.basket));
     return res;
   }

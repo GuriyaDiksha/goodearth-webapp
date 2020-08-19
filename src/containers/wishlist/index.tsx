@@ -173,38 +173,6 @@ class Wishlist extends React.Component<Props, State> {
     );
   }
 
-  // findPopup(popupType) {
-  //     let temp = null;
-  //     switch (popupType) {
-  //         case 'SIZE':
-  //             for (let wishlist_item of this.state.sampleItems) {
-  //                 if (this.props.popup.data.id === wishlist_item.id) {
-  //                     temp = wishlist_item;
-  //                     break;
-  //                 }
-  //             }
-  //             return <Size wishlist_product={temp} closePopup={this.props.closePopup}
-  //                          dispatch={this.props.dispatch}
-  //                          removeProduct={this.removeProduct} callWishlist={this.getWishlist}
-  //                          notifymsg={this.notifymsg} showNotify={this.props.showNotify}
-  //                          showNotification={this.props.showNotification}/>;
-  //         case 'NOTIFY' :
-  //             for (let wishlist_item of this.state.sampleItems) {
-  //                 if (this.props.popup.data == wishlist_item.product_id) {
-  //                     temp = wishlist_item;
-  //                     break;
-  //                 }
-  //             }
-  //             return <Size wishlist_product={temp} closePopup={this.props.closePopup}
-  //                          dispatch={this.props.dispatch}
-  //                          removeProduct={this.removeProduct} callWishlist={this.getWishlist}
-  //                          notifymsg={this.notifymsg} showNotify={this.props.showNotify}
-  //                          showNotification={this.props.showNotification}/>;
-  //         default:
-  //             return null;
-  //     }
-  // }
-
   getWishlist = (sortBy: string) => {
     this.setState({
       isLoading: true

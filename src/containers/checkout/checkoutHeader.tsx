@@ -62,22 +62,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       cart: Basket
     ) => {
       MetaService.updateMeta(dispatch, cookies);
-      if (pathname.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch, "checkout").then(() => {
-          dataLayer.push({
-            event: "checkout",
-            ecommerce: {
-              currencyCode: currency,
-              checkout: {
-                actionField: { step: 1 },
-                products: cart.products
-              }
-            }
-          });
-        });
-      } else if (pathname.includes("/cart")) {
-        BasketService.fetchBasket(dispatch, "cart");
-      }
     }
   };
 };
