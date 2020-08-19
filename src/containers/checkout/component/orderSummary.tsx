@@ -517,6 +517,28 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return null;
   };
 
+  // chkshipping = (event: React.MouseEvent) => {
+  //   // if (window.ischeckout) {
+  //   //     return false;
+  //   // }
+  //   // const self = this;
+  //   if (this.state.isSuspended) {
+  //     this.resetInfoPopupCookie();
+  //   }
+  //   if (
+  //     !this.state.freeShipping &&
+  //     this.props.cart.total >= 45000 &&
+  //     this.props.cart.total < 50000 &&
+  //     this.props.currency == "INR" &&
+  //     this.props.cart.shippable
+  //   ) {
+  //     this.props.showShipping(
+  //       50000 - parseInt(this.props.cart.total.toString())
+  //     );
+  //     event.preventDefault();
+  //   }
+  // };
+
   return (
     <div className={cs(globalStyles.col12, styles.fixOrdersummary)}>
       <div className={styles.orderSummary}>
