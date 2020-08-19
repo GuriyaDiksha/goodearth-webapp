@@ -105,6 +105,7 @@ const CartItems: React.FC<BasketItem> = memo(
             title={""}
             childAttributes={[]}
             selectedIndex={0}
+            discount={false}
             // changeSize={changeSize}
           />,
           false,
