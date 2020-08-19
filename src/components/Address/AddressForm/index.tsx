@@ -1,4 +1,10 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, {
+  useRef,
+  useState,
+  useContext,
+  useEffect,
+  useCallback
+} from "react";
 import Formsy from "formsy-react";
 import FormInput from "../../../components/Formsy/FormInput";
 import FormSelect from "../../../components/Formsy/FormSelect";
@@ -50,7 +56,7 @@ const AddressForm: React.FC<Props> = props => {
     closeAddressForm,
     mode,
     checkPinCode,
-    isAddressValid,
+    // isAddressValid,
     setIsLoading,
     currentCallBackComponent
   } = useContext(AddressContext);
@@ -64,6 +70,19 @@ const AddressForm: React.FC<Props> = props => {
   );
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
+
+  const isAddressValid = useCallback(
+    (postCode: string, state: string): boolean => {
+      let isValid = false;
+      // const validState = getStateFromPinCode(postCode);
+      const validState = pinCodeData[postCode];
+      if (validState && state.toLowerCase() == validState.toLowerCase()) {
+        isValid = true;
+      }
+      return isValid;
+    },
+    [pinCodeData.length]
+  );
 
   const AddressFormRef = useRef<Formsy>(null);
   // const StateRef = useRef<typeof FormSelect>(null);

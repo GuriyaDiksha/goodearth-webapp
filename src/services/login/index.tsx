@@ -17,6 +17,7 @@ import { updateUser, resetMeta } from "actions/user";
 import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
+import CacheService from "services/cache";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
 import { showMessage } from "actions/growlMessage";
@@ -159,10 +160,16 @@ export default {
     dispatch(updateCurrency(formData.currency));
     return res;
   },
-  fetchCountryData: (dispatch: Dispatch) => {
-    return API.get<countryDataResponse>(
+  fetchCountryData: async (dispatch: Dispatch) => {
+    const countryData = CacheService.get("countryData") as countryDataResponse;
+    if (countryData && countryData.length > 0) {
+      return countryData;
+    }
+    const res = await API.get<countryDataResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/address/countries_state/"}`
     );
+    CacheService.set("countryData", res);
+    return res;
   }
 };

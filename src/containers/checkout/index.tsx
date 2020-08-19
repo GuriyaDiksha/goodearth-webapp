@@ -105,6 +105,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         )
       );
       dispatch(updateModal(true));
+    },
+    fetchBasket: async () => {
+      return await BasketService.fetchBasket(dispatch, "checkout");
     }
   };
 };
@@ -236,6 +239,19 @@ class Checkout extends React.Component<Props, State> {
       chatButtonElem.style.display = "none";
       chatButtonElem.style.bottom = "10px";
     }
+
+    this.props.fetchBasket().then(() => {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          checkout: {
+            actionField: { step: 1 },
+            products: this.props.basket.products
+          }
+        }
+      });
+    });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
