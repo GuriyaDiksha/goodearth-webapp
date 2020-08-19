@@ -151,6 +151,19 @@ class Header extends React.Component<Props, State> {
     });
   };
 
+  handleLogoClick = () => {
+    this.gtmPushLogoClick();
+    this.setState({
+      showC: false,
+      showMenu: false,
+      showSearch: false
+    });
+    if (document.body.classList.contains(globalStyles.noScroll)) {
+      document.body.classList.remove(globalStyles.noScroll);
+    }
+    window.scrollTo(0, 0);
+  };
+
   showPincode = () => {
     this.setState({ showPincodePopup: true });
     this.props.showPincodePopup(this.setPincode);
@@ -381,7 +394,7 @@ class Header extends React.Component<Props, State> {
                 styles.logoContainer
               )}
             >
-              <Link to="/" onClick={this.gtmPushLogoClick}>
+              <Link to="/" onClick={this.handleLogoClick}>
                 <img className={styles.logo} src={gelogoCerise} />
               </Link>
             </div>
