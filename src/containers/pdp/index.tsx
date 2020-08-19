@@ -95,7 +95,11 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    if (this.imageOffsets.length < 1) {
+      this.getImageOffset();
+    }
     if (this.props.device.mobile) {
+      this.getProductImagesData();
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");
@@ -255,6 +259,15 @@ class PDPContainer extends React.Component<Props, State> {
     } = this.props;
 
     return images ? images.concat(sliderImages || []) : [];
+  }
+
+  getImageOffset() {
+    const productImages = this.getProductImagesData();
+    productImages?.map((image, index) => {
+      const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
+      const { clientHeight } = ele;
+      this.imageOffsets[index] = clientHeight;
+    });
   }
 
   getProductImages() {
