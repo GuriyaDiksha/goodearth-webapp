@@ -254,6 +254,7 @@ const ProductDetails: React.FC<Props> = ({
         childAttributes={childAttributes}
         title={title}
         selectedIndex={selectedIndex}
+        discount={false}
       />,
       false,
       ModalStyles.bottomAlign
