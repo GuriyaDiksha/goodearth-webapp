@@ -240,9 +240,7 @@ const NotifyMePopup: React.FC<Props> = ({
             {isSale && discount && selectedSize?.discountedPriceRecords ? (
               <span className={styles.strikeprice}>
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;
-                {selectedSize
-                  ? selectedSize.discountedPriceRecords[currency]
-                  : price}
+                {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             ) : (
               <span>
