@@ -128,6 +128,13 @@ class Header extends React.Component<Props, State> {
   };
 
   clickToggle = () => {
+    const isMobileMenuOpen = !this.state.showMenu;
+
+    if (isMobileMenuOpen) {
+      document.body.classList.add(globalStyles.noScroll);
+    } else {
+      document.body.classList.remove(globalStyles.noScroll);
+    }
     this.setState({
       showMenu: !this.state.showMenu,
       showSearch: false
@@ -404,6 +411,7 @@ class Header extends React.Component<Props, State> {
             )}
             <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
               <SideMenu
+                showSearch={this.state.showSearch}
                 toggleSearch={this.showSearch}
                 mobile={this.props.mobile}
                 wishlistData={wishlistData}
