@@ -95,7 +95,7 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (this.imageOffsets.length < 1) {
+    if (this.imageOffsets.length < 1 && this.props.data) {
       this.getImageOffset();
     }
     if (this.props.device.mobile) {
@@ -245,30 +245,30 @@ class PDPContainer extends React.Component<Props, State> {
     }
   };
 
-  fetchMoreProductsFromCollection() {
+  fetchMoreProductsFromCollection = () => {
     const { id, fetchMoreProductsFromCollection } = this.props;
 
     if (id) {
       fetchMoreProductsFromCollection(id);
     }
-  }
+  };
 
-  getProductImagesData() {
+  getProductImagesData = () => {
     const {
       data: { sliderImages, images }
     } = this.props;
 
     return images ? images.concat(sliderImages || []) : [];
-  }
+  };
 
-  getImageOffset() {
+  getImageOffset = () => {
     const productImages = this.getProductImagesData();
     productImages?.map((image, index) => {
       const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
       const { clientHeight } = ele;
       this.imageOffsets[index] = clientHeight;
     });
-  }
+  };
 
   getProductImages() {
     const productImages = this.getProductImagesData();
