@@ -95,7 +95,11 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (this.imageOffsets.length < 1 && this.props.data) {
+    if (
+      !this.props.device.mobile &&
+      this.imageOffsets.length < 1 &&
+      this.props.data
+    ) {
       this.getImageOffset();
     }
     if (this.props.device.mobile) {
