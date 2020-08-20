@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
-// import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
+import loadable from "@loadable/component";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
 import { OrderProps } from "./typings";
@@ -13,6 +12,8 @@ import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
 import LoginService from "services/login";
+import { updateComponent, updateModal } from "actions/modal";
+const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -26,6 +27,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   } = props;
   const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
+  const [freeShipping] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
@@ -141,7 +143,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.discountprice}>
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? item.GCValue
+                          ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
                               item.product.discountedPriceRecords[
                                 currency
@@ -152,7 +154,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? item.GCValue
+                          ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
                               item.product.priceRecords[currency].toString()
                             ).toFixed(2)}{" "}
@@ -162,7 +164,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     <span className={styles.productPrice}>
                       {String.fromCharCode(code)}{" "}
                       {item.product.structure == "GiftCard"
-                        ? item.GCValue
+                        ? parseFloat(item.GCValue.toString()).toFixed(2)
                         : parseFloat(
                             item.product.priceRecords[currency].toString()
                           ).toFixed(2)}
@@ -397,24 +399,35 @@ const OrderSummary: React.FC<OrderProps> = props => {
       "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     document.cookie = cookieString;
   };
-  const chkshipping = () => {
-    if (pathname.indexOf("checkout") > -1) {
+  const chkshipping = (event: any) => {
+    if (page != "cart") {
       return false;
     }
     if (isSuspended) {
       resetInfoPopupCookie();
     }
-    // let price = calculateOffer(true) - getPromoOffer();
-    // if (!state.freeShipping && price >= 45000 && price < 50000 && currency == 'INR' && basket.shippable) {
-    //     props.showShipping(50000 - price);
-    //     event.preventDefault();
-    // }
+    if (
+      !freeShipping &&
+      basket.total >= 45000 &&
+      basket.total < 50000 &&
+      currency == "INR" &&
+      basket.shippable
+    ) {
+      dispatch(
+        updateComponent(
+          <FreeShipping
+            remainingAmount={50000 - parseInt(basket.total.toString())}
+          />,
+          true
+        )
+      );
+      dispatch(updateModal(true));
+      event.preventDefault();
+    }
   };
 
   const onRemoveOutOfStockItemsClick = () => {
-    //   CartApi.removeOutOfStockItems(null, props.dispatch).then(mydata =>{
-    //     props.getShippingCharges();
-    // });
+    BasketService.removeOutOfStockItems(dispatch, "cart");
   };
 
   const goToWishlist = (e: any) => {
@@ -614,7 +627,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <hr className={styles.hr} />
                 <NavLink
                   key="cartCheckout"
-                  to={canCheckout() ? "/order/checkout/" : "javascript:void(0)"}
+                  to={canCheckout() ? "/order/checkout/" : "#"}
                 >
                   <button
                     onClick={chkshipping}

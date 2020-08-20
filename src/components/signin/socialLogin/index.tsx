@@ -88,7 +88,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           )}
           autoLoad={false}
           onSuccess={responseGoogle}
-          cookiePolicy={"single_host_origin"}
+          // cookiePolicy={"single_host_origin"}
         />
       </div>
     </>

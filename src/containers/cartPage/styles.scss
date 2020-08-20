@@ -44,7 +44,7 @@ hr {
   }
   .section {
     height: 100%;
-   // padding: 20px 0;
+    padding: 20px 0;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -362,6 +362,7 @@ display: inline-table;
 }
 
 .trigger-notify {
+  font-size: 14px;
   color: #808080;
   cursor: pointer;
   text-align: center;
