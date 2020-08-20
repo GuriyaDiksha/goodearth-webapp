@@ -702,13 +702,13 @@ a {
 
 .search {
   .search-products {
-    height: calc(100vh - 220px);
+    height: calc(100vh - 180px);
   }
   .search-products-m {
     height: calc(100vh - 188px);
   }
   .search-products-ipad {
-    height: calc(100vh - 260px);
+    height: calc(100vh - 180px);
   }
 }
 
@@ -1091,6 +1091,11 @@ visibility: visible !important;
     @include plp_prod_name_desktop();
     a {
       @include plp_prod_name_desktop();
+    }
+    a {
+      &:hover {
+        color: $cerise;
+      }
     }
   }
 }
