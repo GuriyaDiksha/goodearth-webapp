@@ -561,17 +561,18 @@ class CategoryLanding extends React.Component<
         )}
 
         <section>
-          {peoplebuying.results?.length >= 0 && (
-            <div className={cs(bootstrap.row, styles.fBlock)}>
-              <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
-                <WhatPeopleBuying
-                  data={peoplebuying.results}
-                  setting={config}
-                  mobile={mobile}
-                />
+          {peoplebuying.results?.length >= 4 &&
+            typeof document !== "undefined" && (
+              <div className={cs(bootstrap.row, styles.fBlock)}>
+                <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
+                  <WhatPeopleBuying
+                    data={peoplebuying.results}
+                    setting={config}
+                    mobile={mobile}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </section>
         {shopthelook2.widgetImages ? (
           shopthelook2.widgetImages.length > 0 ? (

@@ -57,6 +57,9 @@ const initAction: any = async (store: Store) => {
     }),
     ApiService.getSalesStatus(store.dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
+    }),
+    ApiService.getPopupBgUrl(store.dispatch).catch(err => {
+      console.log("Popup Bg Api Status ==== " + err);
     })
   ];
 
