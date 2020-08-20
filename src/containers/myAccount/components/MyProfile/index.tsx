@@ -98,7 +98,7 @@ class MyProfile extends React.Component<Props, State> {
       this.ProfileFormRef.current.updateInputsWithValue(formData);
   };
 
-  handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
+  handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     if (!this.state.updateProfile) return false;
     const {
       phoneCountryCode,
@@ -129,11 +129,32 @@ class MyProfile extends React.Component<Props, State> {
         });
       })
       .catch(err => {
-        if (err) {
-          this.setState({
-            showerror: "Something went Wrong"
-          });
-        }
+        this.setState(
+          {
+            // disableButton: false
+          },
+          () => {
+            this.handleInvalidSubmit();
+          }
+        );
+        Object.keys(err.response.data).map(data => {
+          switch (data) {
+            case "firstName":
+            case "lastName":
+            case "gender":
+            case "dateOfBirth":
+            case "phoneNumber":
+            case "phoneCountryCode":
+            case "panPassportNumber":
+              updateInputsWithError(
+                {
+                  [data]: err.response.data[data][0]
+                },
+                true
+              );
+              break;
+          }
+        });
       });
   };
 
@@ -358,6 +379,7 @@ class MyProfile extends React.Component<Props, State> {
                 )}
                 <input
                   type="submit"
+                  formNoValidate
                   disabled={!this.state.updateProfile}
                   className={
                     this.state.updateProfile
