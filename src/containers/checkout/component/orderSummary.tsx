@@ -143,7 +143,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.discountprice}>
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? item.GCValue
+                          ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
                               item.product.discountedPriceRecords[
                                 currency
@@ -154,7 +154,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       <span className={styles.strikeprice}>
                         {String.fromCharCode(code)}{" "}
                         {item.product.structure == "GiftCard"
-                          ? item.GCValue
+                          ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
                               item.product.priceRecords[currency].toString()
                             ).toFixed(2)}{" "}
@@ -164,7 +164,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     <span className={styles.productPrice}>
                       {String.fromCharCode(code)}{" "}
                       {item.product.structure == "GiftCard"
-                        ? item.GCValue
+                        ? parseFloat(item.GCValue.toString()).toFixed(2)
                         : parseFloat(
                             item.product.priceRecords[currency].toString()
                           ).toFixed(2)}
