@@ -24,7 +24,7 @@ export type otpProps = {
   activateGiftCard?: (data: any) => Promise<any>;
   updateList: (data: any) => void;
   isCredit?: boolean;
-  updateError: (data: boolean) => void;
+  updateError: (message: string) => void;
   validateEmptyInputs?: () => void;
   otpFor?: "activateGC" | "balanceGC" | "balanceCN";
   firstName?: string;

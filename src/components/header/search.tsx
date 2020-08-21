@@ -376,7 +376,7 @@ class Search extends React.Component<Props, State> {
                             )}
                             <div className={styles.imageboxNew}>
                               <a
-                                href="javascript:void(0);"
+                                href={data.url}
                                 onClick={this.showProduct.bind(this, data, i)}
                                 onMouseOver={this.mouseOverImage.bind(this, i)}
                                 onMouseOut={this.mouseOutImage.bind(this, i)}
