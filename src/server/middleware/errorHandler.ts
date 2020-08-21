@@ -10,6 +10,8 @@ export default async function device(
     if (err?.response?.status == 500) {
       ctx.redirect("/error-page");
     }
-    console.log(err, ctx);
+    ctx.status = err.status;
+    ctx.body = "Please Wait !!!!!!  Currently build is in process..";
+    ctx.app.emit("error", err, ctx);
   }
 }

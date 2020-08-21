@@ -14,7 +14,8 @@ import moment from "moment";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
-    user: { email }
+    user: { email },
+    info
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
   const dispatch = useDispatch();
