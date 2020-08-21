@@ -75,7 +75,7 @@ export default {
       `${__API_HOST__}/myapi/address/specify_shipping_address/?source=checkout`,
       { shippingAddressId: id }
     );
-    if (data.data.basket.publishRemove) {
+    if (data.data.basket.updated || data.data.basket.publishRemove) {
       dispatch(showMessage(PRODUCT_UNPUBLISHED));
     }
     dispatch(updateBasket(data.data.basket));
