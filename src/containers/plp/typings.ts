@@ -33,6 +33,7 @@ export type FilterProps = {
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
   history: any;
   changeLoader?: (data: boolean) => void;
+  onStateChange?: () => void;
 };
 
 export type State = {

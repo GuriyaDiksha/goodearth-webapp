@@ -35,6 +35,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class FilterList extends React.Component<Props, State> {
   public productData: any = [];
+  public unlisten: any = "";
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -275,7 +276,6 @@ class FilterList extends React.Component<Props, State> {
             });
             break;
           }
-
           default:
             break;
         }
@@ -293,7 +293,7 @@ class FilterList extends React.Component<Props, State> {
     if (mainurl == "" || !mainurl) {
       mainurl = history.location.pathname;
     }
-    history.push(mainurl + "?source=plp" + filterUrl, {});
+    history.replace(mainurl + "?source=plp" + filterUrl, {});
     this.updateDataFromAPI(load);
   };
   onchangeRange = (value: any) => {
@@ -505,9 +505,40 @@ class FilterList extends React.Component<Props, State> {
     });
   };
 
+  stateChange = (location: any, action: any) => {
+    if (action == "REPLCAE") {
+      // debugger;
+      this.props.onStateChange?.();
+    } else if (
+      action == "PUSH" &&
+      location.pathname.includes("/catalogue/category/")
+    ) {
+      this.setState(
+        {
+          filter: {
+            currentColor: {},
+            availableSize: {},
+            categoryShop: {},
+            price: {},
+            currency: {},
+            sortBy: {},
+            productType: {},
+            availableDiscount: {}
+          }
+        },
+        () => {
+          this.props.updateOnload(false);
+          this.createList(this.props.data);
+          this.props.updateFacets(this.getSortedFacets(this.props.facets));
+          this.props.onStateChange?.();
+        }
+      );
+    }
+  };
+
   componentDidMount() {
-    // this.props.onRef(this);
     window.addEventListener("scroll", this.handleScroll);
+    this.unlisten = this.props.history.listen(this.stateChange);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
@@ -581,6 +612,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    this.unlisten();
   }
 
   getSortedFacets = (facets: any): any => {
