@@ -111,7 +111,8 @@ class Giftcard extends React.Component<Props, GiftState> {
       return {
         toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
         newCardBox: true,
-        isSuccess: false
+        isSuccess: false,
+        giftList: []
       };
     });
     // this.props.history.push(this.props.history.location.pathname, {});

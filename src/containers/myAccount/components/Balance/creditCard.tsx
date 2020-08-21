@@ -96,7 +96,10 @@ class CreditCard extends React.Component<Props, GiftState> {
             giftList: giftList,
             newCardBox: false,
             txtvalue: "",
-            error: ""
+            error: "",
+            showExpired: false,
+            showInactive: false,
+            showLocked: false
           });
         }
       })
@@ -142,7 +145,10 @@ class CreditCard extends React.Component<Props, GiftState> {
       this.setState({
         giftList: giftList,
         newCardBox: false,
-        txtvalue: ""
+        txtvalue: "",
+        showExpired: false,
+        showInactive: false,
+        showLocked: false
       });
     }
   };
