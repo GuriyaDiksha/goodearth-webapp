@@ -791,7 +791,7 @@ a {
   }
 }
 .search-products {
-  height: 80vh;
+  height: calc(100vh - 180px);
   overflow-y: scroll;
   overflow-x: hidden;
   -moz-appearance: none;
