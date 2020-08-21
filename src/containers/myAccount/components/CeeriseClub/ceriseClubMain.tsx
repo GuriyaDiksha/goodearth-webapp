@@ -9,6 +9,17 @@ import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+const mapStateToProps = (state: AppState) => {
+  return {
+    mobile: state.device.mobile,
+    email: state.user.email
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {};
+};
+
 type Props = {} & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
@@ -18,18 +29,10 @@ type State = {
   customerUniqueID: string;
   addressAvailable: boolean;
   slab: string;
-  next_slab_amount: string;
+  nextSlabAmount: string;
   points: number;
-};
-
-const mapStateToProps = (state: AppState) => {
-  return {
-    mobile: state.device.mobile
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {};
+  expiryDate: string;
+  memberExpiryDate: string;
 };
 
 class CeriseClubMain extends Component<Props, State> {
@@ -41,7 +44,10 @@ class CeriseClubMain extends Component<Props, State> {
       customerUniqueID: "",
       addressAvailable: false,
       slab: "",
-      next_slab_amount: ""
+      nextSlabAmount: "",
+      points: 0,
+      expiryDate: "",
+      memberExpiryDate: ""
     };
   }
   months = [
@@ -59,7 +65,7 @@ class CeriseClubMain extends Component<Props, State> {
     "December"
   ];
 
-  setAddressAvailable(addressAvailable) {
+  setAddressAvailable(addressAvailable: boolean) {
     this.setState({
       addressAvailable: addressAvailable
     });
@@ -75,31 +81,31 @@ class CeriseClubMain extends Component<Props, State> {
 
   getLoyaltyTransactions() {
     const formData = new FormData();
-    formData.append("email", window.user.email);
+    formData.append("email", this.props.email);
     formData.append("phoneno", "");
-    axios
-      .post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
-      .then(res => {
-        if (res.data.is_success) {
-          this.setState({
-            customerDetails: res.data.message.CUSTOMER_DETAILS[0],
-            slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
-            expiryDate: moment(
-              res.data.message.CUSTOMER_DETAILS[0].Expiry_date,
-              "DD-MM-YYYY"
-            ),
-            points: res.data.message.CUSTOMER_DETAILS[0].Expiry_Points,
-            memberExpiryDate: moment(
-              res.data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
-              "DD-MM-YYYY"
-            ),
-            customerUniqueID: res.data.unique_id
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // axios
+    //   .post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
+    //   .then(res => {
+    //     if (res.data.is_success) {
+    //       this.setState({
+    //         customerDetails: res.data.message.CUSTOMER_DETAILS[0],
+    //         slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
+    //         expiryDate: moment(
+    //           res.data.message.CUSTOMER_DETAILS[0].Expiry_date,
+    //           "DD-MM-YYYY"
+    //         ),
+    //         points: res.data.message.CUSTOMER_DETAILS[0].Expiry_Points,
+    //         memberExpiryDate: moment(
+    //           res.data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
+    //           "DD-MM-YYYY"
+    //         ),
+    //         customerUniqueID: res.data.unique_id
+    //       });
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 
   viewStatementMicrosite() {
@@ -119,35 +125,34 @@ class CeriseClubMain extends Component<Props, State> {
   }
 
   render() {
+    const {
+      slab,
+      customerDetails: { PurchaseAmount, nextSlabAmount }
+    } = this.state;
     let club;
     let percentage;
     let nextSlab;
-    if (this.state.slab) {
+    if (slab) {
       club =
-        this.state.slab.toLowerCase() == "cerise" ||
-        this.state.slab.toLowerCase() == "ff10"
+        slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
           ? "Cerise"
           : "Cerise Sitara";
       percentage =
-        this.state.slab.toLowerCase() == "cerise" ||
-        this.state.slab.toLowerCase() == "ff10"
-          ? this.state.customerDetails.PurchaseAmount / 5000
+        slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+          ? PurchaseAmount / 5000
           : 100;
       nextSlab =
-        this.state.slab.toLowerCase() == "cerise"
-          ? "Cerise Sitara"
-          : "Cerise Sitara";
+        slab.toLowerCase() == "cerise" ? "Cerise Sitara" : "Cerise Sitara";
     }
     const buttonText = this.state.addressAvailable
       ? "MANAGE ADDRESSES"
       : "ADD ADDRESS";
     const slabAmount =
-      this.state.customerDetails.next_slab_amount == 0
+      nextSlabAmount == 0
         ? "0"
-        : this.state.customerDetails.next_slab_amount
-        ? this.state.customerDetails.next_slab_amount
-        : this.state.customerDetails.next_slab_amount == 0 ||
-          this.state.next_slab_amount == null
+        : nextSlabAmount
+        ? nextSlabAmount
+        : nextSlabAmount == 0 || this.state.nextSlabAmount == null
         ? "0"
         : "Loading...";
     return (
@@ -313,11 +318,11 @@ class CeriseClubMain extends Component<Props, State> {
           <div className="cerise-address-main">
             <div className="cerise-address-component">
               <h4 className="cerise">My Address</h4>
-              <AddressMainComponent
+              {/* <AddressMainComponent
                 showDefaultAddressOnly={true}
                 currentCallBackComponent="cerise"
                 setAddressAvailable={this.setAddressAvailable}
-              />
+              /> */}
             </div>
             {!this.state.addressAvailable && (
               <p className="op2 loyalty-info-text">

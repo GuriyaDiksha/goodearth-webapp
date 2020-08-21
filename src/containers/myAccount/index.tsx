@@ -16,7 +16,7 @@ import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
 import ChangePassword from "./components/ChangePassword";
-import { useStore, useSelector } from "react-redux";
+import { useStore, useSelector, useDispatch } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
@@ -24,6 +24,8 @@ import AddressMain from "components/Address/AddressMain";
 import { AppState } from "reducers/typings";
 import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
+import AccountServies from "services/account";
+import ceriseClubMain from "./components/CeeriseClub/ceriseClubMain";
 
 type Props = {
   isBridal: boolean;
@@ -32,7 +34,6 @@ type Props = {
 };
 
 // type State = {
-//     isCeriseClubMember: boolean;
 //     showregistry: boolean;
 // }
 
@@ -41,10 +42,36 @@ const MyAccount: React.FC<Props> = props => {
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
-  const { isLoggedIn } = useSelector((state: AppState) => state.user);
+  const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { path } = useRouteMatch();
+  // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
   const [currentSection, setCurrentSection] = useState("Profile");
+  const { pathname } = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const getLoyaltyTransactions = () => {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("phoneno", "");
+    AccountServies.getLoyaltyTransactions(dispatch, formData)
+      .then(res => {
+        // if (res.data.is_success) {
+        //     let isCeriseClubMember = res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
+        //     this.setState({
+        //         slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
+        //         isCeriseClubMember: isCeriseClubMember
+        //     }, () => {
+        //         const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
+        //         this.props.updateCeriseClubAccess(slab);
+        //     })
+        // }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
@@ -56,10 +83,9 @@ const MyAccount: React.FC<Props> = props => {
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
+    getLoyaltyTransactions();
     // window.scrollTo(0, 0);
   }, []);
-  const { pathname } = useLocation();
-  const history = useHistory();
 
   const accountMenuItems: AccountMenuItem[] = [
     {
@@ -97,7 +123,25 @@ const MyAccount: React.FC<Props> = props => {
       component: TrackOrder,
       title: "track",
       loggedInOnly: false
-    },
+    }
+  ];
+  let ceriseClubAccess = true;
+  if (slab) {
+    ceriseClubAccess =
+      slab.toLowerCase() == "cerise" ||
+      slab.toLowerCase() == "ff10" ||
+      slab.toLowerCase() == "ff15" ||
+      slab.toLowerCase() == "cerise sitara";
+  }
+  ceriseClubAccess &&
+    accountMenuItems.push({
+      label: "Cerise",
+      href: "/account/cerise",
+      component: ceriseClubMain,
+      title: "Cerise",
+      loggedInOnly: true
+    });
+  accountMenuItems.push(
     {
       label: "Activate Gift Card",
       href: "/account/giftcard-activation",
@@ -112,7 +156,7 @@ const MyAccount: React.FC<Props> = props => {
       title: "Check Balance",
       loggedInOnly: false
     }
-  ];
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
