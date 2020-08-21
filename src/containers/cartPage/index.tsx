@@ -89,11 +89,6 @@ class CartPage extends React.Component<Props, State> {
       chatButtonElem.style.display = "none";
       chatButtonElem.style.bottom = "10px";
     }
-    if (this.props.cart.publishRemove) {
-      this.props.showNotify(
-        "Due to unavailability of some products your cart has been updated."
-      );
-    }
     this.props.fetchBasket();
   }
 
@@ -116,14 +111,6 @@ class CartPage extends React.Component<Props, State> {
       }
     }
     return false;
-  };
-
-  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    if (nextProps.cart.publishRemove && !this.props.cart.publishRemove) {
-      this.props.showNotify(
-        "Due to unavailability of some products your cart has been updated."
-      );
-    }
   };
 
   getItemsCount() {

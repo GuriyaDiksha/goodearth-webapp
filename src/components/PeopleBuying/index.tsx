@@ -67,14 +67,11 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
             className={cs(globalStyles.imgResponsive, styles.sliderImage)}
           />
         </Link>
-        <div className={styles.moreBlock}>
-          <p className={styles.productH}>{item.title}</p>
+        <div className={cs(styles.moreBlock, globalStyles.voffset3)}>
           <p className={styles.productN}>
             <Link to={item.url}> {item.title} </Link>
           </p>
-          <p className={styles.productN}>
-            <span>{item.country}</span>
-          </p>
+          <p className={styles.productH}>{item.country}</p>
         </div>
       </div>
     );

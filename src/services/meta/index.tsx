@@ -37,7 +37,7 @@ export default {
       user.bridal = meta.bridalUser;
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
-      if (typeof document != "undefined" && !user.gender) {
+      if (typeof document != "undefined" && user.email && !user.gender) {
         dispatch(updateComponent(<ProfileUpdater />, true));
         dispatch(updateModal(true));
       }
