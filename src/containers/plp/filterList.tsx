@@ -178,12 +178,18 @@ class FilterList extends React.Component<Props, State> {
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
       urllist = this.props.facets.categoryShopDetail;
-      urllist.some((url: any) => {
-        currentKey = Object.keys(url)[0];
+      urllist.map((urlData: any) => {
+        currentKey = urlData.name?.trim();
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = url[currentKey];
-          return true;
+          mainUrl = urlData.url;
         }
+        urlData.children.map((url: any) => {
+          currentKey = url.name?.trim();
+          if (matchkey.replace(/\+/g, " ") == currentKey) {
+            mainUrl = url.url;
+            return url;
+          }
+        });
       });
     } else {
       mainUrl = pathname;
@@ -506,8 +512,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   stateChange = (location: any, action: any) => {
-    if (action == "REPLCAE") {
-      // debugger;
+    if (action == "REPLACE") {
       this.props.onStateChange?.();
     } else if (
       action == "PUSH" &&
