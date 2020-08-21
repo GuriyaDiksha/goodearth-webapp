@@ -139,6 +139,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           {giftList.map((data, i) => {
             return (
               <GiftCardItem
+                isLoggedIn={isLoggedIn}
                 {...data}
                 onClose={this.onClose}
                 currency={currency}

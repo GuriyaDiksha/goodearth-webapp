@@ -137,10 +137,10 @@ class Giftcard extends React.Component<Props, GiftState> {
       }
     }, 0);
   };
-  updateError = (data: boolean) => {
-    if (data) {
+  updateError = (message: string) => {
+    if (message) {
       this.setState({
-        error: "Please enter a valid code"
+        error: message
       });
     }
     const elem: any = document.getElementById("gift");
@@ -294,6 +294,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           {this.state.giftList.map((data, i) => {
             return (
               <GiftCardItem
+                isLoggedIn={isLoggedIn}
                 {...data}
                 viewOnly={true}
                 onClose={this.onClose}
@@ -301,6 +302,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                 conditionalRefresh={this.state.conditionalRefresh}
                 showLocked={this.state.showLocked}
                 showExpired={this.state.showExpired}
+                showInactive={this.state.showInactive}
               />
             );
           })}
