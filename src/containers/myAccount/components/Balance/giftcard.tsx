@@ -107,6 +107,9 @@ class Giftcard extends React.Component<Props, GiftState> {
           giftList.push(response);
           this.setState({
             giftList: giftList,
+            showExpired: false,
+            showInactive: false,
+            showLocked: false,
             newCardBox: false,
             txtvalue: "",
             error: "",
@@ -178,6 +181,9 @@ class Giftcard extends React.Component<Props, GiftState> {
     } else {
       giftList.push(response);
       this.setState({
+        showExpired: false,
+        showInactive: false,
+        showLocked: false,
         giftList: giftList,
         newCardBox: false,
         txtvalue: "",
