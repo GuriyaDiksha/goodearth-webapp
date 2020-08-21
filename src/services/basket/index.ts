@@ -15,7 +15,7 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/basket/detail${source ? "?source=" + source : ""}`
     );
-    if (res.publishRemove) {
+    if (res.updated || res.publishRemove) {
       dispatch(showMessage(PRODUCT_UNPUBLISHED));
     }
     dispatch(updateBasket(res));
@@ -53,7 +53,7 @@ export default {
         quantity
       }
     );
-    if (res.publishRemove) {
+    if (res.updated || res.publishRemove) {
       dispatch(showMessage(PRODUCT_UNPUBLISHED));
     }
     dispatch(updateBasket(res));
@@ -73,7 +73,7 @@ export default {
         basketLineId
       }
     );
-    if (res.publishRemove) {
+    if (res.updated || res.publishRemove) {
       dispatch(showMessage(PRODUCT_UNPUBLISHED));
     }
     dispatch(updateBasket(res));
@@ -86,7 +86,7 @@ export default {
       }`,
       null
     );
-    if (res.basket.publishRemove) {
+    if (res.basket.updated || res.basket.publishRemove) {
       dispatch(showMessage(PRODUCT_UNPUBLISHED));
     }
     dispatch(updateBasket(res.basket));
