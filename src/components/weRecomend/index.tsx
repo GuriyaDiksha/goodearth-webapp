@@ -37,7 +37,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             {
               name: data.productName,
               id: data.id,
-              price: data.pricerecords[currency],
+              price: data.priceRecords[currency],
               brand: "Goodearth",
               category: "",
               variant: "",
@@ -60,7 +60,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   };
   const withoutZeroPriceData = data?.filter(
     (item: RecommendData, i: number) => {
-      return item.pricerecords[currency as Currency] != 0;
+      return item.priceRecords[currency as Currency] != 0;
     }
   );
   const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
@@ -121,13 +121,31 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
           <p className={styles.productN}>
-            <span
-              className={item.badgeType == "B_flat" ? globalStyles.cerise : ""}
-            >
-              {" "}
-              {String.fromCharCode(code)}{" "}
-              {item.pricerecords[currency as Currency]}{" "}
-            </span>
+            {item.discount ? (
+              <span className={styles.discountprice}>
+                {String.fromCharCode(code)}{" "}
+                {item.discountedPriceRecords[currency as Currency]}
+              </span>
+            ) : (
+              ""
+            )}
+            {item.discount ? (
+              <span className={styles.strikeprice}>
+                {" "}
+                {String.fromCharCode(code)}{" "}
+                {item.priceRecords[currency as Currency]}{" "}
+              </span>
+            ) : (
+              <span
+                className={
+                  item.badgeType == "B_flat" ? globalStyles.cerise : ""
+                }
+              >
+                {" "}
+                {String.fromCharCode(code)}{" "}
+                {item.priceRecords[currency as Currency]}{" "}
+              </span>
+            )}
           </p>
         </div>
       </div>
