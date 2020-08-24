@@ -532,10 +532,10 @@ class FilterList extends React.Component<Props, State> {
           }
         },
         () => {
-          this.props.updateOnload(false);
-          this.createList(this.props.data);
-          this.props.updateFacets(this.getSortedFacets(this.props.facets));
-          this.props.onStateChange?.();
+          this.props.updateOnload(true);
+          this.props.mobile
+            ? this.updateDataFromAPI("load")
+            : this.updateDataFromAPI();
         }
       );
     }

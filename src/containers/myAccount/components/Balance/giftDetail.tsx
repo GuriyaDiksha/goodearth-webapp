@@ -5,6 +5,7 @@ import { GiftListProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
+import { Link } from "react-router-dom";
 
 const GiftCardItem = ({
   currStatus,
@@ -19,16 +20,18 @@ const GiftCardItem = ({
   showExpired,
   code,
   onClose,
-  viewOnly
+  viewOnly,
+  showInactive,
+  isLoggedIn
 }: GiftListProps): JSX.Element => {
   // const [showLocked, set = false;
   // let showExpired = false;
   const unicode = currencyCode[currCode as Currency];
   // const conditionalRefresh = false;
-  const deleteCard = (code: string) => {
-    // setOpenState(!menuOpen);
-    // console.log(showLocked);
-  };
+  // const deleteCard = (code: string) => {
+  // setOpenState(!menuOpen);
+  // console.log(showLocked);
+  // };
 
   const closeResult = (code: string) => {
     onClose(code);
@@ -42,7 +45,7 @@ const GiftCardItem = ({
 
   return (
     <div id="gc-balance-info">
-      {showExpired ? (
+      {showExpired && (
         <div>
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             <p className={styles.value12}>
@@ -66,11 +69,11 @@ const GiftCardItem = ({
               <span className={styles.op2}> Date of expiry: </span>{" "}
               <span className={styles.fontBold}> {expiryDate} </span>
             </p>
-            {conditionalRefresh && (
+            {conditionalRefresh && !isLoggedIn && (
               <span
                 className={cl(styles.colorPrimary, globalStyles.pointer)}
                 onClick={() => {
-                  deleteCard(code);
+                  closeResult(code);
                 }}
               >
                 <a
@@ -86,7 +89,114 @@ const GiftCardItem = ({
             )}
           </div>
         </div>
-      ) : (
+      )}
+      {showInactive && (
+        <div className="gc-inactive">
+          <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
+            {!viewOnly && (
+              <p className={styles.value12}>
+                {code}{" "}
+                <span
+                  className={styles.cross}
+                  onClick={() => {
+                    closeResult(code);
+                  }}
+                >
+                  <i
+                    className={cl(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig
+                    )}
+                  ></i>
+                </span>
+              </p>
+            )}
+            <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+              {" "}
+              Balance amount:{" "}
+              <span className={styles.fontBold}>
+                {" "}
+                {String.fromCharCode(unicode)} {remValues}{" "}
+              </span>
+              | Gift Card INACTIVE |{" "}
+              <Link
+                className={cl(
+                  globalStyles.linkTextUnderline,
+                  globalStyles.cerise
+                )}
+                to="/account/giftcard-activation"
+              >
+                CLICK HERE TO ACTIVATE
+              </Link>
+            </p>
+            {conditionalRefresh && !isLoggedIn && (
+              <span
+                className={cl(styles.colorPrimary, globalStyles.pointer)}
+                onClick={() => {
+                  closeResult(code);
+                }}
+              >
+                <a
+                  className={cl(
+                    globalStyles.cerise,
+                    globalStyles.pointer,
+                    globalStyles.linkTextUnderline
+                  )}
+                >
+                  Refresh
+                </a>
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+      {showLocked && (
+        <div className="gc-inactive">
+          <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
+            {!viewOnly && (
+              <p className={styles.value12}>
+                {code}{" "}
+                <span
+                  className={styles.cross}
+                  onClick={() => {
+                    closeResult(code);
+                  }}
+                >
+                  <i
+                    className={cl(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig
+                    )}
+                  ></i>
+                </span>
+              </p>
+            )}
+            <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+              Please try again in sometime. For security reasons, your credit
+              note / gift card is temporarily locked
+            </p>
+            {conditionalRefresh && !isLoggedIn && (
+              <span
+                className={cl(styles.colorPrimary, globalStyles.pointer)}
+                onClick={() => {
+                  closeResult(code);
+                }}
+              >
+                <a
+                  className={cl(
+                    globalStyles.cerise,
+                    globalStyles.pointer,
+                    globalStyles.linkTextUnderline
+                  )}
+                >
+                  Refresh
+                </a>
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+      {!showExpired && !showInactive && !showLocked && (
         <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
           {!viewOnly && (
             <p className={styles.value12}>
@@ -126,7 +236,7 @@ const GiftCardItem = ({
               {String.fromCharCode(unicode)} {remValues}{" "}
             </span>
           </p>
-          {conditionalRefresh && (
+          {conditionalRefresh && !isLoggedIn && (
             <span
               className={cl(styles.colorPrimary, globalStyles.pointer)}
               onClick={() => {

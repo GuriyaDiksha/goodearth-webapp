@@ -178,7 +178,7 @@
     bottom: 0;
     top: ($header-height + 50);
     left: 0;
-    z-index: 10;
+    z-index: 7;
     background-color: white;
     -webkit-transition: all 0.5s linear;
     -moz-transition: all 0.5s linear;
@@ -623,6 +623,10 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     border: 1px solid tint(#000, 80%);
     margin: 0 2%;
   }
+}
+
+.bannerMobileCategory {
+  margin-top: 70px;
 }
 
 
