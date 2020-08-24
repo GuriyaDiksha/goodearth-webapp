@@ -54,7 +54,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           currencyCode: result.currency,
           purchase: {
             actionField: {
-              id: result.transactionId,
+              id: result.number,
               affiliation: "Online Store",
               revenue: result.totalInclTax,
               tax: 0,
