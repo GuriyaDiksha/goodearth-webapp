@@ -9,7 +9,7 @@ export interface RecommendData {
   productImage: string;
   productName: string;
   badgeImage?: string;
-  priceRecords: PriceRecord;
+  pricerecords: PriceRecord;
   id: ProductID;
   badgeType?: string;
   discount: boolean;

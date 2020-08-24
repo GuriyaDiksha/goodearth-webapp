@@ -37,7 +37,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             {
               name: data.productName,
               id: data.id,
-              price: data.priceRecords[currency],
+              price: data.pricerecords[currency],
               brand: "Goodearth",
               category: "",
               variant: "",
@@ -60,7 +60,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   };
   const withoutZeroPriceData = data?.filter(
     (item: RecommendData, i: number) => {
-      return item.priceRecords[currency as Currency] != 0;
+      return item.pricerecords[currency as Currency] != 0;
     }
   );
   const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
@@ -133,7 +133,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               <span className={styles.strikeprice}>
                 {" "}
                 {String.fromCharCode(code)}{" "}
-                {item.priceRecords[currency as Currency]}{" "}
+                {item.pricerecords[currency as Currency]}{" "}
               </span>
             ) : (
               <span
@@ -143,7 +143,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               >
                 {" "}
                 {String.fromCharCode(code)}{" "}
-                {item.priceRecords[currency as Currency]}{" "}
+                {item.pricerecords[currency as Currency]}{" "}
               </span>
             )}
           </p>

@@ -67,6 +67,19 @@
     a:hover{
         color: #ab1e56;
     }
+    
+    .discountprice {
+        color: #ab1e56;
+        font-family:  $font-Lato;
+        font-size: 16px;
+    }
+    
+    .strikeprice {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: gray;
+        font-family: $font-Lato;
+    }
 }
 .img-responsive{
     display: block;
