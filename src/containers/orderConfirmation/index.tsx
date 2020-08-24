@@ -236,6 +236,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     </div>
                   </div>
                   {confirmData.lines?.map((item: any) => {
+                    const isdisCount =
+                      +item.priceExclTaxExclDiscounts - +item.priceInclTax != 0;
+                    console.log(
+                      +item.priceExclTaxExclDiscounts,
+                      +item.priceInclTax
+                    );
                     return (
                       <div
                         className={cs(
@@ -270,18 +276,47 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           >
                             <p className={cs(styles.productH)}></p>
                             <p className={cs(styles.productN)}>{item.title}</p>
-                            <p className={cs(styles.productN)}>
-                              {String.fromCharCode(
-                                currencyCode[item.priceCurrency as Currency]
+                            <p
+                              className={cs(styles.productN, globalStyles.flex)}
+                            >
+                              {isdisCount ? (
+                                <span className={styles.discountprice}>
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  {+parseFloat(
+                                    item.priceExclTaxExclDiscounts
+                                  ).toFixed(2) / +item.quantity}
+                                  &nbsp;{" "}
+                                </span>
+                              ) : (
+                                ""
                               )}
-                              &nbsp;{" "}
-                              {item.product?.structure == "GiftCard"
-                                ? item.priceInclTax
-                                : parseFloat(
-                                    item.product.pricerecords[
-                                      item.priceCurrency
-                                    ]
-                                  ).toFixed(2)}
+                              {isdisCount ? (
+                                <span className={styles.strikeprice}>
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  {+parseFloat(item.priceInclTax).toFixed(2) /
+                                    +item.quantity}
+                                  &nbsp;{" "}
+                                </span>
+                              ) : (
+                                <span
+                                  className={
+                                    item.badgeType == "B_flat"
+                                      ? globalStyles.cerise
+                                      : ""
+                                  }
+                                >
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  &nbsp;{" "}
+                                  {+parseFloat(item.priceInclTax).toFixed(2) /
+                                    +item.quantity}
+                                </span>
+                              )}
                             </p>
                             {item.product?.structure == "GiftCard" ? (
                               ""

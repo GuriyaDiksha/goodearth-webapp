@@ -35,6 +35,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class FilterList extends React.Component<Props, State> {
   public productData: any = [];
+  public unlisten: any = "";
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -177,12 +178,18 @@ class FilterList extends React.Component<Props, State> {
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
       urllist = this.props.facets.categoryShopDetail;
-      urllist.some((url: any) => {
-        currentKey = Object.keys(url)[0];
+      urllist.map((urlData: any) => {
+        currentKey = urlData.name?.trim();
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = url[currentKey];
-          return true;
+          mainUrl = urlData.url;
         }
+        urlData.children.map((url: any) => {
+          currentKey = url.name?.trim();
+          if (matchkey.replace(/\+/g, " ") == currentKey) {
+            mainUrl = url.url;
+            return url;
+          }
+        });
       });
     } else {
       mainUrl = pathname;
@@ -275,7 +282,6 @@ class FilterList extends React.Component<Props, State> {
             });
             break;
           }
-
           default:
             break;
         }
@@ -293,7 +299,7 @@ class FilterList extends React.Component<Props, State> {
     if (mainurl == "" || !mainurl) {
       mainurl = history.location.pathname;
     }
-    history.push(mainurl + "?source=plp" + filterUrl, {});
+    history.replace(mainurl + "?source=plp" + filterUrl, {});
     this.updateDataFromAPI(load);
   };
   onchangeRange = (value: any) => {
@@ -505,9 +511,39 @@ class FilterList extends React.Component<Props, State> {
     });
   };
 
+  stateChange = (location: any, action: any) => {
+    if (action == "REPLACE") {
+      this.props.onStateChange?.();
+    } else if (
+      action == "PUSH" &&
+      location.pathname.includes("/catalogue/category/")
+    ) {
+      this.setState(
+        {
+          filter: {
+            currentColor: {},
+            availableSize: {},
+            categoryShop: {},
+            price: {},
+            currency: {},
+            sortBy: {},
+            productType: {},
+            availableDiscount: {}
+          }
+        },
+        () => {
+          this.props.updateOnload(true);
+          this.props.mobile
+            ? this.updateDataFromAPI("load")
+            : this.updateDataFromAPI();
+        }
+      );
+    }
+  };
+
   componentDidMount() {
-    // this.props.onRef(this);
     window.addEventListener("scroll", this.handleScroll);
+    this.unlisten = this.props.history.listen(this.stateChange);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
@@ -581,6 +617,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    this.unlisten();
   }
 
   getSortedFacets = (facets: any): any => {
