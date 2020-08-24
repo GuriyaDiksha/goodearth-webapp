@@ -117,7 +117,7 @@ class MenuList extends React.Component<MenuListProps> {
             headerData.length - 1 == i ? bootstrap.colMd2 : bootstrap.colMd2
           }
         >
-          {data.map((column, j) => {
+          {data?.map((column, j) => {
             const class1 =
               column.name.toLowerCase().indexOf("sale") > -1
                 ? cs(styles.menucolor, styles.subheading, styles.subheadingImg)
