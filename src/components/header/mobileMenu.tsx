@@ -4,9 +4,18 @@ import { MobileListProps, MobileState, HeaderData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
+import { AppState } from "reducers/typings";
+import { connect } from "react-redux";
 
-class Mobilemenu extends React.Component<MobileListProps, MobileState> {
-  constructor(props: MobileListProps) {
+const mapStateToProps = (state: AppState) => {
+  return {
+    isSale: state.info.isSale
+  };
+};
+type Props = MobileListProps & ReturnType<typeof mapStateToProps>;
+
+class Mobilemenu extends React.Component<Props, MobileState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       activeindex: -1,
@@ -289,7 +298,9 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                 </>
               ) : (
                 <a
-                  className={cs(styles.menulevel1Stories, styles.cerise)}
+                  className={cs(styles.menulevel1Stories, {
+                    [styles.cerise]: !this.props.isSale
+                  })}
                   href={data.catLandingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -304,4 +315,4 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
     );
   }
 }
-export default Mobilemenu;
+export default connect(mapStateToProps)(Mobilemenu);
