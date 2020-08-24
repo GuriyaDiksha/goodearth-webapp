@@ -55,25 +55,80 @@ class Giftcard extends React.Component<Props, GiftState> {
 
   gcBalance = () => {
     const data: any = {
-      code: this.state.txtvalue
+      code: this.state.txtvalue,
+      inputType: "GIFT"
     };
-    this.props.balanceCheck(data).then(response => {
-      const { giftList } = this.state;
-      if (response.currStatus == "Invalid-CN") {
-        this.setState({
-          error: "Please enter a valid code"
-        });
-      } else {
-        giftList.push(response);
-        this.setState({
-          giftList: giftList,
-          newCardBox: false,
-          txtvalue: "",
-          error: "",
-          conditionalRefresh: true
-        });
-      }
-    });
+    this.props
+      .balanceCheck(data)
+      .then(response => {
+        const { giftList } = this.state;
+        if (response.currStatus == "Not Activated" && response.type == "GIFT") {
+          giftList.push(response);
+          this.setState({
+            giftList: giftList,
+            newCardBox: false,
+            txtvalue: "",
+            showInactive: true,
+            showExpired: false,
+            showLocked: false,
+            conditionalRefresh: true,
+            error: ""
+          });
+        } else if (
+          response.currStatus == "Expired" &&
+          response.type == "GIFT"
+        ) {
+          giftList.push(response);
+          this.setState({
+            newCardBox: false,
+            conditionalRefresh: true,
+            // chkbalance: data,
+            showExpired: true,
+            txtvalue: "",
+            showInactive: false,
+            showLocked: false,
+            giftList: giftList,
+            error: ""
+            // inputBox: false
+          });
+        } else if (response.currStatus == "Locked" && response.type == "GIFT") {
+          giftList.push(response);
+          this.setState({
+            newCardBox: false,
+            conditionalRefresh: true,
+            showLocked: true,
+            showExpired: false,
+            txtvalue: "",
+            showInactive: false,
+            giftList: giftList,
+            error: ""
+          });
+        } else {
+          giftList.push(response);
+          this.setState({
+            giftList: giftList,
+            showExpired: false,
+            showInactive: false,
+            showLocked: false,
+            newCardBox: false,
+            txtvalue: "",
+            error: "",
+            conditionalRefresh: true
+          });
+        }
+      })
+      .catch(err => {
+        const { status, currStatus, message } = err.response.data;
+        if (!status) {
+          if (currStatus == "Invalid-CN") {
+            this.setState({
+              error: message
+            });
+          } else {
+            // to be handled
+          }
+        }
+      });
   };
 
   updateList = (response: any) => {
@@ -82,12 +137,57 @@ class Giftcard extends React.Component<Props, GiftState> {
       this.setState({
         error: "Please enter a valid code"
       });
-    } else {
+    } else if (
+      response.currStatus == "Not Activated" &&
+      response.type == "GIFT"
+    ) {
       giftList.push(response);
       this.setState({
         giftList: giftList,
         newCardBox: false,
-        txtvalue: ""
+        txtvalue: "",
+        showInactive: true,
+        showExpired: false,
+        showLocked: false,
+        conditionalRefresh: true,
+        error: ""
+      });
+    } else if (response.currStatus == "Expired" && response.type == "GIFT") {
+      giftList.push(response);
+      this.setState({
+        newCardBox: false,
+        conditionalRefresh: true,
+        // chkbalance: data,
+        showExpired: true,
+        showInactive: false,
+        showLocked: false,
+        giftList: giftList,
+        txtvalue: "",
+        error: ""
+        // inputBox: false
+      });
+    } else if (response.currStatus == "Locked" && response.type == "GIFT") {
+      giftList.push(response);
+      this.setState({
+        newCardBox: false,
+        conditionalRefresh: true,
+        showLocked: true,
+        showExpired: false,
+        txtvalue: "",
+        showInactive: false,
+        giftList: giftList,
+        error: ""
+      });
+    } else {
+      giftList.push(response);
+      this.setState({
+        showExpired: false,
+        showInactive: false,
+        showLocked: false,
+        giftList: giftList,
+        newCardBox: false,
+        txtvalue: "",
+        conditionalRefresh: true
       });
     }
   };
@@ -115,10 +215,10 @@ class Giftcard extends React.Component<Props, GiftState> {
     }
   };
 
-  updateError = (data: boolean) => {
-    if (data) {
+  updateError = (message: string) => {
+    if (message) {
       this.setState({
-        error: "Please enter a valid code"
+        error: message
       });
     }
     const elem: any = document.getElementById("gift");
@@ -135,10 +235,12 @@ class Giftcard extends React.Component<Props, GiftState> {
           {this.state.giftList.map((data, i) => {
             return (
               <GiftCardItem
+                isLoggedIn={isLoggedIn}
                 {...data}
                 showExpired={this.state.showExpired}
                 showLocked={this.state.showLocked}
                 conditionalRefresh={this.state.conditionalRefresh}
+                showInactive={this.state.showInactive}
                 onClose={this.onClose}
                 key={i}
               />
@@ -152,59 +254,63 @@ class Giftcard extends React.Component<Props, GiftState> {
             )}
           >
             {newCardBox ? (
-              <div>
-                {toggleOtp ? (
-                  ""
-                ) : (
-                  <Fragment>
-                    <div className={cs(styles.flex, styles.vCenter)}>
-                      <input
-                        type="text"
-                        autoComplete="off"
-                        value={txtvalue}
-                        onChange={this.changeValue}
-                        id="gift"
-                        className={
-                          this.state.error
-                            ? cs(styles.marginR10, styles.err)
-                            : styles.marginR10
-                        }
-                      />
-                      <span
-                        className={cs(
-                          styles.colorPrimary,
-                          globalStyles.pointer,
-                          { [globalStyles.hidden]: !isLoggedIn }
-                        )}
-                      >
+              <>
+                <div>
+                  {toggleOtp ? (
+                    ""
+                  ) : (
+                    <Fragment>
+                      <div className={cs(styles.flex, styles.vCenter)}>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          value={txtvalue}
+                          onChange={this.changeValue}
+                          id="gift"
+                          className={
+                            this.state.error
+                              ? cs(styles.marginR10, styles.err)
+                              : styles.marginR10
+                          }
+                        />
                         <span
-                          className={styles.arrowrightsmall}
-                          onClick={this.gcBalance}
-                        ></span>
-                      </span>
-                    </div>
-                    <label>Gift Card Code</label>
-                  </Fragment>
-                )}
-                {this.state.error ? (
-                  <p className={cs(globalStyles.errorMsg)}>
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
+                          className={cs(
+                            styles.colorPrimary,
+                            globalStyles.pointer,
+                            { [globalStyles.hidden]: !isLoggedIn }
+                          )}
+                        >
+                          <span
+                            className={styles.arrowrightsmall}
+                            onClick={this.gcBalance}
+                          ></span>
+                        </span>
+                      </div>
+                      <label>Gift Card Code</label>
+                    </Fragment>
+                  )}
+                </div>
+                <div>
+                  {this.state.error && (
+                    <p className={cs(globalStyles.errorMsg)}>
+                      {this.state.error}
+                    </p>
+                  )}
+                </div>
+              </>
             ) : (
-              <div
-                className={cs(
-                  styles.rtcinfo,
-                  globalStyles.pointer,
-                  globalStyles.textLeft
-                )}
-                onClick={this.newGiftcard}
-              >
-                [+] CHECK ANOTHER GIFT CARD CODE
-              </div>
+              isLoggedIn && (
+                <div
+                  className={cs(
+                    styles.rtcinfo,
+                    globalStyles.pointer,
+                    globalStyles.textLeft
+                  )}
+                  onClick={this.newGiftcard}
+                >
+                  [+] CHECK ANOTHER GIFT CARD CODE
+                </div>
+              )
             )}
           </div>
         </div>

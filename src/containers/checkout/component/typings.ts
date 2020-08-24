@@ -76,6 +76,7 @@ export interface GiftListProps extends BalanceProps {
   currStatus: string;
   currency: Currency;
   type?: string;
+  isLoggedIn: boolean;
 }
 
 export type voucher = {
