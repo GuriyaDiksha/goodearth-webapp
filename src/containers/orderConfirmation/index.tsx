@@ -29,6 +29,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   };
 
   const gtmPushOrderConfirmation = (result: any) => {
+    const formData = {
+      OrderNumber: result.number,
+      email: email,
+      gaPush: true
+    };
+
     const products = result.lines.map((line: any) => {
       return {
         name: line.title,
@@ -41,23 +47,26 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0].name
       };
     });
-    dataLayer.push({
-      event: "purchase",
-      ecommerce: {
-        currencyCode: result.currency,
-        purchase: {
-          actionField: {
-            id: result.transactionId,
-            affiliation: "Online Store",
-            revenue: result.totalInclTax,
-            tax: 0,
-            shipping: result.shippingInclTax,
-            coupon: result.offerDiscounts?.[0].name
-          },
-          products: products
+    if (result.pushToGA == false) {
+      dataLayer.push({
+        event: "purchase",
+        ecommerce: {
+          currencyCode: result.currency,
+          purchase: {
+            actionField: {
+              id: result.transactionId,
+              affiliation: "Online Store",
+              revenue: result.totalInclTax,
+              tax: 0,
+              shipping: result.shippingInclTax,
+              coupon: result.offerDiscounts?.[0]?.name
+            },
+            products: products
+          }
         }
-      }
-    });
+      });
+      AccountServices.setGaStatus(dispatch, formData);
+    }
   };
   useEffect(() => {
     fetchData().then(response => {

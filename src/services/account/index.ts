@@ -58,6 +58,14 @@ export default {
     );
     return data;
   },
+  setGaStatus: async (dispatch: Dispatch, formData: any) => {
+    const data = await API.post<MyOrdersResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/order/push_to_ga_update/"}`,
+      formData
+    );
+    return data;
+  },
   balanceCheck: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post<BalanceProps>(
       dispatch,
