@@ -238,7 +238,7 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const notifyMeClick = () => {
-    let selectedIndex = 0;
+    let selectedIndex = undefined;
 
     childAttributes.map((v, i) => {
       if (v.id === selectedSize?.id) {

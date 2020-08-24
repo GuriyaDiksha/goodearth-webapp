@@ -293,7 +293,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     globalStyles.voffset2
                                   )}
                                 >
-                                  Size:&nbsp; {item.product.size}
+                                  {item.product.size && (
+                                    <>Size:&nbsp; {item.product.size}</>
+                                  )}
                                 </div>
                                 <div className={styles.smallSize}>
                                   Qty:&nbsp; {item.quantity}

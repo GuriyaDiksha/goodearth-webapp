@@ -172,7 +172,14 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 {(props.product
                   .childAttributes as PartialChildProductAttributes[])?.map(
                   (data: PartialChildProductAttributes, i: number) => {
-                    return <li key={i}>{data.size}</li>;
+                    return (
+                      <li
+                        className={+data.stock ? "" : styles.disabled}
+                        key={i}
+                      >
+                        {data.size}
+                      </li>
+                    );
                   }
                 )}
               </ul>
