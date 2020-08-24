@@ -63,7 +63,9 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
       return item.pricerecords[currency as Currency] != 0;
     }
   );
+
   const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
+    console.log(item);
     return (
       <div
         onMouseEnter={() => setCurrentId(item.id)}
