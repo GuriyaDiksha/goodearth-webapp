@@ -90,7 +90,9 @@ class MainMenu extends React.Component<Props, MenuState> {
                   }
                 >
                   {ReactHtmlParser(
-                    data.labelDesktop ? data.labelDesktop : data.name
+                    this.props.isSale && data.labelDesktop
+                      ? data.labelDesktop
+                      : data.name
                   )}
                 </Link>
               )}

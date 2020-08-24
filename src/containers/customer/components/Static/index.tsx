@@ -6,6 +6,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 // import { Link } from "react-router-dom";
 import { Props } from "../../typings";
+import { Link } from "react-router-dom";
 
 export default class Returns extends React.Component<Props, {}> {
   constructor(props: Props) {
@@ -108,6 +109,14 @@ export default class Returns extends React.Component<Props, {}> {
               review it. Additionally, please mention details about the damaged
               merchandise on the delivery receipt instead of signing it as
               &#39;received&#39;.
+            </li>
+            <li>
+              <Link
+                className={globalStyles.linkTextUnderline}
+                to="/customer-assistance/sales-conditions"
+              >
+                Refer for Sale related TnCs
+              </Link>
             </li>
           </ul>
         </div>
