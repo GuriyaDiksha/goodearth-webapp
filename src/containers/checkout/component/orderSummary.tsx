@@ -161,7 +161,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>{" "}
                     </span>
                   ) : (
-                    <span className={styles.productPrice}>
+                    <span
+                      className={cs(styles.productPrice, {
+                        [globalStyles.cerise]:
+                          item.product.badgeType == "B_flat"
+                      })}
+                    >
                       {String.fromCharCode(code)}{" "}
                       {item.product.structure == "GiftCard"
                         ? parseFloat(item.GCValue.toString()).toFixed(2)
