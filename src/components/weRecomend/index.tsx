@@ -121,7 +121,9 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
           <p className={styles.productN}>
-            <span>
+            <span
+              className={item.badgeType == "B_flat" ? globalStyles.cerise : ""}
+            >
               {" "}
               {String.fromCharCode(code)}{" "}
               {item.pricerecords[currency as Currency]}{" "}
