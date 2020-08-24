@@ -5,6 +5,8 @@ import {
   CollectionSpecificBannerProps
 } from "containers/collectionSpecific/typings";
 import Axios from "axios";
+import API from "utils/api";
+import { Dispatch } from "redux";
 
 export default {
   fetchCollectionMapping: async (
@@ -26,18 +28,24 @@ export default {
     return data;
   },
   fetchCollectioSpecificData: async (
+    dispatch: Dispatch,
     id: number,
-    page?: number
+    page?: string
   ): Promise<CollectionSpecificProps> => {
-    const res = await Axios.get(
-      `${__API_HOST__ +
+    console.log(page);
+    let pagePath = "";
+    if (page) {
+      pagePath = page;
+    } else {
+      pagePath = `${__API_HOST__ +
         "/myapi/collection/collectionspecific/" +
         id +
-        "/?page_no=" +
-        (page || "0")}`,
-      {}
-    );
-    const data: CollectionSpecificProps = res.data;
+        "/?page_size=24"}`;
+    }
+    console.log("page_path=" + pagePath);
+
+    const res: any = await API.get(dispatch, pagePath);
+    const data: CollectionSpecificProps = res;
     return data;
   },
   fetchCollectioSpecificBanner: async (
