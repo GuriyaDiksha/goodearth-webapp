@@ -5,6 +5,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -50,9 +51,7 @@ class MainMenu extends React.Component<Props, MenuState> {
               ? styles.iconStyleDisabled
               : "";
           const highlightStories =
-            !this.props.isSale && data.name.toLowerCase() == "stories"
-              ? true
-              : false;
+            data.name.toLowerCase() == "stories" ? true : false;
 
           return (
             <li
@@ -67,16 +66,14 @@ class MainMenu extends React.Component<Props, MenuState> {
             >
               {highlightStories ? (
                 <a
-                  className={cs(
-                    disbaleClass,
-                    styles.hoverStories,
-                    styles.cerise
-                  )}
+                  className={cs(disbaleClass, styles.hoverStories, {
+                    [styles.cerise]: !this.props.isSale
+                  })}
                   href={data.catLandingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {data.name}
+                  {ReactHtmlParser(data.name)}
                 </a>
               ) : (
                 <Link
@@ -92,7 +89,9 @@ class MainMenu extends React.Component<Props, MenuState> {
                       : cs(disbaleClass, styles.hoverB)
                   }
                 >
-                  {data.name}
+                  {ReactHtmlParser(
+                    data.labelDesktop ? data.labelDesktop : data.name
+                  )}
                 </Link>
               )}
             </li>
