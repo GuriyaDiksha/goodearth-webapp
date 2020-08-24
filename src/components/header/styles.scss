@@ -464,6 +464,7 @@
     letter-spacing: 1px;
     line-height: 50px;
     text-transform: uppercase;
+    position: relative;
     span {
       @include menu-cat-mobile();
     }
@@ -492,11 +493,18 @@
     &:after {
       content: '+';
       font-weight: bold;
-      float: right;
+      // float: right;
       font-size: 25px;
       color: $cerise;
       font-family: $font-Lato;
       font-weight: 300;
+      position: absolute;
+      right: 0;
+      top: 0;
+
+    }
+    p span {
+      font-size: 16px;
     }
   }
   .menulevel1-stories {

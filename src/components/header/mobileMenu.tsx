@@ -284,7 +284,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     }
                     onClick={this.Clickmenulevel1.bind(this, i)}
                   >
-                    {data.name}
+                    {ReactHtmlParser(
+                      data.labelMobile ? data.labelMobile : data.name
+                    )}
                   </span>
                   <p
                     className={
@@ -305,7 +307,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {data.name}
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
                 </a>
               )}
             </li>
