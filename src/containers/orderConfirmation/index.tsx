@@ -30,7 +30,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
   const gtmPushOrderConfirmation = (result: any) => {
     const formData = {
-      orderNumber: result.number,
+      OrderNumber: result.number,
       email: email,
       gaPush: true
     };
