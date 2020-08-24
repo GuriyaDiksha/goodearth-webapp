@@ -189,3 +189,14 @@
     }
 }
 
+.new-badge-image{
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    right: 6px;
+    img {
+        width: 100%;
+    }
+}
+

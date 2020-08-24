@@ -63,7 +63,8 @@ const ProductDetails: React.FC<Props> = ({
     gaVariant,
     groupedProducts,
     salesBadgeImage,
-    fillerMessage
+    fillerMessage,
+    justAddedBadge
   },
   corporatePDP,
   mobile,
@@ -364,7 +365,7 @@ const ProductDetails: React.FC<Props> = ({
                 {price}
               </span>
             ) : (
-              <span>
+              <span className={justAddedBadge ? globalStyles.cerise : ""}>
                 {" "}
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;

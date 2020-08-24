@@ -62,6 +62,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <img src={product.salesBadgeImage} />
         </div>
       )}
+      {product.justAddedBadge && (
+        <div className={styles.newBadgeImage}>
+          <img src={product.justAddedBadge} />
+        </div>
+      )}
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}
@@ -174,6 +179,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                   (data: PartialChildProductAttributes, i: number) => {
                     return <li key={i}>{data.size}</li>;
                   }
+                )}
+              </ul>
+              <ul>
+                {product.justAddedBadge && (
+                  <div className={styles.newBadgeImage}>
+                    <img src={product.justAddedBadge} />
+                  </div>
                 )}
               </ul>
             </div>
