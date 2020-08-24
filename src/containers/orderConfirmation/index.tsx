@@ -302,7 +302,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   &nbsp;{" "}
                                 </span>
                               ) : (
-                                <span>
+                                <span
+                                  className={
+                                    item.badgeType == "B_flat"
+                                      ? globalStyles.cerise
+                                      : ""
+                                  }
+                                >
                                   {String.fromCharCode(
                                     currencyCode[item.priceCurrency as Currency]
                                   )}
