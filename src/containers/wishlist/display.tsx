@@ -5,7 +5,7 @@ import { Props as WishlistProps } from "./index";
 import { Currency } from "typings/currency";
 import styles from "./styles.scss";
 import iconStyles from "../../styles/iconFonts.scss";
-// import globalStyles from "../../styles/global.scss";
+import globalStyles from "../../styles/global.scss";
 // import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
 
@@ -164,7 +164,11 @@ const SampleDisplay: React.FC<Props> = props => {
                 {data.price[currency]}
               </span>
             ) : (
-              <span>
+              <span
+                className={
+                  data.badgeType == "B_flat" ? globalStyles.cerise : ""
+                }
+              >
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
                 {data.price[currency]}
               </span>

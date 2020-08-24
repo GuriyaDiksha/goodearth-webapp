@@ -189,3 +189,20 @@
     }
 }
 
+.new-badge-image{
+    width: 30%;
+    position: absolute;
+    top: 5px;
+    z-index: 4;
+    right: 6px;
+    img {
+        width: 100%;
+    }
+}
+
+.mobile-badge{
+    img {
+        width: 60%;
+    }
+}
+

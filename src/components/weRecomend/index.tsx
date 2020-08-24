@@ -121,11 +121,31 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
           <p className={styles.productN}>
-            <span>
-              {" "}
-              {String.fromCharCode(code)}{" "}
-              {item.pricerecords[currency as Currency]}{" "}
-            </span>
+            {item.discount ? (
+              <span className={styles.discountprice}>
+                {String.fromCharCode(code)}{" "}
+                {item.discountedPriceRecords[currency as Currency]}
+              </span>
+            ) : (
+              ""
+            )}
+            {item.discount ? (
+              <span className={styles.strikeprice}>
+                {" "}
+                {String.fromCharCode(code)}{" "}
+                {item.pricerecords[currency as Currency]}{" "}
+              </span>
+            ) : (
+              <span
+                className={
+                  item.badgeType == "B_flat" ? globalStyles.cerise : ""
+                }
+              >
+                {" "}
+                {String.fromCharCode(code)}{" "}
+                {item.pricerecords[currency as Currency]}{" "}
+              </span>
+            )}
           </p>
         </div>
       </div>

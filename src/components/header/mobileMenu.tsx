@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import { MobileListProps, MobileState, HeaderData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
+import ReactHtmlParser from "react-html-parser";
+import { AppState } from "reducers/typings";
+import { connect } from "react-redux";
 
-class Mobilemenu extends React.Component<MobileListProps, MobileState> {
-  constructor(props: MobileListProps) {
+const mapStateToProps = (state: AppState) => {
+  return {
+    isSale: state.info.isSale
+  };
+};
+type Props = MobileListProps & ReturnType<typeof mapStateToProps>;
+
+class Mobilemenu extends React.Component<Props, MobileState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       activeindex: -1,
@@ -91,11 +101,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
         data.url && data.children.length == 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
             <Link to={data.url}>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: data.labelMobile ? data.labelMobile : data.name
-                }}
-              />
+              <span>
+                {ReactHtmlParser(
+                  data.labelMobile ? data.labelMobile : data.name
+                )}
+              </span>
             </Link>
           </li>
         ) : (
@@ -104,11 +114,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
               className={spanClass}
               onClick={this.Clickmenulevel2.bind(this, k)}
             >
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: data.labelMobile ? data.labelMobile : data.name
-                }}
-              />
+              <span>
+                {ReactHtmlParser(
+                  data.labelMobile ? data.labelMobile : data.name
+                )}
+              </span>
             </span>
             <p
               className={
@@ -140,13 +150,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                               : ""
                           }
                         >
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: innerdata.labelMobile
+                          <p>
+                            {ReactHtmlParser(
+                              innerdata.labelMobile
                                 ? innerdata.labelMobile
                                 : innerdata.name
-                            }}
-                          />
+                            )}
+                          </p>
                         </Link>
                       </li>
                     );
@@ -177,11 +187,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
           data.url && data.children.length == 0 ? (
             <li key={data.id} onClick={this.props.clickToggle}>
               <Link to={data.url}>
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: data.labelMobile ? data.labelMobile : data.name
-                  }}
-                />
+                <span>
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
+                </span>
               </Link>
             </li>
           ) : (
@@ -190,11 +200,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                 className={spanClass}
                 onClick={this.Clickmenulevel2.bind(this, k)}
               >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: data.labelMobile ? data.labelMobile : data.name
-                  }}
-                />
+                <span>
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
+                </span>
               </span>
               <p
                 className={
@@ -226,13 +236,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                                 : ""
                             }
                           >
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: innerdata.labelMobile
+                            <p>
+                              {ReactHtmlParser(
+                                innerdata.labelMobile
                                   ? innerdata.labelMobile
                                   : innerdata.name
-                              }}
-                            />
+                              )}
+                            </p>
                           </Link>
                         </li>
                       );
@@ -274,7 +284,9 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                     }
                     onClick={this.Clickmenulevel1.bind(this, i)}
                   >
-                    {data.name}
+                    {ReactHtmlParser(
+                      data.labelMobile ? data.labelMobile : data.name
+                    )}
                   </span>
                   <p
                     className={
@@ -288,12 +300,16 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                 </>
               ) : (
                 <a
-                  className={cs(styles.menulevel1Stories, styles.cerise)}
+                  className={cs(styles.menulevel1Stories, {
+                    [styles.cerise]: !this.props.isSale
+                  })}
                   href={data.catLandingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {data.name}
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
                 </a>
               )}
             </li>
@@ -303,4 +319,4 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
     );
   }
 }
-export default Mobilemenu;
+export default connect(mapStateToProps)(Mobilemenu);
