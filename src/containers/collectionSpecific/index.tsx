@@ -50,6 +50,7 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
     fetchCollectioSpecificData: async (data: any, page: any) => {
       const id: any = getProductIdFromSlug(params.slug);
       const filterData = await CollectionService.fetchCollectioSpecificData(
+        dispatch,
         id,
         page
       ).catch(error => {
@@ -60,8 +61,17 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     },
-    clearDataForCollection: async (filterData: any) => {
-      dispatch(updateCollectionSpecificData({ ...filterData }));
+    reloadCollectioSpecificData: async () => {
+      const id: any = getProductIdFromSlug(params.slug);
+      const filterData = await CollectionService.fetchCollectioSpecificData(
+        dispatch,
+        id
+      ).catch(error => {
+        console.log("Collection Error", error);
+      });
+      if (filterData) {
+        dispatch(updateCollectionSpecificData({ ...filterData }));
+      }
     }
   };
 };
@@ -109,6 +119,11 @@ class CollectionSpecific extends React.Component<
     // this.updateCollectionFilter(this.props.currency);
   }
 
+  UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
+    if (this.props.currency != nextProps.currency) {
+      this.props.reloadCollectioSpecificData();
+    }
+  };
   handleScroll = () => {
     const windowHeight =
       "innerHeight" in window
@@ -132,17 +147,6 @@ class CollectionSpecific extends React.Component<
     ) {
       this.appendData();
     }
-  };
-
-  clearDataForCollection = (data: any, curr: any) => {
-    const filterdata = data.filter((product: any) => {
-      if (this.props.sale) {
-        return !(+product.discountedPriceRecords[curr] == 0);
-      } else {
-        return !(+product.pricerecords[curr] == 0);
-      }
-    });
-    return filterdata;
   };
 
   appendData = () => {
@@ -188,10 +192,6 @@ class CollectionSpecific extends React.Component<
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
 
-    const filterData = this.clearDataForCollection(
-      results,
-      this.props.currency
-    );
     return (
       <div className={styles.collectionContainer}>
         {!mobile && (
@@ -270,7 +270,7 @@ class CollectionSpecific extends React.Component<
               bootstrap.row
             )}
           >
-            {filterData.map((data: PLPProductItem, i: number) => {
+            {results.map((data: PLPProductItem, i: number) => {
               return (
                 <div
                   className={cs(bootstrap.colMd4, bootstrap.col6)}
@@ -289,7 +289,7 @@ class CollectionSpecific extends React.Component<
               );
             })}
           </div>
-          {!this.scrollload && filterData.length > 0 ? <Loader /> : ""}
+          {!this.scrollload && results.length > 0 ? <Loader /> : ""}
         </div>
         {specificMaker && (
           <MakerEnhance

@@ -11,9 +11,11 @@ const initActionSpecific: InitAction = async (dispatch, { slug }) => {
   const id = getProductIdFromSlug(slug);
   if (id) {
     const [filterData, bannerData] = await Promise.all([
-      CollectionService.fetchCollectioSpecificData(id).catch(error => {
-        console.log(`Collection Error id=${id}`, error);
-      }),
+      CollectionService.fetchCollectioSpecificData(dispatch, id).catch(
+        error => {
+          console.log(`Collection Error id=${id}`, error);
+        }
+      ),
       CollectionService.fetchCollectioSpecificBanner(id).catch(error => {
         console.log(`Collection Error id=${id}`, error);
       })
