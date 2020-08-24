@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { MobileListProps, MobileState, HeaderData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
+import ReactHtmlParser from "react-html-parser";
 
 class Mobilemenu extends React.Component<MobileListProps, MobileState> {
   constructor(props: MobileListProps) {
@@ -91,11 +92,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
         data.url && data.children.length == 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
             <Link to={data.url}>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: data.labelMobile ? data.labelMobile : data.name
-                }}
-              />
+              <span>
+                {ReactHtmlParser(
+                  data.labelMobile ? data.labelMobile : data.name
+                )}
+              </span>
             </Link>
           </li>
         ) : (
@@ -104,11 +105,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
               className={spanClass}
               onClick={this.Clickmenulevel2.bind(this, k)}
             >
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: data.labelMobile ? data.labelMobile : data.name
-                }}
-              />
+              <span>
+                {ReactHtmlParser(
+                  data.labelMobile ? data.labelMobile : data.name
+                )}
+              </span>
             </span>
             <p
               className={
@@ -140,13 +141,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                               : ""
                           }
                         >
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: innerdata.labelMobile
+                          <p>
+                            {ReactHtmlParser(
+                              innerdata.labelMobile
                                 ? innerdata.labelMobile
                                 : innerdata.name
-                            }}
-                          />
+                            )}
+                          </p>
                         </Link>
                       </li>
                     );
@@ -177,11 +178,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
           data.url && data.children.length == 0 ? (
             <li key={data.id} onClick={this.props.clickToggle}>
               <Link to={data.url}>
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: data.labelMobile ? data.labelMobile : data.name
-                  }}
-                />
+                <span>
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
+                </span>
               </Link>
             </li>
           ) : (
@@ -190,11 +191,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                 className={spanClass}
                 onClick={this.Clickmenulevel2.bind(this, k)}
               >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: data.labelMobile ? data.labelMobile : data.name
-                  }}
-                />
+                <span>
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
+                </span>
               </span>
               <p
                 className={
@@ -226,13 +227,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                                 : ""
                             }
                           >
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: innerdata.labelMobile
+                            <p>
+                              {ReactHtmlParser(
+                                innerdata.labelMobile
                                   ? innerdata.labelMobile
                                   : innerdata.name
-                              }}
-                            />
+                              )}
+                            </p>
                           </Link>
                         </li>
                       );

@@ -3,9 +3,18 @@ import { Link } from "react-router-dom";
 import { MenuProps, HeaderData, MenuState } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
+import { AppState } from "reducers/typings";
+import { connect } from "react-redux";
 
-export default class MainMenu extends React.Component<MenuProps, MenuState> {
-  constructor(props: MenuProps) {
+const mapStateToProps = (state: AppState) => {
+  return {
+    isSale: state.info.isSale
+  };
+};
+type Props = MenuProps & ReturnType<typeof mapStateToProps>;
+
+class MainMenu extends React.Component<Props, MenuState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       selectedCategory: -1
@@ -41,7 +50,9 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
               ? styles.iconStyleDisabled
               : "";
           const highlightStories =
-            data.name.toLowerCase() == "stories" ? true : false;
+            !this.props.isSale && data.name.toLowerCase() == "stories"
+              ? true
+              : false;
 
           return (
             <li
@@ -91,3 +102,5 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
     );
   }
 }
+
+export default connect(mapStateToProps)(MainMenu);

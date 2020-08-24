@@ -289,7 +289,7 @@ class CollectionSpecific extends React.Component<
               );
             })}
           </div>
-          {!this.scrollload ? <Loader /> : ""}
+          {!this.scrollload && filterData.length > 0 ? <Loader /> : ""}
         </div>
         {specificMaker && (
           <MakerEnhance
