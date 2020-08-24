@@ -64,7 +64,8 @@ const ProductDetails: React.FC<Props> = ({
     groupedProducts,
     salesBadgeImage,
     fillerMessage,
-    justAddedBadge
+    justAddedBadge,
+    badgeType
   },
   corporatePDP,
   mobile,
@@ -365,7 +366,9 @@ const ProductDetails: React.FC<Props> = ({
                 {price}
               </span>
             ) : (
-              <span className={justAddedBadge ? globalStyles.cerise : ""}>
+              <span
+                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
                 {" "}
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;

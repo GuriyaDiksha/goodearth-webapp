@@ -17,6 +17,7 @@ export interface PLPProductItem {
   isNew?: boolean;
   salesBadgeImage?: string;
   justAddedBadge?: string;
+  badgeType?: string;
   partial: boolean;
   markAs?: string[];
   productClass: string;

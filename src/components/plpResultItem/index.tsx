@@ -62,7 +62,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <img src={product.salesBadgeImage} />
         </div>
       )}
-      {product.justAddedBadge && (
+      {product.justAddedBadge && !mobile && (
         <div className={styles.newBadgeImage}>
           <img src={product.justAddedBadge} />
         </div>
@@ -163,12 +163,23 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               {product.priceRecords[currency as Currency]}{" "}
             </span>
           ) : (
-            <span>
+            <span
+              className={
+                product.badgeType == "B_flat" ? globalStyles.cerise : ""
+              }
+            >
               {String.fromCharCode(code)}{" "}
               {product.priceRecords[currency as Currency]}
             </span>
           )}
         </p>
+        {product.justAddedBadge && mobile && (
+          <p className={styles.productN}>
+            <span className={styles.mobileBadge}>
+              <img src={product.justAddedBadge} />
+            </span>
+          </p>
+        )}
         {sizeExit && !mobile && (
           <div className={cs(styles.productSizeList, bootstyles.row)}>
             <div className={styles.productSize}> size</div>
@@ -179,13 +190,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                   (data: PartialChildProductAttributes, i: number) => {
                     return <li key={i}>{data.size}</li>;
                   }
-                )}
-              </ul>
-              <ul>
-                {product.justAddedBadge && (
-                  <div className={styles.newBadgeImage}>
-                    <img src={product.justAddedBadge} />
-                  </div>
                 )}
               </ul>
             </div>
