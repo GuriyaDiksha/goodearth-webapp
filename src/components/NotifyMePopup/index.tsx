@@ -43,6 +43,7 @@ type Props = {
   selectedIndex?: number;
   isSale?: boolean;
   discount: boolean;
+  badgeType?: string;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
 };
@@ -58,7 +59,8 @@ const NotifyMePopup: React.FC<Props> = ({
   changeSize,
   onNotifyCart,
   isSale,
-  discount
+  discount,
+  badgeType
 }) => {
   const { dispatch } = useStore();
 
@@ -243,7 +245,9 @@ const NotifyMePopup: React.FC<Props> = ({
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             ) : (
-              <span>
+              <span
+                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>

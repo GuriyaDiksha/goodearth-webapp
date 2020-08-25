@@ -25,7 +25,8 @@ import { withRouter, RouteComponentProps } from "react-router";
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    isSale: state.info.isSale
   };
 };
 
@@ -55,7 +56,6 @@ type State = {
   url: string;
   value: string;
   count: number;
-  isSale: boolean;
   featureData: WidgetImage[];
   showDifferentImage: boolean;
   currentImageIndex: number;
@@ -69,7 +69,6 @@ class Search extends React.Component<Props, State> {
       url: "/search",
       value: "",
       count: 0,
-      isSale: false,
       featureData: [],
       showDifferentImage: false,
       currentImageIndex: -1
@@ -122,7 +121,7 @@ class Search extends React.Component<Props, State> {
     const index = itemData.categories.length - 1;
     let category = itemData.categories[index].replace(/\s/g, "");
     category = category.replace(/>/g, "/");
-    // const cur = this.state.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
+    // const cur = this.props.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -411,7 +410,7 @@ class Search extends React.Component<Props, State> {
                                 </a>
                               </p>
                               <p className={styles.productN}>
-                                {this.state.isSale && data.discount ? (
+                                {this.props.isSale && data.discount ? (
                                   <span className={styles.discountprice}>
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
@@ -427,7 +426,7 @@ class Search extends React.Component<Props, State> {
                                 ) : (
                                   ""
                                 )}
-                                {this.state.isSale && data.discount ? (
+                                {this.props.isSale && data.discount ? (
                                   <span className={styles.strikeprice}>
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
@@ -436,7 +435,12 @@ class Search extends React.Component<Props, State> {
                                     {data.priceRecords[this.props.currency]}
                                   </span>
                                 ) : (
-                                  <p className={styles.productN}>
+                                  <p
+                                    className={cs(styles.productN, {
+                                      [globalStyles.cerise]:
+                                        data.badgeType == "B_flat"
+                                    })}
+                                  >
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
                                     )}
