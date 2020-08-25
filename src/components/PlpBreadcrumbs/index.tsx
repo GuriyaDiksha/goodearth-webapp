@@ -20,31 +20,40 @@ const Breadcrumbs: React.FC<Props> = memo(
           </Fragment>
         );
       } else {
-        if (isViewAll) {
-          if (levels.length == 3) {
-            const href = url ? url : "#";
-            breadcrumbs.push(
-              <Fragment key={name}>
-                <Link to={href}>{name.split(":")[0]}</Link>
-                <span className={styles.separator} key={`separator-${index}`}>
-                  {separator}
-                </span>
-              </Fragment>
-            );
-          }
-          breadcrumbs.push(
-            <Fragment key={name}>
-              <span>{" View all"}</span>
-            </Fragment>
-          );
-        } else {
-          breadcrumbs.push(
-            <Fragment key={name}>
-              <span>{name.length > 50 ? name.slice(0, 50) + "..." : name}</span>
-            </Fragment>
-          );
-        }
+        const href = url ? url : "#";
+        breadcrumbs.push(
+          <Fragment key={name}>
+            <Link to={href}>{name}</Link>
+          </Fragment>
+        );
       }
+
+      // else {
+      //   if (isViewAll) {
+      //     if (levels.length == 3) {
+      //       const href = url ? url : "#";
+      //       breadcrumbs.push(
+      //         <Fragment key={name}>
+      //           <Link to={href}>{name.split(":")[0]}</Link>
+      //           <span className={styles.separator} key={`separator-${index}`}>
+      //             {separator}
+      //           </span>
+      //         </Fragment>
+      //       );
+      //     }
+      //     breadcrumbs.push(
+      //       <Fragment key={name}>
+      //         <span>{" View all"}</span>
+      //       </Fragment>
+      //     );
+      //   } else {
+      //     breadcrumbs.push(
+      //       <Fragment key={name}>
+      //         <span>{name.length > 50 ? name.slice(0, 50) + "..." : name}</span>
+      //       </Fragment>
+      //     );
+      //   }
+      // }
     });
     return (
       <div className={cs(styles.breadcrumbsContainer, className)}>

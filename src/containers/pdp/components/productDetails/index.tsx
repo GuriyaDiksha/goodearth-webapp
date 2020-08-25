@@ -63,7 +63,9 @@ const ProductDetails: React.FC<Props> = ({
     gaVariant,
     groupedProducts,
     salesBadgeImage,
-    fillerMessage
+    fillerMessage,
+    justAddedBadge,
+    badgeType
   },
   corporatePDP,
   mobile,
@@ -238,7 +240,7 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const notifyMeClick = () => {
-    let selectedIndex = 0;
+    let selectedIndex = undefined;
 
     childAttributes.map((v, i) => {
       if (v.id === selectedSize?.id) {
@@ -364,7 +366,9 @@ const ProductDetails: React.FC<Props> = ({
                 {price}
               </span>
             ) : (
-              <span>
+              <span
+                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
                 {" "}
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
