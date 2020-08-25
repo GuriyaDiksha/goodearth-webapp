@@ -108,6 +108,10 @@ const ProductDetails: React.FC<Props> = ({
     selectedSize && selectedSize.priceRecords
       ? selectedSize.priceRecords[currency]
       : priceRecords[currency];
+  const discountPrices =
+    selectedSize && selectedSize.discountedPriceRecords
+      ? selectedSize.discountedPriceRecords[currency]
+      : discountedPriceRecords[currency];
 
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
@@ -256,7 +260,9 @@ const ProductDetails: React.FC<Props> = ({
         childAttributes={childAttributes}
         title={title}
         selectedIndex={selectedIndex}
-        discount={false}
+        discount={discount}
+        badgeType={badgeType}
+        isSale={info.isSale}
       />,
       false,
       ModalStyles.bottomAlign
@@ -353,7 +359,7 @@ const ProductDetails: React.FC<Props> = ({
               <span className={styles.discountedPrice}>
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
-                {discountedPriceRecords[currency]}
+                {discountPrices}
                 <br />
               </span>
             ) : (

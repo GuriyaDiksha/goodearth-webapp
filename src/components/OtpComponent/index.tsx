@@ -24,7 +24,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       updateStatus: false,
       showerror: "",
       showerrorOtp: "",
-      showError: "",
       otp: "",
       toggleOtp: false,
       isLoading: false
@@ -336,9 +335,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             this.props.updateError(message);
           }
         }
-        this.setState({
-          showError: "Server Error"
-        });
+        // this.setState({
+        //   showerror: "Server Error"
+        // });
       });
   };
 

@@ -374,3 +374,12 @@ input[type="checkbox"]:checked + label {
   font-size: 12px;
   font-family: $font-Lato;
 }
+
+@media screen and (max-width: 768px) {
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"], select {
+    font-size: 16px !important;
+    @include placeholder {
+      font-size: 16px !important;
+    }
+  }
+}

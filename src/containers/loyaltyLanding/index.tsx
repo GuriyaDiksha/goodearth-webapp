@@ -93,7 +93,6 @@ class LoyaltyLanding extends Component<Props, State> {
   }
 
   showBlockMore1() {
-    console.log("chk 1");
     this.setState({
       readMore1: false,
       readLess1: true,
@@ -103,7 +102,6 @@ class LoyaltyLanding extends Component<Props, State> {
   }
 
   showBlockMore2() {
-    console.log("chk 2");
     this.setState({
       readMore2: false,
       readLess2: true,
