@@ -5,7 +5,7 @@ import cs from "classnames";
 import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
-import MakerEnhance from "maker-enhance";
+// import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
@@ -332,7 +332,7 @@ class PDPContainer extends React.Component<Props, State> {
       currency
     } = this.props;
 
-    if (!recommendedSliderItems.length) {
+    if (recommendedSliderItems.length < 4 || typeof document == "undefined") {
       return null;
     }
 
@@ -486,8 +486,8 @@ class PDPContainer extends React.Component<Props, State> {
       sidebarSticky,
       detailsSticky,
       activeImage,
-      detailStickyEnabled,
-      mounted
+      detailStickyEnabled
+      // mounted
     } = this.state;
 
     return (
@@ -577,13 +577,13 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
-        {mounted && (
+        {/* {mounted && (
           <MakerEnhance
             user="goodearth"
             index="1"
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
-        )}
+        )} */}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}

@@ -90,7 +90,6 @@ class Reedem extends React.Component<Props, RedeemState> {
     const { newCardBox, txtvalue } = this.state;
     const { loyalty } = this.props;
     const points = loyalty?.[0]?.points;
-    console.log(this.props.user);
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
