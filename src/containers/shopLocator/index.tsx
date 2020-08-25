@@ -72,7 +72,13 @@ class ShopLocator extends React.Component<
       let { hash } = nextProps.location;
       hash = hash.replace("#", "");
       if (hash) {
-        const element = document.getElementById(hash);
+        let element = null;
+        if (hash == "cafe") {
+          element = document.getElementById("mycafe");
+        }
+        if (hash == "shop") {
+          element = document.getElementById("myshop");
+        }
         if (element) {
           element.scrollIntoView();
           const headerHeight = 50;
