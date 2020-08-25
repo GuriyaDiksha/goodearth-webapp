@@ -149,7 +149,8 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.value.length > 2) {
-      location.href = this.state.url;
+      this.props.history.push(this.state.url);
+      this.closeSearch();
       return false;
     }
   };
@@ -157,7 +158,8 @@ class Search extends React.Component<Props, State> {
   checkSearchValue = (event: any) => {
     if (event.target.value.length > 2) {
       if (event.keyCode == 13) {
-        location.href = this.state.url;
+        this.props.history.push(this.state.url);
+        this.closeSearch();
         return false;
       }
       this.setState({
@@ -565,7 +567,7 @@ class Search extends React.Component<Props, State> {
                                 {data?.ctaText}
                               </p>
                               <p className={styles.searchFeature}>
-                                <Link href={data.ctaUrl}>{data.title}</Link>
+                                <Link to={data.ctaUrl}>{data.title}</Link>
                               </p>
                             </div>
                           </div>
