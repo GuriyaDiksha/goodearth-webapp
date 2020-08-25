@@ -155,6 +155,10 @@
             color: #ab1e56;
             font-size: 12px;
             line-height: 25px;
+            &.disabled {
+                text-decoration: line-through;
+                color: tint(#000, 70%);
+              }
         }
     }
 }

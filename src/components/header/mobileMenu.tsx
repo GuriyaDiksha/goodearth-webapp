@@ -285,7 +285,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     onClick={this.Clickmenulevel1.bind(this, i)}
                   >
                     {ReactHtmlParser(
-                      data.labelMobile ? data.labelMobile : data.name
+                      this.props.isSale && data.labelMobile
+                        ? data.labelMobile
+                        : data.name
                     )}
                   </span>
                   <p

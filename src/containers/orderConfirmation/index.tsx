@@ -54,7 +54,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           currencyCode: result.currency,
           purchase: {
             actionField: {
-              id: result.transactionId,
+              id: result.number,
               affiliation: "Online Store",
               revenue: result.totalInclTax,
               tax: 0,
@@ -337,7 +337,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     globalStyles.voffset2
                                   )}
                                 >
-                                  Size:&nbsp; {item.product.size}
+                                  {item.product.size && (
+                                    <>Size:&nbsp; {item.product.size}</>
+                                  )}
                                 </div>
                                 <div className={styles.smallSize}>
                                   Qty:&nbsp; {item.quantity}
