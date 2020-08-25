@@ -88,11 +88,14 @@ class FilterList extends React.Component<Props, State> {
     this.props.onRef(this);
   }
 
+  public unlisten: any = "";
+
   createFilterfromUrl = () => {
     const vars: any = {};
     const { history } = this.props;
     const url = decodeURI(history.location.search.replace(/\+/g, " "));
     const { filter } = this.state;
+
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
     while ((match = re.exec(url))) {
@@ -285,9 +288,39 @@ class FilterList extends React.Component<Props, State> {
       mainurl = history.location.pathname;
     }
     // filter_url = filter_url.replace(/\s/g, "+");
-    history.push(mainurl + "?q=" + searchValue + filterUrl, {});
+    history.replace(mainurl + "?q=" + searchValue + filterUrl, {});
     // history.replaceState({}, "", mainurl + "?q=" + searchValue + filterUrl);
     this.updateDataFromAPI(load);
+  };
+
+  stateChange = (location: any, action: any) => {
+    if (action == "PUSH" && location.pathname.includes("/search")) {
+      this.setState(
+        {
+          filter: {
+            currentColor: {},
+            availableSize: {},
+            categoryShop: {},
+            price: {},
+            currency: {},
+            sortBy: {},
+            productType: {},
+            availableDiscount: {},
+            q: {}
+          }
+        },
+        () => {
+          this.props.updateOnload(true);
+          this.props.mobile
+            ? this.updateDataFromAPI("load")
+            : this.updateDataFromAPI();
+        }
+      );
+      // this.setState({
+      //   value:
+      // });
+      // this.getSearchDataApi();
+    }
   };
 
   onchangeRange = (value: any) => {
@@ -504,6 +537,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+    this.unlisten = this.props.history.listen(this.stateChange);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
@@ -572,6 +606,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    this.unlisten();
   }
 
   onClickLevel4 = (event: any) => {
