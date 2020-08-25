@@ -109,8 +109,10 @@ class MyProfile extends React.Component<Props, State> {
       subscribe
     } = model;
     const formData: any = {};
-    formData["phoneCountryCode"] = phoneCountryCode || "";
-    formData["phoneNumber"] = phoneNumber || "";
+    if (phoneCountryCode && phoneNumber) {
+      formData["phoneCountryCode"] = phoneCountryCode;
+      formData["phoneNumber"] = phoneNumber;
+    }
     formData["gender"] = gender || "";
     formData["panPassportNumber"] = panPassportNumber || "";
     formData["dateOfBirth"] = dateOfBirth

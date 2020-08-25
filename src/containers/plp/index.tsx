@@ -93,6 +93,12 @@ class PLP extends React.Component<
     }
   }
 
+  onStateChange = () => {
+    this.setState({
+      plpMaker: false
+    });
+  };
+
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
@@ -211,6 +217,7 @@ class PLP extends React.Component<
               onChangeFilterState={this.onChangeFilterState}
               key={this.props.location.pathname}
               changeLoader={this.changeLoader}
+              onStateChange={this.onStateChange}
             />
           </div>
           <div

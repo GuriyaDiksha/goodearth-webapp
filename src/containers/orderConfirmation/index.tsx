@@ -29,6 +29,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   };
 
   const gtmPushOrderConfirmation = (result: any) => {
+    const formData = {
+      OrderNumber: result.number,
+      email: email,
+      gaPush: true
+    };
+
     const products = result.lines.map((line: any) => {
       return {
         name: line.title,
@@ -41,23 +47,26 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0].name
       };
     });
-    dataLayer.push({
-      event: "purchase",
-      ecommerce: {
-        currencyCode: result.currency,
-        purchase: {
-          actionField: {
-            id: result.transactionId,
-            affiliation: "Online Store",
-            revenue: result.totalInclTax,
-            tax: 0,
-            shipping: result.shippingInclTax,
-            coupon: result.offerDiscounts?.[0].name
-          },
-          products: products
+    if (result.pushToGA == false) {
+      dataLayer.push({
+        event: "purchase",
+        ecommerce: {
+          currencyCode: result.currency,
+          purchase: {
+            actionField: {
+              id: result.number,
+              affiliation: "Online Store",
+              revenue: result.totalInclTax,
+              tax: 0,
+              shipping: result.shippingInclTax,
+              coupon: result.offerDiscounts?.[0]?.name
+            },
+            products: products
+          }
         }
-      }
-    });
+      });
+      AccountServices.setGaStatus(dispatch, formData);
+    }
   };
   useEffect(() => {
     fetchData().then(response => {
@@ -236,6 +245,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     </div>
                   </div>
                   {confirmData.lines?.map((item: any) => {
+                    const isdisCount =
+                      +item.priceExclTaxExclDiscounts - +item.priceInclTax != 0;
+                    console.log(
+                      +item.priceExclTaxExclDiscounts,
+                      +item.priceInclTax
+                    );
                     return (
                       <div
                         className={cs(
@@ -270,18 +285,47 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           >
                             <p className={cs(styles.productH)}></p>
                             <p className={cs(styles.productN)}>{item.title}</p>
-                            <p className={cs(styles.productN)}>
-                              {String.fromCharCode(
-                                currencyCode[item.priceCurrency as Currency]
+                            <p
+                              className={cs(styles.productN, globalStyles.flex)}
+                            >
+                              {isdisCount ? (
+                                <span className={styles.discountprice}>
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  {+parseFloat(
+                                    item.priceExclTaxExclDiscounts
+                                  ).toFixed(2) / +item.quantity}
+                                  &nbsp;{" "}
+                                </span>
+                              ) : (
+                                ""
                               )}
-                              &nbsp;{" "}
-                              {item.product?.structure == "GiftCard"
-                                ? item.priceInclTax
-                                : parseFloat(
-                                    item.product.pricerecords[
-                                      item.priceCurrency
-                                    ]
-                                  ).toFixed(2)}
+                              {isdisCount ? (
+                                <span className={styles.strikeprice}>
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  {+parseFloat(item.priceInclTax).toFixed(2) /
+                                    +item.quantity}
+                                  &nbsp;{" "}
+                                </span>
+                              ) : (
+                                <span
+                                  className={
+                                    item.badgeType == "B_flat"
+                                      ? globalStyles.cerise
+                                      : ""
+                                  }
+                                >
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  &nbsp;{" "}
+                                  {+parseFloat(item.priceInclTax).toFixed(2) /
+                                    +item.quantity}
+                                </span>
+                              )}
                             </p>
                             {item.product?.structure == "GiftCard" ? (
                               ""

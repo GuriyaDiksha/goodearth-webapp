@@ -70,9 +70,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const { email } = model;
     const { phoneNo } = this.RegisterFormRef.current?.getModel();
     const data: any = {};
-    if (this.state.radioType == "email") {
-      data["email"] = email;
-    } else {
+    data["email"] = email;
+    if (this.state.radioType == "number") {
       data["phoneNo"] = "+91" + phoneNo;
     }
     data["inputType"] = "CNI";
@@ -114,7 +113,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       return false;
     }
     if (!this.props.txtvalue) {
-      this.props.updateError(true);
+      this.props.updateError("Please enter a valid code");
       return false;
     }
 
@@ -122,9 +121,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       this.RegisterFormRef1.current.submit();
       return false;
     }
-    if (this.state.radioType == "email") {
+    if (this.state.radioType == "email" || this.props.otpFor == "balanceCN") {
       data["email"] = email;
-    } else {
+    }
+    if (this.state.radioType == "number") {
       data["phoneNo"] = "+91" + phoneNo;
     }
     data["inputType"] = "GIFT";
@@ -311,7 +311,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             showerrorOtp: "Invalid Gift Card Code"
           });
         } else if (data.currStatus == "Invalid-CN") {
-          this.props.updateError(true);
+          this.props.updateError("Please enter a valid code");
         } else {
           this.setState(
             {
@@ -327,9 +327,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         }
       })
       .catch((error: any) => {
-        if (!error.response.data.status) {
-          if (error.response.data.currStatus == "Invalid-CN") {
-            this.props.updateError(true);
+        const { status, currStatus, message } = error.response.data;
+        if (!status) {
+          if (currStatus == "Invalid-CN") {
+            this.props.updateError(message);
+          }
+          if (currStatus == "Active") {
+            this.props.updateError(message);
           }
         }
         this.setState({

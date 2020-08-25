@@ -14,7 +14,8 @@ const GiftCardItem = ({
   currStatus,
   currency,
   cardType,
-  onClose
+  onClose,
+  isLoggedIn
 }: GiftListProps): JSX.Element => {
   let showLocked = false;
   let showExpired = false;
