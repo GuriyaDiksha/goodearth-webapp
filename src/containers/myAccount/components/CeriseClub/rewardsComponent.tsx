@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import rewardIcons from "./iconRewards";
+import styles from "./styles.scss";
+import globalStyles from "styles/global.scss";
+import cs from "classnames";
 
 type Props = {
   slab: string;
@@ -23,30 +26,34 @@ const RewardsComponent: React.FC<Props> = props => {
   }, []);
 
   return (
-    <div className="cerise-rewards">
-      <h4 className="cerise">My Rewards</h4>
-      <div className="rewards-section">
+    <div className={styles.ceriseRewards}>
+      <h4 className={globalStyles.cerise}>My Rewards</h4>
+      <div className={styles.rewardsSection}>
         {ceriseClubRewards.map((myRewards: any) => {
           return (
-            <div className="rewards-div" key={myRewards.key}>
-              <div className="icon">
+            <div className={styles.rewardsDiv} key={myRewards.key}>
+              <div className={styles.icon}>
                 <img src={myRewards.iconPath} />
               </div>
-              <div className="reward-info">
-                <p className="reward-name cerise">{myRewards.iconHeader}</p>
-                <p className="reward-desc op2">{myRewards.description}</p>
+              <div className={styles.rewardInfo}>
+                <p className={cs(styles.rewardName, globalStyles.cerise)}>
+                  {myRewards.iconHeader}
+                </p>
+                <p className={cs(styles.rewardDesc, globalStyles.op2)}>
+                  {myRewards.description}
+                </p>
               </div>
             </div>
           );
         })}
       </div>
-      <div className="voffset3 terms-conditions">
-        <div className="txt-normal">
+      <div className={cs(globalStyles.voffset3, styles.termsConditions)}>
+        <div className={globalStyles.txtNormal}>
           For further information, please refer to{" "}
           <a
             href="/customer-assistance/terms"
             target="_blank"
-            className="cerise txt-underline"
+            className={cs(globalStyles.cerise, globalStyles.linkTextUnderline)}
           >
             Terms & Conditions
           </a>{" "}
@@ -54,7 +61,7 @@ const RewardsComponent: React.FC<Props> = props => {
           <a
             href="/customer-assistance/faq"
             target="_blank"
-            className="cerise txt-underline"
+            className={cs(globalStyles.cerise, globalStyles.linkTextUnderline)}
           >
             FAQs
           </a>

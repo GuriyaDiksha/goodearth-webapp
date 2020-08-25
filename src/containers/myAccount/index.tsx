@@ -25,7 +25,7 @@ import { AppState } from "reducers/typings";
 import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
 import AccountServies from "services/account";
-import ceriseClubMain from "./components/CeeriseClub/ceriseClubMain";
+import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 
 type Props = {
   isBridal: boolean;
@@ -137,7 +137,7 @@ const MyAccount: React.FC<Props> = props => {
     accountMenuItems.push({
       label: "Cerise",
       href: "/account/cerise",
-      component: ceriseClubMain,
+      component: CeriseClubMain,
       title: "Cerise",
       loggedInOnly: true
     });
@@ -376,15 +376,19 @@ const MyAccount: React.FC<Props> = props => {
                     title,
                     currentCallBackComponent
                   }) => {
-                    const Component = component;
-                    return (
-                      <Route key={label} exact path={href}>
-                        <Component
-                          setCurrentSection={() => setCurrentSection(title)}
-                          currentCallBackComponent={currentCallBackComponent}
-                        />
-                      </Route>
-                    );
+                    if (title.toLowerCase() == "cerise") {
+                      //implement
+                    } else {
+                      const Component = component;
+                      return (
+                        <Route key={label} exact path={href}>
+                          <Component
+                            setCurrentSection={() => setCurrentSection(title)}
+                            currentCallBackComponent={currentCallBackComponent}
+                          />
+                        </Route>
+                      );
+                    }
                   }
                 )}
               </Switch>
