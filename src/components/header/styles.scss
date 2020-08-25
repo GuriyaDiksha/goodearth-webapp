@@ -1008,8 +1008,7 @@ visibility: visible !important;
   overflow: hidden;
   padding: 150% 0 0 0;
   .outstock {
-
-    background: url("/static/img/outofstock-cta.svg") no-repeat;
+    background: url('../../images/outofstock-cta.svg') no-repeat;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1090,6 +1089,17 @@ visibility: visible !important;
       color: #ab1e56;
       text-decoration: none;
   }
+  .discountprice {
+    color: $cerise;
+    font-family: $font-Serif;
+    font-size: 16px;
+  }
+  .strikeprice {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: tint(#000, 50%) !important;
+    font-family: $font-Serif;
+  }
 }
 .image-content {
   .product-h {
@@ -1097,6 +1107,7 @@ visibility: visible !important;
     //padding-top: 20px;
   }
   .product-n {
+
     @include plp_prod_name_desktop();
     a {
       @include plp_prod_name_desktop();
@@ -1107,18 +1118,6 @@ visibility: visible !important;
       }
     }
   }
-}
-
-.discountprice {
-  color: $cerise;
-  font-family: $font-Serif;
-  font-size: 16px;
-}
-.strikeprice {
-  font-size: 14px;
-  text-decoration: line-through;
-  color: tint(#000, 50%) !important;
-  font-family: $font-Serif;
 }
 
 .fixed-pincode-bar {

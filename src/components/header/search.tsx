@@ -74,16 +74,14 @@ class Search extends React.Component<Props, State> {
       showDifferentImage: false,
       currentImageIndex: -1
     };
-    // this.getSearchDataApi = this.getSearchDataApi.bind(this);
-    // this.checkSearchValue = this.checkSearchValue.bind(this);
-    // this.onClickSearch = this.onClickSearch.bind(this);
-    // this.addDefaultSrc = this.addDefaultSrc.bind(this);
   }
+
+  searchBoxRef = React.createRef<HTMLInputElement>();
 
   addDefaultSrc = (e: any) => {
     // e.target.src = "/static/img/noimageplp.png";
   };
-  searchBoxRef = React.createRef<HTMLInputElement>();
+
   componentDidMount() {
     this.searchBoxRef.current && this.searchBoxRef.current.focus();
     document.body.classList.add(globalStyles.noScroll);
