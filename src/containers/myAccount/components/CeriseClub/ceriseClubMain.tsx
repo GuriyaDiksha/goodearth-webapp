@@ -1,29 +1,44 @@
 import React, { Component } from "react";
 import StyledProgressbar from "./progressBar";
 // import AddressMainComponent from 'components/common/address/addressMain';
+// import AddressMain from "components/Address/AddressMain";
 import RewardsComponent from "./rewardsComponent";
 import moment from "moment";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import styles from "./styles.scss";
-// import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
+import AccountServices from "services/account";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
-    email: state.user.email
+    email: state.user.email,
+    addressList: state.address.addressList
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {};
+  return {
+    getLoyaltyTransactions: async (formData: any) => {
+      const res = await AccountServices.getLoyaltyTransactions(
+        dispatch,
+        formData
+      );
+      return res;
+    }
+  };
 };
 
-type Props = {} & ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+type Props = { setCurrentSection: () => void } & ReturnType<
+  typeof mapStateToProps
+> &
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   customerDetails: any;
@@ -51,6 +66,7 @@ class CeriseClubMain extends Component<Props, State> {
       expiryDate: "",
       memberExpiryDate: ""
     };
+    props.setCurrentSection();
   }
   months = [
     "January",
@@ -67,52 +83,52 @@ class CeriseClubMain extends Component<Props, State> {
     "December"
   ];
 
-  setAddressAvailable(addressAvailable: boolean) {
-    this.setState({
-      addressAvailable: addressAvailable
-    });
-  }
-
   componentDidMount() {
     this.getLoyaltyTransactions();
   }
 
-  manageAddress() {
-    location.href = "/accountpage?mod=address";
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.addressList && this.props.addressList.length > 0)
+      this.setState({
+        addressAvailable: true
+      });
   }
+  manageAddress = () => {
+    this.props.history.push("/account/address");
+  };
 
-  getLoyaltyTransactions() {
+  getLoyaltyTransactions = () => {
     const formData = new FormData();
     formData.append("email", this.props.email);
     formData.append("phoneno", "");
-    // axios
-    //   .post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
-    //   .then(res => {
-    //     if (res.data.is_success) {
-    //       this.setState({
-    //         customerDetails: res.data.message.CUSTOMER_DETAILS[0],
-    //         slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
-    //         expiryDate: moment(
-    //           res.data.message.CUSTOMER_DETAILS[0].Expiry_date,
-    //           "DD-MM-YYYY"
-    //         ),
-    //         points: res.data.message.CUSTOMER_DETAILS[0].Expiry_Points,
-    //         memberExpiryDate: moment(
-    //           res.data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
-    //           "DD-MM-YYYY"
-    //         ),
-    //         customerUniqueID: res.data.unique_id
-    //       });
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-  }
+    this.props
+      .getLoyaltyTransactions(formData)
+      .then((data: any) => {
+        if (data.is_success) {
+          this.setState({
+            customerDetails: data.message.CUSTOMER_DETAILS[0],
+            slab: data.message.CUSTOMER_DETAILS[0].Slab,
+            expiryDate: moment(
+              data.message.CUSTOMER_DETAILS[0].Expiry_date,
+              "DD-MM-YYYY"
+            ).toString(),
+            points: data.message.CUSTOMER_DETAILS[0].Expiry_Points,
+            memberExpiryDate: moment(
+              data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
+              "DD-MM-YYYY"
+            ).toString(),
+            customerUniqueID: data.unique_id
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
-  viewStatementMicrosite() {
+  viewStatementMicrosite = () => {
     location.href = `https://goodearthindia.mloyalretail.com/microsite/default.asp?cid=${this.state.customerUniqueID}`;
-  }
+  };
 
   getLoader() {
     return (
@@ -122,9 +138,10 @@ class CeriseClubMain extends Component<Props, State> {
     );
   }
 
-  onClickManageProfile() {
-    location.href = "/accountpage?mod=profile";
-  }
+  onClickManageProfile = () => {
+    // location.href = "/accountpage?mod=profile";
+    this.props.history.push("/account/profile");
+  };
 
   render() {
     const {
@@ -158,7 +175,7 @@ class CeriseClubMain extends Component<Props, State> {
         ? "0"
         : "Loading...";
     return (
-      <div className={styles.ceriseClubMain}>
+      <div className={cs(styles.ceriseClubMain, bootstrapStyles.col12)}>
         <div className={styles.ceriseMain}>
           <div className={styles.ceriseHeader}>
             <div className={styles.customerCeriseInfo}>
@@ -331,10 +348,11 @@ class CeriseClubMain extends Component<Props, State> {
           <div className={styles.ceriseAddressMain}>
             <div className={styles.ceriseAddressComponent}>
               <h4 className={globalStyles.cerise}>My Address</h4>
-              {/* <AddressMainComponent
+              {/* <AddressMain
+                
                 showDefaultAddressOnly={true}
                 currentCallBackComponent="cerise"
-                setAddressAvailable={this.setAddressAvailable}
+
               /> */}
             </div>
             {!this.state.addressAvailable && (
@@ -358,4 +376,8 @@ class CeriseClubMain extends Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CeriseClubMain);
+const CeriseClubMainRoute = withRouter(CeriseClubMain);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CeriseClubMainRoute);

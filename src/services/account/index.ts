@@ -97,7 +97,7 @@ export default {
   getLoyaltyTransactions: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post(
       dispatch,
-      `${__API_HOST__}/mobiquest/showloyaltytransactions/`,
+      `${__API_HOST__}/mobiquest/show_loyalty_transaction/`,
       formData
     );
     return data;

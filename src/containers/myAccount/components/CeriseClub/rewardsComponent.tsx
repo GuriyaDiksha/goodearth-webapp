@@ -23,7 +23,7 @@ const RewardsComponent: React.FC<Props> = props => {
       );
       setCeriseClubRewards(rewardIconsSitara);
     }
-  }, []);
+  }, [props.slab]);
 
   return (
     <div className={styles.ceriseRewards}>

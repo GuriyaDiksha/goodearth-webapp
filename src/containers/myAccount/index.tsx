@@ -11,6 +11,7 @@ import {
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
+import loyaltyStyles from "./components/CeriseClub/styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
@@ -24,7 +25,7 @@ import AddressMain from "components/Address/AddressMain";
 import { AppState } from "reducers/typings";
 import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
-import AccountServies from "services/account";
+import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 
 type Props = {
@@ -40,7 +41,7 @@ type Props = {
 const MyAccount: React.FC<Props> = props => {
   let bridalId = "";
   const [accountListing, setAccountListing] = useState(false);
-  const [slab] = useState("");
+  const [slab, setSlab] = useState("");
   const { mobile } = useStore().getState().device;
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { path } = useRouteMatch();
@@ -55,18 +56,16 @@ const MyAccount: React.FC<Props> = props => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("phoneno", "");
-    AccountServies.getLoyaltyTransactions(dispatch, formData)
-      .then(res => {
-        // if (res.data.is_success) {
-        //     let isCeriseClubMember = res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
-        //     this.setState({
-        //         slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
-        //         isCeriseClubMember: isCeriseClubMember
-        //     }, () => {
-        //         const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
-        //         this.props.updateCeriseClubAccess(slab);
-        //     })
-        // }
+    AccountServices.getLoyaltyTransactions(dispatch, formData)
+      .then((data: any) => {
+        if (data.is_success) {
+          // const isCeriseClubMember = data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
+          const responseSlab = data.message.CUSTOMER_DETAILS[0].Slab;
+          setSlab(responseSlab);
+          // setIsCeriseClubMember(isCeriseClubMember);
+          // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
+          // this.props.updateCeriseClubAccess(slab);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -125,7 +124,7 @@ const MyAccount: React.FC<Props> = props => {
       loggedInOnly: false
     }
   ];
-  let ceriseClubAccess = true;
+  let ceriseClubAccess = false;
   if (slab) {
     ceriseClubAccess =
       slab.toLowerCase() == "cerise" ||
@@ -170,13 +169,17 @@ const MyAccount: React.FC<Props> = props => {
     }
   }, [pathname, isLoggedIn]);
 
-  let bgClass = cs(globalStyles.colMd10, globalStyles.col12, styles.bgProfile);
-  bgClass +=
-    slab && path == "/account/cerise"
+  const bgClass = cs(
+    globalStyles.colMd10,
+    globalStyles.col12,
+    styles.bgProfile,
+
+    slab && pathname == "/account/cerise"
       ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
-        ? cs(styles.ceriseClub, styles.ceriseLoyalty)
-        : cs(styles.ceriseSitaraClub, styles.ceriseLoyalty)
-      : "";
+        ? cs(styles.ceriseClub, loyaltyStyles.ceriseLoyalty)
+        : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseLoyalty)
+      : ""
+  );
   return (
     <div className={globalStyles.containerStart}>
       <SecondaryHeader>
@@ -355,46 +358,55 @@ const MyAccount: React.FC<Props> = props => {
             </div>
           </div>
         )}
-        <div className={bgClass}>
-          <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.colMd6,
-                bootstrapStyles.offsetMd3,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                { [styles.accountFormBg]: !mobile },
-                { [styles.accountFormBgMobile]: mobile }
-              )}
-            >
-              <Switch>
-                {accountMenuItems.map(
-                  ({
-                    component,
-                    href,
-                    label,
-                    title,
-                    currentCallBackComponent
-                  }) => {
-                    if (title.toLowerCase() == "cerise") {
-                      //implement
-                    } else {
-                      const Component = component;
-                      return (
-                        <Route key={label} exact path={href}>
+        {
+          <Switch>
+            {accountMenuItems.map(
+              ({ component, href, label, title, currentCallBackComponent }) => {
+                const Component = component;
+                if (title.toLowerCase() == "cerise") {
+                  return (
+                    <Route key={label} exact path={href}>
+                      <div className={bgClass}>
+                        <div className={bootstrapStyles.row}>
                           <Component
                             setCurrentSection={() => setCurrentSection(title)}
                             currentCallBackComponent={currentCallBackComponent}
                           />
-                        </Route>
-                      );
-                    }
-                  }
-                )}
-              </Switch>
-            </div>
-          </div>
-        </div>
+                        </div>
+                      </div>
+                    </Route>
+                  );
+                } else {
+                  return (
+                    <Route key={label} exact path={href}>
+                      <div className={bgClass}>
+                        <div className={bootstrapStyles.row}>
+                          <div
+                            className={cs(
+                              bootstrapStyles.colMd6,
+                              bootstrapStyles.offsetMd3,
+                              bootstrapStyles.col12,
+                              globalStyles.textCenter,
+                              { [styles.accountFormBg]: !mobile },
+                              { [styles.accountFormBgMobile]: mobile }
+                            )}
+                          >
+                            <Component
+                              setCurrentSection={() => setCurrentSection(title)}
+                              currentCallBackComponent={
+                                currentCallBackComponent
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </Route>
+                  );
+                }
+              }
+            )}
+          </Switch>
+        }
       </div>
     </div>
   );
