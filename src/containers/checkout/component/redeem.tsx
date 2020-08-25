@@ -61,7 +61,7 @@ class Reedem extends React.Component<Props, RedeemState> {
     this.setState({
       error: "Please enter points"
     });
-    const elem: any = document.getElementById("gift");
+    const elem: any = document.getElementById("redeem");
     elem.scrollIntoView();
     window.scrollBy(0, -200);
   };

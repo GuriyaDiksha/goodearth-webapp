@@ -48,7 +48,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
       )}
     >
       <div
-        className={cs(styles.cursorPointer)}
+        className={cs(styles.cursorPointer, globalStyles.pointer)}
         onClick={e => goToShopLocator(e, null)}
       >
         Shop & cafe Locator

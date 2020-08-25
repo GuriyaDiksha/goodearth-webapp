@@ -11,7 +11,6 @@ export type otpState = {
   showerrorOtp: string;
   otp: string;
   toggleOtp: boolean;
-  showError: string;
   isLoading: boolean;
 };
 

@@ -5,7 +5,7 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ShopLocatorProps } from "./typings";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import BannerSlider from "components/BannerSlider";
 import { Settings } from "react-slick";
 import borderImg from "images/category/bannerBottom.jpg";
@@ -32,8 +32,28 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
     .map((filter: any) => filter.image);
   const shopData = data ? data[0] : {};
   const [showiframe, setShowiframe] = useState(false);
+  const location = useLocation();
   useEffect(() => {
     setShowiframe(true);
+    window.scrollTo(0, 0);
+    // for handling scroll to particalar element with hash
+    let { hash } = location;
+    hash = hash.replace("#", "");
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView();
+          const headerHeight = 50;
+          const secondaryHeaderHeight = 50;
+          const announcementBarHeight = 30;
+          window.scrollBy(
+            0,
+            -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+          );
+        }
+      }, 500);
+    }
   }, []);
   const config: Settings = {
     dots: false,
@@ -54,7 +74,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
   };
   return (
     <div>
-      <div className={cs(bootstrapStyles.colMd12, styles.im)} id="myshop">
+      <div className={cs(bootstrapStyles.colMd12, styles.im)} id="shop">
         <BannerSlider
           data={shopImage}
           setting={config as Settings}
@@ -159,7 +179,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
         </div>
       </div>
       {shopData.cafeHeading2 && (
-        <div className={bootstrapStyles.row} id="mycafe">
+        <div className={bootstrapStyles.row} id="cafe">
           <div
             className={cs(
               globalStyles.col12,
