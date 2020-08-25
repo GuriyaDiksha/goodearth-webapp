@@ -21,6 +21,7 @@ import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
 import noImagePlp from "images/noimageplp.png";
 import { withRouter, RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -375,8 +376,8 @@ class Search extends React.Component<Props, State> {
                               ""
                             )}
                             <div className={styles.imageboxNew}>
-                              <a
-                                href={data.url}
+                              <Link
+                                to={data.url}
                                 onClick={this.showProduct.bind(this, data, i)}
                                 onMouseOver={this.mouseOverImage.bind(this, i)}
                                 onMouseOut={this.mouseOutImage.bind(this, i)}
@@ -387,10 +388,10 @@ class Search extends React.Component<Props, State> {
                                   alt=""
                                   className={styles.imageResultNew}
                                 />
-                              </a>
+                              </Link>
                               {totalStock <= 0 ? (
                                 <div className={styles.outstock}>
-                                  <a href={data.url}> NOTIFY ME </a>
+                                  <Link to={data.url}> NOTIFY ME </Link>
                                 </div>
                               ) : (
                                 ""
@@ -401,14 +402,14 @@ class Search extends React.Component<Props, State> {
                                 {data.collections}
                               </p>
                               <p className={styles.productN}>
-                                <a
-                                  href={data.url}
+                                <Link
+                                  to={data.url}
                                   onClick={e => {
                                     this.showProduct.bind(this, data, i);
                                   }}
                                 >
                                   {data.title}
-                                </a>
+                                </Link>
                               </p>
                               <p className={styles.productN}>
                                 {this.state.isSale && data.discount ? (
@@ -543,8 +544,8 @@ class Search extends React.Component<Props, State> {
                             )}
                           >
                             <div className={styles.searchImageboxNew}>
-                              <a
-                                href={data.ctaUrl}
+                              <Link
+                                to={data.ctaUrl}
                                 onClick={this.showProduct.bind(this, data, i)}
                               >
                                 <img
@@ -557,14 +558,14 @@ class Search extends React.Component<Props, State> {
                                   alt=""
                                   className={styles.imageResultNew}
                                 />
-                              </a>
+                              </Link>
                             </div>
                             <div className={styles.imageContent}>
                               <p className={styles.searchImageTitle}>
                                 {data?.ctaText}
                               </p>
                               <p className={styles.searchFeature}>
-                                <a href={data.ctaUrl}>{data.title}</a>
+                                <Link href={data.ctaUrl}>{data.title}</Link>
                               </p>
                             </div>
                           </div>
