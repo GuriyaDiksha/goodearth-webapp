@@ -43,6 +43,7 @@ type Props = {
   selectedIndex?: number;
   isSale?: boolean;
   discount: boolean;
+  badgeType?: string;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
 };
@@ -58,7 +59,8 @@ const NotifyMePopup: React.FC<Props> = ({
   changeSize,
   onNotifyCart,
   isSale,
-  discount
+  discount,
+  badgeType
 }) => {
   const { dispatch } = useStore();
 
@@ -164,7 +166,7 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const onNotifyClick = async () => {
     const { valid, message } = validator(email);
-
+    setMsg("");
     if (!valid) {
       setEmailError(message);
     } else {
@@ -215,6 +217,8 @@ const NotifyMePopup: React.FC<Props> = ({
     setSizeErrorMsg("");
   }, [selectedSize]);
 
+  const sizeExists = childAttributes[0].size;
+
   return (
     <div className={cs(styles.container)}>
       <div className={styles.header}>
@@ -243,22 +247,30 @@ const NotifyMePopup: React.FC<Props> = ({
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             ) : (
-              <span>
+              <span
+                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             )}
           </p>
         </div>
-        <div className={cs(styles.label, styles.sizeLabel)}>SELECT SIZE</div>
-        <SizeSelector
-          sizes={childAttributes}
-          onChange={onSizeSelect}
-          sizeClassName={styles.sizeBox}
-          selected={selectedSize ? selectedSize.id : undefined}
-        />
-        {sizeErrorMsg && (
-          <span className={styles.sizeError}>{sizeErrorMsg}</span>
+        {sizeExists && (
+          <>
+            <div className={cs(styles.label, styles.sizeLabel)}>
+              SELECT SIZE
+            </div>
+            <SizeSelector
+              sizes={childAttributes}
+              onChange={onSizeSelect}
+              sizeClassName={styles.sizeBox}
+              selected={selectedSize ? selectedSize.id : undefined}
+            />
+            {sizeErrorMsg && (
+              <span className={styles.sizeError}>{sizeErrorMsg}</span>
+            )}
+          </>
         )}
         <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
 
@@ -276,7 +288,7 @@ const NotifyMePopup: React.FC<Props> = ({
             inputClass={styles.inputQuantity}
           />
         </div>
-        {selectedSize && selectedSize.stock === 0 && (
+        {(!selectedSize || (selectedSize && selectedSize.stock === 0)) && (
           <div className={cs(styles.emailInput, globalStyles.textLeft)}>
             <InputField
               id="width"

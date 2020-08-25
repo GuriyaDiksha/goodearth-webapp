@@ -52,17 +52,18 @@ const FreeShipping: React.FC<PopupProps> = props => {
               secure shopping experience for you.
             </p>
             <p>
-              We are delighted to have resumed shipping, both worldwide and
-              select locations within India, permissible under government
-              directives. Please use our Pincode Detector to check if your area
-              (within India) is currently serviceable.
+              Please use our Pincode Detector to check if your area (within
+              India) is currently serviceable.
+            </p>
+            <p>
+              Good Earth invites you to discover{" "}
+              <b className={globalStyles.cerise}>Styles that Sustain</b>, the
+              Good Earth Annual Apparel Sale, featuring handpicked sustainable
+              styles.
             </p>
             <p>
               For any further assistance reach out to us at{" "}
               <b className={globalStyles.cerise}>customercare@goodearth.in</b>
-            </p>
-            <p style={{ fontSize: "13px" }}>
-              <b>Happy shopping!</b>
             </p>
           </div>
           <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtn30)}>

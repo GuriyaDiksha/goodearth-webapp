@@ -54,7 +54,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
   };
   return (
     <div>
-      <div className={cs(bootstrapStyles.colMd12, styles.im)}>
+      <div className={cs(bootstrapStyles.colMd12, styles.im)} id="myshop">
         <BannerSlider
           data={shopImage}
           setting={config as Settings}
@@ -159,7 +159,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
         </div>
       </div>
       {shopData.cafeHeading2 && (
-        <div className={bootstrapStyles.row}>
+        <div className={bootstrapStyles.row} id="mycafe">
           <div
             className={cs(
               globalStyles.col12,
