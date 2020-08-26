@@ -77,5 +77,13 @@ export default {
       { pinCode }
     );
     return res;
+  },
+  getCustomerSlab: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post(
+      dispatch,
+      `${__API_HOST__}/mobiquest/get_customer_slab/`,
+      formData
+    );
+    return res;
   }
 };

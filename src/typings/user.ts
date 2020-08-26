@@ -13,4 +13,5 @@ export type User = {
   isLoggedIn: boolean;
   refresh: boolean;
   shippingData: AddressData | null;
+  slab: string;
 };

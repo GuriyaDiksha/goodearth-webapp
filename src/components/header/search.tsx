@@ -550,7 +550,7 @@ class Search extends React.Component<Props, State> {
                             <div className={styles.searchImageboxNew}>
                               <Link
                                 to={data.ctaUrl}
-                                onClick={this.showProduct.bind(this, data, i)}
+                                // onClick={this.showProduct.bind(this, data, i)}
                               >
                                 <img
                                   src={

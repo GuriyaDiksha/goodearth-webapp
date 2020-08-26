@@ -28,7 +28,8 @@ interface State {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    cookies: state.cookies
+    cookies: state.cookies,
+    slab: state.user.slab
   };
 };
 
@@ -126,7 +127,7 @@ class SideMenu extends React.Component<Props, State> {
       {
         label: "Cerise Program",
         // href: "/account/cerise",
-        href: "/cerise",
+        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
         type: "link",
         value: "Cerise Program"
       },

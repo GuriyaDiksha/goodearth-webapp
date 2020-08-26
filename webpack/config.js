@@ -270,7 +270,7 @@ let config = [
         },
         externals: [nodeExternals({
             whitelist: function(path){
-                            return  /slick-carousel|rc-slider|rc-util/.test(path);
+                            return  /slick-carousel|rc-slider|rc-util|react-circular-progressbar/.test(path);
                         }
         })],
         plugins: [
