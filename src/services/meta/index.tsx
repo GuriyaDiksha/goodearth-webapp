@@ -12,6 +12,7 @@ import API from "utils/api";
 import { updateComponent, updateModal } from "actions/modal";
 import ProfileUpdater from "components/signin/profileUpdater";
 import React from "react";
+// import HeaderService from "services/headerFooter";
 
 export default {
   fetchMeta: async function(
@@ -41,6 +42,12 @@ export default {
         dispatch(updateComponent(<ProfileUpdater />, true));
         dispatch(updateModal(true));
       }
+      // if(user.email) {
+      //   const res: any = await HeaderService.getCustomerSlab(dispatch, user.email);
+      //   if(res.is_success) {
+      //     dispatch(updateUser({slab: res.slab}));
+      //   }
+      // }
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));
     }
