@@ -80,6 +80,18 @@ class PLP extends React.Component<
     this.setState({
       plpMaker: true
     });
+    if (this.props.device.mobile) {
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
   }
 
   componentDidUpdate(nextProps: Props) {
