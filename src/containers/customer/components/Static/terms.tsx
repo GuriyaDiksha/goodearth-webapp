@@ -250,6 +250,7 @@ export default class Terms extends React.Component<Props, {}> {
             consequences of the same by yourself and that GOODEARTH shall in no
             manner be held responsible for the same.
           </p>
+          <p>Goods listed in this invoice are not meant for resale.</p>
         </div>
         <div className={globalStyles.voffset4}>
           <h5>BILLING</h5>

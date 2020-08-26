@@ -21,7 +21,7 @@ import { PartialProductItem } from "typings/product";
 import { WidgetImage } from "components/header/typings";
 import { Dispatch } from "redux";
 import HeaderService from "services/headerFooter";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 
 const Quickview = loadable(() => import("components/Quickview"));
@@ -471,8 +471,8 @@ class Search extends React.Component<
                                 className={cs(bootstrap.colMd3, bootstrap.col6)}
                               >
                                 <div className={styles.searchImageboxNew}>
-                                  <a
-                                    href={data.ctaUrl}
+                                  <Link
+                                    to={data.ctaUrl}
                                     onClick={this.showProduct.bind(
                                       this,
                                       data,
@@ -489,7 +489,7 @@ class Search extends React.Component<
                                       alt=""
                                       className={styles.imageResultNew}
                                     />
-                                  </a>
+                                  </Link>
                                 </div>
                                 <div className={styles.imageContent}>
                                   <p className={styles.searchImageTitle}>
