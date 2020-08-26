@@ -146,6 +146,7 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.value.length > 2) {
+      // console.log(encodeURIComponent(this.state.url))
       this.props.history.push(this.state.url);
       this.closeSearch();
       return false;
@@ -172,7 +173,7 @@ class Search extends React.Component<Props, State> {
   };
 
   getSearchDataApi = (name: string) => {
-    const searchUrl = "/search?q=" + name;
+    const searchUrl = "/search?q=" + encodeURIComponent(name);
     this.setState({
       url: searchUrl
     });
