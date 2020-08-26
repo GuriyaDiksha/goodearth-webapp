@@ -94,6 +94,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         updateComponent(
           <NotifyMePopup
             price={price}
+            discountedPrice={item.discountedPrice[currency]}
             currency={currency}
             title={item.productName}
             childAttributes={childAttributes}
@@ -101,6 +102,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             changeSize={changeSize}
             isSale={isSale}
             discount={item.discount}
+            badgeType={item.badgeType}
           />,
           false,
           ModalStyles.bottomAlign

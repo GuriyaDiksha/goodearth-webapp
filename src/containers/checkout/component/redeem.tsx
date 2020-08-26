@@ -61,7 +61,7 @@ class Reedem extends React.Component<Props, RedeemState> {
     this.setState({
       error: "Please enter points"
     });
-    const elem: any = document.getElementById("gift");
+    const elem: any = document.getElementById("redeem");
     elem.scrollIntoView();
     window.scrollBy(0, -200);
   };
@@ -90,7 +90,6 @@ class Reedem extends React.Component<Props, RedeemState> {
     const { newCardBox, txtvalue } = this.state;
     const { loyalty } = this.props;
     const points = loyalty?.[0]?.points;
-    console.log(this.props.user);
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>

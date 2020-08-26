@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import { List, FooterList, FooterState } from "./typings";
 import cs from "classnames";
 import styles from "./styles.scss";
@@ -37,7 +37,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class Footer extends React.Component<Props, FooterState> {
   observer?: IntersectionObserver;
@@ -115,11 +116,12 @@ class Footer extends React.Component<Props, FooterState> {
     e: React.MouseEvent,
     data: { label: string; value: string } | null
   ) => {
-    // const city = data ? (data.value ? data.value : "Delhi") : "Delhi";
+    const city = data ? (data.value ? data.value : "Delhi") : "Delhi";
     if (e.metaKey || e.ctrlKey) {
       // do nothing
     } else {
       // location.href = "/Cafe-Shop/" + city;
+      this.props.history.push(`/Cafe-Shop/${city}`);
       e.preventDefault();
     }
   };
@@ -740,5 +742,5 @@ class Footer extends React.Component<Props, FooterState> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+const FooterRouter = withRouter(Footer);
+export default connect(mapStateToProps, mapDispatchToProps)(FooterRouter);

@@ -23,7 +23,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       updateStatus: false,
       showerror: "",
       showerrorOtp: "",
-      showError: "",
       otp: "",
       toggleOtp: false,
       isLoading: false
@@ -207,7 +206,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       })
       .catch((error: any) => {
         this.setState({
-          showError: "Server Error",
+          showerror: error.response.data.message,
           isLoading: false
         });
       });

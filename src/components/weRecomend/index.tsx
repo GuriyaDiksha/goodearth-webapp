@@ -22,10 +22,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
-    // let index = data.categories.length - 1;
-    // let category = data.categories[index].replace(/\s/g, '');
-    // category = category.replace(/>/g, '/');
-    // let cur = this.state.salestatus ? data.discounted}ricerecords[currency] : data.pricerecords[currency];
     localStorage.setItem("list", "We Recommend");
     dataLayer.push({
       event: "productClick",
@@ -47,22 +43,13 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         }
       }
     });
-    // if (ga_traking) {
-    //     ga('gtm24.send', {
-    //             hitType: 'event',
-    //             eventCategory: 'Recommendation',
-    //             eventAction: this.props.parentsku,
-    //             eventLabel: data.sku,
-    //             eventValue: data.recommendation_final_score
-    //         }
-    //     )
-    // }
   };
   const withoutZeroPriceData = data?.filter(
     (item: RecommendData, i: number) => {
       return item.pricerecords[currency as Currency] != 0;
     }
   );
+
   const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
     return (
       <div
@@ -121,11 +108,31 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
           <p className={styles.productN}>
-            <span>
-              {" "}
-              {String.fromCharCode(code)}{" "}
-              {item.pricerecords[currency as Currency]}{" "}
-            </span>
+            {item.discount ? (
+              <span className={styles.discountprice}>
+                {String.fromCharCode(code)}{" "}
+                {item.discountedPriceRecords[currency as Currency]}
+              </span>
+            ) : (
+              ""
+            )}
+            {item.discount ? (
+              <span className={styles.strikeprice}>
+                {" "}
+                {String.fromCharCode(code)}{" "}
+                {item.pricerecords[currency as Currency]}{" "}
+              </span>
+            ) : (
+              <span
+                className={
+                  item.badgeType == "B_flat" ? globalStyles.cerise : ""
+                }
+              >
+                {" "}
+                {String.fromCharCode(code)}{" "}
+                {item.pricerecords[currency as Currency]}{" "}
+              </span>
+            )}
           </p>
         </div>
       </div>

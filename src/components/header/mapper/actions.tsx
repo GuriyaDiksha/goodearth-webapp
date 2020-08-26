@@ -12,6 +12,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 import PincodePopup from "components/Popups/pincodePopup";
+import HeaderService from "services/headerFooter";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -49,6 +50,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     showPincodePopup: (setPincode: (pinCode: string) => void) => {
       dispatch(updateComponent(<PincodePopup setPincode={setPincode} />, true));
       dispatch(updateModal(true));
+    },
+    getCustomerSlab: async (formData: any) => {
+      const res = await HeaderService.getCustomerSlab(dispatch, formData);
+      return res;
     }
   };
 };

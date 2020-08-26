@@ -4,6 +4,7 @@ import { MenuListProps, HeaderData, MenuData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import ReactHtmlParser from "react-html-parser";
 
 class MenuList extends React.Component<MenuListProps> {
   constructor(props: MenuListProps) {
@@ -76,13 +77,11 @@ class MenuList extends React.Component<MenuListProps> {
                     to={column.url ? column.url : "#"}
                     onClick={this.mouseLeave}
                   >
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: column.labelDesktop
-                          ? column.labelDesktop
-                          : column.name
-                      }}
-                    />
+                    <span>
+                      {ReactHtmlParser(
+                        column.labelDesktop ? column.labelDesktop : column.name
+                      )}
+                    </span>
                   </Link>
                 </li>
                 {column.children
@@ -90,13 +89,13 @@ class MenuList extends React.Component<MenuListProps> {
                       return (
                         <li key={index + "colChildren"}>
                           <Link to={data1.url} onClick={this.mouseLeave}>
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: data1.labelDesktop
+                            <span>
+                              {ReactHtmlParser(
+                                data1.labelDesktop
                                   ? data1.labelDesktop
                                   : data1.name
-                              }}
-                            />
+                              )}
+                            </span>
                           </Link>
                         </li>
                       );
@@ -118,7 +117,7 @@ class MenuList extends React.Component<MenuListProps> {
             headerData.length - 1 == i ? bootstrap.colMd2 : bootstrap.colMd2
           }
         >
-          {data.map((column, j) => {
+          {data?.map((column, j) => {
             const class1 =
               column.name.toLowerCase().indexOf("sale") > -1
                 ? cs(styles.menucolor, styles.subheading, styles.subheadingImg)
@@ -139,13 +138,11 @@ class MenuList extends React.Component<MenuListProps> {
                     }
                     to={column.url}
                   >
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: column.labelDesktop
-                          ? column.labelDesktop
-                          : column.name
-                      }}
-                    />
+                    <span>
+                      {ReactHtmlParser(
+                        column.labelDesktop ? column.labelDesktop : column.name
+                      )}
+                    </span>
                   </Link>
                 </li>
                 {column.children.map((data1, index) => {
@@ -160,13 +157,11 @@ class MenuList extends React.Component<MenuListProps> {
                         to={data1.url}
                         className={isSale ? styles.menucolor : ""}
                       >
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: data1.labelDesktop
-                              ? data1.labelDesktop
-                              : data1.name
-                          }}
-                        />
+                        <span>
+                          {ReactHtmlParser(
+                            data1.labelDesktop ? data1.labelDesktop : data1.name
+                          )}
+                        </span>
                       </Link>
                     </li>
                   );

@@ -63,7 +63,9 @@ const ProductDetails: React.FC<Props> = ({
     gaVariant,
     groupedProducts,
     salesBadgeImage,
-    fillerMessage
+    fillerMessage,
+    justAddedBadge,
+    badgeType
   },
   corporatePDP,
   mobile,
@@ -106,6 +108,10 @@ const ProductDetails: React.FC<Props> = ({
     selectedSize && selectedSize.priceRecords
       ? selectedSize.priceRecords[currency]
       : priceRecords[currency];
+  const discountPrices =
+    selectedSize && selectedSize.discountedPriceRecords
+      ? selectedSize.discountedPriceRecords[currency]
+      : discountedPriceRecords[currency];
 
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
@@ -238,7 +244,7 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const notifyMeClick = () => {
-    let selectedIndex = 0;
+    let selectedIndex = undefined;
 
     childAttributes.map((v, i) => {
       if (v.id === selectedSize?.id) {
@@ -254,7 +260,9 @@ const ProductDetails: React.FC<Props> = ({
         childAttributes={childAttributes}
         title={title}
         selectedIndex={selectedIndex}
-        discount={false}
+        discount={discount}
+        badgeType={badgeType}
+        isSale={info.isSale}
       />,
       false,
       ModalStyles.bottomAlign
@@ -351,7 +359,7 @@ const ProductDetails: React.FC<Props> = ({
               <span className={styles.discountedPrice}>
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
-                {discountedPriceRecords[currency]}
+                {discountPrices}
                 <br />
               </span>
             ) : (
@@ -364,7 +372,9 @@ const ProductDetails: React.FC<Props> = ({
                 {price}
               </span>
             ) : (
-              <span>
+              <span
+                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
                 {" "}
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;

@@ -220,7 +220,8 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Cerise Program",
-        href: "/account/cerise",
+        // href: "/account/cerise",
+        href: "/cerise",
         type: "link",
         value: "Cerise Program"
       },
@@ -344,6 +345,9 @@ class Header extends React.Component<Props, State> {
               }
             })}
           </div>
+          {this.state.showSearch && (
+            <Search ipad={false} toggle={this.showSearch} />
+          )}
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             {this.props.mobile ? (
               <div
@@ -634,9 +638,6 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {this.state.showSearch && (
-            <Search ipad={false} toggle={this.showSearch} />
-          )}
           {this.props.currency.toString().toUpperCase() == "INR" &&
             (this.props.location.pathname.includes("/catalogue/")
               ? this.props.location.pathname.includes("/category/")

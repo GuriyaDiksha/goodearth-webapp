@@ -16,12 +16,12 @@ import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import ModalActions from "../../components/Modal/mapper/actions";
 // import Loader from "components/Loader";
-import MakerEnhance from "maker-enhance";
+// import MakerEnhance from "maker-enhance";
 import { PartialProductItem } from "typings/product";
 import { WidgetImage } from "components/header/typings";
 import { Dispatch } from "redux";
 import HeaderService from "services/headerFooter";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 
 const Quickview = loadable(() => import("components/Quickview"));
@@ -144,7 +144,7 @@ class Search extends React.Component<
 
   onEnterSearch = (event: any) => {
     if (event.keyCode == 13) {
-      this.child.changeSearchValue(this.state.searchText);
+      this.child.changeSearchValue(encodeURIComponent(this.state.searchText));
     }
   };
 
@@ -213,8 +213,19 @@ class Search extends React.Component<
   };
 
   onClickSearch = (event: any) => {
-    this.child.changeSearchValue(this.state.searchText);
+    this.child.changeSearchValue(encodeURIComponent(this.state.searchText));
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const queryString = nextProps.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchValue = urlParams.get("q");
+    if (searchValue !== this.state.searchText) {
+      this.setState({
+        searchText: searchValue ? searchValue : ""
+      });
+    }
+  }
 
   render() {
     const {
@@ -225,7 +236,7 @@ class Search extends React.Component<
         count
       }
     } = this.props;
-    const { searchMaker } = this.state;
+    // const { searchMaker } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -334,13 +345,13 @@ class Search extends React.Component<
                           <img src={banner} className="img-responsive" />
                       </div>
                   </div> : ""} */}
-            {searchMaker && (
+            {/* {searchMaker && (
               <MakerEnhance
                 user="goodearth"
                 index="1"
                 href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
-            )}
+            )} */}
             {!mobile && data.length ? (
               <div
                 className={cs(
@@ -460,8 +471,8 @@ class Search extends React.Component<
                                 className={cs(bootstrap.colMd3, bootstrap.col6)}
                               >
                                 <div className={styles.searchImageboxNew}>
-                                  <a
-                                    href={data.ctaUrl}
+                                  <Link
+                                    to={data.ctaUrl}
                                     onClick={this.showProduct.bind(
                                       this,
                                       data,
@@ -478,7 +489,7 @@ class Search extends React.Component<
                                       alt=""
                                       className={styles.imageResultNew}
                                     />
-                                  </a>
+                                  </Link>
                                 </div>
                                 <div className={styles.imageContent}>
                                   <p className={styles.searchImageTitle}>

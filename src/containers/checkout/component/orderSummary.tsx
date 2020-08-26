@@ -31,7 +31,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
-
+  const { isSale } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
     setIsSuspended(true);
@@ -93,20 +93,41 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <br />
               </div>
             )}
-            {isSuspended && (
-              <p>
-                {" "}
-                In the current scenario, the delivery time of your order(s)
-                placed during this period will vary as per restrictions imposed
-                in that area. Please bear with us and connect with our customer
-                care for assistance.
-              </p>
+            {isSuspended && isSale && (
+              <>
+                <p>
+                  During Sale, the delivery time of your order(s) placed will
+                  vary due to high volume of orders. Please bear with us and
+                  connect with our customer care for assistance.
+                </p>
+                <p>
+                  We have resumed International shipping and shipping within
+                  India (as per Government guidelines).
+                </p>
+                <p>
+                  International orders: delivered within 12-14 business days
+                </p>
+                <p>
+                  Domestic orders: delivered within 15-18 business days. (You
+                  will see the delivery date for your order on your order
+                  confirmation.)
+                </p>
+              </>
             )}
-            {isSuspended && (
-              <p>
-                We have resumed International shipping and shipping within
-                India, in select zones (as per Government guidelines).
-              </p>
+            {isSuspended && !isSale && (
+              <>
+                <p>
+                  {" "}
+                  In the current scenario, the delivery time of your order(s)
+                  placed during this period will vary as per restrictions
+                  imposed in that area. Please bear with us and connect with our
+                  customer care for assistance.
+                </p>
+                <p>
+                  We have resumed International shipping and shipping within
+                  India, in select zones (as per Government guidelines).
+                </p>
+              </>
             )}
             {/* *Expected Delivery of Pichwai Art is 15 to 18 business days */}
           </div>
@@ -161,7 +182,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>{" "}
                     </span>
                   ) : (
-                    <span className={styles.productPrice}>
+                    <span
+                      className={cs(styles.productPrice, {
+                        [globalStyles.cerise]:
+                          item.product.badgeType == "B_flat"
+                      })}
+                    >
                       {String.fromCharCode(code)}{" "}
                       {item.product.structure == "GiftCard"
                         ? parseFloat(item.GCValue.toString()).toFixed(2)

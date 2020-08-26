@@ -1,0 +1,438 @@
+@import "../../../../styles/partials/variables";
+
+.cerise-loyalty {
+    font-family: "LatoFont","Helvetica","Arial";
+    .cerise-main {
+        width: 70%;
+        margin: 0 auto;
+        .cerise-header {
+            display: grid;
+            grid-template-rows: 3fr 1fr;
+            background-color:  #fff;
+            margin-top: 300px;
+            min-height: 160px;
+            .customer-cerise-info {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                border-bottom: 1px solid #ccc;
+                padding: 0 20px;
+                .customer-welcome {
+                    padding: 15px 0;
+                    h4 {
+                        text-transform: uppercase;
+                        font-weight: 300;
+                        font-family: "AmiriFont", "Baskerville", "Garamond";
+                    }
+                    p {
+                        font-size: 28px;
+                        font-family: $font-Serif;
+                    }
+                    button {
+                        border-radius: 0;
+                        background-color: #fffefe;
+                        border: 1px solid #ab1e56;
+                        margin-top: 20px;
+                    }
+                }
+
+                .customer-points {
+                    display: grid;
+                    grid-template-columns: 1fr 2fr;
+                    padding: 15px 0;
+                    text-align: right;
+                    line-height: 1.5rem;
+                    justify-self: end;
+                    .customer-points-info {
+                        p {
+                            font-weight: 300;
+                            letter-spacing: 1px;
+                            font-size: 12px;
+                            span {
+                                opacity: 1;
+                            }
+                        }
+                        input {
+                            width: 90%;
+                            height: 35px;
+                            line-height: 0;
+                            margin-top: 20px
+                        }
+                    }
+                    div.progress-bar {
+                        justify-self: end;
+                        width: 100px;
+                        top: 20px;
+                    }
+                    div.customer-points-info {
+                        justify-self: end;
+                    }
+                }
+            }
+            .cerise-redeem-info {
+                display: grid;
+                grid-template-rows: 1fr 1fr;
+                em {
+                    margin: 5px auto;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                p {
+                    font-size: 12px !important;
+                    margin-top: 10px;
+                    padding: 0 20px;
+                    strong {
+                        text-transform: none;
+                        a {
+                            color: black;
+                        }
+                    }
+                }
+            }
+        }
+        @media screen and (max-width: 992px){
+            .cerise-header {
+                height: 430px;;
+                .customer-cerise-info {
+                    grid-template-rows: 1fr 1fr;
+                    grid-template-columns: none;
+                    height: 320px;
+                    padding: 0 20px;
+                    button {
+                        background-color: #fffefe;
+                        border: 1px solid #ab1e56;
+                        margin-top: 20px;
+                    }
+                    .customer-welcome {
+                        padding: 15px 0 0 0;
+                    }
+                    .customer-points {
+                        display: grid;
+                        padding: 0 0 10px 0;
+                        grid-template-columns: 1fr 1fr;  
+                        div.customer-points-info {
+                            justify-self: left;
+                            text-align: left;
+                            p {
+                                padding-top: 20px;
+                            }
+                            input {
+                                height: 35px;
+                                line-height: 0;
+                            }
+                        }
+                    }   
+                }
+                div.customer-points-info {
+                    position: relative;
+                    input {
+                        height: 35px;
+                        line-height: 0;
+                        position: absolute;
+                        bottom: 0;
+                        width: 100%;
+                        margin: 0 auto;
+                        padding: 0;
+                    }
+                }
+            }
+        }
+        .cerise-rewards-main {
+            padding: 0 20px;
+            background-color:  #fff;
+            margin-top: 50px;
+            margin-bottom: 60px;
+            line-height: 35px;
+            .cerise-rewards {
+                padding: 20px 10px;
+                h4 {
+                    font-size: 18px;
+                }
+                .rewards-section {
+                    margin-top: 12px;
+                    display: grid;
+                    grid-gap: 6px;
+                    .rewards-div {
+                        display: grid;
+                        grid-template-columns: 1fr 18fr;
+                        font-size: 12px;
+                        grid-gap: 10px;
+                        div.icon {
+                            line-height: 50px;
+                            width: 43px;
+                        }
+                        .reward-info {
+                            line-height: 20px;
+                            padding: 5px 0;
+                            .reward-name {
+                                font-weight: 900
+                            }
+                        }
+                    }
+                }
+                .terms-conditions {
+                    display: grid;
+                    justify-content: end;
+                    font-size: 14px;
+                    height: 30px;
+                    color: #666;
+                    p span {
+                        vertical-align: super;
+                        font-size: 50%;
+                    }
+                }
+            }
+            @media screen and (max-width: 992px) {
+                padding: 0 10px 60px 10px;
+            }
+        }
+        .customer-details-main {
+            padding: 0 30px;
+            background-color: #fff;
+            margin-top: 50px;
+            min-height: 550px;
+            line-height: 35px;
+            .customer-details {
+                padding: 20px 0;
+                p {
+                    font-size: 12px;
+                }
+                .customer-details-form {
+                    width: 95%;
+                    margin: 0 auto;
+                    .row {
+                        label {
+                            height: 30px;
+                            top: -19px;
+                        }
+                        .input-fields {
+                            display: grid;
+                            grid-template-columns: repeat(2, 1fr);
+                            grid-template-rows: repeat(3, 1fr);
+                            grid-column-gap: 40px;
+                            color: #666;                      
+                            div {
+                                span.calendar-icon {
+                                    position: absolute;
+                                    top: 0;
+                                    right: 10px;
+                                } 
+                            }
+                            .cerise-club-contact {
+                                display: grid;
+                                grid-template-columns: 2fr 12fr;
+                            }
+                            .checkBalanceCheckPolicy {
+                                top: 25px;
+                                display: grid;
+                                grid-template-columns: 1fr 11fr;
+                                label {
+                                    top: 5px;
+                                    left: 8px;
+                                }
+                                p {
+                                    font-size: 12px;
+                                    font-family: LatoFont,Helvetica,Arial;
+                                    color: #666;
+                                    letter-spacing: 1px;
+                                    text-transform: none;
+                                    line-height: 22px;
+                                    position: relative;
+                                    cursor: pointer;
+                                    font-weight: 400;
+                                    background-color: #fff;
+                                    padding: 3px;
+                                    a {
+                                    color: #ab1e56;
+                                    text-decoration: underline;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    div.cerise-club-button {
+                        input {
+                            height: 40px;
+                            line-height: 0;
+                        }
+                    }
+                }
+            }
+            @media screen and (max-width: 992px) {
+                .customer-details-main {
+                    padding: 0px 16px;
+                }
+                .customer-details { 
+                    .customer-details-form{
+                        width: 100%;
+                        .row {
+                            .input-fields {
+                                grid-template-columns: none;
+                                grid-template-rows: none;
+                                .margin-t-30 {
+                                    margin-top: 15px;
+                                }
+                            }
+                        }
+                        div.error-msg {
+                            margin-bottom: 30px;
+                        }
+                    }
+                }
+            }
+        }
+        .cerise-address-main {
+            position: relative;
+            background-color: #fff;
+            margin-top: 50px;
+            margin-bottom: 60px;
+            line-height: 35px;
+            p.loyalty-info-text {
+                font-size: 11px;
+                padding: 0 30px;
+            }
+            div.manage-address-btn {
+                width: 100%;
+                text-align: center;
+                input {
+                    margin: 30px 0;
+                    line-height: 40px;
+                    width: 70%;
+                }
+            }
+            .cerise-address-component {
+                padding: 20px 30px 10px 30px;
+                .row {
+                    .add {
+                        .order-block {
+                            .address-block {
+                                top: -17px;
+                            }
+                        }
+                    }
+                    .defaultAddress {
+                        width: 40%;
+                        address .defaultText {
+                            float: right;
+                            em {
+                                font-weight: 600;
+                            }
+                            
+                        }
+                    }
+                    .back-btn-div {
+                        .back-btn {
+                            position: absolute;
+                            right: 40px;
+                            top: -35px;
+                            text-transform: uppercase;
+                            cursor: pointer;
+                            z-index: 1;
+                            margin-bottom: 20px;
+                        }
+                    }
+                    .back-btn-center {
+                        text-align: center;
+                        .back-btn {
+                            text-transform: uppercase;
+                            cursor: pointer;
+                            z-index: 1;
+                            margin-top: 20px;
+                        }
+                    }
+                    .form {
+                        label {
+                            height: 30px;
+                            top: -19px;
+                        }
+                        .categorylabel {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            width: 95%;
+                            margin: 0 auto;
+                            grid-column-gap: 40px;
+                            li {
+                                .select-group {
+                                    width: 100%;
+                                    .arrow {
+                                        right: 25px;
+                                    }
+                                }
+                                &.address-button {
+                                    grid-column-end: span 2;
+                                    div {
+                                        width: 100%;
+                                        input {
+                                            height: 40px;
+                                            line-height: 0;
+                                        }
+                                    }
+                                }
+                            }
+                            .cerise-club-contact {
+                                top: 0;
+                            }
+                            div.cerise-club-button {
+                                input {
+                                    height: 40px;
+                                    line-height: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            @media screen and (max-width: 992px) {
+                p.loyalty-info-text {
+                    line-height: 16px;
+                    padding: 0 30px 60px 30px;
+                }
+                div.manage-address-btn {
+                   width: 100%;
+                   position: absolute;
+                   bottom: 0;
+                   input {
+                       margin: 0;
+                       width: 100%;
+                       line-height: 35px;
+                   }
+                }
+                .cerise-address-component {
+                    .row {
+                        .back-btn-div {
+                            .back-btn {
+                                top: -55px;
+                            }
+                        }
+                        .form {
+                            .categorylabel {
+                                display: block;
+                                grid-template-columns: 1fr 1fr;
+                                width: 100%;
+                            }
+                        }
+                        .defaultAddress {
+                            width: 100%;
+                            address .defaultText {
+                                float: right;
+                                em {
+                                    font-weight: 600;
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        @media screen and (max-width: 992px) {
+            width: 90%;
+        }
+    }
+}
+
+
+.cerise-manage-profile {
+    padding: 1px 6px;
+}

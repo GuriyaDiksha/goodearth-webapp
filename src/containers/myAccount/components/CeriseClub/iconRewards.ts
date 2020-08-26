@@ -1,6 +1,16 @@
+import rewardpoints from "../../../../images/loyalty/points/rewardpoints.svg";
+import redeem from "../../../../images/loyalty/points/redeem.svg";
+import specialPreviews from "../../../../images/loyalty/points/specialPreviews.svg";
+import customerCare from "../../../../images/loyalty/points/customerCare.svg";
+import styling from "../../../../images/loyalty/points/styling.svg";
+import gifting from "../../../../images/loyalty/points/gifting.svg";
+import invites from "../../../../images/loyalty/points/invites.svg";
+import journeys from "../../../../images/loyalty/points/journeys.svg";
+import ps from "../../../../images/loyalty/points/ps.svg";
+
 const rewardIcons = [
   {
-    iconPath: "/static/img/loyalty/points/rewardpoints.svg",
+    iconPath: rewardpoints,
     iconHeader: "Earn Cerise Points",
     description:
       "Get 10% of your purchase value credited into your account as Cerise Points.",
@@ -9,7 +19,7 @@ const rewardIcons = [
     key: 1
   },
   {
-    iconPath: "/static/img/loyalty/points/redeem.svg",
+    iconPath: redeem,
     iconHeader: "Redeem",
     description: "Redeem your Cerise Points any time in-store or online.",
     isCeriseAdv: true,
@@ -17,7 +27,7 @@ const rewardIcons = [
     key: 2
   },
   {
-    iconPath: "/static/img/loyalty/points/specialPreviews.svg",
+    iconPath: specialPreviews,
     iconHeader: "Special Previews",
     description:
       "Enjoy special previews of our new collections as they launch.",
@@ -26,7 +36,7 @@ const rewardIcons = [
     key: 3
   },
   {
-    iconPath: "/static/img/loyalty/points/customerCare.svg",
+    iconPath: customerCare,
     iconHeader: "Dedicated Customer Care",
     description:
       "Reach out to us on an exclusive number and email id anytime you need assistance.",
@@ -35,7 +45,7 @@ const rewardIcons = [
     key: 4
   },
   {
-    iconPath: "/static/img/loyalty/points/styling.svg",
+    iconPath: styling,
     iconHeader: "Styling by Appointment",
     description:
       "Enjoy personal styling services twice a year for our apparel brand Sustain.",
@@ -44,7 +54,7 @@ const rewardIcons = [
     key: 7
   },
   {
-    iconPath: "/static/img/loyalty/points/gifting.svg",
+    iconPath: gifting,
     iconHeader: "Exclusive Access to the Good Earth Gifting Concierge",
     description:
       "Let our Gifting Concierge assist you with choosing and sending the most perfect gifts. Also, personalize them if you wish so!",
@@ -53,7 +63,7 @@ const rewardIcons = [
     key: 8
   },
   {
-    iconPath: "/static/img/loyalty/points/invites.svg",
+    iconPath: invites,
     iconHeader: "Founder Club Event Invites",
     description:
       "Get invited to Good Earth experiential events curated by our founder.",
@@ -62,7 +72,7 @@ const rewardIcons = [
     key: 9
   },
   {
-    iconPath: "/static/img/loyalty/points/journeys.svg",
+    iconPath: journeys,
     iconHeader: "Good Earth Journeys",
     description: "Get access to travel experiences specially curated for you.",
     isCeriseAdv: false,
@@ -70,7 +80,7 @@ const rewardIcons = [
     key: 10
   },
   {
-    iconPath: "/static/img/loyalty/points/rewardpoints.svg",
+    iconPath: rewardpoints,
     iconHeader: "Earn Cerise Points",
     description:
       "Get 15% of your purchase value credited into your account as Cerise Points.",
@@ -79,7 +89,7 @@ const rewardIcons = [
     key: 11
   },
   {
-    iconPath: "/static/img/loyalty/points/redeem.svg",
+    iconPath: redeem,
     iconHeader: "Redeem",
     description: "Redeem your Cerise Points any time in-store or online.",
     isCeriseAdv: false,
@@ -87,7 +97,7 @@ const rewardIcons = [
     key: 13
   },
   {
-    iconPath: "/static/img/loyalty/points/specialPreviews.svg",
+    iconPath: specialPreviews,
     iconHeader: "Special Previews",
     description:
       "Enjoy special previews of our new collections as they launch.",
@@ -96,7 +106,7 @@ const rewardIcons = [
     key: 20
   },
   {
-    iconPath: "/static/img/loyalty/points/customerCare.svg",
+    iconPath: customerCare,
     iconHeader: "Dedicated Customer Care",
     description:
       "Reach out to us on an exclusive number and email id anytime you need assistance.",
@@ -105,7 +115,7 @@ const rewardIcons = [
     key: 22
   },
   {
-    iconPath: "/static/img/loyalty/points/ps.svg",
+    iconPath: ps,
     iconHeader: "Dedicated Personal Shopper",
     description:
       "Get assistance by your Good Earth Personal Shopper for a faster and more convenient shopping experience.",
@@ -114,7 +124,7 @@ const rewardIcons = [
     key: 16
   },
   {
-    iconPath: "/static/img/loyalty/points/styling.svg",
+    iconPath: styling,
     iconHeader: "Styling by Appointment",
     description:
       "Enjoy personal styling services twice a year for our apparel brand Sustain.",
@@ -123,7 +133,7 @@ const rewardIcons = [
     key: 17
   },
   {
-    iconPath: "/static/img/loyalty/points/gifting.svg",
+    iconPath: gifting,
     iconHeader: "Exclusive Access to the Good Earth Gifting Concierge",
     description:
       "Let our Gifting Concierge assist you with choosing and sending the most perfect gifts. Also, personalize them if you wish so!",
