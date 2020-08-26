@@ -246,8 +246,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     </div>
                   </div>
                   {confirmData.lines?.map((item: any) => {
+                    // according bakwas by gaurav
                     const isdisCount =
-                      +item.priceExclTaxExclDiscounts - +item.priceInclTax != 0;
+                      +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
                     return (
                       <div
                         className={cs(
@@ -290,9 +291,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   {String.fromCharCode(
                                     currencyCode[item.priceCurrency as Currency]
                                   )}
-                                  {+parseFloat(
-                                    item.priceExclTaxExclDiscounts
-                                  ).toFixed(2) / +item.quantity}
+                                  {+parseFloat(item.priceInclTax).toFixed(2) /
+                                    +item.quantity}
                                   &nbsp;{" "}
                                 </span>
                               ) : (
@@ -303,8 +303,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   {String.fromCharCode(
                                     currencyCode[item.priceCurrency as Currency]
                                   )}
-                                  {+parseFloat(item.priceInclTax).toFixed(2) /
-                                    +item.quantity}
+                                  {+parseFloat(
+                                    item.priceExclTaxExclDiscounts
+                                  ).toFixed(2) / +item.quantity}
                                   &nbsp;{" "}
                                 </span>
                               ) : (
@@ -319,8 +320,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     currencyCode[item.priceCurrency as Currency]
                                   )}
                                   &nbsp;{" "}
-                                  {+parseFloat(item.priceInclTax).toFixed(2) /
-                                    +item.quantity}
+                                  {+parseFloat(
+                                    item.priceExclTaxExclDiscounts
+                                  ).toFixed(2) / +item.quantity}
                                 </span>
                               )}
                             </p>

@@ -757,7 +757,7 @@ class LoyaltyLanding extends Component<Props, State> {
                   </a>{" "}
                   and{" "}
                   <a
-                    href="/customer-assistance/faq"
+                    href="/customer-assistance/terms#faq"
                     target="_blank"
                     className={cs(globalStyles.cerise, styles.txtUnderline)}
                   >
@@ -1393,7 +1393,7 @@ class LoyaltyLanding extends Component<Props, State> {
                     </a>{" "}
                     and{" "}
                     <a
-                      href="/customer-assistance/faq"
+                      href="/customer-assistance/terms#faq"
                       target="_blank"
                       className={cs(globalStyles.cerise, styles.txtUnderline)}
                     >
