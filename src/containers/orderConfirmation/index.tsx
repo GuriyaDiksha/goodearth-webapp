@@ -20,6 +20,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   const dispatch = useDispatch();
 
   const fetchData = async () => {
+    // debugger
     const data: any = await AccountServices.fetchOrderBy(
       dispatch,
       props.oid,
@@ -247,10 +248,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                   {confirmData.lines?.map((item: any) => {
                     const isdisCount =
                       +item.priceExclTaxExclDiscounts - +item.priceInclTax != 0;
-                    console.log(
-                      +item.priceExclTaxExclDiscounts,
-                      +item.priceInclTax
-                    );
                     return (
                       <div
                         className={cs(
@@ -313,7 +310,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               ) : (
                                 <span
                                   className={
-                                    item.badgeType == "B_flat"
+                                    item.product.badgeType == "B_flat"
                                       ? globalStyles.cerise
                                       : ""
                                   }
@@ -337,7 +334,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     globalStyles.voffset2
                                   )}
                                 >
-                                  Size:&nbsp; {item.product.size}
+                                  {item.product.size && (
+                                    <>Size:&nbsp; {item.product.size}</>
+                                  )}
                                 </div>
                                 <div className={styles.smallSize}>
                                   Qty:&nbsp; {item.quantity}

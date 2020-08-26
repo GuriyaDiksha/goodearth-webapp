@@ -16,7 +16,7 @@ import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import ModalActions from "../../components/Modal/mapper/actions";
 // import Loader from "components/Loader";
-import MakerEnhance from "maker-enhance";
+// import MakerEnhance from "maker-enhance";
 import { PartialProductItem } from "typings/product";
 import { WidgetImage } from "components/header/typings";
 import { Dispatch } from "redux";
@@ -216,6 +216,17 @@ class Search extends React.Component<
     this.child.changeSearchValue(this.state.searchText);
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const queryString = nextProps.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchValue = urlParams.get("q");
+    if (searchValue !== this.state.searchText) {
+      this.setState({
+        searchText: searchValue ? searchValue : ""
+      });
+    }
+  }
+
   render() {
     const {
       device: { mobile },
@@ -225,7 +236,7 @@ class Search extends React.Component<
         count
       }
     } = this.props;
-    const { searchMaker } = this.state;
+    // const { searchMaker } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -334,13 +345,13 @@ class Search extends React.Component<
                           <img src={banner} className="img-responsive" />
                       </div>
                   </div> : ""} */}
-            {searchMaker && (
+            {/* {searchMaker && (
               <MakerEnhance
                 user="goodearth"
                 index="1"
                 href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
-            )}
+            )} */}
             {!mobile && data.length ? (
               <div
                 className={cs(

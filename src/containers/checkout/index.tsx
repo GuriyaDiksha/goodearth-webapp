@@ -441,7 +441,6 @@ class Checkout extends React.Component<Props, State> {
           }
         })
         .catch(err => {
-          // console.log(err.response.data);
           if (!err.response.data.status) {
             this.setState({
               shippingError: valid.showErrors(err.response.data)

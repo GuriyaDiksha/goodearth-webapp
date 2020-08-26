@@ -42,8 +42,6 @@ export default {
         id +
         "/?page_size=24"}`;
     }
-    console.log("page_path=" + pagePath);
-
     const res: any = await API.get(dispatch, pagePath);
     const data: CollectionSpecificProps = res;
     return data;

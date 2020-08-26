@@ -155,6 +155,10 @@
             color: #ab1e56;
             font-size: 12px;
             line-height: 25px;
+            &.disabled {
+                text-decoration: line-through;
+                color: tint(#000, 70%);
+              }
         }
     }
 }
@@ -186,6 +190,23 @@
     left: 6px;
     img {
         width: 100%;
+    }
+}
+
+.new-badge-image{
+    width: 30%;
+    position: absolute;
+    top: 5px;
+    z-index: 4;
+    right: 6px;
+    img {
+        width: 100%;
+    }
+}
+
+.mobile-badge{
+    img {
+        width: 60%;
     }
 }
 

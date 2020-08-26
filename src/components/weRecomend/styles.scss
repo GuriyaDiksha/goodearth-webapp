@@ -23,13 +23,13 @@
 }
 
 .sale-banner {
-    position: relative;
-
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    left: 6px;
     img {
-        position: absolute;
-        transform: translateX(-50%);
-        top: 0;
-        left: 50%;
+        width: 100%;
     }
 }
 
@@ -66,6 +66,19 @@
     }
     a:hover{
         color: #ab1e56;
+    }
+    
+    .discountprice {
+        color: #ab1e56;
+        font-family:  $font-Lato;
+        font-size: 16px;
+    }
+    
+    .strikeprice {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: gray;
+        font-family: $font-Lato;
     }
 }
 .img-responsive{

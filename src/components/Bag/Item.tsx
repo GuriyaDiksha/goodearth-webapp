@@ -54,7 +54,8 @@ const LineItems: React.FC<BasketItem> = memo(
       url,
       priceRecords,
       discount,
-      discountedPriceRecords
+      discountedPriceRecords,
+      badgeType
     } = product;
 
     const price = priceRecords[currency];
@@ -104,7 +105,11 @@ const LineItems: React.FC<BasketItem> = memo(
                       {isGiftCard ? GCValue : price}
                     </span>
                   ) : (
-                    <span>
+                    <span
+                      className={
+                        badgeType == "B_flat" ? globalStyles.cerise : ""
+                      }
+                    >
                       {" "}
                       {String.fromCharCode(currencyCodes[currency])}
                       &nbsp;

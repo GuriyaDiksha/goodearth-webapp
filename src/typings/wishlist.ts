@@ -26,6 +26,7 @@ export type WishlistItem = {
   discount: boolean;
   category: string[];
   gaVariant: string;
+  badgeType?: string;
 };
 
 export type WishListGridItem = WishlistItem & {

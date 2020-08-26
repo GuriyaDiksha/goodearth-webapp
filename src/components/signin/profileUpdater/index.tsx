@@ -64,7 +64,6 @@ class ProfileUpdater extends React.Component<Props, State> {
       updateProfile: false,
       data: data
     });
-    console.log(subscribe);
     this.ProfileUpdateFormRef.current &&
       this.ProfileUpdateFormRef.current.updateInputsWithValue({
         emailId,

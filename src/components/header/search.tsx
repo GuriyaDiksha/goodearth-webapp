@@ -21,11 +21,13 @@ import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
 import noImagePlp from "images/noimageplp.png";
 import { withRouter, RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    isSale: state.info.isSale
   };
 };
 
@@ -55,7 +57,6 @@ type State = {
   url: string;
   value: string;
   count: number;
-  isSale: boolean;
   featureData: WidgetImage[];
   showDifferentImage: boolean;
   currentImageIndex: number;
@@ -69,21 +70,18 @@ class Search extends React.Component<Props, State> {
       url: "/search",
       value: "",
       count: 0,
-      isSale: false,
       featureData: [],
       showDifferentImage: false,
       currentImageIndex: -1
     };
-    // this.getSearchDataApi = this.getSearchDataApi.bind(this);
-    // this.checkSearchValue = this.checkSearchValue.bind(this);
-    // this.onClickSearch = this.onClickSearch.bind(this);
-    // this.addDefaultSrc = this.addDefaultSrc.bind(this);
   }
+
+  searchBoxRef = React.createRef<HTMLInputElement>();
 
   addDefaultSrc = (e: any) => {
     // e.target.src = "/static/img/noimageplp.png";
   };
-  searchBoxRef = React.createRef<HTMLInputElement>();
+
   componentDidMount() {
     this.searchBoxRef.current && this.searchBoxRef.current.focus();
     document.body.classList.add(globalStyles.noScroll);
@@ -122,7 +120,7 @@ class Search extends React.Component<Props, State> {
     const index = itemData.categories.length - 1;
     let category = itemData.categories[index].replace(/\s/g, "");
     category = category.replace(/>/g, "/");
-    // const cur = this.state.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
+    // const cur = this.props.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -148,7 +146,8 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.value.length > 2) {
-      location.href = this.state.url;
+      this.props.history.push(this.state.url);
+      this.closeSearch();
       return false;
     }
   };
@@ -156,7 +155,8 @@ class Search extends React.Component<Props, State> {
   checkSearchValue = (event: any) => {
     if (event.target.value.length > 2) {
       if (event.keyCode == 13) {
-        location.href = this.state.url;
+        this.props.history.push(this.state.url);
+        this.closeSearch();
         return false;
       }
       this.setState({
@@ -375,8 +375,8 @@ class Search extends React.Component<Props, State> {
                               ""
                             )}
                             <div className={styles.imageboxNew}>
-                              <a
-                                href={data.url}
+                              <Link
+                                to={data.url}
                                 onClick={this.showProduct.bind(this, data, i)}
                                 onMouseOver={this.mouseOverImage.bind(this, i)}
                                 onMouseOut={this.mouseOutImage.bind(this, i)}
@@ -387,10 +387,10 @@ class Search extends React.Component<Props, State> {
                                   alt=""
                                   className={styles.imageResultNew}
                                 />
-                              </a>
+                              </Link>
                               {totalStock <= 0 ? (
                                 <div className={styles.outstock}>
-                                  <a href={data.url}> NOTIFY ME </a>
+                                  <Link to={data.url}> NOTIFY ME </Link>
                                 </div>
                               ) : (
                                 ""
@@ -401,17 +401,17 @@ class Search extends React.Component<Props, State> {
                                 {data.collections}
                               </p>
                               <p className={styles.productN}>
-                                <a
-                                  href={data.url}
+                                <Link
+                                  to={data.url}
                                   onClick={e => {
                                     this.showProduct.bind(this, data, i);
                                   }}
                                 >
                                   {data.title}
-                                </a>
+                                </Link>
                               </p>
                               <p className={styles.productN}>
-                                {this.state.isSale && data.discount ? (
+                                {this.props.isSale && data.discount ? (
                                   <span className={styles.discountprice}>
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
@@ -427,7 +427,7 @@ class Search extends React.Component<Props, State> {
                                 ) : (
                                   ""
                                 )}
-                                {this.state.isSale && data.discount ? (
+                                {this.props.isSale && data.discount ? (
                                   <span className={styles.strikeprice}>
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
@@ -436,7 +436,12 @@ class Search extends React.Component<Props, State> {
                                     {data.priceRecords[this.props.currency]}
                                   </span>
                                 ) : (
-                                  <p className={styles.productN}>
+                                  <p
+                                    className={cs(styles.productN, {
+                                      [globalStyles.cerise]:
+                                        data.badgeType == "B_flat"
+                                    })}
+                                  >
                                     {String.fromCharCode(
                                       currencyCodes[this.props.currency]
                                     )}
@@ -543,8 +548,8 @@ class Search extends React.Component<Props, State> {
                             )}
                           >
                             <div className={styles.searchImageboxNew}>
-                              <a
-                                href={data.ctaUrl}
+                              <Link
+                                to={data.ctaUrl}
                                 onClick={this.showProduct.bind(this, data, i)}
                               >
                                 <img
@@ -557,14 +562,14 @@ class Search extends React.Component<Props, State> {
                                   alt=""
                                   className={styles.imageResultNew}
                                 />
-                              </a>
+                              </Link>
                             </div>
                             <div className={styles.imageContent}>
                               <p className={styles.searchImageTitle}>
                                 {data?.ctaText}
                               </p>
                               <p className={styles.searchFeature}>
-                                <a href={data.ctaUrl}>{data.title}</a>
+                                <Link to={data.ctaUrl}>{data.title}</Link>
                               </p>
                             </div>
                           </div>
