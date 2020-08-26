@@ -94,6 +94,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         updateComponent(
           <NotifyMePopup
             price={price}
+            discountedPrice={item.discountedPrice[currency]}
             currency={currency}
             title={item.productName}
             childAttributes={childAttributes}
