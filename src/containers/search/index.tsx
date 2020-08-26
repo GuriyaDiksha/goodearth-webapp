@@ -144,7 +144,7 @@ class Search extends React.Component<
 
   onEnterSearch = (event: any) => {
     if (event.keyCode == 13) {
-      this.child.changeSearchValue(this.state.searchText);
+      this.child.changeSearchValue(encodeURIComponent(this.state.searchText));
     }
   };
 
@@ -213,7 +213,7 @@ class Search extends React.Component<
   };
 
   onClickSearch = (event: any) => {
-    this.child.changeSearchValue(this.state.searchText);
+    this.child.changeSearchValue(encodeURIComponent(this.state.searchText));
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
