@@ -370,7 +370,10 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile }
     } = this.props;
 
-    if (!collectionProducts.length) {
+    if (
+      collectionProducts.length < (mobile ? 2 : 4) ||
+      typeof document == "undefined"
+    ) {
       return null;
     }
 
