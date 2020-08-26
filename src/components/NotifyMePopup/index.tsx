@@ -44,6 +44,7 @@ type Props = {
   isSale?: boolean;
   discount: boolean;
   badgeType?: string;
+  discountedPrice?: number;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
 };
@@ -52,6 +53,7 @@ const NotifyMePopup: React.FC<Props> = ({
   basketLineId,
   currency,
   price,
+  discountedPrice,
   collection,
   childAttributes,
   title,
@@ -230,18 +232,18 @@ const NotifyMePopup: React.FC<Props> = ({
         <div className={styles.title}>{title}</div>
         <div className={styles.price}>
           <p className={styles.productN}>
-            {isSale && discount && selectedSize?.discountedPriceRecords ? (
+            {isSale && discount ? (
               <span className={styles.discountprice}>
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;
                 {selectedSize
                   ? selectedSize.discountedPriceRecords[currency]
-                  : price}
+                  : discountedPrice}
                 &nbsp;{" "}
               </span>
             ) : (
               ""
             )}
-            {isSale && discount && selectedSize?.discountedPriceRecords ? (
+            {isSale && discount ? (
               <span className={styles.strikeprice}>
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
