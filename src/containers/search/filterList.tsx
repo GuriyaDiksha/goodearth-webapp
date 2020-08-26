@@ -228,7 +228,7 @@ class FilterList extends React.Component<Props, State> {
           case "categoryShop":
             // this.state.old_selected_category = k]y;
             if (array[filterType][key]) {
-              categoryShopVars = key;
+              categoryShopVars = encodeURIComponent(key).replace(/%20/g, "+");
             }
             break;
           case "price":
