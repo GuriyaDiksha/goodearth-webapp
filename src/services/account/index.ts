@@ -94,6 +94,14 @@ export default {
     );
     return data;
   },
+  getLoyaltyTransactions: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post(
+      dispatch,
+      `${__API_HOST__}/mobiquest/show_loyalty_transaction/`,
+      formData
+    );
+    return data;
+  },
   sendOtpGiftcard: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post<BalanceProps>(
       dispatch,

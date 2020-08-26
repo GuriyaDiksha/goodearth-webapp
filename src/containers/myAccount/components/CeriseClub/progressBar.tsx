@@ -1,5 +1,5 @@
 import React from "react";
-import CircularProgressbar from "react-circular-progressbar";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 type Props = {
@@ -8,8 +8,8 @@ type Props = {
 };
 function StyledProgressbar(props: Props) {
   return (
-    <CircularProgressbar
-      percentage={props.percentage}
+    <CircularProgressbarWithChildren
+      value={props.percentage}
       text={props.text}
       strokeWidth={5}
       styles={{
@@ -25,8 +25,8 @@ function StyledProgressbar(props: Props) {
         text: {
           fill: "#ab1e56",
           fontSize: "12px"
-        },
-        initialAnimation: true
+        }
+        // initialAnimation: true
       }}
     />
   );
