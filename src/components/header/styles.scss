@@ -975,11 +975,9 @@ width: 100%;
 visibility: visible !important;
 }
 
-.badge_position_plp {
+.badge-position-plp {
   width: 30%;
-  // height: 100px;
-  position: absolute;
-  top: 10px;
+  top: 0px;
   z-index: 4;
   left: 10px;
   position: absolute;
@@ -989,7 +987,7 @@ visibility: visible !important;
   }
 }
 
-.badge_position_plp_mobile {
+.badge-position-plp-mobile {
   width: 40%;
   // height: 60px;
     top: 0;
