@@ -1,16 +1,43 @@
 import React, { Component } from "react";
 import StyledProgressbar from "./progressBar";
-// import AddressMainComponent from 'components/common/address/addressMain';
-// import axios from 'axios';
-// import Config from "components/config";
+// import AddressMain from "components/Address/AddressMain";
 import RewardsComponent from "./rewardsComponent";
 import moment from "moment";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import styles from "./styles.scss";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
+import cs from "classnames";
+import AccountServices from "services/account";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
-type Props = {} & ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+const mapStateToProps = (state: AppState) => {
+  return {
+    mobile: state.device.mobile,
+    email: state.user.email,
+    addressList: state.address.addressList
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    getLoyaltyTransactions: async (formData: any) => {
+      const res = await AccountServices.getLoyaltyTransactions(
+        dispatch,
+        formData
+      );
+      return res;
+    }
+  };
+};
+
+type Props = { setCurrentSection: () => void } & ReturnType<
+  typeof mapStateToProps
+> &
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   customerDetails: any;
@@ -18,18 +45,10 @@ type State = {
   customerUniqueID: string;
   addressAvailable: boolean;
   slab: string;
-  next_slab_amount: string;
+  nextSlabAmount: string;
   points: number;
-};
-
-const mapStateToProps = (state: AppState) => {
-  return {
-    mobile: state.device.mobile
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {};
+  expiryDate: string;
+  memberExpiryDate: string;
 };
 
 class CeriseClubMain extends Component<Props, State> {
@@ -40,9 +59,13 @@ class CeriseClubMain extends Component<Props, State> {
       isLoading: false,
       customerUniqueID: "",
       addressAvailable: false,
-      slab: "",
-      next_slab_amount: ""
+      slab: "cerise",
+      nextSlabAmount: "",
+      points: 0,
+      expiryDate: "",
+      memberExpiryDate: ""
     };
+    props.setCurrentSection();
   }
   months = [
     "January",
@@ -59,52 +82,52 @@ class CeriseClubMain extends Component<Props, State> {
     "December"
   ];
 
-  setAddressAvailable(addressAvailable) {
-    this.setState({
-      addressAvailable: addressAvailable
-    });
-  }
-
   componentDidMount() {
     this.getLoyaltyTransactions();
   }
 
-  manageAddress() {
-    location.href = "/accountpage?mod=address";
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.addressList && this.props.addressList.length > 0)
+      this.setState({
+        addressAvailable: true
+      });
   }
+  manageAddress = () => {
+    this.props.history.push("/account/address");
+  };
 
-  getLoyaltyTransactions() {
+  getLoyaltyTransactions = () => {
     const formData = new FormData();
-    formData.append("email", window.user.email);
+    formData.append("email", this.props.email);
     formData.append("phoneno", "");
-    axios
-      .post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
-      .then(res => {
-        if (res.data.is_success) {
+    this.props
+      .getLoyaltyTransactions(formData)
+      .then((data: any) => {
+        if (data.is_success) {
           this.setState({
-            customerDetails: res.data.message.CUSTOMER_DETAILS[0],
-            slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
+            customerDetails: data.message.CUSTOMER_DETAILS[0],
+            slab: data.message.CUSTOMER_DETAILS[0].Slab,
             expiryDate: moment(
-              res.data.message.CUSTOMER_DETAILS[0].Expiry_date,
+              data.message.CUSTOMER_DETAILS[0].Expiry_date,
               "DD-MM-YYYY"
-            ),
-            points: res.data.message.CUSTOMER_DETAILS[0].Expiry_Points,
+            ).toString(),
+            points: data.message.CUSTOMER_DETAILS[0].Expiry_Points,
             memberExpiryDate: moment(
-              res.data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
+              data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
               "DD-MM-YYYY"
-            ),
-            customerUniqueID: res.data.unique_id
+            ).toString(),
+            customerUniqueID: data.uniqueId
           });
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
-  viewStatementMicrosite() {
+  viewStatementMicrosite = () => {
     location.href = `https://goodearthindia.mloyalretail.com/microsite/default.asp?cid=${this.state.customerUniqueID}`;
-  }
+  };
 
   getLoader() {
     return (
@@ -114,66 +137,69 @@ class CeriseClubMain extends Component<Props, State> {
     );
   }
 
-  onClickManageProfile() {
-    location.href = "/accountpage?mod=profile";
-  }
+  onClickManageProfile = () => {
+    // location.href = "/accountpage?mod=profile";
+    this.props.history.push("/account/profile");
+  };
 
   render() {
+    const {
+      slab,
+      customerDetails: { PurchaseAmount, nextSlabAmount }
+    } = this.state;
     let club;
     let percentage;
     let nextSlab;
-    if (this.state.slab) {
+    if (slab) {
       club =
-        this.state.slab.toLowerCase() == "cerise" ||
-        this.state.slab.toLowerCase() == "ff10"
+        slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
           ? "Cerise"
           : "Cerise Sitara";
       percentage =
-        this.state.slab.toLowerCase() == "cerise" ||
-        this.state.slab.toLowerCase() == "ff10"
-          ? this.state.customerDetails.PurchaseAmount / 5000
+        slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
+          ? PurchaseAmount / 5000
           : 100;
       nextSlab =
-        this.state.slab.toLowerCase() == "cerise"
-          ? "Cerise Sitara"
-          : "Cerise Sitara";
+        slab.toLowerCase() == "cerise" ? "Cerise Sitara" : "Cerise Sitara";
     }
-    const buttonText = this.state.addressAvailable
-      ? "MANAGE ADDRESSES"
-      : "ADD ADDRESS";
+    // const buttonText = this.state.addressAvailable
+    //   ? "MANAGE ADDRESSES"
+    //   : "ADD ADDRESS";
     const slabAmount =
-      this.state.customerDetails.next_slab_amount == 0
+      nextSlabAmount == 0
         ? "0"
-        : this.state.customerDetails.next_slab_amount
-        ? this.state.customerDetails.next_slab_amount
-        : this.state.customerDetails.next_slab_amount == 0 ||
-          this.state.next_slab_amount == null
+        : nextSlabAmount
+        ? nextSlabAmount
+        : nextSlabAmount == 0 || this.state.nextSlabAmount == null
         ? "0"
         : "Loading...";
     return (
-      <div className="cerise-club-main">
-        <div className="cerise-main">
-          <div className="cerise-header">
-            <div className="customer-cerise-info">
-              <div className="customer-welcome">
-                <h4 className="op2">Welcome</h4>
-                <p className="cerise member-name">
+      <div className={cs(styles.ceriseClubMain, bootstrapStyles.col12)}>
+        <div className={styles.ceriseMain}>
+          <div className={styles.ceriseHeader}>
+            <div className={styles.customerCeriseInfo}>
+              <div className={styles.customerWelcome}>
+                <h4 className={globalStyles.op2}>Welcome</h4>
+                <p className={cs(globalStyles.cerise, styles.memberName)}>
                   {this.state.customerDetails.Name}
                 </p>
-                <span className="op2">To {club}</span>
+                <span className={globalStyles.op2}>To {club}</span>
                 <br />
                 {!this.props.mobile && (
                   <button
                     onClick={this.onClickManageProfile}
-                    className="cerise cerise-manage-profile"
+                    className={cs(
+                      globalStyles.cerise,
+                      styles.ceriseManageProfile
+                    )}
                   >
                     Manage Profile
                   </button>
                 )}
               </div>
               {!this.props.mobile ? (
-                <div className="customer-points">
-                  <div className="progress-bar">
+                <div className={styles.customerPoints}>
+                  <div className={styles.progressBar}>
                     <StyledProgressbar
                       percentage={percentage}
                       text={
@@ -185,13 +211,13 @@ class CeriseClubMain extends Component<Props, State> {
                       }
                     />
                   </div>
-                  <div className="customer-points-info">
+                  <div className={styles.customerPointsInfo}>
                     {this.state.slab &&
                     (this.state.slab.toLowerCase() === "cerise" ||
                       this.state.slab.toLowerCase() == "ff10") ? (
                       <p>
                         Shop for &#x20b9; {slabAmount} to become a <br />
-                        <strong className="link-text-underline">
+                        <strong className={globalStyles.linkTextUnderline}>
                           {nextSlab || "Loading ..."}
                         </strong>{" "}
                         member.
@@ -212,21 +238,21 @@ class CeriseClubMain extends Component<Props, State> {
                     )}
                     <input
                       type="button"
-                      className="cerise-btn"
+                      className={globalStyles.ceriseBtn}
                       onClick={this.viewStatementMicrosite}
                       value="View Statement"
                     />
                   </div>
                 </div>
               ) : (
-                <div className="customer-points">
-                  <div className="customer-points-info">
+                <div className={styles.customerPoints}>
+                  <div className={styles.customerPointsInfo}>
                     {this.state.slab &&
                     (this.state.slab.toLowerCase() === "cerise" ||
                       this.state.slab.toLowerCase() == "ff10") ? (
                       <p>
                         Shop for &#x20b9; {slabAmount} to become a <br />
-                        <strong className="link-text-underline">
+                        <strong className={globalStyles.linkTextUnderline}>
                           {nextSlab || "Loading ..."}
                         </strong>{" "}
                         member.
@@ -246,7 +272,7 @@ class CeriseClubMain extends Component<Props, State> {
                       </p>
                     )}
                   </div>
-                  <div className="progress-bar">
+                  <div className={styles.progressBar}>
                     <StyledProgressbar
                       percentage={percentage}
                       text={
@@ -261,7 +287,10 @@ class CeriseClubMain extends Component<Props, State> {
                   {this.props.mobile && (
                     <button
                       onClick={this.onClickManageProfile}
-                      className="cerise cerise-manage-profile"
+                      className={cs(
+                        globalStyles.cerise,
+                        styles.ceriseManageProfile
+                      )}
                     >
                       Manage Profile
                     </button>
@@ -269,11 +298,11 @@ class CeriseClubMain extends Component<Props, State> {
                 </div>
               )}
             </div>
-            <div className="cerise-redeem-info">
+            <div className={styles.ceriseRedeemInfo}>
               {this.state.points > 0 && (
                 <p className="">
                   {this.state.points}{" "}
-                  <span className="op2">
+                  <span className={globalStyles.op2}>
                     Reward points are due to expire on
                   </span>{" "}
                   {moment(this.state.expiryDate).format("DD")}{" "}
@@ -283,7 +312,12 @@ class CeriseClubMain extends Component<Props, State> {
                     ]
                   }
                   , {moment(this.state.expiryDate).format("YYYY")}.{" "}
-                  <strong className="cursor-pointer link-text-underline">
+                  <strong
+                    className={cs(
+                      globalStyles.pointer,
+                      globalStyles.linkTextUnderline
+                    )}
+                  >
                     {" "}
                     <a href="/cart">Shop Now</a>
                   </strong>
@@ -297,47 +331,57 @@ class CeriseClubMain extends Component<Props, State> {
               )}
             </div>
             {this.props.mobile && (
-              <div className="customer-points-info">
+              <div className={styles.customerPointsInfo}>
                 <input
                   onClick={this.viewStatementMicrosite}
                   type="button"
-                  className="cerise-btn"
+                  className={globalStyles.ceriseBtn}
                   value="View Statement"
                 />
               </div>
             )}
           </div>
-          <div className="cerise-rewards-main">
+          <div className={styles.ceriseRewardsMain}>
             {this.state.slab && <RewardsComponent slab={this.state.slab} />}
           </div>
-          <div className="cerise-address-main">
-            <div className="cerise-address-component">
-              <h4 className="cerise">My Address</h4>
-              <AddressMainComponent
+          {/* <div className={styles.ceriseAddressMain}>
+            <div className={styles.ceriseAddressComponent}>
+              <h4 className={globalStyles.cerise}>My Address</h4>
+              <AddressMain
+                isBridal={false}
+                next={() => null}
+                bridalId=""
+                addresses={this.props.addressList}
+                error=""
+                addressType=""
                 showDefaultAddressOnly={true}
                 currentCallBackComponent="cerise"
-                setAddressAvailable={this.setAddressAvailable}
+
               />
             </div>
             {!this.state.addressAvailable && (
-              <p className="op2 loyalty-info-text">
+              <p className={cs(globalStyles.op2, styles.loyaltyInfoText)}>
                 Add a default mailing address for us to send you Cerise related
                 communication.
               </p>
             )}
-            <div className="manage-address-btn">
+            <div className={styles.manageAddressBtn}>
               <input
                 type="button"
-                className="cerise-btn"
+                className={globalStyles.ceriseBtn}
                 onClick={this.manageAddress}
                 value={buttonText}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CeriseClubMain);
+const CeriseClubMainRoute = withRouter(CeriseClubMain);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CeriseClubMainRoute);

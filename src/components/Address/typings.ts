@@ -39,6 +39,7 @@ export type AddressFormData = {
 };
 
 export type Props = {
+  showDefaultAddressOnly?: boolean;
   isBridal: boolean;
   selectedAddress?: AddressData;
   currentCallBackComponent: string;
