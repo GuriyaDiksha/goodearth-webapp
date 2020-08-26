@@ -32,6 +32,7 @@ export default {
     id: number,
     page?: string
   ): Promise<CollectionSpecificProps> => {
+    console.log(page);
     let pagePath = "";
     if (page) {
       pagePath = page;
@@ -41,7 +42,6 @@ export default {
         id +
         "/?page_size=24"}`;
     }
-
     const res: any = await API.get(dispatch, pagePath);
     const data: CollectionSpecificProps = res;
     return data;

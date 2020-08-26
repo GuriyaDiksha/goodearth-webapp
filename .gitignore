@@ -107,6 +107,7 @@ package-lock.json
 
 # config files
 src/config/environment.json
+ecosystem.config.js
 
 # generate font related files
 src/fonts/goodearth.*
