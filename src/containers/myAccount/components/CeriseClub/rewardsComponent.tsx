@@ -53,15 +53,15 @@ const RewardsComponent: React.FC<Props> = props => {
           <a
             href="/customer-assistance/terms"
             target="_blank"
-            className={cs(globalStyles.cerise, globalStyles.linkTextUnderline)}
+            className={globalStyles.cerise}
           >
             Terms & Conditions
           </a>{" "}
           and{" "}
           <a
-            href="/customer-assistance/faq"
+            href="/customer-assistance/terms#faq"
             target="_blank"
-            className={cs(globalStyles.cerise, globalStyles.linkTextUnderline)}
+            className={cs(globalStyles.cerise)}
           >
             FAQs
           </a>

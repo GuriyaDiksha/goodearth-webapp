@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import StyledProgressbar from "./progressBar";
-// import AddressMainComponent from 'components/common/address/addressMain';
 // import AddressMain from "components/Address/AddressMain";
 import RewardsComponent from "./rewardsComponent";
 import moment from "moment";
@@ -117,7 +116,7 @@ class CeriseClubMain extends Component<Props, State> {
               data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
               "DD-MM-YYYY"
             ).toString(),
-            customerUniqueID: data.unique_id
+            customerUniqueID: data.uniqueId
           });
         }
       })
@@ -163,9 +162,9 @@ class CeriseClubMain extends Component<Props, State> {
       nextSlab =
         slab.toLowerCase() == "cerise" ? "Cerise Sitara" : "Cerise Sitara";
     }
-    const buttonText = this.state.addressAvailable
-      ? "MANAGE ADDRESSES"
-      : "ADD ADDRESS";
+    // const buttonText = this.state.addressAvailable
+    //   ? "MANAGE ADDRESSES"
+    //   : "ADD ADDRESS";
     const slabAmount =
       nextSlabAmount == 0
         ? "0"
@@ -345,15 +344,20 @@ class CeriseClubMain extends Component<Props, State> {
           <div className={styles.ceriseRewardsMain}>
             {this.state.slab && <RewardsComponent slab={this.state.slab} />}
           </div>
-          <div className={styles.ceriseAddressMain}>
+          {/* <div className={styles.ceriseAddressMain}>
             <div className={styles.ceriseAddressComponent}>
               <h4 className={globalStyles.cerise}>My Address</h4>
-              {/* <AddressMain
-                
+              <AddressMain
+                isBridal={false}
+                next={() => null}
+                bridalId=""
+                addresses={this.props.addressList}
+                error=""
+                addressType=""
                 showDefaultAddressOnly={true}
                 currentCallBackComponent="cerise"
 
-              /> */}
+              />
             </div>
             {!this.state.addressAvailable && (
               <p className={cs(globalStyles.op2, styles.loyaltyInfoText)}>
@@ -369,7 +373,7 @@ class CeriseClubMain extends Component<Props, State> {
                 value={buttonText}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );
