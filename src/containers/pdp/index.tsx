@@ -258,10 +258,12 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   getProductImagesData = () => {
-    const {
-      data: { sliderImages, images }
-    } = this.props;
-
+    const { data } = this.props;
+    let sliderImages, images;
+    if (data) {
+      sliderImages = data.sliderImages;
+      images = data.images;
+    }
     return images ? images.concat(sliderImages || []) : [];
   };
 
