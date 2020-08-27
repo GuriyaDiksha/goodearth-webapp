@@ -438,14 +438,14 @@ class CategoryLanding extends React.Component<
             </div>
           </div>
         )}
-        {this.props.topliving && (
+        {this.props.topliving.widgetImages && (
           <section>
             <div className={cs(styles.catVideosBlock, "featured-section")}>
               <div className={styles.textCenter}>{this.createTopliving()}</div>
             </div>
           </section>
         )}
-        {editSection && mobile && (
+        {editSection.widgetImages && mobile && (
           <section className={cs(styles.catThirdBlock, styles.textCenter)}>
             <div className={globalStyles.gutter0}>
               <h2 className={styles.headLink}>{editSection.name}</h2>
@@ -540,7 +540,7 @@ class CategoryLanding extends React.Component<
             </div>
           </section>
         )}
-        {editSection && !mobile && (
+        {editSection.widgetImages && !mobile && (
           <section
             className={cs(
               styles.catThirdBlock,
