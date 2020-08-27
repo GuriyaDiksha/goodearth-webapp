@@ -147,7 +147,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         <div className={styles.add} id={data.number}>
           <address>
             <label>order # {data.number}</label>
-            <div className={cs(bootstrapStyles.row, styles.orderBlock)}>
+            <div className={styles.orderBlock}>
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
