@@ -276,7 +276,9 @@ class FilterList extends React.Component<Props, State> {
     });
     colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
     sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
-    searchValue = this.state.filter.q.q ? this.state.filter.q.q : "";
+    searchValue = this.state.filter.q.q
+      ? encodeURIComponent(this.state.filter.q.q)
+      : "";
     categoryShopVars != ""
       ? (filterUrl += "&category_shop=" + categoryShopVars)
       : "";

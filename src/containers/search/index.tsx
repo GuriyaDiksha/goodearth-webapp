@@ -144,7 +144,7 @@ class Search extends React.Component<
 
   onEnterSearch = (event: any) => {
     if (event.keyCode == 13) {
-      this.child.changeSearchValue(encodeURIComponent(this.state.searchText));
+      this.child.changeSearchValue(this.state.searchText);
     }
   };
 
