@@ -121,9 +121,9 @@ const PastOrders: React.FC<Props> = (props: Props) => {
         <div className={bootstrapStyles.row}>
           <div
             className={cs(
-              bootstrapStyles.col10,
+              bootstrapStyles.col12,
               { [bootstrapStyles.offset1]: mobile },
-              bootstrapStyles.colMd10
+              { [bootstrapStyles.colMd10]: !mobile }
             )}
           >
             <div className={styles.formHeading}>My Orders</div>
