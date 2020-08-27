@@ -376,10 +376,11 @@ input[type="checkbox"]:checked + label {
 }
 
 @media screen and (max-width: 768px) {
-  input[type="text"], input[type="password"], input[type="email"], input[type="number"], select {
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select {
     font-size: 16px !important;
     @include placeholder {
       font-size: 16px !important;
+      min-height: 47px; // for input type date in iOS
     }
   }
 }

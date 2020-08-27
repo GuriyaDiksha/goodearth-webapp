@@ -92,6 +92,19 @@ class CartPage extends React.Component<Props, State> {
     this.props.fetchBasket();
   }
 
+  componentWillUnmount() {
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.removeProperty("display");
+      scrollToTopButtonElem.style.removeProperty("bottom");
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.removeProperty("display");
+      chatButtonElem.style.removeProperty("bottom");
+    }
+  }
+
   onNotifyCart = (basketLineId: ProductID) => {
     this.props.deleteBasket(basketLineId).then(res => {
       this.setState({

@@ -248,6 +248,18 @@ class Checkout extends React.Component<Props, State> {
       });
     });
   }
+  componentWillUnmount() {
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.removeProperty("display");
+      scrollToTopButtonElem.style.removeProperty("bottom");
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.removeProperty("display");
+      chatButtonElem.style.removeProperty("bottom");
+    }
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.user.isLoggedIn) {

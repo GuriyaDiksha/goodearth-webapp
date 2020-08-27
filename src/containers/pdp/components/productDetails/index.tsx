@@ -101,7 +101,7 @@ const ProductDetails: React.FC<Props> = ({
     if (priceRecords[currency] == 0) {
       history.push("/error-page", {});
     }
-  }, [currency]);
+  }, [currency, priceRecords[currency]]);
 
   const { dispatch } = useStore();
   const price =

@@ -53,7 +53,10 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       setPlaceholder(props.placeholder);
       setLabelClass(false);
     }
-  });
+    if (props.type == "date") {
+      setLabelClass(true);
+    }
+  }, []);
   const getRequiredErrorMessage = useCallback((name: string) => {
     switch (name) {
       case "email":
@@ -140,9 +143,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         disabled={props.disable || false}
       />
       <label
-        className={
-          (labelClass && !props.disable) || false ? "" : globalStyles.hidden
-        }
+        className={labelClass || false ? "" : globalStyles.hidden}
         id={props.id}
       >
         {props.label || ""}
