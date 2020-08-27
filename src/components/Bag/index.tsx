@@ -299,8 +299,12 @@ class Bag extends React.Component<Props, State> {
                   free shipping
                 </span>
                 !
-                <br /> Select products worth
-                {} or more to your order to qualify.
+                <br /> Select products worth{" "}
+                <span>
+                  {String.fromCharCode(currencyCodes[this.props.currency])}{" "}
+                  {50000 - parseInt(this.props.cart.total.toString())}
+                </span>{" "}
+                or more to your order to qualify.
               </div>
             </div>
           ) : (

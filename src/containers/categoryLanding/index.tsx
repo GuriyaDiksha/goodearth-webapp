@@ -438,13 +438,14 @@ class CategoryLanding extends React.Component<
             </div>
           </div>
         )}
-        <section>
-          <div className={cs(styles.catVideosBlock, "featured-section")}>
-            <div className={styles.textCenter}>{this.createTopliving()}</div>
-          </div>
-        </section>
-
-        {mobile ? (
+        {this.props.topliving && (
+          <section>
+            <div className={cs(styles.catVideosBlock, "featured-section")}>
+              <div className={styles.textCenter}>{this.createTopliving()}</div>
+            </div>
+          </section>
+        )}
+        {editSection && mobile && (
           <section className={cs(styles.catThirdBlock, styles.textCenter)}>
             <div className={globalStyles.gutter0}>
               <h2 className={styles.headLink}>{editSection.name}</h2>
@@ -538,7 +539,8 @@ class CategoryLanding extends React.Component<
               </div>
             </div>
           </section>
-        ) : (
+        )}
+        {editSection && !mobile && (
           <section
             className={cs(
               styles.catThirdBlock,
@@ -560,20 +562,24 @@ class CategoryLanding extends React.Component<
           </section>
         )}
 
-        <section>
-          {peoplebuying.results?.length >= 4 &&
-            typeof document !== "undefined" && (
-              <div className={cs(bootstrap.row, styles.fBlock)}>
-                <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
-                  <WhatPeopleBuying
-                    data={peoplebuying.results}
-                    setting={config}
-                    mobile={mobile}
-                  />
+        {peoplebuying && (
+          <section>
+            {peoplebuying.results?.length >= 4 &&
+              typeof document !== "undefined" && (
+                <div className={cs(bootstrap.row, styles.fBlock)}>
+                  <div
+                    className={cs(bootstrap.colMd12, globalStyles.textCenter)}
+                  >
+                    <WhatPeopleBuying
+                      data={peoplebuying.results}
+                      setting={config}
+                      mobile={mobile}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
-        </section>
+              )}
+          </section>
+        )}
         {shopthelook2.widgetImages ? (
           shopthelook2.widgetImages.length > 0 ? (
             <section>
