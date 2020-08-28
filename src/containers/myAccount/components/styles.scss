@@ -506,3 +506,16 @@
 .relative{
   position: relative;
 }
+
+.back-track {
+  text-transform: uppercase;
+  margin-top: 20px;
+  font-weight: bold;
+  z-index: 1;
+  color:$cerise;
+  text-align: left;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+}

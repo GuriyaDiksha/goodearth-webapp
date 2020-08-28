@@ -10,6 +10,8 @@ import { TrackOrderProps, State } from "./typings";
 import TrackDetails from "./trackOrderDetail";
 import mapDispatchToProps from "../MyOrder/mapper/actions";
 import { AppState } from "reducers/typings";
+import Loader from "components/Loader";
+import { withRouter, RouteComponentProps } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -18,6 +20,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = TrackOrderProps &
+  RouteComponentProps &
   ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps>;
 
@@ -43,16 +46,23 @@ class TrackOrder extends React.Component<Props, State> {
     const { email, orderNumber } = model;
     this;
     this.setState({ loader: true });
-    this.props.fetchOrderBy(orderNumber, email).then((response: any) => {
-      if (response.count == 0) {
-        // resetForm();
-        this.setState({
-          showerror: "Order not found, please recheck the information entered.",
-          loader: false
-        });
-      } else {
-        if (response.count >= 0) {
-          // debugger;
+    this.props
+      .fetchOrderBy(orderNumber, email)
+      .then((response: any) => {
+        if (response.count == 0) {
+          // resetForm();
+          this.setState({
+            showerror:
+              "Order not found, please recheck the information entered.",
+            loader: false
+          });
+        } else if (response.results[0]?.isOnlyGiftOrder) {
+          this.setState({
+            showerror:
+              "E-gift card has been sent to the recipient's email address.",
+            loader: false
+          });
+        } else if (response.count > 0) {
           this.props
             .fetchCourierData("12279930917")
             .then(data => {
@@ -64,17 +74,23 @@ class TrackOrder extends React.Component<Props, State> {
               });
             })
             .catch(err => {
+              this.setState({
+                showerror:
+                  "Please retry in some time, unable to fetch order details at this time.",
+                loader: false
+              });
               console.log(err);
             });
-        } else {
-          this.setState({
-            showerror:
-              "Order not found, please recheck the information entered.",
-            loader: false
-          });
         }
-      }
-    });
+      })
+      .catch(err => {
+        this.setState({
+          showerror:
+            "Please retry in some time, unable to fetch order details at this time.",
+          loader: false
+        });
+        console.log(err);
+      });
   };
 
   handleValid = () => {
@@ -179,8 +195,13 @@ class TrackOrder extends React.Component<Props, State> {
     );
   };
 
+  backOrder = () => {
+    const { history } = this.props;
+    history.push("/account/my-orders");
+  };
+
   render() {
-    const { showTracking } = this.state;
+    const { showTracking, loader } = this.state;
     return (
       <div className={bootstrapStyles.row}>
         <div
@@ -190,6 +211,15 @@ class TrackOrder extends React.Component<Props, State> {
             bootstrapStyles.colMd12
           )}
         >
+          {showTracking && (
+            <div
+              className={styles.backTrack}
+              data-name="orders"
+              onClick={this.backOrder}
+            >
+              &lt; BACK TO ORDERS
+            </div>
+          )}
           <div className={bootstrapStyles.row}>
             <div
               className={cs(
@@ -200,8 +230,10 @@ class TrackOrder extends React.Component<Props, State> {
             >
               <div className={styles.formHeading}>Track Order</div>
               <div className={styles.formSubheading}>
-                Enter tracking number to track shipments and get delivery
-                status.
+                {!showTracking
+                  ? `Enter tracking number to track shipments and get delivery
+                status.`
+                  : `Track your orders to get shipments and delivery status`}
               </div>
               {!showTracking && this.loginForms()}
               {showTracking && (
@@ -212,10 +244,11 @@ class TrackOrder extends React.Component<Props, State> {
               )}
             </div>
           </div>
+          {loader && <Loader />}
         </div>
       </div>
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrackOrder);
+const Track = withRouter(TrackOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(Track);
