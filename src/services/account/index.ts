@@ -54,7 +54,7 @@ export default {
     const data = await API.get<MyOrdersResponse>(
       dispatch,
       `${__API_HOST__ +
-        "/myapi/order/my_orders/?orderNumber="}${id}&email=${email}`
+        "/myapi/order/my_orders?orderNumber="}${id}&email=${email}`
     );
     return data;
   },
