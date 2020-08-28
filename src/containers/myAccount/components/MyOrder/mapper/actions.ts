@@ -8,6 +8,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     fetchOrderBy: (order: string, email: string) => {
       return AccountService.fetchOrderBy(dispatch, order, email);
+    },
+    fetchCourierData: (order: string) => {
+      return AccountService.fetchCourierData(dispatch, order);
     }
   };
 };

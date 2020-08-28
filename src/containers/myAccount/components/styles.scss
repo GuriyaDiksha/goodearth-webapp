@@ -422,3 +422,87 @@
 .hr-margin {
   margin: 15px 0;
 }
+
+.trail-track {
+  width: 170px;
+  margin-bottom: 25px;
+  .txt-right {
+    position: absolute;
+    left: 110%;
+    top: 7px;
+    font-size: 11px;
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    img {
+      padding-right: 0 !important;
+    }
+  }
+    hr {
+      width: 1px;
+      height: 50px;
+      background-color: tint(#000,70%);
+      margin: 0 auto;
+    }
+      hr {
+        &.cerise {
+          background-color: $cerise;
+
+        }
+    }
+      .main-block {
+        text-transform: uppercase;
+          width: 170px;
+          height: 45px;
+          display: inline-block;
+          line-height: 50px;
+        font-family: $font-Lato;
+          text-align: center;
+
+        p:first-child {
+          font-size: 12px;
+          font-weight: bold;
+          padding-top: 5px;
+        }
+        p:last-child {
+          color: tint(#000,80%);
+          font-size: 10px;
+          line-height: 9px;
+        }
+
+        &.cerisebg {
+          background: url('../../../images/track/curlyFillCeriz.svg') no-repeat;
+          color: $white;
+        }
+        &.whitebg {
+          background: url('../../../images/track/redBorder.svg') no-repeat;
+          color: Black;
+        }
+        &.grayborder {
+          background: url('../../../images/track/greyButton.svg') no-repeat;
+          color: tint(#000, 80%);
+        }
+      }
+}
+
+@media screen and (max-width: 992px) {
+  .trail-track {
+    width: 180px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+    .txt-right {
+      left: 0;
+      top: 45px;
+    }
+    hr {
+      margin: 5px auto 0 auto;
+      &:last-child {
+        margin: 35px auto 0 auto;
+      }
+    }
+  }
+}
+
+.relative{
+  position: relative;
+}

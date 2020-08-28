@@ -7,12 +7,14 @@ import styles from "../styles.scss";
 import FormInput from "../../../../components/Formsy/FormInput";
 import Formsy from "formsy-react";
 import { TrackOrderProps, State } from "./typings";
+import TrackDetails from "./trackOrderDetail";
 import mapDispatchToProps from "../MyOrder/mapper/actions";
 import { AppState } from "reducers/typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    user: state.user
+    user: state.user,
+    mobile: state.device.mobile
   };
 };
 type Props = TrackOrderProps &
@@ -25,7 +27,11 @@ class TrackOrder extends React.Component<Props, State> {
     props.setCurrentSection();
     this.state = {
       showerror: "",
-      updateSubmit: false
+      updateSubmit: false,
+      orderData: {},
+      trackingData: {},
+      showTracking: false,
+      loader: false
     };
   }
 
@@ -36,33 +42,37 @@ class TrackOrder extends React.Component<Props, State> {
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const { email, orderNumber } = model;
     this;
+    this.setState({ loader: true });
     this.props.fetchOrderBy(orderNumber, email).then((response: any) => {
       if (response.count == 0) {
         // resetForm();
         this.setState({
-          showerror: "No Order Found"
+          showerror: "Order not found, please recheck the information entered.",
+          loader: false
         });
       } else {
-        // Object.keys(response.error_message).map(data => {
-        //   switch (data) {
-        //     case "orderNumber":
-        //       updateInputsWithError(
-        //         {
-        //           [data]: response.error_message[data][0]
-        //         },
-        //         true
-        //       );
-        //       break;
-        //     case "email":
-        //       updateInputsWithError(
-        //         {
-        //             email: response.error_message[data][0]
-        //         },
-        //         true
-        //       );
-        //       break;
-        //   }
-        // });
+        if (response.count >= 0) {
+          // debugger;
+          this.props
+            .fetchCourierData("12279930917")
+            .then(data => {
+              this.setState({
+                trackingData: data,
+                orderData: response.results,
+                showTracking: true,
+                loader: false
+              });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          this.setState({
+            showerror:
+              "Order not found, please recheck the information entered.",
+            loader: false
+          });
+        }
       }
     });
   };
@@ -95,92 +105,111 @@ class TrackOrder extends React.Component<Props, State> {
     }
   };
 
-  render() {
+  loginForms = () => {
     const { updateSubmit } = this.state;
     const {
       user: { email, isLoggedIn }
     } = this.props;
+    return (
+      <div className={cs(styles.loginForm, globalStyles.voffset4)}>
+        <div>
+          <Formsy
+            ref={this.TrackOrderFormRef}
+            onValidSubmit={this.handleSubmit}
+            onValid={this.handleValid}
+            onInvalid={this.handleInvalid}
+          >
+            <div className={styles.categorylabel}>
+              <div>
+                <FormInput
+                  name="orderNumber"
+                  placeholder={"Order Number"}
+                  label={"Order Number"}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  blur={e => this.errorOnBlur(e)}
+                  required
+                />
+              </div>
+
+              <div>
+                <FormInput
+                  name="email"
+                  placeholder={"Email*"}
+                  label={"Email*"}
+                  value={isLoggedIn ? email : ""}
+                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  blur={e => this.errorOnBlur(e)}
+                  inputRef={this.emailInput}
+                  validations={{
+                    isEmail: true,
+                    maxLength: 75
+                  }}
+                  validationErrors={{
+                    isEmail: "Enter valid email",
+                    maxLength:
+                      "You are allowed to enter upto 75 characters only"
+                  }}
+                  disable={isLoggedIn ? true : false}
+                  inputClass={isLoggedIn ? styles.disabledInput : ""}
+                  required
+                />
+              </div>
+              <div>
+                {this.state.showerror ? (
+                  <p className={globalStyles.errorMsg}>
+                    {this.state.showerror}
+                  </p>
+                ) : (
+                  ""
+                )}
+                <input
+                  type="submit"
+                  disabled={!updateSubmit}
+                  className={cs(
+                    { [globalStyles.disabledBtn]: !updateSubmit },
+                    globalStyles.ceriseBtn
+                  )}
+                  value={"CHECK ORDER STATUS"}
+                />
+              </div>
+            </div>
+          </Formsy>
+        </div>
+      </div>
+    );
+  };
+
+  render() {
+    const { showTracking } = this.state;
     return (
       <div className={bootstrapStyles.row}>
         <div
           className={cs(
             bootstrapStyles.col10,
             bootstrapStyles.offset1,
-            bootstrapStyles.colMd8,
-            bootstrapStyles.offsetMd2
+            bootstrapStyles.colMd12
           )}
         >
-          <div className={styles.formHeading}>Track Order</div>
-          <div className={styles.formSubheading}>
-            Enter tracking number to track shipments and get delivery status.
-          </div>
-          <div className={cs(styles.loginForm, globalStyles.voffset4)}>
-            <div>
-              <Formsy
-                ref={this.TrackOrderFormRef}
-                onValidSubmit={this.handleSubmit}
-                onValid={this.handleValid}
-                onInvalid={this.handleInvalid}
-              >
-                <div className={styles.categorylabel}>
-                  <div>
-                    <FormInput
-                      name="orderNumber"
-                      placeholder={"Order Number"}
-                      label={"Order Number"}
-                      keyPress={e =>
-                        e.key == "Enter" ? e.preventDefault() : ""
-                      }
-                      blur={e => this.errorOnBlur(e)}
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <FormInput
-                      name="email"
-                      placeholder={"Email*"}
-                      label={"Email*"}
-                      value={isLoggedIn ? email : ""}
-                      keyPress={e =>
-                        e.key == "Enter" ? e.preventDefault() : ""
-                      }
-                      blur={e => this.errorOnBlur(e)}
-                      inputRef={this.emailInput}
-                      validations={{
-                        isEmail: true,
-                        maxLength: 75
-                      }}
-                      validationErrors={{
-                        isEmail: "Enter valid email",
-                        maxLength:
-                          "You are allowed to enter upto 75 characters only"
-                      }}
-                      disable={isLoggedIn ? true : false}
-                      inputClass={isLoggedIn ? styles.disabledInput : ""}
-                      required
-                    />
-                  </div>
-                  <div>
-                    {this.state.showerror ? (
-                      <p className={globalStyles.errorMsg}>
-                        {this.state.showerror}
-                      </p>
-                    ) : (
-                      ""
-                    )}
-                    <input
-                      type="submit"
-                      disabled={!updateSubmit}
-                      className={cs(
-                        { [globalStyles.disabledBtn]: !updateSubmit },
-                        globalStyles.ceriseBtn
-                      )}
-                      value={"CHECK ORDER STATUS"}
-                    />
-                  </div>
-                </div>
-              </Formsy>
+          <div className={bootstrapStyles.row}>
+            <div
+              className={cs(
+                bootstrapStyles.col10,
+                { [bootstrapStyles.offset1]: this.props.mobile },
+                bootstrapStyles.colMd10
+              )}
+            >
+              <div className={styles.formHeading}>Track Order</div>
+              <div className={styles.formSubheading}>
+                Enter tracking number to track shipments and get delivery
+                status.
+              </div>
+              {!showTracking && this.loginForms()}
+              {showTracking && (
+                <TrackDetails
+                  orderData={this.state.orderData}
+                  trackingData={this.state.trackingData}
+                />
+              )}
             </div>
           </div>
         </div>
