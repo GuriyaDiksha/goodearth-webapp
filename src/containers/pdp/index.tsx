@@ -125,7 +125,7 @@ class PDPContainer extends React.Component<Props, State> {
         }, 100);
       }
     );
-    this.fetchMoreProductsFromCollection();
+    this.fetchMoreProductsFromCollection(this.props.id);
   }
 
   componentWillUnmount() {
@@ -143,6 +143,18 @@ class PDPContainer extends React.Component<Props, State> {
       // if (chatButtonElem) {
       //   chatButtonElem.style.bottom = "10px";
       // }
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.id && this.props.id != nextProps.id) {
+      this.setState({
+        sidebarSticky: true,
+        detailsSticky: true,
+        activeImage: 0,
+        detailStickyEnabled: true
+      });
+      this.fetchMoreProductsFromCollection(nextProps.id);
     }
   }
 
@@ -249,9 +261,8 @@ class PDPContainer extends React.Component<Props, State> {
     }
   };
 
-  fetchMoreProductsFromCollection = () => {
-    const { id, fetchMoreProductsFromCollection } = this.props;
-
+  fetchMoreProductsFromCollection = (id: number | null) => {
+    const { fetchMoreProductsFromCollection } = this.props;
     if (id) {
       fetchMoreProductsFromCollection(id);
     }
