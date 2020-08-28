@@ -21,12 +21,13 @@ export type loginResponse = {
   token: string;
   userId: string;
   email: string;
+  firstName: string;
 };
 
 export type registerResponse = {
   token: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   userId: string;
   gender: string;
