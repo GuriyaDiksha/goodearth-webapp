@@ -214,7 +214,7 @@ class ShopLocator extends React.Component<
             <Fragment>
               <div
                 className={cs(
-                  bootstrap.colMd3,
+                  bootstrap.colMd4,
                   styles.innerHeader,
                   styles.dropDiv
                 )}
