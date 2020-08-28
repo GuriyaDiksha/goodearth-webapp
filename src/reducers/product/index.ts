@@ -10,14 +10,14 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   collections: [],
   discount: false,
   priceRecords: {
-    INR: 0,
-    GBP: 0,
-    USD: 0
+    INR: -1,
+    GBP: -1,
+    USD: -1
   },
   discountedPriceRecords: {
-    INR: 0,
-    GBP: 0,
-    USD: 0
+    INR: -1,
+    GBP: -1,
+    USD: -1
   },
   gaVariant: "",
   partial: true,

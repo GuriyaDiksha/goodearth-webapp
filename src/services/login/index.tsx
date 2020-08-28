@@ -21,7 +21,11 @@ import CacheService from "services/cache";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
 import { showMessage } from "actions/growlMessage";
-import { INVALID_SESSION_LOGOUT } from "constants/messages";
+import {
+  INVALID_SESSION_LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGIN_SUCCESS
+} from "constants/messages";
 
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -75,6 +79,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
+    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });
@@ -91,6 +96,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
+    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });
@@ -117,6 +123,7 @@ export default {
       WishlistService.resetWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
       dispatch(resetMeta(undefined));
+      dispatch(showMessage(LOGOUT_SUCCESS, 5000));
       return res;
     }
   },
@@ -140,6 +147,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
+    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });
