@@ -8,6 +8,7 @@ export type State = {
   trackingData: any;
   showTracking: boolean;
   loader: boolean;
+  orderNumber: string;
 };
 
 export type OrdersProps = {

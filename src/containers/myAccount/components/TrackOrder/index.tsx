@@ -34,7 +34,8 @@ class TrackOrder extends React.Component<Props, State> {
       orderData: {},
       trackingData: {},
       showTracking: false,
-      loader: false
+      loader: false,
+      orderNumber: ""
     };
   }
 
@@ -42,10 +43,18 @@ class TrackOrder extends React.Component<Props, State> {
   emailInput: RefObject<HTMLInputElement> = React.createRef();
   //   TrackOrderFormRef: RefObject<Formsy> = React.createRef();
 
-  handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
-    const { email, orderNumber } = model;
-    this;
-    this.setState({ loader: true });
+  componentDidMount() {
+    const orderid = localStorage.getItem("orderNum");
+    if (this.props.user.email && orderid) {
+      this.sendTrackOrder(orderid, this.props.user.email);
+      localStorage.setItem("orderNum", "");
+      this.setState({
+        orderNumber: orderid
+      });
+    }
+  }
+
+  sendTrackOrder(orderNumber: string, email: string) {
     this.props
       .fetchOrderBy(orderNumber, email)
       .then((response: any) => {
@@ -66,12 +75,20 @@ class TrackOrder extends React.Component<Props, State> {
           this.props
             .fetchCourierData(orderNumber)
             .then(data => {
-              this.setState({
-                trackingData: data,
-                orderData: response.results,
-                showTracking: true,
-                loader: false
-              });
+              if (data == "error") {
+                this.setState({
+                  showerror:
+                    "Please retry in some time, unable to fetch order details at this time.",
+                  loader: false
+                });
+              } else {
+                this.setState({
+                  trackingData: data,
+                  orderData: response.results,
+                  showTracking: true,
+                  loader: false
+                });
+              }
             })
             .catch(err => {
               this.setState({
@@ -91,6 +108,12 @@ class TrackOrder extends React.Component<Props, State> {
         });
         console.log(err);
       });
+  }
+
+  handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
+    const { email, orderNumber } = model;
+    this.setState({ loader: true });
+    this.sendTrackOrder(orderNumber, email);
   };
 
   handleValid = () => {
@@ -141,6 +164,7 @@ class TrackOrder extends React.Component<Props, State> {
                   name="orderNumber"
                   placeholder={"Order Number"}
                   label={"Order Number"}
+                  value={this.state.orderNumber}
                   keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                   blur={e => this.errorOnBlur(e)}
                   required
