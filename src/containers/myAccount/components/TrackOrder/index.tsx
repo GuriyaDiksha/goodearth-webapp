@@ -165,7 +165,13 @@ class TrackOrder extends React.Component<Props, State> {
                   placeholder={"Order Number"}
                   label={"Order Number"}
                   value={this.state.orderNumber}
-                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  keyPress={e => {
+                    if (e.key == "Enter") {
+                      e.preventDefault();
+                    } else if (this.state.showerror) {
+                      this.setState({ showerror: "" });
+                    }
+                  }}
                   blur={e => this.errorOnBlur(e)}
                   required
                 />
@@ -177,7 +183,13 @@ class TrackOrder extends React.Component<Props, State> {
                   placeholder={"Email*"}
                   label={"Email*"}
                   value={isLoggedIn ? email : ""}
-                  keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                  keyPress={e => {
+                    if (e.key == "Enter") {
+                      e.preventDefault();
+                    } else if (this.state.showerror) {
+                      this.setState({ showerror: "" });
+                    }
+                  }}
                   blur={e => this.errorOnBlur(e)}
                   inputRef={this.emailInput}
                   validations={{
@@ -221,7 +233,13 @@ class TrackOrder extends React.Component<Props, State> {
 
   backOrder = () => {
     const { history } = this.props;
-    history.push("/account/my-orders");
+    if (this.props.user.isLoggedIn) {
+      history.push("/account/my-orders");
+    } else {
+      this.setState({
+        showTracking: false
+      });
+    }
   };
 
   render() {

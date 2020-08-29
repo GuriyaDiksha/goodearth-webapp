@@ -37,7 +37,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <p>{date}</p>
         </div>
       );
-      html.push(<hr className={globalStyles.cerise} />);
+      html.push(<hr className={styles.cerisehr} />);
     }
 
     return html;
@@ -64,7 +64,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
         </div>
       );
-      html.push(<hr className={globalStyles.cerise} />);
+      html.push(<hr className={styles.cerisehr} />);
     }
 
     return html;
@@ -90,7 +90,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
         </div>
       );
-      html.push(<hr className={globalStyles.cerise} />);
+      html.push(<hr className={styles.cerisehr} />);
     } else {
       html.push(
         <div className={cs(styles.mainBlock, styles.grayborder)}>
@@ -115,7 +115,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
         </div>
       );
-      html.push(<hr className={globalStyles.cerise} />);
+      html.push(<hr className={styles.cerisehr} />);
     } else if (status == 4) {
       html.push(
         <div className={styles.relative}>
@@ -342,6 +342,8 @@ const TrackDetails: React.FC<OrdersProps> = props => {
               </div>
             </div>
             {data.lines.map((item: any) => {
+              const isdisCount =
+                +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
               return (
                 <div
                   className={cs(
@@ -374,10 +376,45 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                         {item.title}
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
-                        {String.fromCharCode(
-                          currencyCode[item.priceCurrency as Currency]
+                        {isdisCount ? (
+                          <span className={styles.discountprice}>
+                            {String.fromCharCode(
+                              currencyCode[item.priceCurrency as Currency]
+                            )}
+                            {+parseFloat(item.priceInclTax).toFixed(2) /
+                              +item.quantity}
+                            &nbsp;{" "}
+                          </span>
+                        ) : (
+                          ""
                         )}
-                        &nbsp; {item.priceInclTax}
+                        {isdisCount ? (
+                          <span className={styles.strikeprice}>
+                            {String.fromCharCode(
+                              currencyCode[item.priceCurrency as Currency]
+                            )}
+                            {+parseFloat(
+                              item.priceExclTaxExclDiscounts
+                            ).toFixed(2) / +item.quantity}
+                            &nbsp;{" "}
+                          </span>
+                        ) : (
+                          <span
+                            className={
+                              item.product.badgeType == "B_flat"
+                                ? globalStyles.cerise
+                                : ""
+                            }
+                          >
+                            {String.fromCharCode(
+                              currencyCode[item.priceCurrency as Currency]
+                            )}
+                            &nbsp;{" "}
+                            {+parseFloat(
+                              item.priceExclTaxExclDiscounts
+                            ).toFixed(2) / +item.quantity}
+                          </span>
+                        )}
                       </p>
                       {item.product.size ? (
                         <div className={styles.plp_prod_quantity}>
