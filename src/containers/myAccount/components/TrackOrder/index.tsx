@@ -165,7 +165,7 @@ class TrackOrder extends React.Component<Props, State> {
                   placeholder={"Order Number"}
                   label={"Order Number"}
                   value={this.state.orderNumber}
-                  keyPress={e => {
+                  keyUp={e => {
                     if (e.key == "Enter") {
                       e.preventDefault();
                     } else if (this.state.showerror) {
@@ -183,7 +183,7 @@ class TrackOrder extends React.Component<Props, State> {
                   placeholder={"Email*"}
                   label={"Email*"}
                   value={isLoggedIn ? email : ""}
-                  keyPress={e => {
+                  keyUp={e => {
                     if (e.key == "Enter") {
                       e.preventDefault();
                     } else if (this.state.showerror) {
