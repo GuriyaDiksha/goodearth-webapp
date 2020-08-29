@@ -58,6 +58,23 @@ export default {
     );
     return data;
   },
+  fetchCourierData: async (dispatch: Dispatch, order: string) => {
+    const courier = await new Promise((resolve, reject) => {
+      fetch(
+        `https://web.goodearth.in/common_app/courier_tracking_api/?order_number=${order}`,
+        { method: "GET" }
+      )
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.transition_data) {
+            resolve(data);
+          } else {
+            resolve("error");
+          }
+        });
+    });
+    return courier;
+  },
   setGaStatus: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<MyOrdersResponse>(
       dispatch,

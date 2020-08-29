@@ -8,12 +8,14 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState([]);
   // const [hasShopped, setHasShopped] = useState(false);
   const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
     props.isLoading(true);
     AccountService.fetchMyOrders(dispatch)
@@ -45,14 +47,15 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     setIsOpenAddressIndex(index);
   };
 
-  // const trackOrder = (e: React.MouseEvent) => {
-  //   localStorage.setItem("orderNum", e.currentTarget.id);
-  //   // props.setAccountPage(e);
-  // };
+  const trackOrder = (e: React.MouseEvent) => {
+    localStorage.setItem("orderNum", e.currentTarget.id);
+    history.push("/account/track-order");
+    // props.setAccountPage(e);
+  };
 
   const closeAddress = (data: any, index: number) => {
     const html = [];
-    // const orderData = new Date(data.datePlaced);
+    const orderData = new Date(data.datePlaced);
     const todayDate = new Date();
 
     let totalItem = 0;
@@ -61,7 +64,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     }
     todayDate.setMonth(todayDate.getMonth() - 1);
     // now today date is one month less
-    // const isHide = orderData >= todayDate;
+    const isHide = orderData >= todayDate;
 
     html.push(
       <div className={bootstrapStyles.col12}>
@@ -104,7 +107,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               </div>
               <div className={bootstrapStyles.col4}>
                 <p className={styles.editTrack}>
-                  {/* {isHide ? (
+                  {isHide ? (
                     <a
                       className={globalStyles.cerise}
                       onClick={e => {
@@ -118,7 +121,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     </a>
                   ) : (
                     ""
-                  )} */}
+                  )}
                 </p>
               </div>
             </div>
