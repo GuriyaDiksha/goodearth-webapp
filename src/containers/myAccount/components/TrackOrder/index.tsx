@@ -64,7 +64,7 @@ class TrackOrder extends React.Component<Props, State> {
           });
         } else if (response.count > 0) {
           this.props
-            .fetchCourierData("12279930917")
+            .fetchCourierData(orderNumber)
             .then(data => {
               this.setState({
                 trackingData: data,
