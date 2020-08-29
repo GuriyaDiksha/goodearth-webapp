@@ -46,6 +46,7 @@ class TrackOrder extends React.Component<Props, State> {
   componentDidMount() {
     const orderid = localStorage.getItem("orderNum");
     if (this.props.user.email && orderid) {
+      this.setState({ loader: true });
       this.sendTrackOrder(orderid, this.props.user.email);
       localStorage.setItem("orderNum", "");
       this.setState({
