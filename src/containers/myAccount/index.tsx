@@ -120,7 +120,7 @@ const MyAccount: React.FC<Props> = props => {
       label: "Track Order",
       href: "/account/track-order",
       component: TrackOrder,
-      title: "track",
+      title: "track order",
       loggedInOnly: false
     }
   ];

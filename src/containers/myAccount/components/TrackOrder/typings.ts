@@ -4,4 +4,17 @@ export type TrackOrderProps = {
 export type State = {
   showerror: string;
   updateSubmit: boolean;
+  orderData: any;
+  trackingData: any;
+  showTracking: boolean;
+  loader: boolean;
+  orderNumber: string;
+};
+
+export type OrdersProps = {
+  trackingData: any;
+  orderData: any;
+  hasShopped?: (x: boolean) => void;
+  isLoading?: (x: boolean) => void;
+  isDataAvaliable?: (x: boolean) => void;
 };
