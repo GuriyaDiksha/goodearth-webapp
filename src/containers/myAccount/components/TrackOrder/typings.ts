@@ -9,6 +9,7 @@ export type State = {
   showTracking: boolean;
   loader: boolean;
   orderNumber: string;
+  myemail: string;
 };
 
 export type OrdersProps = {
