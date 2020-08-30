@@ -9,6 +9,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchOrderBy: (order: string, email: string) => {
       return AccountService.fetchOrderBy(dispatch, order, email);
     },
+    fetchEmailbyOrder: async (order: string) => {
+      const email = AccountService.fetchEmailbyOrder(dispatch, order);
+      return email;
+    },
     fetchCourierData: (order: string) => {
       return AccountService.fetchCourierData(dispatch, order);
     }
