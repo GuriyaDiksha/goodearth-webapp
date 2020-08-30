@@ -35,7 +35,8 @@ class TrackOrder extends React.Component<Props, State> {
       trackingData: {},
       showTracking: false,
       loader: false,
-      orderNumber: ""
+      orderNumber: "",
+      myemail: ""
     };
   }
 
@@ -52,6 +53,35 @@ class TrackOrder extends React.Component<Props, State> {
       this.setState({
         orderNumber: orderid
       });
+    }
+    // code for load by email
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const order = urlParams.get("orderno");
+    if (order) {
+      this.setState({ loader: true });
+      if (this.props.user.email) {
+        this.sendTrackOrder(order, this.props.user.email);
+        this.setState({
+          orderNumber: order,
+          myemail: this.props.user.email
+        });
+      } else {
+        this.props
+          .fetchEmailbyOrder(order)
+          .then((newemail: any) => {
+            this.sendTrackOrder(order, newemail.email);
+            this.setState({
+              orderNumber: order,
+              myemail: newemail.email
+            });
+          })
+          .catch(err => {
+            this.setState({
+              loader: false
+            });
+          });
+      }
     }
   }
 
@@ -183,7 +213,13 @@ class TrackOrder extends React.Component<Props, State> {
                   name="email"
                   placeholder={"Email*"}
                   label={"Email*"}
-                  value={isLoggedIn ? email : ""}
+                  value={
+                    isLoggedIn
+                      ? email
+                      : this.state.myemail
+                      ? this.state.myemail
+                      : ""
+                  }
                   keyUp={e => {
                     if (e.key == "Enter") {
                       e.preventDefault();
