@@ -56,12 +56,6 @@ const FreeShipping: React.FC<PopupProps> = props => {
               India) is currently serviceable.
             </p>
             <p>
-              Good Earth invites you to discover{" "}
-              <b className={globalStyles.cerise}>Styles that Sustain</b>, the
-              Good Earth Annual Apparel Sale, featuring handpicked sustainable
-              styles.
-            </p>
-            <p>
               For any further assistance reach out to us at{" "}
               <b className={globalStyles.cerise}>customercare@goodearth.in</b>
             </p>
