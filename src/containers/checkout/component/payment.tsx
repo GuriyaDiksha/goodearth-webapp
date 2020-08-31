@@ -20,8 +20,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
     basket,
-    device: { mobile },
-    info: { isSale }
+    device: { mobile }
   } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout, loyaltyData } = props;
   const [paymentError, setPaymentError] = useState("");
@@ -248,31 +247,27 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
       {isActive && (
         <Fragment>
-          {!isSale && (
-            <>
-              {!basket.isOnlyGiftCart && giftWrapRender}
-              {giftwrap && !basket.isOnlyGiftCart && (
-                <div>
-                  <textarea
-                    rows={5}
-                    cols={45}
-                    className={styles.giftMessage}
-                    value={textarea}
-                    placeholder={"add message (optional)"}
-                    autoComplete="new-password"
-                    onChange={(e: any) => {
-                      setTextarea(e.target.value);
-                    }}
-                  />
-                  <div className={cs(globalStyles.textLeft, styles.font14)}>
-                    Character Limit: {120 - textarea.length}
-                  </div>
-                </div>
-              )}
-              {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
-              {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
-            </>
+          {!basket.isOnlyGiftCart && giftWrapRender}
+          {giftwrap && !basket.isOnlyGiftCart && (
+            <div>
+              <textarea
+                rows={5}
+                cols={45}
+                className={styles.giftMessage}
+                value={textarea}
+                placeholder={"add message (optional)"}
+                autoComplete="new-password"
+                onChange={(e: any) => {
+                  setTextarea(e.target.value);
+                }}
+              />
+              <div className={cs(globalStyles.textLeft, styles.font14)}>
+                Character Limit: {120 - textarea.length}
+              </div>
+            </div>
           )}
+          {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+          {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
           <div className={globalStyles.marginT20}>
             {!basket.isOnlyGiftCart && (
               <div className={globalStyles.flex}>

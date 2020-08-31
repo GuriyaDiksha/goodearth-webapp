@@ -96,16 +96,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
             {isSuspended && isSale && (
               <>
                 <p>
-                  During Sale, the delivery time of your order(s) placed will
-                  vary due to high volume of orders. Please bear with us and
-                  connect with our customer care for assistance.
+                  {" "}
+                  All standard WHO guidelines and relevant precautionary
+                  measures are in place, to ensure a safe and secure shopping
+                  experience for you.
                 </p>
                 <p>
-                  We have resumed International shipping and shipping within
-                  India (as per Government guidelines).
-                </p>
-                <p>
-                  International orders: delivered within 12-14 business days
+                  International orders: delivered within 10-12 business days
                 </p>
                 <p>
                   Domestic orders: delivered within 15-18 business days. (You
