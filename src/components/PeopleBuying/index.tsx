@@ -29,7 +29,7 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
         onMouseLeave={() => setCurrentId(-1)}
         key={item.id}
         className={cs({
-          [bootstrapStyles.col6]: mobile,
+          // [bootstrapStyles.col6]: mobile,
           [bootstrapStyles.colMd4]: mobile,
           [bootstrapStyles.col12]: !mobile
         })}
@@ -89,8 +89,8 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
           What People Are Buying
         </h2>
         <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-          {!mobile && <Slider {...setting}>{items}</Slider>}
-          {mobile && <div className={bootstrapStyles.row}>{items}</div>}
+          {<Slider {...setting}>{items}</Slider>}
+          {/* {mobile && <div className={bootstrapStyles.row}>{items}</div>} */}
         </div>
       </div>
     </div>
