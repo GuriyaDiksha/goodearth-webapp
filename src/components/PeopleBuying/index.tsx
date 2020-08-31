@@ -88,7 +88,13 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
         <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
           What People Are Buying
         </h2>
-        <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+        <div
+          className={
+            mobile
+              ? bootstrapStyles.col12
+              : cs(bootstrapStyles.col10, bootstrapStyles.offset1)
+          }
+        >
           {<Slider {...setting}>{items}</Slider>}
           {/* {mobile && <div className={bootstrapStyles.row}>{items}</div>} */}
         </div>

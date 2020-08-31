@@ -295,14 +295,18 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     });
   }
   changeEmail = () => {
-    this.setState({
-      showCurrentSection: "email",
-      email: "",
-      isLoginDisabled: true,
-      showerror: "",
-      password: ""
-    });
-    this.firstEmailInput.current?.focus();
+    this.setState(
+      {
+        showCurrentSection: "email",
+        email: "",
+        isLoginDisabled: true,
+        showerror: "",
+        password: ""
+      },
+      () => {
+        this.firstEmailInput.current?.focus();
+      }
+    );
   };
 
   emailForm = () => {
