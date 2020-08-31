@@ -118,15 +118,22 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <>
                 <p>
                   {" "}
-                  In the current scenario, the delivery time of your order(s)
-                  placed during this period will vary as per restrictions
-                  imposed in that area. Please bear with us and connect with our
-                  customer care for assistance.
+                  All standard WHO guidelines and relevant precautionary
+                  measures are in place, to ensure a safe and secure shopping
+                  experience for you.
                 </p>
                 <p>
+                  International orders: delivered within 10-12 business days
+                </p>
+                <p>
+                  Domestic orders: delivered within 15-18 business days. (You
+                  will see the delivery date for your order on your order
+                  confirmation.)
+                </p>
+                {/* <p>
                   We have resumed International shipping and shipping within
                   India, in select zones (as per Government guidelines).
-                </p>
+                </p> */}
               </>
             )}
             {/* *Expected Delivery of Pichwai Art is 15 to 18 business days */}

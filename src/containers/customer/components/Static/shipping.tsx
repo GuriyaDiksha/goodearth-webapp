@@ -39,7 +39,7 @@ export default class Shipping extends React.Component<Props, {}> {
               className={globalStyles.linkTextUnderline}
               to="/customer-assistance/sales-conditions"
             >
-              Refer for Sale related TnCs
+              Refer for Joy Sale related TnCs
             </Link>
           </p>
         </div>
