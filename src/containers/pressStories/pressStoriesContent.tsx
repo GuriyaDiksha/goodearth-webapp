@@ -126,6 +126,7 @@ class PressStoriesContent extends React.Component<
       });
 
       this.props.fetchPressStories(parseInt(year)).then(data => {
+        this.props.updatePressStoriesData(data);
         const len = location.pathname.split("/").length;
         const pathArray = location.pathname.split("/");
         pathArray[len - 1] = year.toString();

@@ -32,6 +32,7 @@ class GiftCard extends React.Component<
     productData: any;
     countryData: any;
     finalData: any;
+    selectedCountry: string;
   }
 > {
   constructor(props: Props) {
@@ -39,6 +40,7 @@ class GiftCard extends React.Component<
 
     this.state = {
       currentSection: "card",
+      selectedCountry: "",
       productData: [],
       countryData: [],
       finalData: {},
@@ -83,6 +85,9 @@ class GiftCard extends React.Component<
     } else if (section == "form") {
       finalData["customPrice"] = data.customPrice;
       finalData["productId"] = data.productId;
+      this.setState({
+        selectedCountry: data.selectedCountry
+      });
     } else if (section == "preview") {
       finalData["message"] = data.message;
       finalData["recipientEmail"] = data.recipientEmail;
@@ -110,6 +115,7 @@ class GiftCard extends React.Component<
       case "amount":
         return (
           <Section2
+            selectedCountry={this.state.selectedCountry}
             countryData={this.state.countryData}
             productData={this.state.productData}
             data={this.state.finalData}
