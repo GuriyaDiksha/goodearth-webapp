@@ -23,6 +23,7 @@ import CeriseTerms from "./components/Static/ceriseterms";
 import Cookie from "./components/Static/cookie";
 import Privacy from "./components/Static/privacy";
 import SaleTnc from "./components/Static/saletnc";
+import SaleTncAug2020 from "./components/Static/saleTncAug2020";
 
 type Props = {
   isbridal: boolean;
@@ -82,10 +83,10 @@ const StaticPage: React.FC<Props> = props => {
       loggedInOnly: false
     },
     {
-      label: "Sale Terms of Use",
+      label: "Joy Store Terms of Use",
       href: "/customer-assistance/sales-conditions",
       component: SaleTnc,
-      title: "Sale Terms of Use",
+      title: "Joy Store Terms of Use",
       loggedInOnly: false
     },
     {
@@ -285,6 +286,18 @@ const StaticPage: React.FC<Props> = props => {
                     );
                   }
                 )}
+                <Route
+                  key={"Sale Terms of Use"}
+                  exact
+                  path={"/customer-assistance/sales-terms"}
+                >
+                  <SaleTncAug2020
+                    setCurrentSection={() =>
+                      setCurrentSection("Sale Terms of Use")
+                    }
+                    mobile={mobile}
+                  />
+                </Route>
               </Switch>
             </div>
           </div>
