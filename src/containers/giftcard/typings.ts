@@ -7,6 +7,7 @@ export type Section1Props = {
 };
 
 export type Section2Props = {
+  selectedCountry: string;
   countryData: any;
   productData: any;
   mobile: boolean;
