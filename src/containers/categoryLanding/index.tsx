@@ -323,7 +323,8 @@ class CategoryLanding extends React.Component<
 
     // if (!peoplebuying.length) {
     //   return null;
-    // }
+    // } var settings = {
+
     const config: Settings = {
       dots: false,
       infinite: true,
@@ -334,10 +335,15 @@ class CategoryLanding extends React.Component<
       initialSlide: 0,
       responsive: [
         {
-          breakpoint: 992,
+          breakpoint: 768,
           settings: {
-            dots: false,
-            arrows: true
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            centerMode: true,
+            centerPadding: "60px",
+            arrows: false
           }
         }
       ]
