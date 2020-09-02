@@ -380,7 +380,9 @@ input[type="checkbox"]:checked + label {
     font-size: 16px !important;
     @include placeholder {
       font-size: 16px !important;
-      min-height: 47px; // for input type date in iOS
     }
+  }
+  input[type="date"] {
+    min-height: 47px; // for input type date in iOS
   }
 }
