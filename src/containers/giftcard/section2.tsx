@@ -30,7 +30,9 @@ const Section2: React.FC<Section2Props> = ({
 }) => {
   const code = currencyCode[currency as Currency];
   const sku = "I00121125";
-  const [selectcurrency, setSelectcurrency] = useState("");
+  const [selectcurrency, setSelectcurrency] = useState(
+    countryData[selectedCountry]
+  );
   const [countrymsg, setCountrymsg] = useState("");
   const [selectvalue, setSelectvalue] = useState("");
   const [numhighlight, setNumhighlight] = useState(false);
