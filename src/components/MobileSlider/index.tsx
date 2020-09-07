@@ -17,10 +17,11 @@ const MobileSlider: React.FC<Props> = ({ dots = true, children }) => {
     slidesToShow: 1,
     slidesToScroll: 1
   };
-
   return (
     <div className="mobile-slider">
-      <Slider {...settings}>{children}</Slider>
+      {Object.keys(children || {}).length > 0 && (
+        <Slider {...settings}>{children}</Slider>
+      )}
     </div>
   );
 };
