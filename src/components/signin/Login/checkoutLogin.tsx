@@ -75,7 +75,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           const error = [
             "This account already exists. Please ",
             <span
-              className={globalStyles.linkTextUnderline}
+              className={cs(
+                globalStyles.errorMsg,
+                globalStyles.linkTextUnderline
+              )}
               key={1}
               onClick={this.handleResetPassword}
             >
@@ -460,7 +463,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       <Fragment>
         {this.state.successMsg ? (
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-            <div className={globalStyles.successMsg}>
+            <div
+              className={cs(globalStyles.successMsg, globalStyles.textCenter)}
+            >
               {this.state.successMsg}
             </div>
           </div>

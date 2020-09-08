@@ -137,6 +137,9 @@ a {
     bottom: -6px;
   }
   @include error-msg();
+  span.link-text-underline {
+    @include error-msg();
+  }
   text-align: left;
   // height: 15px;
   line-height: 15px;

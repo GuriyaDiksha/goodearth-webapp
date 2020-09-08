@@ -329,6 +329,23 @@
     color: black;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .redeem-otp {
+    input[type="text"] {
+      background-color: $white;
+      border: 1px solid #888 !important;
+      width: 220px !important;
+      font-size: 30px !important;
+      padding: 3px !important;
+      font-weight: bold;
+      letter-spacing: 0.5em;
+      text-indent: 0.5em;
+      line-height: 42px !important;
+      color: black;
+    }
+  }
+}
 .overflow-email {
   overflow: hidden;
   text-overflow: ellipsis;
