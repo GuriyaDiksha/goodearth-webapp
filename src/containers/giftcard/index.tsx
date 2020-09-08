@@ -69,6 +69,9 @@ class GiftCard extends React.Component<
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.currency !== this.props.currency) {
       this.goback("card");
+      this.setState({
+        selectedCountry: ""
+      });
     }
   }
 
@@ -79,25 +82,29 @@ class GiftCard extends React.Component<
   };
 
   next = (data: any, section: string) => {
-    const { finalData } = this.state;
+    const giftCardData = this.state.finalData;
     if (section == "amount") {
-      finalData["imageUrl"] = data;
+      giftCardData["imageUrl"] = data;
     } else if (section == "form") {
-      finalData["customPrice"] = data.customPrice;
-      finalData["productId"] = data.productId;
+      giftCardData["customPrice"] = data.customPrice;
+      giftCardData["productId"] = data.productId;
       this.setState({
         selectedCountry: data.selectedCountry
       });
     } else if (section == "preview") {
-      finalData["message"] = data.message;
-      finalData["recipientEmail"] = data.recipientEmail;
-      finalData["recipientName"] = data.recipientName;
-      finalData["senderName"] = data.senderName;
-      finalData["quantity"] = 1;
+      giftCardData["message"] = data.message;
+      giftCardData["recipientEmail"] = data.recipientEmail;
+      giftCardData["recipientName"] = data.recipientName;
+      giftCardData["senderName"] = data.senderName;
+      giftCardData["quantity"] = 1;
     } else if (section == "card") {
-      // finalData = {};
+      // giftCardData = {};
+      this.setState({
+        selectedCountry: ""
+      });
     }
     this.setState({
+      finalData: giftCardData,
       currentSection: section
     });
   };
