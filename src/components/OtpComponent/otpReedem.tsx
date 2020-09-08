@@ -206,7 +206,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       })
       .catch((error: any) => {
         this.setState({
-          showerror: error.response.data.message,
+          showerrorOtp: error.response.data.message,
           isLoading: false
         });
       });
@@ -426,7 +426,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 <span className={styles.checkmark}></span>
               </label>
               <div className={styles.flex}>
-                <div>
+                <div className={styles.countryCode}>
                   <input
                     type="text"
                     value="+91"
@@ -472,7 +472,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 {this.state.showerrorOtp}
               </p>
             </li>
-            <div className={globalStyles.voffset7}>
+            <div
+              className={cs({
+                [globalStyles.voffset7]: !this.state.showerrorOtp
+              })}
+            >
               <input
                 type="submit"
                 disabled={this.state.disable}
