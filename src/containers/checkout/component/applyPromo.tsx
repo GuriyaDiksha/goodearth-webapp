@@ -33,10 +33,20 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       toggleOtp: true,
       isActivated: false
     };
-    this.props.onRef(this);
+    // this.props.onRef(this);
   }
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
+  componentDidMount = () => {
+    if (this.props.onRef != null) {
+      this.props.onRef(this);
+    }
+  };
 
+  componentDidUpdate = (prevProps: Props) => {
+    if (this.props.onRef != null) {
+      this.props.onRef(this);
+    }
+  };
   changeValue = (event: any) => {
     this.setState({
       txtvalue: event.target.value
@@ -61,11 +71,15 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             error: response.message
           });
         } else {
-          this.setState({
-            newCardBox: false,
-            txtvalue: ""
-          });
-          this.props.onNext();
+          this.setState(
+            {
+              newCardBox: false,
+              txtvalue: ""
+            },
+            () => {
+              this.props.onNext();
+            }
+          );
         }
       })
       .catch(error => {
