@@ -52,6 +52,7 @@ const Section2: React.FC<Section2Props> = ({
         });
       setSelectcurrency("INR");
     }
+    window.scrollTo(0, 0);
   }, []);
 
   const setValue = (id: string) => {

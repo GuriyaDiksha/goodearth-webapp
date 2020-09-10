@@ -718,8 +718,8 @@ class Footer extends React.Component<Props, FooterState> {
             ></span>
             <h3>COOKIE POLICY</h3>
             <p>
-              This website uses cookies in order to improve your experience. If
-              you want to learn more click the button &nbsp;
+              This website uses cookies to ensure you get the best experience on
+              our website. Please read our &nbsp;
               <Link to={"/customer-assistance/privacy-policy"}>
                 Privacy Policy
               </Link>
@@ -727,11 +727,6 @@ class Footer extends React.Component<Props, FooterState> {
               <Link to={"/customer-assistance/cookie-policy"}>
                 Cookie Policy.
               </Link>
-            </p>
-            <p>
-              {" "}
-              If you continue to use our website, you agree to the use of
-              cookies.
             </p>
             <span className={styles.okBtn} onClick={this.acceptCookies}>
               ACCEPT
