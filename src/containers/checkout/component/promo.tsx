@@ -66,6 +66,10 @@ const PromoSection: React.FC<PromoProps> = props => {
     next(Steps.STEP_PROMO);
   };
 
+  const partialSale = true;
+
+  const isSale = info.isSale && !partialSale;
+
   return (
     <div
       className={
@@ -112,19 +116,19 @@ const PromoSection: React.FC<PromoProps> = props => {
               styles.selectedStvalue
             )}
             onClick={() => {
-              basket.isOnlyGiftCart || info.isSale ? "" : onCurrentState();
+              basket.isOnlyGiftCart || isSale ? "" : onCurrentState();
             }}
           >
             <span
               className={cs(
-                info.isSale
+                isSale
                   ? styles.notSelected
                   : isActive || !selectedAddress
                   ? globalStyles.hidden
                   : globalStyles.cerise
               )}
             >
-              {info.isSale
+              {isSale
                 ? "Not Applicable during Sale"
                 : basket.isOnlyGiftCart
                 ? "Not Applicable"

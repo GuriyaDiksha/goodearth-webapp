@@ -133,6 +133,10 @@ class ShopLocator extends React.Component<
       device: { mobile }
     } = this.props;
 
+    const isCafe = this.props.shopData[this.state.city]?.filter(
+      (store: any) => store.cafeHeading2
+    );
+
     return (
       <SecondaryHeader>
         {!mobile && (
@@ -160,14 +164,13 @@ class ShopLocator extends React.Component<
               </Link>
             </span>{" "}
             &nbsp;
-            {this.props.shopData.length > 0 &&
-              this.props.shopData[0]?.cafeHeading2 && (
-                <span className={styles.cafeLink}>
-                  <Link to="#cafe" id="cafename">
-                    | &nbsp; CAFE{" "}
-                  </Link>
-                </span>
-              )}
+            {isCafe && (
+              <span className={styles.cafeLink}>
+                <Link to="#cafe" id="cafename">
+                  | &nbsp; CAFE{" "}
+                </Link>
+              </span>
+            )}
             <span className={styles.lessthan}>
               <Link to={"/Cafe-Shop/" + this.state.city}>
                 <span className={styles.lessthan}>{"<"}</span>
