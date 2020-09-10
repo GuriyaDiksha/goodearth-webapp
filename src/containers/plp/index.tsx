@@ -17,7 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
-// import MakerEnhance from "maker-enhance";
+import MakerEnhance from "maker-enhance";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -157,7 +157,7 @@ class PLP extends React.Component<
         count
       }
     } = this.props;
-    // const { plpMaker } = this.state;
+    const { plpMaker } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -260,12 +260,12 @@ class PLP extends React.Component<
               ""
             )}
 
-            {/* {plpMaker && (
+            {plpMaker && (!banner || !bannerMobile) && (
               <MakerEnhance
                 user="goodearth"
                 href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
-            )} */}
+            )}
 
             {!mobile ? (
               <div

@@ -485,9 +485,9 @@ class Checkout extends React.Component<Props, State> {
               billingAddress: billingAddress,
               activeStep:
                 localStorage.getItem("validBo") ||
-                localStorage.getItem("isSale") ||
-                this.props.isSale
-                  ? Steps.STEP_PAYMENT
+                localStorage.getItem("isSale")
+                  ? // || this.props.isSale
+                    Steps.STEP_PAYMENT
                   : Steps.STEP_PROMO,
               billingError: "",
               pancardNo: obj.panPassportNo,
