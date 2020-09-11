@@ -113,6 +113,12 @@ class Search extends React.Component<Props, State> {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.props.toggle();
     }
+    if (this.props.currency != nextProps.currency) {
+      this.getSearchDataApi(this.state.value);
+      // nextProps.mobile
+      //   ? this.updateDataFromAPI("load")
+      //   : this.updateDataFromAPI();
+    }
   };
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
