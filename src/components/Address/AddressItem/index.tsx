@@ -22,6 +22,7 @@ type Props = {
   index: number;
   isOnlyAddress: boolean;
   // addressType?: string;
+  currentCallBackComponent?: string;
   showAddressInBridalUse?: boolean;
   shippingErrorMsg?: string;
   billingErrorMsg?: string;
@@ -167,11 +168,18 @@ const AddressItem: React.FC<Props> = props => {
       }
     >
       <div
-        className={cs(styles.addressItemContainer, {
-          [styles.addressItemContainerCheckout]:
-            currentCallBackComponent == "checkout-shipping" ||
-            currentCallBackComponent == "checkout-billing"
-        })}
+        className={cs(
+          styles.addressItemContainer,
+          {
+            [styles.addressItemContainerCheckout]:
+              currentCallBackComponent == "checkout-shipping" ||
+              currentCallBackComponent == "checkout-billing"
+          },
+          {
+            [styles.ceriseAddressItemContainer]:
+              props.currentCallBackComponent == "cerise"
+          }
+        )}
       >
         <div
           className={cs(
@@ -197,21 +205,23 @@ const AddressItem: React.FC<Props> = props => {
                 {!address.isDefaultForShipping && (
                   <div className={styles.line}>Make default</div>
                 )}
-                <div
-                  className={styles.radio}
-                  id={id}
-                  onClick={() => markAsDefault(address)}
-                >
-                  <input
+                {props.currentCallBackComponent != "cerise" && (
+                  <div
+                    className={styles.radio}
                     id={id}
-                    className={styles.defaultAddressCheckbox}
-                    checked={address.isDefaultForShipping}
-                    name={id}
-                    type="radio"
-                    onChange={() => markAsDefault(address)}
-                  />
-                  <span className={styles.checkmark}></span>
-                </div>
+                    onClick={() => markAsDefault(address)}
+                  >
+                    <input
+                      id={id}
+                      className={styles.defaultAddressCheckbox}
+                      checked={address.isDefaultForShipping}
+                      name={id}
+                      type="radio"
+                      onChange={() => markAsDefault(address)}
+                    />
+                    <span className={styles.checkmark}></span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -262,7 +272,9 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal"
             })}
           >
-            {!address.isTulsi && (
+            {!(
+              address.isTulsi || props.currentCallBackComponent == "cerise"
+            ) && (
               <span
                 className={cs(styles.action, {
                   [styles.addressEdit]: billingEditDisable
@@ -276,17 +288,26 @@ const AddressItem: React.FC<Props> = props => {
                 EDIT
               </span>
             )}
-            {!(address.isBridal || props.isOnlyAddress || address.isTulsi) && (
-              <span className={styles.separator}>|</span>
-            )}
-            {!(address.isBridal || props.isOnlyAddress || address.isTulsi) && (
+            {!(
+              address.isBridal ||
+              props.isOnlyAddress ||
+              address.isTulsi ||
+              props.currentCallBackComponent == "cerise"
+            ) && <span className={styles.separator}>|</span>}
+            {!(
+              address.isBridal ||
+              props.isOnlyAddress ||
+              address.isTulsi ||
+              props.currentCallBackComponent == "cerise"
+            ) && (
               <span className={styles.action} onClick={deleteAddress}>
                 DELETE
               </span>
             )}
           </div>
           {currentCallBackComponent !== "account" &&
-            currentCallBackComponent !== "bridal" && (
+            currentCallBackComponent !== "bridal" &&
+            props.currentCallBackComponent !== "cerise" && (
               <div
                 className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
                 onClick={() => onSelectAddress(address)}

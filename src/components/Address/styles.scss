@@ -278,6 +278,16 @@
     }
   }
 }
+
+.cerise-address-item-container {
+  min-height: 160px;
+  .address-item {
+    padding: 35px 25px 55px 25px;
+    .line-head,.address-line,.line {
+      line-height: 22px;
+    }
+  }
+}
 .address-item-container-checkout {
   min-height: 360px;
 }

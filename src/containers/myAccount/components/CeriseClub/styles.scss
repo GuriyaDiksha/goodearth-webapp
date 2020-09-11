@@ -302,6 +302,9 @@
             }
             .cerise-address-component {
                 padding: 20px 30px 10px 30px;
+                h4 {
+                    font-size: 20px;
+                }
                 .row {
                     .add {
                         .order-block {
@@ -436,4 +439,16 @@
 
 .cerise-manage-profile {
     padding: 1px 6px;
+}
+
+.cerise-address-item {
+    max-width: 80%;
+}
+@media screen and (max-width: 992px) {
+    .cerise-address-item {
+        max-width: 100%;
+    }
+    .cerise-loyalty .cerise-main .cerise-address-main .cerise-address-component{
+        padding: 20px 30px 60px 30px;
+    }
 }
