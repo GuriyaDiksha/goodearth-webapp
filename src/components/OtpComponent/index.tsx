@@ -670,7 +670,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   <div className={styles.contactNumber}>
                     <FormInput
                       name="phoneNo"
-                      value=""
+                      value={this.props.phoneNo ? this.props.phoneNo : ""}
                       inputRef={this.phoneInput}
                       placeholder={"Contact Number"}
                       type="number"

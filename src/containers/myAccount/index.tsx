@@ -9,8 +9,8 @@ import {
   useHistory
 } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
-import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
+import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import loyaltyStyles from "./components/CeriseClub/styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";

@@ -282,6 +282,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           toggleOtp={this.toggleOtp}
           otpFor="activateGC"
           email={isLoggedIn ? this.props.user.email : ""}
+          phoneNo={isLoggedIn ? this.props.user.phoneNumber : ""}
           // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
           // validateInputs={this.scrollToErrors}
           validateEmptyInputs={this.validateEmptyInputs}
