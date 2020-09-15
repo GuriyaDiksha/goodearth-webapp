@@ -234,6 +234,13 @@ const ProductDetails: React.FC<Props> = ({
     }
   };
 
+  const setSelectedSKU = () => {
+    let currentSKU = sku;
+    if (selectedSize) {
+      currentSKU = selectedSize.sku;
+    }
+    return currentSKU;
+  };
   const onEnquireClick = () => {
     updateComponentModal(
       <CorporateEnquiryPopup id={id} quantity={quantity} />,
@@ -305,6 +312,7 @@ const ProductDetails: React.FC<Props> = ({
 
     return show;
   }, [childAttributes]);
+
   return (
     <div className={bootstrap.row}>
       <div
@@ -629,7 +637,7 @@ const ProductDetails: React.FC<Props> = ({
           </div>
           {!isQuickview && (
             <div className={cs(styles.sku, globalStyles.voffset4)}>
-              Vref. {sku}
+              Vref. {setSelectedSKU()}
             </div>
           )}
         </div>
