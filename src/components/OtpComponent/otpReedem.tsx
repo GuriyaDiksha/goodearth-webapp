@@ -342,7 +342,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       loyaltyData: { detail },
       number
     } = this.props;
-    console.log(number);
+    // console.log(number);
     return (
       <Fragment>
         <div
