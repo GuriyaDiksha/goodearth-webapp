@@ -73,6 +73,7 @@ const InputField: React.FC<Props> = ({
               .toString(36)
               .substring(7)
           }
+          autoComplete="off"
           disabled={disabled}
           onFocus={onFocus}
           onBlur={onBlur}

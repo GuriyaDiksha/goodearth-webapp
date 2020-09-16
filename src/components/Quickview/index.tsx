@@ -136,7 +136,7 @@ class Quickview extends React.Component<Props, State> {
         mobile={mobile}
         wishlist={[]}
         isQuickview={true}
-        corporatePDP={false}
+        corporatePDP={this.props.corporatePDP ? true : false}
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
       />

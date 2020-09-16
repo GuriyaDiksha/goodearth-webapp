@@ -90,6 +90,28 @@
     }
 }
 
+.download-width {
+  width: 100%;
+}
+
+.subc-header-4 {
+  // margin: 55px 0 0 0;
+  padding: 10% 5%;
+  background-color: #e6e6e6;
+  h1{
+    font-size: 28px;
+    font-family: $font-Serif;
+    text-transform: capitalize;
+  }
+  p {
+      font-size: 12px;
+      font-family: $font-Lato;
+      // color: #666;
+      letter-spacing: 1px;
+  }
+}
+
+
 
 
 .npf-msg {
@@ -630,6 +652,13 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 .bannerMobileCategory {
   margin-top: 70px;
+}
+
+.catalog-font {
+  font-size: 12px;
+  font-family:  $font-Lato;
+  color: #666;
+  letter-spacing: 1px;
 }
 
 

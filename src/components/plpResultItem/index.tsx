@@ -22,7 +22,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     onClickQuickView,
     mobile,
     isVisible,
-    isCollection
+    isCollection,
+    isCorporate
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -114,27 +115,33 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         </div>
         {!mobile && (
           <div className={styles.combodiv}>
-            <div className={styles.imageHover}>
+            <div
+              className={
+                isCorporate ? styles.imageHoverCorporate : styles.imageHover
+              }
+            >
               <p onClick={onClickQuickview}>quickview</p>
             </div>
-            <div className={styles.imageHover}>
-              <div
-                className={cs(globalStyles.textCenter, {
-                  [styles.wishlistBtnContainer]: mobile
-                })}
-              >
-                <WishlistButton
-                  gtmListType="Search"
-                  title={product.title}
-                  childAttributes={product.childAttributes}
-                  priceRecords={product.priceRecords}
-                  categories={product.categories}
-                  id={product.id}
-                  showText={false}
-                  key={product.id}
-                />
+            {!isCorporate && (
+              <div className={styles.imageHover}>
+                <div
+                  className={cs(globalStyles.textCenter, {
+                    [styles.wishlistBtnContainer]: mobile
+                  })}
+                >
+                  <WishlistButton
+                    gtmListType="Search"
+                    title={product.title}
+                    childAttributes={product.childAttributes}
+                    priceRecords={product.priceRecords}
+                    categories={product.categories}
+                    id={product.id}
+                    showText={false}
+                    key={product.id}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>
