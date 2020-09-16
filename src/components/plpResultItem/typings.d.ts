@@ -8,5 +8,6 @@ export type PLPResultItemProps = {
   mobile: boolean;
   isVisible?: boolean;
   isCollection?: boolean;
+  isCorporate?: boolean;
   onClickQuickView?: (id: number) => void;
 };
