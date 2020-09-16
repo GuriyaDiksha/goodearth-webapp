@@ -23,13 +23,16 @@ const Section2: React.FC<Section2Props> = ({
   countryData,
   mobile,
   currency,
+  selectedCountry,
   next,
   goback,
   data
 }) => {
   const code = currencyCode[currency as Currency];
   const sku = "I00121125";
-  const [selectcurrency, setSelectcurrency] = useState("");
+  const [selectcurrency, setSelectcurrency] = useState(
+    countryData[selectedCountry]
+  );
   const [countrymsg, setCountrymsg] = useState("");
   const [selectvalue, setSelectvalue] = useState("");
   const [numhighlight, setNumhighlight] = useState(false);
@@ -38,6 +41,7 @@ const Section2: React.FC<Section2Props> = ({
   const [isCustom, setIsCustom] = useState(false);
   const dispatch = useDispatch();
   const RegisterFormRef = React.useRef<Formsy>(null);
+  const [country, setCountry] = useState(selectedCountry);
 
   useEffect(() => {
     if (currency == "INR") {
@@ -77,6 +81,7 @@ const Section2: React.FC<Section2Props> = ({
 
   const onCountrySelect = (e: any) => {
     const country = e.target.value;
+    setCountry(country);
     const newCurrency = countryData[country];
     if (currency != newCurrency) {
       dispatch(refreshPage(undefined));
@@ -144,6 +149,7 @@ const Section2: React.FC<Section2Props> = ({
       } else {
         data["productId"] = selectvalue;
         data["customPrice"] = value;
+        data["selectedCountry"] = country;
       }
     } else {
       if (selectvalue == "") {
@@ -157,6 +163,7 @@ const Section2: React.FC<Section2Props> = ({
         const value = element.getAttribute("data-value");
         data["customPrice"] = value;
         data["productId"] = selectvalue;
+        data["selectedCountry"] = country;
       }
     }
     next(data, "form");
@@ -225,6 +232,7 @@ const Section2: React.FC<Section2Props> = ({
                 <FormSelect
                   required
                   label=""
+                  value={selectedCountry}
                   options={list}
                   handleChange={onCountrySelect}
                   placeholder="Select Country"
