@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -34,6 +34,11 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
   //     setEhighlight(true);
   //   }
   // };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleSubmit = (
     model: any,
     resetForm: any,

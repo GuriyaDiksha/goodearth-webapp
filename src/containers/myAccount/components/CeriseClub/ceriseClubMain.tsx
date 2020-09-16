@@ -11,7 +11,10 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import AccountServices from "services/account";
+import AddressService from "services/address";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import AddressItem from "components/Address/AddressItem";
+import { updateAddressList } from "actions/address";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -29,6 +32,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         formData
       );
       return res;
+    },
+    fetchAddresList: () => {
+      AddressService.fetchAddressList(dispatch).then(addressList => {
+        dispatch(updateAddressList(addressList));
+      });
     }
   };
 };
@@ -84,10 +92,11 @@ class CeriseClubMain extends Component<Props, State> {
 
   componentDidMount() {
     this.getLoyaltyTransactions();
+    this.props.fetchAddresList();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.addressList && this.props.addressList.length > 0)
+    if (nextProps.addressList && nextProps.addressList.length > 0)
       this.setState({
         addressAvailable: true
       });
@@ -162,9 +171,9 @@ class CeriseClubMain extends Component<Props, State> {
       nextSlab =
         slab.toLowerCase() == "cerise" ? "Cerise Sitara" : "Cerise Sitara";
     }
-    // const buttonText = this.state.addressAvailable
-    //   ? "MANAGE ADDRESSES"
-    //   : "ADD ADDRESS";
+    const buttonText = this.state.addressAvailable
+      ? "MANAGE ADDRESSES"
+      : "ADD ADDRESS";
     const slabAmount =
       nextSlabAmount == 0
         ? "0"
@@ -344,20 +353,24 @@ class CeriseClubMain extends Component<Props, State> {
           <div className={styles.ceriseRewardsMain}>
             {this.state.slab && <RewardsComponent slab={this.state.slab} />}
           </div>
-          {/* <div className={styles.ceriseAddressMain}>
+          <div className={styles.ceriseAddressMain}>
             <div className={styles.ceriseAddressComponent}>
               <h4 className={globalStyles.cerise}>My Address</h4>
-              <AddressMain
-                isBridal={false}
-                next={() => null}
-                bridalId=""
-                addresses={this.props.addressList}
-                error=""
-                addressType=""
-                showDefaultAddressOnly={true}
-                currentCallBackComponent="cerise"
-
-              />
+              {this.state.addressAvailable && (
+                <div className={styles.ceriseAddressItem}>
+                  <AddressItem
+                    addressData={
+                      this.props.addressList.filter(
+                        address => address.isDefaultForShipping
+                      )[0]
+                    }
+                    index={0}
+                    currentCallBackComponent="cerise"
+                    isOnlyAddress={false}
+                    selectAddress={() => null}
+                  />
+                </div>
+              )}
             </div>
             {!this.state.addressAvailable && (
               <p className={cs(globalStyles.op2, styles.loyaltyInfoText)}>
@@ -373,7 +386,7 @@ class CeriseClubMain extends Component<Props, State> {
                 value={buttonText}
               />
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     );
