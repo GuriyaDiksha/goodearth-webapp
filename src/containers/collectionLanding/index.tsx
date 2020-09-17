@@ -59,9 +59,14 @@ class CollectionLanding extends React.Component<
   };
 
   onchangeFilter = (data: any): void => {
-    this.setState({
-      filterData: data
-    });
+    this.setState(
+      {
+        filterData: data
+      },
+      () => {
+        window.scrollTo(0, 0);
+      }
+    );
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
