@@ -80,6 +80,11 @@ class PLP extends React.Component<
   };
 
   componentDidMount() {
+    dataLayer.push({
+      event: "PlpView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_plp_view"
+    });
     this.setState({
       plpMaker: true
     });

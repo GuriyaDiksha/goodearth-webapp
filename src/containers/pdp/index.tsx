@@ -102,6 +102,11 @@ class PDPContainer extends React.Component<Props, State> {
     ) {
       this.getImageOffset();
     }
+    dataLayer.push({
+      event: "PdpView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_pdp_view"
+    });
     if (this.props.device.mobile) {
       this.getProductImagesData();
       const elem = document.getElementById("pincode-bar");

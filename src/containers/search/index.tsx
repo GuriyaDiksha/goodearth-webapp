@@ -110,6 +110,11 @@ class Search extends React.Component<
     this.setState({
       searchMaker: true
     });
+    dataLayer.push({
+      event: "SearchView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_search_view"
+    });
     this.props
       .fetchFeaturedContent()
       .then(data => {
