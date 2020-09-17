@@ -415,7 +415,7 @@ class FilterList extends React.Component<Props, State> {
     let currentRange: any = [];
     const {
       nextUrl,
-      mobile,
+      // mobile,
       listdata,
       currency,
       updateProduct,
@@ -431,7 +431,8 @@ class FilterList extends React.Component<Props, State> {
       this.setState({ flag: false });
       changeLoader?.(true);
       const filterUrl = "?" + nextUrl.split("?")[1];
-      const pageSize = mobile ? 10 : 20;
+      // const pageSize = mobile ? 10 : 20;
+      const pageSize = 20;
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           changeLoader?.(false);
@@ -502,7 +503,8 @@ class FilterList extends React.Component<Props, State> {
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
-    const pageSize = mobile ? 10 : 20;
+    // const pageSize = mobile ? 10 : 20;
+    const pageSize = 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
       valid.productImpression(plpList, "PLP", this.props.currency);
       changeLoader?.(false);
