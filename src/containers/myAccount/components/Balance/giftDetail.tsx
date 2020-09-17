@@ -16,12 +16,13 @@ const GiftCardItem = ({
   fullValue,
   remValues,
   conditionalRefresh,
-  showLocked,
-  showExpired,
+  status,
+  // showLocked,
+  // showExpired,
   code,
   onClose,
   viewOnly,
-  showInactive,
+  // showInactive,
   isLoggedIn
 }: GiftListProps): JSX.Element => {
   // const [showLocked, set = false;
@@ -38,14 +39,14 @@ const GiftCardItem = ({
   };
 
   if (currStatus == "Locked" && type == "CNI") {
-    showLocked = true;
+    // showLocked = true;
   } else if (currStatus == "Expired" && type == "CNI") {
-    showExpired = true;
+    // showExpired = true;
   }
 
   return (
     <div id="gc-balance-info">
-      {showExpired && (
+      {status == "expired" && (
         <div>
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             <p className={styles.value12}>
@@ -90,7 +91,7 @@ const GiftCardItem = ({
           </div>
         </div>
       )}
-      {showInactive && (
+      {status == "inactive" && (
         <div className="gc-inactive">
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             {!viewOnly && (
@@ -150,7 +151,7 @@ const GiftCardItem = ({
           </div>
         </div>
       )}
-      {showLocked && (
+      {status == "locked" && (
         <div className="gc-inactive">
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             {!viewOnly && (
@@ -196,66 +197,70 @@ const GiftCardItem = ({
           </div>
         </div>
       )}
-      {!showExpired && !showInactive && !showLocked && (
-        <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
-          {!viewOnly && (
-            <p className={styles.value12}>
-              {code}{" "}
+      {!status ||
+        (status == "active" && (
+          <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
+            {!viewOnly && (
+              <p className={styles.value12}>
+                {code}{" "}
+                <span
+                  className={styles.cross}
+                  onClick={() => {
+                    closeResult(code);
+                  }}
+                >
+                  <i
+                    className={cl(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig
+                    )}
+                  ></i>
+                </span>
+              </p>
+            )}
+            <p>
+              <span className={styles.op2}> Date of issue: </span>{" "}
+              <span className={styles.fontBold}> {createDate} </span>
+            </p>
+            <p>
+              <span className={styles.op2}> Date of expiry: </span>{" "}
+              <span className={styles.fontBold}> {expiryDate} </span>
+            </p>
+            <p>
+              <span className={styles.op2}> Total value: </span>{" "}
+              <span className={styles.fontBold}>
+                {" "}
+                {String.fromCharCode(unicode)} {fullValue}{" "}
+              </span>
+            </p>
+            <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
+              {" "}
+              Balance amount:{" "}
+              <span className={styles.fontBold}>
+                {" "}
+                {String.fromCharCode(unicode)} {remValues}{" "}
+              </span>
+            </p>
+            {conditionalRefresh && !isLoggedIn && (
               <span
-                className={styles.cross}
+                className={cl(styles.colorPrimary, globalStyles.pointer)}
                 onClick={() => {
                   closeResult(code);
                 }}
               >
-                <i
-                  className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
-                ></i>
+                <a
+                  className={cl(
+                    globalStyles.cerise,
+                    globalStyles.pointer,
+                    globalStyles.linkTextUnderline
+                  )}
+                >
+                  Refresh
+                </a>
               </span>
-            </p>
-          )}
-          <p>
-            <span className={styles.op2}> Date of issue: </span>{" "}
-            <span className={styles.fontBold}> {createDate} </span>
-          </p>
-          <p>
-            <span className={styles.op2}> Date of expiry: </span>{" "}
-            <span className={styles.fontBold}> {expiryDate} </span>
-          </p>
-          <p>
-            <span className={styles.op2}> Total value: </span>{" "}
-            <span className={styles.fontBold}>
-              {" "}
-              {String.fromCharCode(unicode)} {fullValue}{" "}
-            </span>
-          </p>
-          <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
-            {" "}
-            Balance amount:{" "}
-            <span className={styles.fontBold}>
-              {" "}
-              {String.fromCharCode(unicode)} {remValues}{" "}
-            </span>
-          </p>
-          {conditionalRefresh && !isLoggedIn && (
-            <span
-              className={cl(styles.colorPrimary, globalStyles.pointer)}
-              onClick={() => {
-                closeResult(code);
-              }}
-            >
-              <a
-                className={cl(
-                  globalStyles.cerise,
-                  globalStyles.pointer,
-                  globalStyles.linkTextUnderline
-                )}
-              >
-                Refresh
-              </a>
-            </span>
-          )}
-        </div>
-      )}
+            )}
+          </div>
+        ))}
     </div>
   );
 };

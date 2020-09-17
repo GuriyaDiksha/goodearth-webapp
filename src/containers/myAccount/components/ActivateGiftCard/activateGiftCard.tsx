@@ -302,9 +302,9 @@ class Giftcard extends React.Component<Props, GiftState> {
                 onClose={this.onClose}
                 key={i}
                 conditionalRefresh={this.state.conditionalRefresh}
-                showLocked={this.state.showLocked}
-                showExpired={this.state.showExpired}
-                showInactive={this.state.showInactive}
+                // showLocked={this.state.showLocked}
+                // showExpired={this.state.showExpired}
+                // showInactive={this.state.showInactive}
               />
             );
           })}
