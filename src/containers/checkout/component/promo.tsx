@@ -69,7 +69,7 @@ const PromoSection: React.FC<PromoProps> = props => {
   const partialSale = true;
 
   const isSale = info.isSale && !partialSale;
-
+  const cardCss = globalStyles.pointer + " " + globalStyles.cerise;
   return (
     <div
       className={
@@ -125,7 +125,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                   ? styles.notSelected
                   : isActive || !selectedAddress
                   ? globalStyles.hidden
-                  : globalStyles.cerise
+                  : cardCss
               )}
             >
               {isSale
