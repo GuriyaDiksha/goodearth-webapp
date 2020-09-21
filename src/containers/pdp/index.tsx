@@ -491,15 +491,11 @@ class PDPContainer extends React.Component<Props, State> {
               aspectRatio="62:93"
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
-              onClick={() => {
-                this.getMobileZoomListener(i);
-              }}
+              onClick={this.getMobileZoomListener(i)}
             />
             <div
               className={styles.mobileZoomIcon}
-              onClick={() => {
-                this.getMobileZoomListener(i);
-              }}
+              onClick={this.getMobileZoomListener(i)}
             >
               <img src={zoom}></img>
               Zoom
