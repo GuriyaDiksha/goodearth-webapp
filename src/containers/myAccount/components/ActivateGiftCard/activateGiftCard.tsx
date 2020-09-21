@@ -58,6 +58,9 @@ class Giftcard extends React.Component<Props, GiftState> {
         this.setState({
           error: "Please enter a valid code"
         });
+        this.ActivateGCForm.current?.updateInputsWithError({
+          giftCardCode: "Please enter a valid code"
+        });
       } else {
         giftList.push(response);
         this.setState({
@@ -143,6 +146,9 @@ class Giftcard extends React.Component<Props, GiftState> {
     if (message) {
       this.setState({
         error: message
+      });
+      this.ActivateGCForm.current?.updateInputsWithError({
+        giftCardCode: message
       });
     }
     const elem: any = document.getElementById("gift");
@@ -256,19 +262,6 @@ class Giftcard extends React.Component<Props, GiftState> {
                   </div>
                 </Fragment>
               )}
-              {/* {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )} */}
             </div>
           </Formsy>
         )}
