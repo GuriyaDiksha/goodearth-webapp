@@ -22,9 +22,9 @@ class Giftcard extends React.Component<Props, GiftState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      showInactive: false,
-      showLocked: false,
-      showExpired: false,
+      // showInactive: false,
+      // showLocked: false,
+      // showExpired: false,
       conditionalRefresh: false,
       txtvalue: "",
       error: "",
@@ -63,14 +63,15 @@ class Giftcard extends React.Component<Props, GiftState> {
       .then(response => {
         const { giftList } = this.state;
         if (response.currStatus == "Not Activated" && response.type == "GIFT") {
+          response.status = "inactive";
           giftList.push(response);
           this.setState({
             giftList: giftList,
             newCardBox: false,
             txtvalue: "",
-            showInactive: true,
-            showExpired: false,
-            showLocked: false,
+            // showInactive: true,
+            // showExpired: false,
+            // showLocked: false,
             conditionalRefresh: true,
             error: ""
           });
@@ -78,38 +79,41 @@ class Giftcard extends React.Component<Props, GiftState> {
           response.currStatus == "Expired" &&
           response.type == "GIFT"
         ) {
+          response.status = "expired";
           giftList.push(response);
           this.setState({
             newCardBox: false,
             conditionalRefresh: true,
             // chkbalance: data,
-            showExpired: true,
+            // showExpired: true,
             txtvalue: "",
-            showInactive: false,
-            showLocked: false,
+            // showInactive: false,
+            // showLocked: false,
             giftList: giftList,
             error: ""
             // inputBox: false
           });
         } else if (response.currStatus == "Locked" && response.type == "GIFT") {
+          response.status = "locked";
           giftList.push(response);
           this.setState({
             newCardBox: false,
             conditionalRefresh: true,
-            showLocked: true,
-            showExpired: false,
+            // showLocked: true,
+            // showExpired: false,
             txtvalue: "",
-            showInactive: false,
+            // showInactive: false,
             giftList: giftList,
             error: ""
           });
         } else {
+          response.status = "active";
           giftList.push(response);
           this.setState({
             giftList: giftList,
-            showExpired: false,
-            showInactive: false,
-            showLocked: false,
+            // showExpired: false,
+            // showInactive: false,
+            // showLocked: false,
             newCardBox: false,
             txtvalue: "",
             error: "",
@@ -141,49 +145,53 @@ class Giftcard extends React.Component<Props, GiftState> {
       response.currStatus == "Not Activated" &&
       response.type == "GIFT"
     ) {
+      response.status = "inactive";
       giftList.push(response);
       this.setState({
         giftList: giftList,
         newCardBox: false,
         txtvalue: "",
-        showInactive: true,
-        showExpired: false,
-        showLocked: false,
+        // showInactive: true,
+        // showExpired: false,
+        // showLocked: false,
         conditionalRefresh: true,
         error: ""
       });
     } else if (response.currStatus == "Expired" && response.type == "GIFT") {
+      response.status = "expired";
       giftList.push(response);
       this.setState({
         newCardBox: false,
         conditionalRefresh: true,
         // chkbalance: data,
-        showExpired: true,
-        showInactive: false,
-        showLocked: false,
+        // showExpired: true,
+        // showInactive: false,
+        // showLocked: false,
         giftList: giftList,
         txtvalue: "",
         error: ""
         // inputBox: false
       });
     } else if (response.currStatus == "Locked" && response.type == "GIFT") {
+      response.status = "locked";
       giftList.push(response);
       this.setState({
         newCardBox: false,
         conditionalRefresh: true,
-        showLocked: true,
-        showExpired: false,
+        // showLocked: true,
+        // showExpired: false,
         txtvalue: "",
-        showInactive: false,
+        // showInactive: false,
         giftList: giftList,
         error: ""
       });
     } else {
+      response.status = "active";
       giftList.push(response);
       this.setState({
-        showExpired: false,
-        showInactive: false,
-        showLocked: false,
+        // showExpired: false,
+        // showInactive: false,
+        // showLocked: false,
         giftList: giftList,
         newCardBox: false,
         txtvalue: "",
@@ -237,10 +245,10 @@ class Giftcard extends React.Component<Props, GiftState> {
               <GiftCardItem
                 isLoggedIn={isLoggedIn}
                 {...data}
-                showExpired={this.state.showExpired}
-                showLocked={this.state.showLocked}
+                // showExpired={this.state.showExpired}
+                // showLocked={this.state.showLocked}
                 conditionalRefresh={this.state.conditionalRefresh}
-                showInactive={this.state.showInactive}
+                // showInactive={this.state.showInactive}
                 onClose={this.onClose}
                 key={i}
               />
