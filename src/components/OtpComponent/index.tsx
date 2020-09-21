@@ -329,9 +329,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         const { status, currStatus, message } = error.response.data;
         if (!status) {
           if (currStatus == "Invalid-CN") {
-            this.props.updateError(message);
+            let errorMessage = "Please enter a valid code";
+            if (message) {
+              errorMessage = message;
+            }
+            this.props.updateError(errorMessage);
           }
-          if (currStatus == "Active") {
+          if (currStatus == "Active" || currStatus == "Expired") {
             this.props.updateError(message);
           }
         }
