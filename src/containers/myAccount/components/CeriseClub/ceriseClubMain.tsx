@@ -182,6 +182,9 @@ class CeriseClubMain extends Component<Props, State> {
         : nextSlabAmount == 0 || this.state.nextSlabAmount == null
         ? "0"
         : "Loading...";
+    const defaultAddressList = this.props.addressList.filter(
+      address => address.isDefaultForShipping
+    );
     return (
       <div className={cs(styles.ceriseClubMain, bootstrapStyles.col12)}>
         <div className={styles.ceriseMain}>
@@ -356,14 +359,10 @@ class CeriseClubMain extends Component<Props, State> {
           <div className={styles.ceriseAddressMain}>
             <div className={styles.ceriseAddressComponent}>
               <h4 className={globalStyles.cerise}>My Address</h4>
-              {this.state.addressAvailable && (
+              {this.state.addressAvailable && defaultAddressList.length > 0 && (
                 <div className={styles.ceriseAddressItem}>
                   <AddressItem
-                    addressData={
-                      this.props.addressList.filter(
-                        address => address.isDefaultForShipping
-                      )[0]
-                    }
+                    addressData={defaultAddressList[0]}
                     index={0}
                     currentCallBackComponent="cerise"
                     isOnlyAddress={false}
@@ -372,7 +371,8 @@ class CeriseClubMain extends Component<Props, State> {
                 </div>
               )}
             </div>
-            {!this.state.addressAvailable && (
+            {(!this.state.addressAvailable ||
+              defaultAddressList.length == 0) && (
               <p className={cs(globalStyles.op2, styles.loyaltyInfoText)}>
                 Add a default mailing address for us to send you Cerise related
                 communication.
