@@ -335,7 +335,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             }
             this.props.updateError(errorMessage);
           }
-          if (currStatus == "Active") {
+          if (currStatus == "Active" || currStatus == "Expired") {
             this.props.updateError(message);
           }
         }
