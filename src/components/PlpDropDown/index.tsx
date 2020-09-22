@@ -45,8 +45,10 @@ const PlpDropdownMenu = ({
   }, [showCaret]);
 
   const onIClickSelected = (data: any) => {
-    setDisplayValue(data.label);
+    setDisplayValue(data.value);
     setOpenState(false);
+    setShowmobileSort(false);
+    setShowmobileFilterList(false);
     onChange(data.value);
   };
   return (
@@ -110,13 +112,13 @@ const PlpDropdownMenu = ({
                 {list.map((data: any) => {
                   return (
                     <li
-                      value={data}
+                      value={data.value}
                       onClick={() => {
                         onIClickSelected(data);
                       }}
                       key={data.name}
                       className={cs({
-                        [globalStyles.cerise]: displayValue == data.label
+                        [globalStyles.cerise]: displayValue == data.value
                       })}
                     >
                       {data.label}

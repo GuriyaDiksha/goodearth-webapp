@@ -58,9 +58,37 @@ class Quickview extends React.Component<Props, State> {
     fetchProductsDetails(0);
   };
 
+  gtmPushOpenQuickview = () => {
+    const index = this.props.data.categories.length - 1;
+    let category = this.props.data.categories[index].replace(/\s/g, "");
+    category = category.replace(/>/g, "/");
+    const productList = this.props.data.childAttributes.map(item => {
+      return {
+        name: this.props.data.title,
+        id: item.sku,
+        price: item.priceRecords[this.props.currency],
+        brand: "Goodearth",
+        category: category,
+        variant: item.color
+      };
+    });
+    dataLayer.push({
+      event: "productImpression",
+      ecommerce: {
+        currencyCode: this.props.currency,
+        detail: {
+          actionField: { list: "Quickview" },
+          products: productList
+        }
+      }
+    });
+  };
+
   componentDidMount() {
     const { fetchProductsDetails, id } = this.props;
-    fetchProductsDetails(id);
+    fetchProductsDetails(id).then(() => {
+      this.gtmPushOpenQuickview();
+    });
   }
 
   getProductImagesData = () => {
@@ -102,12 +130,13 @@ class Quickview extends React.Component<Props, State> {
 
     return (
       <ProductDetails
+        key={data.sku}
         data={data}
         currency={currency}
         mobile={mobile}
         wishlist={[]}
         isQuickview={true}
-        corporatePDP={false}
+        corporatePDP={this.props.corporatePDP ? true : false}
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
       />

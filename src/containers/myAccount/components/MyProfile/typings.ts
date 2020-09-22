@@ -38,7 +38,6 @@ export type State = {
   phonecodeError: string;
   highlightCode: boolean;
   numHighlight: boolean;
-  genderOptions: { value: string; label: string }[];
   phoneNumber: string;
   minDate: string;
   maxDate: string;

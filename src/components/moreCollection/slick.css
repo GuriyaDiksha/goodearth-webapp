@@ -67,7 +67,7 @@
 /* more collection specific*/
 
 .more-collection .slick-arrow {
-  top: 34%;
+  top: 40%;
 }
 
 .pdp-slider .slick-arrow.slick-prev:before, .pdp-slider .slick-arrow.slick-next:before {
@@ -85,9 +85,7 @@
   padding-top: 5px;
 }
 
-.more-collection img {
-  padding: 0 3px;
-}
+
 .more-collection .icon-wishlist {
   position: absolute;
   top: 10px;

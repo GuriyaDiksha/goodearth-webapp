@@ -1,6 +1,12 @@
+@import "../../../styles/partials/variables";
+
 .social-login-text {
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
+}
+
+.social-login {
+  cursor: pointer;
 }

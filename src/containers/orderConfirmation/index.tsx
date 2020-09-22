@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
@@ -11,19 +11,16 @@ import birdImage from "images/birdMotif.png";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
-// import media from "images/serai.png"
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
-    device: { mobile },
-    currency,
     user: { email }
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
-  // const [confirmData, setConfirmData] = useState<any>({});
   const dispatch = useDispatch();
 
   const fetchData = async () => {
+    // debugger
     const data: any = await AccountServices.fetchOrderBy(
       dispatch,
       props.oid,
@@ -32,12 +29,52 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     return data;
   };
 
-  console.log(mobile, props, confirmData);
+  const gtmPushOrderConfirmation = (result: any) => {
+    const formData = {
+      OrderNumber: result.number,
+      email: email,
+      gaPush: true
+    };
+
+    const products = result.lines.map((line: any) => {
+      return {
+        name: line.title,
+        id: line.product.sku,
+        price: line.priceInclTax,
+        brand: "Good Earth",
+        category: line.product.collection,
+        variant: null,
+        quantity: line.quantity,
+        coupon: result.offerDisounts?.[0].name
+      };
+    });
+    if (result.pushToGA == false) {
+      dataLayer.push({
+        event: "purchase",
+        ecommerce: {
+          currencyCode: result.currency,
+          purchase: {
+            actionField: {
+              id: result.number,
+              affiliation: "Online Store",
+              revenue: result.totalInclTax,
+              tax: 0,
+              shipping: result.shippingInclTax,
+              coupon: result.offerDiscounts?.[0]?.name
+            },
+            products: products
+          }
+        }
+      });
+      AccountServices.setGaStatus(dispatch, formData);
+    }
+  };
   useEffect(() => {
     fetchData().then(response => {
       setConfirmData(response.results?.[0]);
+      gtmPushOrderConfirmation(response.results?.[0]);
     });
-  }, [confirmData.number]);
+  }, []);
 
   let totalItem = 0;
   for (let i = 0; i < confirmData.lines?.length; i++) {
@@ -114,7 +151,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       )}
                     >
                       <p>
-                        {moment(confirmData.datePlaced).format("D MMM,YYYY")}
+                        {moment(confirmData.datePlaced).format("MMM D, YYYY")}
                       </p>
 
                       <p>
@@ -134,9 +171,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
                       <p>
                         {String.fromCharCode(
-                          currencyCode[currency as Currency]
+                          currencyCode[confirmData.currency as Currency]
                         )}
-                        &nbsp;{confirmData.totalInclTax}
+                        &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -209,6 +246,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     </div>
                   </div>
                   {confirmData.lines?.map((item: any) => {
+                    // according bakwas by gaurav
+                    const isdisCount =
+                      +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
                     return (
                       <div
                         className={cs(
@@ -243,23 +283,68 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                           >
                             <p className={cs(styles.productH)}></p>
                             <p className={cs(styles.productN)}>{item.title}</p>
-                            <p className={cs(styles.productN)}>
-                              {String.fromCharCode(
-                                currencyCode[item.priceCurrency as Currency]
-                              )}
-                              &nbsp; {item.priceInclTax}
-                            </p>
-                            <div
-                              className={cs(
-                                styles.smallSize,
-                                globalStyles.voffset2
-                              )}
+                            <p
+                              className={cs(styles.productN, globalStyles.flex)}
                             >
-                              Size:&nbsp; {item.product.size}
-                            </div>
-                            <div className={styles.smallSize}>
-                              Qty:&nbsp; {item.quantity}
-                            </div>
+                              {isdisCount ? (
+                                <span className={styles.discountprice}>
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  {+parseFloat(item.priceInclTax).toFixed(2) /
+                                    +item.quantity}
+                                  &nbsp;{" "}
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                              {isdisCount ? (
+                                <span className={styles.strikeprice}>
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  {+parseFloat(
+                                    item.priceExclTaxExclDiscounts
+                                  ).toFixed(2) / +item.quantity}
+                                  &nbsp;{" "}
+                                </span>
+                              ) : (
+                                <span
+                                  className={
+                                    item.product.badgeType == "B_flat"
+                                      ? globalStyles.cerise
+                                      : ""
+                                  }
+                                >
+                                  {String.fromCharCode(
+                                    currencyCode[item.priceCurrency as Currency]
+                                  )}
+                                  &nbsp;{" "}
+                                  {+parseFloat(
+                                    item.priceExclTaxExclDiscounts
+                                  ).toFixed(2) / +item.quantity}
+                                </span>
+                              )}
+                            </p>
+                            {item.product?.structure == "GiftCard" ? (
+                              ""
+                            ) : (
+                              <Fragment>
+                                <div
+                                  className={cs(
+                                    styles.smallSize,
+                                    globalStyles.voffset2
+                                  )}
+                                >
+                                  {item.product.size && (
+                                    <>Size:&nbsp; {item.product.size}</>
+                                  )}
+                                </div>
+                                <div className={styles.smallSize}>
+                                  Qty:&nbsp; {item.quantity}
+                                </div>
+                              </Fragment>
+                            )}
                           </div>
                         </div>
                       </div>

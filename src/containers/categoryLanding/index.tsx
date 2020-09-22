@@ -5,21 +5,25 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import MakerEnhance from "maker-enhance";
-import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
+import "../../styles/myslick.css";
+import styles from "./styles.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import bannermotive from "../../images/banner-motif.png";
 import bannerborder from "../../images/banner2-border.jpg";
 import closeShopthelook from "../../images/close-Shopthelook.svg";
 import Shopthelook from "../../images/Shopthelook.svg";
 import bird from "../../images/bird-motif.png";
+import WhatPeopleBuying from "components/PeopleBuying";
+// import Instagram from "components/Instagram"
 import "./slick.css";
 
 // import { Settings } from "react-slick";
 // import CollectionImage from "components/collectionItem";
 // import { CollectionItem } from "components/collectionItem/typings";
 // import MobileDropdownMenu from "components/MobileDropdown";
-import Slider from "react-slick";
+import Slider, { Settings } from "react-slick";
+import LazyImage from "components/LazyImage";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -47,39 +51,35 @@ class CategoryLanding extends React.Component<
     showbottom: false,
     isSale: false
   };
+  componentDidMount() {
+    dataLayer.push({
+      event: "CategoryLandingView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_categoryLanding_view"
+    });
+    this.setState({
+      catLanding: true
+    });
+  }
 
-  getInstagram = () => {
-    // let settings = {
-    //     infinite: true,
-    //     speed: 500,
-    //     slidesToShow: 10,
-    //     slidesToScroll: 1,
-    //     initialSlide: 0,
-    //     autoplay: true,
-    //     autoplayspeed: 3000,
-    //     arrows: false,
-    //     responsive: [{
-    //         breakpoint: 768,
-    //         settings: {
-    //             slidesToShow: 2,
-    //             centerMode: true,
-    //             className: 'center'
-    //         }
-    //     }]
-    // };
-    // if (this.props.instData.length > 0) {
-    //     return <div className="no-arrows ">
-    //         <Slider {...settings}>
-    //             {this.state.instData.map(data => {
-    //                 return <div>
-    //                     <Link to={data.link} target="_blank"> <img src={data.images.thumbnail.url}
-    //                                                               className="img-responsive"/> </Link>
-    //                 </div>
-    //             })
-    //             }</Slider>
-    //     </div>
-    // }
-  };
+  UNSAFE_componentWillReceiveProps(newprops: any) {
+    if (this.props.location.pathname != newprops.pathname) {
+      this.setState({
+        catLanding: false
+      });
+    }
+  }
+
+  componentDidUpdate(previous: any, nextprops: any) {
+    if (
+      this.props.location.pathname != previous.pathname &&
+      !this.state.catLanding
+    ) {
+      this.setState({
+        catLanding: true
+      });
+    }
+  }
 
   createTopliving() {
     const html = [],
@@ -97,7 +97,8 @@ class CategoryLanding extends React.Component<
             breakpoint: 768,
             settings: {
               centerMode: true,
-              centerPadding: "30px"
+              centerPadding: "30px",
+              arrows: false
             }
           }
         ]
@@ -316,23 +317,54 @@ class CategoryLanding extends React.Component<
   }
 
   render() {
-    const { catLanding, isSale, show, showbottom } = this.state;
+    const { catLanding, show, showbottom } = this.state;
     const {
       shopthelook1,
       shopthelook2,
       editSection,
+      peoplebuying,
       device: { mobile }
     } = this.props;
+
+    // if (!peoplebuying.length) {
+    //   return null;
+    // } var settings = {
+
+    const config: Settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      arrows: true,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            centerMode: true,
+            centerPadding: "60px",
+            arrows: false
+          }
+        }
+      ]
+    };
     return (
-      <div className="category-landing">
-        {catLanding ? (
+      <div className={cs("category-landing", styles.pageBody)}>
+        {catLanding && (
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
-              <MakerEnhance user="goodearth" />
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+              />
             </div>
           </div>
-        ) : (
-          ""
         )}
         {shopthelook1.widgetImages ? (
           shopthelook1.widgetImages.length > 0 ? (
@@ -389,10 +421,10 @@ class CategoryLanding extends React.Component<
         ) : (
           ""
         )}
-        {isSale ? (
+        {/*  {isSale ? (
           ""
         ) : (
-          <section>
+         <section>
             <div className={cs(bootstrap.row, styles.heroBannerHome)}>
               <div
                 className={cs(
@@ -401,19 +433,30 @@ class CategoryLanding extends React.Component<
                   styles.newArrivals
                 )}
               >
-                {/* <NewArrivals /> */}
+               <NewArrivals /> 
               </div>
             </div>
           </section>
-        )}
-
-        <section>
-          <div className={cs(styles.catVideosBlock, "featured-section")}>
-            <div className={styles.textCenter}>{this.createTopliving()}</div>
+        )}  */}
+        {catLanding && (
+          <div className={cs(bootstrap.row, styles.firstBlock)}>
+            <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
+              <MakerEnhance
+                user="goodearth"
+                index="2"
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+              />
+            </div>
           </div>
-        </section>
-
-        {mobile ? (
+        )}
+        {this.props.topliving.widgetImages && (
+          <section>
+            <div className={cs(styles.catVideosBlock, "featured-section")}>
+              <div className={styles.textCenter}>{this.createTopliving()}</div>
+            </div>
+          </section>
+        )}
+        {editSection.widgetImages && mobile && (
           <section className={cs(styles.catThirdBlock, styles.textCenter)}>
             <div className={globalStyles.gutter0}>
               <h2 className={styles.headLink}>{editSection.name}</h2>
@@ -432,7 +475,7 @@ class CategoryLanding extends React.Component<
                                 className={cs(bootstrap.row, styles.promoDisp)}
                               >
                                 <Link to={data.ctaUrl}>
-                                  <img
+                                  <LazyImage
                                     src={data.image}
                                     alt={data.alt}
                                     className={globalStyles.imgResponsive}
@@ -507,7 +550,8 @@ class CategoryLanding extends React.Component<
               </div>
             </div>
           </section>
-        ) : (
+        )}
+        {editSection.widgetImages && !mobile && (
           <section
             className={cs(
               styles.catThirdBlock,
@@ -529,19 +573,24 @@ class CategoryLanding extends React.Component<
           </section>
         )}
 
-        <section>
-          <div className={cs(bootstrap.row, styles.recommendBg, styles.fBlock)}>
-            <div
-              className={cs(
-                bootstrap.colMd10,
-                bootstrap.offset1,
-                globalStyles.textCenter
+        {peoplebuying && (
+          <section>
+            {peoplebuying.results?.length >= 4 &&
+              typeof document !== "undefined" && (
+                <div className={cs(bootstrap.row, styles.fBlock)}>
+                  <div
+                    className={cs(bootstrap.colMd12, globalStyles.textCenter)}
+                  >
+                    <WhatPeopleBuying
+                      data={peoplebuying.results}
+                      setting={config}
+                      mobile={mobile}
+                    />
+                  </div>
+                </div>
               )}
-            >
-              {/* <WhatPeopleBuying recommended={peoplebuying}/> */}
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
         {shopthelook2.widgetImages ? (
           shopthelook2.widgetImages.length > 0 ? (
             <section>
@@ -598,22 +647,25 @@ class CategoryLanding extends React.Component<
         )}
         <section>
           <div id="inst" className={styles.instafeed1}>
+            {/* <Instagram/> */}
             {/* {this.getInstagram()} */}
           </div>
           <div className={cs(styles.iconInsta, globalStyles.textCenter)}>
-            <Link
-              to="http://www.instagram.com/goodearthindia"
+            <a
+              href="http://www.instagram.com/goodearthindia"
               target="_blank"
+              rel="noopener noreferrer"
               className="icon icon_footer-instagram"
-            ></Link>
+            ></a>
             <br />
-            <Link
-              to="http://www.instagram.com/goodearthindia"
+            <a
+              href="http://www.instagram.com/goodearthindia"
               target="_blank"
+              rel="noopener noreferrer"
               className={styles.iconInsta}
             >
               @goodearthindia
-            </Link>
+            </a>
           </div>
         </section>
       </div>

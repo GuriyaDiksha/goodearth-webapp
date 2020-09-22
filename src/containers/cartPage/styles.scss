@@ -2,7 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .page-body {
-  margin-top: $header-height;
+  margin-top: $header-checkout;
   margin-left: auto;
   margin-right: auto;
 }
@@ -13,7 +13,7 @@ hr {
     border-top: 1px solid #eeeeee;
     box-sizing: content-box;
     height: 0;
-}
+} 
 .cart {
   img {
     max-width: 100%;
@@ -23,10 +23,18 @@ hr {
   }
   .product-name {
     @include plp_prod_name_desktop();
+    a {
+      color: #000;
+      &:hover {
+        color: $cerise;
+      }
+    }
+
   }
   .product-price {
     margin-top: 10px;
-    font-family: $font-Amiri;
+    font-family: $font-Lato;
+    font-size: 14px;
   }
   .size {
     color: tint(#000, 20%);
@@ -60,7 +68,7 @@ hr {
     line-height: 12px;
 
 
-    input {
+    .input {
       padding: 3px 12px;
       -webkit-box-flex: 1;
       -ms-flex-positive: 1;
@@ -281,6 +289,9 @@ padding-left: 15px;
   }
 }
 
+.remove:hover {
+  color: $cerise;
+}
 .bag.active {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -308,6 +319,9 @@ padding-left: 15px;
 .bag-contents {
   padding: 25px 5px;
 }
+.section {
+  padding: 0 0 20px 0;
+}
 }
 
 .crossfont-size{
@@ -316,6 +330,7 @@ font-size: 14px;
 
 .crossicon-Item{
 font-size: 12px;
+font-weight: bold;
 }
 
 .wishlist-display {
@@ -332,4 +347,40 @@ display: inline-table;
   padding: 30px;
 }
 
+}
+
+.empty-msg {
+  font-size: 20px;
+  font-style: italic;
+  color: tint(#000, 70%);
+  letter-spacing: 1px;
+}
+.product-size {
+  font-size: 14px;
+  font-family: $font-Lato;
+}
+.crossicon-item {
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.trigger-notify {
+  font-size: 14px;
+  color: #808080;
+  cursor: pointer;
+  text-align: center;
+}
+
+.discountprice {
+  color: #ab1e56;
+  font-family:  $font-Lato;
+  font-size: 16px;
+}
+
+.strikeprice {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: gray;
+  font-family: $font-Lato;
 }

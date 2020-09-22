@@ -5,11 +5,12 @@ import React, {
   useMemo,
   EventHandler,
   MouseEvent,
-  useEffect
+  useEffect,
+  useLayoutEffect
 } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
-import { useStore } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 // components
 import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
@@ -37,9 +38,8 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
-import { useLocation } from "react-router";
-
-const saleStatus = true;
+import { useLocation, useHistory } from "react-router";
+import { AppState } from "reducers/typings";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -60,7 +60,12 @@ const ProductDetails: React.FC<Props> = ({
     compAndCare,
     sku,
     url,
-    groupedProducts
+    gaVariant,
+    groupedProducts,
+    salesBadgeImage,
+    fillerMessage,
+    justAddedBadge,
+    badgeType
   },
   corporatePDP,
   mobile,
@@ -70,34 +75,63 @@ const ProductDetails: React.FC<Props> = ({
   updateComponentModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
-
-  const [img] = images;
+  const { info } = useSelector((state: AppState) => state);
+  // const [img] = images;
 
   const location = useLocation();
-
+  const history = useHistory();
+  const [gtmListType, setGtmListType] = useState("");
   const [
     selectedSize,
     setSelectedSize
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
+
+  useLayoutEffect(() => {
+    setGtmListType(localStorage?.getItem("list") || "");
+  });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
       setSelectedSize(childAttributes[0]);
     }
   }, [childAttributes, selectedSize]);
 
+  useEffect(() => {
+    if (priceRecords[currency] == 0) {
+      history.push("/error-page", {});
+    }
+  }, [currency, priceRecords[currency]]);
+
   const { dispatch } = useStore();
   const price =
     selectedSize && selectedSize.priceRecords
       ? selectedSize.priceRecords[currency]
       : priceRecords[currency];
+  const discountPrices =
+    selectedSize && selectedSize.discountedPriceRecords
+      ? selectedSize.discountedPriceRecords[currency]
+      : discountedPriceRecords[currency];
 
   const [sizeError, setSizeError] = useState("");
+  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
+
+  const showError = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        "show-error"
+      )[0] as HTMLDivElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
+  };
 
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      setQuantity(1);
       setSizeError("");
     },
     [id, childAttributes, selectedSize]
@@ -105,8 +139,6 @@ const ProductDetails: React.FC<Props> = ({
 
   const minQuantity = 1;
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
-
-  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
 
   const onQuantityChange = useCallback(
     value => {
@@ -141,7 +173,7 @@ const ProductDetails: React.FC<Props> = ({
       />
     );
     changeModalState(true);
-  }, [height, width]);
+  }, [height, width, currency]);
 
   const accordionSections = useMemo(() => {
     return [
@@ -163,15 +195,52 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
-  const addToBasket = async () => {
+  const gtmPushAddToBag = () => {
+    dataLayer.push({
+      event: "addToCart",
+      ecommerce: {
+        currencyCode: currency,
+        add: {
+          products: [
+            {
+              name: title,
+              id: childAttributes[0].sku,
+              price: priceRecords[currency],
+              brand: "Goodearth",
+              category: collection,
+              variant: gaVariant,
+              quantity: quantity,
+              list: localStorage.getItem("list")
+            }
+          ]
+        }
+      }
+    });
+  };
+
+  const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
+      showError();
     } else {
-      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+      BasketService.addToBasket(dispatch, selectedSize.id, quantity)
+        .then(() => {
+          dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+          gtmPushAddToBag();
+        })
+        .catch(err => {
+          dispatch(showMessage(err.response.data));
+        });
     }
   };
 
+  const setSelectedSKU = () => {
+    let currentSKU = sku;
+    if (selectedSize) {
+      currentSKU = selectedSize.sku;
+    }
+    return currentSKU;
+  };
   const onEnquireClick = () => {
     updateComponentModal(
       <CorporateEnquiryPopup id={id} quantity={quantity} />,
@@ -182,7 +251,7 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const notifyMeClick = () => {
-    let selectedIndex = 0;
+    let selectedIndex = undefined;
 
     childAttributes.map((v, i) => {
       if (v.id === selectedSize?.id) {
@@ -194,10 +263,13 @@ const ProductDetails: React.FC<Props> = ({
       <NotifyMePopup
         collection={collection}
         price={priceRecords[currency]}
-        currency={String.fromCharCode(currencyCodes[currency])}
+        currency={currency}
         childAttributes={childAttributes}
         title={title}
         selectedIndex={selectedIndex}
+        discount={discount}
+        badgeType={badgeType}
+        isSale={info.isSale}
       />,
       false,
       ModalStyles.bottomAlign
@@ -205,12 +277,19 @@ const ProductDetails: React.FC<Props> = ({
     changeModalState(true);
   };
 
+  let allOutOfStock = true;
+  childAttributes.forEach(({ stock }) => {
+    if (stock > 0) {
+      allOutOfStock = false;
+    }
+  });
+
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
-    } else if (selectedSize && selectedSize.stock == 0) {
+    } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = notifyMeClick;
     } else {
@@ -245,16 +324,10 @@ const ProductDetails: React.FC<Props> = ({
         )}
       >
         <div className={cs(bootstrap.row)}>
-          {img ? (
-            img.badgeImagePDP ? (
-              <div className={bootstrap.col12}>
-                <img src={img.badgeImagePDP} width="100" />
-              </div>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
+          {images && (
+            <div className={bootstrap.col12}>
+              <img src={images[0]?.badgeImagePdp} width="100" />
+            </div>
           )}
 
           {mobile && (
@@ -267,7 +340,13 @@ const ProductDetails: React.FC<Props> = ({
               />
             </div>
           )}
-          <div className={cs(bootstrap.col12, styles.collectionHeader)}>
+          <div
+            className={cs(
+              bootstrap.col12,
+              styles.collectionHeader,
+              globalStyles.voffset3
+            )}
+          >
             {collection && (
               <Link to={collectionUrl || "#"}> {collection} </Link>
             )}
@@ -284,24 +363,26 @@ const ProductDetails: React.FC<Props> = ({
               { [globalStyles.textCenter]: !mobile }
             )}
           >
-            {saleStatus && discount && discountedPriceRecords ? (
+            {info.isSale && discount && discountedPriceRecords ? (
               <span className={styles.discountedPrice}>
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
-                {discountedPriceRecords[currency]}
+                {discountPrices}
                 <br />
               </span>
             ) : (
               ""
             )}
-            {saleStatus && discount ? (
+            {info.isSale && discount ? (
               <span className={styles.oldPrice}>
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
                 {price}
               </span>
             ) : (
-              <span>
+              <span
+                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
                 {" "}
                 {String.fromCharCode(currencyCodes[currency])}
                 &nbsp;
@@ -361,7 +442,9 @@ const ProductDetails: React.FC<Props> = ({
                     onChange={onSizeSelect}
                     selected={selectedSize ? selectedSize.id : undefined}
                   />
-                  <span className={styles.sizeErrorMessage}>{sizeError}</span>
+                  <span className={cs(styles.sizeErrorMessage, "show-error")}>
+                    {sizeError}
+                  </span>
                 </div>
               </div>
             </div>
@@ -406,11 +489,19 @@ const ProductDetails: React.FC<Props> = ({
               >
                 Quantity
               </div>
-              <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colSm9,
+                  styles.widgetQty
+                )}
+              >
                 <Quantity
-                  id={selectedSize ? selectedSize.id : undefined}
-                  minValue={minQuantity}
-                  maxValue={maxQuantity}
+                  source="pdp"
+                  key={selectedSize?.sku}
+                  id={selectedSize?.id || 0}
+                  minValue={corporatePDP ? 10 : minQuantity}
+                  maxValue={corporatePDP ? 1000 : maxQuantity}
                   currentValue={quantity}
                   onChange={onQuantityChange}
                   errorMsg={selectedSize ? "Available qty in stock is" : ""}
@@ -435,6 +526,19 @@ const ProductDetails: React.FC<Props> = ({
             <p className={styles.label}>add to registry</p>
           </div> */}
         </div>
+        {info.isSale && fillerMessage ? (
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd10,
+              globalStyles.voffset3,
+              styles.errorMsg
+            )}
+            dangerouslySetInnerHTML={{ __html: fillerMessage || "" }}
+          ></div>
+        ) : (
+          ""
+        )}
         <div
           className={cs(
             bootstrap.row,
@@ -446,7 +550,7 @@ const ProductDetails: React.FC<Props> = ({
           )}
         >
           <div
-            className={cs(globalStyles.textCenter, {
+            className={cs(globalStyles.textCenter, globalStyles.voffset1, {
               [bootstrap.col9]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
               [bootstrap.colSm8]: !mobile,
@@ -469,19 +573,21 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
           <div
-            className={cs(
-              bootstrap.colSm4,
-              bootstrap.col3,
-              globalStyles.textCenter,
-              {
-                [styles.wishlistBtnContainer]: mobile,
-                [globalStyles.hidden]: corporatePDP
-              }
-            )}
+            className={cs(bootstrap.col3, globalStyles.textCenter, {
+              [styles.wishlistBtnContainer]: mobile,
+              [globalStyles.voffset1]: mobile,
+              [globalStyles.hidden]: corporatePDP
+            })}
           >
             <WishlistButton
+              gtmListType={gtmListType}
+              title={title}
+              childAttributes={childAttributes}
+              priceRecords={priceRecords}
+              categories={categories}
               id={id}
               showText={!mobile}
+              size={selectedSize ? selectedSize.size : undefined}
               iconClassName={cs({
                 [styles.mobileWishlistIcon]: mobile
               })}
@@ -531,7 +637,7 @@ const ProductDetails: React.FC<Props> = ({
           </div>
           {!isQuickview && (
             <div className={cs(styles.sku, globalStyles.voffset4)}>
-              Vref. {sku}
+              Vref. {setSelectedSKU()}
             </div>
           )}
         </div>

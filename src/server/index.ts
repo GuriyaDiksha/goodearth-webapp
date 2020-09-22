@@ -11,6 +11,7 @@ import cookies from "./middleware/cookies";
 import device from "./middleware/device";
 import initAction from "./middleware/initAction";
 import viewHandler from "./middleware/viewHandler";
+import errorHandler from "./middleware/errorHandler";
 
 const cwd = process.cwd();
 
@@ -34,7 +35,7 @@ const pug = new Pug({
 });
 
 pug.use(app);
-
+app.use(errorHandler);
 app.use(history);
 app.use(reduxStore);
 app.use(cookies);

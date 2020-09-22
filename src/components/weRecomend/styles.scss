@@ -3,7 +3,7 @@
 
 .recommend-header {
     font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     color: #333;
     line-height: 60px;
     text-transform: capitalize;
@@ -21,12 +21,24 @@
     text-align: center;
     min-height: 120px;
 }
+
+.sale-banner {
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    left: 6px;
+    img {
+        width: 100%;
+    }
+}
+
 .product-h {
     font-size: 12px;
     text-transform: uppercase;
     color: #999;
     letter-spacing: 2px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     line-height: 30px;
     width: 100%;
     white-space: nowrap;
@@ -35,9 +47,11 @@
     height: 30px;
     padding-top: 5px;
 }
+
+
 .product-n {
-    font-size: 16px;
-    font-family: "AmiriFont", "Baskerville", "Garamond";
+    font-size: 14px;
+    font-family: $font-Lato;
     color: #000;
     text-transform: capitalize;
     width: 100%;
@@ -45,13 +59,26 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 16px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-size: 14px;
+        font-family: $font-Lato;
         color: #000;
         text-transform: capitalize;
     }
     a:hover{
         color: #ab1e56;
+    }
+    
+    .discountprice {
+        color: #ab1e56;
+        font-family:  $font-Lato;
+        font-size: 16px;
+    }
+    
+    .strikeprice {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: gray;
+        font-family: $font-Lato;
     }
 }
 .img-responsive{
@@ -61,6 +88,6 @@
     width: 100%;
     min-width: 100%;
 }
-.slider-image {
+.slider {
     padding: 0 3px;
 }

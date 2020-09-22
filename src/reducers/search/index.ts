@@ -21,7 +21,8 @@ export const PRODUCT_INIT_STATE: PLPProductItem = {
   title: "",
   url: "",
   childAttributes: [],
-  plpImages: []
+  plpImages: [],
+  productClass: ""
 };
 
 const initialState: State = {
@@ -63,6 +64,11 @@ export const searchList = (
       newState.onload = true;
       const list = action.payload.results.data.map(({ id }) => id);
       newState.searchProductId = list;
+      return newState;
+    }
+    case "UPDATE_ONLOAD": {
+      const newState = { ...state };
+      newState.onload = action.payload;
       return newState;
     }
   }

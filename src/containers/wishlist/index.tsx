@@ -6,13 +6,9 @@ import React from "react";
 import { connect } from "react-redux";
 // import Size from './size.jsx'
 // import Notify from './notify'
-
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
-import styles from "./styles.scss";
-import globalStyles from "../../styles/global.scss";
 // import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
-import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
+import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
 import SampleDisplay from "./display";
 import ReactDOM from "react-dom";
@@ -21,6 +17,7 @@ import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import Loader from "components/Loader";
 import SecondaryHeader from "components/SecondaryHeader";
+import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 // import WishlistGrid from './gridLayout';
 import { WishlistItem, WishListGridItem } from "typings/wishlist";
 import WishlistService from "services/wishlist";
@@ -29,6 +26,11 @@ import * as _ from "lodash";
 import NotifyMePopup from "components/NotifyMePopup";
 import { updateComponent, updateModal } from "../../actions/modal";
 import { Currency } from "typings/currency";
+import globalStyles from "../../styles/global.scss";
+import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
+import styles from "./styles.scss";
+import ModalStyles from "components/Modal/styles.scss";
+import { withRouter, RouteComponentProps } from "react-router";
 
 let AbsoluteGrid: any;
 
@@ -36,18 +38,28 @@ const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
     currency: state.currency,
-    wishlistData: state.wishlist.items
+    wishlistData: state.wishlist.items,
+    isLoggedIn: state.user.isLoggedIn,
+    isSale: state.info.isSale
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    removeFromWishlist: async (productId: number, sortBy: string) =>
-      await WishlistService.removeFromWishlist(dispatch, productId, sortBy),
+    removeFromWishlist: async (
+      sortBy: string,
+      productId?: number,
+      id?: number
+    ) =>
+      await WishlistService.removeFromWishlist(dispatch, productId, id, sortBy),
     updateWishlist: async (sortBy: string) =>
       await WishlistService.updateWishlist(dispatch, sortBy),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
-    openPopup: (item: WishListGridItem, currency: Currency) => {
+    openPopup: (
+      item: WishListGridItem,
+      currency: Currency,
+      isSale?: boolean
+    ) => {
       const childAttributes = item.stockDetails.map(
         ({ discountedPrice, productId, stock, size, price, sku }) => {
           return {
@@ -61,10 +73,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           };
         }
       );
-      let selectedIndex = 0;
+      let selectedIndex;
+      let price = item.price[currency];
       childAttributes.map((v, i) => {
         if (v.size === item?.size) {
           selectedIndex = i;
+          price = v.priceRecords[currency];
         }
       });
       const changeSize = async (size: string, quantity?: number) => {
@@ -75,17 +89,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           quantity
         );
       };
+
       dispatch(
         updateComponent(
           <NotifyMePopup
-            price={item.price[currency]}
-            currency={String.fromCharCode(currencyCodes[currency])}
+            price={price}
+            discountedPrice={item.discountedPrice[currency]}
+            currency={currency}
             title={item.productName}
             childAttributes={childAttributes}
             selectedIndex={selectedIndex}
             changeSize={changeSize}
+            isSale={isSale}
+            discount={item.discount}
+            badgeType={item.badgeType}
           />,
-          false
+          false,
+          ModalStyles.bottomAlign
         )
       );
       dispatch(updateModal(true));
@@ -99,7 +119,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export type Props = {
   wishlistData: WishlistItem[];
 } & ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   isLoading: boolean;
@@ -116,6 +137,7 @@ type State = {
 
 class Wishlist extends React.Component<Props, State> {
   dragFlag: boolean;
+  impression: boolean;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -138,7 +160,7 @@ class Wishlist extends React.Component<Props, State> {
       totalPrice: 0,
       saleStatus: false
     };
-    // let impression = true;
+    this.impression = true;
     this.dragFlag = false;
     AbsoluteGrid = createAbsoluteGrid(
       SampleDisplay,
@@ -146,43 +168,12 @@ class Wishlist extends React.Component<Props, State> {
         grid: props,
         removeProduct: this.removeProduct,
         mobile: this.props.mobile,
-        currency: this.props.currency
+        currency: this.props.currency,
+        isSale: this.props.isSale
       },
       false
     );
   }
-
-  // findPopup(popupType) {
-  //     let temp = null;
-  //     switch (popupType) {
-  //         case 'SIZE':
-  //             for (let wishlist_item of this.state.sampleItems) {
-  //                 if (this.props.popup.data.id === wishlist_item.id) {
-  //                     temp = wishlist_item;
-  //                     break;
-  //                 }
-  //             }
-  //             return <Size wishlist_product={temp} closePopup={this.props.closePopup}
-  //                          dispatch={this.props.dispatch}
-  //                          removeProduct={this.removeProduct} callWishlist={this.getWishlist}
-  //                          notifymsg={this.notifymsg} showNotify={this.props.showNotify}
-  //                          showNotification={this.props.showNotification}/>;
-  //         case 'NOTIFY' :
-  //             for (let wishlist_item of this.state.sampleItems) {
-  //                 if (this.props.popup.data == wishlist_item.product_id) {
-  //                     temp = wishlist_item;
-  //                     break;
-  //                 }
-  //             }
-  //             return <Size wishlist_product={temp} closePopup={this.props.closePopup}
-  //                          dispatch={this.props.dispatch}
-  //                          removeProduct={this.removeProduct} callWishlist={this.getWishlist}
-  //                          notifymsg={this.notifymsg} showNotify={this.props.showNotify}
-  //                          showNotification={this.props.showNotification}/>;
-  //         default:
-  //             return null;
-  //     }
-  // }
 
   getWishlist = (sortBy: string) => {
     this.setState({
@@ -281,7 +272,7 @@ class Wishlist extends React.Component<Props, State> {
     });
 
     this.props
-      .removeFromWishlist(data.productId, this.state.defaultOption.value)
+      .removeFromWishlist(this.state.defaultOption.value, undefined, data.id)
       .finally(() => {
         this.setState({ isLoading: false });
       });
@@ -291,11 +282,31 @@ class Wishlist extends React.Component<Props, State> {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
+    if (!this.props.isLoggedIn) {
+      this.props.history.push("/");
+    }
     this.updateGrid(this.props);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
+    if (!nextProps.isLoggedIn) {
+      this.props.history.push("/");
+    }
+    if (this.props.currency !== nextProps.currency) {
+      this.getWishlist(this.state.defaultOption.value);
+      AbsoluteGrid = createAbsoluteGrid(
+        SampleDisplay,
+        {
+          grid: nextProps,
+          removeProduct: this.removeProduct,
+          mobile: nextProps.mobile,
+          currency: nextProps.currency,
+          isSale: nextProps.isSale
+        },
+        false
+      );
+    }
   }
 
   updateGrid = (nextProps: Props) => {
@@ -323,13 +334,16 @@ class Wishlist extends React.Component<Props, State> {
         const gridItem: WishListGridItem = Object.assign(
           {},
           { key: item.key, sort: data.dndSequence },
-          item
+          item,
+          {
+            size: data.size
+          }
         );
         return gridItem;
       });
     } else {
       newWishlistData = nextProps.wishlistData.map((data, i) => {
-        return Object.assign({}, { key: i, sort: i }, data);
+        return Object.assign({}, { key: data.id, sort: i }, data);
       });
     }
     const product = nextProps.wishlistData.map((prod, i) => {
@@ -358,19 +372,15 @@ class Wishlist extends React.Component<Props, State> {
         );
       });
     });
-    if (
-      product.length > 0 &&
-      //  this.impression
-      true
-    ) {
-      // impression = false;
-      // dataLayer.push({
-      //     event: 'productImpression',
-      //     ecommerce: {
-      //         'currencyCode': window.currency,
-      //         'impressions': product
-      //     }
-      // })
+    if (product.length > 0 && this.impression) {
+      this.impression = false;
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          impressions: product
+        }
+      });
     }
 
     const wishlistTotal = nextProps.wishlistData.map(item => {
@@ -457,6 +467,7 @@ class Wishlist extends React.Component<Props, State> {
         ReactDOM.render(
           <AbsoluteGrid
             items={data}
+            currency={this.props.currency}
             dragEnabled={this.state.dragDrop}
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
@@ -470,6 +481,7 @@ class Wishlist extends React.Component<Props, State> {
       } else {
         ReactDOM.render(
           <AbsoluteGrid
+            currency={this.props.currency}
             items={data}
             dragEnabled={this.state.dragDrop}
             onDragEnd={() => this.onDropWishlist()}
@@ -578,39 +590,59 @@ class Wishlist extends React.Component<Props, State> {
     return (
       <>
         {mobile ? (
-          <div className="row hidden-lg hidden-md">
-            <div className="c-sort subheader-account">
+          <div className={cs(bootstrapStyles.row, globalStyles.voffset7)}>
+            <div className={cs(styles.cSort, styles.subheaderAccount)}>
               <div
-                className="col-xs-12 product-number"
+                className={cs(bootstrapStyles.col12, styles.productNumber)}
                 style={{ borderBottom: "1px solid #efeaea" }}
               >
-                <div className=" col-xs-10 wishlist-header">Wishlist</div>
-                <div className="hidden-md hidden-lg col-xs-2">
+                <div
+                  className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
+                >
+                  Wishlist
+                </div>
+                <div className={bootstrapStyles.col2}>
                   <i
-                    className="icon icon_sort"
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconSort,
+                      styles.iconSort
+                      // globalStyles.cerise
+                    )}
                     onClick={() => this.setState({ filterListing: true })}
                   ></i>
                 </div>
                 <div
                   className={
                     this.state.filterListing
-                      ? "row hidden-lg hidden-md"
-                      : "hidden"
+                      ? bootstrapStyles.row
+                      : globalStyles.hidden
                   }
                 >
-                  <div className="mobile-filter-header">
-                    <div className="filter-cross">
+                  <div className={styles.mobileFilterHeader}>
+                    <div className={styles.filterCross}>
                       <span>Wishlist</span>
                       <span
                         onClick={() => this.setState({ filterListing: false })}
                       >
-                        <i className="icon icon_cross"></i>
+                        <i
+                          className={cs(
+                            iconStyles.icon,
+                            iconStyles.iconCrossNarrowBig,
+                            styles.iconClose
+                          )}
+                        ></i>
                       </span>
                     </div>
                   </div>
-                  <div className="row minimumWidth">
-                    <div className="col-xs-12 col-sm-12 mobile-filter-menu ">
-                      <ul className="sort hidden-md hidden-lg">
+                  <div className={bootstrapStyles.row}>
+                    <div
+                      className={cs(
+                        bootstrapStyles.col12,
+                        styles.mobileFilterMenu
+                      )}
+                    >
+                      <ul className={styles.sort}>
                         {this.state.options.map((data, index) => {
                           return (
                             <li key={index}>
@@ -618,7 +650,7 @@ class Wishlist extends React.Component<Props, State> {
                                 onClick={() => this.setWishlistFilter(data)}
                                 className={
                                   this.state.currentFilter == data.value
-                                    ? "cerise"
+                                    ? globalStyles.cerise
                                     : ""
                                 }
                               >
@@ -667,7 +699,13 @@ class Wishlist extends React.Component<Props, State> {
             </div>
           </SecondaryHeader>
         )}
-        <div className={cs(bootstrapStyles.row, styles.wishlistBlockOuter)}>
+        <div
+          className={cs(
+            bootstrapStyles.row,
+            { [styles.wishlistBlockOuter]: !mobile },
+            { [styles.wishlistBlockOuterMobile]: mobile }
+          )}
+        >
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
             {this.state.wishlistCount > 0 && (
               <div className={cs(styles.wishlistTop, styles.wishlistSubtotal)}>
@@ -679,7 +717,7 @@ class Wishlist extends React.Component<Props, State> {
               id="wishlist"
             ></div>
             {this.state.wishlistCount > 0 && (
-              <div className={globalStyles.textCenter}>
+              <div className={cs({ [globalStyles.textCenter]: mobile })}>
                 <div
                   className={cs(styles.wishlistBottom, styles.wishlistSubtotal)}
                 >
@@ -698,5 +736,6 @@ class Wishlist extends React.Component<Props, State> {
     );
   }
 }
+const WishlistRoute = withRouter(Wishlist);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wishlist);
+export default connect(mapStateToProps, mapDispatchToProps)(WishlistRoute);

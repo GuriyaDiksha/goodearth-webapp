@@ -7,6 +7,9 @@ import "slick-carousel/slick/slick.css";
 import { CollectionDataProps } from "./typings";
 import Slider from "react-slick";
 import { Settings } from "react-slick";
+import "styles/myslick.css";
+import LazyImage from "components/LazyImage";
+import ReactHtmlParser from "react-html-parser";
 
 const CollectionImage: React.FC<CollectionDataProps> = (
   props: CollectionDataProps
@@ -17,7 +20,8 @@ const CollectionImage: React.FC<CollectionDataProps> = (
       return (
         <div key={i}>
           <Link to={data.url || "#"}>
-            <img
+            <LazyImage
+              aspectRatio="62:93"
               src={image ? image : "/static/img/noimageplp.png"}
               className={styles.imgResponsiveImg}
             />
@@ -44,9 +48,11 @@ const CollectionImage: React.FC<CollectionDataProps> = (
           </p>
           <p className={styles.para}>
             <small>
-              {data.shortDescription.length > 140
-                ? data.shortDescription.slice(0, 140) + "..."
-                : data.shortDescription}
+              {ReactHtmlParser(
+                data.shortDescription.length > 140
+                  ? data.shortDescription.slice(0, 140) + "..."
+                  : data.shortDescription
+              )}
             </small>
           </p>
         </Link>

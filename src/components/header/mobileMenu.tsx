@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import { MobileListProps, MobileState, HeaderData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
+import ReactHtmlParser from "react-html-parser";
+import { AppState } from "reducers/typings";
+import { connect } from "react-redux";
 
-class Mobilemenu extends React.Component<MobileListProps, MobileState> {
-  constructor(props: MobileListProps) {
+const mapStateToProps = (state: AppState) => {
+  return {
+    isSale: state.info.isSale
+  };
+};
+type Props = MobileListProps & ReturnType<typeof mapStateToProps>;
+
+class Mobilemenu extends React.Component<Props, MobileState> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       activeindex: -1,
@@ -65,7 +75,8 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
     const html = [];
     const leftData = headerData.leftMenu || [];
     const rightData = headerData.rightMenu || [];
-    headerData.name.toLowerCase() == "stories"
+    const isStories = headerData.name.toLowerCase() == "stories";
+    isStories
       ? ""
       : html.push(
           <li onClick={this.props.clickToggle}>
@@ -88,13 +99,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
         data.name.toLowerCase().indexOf("sale") > -1 ? styles.menucolor : "";
       html.push(
         data.url && data.children.length == 0 ? (
-          <li key={j} onClick={this.props.clickToggle}>
+          <li key={j + "leftData"} onClick={this.props.clickToggle}>
             <Link to={data.url}>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: data.labelMobile ? data.labelMobile : data.name
-                }}
-              />
+              <span>
+                {ReactHtmlParser(
+                  data.labelMobile ? data.labelMobile : data.name
+                )}
+              </span>
             </Link>
           </li>
         ) : (
@@ -103,11 +114,11 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
               className={spanClass}
               onClick={this.Clickmenulevel2.bind(this, k)}
             >
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: data.labelMobile ? data.labelMobile : data.name
-                }}
-              />
+              <span>
+                {ReactHtmlParser(
+                  data.labelMobile ? data.labelMobile : data.name
+                )}
+              </span>
             </span>
             <p
               className={
@@ -127,7 +138,10 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                   )}
                   {data.children.map((innerdata, i) => {
                     return (
-                      <li key={i} onClick={this.props.clickToggle}>
+                      <li
+                        key={i + "mobileChildren"}
+                        onClick={this.props.clickToggle}
+                      >
                         <Link
                           to={innerdata.url}
                           className={
@@ -136,13 +150,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                               : ""
                           }
                         >
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: innerdata.labelMobile
+                          <p>
+                            {ReactHtmlParser(
+                              innerdata.labelMobile
                                 ? innerdata.labelMobile
                                 : innerdata.name
-                            }}
-                          />
+                            )}
+                          </p>
                         </Link>
                       </li>
                     );
@@ -171,26 +185,26 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
           data.name.toLowerCase().indexOf("sale") > -1 ? styles.menucolor : "";
         html.push(
           data.url && data.children.length == 0 ? (
-            <li key={j} onClick={this.props.clickToggle}>
+            <li key={data.id} onClick={this.props.clickToggle}>
               <Link to={data.url}>
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: data.labelMobile ? data.labelMobile : data.name
-                  }}
-                />
+                <span>
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
+                </span>
               </Link>
             </li>
           ) : (
-            <li key={j}>
+            <li key={data.id}>
               <span
                 className={spanClass}
                 onClick={this.Clickmenulevel2.bind(this, k)}
               >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: data.labelMobile ? data.labelMobile : data.name
-                  }}
-                />
+                <span>
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
+                </span>
               </span>
               <p
                 className={
@@ -210,7 +224,10 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                     )}
                     {data.children.map((innerdata, i) => {
                       return (
-                        <li key={i} onClick={this.props.clickToggle}>
+                        <li
+                          key={i + "data-children"}
+                          onClick={this.props.clickToggle}
+                        >
                           <Link
                             to={innerdata.url}
                             className={
@@ -219,13 +236,13 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                                 : ""
                             }
                           >
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: innerdata.labelMobile
+                            <p>
+                              {ReactHtmlParser(
+                                innerdata.labelMobile
                                   ? innerdata.labelMobile
                                   : innerdata.name
-                              }}
-                            />
+                              )}
+                            </p>
                           </Link>
                         </li>
                       );
@@ -257,25 +274,46 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
                   : ""
               }
             >
-              <span
-                className={
-                  this.state.activeindex == i && this.state.showmenulevel1
-                    ? cs(styles.menulevel1, styles.menulevel1Open)
-                    : styles.menulevel1
-                }
-                onClick={this.Clickmenulevel1.bind(this, i)}
-              >
-                {data.name}
-              </span>
-              <p
-                className={
-                  this.state.activeindex == i && this.state.showmenulevel1
-                    ? styles.showheader1
-                    : styles.hidden
-                }
-              >
-                <ul>{this.createListElement(this.props.menudata[i])}</ul>
-              </p>
+              {data.name.toLowerCase() != "stories" ? (
+                <>
+                  <span
+                    className={
+                      this.state.activeindex == i && this.state.showmenulevel1
+                        ? cs(styles.menulevel1, styles.menulevel1Open)
+                        : styles.menulevel1
+                    }
+                    onClick={this.Clickmenulevel1.bind(this, i)}
+                  >
+                    {ReactHtmlParser(
+                      this.props.isSale && data.labelMobile
+                        ? data.labelMobile
+                        : data.name
+                    )}
+                  </span>
+                  <p
+                    className={
+                      this.state.activeindex == i && this.state.showmenulevel1
+                        ? styles.showheader1
+                        : styles.hidden
+                    }
+                  >
+                    <ul>{this.createListElement(this.props.menudata[i])}</ul>
+                  </p>
+                </>
+              ) : (
+                <a
+                  className={cs(styles.menulevel1Stories, {
+                    [styles.cerise]: !this.props.isSale
+                  })}
+                  href={data.catLandingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {ReactHtmlParser(
+                    data.labelMobile ? data.labelMobile : data.name
+                  )}
+                </a>
+              )}
             </li>
           );
         })}
@@ -283,4 +321,4 @@ class Mobilemenu extends React.Component<MobileListProps, MobileState> {
     );
   }
 }
-export default Mobilemenu;
+export default connect(mapStateToProps)(Mobilemenu);

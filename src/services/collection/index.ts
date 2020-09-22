@@ -5,13 +5,21 @@ import {
   CollectionSpecificBannerProps
 } from "containers/collectionSpecific/typings";
 import Axios from "axios";
+import API from "utils/api";
+import { Dispatch } from "redux";
 
 export default {
-  fetchCollectionMapping: async (id: number): Promise<CollectionFilter> => {
+  fetchCollectionMapping: async (
+    id: number,
+    selectId?: string
+  ): Promise<CollectionFilter> => {
     const res = await Axios.get(
       `${__API_HOST__ + "/myapi/collection/level_2_cat_coll_mapping/" + id}`,
       {}
     );
+    res.data["selectValue"] = res.data.level2Categories.filter((item: any) => {
+      return item.id == selectId;
+    });
     res.data.level2Categories = res.data.level2Categories.map((data: any) => {
       return { label: data.name, value: data.name };
     });
@@ -20,13 +28,22 @@ export default {
     return data;
   },
   fetchCollectioSpecificData: async (
-    id: number
+    dispatch: Dispatch,
+    id: number,
+    page?: string
   ): Promise<CollectionSpecificProps> => {
-    const res = await Axios.get(
-      `${__API_HOST__ + "/myapi/collection/collectionspecific/" + id}`,
-      {}
-    );
-    const data: CollectionSpecificProps = res.data;
+    console.log(page);
+    let pagePath = "";
+    if (page) {
+      pagePath = page;
+    } else {
+      pagePath = `${__API_HOST__ +
+        "/myapi/collection/collectionspecific/" +
+        id +
+        "/?page_size=24"}`;
+    }
+    const res: any = await API.get(dispatch, pagePath);
+    const data: CollectionSpecificProps = res;
     return data;
   },
   fetchCollectioSpecificBanner: async (

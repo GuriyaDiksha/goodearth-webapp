@@ -12,6 +12,20 @@
   cursor: pointer;
   margin-top: 20px;
   text-align: center;
+  a {
+    display: flex;
+    justify-content: center;
+    span {
+      justify-content: center;
+    align-self: center;
+    }
+  }
+  &:hover{
+    span{
+      color: $cerise;
+    }
+    
+  }
   .wishlist-align {
     font-size: 12px;
       font-family: $font-Lato;
@@ -21,7 +35,11 @@
   }
 }
 
+
 @media (min-width: 992px) {
+  .font30 {
+    font-size: 30px;
+  }
     .fix-ordersummary {
       position: sticky;
       position: -webkit-sticky;
@@ -29,7 +47,7 @@
     }
     
     h3 {
-      padding: 30px 0;
+      padding: 40px 0 20px 0;
     }
     .order-summary {
       min-height: calc(100vh - 55px);
@@ -44,22 +62,22 @@
   
   @media (max-width: 991px) {
     h3 {
-      line-height: 60px;
+      margin: 20px 0 15px 0;
     }
     .checkout {
       padding-bottom: 180px;
     }
-    .fix-order-items-mobile {
-      // overflow: scroll;
-    }
-    .summary-title {
-     // margin-bottom: 15px;
-    }
-    .pos-fixed {
-      position: fixed;
-    bottom: 0;
-    width: 100%;
-    }
+    // .fix-order-items-mobile {
+    //   // overflow: scroll;
+    // }
+    // .summary-title {
+    //  // margin-bottom: 15px;
+    // }
+    // .pos-fixed {
+    //   position: fixed;
+    // bottom: 0;
+    // width: 100%;
+    // }
   
     .order-summary {
       left: 0;
@@ -122,9 +140,9 @@
         margin-top: 15px;
       }
     }
-    .order-summary {
-      padding: 10px 0;
-    }
+    // .order-summary {
+    //   padding: 10px 0;
+    // }
   }
 
 .order-summary {
@@ -173,7 +191,7 @@
     .product-price {
       @include plp_prod_name_desktop();
       text-align: right;
-      font-family: "AmiriFont", "Baskerville", "Garamond";
+      font-family: $font-Lato;
     }
   
     .product-qty,
@@ -193,12 +211,14 @@
     .subtotal {
       color: #000;
       font-size: 14px;
-      font-weight: 900;
+      font-weight: 600;
+      font-family: $font-Lato;
     }
   
     .grand-total {
       font-size: 18px;
-      font-weight: 900;
+      font-weight: 600;
+      font-family: $font-Lato;
     }
 }
 
@@ -216,12 +236,12 @@
   font-size: 14px;
   text-decoration: line-through;
   color: tint(#000, 50%) !important;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
 }
 
 .discountprice {
   color: $cerise;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   font-size: 16px;
 }
 .product-size {
@@ -234,7 +254,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }
@@ -249,4 +269,36 @@
 .text-muted {
   color: #666;
   font-size: 12px;
+}
+
+.discount-font {
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.discountprice {
+  color: #ab1e56;
+  font-family:  $font-Lato;
+  font-size: 16px;
+}
+
+.strikeprice {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: gray;
+  font-family: $font-Lato;
+}
+
+.text-remove-items {
+  font-size: 14px;
+  margin-top: 10px;
+  font-style: italic;
+
+  .trigger-remove-items {
+    cursor: pointer;
+    font-style: normal;
+    text-decoration: underline;
+  }
 }

@@ -29,13 +29,17 @@ export default class OtpBox extends Component<otpBoxProps, { otp: string }> {
   }
 
   componentDidMount() {
-    // this.otpInput.focus();
+    if (!this.props.notFocus) {
+      this.otpInput.current && this.otpInput.current.focus();
+    }
   }
   render() {
     return (
       <div className={cs(style.redeemOtp, globalStyles.voffset4)}>
         <input
           name="otp"
+          autoComplete="off"
+          ref={this.otpInput}
           value={this.state.otp}
           type="text"
           maxLength={6}

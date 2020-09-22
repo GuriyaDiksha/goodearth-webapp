@@ -57,13 +57,27 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   applyCard = () => {
+    if (!this.state.txtvalue) {
+      this.setState({
+        error: "Please enter a code",
+        isActivated: false
+      });
+      return false;
+    }
     const data: any = {
       cardId: this.state.txtvalue
     };
+
     this.props.applyGiftCard(data).then((response: any) => {
       if (response.status == false) {
         this.updateError(response.message, response.isNotActivated);
       } else {
+        dataLayer.push({
+          event: "eventsToSend",
+          eventAction: "giftCard",
+          eventCategory: "promoCoupons",
+          eventLabel: data.cardId
+        });
         this.setState({
           newCardBox: false,
           txtvalue: ""
@@ -116,7 +130,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     const {
       user: { isLoggedIn },
       currency,
-      giftList
+      giftList,
+      total
     } = this.props;
     return (
       <Fragment>
@@ -124,6 +139,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           {giftList.map((data, i) => {
             return (
               <GiftCardItem
+                isLoggedIn={isLoggedIn}
                 {...data}
                 onClose={this.onClose}
                 currency={currency}
@@ -171,17 +187,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         ></span>
                       </span>
                     </div>
-                    <label>Gift Card Code</label>
+                    <label>Gift Card Code / Credit Note</label>
                   </Fragment>
                 )}
                 {this.state.error ? (
-                  <span
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
+                  <span className={cs(globalStyles.errorMsg)}>
                     {this.state.error}
                   </span>
                 ) : (
@@ -192,7 +202,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                     className={cs(
                       styles.activeUrl,
                       globalStyles.cerise,
-                      globalStyles.voffset2
+                      globalStyles.voffset1
                     )}
                   >
                     <Link to={"/account/giftcard-activation"}>
@@ -206,13 +216,14 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             ) : (
               <div
                 className={cs(
+                  { [globalStyles.hidden]: +total <= 0 },
                   styles.rtcinfo,
                   globalStyles.pointer,
                   globalStyles.textLeft
                 )}
                 onClick={this.newGiftcard}
               >
-                [+] ADD ANOTHER GIFT CARD CODE
+                [+] ADD ANOTHER GIFT CARD CODE / CREDIT NOTE
               </div>
             )}
           </div>

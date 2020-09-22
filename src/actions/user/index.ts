@@ -6,3 +6,6 @@ export const updateUser = (user: Partial<User>) =>
 
 export const refreshPage = (data: string | undefined) =>
   actionCreator("REFRESH_PAGE", data);
+
+export const resetMeta = (data: string | undefined) =>
+  actionCreator("RESET_META", data);

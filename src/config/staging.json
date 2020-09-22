@@ -1,0 +1,10 @@
+{
+    "apidomain": "https://sb.goodearth.in",
+    "domain": "https://stg.goodearth.in",
+    "omniApiDomain": "https://web.goodearth.in/omni/",
+    "manifestVersion": 3,
+    "publicPath": "/static/",
+    "fbAppID": "2759423167667301",
+    "googleClientID": "837034702464-45rk7lofbich22nq691ved1as5rn2qlm.apps.googleusercontent.com",
+    "gtmID": "GTM-NTCX6G8"
+}

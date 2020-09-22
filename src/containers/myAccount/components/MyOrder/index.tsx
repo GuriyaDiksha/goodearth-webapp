@@ -10,7 +10,10 @@ import styles from "../styles.scss";
 import { Link } from "react-router-dom";
 import { useStore } from "react-redux";
 
-const PastOrders: React.FC = () => {
+type Props = {
+  setCurrentSection: () => void;
+};
+const PastOrders: React.FC<Props> = (props: Props) => {
   const [hasShoppedOnlineitems, setHasShoppedOnlineitems] = useState(true);
   const [hasShoppedAtStore, setHasShoppedAtStore] = useState(false);
   const [hasShopped, setHasShopped] = useState(true);
@@ -18,7 +21,7 @@ const PastOrders: React.FC = () => {
   const [isData, setIsData] = useState(false);
   const store = useStore();
   const { mobile } = store.getState();
-
+  props.setCurrentSection();
   const switchToStoreOrders = () => {
     setHasShoppedOnlineitems(false);
     setHasShoppedAtStore(true);
@@ -38,6 +41,17 @@ const PastOrders: React.FC = () => {
     setIsLoading(false);
     setIsData(false);
   };
+  const browseButton = (
+    <div className={styles.browseButton}>
+      <Link to="/">
+        <input
+          type="button"
+          className={globalStyles.ceriseBtn}
+          value="Browse"
+        />
+      </Link>
+    </div>
+  );
   const mainContent = (
     <>
       <div className={styles.orderTabs}>
@@ -72,25 +86,26 @@ const PastOrders: React.FC = () => {
         </div>
       )}
       {hasShoppedOnlineitems && (
-        <OnlineOrders
+        <>
+          <OnlineOrders
+            orderType={"online"}
+            hasShopped={setHasShopped}
+            isLoading={setIsLoading}
+            isDataAvaliable={isDataAvaliable}
+          />
+          {!hasShopped && !isLoading && browseButton}
+        </>
+      )}
+      {hasShoppedAtStore && (
+        <>
+          {/* <OnlineOrders
+          orderType={"inShop"}
           hasShopped={setHasShopped}
           isLoading={setIsLoading}
           isDataAvaliable={isDataAvaliable}
-        />
-      )}
-      {/* {hasShoppedAtStore && (
-        <InShopOrders hasShopped={setHasShopped} isLoading={setIsLoading} />
-      )} */}
-      {!hasShopped && !isLoading && (
-        <div className={styles.browseButton}>
-          <Link to="/">
-            <input
-              type="button"
-              className={globalStyles.ceriseBtn}
-              value="Browse"
-            />
-          </Link>
-        </div>
+        /> */}
+          {!hasShopped && !isLoading && browseButton}
+        </>
       )}
     </>
   );
@@ -106,9 +121,9 @@ const PastOrders: React.FC = () => {
         <div className={bootstrapStyles.row}>
           <div
             className={cs(
-              bootstrapStyles.col10,
+              bootstrapStyles.col12,
               { [bootstrapStyles.offset1]: mobile },
-              bootstrapStyles.colMd10
+              { [bootstrapStyles.colMd10]: !mobile }
             )}
           >
             <div className={styles.formHeading}>My Orders</div>

@@ -7,8 +7,7 @@
     margin-left: 5px;
     border: 1px solid #ccc;
     span{
-        right: 5px;
-        font-weight: 400;
+        right: 12px;
         color: rgba(51,51,51,.8);
     }
     ul{
@@ -37,7 +36,7 @@
 .filter-text{
     line-height: 33px;
     font-size: 14px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     letter-spacing: 1px;
     color: #ab1e56;
     text-transform: uppercase;
@@ -46,16 +45,32 @@
 .page-body{
   margin-top: $main-header;
 }
+@media screen and (min-width: 992px) {
+  .sp-cat {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.image-container {
+  margin-left: 20px;
+  .set-width {
+    padding: 0 6px;
+  }
+}
+}
 @media screen and (max-width: 992px) {
   .page-body{
     margin-top: $header-height;
+  }
+  .imageContainerMobile {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
 .inner-header {
     display: -webkit-inline-box;
     margin-left: 8%;
-    margin-top: 3px;
+    margin-top: 7px;
 }
 
 .subc-header{
@@ -64,16 +79,38 @@
     margin: 100px 0 0 0;
     h1{
         font-size: 28px;
-        font-family: "Baskerville","Amiri","Serif";
+        font-family: $font-Serif;
         text-transform: capitalize;
     }
     p {
         font-size: 12px;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         color: #666;
         letter-spacing: 1px;
     }
 }
+
+.download-width {
+  width: 100%;
+}
+
+.subc-header-4 {
+  // margin: 55px 0 0 0;
+  padding: 10% 5%;
+  background-color: #e6e6e6;
+  h1{
+    font-size: 28px;
+    font-family: $font-Serif;
+    text-transform: capitalize;
+  }
+  p {
+      font-size: 12px;
+      font-family: $font-Lato;
+      // color: #666;
+      letter-spacing: 1px;
+  }
+}
+
 
 
 
@@ -112,7 +149,7 @@
       z-index: 1;
       background-color: #fff;
       padding: 15px 20px 4px 20px;
-      top: 50px;
+      top: $header-height;
       border-bottom: 1px solid tint(#000, 80%);
       .filter-cross {
         line-height: 30px;
@@ -266,9 +303,12 @@
       }
       li {
         padding-left: 0px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        label {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+        }
 
       }
 
@@ -339,6 +379,9 @@
 }
 
 .categorylabel {
+  label {
+    margin-bottom: 0;
+  }
   li {
     position: relative;
     div {
@@ -605,6 +648,17 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     border: 1px solid tint(#000, 80%);
     margin: 0 2%;
   }
+}
+
+.bannerMobileCategory {
+  margin-top: 70px;
+}
+
+.catalog-font {
+  font-size: 12px;
+  font-family:  $font-Lato;
+  color: #666;
+  letter-spacing: 1px;
 }
 
 

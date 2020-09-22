@@ -24,6 +24,7 @@ export interface GiftListProps extends BalanceProps {
 }
 
 export type GiftState = {
+  toggleResetOtpComponent: boolean;
   txtvalue: string;
   firstName: string;
   lastName: string;
@@ -32,4 +33,9 @@ export type GiftState = {
   giftList: BalanceProps[];
   showOTPValidationScreen: boolean;
   isSuccess: boolean;
+  disable: boolean;
+  showInactive: boolean;
+  showLocked: boolean;
+  showExpired: boolean;
+  conditionalRefresh: boolean;
 };

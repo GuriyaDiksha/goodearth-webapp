@@ -3,7 +3,7 @@
 
 .recommend-header {
     font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     color: #333;
     line-height: 60px;
     text-transform: capitalize;
@@ -21,12 +21,24 @@
     text-align: center;
     min-height: 120px;
 }
+
+.sale-banner {
+    position: relative;
+
+    img {
+        position: absolute;
+        transform: translateX(-50%);
+        top: 0;
+        left: 50%;
+    }
+}
+
 .product-h {
     font-size: 12px;
     text-transform: uppercase;
     color: #999;
     letter-spacing: 2px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     line-height: 30px;
     width: 100%;
     white-space: nowrap;
@@ -35,9 +47,11 @@
     height: 30px;
     padding-top: 5px;
 }
+
+
 .product-n {
-    font-size: 16px;
-    font-family: "AmiriFont", "Baskerville", "Garamond";
+    font-size: 14px;
+    font-family: $font-Lato;
     color: #000;
     text-transform: capitalize;
     width: 100%;
@@ -45,8 +59,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 16px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-size: 14px;
+        font-family: $font-Serif;
         color: #000;
         text-transform: capitalize;
     }
@@ -61,6 +75,17 @@
     width: 100%;
     min-width: 100%;
 }
-.slider-image {
+.slider {
     padding: 0 3px;
+}
+
+.badge_position_plp {
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    left: 6px;
+    img {
+        width:100%
+    }
 }

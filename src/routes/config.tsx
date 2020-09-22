@@ -10,6 +10,8 @@ import initActionCategory from "containers/categoryLanding/initAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
+// import initActionDesignJournalBook from "containers/designJournalBook/initAction";
+import initActionWishlist from "containers/wishlist/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -67,7 +69,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.WISHLIST,
     component: loadable(() => import("containers/wishlist")),
-    action: async () => null,
+    action: initActionWishlist,
     exact: true
   },
   {
@@ -87,6 +89,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/resetPassword")), // ResetPassword,
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.SAFETYMEASURES,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
   },
   {
     path: ROUTES.STATIC,
@@ -123,6 +131,54 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/pressStories")),
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.DESIGNJOURNAL,
+    component: loadable(() => import("containers/designJournal")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.ABOUTUS,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.LOYALTYLANDING,
+    component: loadable(() => import("containers/loyaltyLanding")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.ERROR,
+    component: loadable(() => import("containers/error")),
+    action: async () => null,
+    exact: true
+  },
+  // {
+  //   path: ROUTES.DESIGNJOURNALBOOK,
+  //   component: loadable(() => import("containers/designJournalBook")),
+  //   action: initActionDesignJournalBook,
+  //   exact: false
+  // }
+  {
+    path: ROUTES.CORPORATEGIFTING,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.GIFTINGLANDING,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.BRIDAL,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
   }
 ];
 

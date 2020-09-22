@@ -14,14 +14,14 @@ const JobList: React.FC<Props> = props => {
     <div className={styles.jobList}>
       {props.jobList.map((job, i) => {
         return (
-          <div key={job.jobId} className={styles.jobListSection}>
+          <div key={job.jobsId} className={styles.jobListSection}>
             <div className={styles.jobDetails}>
               <h5>{job.jobTitle}</h5>
               <h6 className={cs(styles.jobLocation, globalStyles.op2)}>
                 {job.locationName}
               </h6>
               <p className={cs(styles.jobId, globalStyles.op2)}>
-                <span className={styles.jobId}>JOB ID:</span> &nbsp;{job.jobId}
+                <span className={styles.jobId}>JOB ID:</span> &nbsp;{job.jobsId}
               </p>
               <p className={cs(styles.jobDescription, globalStyles.op2)}>
                 {job.jobShortDescription.split("").join("").length > 100

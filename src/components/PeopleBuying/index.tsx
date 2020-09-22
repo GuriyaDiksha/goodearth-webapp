@@ -9,17 +9,19 @@ import "slick-carousel/slick/slick-theme.css";
 import "../../styles/myslick.css";
 import "./slick.css";
 
-import { Currency, currencyCode } from "../../typings/currency";
+// import { Currency, currencyCode } from "../../typings/currency";
 import { PeopleRecommend, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
 
-const WeRecommend: React.FC<RecommenedSliderProps> = (
+const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
-  const { data, setting, currency, mobile } = props;
-  const code = currencyCode[currency as Currency];
+  const { data, setting, mobile } = props;
   const [currentId, setCurrentId] = useState(-1);
+  if (typeof document == "undefined") {
+    return null;
+  }
   const items = data?.map((item: PeopleRecommend, i: number) => {
     return (
       <div
@@ -27,13 +29,13 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         onMouseLeave={() => setCurrentId(-1)}
         key={item.id}
         className={cs({
-          [bootstrapStyles.col6]: mobile,
+          // [bootstrapStyles.col6]: mobile,
           [bootstrapStyles.colMd4]: mobile,
           [bootstrapStyles.col12]: !mobile
         })}
       >
         {item.badgeImage ? (
-          <div className="badge_position_plp">
+          <div className={styles.badge_position_plp}>
             <img src={item.badgeImage} />
           </div>
         ) : (
@@ -50,6 +52,8 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             )}
           >
             <WishlistButton
+              gtmListType="What People Are Buying"
+              title={item.title}
               id={item.id}
               showText={false}
               key={item.id}
@@ -63,14 +67,11 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             className={cs(globalStyles.imgResponsive, styles.sliderImage)}
           />
         </Link>
-        <div className={styles.moreBlock}>
-          <p className={styles.productH}>{item.title}</p>
+        <div className={cs(styles.moreBlock, globalStyles.voffset3)}>
           <p className={styles.productN}>
             <Link to={item.url}> {item.title} </Link>
           </p>
-          <p className={styles.productN}>
-            <span>{item.country}</span>
-          </p>
+          <p className={styles.productH}>{item.country}</p>
         </div>
       </div>
     );
@@ -80,20 +81,26 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
       className={cs(
         styles.recommendBg,
         bootstrapStyles.colMd12,
-        "we-recommend"
+        "people-buying"
       )}
     >
-      <div className={cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)}>
+      <div className={cs(bootstrapStyles.colMd12)}>
         <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
-          We Recommend
+          What People Are Buying
         </h2>
-        <div className={bootstrapStyles.col12}>
-          {!mobile && <Slider {...setting}>{items}</Slider>}
-          {mobile && <div className={bootstrapStyles.row}>{items}</div>}
+        <div
+          className={
+            mobile
+              ? bootstrapStyles.col12
+              : cs(bootstrapStyles.col10, bootstrapStyles.offset1)
+          }
+        >
+          {<Slider {...setting}>{items}</Slider>}
+          {/* {mobile && <div className={bootstrapStyles.row}>{items}</div>} */}
         </div>
       </div>
     </div>
   );
 };
 
-export default WeRecommend;
+export default WhatPeopleBuying;

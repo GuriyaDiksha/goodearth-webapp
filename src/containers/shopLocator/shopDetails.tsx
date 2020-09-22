@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ShopLocatorProps } from "./typings";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import BannerSlider from "components/BannerSlider";
 import { Settings } from "react-slick";
 import borderImg from "images/category/bannerBottom.jpg";
@@ -31,7 +31,30 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
     })
     .map((filter: any) => filter.image);
   const shopData = data ? data[0] : {};
-
+  const [showiframe, setShowiframe] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    setShowiframe(true);
+    window.scrollTo(0, 0);
+    // for handling scroll to particalar element with hash
+    let { hash } = location;
+    hash = hash.replace("#", "");
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView();
+          const headerHeight = 50;
+          const secondaryHeaderHeight = 50;
+          const announcementBarHeight = 30;
+          window.scrollBy(
+            0,
+            -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+          );
+        }
+      }, 500);
+    }
+  }, []);
   const config: Settings = {
     dots: false,
     infinite: true,
@@ -51,7 +74,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
   };
   return (
     <div>
-      <div className={cs(bootstrapStyles.colMd12, styles.im)}>
+      <div className={cs(bootstrapStyles.colMd12, styles.im)} id="shop">
         <BannerSlider
           data={shopImage}
           setting={config as Settings}
@@ -74,11 +97,13 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
             </Link>
           </span>{" "}
           &nbsp;
-          <span className={styles.cafeLink}>
-            <Link to="#cafe" id="cafename">
-              | &nbsp; CAFE{" "}
-            </Link>
-          </span>
+          {data && data.length > 0 && data[0]?.cafeHeading2 && (
+            <span className={styles.cafeLink}>
+              <Link to="#cafe" id="cafename">
+                | &nbsp; CAFE{" "}
+              </Link>
+            </span>
+          )}
         </div>
       </div>
       <div className={cs(styles.locationBg, styles.details)}>
@@ -126,10 +151,14 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
                   <div
                     className={cs(bootstrapStyles.col12, styles.getDirections)}
                   >
-                    <Link to={shopData.direction} target="_blank">
+                    <a
+                      href={shopData.direction}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {" "}
                       get directions{" "}
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -137,89 +166,99 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
             <div
               className={cs(bootstrapStyles.colMd6, bootstrapStyles.offsetMd1)}
             >
-              <iframe
-                src={shopData.iframemap}
-                scrolling="no"
-                height="400"
-                width="100%"
-              ></iframe>
+              {showiframe && (
+                <iframe
+                  src={shopData.iframemap}
+                  scrolling="no"
+                  height="400"
+                  width="100%"
+                ></iframe>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div className={bootstrapStyles.row}>
-        <div
-          className={cs(globalStyles.col12, styles.cafe, styles.heroBannerHome)}
-        >
-          <div className={globalStyles.voffset4}>
-            <BannerSlider data={cafeImage} setting={config as Settings} />
-          </div>
-          <div className={styles.cafeContent}>
-            <div className={styles.inner}>
-              <div
-                className={cs(
-                  bootstrapStyles.colMd8,
-                  bootstrapStyles.colMdOffset2,
-                  bootstrapStyles.col10,
-                  bootstrapStyles.offset1,
-                  styles.paddTop80
-                )}
-              >
+      {shopData.cafeHeading2 && (
+        <div className={bootstrapStyles.row} id="cafe">
+          <div
+            className={cs(
+              globalStyles.col12,
+              styles.cafe,
+              styles.heroBannerHome
+            )}
+          >
+            <div className={globalStyles.voffset4}>
+              <BannerSlider data={cafeImage} setting={config as Settings} />
+            </div>
+            <div className={styles.cafeContent}>
+              <div className={styles.inner}>
                 <div
-                  className={cs(styles.shopAddBlock, {
-                    [globalStyles.voffset4]: props.mobile
-                  })}
+                  className={cs(
+                    bootstrapStyles.colMd8,
+                    bootstrapStyles.colMdOffset2,
+                    bootstrapStyles.col10,
+                    bootstrapStyles.offset1,
+                    styles.paddTop80
+                  )}
                 >
-                  <div className={styles.shop}>
-                    Café &nbsp;<h3> {shopData.cafeHeading2}</h3>
-                  </div>
-                  <div className={cs(globalStyles.voffset2, styles.para)}>
-                    {shopData.cafeContent}{" "}
-                  </div>
-                  <div className={cs(styles.small, globalStyles.voffset4)}>
-                    <div className={styles.bold}>CALL FOR RESERVATIONS</div>
-                    <div className={cs(globalStyles.voffset2, styles.small)}>
-                      {shopData.cafeTel1?.map((num: string, i: number) => {
-                        if (mobile) {
-                          return (
-                            <div key={i}>
-                              <a
-                                rel="noopener noreferrer"
-                                href={"tel:" + (num ? num.split("+")[1] : num)}
-                              >
-                                {num}
-                              </a>
-                              <br />
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div key={i}>
-                              {num}
-                              <br />
-                            </div>
-                          );
-                        }
-                      })}
-                    </div>
-                  </div>
                   <div
-                    className={cs(
-                      styles.viewDirectionsBlock,
-                      bootstrapStyles.row,
-                      globalStyles.voffset4
-                    )}
+                    className={cs(styles.shopAddBlock, {
+                      [globalStyles.voffset4]: props.mobile
+                    })}
                   >
+                    <div className={styles.shop}>
+                      Café &nbsp;<h3> {shopData.cafeHeading2}</h3>
+                    </div>
+                    <div className={cs(globalStyles.voffset2, styles.para)}>
+                      {shopData.cafeContent}{" "}
+                    </div>
+                    <div className={cs(styles.small, globalStyles.voffset4)}>
+                      <div className={styles.bold}>CALL FOR RESERVATIONS</div>
+                      <div className={cs(globalStyles.voffset2, styles.small)}>
+                        {shopData.cafeTel1?.map((num: string, i: number) => {
+                          if (mobile) {
+                            return (
+                              <div key={i}>
+                                <a
+                                  rel="noopener noreferrer"
+                                  href={
+                                    "tel:" + (num ? num.split("+")[1] : num)
+                                  }
+                                >
+                                  {num}
+                                </a>
+                                <br />
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div key={i}>
+                                {num}
+                                <br />
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
                     <div
                       className={cs(
-                        bootstrapStyles.col12,
-                        styles.getDirections
+                        styles.viewDirectionsBlock,
+                        bootstrapStyles.row,
+                        globalStyles.voffset4
                       )}
                     >
-                      <Link to={shopData.cafeDirection} target="_blank">
-                        {" "}
-                        get directions{" "}
-                      </Link>
+                      <div
+                        className={cs(
+                          bootstrapStyles.col12,
+                          styles.getDirections
+                        )}
+                      >
+                        <Link to={shopData.cafeDirection} target="_blank">
+                          {" "}
+                          get directions{" "}
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -227,7 +266,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

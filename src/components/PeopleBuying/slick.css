@@ -1,21 +1,17 @@
-
-.we-recommend .slick-arrow {
-  top: 40%;
-}
-.we-recommend .slick-arrow.slick-prev {
+.people-buying .slick-arrow.slick-prev {
   left: -60px;
 }
-.we-recommend .slick-arrow.slick-next {
+.people-buying .slick-arrow.slick-next {
   right: -60px;
 }
-.we-recommend .slick-arrow{
+.people-buying .slick-arrow{
   font-size: 30px;
   background-color: #b3b3b3;
   border-radius: 50%;
   padding: 5px;
-  top: 35%;
+  top: 40%;
 }
 
-.we-recommend .slick-arrow.slick-prev:hover, .we-recommend .slick-arrow.slick-next:hover {
+.people-buying .slick-arrow.slick-prev:hover, .people-buying .slick-arrow.slick-next:hover {
   background-color: #ab1e56;
 }

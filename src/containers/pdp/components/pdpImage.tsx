@@ -1,6 +1,7 @@
 import React, { memo, useCallback, EventHandler, SyntheticEvent } from "react";
 
 import { ProductImage } from "typings/image";
+import LazyImage from "components/LazyImage";
 
 import globalStyles from "styles/global.scss";
 
@@ -23,11 +24,13 @@ const PDPImage: React.FC<Props> = ({
   }, [id]);
 
   return (
-    <img
+    <LazyImage
       className={globalStyles.imgResponsive}
       src={src}
+      aspectRatio="155:232"
       onClick={onImageClick}
       onLoad={onLoad}
+      isVisible={index < 2 ? true : undefined}
     />
   );
 };

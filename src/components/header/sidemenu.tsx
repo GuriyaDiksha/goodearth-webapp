@@ -9,18 +9,13 @@ import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import storyStyles from "../../styles/stories.scss";
 import DropdownMenu from "../dropdown/dropdownMenu";
-import LoginService from "services/login";
 import { Basket } from "typings/basket";
-import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import UserContext from "contexts/user";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { AppState } from "reducers/typings";
-import { Cookies } from "typings/cookies";
-import MetaService from "services/meta";
-import BasketService from "services/basket";
-import { showMessage } from "actions/growlMessage";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import mapDispatchToProps from "./mapper/actions";
+
 const Bag = loadable(() => import("../Bag/index"));
 
 interface State {
@@ -28,39 +23,20 @@ interface State {
   showp: boolean;
   showBag: boolean;
   cartCount: number;
-  showSearch: boolean;
   openProfile: boolean;
 }
 
 const mapStateToProps = (state: AppState) => {
   return {
-    cookies: state.cookies
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    goLogin: (event: React.MouseEvent) => {
-      LoginService.showLogin(dispatch);
-      event.preventDefault();
-    },
-    handleLogOut: () => {
-      LoginService.logout(dispatch);
-    },
-    changeCurrency: async (data: FormData) => {
-      const response = await LoginService.changeCurrency(dispatch, data);
-      return response;
-    },
-    reloadPage: (cookies: Cookies) => {
-      MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
-    }
+    cookies: state.cookies,
+    slab: state.user.slab
   };
 };
 
 type Props = SideMenuProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class SideMenu extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -70,22 +46,34 @@ class SideMenu extends React.Component<Props, State> {
       showp: false,
       showBag: false,
       cartCount: 0,
-      openProfile: false,
-      showSearch: false
+      openProfile: false
     };
   }
   static contextType = UserContext;
 
   changeCurrency = (cur: any) => {
-    const { changeCurrency, reloadPage } = this.props;
+    const { changeCurrency, reloadPage, history, currency } = this.props;
     const data: any = {
       currency: cur
     };
     if (this.props.currency != data) {
-      changeCurrency(data).then(response => {
+      changeCurrency(data).then((response: any) => {
+        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+          const path =
+            history.location.pathname +
+            history.location.search.replace(currency, response.currency);
+          history.replace(path);
+        }
         reloadPage(this.props.cookies);
       });
     }
+  };
+
+  toggleSearch = () => {
+    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+      return false;
+    }
+    this.props.toggleSearch();
   };
   render() {
     const { isLoggedIn } = this.context;
@@ -114,14 +102,14 @@ class SideMenu extends React.Component<Props, State> {
         },
         {
           label: "My Orders",
-          href: "/account/orders",
+          href: "/account/my-orders",
           type: "link"
         }
       );
     profileItems.push(
       {
         label: "Track Order",
-        href: "/about",
+        href: "/account/track-order",
         type: "link"
       },
       {
@@ -138,7 +126,8 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Cerise Program",
-        href: "/about",
+        // href: "/account/cerise",
+        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
         type: "link",
         value: "Cerise Program"
       },
@@ -150,12 +139,21 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        href: "",
-        onClick: isLoggedIn ? this.props.handleLogOut : this.props.goLogin,
-        type: "link",
+        onClick: isLoggedIn
+          ? () => this.props.handleLogOut(this.props.history)
+          : this.props.goLogin,
+        type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
+    const gtmPushWishlistClick = () => {
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "wishListClick",
+        eventCategory: "Click",
+        eventLabel: location.pathname
+      });
+    };
     const selectClass = this.state.showp
       ? cs(
           iconStyles.icon,
@@ -231,9 +229,9 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <div className={styles.iconStyle}>
+              <div className={cs(styles.iconStyle, styles.innerWishContainer)}>
                 {isLoggedIn ? (
-                  <Link to="/wishlist">
+                  <Link to="/wishlist" onClick={gtmPushWishlistClick}>
                     <i
                       className={cs(
                         iconStyles.icon,
@@ -279,6 +277,7 @@ class SideMenu extends React.Component<Props, State> {
             <span className={styles.badge}>{bagCount}</span>
             {this.state.showBag && (
               <Bag
+                showShipping={this.props.showShipping}
                 cart={this.props.sidebagData}
                 currency={this.props.currency}
                 active={this.state.showBag}
@@ -294,14 +293,14 @@ class SideMenu extends React.Component<Props, State> {
         <ul>
           {mobile ? (
             <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText}>
+              <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={
-                    this.state.showSearch
+                    this.props.showSearch
                       ? cs(
                           iconStyles.icon,
-                          iconStyles.iconNarrowBig,
-                          styles.iconStyle
+                          iconStyles.iconCrossNarrowBig,
+                          styles.iconStyleCross
                         )
                       : cs(
                           iconStyles.icon,
@@ -315,7 +314,7 @@ class SideMenu extends React.Component<Props, State> {
             </li>
           ) : (
             <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText}>
+              <p className={styles.searchText} onClick={this.toggleSearch}>
                 <i
                   className={cs(
                     iconStyles.icon,
@@ -332,5 +331,5 @@ class SideMenu extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
+const SideMenuWithRouter = withRouter(SideMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenuWithRouter);

@@ -11,7 +11,7 @@
     letter-spacing: 0;
     line-height: 34px;
     font-size: 25px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
   }
   p {
     padding: 1em 0;
@@ -30,13 +30,13 @@ h2 {
   letter-spacing: 0;
   line-height: 34px;
   font-size: 25px;
-  font-family: "Baskerville","Amiri","Serif";
+  font-family: $font-Serif;
 }
 
 
 .clr-p {
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }
@@ -44,19 +44,14 @@ h2 {
 .gift-font {
   font-size: 14px;
   color: black;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
-}
-
-textarea {
-  background-color: #f2f2f2;
-  border: none;
-  width: 100%;
 }
 
 .gc-head {
   text-transform: uppercase;
   font-size: 14px;
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 
@@ -119,7 +114,7 @@ textarea {
     opacity: 1;
     position: absolute;
     left: -46px;
-    top: -5px;
+    top: -4px;
     font-size: 60px;
 
   }
@@ -159,6 +154,8 @@ textarea {
   color: #000;
   text-transform: none;
   letter-spacing: 1px;
+  cursor: pointer;
+  font-family: $font-Lato;
   &:hover{
     text-decoration: underline;
   }
@@ -179,6 +176,9 @@ textarea {
 
 .select-group {
   position: relative;
+  option {
+    font-family: $font-Lato;
+  }
 }
 
 .drop-div2 {
@@ -271,6 +271,7 @@ input[type="radio"]:checked+label:before {
 .price-block {
   span {
     font-size: 14px;
+    font-family: $font-Lato;
     margin: 10px 25px;
     background-color: #fff;
     width: 220px;
@@ -284,6 +285,7 @@ input[type="radio"]:checked+label:before {
   }
   > p {
     font-size: 14px;
+    font-family: $font-Lato;
   }
   span:hover {
     border: 2px solid #ab1e56;
@@ -312,6 +314,11 @@ input[type="radio"]:checked+label:before {
     cursor: pointer;
     line-height: 40px;
     padding-left: 28px;
+  }
+  textarea, textarea:focus {
+    background-color: #f2f2f2;
+    border: none;
+    width: 100%;
   }
 }
 
@@ -352,7 +359,7 @@ input[type="number"] {
     font-style: italic;
     color: #666;
     font-size: 15px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     font-weight: 300;
   }
 }
@@ -368,8 +375,9 @@ input[type="number"] {
     text-transform: uppercase;
     font-size: 13px;
     font-weight: bold;
+    font-family: $font-Lato;
     display: inline-block;
     line-height: 50px;
-    font-family: "LatoFont", "Helvetica", "Arial";
+    font-family: $font-Lato;
     white-space: nowrap;
 }

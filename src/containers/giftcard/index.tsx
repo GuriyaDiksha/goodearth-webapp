@@ -32,6 +32,7 @@ class GiftCard extends React.Component<
     productData: any;
     countryData: any;
     finalData: any;
+    selectedCountry: string;
   }
 > {
   constructor(props: Props) {
@@ -39,6 +40,7 @@ class GiftCard extends React.Component<
 
     this.state = {
       currentSection: "card",
+      selectedCountry: "",
       productData: [],
       countryData: [],
       finalData: {},
@@ -63,6 +65,16 @@ class GiftCard extends React.Component<
       });
     });
   }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.currency !== this.props.currency) {
+      this.goback("card");
+      this.setState({
+        selectedCountry: ""
+      });
+    }
+  }
+
   goback = (section: string) => {
     this.setState({
       currentSection: section
@@ -70,22 +82,29 @@ class GiftCard extends React.Component<
   };
 
   next = (data: any, section: string) => {
-    let { finalData } = this.state;
+    const giftCardData = this.state.finalData;
     if (section == "amount") {
-      finalData["imageUrl"] = data;
+      giftCardData["imageUrl"] = data;
     } else if (section == "form") {
-      finalData["customPrice"] = data.customPrice;
-      finalData["productId"] = data.productId;
+      giftCardData["customPrice"] = data.customPrice;
+      giftCardData["productId"] = data.productId;
+      this.setState({
+        selectedCountry: data.selectedCountry
+      });
     } else if (section == "preview") {
-      finalData["message"] = data.message;
-      finalData["recipientEmail"] = data.email;
-      finalData["recipientName"] = data.firtName;
-      finalData["senderName"] = data.senderName;
-      finalData["quantity"] = 1;
+      giftCardData["message"] = data.message;
+      giftCardData["recipientEmail"] = data.recipientEmail;
+      giftCardData["recipientName"] = data.recipientName;
+      giftCardData["senderName"] = data.senderName;
+      giftCardData["quantity"] = 1;
     } else if (section == "card") {
-      finalData = {};
+      // giftCardData = {};
+      this.setState({
+        selectedCountry: ""
+      });
     }
     this.setState({
+      finalData: giftCardData,
       currentSection: section
     });
   };
@@ -103,6 +122,7 @@ class GiftCard extends React.Component<
       case "amount":
         return (
           <Section2
+            selectedCountry={this.state.selectedCountry}
             countryData={this.state.countryData}
             productData={this.state.productData}
             data={this.state.finalData}

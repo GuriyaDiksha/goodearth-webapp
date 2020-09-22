@@ -1,9 +1,9 @@
 import { InitAction } from "typings/actions";
-import Api from "services/api";
+// import Api from "services/api";
 
 const initActionCheckout: InitAction = async dispatch => {
   // code
-  Api.getCurrency(dispatch);
+  // Api.getCurrency(dispatch);
 };
 
 export default initActionCheckout;

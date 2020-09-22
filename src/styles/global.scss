@@ -15,7 +15,50 @@ body {
   line-height: 1.4;
   overflow-x: hidden;
   color: $default;
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
   @include scrollbar();
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+  select,
+  textarea,
+  input {
+    font-size: 16px;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+  }
+}
+
+h1, h2, h3, h4, b, strong {
+  font-weight: 400;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+::-webkit-input-placeholder { /* Edge */
+  font-weight: 300;
+  font-family: $font-Lato;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-weight: 300;
+  font-family: $font-Lato;
+}
+
+::placeholder {
+  font-weight: 300;
+  font-family: $font-Lato;
+}
+a{
+  &:hover {
+    text-decoration: none;
+  }
+}
+textarea {
+  font-family: $font-Lato;
+  font-size: 12px;
 }
 
 ul,li,ol,p,h3,h5 {
@@ -24,8 +67,8 @@ ul,li,ol,p,h3,h5 {
 }
 
 button:focus, button:active, button:visited, *:focus, *:active, *:visited {
-  outline: none;
-  -webkit-outline: none;
+  outline: 0;
+  -webkit-outline: 0;
 }
 
 
@@ -52,7 +95,7 @@ a {
 }
 
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 .text-left {
@@ -94,6 +137,9 @@ a {
     bottom: -6px;
   }
   @include error-msg();
+  span.link-text-underline {
+    @include error-msg();
+  }
   text-align: left;
   // height: 15px;
   line-height: 15px;
@@ -107,7 +153,9 @@ a {
     text-transform: none !important;
   }
 }
-
+.txt-normal {
+  text-transform: none !important;
+}
 .invisible {
   opacity: 0;
 }
@@ -156,12 +204,29 @@ font-weight: bold;
 }
 
 .link-text-underline {
-  text-decoration: underline;
+  text-decoration: underline !important;
   cursor: pointer;
 }
 
 .cerise-btn {
   @include cerise-btn();
+  &:hover {
+    color: #fff;
+  }
+  &:focus {
+    color: #fff;
+    outline: 0;
+    -webkit-outline: 0;
+  }
+   
+  &:hover {
+    text-decoration: none;
+  }
+  &.disabled-btn {
+    background-color: tint(#000, 95%);
+    color: tint(#000, 50%);
+    cursor: default;
+  }
   a {
     font-weight: normal;
     color: #fff;
@@ -201,11 +266,14 @@ font-weight: bold;
   position: absolute;
   right: 10px;
   top: 8px;
+  z-index: 2;
 }
 
 .form-field-container {
   position: relative;
   width: 100%;
+  font-size: 0;
+  border: 1px solid #eee;
 }
 
 .bg-grey {
@@ -324,7 +392,7 @@ font-weight: bold;
   margin: 2px 10px 0 0;
   color: $cerise;
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
 }
 .c10-l-r{

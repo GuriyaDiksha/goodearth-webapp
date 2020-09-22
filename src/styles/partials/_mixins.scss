@@ -45,13 +45,13 @@
 }
 
 @mixin ftr-heading-white {
-  font-weight: bold;
+  //font-weight: bold;
   font-style: normal;
   font-size: 14px;
   text-transform: uppercase;
   font-family: $font-Lato;
   letter-spacing: 1px;
-  color: $white;
+  color: #000;
 }
 
 @mixin ftr-heading-80blk {
@@ -70,7 +70,7 @@
 
 @mixin ftr-copy-white-desktop {
   @include hdr-curr;
-  color: $white;
+  color: #000;
 }
 
 @mixin ftr-copy-70blk {
@@ -136,7 +136,7 @@
 
 @mixin plp_coll_name_mob {
     font-size: 10px;
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
     letter-spacing: 1px;
     color: tint(#000, 50%);
     text-transform: uppercase;
@@ -144,7 +144,7 @@
   
 @mixin plp_prod_name_mob {
     font-size: 12px;
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
 }
 
 @mixin plp_subhdr_dd_copy {
@@ -164,12 +164,12 @@
     font-size: 12px;
     letter-spacing: 1px;
     color: tint(#000, 50%);
-    font-family: $font-Amiri;
+    font-family: $font-Serif;
 }
   
 @mixin plp_prod_name_desktop {
-    font-size: 16px;
-    font-family: $font-Amiri;
+    font-size: 14px;
+    font-family: $font-Lato;
 }
 
 @mixin plp_prod_quantity {
@@ -230,14 +230,15 @@
   text-transform: uppercase;
   color: tint(#000, 60%);
   letter-spacing: 2px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   line-height: 30px;
 }
 
 @mixin pdp_prod_title {
-  font-size: 22px;
+  font-size: 18px;
   color: #000;
-  font-family: "AmiriFont", "Baskerville", "Garamond";
+  font-family: $font-Lato;
+  letter-spacing: 0.5px;
 }
 
 @mixin pdp_label {
@@ -260,14 +261,14 @@
   font-size: 13px;
   font-family: $font-Lato;
   text-transform: uppercase;
-  color: tint(#000, 50%);
+  color: #000;
   letter-spacing: 1px;
 }
 
 @mixin pdp_copy_body {
-  font-size: 14px;
-  font-family: "AmiriFont", "Baskerville", "Garamond";
-  color: tint(#000, 50%);
+  font-size: 15px;
+  font-family: $font-Serif;
+  color: #000;
   text-transform: none;
   line-height: 20px;
   margin-top: 15px;
@@ -275,33 +276,33 @@
 
 @mixin pdp_prod_title_mobile {
   font-size: 16px;
-  font-family: "AmiriFont", "Baskerville", "Garamond";
+  font-family: $font-Lato;
   color: #000;
   text-transform: capitalize;
 }
 
 @mixin plp_prod_name_desktop {
-  font-size: 16px;
-  font-family: "AmiriFont", "Baskerville", "Garamond";
+  font-size: 14px;
+  font-family: $font-Lato;
   color: #000;
   text-transform: capitalize;
 }
 
 @mixin plp_prod_price_desktop {
   font-size: 16px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   color: #000;
 }
 
 @mixin plp_prod_price_mob {
   font-size: 12px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   color: #000;
 }
 
 @mixin plp_coll_name_desktop {
   font-size: 12px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   color: tint(#000, 50%);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -309,7 +310,7 @@
 
 @mixin pdp_collection_header_mobile {
   font-size: 10px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   color: tint(#000, 50%);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -323,7 +324,7 @@
 @mixin curveBtnLink {
   display: inline-block;
   text-transform: uppercase;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   letter-spacing: 1px;
 }
 
@@ -338,13 +339,13 @@
 
 @mixin c22-A-I {
   font-size: 25px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   //font-style: italic;
 }
 
 @mixin font28 {
   font-size: 28px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   text-transform: capitalize;
 }
 
@@ -367,6 +368,7 @@
   font-weight: bold;
   font-family: $font-Lato;
   letter-spacing: 1px;
+  // text-transform: lowercase;
   &::first-letter {
     text-transform: uppercase;
   }
@@ -490,7 +492,7 @@
 @mixin small {
   font-size: 16px;
   letter-spacing: 1px;
-  font-family: $font-Amiri;
+  font-family: $font-Serif;
   text-transform: capitalize;
   color: tint(#000, 30%);
 }
@@ -622,4 +624,19 @@ $list: $grey 92%, $white 8%;
   text-transform: uppercase;
   color: tint(#000, 70%);
   letter-spacing: 2px;
+}
+
+@mixin pdp_prod_name {
+  font-size: 22px;
+  color: #000;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+}
+
+@mixin pdp_coll_name {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: tint(#000, 60%);
+  letter-spacing: 2px;
+  font-family: "AmiriFont", "Baskerville", "Garamond";
+  line-height: 30px;
 }

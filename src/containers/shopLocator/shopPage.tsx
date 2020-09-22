@@ -53,7 +53,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               <h3>
                 {item.place}
                 {item.cafeAddress && (
-                  <Link to="#cafe">
+                  <Link to={`${viewLink}#cafe`}>
                     <img src={cafeicon} className={styles.iconCafe} />
                   </Link>
                 )}
@@ -61,7 +61,8 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
 
               <div className={cs(styles.small, styles.city)}>{item.city}</div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
-                <strong className="black"> {item.opendays} </strong> <br />
+                <strong className={styles.black}> {item.opendays} </strong>{" "}
+                <br />
                 {item.time}
               </div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
@@ -106,9 +107,13 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                   <Link to={viewLink}> VIEW </Link>
                 </div>
                 <div className={cs(globalStyles.col6, globalStyles.textRight)}>
-                  <Link to={item.direction} target="_blank">
+                  <a
+                    href={item.direction}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
                     directions{" "}
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

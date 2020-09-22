@@ -9,35 +9,49 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const otp = await AccountService.sendOtpBalance(dispatch, data);
       return otp;
     },
+    sendOtpRedeem: async (data: FormData) => {
+      const otp = await AccountService.sendOtpRedeem(dispatch, data);
+      return otp;
+    },
     checkOtpBalance: async (data: FormData) => {
       const balance = await AccountService.checkOtpBalance(dispatch, data);
+      return balance;
+    },
+    checkOtpRedeem: async (data: FormData) => {
+      const balance = await AccountService.checkOtpRedeem(dispatch, data);
+      BasketService.fetchBasket(dispatch, "checkout");
       return balance;
     },
     applyGiftCard: async (data: FormData) => {
       const gift: any = await CheckoutService.applyGiftCard(dispatch, data);
       if (gift.status) {
-        BasketService.fetchBasket(dispatch);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
       return gift;
     },
     removeGiftCard: async (data: FormData) => {
       const gift: any = await CheckoutService.removeGiftCard(dispatch, data);
       if (gift.status) {
-        BasketService.fetchBasket(dispatch);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
       return gift;
     },
     removePromo: async (data: FormData) => {
       const promo: any = await CheckoutService.removePromo(dispatch, data);
       if (promo.status) {
-        BasketService.fetchBasket(dispatch);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
+      return promo;
+    },
+    removeRedeem: async () => {
+      const promo: any = await CheckoutService.removeRedeem(dispatch);
+      BasketService.fetchBasket(dispatch, "checkout");
       return promo;
     },
     applyPromo: async (data: FormData) => {
       const promo: any = await CheckoutService.applyPromo(dispatch, data);
       if (promo.status) {
-        BasketService.fetchBasket(dispatch);
+        BasketService.fetchBasket(dispatch, "checkout");
       }
       return promo;
     }

@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import SignedIn from "../SignedIn";
+import { genderOptions } from "constants/profile";
 
 const mapStateToProps = () => {
   return {};
@@ -46,11 +47,6 @@ class MyProfile extends React.Component<Props, State> {
       phonecodeError: "",
       highlightCode: false,
       numHighlight: false,
-      genderOptions: [
-        { value: "Female", label: "Female" },
-        { value: "Male", label: "Male" },
-        { value: "Others", label: "Others" }
-      ],
       minDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 110)
       ).format("YYYY-MM-DD"),
@@ -75,6 +71,7 @@ class MyProfile extends React.Component<Props, State> {
           showerror: "Something went wrong, please try again"
         });
       });
+    // this.props.fetchCountryData();
   }
 
   setApiResponse = (data: ProfileResponse) => {
@@ -101,7 +98,7 @@ class MyProfile extends React.Component<Props, State> {
       this.ProfileFormRef.current.updateInputsWithValue(formData);
   };
 
-  handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
+  handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     if (!this.state.updateProfile) return false;
     const {
       phoneCountryCode,
@@ -112,13 +109,15 @@ class MyProfile extends React.Component<Props, State> {
       subscribe
     } = model;
     const formData: any = {};
-    formData["phoneCountryCode"] = phoneCountryCode || "";
-    formData["phoneNumber"] = phoneNumber || "";
+    if (phoneCountryCode && phoneNumber) {
+      formData["phoneCountryCode"] = phoneCountryCode;
+      formData["phoneNumber"] = phoneNumber;
+    }
     formData["gender"] = gender || "";
     formData["panPassportNumber"] = panPassportNumber || "";
     formData["dateOfBirth"] = dateOfBirth
       ? moment(dateOfBirth).format("YYYY-MM-DD")
-      : "";
+      : null;
     formData["subscribe"] = subscribe;
     this.setState({
       showerror: ""
@@ -132,11 +131,32 @@ class MyProfile extends React.Component<Props, State> {
         });
       })
       .catch(err => {
-        if (err) {
-          this.setState({
-            showerror: "Something went Wrong"
-          });
-        }
+        this.setState(
+          {
+            // disableButton: false
+          },
+          () => {
+            this.handleInvalidSubmit();
+          }
+        );
+        Object.keys(err.response.data).map(data => {
+          switch (data) {
+            case "firstName":
+            case "lastName":
+            case "gender":
+            case "dateOfBirth":
+            case "phoneNumber":
+            case "phoneCountryCode":
+            case "panPassportNumber":
+              updateInputsWithError(
+                {
+                  [data]: err.response.data[data][0]
+                },
+                true
+              );
+              break;
+          }
+        });
       });
   };
 
@@ -159,7 +179,7 @@ class MyProfile extends React.Component<Props, State> {
   };
 
   render() {
-    const { genderOptions, loginVia } = this.state;
+    const { loginVia } = this.state;
     const {
       firstName,
       lastName,
@@ -216,6 +236,7 @@ class MyProfile extends React.Component<Props, State> {
                   name="gender"
                   required
                   options={genderOptions}
+                  value={gender || undefined}
                   label="Select Gender"
                   placeholder="Select Gender"
                   handleChange={() => this.setUpdateProfile()}
@@ -264,7 +285,7 @@ class MyProfile extends React.Component<Props, State> {
                     }
                   }}
                   validationErrors={{
-                    isValidDate: "Please enter valid date oof birth",
+                    isValidDate: "Please enter valid date of birth",
                     isMinAllowedDate: "Please enter valid date of birth",
                     isMaxAllowedDate: "Age should be at least 15 years"
                   }}
@@ -284,7 +305,7 @@ class MyProfile extends React.Component<Props, State> {
                   id="isd_code"
                   validations={{
                     isCodeValid: (values, value) => {
-                      return !(values.phone && value == "");
+                      return !(values.phoneNumber && value == "");
                     }
                   }}
                   validationErrors={{
@@ -302,7 +323,7 @@ class MyProfile extends React.Component<Props, State> {
                   className={cs({ [styles.disabledInput]: phoneNumber })}
                   validations={{
                     isPhoneValid: (values, value) => {
-                      return !(values.code && value == "");
+                      return !(values.phoneCountryCode && value == "");
                     }
                   }}
                   validationErrors={{
@@ -350,6 +371,7 @@ class MyProfile extends React.Component<Props, State> {
                 )}
                 <input
                   type="submit"
+                  formNoValidate
                   disabled={!this.state.updateProfile}
                   className={
                     this.state.updateProfile

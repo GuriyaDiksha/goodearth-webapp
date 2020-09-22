@@ -12,6 +12,8 @@ import "./slider.css";
 import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
+import * as valid from "utils/validate";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -62,6 +64,7 @@ class FilterList extends React.Component<Props, State> {
         availableDiscount: {},
         q: {}
       },
+      isLoading: false,
       searchUrl: this.props.history.location,
       mobileFilter: false,
       showmobileSort: false,
@@ -85,11 +88,14 @@ class FilterList extends React.Component<Props, State> {
     this.props.onRef(this);
   }
 
+  public unlisten: any = "";
+
   createFilterfromUrl = () => {
     const vars: any = {};
     const { history } = this.props;
     const url = decodeURI(history.location.search.replace(/\+/g, " "));
     const { filter } = this.state;
+
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
     while ((match = re.exec(url))) {
@@ -222,7 +228,7 @@ class FilterList extends React.Component<Props, State> {
           case "categoryShop":
             // this.state.old_selected_category = k]y;
             if (array[filterType][key]) {
-              categoryShopVars = key;
+              categoryShopVars = encodeURIComponent(key).replace(/%20/g, "+");
             }
             break;
           case "price":
@@ -232,7 +238,7 @@ class FilterList extends React.Component<Props, State> {
             filterUrl += "&" + key + "=" + array[filterType][key];
             break;
           case "sortBy":
-            filterUrl += "&" + key + "=" + array[filterType][key];
+            filterUrl += "&sort_by=" + array[filterType][key];
             break;
           case "productType": {
             const product = array[filterType];
@@ -270,7 +276,9 @@ class FilterList extends React.Component<Props, State> {
     });
     colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
     sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
-    searchValue = this.state.filter.q.q ? this.state.filter.q.q : "";
+    searchValue = this.state.filter.q.q
+      ? encodeURIComponent(this.state.filter.q.q)
+      : "";
     categoryShopVars != ""
       ? (filterUrl += "&category_shop=" + categoryShopVars)
       : "";
@@ -282,9 +290,39 @@ class FilterList extends React.Component<Props, State> {
       mainurl = history.location.pathname;
     }
     // filter_url = filter_url.replace(/\s/g, "+");
-    history.push(mainurl + "?q=" + searchValue + filterUrl, {});
+    history.replace(mainurl + "?q=" + searchValue + filterUrl, {});
     // history.replaceState({}, "", mainurl + "?q=" + searchValue + filterUrl);
     this.updateDataFromAPI(load);
+  };
+
+  stateChange = (location: any, action: any) => {
+    if (action == "PUSH" && location.pathname.includes("/search")) {
+      this.setState(
+        {
+          filter: {
+            currentColor: {},
+            availableSize: {},
+            categoryShop: {},
+            price: {},
+            currency: {},
+            sortBy: {},
+            productType: {},
+            availableDiscount: {},
+            q: {}
+          }
+        },
+        () => {
+          this.props.updateOnload(true);
+          this.props.mobile
+            ? this.updateDataFromAPI("load")
+            : this.updateDataFromAPI();
+        }
+      );
+      // this.setState({
+      //   value:
+      // });
+      // this.getSearchDataApi();
+    }
   };
 
   onchangeRange = (value: any) => {
@@ -413,8 +451,15 @@ class FilterList extends React.Component<Props, State> {
       this.setState({ flag: false });
       const filterUrl = "?" + nextUrl.split("?")[1];
       const pageSize = mobile ? 10 : 20;
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        searchList => {
+      this.setState({ isLoading: true });
+      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
+        .then(searchList => {
+          valid.productImpression(
+            searchList,
+            "PLP",
+            this.props.currency,
+            searchList.results.data.length
+          );
           this.createFilterfromUrl();
           const pricearray: any = [],
             currentCurrency =
@@ -462,8 +507,10 @@ class FilterList extends React.Component<Props, State> {
               }
             }
           );
-        }
-      );
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
     }
   };
 
@@ -479,20 +526,31 @@ class FilterList extends React.Component<Props, State> {
     const filterUrl = "?" + url.split("?")[1];
 
     const pageSize = mobile ? 10 : 20;
-    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`).then(
-      searchList => {
+    this.setState({ isLoading: true });
+    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
+      .then(searchList => {
+        valid.productImpression(searchList, "PLP", this.props.currency);
         this.createList(searchList);
-      }
-    );
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
   };
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+    this.unlisten = this.props.history.listen(this.stateChange);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (nextProps.onload && nextProps.facets.categoryShop) {
+      this.props.updateOnload(false);
       this.createList(nextProps.data);
+    }
+    if (this.props.currency != nextProps.currency) {
+      nextProps.mobile
+        ? this.updateDataFromAPI("load")
+        : this.updateDataFromAPI();
     }
   };
 
@@ -550,6 +608,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    this.unlisten();
   }
 
   onClickLevel4 = (event: any) => {
@@ -1176,9 +1235,9 @@ class FilterList extends React.Component<Props, State> {
       availableSize: {},
       categoryShop: {},
       price: {},
-      currency: {
-        currency: this.props.currency
-      },
+      // currency: {
+      //   currency: this.props.currency
+      // },
       sortBy: {},
       q: {
         q: value
@@ -1199,6 +1258,7 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     return (
       <Fragment>
+        {this.state.isLoading && <Loader />}
         <ul id="inner_filter" className={styles.filterSideMenu}>
           <li className={styles.filterElements}>
             <span>Filtered By</span>

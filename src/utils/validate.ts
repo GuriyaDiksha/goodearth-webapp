@@ -116,3 +116,48 @@ export function productForGa(data: Basket, currency: Currency) {
 
   return product;
 }
+
+export function productImpression(
+  data: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    let product = [];
+    position = position || 0;
+    if (!data) return false;
+    if (data.length < 1) return false;
+    product = data.results.data.map((prod: any, i: number) => {
+      const index = prod.categories.length - 1;
+      let category = prod.categories[index]
+        ? prod.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+      return prod.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: category,
+            list: list,
+            price: child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: prod.color ? prod.color[0] : ""
+          }
+        );
+      });
+    });
+    dataLayer.push({
+      event: "productImpression",
+      ecommerce: {
+        currencyCode: currency,
+        impressions: product
+      }
+    });
+  } catch (e) {
+    console.log("Impression error");
+  }
+}

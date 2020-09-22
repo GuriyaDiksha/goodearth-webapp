@@ -2,10 +2,10 @@ import loadable from "@loadable/component";
 import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
-import { Props as PDPProps, State } from "./typings";
+import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
-
+import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
 import { Product } from "typings/product";
@@ -26,6 +26,7 @@ import MobileSlider from "../../components/MobileSlider";
 import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.png";
+import LazyImage from "components/LazyImage";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -51,6 +52,7 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     recommendedSliderItems,
     currency: state.currency,
     device: state.device,
+    location: state.router.location,
     corporatePDP: state.meta.templateType === "corporate_pdp"
   };
 };
@@ -64,7 +66,8 @@ class PDPContainer extends React.Component<Props, State> {
     sidebarSticky: true,
     detailsSticky: true,
     activeImage: 0,
-    detailStickyEnabled: true
+    detailStickyEnabled: true,
+    mounted: false
   };
 
   imageOffsets: number[] = [];
@@ -92,20 +95,97 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.fetchMoreProductsFromCollection();
-    this.onScroll();
-    document.addEventListener("scroll", this.onScroll);
+    if (
+      !this.props.device.mobile &&
+      this.imageOffsets.length < 1 &&
+      this.props.data
+    ) {
+      this.getImageOffset();
+    }
+    dataLayer.push({
+      event: "PdpView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_pdp_view"
+    });
+    if (this.props.device.mobile) {
+      this.getProductImagesData();
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
+    this.setState(
+      {
+        mounted: true
+      },
+      () => {
+        window.setTimeout(() => {
+          document.addEventListener("scroll", this.onScroll);
+        }, 100);
+      }
+    );
+    this.fetchMoreProductsFromCollection(this.props.id);
   }
 
-  componentDidUpdate() {
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.onScroll);
+    if (this.props.device.mobile) {
+      const elem = document.getElementById("pincode-bar");
+      elem &&
+        elem.classList.contains(globalStyles.hiddenEye) &&
+        elem.classList.remove(globalStyles.hiddenEye);
+      // const chatButtonElem = document.getElementById("chat-button");
+      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      // if (scrollToTopButtonElem) {
+      //   scrollToTopButtonElem.style.bottom = "65px";
+      // }
+      // if (chatButtonElem) {
+      //   chatButtonElem.style.bottom = "10px";
+      // }
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.id && this.props.id != nextProps.id) {
+      this.setState({
+        sidebarSticky: true,
+        detailsSticky: true,
+        activeImage: 0,
+        detailStickyEnabled: true
+      });
+      this.fetchMoreProductsFromCollection(nextProps.id);
+    }
+  }
+
+  componentDidUpdate(props: Props) {
     const { data } = this.props;
     if (!data) {
       return;
     }
     const productImages = this.getProductImagesData();
-    if (productImages.length === 1 && this.state.detailStickyEnabled) {
-      this.setState({
-        detailStickyEnabled: false
+    if (props.data && props.data.id !== data.id) {
+      document.removeEventListener("scroll", this.onScroll);
+      window.scrollTo({
+        top: 0
+      });
+
+      const state: any = {
+        sidebarSticky: true,
+        detailsSticky: true
+      };
+
+      if (productImages.length === 1 && this.state.detailStickyEnabled) {
+        state.detailStickyEnabled = false;
+      }
+
+      this.setState(state, () => {
+        document.addEventListener("scroll", this.onScroll);
       });
     }
   }
@@ -186,26 +266,36 @@ class PDPContainer extends React.Component<Props, State> {
     }
   };
 
-  fetchMoreProductsFromCollection() {
-    const { id, fetchMoreProductsFromCollection } = this.props;
-
+  fetchMoreProductsFromCollection = (id: number | null) => {
+    const { fetchMoreProductsFromCollection } = this.props;
     if (id) {
       fetchMoreProductsFromCollection(id);
     }
-  }
+  };
 
-  getProductImagesData() {
-    const {
-      data: { sliderImages, images }
-    } = this.props;
-
+  getProductImagesData = () => {
+    const { data } = this.props;
+    let sliderImages, images;
+    if (data) {
+      sliderImages = data.sliderImages;
+      images = data.images;
+    }
     return images ? images.concat(sliderImages || []) : [];
-  }
+  };
+
+  getImageOffset = () => {
+    const productImages = this.getProductImagesData();
+    productImages?.map((image, index) => {
+      const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
+      const { clientHeight } = ele;
+      this.imageOffsets[index] = clientHeight;
+    });
+  };
 
   getProductImages() {
     const productImages = this.getProductImagesData();
 
-    return productImages.map((image, index) => {
+    return productImages?.map((image, index) => {
       const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
         const ele = event.currentTarget;
         const { naturalHeight, naturalWidth } = ele;
@@ -243,6 +333,7 @@ class PDPContainer extends React.Component<Props, State> {
       <ProductDetails
         corporatePDP={corporatePDP}
         data={data}
+        key={data.sku}
         currency={currency}
         mobile={mobile}
         wishlist={[]}
@@ -255,10 +346,11 @@ class PDPContainer extends React.Component<Props, State> {
   getRecommendedSection() {
     const {
       recommendedSliderItems,
-      device: { mobile }
+      device: { mobile },
+      currency
     } = this.props;
 
-    if (!recommendedSliderItems.length) {
+    if (recommendedSliderItems.length < 4 || typeof document == "undefined") {
       return null;
     }
 
@@ -267,6 +359,7 @@ class PDPContainer extends React.Component<Props, State> {
       infinite: true,
       speed: 500,
       slidesToShow: 4,
+      arrows: true,
       slidesToScroll: 1,
       initialSlide: 0,
       responsive: [
@@ -283,7 +376,7 @@ class PDPContainer extends React.Component<Props, State> {
       <WeRecommendSlider
         data={recommendedSliderItems}
         setting={config as Settings}
-        currency={"INR"}
+        currency={currency}
         mobile={mobile}
       />
     );
@@ -295,7 +388,10 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile }
     } = this.props;
 
-    if (!collectionProducts.length) {
+    if (
+      collectionProducts.length < (mobile ? 2 : 4) ||
+      typeof document == "undefined"
+    ) {
       return null;
     }
 
@@ -312,7 +408,8 @@ class PDPContainer extends React.Component<Props, State> {
           settings: {
             slidesToShow: 4,
             slidesToScroll: 1,
-            infinite: true
+            infinite: true,
+            arrows: true
           }
         },
         {
@@ -390,9 +487,11 @@ class PDPContainer extends React.Component<Props, State> {
       images?.map(({ id, productImage }, i: number) => {
         return (
           <div key={id} className={globalStyles.relative}>
-            <img
+            <LazyImage
+              aspectRatio="62:93"
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
+              onClick={this.getMobileZoomListener(i)}
             />
             <div
               className={styles.mobileZoomIcon}
@@ -409,7 +508,8 @@ class PDPContainer extends React.Component<Props, State> {
       sidebarSticky,
       detailsSticky,
       activeImage,
-      detailStickyEnabled
+      detailStickyEnabled,
+      mounted
     } = this.state;
 
     return (
@@ -447,9 +547,9 @@ class PDPContainer extends React.Component<Props, State> {
                 bootstrap.colMd1,
                 bootstrap.offsetMd1,
                 styles.sidebar,
+                globalStyles.pageStickyElement,
                 {
-                  [globalStyles.pageStickyElement]: !mobile,
-                  [globalStyles.pageStickyScrolling]: !sidebarSticky && !mobile
+                  [globalStyles.pageStickyScrolling]: !sidebarSticky
                 }
               )}
               ref={this.sidebarRef}
@@ -499,6 +599,13 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
+        {mounted && (
+          <MakerEnhance
+            user="goodearth"
+            index="1"
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {this.getMoreCollectionProductsSection()}

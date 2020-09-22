@@ -508,7 +508,7 @@
       height: 400px;
       .small-desc {
           text-transform: none;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-family: $font-Serif;
         }
     }
     .txt-disp-left {
@@ -517,7 +517,7 @@
       display: flex;
       .small-desc {
           text-transform: none;
-          font-family: "AmiriFont", "Baskerville", "Garamond";
+          font-family: $font-Serif;
         }
       .align-disp-left {
         align-self: flex-end;
@@ -526,7 +526,7 @@
     .headLink {
       line-height: 28px;
       font-size: 25px;
-      font-family: "AmiriFont", "Baskerville", "Garamond";
+      font-family: $font-Serif;
       span {
         &:after {
           content: '';
@@ -535,6 +535,7 @@
     }
     .small-desc {
       font-size: 16px;
+      text-transform: uppercase;
       font-family: $font-Lato;
       letter-spacing: 0.5px;
       padding-top: 10px;
@@ -550,7 +551,7 @@
   h4 {
     &.headLink-2 {
       font-style: normal;
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       font-size: 25px;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -574,14 +575,16 @@
       font-size: 20px;
     }
     &.headLink-3 {
-      font-style: normal;
-      font-family: $font-Amiri;
+      font-style: normal; 
+      font-size: 25px;
+      font-family: $font-Serif;
       text-align: center;
+      font-weight: 400;
       span:last-child {
         text-transform: capitalize;
         font-style: italic;
-        font-family: "Libre Baskerville" !important;
-        font-size: 18px;
+        font-family: $font-Serif;
+        font-size: 22px;
         &:before {
           content: '|';
   
@@ -597,7 +600,9 @@
         padding: 0 60px;
       }
     }
-  
+    .left-promo {
+      padding-right: 15px;
+    }
     //.image-result {
     //  height: 38vw;
     //}
@@ -639,7 +644,7 @@
       }
     }
     .cat-videos-block {
-      margin-top: 80px;
+      // margin-top: 80px;
       padding: 50px 0;
       .slick-slide {
         //padding: 0 50px;
@@ -668,7 +673,7 @@
     h2 {
       &.headLink-2 {
         font-size: 20px;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         p:last-child {
           text-transform: uppercase;
           font-size: 14px;
@@ -742,7 +747,7 @@
       }
       h4 {
         font-size: 15px;
-        font-family: $font-Amiri;
+        font-family: $font-Serif;
         span:last-child {
   
           &:before {
@@ -753,15 +758,16 @@
   
     }
     .cat-videos-block {
-      .slick-slide {
-        white-space: nowrap;
+      // margin-top: 100px;
+      // .slick-slide {
+        // white-space: nowrap;
         //padding: 0 5px !important;
         h2 {
           line-height: 25px;
           padding: 30px 0;
           &.headLink-3 {
             span {
-              font-family: $font-Amiri;
+              font-family: $font-Serif;
             }
   
             span:last-child {
@@ -774,7 +780,7 @@
             }
           }
         }
-      }
+      // }
     }
     .wishlist-block-outer {
       padding-top: 30px;
@@ -795,9 +801,7 @@
   .level4-style{
     padding-left: 25px !important;
   }  
-  .left-promo {
-    padding-right: 15px;
-  }
+  
 
   .promo-disp {
     margin-top: 35px;
@@ -814,7 +818,7 @@
       }
       }
     .subtitleHead {
-      font-family: $font-Amiri;
+      font-family: $font-Serif;
       display: inline-block;
       width: 40%;
       margin-top: 5px;
@@ -846,6 +850,7 @@
      } */
   }
   .heroBannerHome {
+    
     .imgsetleft {
       position: absolute;
       bottom: 20%;
@@ -913,4 +918,8 @@
   
     }
   
+  }
+
+  .page-body {
+    margin-top: $header-height;
   }

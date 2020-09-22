@@ -9,6 +9,9 @@ import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { updateAddressList } from "actions/address";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateBasket } from "actions/basket";
+import CacheService from "services/cache";
+import { showMessage } from "actions/growlMessage";
+import { PRODUCT_UNPUBLISHED } from "constants/messages";
 
 export default {
   fetchAddressList: async (dispatch: Dispatch) => {
@@ -19,11 +22,16 @@ export default {
     return data;
   },
   fetchPinCodeData: async (dispatch: Dispatch) => {
+    const pinCodeData = CacheService.get("pinCodeData") as PinCodeData;
+    if (pinCodeData && Object.keys(pinCodeData).length > 0) {
+      return pinCodeData;
+    }
     const data = await API.get<{ data: PinCodeData }>(
       dispatch,
       `${__API_HOST__}/myapi/address/pincode_state/`
     );
-    return data;
+    CacheService.set("pinCodeData", data.data);
+    return data.data;
   },
 
   makeDefault: async (dispatch: Dispatch) => {
@@ -64,10 +72,13 @@ export default {
   specifyShippingAddress: async (dispatch: Dispatch, id: number) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/address/specify_shipping_address/`,
+      `${__API_HOST__}/myapi/address/specify_shipping_address/?source=checkout`,
       { shippingAddressId: id }
     );
-    dispatch(updateBasket(data.basket));
+    if (data.data.basket.updated || data.data.basket.publishRemove) {
+      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+    }
+    dispatch(updateBasket(data.data.basket));
     return data;
   },
   specifyBillingAddress: async (

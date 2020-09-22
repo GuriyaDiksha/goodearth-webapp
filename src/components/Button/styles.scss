@@ -2,7 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .primary-button{
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     text-align: center;
     font-size: 12px;
     border: none;
@@ -10,4 +10,10 @@
     width: 100%;
     line-height: 52px;
     letter-spacing: 2px;
+    &:hover {
+        color: #fff;
+    }
+    &:active {
+        color: #fff;
+    }
 }

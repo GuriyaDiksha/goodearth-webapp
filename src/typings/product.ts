@@ -16,8 +16,11 @@ export interface PLPProductItem {
   categories: string[];
   isNew?: boolean;
   salesBadgeImage?: string;
+  justAddedBadge?: string;
+  badgeType?: string;
   partial: boolean;
   markAs?: string[];
+  productClass: string;
   childAttributes?: PartialChildProductAttributes[] | ChildProductAttributes[];
 }
 
@@ -50,7 +53,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   sizeChartHtml?: string;
   loyalityDisabled?: boolean;
   designJournalTagging?: DesignJournalTag[];
-  fillerMessage?: string;
+  fillerMessage: string;
   collectionProducts?: CollectionProductItem[];
   groupedProducts?: GroupedProductItem[];
 }
@@ -60,6 +63,7 @@ export interface PartialChildProductAttributes {
   priceRecords: PriceRecord;
   stock: number;
   size: string;
+  color?: string[];
 }
 
 export interface ChildProductAttributes extends PartialChildProductAttributes {

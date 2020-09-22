@@ -6,11 +6,12 @@ export type User = {
   email: string;
   id: string;
   panPassport?: string;
-  phone?: "";
+  phoneNumber?: string;
   loyalityEligible: boolean;
   bridal: boolean;
   gender?: "male" | "female";
   isLoggedIn: boolean;
-  refresh: string;
+  refresh: boolean;
   shippingData: AddressData | null;
+  slab: string;
 };

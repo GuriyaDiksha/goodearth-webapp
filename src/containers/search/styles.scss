@@ -7,8 +7,7 @@
     margin-left: 5px;
     border: 1px solid #ccc;
     span{
-        right: 5px;
-        font-weight: 100;
+        right: 12px;
         color: rgba(51,51,51,.8);
     }
     ul{
@@ -34,7 +33,7 @@
 .filter-text{
     line-height: 33px;
     font-size: 14px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     letter-spacing: 1px;
     color: #ab1e56;
     text-transform: uppercase;
@@ -47,9 +46,19 @@
   }
 }
 
+@media screen and (min-width: 992px) {
+  .sp-cat {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
 @media screen and (max-width: 992px) {
   .page-body{
     margin-top: $header-height;
+  }
+  .image-container {
+    margin-left: 20px;
   }
 }
 
@@ -65,12 +74,12 @@
     margin: 100px 0 0 0;
     h1{
         font-size: 28px;
-        font-family: "Baskerville","Amiri","Serif";
+        font-family: $font-Serif;
         text-transform: capitalize;
     }
     p {
         font-size: 12px;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         color: #666;
         letter-spacing: 1px;
     }
@@ -113,7 +122,7 @@
       z-index: 1;
       background-color: #fff;
       padding: 15px 20px 4px 20px;
-      top: 50px;
+      top: $header-height;
       border-bottom: 1px solid tint(#000, 80%);
       .filter-cross {
         line-height: 30px;
@@ -164,7 +173,7 @@
     bottom: 0;
     top: ($header-height + 50);
     left: 0;
-    z-index: 7;
+    z-index: 10;
     background-color: white;
     -webkit-transition: all 0.5s linear;
     -moz-transition: all 0.5s linear;
@@ -267,9 +276,12 @@
       }
       li {
         padding-left: 0px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        label {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+        }
 
       }
 
@@ -303,6 +315,7 @@
     .colorlabel {
       label {
         padding-left: 35px;
+        margin-bottom: 0;
       }
     }
   }
@@ -339,6 +352,7 @@
 }
 
 .categorylabel {
+  
   li {
     position: relative;
     div {
@@ -629,4 +643,110 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 
 
 
-  
+.no-result-padding {
+  padding: 0 10rem 0 10rem;
+}
+
+.search-heading {
+  text-transform: capitalize;
+  font-size: 25px;
+  h2 {
+    font-size: 25px;
+    font-family: "Baskerville","Amiri","Serif";
+    color: #333;
+    line-height: 60px;
+    text-transform: capitalize;
+    margin-top: 10px;
+  }
+  }
+
+.search-imagebox-new {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  padding: 135% 0 0 0;
+  }
+    
+  .image-content {
+    min-height: 120px;
+    text-align: center;
+    height: 110px;
+    margin-top: 15px;
+    p {
+      margin: 5px 0;
+    }
+  }
+
+  .image-content {
+    .product-h {
+      @include plp_coll_name_desktop();
+      //padding-top: 20px;
+    }
+    .product-n {
+      @include plp_prod_name_desktop();
+      a {
+        @include plp_prod_name_desktop();
+      }
+    }
+  }
+
+  .search-image-title {
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #464646;
+    font-family: "HeaderFont","Trebuchet MS","geneva";
+    display: block;
+    text-align: center;
+    letter-spacing: 0.5px;
+    position: relative;
+    }
+.search-feature {
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  a {
+    color: #ab1e56;
+    text-decoration: underline;
+  }
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.search-bottom-block-second {
+  width: 100vw;
+  height: 150px;
+  z-index: 10;
+  padding: 10px 0;
+  }
+
+  .image-result-new {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .checkheight {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    min-height: 300px;
+    padding: 0 10rem 0 10rem;
+  }
+  .checkheight-mobile {
+    min-height: 300px;
+    padding: 0 2rem 0 2rem;
+
+  }
+  // .minHeight {
+  //   // min-height: 800px;
+  //   min-height: 600px;
+  // }

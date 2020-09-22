@@ -2,7 +2,7 @@
 
 $font-Header: "HeaderFont", "Trebuchet MS", "geneva";
 $font-Lato: "LatoFont", "Helvetica", "Arial";
-$font-Amiri: "Baskerville", "Amiri", "Serif";
+$font-Serif: "Baskerville", "Garamond", "Times";
 
 $border: 1px solid tint(#000, 80%);
 $bp-xlarge: 120em; //breakpoint 1920px
@@ -21,10 +21,11 @@ $disabled-input: #f2f2f2;
 $dropdown-label-height: 32px;
 
 // Heights
-$header-height: 78px;
-$main-header: 121px;
+$header-height: 80px;
+$main-header: 130px;
 $secondary-header-height: 50px;
-$secondary-header-careers-height: 93px;
+$main-header-height: 50px;
+$secondary-header-careers-height: 50px;
 $header-top:0px;
 $footer-top:0px;
 $header-checkout: 50px;

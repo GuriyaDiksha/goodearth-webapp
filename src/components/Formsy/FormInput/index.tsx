@@ -33,7 +33,14 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      props.setValue(event.currentTarget.value);
+      const value = event.target.value;
+      if (props.maxlength) {
+        if (value.toString().length <= props.maxlength) {
+          props.setValue(value);
+        }
+      } else {
+        props.setValue(event.currentTarget.value);
+      }
       if (props.handleChange) {
         props.handleChange(event);
       }
@@ -46,7 +53,10 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       setPlaceholder(props.placeholder);
       setLabelClass(false);
     }
-  });
+    if (props.type == "date") {
+      setLabelClass(true);
+    }
+  }, []);
   const getRequiredErrorMessage = useCallback((name: string) => {
     switch (name) {
       case "email":
@@ -58,6 +68,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "dateOfBirth":
         return "Please enter valid date of birth";
       case "phoneNo":
+      case "phoneNumber":
         return "Please enter Phone Number";
       case "password1":
         return "Please enter at least 6 characters for the password";
@@ -78,6 +89,14 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter Sender's Name";
       case "giftCardCode":
         return "Please enter Gift Card Code";
+      case "orderNumber":
+        return "Please enter Order Number";
+      case "city":
+        return "Please enter City";
+      case "postCode":
+        return "Please enter valid Pin/Zip code";
+      case "line1":
+        return "Please enter Address Line 1";
       default:
         return "This field is required";
     }
@@ -103,11 +122,11 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         value={props.value || ""}
         placeholder={placeholder}
         onChange={e => handleChange(e)}
-        autoComplete="new-password"
+        autoComplete="off"
         onBlur={e => handleClickBlur(e)}
         onFocus={e => handleClick(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
-        onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)}
+        onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)} // use Key up if you want change only if input is valid
         onDrop={
           props.isDrop
             ? e => {
@@ -128,9 +147,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         disabled={props.disable || false}
       />
       <label
-        className={
-          (labelClass && !props.disable) || false ? "" : globalStyles.hidden
-        }
+        className={labelClass || false ? "" : globalStyles.hidden}
         id={props.id}
       >
         {props.label || ""}

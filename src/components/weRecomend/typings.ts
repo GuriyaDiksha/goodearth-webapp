@@ -11,6 +11,9 @@ export interface RecommendData {
   badgeImage?: string;
   pricerecords: PriceRecord;
   id: ProductID;
+  badgeType?: string;
+  discount: boolean;
+  discountedPriceRecords: PriceRecord;
 }
 
 export type RecommenedSliderProps = {

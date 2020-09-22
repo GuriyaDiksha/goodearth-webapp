@@ -1,4 +1,5 @@
 import React from "react";
+import { Dispatch } from "redux";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import initActionCollection from "./initAction";
@@ -12,6 +13,10 @@ import { Settings } from "react-slick";
 import CollectionImage from "components/collectionItem";
 import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
+import MakerEnhance from "maker-enhance";
+import CollectionService from "services/collection";
+import { updateCollectionFilter } from "actions/collection";
+import { getProductIdFromSlug } from "utils/url.ts";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -22,32 +27,100 @@ const mapStateToProps = (state: AppState) => {
     device: state.device
   };
 };
-type Props = ReturnType<typeof mapStateToProps>;
 
-class CollectionLanding extends React.Component<Props, { filterData: string }> {
+const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
+  return {
+    // create function for dispatch
+    fetchCollectionMapping: async () => {
+      const id = getProductIdFromSlug(params.level1);
+      if (id) {
+        const filterData = await CollectionService.fetchCollectionMapping(
+          id,
+          params.id
+        );
+
+        dispatch(updateCollectionFilter({ ...filterData }));
+      }
+    }
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+class CollectionLanding extends React.Component<
+  Props,
+  { filterData: string; onloadState: boolean; landingMaker: boolean }
+> {
   state = {
-    filterData: "All"
+    filterData: "All",
+    onloadState: false,
+    landingMaker: false
   };
 
   onchangeFilter = (data: any): void => {
-    this.setState({
-      filterData: data
-    });
+    this.setState(
+      {
+        filterData: data
+      },
+      () => {
+        window.scrollTo(0, 0);
+      }
+    );
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.data.selectValue?.[0] && !this.state.onloadState) {
+      this.setState({
+        filterData: nextProps.data.selectValue?.[0]?.name,
+        onloadState: true
+      });
+    }
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.setState({
+        landingMaker: false,
+        onloadState: false
+      });
+    }
+  }
+  componentDidMount() {
+    dataLayer.push({
+      event: "CategoryLangingPageView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_Category_langingPageView"
+    });
+    this.setState({
+      landingMaker: true
+    });
+  }
+
+  componentDidUpdate(previous: Props) {
+    if (
+      this.props.location.pathname != previous.location.pathname &&
+      !this.state.landingMaker
+    ) {
+      this.setState({
+        landingMaker: true
+      });
+      this.props.fetchCollectionMapping();
+    }
+  }
 
   render() {
     const collection = this.props.location.pathname.split("/").pop();
     const collectionName = collection ? collection.split("_")[0] : "";
+    const isLivingpage = this.props.location.pathname.includes("living");
     const {
       collectionData,
       device: { mobile },
       data: { level2Categories }
     } = this.props;
+
     // Code for checking selected filter form collection list
     const filterData = collectionData.filter((item: any) => {
       return this.state.filterData == "All"
         ? true
-        : item.category
+        : item.categoryName
             .map((data: any) => {
               return data.name;
             })
@@ -73,33 +146,40 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
 
     return (
       <div>
-        <SecondaryHeader>
-          {mobile ? (
-            <div>
-              <MobileDropdownMenu
-                list={level2Categories}
-                onChange={this.onchangeFilter}
-                showCaret={true}
-                open={false}
-                value="All"
-              />
-            </div>
-          ) : (
-            <div className={styles.innerHeader}>
-              <p className={styles.filterText}>FILTER BY</p>
-              <SelectableDropdownMenu
-                align="right"
-                className={styles.dropdownRoot}
-                items={level2Categories}
-                value="All"
-                onChange={this.onchangeFilter}
-                showCaret={true}
-              ></SelectableDropdownMenu>
-            </div>
-          )}
-        </SecondaryHeader>
+        {isLivingpage && (
+          <SecondaryHeader>
+            {mobile ? (
+              <div>
+                <MobileDropdownMenu
+                  list={level2Categories}
+                  onChange={this.onchangeFilter}
+                  showCaret={true}
+                  open={false}
+                  value={this.state.filterData}
+                />
+              </div>
+            ) : (
+              <div className={styles.innerHeader}>
+                <p className={styles.filterText}>FILTER BY</p>
+                <SelectableDropdownMenu
+                  align="right"
+                  className={styles.dropdownRoot}
+                  items={level2Categories}
+                  value={this.state.filterData}
+                  onChange={this.onchangeFilter}
+                  showCaret={true}
+                ></SelectableDropdownMenu>
+              </div>
+            )}
+          </SecondaryHeader>
+        )}
+
         {!mobile && (
-          <div className={cs(bootstrap.row, styles.subcHeader)}>
+          <div
+            className={cs(bootstrap.row, styles.subcHeader, {
+              [styles.subcHeaderNew]: !isLivingpage
+            })}
+          >
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
               <h1>{collectionName} Collections </h1>
               <p
@@ -110,7 +190,22 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
             </div>
           </div>
         )}
-        <div className={cs(bootstrap.row, styles.collectionBlock)}>
+        {this.state.landingMaker ? (
+          <MakerEnhance
+            user="goodearth"
+            index="1"
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        ) : (
+          ""
+        )}
+        <div
+          className={cs(
+            bootstrap.row,
+            { [styles.collectionBlockNonliving]: !isLivingpage },
+            { [styles.collectionBlock]: isLivingpage }
+          )}
+        >
           <div className={cs(bootstrap.colMd8, bootstrap.offsetMd2)}>
             <div className={bootstrap.row}>
               {filterData.map((data: CollectionItem, i: number) => {
@@ -121,7 +216,7 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
                       bootstrap.col12,
                       "collection-item"
                     )}
-                    key={i}
+                    key={i + "collection-item"}
                   >
                     <CollectionImage
                       data={data}
@@ -139,5 +234,5 @@ class CollectionLanding extends React.Component<Props, { filterData: string }> {
   }
 }
 
-export default connect(mapStateToProps)(CollectionLanding);
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionLanding);
 export { initActionCollection };

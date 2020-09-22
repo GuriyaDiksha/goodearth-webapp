@@ -39,7 +39,7 @@
 .filter-text{
   line-height: 33px;
   font-size: 14px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   letter-spacing: 1px;
   color: #ab1e56;
   text-transform: uppercase;
@@ -52,6 +52,31 @@ margin-top: $main-header;
   .page-body{
     margin-top: $header-height;
   }
+  .white-block{
+       background-color: #f9f8f5;
+  }
+  .move-link-mobile {
+    position: fixed;
+    z-index: 9;
+    background-color: $white;
+    a {
+      color: #000;
+      font-size: 14px;
+    }
+    .lessthan {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      font-weight: 300;
+    }
+  }
+  .shop-add-block {
+    .serial-number {
+      &.enabled-sno {
+        background-color: #ab1e56;
+      }
+    }
+  } 
   .shop-addresses {
     margin-top: 25px;
   }
@@ -62,7 +87,7 @@ margin-top: $main-header;
 .inner-header {
   display: -webkit-inline-box;
   margin-left: 8%;
-  margin-top: 3px;
+  margin-top: 5px;
 }
 
 .subc-header{
@@ -71,12 +96,12 @@ margin-top: $main-header;
   margin: 100px 0 0 0;
   h1{
       font-size: 28px;
-      font-family: "Baskerville","Amiri","Serif";
+      font-family: $font-Serif;
       text-transform: capitalize;
   }
   p {
       font-size: 12px;
-      font-family: "LatoFont","Helvetica","Arial";
+      font-family: $font-Lato;
       color: #666;
       letter-spacing: 1px;
   }
@@ -91,10 +116,12 @@ margin-top: $main-header;
   
   h3 {
     font-size: 18px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     line-height: 22px;
     text-transform: capitalize;
     letter-spacing: 1px;
+    padding: 0;
+    margin: 0;
   }
 &.shop-add-block-1 {
     padding: 40px 50px 40px 60px;
@@ -102,10 +129,13 @@ margin-top: $main-header;
     cursor: pointer;
     min-height: 270px;
     background-color: #f9f8f5;
+    &:hover {
+      background-color: #fff;
+    }
 }
 .small {
   font-size: 12px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     color: #666;
     letter-spacing: 1px;
     &.city {
@@ -131,9 +161,7 @@ margin-top: $main-header;
   }
 }
 }
-.white-block {
-  background-color: #fff !important;
-}
+
 .bg-cerise {
   background-color: #ab1e56 !important;
 }
@@ -148,20 +176,20 @@ position: absolute;
     color: #fff;
     border-radius: 50%;
     line-height: 28px;
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     font-weight: 300;
     font-size: 15px;
    }
    .shop {
     display: flex;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #4d4d4d;
   letter-spacing: 1px;
   font-weight: 300;
   text-transform: uppercase;
   }
   .para {
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     font-size: 16px;
     letter-spacing: 0.5px;
   }
@@ -176,11 +204,9 @@ position: absolute;
       margin-top: 60px;
       margin-bottom: 60px;
     }
-    
-   
-    .black {
-      color: #000;
-    }
+}
+.black {
+  color: #000;
 }
 .move-link {
   text-transform: capitalize;
@@ -189,6 +215,7 @@ position: absolute;
     
     a{
       color: #000;
+      font-size: 14px;
     }
 }
 
@@ -200,7 +227,7 @@ position: absolute;
 
 
     .drop-div {
-      font-family: "LatoFont","Helvetica","Arial";
+      font-family: $font-Lato;
     letter-spacing: 1px;
     color: #333;
     font-size: 14px;
@@ -209,7 +236,7 @@ position: absolute;
         line-height: 33px;
         font-size: 12px;
         font-weight: bold;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         letter-spacing: 1px;
       }
    
@@ -250,6 +277,9 @@ position: absolute;
     .enabled-sno {
         background-color: $cerise;
     }
+  }
+  .white-block {
+    background-color: #fff !important;
   }
   
   .cafe-content {

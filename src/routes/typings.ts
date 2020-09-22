@@ -2,7 +2,7 @@ import { InitAction, MetaAction } from "typings/actions";
 
 export enum ROUTES {
   HOME = "/",
-  CollectionLanding = "/allcollection/living_26/",
+  CollectionLanding = "/allcollection/:level1/:id",
   CollectionSpecific = "/collection/:slug",
   PDP = "/catalogue/:slug",
   PLP = "/catalogue/category/",
@@ -11,7 +11,7 @@ export enum ROUTES {
   GOOGLE = "/account/google/login/?next=/",
   SEARCH = "/search",
   ACCOUNT = "/account",
-  CAREER = "/careers",
+  CAREER = "/careers/:slug1?/:slug2?",
   WISHLIST = "/wishlist",
   GIFTCARD = "/giftcard",
   ResetPassword = "/password-reset/confirm/:uid/:token",
@@ -19,8 +19,17 @@ export enum ROUTES {
   CHECKOUT = "/order/checkout/",
   SHOP = "/Cafe-Shop/:city/:shopname?",
   ORDERCONFIRMATION = "/order/orderconfirmation/:oid",
+  DESIGNJOURNAL = "/designjournal",
+  DESIGNJOURNALBOOK = "/designjournalbook/",
   CARTPAGE = "/cart/",
-  PressStories = "/press-stories"
+  PressStories = "/press-stories",
+  ABOUTUS = "/about-us",
+  SAFETYMEASURES = "/customer-assistance/safety-measures",
+  CORPORATEGIFTING = "/corporate-gifts-catalogue",
+  GIFTINGLANDING = "/gifting",
+  BRIDAL = "/the-good-earth-registry",
+  LOYALTYLANDING = "/cerise",
+  ERROR = "/error-page"
 }
 
 export type RouteConfig = RouteObject[];

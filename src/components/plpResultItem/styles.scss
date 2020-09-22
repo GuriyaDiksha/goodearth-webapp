@@ -1,3 +1,6 @@
+
+
+@import "../../styles/partials/variables";
 .image-boxnew {
     position: relative;
     display: block;
@@ -53,13 +56,17 @@
         font-size: 12px;
         text-transform: uppercase;
         color: #ab1e56;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         letter-spacing: 2px;
         padding-top: 10px;
     }
     .image-hover {
         text-align: center;
         width: 50%;
+    }
+    .image-hover-corporate {
+        text-align: center;
+        width: 100%;
     }
     .image-hover:nth-last-child(1) {
         border-left: 1px solid gray;
@@ -77,7 +84,7 @@
 
 .collection-name{
     font-size: 12px;
-    font-family: "Baskerville","Amiri","Serif";
+    font-family: $font-Serif;
     color: gray;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -97,16 +104,30 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-        font-size: 16px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-size: 14px;
+        font-family: $font-Lato;
         color: #000;
         text-transform: capitalize;
+        letter-spacing: 0.5px;
     }
     span {
-        font-size: 16px;
-        font-family: "AmiriFont", "Baskerville", "Garamond";
+        font-size: 14px;
+        font-family: $font-Lato;
         color: #000;
         text-transform: capitalize;
+        letter-spacing: 0.5px;
+    }
+    .discountprice {
+        color: #ab1e56;
+        font-family:  $font-Lato;
+        font-size: 16px;
+    }
+    
+    .strikeprice {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: gray;
+        font-family: $font-Lato;
     }
     a:hover {
         color: #ab1e56;
@@ -114,7 +135,7 @@
     }
 }
 .product-size {
-    font-family: "LatoFont","Helvetica","Arial";
+    font-family: $font-Lato;
     font-size: 9px;
     text-transform: uppercase;
     color: #b3b3b3;
@@ -138,6 +159,58 @@
             color: #ab1e56;
             font-size: 12px;
             line-height: 25px;
+            &.disabled {
+                text-decoration: line-through;
+                color: tint(#000, 70%);
+              }
         }
     }
 }
+.outstock {
+    background: url('../../images/outofstock-cta.svg') no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #ab1e56;
+    font-family: "HeaderFont","Trebuchet MS","geneva";
+    letter-spacing: 1px;
+    opacity: .8;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    line-height: 40px;
+    a {
+        font-size: 14px;
+    }
+}
+
+.badge-image{
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    left: 6px;
+    img {
+        width: 100%;
+    }
+}
+
+.new-badge-image{
+    width: 30%;
+    position: absolute;
+    top: 5px;
+    z-index: 4;
+    right: 6px;
+    img {
+        width: 100%;
+    }
+}
+
+.mobile-badge{
+    img {
+        width: 60%;
+    }
+}
+

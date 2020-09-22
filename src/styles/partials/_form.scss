@@ -28,7 +28,7 @@
 
 .form-subheading {
   font-size: 12px;
-  font-family: "LatoFont","Helvetica","Arial";
+  font-family: $font-Lato;
   color: #666;
   letter-spacing: 1px;
 }
@@ -183,7 +183,7 @@
       p {
         z-index: 1;
         font-size: 12px;
-        font-family: LatoFont, Helvetica, Arial;
+        font-family: $font-Lato;
         color: #666;
         letter-spacing: 1px;
         text-transform: none;
@@ -373,4 +373,16 @@ input[type="checkbox"]:checked + label {
   font-weight: normal;
   font-size: 12px;
   font-family: $font-Lato;
+}
+
+@media screen and (max-width: 768px) {
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select {
+    font-size: 16px !important;
+    @include placeholder {
+      font-size: 16px !important;
+    }
+  }
+  input[type="date"] {
+    min-height: 47px; // for input type date in iOS
+  }
 }

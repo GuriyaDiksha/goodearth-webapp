@@ -5,17 +5,19 @@ import {
   Switch,
   Route,
   useRouteMatch,
-  useLocation
+  useLocation,
+  useHistory
 } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
-import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
+import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
+import loyaltyStyles from "./components/CeriseClub/styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
 import ChangePassword from "./components/ChangePassword";
-import { useStore, useSelector } from "react-redux";
+import { useStore, useSelector, useDispatch } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
@@ -23,6 +25,9 @@ import AddressMain from "components/Address/AddressMain";
 import Bridal from "./components/Bridal";
 import { AppState } from "reducers/typings";
 import ActivateGiftCard from "./components/ActivateGiftCard";
+import TrackOrder from "./components/TrackOrder";
+import AccountServices from "services/account";
+import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
 
 type Props = {
   isBridal: boolean;
@@ -31,17 +36,17 @@ type Props = {
 };
 
 // type State = {
-//     isCeriseClubMember: boolean;
 //     showregistry: boolean;
 // }
 
 const MyAccount: React.FC<Props> = props => {
   const [bridalId, setBridalId] = useState("0");
   const [accountListing, setAccountListing] = useState(false);
-  const [slab] = useState("");
+  const [slab, setSlab] = useState("");
   const { mobile } = useStore().getState().device;
-  const { isLoggedIn } = useSelector((state: AppState) => state.user);
+  const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { path } = useRouteMatch();
+  // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
   const [currentSection, setCurrentSection] = useState("Profile");
   const location = useLocation();
@@ -129,6 +134,42 @@ const MyAccount: React.FC<Props> = props => {
   // if (slab) {
   //     ceriseClubAccess = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10" || slab.toLowerCase() == "ff15" || slab.toLowerCase() == "cerise sitara";
   // }
+  const { pathname } = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const getLoyaltyTransactions = () => {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("phoneno", "");
+    AccountServices.getLoyaltyTransactions(dispatch, formData)
+      .then((data: any) => {
+        if (data.is_success) {
+          // const isCeriseClubMember = data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
+          const responseSlab = data.message.CUSTOMER_DETAILS[0].Slab;
+          setSlab(responseSlab);
+          // setIsCeriseClubMember(isCeriseClubMember);
+          // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
+          // this.props.updateCeriseClubAccess(slab);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    const noContentContainerElem = document.getElementById(
+      "no-content"
+    ) as HTMLDivElement;
+    if (
+      noContentContainerElem.classList.contains(globalStyles.contentContainer)
+    ) {
+      noContentContainerElem.classList.remove(globalStyles.contentContainer);
+    }
+    getLoyaltyTransactions();
+    // window.scrollTo(0, 0);
+  }, []);
 
   const accountMenuItems: AccountMenuItem[] = [
     {
@@ -163,10 +204,28 @@ const MyAccount: React.FC<Props> = props => {
     {
       label: "Track Order",
       href: "/account/track-order",
-      component: () => <div>Track Order</div>,
-      title: "track",
+      component: TrackOrder,
+      title: "track order",
       loggedInOnly: false
-    },
+    }
+  ];
+  let ceriseClubAccess = false;
+  if (slab) {
+    ceriseClubAccess =
+      slab.toLowerCase() == "cerise" ||
+      slab.toLowerCase() == "ff10" ||
+      slab.toLowerCase() == "ff15" ||
+      slab.toLowerCase() == "cerise sitara";
+  }
+  ceriseClubAccess &&
+    accountMenuItems.push({
+      label: "Cerise",
+      href: "/account/cerise",
+      component: CeriseClubMain,
+      title: "Cerise",
+      loggedInOnly: true
+    });
+  accountMenuItems.push(
     {
       label: "Good Earth Registry",
       href: "/account/bridal",
@@ -189,19 +248,36 @@ const MyAccount: React.FC<Props> = props => {
       title: "Check Balance",
       loggedInOnly: false
     }
-  ];
-  let bgClass = cs(globalStyles.colMd10, globalStyles.col12, styles.bgProfile);
-  bgClass +=
-    slab && path == "/account/cerise"
+  );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (
+      accountMenuItems.filter(
+        item => item.href == pathname && item.loggedInOnly
+      ).length > 0 &&
+      !isLoggedIn
+    ) {
+      history.push("/");
+    }
+  }, [pathname, isLoggedIn]);
+
+  const bgClass = cs(
+    globalStyles.colMd10,
+    globalStyles.col12,
+    styles.bgProfile,
+
+    slab && pathname == "/account/cerise"
       ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10"
-        ? cs(styles.ceriseClub, styles.ceriseLoyalty)
-        : cs(styles.ceriseSitaraClub, styles.ceriseLoyalty)
-      : "";
+        ? cs(styles.ceriseClub, loyaltyStyles.ceriseLoyalty)
+        : cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseLoyalty)
+      : ""
+  );
   return (
     <div className={globalStyles.containerStart}>
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
-          <span className={styles.heading}>
+          <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
             <i
               className={cs(
                 iconStyles.icon,
@@ -277,19 +353,25 @@ const MyAccount: React.FC<Props> = props => {
                     )}
                   >
                     <ul className={styles.sort}>
-                      {accountMenuItems.map(item => {
-                        return (
-                          <li key={item.label}>
-                            <NavLink
-                              key={item.label}
-                              to={item.href}
-                              activeClassName={globalStyles.cerise}
-                            >
-                              {item.label}
-                            </NavLink>
-                          </li>
-                        );
-                      })}
+                      {accountMenuItems
+                        .filter(item =>
+                          isLoggedIn ? true : !item.loggedInOnly
+                        )
+                        .map(item => {
+                          return (
+                            <li key={item.label}>
+                              <NavLink
+                                onClick={() => setAccountListing(false)}
+                                key={item.label}
+                                to={item.href}
+                                activeClassName={globalStyles.cerise}
+                              >
+                                {item.label}
+                              </NavLink>
+                            </li>
+                          );
+                        })}
+
                       {/* <li>
                         {ceriseClubAccess && 
                             <li>
@@ -416,44 +498,55 @@ const MyAccount: React.FC<Props> = props => {
             </div>
           </div>
         )}
-        <div className={bgClass}>
-          <div className={bootstrapStyles.row}>
-            <div
-              className={cs(
-                bootstrapStyles.colMd6,
-                bootstrapStyles.offsetMd3,
-                bootstrapStyles.col12,
-                globalStyles.textCenter,
-                { [styles.accountFormBg]: !mobile },
-                { [styles.accountFormBgMobile]: mobile }
-              )}
-            >
-              <Switch>
-                {accountMenuItems.map(
-                  ({
-                    component,
-                    href,
-                    label,
-                    title,
-                    currentCallBackComponent,
-                    bridalId
-                  }) => {
-                    const Component = component;
-                    return (
-                      <Route key={label} exact path={href}>
-                        <Component
-                          bridalId={bridalId}
-                          setCurrentSection={() => setCurrentSection(title)}
-                          currentCallBackComponent={currentCallBackComponent}
-                        />
-                      </Route>
-                    );
-                  }
-                )}
-              </Switch>
-            </div>
-          </div>
-        </div>
+        {
+          <Switch>
+            {accountMenuItems.map(
+              ({ component, href, label, title, currentCallBackComponent }) => {
+                const Component = component;
+                if (title.toLowerCase() == "cerise") {
+                  return (
+                    <Route key={label} exact path={href}>
+                      <div className={bgClass}>
+                        <div className={bootstrapStyles.row}>
+                          <Component
+                            setCurrentSection={() => setCurrentSection(title)}
+                            currentCallBackComponent={currentCallBackComponent}
+                          />
+                        </div>
+                      </div>
+                    </Route>
+                  );
+                } else {
+                  return (
+                    <Route key={label} exact path={href}>
+                      <div className={bgClass}>
+                        <div className={bootstrapStyles.row}>
+                          <div
+                            className={cs(
+                              bootstrapStyles.colMd6,
+                              bootstrapStyles.offsetMd3,
+                              bootstrapStyles.col12,
+                              globalStyles.textCenter,
+                              { [styles.accountFormBg]: !mobile },
+                              { [styles.accountFormBgMobile]: mobile }
+                            )}
+                          >
+                            <Component
+                              setCurrentSection={() => setCurrentSection(title)}
+                              currentCallBackComponent={
+                                currentCallBackComponent
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </Route>
+                  );
+                }
+              }
+            )}
+          </Switch>
+        }
       </div>
     </div>
   );

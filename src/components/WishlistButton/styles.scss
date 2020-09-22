@@ -23,14 +23,14 @@
 }
 
 .added-to-wishlist {
-    color: $cerise;
+    color: $cerise !important;
 }
 
 .mobile-wishlist {
     background-color: #fff;
-    width: 23px;
-    height: 23px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    font-size: 20px;
-    line-height: 23px;
+    font-size: 22px;
+    line-height: 30px;
 }

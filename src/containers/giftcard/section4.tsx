@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -30,7 +30,9 @@ const Section4: React.FC<Section4Props> = props => {
 
   const gotoNext = () => {
     if (subscribe) {
-      GiftcardService.addToGiftcard(dispatch, props.data)
+      const data = props.data;
+      data["imageUrl"] = data["imageUrl"].replace("/gc", "/gc_");
+      GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
@@ -46,6 +48,10 @@ const Section4: React.FC<Section4Props> = props => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     // this.props.next(this.state.giftimages[this.state.selectindex]);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className={bootstrapStyles.row}>
@@ -120,9 +126,16 @@ const Section4: React.FC<Section4Props> = props => {
                       value={subscribe || false}
                       name="subscribe"
                       disable={false}
-                      handleChange={() => {
-                        setNummsg("");
-                        setSubscribe(true);
+                      handleChange={(
+                        event: ChangeEvent<HTMLInputElement>
+                      ): void => {
+                        const checked = event.currentTarget.checked;
+                        if (checked) {
+                          setNummsg("");
+                          setSubscribe(true);
+                        } else {
+                          setSubscribe(false);
+                        }
                       }}
                       id="subscribe"
                       label={[
@@ -162,14 +175,7 @@ const Section4: React.FC<Section4Props> = props => {
             >
               <div className={bootstrapStyles.col12}>
                 {nummsg ? (
-                  <p
-                    className={cs(
-                      globalStyles.errorMsg,
-                      globalStyles.textCenter
-                    )}
-                  >
-                    {nummsg}
-                  </p>
+                  <p className={cs(globalStyles.errorMsg)}>{nummsg}</p>
                 ) : (
                   <p className={globalStyles.errorMsg}></p>
                 )}

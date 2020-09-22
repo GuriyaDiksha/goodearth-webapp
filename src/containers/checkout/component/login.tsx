@@ -13,7 +13,6 @@ const CheckoutLoginForm = loadable(() =>
 const CheckoutRegisterForm = loadable(() =>
   import("components/signin/register/checkoutRegister")
 );
-<CheckoutRegisterForm />;
 const LoginSection: React.FC<LoginProps> = props => {
   const {
     isActive,
@@ -24,6 +23,10 @@ const LoginSection: React.FC<LoginProps> = props => {
 
   const goToRegister = () => {
     setIsRegister(true);
+  };
+
+  const changeEmail = () => {
+    setIsRegister(false);
   };
 
   const nextStep = () => {
@@ -49,7 +52,10 @@ const LoginSection: React.FC<LoginProps> = props => {
           <div>
             {!isLoggedIn ? (
               isRegister ? (
-                <CheckoutRegisterForm nextStep={nextStep} />
+                <CheckoutRegisterForm
+                  nextStep={nextStep}
+                  changeEmail={changeEmail}
+                />
               ) : (
                 <CheckoutLoginForm
                   showRegister={goToRegister}

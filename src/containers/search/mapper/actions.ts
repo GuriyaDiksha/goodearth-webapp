@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 
-import { updateFilterState } from "actions/search";
+import { updateFilterState, updateOnload } from "actions/search";
 import SearchService from "services/search";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
@@ -25,6 +25,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     fetchSearchProducts: async (filterUrl: string) => {
       const data = await SearchService.fetchSearchProducts(dispatch, filterUrl);
       return data;
+    },
+    updateOnload: (data: boolean) => {
+      dispatch(updateOnload(data));
     }
   };
 };

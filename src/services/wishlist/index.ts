@@ -8,6 +8,9 @@ import API from "utils/api";
 import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
+import { Basket } from "typings/basket";
+import { showMessage } from "actions/growlMessage";
+import { PRODUCT_UNPUBLISHED } from "constants/messages";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "sequence") {
@@ -23,12 +26,17 @@ export default {
     dispatch(updateWishlist([]));
   },
 
-  addToWishlist: async function(dispatch: Dispatch, productId: ProductID) {
+  addToWishlist: async function(
+    dispatch: Dispatch,
+    productId: ProductID,
+    size?: string
+  ) {
     const res = await API.post<ApiResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/wishlist/"}`,
       {
-        productId
+        productId,
+        size
       }
     );
     this.updateWishlist(dispatch);
@@ -37,14 +45,16 @@ export default {
 
   removeFromWishlist: async function(
     dispatch: Dispatch,
-    productId: ProductID,
+    productId?: ProductID,
+    id?: number,
     sortyBy = "sequence"
   ) {
     const res = await API.delete<ApiResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/wishlist/"}`,
       {
-        productId
+        productId,
+        id
       }
     );
     await this.updateWishlist(dispatch, sortyBy);
@@ -66,7 +76,11 @@ export default {
     return res;
   },
 
-  moveToWishlist: async function(dispatch: Dispatch, basketLineId: ProductID) {
+  moveToWishlist: async function(
+    dispatch: Dispatch,
+    basketLineId: ProductID,
+    source?: string
+  ) {
     const res = await API.post<ApiResponse>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
@@ -77,8 +91,23 @@ export default {
 
     if (res.success) {
       this.updateWishlist(dispatch);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch, source);
     }
+  },
+  undoMoveToWishlist: async function(dispatch: Dispatch, source?: string) {
+    const res = await API.post<{
+      basket: Basket;
+      isSuccess: boolean;
+      message: string;
+    }>(
+      dispatch,
+      `${__API_HOST__}/myapi/wishlist/wishlist_undo/?source=cart`,
+      null
+    );
+    if (res.basket.updated || res.basket.publishRemove) {
+      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+    }
+    return res;
   },
 
   modifyWishlistItem: async function(

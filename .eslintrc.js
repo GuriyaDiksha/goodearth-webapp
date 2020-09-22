@@ -28,6 +28,12 @@ module.exports = {
   },
   globals: {
     __DOMAIN__: false,
-    __API_HOST__:false
+    __API_HOST__:false,
+    __CDN_HOST__:false,
+    __OMNI_HOST__: false,
+    dataLayer: false,
+    __FB_APP_ID__: false,
+    __GOOGLE_CLIENT_ID__: false,
+    __GTM_ID__: false
 }
 };

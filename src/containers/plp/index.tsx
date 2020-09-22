@@ -7,16 +7,18 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import FilterList from "./filterList";
+import CorporateFilter from "./corporateList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
+import MakerEnhance from "maker-enhance";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -41,6 +43,10 @@ class PLP extends React.Component<
     showmobileSort: boolean;
     mobileFilter: boolean;
     sortValue: string;
+    flag: boolean;
+    plpMaker: boolean;
+    toggel: boolean;
+    corporoateGifting: boolean;
   }
 > {
   constructor(props: Props) {
@@ -53,7 +59,11 @@ class PLP extends React.Component<
       filterData: "All",
       showmobileSort: false,
       mobileFilter: false,
-      sortValue: param ? param : "hc"
+      sortValue: param ? param : "hc",
+      flag: false,
+      plpMaker: false,
+      toggel: false,
+      corporoateGifting: props.location.pathname.includes("corporate-gifting")
     };
   }
   private child: any = FilterList;
@@ -69,13 +79,63 @@ class PLP extends React.Component<
     this.setState({ sortValue: data });
   };
 
+  componentDidMount() {
+    dataLayer.push({
+      event: "PlpView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_plp_view"
+    });
+    this.setState({
+      plpMaker: true
+    });
+    if (this.props.device.mobile) {
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
+  }
+
+  componentDidUpdate(nextProps: Props) {
+    if (
+      this.props.location.pathname != nextProps.location.pathname &&
+      !this.state.plpMaker
+    ) {
+      this.setState({
+        plpMaker: true
+      });
+    }
+  }
+
+  onStateChange = () => {
+    this.setState({
+      plpMaker: false
+    });
+  };
+
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={plpProductId} />,
+      <Quickview
+        id={id}
+        productListId={plpProductId}
+        corporatePDP={this.state.corporoateGifting}
+      />,
       true
     );
     changeModalState(true);
+  };
+
+  changeLoader = (value: boolean) => {
+    this.setState({
+      flag: value
+    });
   };
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
@@ -92,15 +152,27 @@ class PLP extends React.Component<
     }
   };
 
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.setState({
+        plpMaker: false,
+        corporoateGifting: nextProps.location.pathname.includes(
+          "corporate-gifting"
+        )
+      });
+    }
+  }
+
   render() {
     const {
       device: { mobile },
       currency,
       data: {
-        results: { breadcrumb, banner, data },
+        results: { breadcrumb, banner, bannerMobile, data },
         count
       }
     } = this.props;
+    const { plpMaker, corporoateGifting } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -137,8 +209,8 @@ class PLP extends React.Component<
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
                 <PlpBreadcrumbs
                   levels={breadcrumb}
-                  className={cs(bootstrap.colMd7)}
-                  isViewAll={false}
+                  className={cs(bootstrap.colMd12)}
+                  isViewAll={this.child.state?.isViewAll}
                 />
               </div>
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
@@ -156,6 +228,69 @@ class PLP extends React.Component<
             </Fragment>
           </SecondaryHeader>
         )}
+        {corporoateGifting &&
+          (mobile ? (
+            <div
+              className={cs(
+                bootstrap.row,
+                styles.subcHeader4,
+                globalStyles.textCenter
+              )}
+            >
+              <div>
+                <h1>Corporate Gifts</h1>
+                <p>
+                  <div>
+                    For enquiries, write to us at{" "}
+                    <a
+                      href="mailto:customercare@goodearth.in"
+                      className={globalStyles.cerise}
+                      rel="noopener noreferrer"
+                    >
+                      {" "}
+                      customercare@goodearth.in
+                    </a>
+                    , or call us at{" "}
+                    <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
+                      +91 9582 999 555
+                    </a>
+                  </div>
+                </p>
+              </div>
+              <div
+                className={cs(
+                  globalStyles.voffset3,
+                  globalStyles.textCenter,
+                  styles.downloadWidth
+                )}
+              >
+                <a
+                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={globalStyles.cerise}
+                >
+                  DOWNLOAD CATALOGUE
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div className={cs(bootstrap.row, styles.subcHeader)}>
+              <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
+                <h1>Corporate Gifts</h1>
+                <p>
+                  <div>
+                    <span>
+                      We offer a personalized guide to gifting for the
+                      year-round festivities, with curated gifts that are
+                      crafted by hand, inspired by nature and enchanted by
+                      history.
+                    </span>
+                  </div>
+                </p>
+              </div>
+            </div>
+          ))}
         <div className={cs(bootstrap.row, globalStyles.minimumWidth)}>
           <div
             id="filter_by"
@@ -167,16 +302,30 @@ class PLP extends React.Component<
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
-            <FilterList
-              onRef={(el: any) => (this.child = el)}
-              onChangeFilterState={this.onChangeFilterState}
-            />
+            {corporoateGifting ? (
+              <CorporateFilter
+                onRef={(el: any) => (this.child = el)}
+                onChangeFilterState={this.onChangeFilterState}
+                key={this.props.location.pathname}
+                changeLoader={this.changeLoader}
+                onStateChange={this.onStateChange}
+              />
+            ) : (
+              <FilterList
+                onRef={(el: any) => (this.child = el)}
+                onChangeFilterState={this.onChangeFilterState}
+                key={this.props.location.pathname}
+                changeLoader={this.changeLoader}
+                onStateChange={this.onStateChange}
+              />
+            )}
           </div>
+
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [globalStyles.paddTop20]: !this.state.showmobileSort },
-              { [globalStyles.spCat]: !this.state.showmobileSort },
+              { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
             )}
@@ -187,13 +336,25 @@ class PLP extends React.Component<
                       </div>
                   </div>
               </div> */}
-            {/* {banner ?
-                  <div className="row banner-mobile-category">
-                      {window.maker.plp ? <MakerEnhance user='goodearth'/> : ""}
-                      <div className="col-xs-12 text-center" >
-                          <img src={banner} className="img-responsive" />
-                      </div>
-                  </div> : ""} */}
+            {banner || bannerMobile ? (
+              <div className={cs(bootstrap.row, styles.bannerMobileCategory)}>
+                <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
+                  <img
+                    src={mobile ? bannerMobile : banner}
+                    className={globalStyles.imgResponsive}
+                  />
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {plpMaker && (!banner || !bannerMobile) && (
+              <MakerEnhance
+                user="goodearth"
+                href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+              />
+            )}
 
             {!mobile ? (
               <div
@@ -203,8 +364,8 @@ class PLP extends React.Component<
               >
                 <span>
                   {count > 1
-                    ? count + " products found"
-                    : count + " product found"}{" "}
+                    ? count + 1 + " products found"
+                    : count + 1 + " product found"}{" "}
                 </span>
               </div>
             ) : (
@@ -215,18 +376,13 @@ class PLP extends React.Component<
                 mobile
                   ? banner
                     ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                    : cs(bootstrap.row, bootstrap.imageContainerMobile)
+                    : cs(bootstrap.row, styles.imageContainerMobile)
                   : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"
             >
-              {data.length == 0 ||
-              (this.child.state ? !this.child.state.flag : false) ? (
-                <Loader />
-              ) : (
-                ""
-              )}
-              {data.map(item => {
+              {this.state.flag ? <Loader /> : ""}
+              {data.map((item, index) => {
                 return (
                   <div
                     className={cs(
@@ -242,7 +398,9 @@ class PLP extends React.Component<
                       currency={currency}
                       key={item.id}
                       mobile={mobile}
+                      isVisible={index < 3 ? true : undefined}
                       onClickQuickView={this.onClickQuickView}
+                      isCorporate={this.state.corporoateGifting}
                     />
                   </div>
                 );

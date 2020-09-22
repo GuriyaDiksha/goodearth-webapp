@@ -33,7 +33,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                 return (
                   <div key={item.id}>
                     {item.badgeImage ? (
-                      <div className="badge_position_plp">
+                      <div className={styles.saleBanner}>
                         <img src={item.badgeImage} />
                       </div>
                     ) : (

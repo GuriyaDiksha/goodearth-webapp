@@ -1,0 +1,429 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/form";
+
+.size-block-popup {
+    height: auto !important;
+      // padding: 0 0 75px 0;
+      background-color: #fff;
+      // width: 35vw;
+      width: 430px;
+      min-height: 360px;
+      .gc-tnc {
+        height: 100%;
+      padding: 50px 0 30px 0;
+      overflow-y: scroll;
+      }
+      p {
+        line-height: 20px;
+      padding: 7px 57px;
+      text-align: center;
+      font-size: 12px;
+      }
+      .cerise-btn-width {
+        width: 60%;
+        margin: 0 auto;
+      }
+      .cross {
+        border-bottom: 1px solid #f2f2f2;
+            text-align: right;
+            padding: 15px;
+            cursor: pointer;
+            position: fixed;
+            z-index: 10;
+            background-color: #fff;
+            width: 100%;
+        }
+      .cancel-btn {
+      position: absolute;
+      bottom: 25px;
+      text-align: center;
+      width: 100%;
+      line-height: 40px;
+      
+      a {
+        color: #333333;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 14px;
+      font-family: $font-Lato;
+      }
+      }
+  }
+
+  @media (min-width: 992px) {
+    .centerpage-desktop {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      //width: 100%;
+    }
+    .centerpage-desktop-fs {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      //width: 100%;
+    }
+    }
+    .free-shipping {
+      padding: 0 45px;
+      color: tint(#000, 30%);
+      letter-spacing: .5px;
+      font-size: 10px;
+      .cerise-btn {
+        position: inherit;
+        margin: 25px 0 20px 0;
+      }
+    
+      span {
+        font-weight: bold;
+        color: #000;
+      }
+      a {
+        color: $cerise !important;
+        &.link {
+          font-size: 12px;
+          letter-spacing: 1px;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+      }
+    }
+.link-text-underline {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.link {
+  color: $cerise;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 25px 0;
+}
+.login-form {
+  div {
+    .country-code {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+    }
+  }
+  .copylink {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: $cerise;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-weight: 100;
+    font-size: 10px;
+    color: tint(#000, 60%);
+    letter-spacing: 1px;
+    background-color: #fff;
+    padding: 3px;
+  }
+  li {
+    position: relative;
+    margin: 20px 0;
+    &.notify {
+      width: 70%;
+      margin: 0 auto;
+      padding: 20px 0 80px 0;
+      .error-msg {
+        text-align: left;
+      }
+    }
+    &.calendar-icon-container {
+      .calendar-icon {
+          position: absolute;
+          top: 0;
+          right: 10px;
+      }
+    }
+    &.subscribe {
+      text-align: left;
+      margin: 30px 0 0 0;
+      &.subs1 {
+        margin-top: 50px !important;
+      }
+      label {
+        @include c10-L-R();
+        text-transform: none;
+        line-height: 22px;
+        a {
+          color: $cerise;
+          text-decoration: underline;
+          &:hover {
+            color: $cerise;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    &.checkBalanceCheckPolicy {
+      display: grid;
+     /* grid-template-columns: 1fr 11fr; */
+      label {
+        top: 5px;
+        left: 8px;
+        padding-top: 0;
+      }
+      p {
+        z-index: 1;
+        font-size: 12px;
+        font-family: LatoFont, Helvetica, Arial;
+        color: #666;
+        letter-spacing: 1px;
+        text-transform: none;
+        line-height: 22px;
+        position: relative;
+        cursor: pointer;
+        font-weight: 400;
+        background-color: #fff;
+        padding: 3px;
+        a {
+          color: #ab1e56;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select {
+    background-color: #fff;
+    border: 1px solid #eee;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 25px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    box-shadow: none;
+    @include placeholder {
+      font-size: 14px;
+      color: tint(#000, 60%);
+      font-style: normal;
+      letter-spacing: 1px;
+      font-family: $font-Lato;
+    }
+  }
+
+  input[type="date"]:invalid {
+    border: 1px solid $cerise;
+  }
+
+  // input[type="date"]:invalid+span {
+  //   content:
+  // }
+
+  input[type=date]::-webkit-inner-spin-button,
+  input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* For Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+  /* Webkit browsers like Safari and Chrome */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+
+.size-block-not-fixed.form-block {
+
+  .gc-tnc {
+    padding: 0px 50px 10px 50px;
+    .c10-L-R {
+      padding-bottom: 0px;
+    }
+    .cerise-btn {
+      width: 100%;
+    }
+    .disabled-btn-checkout-login {
+      cursor: default;
+    }
+  }
+}
+
+.pincodePopup {
+  padding: 0;
+  width: 35vw;
+}
+
+
+.size-block-1 {
+  width: 35vw;
+  // height: 80vh !important;
+  // padding: 0 0 50px 0;
+  background-color: $white;
+  li, p {
+    line-height: 20px;
+    padding: 7px 50px;
+    text-align: left;
+    font-size: 12px;
+  }
+  label {
+    line-height: 20px;
+    margin: 7px 50px;
+    text-align: left;
+    font-size: 12px;
+  }
+  p {
+    text-align: center;
+  }
+  .gc-tnc {
+    height: 95%;
+    padding-bottom: 30px;
+    overflow-y: scroll;
+    padding-top: 50px;
+    &::-webkit-scrollbar {
+      // background-color:#fff;
+      width: 8px;
+    }
+    /* background of the scrollbar except button or resizer */
+    ::-webkit-scrollbar-track {
+        // background-color:#fff
+    }
+    /* scrollbar itself */
+    &::-webkit-scrollbar-thumb {
+        background-color:#a6a6a6;
+        border-radius:5px;
+        border:2px solid #fff;
+    }
+    /* set button(top and bottom of the scrollbar) */
+    &::-webkit-scrollbar-button {display:none}
+  }
+  .gc-tnc > .c10-L-R > ul li{
+    margin-top:0px;
+    text-transform: inherit;
+  }
+}
+
+@media (max-width: 992px) {
+  .centerpage-desktop-fs {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  .size-block-not-fixed.form-block {
+    .gc-tnc {
+      padding: 50px 0px 30px 0px;
+      .font-ht {
+        padding: 0px 10%;
+  line-height: 32px;
+  margin-top: 40px;
+      }
+      .cerise-btn {
+        width: 100%;
+        min-width: 0px;
+      }
+      .big-btn {
+        min-width: 220px;
+        padding: 0px 10px;
+      }
+      .c22-A-I {
+        padding: 0px 10%;
+        line-height: 32px;
+      }
+      .disabled-btn-checkout-login {
+        cursor: default;
+      }
+    }
+   
+    
+  }
+  .centerpage-mobile {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    height: auto !important;
+    min-height: 500px;
+    width: 80vw;
+    p {
+      padding: 7px 10%;
+    }
+}
+  .margin-b-40 {
+    margin-bottom: 40px;
+  }
+  .checkout {
+     padding-bottom: 180px;
+    .order-summary {
+      min-height: 0px;
+    }
+    .card {
+      margin-left: 5px;
+      margin-right: 5px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    .card-sm {
+      margin-top: 5px;
+      padding: 20px 0;
+    }
+
+    .selected-stvalue {
+      margin-top: 10px;
+      color: #808080;
+    }
+
+    .payment {
+      input[type="text"].input {
+        width: 100%;
+        text-align: left;
+      }
+      input[type="text"].input2 {
+        width: 100%;
+        text-align: left;
+      }
+    }
+    .login-container {
+      .section {
+        border: none;
+        padding: 0;
+      }
+    }
+  }
+
+}
+.btn-popup {
+
+}
+.gc-tnc {
+  .cerise-btn30 {
+    width: 30%;
+    min-width: 200px;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+.centerpage-mobile {
+    height: 75vh !important;
+    width: 80vw;
+  }
+}

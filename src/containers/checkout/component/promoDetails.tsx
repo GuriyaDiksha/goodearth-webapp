@@ -13,11 +13,6 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
     onClose(code);
   };
 
-  // if (currStatus == "Locked" && type == "CNI") {
-  //   showLocked = true;
-  // } else if (currStatus == "Expired" && type == "CNI") {
-  //   showExpired = true;
-  // }
   return (
     <div id="gc-balance-info">
       {showExpired ? (
@@ -43,7 +38,7 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
           className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset3)}
         >
           <span className={styles.txtup}>{code} </span>
-          <span className={styles.textMuted}>PROMO CARD APPLIED</span>
+          <span className={styles.textMuted}>PROMO CODE APPLIED</span>
           <span
             className={styles.cross}
             onClick={() => {
@@ -51,7 +46,11 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
             }}
           >
             <i
-              className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
+              className={cl(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.promoIcon
+              )}
             ></i>
           </span>
         </div>

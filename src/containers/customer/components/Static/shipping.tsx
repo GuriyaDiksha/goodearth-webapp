@@ -6,6 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 // import { Link } from "react-router-dom";
 import { Props } from "../../typings";
+import { Link } from "react-router-dom";
 
 export default class Shipping extends React.Component<Props, {}> {
   constructor(props: Props) {
@@ -23,7 +24,7 @@ export default class Shipping extends React.Component<Props, {}> {
             as well as international orders.
           </p>
 
-          <p>International orders: delivered within 10-12 business days</p>
+          <p>International orders: delivered within 12-14 business days</p>
           <p>
             Domestic orders: delivered within 15-18 business days. (You will see
             the delivery date for your order at the time of order confirmation.)
@@ -32,6 +33,14 @@ export default class Shipping extends React.Component<Props, {}> {
           <p>
             *Please note that Saturdays, Sundays and Public Holidays are not set
             as working days for standard deliveries.
+          </p>
+          <p className={globalStyles.voffset4}>
+            <Link
+              className={globalStyles.linkTextUnderline}
+              to="/customer-assistance/sales-conditions"
+            >
+              Refer for Joy Sale related TnCs
+            </Link>
           </p>
         </div>
         <div className={globalStyles.voffset4}>

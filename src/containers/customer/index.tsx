@@ -4,8 +4,8 @@ import {
   NavLink,
   Switch,
   Route,
-  useRouteMatch,
-  useLocation
+  useRouteMatch
+  // useLocation
 } from "react-router-dom";
 import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -22,6 +22,8 @@ import Terms from "./components/Static/terms";
 import CeriseTerms from "./components/Static/ceriseterms";
 import Cookie from "./components/Static/cookie";
 import Privacy from "./components/Static/privacy";
+import SaleTnc from "./components/Static/saletnc";
+import SaleTncAug2020 from "./components/Static/saleTncAug2020";
 
 type Props = {
   isbridal: boolean;
@@ -42,25 +44,13 @@ const StaticPage: React.FC<Props> = props => {
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { path } = useRouteMatch();
 
-  const [currentSection, setCurrentSection] = useState("Profile");
+  const [currentSection, setCurrentSection] = useState("");
 
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
     window.scrollTo(0, 0);
-    // for handling scroll to particalar element with id
-    const { hash, search } = location;
-    const id = search ? search.replace("?id=", "") : hash.replace("#", "");
-    if (id) {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView();
-        const headerHeight = 50;
-        const secondaryHeaderHeight = 48;
-        window.scrollBy(0, -(headerHeight + secondaryHeaderHeight));
-      }
-    }
   }, []);
 
   const accountMenuItems: AccountMenuItem[] = [
@@ -90,6 +80,13 @@ const StaticPage: React.FC<Props> = props => {
       href: "/customer-assistance/terms",
       component: CeriseTerms,
       title: "Cerise: Terms of Use",
+      loggedInOnly: false
+    },
+    {
+      label: "Joy Store Terms of Use",
+      href: "/customer-assistance/sales-conditions",
+      component: SaleTnc,
+      title: "Joy Store Terms of Use",
       loggedInOnly: false
     },
     {
@@ -192,6 +189,9 @@ const StaticPage: React.FC<Props> = props => {
                               key={item.label}
                               to={item.href}
                               activeClassName={globalStyles.cerise}
+                              onClick={() => {
+                                setAccountListing(false);
+                              }}
                             >
                               {item.label}
                             </NavLink>
@@ -277,17 +277,27 @@ const StaticPage: React.FC<Props> = props => {
                     const Component = component;
                     return (
                       <Route key={label} exact path={href}>
-                        {/* <ScrollToId> */}
                         <Component
                           setCurrentSection={() => setCurrentSection(title)}
                           mobile={mobile}
                           currentCallBackComponent={currentCallBackComponent}
                         />
-                        {/* </ScrollToId> */}
                       </Route>
                     );
                   }
                 )}
+                <Route
+                  key={"Sale Terms of Use"}
+                  exact
+                  path={"/customer-assistance/sales-terms"}
+                >
+                  <SaleTncAug2020
+                    setCurrentSection={() =>
+                      setCurrentSection("Sale Terms of Use")
+                    }
+                    mobile={mobile}
+                  />
+                </Route>
               </Switch>
             </div>
           </div>

@@ -7,12 +7,12 @@
       letter-spacing: 1px;
       font-weight: bold;
       color: tint(#000, 30%);
-      a {
-        &:hover {
-          text-decoration: underline;
-          cursor: pointer;
-        }
-      }
+      // a {
+        // &:hover {
+        //   text-decoration: underline;
+        //   cursor: pointer;
+        // }
+      // }
     }
     .radiobtn1 {
       display: flex;
@@ -98,7 +98,10 @@
   .flex{
     display: flex;
     width: 100%;
-    .code-input{
+    div.country-code {
+      width: 25%;
+    }
+    input.code-input{
       position: relative;
       background-color: #f2f2f2;
     }
@@ -218,7 +221,7 @@
         p {
           z-index: 1;
           font-size: 12px;
-          font-family: LatoFont, Helvetica, Arial;
+          font-family: $font-Lato;
           color: #666;
           letter-spacing: 1px;
           text-transform: none;
@@ -267,6 +270,16 @@
       margin: 0;
     }
 }
+
+@media screen and (max-width: 992px) {
+  .login-form {
+    .flex{
+      div.country-code {
+        width: 40%;
+      }
+    }
+  }
+}
 .msg{
   position: absolute;
   top: -24px;
@@ -289,7 +302,7 @@
   font-style: italic;
   color: #ab1e56 ;
   font-weight: bold;
-  font-family: "LatoFont","Helvetica","Arial";
+  // font-family: $font-Serif;
   letter-spacing: 1px;
   // text-transform: lowercase;
   text-align: left;
@@ -316,6 +329,23 @@
     color: black;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .redeem-otp {
+    input[type="text"] {
+      background-color: $white;
+      border: 1px solid #888 !important;
+      width: 220px !important;
+      font-size: 30px !important;
+      padding: 3px !important;
+      font-weight: bold;
+      letter-spacing: 0.5em;
+      text-indent: 0.5em;
+      line-height: 42px !important;
+      color: black;
+    }
+  }
+}
 .overflow-email {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -331,4 +361,12 @@
 }
 .otp-format {
   font-size: 14px;
+}
+
+.disable-input {
+  input{
+    position: relative;
+    background-color: #f2f2f2 !important;
+  }
+  
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import { List, FooterList, FooterState } from "./typings";
 import cs from "classnames";
 import styles from "./styles.scss";
@@ -9,6 +9,11 @@ import iconStyles from "../../styles/iconFonts.scss";
 import { ShopLocator } from "./ShopLocator";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import CookieService from "services/cookie";
+import fontStyles from "styles/iconFonts.scss";
+import * as valid from "utils/validate";
+import { Dispatch } from "redux";
+import HeaderFooterService from "services/headerFooter";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -19,9 +24,25 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    newsletterSignup: async (email: string) => {
+      const res = await HeaderFooterService.makeNewsletterSignupRequest(
+        dispatch,
+        email
+      );
+      return res;
+    }
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class Footer extends React.Component<Props, FooterState> {
+  observer?: IntersectionObserver;
+  container: HTMLDivElement | null = null;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -30,7 +51,9 @@ class Footer extends React.Component<Props, FooterState> {
       dropdown: false,
       hideImage: false,
       newsletterEmail: "",
-      newsletterMessage: ""
+      newsletterMessage: "",
+      showCookie: false,
+      isInViewport: false
     };
   }
 
@@ -44,6 +67,35 @@ class Footer extends React.Component<Props, FooterState> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  onFooterInViewport: IntersectionObserverCallback = entries => {
+    if (entries.length) {
+      if (entries[0].isIntersecting) {
+        this.setState({
+          isInViewport: true
+        });
+      }
+    }
+  };
+  componentDidMount() {
+    const cookie = CookieService.getCookie("goodearth");
+    if (cookie != "show") {
+      this.setState({
+        showCookie: true
+      });
+    }
+
+    if (!window.IntersectionObserver) {
+      this.setState({
+        isInViewport: true
+      });
+    } else {
+      if (this.container) {
+        this.observer = new IntersectionObserver(this.onFooterInViewport);
+        this.observer.observe(this.container);
+      }
+    }
   }
 
   subMenu = (index: number) => {
@@ -64,11 +116,12 @@ class Footer extends React.Component<Props, FooterState> {
     e: React.MouseEvent,
     data: { label: string; value: string } | null
   ) => {
-    // const city = data ? (data.value ? data.value : "Delhi") : "Delhi";
+    const city = data ? (data.value ? data.value : "Delhi") : "Delhi";
     if (e.metaKey || e.ctrlKey) {
       // do nothing
     } else {
       // location.href = "/Cafe-Shop/" + city;
+      this.props.history.push(`/Cafe-Shop/${city}`);
       e.preventDefault();
     }
   };
@@ -78,28 +131,102 @@ class Footer extends React.Component<Props, FooterState> {
   }
 
   SetNewsletterEmail = (e: React.KeyboardEvent) => {
-    // api call
+    if (this.myBlur(e) && e.keyCode == 13) {
+      this.makeNewsletterSignupRequest();
+    }
+  };
+
+  myBlur = (e: any) => {
+    let update = true;
+    if (valid.checkBlank(e.target.value)) {
+      this.setState({
+        newsletterEmail: e.target.value,
+        newsletterMessage: "Please enter email"
+      });
+      update = false;
+    } else if (!valid.checkMail(e.target.value)) {
+      this.setState({
+        newsletterEmail: e.target.value,
+        newsletterMessage: "Enter valid email"
+      });
+      update = false;
+    } else if (e.target.value.length > 75) {
+      this.setState({
+        newsletterMessage: "You are allowed to enter upto 75 characters only"
+      });
+      update = false;
+    } else {
+      this.setState({
+        newsletterEmail: e.target.value,
+        newsletterMessage: ""
+      });
+    }
+
+    return update;
   };
 
   makeNewsletterSignupRequest = () => {
-    // api call
+    if (!this.myBlur({ target: { value: this.state.newsletterEmail } }))
+      return false;
+    const emailInput = document.getElementById(
+      "newsletter"
+    ) as HTMLInputElement;
+    if (emailInput) {
+      this.props
+        .newsletterSignup(emailInput.value)
+        .then(data => {
+          if (data.status) {
+            const msg = valid.showErrors(data.message);
+            // this.setState({newsletter_email: ""});
+            this.setState({ newsletterMessage: msg });
+          } else {
+            const msg = valid.showErrors(data.message);
+            this.setState({ newsletterMessage: msg });
+          }
+        })
+        .catch(error => {
+          const msg = valid.showErrors(error.response.data.message);
+          this.setState({ newsletterMessage: msg });
+          // console.log(error);
+        });
+    }
+  };
+
+  acceptCookies = () => {
+    CookieService.setCookie("goodearth", "show", 365);
+    // document.cookie = cookieString;
+    this.setState({
+      showCookie: false
+    });
   };
 
   render() {
     return (
-      <div className={bootstrap.containerFluid}>
+      <div
+        className={bootstrap.containerFluid}
+        ref={ele => (this.container = ele)}
+      >
         <div id="footer-start" className={bootstrap.row}>
           <div
             className={`${
               this.state.hideImage
                 ? ""
-                : cs(styles.footerTop, bootstrap.colMd12, bootstrap.py4)
+                : cs(styles.footerTop, bootstrap.colMd12, bootstrap.py4, {
+                    [styles.footerTopBackground]: this.state.isInViewport
+                  })
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
           >
             <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
               <div className={cs(bootstrap.col1, bootstrap.colMd3)}></div>
               <div className={cs(bootstrap.col10, bootstrap.colMd6)}>
-                <div className={cs(styles.ftrHeadingWhite)}>be in the know</div>
+                <div
+                  className={cs(
+                    styles.ftrHeadingWhite,
+                    styles.ftrHeadingWhite2
+                  )}
+                >
+                  be in the know
+                </div>
                 <div className={cs(styles.ftrCopyWhiteDesktop)}>
                   By signing up for alerts, you agree to receive e-mails, calls
                   and text messages from Goodearth. To know more how we keep
@@ -126,13 +253,13 @@ class Footer extends React.Component<Props, FooterState> {
                     />
                     <div
                       className={cs(styles.arrowRight)}
-                      onClick={this.makeNewsletterSignupRequest}
+                      onClick={() => this.makeNewsletterSignupRequest()}
                     ></div>
                   </div>
-                </div>
-                <div className={cs(globalStyles.voffset1)}>
-                  <div className={cs(styles.errorMsg)}>
-                    {this.state.newsletterMessage}{" "}
+                  <div className={cs(globalStyles.voffset1)}>
+                    <div className={cs(globalStyles.errorMsg)}>
+                      {this.state.newsletterMessage}{" "}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -141,7 +268,11 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
           <div
             className={`${
-              this.state.hideImage ? "" : cs(styles.footer, bootstrap.colMd12)
+              this.state.hideImage
+                ? ""
+                : cs(styles.footer, bootstrap.colMd12, {
+                    [styles.footerBackground]: this.state.isInViewport
+                  })
             } ${this.props.saleStatus ? cs(styles.footerSale20) : ""}`}
           >
             <div className={cs(globalStyles.minimumWidth)}>
@@ -156,28 +287,41 @@ class Footer extends React.Component<Props, FooterState> {
                             : cs(styles.mainMenuFooter)
                         }
                       >
-                        {this.props.data.footerList.map(
+                        {this.props.data.footerList?.map(
                           (list: FooterList, i: number) => {
                             return (
                               <li key={i}>
-                                <span
-                                  className={`${
-                                    this.state.isOpened &&
-                                    this.state.currentIndex == i
-                                      ? cs(styles.detailShow)
-                                      : cs(styles.detail)
-                                  } ${
-                                    this.props.saleStatus
-                                      ? cs(styles.cerise)
-                                      : ""
-                                  }`}
-                                  onClick={() => {
-                                    this.subMenu(i);
-                                  }}
-                                >
-                                  {" "}
-                                  {list.name}{" "}
-                                </span>
+                                {list.value.length > 0 ? (
+                                  <span
+                                    className={`${
+                                      this.state.isOpened &&
+                                      this.state.currentIndex == i
+                                        ? cs(styles.detailShow)
+                                        : cs(styles.detail)
+                                    } ${
+                                      this.props.saleStatus
+                                        ? cs(styles.cerise)
+                                        : ""
+                                    }`}
+                                    onClick={() => {
+                                      this.subMenu(i);
+                                    }}
+                                  >
+                                    {" "}
+                                    {list.name}{" "}
+                                  </span>
+                                ) : (
+                                  <Link
+                                    to={list.link || "#"}
+                                    className={
+                                      this.props.saleStatus
+                                        ? cs(styles.cerise)
+                                        : ""
+                                    }
+                                  >
+                                    {list.name}
+                                  </Link>
+                                )}
                                 <ul
                                   className={
                                     this.state.isOpened &&
@@ -192,19 +336,47 @@ class Footer extends React.Component<Props, FooterState> {
                                         return false;
                                       }
                                       if (
-                                        list.name == "Help" ||
-                                        list.name == "Services"
+                                        list.name == "HELP" ||
+                                        list.name == "SERVICES"
                                       ) {
                                         return (
                                           <li key={j}>
-                                            <Link to={currentValue.link}>
+                                            {/* {currentValue.text.toLowerCase() ==
+                                            "good earth registry" ? (
+                                              <a
+                                                href={currentValue.link}
+                                                target="_blank"
+                                                rel="noreferrer noopener"
+                                              >
+                                                {currentValue.text}
+                                              </a>
+                                            ) : ( */}
+                                            <Link
+                                              to={currentValue.link}
+                                              onClick={() => {
+                                                this.subMenu(i);
+                                              }}
+                                            >
                                               {currentValue.text}
                                             </Link>
+                                            {/* )} */}
                                           </li>
                                         );
                                       } else {
                                         return (
-                                          <li key={j}> {currentValue.text} </li>
+                                          <li
+                                            className={globalStyles.txtNormal}
+                                            key={j}
+                                          >
+                                            {" "}
+                                            {currentValue.link ? (
+                                              <a href={currentValue.link}>
+                                                {currentValue.text}
+                                              </a>
+                                            ) : (
+                                              currentValue.text
+                                            )}{" "}
+                                          </li>
                                         );
                                       }
                                     }
@@ -239,13 +411,13 @@ class Footer extends React.Component<Props, FooterState> {
                           )
                     }
                   >
-                    <div className={cs(bootstrap.row, bootstrap.px5)}>
+                    <div className={cs(bootstrap.row, styles.px5)}>
                       <div className={cs(bootstrap.colMd3, bootstrap.px2)}>
                         <ul>
                           <li>find us on</li>
                           <li className={cs(styles.footerSocialicons)}>
-                            <Link
-                              to="http://www.facebook.com/goodearthindia"
+                            <a
+                              href="http://www.facebook.com/goodearthindia"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -256,9 +428,9 @@ class Footer extends React.Component<Props, FooterState> {
                                   styles.footerIcon
                                 )}
                               ></i>
-                            </Link>
-                            <Link
-                              to="http://www.instagram.com/goodearthindia"
+                            </a>
+                            <a
+                              href="http://www.instagram.com/goodearthindia"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -269,9 +441,9 @@ class Footer extends React.Component<Props, FooterState> {
                                   styles.footerIcon
                                 )}
                               ></i>
-                            </Link>
-                            <Link
-                              to="http://pinterest.com/goodearthindia/"
+                            </a>
+                            <a
+                              href="http://pinterest.com/goodearthindia/"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -282,7 +454,7 @@ class Footer extends React.Component<Props, FooterState> {
                                   styles.footerIcon
                                 )}
                               ></i>
-                            </Link>
+                            </a>
                           </li>
                         </ul>
                         {this.props.saleStatus ? (
@@ -291,45 +463,119 @@ class Footer extends React.Component<Props, FooterState> {
                           <ul className={cs(styles.footerPlaylist)}>
                             <li>
                               {" "}
-                              {this.props.data.footerPlaylistData.ctaText}
+                              {this.props.data.footerPlaylistData?.ctaText}
                             </li>
                             <li>
-                              <Link
-                                to={this.props.data.footerPlaylistData.ctaUrl}
+                              <a
+                                href={
+                                  this.props.data.footerPlaylistData?.ctaUrl
+                                }
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
                                 {" "}
                                 <img
                                   src={
-                                    this.props.data.footerPlaylistData.ctaImage
+                                    this.props.data.footerPlaylistData?.ctaImage
                                   }
                                   className={cs(styles.imgResponsive)}
                                 />{" "}
-                              </Link>
+                              </a>
                             </li>
                           </ul>
                         )}
                       </div>
-                      {this.props.data.footerList.map((footerItems, index) => (
-                        <div
-                          key={index}
-                          className={cs(bootstrap.colMd3, bootstrap.px2)}
-                        >
-                          <ul>
-                            <li>{footerItems.name}</li>
-                            {footerItems.value.map((Item, index) => (
-                              <li key={index}>
-                                {Item.link !== "" ? (
-                                  <Link to={Item.link}>{Item.text}</Link>
-                                ) : (
-                                  Item.text
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                      {this.props.data.footerList?.map((footerItems, index) => {
+                        let res: any = "";
+                        if (index == 0) {
+                          res = (
+                            <div
+                              key={index}
+                              className={cs(bootstrap.colMd3, bootstrap.px2)}
+                            >
+                              <ul key="about-us">
+                                <li>
+                                  {footerItems.link ? (
+                                    <Link to={footerItems.link || "#"}>
+                                      {footerItems.name}
+                                    </Link>
+                                  ) : (
+                                    footerItems.name
+                                  )}
+                                </li>
+                                {footerItems.value.map((Item, index) => (
+                                  <li key={index}>
+                                    {Item.link !== "" ? (
+                                      <Link to={Item.link}>{Item.text}</Link>
+                                    ) : (
+                                      Item.text
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                              <ul key="services">
+                                <li>
+                                  {this.props.data.footerList[index + 1].name}
+                                </li>
+                                {this.props.data.footerList[
+                                  index + 1
+                                ].value.map((Item, index) => (
+                                  <li key={index}>
+                                    {Item.link !== "" ? (
+                                      // Item.text.toLowerCase() ==
+                                      // "good earth registry" ? (
+                                      //   <a
+                                      //     href={Item.link}
+                                      //     target="_blank"
+                                      //     rel="noopener noreferrer"
+                                      //   >
+                                      //     {Item.text}
+                                      //   </a>
+                                      // ) : (
+                                      <Link to={Item.link}>{Item.text}</Link>
+                                    ) : (
+                                      //  )
+                                      Item.text
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        } else if (index == 1) {
+                          // do nothing
+                        } else {
+                          res = (
+                            <div
+                              key={index}
+                              className={cs(bootstrap.colMd3, bootstrap.px2)}
+                            >
+                              <ul>
+                                <li>{footerItems.name}</li>
+                                {footerItems.value.map((Item, index) => (
+                                  <li key={index}>
+                                    {Item.link !== "" ? (
+                                      footerItems.name == "CONNECT" ? (
+                                        <a
+                                          className={globalStyles.txtNormal}
+                                          href={Item.link}
+                                        >
+                                          {Item.text}
+                                        </a>
+                                      ) : (
+                                        <Link to={Item.link}>{Item.text}</Link>
+                                      )
+                                    ) : (
+                                      Item.text
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        }
+                        return res;
+                      })}
                     </div>
                   </div>
                 )}
@@ -416,11 +662,11 @@ class Footer extends React.Component<Props, FooterState> {
                             }
                           >
                             {" "}
-                            {this.props.data.footerPlaylistData.ctaText}
+                            {this.props.data.footerPlaylistData?.ctaText}
                           </div>
                           <div className={cs(styles.textCenter)}>
-                            <Link
-                              to={this.props.data.footerPlaylistData.ctaUrl}
+                            <a
+                              href={this.props.data.footerPlaylistData?.ctaUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -431,7 +677,7 @@ class Footer extends React.Component<Props, FooterState> {
                                 }
                                 className={cs(globalStyles.width250)}
                               />{" "}
-                            </Link>
+                            </a>
                           </div>
                         </div>
                       )}
@@ -456,9 +702,40 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
+        {this.state.showCookie && (
+          <div
+            className={styles.cookieclass}
+            onClick={() => {
+              this.setState({ showCookie: false });
+            }}
+          >
+            <span
+              className={cs(
+                styles.closePopup,
+                fontStyles.icon,
+                fontStyles.iconCross
+              )}
+            ></span>
+            <h3>COOKIE POLICY</h3>
+            <p>
+              This website uses cookies to ensure you get the best experience on
+              our website. Please read our &nbsp;
+              <Link to={"/customer-assistance/privacy-policy"}>
+                Privacy Policy
+              </Link>
+              &nbsp; and{" "}
+              <Link to={"/customer-assistance/cookie-policy"}>
+                Cookie Policy.
+              </Link>
+            </p>
+            <span className={styles.okBtn} onClick={this.acceptCookies}>
+              ACCEPT
+            </span>
+          </div>
+        )}
       </div>
     );
   }
 }
-
-export default connect(mapStateToProps)(Footer);
+const FooterRouter = withRouter(Footer);
+export default connect(mapStateToProps, mapDispatchToProps)(FooterRouter);

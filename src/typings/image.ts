@@ -1,6 +1,7 @@
 import { ImageID } from "./id";
 
 export interface ProductImage {
+  badgeImagePdp: string | undefined;
   id: ImageID;
   productImage: string;
   caption?: string;

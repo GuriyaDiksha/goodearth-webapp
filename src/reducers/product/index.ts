@@ -10,14 +10,14 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   collections: [],
   discount: false,
   priceRecords: {
-    INR: 0,
-    GBP: 0,
-    USD: 0
+    INR: -1,
+    GBP: -1,
+    USD: -1
   },
   discountedPriceRecords: {
-    INR: 0,
-    GBP: 0,
-    USD: 0
+    INR: -1,
+    GBP: -1,
+    USD: -1
   },
   gaVariant: "",
   partial: true,
@@ -26,7 +26,8 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   url: "",
   childAttributes: [],
   images: [],
-  plpImages: []
+  plpImages: [],
+  productClass: ""
 };
 
 export const product = (
@@ -38,7 +39,7 @@ export const product = (
       const product = action.payload;
       const currentProduct = state[product.id] || PRODUCT_INIT_STATE;
       let newState = { ...state };
-      const recommendedProducts = product.recommendedProducts.map(
+      const recommendedProducts = product.recommendedProducts?.map(
         ({ id }) => id
       );
       newState[product.id] = {
@@ -46,7 +47,10 @@ export const product = (
         ...product,
         recommendedProducts
       };
-      newState = mergePartialProducts(newState, product.recommendedProducts);
+      newState = mergePartialProducts(
+        newState,
+        product.recommendedProducts || []
+      );
       return newState;
     }
 

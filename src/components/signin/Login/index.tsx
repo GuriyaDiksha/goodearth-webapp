@@ -136,6 +136,14 @@ class LoginForm extends React.Component<Props, loginState> {
     this.emailInput.current && this.emailInput.current.focus();
     localStorage.removeItem("tempEmail");
   }
+  gtmPushSignIn = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signIn",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
+  };
 
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -145,6 +153,7 @@ class LoginForm extends React.Component<Props, loginState> {
       this.props
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
+          this.gtmPushSignIn();
           this.context.closeModal();
           window.scrollTo(0, 0);
         })
@@ -182,7 +191,10 @@ class LoginForm extends React.Component<Props, loginState> {
   };
 
   myBlur(event?: React.FocusEvent | React.KeyboardEvent, value?: string) {
-    if (!this.state.email || this.state.msg) return false;
+    if (!this.state.email || this.state.msg) {
+      event && event.preventDefault();
+      return false;
+    }
     value ? "" : this.checkMailValidation();
     this.setState({
       msg: "",
@@ -223,7 +235,7 @@ class LoginForm extends React.Component<Props, loginState> {
       });
     }
     if (type === "email") {
-      if (event.key == "Enter") {
+      if (event.key == "Enter" || event.key == "Tab") {
         this.myBlur(event);
       } else {
         if (valid.checkBlank(this.state.email)) {
@@ -255,6 +267,12 @@ class LoginForm extends React.Component<Props, loginState> {
     }
     if (type === "password") {
       this.myBlurP();
+    }
+  }
+
+  handleKeyDown(event: React.KeyboardEvent) {
+    if (event.key == "Tab" && this.state.msg) {
+      event.preventDefault();
     }
   }
 
@@ -303,6 +321,7 @@ class LoginForm extends React.Component<Props, loginState> {
               placeholder={"Email"}
               label={"Email"}
               border={this.state.highlight}
+              keyDown={e => this.handleKeyDown(e)}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
               error={this.state.msg}
@@ -381,7 +400,7 @@ class LoginForm extends React.Component<Props, loginState> {
     );
     const footer = (
       <>
-        <SocialLogin />
+        <SocialLogin closeModel={this.context.closeModal} />
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Not a member?{" "}

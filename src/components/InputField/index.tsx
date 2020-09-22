@@ -64,31 +64,34 @@ const InputField: React.FC<Props> = ({
   };
 
   return (
-    <div className={cs(globalStyles.formFieldContainer, className)}>
-      <input
-        id={
-          id ||
-          Math.random()
-            .toString(36)
-            .substring(7)
-        }
-        disabled={disabled}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onChange={onValueChange}
-        value={value}
-        name={name}
-        placeholder={(!focused || disabled) && placeholder ? placeholder : ""}
-        className={cs(styles.input, {
-          [styles.error]: error || errorMsg,
-          [styles.disabled]: disabled
-        })}
-      />
-      {focused && !disabled && <div className={styles.label}>{label}</div>}
+    <>
+      <div className={cs(globalStyles.formFieldContainer, className)}>
+        <input
+          id={
+            id ||
+            Math.random()
+              .toString(36)
+              .substring(7)
+          }
+          autoComplete="off"
+          disabled={disabled}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onChange={onValueChange}
+          value={value}
+          name={name}
+          placeholder={(!focused || disabled) && placeholder ? placeholder : ""}
+          className={cs(styles.input, {
+            [styles.error]: error || errorMsg,
+            [styles.disabled]: disabled
+          })}
+        />
+        {focused && !disabled && <div className={styles.label}>{label}</div>}
+      </div>
       {(error || errorMsg) && (
         <span className={styles.inputError}>{error || errorMsg}</span>
       )}
-    </div>
+    </>
   );
 };
 

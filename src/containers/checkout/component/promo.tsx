@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useRef } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -11,12 +11,14 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 
 const PromoSection: React.FC<PromoProps> = props => {
-  const { isActive, next } = props;
+  const { isActive, next, selectedAddress } = props;
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const { basket } = useSelector((state: AppState) => state);
+  const { basket, currency, info } = useSelector((state: AppState) => state);
   const toggleInput = () => {
     setIsactivepromo(!isactivepromo);
   };
+
+  let PromoChild: any = useRef<typeof ApplyPromo>(null);
 
   useEffect(() => {
     if (basket.voucherDiscounts.length > 0) {
@@ -25,6 +27,38 @@ const PromoSection: React.FC<PromoProps> = props => {
   }, [basket.voucherDiscounts]);
 
   const onsubmit = () => {
+    if (
+      PromoChild.gcBalance &&
+      basket.voucherDiscounts.length == 0 &&
+      PromoChild.state.txtvalue
+    ) {
+      PromoChild.gcBalance();
+    } else {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: currency,
+          checkout: {
+            actionField: { step: 4 },
+            products: basket.products
+          }
+        }
+      });
+      next(Steps.STEP_PAYMENT);
+    }
+  };
+
+  const onNext = () => {
+    dataLayer.push({
+      event: "checkout",
+      ecommerce: {
+        currencyCode: currency,
+        checkout: {
+          actionField: { step: 4 },
+          products: basket.products
+        }
+      }
+    });
     next(Steps.STEP_PAYMENT);
   };
 
@@ -32,6 +66,10 @@ const PromoSection: React.FC<PromoProps> = props => {
     next(Steps.STEP_PROMO);
   };
 
+  const partialSale = true;
+
+  const isSale = info.isSale && !partialSale;
+  const cardCss = globalStyles.pointer + " " + globalStyles.cerise;
   return (
     <div
       className={
@@ -77,50 +115,76 @@ const PromoSection: React.FC<PromoProps> = props => {
               bootstrapStyles.colMd6,
               styles.selectedStvalue
             )}
-            onClick={onCurrentState}
+            onClick={() => {
+              basket.isOnlyGiftCart || isSale ? "" : onCurrentState();
+            }}
           >
             <span
-              className={isActive ? globalStyles.hidden : globalStyles.cerise}
+              className={cs(
+                isSale
+                  ? styles.notSelected
+                  : isActive || !selectedAddress
+                  ? globalStyles.hidden
+                  : cardCss
+              )}
             >
-              {"APPLY PROMO CODE"}
+              {isSale
+                ? "Not Applicable during Sale"
+                : basket.isOnlyGiftCart
+                ? "Not Applicable"
+                : " APPLY PROMO CODE"}
             </span>
           </div>
         )}
       </div>
       {isActive && (
         <Fragment>
-          <div className={globalStyles.marginT20}>
-            <hr className={styles.hr} />
-            <div className={globalStyles.flex}>
-              <div
-                className={cs(
-                  styles.marginR10,
-                  globalStyles.cerise,
-                  globalStyles.pointer
-                )}
-                onClick={toggleInput}
-              >
-                {isactivepromo ? "-" : "+"}
-              </div>
-              <div className={styles.inputContainer}>
+          {!basket.isOnlyGiftCart && (
+            <div className={globalStyles.marginT20}>
+              <hr className={styles.hr} />
+              <div className={globalStyles.flex}>
                 <div
                   className={cs(
-                    globalStyles.c10LR,
-                    styles.promoMargin,
+                    styles.marginR10,
                     globalStyles.cerise,
                     globalStyles.pointer
                   )}
-                  onClick={toggleInput}
+                  onClick={() => {
+                    basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                  }}
                 >
-                  APPLY PROMO CODE
+                  {isactivepromo ? "-" : "+"}
                 </div>
-                {isactivepromo && <ApplyPromo />}
-                {/* {renderInput()}
+                <div className={styles.inputContainer}>
+                  <div
+                    className={cs(
+                      globalStyles.c10LR,
+                      styles.promoMargin,
+                      globalStyles.cerise,
+                      globalStyles.pointer
+                    )}
+                    onClick={() => {
+                      basket.voucherDiscounts.length > 0 ? "" : toggleInput();
+                    }}
+                  >
+                    APPLY PROMO CODE
+                  </div>
+                  {isactivepromo && (
+                    <ApplyPromo
+                      onRef={(el: any) => {
+                        PromoChild = el;
+                      }}
+                      onNext={onNext}
+                    />
+                  )}
+                  {/* {renderInput()}
                 {renderCoupon()} */}
+                </div>
               </div>
+              <hr className={styles.hr} />
             </div>
-            <hr className={styles.hr} />
-          </div>
+          )}
+
           <button
             className={cs(globalStyles.marginT40, globalStyles.ceriseBtn)}
             onClick={onsubmit}

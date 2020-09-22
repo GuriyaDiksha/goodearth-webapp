@@ -26,6 +26,12 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   const redirectToShop = (e: React.MouseEvent, data: any) => {
     if (data.label) {
       history.push("/Cafe-Shop/" + data.label);
+      dataLayer.push({
+        event: "eventsToSend",
+        eventAction: "shopCafeLocatorClick",
+        eventCategory: "Click",
+        eventLabel: location.pathname
+      });
     }
   };
 
@@ -42,7 +48,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
       )}
     >
       <div
-        className={cs(styles.cursorPointer)}
+        className={cs(styles.cursorPointer, globalStyles.pointer)}
         onClick={e => goToShopLocator(e, null)}
       >
         Shop & cafe Locator
@@ -81,7 +87,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
           }
         >
           <ul>
-            {shopLocations.map(
+            {shopLocations?.map(
               (data: { label: string; value: string }, index: number) => {
                 return (
                   <li key={index} onClick={e => redirectToShop(e, data)}>

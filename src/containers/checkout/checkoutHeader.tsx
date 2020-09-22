@@ -16,12 +16,14 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
-import { currencyCode } from "typings/currency";
+import { currencyCode, Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { showMessage } from "actions/growlMessage";
+import fabicon from "images/favicon.ico";
+import { Basket } from "typings/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -39,18 +41,27 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    changeCurrency: async (data: FormData) => {
+    changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies) => {
+    reloadPage: (cookies: Cookies, pathname: string) => {
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      if (pathname.includes("/order/checkout")) {
+        BasketService.fetchBasket(dispatch, "checkout");
+        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      } else if (pathname.includes("/cart")) {
+        BasketService.fetchBasket(dispatch, "cart");
+        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      }
     },
-    updateMeta: (cookies: Cookies) => {
+    updateMeta: (
+      cookies: Cookies,
+      pathname: string,
+      currency: Currency,
+      cart: Basket
+    ) => {
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
     }
   };
 };
@@ -71,7 +82,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
     };
     if (this.props.currency != data) {
       changeCurrency(data).then(response => {
-        reloadPage(this.props.cookies);
+        reloadPage(this.props.cookies, this.props.location.pathname);
       });
     }
     // this.setState({
@@ -81,7 +92,12 @@ class CheckoutHeader extends React.Component<Props, {}> {
   };
 
   componentDidMount() {
-    this.props.updateMeta(this.props.cookies);
+    this.props.updateMeta(
+      this.props.cookies,
+      this.props.location.pathname,
+      this.props.currency,
+      this.props.cart
+    );
   }
 
   render() {
@@ -109,8 +125,8 @@ class CheckoutHeader extends React.Component<Props, {}> {
             <i
               className={cs(
                 iconStyles.icon,
-                iconStyles.iconLockbtn,
-                styles.lock
+                iconStyles.iconCartFilled,
+                styles.cart
               )}
             ></i>
           </span>
@@ -149,6 +165,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
           </title>
+          <link rel="icon" href={fabicon}></link>
           {meta.description && (
             <meta name="description" content={meta.description} />
           )}
@@ -205,7 +222,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
             <div
               className={cs(
                 bootstrap.colMd2,
-                bootstrap.col6,
+                bootstrap.col5,
                 styles.logoContainer
               )}
             >
@@ -213,22 +230,23 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 <img className={styles.logo} src={gelogoCerise} />
               </Link>
             </div>
-            <div className={cs(bootstrap.col4, bootstrap.colMd8)}>
+            <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
               {heading}
             </div>
             <div
               className={cs(
-                bootstrap.colMd1,
-                bootstrap.col2,
-                bootstrap.offsetMd1,
-                globalStyles.voffset2
+                bootstrap.colMd2,
+                bootstrap.col3,
+                globalStyles.voffset2,
+                styles.curr
               )}
             >
               <SelectableDropdownMenu
-                align="right"
+                align={"left"}
                 items={items}
                 value={currency}
                 showCaret={true}
+                className={styles.checkoutHeader}
                 onChange={this.changeCurrency}
               ></SelectableDropdownMenu>
             </div>

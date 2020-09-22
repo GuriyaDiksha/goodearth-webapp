@@ -32,7 +32,13 @@ class Giftcard extends React.Component<Props, GiftState> {
       newCardBox: true,
       giftList: [],
       showOTPValidationScreen: false,
-      isSuccess: false
+      isSuccess: false,
+      toggleResetOtpComponent: false,
+      disable: true,
+      conditionalRefresh: false,
+      showLocked: false,
+      showExpired: false,
+      showInactive: false
     };
   }
   ActivateGCForm = React.createRef<Formsy>();
@@ -52,6 +58,9 @@ class Giftcard extends React.Component<Props, GiftState> {
         this.setState({
           error: "Please enter a valid code"
         });
+        this.ActivateGCForm.current?.updateInputsWithError({
+          giftCardCode: "Please enter a valid code"
+        });
       } else {
         giftList.push(response);
         this.setState({
@@ -67,6 +76,7 @@ class Giftcard extends React.Component<Props, GiftState> {
     event: React.ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
+    this.state.disable && this.setState({ disable: false });
     const value = event.target.value;
     switch (field) {
       case "firstName":
@@ -100,11 +110,16 @@ class Giftcard extends React.Component<Props, GiftState> {
 
   newGiftcard = () => {
     // implement page refresh here
+    this.setState(prevState => {
+      return {
+        toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
+        newCardBox: true,
+        isSuccess: false,
+        giftList: [],
+        txtvalue: ""
+      };
+    });
     // this.props.history.push(this.props.history.location.pathname, {});
-    // this.setState({
-    //   newCardBox: true,
-    //   isSuccess: false,
-    // });
   };
   onClose = (code: string) => {
     let { giftList } = this.state;
@@ -127,10 +142,13 @@ class Giftcard extends React.Component<Props, GiftState> {
       }
     }, 0);
   };
-  updateError = (data: boolean) => {
-    if (data) {
+  updateError = (message: string) => {
+    if (message) {
       this.setState({
-        error: "Please enter a valid code"
+        error: message
+      });
+      this.ActivateGCForm.current?.updateInputsWithError({
+        giftCardCode: message
       });
     }
     const elem: any = document.getElementById("gift");
@@ -177,7 +195,6 @@ class Giftcard extends React.Component<Props, GiftState> {
   };
 
   render() {
-    console.log(this.props);
     const { newCardBox, showOTPValidationScreen } = this.state;
     const { isLoggedIn } = this.props;
     // const { firstName, lastName, giftCardCode } = this.ActivateGCForm.current ? this.ActivateGCForm.current.getModel() : {
@@ -245,23 +262,12 @@ class Giftcard extends React.Component<Props, GiftState> {
                   </div>
                 </Fragment>
               )}
-              {/* {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )} */}
             </div>
           </Formsy>
         )}
         <OtpComponent
+          disableSendOtpButton={this.state.disable}
+          toggleReset={this.state.toggleResetOtpComponent}
           updateError={this.updateError}
           txtvalue={txtvalue}
           firstName={firstName}
@@ -269,6 +275,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           toggleOtp={this.toggleOtp}
           otpFor="activateGC"
           email={isLoggedIn ? this.props.user.email : ""}
+          phoneNo={isLoggedIn ? this.props.user.phoneNumber : ""}
           // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
           // validateInputs={this.scrollToErrors}
           validateEmptyInputs={this.validateEmptyInputs}
@@ -283,10 +290,15 @@ class Giftcard extends React.Component<Props, GiftState> {
           {this.state.giftList.map((data, i) => {
             return (
               <GiftCardItem
+                isLoggedIn={isLoggedIn}
                 {...data}
                 viewOnly={true}
                 onClose={this.onClose}
                 key={i}
+                conditionalRefresh={this.state.conditionalRefresh}
+                // showLocked={this.state.showLocked}
+                // showExpired={this.state.showExpired}
+                // showInactive={this.state.showInactive}
               />
             );
           })}

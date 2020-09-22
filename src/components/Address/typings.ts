@@ -7,15 +7,19 @@ export type AddressData = AddressFormData & {
   registrantName: string;
   coRegistrantName: string;
   occasion: string;
-  isEdit?: boolean;
+  isTulsi?: boolean;
 };
 
 export type specifyShippingAddressResponse = {
-  publishRemove: boolean;
-  redirectHomepage: boolean;
-  shippingCharge: number;
-  pageReload: boolean;
-  basket: Basket;
+  status: boolean;
+  message: string;
+  data: {
+    publishRemove: boolean;
+    redirectHomepage: boolean;
+    shippingCharge: number;
+    pageReload: boolean;
+    basket: Basket;
+  };
 };
 
 export type AddressFormData = {
@@ -35,6 +39,7 @@ export type AddressFormData = {
 };
 
 export type Props = {
+  showDefaultAddressOnly?: boolean;
   isBridal: boolean;
   selectedAddress?: AddressData;
   currentCallBackComponent: string;
@@ -51,7 +56,8 @@ export type Props = {
   bridalId?: string;
   isGoodearthShipping?: boolean;
   addressType: string;
-  // addresses: AddressData[];
+  addresses: AddressData[];
+  setCurrentSection?: () => void;
   // user:
   error: string;
 };

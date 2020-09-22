@@ -20,6 +20,7 @@ import { showMessage } from "actions/growlMessage";
 // services
 import BasketService from "services/basket";
 import ProductService from "services/product";
+import WishlistService from "services/wishlist";
 // contexts
 import UserContext from "contexts/user";
 import { Context as ModalContext } from "components/Modal/context";
@@ -28,33 +29,50 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
+import { Currency } from "typings/currency";
+import { currencyCodes } from "constants/currency";
+import { ProductID } from "typings/id";
 
 type Props = {
+  basketLineId?: ProductID;
   price: number;
-  currency: string;
+  currency: Currency;
   title: string;
   childAttributes: ChildProductAttributes[];
   collection?: string;
   selectedIndex?: number;
+  isSale?: boolean;
+  discount: boolean;
+  badgeType?: string;
+  discountedPrice?: number;
   changeSize?: (size: string, quantity?: number) => void;
+  onNotifyCart?: (basketLineId: ProductID) => void;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
+  basketLineId,
   currency,
   price,
+  discountedPrice,
   collection,
   childAttributes,
   title,
   selectedIndex,
-  changeSize
+  changeSize,
+  onNotifyCart,
+  isSale,
+  discount,
+  badgeType
 }) => {
   const { dispatch } = useStore();
 
   const user = useContext(UserContext);
-
   const { closeModal } = useContext(ModalContext);
-  const [selectedSize, setSelectedSize] = useState<ChildProductAttributes>(
-    childAttributes[selectedIndex || 0]
+  const [
+    selectedSize,
+    setSelectedSize
+  ] = useState<ChildProductAttributes | null>(
+    selectedIndex !== undefined ? childAttributes[selectedIndex] : null
   );
 
   const minQuantity = 1;
@@ -72,6 +90,8 @@ const NotifyMePopup: React.FC<Props> = ({
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
+      setQuantity(1);
+
       changeSize?.(selected.size);
     },
     [childAttributes, selectedSize]
@@ -80,6 +100,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const userExists = !!(user && user.email);
 
   const [msg, setMsg] = useState("");
+  const [sizeErrorMsg, setSizeErrorMsg] = useState("");
 
   const [email, setEmail] = useState(userExists ? user.email : "");
   const [emailError, setEmailError] = useState("");
@@ -109,36 +130,77 @@ const NotifyMePopup: React.FC<Props> = ({
       message
     };
   };
+  const gtmPushAddToBag = () => {
+    dataLayer.push({
+      event: "addToCart",
+      ecommerce: {
+        currencyCode: currency,
+        add: {
+          products: [
+            {
+              name: title,
+              id: childAttributes[0].sku,
+              price: price,
+              brand: "Goodearth",
+              category: collection,
+              variant: null,
+              // 'variant': this.props.wishlist_product.ga_variant,
+              quantity: quantity,
+              list: localStorage.getItem("list")
+            }
+          ]
+        }
+      }
+    });
+  };
 
   const addToBasket = async () => {
-    await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-    dispatch(showMessage(ADD_TO_BAG_SUCCESS));
-    closeModal();
+    if (selectedSize) {
+      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
+      await WishlistService.removeFromWishlist(dispatch, selectedSize.id);
+      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+      gtmPushAddToBag();
+      closeModal();
+    } else {
+      setSizeErrorMsg("Please select size");
+    }
   };
 
   const onNotifyClick = async () => {
     const { valid, message } = validator(email);
-
+    setMsg("");
     if (!valid) {
       setEmailError(message);
     } else {
-      const { successful, message } = await ProductService.notifyMe(
-        dispatch,
-        selectedSize.id,
-        email
-      );
+      if (selectedSize) {
+        const { successful, message } = await ProductService.notifyMe(
+          dispatch,
+          selectedSize.id,
+          email
+        );
 
-      if (!successful) {
-        setEmailError(message);
+        if (!successful) {
+          setEmailError(message);
+        } else {
+          setMsg(message);
+          basketLineId && onNotifyCart?.(basketLineId);
+        }
       } else {
-        setMsg(message);
+        setSizeErrorMsg("Please select size");
       }
     }
   };
 
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
-    if (selectedSize && selectedSize.stock == 0) {
+    let allOutOfStock = true;
+
+    childAttributes.forEach(({ stock }) => {
+      if (stock > 0) {
+        allOutOfStock = false;
+      }
+    });
+    if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = onNotifyClick;
     } else {
@@ -154,7 +216,10 @@ const NotifyMePopup: React.FC<Props> = ({
   useEffect(() => {
     setMsg("");
     setEmailError("");
+    setSizeErrorMsg("");
   }, [selectedSize]);
+
+  const sizeExists = childAttributes[0].size;
 
   return (
     <div className={cs(styles.container)}>
@@ -166,29 +231,66 @@ const NotifyMePopup: React.FC<Props> = ({
         <div className={styles.collection}>{collection}</div>
         <div className={styles.title}>{title}</div>
         <div className={styles.price}>
-          {currency} {price}
+          <p className={styles.productN}>
+            {isSale && discount ? (
+              <span className={styles.discountprice}>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize
+                  ? selectedSize.discountedPriceRecords[currency]
+                  : discountedPrice}
+                &nbsp;{" "}
+              </span>
+            ) : (
+              ""
+            )}
+            {isSale && discount ? (
+              <span className={styles.strikeprice}>
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize ? selectedSize.priceRecords[currency] : price}
+              </span>
+            ) : (
+              <span
+                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+              >
+                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {selectedSize ? selectedSize.priceRecords[currency] : price}
+              </span>
+            )}
+          </p>
         </div>
-        <div className={cs(styles.label, styles.sizeLabel)}>SELECT SIZE</div>
-        <SizeSelector
-          sizes={childAttributes}
-          onChange={onSizeSelect}
-          selected={selectedSize ? selectedSize.id : undefined}
-        />
+        {sizeExists && (
+          <>
+            <div className={cs(styles.label, styles.sizeLabel)}>
+              SELECT SIZE
+            </div>
+            <SizeSelector
+              sizes={childAttributes}
+              onChange={onSizeSelect}
+              sizeClassName={styles.sizeBox}
+              selected={selectedSize ? selectedSize.id : undefined}
+            />
+            {sizeErrorMsg && (
+              <span className={styles.sizeError}>{sizeErrorMsg}</span>
+            )}
+          </>
+        )}
         <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
 
         <div className={styles.qtyContainer}>
           <Quantity
-            id={selectedSize ? selectedSize.id : undefined}
+            source="notifyme"
+            id={selectedSize ? selectedSize.id : 0}
             minValue={minQuantity}
             maxValue={maxQuantity}
             currentValue={quantity}
             onChange={onQuantityChange}
             errorMsg={selectedSize ? "Available qty in stock is" : ""}
-            disabled={selectedSize && selectedSize.stock == 0}
+            disabled={(selectedSize && selectedSize.stock == 0) || false}
             className={styles.quantityWrapper}
+            inputClass={styles.inputQuantity}
           />
         </div>
-        {selectedSize && selectedSize.stock === 0 && (
+        {(!selectedSize || (selectedSize && selectedSize.stock === 0)) && (
           <div className={cs(styles.emailInput, globalStyles.textLeft)}>
             <InputField
               id="width"
@@ -196,7 +298,7 @@ const NotifyMePopup: React.FC<Props> = ({
               onChange={onEmailChange}
               validator={validator}
               className={styles.field}
-              label="EMAIL"
+              label="Email"
               placeholder="Email Address"
               errorMsg={emailError}
               disabled={userExists}

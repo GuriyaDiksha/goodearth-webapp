@@ -1,4 +1,4 @@
-import { State, DeviceActions } from "./typings";
+import { State, DeviceActions } from "./typings.d";
 
 const initialState: State = {
   mobile: false,

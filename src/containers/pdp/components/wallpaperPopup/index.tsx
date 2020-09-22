@@ -48,8 +48,6 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
     };
   };
 
-  console.log(widthError, heightError, numOfRolls);
-
   const calculateQuantity = () => {
     let rollsRequired = 0;
 
@@ -75,7 +73,7 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
       const wallWidth = Number(width);
       const wallHeight = Number(height);
       const totalConsumptionArea =
-        wallWidth * wallHeight * wastage + (wallWidth * patterRepeat) / 12;
+        wallWidth * wallHeight * wastage + (wallHeight * patterRepeat) / 12;
       rollsRequired = Math.ceil(totalConsumptionArea / totalRollArea);
       setNumOfRolls(rollsRequired);
     }

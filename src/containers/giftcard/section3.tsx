@@ -22,19 +22,6 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
     RegisterFormRef.current?.submit();
   };
 
-  useEffect(() => {
-    if (data.recipientEmail) {
-      const form = RegisterFormRef.current;
-      form &&
-        form.updateInputsWithValue({
-          firstName: data.recipientName,
-          email: data.recipientEmail,
-          email1: data.recipientEmail,
-          senderName: data.senderName
-        });
-      setTextarea(data.message);
-    }
-  });
   // const myBlurText = (event: any) => {
   //   if (event.target.value != "") {
   //     if (textarea.length <= 120) {
@@ -47,6 +34,11 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
   //     setEhighlight(true);
   //   }
   // };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleSubmit = (
     model: any,
     resetForm: any,
@@ -65,9 +57,9 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
     // setEhighlight(true);
     // return false;
     // }
-    data["email"] = recipientEmail;
-    data["email1"] = recipientEmailConfirm;
-    data["firtName"] = recipientName;
+    data["recipientEmail"] = recipientEmail;
+    data["recipientEmailConfirm"] = recipientEmailConfirm;
+    data["recipientName"] = recipientName;
     data["senderName"] = senderName;
     data["message"] = message;
     next(data, "preview");
@@ -88,7 +80,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
   return (
     <div className={bootstrapStyles.row}>
       <section className={cs(globalStyles.paddTop60, styles.gc)}>
-        <div className={cs(bootstrapStyles.row)}>
+        <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
             className={cs(
               bootstrapStyles.col10,
@@ -130,6 +122,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     name="recipientName"
                     placeholder={"Recipient's Name"}
                     label={"Name"}
+                    value={data["recipientName"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
                     required
@@ -140,6 +133,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     name="recipientEmail"
                     placeholder={"Recipient's Email"}
                     label={"Email"}
+                    value={data["recipientEmail"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
                     validations={{
@@ -158,9 +152,12 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                   <FormInput
                     name="recipientEmailConfirm"
                     placeholder={"Confirm Recipient's Email"}
-                    label={"Email"}
+                    label={"Confirm Email"}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={emailInput}
+                    value={data["recipientEmail"]}
+                    isDrop={true}
+                    isPaste={true}
                     validations={{
                       isEmail: true,
                       maxLength: 75,
@@ -180,15 +177,18 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     placeholder=""
                     name="message"
                     rows={5}
+                    value={data["message"]}
                     id="sender_msg"
-                    // onChange={e => {
-                    //   myBlurText(e);
-                    // }}
+                    handleChange={e => {
+                      setTextarea(e.currentTarget.value);
+                    }}
                     required
-                    value={textarea}
+                    // value={textarea}
                     // className={ehighlight ? "error-border" : ""}
                   ></FormTextArea>
-                  <div>Character Limit: {120 - textarea.length}</div>
+                  <div className={globalStyles.textLeft}>
+                    Character Limit: {120 - textarea.length}
+                  </div>
                   {/* {emsg ? (
                     <p className={globalStyles.errorMsg}>
                       Please enter message
@@ -202,6 +202,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
                     name="senderName"
                     placeholder={"Sender's Name"}
                     label={"Sender's Name"}
+                    value={data["senderName"]}
                     // className={showFieldsClass}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}

@@ -14,7 +14,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
     this.state = {
-      disable: false,
+      disable: props.disableSendOtpButton && true,
       msgt: "",
       showFields: false,
       radioType: "",
@@ -24,9 +24,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       updateStatus: false,
       showerror: "",
       showerrorOtp: "",
-      showError: "",
       otp: "",
-      toggleOtp: false
+      toggleOtp: false,
+      isLoading: false
     };
   }
   timerId: any = 0;
@@ -53,12 +53,24 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     }
   };
 
+  UNSAFE_componentWillReceiveProps = (nextProps: otpProps) => {
+    if (this.props.toggleReset !== nextProps.toggleReset) {
+      this.clickHereOtpInvalid();
+    }
+    // if (this.state.disable && !nextProps.disableSendOtpButton) {
+    //   this.setState({ disable: false });
+    // }
+    if (nextProps.disableSendOtpButton != this.props.disableSendOtpButton) {
+      this.setState({ disable: nextProps.disableSendOtpButton });
+    }
+  };
+
   handleSubmit2 = (model: any, resetForm: any, updateInputsWithError: any) => {
-    const { email, phoneNo } = model;
+    const { email } = model;
+    const { phoneNo } = this.RegisterFormRef.current?.getModel();
     const data: any = {};
-    if (this.state.radioType == "email") {
-      data["email"] = email;
-    } else {
+    data["email"] = email;
+    if (this.state.radioType == "number") {
       data["phoneNo"] = "+91" + phoneNo;
     }
     data["inputType"] = "CNI";
@@ -100,7 +112,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       return false;
     }
     if (!this.props.txtvalue) {
-      this.props.updateError(true);
+      this.props.updateError("Please enter a valid code");
       return false;
     }
 
@@ -108,9 +120,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       this.RegisterFormRef1.current.submit();
       return false;
     }
-    if (this.state.radioType == "email") {
+    if (this.state.radioType == "email" || this.props.otpFor == "balanceCN") {
       data["email"] = email;
-    } else {
+    }
+    if (this.state.radioType == "number") {
       data["phoneNo"] = "+91" + phoneNo;
     }
     data["inputType"] = "GIFT";
@@ -159,7 +172,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             // if(res.currStatus) {
             if (data.message) {
               this.setState({
-                showerror: data.message
+                showerror: data.message,
+                disable: true
               });
             } else {
               this.props.updateList(data);
@@ -167,7 +181,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 toggleOtp: true,
                 // radioType: "",
                 showerrorOtp: "",
-                showerror: ""
+                showerror: "",
+                disable: true
               });
             }
             // this.props.toggleOtp(false);
@@ -175,7 +190,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           })
           .catch(err => {
             this.setState({
-              showerror: err.response.data.message
+              showerror: err.response.data.message,
+              updateStatus: false,
+              disable: true
             });
           })
           .finally(() => {
@@ -190,13 +207,16 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             toggleOtp: false,
             radioType: "",
             showerrorOtp: "",
-            showerror: ""
+            showerror: "",
+            disable: true
           });
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
           this.setState({
-            showerror: error.response.data.message
+            showerror: error.response.data.message,
+            updateStatus: false,
+            disable: true
           });
         })
         .finally(() => {
@@ -207,7 +227,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   timer = () => {
     this.setState({
-      otpTimer: 120
+      otpTimer: this.props.otpFor == "activateGC" ? 120 : 300
     });
     this.timerId = setInterval(() => {
       this.decrementTimeRemaining();
@@ -237,7 +257,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       toggleOtp: false,
       radioType: "",
       showerrorOtp: "",
-      showerror: ""
+      showerror: "",
+      updateStatus: false,
+      disable: true
     });
     // this.setState({
     //     receivedOtp: false,
@@ -287,6 +309,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.setState({
             showerrorOtp: "Invalid Gift Card Code"
           });
+        } else if (data.currStatus == "Invalid-CN") {
+          this.props.updateError("Please enter a valid code");
         } else {
           this.setState(
             {
@@ -302,9 +326,22 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         }
       })
       .catch((error: any) => {
-        this.setState({
-          showError: "Server Error"
-        });
+        const { status, currStatus, message } = error.response.data;
+        if (!status) {
+          if (currStatus == "Invalid-CN") {
+            let errorMessage = "Please enter a valid code";
+            if (message) {
+              errorMessage = message;
+            }
+            this.props.updateError(errorMessage);
+          }
+          if (currStatus == "Active" || currStatus == "Expired") {
+            this.props.updateError(message);
+          }
+        }
+        // this.setState({
+        //   showerror: "Server Error"
+        // });
       });
   };
 
@@ -367,7 +404,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               globalStyles.voffset2
             )}
           >
-            GIFT CARD CODE
+            {this.props.otpFor == "balanceCN"
+              ? "CREDIT NOTE"
+              : "GIFT CARD CODE"}
           </p>
           <p>{this.props.txtvalue}</p>
           {radioType == "email" ? (
@@ -385,7 +424,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 OTP SMS SENT TO MOBILE NUMBER:
               </strong>{" "}
               <br />
-              +91{otpData.phoneNo}
+              {otpData.phoneNo}
             </p>
           )}
         </div>
@@ -452,18 +491,22 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             </div>
             <div className={cs(globalStyles.voffset3, globalStyles.relative)}>
               {this.state.showerror ? (
-                <p className={globalStyles.errorMsg}>{this.state.showerror}</p>
+                <p
+                  className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
+                >
+                  {this.state.showerror}
+                </p>
               ) : (
                 <p className={globalStyles.errorMsg}></p>
               )}
             </div>
-            <div className={globalStyles.voffset4}>
+            <div className={globalStyles.voffset2}>
               <input
                 type="button"
-                disabled={!(this.state.otp.length == 6)}
+                disabled={!this.state.updateStatus}
                 className={
                   !this.state.updateStatus
-                    ? cs(globalStyles.disabled, globalStyles.ceriseBtn)
+                    ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
                     : globalStyles.ceriseBtn
                 }
                 value={
@@ -511,14 +554,17 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             {this.props.isCredit ? (
               <Formsy
                 ref={this.RegisterFormRef1}
+                onChange={() => {
+                  this.state.disable && this.setState({ disable: false });
+                }}
                 onValidSubmit={this.handleSubmit2}
               >
                 <FormInput
                   name="email"
-                  placeholder={"Email*"}
-                  label={"Email*"}
+                  placeholder={"Email Address"}
+                  label={"Email Address"}
                   className={cs(styles.relative, globalStyles.voffset2)}
-                  keyUp={this.onMailChange}
+                  handleChange={this.onMailChange}
                   value={this.props.email ? this.props.email : ""}
                   validations={{
                     isEmail: true,
@@ -548,6 +594,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             </li>
             <Formsy
               ref={this.RegisterFormRef}
+              onChange={() => {
+                this.state.disable && this.setState({ disable: false });
+              }}
               onValidSubmit={this.handleSubmit}
               onInvalidSubmit={this.handleInvalidSubmit}
             >
@@ -571,10 +620,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   disable={this.props.isCredit}
                   inputRef={this.emailInput}
                   value={this.props.email ? this.props.email : ""}
-                  validations={{
-                    isEmail: true,
-                    maxLength: 75
-                  }}
+                  validations={
+                    radioType == "email"
+                      ? {
+                          isEmail: true,
+                          maxLength: 75
+                        }
+                      : {}
+                  }
                   validationErrors={{
                     isEmail: "Enter valid email",
                     maxLength:
@@ -621,16 +674,20 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   <div className={styles.contactNumber}>
                     <FormInput
                       name="phoneNo"
-                      value=""
+                      value={this.props.phoneNo ? this.props.phoneNo : ""}
                       inputRef={this.phoneInput}
                       placeholder={"Contact Number"}
                       type="number"
                       label={"Contact Number"}
-                      validations={{
-                        isLength: 10
-                      }}
+                      validations={
+                        radioType == "number"
+                          ? {
+                              isLength: 10
+                            }
+                          : {}
+                      }
                       validationErrors={{
-                        isLength: "Phone Number should be 10 digit"
+                        isLength: "Phone number should be 10 digit"
                       }}
                       required={radioType != "number" ? "isFalse" : true}
                     />
@@ -684,7 +741,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   disabled={this.state.disable}
                   className={
                     this.state.disable
-                      ? cs(globalStyles.ceriseBtn, globalStyles.disable)
+                      ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
                       : globalStyles.ceriseBtn
                   }
                   value="Send otp"

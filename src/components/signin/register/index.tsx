@@ -20,6 +20,7 @@ import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
 import { checkMail } from "utils/validate";
+import { genderOptions } from "constants/profile";
 
 const mapStateToProps = () => {
   return {};
@@ -39,11 +40,6 @@ class RegisterForm extends React.Component<Props, registerState> {
       showFields: false,
       successMsg: "",
       showPassword: false,
-      genderOptions: [
-        { value: "Female", label: "Female" },
-        { value: "Male", label: "Male" },
-        { value: "Others", label: "Others" }
-      ],
       minDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 110)
       ).format("YYYY-MM-DD"),
@@ -70,7 +66,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
-    this.props.fetchCountryData();
+    // this.props.fetchCountryData();
   }
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -111,6 +107,7 @@ class RegisterForm extends React.Component<Props, registerState> {
         this.setState({
           disableButton: false
         });
+        this.gtmPushRegister();
         this.context.closeModal();
         window.scrollTo(0, 0);
       })
@@ -169,6 +166,23 @@ class RegisterForm extends React.Component<Props, registerState> {
           }
         });
       });
+  };
+
+  gtmPushRegister = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signup",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
+  };
+
+  closeModalForm = () => {
+    this.setState({
+      disableButton: false
+    });
+    this.context.closeModal();
+    window.scrollTo(0, 0);
   };
 
   handleInvalidSubmit = () => {
@@ -408,7 +422,7 @@ class RegisterForm extends React.Component<Props, registerState> {
               name="gender"
               label="Select Gender*"
               placeholder="Select Gender*"
-              options={this.state.genderOptions}
+              options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
             />
@@ -526,6 +540,8 @@ class RegisterForm extends React.Component<Props, registerState> {
               label={"Confirm Password*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
+              isDrop={true}
+              isPaste={true}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
@@ -598,6 +614,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             )}
             <input
               type="submit"
+              formNoValidate
               className={
                 this.state.disableButton || !this.state.showFields
                   ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
@@ -612,7 +629,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     );
     const footer = (
       <>
-        <SocialLogin />
+        <SocialLogin closeModel={this.closeModalForm} />
         <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Already registered?{" "}

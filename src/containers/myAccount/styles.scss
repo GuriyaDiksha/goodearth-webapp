@@ -6,7 +6,7 @@
   color: tint(#000, 40%);
   letter-spacing: 1px;
   font-size: 14px;
-  line-height: 48px;
+  line-height: 50px;
   .icon {
     font-size: 18px;
     color: $cerise;
@@ -26,11 +26,12 @@
       line-height: 40px;
       a, span {
         font-size: 14px;
-        font-family: "LatoFont","Helvetica","Arial";
+        font-family: $font-Lato;
         color: #333;
         cursor: pointer;
         &:hover {
           color: $cerise;
+          text-decoration: none;
         }
       }
       ul {
@@ -146,7 +147,7 @@
       &:after {
         content: '';
         right: 10px;
-        top: 40%;
+        top: 43%;
         position: absolute;
         width: 0;
         height: 0;
@@ -172,8 +173,8 @@
   position: fixed;
   z-index: 9;
   background-color: #fff;
-  padding: 15px 20px 4px 20px;
-  top: 50px;
+  padding: 11px 20px 4px 20px;
+  top: $header-height;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {
     line-height: 30px;
@@ -185,13 +186,19 @@
     @include plp_subhdr_open_mob();
     letter-spacing: 1px;
     text-transform: uppercase;
-
+    i {
+      &:before {
+        font-weight: bold;
+      }
+    }
     &:first-child {
       float: left;
       margin-left: 0px;
     }
     &:last-child {
       float: right;
+      margin-right: 10px;
+      
     }
   }
 }
@@ -200,7 +207,7 @@
   bottom: 0;
   top: ($header-height + 50);
   left: 0;
-  z-index: 7;
+  z-index: 10;
   background-color: white;
   -webkit-transition: all 0.5s linear;
   -moz-transition: all 0.5s linear;

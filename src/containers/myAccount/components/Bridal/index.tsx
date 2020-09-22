@@ -252,6 +252,7 @@ const Bridal: React.FC<Props> = props => {
             currentCallBackComponent="bridal"
             addressType="SHIPPING"
             error=""
+            addresses={[]}
           />
         );
       // return <ManageAddress isbridal={true}
@@ -348,6 +349,7 @@ const Bridal: React.FC<Props> = props => {
             isBridal={true}
             addressType={"SHIPPING"}
             error=""
+            addresses={[]}
             // changeBridalAddress={changeBridalAddress}
             // setAddressModeProfile={setAddressModeProfile}
             // editMode={editMode}

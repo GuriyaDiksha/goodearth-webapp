@@ -18,7 +18,9 @@ import { AppState } from "reducers/typings";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    location: state.router.location
+    location: state.router.location,
+    basket: state.basket,
+    currency: state.currency
   };
 };
 
@@ -73,7 +75,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           const error = [
             "This account already exists. Please ",
             <span
-              className={globalStyles.linkTextUnderline}
+              className={cs(
+                globalStyles.errorMsg,
+                globalStyles.linkTextUnderline
+              )}
               key={1}
               onClick={this.handleResetPassword}
             >
@@ -125,13 +130,23 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     if (email) {
       this.setState({ email });
     }
-    this.emailInput.current && this.emailInput.current.focus();
+    this.firstEmailInput.current?.focus();
+    // this.emailInput.current && this.emailInput.current.focus();
     localStorage.removeItem("tempEmail");
   }
 
   handleSubmitEmail = (event: React.FormEvent) => {
     event.preventDefault();
     this.myBlur(event);
+  };
+
+  gtmPushSignIn = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signIn",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
   };
 
   handleSubmit = (event: React.FormEvent) => {
@@ -142,6 +157,17 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       this.props
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
+          this.gtmPushSignIn();
+          dataLayer.push({
+            event: "checkout",
+            ecommerce: {
+              currencyCode: this.props.currency,
+              checkout: {
+                actionField: { step: 1 },
+                products: this.props.basket.products
+              }
+            }
+          });
           // this.context.closeModal();
           this.props.nextStep?.();
         })
@@ -271,6 +297,20 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       };
     });
   }
+  changeEmail = () => {
+    this.setState(
+      {
+        showCurrentSection: "email",
+        email: "",
+        isLoginDisabled: true,
+        showerror: "",
+        password: ""
+      },
+      () => {
+        this.firstEmailInput.current?.focus();
+      }
+    );
+  };
 
   emailForm = () => {
     return (
@@ -324,14 +364,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               inputRef={this.emailInput}
               disable={this.state.isPasswordDisabled}
               disablePassword={this.disablePassword}
-              inputClass={
-                this.state.isPasswordDisabled ? styles.disabledInput : ""
-              }
             />
+            <p className={styles.loginChange} onClick={this.changeEmail}>
+              Change
+            </p>
           </div>
           <div>
             <InputField
-              blur={this.myBlurP.bind(this)}
               placeholder={"Password"}
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}
@@ -346,20 +385,16 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             />
             <span
               className={styles.togglePasswordBtn}
-              onClick={
-                !this.state.isPasswordDisabled
-                  ? () => this.togglePassword()
-                  : () => false
-              }
+              onClick={() => this.togglePassword()}
             >
               <img src={this.state.showPassword ? show : hide} />
             </span>
           </div>
           <div className={globalStyles.textCenter}>
-            <span
+            <p
               className={cs(
                 styles.formSubheading,
-                globalStyles.voffset5,
+                globalStyles.voffset3,
                 globalStyles.pointer
               )}
               onClick={e => {
@@ -372,7 +407,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             >
               {" "}
               FORGOT PASSWORD
-            </span>
+            </p>
           </div>
           <div>
             {this.state.showerror ? (
@@ -397,7 +432,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const footer = (
       <>
         <div className={globalStyles.textCenter}>
-          <SocialLogin />
+          <SocialLogin closeModel={this.context.closeModal} />
         </div>
 
         {/* <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
@@ -432,7 +467,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       <Fragment>
         {this.state.successMsg ? (
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-            <div className={globalStyles.successMsg}>
+            <div
+              className={cs(globalStyles.successMsg, globalStyles.textCenter)}
+            >
               {this.state.successMsg}
             </div>
           </div>

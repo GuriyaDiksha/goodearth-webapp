@@ -1,13 +1,11 @@
 import React from "react";
 import { currencyCodes } from "constants/currency";
-// import { useSelector } from 'react-redux';
-// import { AppState } from 'reducers/typings';
 import { WishListGridItem } from "typings/wishlist";
 import { Props as WishlistProps } from "./index";
 import { Currency } from "typings/currency";
 import styles from "./styles.scss";
 import iconStyles from "../../styles/iconFonts.scss";
-// import globalStyles from "../../styles/global.scss";
+import globalStyles from "../../styles/global.scss";
 // import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
 
@@ -17,13 +15,14 @@ type Props = {
   item: WishListGridItem;
   currency: Currency;
   mobile: boolean;
+  isSale: boolean;
 };
 
 const SampleDisplay: React.FC<Props> = props => {
   // const { currency } = useSelector((state: AppState) => state);
   // const { mobile } = useSelector((state: AppState) => state.device);
 
-  const isSale = false;
+  const { isSale } = props;
 
   const atbOrNotify = (item: WishListGridItem) => {
     let flag = false;
@@ -45,7 +44,7 @@ const SampleDisplay: React.FC<Props> = props => {
 
   const openPopup = (productId: number) => {
     const { item, currency } = props;
-    props.grid.openPopup(item, currency);
+    props.grid.openPopup(item, currency, isSale);
   };
 
   const sizeText = (item: WishListGridItem) => {
@@ -73,7 +72,7 @@ const SampleDisplay: React.FC<Props> = props => {
               className={cs(
                 iconStyles.icon,
                 iconStyles.iconCross,
-                styles.iconCross
+                styles.iconCrossMobile
               )}
               onTouchStart={e => {
                 props.removeProduct(data);
@@ -165,7 +164,11 @@ const SampleDisplay: React.FC<Props> = props => {
                 {data.price[currency]}
               </span>
             ) : (
-              <span>
+              <span
+                className={
+                  data.badgeType == "B_flat" ? globalStyles.cerise : ""
+                }
+              >
                 {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
                 {data.price[currency]}
               </span>

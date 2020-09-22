@@ -26,7 +26,10 @@ export const getProductSliderItems = (
         "",
       badgeImage: product.salesBadgeImage,
       productName: product.title,
-      pricerecords: product.priceRecords
+      pricerecords: product.priceRecords,
+      discountedPriceRecords: product.discountedPriceRecords,
+      discount: product.discount,
+      badgeType: product.badgeType
     });
   });
 

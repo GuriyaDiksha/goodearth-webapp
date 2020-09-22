@@ -20,10 +20,13 @@ import { checkMail } from "utils/validate";
 import { AppState } from "reducers/typings";
 import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
+import { genderOptions } from "constants/profile";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    location: state.router.location
+    location: state.router.location,
+    basket: state.basket,
+    currency: state.currency
   };
 };
 
@@ -42,11 +45,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       showFields: true,
       successMsg: "",
       showPassword: false,
-      genderOptions: [
-        { value: "Female", label: "Female" },
-        { value: "Male", label: "Male" },
-        { value: "Others", label: "Others" }
-      ],
       minDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 110)
       ).format("YYYY-MM-DD"),
@@ -69,12 +67,20 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
         this.RegisterFormRef.current.updateInputsWithValue({ email: email });
+      this.firstNameInput.current?.focus();
       // this.emailInput.current.value = email;
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
-    this.props.fetchCountryData();
   }
+  gtmPushRegister = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "signup",
+      eventCategory: "formSubmission",
+      eventLabel: location.pathname
+    });
+  };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const {
@@ -111,6 +117,17 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.props
       .register(formData)
       .then(data => {
+        this.gtmPushRegister();
+        dataLayer.push({
+          event: "checkout",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            checkout: {
+              actionField: { step: 1 },
+              products: this.props.basket.products
+            }
+          }
+        });
         this.props.nextStep?.();
       })
       .catch(err => {
@@ -332,6 +349,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   };
 
+  changeEmail = (event: any) => {
+    this.props.changeEmail?.();
+  };
+
   handleFirstNameKeyPress = (e: React.KeyboardEvent) => {
     if (e.key == "Enter") {
       e.preventDefault();
@@ -367,7 +388,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.emailInput}
               disable={true}
-              className={styles.disabledInput}
               validations={{
                 isEmail: true,
                 maxLength: 75
@@ -378,6 +398,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
               required
             />
+            <p className={styles.loginChange} onClick={this.changeEmail}>
+              Change
+            </p>
           </div>
           <div>
             <FormInput
@@ -409,7 +432,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               name="gender"
               label="Select Gender*"
               placeholder="Select Gender*"
-              options={this.state.genderOptions}
+              options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
             />
@@ -528,6 +551,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               disable={!this.state.showFields}
               className={showFieldsClass}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              isDrop={true}
+              isPaste={true}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
                 equalsField: "password1"
@@ -614,7 +639,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     const footer = (
       <>
         <div className={globalStyles.textCenter}>
-          <SocialLogin />
+          <SocialLogin
+            closeModel={() => {
+              this.props.nextStep?.();
+            }}
+          />
         </div>
       </>
     );

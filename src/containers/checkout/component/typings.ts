@@ -45,6 +45,7 @@ export type PromoProps = {
   isActive: boolean;
   user: any;
   next: (step: string) => void;
+  selectedAddress: any;
 };
 
 export type PaymentProps = {
@@ -52,6 +53,12 @@ export type PaymentProps = {
   user: any;
   currency: Currency;
   checkout: (data: any) => any;
+  loyaltyData: any;
+};
+
+export type PopupProps = {
+  closeModal: (data?: any) => any;
+  acceptCondition: (data?: any) => any;
 };
 
 export type BalanceProps = {
@@ -69,6 +76,7 @@ export interface GiftListProps extends BalanceProps {
   currStatus: string;
   currency: Currency;
   type?: string;
+  isLoggedIn: boolean;
 }
 
 export type voucher = {
@@ -92,4 +100,16 @@ export type GiftState = {
   newCardBox: boolean;
   toggleOtp: boolean;
   isActivated: boolean;
+};
+
+export type RedeemState = {
+  txtvalue: number | string;
+  error: string;
+  newCardBox: boolean;
+  toggleOtp: boolean;
+  isActivated: boolean;
+};
+
+export type ReddemProps = {
+  loyaltyData: any;
 };

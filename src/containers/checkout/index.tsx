@@ -28,6 +28,9 @@ import BasketService from "services/basket";
 import { User } from "typings/user";
 import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import { updateComponent, updateModal } from "actions/modal";
+import InfoPopup from "components/Popups/InfoPopup";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -35,15 +38,20 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     user: state.user,
     basket: state.basket,
-    // addresses: state.address.addressList,
+    addresses: state.address.addressList,
     mobile: state.device.mobile,
     currency: state.currency,
-    cookies: state.cookies
+    cookies: state.cookies,
+    isSale: state.info.isSale
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
+    // create function for dispatch
+    showNotify: (message: string) => {
+      dispatch(showMessage(message, 6000));
+    },
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
@@ -75,18 +83,38 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch, "checkout");
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
       return response;
+    },
+    getLoyaltyPoints: async (data: FormData) => {
+      const points: any = await CheckoutService.getLoyaltyPoints(
+        dispatch,
+        data
+      );
+      return points;
+    },
+    showPopup: (setInfoPopupCookie: () => void) => {
+      dispatch(
+        updateComponent(
+          <InfoPopup acceptCondition={setInfoPopupCookie} />,
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    },
+    fetchBasket: async () => {
+      return await BasketService.fetchBasket(dispatch, "checkout");
     }
   };
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 type State = {
   activeStep: string;
@@ -110,7 +138,10 @@ type State = {
   id: string;
   addressIdError: string;
   isGoodearthShipping: boolean;
+  loyaltyData: any;
+  isSuspended: boolean;
 };
+
 class Checkout extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -141,35 +172,152 @@ class Checkout extends React.Component<Props, State> {
       isLoading: false,
       id: "",
       addressIdError: "",
-      isGoodearthShipping: false
+      isSuspended: true,
+      isGoodearthShipping:
+        props.user.shippingData && props.user.shippingData.isTulsi
+          ? true
+          : false,
+      loyaltyData: {}
     };
+  }
+  setInfoPopupCookie() {
+    const cookieString =
+      "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    // this.setState({
+    //     showInfoPopup: 'show'
+    // })
   }
   componentDidMount() {
     const bridalId = CookieService.getCookie("bridalId");
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
+    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
+    if (this.state.isSuspended && checkoutPopupCookie !== "show") {
+      this.props.showPopup(this.setInfoPopupCookie);
+    }
+    const {
+      user: { email },
+      getLoyaltyPoints
+    } = this.props;
+    this.state.isGoodearthShipping
+      ? dataLayer.push({
+          event: "checkout",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            checkout: {
+              actionField: { step: 2 },
+              products: this.props.basket.products
+            }
+          }
+        })
+      : "";
+    dataLayer.push({
+      event: "checkoutView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_checkout_view"
+    });
+    // code for call loyalty point api only one time
+    if (email) {
+      const data: any = {
+        email: email
+      };
+
+      getLoyaltyPoints(data).then(loyalty => {
+        this.setState({
+          loyaltyData: loyalty
+        });
+      });
+    }
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.display = "none";
+      scrollToTopButtonElem.style.bottom = "65px";
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.display = "none";
+      chatButtonElem.style.bottom = "10px";
+    }
+
+    this.props.fetchBasket().then(() => {
+      dataLayer.push({
+        event: "checkout",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          checkout: {
+            actionField: { step: 1 },
+            products: this.props.basket.products
+          }
+        }
+      });
+    });
+  }
+  componentWillUnmount() {
+    const chatButtonElem = document.getElementById("chat-button");
+    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    if (scrollToTopButtonElem) {
+      scrollToTopButtonElem.style.removeProperty("display");
+      scrollToTopButtonElem.style.removeProperty("bottom");
+    }
+    if (chatButtonElem) {
+      chatButtonElem.style.removeProperty("display");
+      chatButtonElem.style.removeProperty("bottom");
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (this.props.user.isLoggedIn) {
-      const shippingData = nextProps.user.shippingData;
-      if (
-        this.state.activeStep == Steps.STEP_PAYMENT &&
-        nextProps.basket.giftCards.length > this.props.basket.giftCards.length
-      ) {
-        // activeStep remains as STEP_PAYMENT
-      } else {
-        this.setState({
-          activeStep: shippingData
-            ? this.state.billingAddress
-              ? Steps.STEP_PROMO
-              : Steps.STEP_BILLING
-            : Steps.STEP_SHIPPING
+    if (nextProps.user.isLoggedIn) {
+      const { shippingData } = nextProps.user;
+      const {
+        user: { email },
+        getLoyaltyPoints
+      } = this.props;
+
+      // code for call loyalty point api only one time
+      if (!email && nextProps.user.email) {
+        const data: any = {
+          email: nextProps.user.email
+        };
+        getLoyaltyPoints(data).then(loyalty => {
+          this.setState({
+            loyaltyData: loyalty
+          });
         });
       }
-      this.setState({
-        shippingAddress: shippingData || undefined
-      });
+
+      if (nextProps.basket.redirectToCart) {
+        this.props.history.push("/cart", {});
+      }
+      if (
+        (this.state.activeStep == Steps.STEP_SHIPPING ||
+          this.state.activeStep == Steps.STEP_LOGIN) &&
+        shippingData &&
+        shippingData?.id !== this.state.shippingAddress?.id
+      ) {
+        this.setState({
+          activeStep: Steps.STEP_BILLING
+        });
+      }
+      // things to reset on currency change
+      if (!shippingData) {
+        this.setState({
+          activeStep: Steps.STEP_SHIPPING,
+          billingAddress: undefined
+        });
+      }
+      if (shippingData !== this.state.shippingAddress) {
+        this.setState({
+          shippingAddress: shippingData || undefined
+        });
+      }
+      if (
+        !this.state.isGoodearthShipping &&
+        shippingData &&
+        shippingData.isTulsi
+      ) {
+        this.setState({ isGoodearthShipping: true });
+      }
     }
   }
 
@@ -280,26 +428,42 @@ class Checkout extends React.Component<Props, State> {
       this.props
         .specifyShippingAddress(address.id, address, this.props.user)
         .then(data => {
-          const isGoodearthShipping = address.isEdit ? address.isEdit : false;
-          this.setState({ isGoodearthShipping });
+          if (data.status) {
+            const isGoodearthShipping = address.isTulsi
+              ? address.isTulsi
+              : false;
+            this.setState({ isGoodearthShipping });
 
-          this.setState({
-            shippingCharge: data.shippingCharge,
-            shippingAddress: address,
-            billingAddress: undefined,
-            activeStep: Steps.STEP_BILLING,
-            shippingError: ""
-          });
-
-          if (data.pageReload) {
-            // window.location.reload();
-            this.props.reloadPage(this.props.cookies);
+            this.setState({
+              shippingCharge: data.data.shippingCharge,
+              shippingAddress: address,
+              billingAddress: undefined,
+              activeStep: Steps.STEP_BILLING,
+              shippingError: ""
+            });
+            dataLayer.push({
+              event: "checkout",
+              ecommerce: {
+                currencyCode: this.props.currency,
+                checkout: {
+                  actionField: { step: 2 },
+                  products: this.props.basket.products
+                }
+              }
+            });
+            if (data.data.pageReload) {
+              // window.location.reload();
+              this.props.reloadPage(this.props.cookies);
+            }
           }
         })
         .catch(err => {
-          // console.log(err.response.data);
-          this.setState({ shippingError: valid.showErrors(err.response.data) });
-          this.showErrorMsg();
+          if (!err.response.data.status) {
+            this.setState({
+              shippingError: valid.showErrors(err.response.data)
+            });
+            this.showErrorMsg();
+          }
         });
     } else {
       let data: specifyBillingAddressData;
@@ -327,12 +491,23 @@ class Checkout extends React.Component<Props, State> {
               activeStep:
                 localStorage.getItem("validBo") ||
                 localStorage.getItem("isSale")
-                  ? Steps.STEP_PAYMENT
+                  ? // || this.props.isSale
+                    Steps.STEP_PAYMENT
                   : Steps.STEP_PROMO,
               billingError: "",
               pancardNo: obj.panPassportNo,
               gstNo: obj.gstNo || "",
               gstType: obj.gstType || ""
+            });
+            dataLayer.push({
+              event: "checkout",
+              ecommerce: {
+                currencyCode: this.props.currency,
+                checkout: {
+                  actionField: { step: 3 },
+                  products: this.props.basket.products
+                }
+              }
             });
           })
           .catch(err => {
@@ -347,7 +522,25 @@ class Checkout extends React.Component<Props, State> {
   };
 
   finalOrder = async (data: any) => {
+    if (this.state.gstType) {
+      data["gstNo"] = this.state.gstNo;
+      data["gstType"] = this.state.gstType;
+    }
+
+    if (this.state.pancardNo) {
+      data["panPassportNo"] = this.state.pancardNo;
+    }
     const response = await this.props.finalCheckout(data);
+    dataLayer.push({
+      event: "checkout",
+      ecommerce: {
+        currencyCode: this.props.currency,
+        checkout: {
+          actionField: { step: 5 },
+          products: this.props.basket.products
+        }
+      }
+    });
     return response;
   };
 
@@ -383,7 +576,7 @@ class Checkout extends React.Component<Props, State> {
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
                 addressType={Steps.STEP_SHIPPING}
-                // addresses={this.props.addresses}
+                addresses={this.props.addresses}
                 // user={this.props.user}
                 error={this.state.shippingError}
               />
@@ -396,25 +589,24 @@ class Checkout extends React.Component<Props, State> {
                 finalizeAddress={this.finalizeAddress}
                 hidesameShipping={true}
                 activeStep={Steps.STEP_BILLING}
-                // items={this.props.basket}
-                // bridalId={this.props.bridalId}
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
-                addressType={Steps.STEP_SHIPPING}
-                // addresses={this.props.addresses}
-                // user={this.props.user}
+                addressType={Steps.STEP_BILLING}
+                addresses={this.props.addresses}
                 error={this.state.billingError}
               />
               <PromoSection
                 isActive={this.isActiveStep(Steps.STEP_PROMO)}
                 user={this.props.user}
                 next={this.nextStep}
+                selectedAddress={this.state.billingAddress}
               />
               <PaymentSection
                 isActive={this.isActiveStep(Steps.STEP_PAYMENT)}
                 user={this.props.user}
                 checkout={this.finalOrder}
                 currency={this.props.currency}
+                loyaltyData={this.state.loyaltyData}
               />
             </div>
             <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
@@ -422,7 +614,7 @@ class Checkout extends React.Component<Props, State> {
                 mobile={this.props.mobile}
                 currency={this.props.currency}
                 shippingAddress={this.state.shippingAddress}
-                salestatus={false}
+                salestatus={this.props.isSale}
                 validbo={false}
                 basket={this.props.basket}
                 page="checkout"
@@ -434,5 +626,5 @@ class Checkout extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+const checkoutRouter = withRouter(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(checkoutRouter);
