@@ -413,7 +413,7 @@ class PLP extends React.Component<
                 )}
                 key={1}
               >
-                <GiftcardItem />
+                {this.state.corporoateGifting ? <GiftcardItem /> : ""}
               </div>
             </div>
           </div>

@@ -73,7 +73,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
-        {mobile && (
+        {mobile && !isCorporate && (
           <div
             className={cs(
               globalStyles.textCenter,
