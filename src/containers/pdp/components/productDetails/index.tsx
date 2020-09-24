@@ -22,7 +22,8 @@ import SizeChartPopup from "../sizeChartPopup";
 import ColorSelector from "components/ColorSelector";
 import WallpaperPopup from "../wallpaperPopup";
 import NotifyMePopup from "components/NotifyMePopup";
-import CorporateEnquiryPopup from "components/CorporateEnquiryPopup";
+// import CorporateEnquiryPopup from "components/CorporateEnquiryPopup";
+import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 // services
 import BasketService from "services/basket";
 // actions
@@ -243,7 +244,8 @@ const ProductDetails: React.FC<Props> = ({
   };
   const onEnquireClick = () => {
     updateComponentModal(
-      <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      // <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      <ThirdPartyEnquiryPopup id={id} quantity={quantity} />,
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
     );
