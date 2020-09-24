@@ -339,7 +339,11 @@ const ProductDetails: React.FC<Props> = ({
                 mobile={mobile}
                 link={`${__DOMAIN__}${location.pathname}`}
                 mailSubject="Gifting Ideas"
-                mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
+                mailText={`${
+                  corporatePDP
+                    ? `Here's what I found, check it out on Good Earth's web boutique`
+                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
               />
             </div>
           )}
@@ -624,7 +628,11 @@ const ProductDetails: React.FC<Props> = ({
               mobile={mobile}
               link={`${__DOMAIN__}${location.pathname}`}
               mailSubject="Gifting Ideas"
-              mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
+              mailText={`${
+                corporatePDP
+                  ? `Here's what I found, check it out on Good Earth's web boutique`
+                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+              } ${__DOMAIN__}${location.pathname}`}
             />
           )}
 

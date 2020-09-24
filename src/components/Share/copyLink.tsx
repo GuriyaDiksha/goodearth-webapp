@@ -2,18 +2,16 @@ import React from "react";
 import { copyToClipboard } from "utils/clipboard";
 
 type Props = {
+  text: string;
   link: string;
   className?: string;
   onClick?: () => void;
 };
 
-const CopyLink: React.FC<Props> = ({ link, className, onClick }) => {
+const CopyLink: React.FC<Props> = ({ text, link, className, onClick }) => {
   const clickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
-    copyToClipboard(
-      "Here's what I found! It reminded me of you, check it out on Good Earth's web boutique " +
-        link
-    );
+    copyToClipboard(`${text} ${link}`);
     onClick && onClick();
   };
 
