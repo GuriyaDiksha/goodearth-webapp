@@ -102,7 +102,7 @@ const PromoSection: React.FC<PromoProps> = props => {
               <span className={styles.bold}>
                 {basket.voucherDiscounts[0]?.voucher?.code}
               </span>
-              {" APPLY PROMO CODE"}
+              {" PROMO CODE APPLIED"}
             </span>
             <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
               Edit
