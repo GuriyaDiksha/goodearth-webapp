@@ -816,7 +816,7 @@ class FilterList extends React.Component<Props, State> {
       }
     }
     html.push(
-      <ul>
+      <ul key="productType">
         <li>
           <ul className={styles.categorylabel}>
             {this.productData.map((level4: any) => {
@@ -859,7 +859,7 @@ class FilterList extends React.Component<Props, State> {
       }
     }
     html.push(
-      <ul>
+      <ul key="discountType">
         <li>
           <ul className={styles.categorylabel}>
             {this.props.facets.availableDiscount.map((discount: any) => {
@@ -894,7 +894,7 @@ class FilterList extends React.Component<Props, State> {
       id = data[0].trim();
     const { filter } = this.state;
     html.push(
-      <ul>
+      <ul key="subcategory">
         <li key={id}>
           <span
             className={
@@ -944,7 +944,7 @@ class FilterList extends React.Component<Props, State> {
   generateCatagory = (categoryObj: any, data: any, html: any) => {
     const { filter } = this.state;
     html.push(
-      <ul>
+      <ul key={`category-${data}`}>
         <li key={data + "l"}>
           <span
             className={
@@ -1008,7 +1008,7 @@ class FilterList extends React.Component<Props, State> {
     });
     subcat.map((data: any) => {
       for (const key in categoryObj) {
-        if (data[0].indexOf(key) > -1) {
+        if (data[0].endsWith(key)) {
           html = this.generateCatagory(categoryObj, key, html);
         }
       }
