@@ -41,6 +41,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
+import CustomerCareInfo from "components/CustomerCareInfo";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -642,6 +643,7 @@ const ProductDetails: React.FC<Props> = ({
               Vref. {setSelectedSKU()}
             </div>
           )}
+          <CustomerCareInfo />
         </div>
       </div>
     </div>
