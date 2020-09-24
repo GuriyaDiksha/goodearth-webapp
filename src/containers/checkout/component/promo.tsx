@@ -69,7 +69,9 @@ const PromoSection: React.FC<PromoProps> = props => {
   const partialSale = true;
 
   const isSale = info.isSale && !partialSale;
-  const cardCss = globalStyles.pointer + " " + globalStyles.cerise;
+  const cardCss = basket.isOnlyGiftCart
+    ? globalStyles.cerise
+    : globalStyles.pointer + " " + globalStyles.cerise;
 
   return (
     <div
