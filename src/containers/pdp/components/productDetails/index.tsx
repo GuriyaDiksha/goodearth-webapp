@@ -41,6 +41,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
+import CustomerCareInfo from "components/CustomerCareInfo";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -338,7 +339,11 @@ const ProductDetails: React.FC<Props> = ({
                 mobile={mobile}
                 link={`${__DOMAIN__}${location.pathname}`}
                 mailSubject="Gifting Ideas"
-                mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
+                mailText={`${
+                  corporatePDP
+                    ? `Here's what I found, check it out on Good Earth's web boutique`
+                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
               />
             </div>
           )}
@@ -623,7 +628,11 @@ const ProductDetails: React.FC<Props> = ({
               mobile={mobile}
               link={`${__DOMAIN__}${location.pathname}`}
               mailSubject="Gifting Ideas"
-              mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
+              mailText={`${
+                corporatePDP
+                  ? `Here's what I found, check it out on Good Earth's web boutique`
+                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+              } ${__DOMAIN__}${location.pathname}`}
             />
           )}
 
@@ -642,6 +651,7 @@ const ProductDetails: React.FC<Props> = ({
               Vref. {setSelectedSKU()}
             </div>
           )}
+          <CustomerCareInfo />
         </div>
       </div>
     </div>
