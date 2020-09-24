@@ -69,6 +69,9 @@ const PromoSection: React.FC<PromoProps> = props => {
   const partialSale = true;
 
   const isSale = info.isSale && !partialSale;
+  const cardCss = basket.isOnlyGiftCart
+    ? globalStyles.cerise
+    : globalStyles.pointer + " " + globalStyles.cerise;
 
   return (
     <div
@@ -102,7 +105,7 @@ const PromoSection: React.FC<PromoProps> = props => {
               <span className={styles.bold}>
                 {basket.voucherDiscounts[0]?.voucher?.code}
               </span>
-              {" APPLY PROMO CODE"}
+              {" PROMO CODE APPLIED"}
             </span>
             <span className={cs(globalStyles.cerise, globalStyles.pointer)}>
               Edit
@@ -125,7 +128,7 @@ const PromoSection: React.FC<PromoProps> = props => {
                   ? styles.notSelected
                   : isActive || !selectedAddress
                   ? globalStyles.hidden
-                  : globalStyles.cerise
+                  : cardCss
               )}
             >
               {isSale

@@ -11,6 +11,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import FilterList from "./filterList";
+import CorporateFilter from "./corporateList";
 import PlpDropdownMenu from "components/PlpDropDown";
 import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
@@ -45,6 +46,7 @@ class PLP extends React.Component<
     flag: boolean;
     plpMaker: boolean;
     toggel: boolean;
+    corporoateGifting: boolean;
   }
 > {
   constructor(props: Props) {
@@ -60,7 +62,8 @@ class PLP extends React.Component<
       sortValue: param ? param : "hc",
       flag: false,
       plpMaker: false,
-      toggel: false
+      toggel: false,
+      corporoateGifting: props.location.pathname.includes("corporate-gifting")
     };
   }
   private child: any = FilterList;
@@ -114,7 +117,11 @@ class PLP extends React.Component<
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={plpProductId} />,
+      <Quickview
+        id={id}
+        productListId={plpProductId}
+        corporatePDP={this.state.corporoateGifting}
+      />,
       true
     );
     changeModalState(true);
@@ -143,7 +150,10 @@ class PLP extends React.Component<
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.location.pathname != nextProps.location.pathname) {
       this.setState({
-        plpMaker: false
+        plpMaker: false,
+        corporoateGifting: nextProps.location.pathname.includes(
+          "corporate-gifting"
+        )
       });
     }
   }
@@ -157,7 +167,7 @@ class PLP extends React.Component<
         count
       }
     } = this.props;
-    const { plpMaker } = this.state;
+    const { plpMaker, corporoateGifting } = this.state;
     const items: DropdownItem[] = [
       {
         label: "Our Curation",
@@ -213,6 +223,69 @@ class PLP extends React.Component<
             </Fragment>
           </SecondaryHeader>
         )}
+        {corporoateGifting &&
+          (mobile ? (
+            <div
+              className={cs(
+                bootstrap.row,
+                styles.subcHeader4,
+                globalStyles.textCenter
+              )}
+            >
+              <div>
+                <h1>Corporate Gifts</h1>
+                <p>
+                  <div>
+                    For enquiries, write to us at{" "}
+                    <a
+                      href="mailto:customercare@goodearth.in"
+                      className={globalStyles.cerise}
+                      rel="noopener noreferrer"
+                    >
+                      {" "}
+                      customercare@goodearth.in
+                    </a>
+                    , or call us at{" "}
+                    <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
+                      +91 9582 999 555
+                    </a>
+                  </div>
+                </p>
+              </div>
+              <div
+                className={cs(
+                  globalStyles.voffset3,
+                  globalStyles.textCenter,
+                  styles.downloadWidth
+                )}
+              >
+                <a
+                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={globalStyles.cerise}
+                >
+                  DOWNLOAD CATALOGUE
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div className={cs(bootstrap.row, styles.subcHeader)}>
+              <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
+                <h1>Corporate Gifts</h1>
+                <p>
+                  <div>
+                    <span>
+                      We offer a personalized guide to gifting for the
+                      year-round festivities, with curated gifts that are
+                      crafted by hand, inspired by nature and enchanted by
+                      history.
+                    </span>
+                  </div>
+                </p>
+              </div>
+            </div>
+          ))}
         <div className={cs(bootstrap.row, globalStyles.minimumWidth)}>
           <div
             id="filter_by"
@@ -224,14 +297,25 @@ class PLP extends React.Component<
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
-            <FilterList
-              onRef={(el: any) => (this.child = el)}
-              onChangeFilterState={this.onChangeFilterState}
-              key={this.props.location.pathname}
-              changeLoader={this.changeLoader}
-              onStateChange={this.onStateChange}
-            />
+            {corporoateGifting ? (
+              <CorporateFilter
+                onRef={(el: any) => (this.child = el)}
+                onChangeFilterState={this.onChangeFilterState}
+                key={this.props.location.pathname}
+                changeLoader={this.changeLoader}
+                onStateChange={this.onStateChange}
+              />
+            ) : (
+              <FilterList
+                onRef={(el: any) => (this.child = el)}
+                onChangeFilterState={this.onChangeFilterState}
+                key={this.props.location.pathname}
+                changeLoader={this.changeLoader}
+                onStateChange={this.onStateChange}
+              />
+            )}
           </div>
+
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
@@ -311,6 +395,7 @@ class PLP extends React.Component<
                       mobile={mobile}
                       isVisible={index < 3 ? true : undefined}
                       onClickQuickView={this.onClickQuickView}
+                      isCorporate={this.state.corporoateGifting}
                     />
                   </div>
                 );
