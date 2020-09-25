@@ -81,6 +81,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
+    if (!this.state.radioType) {
+      return false;
+    }
     this.setState({ showerrorOtp: "" });
     if (this.props.otpFor == "activateGC") {
       if (

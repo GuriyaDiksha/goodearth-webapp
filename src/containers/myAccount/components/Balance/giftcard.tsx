@@ -198,6 +198,7 @@ class Giftcard extends React.Component<Props, GiftState> {
         giftList: giftList,
         newCardBox: false,
         txtvalue: "",
+        error: "",
         conditionalRefresh: true
       });
       window.scrollTo(0, 0);
@@ -216,7 +217,8 @@ class Giftcard extends React.Component<Props, GiftState> {
       return data.code != code;
     });
     this.setState({
-      giftList: giftList
+      giftList: giftList,
+      disable: true
     });
     if (giftList.length == 0) {
       this.setState(prevState => {
