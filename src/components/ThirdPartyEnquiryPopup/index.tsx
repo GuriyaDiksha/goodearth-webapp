@@ -256,7 +256,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             </div>
           </div>
         </div>
-        <div>
+        <div className={styles.marginBottom50}>
           {error ? <p className={globalStyles.errorMsg}>{error}</p> : ""}
           {enquiryMessage && (
             <p className={styles.enquireError}>{enquiryMessage}</p>

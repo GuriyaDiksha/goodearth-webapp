@@ -203,6 +203,10 @@ class CreditNote extends React.Component<Props, GiftState> {
       const elem: any = document.getElementById("credit");
       elem.scrollIntoView();
       window.scrollBy(0, -200);
+    } else {
+      this.setState({
+        error: ""
+      });
     }
   };
 

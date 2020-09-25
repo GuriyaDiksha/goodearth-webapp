@@ -323,13 +323,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             () => {
               this.timer();
               this.props.toggleOtp(true);
+              this.props.updateError("");
               // document.getElementById("otp-comp").scrollIntoView();
             }
           );
         }
       })
       .catch((error: any) => {
-        const { status, currStatus, message } = error.response.data;
+        const { status, currStatus, message, email } = error.response.data;
         if (!status) {
           if (currStatus == "Invalid-CN") {
             let errorMessage = "Please enter a valid code";
@@ -340,6 +341,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           }
           if (currStatus == "Active" || currStatus == "Expired") {
             this.props.updateError(message);
+          }
+          if (email) {
+            this.RegisterFormRef1.current?.updateInputsWithError({ email });
+            const elem: any = document.getElementById("creditNoteEmail");
+            elem.scrollIntoView();
+            window.scrollBy(0, -200);
+            elem.focus();
           }
         }
         // this.setState({
@@ -564,6 +572,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               >
                 <FormInput
                   name="email"
+                  id="creditNoteEmail"
                   placeholder={"Email Address"}
                   label={"Email Address"}
                   className={cs(styles.relative, globalStyles.voffset2)}

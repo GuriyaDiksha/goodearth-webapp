@@ -11,7 +11,7 @@ type Props = {
 const CopyLink: React.FC<Props> = ({ text, link, className, onClick }) => {
   const clickHandler = (event: React.MouseEvent) => {
     event.preventDefault();
-    copyToClipboard(`${text} ${link}`);
+    copyToClipboard(text);
     onClick && onClick();
   };
 
