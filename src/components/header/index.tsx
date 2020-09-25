@@ -41,6 +41,7 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
+    slab: state.user.slab,
     cookies: state.cookies
   };
 };
@@ -220,8 +221,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: "Cerise Program",
-        // href: "/account/cerise",
-        href: "/cerise",
+        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
         type: "link",
         value: "Cerise Program"
       },
