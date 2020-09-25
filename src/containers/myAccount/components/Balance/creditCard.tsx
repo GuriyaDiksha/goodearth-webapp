@@ -134,6 +134,7 @@ class CreditNote extends React.Component<Props, GiftState> {
         giftList: giftList,
         error: ""
       });
+      window.scrollTo(0, 0);
     } else if (response.currStatus == "Expired" && response.type == "CNI") {
       response.status = "expired";
       giftList.push(response);
@@ -149,6 +150,7 @@ class CreditNote extends React.Component<Props, GiftState> {
         error: ""
         // inputBox: false
       });
+      window.scrollTo(0, 0);
     } else {
       response.status = "active";
       giftList.push(response);
@@ -161,12 +163,14 @@ class CreditNote extends React.Component<Props, GiftState> {
         // showInactive: false,
         // showLocked: false
       });
+      window.scrollTo(0, 0);
     }
   };
 
   newGiftcard = () => {
     this.setState({
-      newCardBox: true
+      newCardBox: true,
+      disable: true
     });
   };
   onClose = (code: string) => {
@@ -175,7 +179,8 @@ class CreditNote extends React.Component<Props, GiftState> {
       return data.code != code;
     });
     this.setState({
-      giftList: giftList
+      giftList: giftList,
+      disable: true
     });
   };
 
@@ -218,12 +223,12 @@ class CreditNote extends React.Component<Props, GiftState> {
             )}
           >
             {newCardBox ? (
-              <div>
+              <div className={styles.vMargin20}>
                 {toggleOtp ? (
                   ""
                 ) : (
                   <Fragment>
-                    <div className={cs(styles.flex, styles.vCenter)}>
+                    <div className={cs(styles.flex, styles.vCenterBalance)}>
                       <input
                         type="text"
                         autoComplete="off"

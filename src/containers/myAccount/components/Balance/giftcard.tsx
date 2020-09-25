@@ -157,6 +157,7 @@ class Giftcard extends React.Component<Props, GiftState> {
         conditionalRefresh: true,
         error: ""
       });
+      window.scrollTo(0, 0);
     } else if (response.currStatus == "Expired" && response.type == "GIFT") {
       response.status = "expired";
       giftList.push(response);
@@ -172,6 +173,7 @@ class Giftcard extends React.Component<Props, GiftState> {
         error: ""
         // inputBox: false
       });
+      window.scrollTo(0, 0);
     } else if (response.currStatus == "Locked" && response.type == "GIFT") {
       response.status = "locked";
       giftList.push(response);
@@ -185,6 +187,7 @@ class Giftcard extends React.Component<Props, GiftState> {
         giftList: giftList,
         error: ""
       });
+      window.scrollTo(0, 0);
     } else {
       response.status = "active";
       giftList.push(response);
@@ -197,12 +200,14 @@ class Giftcard extends React.Component<Props, GiftState> {
         txtvalue: "",
         conditionalRefresh: true
       });
+      window.scrollTo(0, 0);
     }
   };
 
   newGiftcard = () => {
     this.setState({
-      newCardBox: true
+      newCardBox: true,
+      disable: true
     });
   };
   onClose = (code: string) => {
@@ -217,7 +222,8 @@ class Giftcard extends React.Component<Props, GiftState> {
       this.setState(prevState => {
         return {
           toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
-          newCardBox: true
+          newCardBox: true,
+          disable: true
         };
       });
     }
@@ -263,12 +269,12 @@ class Giftcard extends React.Component<Props, GiftState> {
           >
             {newCardBox ? (
               <>
-                <div>
+                <div className={styles.vMargin20}>
                   {toggleOtp ? (
                     ""
                   ) : (
                     <Fragment>
-                      <div className={cs(styles.flex, styles.vCenter)}>
+                      <div className={cs(styles.flex, styles.vCenterBalance)}>
                         <input
                           type="text"
                           autoComplete="off"
@@ -297,8 +303,6 @@ class Giftcard extends React.Component<Props, GiftState> {
                       <label>Gift Card Code</label>
                     </Fragment>
                   )}
-                </div>
-                <div>
                   {this.state.error && (
                     <p className={cs(globalStyles.errorMsg)}>
                       {this.state.error}

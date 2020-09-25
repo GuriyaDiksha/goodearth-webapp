@@ -114,6 +114,7 @@ class Giftcard extends React.Component<Props, GiftState> {
       return {
         toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
         newCardBox: true,
+        disable: true,
         isSuccess: false,
         giftList: [],
         txtvalue: ""
