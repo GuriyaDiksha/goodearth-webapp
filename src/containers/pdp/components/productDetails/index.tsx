@@ -651,7 +651,7 @@ const ProductDetails: React.FC<Props> = ({
               Vref. {setSelectedSKU()}
             </div>
           )}
-          <CustomerCareInfo />
+          {!isQuickview && <CustomerCareInfo />}
         </div>
       </div>
     </div>

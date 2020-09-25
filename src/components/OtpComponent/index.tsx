@@ -320,6 +320,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             () => {
               this.timer();
               this.props.toggleOtp(true);
+              this.props.updateError("");
               // document.getElementById("otp-comp").scrollIntoView();
             }
           );
