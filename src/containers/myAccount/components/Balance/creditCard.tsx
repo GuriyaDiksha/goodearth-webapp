@@ -100,6 +100,7 @@ class CreditNote extends React.Component<Props, GiftState> {
           this.setState({
             giftList: giftList,
             newCardBox: false,
+            conditionalRefresh: true,
             txtvalue: "",
             error: ""
             // showExpired: false,
@@ -157,6 +158,7 @@ class CreditNote extends React.Component<Props, GiftState> {
       this.setState({
         giftList: giftList,
         newCardBox: false,
+        conditionalRefresh: true,
         txtvalue: "",
         error: ""
         // showExpired: false,
@@ -182,6 +184,15 @@ class CreditNote extends React.Component<Props, GiftState> {
       giftList: giftList,
       disable: true
     });
+    if (giftList.length == 0) {
+      this.setState(prevState => {
+        return {
+          toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
+          newCardBox: true,
+          disable: true
+        };
+      });
+    }
   };
 
   updateError = (message: string) => {
@@ -266,16 +277,18 @@ class CreditNote extends React.Component<Props, GiftState> {
                 )}
               </div>
             ) : (
-              <div
-                className={cs(
-                  styles.rtcinfo,
-                  globalStyles.pointer,
-                  globalStyles.textLeft
-                )}
-                onClick={this.newGiftcard}
-              >
-                [+] CHECK ANOTHER CREDIT NOTE CODE
-              </div>
+              isLoggedIn && (
+                <div
+                  className={cs(
+                    styles.rtcinfo,
+                    globalStyles.pointer,
+                    globalStyles.textLeft
+                  )}
+                  onClick={this.newGiftcard}
+                >
+                  [+] CHECK ANOTHER CREDIT NOTE CODE
+                </div>
+              )
             )}
           </div>
         </div>
