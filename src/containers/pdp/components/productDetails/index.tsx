@@ -130,6 +130,14 @@ const ProductDetails: React.FC<Props> = ({
     }, 0);
   };
 
+  useEffect(() => {
+    if (corporatePDP) {
+      setQuantity(10);
+    } else {
+      setQuantity(1);
+    }
+  }, [corporatePDP]);
+
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
