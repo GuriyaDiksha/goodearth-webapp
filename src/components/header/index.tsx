@@ -268,12 +268,18 @@ class Header extends React.Component<Props, State> {
           {meta.ogSiteName && (
             <meta property="og:site_name" content={meta.ogSiteName} />
           )}
-          {meta.ogImageWidth && (
-            <meta property="og:image:width" content={meta.ogImageWidth} />
-          )}
-          {meta.ogImageHeight && (
-            <meta property="og:image:height" content={meta.ogImageHeight} />
-          )}
+          {
+            <meta
+              property="og:image:width"
+              content={meta.ogImageWidth ? meta.ogImageWidth : "948"}
+            />
+          }
+          {
+            <meta
+              property="og:image:height"
+              content={meta.ogImageHeight ? meta.ogImageHeight : "632"}
+            />
+          }
 
           {meta.twitterCard && (
             <meta name="twitter:card" content={meta.twitterCard} />

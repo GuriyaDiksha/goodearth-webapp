@@ -236,10 +236,14 @@ class Giftcard extends React.Component<Props, GiftState> {
       this.setState({
         error: message
       });
+      const elem: any = document.getElementById("gift");
+      elem.scrollIntoView();
+      window.scrollBy(0, -200);
+    } else {
+      this.setState({
+        error: ""
+      });
     }
-    const elem: any = document.getElementById("gift");
-    elem.scrollIntoView();
-    window.scrollBy(0, -200);
   };
 
   render() {
