@@ -9,5 +9,6 @@ export type PLPResultItemProps = {
   isVisible?: boolean;
   isCollection?: boolean;
   isCorporate?: boolean;
+  inStock?: boolean;
   onClickQuickView?: (id: number) => void;
 };

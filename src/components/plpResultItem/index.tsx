@@ -23,7 +23,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     mobile,
     isVisible,
     isCollection,
-    isCorporate
+    isCorporate,
+    inStock
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -109,7 +110,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           />
         </Link>
         <div
-          className={cs(totalStock > 0 ? globalStyles.hidden : styles.outstock)}
+          className={cs(
+            isCorporate && inStock
+              ? globalStyles.hidden
+              : totalStock > 0
+              ? globalStyles.hidden
+              : styles.outstock
+          )}
         >
           <Link to={product.url}> NOTIFY ME</Link>
         </div>
