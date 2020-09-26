@@ -182,9 +182,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               }
             >
               {String.fromCharCode(code)}{" "}
-              {product.productClass == "Product Combo"
-                ? 1
-                : product.priceRecords[currency as Currency]}
+              {product.priceRecords[currency as Currency]}
             </span>
           )}
         </p>
