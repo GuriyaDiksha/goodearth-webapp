@@ -81,9 +81,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
-    if (!this.state.radioType) {
-      return false;
-    }
     this.setState({ showerrorOtp: "" });
     if (this.props.otpFor == "activateGC") {
       if (
@@ -534,6 +531,18 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     );
   };
 
+  handleInvalidSubmit2 = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorBorder
+      )[0] as HTMLElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
+  };
+
   handleInvalidSubmit = () => {
     if (this.props.otpFor == "activateGC") {
       if (
@@ -569,6 +578,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   this.state.disable && this.setState({ disable: false });
                 }}
                 onValidSubmit={this.handleSubmit2}
+                onInvalidSubmit={this.handleInvalidSubmit2}
               >
                 <FormInput
                   name="email"
