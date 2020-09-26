@@ -24,7 +24,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     mobile: state.device.mobile,
     cart: state.basket,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    location: state.router.location
   };
 };
 
@@ -90,6 +91,11 @@ class CartPage extends React.Component<Props, State> {
       chatButtonElem.style.bottom = "10px";
     }
     this.props.fetchBasket();
+    dataLayer.push({
+      event: "CartPageView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_cartpage_view"
+    });
   }
 
   componentWillUnmount() {

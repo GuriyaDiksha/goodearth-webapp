@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -22,6 +22,10 @@ const Section1: React.FC<Section1Props> = props => {
     setSelected("image" + index);
     setSelectindex(index);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const gotoNext = () => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";

@@ -303,9 +303,12 @@
       }
       li {
         padding-left: 0px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        label {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+        }
 
       }
 
@@ -647,9 +650,9 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   }
 }
 
-.bannerMobileCategory {
-  margin-top: 70px;
-}
+// .bannerMobileCategory {
+//   margin-top: 70px;
+// }
 
 .catalog-font {
   font-size: 12px;

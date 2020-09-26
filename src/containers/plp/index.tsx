@@ -80,6 +80,11 @@ class PLP extends React.Component<
   };
 
   componentDidMount() {
+    dataLayer.push({
+      event: "PlpView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_plp_view"
+    });
     this.setState({
       plpMaker: true
     });
@@ -332,7 +337,7 @@ class PLP extends React.Component<
                   </div>
               </div> */}
             {banner || bannerMobile ? (
-              <div className={cs(bootstrap.row, styles.bannerMobileCategory)}>
+              <div className={cs(bootstrap.row)}>
                 <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
                   <img
                     src={mobile ? bannerMobile : banner}
@@ -408,7 +413,7 @@ class PLP extends React.Component<
                 )}
                 key={1}
               >
-                <GiftcardItem />
+                {this.state.corporoateGifting ? "" : <GiftcardItem />}
               </div>
             </div>
           </div>

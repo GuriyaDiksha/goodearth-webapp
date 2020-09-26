@@ -1476,40 +1476,44 @@ class CorporateFilter extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          <div
-            className={cs(
-              styles.catalogFont,
-              globalStyles.voffset3,
-              globalStyles.textCenter
-            )}
-          >
-            {" "}
-            For enquiries, write to us at{" "}
-            <a
-              className={globalStyles.cerise}
-              href="mailto:customercare@goodearth.in"
-              rel="noopener noreferrer"
-            >
-              customercare@goodearth.in
-            </a>
-            , or call us at +91 9582 999 555
-          </div>
-          <div
-            className={cs(
-              styles.catalogFont,
-              globalStyles.voffset3,
-              globalStyles.textCenter
-            )}
-          >
-            <a
-              href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
-              className={globalStyles.cerise}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              DOWNLOAD CATALOGUE
-            </a>
-          </div>
+          {!mobile && (
+            <>
+              <div
+                className={cs(
+                  styles.catalogFont,
+                  globalStyles.voffset3,
+                  globalStyles.textCenter
+                )}
+              >
+                {" "}
+                For enquiries, write to us at{" "}
+                <a
+                  className={globalStyles.cerise}
+                  href="mailto:customercare@goodearth.in"
+                  rel="noopener noreferrer"
+                >
+                  customercare@goodearth.in
+                </a>
+                , or call us at +91 9582 999 555
+              </div>
+              <div
+                className={cs(
+                  styles.catalogFont,
+                  globalStyles.voffset3,
+                  globalStyles.textCenter
+                )}
+              >
+                <a
+                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                  className={globalStyles.cerise}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  DOWNLOAD CATALOGUE
+                </a>
+              </div>
+            </>
+          )}
         </ul>
         {mobile ? (
           <div className={styles.filterButton}>

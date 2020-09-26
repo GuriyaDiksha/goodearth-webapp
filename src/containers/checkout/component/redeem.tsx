@@ -36,17 +36,23 @@ class Reedem extends React.Component<Props, RedeemState> {
 
   changeValue = (event: any) => {
     const { loyaltyData } = this.props;
-    if (
-      +event.target.value <= loyaltyData.eligiblePoints &&
-      +event.target.value >= 0
+    const value = event.target.value;
+    if (value == "" || +value < 0) {
+      this.setState({
+        error: "Please enter Points",
+        txtvalue: ""
+      });
+    } else if (
+      +value <= loyaltyData.eligiblePoints
+      //  && value >= 0
     ) {
       this.setState({
-        txtvalue: +event.target.value,
+        txtvalue: +value,
         error: ""
       });
     } else {
       this.setState({
-        error: "Cant enter value more than" + loyaltyData.eligiblePoints
+        error: "Can't enter value more than " + loyaltyData.eligiblePoints
       });
     }
   };
@@ -166,6 +172,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                     value={txtvalue}
                     onChange={this.changeValue}
                     id="redeem"
+                    min="0"
                     className={
                       this.state.error
                         ? cs(styles.marginR10, styles.err)

@@ -58,6 +58,9 @@ class Giftcard extends React.Component<Props, GiftState> {
         this.setState({
           error: "Please enter a valid code"
         });
+        this.ActivateGCForm.current?.updateInputsWithError({
+          giftCardCode: "Please enter a valid code"
+        });
       } else {
         giftList.push(response);
         this.setState({
@@ -111,6 +114,7 @@ class Giftcard extends React.Component<Props, GiftState> {
       return {
         toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
         newCardBox: true,
+        disable: true,
         isSuccess: false,
         giftList: [],
         txtvalue: ""
@@ -143,6 +147,9 @@ class Giftcard extends React.Component<Props, GiftState> {
     if (message) {
       this.setState({
         error: message
+      });
+      this.ActivateGCForm.current?.updateInputsWithError({
+        giftCardCode: message
       });
     }
     const elem: any = document.getElementById("gift");
@@ -256,19 +263,6 @@ class Giftcard extends React.Component<Props, GiftState> {
                   </div>
                 </Fragment>
               )}
-              {/* {this.state.error ? (
-                  <p
-                    className={cs(
-                      styles.errorMsg,
-                      styles.ccErrorMsg,
-                      styles.textLeft
-                    )}
-                  >
-                    {this.state.error}
-                  </p>
-                ) : (
-                  ""
-                )} */}
             </div>
           </Formsy>
         )}
@@ -282,6 +276,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           toggleOtp={this.toggleOtp}
           otpFor="activateGC"
           email={isLoggedIn ? this.props.user.email : ""}
+          phoneNo={isLoggedIn ? this.props.user.phoneNumber : ""}
           // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
           // validateInputs={this.scrollToErrors}
           validateEmptyInputs={this.validateEmptyInputs}
@@ -302,9 +297,9 @@ class Giftcard extends React.Component<Props, GiftState> {
                 onClose={this.onClose}
                 key={i}
                 conditionalRefresh={this.state.conditionalRefresh}
-                showLocked={this.state.showLocked}
-                showExpired={this.state.showExpired}
-                showInactive={this.state.showInactive}
+                // showLocked={this.state.showLocked}
+                // showExpired={this.state.showExpired}
+                // showInactive={this.state.showInactive}
               />
             );
           })}

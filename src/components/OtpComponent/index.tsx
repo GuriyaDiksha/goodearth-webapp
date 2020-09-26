@@ -320,19 +320,31 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             () => {
               this.timer();
               this.props.toggleOtp(true);
+              this.props.updateError("");
               // document.getElementById("otp-comp").scrollIntoView();
             }
           );
         }
       })
       .catch((error: any) => {
-        const { status, currStatus, message } = error.response.data;
+        const { status, currStatus, message, email } = error.response.data;
         if (!status) {
           if (currStatus == "Invalid-CN") {
+            let errorMessage = "Please enter a valid code";
+            if (message) {
+              errorMessage = message;
+            }
+            this.props.updateError(errorMessage);
+          }
+          if (currStatus == "Active" || currStatus == "Expired") {
             this.props.updateError(message);
           }
-          if (currStatus == "Active") {
-            this.props.updateError(message);
+          if (email) {
+            this.RegisterFormRef1.current?.updateInputsWithError({ email });
+            const elem: any = document.getElementById("creditNoteEmail");
+            elem.scrollIntoView();
+            window.scrollBy(0, -200);
+            elem.focus();
           }
         }
         // this.setState({
@@ -519,6 +531,18 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     );
   };
 
+  handleInvalidSubmit2 = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorBorder
+      )[0] as HTMLElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 0);
+  };
+
   handleInvalidSubmit = () => {
     if (this.props.otpFor == "activateGC") {
       if (
@@ -554,9 +578,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   this.state.disable && this.setState({ disable: false });
                 }}
                 onValidSubmit={this.handleSubmit2}
+                onInvalidSubmit={this.handleInvalidSubmit2}
               >
                 <FormInput
                   name="email"
+                  id="creditNoteEmail"
                   placeholder={"Email Address"}
                   label={"Email Address"}
                   className={cs(styles.relative, globalStyles.voffset2)}
@@ -670,7 +696,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   <div className={styles.contactNumber}>
                     <FormInput
                       name="phoneNo"
-                      value=""
+                      value={this.props.phoneNo ? this.props.phoneNo : ""}
                       inputRef={this.phoneInput}
                       placeholder={"Contact Number"}
                       type="number"

@@ -18,7 +18,7 @@ const mapStateToProps = (state: AppState) => {
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps>;
 
-class CreditCard extends React.Component<Props, GiftState> {
+class CreditNote extends React.Component<Props, GiftState> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -29,9 +29,9 @@ class CreditCard extends React.Component<Props, GiftState> {
       toggleOtp: false,
       toggleResetOtpComponent: false,
       disable: true,
-      showExpired: false,
-      showInactive: false,
-      showLocked: false,
+      // showExpired: false,
+      // showInactive: false,
+      // showLocked: false,
       conditionalRefresh: false
     };
   }
@@ -67,39 +67,45 @@ class CreditCard extends React.Component<Props, GiftState> {
             error: "Please enter a valid code"
           });
         } else if (response.currStatus == "Locked" && response.type == "CNI") {
+          response.status = "locked";
           giftList.push(response);
           this.setState({
             newCardBox: false,
             conditionalRefresh: true,
-            showLocked: true,
-            showExpired: false,
-            showInactive: false,
+            txtvalue: "",
+            // showLocked: true,
+            // showExpired: false,
+            // showInactive: false,
             giftList: giftList,
             error: ""
           });
         } else if (response.currStatus == "Expired" && response.type == "CNI") {
+          response.status = "expired";
           giftList.push(response);
           this.setState({
             newCardBox: false,
             conditionalRefresh: true,
+            txtvalue: "",
             // chkbalance: data,
-            showExpired: true,
-            showInactive: false,
-            showLocked: false,
+            // showExpired: true,
+            // showInactive: false,
+            // showLocked: false,
             giftList: giftList,
             error: ""
             // inputBox: false
           });
         } else {
+          response.status = "active";
           giftList.push(response);
           this.setState({
             giftList: giftList,
             newCardBox: false,
+            conditionalRefresh: true,
             txtvalue: "",
-            error: "",
-            showExpired: false,
-            showInactive: false,
-            showLocked: false
+            error: ""
+            // showExpired: false,
+            // showInactive: false,
+            // showLocked: false
           });
         }
       })
@@ -117,45 +123,56 @@ class CreditCard extends React.Component<Props, GiftState> {
         error: "Please enter a valid code"
       });
     } else if (response.currStatus == "Locked" && response.type == "CNI") {
+      response.status = "locked";
       giftList.push(response);
       this.setState({
         newCardBox: false,
         conditionalRefresh: true,
-        showLocked: true,
-        showExpired: false,
-        showInactive: false,
+        txtvalue: "",
+        // showLocked: true,
+        // showExpired: false,
+        // showInactive: false,
         giftList: giftList,
         error: ""
       });
+      window.scrollTo(0, 0);
     } else if (response.currStatus == "Expired" && response.type == "CNI") {
+      response.status = "expired";
       giftList.push(response);
       this.setState({
         newCardBox: false,
         conditionalRefresh: true,
+        txtvalue: "",
         // chkbalance: data,
-        showExpired: true,
-        showInactive: false,
-        showLocked: false,
+        // showExpired: true,
+        // showInactive: false,
+        // showLocked: false,
         giftList: giftList,
         error: ""
         // inputBox: false
       });
+      window.scrollTo(0, 0);
     } else {
+      response.status = "active";
       giftList.push(response);
       this.setState({
         giftList: giftList,
         newCardBox: false,
+        conditionalRefresh: true,
         txtvalue: "",
-        showExpired: false,
-        showInactive: false,
-        showLocked: false
+        error: ""
+        // showExpired: false,
+        // showInactive: false,
+        // showLocked: false
       });
+      window.scrollTo(0, 0);
     }
   };
 
   newGiftcard = () => {
     this.setState({
-      newCardBox: true
+      newCardBox: true,
+      disable: true
     });
   };
   onClose = (code: string) => {
@@ -164,8 +181,18 @@ class CreditCard extends React.Component<Props, GiftState> {
       return data.code != code;
     });
     this.setState({
-      giftList: giftList
+      giftList: giftList,
+      disable: true
     });
+    if (giftList.length == 0) {
+      this.setState(prevState => {
+        return {
+          toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
+          newCardBox: true,
+          disable: true
+        };
+      });
+    }
   };
 
   updateError = (message: string) => {
@@ -176,6 +203,10 @@ class CreditCard extends React.Component<Props, GiftState> {
       const elem: any = document.getElementById("credit");
       elem.scrollIntoView();
       window.scrollBy(0, -200);
+    } else {
+      this.setState({
+        error: ""
+      });
     }
   };
 
@@ -192,9 +223,9 @@ class CreditCard extends React.Component<Props, GiftState> {
                 {...data}
                 onClose={this.onClose}
                 conditionalRefresh={this.state.conditionalRefresh}
-                showLocked={this.state.showLocked}
-                showExpired={this.state.showExpired}
-                showInactive={this.state.showInactive}
+                // showLocked={this.state.showLocked}
+                // showExpired={this.state.showExpired}
+                // showInactive={this.state.showInactive}
                 key={i}
               />
             );
@@ -207,12 +238,12 @@ class CreditCard extends React.Component<Props, GiftState> {
             )}
           >
             {newCardBox ? (
-              <div>
+              <div className={styles.vMargin20}>
                 {toggleOtp ? (
                   ""
                 ) : (
                   <Fragment>
-                    <div className={cs(styles.flex, styles.vCenter)}>
+                    <div className={cs(styles.flex, styles.vCenterBalance)}>
                       <input
                         type="text"
                         autoComplete="off"
@@ -250,16 +281,18 @@ class CreditCard extends React.Component<Props, GiftState> {
                 )}
               </div>
             ) : (
-              <div
-                className={cs(
-                  styles.rtcinfo,
-                  globalStyles.pointer,
-                  globalStyles.textLeft
-                )}
-                onClick={this.newGiftcard}
-              >
-                [+] CHECK ANOTHER CREDIT NOTE CODE
-              </div>
+              isLoggedIn && (
+                <div
+                  className={cs(
+                    styles.rtcinfo,
+                    globalStyles.pointer,
+                    globalStyles.textLeft
+                  )}
+                  onClick={this.newGiftcard}
+                >
+                  [+] CHECK ANOTHER CREDIT NOTE CODE
+                </div>
+              )
             )}
           </div>
         </div>
@@ -289,4 +322,4 @@ class CreditCard extends React.Component<Props, GiftState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreditCard);
+export default connect(mapStateToProps, mapDispatchToProps)(CreditNote);

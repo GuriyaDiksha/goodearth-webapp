@@ -56,6 +56,23 @@ export default {
       message
     };
   },
+  thirdPartyEnquire: async function(
+    dispatch: Dispatch,
+    formData: {
+      productId: ProductID;
+      email?: string;
+      name: string;
+      contactNo?: string;
+      query: string;
+    }
+  ) {
+    const res = await API.post<{ message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/promotions/third_party_corporate_enquiry/`,
+      formData
+    );
+    return res;
+  },
   enquire: async function(
     dispatch: Dispatch,
     params: {

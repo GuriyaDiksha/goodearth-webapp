@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -48,6 +48,10 @@ const Section4: React.FC<Section4Props> = props => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     // this.props.next(this.state.giftimages[this.state.selectindex]);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className={bootstrapStyles.row}>

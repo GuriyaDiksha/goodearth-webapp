@@ -30,6 +30,7 @@ export type otpProps = {
   lastName?: string;
   newCardBox?: boolean;
   email?: string;
+  phoneNo?: string;
   disableSendOtpButton: boolean;
 };
 

@@ -59,9 +59,14 @@ class CollectionLanding extends React.Component<
   };
 
   onchangeFilter = (data: any): void => {
-    this.setState({
-      filterData: data
-    });
+    this.setState(
+      {
+        filterData: data
+      },
+      () => {
+        window.scrollTo(0, 0);
+      }
+    );
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -79,6 +84,11 @@ class CollectionLanding extends React.Component<
     }
   }
   componentDidMount() {
+    dataLayer.push({
+      event: "CategoryLangingPageView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_Category_langingPageView"
+    });
     this.setState({
       landingMaker: true
     });
