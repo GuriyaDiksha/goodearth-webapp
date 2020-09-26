@@ -106,10 +106,11 @@ const ProductDetails: React.FC<Props> = ({
   }, [currency, priceRecords[currency]]);
 
   const { dispatch } = useStore();
-  const price =
-    selectedSize && selectedSize.priceRecords
-      ? selectedSize.priceRecords[currency]
-      : priceRecords[currency];
+  const price = corporatePDP
+    ? priceRecords[currency]
+    : selectedSize && selectedSize.priceRecords
+    ? selectedSize.priceRecords[currency]
+    : priceRecords[currency];
   const discountPrices =
     selectedSize && selectedSize.discountedPriceRecords
       ? selectedSize.discountedPriceRecords[currency]
