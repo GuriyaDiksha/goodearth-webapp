@@ -63,6 +63,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter Email";
       case "firstName":
         return "Please enter First Name";
+      case "name":
+        return "Please enter Name";
       case "lastName":
         return "Please enter Last Name";
       case "dateOfBirth":

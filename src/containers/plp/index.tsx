@@ -364,8 +364,10 @@ class PLP extends React.Component<
               >
                 <span>
                   {count > 1
-                    ? count + 1 + " products found"
-                    : count + 1 + " product found"}{" "}
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
                 </span>
               </div>
             ) : (
