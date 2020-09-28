@@ -8,6 +8,8 @@ import styles from "./styles.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
+import bridalRing from "../../../../images/bridal/rings.svg";
+
 const RegistryCreated: React.FC<Props> = props => {
   // data: [],
   // const [updateDate, setUpdateDate ] = useState(false);
@@ -68,9 +70,9 @@ const RegistryCreated: React.FC<Props> = props => {
               preserveAspectRatio="xMidYMid meet"
               x="0"
               y="0"
-              className="bridal-ring"
+              className={styles.bridalRing}
             >
-              <use xlinkHref="/images/bridal/rings.svg#bridal-ring"></use>
+              <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
             </svg>
           </div>
           <div

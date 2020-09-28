@@ -131,9 +131,9 @@
 
 .bridalicon-pdp {
     .bridal-ring {
-      background-color: tint(#000, 70%);
-      border-radius: 50%;
-      fill: $white;
+      // background-color: tint(#000, 70%);
+      // border-radius: 50%;
+      fill: #000;
       cursor: pointer;
       &.active {
         background-color: $cerise;
@@ -153,6 +153,7 @@
     letter-spacing: 1px;
     &:hover {
       text-decoration: underline;
+      cursor: pointer;
     }
     a {
       cursor: pointer;
@@ -405,4 +406,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+  }
+  .bridal-ring {
+    fill: $cerise;
   }

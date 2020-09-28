@@ -40,7 +40,7 @@ type Props = {
 // }
 
 const MyAccount: React.FC<Props> = props => {
-  const [bridalId, setBridalId] = useState("0");
+  const [bridalId, setBridalId] = useState(0);
   const [accountListing, setAccountListing] = useState(false);
   const [slab, setSlab] = useState("");
   const { mobile } = useStore().getState().device;
@@ -55,7 +55,7 @@ const MyAccount: React.FC<Props> = props => {
   );
 
   useEffect(() => {
-    setBridalId(CookieService.getCookie("bridalId") || "0");
+    setBridalId(parseInt(CookieService.getCookie("bridalId") || "0"));
     window.scrollTo(0, 0);
   }, []);
   // this.state = {
@@ -231,7 +231,6 @@ const MyAccount: React.FC<Props> = props => {
       href: "/account/bridal",
       component: Bridal,
       title: "bridal",
-      bridalId: bridalId,
       loggedInOnly: true
     },
     {
@@ -304,7 +303,7 @@ const MyAccount: React.FC<Props> = props => {
                 >
                   <span>
                     {path == "/account/bridal"
-                      ? bridalId == "0"
+                      ? bridalId == 0
                         ? "Create a Registry"
                         : "Manage Registry"
                       : path == "/account/giftcard-activation"
@@ -324,7 +323,7 @@ const MyAccount: React.FC<Props> = props => {
                   <div className={styles.filterCross}>
                     <span>
                       {path == "/account/bridal"
-                        ? bridalId == "0"
+                        ? bridalId == 0
                           ? "Create a Registry"
                           : "Manage Registry"
                         : path == "/account/giftcard-activation"
@@ -439,7 +438,7 @@ const MyAccount: React.FC<Props> = props => {
                                 activeClassName={globalStyles.cerise}
                                 // className={showregistry && currentSection == "bridal" ? "cerise":""}
                               >
-                                {bridalId == "0"
+                                {bridalId == 0
                                   ? "Create a Registry"
                                   : "Manage Registry"}
                               </NavLink>
@@ -531,12 +530,26 @@ const MyAccount: React.FC<Props> = props => {
                               { [styles.accountFormBgMobile]: mobile }
                             )}
                           >
-                            <Component
-                              setCurrentSection={() => setCurrentSection(title)}
-                              currentCallBackComponent={
-                                currentCallBackComponent
-                              }
-                            />
+                            {title.toLowerCase() == "bridal" ? (
+                              <Component
+                                setCurrentSection={() =>
+                                  setCurrentSection(title)
+                                }
+                                currentCallBackComponent={
+                                  currentCallBackComponent
+                                }
+                                bridalId={bridalId}
+                              />
+                            ) : (
+                              <Component
+                                setCurrentSection={() =>
+                                  setCurrentSection(title)
+                                }
+                                currentCallBackComponent={
+                                  currentCallBackComponent
+                                }
+                              />
+                            )}
                           </div>
                         </div>
                       </div>

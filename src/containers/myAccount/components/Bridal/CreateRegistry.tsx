@@ -11,6 +11,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import glasses from "../../../../images/bridal/glasses.svg";
+import bridalRing from "../../../../images/bridal/rings.svg";
 
 const CreateRegistry: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -87,7 +88,7 @@ const CreateRegistry: React.FC = () => {
                 y="0"
                 className={styles.bridalRing}
               >
-                <use xlinkHref="images/bridal/rings.svg#bridal-ring"></use>
+                <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
               </svg>
             </li>
             <li
@@ -107,7 +108,7 @@ const CreateRegistry: React.FC = () => {
                 y="0"
                 className={styles.bridalRing}
               >
-                <use xlinkHref={glasses}></use>
+                <use xlinkHref={`${glasses}#bridal-glasses`}></use>
               </svg>
             </li>
           </ul>

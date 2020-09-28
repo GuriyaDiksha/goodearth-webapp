@@ -43,9 +43,12 @@ const AddressItem: React.FC<Props> = props => {
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
-  const { step, changeBridalAddress, setCurrentModuleData } = useContext(
-    BridalContext
-  );
+  const {
+    step,
+    changeBridalAddress,
+    setCurrentModule,
+    setCurrentModuleData
+  } = useContext(BridalContext);
   const [deleteError, setDeleteError] = useState("");
   const address = props.addressData;
   const deleteAddress = () => {
@@ -97,7 +100,7 @@ const AddressItem: React.FC<Props> = props => {
           setCurrentModuleData("address", {
             userAddress: address
           });
-          // props.setCurrentModule('created');
+          setCurrentModule("created");
         }
         break;
       // case "checkout":
@@ -129,7 +132,6 @@ const AddressItem: React.FC<Props> = props => {
       // break;
     }
   };
-  console.log(handleSelect);
   // const openAddressForm = (address: AddressData) => {
   //     // props.showEditForm({showAddresses: false, addressData: data, editMode: true, newAddressMode: false, addressesAvailable: true});
   //     // if (props.setAddressModeProfile) {
@@ -371,8 +373,8 @@ const AddressItem: React.FC<Props> = props => {
                 globalStyles.cursorPointer,
                 styles.shipToThisBtn
               )}
-              onClick={() => props.selectAddress(address)}
-              // onClick={() => handleSelect(address)}
+              // onClick={() => props.selectAddress(address)}
+              onClick={() => handleSelect(address)}
             >
               USE THIS ADDRESS
             </div>
@@ -384,7 +386,7 @@ const AddressItem: React.FC<Props> = props => {
                 styles.shipToThisBtn,
                 styles.addressInUse
               )}
-              onClick={() => props.selectAddress(address)}
+              // onClick={() => props.selectAddress(address)}
             >
               ADDRESS IN USE
             </div>
