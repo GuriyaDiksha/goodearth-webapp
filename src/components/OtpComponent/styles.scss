@@ -17,7 +17,7 @@
     .radiobtn1 {
       display: flex;
       > div {
-        width: 90%;
+        width: 100%;
       }
       > div.guest-email {
         width: 100%;
@@ -107,9 +107,12 @@
     }
   }
   .contact-number{
-    width: 80%;
+    flex: 3 1 0;
     border-left: 0px;
     position: relative;
+  }
+  .contact-code {
+    flex: 1 1 0;
   }
     .country-code {
       display: flex;

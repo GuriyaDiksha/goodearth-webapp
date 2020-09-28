@@ -69,6 +69,27 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const { email } = model;
     const { phoneNo } = this.RegisterFormRef.current?.getModel();
     const data: any = {};
+    const radioElement: any = this.props.isCredit
+      ? document.getElementsByName("cca")
+      : document.getElementsByName("gca");
+    const elem = this.subscribeRef.current;
+    if (!radioElement[0].checked && !radioElement[1].checked) {
+      this.setState({
+        msgt:
+          "Please select at least one mode of communication for OTP verification of your gift card"
+      });
+      const elem = document.getElementById(
+        "selectError"
+      ) as HTMLParagraphElement;
+      elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      return false;
+    }
+    if (elem && elem.checked == false) {
+      this.setState({
+        subscribeError: "Please accept the terms & conditions"
+      });
+      return false;
+    }
     data["email"] = email;
     if (this.state.radioType == "number") {
       data["phoneNo"] = "+91" + phoneNo;
@@ -98,19 +119,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const elem = this.subscribeRef.current;
     const { email, phoneNo } = model;
     const data: any = {};
-    if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState({
-        msgt:
-          "Please select at least one mode of communication for OTP verification of your gift card"
-      });
-      return false;
-    }
-    if (elem && elem.checked == false) {
-      this.setState({
-        subscribeError: "Please accept the terms & conditions"
-      });
-      return false;
-    }
     if (!this.props.txtvalue) {
       this.props.updateError("Please enter a valid code");
       return false;
@@ -120,6 +128,25 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       this.RegisterFormRef1.current.submit();
       return false;
     }
+
+    if (!radioElement[0].checked && !radioElement[1].checked) {
+      this.setState({
+        msgt:
+          "Please select at least one mode of communication for OTP verification of your gift card"
+      });
+      const elem = document.getElementById(
+        "selectError"
+      ) as HTMLParagraphElement;
+      elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      return false;
+    }
+    if (elem && elem.checked == false) {
+      this.setState({
+        subscribeError: "Please accept the terms & conditions"
+      });
+      return false;
+    }
+
     if (this.state.radioType == "email" || this.props.otpFor == "balanceCN") {
       data["email"] = email;
     }
@@ -597,7 +624,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     maxLength:
                       "You are allowed to enter upto 75 characters only"
                   }}
-                  required={radioType != "email" ? "isFalse" : true}
+                  required={true}
                 />
               </Formsy>
             ) : (
@@ -684,7 +711,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   For Domestic (Pan-India) phone number only
                 </p>
                 <div className={styles.flex}>
-                  <div>
+                  <div className={styles.contactCode}>
                     <input
                       type="text"
                       value="+91"
@@ -714,7 +741,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                       required={radioType != "number" ? "isFalse" : true}
                     />
                   </div>
-                  <p className={cs(styles.errorMsg)}>{this.state.msgt}</p>
+                  <p id="selectError" className={cs(styles.errorMsg)}>
+                    {this.state.msgt}
+                  </p>
                 </div>
               </li>
               <li className={styles.subscribe}>
