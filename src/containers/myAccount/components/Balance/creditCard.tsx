@@ -100,6 +100,7 @@ class CreditNote extends React.Component<Props, GiftState> {
           this.setState({
             giftList: giftList,
             newCardBox: false,
+            conditionalRefresh: true,
             txtvalue: "",
             error: ""
             // showExpired: false,
@@ -134,6 +135,7 @@ class CreditNote extends React.Component<Props, GiftState> {
         giftList: giftList,
         error: ""
       });
+      window.scrollTo(0, 0);
     } else if (response.currStatus == "Expired" && response.type == "CNI") {
       response.status = "expired";
       giftList.push(response);
@@ -149,24 +151,28 @@ class CreditNote extends React.Component<Props, GiftState> {
         error: ""
         // inputBox: false
       });
+      window.scrollTo(0, 0);
     } else {
       response.status = "active";
       giftList.push(response);
       this.setState({
         giftList: giftList,
         newCardBox: false,
+        conditionalRefresh: true,
         txtvalue: "",
         error: ""
         // showExpired: false,
         // showInactive: false,
         // showLocked: false
       });
+      window.scrollTo(0, 0);
     }
   };
 
   newGiftcard = () => {
     this.setState({
-      newCardBox: true
+      newCardBox: true,
+      disable: true
     });
   };
   onClose = (code: string) => {
@@ -175,8 +181,18 @@ class CreditNote extends React.Component<Props, GiftState> {
       return data.code != code;
     });
     this.setState({
-      giftList: giftList
+      giftList: giftList,
+      disable: true
     });
+    if (giftList.length == 0) {
+      this.setState(prevState => {
+        return {
+          toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
+          newCardBox: true,
+          disable: true
+        };
+      });
+    }
   };
 
   updateError = (message: string) => {
@@ -185,8 +201,11 @@ class CreditNote extends React.Component<Props, GiftState> {
         error: message
       });
       const elem: any = document.getElementById("credit");
-      elem.scrollIntoView();
-      window.scrollBy(0, -200);
+      elem.scrollIntoView({ block: "center", behavior: "smooth" });
+    } else {
+      this.setState({
+        error: ""
+      });
     }
   };
 
@@ -218,12 +237,12 @@ class CreditNote extends React.Component<Props, GiftState> {
             )}
           >
             {newCardBox ? (
-              <div>
+              <div className={styles.vMargin20}>
                 {toggleOtp ? (
                   ""
                 ) : (
                   <Fragment>
-                    <div className={cs(styles.flex, styles.vCenter)}>
+                    <div className={cs(styles.flex, styles.vCenterBalance)}>
                       <input
                         type="text"
                         autoComplete="off"
@@ -261,16 +280,18 @@ class CreditNote extends React.Component<Props, GiftState> {
                 )}
               </div>
             ) : (
-              <div
-                className={cs(
-                  styles.rtcinfo,
-                  globalStyles.pointer,
-                  globalStyles.textLeft
-                )}
-                onClick={this.newGiftcard}
-              >
-                [+] CHECK ANOTHER CREDIT NOTE CODE
-              </div>
+              isLoggedIn && (
+                <div
+                  className={cs(
+                    styles.rtcinfo,
+                    globalStyles.pointer,
+                    globalStyles.textLeft
+                  )}
+                  onClick={this.newGiftcard}
+                >
+                  [+] CHECK ANOTHER CREDIT NOTE CODE
+                </div>
+              )
             )}
           </div>
         </div>

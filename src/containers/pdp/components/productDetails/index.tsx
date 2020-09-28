@@ -22,7 +22,8 @@ import SizeChartPopup from "../sizeChartPopup";
 import ColorSelector from "components/ColorSelector";
 import WallpaperPopup from "../wallpaperPopup";
 import NotifyMePopup from "components/NotifyMePopup";
-import CorporateEnquiryPopup from "components/CorporateEnquiryPopup";
+// import CorporateEnquiryPopup from "components/CorporateEnquiryPopup";
+import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 // services
 import BasketService from "services/basket";
 // actions
@@ -40,6 +41,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
+import CustomerCareInfo from "components/CustomerCareInfo";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -104,10 +106,11 @@ const ProductDetails: React.FC<Props> = ({
   }, [currency, priceRecords[currency]]);
 
   const { dispatch } = useStore();
-  const price =
-    selectedSize && selectedSize.priceRecords
-      ? selectedSize.priceRecords[currency]
-      : priceRecords[currency];
+  const price = corporatePDP
+    ? priceRecords[currency]
+    : selectedSize && selectedSize.priceRecords
+    ? selectedSize.priceRecords[currency]
+    : priceRecords[currency];
   const discountPrices =
     selectedSize && selectedSize.discountedPriceRecords
       ? selectedSize.discountedPriceRecords[currency]
@@ -127,6 +130,14 @@ const ProductDetails: React.FC<Props> = ({
       }
     }, 0);
   };
+
+  useEffect(() => {
+    if (corporatePDP) {
+      setQuantity(10);
+    } else {
+      setQuantity(1);
+    }
+  }, [corporatePDP]);
 
   const onSizeSelect = useCallback(
     selected => {
@@ -243,7 +254,8 @@ const ProductDetails: React.FC<Props> = ({
   };
   const onEnquireClick = () => {
     updateComponentModal(
-      <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      // <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      <ThirdPartyEnquiryPopup id={id} quantity={quantity} />,
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
     );
@@ -336,7 +348,11 @@ const ProductDetails: React.FC<Props> = ({
                 mobile={mobile}
                 link={`${__DOMAIN__}${location.pathname}`}
                 mailSubject="Gifting Ideas"
-                mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
+                mailText={`${
+                  corporatePDP
+                    ? `Here's what I found, check it out on Good Earth's web boutique`
+                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
               />
             </div>
           )}
@@ -621,7 +637,11 @@ const ProductDetails: React.FC<Props> = ({
               mobile={mobile}
               link={`${__DOMAIN__}${location.pathname}`}
               mailSubject="Gifting Ideas"
-              mailText={`Here's what I found! It reminded me of you, check it out on Good Earth's web boutique ${__DOMAIN__}${location.pathname}`}
+              mailText={`${
+                corporatePDP
+                  ? `Here's what I found, check it out on Good Earth's web boutique`
+                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+              } ${__DOMAIN__}${location.pathname}`}
             />
           )}
 
@@ -640,6 +660,7 @@ const ProductDetails: React.FC<Props> = ({
               Vref. {setSelectedSKU()}
             </div>
           )}
+          {!isQuickview && <CustomerCareInfo />}
         </div>
       </div>
     </div>

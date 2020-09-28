@@ -21,6 +21,7 @@ export interface PLPProductItem {
   partial: boolean;
   markAs?: string[];
   productClass: string;
+  inStock?: boolean;
   childAttributes?: PartialChildProductAttributes[] | ChildProductAttributes[];
 }
 
