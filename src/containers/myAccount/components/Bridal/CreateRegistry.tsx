@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 // import {render} from 'react-dom';
 // import * as mapper from "mappers/header"
 // import {connect} from 'react-redux'
@@ -12,13 +12,13 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import glasses from "../../../../images/bridal/glasses.svg";
 import bridalRing from "../../../../images/bridal/rings.svg";
+import { confirmPopup } from "utils/validate";
 
 const CreateRegistry: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
     BridalContext
   );
   const [selectId, setSelectId] = useState(data.occasion ? data.occasion : "");
-  // window.addEventListener("beforeunload", valid.myPpup);
 
   const setRegistry = (data: string) => {
     setSelectId(data);
@@ -28,6 +28,10 @@ const CreateRegistry: React.FC = () => {
     setCurrentModule("date");
     setCurrentModuleData("create", { occasion: selectId });
   };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", confirmPopup);
+  }, []);
 
   return (
     <>

@@ -42,11 +42,10 @@ export function getIsdfromnumber(data: any) {
   }
 }
 
-export function myPpup(e: Event) {
+export function confirmPopup(e: Event) {
   "use strict";
   e.preventDefault();
   e.returnValue = false;
-  // return "Hey, you're leaving the site. Bye!";
 }
 
 export function getPhnumber(data: any) {

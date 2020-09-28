@@ -12,7 +12,7 @@ import ManageRegistry from "./ManageRegistry";
 import ManageRegistryFull from "./ManageRegistryFull";
 // import ManageAddress from './manageaddress'
 import ShareLink from "./ShareLink";
-import * as valid from "utils/validate";
+import { confirmPopup } from "utils/validate";
 import { BridalDetailsType, BridalProfileData } from "./typings";
 
 import BridalContext from "./context";
@@ -21,6 +21,7 @@ import BridalService from "services/bridal";
 import AddressService from "services/address";
 import CookieService from "services/cookie";
 import { AddressContext } from "components/Address/AddressMain/context";
+import { updateAddressList } from "actions/address";
 
 type Props = {
   bridalId: number;
@@ -75,7 +76,12 @@ const Bridal: React.FC<Props> = props => {
   // }
 
   useEffect(() => {
-    return window.removeEventListener("beforeunload", valid.myPpup);
+    AddressService.fetchAddressList(dispatch).then(addressList => {
+      dispatch(updateAddressList(addressList));
+    });
+    return () => {
+      window.removeEventListener("beforeunload", confirmPopup);
+    };
   }, []);
   const openBridalPop = () => {
     dispatch(updateComponent(<BridalPop />, true));
@@ -184,7 +190,7 @@ const Bridal: React.FC<Props> = props => {
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
           if (data) {
-            window.removeEventListener("beforeunload", valid.myPpup);
+            window.removeEventListener("beforeunload", confirmPopup);
             CookieService.setCookie("bridalId", data.bridalId);
             CookieService.setCookie("bridalCurrency", data.currency);
             // document.cookie =

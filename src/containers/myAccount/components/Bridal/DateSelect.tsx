@@ -42,7 +42,7 @@ const DateSelect: React.FC = () => {
   const saveBridalDate = () => {
     setCurrentModule("details");
     setCurrentModuleData("date", {
-      eventDate: moment(date).format("DD-MM-YYYY")
+      eventDate: moment(date).format("YYYY-MM-DD")
     });
   };
 
