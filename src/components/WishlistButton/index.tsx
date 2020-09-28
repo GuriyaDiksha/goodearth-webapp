@@ -29,6 +29,7 @@ const WishlistButton: React.FC<Props> = ({
   mobile,
   basketLineId,
   source,
+  inWishlist,
   onMoveToWishlist
 }) => {
   const items = useContext(WishlistContext);
@@ -97,9 +98,12 @@ const WishlistButton: React.FC<Props> = ({
     <div className={className}>
       <div
         className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
-          [iconStyles.iconWishlistAdded]: addedToWishlist && !basketLineId,
-          [iconStyles.iconWishlist]: !addedToWishlist || basketLineId,
-          [styles.addedToWishlist]: addedToWishlist && !basketLineId,
+          [iconStyles.iconWishlistAdded]:
+            (addedToWishlist && !basketLineId) || inWishlist,
+          [iconStyles.iconWishlist]:
+            (!addedToWishlist || basketLineId) && !inWishlist,
+          [styles.addedToWishlist]:
+            (addedToWishlist && !basketLineId) || inWishlist,
           [styles.mobileWishlist]: mobile
         })}
         title={basketLineId ? "Move to Wishlist" : ""}

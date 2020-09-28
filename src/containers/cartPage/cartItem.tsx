@@ -173,7 +173,8 @@ const CartItems: React.FC<BasketItem> = memo(
       priceRecords,
       discount,
       discountedPriceRecords,
-      badgeType
+      badgeType,
+      inWishlist
     } = product;
 
     const price = priceRecords[currency];
@@ -307,6 +308,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   showText={false}
                   onMoveToWishlist={onMoveToWishlist}
                   className="wishlist-font"
+                  inWishlist={inWishlist}
                 />
                 {renderNotifyTrigger("action")}
               </div>
