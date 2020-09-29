@@ -49,7 +49,8 @@ class ApplyPromo extends React.Component<Props, GiftState> {
   };
   changeValue = (event: any) => {
     this.setState({
-      txtvalue: event.target.value
+      txtvalue: event.target.value,
+      error: ""
     });
   };
 
