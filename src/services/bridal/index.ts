@@ -25,7 +25,7 @@ export default {
     dispatch: Dispatch,
     data: SaveBridalProfileData
   ) => {
-    const res = await API.post<any>( // check response type
+    const res = await API.post<BridalProfileData>(
       dispatch,
       `${__API_HOST__}/myapi/customer/save_bridal_profile/`,
       data

@@ -1,4 +1,5 @@
 import { AddressData } from "components/Address/typings";
+import { Currency } from "./currency";
 
 export type User = {
   firstName: string;
@@ -9,6 +10,8 @@ export type User = {
   phoneNumber?: string;
   loyalityEligible: boolean;
   bridal: boolean;
+  bridalId: number;
+  bridalCurrency: Currency;
   gender?: "male" | "female";
   isLoggedIn: boolean;
   refresh: boolean;

@@ -36,6 +36,8 @@ export default {
       const meta: MetaResponse = await this.fetchMeta(dispatch, cookies);
       user = meta.user || {};
       user.bridal = meta.bridalUser;
+      user.bridalId = meta.bridalId;
+      user.bridalCurrency = meta.bridalCurrency;
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       if (typeof document != "undefined" && user.email && !user.gender) {

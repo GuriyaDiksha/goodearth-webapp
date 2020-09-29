@@ -19,9 +19,9 @@ import BridalContext from "./context";
 import { updateComponent, updateModal } from "actions/modal";
 import BridalService from "services/bridal";
 import AddressService from "services/address";
-import CookieService from "services/cookie";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { updateAddressList } from "actions/address";
+import { updateUser } from "actions/user";
 
 type Props = {
   bridalId: number;
@@ -45,13 +45,21 @@ const Bridal: React.FC<Props> = props => {
   const [shareLink, setShareLink] = useState("");
   // const [ showpop, setShowpop ] = useState(false);
   // const { mobile } = useSelector((state: AppState) => state.device);
-  const { currency } = useSelector((state: AppState) => state);
+  const { currency, user } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
   const getBridalProfileData = () => {
     BridalService.fetchBridalProfile(dispatch, props.bridalId).then(data => {
       if (data) {
         setBridalProfile(data);
         setShareLink(`${__API_HOST__}/${data.shareLink}`);
+        dispatch(
+          updateUser(
+            Object.assign({}, user, {
+              bridalId: data.bridalId,
+              bridalCurrency: data.currency
+            })
+          )
+        );
       }
     });
   };
@@ -79,6 +87,7 @@ const Bridal: React.FC<Props> = props => {
     AddressService.fetchAddressList(dispatch).then(addressList => {
       dispatch(updateAddressList(addressList));
     });
+    getBridalProfileData();
     return () => {
       window.removeEventListener("beforeunload", confirmPopup);
     };
@@ -191,16 +200,11 @@ const Bridal: React.FC<Props> = props => {
         .then(data => {
           if (data) {
             window.removeEventListener("beforeunload", confirmPopup);
-            CookieService.setCookie("bridalId", data.bridalId);
-            CookieService.setCookie("bridalCurrency", data.currency);
-            // document.cookie =
-            //   "bridalId=" +
-            //   data.Details[0].bridal_id +
-            //   "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-            // document.cookie =
-            //   "bridalCurrency=" +
-            //   data.Details[0].currency +
-            //   "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+            const updatedUser = Object.assign({}, user, {
+              bridalId: data.bridalId,
+              bridalCurrency: currency
+            });
+            dispatch(updateUser(updatedUser));
             openBridalPop();
           }
         })

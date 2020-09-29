@@ -7,6 +7,8 @@ export type MetaResponse = {
   currency: Currency;
   user: User;
   bridalUser: boolean;
+  bridalId: number;
+  bridalCurrency: Currency;
   shippingData: AddressData | null;
   giftCard: any[];
 };
