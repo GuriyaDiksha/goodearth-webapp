@@ -39,6 +39,7 @@ class FilterList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      extraParams: {},
       shouldScroll: false,
       showmenulevel1: false,
       categorylevel1: false,
