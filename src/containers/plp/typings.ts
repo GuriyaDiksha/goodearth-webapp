@@ -37,7 +37,7 @@ export type FilterProps = {
 };
 
 export type State = {
-  extraParams: { [x: string]: string };
+  extraParams?: { [x: string]: string };
   showmobileFilterList: boolean;
   filter: any;
   show: false;
