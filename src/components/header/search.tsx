@@ -414,53 +414,59 @@ class Search extends React.Component<Props, State> {
                                     this.showProduct.bind(this, data, i);
                                   }}
                                 >
-                                  {data.title}
+                                  {data.productClass == "GiftCard"
+                                    ? "Gift Card"
+                                    : data.title}
                                 </Link>
                               </p>
-                              <p className={styles.productN}>
-                                {this.props.isSale && data.discount ? (
-                                  <span className={styles.discountprice}>
-                                    {String.fromCharCode(
-                                      currencyCodes[this.props.currency]
-                                    )}
-                                    &nbsp;{" "}
-                                    {
-                                      data.discountedPriceRecords[
-                                        this.props.currency
-                                      ]
-                                    }{" "}
-                                    &nbsp;{" "}
-                                  </span>
-                                ) : (
-                                  ""
-                                )}
-                                {this.props.isSale && data.discount ? (
-                                  <span className={styles.strikeprice}>
-                                    {String.fromCharCode(
-                                      currencyCodes[this.props.currency]
-                                    )}
-                                    &nbsp;{" "}
-                                    {data.priceRecords[this.props.currency]}
-                                  </span>
-                                ) : (
-                                  <p
-                                    className={cs(styles.productN, {
-                                      [globalStyles.cerise]:
-                                        data.badgeType == "B_flat"
-                                    })}
-                                  >
-                                    {String.fromCharCode(
-                                      currencyCodes[this.props.currency]
-                                    )}
-                                    &nbsp;{" "}
-                                    {
-                                      data.discountedPriceRecords[
-                                        this.props.currency
-                                      ]
-                                    }
-                                  </p>
-                                )}
-                              </p>
+                              {data.productClass == "GiftCard" ? (
+                                ""
+                              ) : (
+                                <p className={styles.productN}>
+                                  {this.props.isSale && data.discount ? (
+                                    <span className={styles.discountprice}>
+                                      {String.fromCharCode(
+                                        currencyCodes[this.props.currency]
+                                      )}
+                                      &nbsp;{" "}
+                                      {
+                                        data.discountedPriceRecords[
+                                          this.props.currency
+                                        ]
+                                      }{" "}
+                                      &nbsp;{" "}
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.props.isSale && data.discount ? (
+                                    <span className={styles.strikeprice}>
+                                      {String.fromCharCode(
+                                        currencyCodes[this.props.currency]
+                                      )}
+                                      &nbsp;{" "}
+                                      {data.priceRecords[this.props.currency]}
+                                    </span>
+                                  ) : (
+                                    <p
+                                      className={cs(styles.productN, {
+                                        [globalStyles.cerise]:
+                                          data.badgeType == "B_flat"
+                                      })}
+                                    >
+                                      {String.fromCharCode(
+                                        currencyCodes[this.props.currency]
+                                      )}
+                                      &nbsp;{" "}
+                                      {
+                                        data.discountedPriceRecords[
+                                          this.props.currency
+                                        ]
+                                      }
+                                    </p>
+                                  )}
+                                </p>
+                              )}
                             </div>
                           </div>
                         );
