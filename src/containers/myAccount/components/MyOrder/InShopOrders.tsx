@@ -1,136 +1,130 @@
-import React from "react";
-// import Config from "components/config";
-// import moment from "moment";
-// import InShopOrderDetails from "./InShopOrderDetails";
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import { OrdersProps } from "./typings";
+import AccountService from "services/account";
+import { currencyCode, Currency } from "typings/currency";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
+import styles from "../styles.scss";
+import cs from "classnames";
+import { useDispatch } from "react-redux";
+import InShopOrderDetails from "./InShopOrderDetails";
 
-type Props = {
-  hasShopped: (x: boolean) => void;
-  isLoading: (x: boolean) => void;
-};
-type State = {
-  hasShopped: boolean;
-  data: any;
-  isOpenAddressIndex: number;
-};
+const InShopOrder: React.FC<OrdersProps> = props => {
+  const [data, setData] = useState<any>([]);
+  const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
+  const dispatch = useDispatch();
+  // const history = useHistory();
 
-export default class InShopOrders extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      data: [],
-      isOpenAddressIndex: -1,
-      hasShopped: false
-      // currency: window.currency,
+  useEffect(() => {
+    props.isLoading(true);
+    AccountService.fetchInshopOrder(dispatch, props.email || "")
+      .then((result: any) => {
+        setData(result.slice(0, 14));
+        props.hasShopped(result.length > 0);
+        props.isDataAvaliable(result.length > 0);
+      })
+      .then(() => {
+        props.isLoading(false);
+      })
+      .catch(err => {
+        console.error("Axios Error: ", err);
+      });
+    return () => {
+      props.hasShopped(false);
     };
-    // this.closeAddress = this.closeAddress.bind(this);
-    // this.showDetails = this.showDetails.bind(this);
-  }
+  }, []);
 
-  componentDidMount() {
-    // fetch(
-    //   `${Config.hostname2}customer_offline_orders/?email=${window.user.email}`,
-    //   {
-    //     method: "GET"
-    //   }
-    // )
-    //   .then(resp => resp.json())
-    //   .then(response => {
-    //     this.setState({
-    //       data: response["data"].slice(0, 14),
-    //       hasShopped: response["data"].length > 0
-    //     });
-    //   })
-    //   .then(() => {
-    //     this.props.hasShopped(this.state.hasShopped);
-    //     this.props.isLoading(false);
-    //   })
-    //   .catch(err => {
-    //     console.error("Axios Error: ", err);
-    //   });
-  }
+  const showDetails = (index: number): any => {
+    setIsOpenAddressIndex(index);
+  };
 
-  //   showDetails(index: any {
-  //     this.setState({
-  //       isOpenAddressIndex: index
-  //     });
-  //   }
+  const closeAddress = (data: any, index: number) => {
+    const html = [];
+    // const orderData = new Date(data.datePlaced);
+    const todayDate = new Date();
+    todayDate.setMonth(todayDate.getMonth() - 1);
+    // now today date is one month less
+    // const isHide = orderData >= todayDate;
 
-  //   closeDetails() {
-  //     this.setState({
-  //       isOpenAddressIndex: -1
-  //     });
-  //   }
+    html.push(
+      <div className={bootstrapStyles.col12}>
+        <div className={styles.add}>
+          <address className={styles.orderBlock}>
+            <label>order # {data.number}</label>
+            <div className={bootstrapStyles.row}>
+              <div className={bootstrapStyles.col8}>
+                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
+                <p>
+                  <span className={styles.op2}> Status: </span> &nbsp;{" "}
+                  <span className={styles.orderStatus}>{"PROCESSED"}</span>
+                </p>
+                <p>
+                  <span className={styles.op2}> Items: </span> &nbsp;{" "}
+                  {data.quantity}
+                </p>
+              </div>
+              <div className={bootstrapStyles.col4}>
+                <p>
+                  <span className={styles.op2}>Order Total</span>
+                </p>
+                <p className={cs(styles.bold, styles.price)}>
+                  {String.fromCharCode(currencyCode[data.currency as Currency])}
+                  &nbsp;{data.total}
+                </p>
+              </div>
+            </div>
+            <div className={bootstrapStyles.row}>
+              <div className={bootstrapStyles.col8}>
+                <p className={styles.editView}>
+                  <a
+                    className={globalStyles.cerise}
+                    onClick={() => showDetails(index)}
+                  >
+                    {" "}
+                    view{" "}
+                  </a>
+                </p>
+              </div>
+              <div className={bootstrapStyles.col4}>
+                <p className={styles.editTrack}></p>
+              </div>
+            </div>
+          </address>
+        </div>
+      </div>
+    );
+    return html;
+  };
 
-  //   closeAddress(data, index) {
-  //     const html = [];
-  //     let isHide,
-  //       order_data = new Date(data.date_placed),
-  //       today_date = new Date("04-01-2019");
-  //     isHide = order_data <= today_date;
-  //     html.push(
-  //       <div className="col-xs-12">
-  //         <div className="add">
-  //           <address className="order-block">
-  //             <label>order # {data.number}</label>
-  //             <div className="row">
-  //               <div className="col-xs-8">
-  //                 <p>{moment(data.date_placed).format("D MMM,YYYY")}</p>
-  //                 <p>
-  //                   <span className="op2">Status</span>: &nbsp;{" "}
-  //                   <span className="order-status">
-  //                     {data.quantity > 0 ? "Processed" : "Returned"}
-  //                   </span>
-  //                 </p>
-  //                 <p>
-  //                   <span className="op2"> Items:</span> &nbsp; {data.quantity}
-  //                 </p>
-  //               </div>
-  //               <div className="col-xs-4">
-  //                 <p>
-  //                   <span className="op2">Order Total</span>
-  //                 </p>
-  //                 <p className="bold price">
-  //                   {String.fromCharCode(this.state.currency_code["INR"])}
-  //                   &nbsp;{data.total}
-  //                 </p>
-  //               </div>
-  //             </div>
-  //             <p className="edit">
-  //               <a
-  //                 className={isHide ? "disabled-anchor" : "cerise"}
-  //                 onClick={() => {
-  //                   isHide ? "" : this.showDetails(index);
-  //                 }}
-  //               >
-  //                 {" "}
-  //                 view{" "}
-  //               </a>
-  //             </p>
-  //           </address>
-  //         </div>
-  //       </div>
-  //     );
-  //     return html;
-  //   }
+  const closeDetails = () => {
+    setIsOpenAddressIndex(-1);
+  };
 
-  //   render() {
-  //     return (
-  //       <div className="in-shop-orders">
-  //         {this.state.data.map((data, i) => {
-  //           return (
-  //             <div className="row voffset4">
-  //               {this.state.isOpenAddressIndex == i ? (
-  //                 <InShopOrderDetails
-  //                   order={data}
-  //                   closeDetails={this.closeDetails.bind(this, i)}
-  //                 />
-  //               ) : (
-  //                 this.closeAddress(data, i)
-  //               )}
-  //             </div>
-  //           );
-  //         })}
-  //       </div>
-  //     );
-  //   }
-}
+  return (
+    <div>
+      {data.map((item: any, i: number) => {
+        return (
+          <div
+            className={cs(bootstrapStyles.row, globalStyles.voffset4)}
+            key={item.number}
+          >
+            {isOpenAddressIndex == i ? (
+              <InShopOrderDetails
+                data={item}
+                closeDetails={closeDetails}
+                hasShopped={props.hasShopped}
+                isLoading={props.isLoading}
+                isDataAvaliable={props.isDataAvaliable}
+              />
+            ) : (
+              closeAddress(item, i)
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default InShopOrder;

@@ -186,5 +186,39 @@ export default {
       // ...formData
     };
     return temp;
+  },
+  fetchInshopOrder: async (dispatch: Dispatch, email: string) => {
+    const courier = await new Promise((resolve, reject) => {
+      fetch(
+        `https://web.goodearth.in/omni/customer_offline_orders/?email=${email}`,
+        { method: "GET" }
+      )
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.data) {
+            resolve(data.data);
+          } else {
+            resolve("error");
+          }
+        });
+    });
+    return courier;
+  },
+  fetchshopOrderDetails: async (dispatch: Dispatch, number: string) => {
+    const courier = await new Promise((resolve, reject) => {
+      fetch(
+        `https://web.goodearth.in/omni/order_detail_api/?number=${number}`,
+        { method: "GET" }
+      )
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.data) {
+            resolve(data.data);
+          } else {
+            resolve("error");
+          }
+        });
+    });
+    return courier;
   }
 };
