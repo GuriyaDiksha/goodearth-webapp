@@ -365,6 +365,7 @@ class RegisterForm extends React.Component<Props, registerState> {
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     const { goLogin } = this.props;
+    const englishandSpace = /^[a-zA-Z\s]+$/;
     const formContent = (
       <Formsy
         ref={this.RegisterFormRef}
@@ -401,6 +402,16 @@ class RegisterForm extends React.Component<Props, registerState> {
               disable={!this.state.showFields}
               className={showFieldsClass}
               keyPress={this.handleFirstNameKeyPress}
+              validations={{
+                isEnglish: (values, value) => {
+                  if (value) {
+                    return englishandSpace.test(value);
+                  } else return true;
+                }
+              }}
+              validationErrors={{
+                isEnglish: "Please enter valid Character"
+              }}
               required
             />
           </div>
@@ -413,6 +424,16 @@ class RegisterForm extends React.Component<Props, registerState> {
               className={showFieldsClass}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.lastNameInput}
+              validations={{
+                isEnglish: (values, value) => {
+                  if (value) {
+                    return englishandSpace.test(value);
+                  } else return true;
+                }
+              }}
+              validationErrors={{
+                isEnglish: "Please enter valid Character"
+              }}
               required
             />
           </div>

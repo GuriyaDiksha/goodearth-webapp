@@ -182,7 +182,11 @@ const Section2: React.FC<Section2Props> = ({
 
   return (
     <div className={bootstrapStyles.row}>
-      <section className={cs(globalStyles.paddTop60, styles.gc)}>
+      <section
+        className={cs(globalStyles.paddTop60, styles.gc, {
+          [styles.gcMobile]: mobile
+        })}
+      >
         <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
             className={cs(

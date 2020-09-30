@@ -9,7 +9,7 @@ import Formsy from "formsy-react";
 import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 // import { Currency, currencyCode } from "typings/currency";
-const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
+const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
   const emailInput = React.useRef<HTMLInputElement>(null);
   const lastNameInput = React.useRef<HTMLInputElement>(null);
@@ -79,7 +79,11 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback }) => {
 
   return (
     <div className={bootstrapStyles.row}>
-      <section className={cs(globalStyles.paddTop60, styles.gc)}>
+      <section
+        className={cs(globalStyles.paddTop60, styles.gc, {
+          [styles.gcMobile]: mobile
+        })}
+      >
         <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
             className={cs(

@@ -86,6 +86,13 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   checkOtpValidation = () => {
     const { otpData } = this.state;
+    if (!this.props.points) {
+      this.props.updateError(true);
+      return false;
+    }
+    if (!this.state.radioType || !this.state.otpData["points"]) {
+      return false;
+    }
     const newData = otpData;
     newData["otp"] = this.state.otp;
     this.setState({
@@ -214,6 +221,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   resendOtp = () => {
     this.clearTimer();
+    this.setState({
+      showerror: ""
+    });
     this.sendOtpApiCall(this.state.otpData);
   };
 
@@ -274,14 +284,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
             <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
               DIDN’T RECEIVE OTP?{" "}
-              {this.state.showerror ? (
-                <a
-                  className={cs(globalStyles.cerise, styles.otpLabel)}
-                  onClick={this.clickHereOtpInvalid}
-                >
-                  CLICK HERE
-                </a>
-              ) : (
+              {
                 <a
                   className={
                     otpTimer > 0
@@ -294,7 +297,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 >
                   RESEND OTP
                 </a>
-              )}
+              }
               {otpTimer > 0 ? (
                 <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
               ) : (

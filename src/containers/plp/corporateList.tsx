@@ -39,6 +39,7 @@ class CorporateFilter extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      extraParams: {},
       shouldScroll: false,
       showmenulevel1: false,
       categorylevel1: false,
@@ -163,6 +164,15 @@ class CorporateFilter extends React.Component<Props, State> {
           //   }
           //   break;
           default:
+            if (key !== "source") {
+              this.setState(prevState => {
+                return {
+                  extraParams: Object.assign({}, prevState.extraParams, {
+                    [key]: vars[key]
+                  })
+                };
+              });
+            }
             break;
         }
       }
@@ -300,6 +310,12 @@ class CorporateFilter extends React.Component<Props, State> {
     discountVars != ""
       ? (filterUrl += "&available_discount=" + discountVars)
       : "";
+    Object.keys(this.state.extraParams).map(key => {
+      filterUrl += `&${key}=${this.state.extraParams[key]}`;
+    });
+    this.setState({
+      extraParams: {}
+    });
     if (mainurl == "" || !mainurl) {
       mainurl = history.location.pathname;
     }
@@ -1518,7 +1534,7 @@ class CorporateFilter extends React.Component<Props, State> {
         {mobile ? (
           <div className={styles.filterButton}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems + 1} Product found</span>
+              <span>{this.state.totalItems} Product found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>
