@@ -16,6 +16,7 @@ const DropdownMenu = ({
   value,
   items,
   onChange,
+  disabled,
   showCaret
 }: SelectableDropdownMenuProps): JSX.Element => {
   const [currentValue, setCurrentValue] = useState(value);
@@ -61,7 +62,8 @@ const DropdownMenu = ({
     display,
     open,
     className,
-    showCaret
+    showCaret,
+    disabled
   };
   return (
     <BaseDropdownMenu {...menuProps}>

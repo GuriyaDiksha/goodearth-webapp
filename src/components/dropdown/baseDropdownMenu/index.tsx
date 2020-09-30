@@ -11,6 +11,7 @@ const BaseDropdownMenu = ({
   display,
   open,
   className,
+  disabled,
   children,
   showCaret
 }: BaseDropdownMenuProps): JSX.Element => {
@@ -31,15 +32,20 @@ const BaseDropdownMenu = ({
       className={cl(
         { [styles.open]: menuOpen },
         className,
-        styles.dropdownMenuContainer
+        styles.dropdownMenuContainer,
+        { [styles.dropdownDisabled]: disabled }
       )}
-      onClick={onInsideClick}
+      onClick={!disabled ? onInsideClick : () => null}
       ref={ref}
     >
-      <div className={cs(styles.label)}>
+      <div className={cs(styles.label, { [styles.disabled]: disabled })}>
         {display}
         {showCaret ? (
-          <span className={menuOpen ? styles.caretUp : styles.caret}></span>
+          <span
+            className={cs(menuOpen ? styles.caretUp : styles.caret, {
+              [styles.disabled]: disabled
+            })}
+          ></span>
         ) : (
           ""
         )}

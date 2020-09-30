@@ -9,13 +9,24 @@
     overflow: unset;
   }
 }
+
+.dropdown-disabled {
+  background-color: #eee;
+  color: #bbb;
+  border-color: #ddd;
+  cursor: default !important;
+}
 .label {
   @include hdr-curr();
   display: inline-block;
   line-height: $dropdown-label-height;
   text-align: center;
   padding: 0 10px;
-  
+ &.disabled {
+   span {
+     color: #bbb;
+   }
+ } 
 }
 
 .menu {
@@ -87,6 +98,11 @@
   right: 0;
   &:hover{
     color: $cerise;
+  }
+  &.disabled {
+    span {
+      color: #bbb;
+    }
   }
 }
 
