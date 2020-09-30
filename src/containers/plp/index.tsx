@@ -63,7 +63,9 @@ class PLP extends React.Component<
       flag: false,
       plpMaker: false,
       toggel: false,
-      corporoateGifting: props.location.pathname.includes("corporate-gifting")
+      corporoateGifting:
+        props.location.pathname.includes("corporate-gifting") ||
+        props.location.search.includes("&src_type=cp")
     };
   }
   private child: any = FilterList;
@@ -156,9 +158,9 @@ class PLP extends React.Component<
     if (this.props.location.pathname != nextProps.location.pathname) {
       this.setState({
         plpMaker: false,
-        corporoateGifting: nextProps.location.pathname.includes(
-          "corporate-gifting"
-        )
+        corporoateGifting:
+          nextProps.location.pathname.includes("corporate-gifting") ||
+          nextProps.location.search.includes("&src_type=cp")
       });
     }
   }
