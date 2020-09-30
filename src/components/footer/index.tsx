@@ -710,6 +710,9 @@ class Footer extends React.Component<Props, FooterState> {
                 fontStyles.icon,
                 fontStyles.iconCross
               )}
+              onClick={() => {
+                this.setState({ showCookie: false });
+              }}
             ></span>
             <h3>COOKIES & PRIVACY</h3>
             <p>
