@@ -1534,7 +1534,7 @@ class CorporateFilter extends React.Component<Props, State> {
         {mobile ? (
           <div className={styles.filterButton}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems + 1} Product found</span>
+              <span>{this.state.totalItems} Product found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>
