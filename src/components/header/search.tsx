@@ -22,6 +22,7 @@ import cs from "classnames";
 import noImagePlp from "images/noimageplp.png";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
+import { updateModal } from "actions/modal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -40,6 +41,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchSearchProducts: async (url: string) => {
       const res = await HeaderService.fetchSearchProducts(dispatch, url);
       return res;
+    },
+    changeModalState: (show: boolean) => {
+      dispatch(updateModal(show));
     }
   };
 };
@@ -120,6 +124,11 @@ class Search extends React.Component<Props, State> {
       //   : this.updateDataFromAPI();
     }
   };
+
+  handleFeaturedProductClick(data: WidgetImage, index: number) {
+    this.props.history.push(data.ctaUrl);
+    this.props.changeModalState(false);
+  }
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
@@ -563,7 +572,11 @@ class Search extends React.Component<Props, State> {
                             <div className={styles.searchImageboxNew}>
                               <Link
                                 to={data.ctaUrl}
-                                // onClick={this.showProduct.bind(this, data, i)}
+                                onClick={this.handleFeaturedProductClick.bind(
+                                  this,
+                                  data,
+                                  i
+                                )}
                               >
                                 <img
                                   src={
@@ -582,7 +595,16 @@ class Search extends React.Component<Props, State> {
                                 {data?.ctaText}
                               </p>
                               <p className={styles.searchFeature}>
-                                <Link to={data.ctaUrl}>{data.title}</Link>
+                                <Link
+                                  to={data.ctaUrl}
+                                  onClick={this.handleFeaturedProductClick.bind(
+                                    this,
+                                    data,
+                                    i
+                                  )}
+                                >
+                                  {data.title}
+                                </Link>
                               </p>
                             </div>
                           </div>

@@ -895,7 +895,7 @@ class FilterList extends React.Component<Props, State> {
       id = data[0].trim();
     const { filter } = this.state;
     html.push(
-      <ul key="subcategory">
+      <ul key={`subcategory-${name}`}>
         <li key={id}>
           <span
             className={

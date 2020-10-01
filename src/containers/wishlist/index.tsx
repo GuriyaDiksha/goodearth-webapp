@@ -26,7 +26,6 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { WidgetImage } from "components/header/typings";
 // services
 import HeaderService from "services/headerFooter";
-import { PartialProductItem } from "typings/product";
 
 let AbsoluteGrid: any;
 
@@ -247,27 +246,6 @@ class Wishlist extends React.Component<Props, State> {
     window.scrollTo(0, 0);
   };
 
-  // notifymsg() {
-  //     this.props.showNotification("Item has been added to your bag!")
-  //     setTimeout(()=>this.props.showNotification(''), 2000);
-  // }
-
-  // removeItemFromList(id) {
-  //     let new_list = [];
-  //     this.state.sampleItems.map(data => {
-  //         if (data.id == id) {
-  //             data.filtered = true;
-  //             new_list.push(data);
-  //         } else {
-  //             new_list.push(data);
-  //         }
-  //     })
-  //     this.setState({
-  //         sampleItems: new_list
-  //     })
-  //     this.myrender(new_list)
-  // }
-
   removeProduct = (data: WishlistItem) => {
     this.setState({
       isLoading: true
@@ -454,35 +432,6 @@ class Wishlist extends React.Component<Props, State> {
     this.dragFlag = true;
   }
 
-  showProduct(data: PartialProductItem | WidgetImage, indices: number) {
-    const itemData = data as PartialProductItem;
-    const index = itemData.categories.length - 1;
-    let category = itemData.categories[index].replace(/\s/g, "");
-    category = category.replace(/>/g, "/");
-    // const cur = this.state.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        click: {
-          actionField: { list: "Search Popup" },
-          products: [
-            {
-              name: data.title,
-              id: itemData.childAttributes?.[0].sku,
-              price: null,
-              brand: "Goodearth",
-              category: category,
-              variant: itemData.gaVariant ? itemData.gaVariant : "",
-              position: indices
-            }
-          ]
-        }
-      }
-    });
-    this.props.history.push(data.url);
-  }
-
   getWishlistSubtotal() {
     return (
       <div>
@@ -535,6 +484,8 @@ class Wishlist extends React.Component<Props, State> {
           document.getElementById("wishlist")
         );
       }
+    } else {
+      ReactDOM.render(<></>, document.getElementById("wishlist"));
     }
   };
 
@@ -627,7 +578,7 @@ class Wishlist extends React.Component<Props, State> {
         <div
           className={cs(
             bootstrapStyles.row,
-            globalStyles.marginT50,
+            globalStyles.marginT30,
             styles.minheight
           )}
         >
@@ -677,10 +628,7 @@ class Wishlist extends React.Component<Props, State> {
                           )}
                         >
                           <div className={styles.searchImageboxNew}>
-                            <Link
-                              to={data.ctaUrl}
-                              onClick={this.showProduct.bind(this, data, i)}
-                            >
+                            <Link to={data.ctaUrl}>
                               <img
                                 src={
                                   data.ctaImage == ""
@@ -698,7 +646,7 @@ class Wishlist extends React.Component<Props, State> {
                               {data.ctaText}
                             </p>
                             <p className={styles.searchFeature}>
-                              <a href={data.ctaUrl}>{data.title}</a>
+                              <Link to={data.ctaUrl}>{data.title}</Link>
                             </p>
                           </div>
                         </div>
@@ -747,7 +695,11 @@ class Wishlist extends React.Component<Props, State> {
                       styles.iconSort
                       // globalStyles.cerise
                     )}
-                    onClick={() => this.setState({ filterListing: true })}
+                    onClick={
+                      this.state.wishlistCount > 0
+                        ? () => this.setState({ filterListing: true })
+                        : () => null
+                    }
                   ></i>
                 </div>
                 <div
@@ -854,6 +806,10 @@ class Wishlist extends React.Component<Props, State> {
             <div
               className={cs(styles.wishlistBlock, styles.awesome)}
               id="wishlist"
+            ></div>
+            <div
+              className={cs(styles.wishlistBlock, styles.awesome)}
+              id="emptyWishlist"
             >
               {this.state.wishlistCount == 0 && emptyWishlistContent}
             </div>
