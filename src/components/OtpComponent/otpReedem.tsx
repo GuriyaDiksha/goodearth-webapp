@@ -20,6 +20,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       subscribeError: "",
       otpTimer: 0,
       otpData: {},
+      isResendOtpDisabled: true,
       updateStatus: false,
       showerror: "",
       showerrorOtp: "",
@@ -125,6 +126,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         })
         .finally(() => {
           this.clearTimer();
+          this.setState({
+            isResendOtpDisabled: false
+          });
         });
   };
 
@@ -287,12 +291,14 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               {
                 <a
                   className={
-                    otpTimer > 0
+                    otpTimer > 0 || this.state.isResendOtpDisabled
                       ? styles.iconStyleDisabled
                       : cs(styles.otpLabel, globalStyles.cerise)
                   }
                   onClick={() => {
-                    otpTimer > 0 ? "" : this.resendOtp();
+                    otpTimer > 0 || this.state.isResendOtpDisabled
+                      ? ""
+                      : this.resendOtp();
                   }}
                 >
                   RESEND OTP

@@ -12,6 +12,7 @@ export type otpState = {
   otp: string;
   toggleOtp: boolean;
   isLoading: boolean;
+  isResendOtpDisabled?: boolean;
 };
 
 export type otpProps = {
