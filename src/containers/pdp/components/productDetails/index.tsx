@@ -282,6 +282,7 @@ const ProductDetails: React.FC<Props> = ({
         discount={discount}
         badgeType={badgeType}
         isSale={info.isSale}
+        discountedPrice={discountPrices}
       />,
       false,
       ModalStyles.bottomAlign

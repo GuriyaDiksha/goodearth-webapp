@@ -1,167 +1,180 @@
-import React, { Component } from "react";
-// import axios from "axios";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
-// import Config from "components/config";
-import Loader from "components/Loader";
-import { currencyCodes } from "constants/currency";
+import { ShopProps } from "./typings";
+import AccountService from "services/account";
+import { currencyCode, Currency } from "typings/currency";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
+import styles from "../styles.scss";
+import cs from "classnames";
+import noPlpImage from "images/noimageplp.png";
+import { useDispatch } from "react-redux";
 
-type Props = {
-  closeDetails: (event: React.MouseEvent) => void;
-};
+const InShopOrderDetails: React.FC<ShopProps> = props => {
+  const [shopdata, setShopData] = useState<any>({});
+  const dispatch = useDispatch();
+  // const history = useHistory();
 
-type State = {
-  order: any;
-  orderDetails: any;
-  isDetailAvailable: boolean;
-  isLoading: boolean;
-};
-
-export default class InShopOrderDetails extends Component<Props, State> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      order: props.order,
-      orderDetails: {},
-      isDetailAvailable: false,
-      isLoading: true
+  useEffect(() => {
+    props.isLoading(true);
+    AccountService.fetchshopOrderDetails(dispatch, props.data.number)
+      .then((result: any) => {
+        if (result != "error") {
+          setShopData(result);
+        }
+        props.isLoading(false);
+      })
+      .catch(err => {
+        props.isLoading(false);
+        console.error("Axios Error: ", err);
+      });
+    return () => {
+      props.hasShopped(false);
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    // fetch(
-    //   `${Config.hostname2}order_detail_api/?number=${this.state.order.number}`,
-    //   {
-    //     method: "GET"
-    //   }
-    // )
-    //   .then(resp => resp.json())
-    //   .then(res => {
-    //     this.setState({
-    //       orderDetails: res["data"],
-    //       isDetailAvailable: true,
-    //       isLoading: false
-    //     });
-    //   });
-  }
+  // const trackOrder = (e: React.MouseEvent) => {
+  //   localStorage.setItem("orderNum", e.currentTarget.id);
+  //   history.push("/account/track-order");
+  //   // props.setAccountPage(e);
+  // };
 
-  render() {
-    return (
-      <div className="col-xs-12">
-        {this.state.isLoading && <Loader />}
-        <div className="add">
+  const closeDetails = () => {
+    props.closeDetails(-1);
+  };
+
+  const openAddress = (data: any) => {
+    const html = [],
+      shippingAddress = data.shipping_address,
+      billingAddress = data.billing_address;
+    let totalItem = 0;
+    if (!shopdata.order_lines) {
+      return false;
+    }
+    for (let i = 0; i < shopdata.order_lines.length; i++) {
+      totalItem += shopdata.order_lines[i].quantity;
+    }
+    html.push(
+      <div className={bootstrapStyles.col12}>
+        <div className={styles.add} id={shopdata.number}>
           <address>
-            <label>order # {this.state.order.number}</label>
-            <div className="row order-block">
-              <div className="col-xs-12 col-md-6">
+            <label>order # {shopdata.number}</label>
+            <div className={styles.orderBlock}>
+              <div
+                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
+              >
+                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
                 <p>
-                  {moment(this.state.order.date_placed).format("D MMM,YYYY")}
+                  <span className={styles.op2}>Status</span>: &nbsp;
+                  <span className={styles.orderStatus}>{"PROCESSED"}</span>
                 </p>
                 <p>
-                  <span className="op2">Status</span>: &nbsp;
-                  <span className="order-status">
-                    {this.state.order.quantity > 0 ? "Processed" : "Returned"}
-                  </span>
-                </p>
-                <p>
-                  <span className="op2">Items</span>: &nbsp;{" "}
-                  {this.state.order.quantity}&nbsp;
+                  <span className={styles.op2}>Items</span>: &nbsp;{totalItem}
                 </p>
               </div>
-              <div className="col-xs-12 col-md-6">
+              <div
+                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
+              >
                 <p>
-                  <span className="op2">Order Total</span>
+                  <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCodes["INR"])} &nbsp;
-                  {this.state.order.total}
+                  {String.fromCharCode(currencyCode[data.currency as Currency])}{" "}
+                  &nbsp;{shopdata.total_value}
                 </p>
               </div>
-              <p className="edit">
-                <a className="cerise" onClick={this.props.closeDetails}>
+              <p className={styles.edit}>
+                <a className={globalStyles.cerise} onClick={closeDetails}>
                   {" "}
                   close{" "}
                 </a>
               </p>
             </div>
-            <div className="row border-add">
-              <div className="col-xs-12 col-md-6">
-                <div className="add purchased-shop">
-                  <address>
-                    <label>Purchased (Shop)</label>
-                    <p>
-                      {this.state.isDetailAvailable &&
-                      this.state.orderDetails.orderLines[0].store
-                        ? this.state.orderDetails.orderLines[0].store
-                        : "NOT AVAILABLE"}
-                    </p>
-                  </address>
+            <div className={cs(bootstrapStyles.row, styles.borderAdd)}>
+              <div
+                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
+              >
+                <div className={styles.add}>
+                  {shippingAddress ? (
+                    <address>
+                      <label>PURCHASED (SHOP)</label>
+                      <p>
+                        {"ECOM"}
+                        <br />
+                      </p>
+                    </address>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
-              <div className="col-xs-12 col-md-6">
-                <div className="add">
-                  {this.state.order.billing_address.first_name ? (
+              <div
+                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
+              >
+                <div className={styles.add}>
+                  {billingAddress ? (
                     <address>
                       <label>billing address</label>
                       <p>
-                        {this.state.order.billing_address.first_name}
-                        &nbsp; {this.state.order.billing_address.last_name}
+                        {billingAddress.first_name}
+                        &nbsp; {billingAddress.last_name}
                         <br />
                       </p>
-                      <p className="light">
-                        {this.state.order.billing_address.line1}
+                      <p className={styles.light}>
+                        {billingAddress.line1}
                         <br />
-                        {this.state.order.billing_address.line2}{" "}
-                        {this.state.order.billing_address.line2 && <br />}
-                        {this.state.order.billing_address.state},{" "}
-                        {this.state.order.billing_address.postcode} <br />
-                        {this.state.order.billing_address.country_name}
+                        {billingAddress.line2} {billingAddress.line2 && <br />}
+                        {billingAddress.state}, {billingAddress.postcode} <br />
+                        {billingAddress.country_name}
                         <br />
                       </p>
-                      <p> {this.state.order.billing_address.phone_number}</p>
+                      <p> {billingAddress.phone_number}</p>
                     </address>
                   ) : (
-                    "NOT AVAILABLE"
+                    ""
                   )}
                 </div>
               </div>
             </div>
-            {this.state.isDetailAvailable &&
-              this.state.orderDetails.orderLines.map((item: any) => {
-                return (
-                  <div key={item} className="row voffset4 border-add">
-                    <div className="col-xs-5 col-sm-2 col-md-3">
-                      <img
-                        src="/static/img/nopictureicon.png"
-                        alt="Image Not Available"
-                        className="img-responsive"
-                      />
-                    </div>
-                    <div className="col-xs-7 col-sm-10 col-md-9">
-                      <div className="image-content text-left">
-                        <div className="image-content text-left">
-                          <p className="product-n item-padding">{item.title}</p>
-                          <p className="product-n item-padding">
-                            {String.fromCharCode(currencyCodes["INR"])}
-                            &nbsp; {item.price}
-                          </p>
-                          {item.size ? (
-                            <div className="plp_prod_quantity">
-                              Size:&nbsp; {item.size}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          <div className="plp_prod_quantity">
-                            Qty:&nbsp; {item.quantity}
-                          </div>
-                        </div>
+            {shopdata.order_lines.map((item: any) => {
+              return (
+                <div
+                  className={cs(
+                    bootstrapStyles.row,
+                    styles.borderAdd,
+                    globalStyles.voffset4
+                  )}
+                  key={item.sku}
+                >
+                  <div
+                    className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}
+                  >
+                    <img
+                      src={noPlpImage}
+                      className={globalStyles.imgResponsive}
+                    />
+                  </div>
+                  <div
+                    className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}
+                  >
+                    <div className={cs(styles.imageContent, styles.textLeft)}>
+                      <p className={cs(styles.productN, styles.itemPadding)}>
+                        {item.title}
+                      </p>
+                      <p className={cs(styles.productN, styles.itemPadding)}>
+                        {String.fromCharCode(currencyCode["INR"])}
+                        &nbsp; {item.price}
+                      </p>
+                      <div className={styles.plp_prod_quantity}>
+                        Qty:&nbsp; {item.quantity}
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            <div className="edit">
-              <a className="cerise" onClick={this.props.closeDetails}>
+                </div>
+              );
+            })}
+            <div className={styles.edit}>
+              <a className={globalStyles.cerise} onClick={() => closeDetails()}>
                 {" "}
                 close{" "}
               </a>
@@ -170,5 +183,9 @@ export default class InShopOrderDetails extends Component<Props, State> {
         </div>
       </div>
     );
-  }
-}
+    return html;
+  };
+  return <>{openAddress(props.data)}</>;
+};
+
+export default InShopOrderDetails;

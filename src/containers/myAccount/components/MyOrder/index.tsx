@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import cs from "classnames";
 import OnlineOrders from "./onlineOrders";
-// import InShopOrders from "./InShopOrders";
+import InShopOrder from "./InShopOrders";
 import Loader from "components/Loader";
 
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
@@ -98,12 +98,13 @@ const PastOrders: React.FC<Props> = (props: Props) => {
       )}
       {hasShoppedAtStore && (
         <>
-          {/* <OnlineOrders
-          orderType={"inShop"}
-          hasShopped={setHasShopped}
-          isLoading={setIsLoading}
-          isDataAvaliable={isDataAvaliable}
-        /> */}
+          <InShopOrder
+            orderType="inShop"
+            hasShopped={setHasShopped}
+            isLoading={setIsLoading}
+            isDataAvaliable={isDataAvaliable}
+            email="samreenchawla@goodearth.in"
+          />
           {!hasShopped && !isLoading && browseButton}
         </>
       )}

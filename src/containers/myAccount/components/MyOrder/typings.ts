@@ -10,6 +10,15 @@ export type OrdersProps = {
   hasShopped: (x: boolean) => void;
   isLoading: (x: boolean) => void;
   isDataAvaliable: (x: boolean) => void;
+  email?: string;
+};
+
+export type ShopProps = {
+  data: any;
+  closeDetails: (index: number) => void;
+  hasShopped: (x: boolean) => void;
+  isLoading: (x: boolean) => void;
+  isDataAvaliable: (x: boolean) => void;
 };
 
 export type MyOrdersResponse = {
