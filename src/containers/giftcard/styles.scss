@@ -24,7 +24,7 @@
 }
 
 h2 {
-  padding-top: 40px;
+  padding-top: 20px;
   color: #000;
   text-transform: none;
   letter-spacing: 0;
@@ -320,6 +320,9 @@ input[type="radio"]:checked+label:before {
     border: none;
     width: 100%;
   }
+}
+.gc-mobile {
+  padding: ($header-height) 0 50px 0;
 }
 
 form {

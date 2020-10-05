@@ -73,7 +73,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
-        {mobile && (
+        {mobile && !isCorporate && (
           <div
             className={cs(
               globalStyles.textCenter,
@@ -109,7 +109,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           />
         </Link>
         <div
-          className={cs(totalStock > 0 ? globalStyles.hidden : styles.outstock)}
+          className={cs(
+            isCorporate && product.inStock
+              ? globalStyles.hidden
+              : totalStock > 0
+              ? globalStyles.hidden
+              : styles.outstock
+          )}
         >
           <Link to={product.url}> NOTIFY ME</Link>
         </div>

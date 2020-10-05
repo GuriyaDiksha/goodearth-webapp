@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -49,9 +49,17 @@ const Section4: React.FC<Section4Props> = props => {
     // this.props.next(this.state.giftimages[this.state.selectindex]);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className={bootstrapStyles.row}>
-      <section className={cs(globalStyles.paddTop60, styles.gc)}>
+      <section
+        className={cs(globalStyles.paddTop60, styles.gc, {
+          [styles.gcMobile]: props.mobile
+        })}
+      >
         <div className={bootstrapStyles.row}>
           <div
             className={cs(

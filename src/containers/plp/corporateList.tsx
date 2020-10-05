@@ -39,6 +39,7 @@ class CorporateFilter extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      extraParams: {},
       shouldScroll: false,
       showmenulevel1: false,
       categorylevel1: false,
@@ -163,6 +164,15 @@ class CorporateFilter extends React.Component<Props, State> {
           //   }
           //   break;
           default:
+            if (key !== "source") {
+              this.setState(prevState => {
+                return {
+                  extraParams: Object.assign({}, prevState.extraParams, {
+                    [key]: vars[key]
+                  })
+                };
+              });
+            }
             break;
         }
       }
@@ -300,6 +310,12 @@ class CorporateFilter extends React.Component<Props, State> {
     discountVars != ""
       ? (filterUrl += "&available_discount=" + discountVars)
       : "";
+    Object.keys(this.state.extraParams).map(key => {
+      filterUrl += `&${key}=${this.state.extraParams[key]}`;
+    });
+    this.setState({
+      extraParams: {}
+    });
     if (mainurl == "" || !mainurl) {
       mainurl = history.location.pathname;
     }
@@ -1476,45 +1492,49 @@ class CorporateFilter extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          <div
-            className={cs(
-              styles.catalogFont,
-              globalStyles.voffset3,
-              globalStyles.textCenter
-            )}
-          >
-            {" "}
-            For enquiries, write to us at{" "}
-            <a
-              className={globalStyles.cerise}
-              href="mailto:customercare@goodearth.in"
-              rel="noopener noreferrer"
-            >
-              customercare@goodearth.in
-            </a>
-            , or call us at +91 9582 999 555
-          </div>
-          <div
-            className={cs(
-              styles.catalogFont,
-              globalStyles.voffset3,
-              globalStyles.textCenter
-            )}
-          >
-            <a
-              href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
-              className={globalStyles.cerise}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              DOWNLOAD CATALOGUE
-            </a>
-          </div>
+          {!mobile && (
+            <>
+              <div
+                className={cs(
+                  styles.catalogFont,
+                  globalStyles.voffset3,
+                  globalStyles.textCenter
+                )}
+              >
+                {" "}
+                For enquiries, write to us at{" "}
+                <a
+                  className={globalStyles.cerise}
+                  href="mailto:customercare@goodearth.in"
+                  rel="noopener noreferrer"
+                >
+                  customercare@goodearth.in
+                </a>
+                , or call us at +91 9582 999 555
+              </div>
+              <div
+                className={cs(
+                  styles.catalogFont,
+                  globalStyles.voffset3,
+                  globalStyles.textCenter
+                )}
+              >
+                <a
+                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                  className={globalStyles.cerise}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  DOWNLOAD CATALOGUE
+                </a>
+              </div>
+            </>
+          )}
         </ul>
         {mobile ? (
           <div className={styles.filterButton}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems + 1} Product found</span>
+              <span>{this.state.totalItems} Product found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

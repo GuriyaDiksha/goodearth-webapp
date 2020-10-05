@@ -72,7 +72,6 @@ const PromoSection: React.FC<PromoProps> = props => {
   const cardCss = basket.isOnlyGiftCart
     ? globalStyles.cerise
     : globalStyles.pointer + " " + globalStyles.cerise;
-
   return (
     <div
       className={

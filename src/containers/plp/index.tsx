@@ -63,7 +63,9 @@ class PLP extends React.Component<
       flag: false,
       plpMaker: false,
       toggel: false,
-      corporoateGifting: props.location.pathname.includes("corporate-gifting")
+      corporoateGifting:
+        props.location.pathname.includes("corporate-gifting") ||
+        props.location.search.includes("&src_type=cp")
     };
   }
   private child: any = FilterList;
@@ -80,6 +82,11 @@ class PLP extends React.Component<
   };
 
   componentDidMount() {
+    dataLayer.push({
+      event: "PlpView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_plp_view"
+    });
     this.setState({
       plpMaker: true
     });
@@ -151,9 +158,9 @@ class PLP extends React.Component<
     if (this.props.location.pathname != nextProps.location.pathname) {
       this.setState({
         plpMaker: false,
-        corporoateGifting: nextProps.location.pathname.includes(
-          "corporate-gifting"
-        )
+        corporoateGifting:
+          nextProps.location.pathname.includes("corporate-gifting") ||
+          nextProps.location.search.includes("&src_type=cp")
       });
     }
   }
@@ -332,7 +339,7 @@ class PLP extends React.Component<
                   </div>
               </div> */}
             {banner || bannerMobile ? (
-              <div className={cs(bootstrap.row, styles.bannerMobileCategory)}>
+              <div className={cs(bootstrap.row)}>
                 <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
                   <img
                     src={mobile ? bannerMobile : banner}
@@ -359,8 +366,10 @@ class PLP extends React.Component<
               >
                 <span>
                   {count > 1
-                    ? count + 1 + " products found"
-                    : count + 1 + " product found"}{" "}
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
                 </span>
               </div>
             ) : (
@@ -408,7 +417,7 @@ class PLP extends React.Component<
                 )}
                 key={1}
               >
-                <GiftcardItem />
+                {this.state.corporoateGifting ? "" : <GiftcardItem />}
               </div>
             </div>
           </div>

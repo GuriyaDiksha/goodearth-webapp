@@ -16,12 +16,13 @@ const GiftCardItem = ({
   fullValue,
   remValues,
   conditionalRefresh,
-  showLocked,
-  showExpired,
+  status,
+  // showLocked,
+  // showExpired,
   code,
   onClose,
   viewOnly,
-  showInactive,
+  // showInactive,
   isLoggedIn
 }: GiftListProps): JSX.Element => {
   // const [showLocked, set = false;
@@ -38,14 +39,14 @@ const GiftCardItem = ({
   };
 
   if (currStatus == "Locked" && type == "CNI") {
-    showLocked = true;
+    // showLocked = true;
   } else if (currStatus == "Expired" && type == "CNI") {
-    showExpired = true;
+    // showExpired = true;
   }
 
   return (
     <div id="gc-balance-info">
-      {showExpired && (
+      {status == "expired" && (
         <div>
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             <p className={styles.value12}>
@@ -90,7 +91,7 @@ const GiftCardItem = ({
           </div>
         </div>
       )}
-      {showInactive && (
+      {status == "inactive" && (
         <div className="gc-inactive">
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             {!viewOnly && (
@@ -150,7 +151,7 @@ const GiftCardItem = ({
           </div>
         </div>
       )}
-      {showLocked && (
+      {status == "locked" && (
         <div className="gc-inactive">
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             {!viewOnly && (
@@ -196,7 +197,7 @@ const GiftCardItem = ({
           </div>
         </div>
       )}
-      {!showExpired && !showInactive && !showLocked && (
+      {(!status || status == "active") && (
         <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
           {!viewOnly && (
             <p className={styles.value12}>

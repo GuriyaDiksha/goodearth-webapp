@@ -212,6 +212,11 @@ class Checkout extends React.Component<Props, State> {
           }
         })
       : "";
+    dataLayer.push({
+      event: "checkoutView",
+      PageURL: this.props.location.pathname,
+      PageTitle: "virtual_checkout_view"
+    });
     // code for call loyalty point api only one time
     if (email) {
       const data: any = {

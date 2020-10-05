@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -23,6 +23,10 @@ const Section1: React.FC<Section1Props> = props => {
     setSelectindex(index);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const gotoNext = () => {
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     props.next(props.giftimages[selectindex], "amount");
@@ -30,7 +34,11 @@ const Section1: React.FC<Section1Props> = props => {
 
   return (
     <div className={bootstrapStyles.row}>
-      <section className={cs(globalStyles.paddTop60, styles.gc)}>
+      <section
+        className={cs(globalStyles.paddTop60, styles.gc, {
+          [styles.gcMobile]: mobile
+        })}
+      >
         <div className={bootstrapStyles.row}>
           <div
             className={cs(

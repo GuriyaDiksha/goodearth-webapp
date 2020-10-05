@@ -17,22 +17,24 @@ export type BalanceProps = {
   fullValue: string;
   issuedFrom: string;
   code: string;
+  status?: "active" | "locked" | "expired" | "inactive" | "invalid";
 };
 
 export interface GiftListProps extends BalanceProps {
   conditionalRefresh: boolean;
-  showLocked: boolean;
-  showExpired: boolean;
-  showInactive: boolean;
+
+  // showLocked: boolean;
+  // showExpired: boolean;
+  // showInactive: boolean;
   onClose: (data: string) => void;
   viewOnly?: boolean;
   isLoggedIn: boolean;
 }
 
 export type GiftState = {
-  showInactive: boolean;
-  showLocked: boolean;
-  showExpired: boolean;
+  // showInactive: boolean;
+  // showLocked: boolean;
+  // showExpired: boolean;
   conditionalRefresh: boolean;
   txtvalue: string;
   error: string;
