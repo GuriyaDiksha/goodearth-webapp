@@ -23,7 +23,8 @@ const mapStateToProps = (state: AppState) => {
     facetObject: state.plplist.facetObject,
     nextUrl: state.plplist.data.next,
     listdata: state.plplist.data.results.data,
-    salestatus: state.info.isSale
+    salestatus: state.info.isSale,
+    location: state.router.location
   };
 };
 
@@ -40,6 +41,7 @@ class CorporateFilter extends React.Component<Props, State> {
     super(props);
     this.state = {
       extraParams: {},
+      isThirdParty: props.location.search.includes("&src_type=cp"),
       shouldScroll: false,
       showmenulevel1: false,
       categorylevel1: false,
@@ -1512,22 +1514,24 @@ class CorporateFilter extends React.Component<Props, State> {
                 </a>
                 , or call us at +91 9582 999 555
               </div>
-              <div
-                className={cs(
-                  styles.catalogFont,
-                  globalStyles.voffset3,
-                  globalStyles.textCenter
-                )}
-              >
-                <a
-                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
-                  className={globalStyles.cerise}
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {!this.state.isThirdParty && (
+                <div
+                  className={cs(
+                    styles.catalogFont,
+                    globalStyles.voffset3,
+                    globalStyles.textCenter
+                  )}
                 >
-                  DOWNLOAD CATALOGUE
-                </a>
-              </div>
+                  <a
+                    href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                    className={globalStyles.cerise}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    DOWNLOAD CATALOGUE
+                  </a>
+                </div>
+              )}
             </>
           )}
         </ul>

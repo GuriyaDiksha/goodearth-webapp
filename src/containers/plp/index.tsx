@@ -47,6 +47,7 @@ class PLP extends React.Component<
     plpMaker: boolean;
     toggel: boolean;
     corporoateGifting: boolean;
+    isThirdParty: boolean;
   }
 > {
   constructor(props: Props) {
@@ -65,7 +66,8 @@ class PLP extends React.Component<
       toggel: false,
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
-        props.location.search.includes("&src_type=cp")
+        props.location.search.includes("&src_type=cp"),
+      isThirdParty: props.location.search.includes("&src_type=cp")
     };
   }
   private child: any = FilterList;
@@ -160,7 +162,8 @@ class PLP extends React.Component<
         plpMaker: false,
         corporoateGifting:
           nextProps.location.pathname.includes("corporate-gifting") ||
-          nextProps.location.search.includes("&src_type=cp")
+          nextProps.location.search.includes("&src_type=cp"),
+        isThirdParty: nextProps.location.search.includes("&src_type=cp")
       });
     }
   }
@@ -259,22 +262,24 @@ class PLP extends React.Component<
                   </div>
                 </p>
               </div>
-              <div
-                className={cs(
-                  globalStyles.voffset3,
-                  globalStyles.textCenter,
-                  styles.downloadWidth
-                )}
-              >
-                <a
-                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={globalStyles.cerise}
+              {!this.state.isThirdParty && (
+                <div
+                  className={cs(
+                    globalStyles.voffset3,
+                    globalStyles.textCenter,
+                    styles.downloadWidth
+                  )}
                 >
-                  DOWNLOAD CATALOGUE
-                </a>
-              </div>
+                  <a
+                    href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={globalStyles.cerise}
+                  >
+                    DOWNLOAD CATALOGUE
+                  </a>
+                </div>
+              )}
             </div>
           ) : (
             <div className={cs(bootstrap.row, styles.subcHeader)}>

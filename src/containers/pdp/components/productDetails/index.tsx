@@ -117,7 +117,7 @@ const ProductDetails: React.FC<Props> = ({
       : discountedPriceRecords[currency];
 
   const [sizeError, setSizeError] = useState("");
-  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const showError = () => {
     setTimeout(() => {
@@ -133,7 +133,7 @@ const ProductDetails: React.FC<Props> = ({
 
   useEffect(() => {
     if (corporatePDP) {
-      setQuantity(10);
+      // setQuantity(10);
     } else {
       setQuantity(1);
     }
@@ -455,6 +455,7 @@ const ProductDetails: React.FC<Props> = ({
                   )}
                 >
                   <SizeSelector
+                    isCorporatePDP={corporatePDP}
                     sizes={childAttributes}
                     onChange={onSizeSelect}
                     selected={selectedSize ? selectedSize.id : undefined}
@@ -517,7 +518,7 @@ const ProductDetails: React.FC<Props> = ({
                   source="pdp"
                   key={selectedSize?.sku}
                   id={selectedSize?.id || 0}
-                  minValue={corporatePDP ? 10 : minQuantity}
+                  minValue={minQuantity}
                   maxValue={corporatePDP ? 1000 : maxQuantity}
                   currentValue={quantity}
                   onChange={onQuantityChange}
