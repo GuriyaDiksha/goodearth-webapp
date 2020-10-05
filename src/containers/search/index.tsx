@@ -218,7 +218,7 @@ class Search extends React.Component<
   };
 
   onClickSearch = (event: any) => {
-    this.child.changeSearchValue(encodeURIComponent(this.state.searchText));
+    this.child.changeSearchValue(this.state.searchText);
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
