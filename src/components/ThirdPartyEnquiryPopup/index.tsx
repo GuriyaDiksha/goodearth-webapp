@@ -278,7 +278,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
       </div>
       <div className={cs(styles.innerContainer, globalStyles.textCenter)}>
         <div>
-          <div className={styles.heading}>{"Corporate Gifts Enquiry"}</div>
+          <div className={styles.heading}>{"Product Enquiry Form"}</div>
           <div className={styles.subheading}>
             {"Please fill in the fields below."}
           </div>
