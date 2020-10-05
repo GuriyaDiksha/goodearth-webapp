@@ -203,7 +203,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                   (data: PartialChildProductAttributes, i: number) => {
                     return (
                       <li
-                        className={+data.stock ? "" : styles.disabled}
+                        className={
+                          +data.stock || isCorporate ? "" : styles.disabled
+                        }
                         key={i}
                       >
                         {data.size}
