@@ -8,7 +8,8 @@
 }
 
 .footer-top-background {
-  background: url('../../images/footerBgTopSavannah.jpg') repeat-x;
+  background-image: url('../../images/footerBgTopSavannah.jpg');
+  background-repeat: repeat-x;
 }
 
 .footer-background {
@@ -173,7 +174,7 @@ position: fixed;
   }
   .footer {
     min-height: 680px;
-    background-color: #d6d8d1;
+    background-color: #92cace;
   }
   .grand-outer {
     .pressinternal {
