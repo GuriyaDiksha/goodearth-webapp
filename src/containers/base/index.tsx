@@ -83,22 +83,27 @@ const BaseLayout: React.FC = () => {
       );
       dispatch(updateModal(true));
     }
-    setTimeout(() => {
-      const goCurrencyElem: any = document.getElementById("defaultcurrency");
-      const cookieCurrency = CookieService.getCookie("currency");
-      if (goCurrencyElem && !cookieCurrency) {
-        const goCurrencyValue: any = goCurrencyElem.value;
-        if (
-          goCurrencyValue.toString().toLowerCase() !=
-          currency.toString().toLowerCase()
-        ) {
-          const data: any = {
-            currency: goCurrencyValue.toString().toLowerCase()
-          };
-          LoginService.changeCurrency(dispatch, data);
+    LoginService.getClientIpCurrency()
+      .then(curr => {
+        if (curr != "error") {
+          const cookieCurrency = CookieService.getCookie("currency");
+          if (curr && !cookieCurrency) {
+            const goCurrencyValue: any = curr;
+            if (
+              goCurrencyValue.toString().toLowerCase() !=
+              currency.toString().toLowerCase()
+            ) {
+              const data: any = {
+                currency: goCurrencyValue.toString().toLowerCase()
+              };
+              LoginService.changeCurrency(dispatch, data);
+            }
+          }
         }
-      }
-    }, 2000);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   const isCheckout =
