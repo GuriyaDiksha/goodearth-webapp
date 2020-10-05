@@ -178,19 +178,13 @@ class FilterList extends React.Component<Props, State> {
     const { pathname } = this.props.history.location;
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
-      urllist = this.props.facets.categoryShopDetail;
-      urllist.map((urlData: any) => {
-        currentKey = urlData.name?.trim();
+      urllist = this.props.facets.categoryShopUrl;
+      urllist.some((urlData: any) => {
+        currentKey = Object.keys(urlData)[0];
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = urlData.url;
+          mainUrl = urlData[currentKey];
+          return true;
         }
-        urlData.children.map((url: any) => {
-          currentKey = url.name?.trim();
-          if (matchkey.replace(/\+/g, " ") == currentKey) {
-            mainUrl = url.url;
-            return url;
-          }
-        });
       });
     } else {
       mainUrl = pathname;
