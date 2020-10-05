@@ -2,6 +2,7 @@ import React from "react";
 import cs from "classnames";
 import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
+import iconStyles from "../../styles/iconFonts.scss";
 
 const CustomerCareInfo: React.FC = () => {
   return (
@@ -10,7 +11,9 @@ const CustomerCareInfo: React.FC = () => {
       <p>Write to us at:</p>
       <p>
         <span className={globalStyles.cerise}>
-          <i></i>
+          <i
+            className={cs(iconStyles.icon, iconStyles.iconEmail, styles.icon)}
+          />
           <a href="mailto:customercare@goodearth.in">
             customercare@goodearth.in
           </a>
@@ -19,7 +22,9 @@ const CustomerCareInfo: React.FC = () => {
       <p>Call us at:</p>
       <p>
         <span className={globalStyles.cerise}>
-          <i></i>
+          <i
+            className={cs(iconStyles.icon, iconStyles.iconPhone, styles.icon)}
+          />
           <a href="tel:+919582999555">+91 95829 99555</a> /{" "}
           <a href="tel:+919582999888">+91 95829 99888</a>
         </span>
