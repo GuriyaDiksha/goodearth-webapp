@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef } from "react";
-import { useStore } from "react-redux";
+import { useDispatch } from "react-redux";
 import cs from "classnames";
 // components
 import CloseButton from "components/Modal/components/CloseButton";
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
-  const { dispatch } = useStore();
+  const dispatch = useDispatch();
 
   const { closeModal } = useContext(ModalContext);
 
@@ -52,6 +52,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   const { isLoggedIn, firstName, lastName, email, phoneNumber } = useSelector(
     (state: AppState) => state.user
   );
+  const { mobile } = useSelector((state: AppState) => state.device);
   const handleSubmit = (
     model: any,
     resetForm: any,
@@ -282,7 +283,11 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
       <div className={styles.header}>
         <CloseButton className={styles.closeBtn} />
       </div>
-      <div className={cs(styles.innerContainer, globalStyles.textCenter)}>
+      <div
+        className={cs(styles.innerContainer, globalStyles.textCenter, {
+          [styles.innerContainerMobile]: mobile
+        })}
+      >
         <div>
           <div className={styles.heading}>{"Product Enquiry Form"}</div>
           <div className={styles.subheading}>

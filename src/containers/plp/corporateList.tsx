@@ -1513,8 +1513,20 @@ class CorporateFilter extends React.Component<Props, State> {
                   customercare@goodearth.in
                 </a>
                 , or call us at <br />
-                <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
+                <a
+                  className={globalStyles.cerise}
+                  href="tel:+91 9582 999 555"
+                  rel="noopener noreferrer"
+                >
                   +91 9582 999 555
+                </a>
+                <br />,
+                <a
+                  className={globalStyles.cerise}
+                  href="tel:+91 9582 999 888"
+                  rel="noopener noreferrer"
+                >
+                  +91 9582 999 888
                 </a>
               </div>
               {!this.state.isThirdParty && (

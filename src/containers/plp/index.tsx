@@ -243,7 +243,7 @@ class PLP extends React.Component<
               )}
             >
               <div>
-                <h1>Corporate Gifts</h1>
+                <h1>Good Earth X Souk</h1>
                 <p>
                   <div>
                     For enquiries, write to us at{" "}
@@ -256,9 +256,15 @@ class PLP extends React.Component<
                       customercare@goodearth.in
                     </a>
                     , or call us at <br />
-                    <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
-                      +91 9582 999 555
-                    </a>
+                    <span className={globalStyles.cerise}>
+                      <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
+                        +91 9582 999 555
+                      </a>{" "}
+                      /{" "}
+                      <a href="tel:+91 9582 999 888" rel="noopener noreferrer">
+                        +91 9582 999 888
+                      </a>
+                    </span>
                   </div>
                 </p>
               </div>
@@ -284,14 +290,14 @@ class PLP extends React.Component<
           ) : (
             <div className={cs(bootstrap.row, styles.subcHeader)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
-                <h1>Corporate Gifts</h1>
+                <h1>Good Earth X Souk</h1>
                 <p>
                   <div>
                     <span>
-                      We offer a personalized guide to gifting for the
-                      year-round festivities, with curated gifts that are
-                      crafted by hand, inspired by nature and enchanted by
-                      history.
+                      A curation of luxury artefacts and unique vintage décor
+                      pieces sourced from across the world <br />
+                      by Soumya Keshavan is now available online <br />
+                      in partnership with Good Earth.
                     </span>
                   </div>
                 </p>
