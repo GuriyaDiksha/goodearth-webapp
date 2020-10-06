@@ -1,12 +1,5 @@
 import React from "react";
-// import PropTypes from 'prop-types'
-// import {Provider} from 'react-redux'
-// import BaseLayout from "components/base_layout"
-// import * as mapper from "pages/wishlist/mapper/wishlistM"
 import { connect } from "react-redux";
-// import Size from './size.jsx'
-// import Notify from './notify'
-// import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
@@ -18,10 +11,9 @@ import { Dispatch } from "redux";
 import Loader from "components/Loader";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
-// import WishlistGrid from './gridLayout';
 import { WishlistItem, WishListGridItem } from "typings/wishlist";
 import WishlistService from "services/wishlist";
-// import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import * as _ from "lodash";
 import NotifyMePopup from "components/NotifyMePopup";
 import { updateComponent, updateModal } from "../../actions/modal";
@@ -31,6 +23,9 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import { withRouter, RouteComponentProps } from "react-router";
+import { WidgetImage } from "components/header/typings";
+// services
+import HeaderService from "services/headerFooter";
 
 let AbsoluteGrid: any;
 
@@ -45,6 +40,10 @@ const mapStateToProps = (state: AppState) => {
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
+    fetchFeaturedContent: async () => {
+      const res = HeaderService.fetchSearchFeaturedContent(dispatch);
+      return res;
+    },
     removeFromWishlist: async (
       sortBy: string,
       productId?: number,
@@ -133,6 +132,7 @@ type State = {
   wishlistCount: number;
   totalPrice: number;
   saleStatus: boolean;
+  featureData: WidgetImage[];
 };
 
 class Wishlist extends React.Component<Props, State> {
@@ -141,6 +141,7 @@ class Wishlist extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      featureData: [],
       isLoading: false,
       dragDrop: true,
       sampleItems: [],
@@ -245,27 +246,6 @@ class Wishlist extends React.Component<Props, State> {
     window.scrollTo(0, 0);
   };
 
-  // notifymsg() {
-  //     this.props.showNotification("Item has been added to your bag!")
-  //     setTimeout(()=>this.props.showNotification(''), 2000);
-  // }
-
-  // removeItemFromList(id) {
-  //     let new_list = [];
-  //     this.state.sampleItems.map(data => {
-  //         if (data.id == id) {
-  //             data.filtered = true;
-  //             new_list.push(data);
-  //         } else {
-  //             new_list.push(data);
-  //         }
-  //     })
-  //     this.setState({
-  //         sampleItems: new_list
-  //     })
-  //     this.myrender(new_list)
-  // }
-
   removeProduct = (data: WishlistItem) => {
     this.setState({
       isLoading: true
@@ -286,6 +266,16 @@ class Wishlist extends React.Component<Props, State> {
       this.props.history.push("/");
     }
     this.updateGrid(this.props);
+    this.props
+      .fetchFeaturedContent()
+      .then(data => {
+        this.setState({
+          featureData: data.widgetImages
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -495,10 +485,7 @@ class Wishlist extends React.Component<Props, State> {
         );
       }
     } else {
-      ReactDOM.render(
-        <div>Your wishlist is empty.</div>,
-        document.getElementById("wishlist")
-      );
+      ReactDOM.render(<></>, document.getElementById("wishlist"));
     }
   };
 
@@ -586,6 +573,105 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   render() {
+    const emptyWishlistContent = (
+      <div>
+        <div
+          className={cs(
+            bootstrapStyles.row,
+            globalStyles.marginT30,
+            styles.minheight
+          )}
+        >
+          <div
+            className={cs(
+              bootstrapStyles.colMd12,
+              bootstrapStyles.col12,
+              globalStyles.textCenter
+            )}
+          >
+            {
+              <div className={styles.npfMsg}>
+                Your wishlist is currently empty
+              </div>
+            }
+          </div>
+          <div
+            className={cs(
+              bootstrapStyles.colMd12,
+              styles.searchHeading,
+              globalStyles.textCenter
+            )}
+          >
+            <h2 className={globalStyles.voffset5}>
+              Looking to discover some ideas?
+            </h2>
+          </div>
+          <div className={cs(bootstrapStyles.col12, globalStyles.voffset3)}>
+            <div className={bootstrapStyles.row}>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  bootstrapStyles.col12,
+                  styles.noResultPadding,
+                  styles.checkheight,
+                  { [styles.checkheightMobile]: this.props.mobile }
+                )}
+              >
+                {this.state.featureData.length > 0
+                  ? this.state.featureData.map((data, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className={cs(
+                            bootstrapStyles.colMd3,
+                            bootstrapStyles.col6
+                          )}
+                        >
+                          <div className={styles.searchImageboxNew}>
+                            <Link to={data.ctaUrl}>
+                              <img
+                                src={
+                                  data.ctaImage == ""
+                                    ? "/src/image/noimageplp.png"
+                                    : data.ctaImage
+                                }
+                                // onError={this.addDefaultSrc}
+                                alt=""
+                                className={styles.imageResultNew}
+                              />
+                            </Link>
+                          </div>
+                          <div className={styles.imageContent}>
+                            <p className={styles.searchImageTitle}>
+                              {data.ctaText}
+                            </p>
+                            <p className={styles.searchFeature}>
+                              <Link to={data.ctaUrl}>{data.title}</Link>
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : ""}
+              </div>
+            </div>
+            {this.props.mobile ? (
+              ""
+            ) : (
+              <div className={bootstrapStyles.row}>
+                <div
+                  className={cs(bootstrapStyles.colMd12, bootstrapStyles.col12)}
+                >
+                  <div className={cs(styles.searchBottomBlockSecond)}>
+                    <div className=" text-center"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
     const { mobile } = this.props;
     return (
       <>
@@ -609,7 +695,11 @@ class Wishlist extends React.Component<Props, State> {
                       styles.iconSort
                       // globalStyles.cerise
                     )}
-                    onClick={() => this.setState({ filterListing: true })}
+                    onClick={
+                      this.state.wishlistCount > 0
+                        ? () => this.setState({ filterListing: true })
+                        : () => null
+                    }
                   ></i>
                 </div>
                 <div
@@ -694,6 +784,7 @@ class Wishlist extends React.Component<Props, State> {
                 items={this.state.options}
                 value={this.state.defaultOption.value}
                 onChange={this.onChangeFilter}
+                disabled={this.state.wishlistCount == 0}
                 showCaret={true}
               ></SelectableDropdownMenu>
             </div>
@@ -716,6 +807,12 @@ class Wishlist extends React.Component<Props, State> {
               className={cs(styles.wishlistBlock, styles.awesome)}
               id="wishlist"
             ></div>
+            <div
+              className={cs(styles.wishlistBlock, styles.awesome)}
+              id="emptyWishlist"
+            >
+              {this.state.wishlistCount == 0 && emptyWishlistContent}
+            </div>
             {this.state.wishlistCount > 0 && (
               <div className={cs({ [globalStyles.textCenter]: mobile })}>
                 <div

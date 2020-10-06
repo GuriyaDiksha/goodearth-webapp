@@ -185,32 +185,7 @@ class Search extends React.Component<
   };
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
-    const itemData = data as PartialProductItem;
-    const index = itemData.categories.length - 1;
-    let category = itemData.categories[index].replace(/\s/g, "");
-    category = category.replace(/>/g, "/");
-    // const cur = this.state.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        click: {
-          actionField: { list: "Search Popup" },
-          products: [
-            {
-              name: data.title,
-              id: itemData.childAttributes?.[0].sku,
-              price: null,
-              brand: "Goodearth",
-              category: category,
-              variant: itemData.gaVariant ? itemData.gaVariant : "",
-              position: indices
-            }
-          ]
-        }
-      }
-    });
-    this.props.history.push(data.url);
+    this.props.history.push((data as WidgetImage).ctaUrl);
   }
 
   addDefaultSrc = (e: any) => {
@@ -501,7 +476,16 @@ class Search extends React.Component<
                                     {data.ctaText}
                                   </p>
                                   <p className={styles.searchFeature}>
-                                    <a href={data.ctaUrl}>{data.title}</a>
+                                    <Link
+                                      to={data.ctaUrl}
+                                      onClick={this.showProduct.bind(
+                                        this,
+                                        data,
+                                        i
+                                      )}
+                                    >
+                                      {data.title}
+                                    </Link>
                                   </p>
                                 </div>
                               </div>

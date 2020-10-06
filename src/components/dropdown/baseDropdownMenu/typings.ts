@@ -28,6 +28,7 @@ export type BaseDropdownMenuProps = {
   hideSelected?: boolean;
   icon?: string;
   showCaret?: boolean;
+  disabled?: boolean;
 };
 
 export type DropdownMenuState = {
