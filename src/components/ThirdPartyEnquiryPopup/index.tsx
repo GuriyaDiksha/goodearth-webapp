@@ -84,13 +84,19 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
           customercare@goodearth.in
         </a>,
         " or dial in on ",
-        <a href="tel:+91 9582 999 555" key="phone1">
-          +91 9582 999 555
-        </a>,
+        <>
+          <br />
+          <a href="tel:+91 9582 999 555" key="phone1">
+            +91 9582 999 555
+          </a>
+        </>,
         " / ",
-        <a href="tel:+91 9582 999 888" key="phone2">
-          +91 9582 999 888
-        </a>,
+        <>
+          <a href="tel:+91 9582 999 888" key="phone2">
+            +91 9582 999 888
+          </a>
+          <br />
+        </>,
         " Monday - Saturday 9:00 am - 5:00 pm IST"
       ]);
     });

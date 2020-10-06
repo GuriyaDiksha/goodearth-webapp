@@ -1512,7 +1512,10 @@ class CorporateFilter extends React.Component<Props, State> {
                 >
                   customercare@goodearth.in
                 </a>
-                , or call us at +91 9582 999 555
+                , or call us at <br />
+                <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
+                  +91 9582 999 555
+                </a>
               </div>
               {!this.state.isThirdParty && (
                 <div

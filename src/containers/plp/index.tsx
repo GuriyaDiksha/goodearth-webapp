@@ -255,7 +255,7 @@ class PLP extends React.Component<
                       {" "}
                       customercare@goodearth.in
                     </a>
-                    , or call us at{" "}
+                    , or call us at <br />
                     <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
                       +91 9582 999 555
                     </a>
