@@ -35,7 +35,7 @@ export default {
   fetchBridalProfile: async (dispatch: Dispatch, id: number) => {
     const res = await API.get<BridalProfileData>(
       dispatch,
-      `${__API_HOST__}/myapi/customer/get_bridal_profile/?bridal_id=${id}`
+      `${__API_HOST__}/myapi/customer/get_bridal_profile/?bridalId=${id}`
     );
     return res;
   },
@@ -103,6 +103,21 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/customer/update_bridal_quantity/`,
       data
+    );
+    return res;
+  },
+  addToRegistry: async (
+    dispatch: Dispatch,
+    formData: {
+      productId: number;
+      bridalProfileId: number;
+      qtyRequested: number;
+    }
+  ) => {
+    const res = await API.post<{ message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/add_to_registry/`,
+      formData
     );
     return res;
   }

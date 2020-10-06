@@ -1,6 +1,9 @@
 import { actionCreator } from "utils/actionCreator";
 
-export const showMessage = (text: string, timeout?: number) =>
+export const showMessage = (
+  text: string | (string | JSX.Element)[],
+  timeout?: number
+) =>
   actionCreator("SHOW_MESSAGE", {
     text,
     timeout
