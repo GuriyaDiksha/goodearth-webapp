@@ -101,6 +101,7 @@ const Zoom: React.FC<Props> = ({
   };
   const closeModal = () => {
     changeModalState(false);
+    document.body.classList.remove(globalStyles.fixed);
   };
 
   const mouseMoveHandler = (e: MouseEvent) => {

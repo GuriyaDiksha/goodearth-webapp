@@ -109,6 +109,11 @@
       // color: #666;
       letter-spacing: 1px;
   }
+  a {
+    &:hover, &:visited, &:focus, &:active {
+      color: $cerise;
+    }
+  }
 }
 
 
