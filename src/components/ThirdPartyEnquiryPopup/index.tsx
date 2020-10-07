@@ -141,6 +141,12 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             value={isLoggedIn ? firstName + " " + lastName : ""}
             disable={submitted}
             className={inputClass}
+            validations={{
+              isWords: true
+            }}
+            validationErrors={{
+              isWords: "Only alphabets are allowed"
+            }}
             required
           />
         </div>
