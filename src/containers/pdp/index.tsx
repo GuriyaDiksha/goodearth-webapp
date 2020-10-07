@@ -92,6 +92,7 @@ class PDPContainer extends React.Component<Props, State> {
       true
     );
     changeModalState(true);
+    document.body.classList.add(globalStyles.fixed);
   };
 
   componentDidMount() {
