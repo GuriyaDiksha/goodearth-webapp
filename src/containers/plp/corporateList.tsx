@@ -1520,7 +1520,7 @@ class CorporateFilter extends React.Component<Props, State> {
                 >
                   +91 9582 999 555
                 </a>
-                <br />,
+                <br />
                 <a
                   className={globalStyles.cerise}
                   href="tel:+91 9582 999 888"

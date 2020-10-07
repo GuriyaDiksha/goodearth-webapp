@@ -1,7 +1,9 @@
 @import "./partials/variables";
 
 div.page-sticky-element {
-    position: fixed;
+    position: sticky;
+    top: 130px;
+    height: max-content;
 
     &.page-sticky-scrolling {
         position: absolute;

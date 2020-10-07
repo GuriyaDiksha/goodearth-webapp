@@ -410,6 +410,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               inputRef={this.firstNameInput}
               disable={!this.state.showFields}
               className={showFieldsClass}
+              validations={{
+                isWords: true
+              }}
+              validationErrors={{
+                isWords: "Only alphabets are allowed"
+              }}
               keyPress={this.handleFirstNameKeyPress}
               required
             />
@@ -421,6 +427,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               label={"Last Name*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
+              validations={{
+                isWords: true
+              }}
+              validationErrors={{
+                isWords: "Only alphabets are allowed"
+              }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.lastNameInput}
               required
