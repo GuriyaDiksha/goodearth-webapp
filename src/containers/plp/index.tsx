@@ -295,9 +295,8 @@ class PLP extends React.Component<
                   <div>
                     <span>
                       A curation of luxury artefacts and unique vintage décor
-                      pieces sourced from across the world <br />
-                      by Soumya Keshavan is now available online <br />
-                      in partnership with Good Earth.
+                      pieces sourced from across the world by Soumya Keshavan is
+                      now available online in partnership with Good Earth.
                     </span>
                   </div>
                 </p>
