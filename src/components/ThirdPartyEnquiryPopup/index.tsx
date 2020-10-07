@@ -35,9 +35,6 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     string | (string | JSX.Element)[]
   >("");
 
-  const [error, setError] = useState("");
-  const [radioType, setRadioType] = useState("");
-
   const stateOptions = useSelector((state: AppState) =>
     state.address.countryData
       .filter(country => country.code2 == "IN")[0]
@@ -48,6 +45,17 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
         });
       })
   );
+
+  const modeOptions = [
+    {
+      value: "Email",
+      label: "Email"
+    },
+    {
+      value: "Phone",
+      label: "Phone"
+    }
+  ];
 
   const { isLoggedIn, firstName, lastName, email, phoneNumber } = useSelector(
     (state: AppState) => state.user
@@ -61,22 +69,15 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     if (submitted) {
       closeModal();
     }
-    if (radioType == "") {
-      setError("Please choose preferred mode of contact");
-      return false;
-    }
-
-    const { name, state, query, email, phoneNo } = model;
+    const { name, state, query, email, phoneNo, preferredContact } = model;
     const formData: any = {};
     formData["productId"] = id;
     formData["name"] = name;
     formData["state"] = state;
     formData["query"] = query;
-    if (radioType == "email") {
-      formData["email"] = email;
-    } else if (radioType == "number") {
-      formData["contactNo"] = "+91" + phoneNo;
-    }
+    formData["email"] = email;
+    formData["contactNo"] = "+91" + phoneNo;
+    formData["preferredContact"] = preferredContact;
     ProductService.thirdPartyEnquire(dispatch, formData).then(data => {
       setSubmitted(true);
       setEnquiryMessage([
@@ -101,11 +102,6 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
         " Monday - Saturday 9:00 am - 5:00 pm IST"
       ]);
     });
-  };
-
-  const onClickRadio = (event: any) => {
-    setRadioType(event.target.value);
-    setError("");
   };
 
   const handleInvalidSubmit = () => {
@@ -177,21 +173,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             required
           />
         </div>
-        <p className={cs(styles.msg)}>Preferred mode of contact</p>
-        <div className={cs(styles.radiobtn1, styles.xradio, styles.radioInput)}>
-          <label className={styles.radio1}>
-            <input
-              type="radio"
-              name={"inputType"}
-              value="email"
-              disabled={submitted}
-              className={inputClass}
-              onClick={e => {
-                onClickRadio(e);
-              }}
-            />
-            <span className={styles.checkmark}></span>
-          </label>
+        <div>
           <FormInput
             name="email"
             placeholder={"Email*"}
@@ -199,42 +181,18 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             className={cs(globalStyles.relative, inputClass)}
             disable={submitted}
             value={isLoggedIn ? email : ""}
-            validations={
-              radioType == "email"
-                ? {
-                    isEmail: true,
-                    maxLength: 75
-                  }
-                : {}
-            }
+            validations={{
+              isEmail: true,
+              maxLength: 75
+            }}
             validationErrors={{
               isEmail: "Enter valid email",
               maxLength: "You are allowed to enter upto 75 characters only"
             }}
-            required={radioType != "email" ? "isFalse" : true}
+            required
           />
         </div>
-        <div
-          className={cs(
-            styles.countryCode,
-            styles.countryCodeGc,
-            styles.xradio,
-            styles.radioInput
-          )}
-        >
-          <label className={styles.radio1}>
-            <input
-              type="radio"
-              name={"inputType"}
-              value="number"
-              disabled={submitted}
-              className={inputClass}
-              onClick={e => {
-                onClickRadio(e);
-              }}
-            />
-            <span className={styles.checkmark}></span>
-          </label>
+        <div className={cs(styles.countryCode, styles.countryCodeGc)}>
           <div className={styles.flex}>
             <div>
               <input
@@ -254,23 +212,35 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
                 disable={submitted}
                 className={inputClass}
                 label={"Contact No.*"}
-                validations={
-                  radioType == "number"
-                    ? {
-                        isLength: 10
-                      }
-                    : {}
-                }
+                validations={{
+                  isLength: 10
+                }}
                 validationErrors={{
                   isLength: "Phone number should be 10 digit"
                 }}
-                required={radioType != "number" ? "isFalse" : true}
+                required
               />
             </div>
           </div>
         </div>
+        <p className={cs(styles.msg)}>Preferred mode of contact</p>
+        <div>
+          <div className="select-group text-left">
+            <FormSelect
+              required
+              name="preferredContact"
+              label="Preferred mode"
+              placeholder="Select Mode"
+              disable={submitted}
+              options={modeOptions}
+              value=""
+              validations={{
+                isExisty: true
+              }}
+            />
+          </div>
+        </div>
         <div className={styles.marginBottom50}>
-          {error ? <p className={globalStyles.errorMsg}>{error}</p> : ""}
           {enquiryMessage && (
             <p className={styles.enquireError}>{enquiryMessage}</p>
           )}
