@@ -31,6 +31,8 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please select Country";
       case "state":
         return "Please select State";
+      case "preferredContact":
+        return "Please choose preferred mode of contact";
     }
   }, []);
 
