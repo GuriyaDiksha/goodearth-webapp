@@ -124,9 +124,6 @@
     height: 110px;
     margin-top: 15px;
     width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 .product-n{
     margin: 5px 0;
@@ -449,16 +446,19 @@ icon-cross {
     }
     
     .search-heading {
-    text-transform: capitalize;
     font-size: 25px;
     h2 {
       font-size: 25px;
       font-family: "Baskerville","Amiri","Serif";
       color: #333;
       line-height: 60px;
-      text-transform: capitalize;
       margin-top: 10px;
     }
+    }
+    .search-heading-mobile {
+      h2 {
+        line-height: 30px;
+      }
     }
     
     .search-image-title {
