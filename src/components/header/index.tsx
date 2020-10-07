@@ -291,7 +291,10 @@ class Header extends React.Component<Props, State> {
             <meta name="twitter:card" content={meta.twitterCard} />
           )}
           {meta.twitterTitle && (
-            <meta name="twitter:title" content={meta.twitterTitle} />
+            <meta
+              name="twitter:title"
+              content={`Goodearth | ${meta.twitterTitle}`}
+            />
           )}
           {meta.twitterUrl && (
             <meta name="twitter:url" content={meta.twitterUrl} />
