@@ -573,12 +573,13 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   render() {
+    const { mobile } = this.props;
     const emptyWishlistContent = (
       <div>
         <div
           className={cs(
             bootstrapStyles.row,
-            globalStyles.marginT30,
+            { [globalStyles.marginT30]: !mobile },
             styles.minheight
           )}
         >
@@ -599,6 +600,7 @@ class Wishlist extends React.Component<Props, State> {
             className={cs(
               bootstrapStyles.colMd12,
               styles.searchHeading,
+              { [styles.searchHeadingMobile]: mobile },
               globalStyles.textCenter
             )}
           >
@@ -614,7 +616,7 @@ class Wishlist extends React.Component<Props, State> {
                   bootstrapStyles.col12,
                   styles.noResultPadding,
                   styles.checkheight,
-                  { [styles.checkheightMobile]: this.props.mobile }
+                  { [styles.checkheightMobile]: mobile }
                 )}
               >
                 {this.state.featureData.length > 0
@@ -655,7 +657,7 @@ class Wishlist extends React.Component<Props, State> {
                   : ""}
               </div>
             </div>
-            {this.props.mobile ? (
+            {mobile ? (
               ""
             ) : (
               <div className={bootstrapStyles.row}>
@@ -672,7 +674,6 @@ class Wishlist extends React.Component<Props, State> {
         </div>
       </div>
     );
-    const { mobile } = this.props;
     return (
       <>
         {mobile ? (
