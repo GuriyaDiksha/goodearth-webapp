@@ -68,6 +68,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   ) => {
     if (submitted) {
       closeModal();
+      return false;
     }
     const { name, state, query, email, phoneNo, preferredContact } = model;
     const formData: any = {};
