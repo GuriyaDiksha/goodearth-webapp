@@ -242,30 +242,17 @@ class PLP extends React.Component<
                 globalStyles.textCenter
               )}
             >
-              <div>
+              <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
                 <h1>Good Earth X Souk</h1>
-                <p>
-                  <div>
-                    For enquiries, write to us at{" "}
-                    <a
-                      href="mailto:customercare@goodearth.in"
-                      className={globalStyles.cerise}
-                      rel="noopener noreferrer"
-                    >
-                      {" "}
-                      customercare@goodearth.in
-                    </a>
-                    , or call us at <br />
-                    <span className={globalStyles.cerise}>
-                      <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
-                        +91 9582 999 555
-                      </a>{" "}
-                      /{" "}
-                      <a href="tel:+91 9582 999 888" rel="noopener noreferrer">
-                        +91 9582 999 888
-                      </a>
-                    </span>
-                  </div>
+                <h1 className={styles.corporateHeading}>
+                  An Online Exhibit & Pop-Up
+                </h1>
+                <p
+                  className={cs(styles.corporateSubHeading, {
+                    [styles.corporateSubHeadingMobile]: mobile
+                  })}
+                >
+                  AVAILABLE IN INDIA ONLY
                 </p>
               </div>
               {!this.state.isThirdParty && (
@@ -291,14 +278,11 @@ class PLP extends React.Component<
             <div className={cs(bootstrap.row, styles.subcHeader)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
                 <h1>Good Earth X Souk</h1>
-                <p>
-                  <div>
-                    <span>
-                      A curation of luxury artefacts and unique vintage décor
-                      pieces sourced from across the world by Soumya Keshavan is
-                      now available online in partnership with Good Earth.
-                    </span>
-                  </div>
+                <h1 className={styles.corporateHeading}>
+                  An Online Exhibit & Pop-Up
+                </h1>
+                <p className={styles.corporateSubHeading}>
+                  AVAILABLE IN INDIA ONLY
                 </p>
               </div>
             </div>
