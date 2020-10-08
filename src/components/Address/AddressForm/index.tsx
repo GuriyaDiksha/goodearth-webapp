@@ -1108,6 +1108,7 @@ const AddressForm: React.FC<Props> = props => {
   useEffect(() => {
     const firstField = document.getElementById("first-field") as HTMLDivElement;
     firstField && firstField.focus();
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
