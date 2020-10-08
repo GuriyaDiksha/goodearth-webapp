@@ -56,6 +56,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     : product.plpImages
     ? product.plpImages[1]
     : "";
+  const isStockAvailable = isCorporate || product.inStock;
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
@@ -73,7 +74,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
-        {mobile && !isCorporate && (
+        {mobile && !isStockAvailable && (
           <div
             className={cs(
               globalStyles.textCenter,
@@ -110,7 +111,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         </Link>
         <div
           className={cs(
-            isCorporate && product.inStock
+            isStockAvailable
               ? globalStyles.hidden
               : totalStock > 0
               ? globalStyles.hidden
@@ -123,12 +124,14 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <div className={styles.combodiv}>
             <div
               className={
-                isCorporate ? styles.imageHoverCorporate : styles.imageHover
+                isStockAvailable
+                  ? styles.imageHoverCorporate
+                  : styles.imageHover
               }
             >
               <p onClick={onClickQuickview}>quickview</p>
             </div>
-            {!isCorporate && (
+            {!isStockAvailable && (
               <div className={styles.imageHover}>
                 <div
                   className={cs(globalStyles.textCenter, {
@@ -204,7 +207,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     return (
                       <li
                         className={
-                          +data.stock || isCorporate ? "" : styles.disabled
+                          +data.stock || isStockAvailable ? "" : styles.disabled
                         }
                         key={i}
                       >

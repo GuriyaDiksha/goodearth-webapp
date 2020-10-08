@@ -315,9 +315,11 @@ class CorporateFilter extends React.Component<Props, State> {
     Object.keys(this.state.extraParams).map(key => {
       filterUrl += `&${key}=${this.state.extraParams[key]}`;
     });
-    this.setState({
-      extraParams: {}
-    });
+    if (!this.props.mobile) {
+      this.setState({
+        extraParams: {}
+      });
+    }
     if (mainurl == "" || !mainurl) {
       mainurl = history.location.pathname;
     }
