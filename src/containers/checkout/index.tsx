@@ -318,6 +318,10 @@ class Checkout extends React.Component<Props, State> {
       ) {
         this.setState({ isGoodearthShipping: true });
       }
+    } else {
+      this.setState({
+        activeStep: Steps.STEP_LOGIN
+      });
     }
   }
 
