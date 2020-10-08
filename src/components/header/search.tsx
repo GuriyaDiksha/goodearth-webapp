@@ -343,8 +343,8 @@ class Search extends React.Component<Props, State> {
                 >
                   {this.state.productData.length > 0
                     ? this.state.productData.map((data, i) => {
-                        const isCombo =
-                          data.productClass == "Product Combo" ? true : false;
+                        const isCombo = data.inStock;
+
                         let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
                           (
                             total: number,
