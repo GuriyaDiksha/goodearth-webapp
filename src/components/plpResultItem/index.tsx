@@ -74,7 +74,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
-        {mobile && !isStockAvailable && (
+        {mobile && !isCorporate && (
           <div
             className={cs(
               globalStyles.textCenter,
@@ -124,14 +124,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <div className={styles.combodiv}>
             <div
               className={
-                isStockAvailable
-                  ? styles.imageHoverCorporate
-                  : styles.imageHover
+                isCorporate ? styles.imageHoverCorporate : styles.imageHover
               }
             >
               <p onClick={onClickQuickview}>quickview</p>
             </div>
-            {!isStockAvailable && (
+            {!isCorporate && (
               <div className={styles.imageHover}>
                 <div
                   className={cs(globalStyles.textCenter, {
