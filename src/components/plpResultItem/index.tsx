@@ -56,6 +56,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     : product.plpImages
     ? product.plpImages[1]
     : "";
+  const isStockAvailable = isCorporate || product.inStock;
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
@@ -110,7 +111,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         </Link>
         <div
           className={cs(
-            isCorporate && product.inStock
+            isStockAvailable
               ? globalStyles.hidden
               : totalStock > 0
               ? globalStyles.hidden
@@ -204,7 +205,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     return (
                       <li
                         className={
-                          +data.stock || isCorporate ? "" : styles.disabled
+                          +data.stock || isStockAvailable ? "" : styles.disabled
                         }
                         key={i}
                       >
