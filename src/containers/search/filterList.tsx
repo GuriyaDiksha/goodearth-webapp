@@ -450,7 +450,8 @@ class FilterList extends React.Component<Props, State> {
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
       const filterUrl = "?" + nextUrl.split("?")[1];
-      const pageSize = mobile ? 10 : 20;
+      // const pageSize = mobile ? 10 : 20;
+      const pageSize = 20;
       this.setState({ isLoading: true });
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
         .then(searchList => {
@@ -525,7 +526,8 @@ class FilterList extends React.Component<Props, State> {
     const url = decodeURI(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
 
-    const pageSize = mobile ? 10 : 20;
+    // const pageSize = mobile ? 10 : 20;
+    const pageSize = 20;
     this.setState({ isLoading: true });
     fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
       .then(searchList => {
