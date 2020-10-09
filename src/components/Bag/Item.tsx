@@ -88,7 +88,8 @@ const LineItems: React.FC<BasketItem> = memo(
       priceRecords,
       discount,
       discountedPriceRecords,
-      badgeType
+      badgeType,
+      inWishlist
     } = product;
 
     const price = priceRecords[currency];
@@ -225,6 +226,7 @@ const LineItems: React.FC<BasketItem> = memo(
                   id={product.id}
                   showText={false}
                   className="wishlist-font"
+                  inWishlist={inWishlist}
                 />
               </div>
             </div>

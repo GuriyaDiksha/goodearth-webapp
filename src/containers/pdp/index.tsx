@@ -92,6 +92,7 @@ class PDPContainer extends React.Component<Props, State> {
       true
     );
     changeModalState(true);
+    document.body.classList.add(globalStyles.fixed);
   };
 
   componentDidMount() {
@@ -504,13 +505,7 @@ class PDPContainer extends React.Component<Props, State> {
         );
       });
 
-    const {
-      sidebarSticky,
-      detailsSticky,
-      activeImage,
-      detailStickyEnabled,
-      mounted
-    } = this.state;
+    const { activeImage, detailStickyEnabled, mounted } = this.state;
 
     return (
       <div
@@ -547,10 +542,7 @@ class PDPContainer extends React.Component<Props, State> {
                 bootstrap.colMd1,
                 bootstrap.offsetMd1,
                 styles.sidebar,
-                globalStyles.pageStickyElement,
-                {
-                  [globalStyles.pageStickyScrolling]: !sidebarSticky
-                }
+                globalStyles.pageStickyElement
               )}
               ref={this.sidebarRef}
             >
@@ -573,8 +565,7 @@ class PDPContainer extends React.Component<Props, State> {
               className={cs(
                 bootstrap.colMd4,
                 bootstrap.dNone,
-                bootstrap.dMdBlock,
-                bootstrap.offsetMd2
+                bootstrap.dMdBlock
               )}
             >
               {this.getProductImages()}
@@ -587,10 +578,7 @@ class PDPContainer extends React.Component<Props, State> {
               bootstrap.colMd5,
               bootstrap.col12,
               {
-                [bootstrap.offsetMd6]: !mobile && detailStickyEnabled,
-                [globalStyles.pageStickyElement]:
-                  !mobile && detailStickyEnabled,
-                [globalStyles.pageStickyScrolling]: !mobile && !detailsSticky
+                [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
               }
             )}
             ref={this.detailsRef}

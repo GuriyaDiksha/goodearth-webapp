@@ -5,4 +5,5 @@ export type Props = {
   onChange: (selected: ChildProductAttributes) => void;
   selected?: number;
   sizeClassName?: string;
+  isCorporatePDP?: boolean;
 };

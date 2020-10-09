@@ -22,7 +22,6 @@ import SizeChartPopup from "../sizeChartPopup";
 import ColorSelector from "components/ColorSelector";
 import WallpaperPopup from "../wallpaperPopup";
 import NotifyMePopup from "components/NotifyMePopup";
-// import CorporateEnquiryPopup from "components/CorporateEnquiryPopup";
 import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 // services
 import BasketService from "services/basket";
@@ -117,7 +116,7 @@ const ProductDetails: React.FC<Props> = ({
       : discountedPriceRecords[currency];
 
   const [sizeError, setSizeError] = useState("");
-  const [quantity, setQuantity] = useState<number>(corporatePDP ? 10 : 1);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const showError = () => {
     setTimeout(() => {
@@ -133,7 +132,7 @@ const ProductDetails: React.FC<Props> = ({
 
   useEffect(() => {
     if (corporatePDP) {
-      setQuantity(10);
+      // setQuantity(10);
     } else {
       setQuantity(1);
     }
@@ -336,7 +335,7 @@ const ProductDetails: React.FC<Props> = ({
         )}
       >
         <div className={cs(bootstrap.row)}>
-          {images && (
+          {images && images[0]?.badgeImagePdp && (
             <div className={bootstrap.col12}>
               <img src={images[0]?.badgeImagePdp} width="100" />
             </div>
@@ -454,6 +453,7 @@ const ProductDetails: React.FC<Props> = ({
                   )}
                 >
                   <SizeSelector
+                    isCorporatePDP={corporatePDP}
                     sizes={childAttributes}
                     onChange={onSizeSelect}
                     selected={selectedSize ? selectedSize.id : undefined}
@@ -516,8 +516,8 @@ const ProductDetails: React.FC<Props> = ({
                   source="pdp"
                   key={selectedSize?.sku}
                   id={selectedSize?.id || 0}
-                  minValue={corporatePDP ? 10 : minQuantity}
-                  maxValue={corporatePDP ? 1000 : maxQuantity}
+                  minValue={minQuantity}
+                  maxValue={corporatePDP ? 1 : maxQuantity}
                   currentValue={quantity}
                   onChange={onQuantityChange}
                   errorMsg={selectedSize ? "Available qty in stock is" : ""}

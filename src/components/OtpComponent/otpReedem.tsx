@@ -20,6 +20,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       subscribeError: "",
       otpTimer: 0,
       otpData: {},
+      isResendOtpDisabled: true,
       updateStatus: false,
       showerror: "",
       showerrorOtp: "",
@@ -86,6 +87,13 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   checkOtpValidation = () => {
     const { otpData } = this.state;
+    if (!this.props.points) {
+      this.props.updateError(true);
+      return false;
+    }
+    if (!this.state.radioType || !this.state.otpData["points"]) {
+      return false;
+    }
     const newData = otpData;
     newData["otp"] = this.state.otp;
     this.setState({
@@ -118,6 +126,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         })
         .finally(() => {
           this.clearTimer();
+          this.setState({
+            isResendOtpDisabled: false
+          });
         });
   };
 
@@ -214,6 +225,9 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
   resendOtp = () => {
     this.clearTimer();
+    this.setState({
+      showerror: ""
+    });
     this.sendOtpApiCall(this.state.otpData);
   };
 
@@ -274,27 +288,22 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
 
             <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
               DIDN’T RECEIVE OTP?{" "}
-              {this.state.showerror ? (
-                <a
-                  className={cs(globalStyles.cerise, styles.otpLabel)}
-                  onClick={this.clickHereOtpInvalid}
-                >
-                  CLICK HERE
-                </a>
-              ) : (
+              {
                 <a
                   className={
-                    otpTimer > 0
+                    otpTimer > 0 || this.state.isResendOtpDisabled
                       ? styles.iconStyleDisabled
                       : cs(styles.otpLabel, globalStyles.cerise)
                   }
                   onClick={() => {
-                    otpTimer > 0 ? "" : this.resendOtp();
+                    otpTimer > 0 || this.state.isResendOtpDisabled
+                      ? ""
+                      : this.resendOtp();
                   }}
                 >
                   RESEND OTP
                 </a>
-              )}
+              }
               {otpTimer > 0 ? (
                 <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
               ) : (
