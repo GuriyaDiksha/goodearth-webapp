@@ -653,7 +653,8 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {this.props.currency.toString().toUpperCase() == "INR" &&
+          {false &&
+            this.props.currency.toString().toUpperCase() == "INR" &&
             (this.props.location.pathname.includes("/catalogue/")
               ? this.props.location.pathname.includes("/category/")
                 ? true
@@ -688,14 +689,7 @@ class Header extends React.Component<Props, State> {
                 </div>
               </div>
             )}
-          {
-            this.state.showPincodePopup
-            // &&
-            // <PincodePopup
-            //     setPincode={(pincode: string) => this.setPincode(pincode)}
-            //     closePopup={()=>this.setState({ showPincodePopup: false })}
-            // />
-          }
+          {this.state.showPincodePopup}
         </div>
         <GrowlMessage {...message} />
       </div>

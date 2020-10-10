@@ -52,10 +52,6 @@ const FreeShipping: React.FC<PopupProps> = props => {
               secure shopping experience for you.
             </p>
             <p>
-              Please use our Pincode Detector to check if your area (within
-              India) is currently serviceable.
-            </p>
-            <p>
               For any further assistance reach out to us at{" "}
               <b className={globalStyles.cerise}>customercare@goodearth.in</b>
             </p>
