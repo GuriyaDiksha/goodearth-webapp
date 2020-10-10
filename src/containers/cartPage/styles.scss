@@ -384,3 +384,14 @@ display: inline-table;
   color: gray;
   font-family: $font-Lato;
 }
+
+.delivery-date {
+  @include pdp_spec();
+  @include c10-L-R();
+  line-height: 20px;
+  justify-content: center;
+  text-transform: none;
+}
+.black {
+  color: black;
+}

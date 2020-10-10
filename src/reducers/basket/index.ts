@@ -1,6 +1,7 @@
 import { State, BasketActions } from "./typings";
 
 const initialState: State = {
+  finalDeliveryDate: "",
   isBridal: false,
   currency: "INR",
   isTaxKnown: false,
