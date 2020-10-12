@@ -18,7 +18,6 @@ import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
 import ChangePassword from "./components/ChangePassword";
 import { useStore, useSelector, useDispatch } from "react-redux";
-import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
@@ -40,7 +39,7 @@ type Props = {
 // }
 
 const MyAccount: React.FC<Props> = props => {
-  const [bridalId, setBridalId] = useState(0);
+  const { bridalId } = useSelector((state: AppState) => state.user);
   const [accountListing, setAccountListing] = useState(false);
   const [slab, setSlab] = useState("");
   const { mobile } = useStore().getState().device;
@@ -55,7 +54,6 @@ const MyAccount: React.FC<Props> = props => {
   );
 
   useEffect(() => {
-    setBridalId(parseInt(CookieService.getCookie("bridalId") || "0"));
     window.scrollTo(0, 0);
   }, []);
   // this.state = {

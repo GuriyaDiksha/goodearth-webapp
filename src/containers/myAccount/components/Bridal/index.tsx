@@ -86,6 +86,10 @@ const Bridal: React.FC<Props> = props => {
   useEffect(() => {
     AddressService.fetchAddressList(dispatch).then(addressList => {
       dispatch(updateAddressList(addressList));
+      const bridalAddress = addressList.filter(address => address.isBridal)[0];
+      if (bridalAddress) {
+        setBridalAddress(bridalAddress);
+      }
     });
     getBridalProfileData();
     return () => {
