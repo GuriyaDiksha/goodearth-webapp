@@ -107,7 +107,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
       if (orderElem) {
         orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
-    }, 1000);
+    }, 300);
   };
 
   return (
