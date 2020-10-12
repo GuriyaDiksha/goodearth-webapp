@@ -12,14 +12,13 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import InfoPopup from "components/Popups/InfoPopup";
+import MakerPopup from "components/Popups/MakerPopup";
 
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
   const { currency } = useSelector((state: AppState) => state);
-  // const [showInfoPopup, setShowInfoPopup] = useState("yes");
   const isSuspended = true;
 
   useEffect(() => {
@@ -43,16 +42,14 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  const setInfoPopupCookie = () => {
+  const setMakerPopupCookie = () => {
     const cookieString =
       "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
     CookieService.setCookie("suspensioninfo", "show", 365);
-    // setShowInfoPopup("show");
   };
 
   useEffect(() => {
-    // document.addEventListener("wheel", )
     document.addEventListener("wheel", (e: WheelEvent) => {
       const elem = e.target as HTMLInputElement;
       if (
@@ -73,11 +70,10 @@ const BaseLayout: React.FC = () => {
       }
     });
     const popupCookie = CookieService.getCookie("suspensioninfo");
-    // setShowInfoPopup(popupCookie);
     if (isSuspended && popupCookie != "show") {
       dispatch(
         updateComponent(
-          <InfoPopup acceptCondition={setInfoPopupCookie} />,
+          <MakerPopup acceptCondition={setMakerPopupCookie} />,
           true
         )
       );

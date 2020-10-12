@@ -67,6 +67,15 @@
       transform: translate(-50%, -50%);
       //width: 100%;
     }
+    .maker-popup-desktop {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      width: auto;
+      min-height: 0;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
     }
     .free-shipping {
       padding: 0 45px;
@@ -364,6 +373,13 @@
       padding: 7px 10%;
     }
 }
+.maker-popup-mobile {
+  height: 100% !important;
+  width: 100% !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
   .margin-b-40 {
     margin-bottom: 40px;
   }
