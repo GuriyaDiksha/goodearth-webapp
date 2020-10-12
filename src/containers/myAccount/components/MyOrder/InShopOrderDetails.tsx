@@ -39,8 +39,8 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
   //   // props.setAccountPage(e);
   // };
 
-  const closeDetails = () => {
-    props.closeDetails(-1);
+  const closeDetails = (orderNum?: string) => {
+    props.closeDetails(-1, orderNum);
   };
 
   const openAddress = (data: any) => {
@@ -56,10 +56,10 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
     }
     html.push(
       <div className={bootstrapStyles.col12}>
-        <div className={styles.add} id={shopdata.number}>
+        <div className={styles.add}>
           <address>
             <label>order # {shopdata.number}</label>
-            <div className={styles.orderBlock}>
+            <div className={cs(styles.orderBlock, bootstrapStyles.row)}>
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
@@ -84,7 +84,12 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                 </p>
               </div>
               <p className={styles.edit}>
-                <a className={globalStyles.cerise} onClick={closeDetails}>
+                <a
+                  className={globalStyles.cerise}
+                  onClick={() => {
+                    closeDetails(shopdata.number);
+                  }}
+                >
                   {" "}
                   close{" "}
                 </a>
@@ -174,7 +179,12 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
               );
             })}
             <div className={styles.edit}>
-              <a className={globalStyles.cerise} onClick={() => closeDetails()}>
+              <a
+                className={globalStyles.cerise}
+                onClick={() => {
+                  closeDetails(shopdata.number);
+                }}
+              >
                 {" "}
                 close{" "}
               </a>

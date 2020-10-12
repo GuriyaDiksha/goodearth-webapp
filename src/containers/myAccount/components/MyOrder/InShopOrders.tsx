@@ -49,7 +49,7 @@ const InShopOrder: React.FC<OrdersProps> = props => {
 
     html.push(
       <div className={bootstrapStyles.col12}>
-        <div className={styles.add}>
+        <div className={styles.add} id={data.number}>
           <address className={styles.orderBlock}>
             <label>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
@@ -97,8 +97,14 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     return html;
   };
 
-  const closeDetails = () => {
+  const closeDetails = (index: number, orderNum?: string) => {
     setIsOpenAddressIndex(-1);
+    setTimeout(() => {
+      const orderElem = orderNum && document.getElementById(orderNum);
+      if (orderElem) {
+        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 1000);
   };
 
   return (
