@@ -477,7 +477,7 @@ const ProductDetails: React.FC<Props> = ({
                 </span>
               </div>
             )}
-            {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
+            {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
               <div
                 className={cs(bootstrap.colSm4, styles.label, {
                   [globalStyles.textCenter]: !mobile
