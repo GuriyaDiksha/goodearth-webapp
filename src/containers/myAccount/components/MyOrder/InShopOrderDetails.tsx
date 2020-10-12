@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { ShopProps } from "./typings";
 import AccountService from "services/account";
-import { currencyCode, Currency } from "typings/currency";
+import { currencyCode } from "typings/currency";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -79,8 +79,8 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}{" "}
-                  &nbsp;{shopdata.total_value}
+                  {String.fromCharCode(currencyCode["INR"])} &nbsp;
+                  {shopdata.total}
                 </p>
               </div>
               <p className={styles.edit}>
