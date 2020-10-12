@@ -57,6 +57,7 @@ export type Basket = {
   isOnlyGiftCart: boolean;
   publishRemove: boolean;
   updated: boolean;
+  addnewGiftcard: string | number;
 };
 
 export interface BasketItem extends BasketLineItem {

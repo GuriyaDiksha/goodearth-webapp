@@ -1,6 +1,6 @@
 {
     "apidomain": "https://db.goodearth.in",
-    "domain": "https://devbeta.goodearth.in",
+    "domain": "https://dv.goodearth.in",
     "omniApiDomain": "https://web.goodearth.in/omni/",
     "manifestVersion": 3,
     "publicPath": "/static/",

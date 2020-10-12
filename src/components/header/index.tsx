@@ -244,9 +244,12 @@ class Header extends React.Component<Props, State> {
           <title>
             Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
           </title>
-          {meta.description && (
-            <meta name="description" content={meta.description} />
-          )}
+          {
+            <meta
+              name="description"
+              content={meta.description ? meta.description : ""}
+            />
+          }
           <link
             rel="canonical"
             href={`${__DOMAIN__}${location.pathname}${
@@ -259,9 +262,12 @@ class Header extends React.Component<Props, State> {
           {meta.ogTitle && (
             <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />
           )}
-          {meta.ogDescription && (
-            <meta property="og:description" content={meta.ogDescription} />
-          )}
+          {
+            <meta
+              property="og:description"
+              content={meta.ogDescription ? meta.ogDescription : ""}
+            />
+          }
           {meta.ogImage && <meta property="og:image" content={meta.ogImage} />}
           {meta.ogUrl && <meta property="og:url" content={meta.ogUrl} />}
           {meta.ogType && <meta property="og:type" content={meta.ogType} />}
@@ -285,17 +291,20 @@ class Header extends React.Component<Props, State> {
             <meta name="twitter:card" content={meta.twitterCard} />
           )}
           {meta.twitterTitle && (
-            <meta name="twitter:title" content={meta.twitterTitle} />
+            <meta
+              name="twitter:title"
+              content={`Goodearth | ${meta.twitterTitle}`}
+            />
           )}
           {meta.twitterUrl && (
             <meta name="twitter:url" content={meta.twitterUrl} />
           )}
-          {meta.twitterDescription && (
+          {
             <meta
               name="twitter:description"
-              content={meta.twitterDescription}
+              content={meta.twitterDescription ? meta.twitterDescription : ""}
             />
-          )}
+          }
           {meta.twitterImage && (
             <meta name="twitter:image" content={meta.twitterImage} />
           )}
