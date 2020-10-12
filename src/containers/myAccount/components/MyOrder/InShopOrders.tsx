@@ -41,9 +41,10 @@ const InShopOrder: React.FC<OrdersProps> = props => {
 
   const closeAddress = (data: any, index: number) => {
     const html = [];
-    // const orderData = new Date(data.datePlaced);
-    const todayDate = new Date();
-    todayDate.setMonth(todayDate.getMonth() - 1);
+    const orderData = new Date(data.date_placed),
+      lastDate = new Date("04-01-2019"),
+      isHide = orderData <= lastDate;
+    // todayDate.setMonth(todayDate.getMonth() - 1);
     // now today date is one month less
     // const isHide = orderData >= todayDate;
 
@@ -54,10 +55,12 @@ const InShopOrder: React.FC<OrdersProps> = props => {
             <label>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col8}>
-                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
+                <p>{moment(data.date_placed).format("D MMM,YYYY")}</p>
                 <p>
                   <span className={styles.op2}> Status: </span> &nbsp;{" "}
-                  <span className={styles.orderStatus}>{"PROCESSED"}</span>
+                  <span className={styles.orderStatus}>
+                    {data.quantity > 0 ? "Processed" : "Returned"}
+                  </span>
                 </p>
                 <p>
                   <span className={styles.op2}> Items: </span> &nbsp;{" "}
@@ -78,8 +81,8 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               <div className={bootstrapStyles.col8}>
                 <p className={styles.editView}>
                   <a
-                    className={globalStyles.cerise}
-                    onClick={() => showDetails(index)}
+                    className={isHide ? styles.op2 : globalStyles.cerise}
+                    onClick={() => (isHide ? "" : showDetails(index))}
                   >
                     {" "}
                     view{" "}
