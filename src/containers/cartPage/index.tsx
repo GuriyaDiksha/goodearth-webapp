@@ -299,7 +299,6 @@ class CartPage extends React.Component<Props, State> {
             basket={this.props.cart}
             page="cart"
           />
-          `
         </div>
       </div>
     );

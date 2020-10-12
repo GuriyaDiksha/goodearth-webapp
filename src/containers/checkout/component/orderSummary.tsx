@@ -541,6 +541,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {parseFloat(shippingCharge).toFixed(2)}
             </span>
           </div>
+          {basket.finalDeliveryDate && (
+            <div className={styles.deliveryDate}>
+              Estimated Delivery On or Before:{" "}
+              <span className={styles.black}>{basket.finalDeliveryDate}</span>
+            </div>
+          )}
           {getDiscount(basket.offerDiscounts)}
           {shippingAddress?.state && (
             <div
