@@ -11,16 +11,15 @@ import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
-import { updateComponent, updateModal } from "actions/modal";
-import InfoPopup from "components/Popups/InfoPopup";
+// import { updateComponent, updateModal } from "actions/modal";
+// import InfoPopup from "components/Popups/InfoPopup";
 
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
   const { currency } = useSelector((state: AppState) => state);
-  // const [showInfoPopup, setShowInfoPopup] = useState("yes");
-  const isSuspended = true;
+  // const isSuspended = true;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,16 +42,14 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  const setInfoPopupCookie = () => {
-    const cookieString =
-      "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-    document.cookie = cookieString;
-    CookieService.setCookie("suspensioninfo", "show", 365);
-    // setShowInfoPopup("show");
-  };
+  // const setInfoPopupCookie = () => {
+  //   const cookieString =
+  //     "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+  //   document.cookie = cookieString;
+  //   CookieService.setCookie("suspensioninfo", "show", 365);
+  // };
 
   useEffect(() => {
-    // document.addEventListener("wheel", )
     document.addEventListener("wheel", (e: WheelEvent) => {
       const elem = e.target as HTMLInputElement;
       if (
@@ -72,17 +69,16 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
-    const popupCookie = CookieService.getCookie("suspensioninfo");
-    // setShowInfoPopup(popupCookie);
-    if (isSuspended && popupCookie != "show") {
-      dispatch(
-        updateComponent(
-          <InfoPopup acceptCondition={setInfoPopupCookie} />,
-          true
-        )
-      );
-      dispatch(updateModal(true));
-    }
+    // const popupCookie = CookieService.getCookie("suspensioninfo");
+    // if (isSuspended && popupCookie != "show") {
+    //   dispatch(
+    //     updateComponent(
+    //       <InfoPopup acceptCondition={setInfoPopupCookie} />,
+    //       true
+    //     )
+    //   );
+    //   dispatch(updateModal(true));
+    // }
     LoginService.getClientIpCurrency()
       .then(curr => {
         if (curr != "error") {
