@@ -440,7 +440,7 @@ class FilterList extends React.Component<Props, State> {
   appendData = () => {
     const minMaxvalue: any = [];
     let currentRange: any = [];
-    const { nextUrl, mobile, listdata, currency, updateProduct } = this.props;
+    const { nextUrl, listdata, currency, updateProduct } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
       this.setState({
