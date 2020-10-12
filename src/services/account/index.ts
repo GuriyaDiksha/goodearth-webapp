@@ -207,7 +207,7 @@ export default {
   fetchshopOrderDetails: async (dispatch: Dispatch, number: string) => {
     const courier = await new Promise((resolve, reject) => {
       fetch(
-        `https://web.goodearth.in/omni/order_detail_api2/?number=${number}`,
+        `https://web.goodearth.in/omni/order_detail_api/?number=${number}`,
         { method: "GET" }
       )
         .then(resp => resp.json())

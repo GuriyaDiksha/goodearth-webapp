@@ -8,13 +8,14 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import noPlpImage from "images/noimageplp.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 
 const InShopOrderDetails: React.FC<ShopProps> = props => {
   const [shopdata, setShopData] = useState<any>({});
   const dispatch = useDispatch();
+  const { mobile } = useStore().getState().device;
   // const history = useHistory();
-
+  console.log(mobile);
   useEffect(() => {
     props.isLoading(true);
     AccountService.fetchshopOrderDetails(dispatch, props.data.number)
@@ -85,7 +86,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                   {shopdata.total}
                 </p>
               </div>
-              <p className={styles.edit}>
+              <p className={mobile ? styles.editMobile : styles.edit}>
                 <a
                   className={globalStyles.cerise}
                   onClick={() => {
