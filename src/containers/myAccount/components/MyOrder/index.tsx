@@ -20,7 +20,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isData, setIsData] = useState(false);
   const store = useStore();
-  const { mobile } = store.getState();
+  const { mobile } = store.getState().device;
   props.setCurrentSection();
   const switchToStoreOrders = () => {
     setHasShoppedOnlineitems(false);
@@ -121,11 +121,9 @@ const PastOrders: React.FC<Props> = (props: Props) => {
       >
         <div className={bootstrapStyles.row}>
           <div
-            className={cs(
-              bootstrapStyles.col12,
-              { [bootstrapStyles.offset1]: mobile },
-              { [bootstrapStyles.colMd10]: !mobile }
-            )}
+            className={cs(bootstrapStyles.col12, {
+              [bootstrapStyles.colMd10]: !mobile
+            })}
           >
             <div className={styles.formHeading}>My Orders</div>
             <div className={styles.formSubheading}>

@@ -21,9 +21,9 @@ export default {
       return item.id == selectId;
     });
     res.data.level2Categories = res.data.level2Categories.map((data: any) => {
-      return { label: data.name, value: data.name };
+      return { label: data.name, value: data.name, id: data.id };
     });
-    res.data.level2Categories.unshift({ label: "All", value: "All" });
+    res.data.level2Categories.unshift({ label: "All", value: "All", id: id });
     const data: CollectionFilter = { ...res.data };
     return data;
   },

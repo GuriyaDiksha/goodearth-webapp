@@ -15,7 +15,7 @@ export type OrdersProps = {
 
 export type ShopProps = {
   data: any;
-  closeDetails: (index: number) => void;
+  closeDetails: (index: number, orderNum?: string) => void;
   hasShopped: (x: boolean) => void;
   isLoading: (x: boolean) => void;
   isDataAvaliable: (x: boolean) => void;

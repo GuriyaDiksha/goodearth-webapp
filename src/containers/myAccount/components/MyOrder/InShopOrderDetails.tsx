@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { ShopProps } from "./typings";
 import AccountService from "services/account";
-import { currencyCode, Currency } from "typings/currency";
+import { currencyCode } from "typings/currency";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import noPlpImage from "images/noimageplp.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 
 const InShopOrderDetails: React.FC<ShopProps> = props => {
   const [shopdata, setShopData] = useState<any>({});
   const dispatch = useDispatch();
+  const { mobile } = useStore().getState().device;
   // const history = useHistory();
-
+  console.log(mobile);
   useEffect(() => {
     props.isLoading(true);
     AccountService.fetchshopOrderDetails(dispatch, props.data.number)
@@ -39,8 +40,8 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
   //   // props.setAccountPage(e);
   // };
 
-  const closeDetails = () => {
-    props.closeDetails(-1);
+  const closeDetails = (orderNum?: string) => {
+    props.closeDetails(-1, orderNum);
   };
 
   const openAddress = (data: any) => {
@@ -56,17 +57,19 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
     }
     html.push(
       <div className={bootstrapStyles.col12}>
-        <div className={styles.add} id={shopdata.number}>
+        <div className={styles.add}>
           <address>
             <label>order # {shopdata.number}</label>
-            <div className={styles.orderBlock}>
+            <div className={cs(styles.orderBlock, bootstrapStyles.row)}>
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
-                <p>{moment(data.datePlaced).format("D MMM,YYYY")}</p>
+                <p>{moment(shopdata.order_date).format("D MMM,YYYY")}</p>
                 <p>
                   <span className={styles.op2}>Status</span>: &nbsp;
-                  <span className={styles.orderStatus}>{"PROCESSED"}</span>
+                  <span className={styles.orderStatus}>
+                    {shopdata.quantity > 0 ? "Processed" : "Returned"}
+                  </span>
                 </p>
                 <p>
                   <span className={styles.op2}>Items</span>: &nbsp;{totalItem}
@@ -79,12 +82,17 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}{" "}
-                  &nbsp;{shopdata.total_value}
+                  {String.fromCharCode(currencyCode["INR"])} &nbsp;
+                  {shopdata.total}
                 </p>
               </div>
-              <p className={styles.edit}>
-                <a className={globalStyles.cerise} onClick={closeDetails}>
+              <p className={mobile ? styles.editMobile : styles.edit}>
+                <a
+                  className={globalStyles.cerise}
+                  onClick={() => {
+                    closeDetails(shopdata.number);
+                  }}
+                >
                   {" "}
                   close{" "}
                 </a>
@@ -174,7 +182,12 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
               );
             })}
             <div className={styles.edit}>
-              <a className={globalStyles.cerise} onClick={() => closeDetails()}>
+              <a
+                className={globalStyles.cerise}
+                onClick={() => {
+                  closeDetails(shopdata.number);
+                }}
+              >
                 {" "}
                 close{" "}
               </a>

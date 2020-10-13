@@ -1103,11 +1103,11 @@ const AddressForm: React.FC<Props> = props => {
   const isAlphanumericError = "Only alphabets and numbers are allowed";
   const isAlphaError = "Only alphabets are allowed";
   const isEmailError = "Please enter the correct email";
-  // const self = this;
 
   useEffect(() => {
     const firstField = document.getElementById("first-field") as HTMLDivElement;
     firstField && firstField.focus();
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {

@@ -410,7 +410,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isEnglish: "Please enter valid Character"
+                isEnglish: "Only alphabets are allowed"
               }}
               required
             />
@@ -432,7 +432,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isEnglish: "Please enter valid Character"
+                isEnglish: "Only alphabets are allowed"
               }}
               required
             />
