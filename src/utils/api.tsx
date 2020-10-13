@@ -5,6 +5,9 @@ import Axios, { AxiosRequestConfig } from "axios";
 import { updateCookies } from "actions/cookies";
 import CookieService from "services/cookie";
 import LoginService from "services/login";
+import { updateComponent, updateModal } from "actions/modal";
+import BackendOrderPopup from "components/BackendOrderPopup";
+import React from "react";
 
 class API {
   static async get<T>(
@@ -112,6 +115,11 @@ class API {
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
                   LoginService.logoutClient(dispatch);
+                } else if (err.response.status == 406) {
+                  dispatch(
+                    updateComponent(<BackendOrderPopup />, true, undefined)
+                  );
+                  dispatch(updateModal(true));
                 } else {
                   reject(err);
                 }

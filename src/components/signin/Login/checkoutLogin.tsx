@@ -131,8 +131,20 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       this.setState({ email });
     }
     this.firstEmailInput.current?.focus();
-    // this.emailInput.current && this.emailInput.current.focus();
     localStorage.removeItem("tempEmail");
+  }
+
+  UNSAFE_componentWillReceiveProps() {
+    if (!this.state.email) {
+      const email = localStorage.getItem("tempEmail");
+      if (email) {
+        this.setState({ email, isLoginDisabled: false }, () => {
+          this.myBlur();
+        });
+      }
+      this.firstEmailInput.current?.focus();
+      localStorage.removeItem("tempEmail");
+    }
   }
 
   handleSubmitEmail = (event: React.FormEvent) => {
@@ -148,14 +160,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       eventLabel: location.pathname
     });
   };
-
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.myBlur(undefined, "submit");
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
-        .login(this.state.email || "", this.state.password || "")
+        .login(this.state.email || "", this.state.password || "", "checkout")
         .then(data => {
           this.gtmPushSignIn();
           dataLayer.push({

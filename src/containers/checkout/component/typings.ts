@@ -6,6 +6,7 @@ export type LoginProps = {
   isActive: boolean;
   user: any;
   next?: (step: string) => void;
+  boEmail?: string;
 };
 
 export type AddressProps = {

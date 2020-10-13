@@ -14,6 +14,7 @@ import { AddressData } from "components/Address/typings";
 import CookieService from "services/cookie";
 import AddressService from "services/address";
 import CheckoutService from "services/checkout";
+import LoginService from "services/login";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
@@ -108,6 +109,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     fetchBasket: async () => {
       return await BasketService.fetchBasket(dispatch, "checkout");
+    },
+    getBoDetail: async (id: string) => {
+      return await CheckoutService.getBoDetail(dispatch, id);
+    },
+    logout: async () => {
+      return await LoginService.logout(dispatch);
     }
   };
 };
@@ -140,6 +147,8 @@ type State = {
   isGoodearthShipping: boolean;
   loyaltyData: any;
   isSuspended: boolean;
+  boEmail: string;
+  boId: string;
 };
 
 class Checkout extends React.Component<Props, State> {
@@ -172,6 +181,8 @@ class Checkout extends React.Component<Props, State> {
       isLoading: false,
       id: "",
       addressIdError: "",
+      boEmail: "",
+      boId: "",
       isSuspended: true,
       isGoodearthShipping:
         props.user.shippingData && props.user.shippingData.isTulsi
@@ -193,6 +204,34 @@ class Checkout extends React.Component<Props, State> {
     const gaKey = CookieService.getCookie("_ga");
     this.setState({ bridalId, gaKey });
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id");
+    if (boId) {
+      this.props.getBoDetail(boId).then((data: any) => {
+        if (data.email && this.props.user.email) {
+          if (this.props.user.email == data.email) {
+            this.setState({
+              boEmail: data.email,
+              boId: boId
+            });
+          } else {
+            this.props.logout().then(res => {
+              this.setState({
+                boEmail: data.email,
+                boId: boId
+              });
+            });
+          }
+        } else if (data.email) {
+          this.setState({
+            boEmail: data.email,
+            boId: boId
+          });
+        }
+        localStorage.setItem("tempEmail", data.email);
+      });
+    }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {
       this.props.showPopup(this.setInfoPopupCookie);
     }
@@ -565,6 +604,7 @@ class Checkout extends React.Component<Props, State> {
                 isActive={this.isActiveStep(Steps.STEP_LOGIN)}
                 user={this.props.user}
                 next={this.nextStep}
+                boEmail={this.state.boEmail}
               />
               <AddressMain
                 isActive={this.isActiveStep(Steps.STEP_SHIPPING)}
