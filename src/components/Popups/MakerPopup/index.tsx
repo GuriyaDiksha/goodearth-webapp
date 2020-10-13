@@ -56,7 +56,9 @@ const FreeShipping: React.FC<PopupProps> = props => {
           ></i>
         </div>
         {showMaker && (
-          <MakerEnhance index="2" user="goodearth" href={__DOMAIN__} />
+          <div className={styles.makerMargin}>
+            <MakerEnhance index="2" user="goodearth" href={__DOMAIN__} />
+          </div>
         )}
       </div>
     </div>
