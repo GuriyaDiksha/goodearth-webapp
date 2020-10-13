@@ -51,7 +51,8 @@ const Bridal: React.FC<Props> = props => {
     BridalService.fetchBridalProfile(dispatch, props.bridalId).then(data => {
       if (data) {
         setBridalProfile(data);
-        setShareLink(`${__API_HOST__}/${data.shareLink}`);
+        setBridalDetails(Object.assign({}, data, { userAddress: undefined }));
+        setShareLink(`${__DOMAIN__}/${data.shareLink}`);
         dispatch(
           updateUser(
             Object.assign({}, user, {

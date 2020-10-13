@@ -93,7 +93,7 @@ const ManageRegistry: React.FC<Props> = props => {
                   <br />
                 </p>
                 <p className={styles.light}> {phoneNumber}</p>
-                {!mobile && (
+                {mobile && (
                   <p className={globalStyles.voffset3}>date : {eventDate}</p>
                 )}
                 <p className={styles.edit}>

@@ -560,3 +560,26 @@
 .v-margin-20 {
   margin: 20px 0;
 }
+
+.cross {
+  border-bottom: 1px solid #f2f2f2;
+      text-align: right;
+      padding: 15px;
+      cursor: pointer;
+      position: fixed;
+      z-index: 10;
+      background-color: #fff;
+      width: 100%;
+  }
+
+  .copylink {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: $cerise;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }

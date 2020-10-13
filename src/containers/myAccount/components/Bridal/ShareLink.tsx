@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import BridalContext from "./context";
 import { Context } from "components/Modal/context.ts";
+import cs from "classnames";
+import globalStyles from "../../../../styles/global.scss";
+import styles from "./styles.scss";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import iconStyles from "../../../../styles/iconFonts.scss";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
+import iconWhatsApp from "../../../../images/bridal/icons_whatsapp.svg";
+import iconEmail from "../../../../images/bridal/icons_email.svg";
 // import { BridalDetailsType } from './typings';
 // import Modal from '../../components/common/popup/Modal';
 // import InputField from 'components/common/signin/inputField'
@@ -14,8 +23,8 @@ type Props = {
 
 const ShareLink: React.FC<Props> = props => {
   const [txt, setTxt] = useState("copy");
-
-  const copyLink = () => {
+  const { mobile } = useSelector((state: AppState) => state.device);
+  const copyLink = (event: React.MouseEvent) => {
     const copyText = document.getElementById("myInput") as HTMLInputElement;
     const isIOSDevice = navigator.userAgent.match(/ipad|iphone/i);
     if (isIOSDevice) {
@@ -25,6 +34,7 @@ const ShareLink: React.FC<Props> = props => {
     }
     document.execCommand("copy");
     setTxt("copied");
+    event.stopPropagation();
   };
   const { closeModal } = useContext(Context);
   const {
@@ -75,33 +85,43 @@ const ShareLink: React.FC<Props> = props => {
   }, []);
 
   return (
-    <div className="size-block-bridal ht centerpage-desktop text-center">
-      <div className="cross">
-        <i className="icon icon_cross" onClick={closeModal}></i>
+    <div
+      className={cs(
+        styles.sizeBlockBridal,
+        styles.ht,
+        styles.centerpageDesktop,
+        { [styles.centerpageMobile]: mobile },
+        globalStyles.textCenter
+      )}
+    >
+      <div className={styles.cross} onClick={closeModal}>
+        <i className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}></i>
       </div>
 
-      <div className="row">
-        <div className="col-xs-8 col-xs-offset-2">
-          <div className="login-form">
+      <div className={bootstrapStyles.row}>
+        <div className={cs(bootstrapStyles.col8, bootstrapStyles.offset2)}>
+          <div className={styles.loginForm}>
             <div className="section cart">
-              <div className="voffset7">
+              <div className={globalStyles.voffset7}>
                 <h2>Share Registry Link</h2>
               </div>
-              <div className="voffset3 share-txt-box">
+              <div className={cs(globalStyles.voffset3, styles.shareTxtBox)}>
                 <input type="text" value={props.shareUrl} id="myInput" />
-                <span className="copylink" onClick={copyLink}>
+                <span className={styles.copylink} onClick={copyLink}>
                   <a>{txt}</a>
                 </span>
               </div>
 
-              <div className="voffset3 c10-L-R">OR</div>
+              <div className={cs(globalStyles.voffset3, globalStyles.c10LR)}>
+                OR
+              </div>
 
-              <div className="voffset3">
+              <div className={globalStyles.voffset3}>
                 <a id="whatsappShare" data-action="share/whatsapp/share">
-                  <img src="/static/img/bridal/icons_whatsapp.svg" width="50" />
+                  <img src={iconWhatsApp} width="50" />
                 </a>
                 <a id="mailShare" title="Share by Email">
-                  <img src="/static/img/bridal/icons_email.svg" width="50" />
+                  <img src={iconEmail} width="50" />
                 </a>
               </div>
             </div>
