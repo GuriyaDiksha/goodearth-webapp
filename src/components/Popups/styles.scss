@@ -70,8 +70,8 @@
     .maker-popup-desktop {
       max-width: 100%;
       max-height: 100%;
-      height: auto;
-      width: auto;
+      height: 650px !important;
+      width: 420px !important;
       min-height: 55px;
       overflow-y: scroll;
       overflow-x: hidden;
@@ -442,4 +442,8 @@
     height: 75vh !important;
     width: 80vw;
   }
+}
+
+.maker-margin {
+  margin-top: 55px;
 }
