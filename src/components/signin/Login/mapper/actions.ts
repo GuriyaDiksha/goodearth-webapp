@@ -19,8 +19,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkUserPassword: (email: string) => {
       return LoginService.checkUserPassword(dispatch, email);
     },
-    login: (email: string, password: string) => {
-      return LoginService.login(dispatch, email, password);
+    login: (email: string, password: string, source?: string) => {
+      return LoginService.login(dispatch, email, password, source);
     }
   };
 };

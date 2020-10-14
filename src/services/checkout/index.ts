@@ -58,5 +58,20 @@ export default {
       formData
     );
     return res;
+  },
+  getBoDetail: async function(dispatch: Dispatch, id: string) {
+    const res = await API.get<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/checkout/get_bo_details/?boId=" + id}`
+    );
+    return res;
+  },
+  clearBoBasket: async function(dispatch: Dispatch) {
+    const res = await API.post<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/basket/clear_bo_basket/"}`,
+      {}
+    );
+    return res;
   }
 };

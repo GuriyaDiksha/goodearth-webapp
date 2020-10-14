@@ -1258,6 +1258,7 @@ class FilterList extends React.Component<Props, State> {
   render() {
     const { mobile } = this.props;
     const { filter } = this.state;
+
     return (
       <Fragment>
         {this.state.isLoading && <Loader />}
@@ -1368,7 +1369,13 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </div>
           </li>
-          <li>
+          <li
+            className={
+              this.props.facets?.currentColor?.length > 0
+                ? ""
+                : globalStyles.hidden
+            }
+          >
             <span
               className={
                 this.state.activeindex == 1 && this.state.showmenulevel1
