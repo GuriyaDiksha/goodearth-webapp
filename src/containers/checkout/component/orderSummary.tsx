@@ -547,7 +547,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
               <span className={styles.black}>{basket.finalDeliveryDate}</span>
             </div>
           )}
-          {getDiscount(basket.offerDiscounts)}
           {shippingAddress?.state && (
             <div
               className={cs(
@@ -559,6 +558,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
+          {getDiscount(basket.offerDiscounts)}
           {getCoupons()}
         </div>
       );
