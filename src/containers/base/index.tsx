@@ -44,9 +44,9 @@ const BaseLayout: React.FC = () => {
 
   const setMakerPopupCookie = () => {
     const cookieString =
-      "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
-    CookieService.setCookie("suspensioninfo", "show", 365);
+    CookieService.setCookie("makerinfo", "show", 365);
   };
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
-    const popupCookie = CookieService.getCookie("suspensioninfo");
+    const popupCookie = CookieService.getCookie("makerinfo");
     if (isSuspended && popupCookie != "show") {
       dispatch(
         updateComponent(
