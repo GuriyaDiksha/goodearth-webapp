@@ -11,15 +11,16 @@ import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
-// import { updateComponent, updateModal } from "actions/modal";
-// import InfoPopup from "components/Popups/InfoPopup";
+import { updateComponent, updateModal } from "actions/modal";
+import flowerimg from "images/flower.gif";
+import MakerPopup from "components/Popups/MakerPopup";
 
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
   const { currency } = useSelector((state: AppState) => state);
-  // const isSuspended = true;
+  const isSuspended = true;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,12 +43,12 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  // const setInfoPopupCookie = () => {
-  //   const cookieString =
-  //     "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-  //   document.cookie = cookieString;
-  //   CookieService.setCookie("suspensioninfo", "show", 365);
-  // };
+  const setMakerPopupCookie = () => {
+    const cookieString =
+      "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    CookieService.setCookie("suspensioninfo", "show", 365);
+  };
 
   useEffect(() => {
     document.addEventListener("wheel", (e: WheelEvent) => {
@@ -69,16 +70,31 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
-    // const popupCookie = CookieService.getCookie("suspensioninfo");
-    // if (isSuspended && popupCookie != "show") {
-    //   dispatch(
-    //     updateComponent(
-    //       <InfoPopup acceptCondition={setInfoPopupCookie} />,
-    //       true
-    //     )
-    //   );
-    //   dispatch(updateModal(true));
-    // }
+    document.addEventListener("click", (e: any) => {
+      const x = e.clientX - 100;
+      const y = e.clientY - 50;
+      const img = document.createElement("img");
+      img.src = flowerimg;
+      img.style.position = "fixed";
+      img.style.width = "100px";
+      img.style.height = "100px";
+      img.style.top = y + "px";
+      img.style.left = x + "px";
+      document.body.appendChild(img);
+      setTimeout(() => {
+        document.body.removeChild(img);
+      }, 3000);
+    });
+    const popupCookie = CookieService.getCookie("suspensioninfo");
+    if (isSuspended && popupCookie != "show") {
+      dispatch(
+        updateComponent(
+          <MakerPopup acceptCondition={setMakerPopupCookie} />,
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    }
     LoginService.getClientIpCurrency()
       .then(curr => {
         if (curr != "error") {
