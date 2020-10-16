@@ -15,8 +15,12 @@ import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
 import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
-import { updateCollectionFilter } from "actions/collection";
+import {
+  updateCollectionData,
+  updateCollectionFilter
+} from "actions/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
+import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -31,22 +35,35 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
   return {
     // create function for dispatch
-    fetchCollectionMapping: async () => {
+    fetchCollectionMappingAndData: async () => {
       const id = getProductIdFromSlug(params.level1);
       if (id) {
-        const filterData = await CollectionService.fetchCollectionMapping(
-          id,
-          params.id
-        );
-
-        dispatch(updateCollectionFilter({ ...filterData }));
+        const [filterData, collectionData] = await Promise.all([
+          CollectionService.fetchCollectionMapping(id, params.id).catch(err => {
+            console.log("Collection Landing Error", err);
+          }),
+          CollectionService.fetchCollectionData(+params.id).catch(err => {
+            console.log("Collection Landing Error", err);
+          })
+        ]);
+        if (filterData) {
+          dispatch(updateCollectionFilter({ ...filterData }));
+        }
+        if (collectionData) {
+          dispatch(updateCollectionData(collectionData));
+        }
       }
     }
   };
 };
 
+type RouteInfo = {
+  id: string;
+  level1: string;
+};
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps<RouteInfo>;
 
 class CollectionLanding extends React.Component<
   Props,
@@ -58,15 +75,28 @@ class CollectionLanding extends React.Component<
     landingMaker: false
   };
 
-  onchangeFilter = (data: any): void => {
-    this.setState(
-      {
-        filterData: data
-      },
-      () => {
-        window.scrollTo(0, 0);
-      }
-    );
+  onChangeFilter = (data: any): void => {
+    const {
+      history,
+      match: { params }
+    } = this.props;
+    console.log(this.props);
+    const { id } = params;
+    const newId = this.props.data.level2Categories
+      .filter(item => item.value == data)[0]
+      .id?.toString();
+    if (newId) {
+      const newUrl = history.location.pathname.replace(`/${id}/`, `/${newId}/`);
+      history.push(newUrl);
+      this.setState(
+        {
+          filterData: data
+        },
+        () => {
+          window.scrollTo(0, 0);
+        }
+      );
+    }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -74,6 +104,10 @@ class CollectionLanding extends React.Component<
       this.setState({
         filterData: nextProps.data.selectValue?.[0]?.name,
         onloadState: true
+      });
+    } else if (nextProps.data.selectValue?.length == 0) {
+      this.setState({
+        filterData: "All"
       });
     }
     if (this.props.location.pathname != nextProps.location.pathname) {
@@ -102,7 +136,7 @@ class CollectionLanding extends React.Component<
       this.setState({
         landingMaker: true
       });
-      this.props.fetchCollectionMapping();
+      this.props.fetchCollectionMappingAndData();
     }
   }
 
@@ -152,7 +186,7 @@ class CollectionLanding extends React.Component<
               <div>
                 <MobileDropdownMenu
                   list={level2Categories}
-                  onChange={this.onchangeFilter}
+                  onChange={this.onChangeFilter}
                   showCaret={true}
                   open={false}
                   value={this.state.filterData}
@@ -166,7 +200,7 @@ class CollectionLanding extends React.Component<
                   className={styles.dropdownRoot}
                   items={level2Categories}
                   value={this.state.filterData}
-                  onChange={this.onchangeFilter}
+                  onChange={this.onChangeFilter}
                   showCaret={true}
                 ></SelectableDropdownMenu>
               </div>
@@ -233,6 +267,9 @@ class CollectionLanding extends React.Component<
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionLanding);
+const CollectionLandingRoute = withRouter(CollectionLanding);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CollectionLandingRoute);
 export { initActionCollection };

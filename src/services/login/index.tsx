@@ -168,6 +168,27 @@ export default {
     dispatch(updateCurrency(formData.currency));
     return res;
   },
+  getClientIpCurrency: async function() {
+    const response = await new Promise((resolve, reject) => {
+      fetch(
+        `https://api.ipdata.co/?api-key=f2c8da4302aa2d9667f6e6108ec175b88b01ff050522b335b9b2006e`,
+        { method: "GET" }
+      )
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.currency) {
+            if (data.currency.code == "INR" || data.currency.code == "GBP") {
+              resolve(data.currency.code);
+            } else {
+              resolve("USD");
+            }
+          } else {
+            resolve("error");
+          }
+        });
+    });
+    return response;
+  },
   fetchCountryData: async (dispatch: Dispatch) => {
     const countryData = CacheService.get("countryData") as countryDataResponse;
     if (countryData && countryData.length > 0) {

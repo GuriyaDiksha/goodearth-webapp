@@ -15,7 +15,8 @@ const mapStateToProps = (state: AppState) => {
     user: state.user,
     currency: state.currency,
     giftList: state.basket.giftCards,
-    total: state.basket.total
+    total: state.basket.total,
+    addnewGiftcard: state.basket.addnewGiftcard
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -131,7 +132,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       user: { isLoggedIn },
       currency,
       giftList,
-      total
+      total,
+      addnewGiftcard
     } = this.props;
     return (
       <Fragment>
@@ -216,7 +218,9 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             ) : (
               <div
                 className={cs(
-                  { [globalStyles.hidden]: +total <= 0 },
+                  {
+                    [globalStyles.hidden]: +total <= 0 || +addnewGiftcard <= 0
+                  },
                   styles.rtcinfo,
                   globalStyles.pointer,
                   globalStyles.textLeft

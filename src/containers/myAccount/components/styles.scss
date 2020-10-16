@@ -247,8 +247,23 @@
       }
     }
     .edit {
-
       bottom: 25px;
+      position: absolute;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      &.add-checkout-actions {
+        bottom: auto;
+        position: absolute;
+      }
+      cursor: pointer;
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    .edit-mobile {
+      bottom: 2px;
       position: absolute;
       text-transform: uppercase;
       font-size: 12px;
