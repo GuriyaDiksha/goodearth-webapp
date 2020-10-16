@@ -363,105 +363,102 @@ class Header extends React.Component<Props, State> {
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
-          <div className={cs(bootstrap.row, styles.minimumWidth)}>
-            {this.props.mobile ? (
-              <div
-                className={cs(
-                  bootstrap.col3,
-                  bootstrap.colMd2,
-                  styles.hamburger
-                )}
-              >
-                <i
-                  className={
-                    this.state.showMenu
-                      ? styles.hidden
-                      : cs(
-                          iconStyles.icon,
-                          iconStyles.iconLibraryMenu,
-                          styles.iconStyle,
-                          styles.iconFont
-                        )
-                  }
-                  onClick={() => {
-                    this.clickToggle();
-                  }}
-                ></i>
-                <i
-                  className={
-                    this.state.showMenu
-                      ? cs(
-                          iconStyles.icon,
-                          iconStyles.iconCrossNarrowBig,
-                          styles.iconStyle,
-                          styles.iconCrossFont
-                        )
-                      : styles.hidden
-                  }
-                  onClick={() => {
-                    this.clickToggle();
-                  }}
-                ></i>
-              </div>
-            ) : (
-              ""
-            )}
-            <div
-              className={cs(
-                bootstrap.colMd2,
-                bootstrap.col6,
-                styles.logoContainer
+          <div className={styles.minimumWidth}>
+            <div className={bootstrap.row}>
+              {this.props.mobile ? (
+                <div
+                  className={cs(
+                    bootstrap.col3,
+                    bootstrap.colMd2,
+                    styles.hamburger
+                  )}
+                >
+                  <i
+                    className={
+                      this.state.showMenu
+                        ? styles.hidden
+                        : cs(
+                            iconStyles.icon,
+                            iconStyles.iconLibraryMenu,
+                            styles.iconStyle,
+                            styles.iconFont
+                          )
+                    }
+                    onClick={() => {
+                      this.clickToggle();
+                    }}
+                  ></i>
+                  <i
+                    className={
+                      this.state.showMenu
+                        ? cs(
+                            iconStyles.icon,
+                            iconStyles.iconCrossNarrowBig,
+                            styles.iconStyle,
+                            styles.iconCrossFont
+                          )
+                        : styles.hidden
+                    }
+                    onClick={() => {
+                      this.clickToggle();
+                    }}
+                  ></i>
+                </div>
+              ) : (
+                ""
               )}
-            >
-              <Link to="/" onClick={this.handleLogoClick}>
-                <img className={styles.logo} src={gelogoCerise} />
-              </Link>
-            </div>
-            {this.props.mobile ? (
-              ""
-            ) : (
               <div
                 className={cs(
-                  bootstrap.colMd6,
-                  bootstrap.col3,
-                  bootstrap.offsetMd1
+                  bootstrap.colMd2,
+                  bootstrap.col6,
+                  styles.logoContainer
                 )}
               >
-                <MainMenu
-                  show={this.state.show}
-                  ipad={false}
-                  onMouseOver={(data): void => {
-                    this.setState({
-                      show: data.show,
-                      activeIndex: data.activeIndex || 0
-                    });
-                  }}
-                  data={this.props.data}
-                  location={this.props.location}
+                <Link to="/" onClick={this.handleLogoClick}>
+                  <img className={styles.logo} src={gelogoCerise} />
+                </Link>
+              </div>
+              {this.props.mobile ? (
+                ""
+              ) : (
+                <div
+                  className={cs(
+                    bootstrap.colMd6,
+                    bootstrap.col3,
+                    bootstrap.offsetMd1
+                  )}
+                >
+                  <MainMenu
+                    show={this.state.show}
+                    ipad={false}
+                    onMouseOver={(data): void => {
+                      this.setState({
+                        show: data.show,
+                        activeIndex: data.activeIndex || 0
+                      });
+                    }}
+                    data={this.props.data}
+                    location={this.props.location}
+                  />
+                </div>
+              )}
+              <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
+                <SideMenu
+                  showSearch={this.state.showSearch}
+                  toggleSearch={this.showSearch}
+                  mobile={this.props.mobile}
+                  wishlistData={wishlistData}
+                  currency={this.props.currency}
+                  sidebagData={this.props.cart}
                 />
               </div>
-            )}
-            <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
-              <SideMenu
-                showSearch={this.state.showSearch}
-                toggleSearch={this.showSearch}
-                mobile={this.props.mobile}
-                wishlistData={wishlistData}
-                currency={this.props.currency}
-                sidebagData={this.props.cart}
-              />
             </div>
           </div>
-          <div className={cs(bootstrap.row, styles.menulistOverlap)}>
+          <div>
             <div
               className={
                 this.state.show
-                  ? cs(
-                      styles.dropdownMenuBar,
-                      styles.mainMenu,
-                      bootstrap.colMd12,
-                      bootstrap.row
-                    )
+                  ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
                   : styles.hidden
               }
             >

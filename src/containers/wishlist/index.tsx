@@ -675,7 +675,7 @@ class Wishlist extends React.Component<Props, State> {
       </div>
     );
     return (
-      <>
+      <div className={bootstrapStyles.containerFluid}>
         {mobile ? (
           <div className={cs(bootstrapStyles.row, globalStyles.voffset7)}>
             <div className={cs(styles.cSort, styles.subheaderAccount)}>
@@ -830,7 +830,7 @@ class Wishlist extends React.Component<Props, State> {
         </div>
 
         {this.state.isLoading && <Loader />}
-      </>
+      </div>
     );
   }
 }
