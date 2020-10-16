@@ -13,6 +13,7 @@ import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import InfoPopup from "components/Popups/InfoPopup";
+import flowerimg from "images/flower.gif";
 
 const BaseLayout: React.FC = () => {
   const location = useLocation();
@@ -71,6 +72,21 @@ const BaseLayout: React.FC = () => {
           elem
         );
       }
+    });
+    document.addEventListener("click", (e: any) => {
+      const x = e.clientX - 100;
+      const y = e.clientY - 50;
+      const img = document.createElement("img");
+      img.src = flowerimg;
+      img.style.position = "fixed";
+      img.style.width = "100px";
+      img.style.height = "100px";
+      img.style.top = y + "px";
+      img.style.left = x + "px";
+      document.body.appendChild(img);
+      setTimeout(() => {
+        document.body.removeChild(img);
+      }, 3000);
     });
     const popupCookie = CookieService.getCookie("suspensioninfo");
     // setShowInfoPopup(popupCookie);
