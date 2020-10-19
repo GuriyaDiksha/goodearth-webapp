@@ -70,7 +70,8 @@ const BaseLayout: React.FC = () => {
       }
     });
     const popupCookie = CookieService.getCookie("makerinfo");
-    if (isSuspended && popupCookie != "show") {
+    const isHomePage = location.pathname == "/";
+    if (isHomePage && isSuspended && popupCookie != "show") {
       dispatch(
         updateComponent(
           <MakerPopup acceptCondition={setMakerPopupCookie} />,
