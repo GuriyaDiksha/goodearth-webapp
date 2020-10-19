@@ -74,7 +74,7 @@ class PDPContainer extends React.Component<Props, State> {
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
   containerRef: RefObject<HTMLDivElement> = React.createRef();
-
+  pdpURL = "";
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -95,7 +95,20 @@ class PDPContainer extends React.Component<Props, State> {
     document.body.classList.add(globalStyles.fixed);
   };
 
+  onBeforeUnload = () => {
+    const pdpProductScroll = JSON.stringify({
+      id: Number(
+        (decodeURI(this.pdpURL)
+          .split("_")
+          .pop() as string).split("/")[0]
+      ),
+      timestamp: new Date()
+    });
+    localStorage.setItem("pdpProductScroll", pdpProductScroll);
+  };
+
   componentDidMount() {
+    this.pdpURL = this.props.location.pathname;
     if (
       !this.props.device.mobile &&
       this.imageOffsets.length < 1 &&
@@ -135,6 +148,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    this.onBeforeUnload();
     document.removeEventListener("scroll", this.onScroll);
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
