@@ -21,7 +21,8 @@ const initialState: State = {
   redirectToCart: "",
   isOnlyGiftCart: false,
   publishRemove: false,
-  updated: false
+  updated: false,
+  addnewGiftcard: 0
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

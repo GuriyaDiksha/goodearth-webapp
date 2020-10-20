@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import cs from "classnames";
 import OnlineOrders from "./onlineOrders";
-// import InShopOrders from "./InShopOrders";
+import InShopOrder from "./InShopOrders";
 import Loader from "components/Loader";
 
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
@@ -20,7 +20,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isData, setIsData] = useState(false);
   const store = useStore();
-  const { mobile } = store.getState();
+  const { mobile } = store.getState().device;
   props.setCurrentSection();
   const switchToStoreOrders = () => {
     setHasShoppedOnlineitems(false);
@@ -98,12 +98,13 @@ const PastOrders: React.FC<Props> = (props: Props) => {
       )}
       {hasShoppedAtStore && (
         <>
-          {/* <OnlineOrders
-          orderType={"inShop"}
-          hasShopped={setHasShopped}
-          isLoading={setIsLoading}
-          isDataAvaliable={isDataAvaliable}
-        /> */}
+          <InShopOrder
+            orderType="inShop"
+            hasShopped={setHasShopped}
+            isLoading={setIsLoading}
+            isDataAvaliable={isDataAvaliable}
+            email="samreenchawla@goodearth.in"
+          />
           {!hasShopped && !isLoading && browseButton}
         </>
       )}
@@ -120,11 +121,9 @@ const PastOrders: React.FC<Props> = (props: Props) => {
       >
         <div className={bootstrapStyles.row}>
           <div
-            className={cs(
-              bootstrapStyles.col12,
-              { [bootstrapStyles.offset1]: mobile },
-              { [bootstrapStyles.colMd10]: !mobile }
-            )}
+            className={cs(bootstrapStyles.col12, {
+              [bootstrapStyles.colMd10]: !mobile
+            })}
           >
             <div className={styles.formHeading}>My Orders</div>
             <div className={styles.formSubheading}>

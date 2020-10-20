@@ -37,9 +37,11 @@ export type FilterProps = {
 };
 
 export type State = {
+  extraParams: { [x: string]: string };
+  isThirdParty?: boolean;
   showmobileFilterList: boolean;
   filter: any;
-  show: false;
+  show: boolean;
   showDifferentImage: boolean;
   showmenulevel2: boolean;
   flag: boolean;

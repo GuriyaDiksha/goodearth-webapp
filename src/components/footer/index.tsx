@@ -703,29 +703,27 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
         </div>
         {this.state.showCookie && (
-          <div
-            className={styles.cookieclass}
-            onClick={() => {
-              this.setState({ showCookie: false });
-            }}
-          >
+          <div className={styles.cookieclass}>
             <span
               className={cs(
                 styles.closePopup,
                 fontStyles.icon,
                 fontStyles.iconCross
               )}
+              onClick={() => {
+                this.setState({ showCookie: false });
+              }}
             ></span>
-            <h3>COOKIE POLICY</h3>
+            <h3>COOKIES & PRIVACY</h3>
             <p>
               This website uses cookies to ensure you get the best experience on
               our website. Please read our &nbsp;
-              <Link to={"/customer-assistance/privacy-policy"}>
-                Privacy Policy
+              <Link to={"/customer-assistance/cookie-policy"}>
+                Cookie Policy
               </Link>
               &nbsp; and{" "}
-              <Link to={"/customer-assistance/cookie-policy"}>
-                Cookie Policy.
+              <Link to={"/customer-assistance/privacy-policy"}>
+                Privacy Policy.
               </Link>
             </p>
             <span className={styles.okBtn} onClick={this.acceptCookies}>

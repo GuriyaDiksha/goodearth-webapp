@@ -117,7 +117,7 @@ class CeriseClubMain extends Component<Props, State> {
             customerDetails: data.message.CUSTOMER_DETAILS[0],
             slab: data.message.CUSTOMER_DETAILS[0].Slab,
             expiryDate: moment(
-              data.message.CUSTOMER_DETAILS[0].Expiry_date,
+              data.message.CUSTOMER_DETAILS[0].Expiry_Date,
               "DD-MM-YYYY"
             ).toString(),
             points: data.message.CUSTOMER_DETAILS[0].Expiry_Points,
@@ -152,10 +152,9 @@ class CeriseClubMain extends Component<Props, State> {
   };
 
   render() {
-    const {
-      slab,
-      customerDetails: { PurchaseAmount, nextSlabAmount }
-    } = this.state;
+    const { slab, customerDetails } = this.state;
+    const PurchaseAmount = customerDetails.PurchaseAmount;
+    const nextSlabAmount = customerDetails.next_slab_amount;
     let club;
     let percentage;
     let nextSlab;
@@ -179,7 +178,7 @@ class CeriseClubMain extends Component<Props, State> {
         ? "0"
         : nextSlabAmount
         ? nextSlabAmount
-        : nextSlabAmount == 0 || this.state.nextSlabAmount == null
+        : nextSlabAmount == 0 || this.state.nextSlabAmount == ""
         ? "0"
         : "Loading...";
     const defaultAddressList = this.props.addressList.filter(

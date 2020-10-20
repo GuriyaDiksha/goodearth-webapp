@@ -23,7 +23,8 @@ const mapStateToProps = (state: AppState) => {
     facetObject: state.plplist.facetObject,
     nextUrl: state.plplist.data.next,
     listdata: state.plplist.data.results.data,
-    salestatus: state.info.isSale
+    salestatus: state.info.isSale,
+    location: state.router.location
   };
 };
 
@@ -39,6 +40,8 @@ class CorporateFilter extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      extraParams: {},
+      isThirdParty: props.location.search.includes("&src_type=cp"),
       shouldScroll: false,
       showmenulevel1: false,
       categorylevel1: false,
@@ -129,7 +132,7 @@ class CorporateFilter extends React.Component<Props, State> {
               //   isViewAll = true;
               // }
 
-              if (cc[i] == "Corporate Gifting") {
+              if (cc[i] == "Corporate Gifting" || cc[i] == "Souk") {
                 this.haveCorporate = true;
               } else {
                 filter.categoryShop[csKey][cc[i]] = true;
@@ -163,6 +166,15 @@ class CorporateFilter extends React.Component<Props, State> {
           //   }
           //   break;
           default:
+            if (key !== "source") {
+              this.setState(prevState => {
+                return {
+                  extraParams: Object.assign({}, prevState.extraParams, {
+                    [key]: vars[key]
+                  })
+                };
+              });
+            }
             break;
         }
       }
@@ -300,6 +312,14 @@ class CorporateFilter extends React.Component<Props, State> {
     discountVars != ""
       ? (filterUrl += "&available_discount=" + discountVars)
       : "";
+    Object.keys(this.state.extraParams).map(key => {
+      filterUrl += `&${key}=${this.state.extraParams[key]}`;
+    });
+    if (!this.props.mobile) {
+      this.setState({
+        extraParams: {}
+      });
+    }
     if (mainurl == "" || !mainurl) {
       mainurl = history.location.pathname;
     }
@@ -419,7 +439,7 @@ class CorporateFilter extends React.Component<Props, State> {
     let currentRange: any = [];
     const {
       nextUrl,
-      mobile,
+      // mobile,
       listdata,
       currency,
       updateProduct,
@@ -435,7 +455,8 @@ class CorporateFilter extends React.Component<Props, State> {
       this.setState({ flag: false });
       changeLoader?.(true);
       const filterUrl = "?" + nextUrl.split("?")[1];
-      const pageSize = mobile ? 10 : 20;
+      // const pageSize = mobile ? 10 : 20;
+      const pageSize = 20;
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
         plpList => {
           changeLoader?.(false);
@@ -506,7 +527,8 @@ class CorporateFilter extends React.Component<Props, State> {
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
     const filterUrl = "?" + url.split("?")[1];
-    const pageSize = mobile ? 10 : 20;
+    // const pageSize = mobile ? 10 : 20;
+    const pageSize = 20;
     fetchPlpProducts(filterUrl + `&page_size=${pageSize}`).then(plpList => {
       valid.productImpression(plpList, "PLP", this.props.currency);
       changeLoader?.(false);
@@ -1494,31 +1516,48 @@ class CorporateFilter extends React.Component<Props, State> {
                 >
                   customercare@goodearth.in
                 </a>
-                , or call us at +91 9582 999 555
-              </div>
-              <div
-                className={cs(
-                  styles.catalogFont,
-                  globalStyles.voffset3,
-                  globalStyles.textCenter
-                )}
-              >
+                , or call us at <br />
                 <a
-                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
                   className={globalStyles.cerise}
-                  target="_blank"
+                  href="tel:+91 9582 999 555"
                   rel="noopener noreferrer"
                 >
-                  DOWNLOAD CATALOGUE
+                  +91 9582 999 555
+                </a>
+                <br />
+                <a
+                  className={globalStyles.cerise}
+                  href="tel:+91 9582 999 888"
+                  rel="noopener noreferrer"
+                >
+                  +91 9582 999 888
                 </a>
               </div>
+              {!this.state.isThirdParty && (
+                <div
+                  className={cs(
+                    styles.catalogFont,
+                    globalStyles.voffset3,
+                    globalStyles.textCenter
+                  )}
+                >
+                  <a
+                    href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                    className={globalStyles.cerise}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    DOWNLOAD CATALOGUE
+                  </a>
+                </div>
+              )}
             </>
           )}
         </ul>
         {mobile ? (
           <div className={styles.filterButton}>
             <div className={styles.numberDiv}>
-              <span>{this.state.totalItems + 1} Product found</span>
+              <span>{this.state.totalItems} Product found</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>Apply</span>

@@ -20,4 +20,5 @@ export type Props = {
   basketLineId?: ProductID;
   onMoveToWishlist?: () => void;
   source?: string;
+  inWishlist?: boolean;
 };

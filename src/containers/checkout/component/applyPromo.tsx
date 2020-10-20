@@ -49,7 +49,8 @@ class ApplyPromo extends React.Component<Props, GiftState> {
   };
   changeValue = (event: any) => {
     this.setState({
-      txtvalue: event.target.value
+      txtvalue: event.target.value,
+      error: ""
     });
   };
 
@@ -161,6 +162,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                   >
                     <input
                       type="text"
+                      autoComplete="off"
                       value={txtvalue}
                       onChange={this.changeValue}
                       id="gift"

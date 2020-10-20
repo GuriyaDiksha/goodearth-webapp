@@ -47,6 +47,7 @@ class PLP extends React.Component<
     plpMaker: boolean;
     toggel: boolean;
     corporoateGifting: boolean;
+    isThirdParty: boolean;
   }
 > {
   constructor(props: Props) {
@@ -63,7 +64,10 @@ class PLP extends React.Component<
       flag: false,
       plpMaker: false,
       toggel: false,
-      corporoateGifting: props.location.pathname.includes("corporate-gifting")
+      corporoateGifting:
+        props.location.pathname.includes("corporate-gifting") ||
+        props.location.search.includes("&src_type=cp"),
+      isThirdParty: props.location.search.includes("&src_type=cp")
     };
   }
   private child: any = FilterList;
@@ -156,9 +160,10 @@ class PLP extends React.Component<
     if (this.props.location.pathname != nextProps.location.pathname) {
       this.setState({
         plpMaker: false,
-        corporoateGifting: nextProps.location.pathname.includes(
-          "corporate-gifting"
-        )
+        corporoateGifting:
+          nextProps.location.pathname.includes("corporate-gifting") ||
+          nextProps.location.search.includes("&src_type=cp"),
+        isThirdParty: nextProps.location.search.includes("&src_type=cp")
       });
     }
   }
@@ -237,56 +242,47 @@ class PLP extends React.Component<
                 globalStyles.textCenter
               )}
             >
-              <div>
-                <h1>Corporate Gifts</h1>
-                <p>
-                  <div>
-                    For enquiries, write to us at{" "}
-                    <a
-                      href="mailto:customercare@goodearth.in"
-                      className={globalStyles.cerise}
-                      rel="noopener noreferrer"
-                    >
-                      {" "}
-                      customercare@goodearth.in
-                    </a>
-                    , or call us at{" "}
-                    <a href="tel:+91 9582 999 555" rel="noopener noreferrer">
-                      +91 9582 999 555
-                    </a>
-                  </div>
+              <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
+                <h1>Good Earth X Souk</h1>
+                <h1 className={styles.corporateHeading}>
+                  An Online Exhibit & Pop-Up
+                </h1>
+                <p
+                  className={cs(styles.corporateSubHeading, {
+                    [styles.corporateSubHeadingMobile]: mobile
+                  })}
+                >
+                  AVAILABLE IN INDIA ONLY
                 </p>
               </div>
-              <div
-                className={cs(
-                  globalStyles.voffset3,
-                  globalStyles.textCenter,
-                  styles.downloadWidth
-                )}
-              >
-                <a
-                  href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={globalStyles.cerise}
+              {!this.state.isThirdParty && (
+                <div
+                  className={cs(
+                    globalStyles.voffset3,
+                    globalStyles.textCenter,
+                    styles.downloadWidth
+                  )}
                 >
-                  DOWNLOAD CATALOGUE
-                </a>
-              </div>
+                  <a
+                    href="https://indd.adobe.com/view/e046249f-f38d-419b-9dc3-af8bea0326ab"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={globalStyles.cerise}
+                  >
+                    DOWNLOAD CATALOGUE
+                  </a>
+                </div>
+              )}
             </div>
           ) : (
             <div className={cs(bootstrap.row, styles.subcHeader)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
-                <h1>Corporate Gifts</h1>
-                <p>
-                  <div>
-                    <span>
-                      We offer a personalized guide to gifting for the
-                      year-round festivities, with curated gifts that are
-                      crafted by hand, inspired by nature and enchanted by
-                      history.
-                    </span>
-                  </div>
+                <h1>Good Earth X Souk</h1>
+                <h1 className={styles.corporateHeading}>
+                  An Online Exhibit & Pop-Up
+                </h1>
+                <p className={styles.corporateSubHeading}>
+                  AVAILABLE IN INDIA ONLY
                 </p>
               </div>
             </div>
@@ -364,8 +360,10 @@ class PLP extends React.Component<
               >
                 <span>
                   {count > 1
-                    ? count + 1 + " products found"
-                    : count + 1 + " product found"}{" "}
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
                 </span>
               </div>
             ) : (

@@ -39,6 +39,7 @@ class FilterList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      extraParams: {},
       shouldScroll: false,
       showmenulevel1: false,
       categorylevel1: false,
@@ -177,19 +178,13 @@ class FilterList extends React.Component<Props, State> {
     const { pathname } = this.props.history.location;
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
-      urllist = this.props.facets.categoryShopDetail;
-      urllist.map((urlData: any) => {
-        currentKey = urlData.name?.trim();
+      urllist = this.props.facets.categoryShopUrl;
+      urllist.some((urlData: any) => {
+        currentKey = Object.keys(urlData)[0];
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = urlData.url;
+          mainUrl = urlData[currentKey];
+          return true;
         }
-        urlData.children.map((url: any) => {
-          currentKey = url.name?.trim();
-          if (matchkey.replace(/\+/g, " ") == currentKey) {
-            mainUrl = url.url;
-            return url;
-          }
-        });
       });
     } else {
       mainUrl = pathname;
@@ -816,7 +811,7 @@ class FilterList extends React.Component<Props, State> {
       }
     }
     html.push(
-      <ul>
+      <ul key="productType">
         <li>
           <ul className={styles.categorylabel}>
             {this.productData.map((level4: any) => {
@@ -859,7 +854,7 @@ class FilterList extends React.Component<Props, State> {
       }
     }
     html.push(
-      <ul>
+      <ul key="discountType">
         <li>
           <ul className={styles.categorylabel}>
             {this.props.facets.availableDiscount.map((discount: any) => {
@@ -894,7 +889,7 @@ class FilterList extends React.Component<Props, State> {
       id = data[0].trim();
     const { filter } = this.state;
     html.push(
-      <ul>
+      <ul key={`subcategory-${name}`}>
         <li key={id}>
           <span
             className={
@@ -944,7 +939,7 @@ class FilterList extends React.Component<Props, State> {
   generateCatagory = (categoryObj: any, data: any, html: any) => {
     const { filter } = this.state;
     html.push(
-      <ul>
+      <ul key={`category-${data}`}>
         <li key={data + "l"}>
           <span
             className={
@@ -1008,7 +1003,7 @@ class FilterList extends React.Component<Props, State> {
     });
     subcat.map((data: any) => {
       for (const key in categoryObj) {
-        if (data[0].indexOf(key) > -1) {
+        if (data[0].endsWith(key)) {
           html = this.generateCatagory(categoryObj, key, html);
         }
       }
