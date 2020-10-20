@@ -26,6 +26,7 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import Search from "./search";
 import ReactHtmlParser from "react-html-parser";
 import fabicon from "images/favicon.ico";
+import MakerUtils from "../../utils/maker";
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 
@@ -692,6 +693,7 @@ class Header extends React.Component<Props, State> {
           {this.state.showPincodePopup}
         </div>
         <GrowlMessage {...message} />
+        <MakerUtils />
       </div>
     );
   }

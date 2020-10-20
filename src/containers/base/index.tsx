@@ -51,9 +51,9 @@ const BaseLayout: React.FC = () => {
 
   const setMakerPopupCookie = () => {
     const cookieString =
-      "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
-    CookieService.setCookie("suspensioninfo", "show", 365);
+    CookieService.setCookie("makerinfo", "show", 365);
   };
 
   const throttle = _.throttle((e: any) => {
@@ -95,6 +95,7 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
+
     document.addEventListener("mousedown", (e: any) => {
       isDragging = true;
     });
@@ -122,8 +123,10 @@ const BaseLayout: React.FC = () => {
         document.body.removeChild(img);
       }, 2000);
     });
-    const popupCookie = CookieService.getCookie("suspensioninfo");
-    if (isSuspended && popupCookie != "show") {
+
+    const popupCookie = CookieService.getCookie("makerinfo");
+    const isHomePage = location.pathname == "/";
+    if (isHomePage && isSuspended && popupCookie != "show") {
       dispatch(
         updateComponent(
           <MakerPopup acceptCondition={setMakerPopupCookie} />,
