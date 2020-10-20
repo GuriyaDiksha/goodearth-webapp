@@ -12,14 +12,13 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import InfoPopup from "components/Popups/InfoPopup";
+import MakerPopup from "components/Popups/MakerPopup";
 
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
   const { currency } = useSelector((state: AppState) => state);
-  // const [showInfoPopup, setShowInfoPopup] = useState("yes");
   const isSuspended = true;
 
   useEffect(() => {
@@ -43,16 +42,14 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  const setInfoPopupCookie = () => {
+  const setMakerPopupCookie = () => {
     const cookieString =
-      "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
-    CookieService.setCookie("suspensioninfo", "show", 365);
-    // setShowInfoPopup("show");
+    CookieService.setCookie("makerinfo", "show", 365);
   };
 
   useEffect(() => {
-    // document.addEventListener("wheel", )
     document.addEventListener("wheel", (e: WheelEvent) => {
       const elem = e.target as HTMLInputElement;
       if (
@@ -72,33 +69,38 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
-    const popupCookie = CookieService.getCookie("suspensioninfo");
-    // setShowInfoPopup(popupCookie);
-    if (isSuspended && popupCookie != "show") {
+    const popupCookie = CookieService.getCookie("makerinfo");
+    const isHomePage = location.pathname == "/";
+    if (isHomePage && isSuspended && popupCookie != "show") {
       dispatch(
         updateComponent(
-          <InfoPopup acceptCondition={setInfoPopupCookie} />,
+          <MakerPopup acceptCondition={setMakerPopupCookie} />,
           true
         )
       );
       dispatch(updateModal(true));
     }
-    setTimeout(() => {
-      const goCurrencyElem: any = document.getElementById("defaultcurrency");
-      const cookieCurrency = CookieService.getCookie("currency");
-      if (goCurrencyElem && !cookieCurrency) {
-        const goCurrencyValue: any = goCurrencyElem.value;
-        if (
-          goCurrencyValue.toString().toLowerCase() !=
-          currency.toString().toLowerCase()
-        ) {
-          const data: any = {
-            currency: goCurrencyValue.toString().toLowerCase()
-          };
-          LoginService.changeCurrency(dispatch, data);
+    LoginService.getClientIpCurrency()
+      .then(curr => {
+        if (curr != "error") {
+          const cookieCurrency = CookieService.getCookie("currency");
+          if (curr && !cookieCurrency) {
+            const goCurrencyValue: any = curr;
+            if (
+              goCurrencyValue.toString().toLowerCase() !=
+              currency.toString().toLowerCase()
+            ) {
+              const data: any = {
+                currency: goCurrencyValue.toString().toLowerCase()
+              };
+              LoginService.changeCurrency(dispatch, data);
+            }
+          }
         }
-      }
-    }, 2000);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   const isCheckout =

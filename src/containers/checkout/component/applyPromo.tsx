@@ -162,6 +162,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                   >
                     <input
                       type="text"
+                      autoComplete="off"
                       value={txtvalue}
                       onChange={this.changeValue}
                       id="gift"
