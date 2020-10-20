@@ -208,29 +208,36 @@ class Checkout extends React.Component<Props, State> {
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
     if (boId) {
-      this.props.getBoDetail(boId).then((data: any) => {
-        if (data.email && this.props.user.email) {
-          if (this.props.user.email == data.email) {
+      this.props
+        .getBoDetail(boId)
+        .then((data: any) => {
+          if (data.email && this.props.user.email) {
+            if (this.props.user.email == data.email) {
+              this.setState({
+                boEmail: data.email,
+                boId: boId
+              });
+            } else {
+              this.props.logout().then(res => {
+                this.setState({
+                  boEmail: data.email,
+                  boId: boId
+                });
+              });
+            }
+          } else if (data.email) {
             this.setState({
               boEmail: data.email,
               boId: boId
             });
           } else {
-            this.props.logout().then(res => {
-              this.setState({
-                boEmail: data.email,
-                boId: boId
-              });
-            });
+            this.props.history.push("/backend-order-error");
           }
-        } else if (data.email) {
-          this.setState({
-            boEmail: data.email,
-            boId: boId
-          });
-        }
-        localStorage.setItem("tempEmail", data.email);
-      });
+          localStorage.setItem("tempEmail", data.email);
+        })
+        .catch(error => {
+          this.props.history.push("/backend-order-error");
+        });
     }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {
       this.props.showPopup(this.setInfoPopupCookie);

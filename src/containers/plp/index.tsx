@@ -111,12 +111,8 @@ class PLP extends React.Component<
       this.props.location.pathname != nextProps.location.pathname &&
       !this.state.plpMaker
     ) {
-      const queryString = nextProps.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const param = urlParams.get("sort_by");
       this.setState({
-        plpMaker: true,
-        sortValue: param ? param : "hc"
+        plpMaker: true
       });
     }
   }
@@ -162,8 +158,12 @@ class PLP extends React.Component<
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.location.pathname != nextProps.location.pathname) {
+      const queryString = nextProps.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const param = urlParams.get("sort_by");
       this.setState({
         plpMaker: false,
+        sortValue: param ? param : "hc",
         corporoateGifting:
           nextProps.location.pathname.includes("corporate-gifting") ||
           nextProps.location.search.includes("&src_type=cp"),
