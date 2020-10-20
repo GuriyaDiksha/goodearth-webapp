@@ -63,8 +63,8 @@ const BaseLayout: React.FC = () => {
     img.src = flower[Math.floor(Math.random() * Math.floor(4))];
     img.style.position = "fixed";
     img.classList.add("flower-img");
-    img.style.width = "100px";
-    img.style.height = "100px";
+    img.style.width = "150px";
+    img.style.height = "150px";
     img.style.top = y + "px";
     img.style.left = x + "px";
     document.body.appendChild(img);
@@ -114,8 +114,8 @@ const BaseLayout: React.FC = () => {
       img.src = flower[Math.floor(Math.random() * Math.floor(4))];
       img.style.position = "fixed";
       img.classList.add("flower-img");
-      img.style.width = "100px";
-      img.style.height = "100px";
+      img.style.width = "150px";
+      img.style.height = "150px";
       img.style.top = y + "px";
       img.style.left = x + "px";
       document.body.appendChild(img);
