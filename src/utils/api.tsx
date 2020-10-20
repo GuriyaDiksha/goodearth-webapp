@@ -115,7 +115,10 @@ class API {
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
                   LoginService.logoutClient(dispatch);
-                } else if (err.response.status == 406) {
+                } else if (
+                  err.response.status == 406 &&
+                  err.response.data?.reason == "BACKEND_ORDER_BASKET"
+                ) {
                   dispatch(
                     updateComponent(<BackendOrderPopup />, true, undefined)
                   );
