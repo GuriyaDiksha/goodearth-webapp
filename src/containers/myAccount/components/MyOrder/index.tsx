@@ -8,7 +8,8 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { Link } from "react-router-dom";
-import { useStore } from "react-redux";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type Props = {
   setCurrentSection: () => void;
@@ -19,8 +20,10 @@ const PastOrders: React.FC<Props> = (props: Props) => {
   const [hasShopped, setHasShopped] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isData, setIsData] = useState(false);
-  const store = useStore();
-  const { mobile } = store.getState().device;
+  const {
+    user: { email },
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   props.setCurrentSection();
   const switchToStoreOrders = () => {
     setHasShoppedOnlineitems(false);
@@ -103,7 +106,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
             hasShopped={setHasShopped}
             isLoading={setIsLoading}
             isDataAvaliable={isDataAvaliable}
-            email="samreenchawla@goodearth.in"
+            email={email}
           />
           {!hasShopped && !isLoading && browseButton}
         </>
