@@ -8,6 +8,14 @@ import { BridalItem, BridalProfileData } from "./typings";
 import BridalService from "services/bridal";
 import { AddressData } from "components/Address/typings";
 import BridalContext from "./context";
+import { useHistory } from "react-router";
+// styles
+import cs from "classnames";
+import globalStyles from "../../../../styles/global.scss";
+import styles from "./styles.scss";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import bridalRing from "../../../../images/bridal/rings.svg";
+import iconEdit from "../../../../images/bridal/iconEdit.svg";
 
 type Props = {
   // bridalProfile: BridalProfileData;
@@ -32,29 +40,38 @@ const ManageRegistryFull: React.FC<Props> = ({
     state,
     postCode,
     phoneNumber,
+    phoneCountryCode,
     countryName
   } = bridalAddress as AddressData;
   const bridalProfileData = bridalProfile as BridalProfileData;
 
   // const [ showPopup, setShowPopup ] = useState(false);
   // const [ showMobilePopup, setShowMobilePopup ] = useState(false);
-  const [clickType, setClickType] = useState("");
   const [bridalItems, setBridalItems] = useState<BridalItem[]>([]);
-  const [registryName, setRegistryName] = useState(
-    bridalProfileData.registryName
-  );
-  const [coRegistrantName, setCoRegistrantName] = useState(
-    bridalProfileData.coRegistrantName
-  );
-  const [registrantName, setRegistrantName] = useState(
-    bridalProfileData.registrantName
-  );
-  const [currentEventDate, setCurrentEventDate] = useState(
-    bridalProfileData.eventDate
-  );
+  const [registryName, setRegistryName] = useState("");
+  const [coRegistrantName, setCoRegistrantName] = useState("");
+  const [registrantName, setRegistrantName] = useState("");
+  const [currentEventDate, setCurrentEventDate] = useState("");
   const [mobileIndex, setMobileIndex] = useState(0);
-
+  const [occasion, setOccasion] = useState("");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (bridalProfile) {
+      const {
+        registryName,
+        coRegistrantName,
+        registrantName,
+        eventDate,
+        occasion
+      } = bridalProfile as BridalProfileData;
+      setRegistryName(registryName);
+      setCoRegistrantName(coRegistrantName);
+      setRegistrantName(registrantName);
+      setCurrentEventDate(eventDate);
+      setOccasion(occasion);
+    }
+  }, [bridalProfile]);
 
   const fetchBridalItems = () => {
     BridalService.fetchBridalItems(dispatch, bridalProfileData.bridalId).then(
@@ -70,7 +87,7 @@ const ManageRegistryFull: React.FC<Props> = ({
         <BridalMobileProductUpdate
           itemData={bridalItems && bridalItems[mobileIndex]}
           // closeMobile={closeMobileAdd}
-          bridalId={bridalProfileData.bridalId}
+          bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
           fetchBridalItems={fetchBridalItems}
         />,
         true
@@ -103,7 +120,7 @@ const ManageRegistryFull: React.FC<Props> = ({
     setCurrentEventDate(date);
   };
 
-  const openEditRegistryPopup = () => {
+  const openEditRegistryPopup = (clickType: string) => {
     dispatch(
       updateComponent(
         <EditRegistry
@@ -114,7 +131,7 @@ const ManageRegistryFull: React.FC<Props> = ({
           // close_popup={closePopup}
           changeDate={changeDate}
           // update_address={updateAddress}
-          bridalId={bridalProfileData.bridalId}
+          bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
         />,
         true
       )
@@ -129,8 +146,7 @@ const ManageRegistryFull: React.FC<Props> = ({
   const changeRData = (data: string) => {
     // setShowPopup(true);
 
-    setClickType(data);
-    openEditRegistryPopup();
+    openEditRegistryPopup(data);
   };
 
   // const closePopup = () => {
@@ -159,173 +175,196 @@ const ManageRegistryFull: React.FC<Props> = ({
   //     getItemsData();
   // }
 
-  const goToHome = () => {
-    location.href = "/";
-  };
+  const history = useHistory();
 
   useEffect(() => {
-    fetchBridalItems();
-  }, []);
+    if (bridalProfile) {
+      fetchBridalItems();
+    }
+  }, [bridalProfile]);
 
   return (
-    <div className="row bridal-block">
-      <div className="col-md-6 col-md-offset-3 col-xs-12 text-center popup-form-bg">
-        <div className="row sp-mobile-voffset-6">
-          <div className="col-xs-10 col-xs-offset-1 col-md-10 col-md-offset-1">
-            <svg
-              viewBox="-5 -15 50 50"
-              width="80"
-              height="80"
-              preserveAspectRatio="xMidYMid meet"
-              x="0"
-              y="0"
-              className="bridal-ring-cerise"
-            >
-              <use xlinkHref="/static/img/bridal/rings.svg#bridal-ring"></use>
-            </svg>
-            <div className="c22-A-I txt-cap voffset2">
-              {registryName ? (
-                registryName
-              ) : (
-                <span className="">
-                  {" "}
-                  {registrantName} &amp; {coRegistrantName}&#39;s{" "}
-                  {bridalProfileData.occasion} Registry
-                </span>
-              )}
-            </div>
-            <div className="row">
-              <div className="col-xs-12 voffset5">
-                <div className="add">
-                  <address className="order-block manage-add">
-                    <p>
-                      <span className="light letter-spacing1">
-                        Registry Name
-                      </span>
-                      :&nbsp;
-                      {registryName ? (
-                        registryName
-                      ) : (
-                        <span className="">
-                          {" "}
-                          {registrantName} &&nbsp;{coRegistrantName}&#39;s&nbsp;
-                          {bridalProfileData.occasion}&nbsp;Registry
-                        </span>
-                      )}
-                      <span
-                        onClick={e => {
-                          changeRData("name");
-                        }}
-                      >
-                        <svg
-                          viewBox="-5 -15 50 50"
-                          width="25"
-                          height="25"
-                          preserveAspectRatio="xMidYMid meet"
-                          x="0"
-                          y="0"
-                          className="bridal-ring-cerise"
-                        >
-                          <use xlinkHref="/static/img/bridal/icons_edit.svg#icons_edit"></use>
-                        </svg>
-                      </span>
-                    </p>
-                    <p>
-                      <span className="light letter-spacing1">
-                        {bridalProfileData.occasion}
-                        &nbsp;Date
-                      </span>
-                      : {currentEventDate}
-                      <span
-                        onClick={e => {
-                          changeRData("date");
-                        }}
-                      >
-                        <svg
-                          viewBox="-5 -15 50 50"
-                          width="25"
-                          height="25"
-                          preserveAspectRatio="xMidYMid meet"
-                          x="0"
-                          y="0"
-                          className="bridal-ring-cerise"
-                        >
-                          <use xlinkHref="/static/img/bridal/icons_edit.svg#icons_edit"></use>
-                        </svg>
-                      </span>
-                    </p>
-                    <hr />
-                    <p className="light letter-spacing1">
-                      SHIPPING ADDRESS{" "}
-                      <span
-                        onClick={e => {
-                          showManageAddressComponent();
-                        }}
-                      >
-                        <svg
-                          viewBox="-5 -15 50 50"
-                          width="25"
-                          height="25"
-                          preserveAspectRatio="xMidYMid meet"
-                          x="0"
-                          y="0"
-                          className="bridal-ring-cerise"
-                        >
-                          <use xlinkHref="/static/img/bridal/icons_edit.svg#icons_edit"></use>
-                        </svg>
-                      </span>
-                    </p>
-                    <p className="voffset2">
-                      {firstName}
-                      &nbsp; {lastName}
-                      <br />
-                    </p>
-                    <p className="light voffset2">
-                      {line1} <br />
-                      {line2} <br />
-                      {city}, {postCode}
-                      <br />
-                      {state}, {countryName}
-                      <br />
-                    </p>
-                    <p> {phoneNumber}</p>
-                    <p className="voffset2 letter-spacing1">
-                      <a
-                        className="cerise"
-                        onClick={() => showManageRegistry()}
-                      >
-                        VIEW LESS
-                      </a>
-                      <a className="lane2 black" onClick={openShareLinkPopup}>
-                        SHARE LINK
-                      </a>
-                    </p>
-                    <hr />
-                    {bridalItems.length == 0 ? (
-                      <button className="cerise-btn bold" onClick={goToHome}>
-                        start adding to registry
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                    {bridalItems
-                      ? bridalItems.map((item, index) => {
-                          return (
-                            <BridalItemsList
-                              product={item}
-                              currency={bridalProfileData.currency}
-                              bridalId={bridalProfileData.bridalId}
-                              mIndex={index}
-                              onMobileAdd={handleMobileAdd}
-                              key={item.id}
-                              fetchBridalItems={fetchBridalItems}
-                            />
-                          );
-                        })
-                      : ""}
-                  </address>
-                </div>
-              </div>
+    <div className={cs(bootstrapStyles.row, styles.bridalBlock)}>
+      <div
+        className={cs(
+          bootstrapStyles.col10,
+          bootstrapStyles.offset1,
+          bootstrapStyles.colMd10,
+          bootstrapStyles.offsetMd1
+        )}
+      >
+        <svg
+          viewBox="-5 -15 50 50"
+          width="80"
+          height="80"
+          preserveAspectRatio="xMidYMid meet"
+          x="0"
+          y="0"
+          className={styles.bridalRing}
+        >
+          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+        </svg>
+        <div
+          className={cs(
+            globalStyles.c22AI,
+            globalStyles.voffset2,
+            globalStyles.txtCap
+          )}
+        >
+          {registryName ? (
+            registryName
+          ) : (
+            <span className="">
+              {" "}
+              {registrantName} &amp; {coRegistrantName}&#39;s {occasion}{" "}
+              Registry
+            </span>
+          )}
+        </div>
+        <div className={bootstrapStyles.row}>
+          <div className={cs(bootstrapStyles.col12, globalStyles.voffset5)}>
+            <div className={styles.add}>
+              <address className={cs(styles.orderBlock, styles.manageAdd)}>
+                <p>
+                  <span className={cs(styles.light, styles.letterSpacing1)}>
+                    Registry Name
+                  </span>
+                  :&nbsp;
+                  {registryName ? (
+                    registryName
+                  ) : (
+                    <span className="">
+                      {" "}
+                      {registrantName} &&nbsp;{coRegistrantName}&#39;s&nbsp;
+                      {occasion}&nbsp;Registry
+                    </span>
+                  )}
+                  <span
+                    onClick={e => {
+                      changeRData("name");
+                    }}
+                  >
+                    <svg
+                      viewBox="-5 -15 50 50"
+                      width="25"
+                      height="25"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.bridalRing}
+                    >
+                      <use xlinkHref={`${iconEdit}#icons_edit`}></use>
+                    </svg>
+                  </span>
+                </p>
+                <p>
+                  <span className={cs(styles.light, styles.letterSpacing1)}>
+                    {occasion}
+                    &nbsp;Date
+                  </span>
+                  : {currentEventDate}
+                  <span
+                    onClick={e => {
+                      changeRData("date");
+                    }}
+                  >
+                    <svg
+                      viewBox="-5 -15 50 50"
+                      width="25"
+                      height="25"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.bridalRing}
+                    >
+                      <use xlinkHref={`${iconEdit}#icons_edit`}></use>
+                    </svg>
+                  </span>
+                </p>
+                <hr />
+                <p className={cs(styles.light, styles.letterSpacing1)}>
+                  SHIPPING ADDRESS{" "}
+                  <span
+                    onClick={e => {
+                      showManageAddressComponent();
+                    }}
+                  >
+                    <svg
+                      viewBox="-5 -15 50 50"
+                      width="25"
+                      height="25"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.bridalRing}
+                    >
+                      <use xlinkHref={`${iconEdit}#icons_edit`}></use>
+                    </svg>
+                  </span>
+                </p>
+                <p className={globalStyles.voffset2}>
+                  {firstName}
+                  &nbsp; {lastName}
+                  <br />
+                </p>
+                <p className={cs(styles.light, globalStyles.voffset2)}>
+                  {line1} <br />
+                  {line2} <br />
+                  {city}, {postCode}
+                  <br />
+                  {state}, {countryName}
+                  <br />
+                </p>
+                <p> {`${phoneCountryCode} ${phoneNumber}`}</p>
+                <p className={cs(globalStyles.voffset2, styles.letterSpacing1)}>
+                  <a
+                    className={globalStyles.cerise}
+                    onClick={() => showManageRegistry()}
+                  >
+                    VIEW LESS
+                  </a>
+                  <a
+                    className={cs(styles.lane2, styles.black)}
+                    onClick={openShareLinkPopup}
+                  >
+                    SHARE LINK
+                  </a>
+                </p>
+                <hr />
+                {bridalItems.length == 0 ? (
+                  <button
+                    className={globalStyles.ceriseBtn}
+                    onClick={() => {
+                      history.push("/");
+                    }}
+                  >
+                    start adding to registry
+                  </button>
+                ) : (
+                  ""
+                )}
+                {bridalItems
+                  ? bridalItems.map((item, index) => {
+                      return (
+                        <BridalItemsList
+                          product={item}
+                          currency={
+                            bridalProfileData
+                              ? bridalProfileData.currency
+                              : "INR"
+                          }
+                          bridalId={
+                            bridalProfileData ? bridalProfileData.bridalId : 0
+                          }
+                          mIndex={index}
+                          onMobileAdd={handleMobileAdd}
+                          key={item.id}
+                          fetchBridalItems={fetchBridalItems}
+                        />
+                      );
+                    })
+                  : ""}
+              </address>
             </div>
           </div>
         </div>

@@ -13,7 +13,12 @@ import FormInput from "components/Formsy/FormInput";
 import styles from "./styles.scss";
 // import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
+// import popupStyles from "../../../../components/ThirdPartyEnquiryPopup/styles.scss";
 import cs from "classnames";
+import CloseButton from "components/Modal/components/CloseButton";
+import calendarIcon from "../../../../images/bridal/icons_bridal-registry-calendar.svg";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../../../styles/reactDatePicker.css";
 
 type Props = {
   eventDate: string;
@@ -49,9 +54,7 @@ const EditRegistry: React.FC<Props> = props => {
   // props.close_popup();
   // props.update_address();
   // }
-  const closePopup = () => {
-    // close popup
-  };
+
   const dispatch = useDispatch();
 
   const saveDate = () => {
@@ -173,66 +176,110 @@ const EditRegistry: React.FC<Props> = props => {
     pickerRef.setOpen(true);
   };
 
-  const currentScreen = () => {
-    switch (props.clickType) {
+  const formContent = (clickType: string) => {
+    switch (clickType) {
       case "date":
         return (
-          <div className="login-form voffset7 text-center">
-            <div className="c22-A-I txt-cap">Edit date</div>
-            <form>
-              <ul className="categorylabel">
-                <li>
-                  <DatePicker
-                    startOpen={true}
-                    minDate={new Date()}
-                    selected={moment(date).toDate()}
-                    onChange={onChange}
-                    ref={(node: any) => {
-                      pickerRef = node;
-                    }}
-                    onClickOutside={OnOutsideClick}
-                  />
-                  <div className="calendar-icon" onClick={OnOutsideClick}>
-                    <img
-                      src="/static/img/bridal/icons_bridal-registry-calendar.svg"
-                      width="45"
-                      height="45"
+          <>
+            <div className={styles.heading}>Edit Date</div>
+            <div
+              className={cs(
+                styles.loginForm,
+                globalStyles.voffset4,
+                globalStyles.textCenter
+              )}
+            >
+              <form>
+                <ul>
+                  <li className={globalStyles.relative}>
+                    <DatePicker
+                      startOpen={true}
+                      minDate={new Date()}
+                      selected={date.toDate()}
+                      onChange={onChange}
+                      ref={node => {
+                        pickerRef = node;
+                      }}
+                      onClickOutside={OnOutsideClick}
+                      dateFormat="dd/MM/yyyy"
+                      placeholderText="DD/MM/YYYY"
                     />
-                  </div>
-                  <li className="blank"></li>
-                  {/* <DatePicker onChange={onChange}
-                                            value={new Date(date)}
-                                            dayPlaceholder="DD"
-                                            monthPlaceholder="MM"
-                                            yearPlaceholder="YYYY"
-                                            // formatLongDate={(locale, date) => formatDate(date, 'YYYY MMM dd')}
-                                            format="yyyy/MM/dd"
-                                            defaultView="decade"
-                                            view="month"
-                                            id="date_of_birth"
-                                            isOpen={true}
-                                            // disabled={data.date_of_birth == ''?false:true}
-                                            activeStartDate={new Date(date)}
-                                            minDetail="month"
-                                            clearIcon={date == "" || date == null ? null: <ClearIcon />}
-                                            calendarIcon={<CalendarIcon />}
-                                            // maxDate={new Date(new Date().setFullYear(new Date().getFullYear() - 15))}
-                                            minDate={new Date()}
-                                            returnValue="start"
-                                            showLeadingZeros={false}/> */}
-                  {/* <label htmlFor="date_of_birth">Date of Birth</label> */}
-                </li>
-                <li>
-                  <input
-                    type="button"
-                    value="SAVE DATE"
-                    onClick={saveDate}
-                    className="cerise-btn"
-                  />
-                </li>
-              </ul>
-            </form>
-          </div>
+                    <div
+                      className={styles.calendarIcon}
+                      onClick={OnOutsideClick}
+                    >
+                      <img src={calendarIcon} width="45" height="45" />
+                    </div>
+                  </li>
+                  <li className={styles.blank}></li>
+                  <li>
+                    <input
+                      type="button"
+                      className={globalStyles.ceriseBtn}
+                      value="SAVE DATE"
+                      onClick={saveDate}
+                    />
+                  </li>
+                </ul>
+              </form>
+            </div>
+          </>
+          // <div className="login-form voffset7 text-center">
+          //   <div className="c22-A-I txt-cap">Edit date</div>
+          //   <form>
+          //     <ul className="categorylabel">
+          //       <li>
+          //         <DatePicker
+          //           startOpen={true}
+          //           minDate={new Date()}
+          //           selected={moment(date).toDate()}
+          //           onChange={onChange}
+          //           ref={(node: any) => {
+          //             pickerRef = node;
+          //           }}
+          //           onClickOutside={OnOutsideClick}
+          //         />
+          //         <div className="calendar-icon" onClick={OnOutsideClick}>
+          //           <img
+          //             src="/static/img/bridal/icons_bridal-registry-calendar.svg"
+          //             width="45"
+          //             height="45"
+          //           />
+          //         </div>
+          //         <li className="blank"></li>
+          //         {/* <DatePicker onChange={onChange}
+          //                                   value={new Date(date)}
+          //                                   dayPlaceholder="DD"
+          //                                   monthPlaceholder="MM"
+          //                                   yearPlaceholder="YYYY"
+          //                                   // formatLongDate={(locale, date) => formatDate(date, 'YYYY MMM dd')}
+          //                                   format="yyyy/MM/dd"
+          //                                   defaultView="decade"
+          //                                   view="month"
+          //                                   id="date_of_birth"
+          //                                   isOpen={true}
+          //                                   // disabled={data.date_of_birth == ''?false:true}
+          //                                   activeStartDate={new Date(date)}
+          //                                   minDetail="month"
+          //                                   clearIcon={date == "" || date == null ? null: <ClearIcon />}
+          //                                   calendarIcon={<CalendarIcon />}
+          //                                   // maxDate={new Date(new Date().setFullYear(new Date().getFullYear() - 15))}
+          //                                   minDate={new Date()}
+          //                                   returnValue="start"
+          //                                   showLeadingZeros={false}/> */}
+          //         {/* <label htmlFor="date_of_birth">Date of Birth</label> */}
+          //       </li>
+          //       <li>
+          //         <input
+          //           type="button"
+          //           value="SAVE DATE"
+          //           onClick={saveDate}
+          //           className="cerise-btn"
+          //         />
+          //       </li>
+          //     </ul>
+          //   </form>
+          // </div>
         );
 
       case "name":
@@ -298,19 +345,33 @@ const EditRegistry: React.FC<Props> = props => {
     }
   };
 
+  // return (
+  //   <div
+  //     className={
+  //       mobile
+  //         ? "size-block-bridal text-center"
+  //         : "size-block-bridal centerpage-desktop text-center"
+  //     }
+  //   >
+  //     <div className="cross">
+  //       <i className="icon icon_cross" onClick={closePopup}></i>
+  //     </div>
+  //     <div className="scrolly">
+  //       <div className="col-xs-10 col-xs-offset-1">{currentScreen()}</div>
+  //     </div>
+  //   </div>
+  // );
   return (
-    <div
-      className={
-        mobile
-          ? "size-block-bridal text-center"
-          : "size-block-bridal centerpage-desktop text-center"
-      }
-    >
-      <div className="cross">
-        <i className="icon icon_cross" onClick={closePopup}></i>
+    <div className={cs(styles.container)}>
+      <div className={styles.header}>
+        <CloseButton className={styles.closeBtn} />
       </div>
-      <div className="scrolly">
-        <div className="col-xs-10 col-xs-offset-1">{currentScreen()}</div>
+      <div
+        className={cs(styles.innerContainer, globalStyles.textCenter, {
+          [styles.innerContainerMobile]: mobile
+        })}
+      >
+        <div>{formContent(props.clickType)}</div>
       </div>
     </div>
   );

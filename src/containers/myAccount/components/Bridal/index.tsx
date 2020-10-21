@@ -392,6 +392,7 @@ const Bridal: React.FC<Props> = props => {
         isBridal: true,
         step: currentSection,
         // bridalItems: bridalItems,
+        bridalProfile: bridalProfile,
         bridalAddress: bridalAddress,
         data: bridalDetails,
         setCurrentModule: setCurrentModule,
