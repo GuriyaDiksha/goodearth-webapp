@@ -12,16 +12,22 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import flowerimg from "images/flower.gif";
+import flowerimg1 from "images/flower1.gif";
+import flowerimg2 from "images/flower2.gif";
+import flowerimg3 from "images/flower3.gif";
+import flowerimg4 from "images/flower4.gif";
 import MakerPopup from "components/Popups/MakerPopup";
-
+import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
-  const { currency } = useSelector((state: AppState) => state);
+  const {
+    currency,
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const isSuspended = true;
-
+  const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
@@ -45,12 +51,31 @@ const BaseLayout: React.FC = () => {
 
   const setMakerPopupCookie = () => {
     const cookieString =
-      "suspensioninfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
-    CookieService.setCookie("suspensioninfo", "show", 365);
+    CookieService.setCookie("makerinfo", "show", 365);
   };
 
+  const throttle = _.throttle((e: any) => {
+    const x = e.clientX - 100;
+    const y = e.clientY - 50;
+    const img = document.createElement("img");
+    img.src = flower[Math.floor(Math.random() * Math.floor(4))];
+    img.style.position = "fixed";
+    img.classList.add("flower-img");
+    img.style.width = "150px";
+    img.style.height = "150px";
+    img.style.top = y + "px";
+    img.style.left = x + "px";
+    document.body.appendChild(img);
+    setTimeout(() => {
+      document.body.removeChild(img);
+    }, 2000);
+  }, 100);
+  // }
+
   useEffect(() => {
+    let isDragging = false;
     document.addEventListener("wheel", (e: WheelEvent) => {
       const elem = e.target as HTMLInputElement;
       if (
@@ -70,23 +95,38 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
+
+    document.addEventListener("mousedown", (e: any) => {
+      isDragging = true;
+    });
+    document.addEventListener("mousemove", (e: any) => {
+      if (isDragging && !mobile) {
+        throttle(e);
+      }
+    });
+    document.addEventListener("mouseup", (e: any) => {
+      isDragging = false;
+    });
     document.addEventListener("click", (e: any) => {
       const x = e.clientX - 100;
       const y = e.clientY - 50;
       const img = document.createElement("img");
-      img.src = flowerimg;
+      img.src = flower[Math.floor(Math.random() * Math.floor(4))];
       img.style.position = "fixed";
-      img.style.width = "100px";
-      img.style.height = "100px";
+      img.classList.add("flower-img");
+      img.style.width = "150px";
+      img.style.height = "150px";
       img.style.top = y + "px";
       img.style.left = x + "px";
       document.body.appendChild(img);
       setTimeout(() => {
         document.body.removeChild(img);
-      }, 3000);
+      }, 2000);
     });
-    const popupCookie = CookieService.getCookie("suspensioninfo");
-    if (isSuspended && popupCookie != "show") {
+
+    const popupCookie = CookieService.getCookie("makerinfo");
+    const isHomePage = location.pathname == "/";
+    if (isHomePage && isSuspended && popupCookie != "show") {
       dispatch(
         updateComponent(
           <MakerPopup acceptCondition={setMakerPopupCookie} />,
