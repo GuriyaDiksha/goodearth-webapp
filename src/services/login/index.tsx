@@ -73,12 +73,17 @@ export default {
     password: string,
     source?: string
   ) {
+    const queryString = location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id");
+
     const res = await API.post<loginResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/login/"}`,
       {
         email: email,
-        password: password
+        password: password,
+        boId: boId
       }
     );
     CookieService.setCookie("atkn", res.token, 365);

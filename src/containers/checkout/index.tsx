@@ -230,6 +230,7 @@ class Checkout extends React.Component<Props, State> {
               boEmail: data.email,
               boId: boId
             });
+            this.props.reloadPage(this.props.cookies);
           } else {
             this.props.history.push("/backend-order-error");
           }
@@ -561,7 +562,6 @@ class Checkout extends React.Component<Props, State> {
             });
           })
           .catch(err => {
-            // console.log(err.response.data);
             this.setState({
               billingError: valid.showErrors(err.response.data)
             });
@@ -579,6 +579,9 @@ class Checkout extends React.Component<Props, State> {
 
     if (this.state.pancardNo) {
       data["panPassportNo"] = this.state.pancardNo;
+    }
+    if (this.state.boId) {
+      data["BoId"] = this.state.boId;
     }
     const response = await this.props.finalCheckout(data);
     dataLayer.push({
@@ -622,13 +625,10 @@ class Checkout extends React.Component<Props, State> {
                 finalizeAddress={this.finalizeAddress}
                 hidesameShipping={true}
                 activeStep={Steps.STEP_SHIPPING}
-                // items={this.props.basket}
-                // bridalId={this.props.bridalId}
                 bridalId=""
                 isGoodearthShipping={this.state.isGoodearthShipping}
                 addressType={Steps.STEP_SHIPPING}
                 addresses={this.props.addresses}
-                // user={this.props.user}
                 error={this.state.shippingError}
               />
               <AddressMain
