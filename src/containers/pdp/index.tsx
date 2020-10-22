@@ -67,7 +67,8 @@ class PDPContainer extends React.Component<Props, State> {
     detailsSticky: true,
     activeImage: 0,
     detailStickyEnabled: true,
-    mounted: false
+    mounted: false,
+    updated: true
   };
 
   imageOffsets: number[] = [];
@@ -123,7 +124,8 @@ class PDPContainer extends React.Component<Props, State> {
     }
     this.setState(
       {
-        mounted: true
+        mounted: true,
+        updated: true
       },
       () => {
         window.setTimeout(() => {
@@ -162,6 +164,11 @@ class PDPContainer extends React.Component<Props, State> {
       });
       this.fetchMoreProductsFromCollection(nextProps.id);
     }
+    if (nextProps.location.pathname != this.props.location.pathname) {
+      this.setState({
+        updated: false
+      });
+    }
   }
 
   componentDidUpdate(props: Props) {
@@ -187,6 +194,14 @@ class PDPContainer extends React.Component<Props, State> {
 
       this.setState(state, () => {
         document.addEventListener("scroll", this.onScroll);
+      });
+    }
+    if (
+      this.props.location.pathname != props.location.pathname &&
+      !this.state.updated
+    ) {
+      this.setState({
+        updated: true
       });
     }
   }
@@ -526,7 +541,7 @@ class PDPContainer extends React.Component<Props, State> {
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
-          {mobile && (
+          {mobile && this.state.updated && (
             <div
               className={cs(
                 bootstrap.col12,

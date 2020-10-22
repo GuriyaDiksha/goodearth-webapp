@@ -80,8 +80,8 @@ class CheckoutHeader extends React.Component<Props, {}> {
     const data: any = {
       currency: cur
     };
-    if (this.props.currency != data) {
-      changeCurrency(data).then(response => {
+    if (this.props.currency != data.currency) {
+      return changeCurrency(data).then(response => {
         reloadPage(this.props.cookies, this.props.location.pathname);
       });
     }
@@ -247,7 +247,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 value={currency}
                 showCaret={true}
                 className={styles.checkoutHeader}
-                onChange={this.changeCurrency}
+                onChangeCurrency={this.changeCurrency}
               ></SelectableDropdownMenu>
             </div>
           </div>
