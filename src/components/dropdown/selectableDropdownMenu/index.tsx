@@ -16,6 +16,7 @@ const DropdownMenu = ({
   value,
   items,
   onChange,
+  onChangeCurrency,
   disabled,
   showCaret
 }: SelectableDropdownMenuProps): JSX.Element => {
@@ -28,6 +29,11 @@ const DropdownMenu = ({
   const onChangeValue = (val: string | undefined) => {
     setCurrentValue(val);
     onChange ? onChange(val) : "";
+    onChangeCurrency
+      ? onChangeCurrency(val)?.catch(() => {
+          setCurrentValue(value);
+        })
+      : "";
   };
   useLayoutEffect(() => {
     if (!mounted.current) {

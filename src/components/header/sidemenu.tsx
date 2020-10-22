@@ -56,8 +56,8 @@ class SideMenu extends React.Component<Props, State> {
     const data: any = {
       currency: cur
     };
-    if (this.props.currency != data) {
-      changeCurrency(data).then((response: any) => {
+    if (this.props.currency != data.currency) {
+      return changeCurrency(data).then((response: any) => {
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
             history.location.pathname +
@@ -189,7 +189,7 @@ class SideMenu extends React.Component<Props, State> {
                 items={items}
                 value={this.props.currency}
                 showCaret={true}
-                onChange={this.changeCurrency}
+                onChangeCurrency={this.changeCurrency}
               ></SelectableDropdownMenu>
             </li>
           )}
