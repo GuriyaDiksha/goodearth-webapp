@@ -230,7 +230,6 @@ class Checkout extends React.Component<Props, State> {
               boEmail: data.email,
               boId: boId
             });
-            this.props.reloadPage(this.props.cookies);
           } else {
             this.props.history.push("/backend-order-error");
           }
@@ -503,7 +502,6 @@ class Checkout extends React.Component<Props, State> {
               }
             });
             if (data.data.pageReload) {
-              // window.location.reload();
               this.props.reloadPage(this.props.cookies);
             }
           }
