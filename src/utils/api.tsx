@@ -123,6 +123,7 @@ class API {
                     updateComponent(<BackendOrderPopup />, true, undefined)
                   );
                   dispatch(updateModal(true));
+                  reject(err);
                 } else {
                   reject(err);
                 }
