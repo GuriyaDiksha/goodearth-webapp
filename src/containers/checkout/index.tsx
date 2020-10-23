@@ -211,20 +211,15 @@ class Checkout extends React.Component<Props, State> {
       this.props
         .getBoDetail(boId)
         .then((data: any) => {
-          if (data.email && this.props.user.email) {
-            if (this.props.user.email == data.email) {
+          localStorage.setItem("tempEmail", data.email);
+          if (this.props.user.email && !data.isLogin) {
+            this.props.logout().then(res => {
+              localStorage.setItem("tempEmail", data.email);
               this.setState({
                 boEmail: data.email,
                 boId: boId
               });
-            } else {
-              this.props.logout().then(res => {
-                this.setState({
-                  boEmail: data.email,
-                  boId: boId
-                });
-              });
-            }
+            });
           } else if (data.email) {
             this.setState({
               boEmail: data.email,
@@ -233,7 +228,6 @@ class Checkout extends React.Component<Props, State> {
           } else {
             this.props.history.push("/backend-order-error");
           }
-          localStorage.setItem("tempEmail", data.email);
         })
         .catch(error => {
           this.props.history.push("/backend-order-error");

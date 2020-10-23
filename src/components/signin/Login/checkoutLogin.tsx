@@ -131,12 +131,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       this.setState({ email });
     }
     this.firstEmailInput.current?.focus();
-    localStorage.removeItem("tempEmail");
+    // localStorage.removeItem("tempEmail");
   }
 
   UNSAFE_componentWillReceiveProps() {
-    if (!this.state.email) {
-      const email = localStorage.getItem("tempEmail");
+    const email = localStorage.getItem("tempEmail");
+    if (!this.state.email || email) {
       if (email) {
         this.setState({ email, isLoginDisabled: false }, () => {
           this.myBlur();
