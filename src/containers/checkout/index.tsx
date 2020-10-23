@@ -212,7 +212,7 @@ class Checkout extends React.Component<Props, State> {
         .getBoDetail(boId)
         .then((data: any) => {
           localStorage.setItem("tempEmail", data.email);
-          if (this.props.user.email && !data.isLogin) {
+          if (this.props.user.email && data.isLogin) {
             this.props.logout().then(res => {
               localStorage.setItem("tempEmail", data.email);
               this.setState({
