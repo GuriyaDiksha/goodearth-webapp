@@ -160,7 +160,8 @@ class PDPContainer extends React.Component<Props, State> {
         sidebarSticky: true,
         detailsSticky: true,
         activeImage: 0,
-        detailStickyEnabled: true
+        detailStickyEnabled: true,
+        mounted: false
       });
       this.fetchMoreProductsFromCollection(nextProps.id);
     }
@@ -185,7 +186,8 @@ class PDPContainer extends React.Component<Props, State> {
 
       const state: any = {
         sidebarSticky: true,
-        detailsSticky: true
+        detailsSticky: true,
+        mounted: true
       };
 
       if (productImages.length === 1 && this.state.detailStickyEnabled) {

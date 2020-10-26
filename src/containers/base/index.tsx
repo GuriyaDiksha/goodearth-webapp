@@ -12,22 +12,22 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import flowerimg1 from "images/flower1.gif";
-import flowerimg2 from "images/flower2.gif";
-import flowerimg3 from "images/flower3.gif";
-import flowerimg4 from "images/flower4.gif";
+// import flowerimg1 from "images/flower1.gif";
+// import flowerimg2 from "images/flower2.gif";
+// import flowerimg3 from "images/flower3.gif";
+// import flowerimg4 from "images/flower4.gif";
 import MakerPopup from "components/Popups/MakerPopup";
-import * as _ from "lodash";
+// import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
   const {
-    currency,
-    device: { mobile }
+    currency
+    // device: { mobile }
   } = useSelector((state: AppState) => state);
   const isSuspended = true;
-  const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
+  // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
@@ -56,26 +56,26 @@ const BaseLayout: React.FC = () => {
     CookieService.setCookie("makerinfo", "show", 365);
   };
 
-  const throttle = _.throttle((e: any) => {
-    const x = e.clientX - 100;
-    const y = e.clientY - 50;
-    const img = document.createElement("img");
-    img.src = flower[Math.floor(Math.random() * Math.floor(4))];
-    img.style.position = "fixed";
-    img.classList.add("flower-img");
-    img.style.width = "150px";
-    img.style.height = "150px";
-    img.style.top = y + "px";
-    img.style.left = x + "px";
-    document.body.appendChild(img);
-    setTimeout(() => {
-      document.body.removeChild(img);
-    }, 2000);
-  }, 100);
+  // const throttle = _.throttle((e: any) => {
+  //   const x = e.clientX - 100;
+  //   const y = e.clientY - 50;
+  //   const img = document.createElement("img");
+  //   img.src = flower[Math.floor(Math.random() * Math.floor(4))];
+  //   img.style.position = "fixed";
+  //   img.classList.add("flower-img");
+  //   img.style.width = "150px";
+  //   img.style.height = "150px";
+  //   img.style.top = y + "px";
+  //   img.style.left = x + "px";
+  //   document.body.appendChild(img);
+  //   setTimeout(() => {
+  //     document.body.removeChild(img);
+  //   }, 2000);
+  // }, 100);
   // }
 
   useEffect(() => {
-    let isDragging = false;
+    // let isDragging = false;
     document.addEventListener("wheel", (e: WheelEvent) => {
       const elem = e.target as HTMLInputElement;
       if (
@@ -96,33 +96,33 @@ const BaseLayout: React.FC = () => {
       }
     });
 
-    document.addEventListener("mousedown", (e: any) => {
-      isDragging = true;
-    });
-    document.addEventListener("mousemove", (e: any) => {
-      if (isDragging && !mobile) {
-        throttle(e);
-      }
-    });
-    document.addEventListener("mouseup", (e: any) => {
-      isDragging = false;
-    });
-    document.addEventListener("click", (e: any) => {
-      const x = e.clientX - 100;
-      const y = e.clientY - 50;
-      const img = document.createElement("img");
-      img.src = flower[Math.floor(Math.random() * Math.floor(4))];
-      img.style.position = "fixed";
-      img.classList.add("flower-img");
-      img.style.width = "150px";
-      img.style.height = "150px";
-      img.style.top = y + "px";
-      img.style.left = x + "px";
-      document.body.appendChild(img);
-      setTimeout(() => {
-        document.body.removeChild(img);
-      }, 2000);
-    });
+    // document.addEventListener("mousedown", (e: any) => {
+    //   isDragging = true;
+    // });
+    // document.addEventListener("mousemove", (e: any) => {
+    //   if (isDragging && !mobile) {
+    //     throttle(e);
+    //   }
+    // });
+    // document.addEventListener("mouseup", (e: any) => {
+    //   isDragging = false;
+    // });
+    // document.addEventListener("click", (e: any) => {
+    //   const x = e.clientX - 100;
+    //   const y = e.clientY - 50;
+    //   const img = document.createElement("img");
+    //   img.src = flower[Math.floor(Math.random() * Math.floor(4))];
+    //   img.style.position = "fixed";
+    //   img.classList.add("flower-img");
+    //   img.style.width = "150px";
+    //   img.style.height = "150px";
+    //   img.style.top = y + "px";
+    //   img.style.left = x + "px";
+    //   document.body.appendChild(img);
+    //   setTimeout(() => {
+    //     document.body.removeChild(img);
+    //   }, 2000);
+    // });
 
     const popupCookie = CookieService.getCookie("makerinfo");
     const isHomePage = location.pathname == "/";
