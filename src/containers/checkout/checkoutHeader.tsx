@@ -235,7 +235,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               <Link
                 to="/"
                 onClick={e => {
-                  e.preventDefault();
+                  this.state.boId ? e.preventDefault() : "";
                 }}
               >
                 <img
@@ -269,7 +269,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                     : styles.checkoutHeader
                 }
                 onChangeCurrency={this.changeCurrency}
-                disabled={true}
+                disabled={this.state.boId ? true : false}
               ></SelectableDropdownMenu>
             </div>
           </div>

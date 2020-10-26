@@ -618,9 +618,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
             ORDER SUMMARY
             {page == "checkout" && !validbo ? (
-              <Link className={styles.editCart} to={"/cart"}>
-                EDIT CART
-              </Link>
+              boId ? (
+                ""
+              ) : (
+                <Link className={styles.editCart} to={"/cart"}>
+                  EDIT CART
+                </Link>
+              )
             ) : (
               ""
             )}

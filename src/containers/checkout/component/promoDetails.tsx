@@ -51,20 +51,24 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
         >
           <span className={styles.txtup}>{code} </span>
           <span className={styles.textMuted}>PROMO CODE APPLIED</span>
-          <span
-            className={styles.cross}
-            onClick={() => {
-              closeResult(code);
-            }}
-          >
-            <i
-              className={cl(
-                iconStyles.icon,
-                iconStyles.iconCrossNarrowBig,
-                styles.promoIcon
-              )}
-            ></i>
-          </span>
+          {boId ? (
+            ""
+          ) : (
+            <span
+              className={styles.cross}
+              onClick={() => {
+                closeResult(code);
+              }}
+            >
+              <i
+                className={cl(
+                  iconStyles.icon,
+                  iconStyles.iconCrossNarrowBig,
+                  styles.promoIcon
+                )}
+              ></i>
+            </span>
+          )}
         </div>
       )}
     </div>
