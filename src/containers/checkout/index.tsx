@@ -501,6 +501,9 @@ class Checkout extends React.Component<Props, State> {
           }
         })
         .catch(err => {
+          if (err.response.status == 406) {
+            return false;
+          }
           if (!err.response.data.status) {
             this.setState({
               shippingError: valid.showErrors(err.response.data)
@@ -554,6 +557,9 @@ class Checkout extends React.Component<Props, State> {
             });
           })
           .catch(err => {
+            if (err.response.status == 406) {
+              return false;
+            }
             this.setState({
               billingError: valid.showErrors(err.response.data)
             });
