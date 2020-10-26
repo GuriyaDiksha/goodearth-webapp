@@ -4,6 +4,7 @@ import styles from "./gift.scss";
 import { PromoListProps } from "./typings";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
+import { useHistory } from "react-router";
 
 const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
   // let showLocked = false;
@@ -12,6 +13,10 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
   const closeResult = (code: string) => {
     onClose(code);
   };
+  const history = useHistory();
+  const queryString = history.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const boId = urlParams.get("bo_id");
 
   return (
     <div id="gc-balance-info">
@@ -20,16 +25,23 @@ const PromoItem = ({ code, onClose }: PromoListProps): JSX.Element => {
           <div className={cl(styles.textLeft, styles.rtcinfo, styles.mTop0)}>
             <p className={styles.value12}>
               {code}{" "}
-              <span
-                className={styles.cross}
-                onClick={() => {
-                  closeResult(code);
-                }}
-              >
-                <i
-                  className={cl(iconStyles.icon, iconStyles.iconCrossNarrowBig)}
-                ></i>
-              </span>
+              {boId ? (
+                ""
+              ) : (
+                <span
+                  className={styles.cross}
+                  onClick={() => {
+                    closeResult(code);
+                  }}
+                >
+                  <i
+                    className={cl(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig
+                    )}
+                  ></i>
+                </span>
+              )}
             </p>
           </div>
         </div>

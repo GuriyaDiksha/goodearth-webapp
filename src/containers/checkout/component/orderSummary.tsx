@@ -5,7 +5,7 @@ import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { Link, useLocation, NavLink } from "react-router-dom";
+import { Link, useLocation, NavLink, useHistory } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
@@ -36,6 +36,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setShowSummary(!showSummary);
     setIsSuspended(true);
   };
+
+  const history = useHistory();
+  const queryString = history.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
@@ -272,20 +277,24 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={styles.textMuted}>
                   {" "}
                   {"PROMO CODE APPLIED"}
-                  <span
-                    className={styles.cross}
-                    onClick={() => {
-                      onPromoRemove(voucher.code);
-                    }}
-                  >
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconCrossNarrowBig,
-                        styles.discountFont
-                      )}
-                    ></i>
-                  </span>
+                  {boId ? (
+                    ""
+                  ) : (
+                    <span
+                      className={styles.cross}
+                      onClick={() => {
+                        onPromoRemove(voucher.code);
+                      }}
+                    >
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconCrossNarrowBig,
+                          styles.discountFont
+                        )}
+                      ></i>
+                    </span>
+                  )}
                 </span>
               </span>
               <span className={styles.subtotal}>
