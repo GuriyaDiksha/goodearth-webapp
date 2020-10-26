@@ -69,9 +69,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class CheckoutHeader extends React.Component<Props, {}> {
+class CheckoutHeader extends React.Component<Props, { boId: string }> {
   constructor(props: Props) {
     super(props);
+    const queryString = props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id") || "";
+    this.state = {
+      boId: boId
+    };
   }
   static contextType = UserContext;
 
@@ -80,8 +86,8 @@ class CheckoutHeader extends React.Component<Props, {}> {
     const data: any = {
       currency: cur
     };
-    if (this.props.currency != data) {
-      changeCurrency(data).then(response => {
+    if (this.props.currency != data.currency) {
+      return changeCurrency(data).then(response => {
         reloadPage(this.props.cookies, this.props.location.pathname);
       });
     }
@@ -226,8 +232,18 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 styles.logoContainer
               )}
             >
-              <Link to="/">
-                <img className={styles.logo} src={gelogoCerise} />
+              <Link
+                to="/"
+                onClick={e => {
+                  this.state.boId ? e.preventDefault() : "";
+                }}
+              >
+                <img
+                  className={
+                    this.state.boId ? styles.logoWithoutcursor : styles.logo
+                  }
+                  src={gelogoCerise}
+                />
               </Link>
             </div>
             <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
@@ -238,7 +254,8 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 bootstrap.colMd2,
                 bootstrap.col3,
                 globalStyles.voffset2,
-                styles.curr
+                { [styles.curr]: !this.state.boId },
+                { [styles.disableCurr]: this.state.boId }
               )}
             >
               <SelectableDropdownMenu
@@ -246,8 +263,13 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 items={items}
                 value={currency}
                 showCaret={true}
-                className={styles.checkoutHeader}
-                onChange={this.changeCurrency}
+                className={
+                  this.state.boId
+                    ? styles.disableCheckoutHeader
+                    : styles.checkoutHeader
+                }
+                onChangeCurrency={this.changeCurrency}
+                disabled={this.state.boId ? true : false}
               ></SelectableDropdownMenu>
             </div>
           </div>

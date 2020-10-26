@@ -302,3 +302,14 @@
     text-decoration: underline;
   }
 }
+.black {
+  color: black;
+}
+
+.delivery-date {
+  @include pdp_spec();
+  @include c10-L-R();
+  line-height: 20px;
+  justify-content: center;
+  text-transform: none;
+}

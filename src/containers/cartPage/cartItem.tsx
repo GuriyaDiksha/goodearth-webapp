@@ -210,6 +210,19 @@ const CartItems: React.FC<BasketItem> = memo(
                     <div className={styles.productName}>
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>
+                    {product.productDeliveryDate && (
+                      <div
+                        className={cs(
+                          styles.deliveryDate,
+                          globalStyles.voffset3
+                        )}
+                      >
+                        Estimated Delivery On or Before: <br />
+                        <span className={styles.black}>
+                          {product.productDeliveryDate}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className={styles.productPrice}>
                     {saleStatus && discount && discountedPriceRecords ? (

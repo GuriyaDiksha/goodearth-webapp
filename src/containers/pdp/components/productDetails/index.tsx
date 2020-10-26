@@ -239,7 +239,9 @@ const ProductDetails: React.FC<Props> = ({
           gtmPushAddToBag();
         })
         .catch(err => {
-          dispatch(showMessage(err.response.data));
+          if (typeof err.response.data != "object") {
+            dispatch(showMessage(err.response.data));
+          }
         });
     }
   };
@@ -477,7 +479,7 @@ const ProductDetails: React.FC<Props> = ({
                 </span>
               </div>
             )}
-            {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
+            {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
               <div
                 className={cs(bootstrap.colSm4, styles.label, {
                   [globalStyles.textCenter]: !mobile

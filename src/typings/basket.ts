@@ -26,6 +26,7 @@ export type Points = {
 };
 
 export type Basket = {
+  finalDeliveryDate: string;
   shippable: boolean;
   subtotalExclusive: number;
   totalExclusive: number;

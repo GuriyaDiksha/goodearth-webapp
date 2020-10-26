@@ -17,7 +17,8 @@ const LoginSection: React.FC<LoginProps> = props => {
   const {
     isActive,
     user: { isLoggedIn, email },
-    next
+    next,
+    boEmail
   } = props;
   const [isRegister, setIsRegister] = useState(false);
 
@@ -60,6 +61,7 @@ const LoginSection: React.FC<LoginProps> = props => {
                 <CheckoutLoginForm
                   showRegister={goToRegister}
                   nextStep={nextStep}
+                  isBo={boEmail}
                 />
               )
             ) : (

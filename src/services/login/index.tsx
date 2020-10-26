@@ -67,13 +67,23 @@ export default {
     );
     return res;
   },
-  login: async function(dispatch: Dispatch, email: string, password: string) {
+  login: async function(
+    dispatch: Dispatch,
+    email: string,
+    password: string,
+    source?: string
+  ) {
+    const queryString = location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id");
+
     const res = await API.post<loginResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/login/"}`,
       {
         email: email,
-        password: password
+        password: password,
+        boId: boId
       }
     );
     CookieService.setCookie("atkn", res.token, 365);
@@ -84,7 +94,7 @@ export default {
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch);
+    BasketService.fetchBasket(dispatch, source);
     return res;
   },
   loginSocial: async function(dispatch: Dispatch, formdata: any) {
@@ -119,9 +129,13 @@ export default {
       CookieService.setCookie("currency", "INR", 365);
       dispatch(updateCurrency("INR"));
       dispatch(updateCookies({ tkn: "" }));
-      MetaService.updateMeta(dispatch, {});
+      MetaService.updateMeta(dispatch, {}).catch(err => {
+        console.log(err);
+      });
       WishlistService.resetWishlist(dispatch);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch).catch(err => {
+        console.log(err);
+      });
       dispatch(resetMeta(undefined));
       dispatch(showMessage(LOGOUT_SUCCESS, 5000));
       return res;

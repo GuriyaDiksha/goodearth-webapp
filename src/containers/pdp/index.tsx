@@ -475,7 +475,7 @@ class PDPContainer extends React.Component<Props, State> {
       data: { categories }
     } = this.props;
 
-    if (categories.indexOf("Living > Wallcoverings") === -1) {
+    if (categories.indexOf("Home > Wallcoverings") === -1) {
       return null;
     }
     return <WallpaperFAQ mobile={mobile} />;
