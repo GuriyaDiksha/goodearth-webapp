@@ -61,7 +61,7 @@ const BackendPopupConfirm: React.FC<Props> = () => {
               {`NO, DON'T REMOVE THE DISCOUNT`}
             </a>
           </div>
-          <div className={styles.ctxLight}>
+          <div className={cs(styles.ctxLight, globalStyles.pointer)}>
             <p
               onClick={() => {
                 clearBoBasket();

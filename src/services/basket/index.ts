@@ -11,17 +11,9 @@ import { PRODUCT_UNPUBLISHED } from "constants/messages";
 
 export default {
   fetchBasket: async function(dispatch: Dispatch, source?: string) {
-    let boId: any = "";
-    if (typeof document != "undefined") {
-      const queryString = location.search;
-      const urlParams = new URLSearchParams(queryString);
-      boId = urlParams.get("bo_id");
-    }
     const res = await API.get<Basket>(
       dispatch,
-      `${__API_HOST__}/myapi/basket/detail${(source
-        ? "?source=" + source
-        : "") + (boId ? "&boId=" + boId : "")}`
+      `${__API_HOST__}/myapi/basket/detail${source ? "?source=" + source : ""}`
     );
     if (res.updated || res.publishRemove) {
       dispatch(showMessage(PRODUCT_UNPUBLISHED));
