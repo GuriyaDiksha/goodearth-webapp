@@ -239,7 +239,9 @@ const ProductDetails: React.FC<Props> = ({
           gtmPushAddToBag();
         })
         .catch(err => {
-          dispatch(showMessage(err.response.data));
+          if (typeof err.response.data != "object") {
+            dispatch(showMessage(err.response.data));
+          }
         });
     }
   };
