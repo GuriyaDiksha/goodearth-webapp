@@ -254,7 +254,8 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 bootstrap.colMd2,
                 bootstrap.col3,
                 globalStyles.voffset2,
-                styles.curr
+                { [styles.curr]: !this.state.boId },
+                { [styles.disableCurr]: this.state.boId }
               )}
             >
               <SelectableDropdownMenu
@@ -262,7 +263,11 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                 items={items}
                 value={currency}
                 showCaret={true}
-                className={styles.checkoutHeader}
+                className={
+                  this.state.boId
+                    ? styles.disableCheckoutHeader
+                    : styles.checkoutHeader
+                }
                 onChangeCurrency={this.changeCurrency}
                 disabled={true}
               ></SelectableDropdownMenu>
