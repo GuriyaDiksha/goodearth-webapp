@@ -69,9 +69,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class CheckoutHeader extends React.Component<Props, {}> {
+class CheckoutHeader extends React.Component<Props, { boId: string }> {
   constructor(props: Props) {
     super(props);
+    const queryString = props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id") || "";
+    this.state = {
+      boId: boId
+    };
   }
   static contextType = UserContext;
 
@@ -226,8 +232,18 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 styles.logoContainer
               )}
             >
-              <Link to="/">
-                <img className={styles.logo} src={gelogoCerise} />
+              <Link
+                to="/"
+                onClick={e => {
+                  e.preventDefault();
+                }}
+              >
+                <img
+                  className={
+                    this.state.boId ? styles.logoWithoutcursor : styles.logo
+                  }
+                  src={gelogoCerise}
+                />
               </Link>
             </div>
             <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
@@ -248,6 +264,7 @@ class CheckoutHeader extends React.Component<Props, {}> {
                 showCaret={true}
                 className={styles.checkoutHeader}
                 onChangeCurrency={this.changeCurrency}
+                disabled={true}
               ></SelectableDropdownMenu>
             </div>
           </div>

@@ -47,6 +47,10 @@
     cursor: pointer;
 }
 
+.logo-withoutcursor {
+  width: 111px;
+}
+
 .icon-style-disabled {
     opacity: .4;
     text-decoration: none !important;
@@ -796,6 +800,13 @@ input[type="radio"] {
 }
 
 .checkout-header {
+
+  .dropdown-disabled {
+    color: #bbb;
+    border-color: #ddd;
+    cursor: default !important;
+  }
+
   ul{
     z-index: 10;
     left: -15px;
