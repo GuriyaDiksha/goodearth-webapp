@@ -203,7 +203,7 @@ class Footer extends React.Component<Props, FooterState> {
   render() {
     return (
       <div
-        className={bootstrap.containerFluid}
+        className={cs(bootstrap.containerFluid, globalStyles.minimumWidth)}
         ref={ele => (this.container = ele)}
       >
         <div id="footer-start" className={bootstrap.row}>
@@ -216,7 +216,7 @@ class Footer extends React.Component<Props, FooterState> {
                   })
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
           >
-            <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
+            <div className={bootstrap.row}>
               <div className={cs(bootstrap.col1, bootstrap.colMd3)}></div>
               <div className={cs(bootstrap.col10, bootstrap.colMd6)}>
                 <div
@@ -275,73 +275,74 @@ class Footer extends React.Component<Props, FooterState> {
                   })
             } ${this.props.saleStatus ? cs(styles.footerSale20) : ""}`}
           >
-            <div className={cs(globalStyles.minimumWidth)}>
+            <div>
               <div className={cs(bootstrap.row)}>
                 {this.props.mobile ? (
                   <div className={cs(bootstrap.col12)}>
-                    <div className={cs(bootstrap.col10, bootstrap.offset1)}>
-                      <ul
-                        className={
-                          this.props.saleStatus
-                            ? cs(styles.mainMenuFooterSale)
-                            : cs(styles.mainMenuFooter)
-                        }
-                      >
-                        {this.props.data.footerList?.map(
-                          (list: FooterList, i: number) => {
-                            return (
-                              <li key={i}>
-                                {list.value.length > 0 ? (
-                                  <span
-                                    className={`${
+                    <div className={bootstrap.row}>
+                      <div className={cs(bootstrap.col10, bootstrap.offset1)}>
+                        <ul
+                          className={
+                            this.props.saleStatus
+                              ? cs(styles.mainMenuFooterSale)
+                              : cs(styles.mainMenuFooter)
+                          }
+                        >
+                          {this.props.data.footerList?.map(
+                            (list: FooterList, i: number) => {
+                              return (
+                                <li key={i}>
+                                  {list.value.length > 0 ? (
+                                    <span
+                                      className={`${
+                                        this.state.isOpened &&
+                                        this.state.currentIndex == i
+                                          ? cs(styles.detailShow)
+                                          : cs(styles.detail)
+                                      } ${
+                                        this.props.saleStatus
+                                          ? cs(styles.cerise)
+                                          : ""
+                                      }`}
+                                      onClick={() => {
+                                        this.subMenu(i);
+                                      }}
+                                    >
+                                      {" "}
+                                      {list.name}{" "}
+                                    </span>
+                                  ) : (
+                                    <Link
+                                      to={list.link || "#"}
+                                      className={
+                                        this.props.saleStatus
+                                          ? cs(styles.cerise)
+                                          : ""
+                                      }
+                                    >
+                                      {list.name}
+                                    </Link>
+                                  )}
+                                  <ul
+                                    className={
                                       this.state.isOpened &&
                                       this.state.currentIndex == i
-                                        ? cs(styles.detailShow)
-                                        : cs(styles.detail)
-                                    } ${
-                                      this.props.saleStatus
-                                        ? cs(styles.cerise)
-                                        : ""
-                                    }`}
-                                    onClick={() => {
-                                      this.subMenu(i);
-                                    }}
-                                  >
-                                    {" "}
-                                    {list.name}{" "}
-                                  </span>
-                                ) : (
-                                  <Link
-                                    to={list.link || "#"}
-                                    className={
-                                      this.props.saleStatus
-                                        ? cs(styles.cerise)
-                                        : ""
+                                        ? ""
+                                        : cs(globalStyles.hidden)
                                     }
                                   >
-                                    {list.name}
-                                  </Link>
-                                )}
-                                <ul
-                                  className={
-                                    this.state.isOpened &&
-                                    this.state.currentIndex == i
-                                      ? ""
-                                      : cs(globalStyles.hidden)
-                                  }
-                                >
-                                  {list.value.map(
-                                    (currentValue: List, j: number) => {
-                                      if (this.props.saleStatus == true) {
-                                        return false;
-                                      }
-                                      if (
-                                        list.name == "HELP" ||
-                                        list.name == "SERVICES"
-                                      ) {
-                                        return (
-                                          <li key={j}>
-                                            {/* {currentValue.text.toLowerCase() ==
+                                    {list.value.map(
+                                      (currentValue: List, j: number) => {
+                                        if (this.props.saleStatus == true) {
+                                          return false;
+                                        }
+                                        if (
+                                          list.name == "HELP" ||
+                                          list.name == "SERVICES"
+                                        ) {
+                                          return (
+                                            <li key={j}>
+                                              {/* {currentValue.text.toLowerCase() ==
                                             "good earth registry" ? (
                                               <a
                                                 href={currentValue.link}
@@ -351,47 +352,49 @@ class Footer extends React.Component<Props, FooterState> {
                                                 {currentValue.text}
                                               </a>
                                             ) : ( */}
-                                            <Link
-                                              to={currentValue.link}
-                                              onClick={() => {
-                                                this.subMenu(i);
-                                              }}
-                                            >
-                                              {currentValue.text}
-                                            </Link>
-                                            {/* )} */}
-                                          </li>
-                                        );
-                                      } else {
-                                        return (
-                                          <li
-                                            className={cs(
-                                              globalStyles.txtNormal,
-                                              {
-                                                [globalStyles.voffset2]: j == 2
-                                              }
-                                            )}
-                                            key={j}
-                                          >
-                                            {" "}
-                                            {currentValue.link ? (
-                                              <a href={currentValue.link}>
+                                              <Link
+                                                to={currentValue.link}
+                                                onClick={() => {
+                                                  this.subMenu(i);
+                                                }}
+                                              >
                                                 {currentValue.text}
-                                              </a>
-                                            ) : (
-                                              currentValue.text
-                                            )}{" "}
-                                          </li>
-                                        );
+                                              </Link>
+                                              {/* )} */}
+                                            </li>
+                                          );
+                                        } else {
+                                          return (
+                                            <li
+                                              className={cs(
+                                                globalStyles.txtNormal,
+                                                {
+                                                  [globalStyles.voffset2]:
+                                                    j == 2
+                                                }
+                                              )}
+                                              key={j}
+                                            >
+                                              {" "}
+                                              {currentValue.link ? (
+                                                <a href={currentValue.link}>
+                                                  {currentValue.text}
+                                                </a>
+                                              ) : (
+                                                currentValue.text
+                                              )}{" "}
+                                            </li>
+                                          );
+                                        }
                                       }
-                                    }
-                                  )}{" "}
-                                </ul>
-                              </li>
-                            );
-                          }
-                        )}
-                      </ul>
+                                    )}{" "}
+                                  </ul>
+                                </li>
+                              );
+                            }
+                          )}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -705,7 +708,7 @@ class Footer extends React.Component<Props, FooterState> {
           </div>
 
           <div className={cs(styles.footerBottom, bootstrap.colMd12)}>
-            <div className={cs(globalStyles.minimumWidth, bootstrap.row)}>
+            <div className={cs(bootstrap.row)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
                 All rights reserved | &copy;{" "}
                 {new Date().getFullYear().toString()} Goodearth Design Studio

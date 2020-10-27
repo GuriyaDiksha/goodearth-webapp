@@ -67,7 +67,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                 <p>
                   <span className={styles.op2}>Status</span>: &nbsp;
                   <span className={styles.orderStatus}>
-                    {shopdata.quantity > 0 ? "Processed" : "Returned"}
+                    {shopdata.total_quantity > 0 ? "Processed" : "Returned"}
                   </span>
                 </p>
                 <p>
