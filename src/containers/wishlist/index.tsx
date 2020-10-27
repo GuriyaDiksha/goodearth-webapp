@@ -143,7 +143,7 @@ class Wishlist extends React.Component<Props, State> {
     this.state = {
       featureData: [],
       isLoading: false,
-      dragDrop: true,
+      dragDrop: false,
       sampleItems: [],
       filterListing: false,
       options: [
@@ -155,8 +155,8 @@ class Wishlist extends React.Component<Props, State> {
         { value: "price_asc", label: "Price Low To High" },
         { value: "price_desc", label: "Price High To Low" }
       ],
-      defaultOption: { value: "sequence", label: "Drag and Drop" },
-      currentFilter: "sequence",
+      defaultOption: { value: "added_on", label: "Recently Added" },
+      currentFilter: "added_on",
       wishlistCount: 0,
       totalPrice: 0,
       saleStatus: false
