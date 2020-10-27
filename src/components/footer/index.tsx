@@ -366,7 +366,13 @@ class Footer extends React.Component<Props, FooterState> {
                                         } else {
                                           return (
                                             <li
-                                              className={globalStyles.txtNormal}
+                                              className={cs(
+                                                globalStyles.txtNormal,
+                                                {
+                                                  [globalStyles.voffset2]:
+                                                    j == 2
+                                                }
+                                              )}
                                               key={j}
                                             >
                                               {" "}
@@ -555,7 +561,14 @@ class Footer extends React.Component<Props, FooterState> {
                               <ul>
                                 <li>{footerItems.name}</li>
                                 {footerItems.value.map((Item, index) => (
-                                  <li key={index}>
+                                  <li
+                                    key={index}
+                                    className={cs({
+                                      [globalStyles.voffset2]:
+                                        footerItems.name == "CONNECT" &&
+                                        index == 2
+                                    })}
+                                  >
                                     {Item.link !== "" ? (
                                       footerItems.name == "CONNECT" ? (
                                         <a
