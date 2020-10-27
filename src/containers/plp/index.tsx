@@ -210,7 +210,7 @@ class PLP extends React.Component<
       }
     ];
     return (
-      <div className={styles.pageBody}>
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
         {!mobile && (
           <SecondaryHeader>
             <Fragment>

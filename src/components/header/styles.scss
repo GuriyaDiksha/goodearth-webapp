@@ -777,6 +777,7 @@ a {
   }
   .link-results {
     position: absolute;
+    white-space: pre-wrap;
     right: 7%;
     cursor: pointer;
     @include more-details();

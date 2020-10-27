@@ -182,6 +182,7 @@ class Search extends React.Component<Props, State> {
     } else {
       this.setState({
         productData: [],
+        count: 0,
         url: "/search"
       });
     }
@@ -244,8 +245,9 @@ class Search extends React.Component<Props, State> {
                 onChange={this.handleChange.bind(this)}
               />
               <span className={styles.linkResults} onClick={this.onClickSearch}>
-                {" "}
-                view all results{" "}
+                {`view all results${
+                  this.state.count ? `  (${this.state.count})` : ""
+                }`}
               </span>
               <i
                 className={cs(
