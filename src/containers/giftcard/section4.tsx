@@ -40,6 +40,9 @@ const Section4: React.FC<Section4Props> = props => {
           next({}, "card");
         })
         .catch(error => {
+          if (error.response.status == 406) {
+            return false;
+          }
           setNummsg("Internal Server Error");
         });
     } else {
