@@ -9,6 +9,7 @@ import * as Steps from "../constants";
 import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { useHistory } from "react-router";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, selectedAddress } = props;
@@ -19,6 +20,11 @@ const PromoSection: React.FC<PromoProps> = props => {
   };
 
   let PromoChild: any = useRef<typeof ApplyPromo>(null);
+  const history = useHistory();
+  const queryString = history.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const hideBoId =
+    urlParams.get("bo_id") || basket.voucherDiscounts[0]?.voucher?.code;
 
   useEffect(() => {
     if (basket.voucherDiscounts.length > 0) {
@@ -68,7 +74,7 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   const partialSale = true;
 
-  const isSale = info.isSale && !partialSale;
+  const isSale = (info.isSale && !partialSale) || hideBoId;
   const cardCss = basket.isOnlyGiftCart
     ? globalStyles.cerise
     : globalStyles.pointer + " " + globalStyles.cerise;
