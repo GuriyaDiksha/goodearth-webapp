@@ -31,7 +31,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       forgotSuccess: false,
       successMsg: "",
       url: location.pathname + location.search,
-      disableSelectedbox: false
+      disableSelectedbox: false,
+      isBo: ""
     };
   }
 
@@ -117,10 +118,13 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.emailInput.current.focus();
     }
     const email = localStorage.getItem("tempEmail");
+    const isBo = localStorage.getItem("isBo") || "";
     this.setState({
-      email
+      email: email,
+      isBo: isBo
     });
     localStorage.removeItem("tempEmail");
+    localStorage.removeItem("isBo");
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {
@@ -229,7 +233,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           heading="Forgot Password"
           subheading="Enter your email address and click on reset password."
           formContent={formContent}
-          footer={footer}
+          footer={this.state.isBo ? undefined : footer}
         />
         {this.state.disableSelectedbox && <Loader />}
       </Popup>

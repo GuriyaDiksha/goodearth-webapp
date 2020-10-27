@@ -1,23 +1,27 @@
 import React, { useContext } from "react";
 import { useStore } from "react-redux";
 import cs from "classnames";
+import CheckoutService from "services/checkout";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Context } from "components/Modal/context.ts";
 import iconStyles from "styles/iconFonts.scss";
-import { updateComponent, updateModal } from "actions/modal";
-import BackendOrderPopup from "components/BackendOrderPopup/confirm";
 
 type Props = {};
 
-const BackendPopup: React.FC<Props> = () => {
+const BackendPopupConfirm: React.FC<Props> = () => {
   const { dispatch } = useStore();
 
   const { closeModal } = useContext(Context);
 
   const clearBoBasket = async () => {
-    dispatch(updateComponent(<BackendOrderPopup />, true, undefined));
-    dispatch(updateModal(true));
+    CheckoutService.clearBoBasket(dispatch)
+      .then(data => {
+        closeModal();
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   return (
@@ -42,13 +46,11 @@ const BackendPopup: React.FC<Props> = () => {
           ></i>
         </div>
         <div className={styles.gcTnc}>
-          <div className={globalStyles.c22AI}>Cart Modification</div>
+          <div className={globalStyles.c22AI}>Remove Discount</div>
           <div className={globalStyles.c10LR}>
             <p>
-              {`By modifying the contents of this cart, all special promos and
-              discounts will be removed.`}
+              {`Are you sure you want to remove the discount applied on your cart?`}
             </p>
-            <p>Are you sure want to proceed ? </p>
           </div>
           <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtn70)}>
             <a
@@ -74,4 +76,4 @@ const BackendPopup: React.FC<Props> = () => {
   );
 };
 
-export default BackendPopup;
+export default BackendPopupConfirm;

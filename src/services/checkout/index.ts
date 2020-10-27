@@ -1,6 +1,8 @@
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { ApiResponse } from "typings/api";
+import { updateBasket } from "actions/basket";
+import { Basket } from "typings/basket";
 
 export default {
   applyGiftCard: async function(dispatch: Dispatch, formData: any) {
@@ -67,11 +69,12 @@ export default {
     return res;
   },
   clearBoBasket: async function(dispatch: Dispatch) {
-    const res = await API.post<ApiResponse>(
+    const res = await API.post<Basket>(
       dispatch,
       `${__API_HOST__ + "/myapi/basket/clear_bo_basket/"}`,
       {}
     );
+    dispatch(updateBasket(res));
     return res;
   }
 };

@@ -290,7 +290,7 @@ const NotifyMePopup: React.FC<Props> = ({
             inputClass={styles.inputQuantity}
           />
         </div>
-        {(!selectedSize || (selectedSize && selectedSize.stock === 0)) && (
+        {selectedSize && selectedSize.stock === 0 && (
           <div className={cs(styles.emailInput, globalStyles.textLeft)}>
             <InputField
               id="width"
@@ -301,7 +301,7 @@ const NotifyMePopup: React.FC<Props> = ({
               label="Email"
               placeholder="Email Address"
               errorMsg={emailError}
-              disabled={userExists}
+              // disabled={userExists}
             />
           </div>
         )}

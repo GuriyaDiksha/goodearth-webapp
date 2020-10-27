@@ -15,7 +15,6 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
   const dispatch = useDispatch();
   const { mobile } = useStore().getState().device;
   // const history = useHistory();
-  console.log(mobile);
   useEffect(() => {
     props.isLoading(true);
     AccountService.fetchshopOrderDetails(dispatch, props.data.number)

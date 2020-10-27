@@ -24,9 +24,9 @@ export default class Shipping extends React.Component<Props, {}> {
             as well as international orders.
           </p>
 
-          <p>International orders: delivered within 12-14 business days</p>
+          <p>International orders: delivered within 15-18 business days</p>
           <p>
-            Domestic orders: delivered within 15-18 business days. (You will see
+            Domestic orders: delivered within 8-10 business days. (You will see
             the delivery date for your order at the time of order confirmation.)
           </p>
           <p>Pre-orders: delivery time will be within 60 days.</p>

@@ -13,7 +13,7 @@ import { showMessage } from "actions/growlMessage";
 import { PRODUCT_UNPUBLISHED } from "constants/messages";
 
 export default {
-  updateWishlist: async function(dispatch: Dispatch, sortBy = "sequence") {
+  updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
     const res = await API.get<WishlistResponse>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/?sort_by=${sortBy}`
