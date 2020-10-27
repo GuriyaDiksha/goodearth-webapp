@@ -23,8 +23,11 @@ const PromoSection: React.FC<PromoProps> = props => {
   const history = useHistory();
   const queryString = history.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const hideBoId =
-    urlParams.get("bo_id") || basket.voucherDiscounts[0]?.voucher?.code;
+  const hideBoId = urlParams.get("bo_id")
+    ? basket.voucherDiscounts[0]?.voucher?.code
+      ? false
+      : true
+    : false;
 
   useEffect(() => {
     if (basket.voucherDiscounts.length > 0) {
@@ -74,8 +77,9 @@ const PromoSection: React.FC<PromoProps> = props => {
 
   const partialSale = true;
 
-  const isSale = (info.isSale && !partialSale) || hideBoId;
-  const cardCss = basket.isOnlyGiftCart
+  const isSale = info.isSale && !partialSale;
+  const onlyGiftcard = basket.isOnlyGiftCart || hideBoId;
+  const cardCss = onlyGiftcard
     ? globalStyles.cerise
     : globalStyles.pointer + " " + globalStyles.cerise;
   return (
@@ -124,7 +128,7 @@ const PromoSection: React.FC<PromoProps> = props => {
               styles.selectedStvalue
             )}
             onClick={() => {
-              basket.isOnlyGiftCart || isSale ? "" : onCurrentState();
+              onlyGiftcard || isSale ? "" : onCurrentState();
             }}
           >
             <span
@@ -138,7 +142,7 @@ const PromoSection: React.FC<PromoProps> = props => {
             >
               {isSale
                 ? "Not Applicable during Sale"
-                : basket.isOnlyGiftCart
+                : onlyGiftcard
                 ? "Not Applicable"
                 : " APPLY PROMO CODE"}
             </span>
@@ -147,7 +151,7 @@ const PromoSection: React.FC<PromoProps> = props => {
       </div>
       {isActive && (
         <Fragment>
-          {!basket.isOnlyGiftCart && (
+          {!onlyGiftcard && (
             <div className={globalStyles.marginT20}>
               <hr className={styles.hr} />
               <div className={globalStyles.flex}>
