@@ -63,7 +63,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
-                <p>{moment(shopdata.order_date).format("D MMM,YYYY")}</p>
+                <p>{moment(shopdata.sale_date).format("D MMM,YYYY")}</p>
                 <p>
                   <span className={styles.op2}>Status</span>: &nbsp;
                   <span className={styles.orderStatus}>
