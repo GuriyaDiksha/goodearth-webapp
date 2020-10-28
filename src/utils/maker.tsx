@@ -18,8 +18,8 @@ const MakerUtils: React.FC = () => {
     (window as any).$goodearth = {
       AddToBag: function(
         event: any,
-        productSku: number,
-        size: string,
+        productSku: string,
+        size?: string,
         quantity?: number
       ) {
         // code for size exist or not
@@ -27,18 +27,14 @@ const MakerUtils: React.FC = () => {
           console.log("Size is empty");
         }
 
-        BasketService.addToBasket(dispatch, productSku, quantity || 1)
+        BasketService.addToBasket(dispatch, 0, quantity || 1, productSku)
           .then((res: any) => {
-            if (res.status == 200) {
-              dispatch(showMessage("Item has been added to your bag!"));
-              BasketService.fetchBasket(dispatch);
-            } else {
-              dispatch(showMessage("Can't add to bag"));
-            }
+            dispatch(showMessage("Item has been added to your bag!"));
+            BasketService.fetchBasket(dispatch);
           })
           .catch(error => {
             if (error.response.status == 406) {
-              dispatch(showMessage(error.response.data.reason));
+              dispatch(showMessage(error.response.data));
             }
             console.log(error);
           });
