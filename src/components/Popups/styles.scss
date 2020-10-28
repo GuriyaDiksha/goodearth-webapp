@@ -309,9 +309,6 @@
       width: 8px;
     }
     /* background of the scrollbar except button or resizer */
-    ::-webkit-scrollbar-track {
-        // background-color:#fff
-    }
     /* scrollbar itself */
     &::-webkit-scrollbar-thumb {
         background-color:#a6a6a6;
@@ -424,9 +421,7 @@
   }
 
 }
-.btn-popup {
 
-}
 .gc-tnc {
   .cerise-btn30 {
     width: 30%;
@@ -446,4 +441,99 @@
 
 .maker-margin {
   margin-top: 55px;
+}
+
+.intro-page {
+
+  
+  .content {
+    position: fixed;
+    color: $white;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+
+  }
+
+  .logo-white {
+    width: 250px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .discover {
+    //padding: 30px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    // background: url('/static/img/cta-curly-outline-white.svg') no-repeat;
+    width: 183px;
+    //height: 65px;
+    display: inline-block;
+    line-height: 50px;
+    margin: 50px 0 30px 0;
+    color: #fff;
+    font-family: $font-Lato;
+    font-size: 12px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  i {
+    border: solid $white;
+    display: inline-block;
+
+    &.arrow-down {
+      @include arrows(0, 2px, 2px, 0);
+      @include abc(45);
+    }
+
+  }
+  .text-skip {
+    position: fixed;
+    bottom: 0;
+    background-color: tint(#000, 30%);
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    line-height: 70px;
+    li {
+      display: inline-block;
+    }
+    label {
+      color: $white !important;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+// @media screen and (min-width: 992px) {
+//   .introlist {
+//     li {
+//       display: inline-block;
+//       margin: 0 15px;
+//       a {
+//         text-transform: uppercase;
+//         color: $white;
+//         letter-spacing: 5px;
+//         font-size: 22px;
+//         font-family: $font-Header;
+//       }
+//     }
+//   }
+// }
+
+.introlist {
+    position: relative;
+    text-transform: uppercase;
+    color: $white;
+    letter-spacing: 5px;
+    font-family: $font-Header;
+    font-size: 23px;
+    margin-top: 42px;
+}
+
+.sub-heading {
+  margin-top: 50px;
 }

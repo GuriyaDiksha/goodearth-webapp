@@ -17,6 +17,7 @@ import { updateComponent, updateModal } from "actions/modal";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
 import MakerPopup from "components/Popups/MakerPopup";
+import CurrencyPopup from "components/Popups/CurrencyPopup";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const location = useLocation();
@@ -125,8 +126,9 @@ const BaseLayout: React.FC = () => {
     // });
 
     const popupCookie = CookieService.getCookie("makerinfo");
+    const currencyPopup = CookieService.getCookie("currency");
     const isHomePage = location.pathname == "/";
-    if (isHomePage && isSuspended && popupCookie != "show") {
+    if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
       dispatch(
         updateComponent(
           <MakerPopup acceptCondition={setMakerPopupCookie} />,
@@ -135,6 +137,19 @@ const BaseLayout: React.FC = () => {
       );
       dispatch(updateModal(true));
     }
+
+    if(!currencyPopup || true) {
+      dispatch(
+        updateComponent(
+          <CurrencyPopup />,
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    }
+
+
+
     LoginService.getClientIpCurrency()
       .then(curr => {
         if (curr != "error") {

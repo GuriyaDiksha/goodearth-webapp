@@ -14,7 +14,7 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
   const { pinCodeList } = useSelector((state: AppState) => state.address);
 
   const [suggestions, setSuggestions] = useState<string[]>(pinCodeList);
-
+  console.log(suggestions)
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
 
