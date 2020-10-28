@@ -64,7 +64,7 @@ class PLP extends React.Component<
       mobileFilter: false,
       sortValue: param ? param : "hc",
       flag: false,
-      plpMaker: false,
+      plpMaker: true,
       toggel: false,
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
@@ -91,9 +91,6 @@ class PLP extends React.Component<
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_plp_view"
     });
-    this.setState({
-      plpMaker: true
-    });
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
@@ -109,10 +106,7 @@ class PLP extends React.Component<
   }
 
   componentDidUpdate(nextProps: Props) {
-    if (
-      this.props.location.pathname != nextProps.location.pathname &&
-      !this.state.plpMaker
-    ) {
+    if (!this.state.plpMaker) {
       this.setState({
         plpMaker: true
       });
