@@ -609,7 +609,7 @@ class FilterList extends React.Component<Props, State> {
         element ? element.scrollIntoView(true) : "";
         window.scrollBy(0, -150);
         localStorage.removeItem("pdpProductScroll");
-      }, 0);
+      }, 1000);
       this.setState({
         scrollView: true
       });
