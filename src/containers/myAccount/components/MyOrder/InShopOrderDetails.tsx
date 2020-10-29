@@ -29,7 +29,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
         console.error("Axios Error: ", err);
       });
     return () => {
-      props.hasShopped(false);
+      // props.hasShopped(false);
     };
   }, []);
 
