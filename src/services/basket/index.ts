@@ -24,15 +24,16 @@ export default {
   addToBasket: async function(
     dispatch: Dispatch,
     productId: ProductID,
-    quantity: number
+    quantity: number,
+    productSku?: string
   ) {
+    const payLoad = productId
+      ? { productId, quantity }
+      : { productSku, quantity };
     const res = await API.post<Basket>(
       dispatch,
       `${__API_HOST__ + "/myapi/basket/add_product/"}`,
-      {
-        productId,
-        quantity
-      }
+      payLoad
     );
     dispatch(updateBasket(res));
     return res;
