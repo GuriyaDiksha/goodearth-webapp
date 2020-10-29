@@ -79,6 +79,7 @@ export default {
   moveToWishlist: async function(
     dispatch: Dispatch,
     basketLineId: ProductID,
+    size: string,
     source?: string,
     sortBy?: string
   ) {
@@ -86,7 +87,8 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
       {
-        basketLineId
+        basketLineId,
+        size
       }
     );
 
