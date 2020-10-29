@@ -35,7 +35,10 @@ const WishlistButton: React.FC<Props> = ({
   const items = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
   const store = useStore();
-  const { currency } = useSelector((state: AppState) => state);
+  const {
+    currency,
+    wishlist: { sortBy }
+  } = useSelector((state: AppState) => state);
   const addedToWishlist = items.indexOf(id) !== -1;
   const gtmPushAddToWishlist = () => {
     if (gtmListType) {
@@ -79,7 +82,8 @@ const WishlistButton: React.FC<Props> = ({
         await WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
-          source
+          source,
+          sortBy
         );
         onMoveToWishlist?.();
       } else {
