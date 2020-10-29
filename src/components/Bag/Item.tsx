@@ -89,9 +89,11 @@ const LineItems: React.FC<BasketItem> = memo(
       discount,
       discountedPriceRecords,
       badgeType,
-      inWishlist
+      inWishlist,
+      attributes
     } = product;
-
+    const size =
+      attributes.find(attribute => attribute.name == "Size")?.value || "";
     const price = priceRecords[currency];
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
     return (
@@ -223,6 +225,7 @@ const LineItems: React.FC<BasketItem> = memo(
                   priceRecords={product.priceRecords}
                   categories={product.categories}
                   basketLineId={id}
+                  size={size}
                   id={product.id}
                   showText={false}
                   className="wishlist-font"
