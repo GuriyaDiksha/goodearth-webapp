@@ -3,7 +3,7 @@ import { State, InfoActions } from "./typings";
 const initialState: State = {
   isSale: false,
   popupBgUrl: "",
-  currencyList:[]
+  currencyList: []
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {

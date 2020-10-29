@@ -1,8 +1,7 @@
-
 import { HeaderData, SearchFeaturedData } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
-import { updateheader} from "actions/header";
+import { updateheader } from "actions/header";
 // services
 import CacheService from "services/cache";
 import { Dispatch } from "redux";
@@ -87,7 +86,7 @@ export default {
   getCurrencyList: async function(dispatch: Dispatch) {
     const res = await API.get<any>(
       dispatch,
-      `${__API_HOST__}/myapi/common/country_with_symbol/`,
+      `${__API_HOST__}/myapi/common/country_with_symbol/`
     );
     return res;
   }

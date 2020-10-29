@@ -136,17 +136,10 @@ const BaseLayout: React.FC = () => {
       );
       dispatch(updateModal(true));
     }
-    if(!currencyPopup) {
-      dispatch(
-        updateComponent(
-          <CurrencyPopup />,
-          true
-        )
-      );
+    if (!currencyPopup) {
+      dispatch(updateComponent(<CurrencyPopup />, true));
       dispatch(updateModal(true));
     }
-
-
 
     LoginService.getClientIpCurrency()
       .then(curr => {
