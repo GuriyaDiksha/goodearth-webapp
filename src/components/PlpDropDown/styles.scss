@@ -143,9 +143,8 @@
     }
   }
   .filter-sticky{
-    position: sticky;
-    position: -webkit-sticky;
-    margin-bottom: 2%;
+    position: fixed;
+    margin-bottom: 0;
     bottom: 0;
     align-self: flex-start;
     z-index: 6;

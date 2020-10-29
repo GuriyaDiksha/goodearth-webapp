@@ -1323,8 +1323,11 @@ class FilterList extends React.Component<Props, State> {
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1].isChecked) return false;
             filter.push(
-              <li key={data1} className={globalStyles.inlineFlex}>
-                <span className={styles.filterItem}>
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
                   {data == "currentColor"
                     ? filterObj[data][data1].value.split("-")[1]
                     : filterObj[data][data1].value}
@@ -1362,8 +1365,11 @@ class FilterList extends React.Component<Props, State> {
           const filter: any = [];
           if (Object.keys(filterObj[data]).length == 0) return false;
           filter.push(
-            <li key={"price"} className={globalStyles.inlineFlex}>
-              <span className={styles.filterItem}>
+            <li
+              key={"price"}
+              className={cs(globalStyles.inlineFlex, styles.width100)}
+            >
+              <span className={cs(styles.filterItem, styles.ellipses)}>
                 {filterObj[data].min_price}-{filterObj[data].max_price}
               </span>
               <span
@@ -1396,8 +1402,13 @@ class FilterList extends React.Component<Props, State> {
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1]) return false;
             filter.push(
-              <li key={data1} className={globalStyles.inlineFlex}>
-                <span className={styles.filterItem}>{data1.split("_")[1]}</span>
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
+                  {data1.split("_")[1]}
+                </span>
                 <span
                   className={styles.filterItemCross}
                   onClick={e => this.deleteFilter(e, data, data1)}
@@ -1430,8 +1441,11 @@ class FilterList extends React.Component<Props, State> {
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1].isChecked) return false;
             filter.push(
-              <li key={data1} className={globalStyles.inlineFlex}>
-                <span className={styles.filterItem}>
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
                   {/* {self.props.facetObject.facets && self.props.facetObject.facets[data].map((discount) => {
                                 if(discount[0] == data1.split('_')[1]){
                                     return discount[1];
