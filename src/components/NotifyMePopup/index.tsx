@@ -47,6 +47,7 @@ type Props = {
   discountedPrice?: number;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
+  sortBy?: string;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -62,7 +63,8 @@ const NotifyMePopup: React.FC<Props> = ({
   onNotifyCart,
   isSale,
   discount,
-  badgeType
+  badgeType,
+  sortBy
 }) => {
   const { dispatch } = useStore();
 
@@ -157,7 +159,12 @@ const NotifyMePopup: React.FC<Props> = ({
   const addToBasket = async () => {
     if (selectedSize) {
       await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      await WishlistService.removeFromWishlist(dispatch, selectedSize.id);
+      await WishlistService.removeFromWishlist(
+        dispatch,
+        selectedSize.id,
+        undefined,
+        sortBy
+      );
       dispatch(showMessage(ADD_TO_BAG_SUCCESS));
       gtmPushAddToBag();
       closeModal();

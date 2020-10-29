@@ -57,6 +57,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     openPopup: (
       item: WishListGridItem,
       currency: Currency,
+      sortBy: string,
       isSale?: boolean
     ) => {
       const childAttributes = item.stockDetails.map(
@@ -85,13 +86,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           dispatch,
           item.id,
           size,
-          quantity
+          quantity,
+          sortBy
         );
       };
 
       dispatch(
         updateComponent(
           <NotifyMePopup
+            sortBy={sortBy}
             price={price}
             discountedPrice={item.discountedPrice[currency]}
             currency={currency}
@@ -108,9 +111,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         )
       );
       dispatch(updateModal(true));
-    },
-    changeSize: async (id: number, size: string, quantity: number) => {
-      await WishlistService.modifyWishlistItem(dispatch, id, size, quantity);
     }
   };
 };
@@ -170,7 +170,8 @@ class Wishlist extends React.Component<Props, State> {
         removeProduct: this.removeProduct,
         mobile: this.props.mobile,
         currency: this.props.currency,
-        isSale: this.props.isSale
+        isSale: this.props.isSale,
+        sortBy: this.state.currentFilter
       },
       false
     );
@@ -207,7 +208,8 @@ class Wishlist extends React.Component<Props, State> {
         this.setState(
           {
             dragDrop: true,
-            defaultOption: { value: data, label: data }
+            defaultOption: { value: data, label: data },
+            currentFilter: data
           },
           () => {
             this.myrender(this.state.sampleItems);
@@ -218,7 +220,8 @@ class Wishlist extends React.Component<Props, State> {
         this.setState(
           {
             dragDrop: false,
-            defaultOption: { value: data, label: data }
+            defaultOption: { value: data, label: data },
+            currentFilter: data
           },
           () => {
             this.getWishlist("added_on");
@@ -229,14 +232,16 @@ class Wishlist extends React.Component<Props, State> {
       case "price_asc":
         this.setState({
           dragDrop: false,
-          defaultOption: { value: data, label: data }
+          defaultOption: { value: data, label: data },
+          currentFilter: data
         });
         this.getWishlist("price_asc");
         break;
       case "price_desc":
         this.setState({
           dragDrop: false,
-          defaultOption: { value: data, label: data }
+          defaultOption: { value: data, label: data },
+          currentFilter: data
         });
         this.getWishlist("price_desc");
         break;
@@ -278,6 +283,23 @@ class Wishlist extends React.Component<Props, State> {
       });
   }
 
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (this.state.currentFilter != prevState.currentFilter) {
+      AbsoluteGrid = createAbsoluteGrid(
+        SampleDisplay,
+        {
+          grid: this.props,
+          removeProduct: this.removeProduct,
+          mobile: this.props.mobile,
+          currency: this.props.currency,
+          isSale: this.props.isSale,
+          sortBy: this.state.currentFilter
+        },
+        false
+      );
+    }
+  }
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
     if (!nextProps.isLoggedIn) {
@@ -292,7 +314,8 @@ class Wishlist extends React.Component<Props, State> {
           removeProduct: this.removeProduct,
           mobile: nextProps.mobile,
           currency: nextProps.currency,
-          isSale: nextProps.isSale
+          isSale: nextProps.isSale,
+          sortBy: this.state.currentFilter
         },
         false
       );
@@ -376,21 +399,27 @@ class Wishlist extends React.Component<Props, State> {
     const wishlistTotal = nextProps.wishlistData.map(item => {
       if (!item.size && item.stockDetails.length > 1) {
         const itemTotal = item.stockDetails.reduce((prev, curr) => {
-          const prevprices = parseFloat(prev.price[currency].toString());
-          const currprices = parseFloat(curr.price[currency].toString());
+          const prevprices = parseFloat(
+            prev.discountedPrice[currency].toString()
+          );
+          const currprices = parseFloat(
+            curr.discountedPrice[currency].toString()
+          );
           return prevprices < currprices ? prev : curr;
         });
-        return +itemTotal.price[currency];
+        return +itemTotal.discountedPrice[currency];
       } else if (item.size) {
         let vars = 0;
         item.stockDetails.forEach(function(items, key) {
           if (item.size == items.size) {
-            vars = +items.price[currency];
+            vars = +items.discountedPrice[currency];
           }
         });
         return vars;
       } else {
-        return item.stockDetails[0] ? +item.stockDetails[0].price[currency] : 0;
+        return item.stockDetails[0]
+          ? +item.stockDetails[0].discountedPrice[currency]
+          : 0;
       }
     });
     const wishlistSubtotal = wishlistTotal.reduce((total, num) => {
