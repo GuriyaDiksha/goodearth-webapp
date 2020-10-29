@@ -6,6 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import whitelogo from "images/gelogoWhite.svg"
 import desktopImg from "images/desktopImg.jpg"
+import "styles/autosuggest.css"
 // import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context.ts";
 // import MakerEnhance from "components/maker";
@@ -13,7 +14,8 @@ import { Context } from "components/Modal/context.ts";
 // import { useSelector } from "react-redux";
 // import { AppState } from "reducers/typings";
 import Autosuggest from "react-autosuggest";
-
+// import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 type PopupProps = {
   //   remainingAmount: number;
   // closeModal: (data?: any) => any;
@@ -25,9 +27,38 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 //   useEffect(() => {
 //     setShowMaker(true);
 //   }, []);
-const [suggestions, setSuggestions] = useState<string[]>(['inr','usd','gbp']);
+const [currencyList] = useState<any[]>([
+  {
+      "currencyCode": "INR",
+      "currencySymbol": "₹",
+      "countryName": "India"
+  },
+  {
+      "currencyCode": "AED",
+      "currencySymbol": "د.إ",
+      "countryName": "United Arab Emirates"
+  },
+  {
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "countryName": "United Kingdom"
+  },
+  {
+      "currencyCode": "USD",
+      "currencySymbol": "$",
+      "countryName": "REST OF THE WORLD"
+  }
+]);
+  // const currency = useSelector((state: AppState) => state.info.currencyList);
+  const [suggestions, setSuggestions] = useState<any[]>(currencyList);
+  const [errorMessage] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const { closeModal } = useContext(Context);
   const onChangeCurrency  = ()=> {
+    const cookieString =
+      "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    CookieService.setCookie("currencypopup", "true", 365);
     closeModal();
   }
 
@@ -35,23 +66,53 @@ const [suggestions, setSuggestions] = useState<string[]>(['inr','usd','gbp']);
     setSuggestions(getSuggestions(value));
   };
 
-  const getSuggestions = (value: any) => {
-    const inputLength = value.length;
-    const inputValue = isNaN(Number(value))
-      ? value.trim().toLowerCase()
-      : Number(value);
-
-    if (inputLength == 0) {
-      return ['inr','usd','gbp'];
-    } else {
-      return inputLength === 0
-        ? []
-        : ['inr','usd','gbp'].filter(pincode => {
-            return pincode.slice(0, inputLength) == inputValue;
-          });
-    }
+  const getSuggestions = (value: string) => {
+    const inputLength = value?.length || 0;
+    return inputLength === 0 ? currencyList
+    :currencyList.filter(data => {
+      return data.countryName.indexOf(value.toUpperCase()) > -1;
+    });
   };
   //   const currency = useSelector((state: AppState) => state.currency);
+  const renderSuggestion = (data: any) => {
+    return (
+      <div >
+        <span>{data.countryName}</span>
+        <span>({data.currencyCode + ' '+ data.currencySymbol})</span>
+      </div>
+    );
+  };
+
+  const getSuggestionValue = (suggestion: any) => {
+    return `${suggestion.countryName} (${suggestion.currencyCode} ${suggestion.currencySymbol})`;
+  };
+
+  const onSuggestionSelected = (
+    event: any,
+    { suggestion, suggestionValue }: { suggestion: any; suggestionValue: any }
+  ) => {
+    console.log(suggestion.currencyCode, suggestionValue.currencyCode)
+
+    // props.changeState && props.changeState(suggestionValue);
+  };
+
+  const onChange = (event: any, { newValue }: { newValue: string }) => {
+    setInputValue(newValue);
+    event.stopPropagation();
+  }
+  
+  const inputProps = {
+    placeholder: 'Select Your Currency',
+    value: inputValue,
+    onChange: onChange,
+    disabled: false,
+    autoComplete: "new-password",
+    className: 'currencylist',
+  };
+
+  const shouldRenderSuggestions = () => {
+    return true;
+  }
 
   return (
     <div>
@@ -69,26 +130,25 @@ const [suggestions, setSuggestions] = useState<string[]>(['inr','usd','gbp']);
                         Please select a location to continue
                     </ul>
                     <ul>
-                    <div
-                    className={}
-                    >
+                    <div className={styles.suggestDropdown}>
                     <Autosuggest
-                        suggestions={['inr','usd','gbp']}
+                        suggestions={suggestions}
                         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                         onSuggestionsClearRequested={() => setSuggestions([])}
                         getSuggestionValue={getSuggestionValue}
                         renderSuggestion={renderSuggestion}
                         onSuggestionSelected={onSuggestionSelected}
+                        shouldRenderSuggestions={shouldRenderSuggestions}
                         inputProps={inputProps}
                         id={'currencyid'}
                     />
-                    <label
+                    {/* <label
                         className={cs({
-                        [globalStyles.hidden]: !(labelClass && !props.disable)
+                        [globalStyles.hidden]: false
                         })}
                     >
-                        {props.label}
-                    </label>
+                        {'hello'}
+                    </label> */}
                     {errorMessage && (
                         <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
                         {errorMessage}
@@ -97,8 +157,13 @@ const [suggestions, setSuggestions] = useState<string[]>(['inr','usd','gbp']);
                     </div>
   
                     </ul>
-                    <div className={styles.discover} onClick = {() => { onChangeCurrency() }}>
-                        shop
+                    <div className={styles.discover} >
+                         <input
+                          type="button"
+                          className={globalStyles.ceriseBtn}
+                          value="SHOP"
+                          onClick = {() => { onChangeCurrency() }}
+                        />
                     </div>
                 </div>
                 <div className={cs(styles.textSkip,styles.categorylabel)}>

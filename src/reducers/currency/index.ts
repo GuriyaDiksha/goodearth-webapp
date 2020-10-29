@@ -11,6 +11,5 @@ export const currency = (
       return action.payload;
     }
   }
-
   return state;
 };

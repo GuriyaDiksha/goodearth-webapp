@@ -1,6 +1,8 @@
-import Axios from "axios";
+
 import { HeaderData, SearchFeaturedData } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
+import { updatefooter } from "actions/footer";
+import { updateheader} from "actions/header";
 // services
 import CacheService from "services/cache";
 import { Dispatch } from "redux";
@@ -8,40 +10,36 @@ import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
 
 export default {
-  fetchHeaderDetails: async (): Promise<HeaderData[]> => {
+  fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
     let headerData = CacheService.get("headerData") as HeaderData[];
 
     if (headerData && __API_HOST__ == "https://www.goodearth.in") {
       return headerData;
     }
-
-    const res = await Axios.get(
-      `${__API_HOST__ + "/myapi/category/top_menu_data/"}`,
-      {}
+    const res = await API.get<any>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
     );
-
-    headerData = res.data.results as HeaderData[];
-
+    dispatch(updateheader(res.results));
+    headerData = res.results as HeaderData[];
     CacheService.set("headerData", headerData);
 
     return headerData;
   },
-  fetchFooterDetails: async (): Promise<FooterDataProps> => {
+  fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
     let footerData = CacheService.get("footerData") as FooterDataProps;
 
     if (footerData && __API_HOST__ == "https://www.goodearth.in") {
       return footerData;
     }
 
-    const res = await Axios.get(
-      `${__API_HOST__ + "/myapi/category/footer"}`,
-      {}
+    const res = await API.get<any>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/category/footer"}`
     );
-
-    footerData = res.data as FooterDataProps;
-
+    footerData = res as FooterDataProps;
+    dispatch(updatefooter(footerData));
     CacheService.set("footerData", footerData);
-
     return footerData;
   },
   makeNewsletterSignupRequest: async (dispatch: Dispatch, email: string) => {
@@ -83,6 +81,13 @@ export default {
       dispatch,
       `${__API_HOST__}/mobiquest/get_customer_slab/`,
       { email }
+    );
+    return res;
+  },
+  getCurrencyList: async function(dispatch: Dispatch) {
+    const res = await API.get<any>(
+      dispatch,
+      `${__API_HOST__}/myapi/common/country_with_symbol/`,
     );
     return res;
   }
