@@ -124,9 +124,8 @@ const BaseLayout: React.FC = () => {
     //     document.body.removeChild(img);
     //   }, 2000);
     // });
-
     const popupCookie = CookieService.getCookie("makerinfo");
-    const currencyPopup = CookieService.getCookie("currency");
+    const currencyPopup = CookieService.getCookie("currencypopup");
     const isHomePage = location.pathname == "/";
     if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
       dispatch(
@@ -137,18 +136,10 @@ const BaseLayout: React.FC = () => {
       );
       dispatch(updateModal(true));
     }
-
-    if(!currencyPopup || true) {
-      dispatch(
-        updateComponent(
-          <CurrencyPopup />,
-          true
-        )
-      );
+    if (!currencyPopup) {
+      dispatch(updateComponent(<CurrencyPopup />, true));
       dispatch(updateModal(true));
     }
-
-
 
     LoginService.getClientIpCurrency()
       .then(curr => {

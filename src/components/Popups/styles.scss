@@ -462,18 +462,8 @@
     }
   }
   .discover {
-    //padding: 30px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    // background: url('/static/img/cta-curly-outline-white.svg') no-repeat;
-    width: 183px;
-    //height: 65px;
-    display: inline-block;
-    line-height: 50px;
-    margin: 50px 0 30px 0;
-    color: #fff;
-    font-family: $font-Lato;
-    font-size: 12px;
+    width: 60%;
+    margin: 50px 0 0 75px;
     &:hover {
       cursor: pointer;
     }
@@ -537,3 +527,20 @@
 .sub-heading {
   margin-top: 50px;
 }
+
+.suggest-dropdown {
+    width: 60%;
+    position: relative;
+    margin-left: 75px;
+    span{
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: normal;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.1em;
+      color: #666666;
+    }
+}
+

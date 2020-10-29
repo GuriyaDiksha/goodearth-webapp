@@ -34,6 +34,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return response;
     },
     reloadPage: (cookies: Cookies) => {
+      HeaderService.fetchHeaderDetails(dispatch);
+      HeaderService.fetchFooterDetails(dispatch);
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
