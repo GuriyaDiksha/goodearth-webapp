@@ -158,13 +158,13 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
-      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      await WishlistService.removeFromWishlist(
+      WishlistService.removeFromWishlist(
         dispatch,
         selectedSize.id,
         undefined,
         sortBy
       );
+      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
       dispatch(showMessage(ADD_TO_BAG_SUCCESS));
       gtmPushAddToBag();
       closeModal();
