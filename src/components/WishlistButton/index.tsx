@@ -78,11 +78,11 @@ const WishlistButton: React.FC<Props> = ({
     if (!isLoggedIn) {
       LoginService.showLogin(store.dispatch);
     } else {
-      if (basketLineId && size) {
+      if (basketLineId) {
         await WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
-          size,
+          size || "",
           source,
           sortBy
         );
