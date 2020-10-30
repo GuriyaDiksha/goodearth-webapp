@@ -87,10 +87,10 @@ const InputField: React.FC<Props> = ({
           })}
         />
         {focused && !disabled && <div className={styles.label}>{label}</div>}
+        {(error || errorMsg) && (
+          <span className={styles.inputError}>{error || errorMsg}</span>
+        )}
       </div>
-      {(error || errorMsg) && (
-        <span className={styles.inputError}>{error || errorMsg}</span>
-      )}
     </>
   );
 };
