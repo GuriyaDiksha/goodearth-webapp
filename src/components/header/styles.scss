@@ -807,10 +807,10 @@ a {
   overflow-x: hidden;
   -moz-appearance: none;
   appearance: none;
-  @include scrollbar-default();
-  &:hover {
-    @include scrollbar();
-  }
+  // @include scrollbar-default();
+  // &:hover {
+  //   @include scrollbar();
+  // }
   .checkheight {
     display: flex;
     flex-wrap: wrap;
