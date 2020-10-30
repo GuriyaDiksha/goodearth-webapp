@@ -41,6 +41,7 @@ class PLP extends React.Component<
   {
     filterData: string;
     showmobileSort: boolean;
+    filterCount: number;
     mobileFilter: boolean;
     sortValue: string;
     flag: boolean;
@@ -58,6 +59,7 @@ class PLP extends React.Component<
     const param = urlParams.get("sort_by");
     this.state = {
       filterData: "All",
+      filterCount: 0,
       showmobileSort: false,
       mobileFilter: false,
       sortValue: param ? param : "hc",
@@ -121,6 +123,13 @@ class PLP extends React.Component<
     this.setState({
       plpMaker: false
     });
+  };
+
+  setFilterCount = (count: number) => {
+    if (count != this.state.filterCount)
+      this.setState({
+        filterCount: count
+      });
   };
 
   onClickQuickView = (id: number) => {
@@ -201,18 +210,8 @@ class PLP extends React.Component<
       }
     ];
     return (
-      <div className={styles.pageBody}>
-        {mobile ? (
-          <PlpDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            onStateChange={this.onChangeFilterState}
-            showCaret={this.state.showmobileSort}
-            open={false}
-            value={this.state.sortValue}
-            key={"plpPageMobile"}
-          />
-        ) : (
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+        {!mobile && (
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
@@ -314,6 +313,7 @@ class PLP extends React.Component<
               <FilterList
                 onRef={(el: any) => (this.child = el)}
                 onChangeFilterState={this.onChangeFilterState}
+                setFilterCount={this.setFilterCount}
                 key={this.props.location.pathname}
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
@@ -420,6 +420,18 @@ class PLP extends React.Component<
             </div>
           </div>
         </div>
+        {mobile && (
+          <PlpDropdownMenu
+            filterCount={this.state.filterCount}
+            list={items}
+            onChange={this.onchangeFilter}
+            onStateChange={this.onChangeFilterState}
+            showCaret={this.state.showmobileSort}
+            open={false}
+            value={this.state.sortValue}
+            key={"plpPageMobile"}
+          />
+        )}
       </div>
     );
   }

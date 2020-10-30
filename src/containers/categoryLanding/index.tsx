@@ -418,7 +418,13 @@ class CategoryLanding extends React.Component<
       ]
     };
     return (
-      <div className={cs("category-landing", styles.pageBody)}>
+      <div
+        className={cs(
+          "category-landing",
+          styles.pageBody,
+          bootstrap.containerFluid
+        )}
+      >
         {catLanding && (
           <div className={cs(bootstrap.row, styles.firstBlock)}>
             <div className={cs(bootstrap.col12, styles.heroBannerHome)}>

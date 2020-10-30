@@ -8,12 +8,12 @@
 }
 
 .footer-top-background {
-  background-image: url('../../images/footerBgTopSavannah.jpg');
+  // background-image: url('../../images/footerBgTopSavannah.jpg');
   background-repeat: repeat-x;
 }
 
 .footer-background {
-  background-image: url('../../images/footerSavannah20.jpg');
+  // background-image: url('../../images/footerSavannah20.jpg');
 }
 
 .footer-icon{
@@ -76,7 +76,8 @@
   @include ftr-copy-white-desktop();
   background-color: tint(#000, 20%);
   color: #fff;
-  padding: 15px 0;
+  padding-top: 15px;
+  padding-bottom: 15px;
   font-weight: 300;
 }
 
@@ -174,7 +175,7 @@ position: fixed;
   }
   .footer {
     min-height: 680px;
-    background-color: #caac3f;
+    // background-color: #caac3f;
   }
   .grand-outer {
     .pressinternal {

@@ -8,7 +8,15 @@ const initialState: FooterState = {
       ctaText: "",
       ctaUrl: ""
     },
-    shopLocations: []
+    shopLocations: [],
+    footerImages: {
+      footerImageDeskTop: "",
+      footerImageMobile: "",
+      footerImageSubsDeskTop: "",
+      footerImageSubsMobile: "",
+      footerBgColorDeskTop: "",
+      footerBgColorMobile: ""
+    }
   }
 };
 
