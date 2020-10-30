@@ -7,73 +7,84 @@ import styles from "../styles.scss";
 import whitelogo from "images/gelogoWhite.svg";
 import desktopImg from "images/desktopImg.jpg";
 import "styles/autosuggest.css";
+import LoginService from "services/login";
 // import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context.ts";
-// import MakerEnhance from "components/maker";
-// import { currencyCodes } from "constants/currency";
-// import { useSelector } from "react-redux";
-// import { AppState } from "reducers/typings";
+import { AppState } from "reducers/typings";
 import Autosuggest from "react-autosuggest";
-// import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
-type PopupProps = {
-  //   remainingAmount: number;
-  // closeModal: (data?: any) => any;
-  //   acceptCondition: (data?: any) => any;
-};
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useHistory } from "react-router";
+type PopupProps = {};
 const CurrencyPopup: React.FC<PopupProps> = props => {
-  //   const [isLoading, setIsLoading] = useState(false);
-  //   const [showMaker, setShowMaker] = useState(false);
-  //   useEffect(() => {
-  //     setShowMaker(true);
-  //   }, []);
-  const [currencyList] = useState<any[]>([
-    {
-      currencyCode: "INR",
-      currencySymbol: "₹",
-      countryName: "India"
-    },
-    {
-      currencyCode: "AED",
-      currencySymbol: "د.إ",
-      countryName: "United Arab Emirates"
-    },
-    {
-      currencyCode: "GBP",
-      currencySymbol: "£",
-      countryName: "United Kingdom"
-    },
-    {
-      currencyCode: "USD",
-      currencySymbol: "$",
-      countryName: "REST OF THE WORLD"
-    }
-  ]);
-  // const currency = useSelector((state: AppState) => state.info.currencyList);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const currencyList = useSelector(
+    (state: AppState) => state.info.currencyList
+  );
+  const currency = useSelector((state: AppState) => state.currency);
+  const curryList = currencyList.map(data => {
+    return data.currencyCode;
+  });
   const [suggestions, setSuggestions] = useState<any[]>(currencyList);
-  const [errorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [inputValue, setInputValue] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("");
   const { closeModal } = useContext(Context);
-  const onChangeCurrency = () => {
-    const cookieString =
-      "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-    document.cookie = cookieString;
-    CookieService.setCookie("currencypopup", "true", 365);
-    closeModal();
-  };
 
-  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
-    setSuggestions(getSuggestions(value));
-  };
+  useEffect(() => {
+    currencyList.map((suggestion: any) => {
+      if (suggestion.currencyCode == currency) {
+        setSelectedCurrency(suggestion.currencyCode);
+        setInputValue(
+          `${suggestion.countryName} (${suggestion.currencyCode} ${suggestion.currencySymbol})`
+        );
+      }
+    });
+  }, []);
 
   const getSuggestions = (value: string) => {
     const inputLength = value?.length || 0;
     return inputLength === 0
       ? currencyList
       : currencyList.filter(data => {
-          return data.countryName.indexOf(value.toUpperCase()) > -1;
+          const text = `${data.countryName} (${data.currencyCode} ${data.currencySymbol})`;
+          return text.indexOf(value.toUpperCase()) > -1;
         });
   };
+
+  const onChangeCurrency = () => {
+    if (
+      currency != selectedCurrency &&
+      curryList.indexOf(selectedCurrency) > -1
+    ) {
+      const data: any = {
+        currency: selectedCurrency
+      };
+      LoginService.changeCurrency(dispatch, data).then(() => {
+        history.push("/");
+      });
+      const cookieString =
+        "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      document.cookie = cookieString;
+      CookieService.setCookie("currencypopup", "true", 365);
+      closeModal();
+    } else if (selectedCurrency == currency) {
+      const cookieString =
+        "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      document.cookie = cookieString;
+      CookieService.setCookie("currencypopup", "true", 365);
+      closeModal();
+    } else {
+      setErrorMessage("please select correct currency");
+    }
+  };
+
+  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
+    setSuggestions(getSuggestions(value));
+  };
+
   //   const currency = useSelector((state: AppState) => state.currency);
   const renderSuggestion = (data: any) => {
     return (
@@ -92,13 +103,12 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
     event: any,
     { suggestion, suggestionValue }: { suggestion: any; suggestionValue: any }
   ) => {
-    console.log(suggestion.currencyCode, suggestionValue.currencyCode);
-
-    // props.changeState && props.changeState(suggestionValue);
+    setSelectedCurrency(suggestion.currencyCode);
   };
 
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     setInputValue(newValue);
+    setSelectedCurrency(newValue);
     event.stopPropagation();
   };
 

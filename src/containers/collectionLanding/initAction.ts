@@ -11,10 +11,12 @@ const initActionCollection: InitAction = async (dispatch, params) => {
   const id = getProductIdFromSlug(params.level1);
   if (id) {
     const [filterData, collectionData] = await Promise.all([
-      CollectionService.fetchCollectionMapping(id, params.id).catch(err => {
-        console.log("Collection Landing Error", err);
-      }),
-      CollectionService.fetchCollectionData(+params.id).catch(err => {
+      CollectionService.fetchCollectionMapping(dispatch, id, params.id).catch(
+        err => {
+          console.log("Collection Landing Error", err);
+        }
+      ),
+      CollectionService.fetchCollectionData(dispatch, +params.id).catch(err => {
         console.log("Collection Landing Error", err);
       })
     ]);

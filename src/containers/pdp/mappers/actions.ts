@@ -10,7 +10,10 @@ import { ReactNode } from "react";
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
     fetchMoreProductsFromCollection: async (id: ProductID) => {
-      const products = await ProductService.fetchCollectionProducts(id);
+      const products = await ProductService.fetchCollectionProducts(
+        dispatch,
+        id
+      );
 
       if (products && products.length) {
         dispatch(updateCollectionProducts(id, products));

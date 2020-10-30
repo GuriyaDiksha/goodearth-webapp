@@ -4,30 +4,33 @@ import {
   PartialProductItem,
   CollectionProductItem
 } from "typings/product";
-import Axios from "axios";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { Fields } from "components/CorporateEnquiryPopup/typings";
 
 export default {
   fetchProductDetails: async (
+    dispatch: Dispatch,
     id: ProductID
   ): Promise<Product<PartialProductItem>> => {
-    const res = await Axios.get(`${__API_HOST__ + `/myapi/product/` + id}`, {});
-    const data: Product<PartialProductItem> = { ...res.data, partial: false };
+    const res: any = await API.get(
+      dispatch,
+      `${__API_HOST__ + `/myapi/product/` + id}`
+    );
+    const data: Product<PartialProductItem> = { ...res, partial: false };
     return data;
   },
   fetchCollectionProducts: async (
+    dispatch: Dispatch,
     id: ProductID
   ): Promise<CollectionProductItem[]> => {
-    const res = await Axios.get(
+    const res: any = await API.get(
+      dispatch,
       `${__API_HOST__ +
         `/myapi/collection/more_from_collection/products/` +
-        id}`,
-      {}
+        id}`
     );
-
-    return res.data.results as CollectionProductItem[];
+    return res.results as CollectionProductItem[];
   },
   notifyMe: async function(
     dispatch: Dispatch,

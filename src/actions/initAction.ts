@@ -2,8 +2,6 @@
 import HeaderService from "services/headerFooter";
 import ApiService from "services/api";
 import MetaService from "services/meta";
-// actions
-import { updateAnnouncement } from "actions/header";
 // typings
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
@@ -17,12 +15,12 @@ const initAction: any = async (store: Store) => {
   const state: AppState = store.getState();
   let apiCalls = [
     HeaderService.fetchHeaderDetails(store.dispatch)
-      .then(header => {})
+      .then()
       .catch(err => {
         console.log("HEADER API ERROR ==== " + err);
       }),
     HeaderService.fetchFooterDetails(store.dispatch)
-      .then(footer => {})
+      .then()
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       }),
@@ -49,9 +47,7 @@ const initAction: any = async (store: Store) => {
         console.log("COUNTRYSTATE API ERROR ====" + err);
       }),
     Api.getAnnouncement(store.dispatch)
-      .then(data => {
-        store.dispatch(updateAnnouncement(data));
-      })
+      .then()
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       }),

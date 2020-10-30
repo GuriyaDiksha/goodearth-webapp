@@ -16,9 +16,11 @@ const initActionSpecific: InitAction = async (dispatch, { slug }) => {
           console.log(`Collection Error id=${id}`, error);
         }
       ),
-      CollectionService.fetchCollectioSpecificBanner(id).catch(error => {
-        console.log(`Collection Error id=${id}`, error);
-      })
+      CollectionService.fetchCollectioSpecificBanner(dispatch, id).catch(
+        error => {
+          console.log(`Collection Error id=${id}`, error);
+        }
+      )
     ]);
     const plpProduct: any = filterData && filterData.results;
 

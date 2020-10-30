@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import initActionCollection from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
-import { connect } from "react-redux";
 import MakerEnhance from "maker-enhance";
 import globalStyles from "styles/global.scss";
 import "../../styles/myslick.css";
@@ -15,15 +13,21 @@ import closeShopthelook from "../../images/close-Shopthelook.svg";
 import Shopthelook from "../../images/Shopthelook.svg";
 import bird from "../../images/bird-motif.png";
 import WhatPeopleBuying from "components/PeopleBuying";
+import CategoryService from "services/category";
+import { CategoryProps } from "typings/category";
+import { addCategoryData } from "actions/category";
+import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
 // import Instagram from "components/Instagram"
 import "./slick.css";
-
+import initActionCollection from "./initAction";
 // import { Settings } from "react-slick";
 // import CollectionImage from "components/collectionItem";
 // import { CollectionItem } from "components/collectionItem/typings";
 // import MobileDropdownMenu from "components/MobileDropdown";
 import Slider, { Settings } from "react-slick";
 import LazyImage from "components/LazyImage";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -39,7 +43,63 @@ const mapStateToProps = (state: AppState) => {
     device: state.device
   };
 };
-type Props = ReturnType<typeof mapStateToProps>;
+
+const mapActionsToProps = (dispatch: Dispatch) => {
+  return {
+    reloadCategoryLanding: async ({ slug }: any) => {
+      const id = getProductIdFromSlug(slug);
+      const name = getProductNameFromSlug(slug)?.toUpperCase();
+      if (id) {
+        const [
+          shopthelook1,
+          shopthelook2,
+          editSection,
+          topliving,
+          peoplebuying
+        ] = await Promise.all([
+          CategoryService.fetchCategoryMultiImage(
+            dispatch,
+            `CAT_${id}_1`
+          ).catch(err => {
+            console.log("Colloection Page error =" + id);
+          }),
+          CategoryService.fetchCategoryMultiImage(
+            dispatch,
+            `CAT_${id}_2`
+          ).catch(err => {
+            console.log("Colloection Page error CAT_=" + id);
+          }),
+          CategoryService.fetchCategoryMultiImage(
+            dispatch,
+            `${name}CURATED`
+          ).catch(err => {
+            console.log("Colloection Page error CURATED =" + id);
+          }),
+          CategoryService.fetchCategoryMultiImage(dispatch, `TOP${name}`).catch(
+            err => {
+              console.log("Colloection Page error TOP =" + id);
+            }
+          ),
+          CategoryService.fetchLatestProduct(dispatch, id).catch(err => {
+            console.log("Colloection Page error =" + id);
+          })
+        ]);
+        const data: CategoryProps = {
+          shopthelook1: shopthelook1,
+          shopthelook2: shopthelook2,
+          editSection: editSection,
+          topliving: topliving,
+          peoplebuying: peoplebuying,
+          newarrival: {}
+        };
+        dispatch(addCategoryData({ ...data }));
+      }
+    }
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapActionsToProps>;
 
 class CategoryLanding extends React.Component<
   Props,
@@ -67,6 +127,10 @@ class CategoryLanding extends React.Component<
       this.setState({
         catLanding: false
       });
+    }
+
+    if (this.props.currency != newprops.currency) {
+      this.props.reloadCategoryLanding(this.props);
     }
   }
 
@@ -672,6 +736,5 @@ class CategoryLanding extends React.Component<
     );
   }
 }
-
-export default connect(mapStateToProps)(CategoryLanding);
+export default connect(mapStateToProps, mapActionsToProps)(CategoryLanding);
 export { initActionCollection };
