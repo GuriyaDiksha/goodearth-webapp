@@ -29,7 +29,8 @@ export enum ROUTES {
   GIFTINGLANDING = "/gifting",
   BRIDAL = "/the-good-earth-registry",
   LOYALTYLANDING = "/cerise",
-  ERROR = "/error-page"
+  ERROR = "/error-page",
+  PUSHPANJALI = "/puspanjali-festive-2020"
 }
 
 export type RouteConfig = RouteObject[];

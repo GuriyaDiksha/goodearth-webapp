@@ -135,27 +135,31 @@ const BaseLayout: React.FC = () => {
       );
       dispatch(updateModal(true));
     }
-    LoginService.getClientIpCurrency()
-      .then(curr => {
-        if (curr != "error") {
-          const cookieCurrency = CookieService.getCookie("currency");
-          if (curr && !cookieCurrency) {
-            const goCurrencyValue: any = curr;
-            if (
-              goCurrencyValue.toString().toLowerCase() !=
-              currency.toString().toLowerCase()
-            ) {
-              const data: any = {
-                currency: goCurrencyValue.toString().toLowerCase()
-              };
-              LoginService.changeCurrency(dispatch, data);
+    const cookieCurrency = CookieService.getCookie("currency");
+    if (!cookieCurrency) {
+      LoginService.getClientIpCurrency()
+        .then(curr => {
+          if (curr != "error") {
+            if (curr && !cookieCurrency) {
+              const goCurrencyValue: any = curr;
+              if (
+                goCurrencyValue.toString().toLowerCase() !=
+                currency.toString().toLowerCase()
+              ) {
+                const data: any = {
+                  currency: goCurrencyValue.toString().toLowerCase()
+                };
+                LoginService.changeCurrency(dispatch, data);
+              }
             }
+          } else {
+            CookieService.setCookie("currency", "INR", 365);
           }
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }, []);
 
   const isCheckout =
