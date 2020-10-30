@@ -67,14 +67,15 @@ class PDPContainer extends React.Component<Props, State> {
     detailsSticky: true,
     activeImage: 0,
     detailStickyEnabled: true,
-    mounted: false
+    mounted: false,
+    updated: true
   };
 
   imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
   containerRef: RefObject<HTMLDivElement> = React.createRef();
-
+  pdpURL = "";
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -95,7 +96,20 @@ class PDPContainer extends React.Component<Props, State> {
     document.body.classList.add(globalStyles.fixed);
   };
 
+  onBeforeUnload = () => {
+    const pdpProductScroll = JSON.stringify({
+      id: Number(
+        (decodeURI(this.pdpURL)
+          .split("_")
+          .pop() as string).split("/")[0]
+      ),
+      timestamp: new Date()
+    });
+    localStorage.setItem("pdpProductScroll", pdpProductScroll);
+  };
+
   componentDidMount() {
+    this.pdpURL = this.props.location.pathname;
     if (
       !this.props.device.mobile &&
       this.imageOffsets.length < 1 &&
@@ -123,7 +137,8 @@ class PDPContainer extends React.Component<Props, State> {
     }
     this.setState(
       {
-        mounted: true
+        mounted: true,
+        updated: true
       },
       () => {
         window.setTimeout(() => {
@@ -135,6 +150,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    this.onBeforeUnload();
     document.removeEventListener("scroll", this.onScroll);
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
@@ -158,9 +174,15 @@ class PDPContainer extends React.Component<Props, State> {
         sidebarSticky: true,
         detailsSticky: true,
         activeImage: 0,
-        detailStickyEnabled: true
+        detailStickyEnabled: true,
+        mounted: false
       });
       this.fetchMoreProductsFromCollection(nextProps.id);
+    }
+    if (nextProps.location.pathname != this.props.location.pathname) {
+      this.setState({
+        updated: false
+      });
     }
   }
 
@@ -178,7 +200,8 @@ class PDPContainer extends React.Component<Props, State> {
 
       const state: any = {
         sidebarSticky: true,
-        detailsSticky: true
+        detailsSticky: true,
+        mounted: true
       };
 
       if (productImages.length === 1 && this.state.detailStickyEnabled) {
@@ -187,6 +210,14 @@ class PDPContainer extends React.Component<Props, State> {
 
       this.setState(state, () => {
         document.addEventListener("scroll", this.onScroll);
+      });
+    }
+    if (
+      this.props.location.pathname != props.location.pathname &&
+      !this.state.updated
+    ) {
+      this.setState({
+        updated: true
       });
     }
   }
@@ -526,7 +557,7 @@ class PDPContainer extends React.Component<Props, State> {
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
-          {mobile && (
+          {mobile && this.state.updated && (
             <div
               className={cs(
                 bootstrap.col12,

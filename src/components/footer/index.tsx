@@ -201,6 +201,13 @@ class Footer extends React.Component<Props, FooterState> {
   };
 
   render() {
+    const {
+      footerImageDeskTop,
+      footerImageMobile,
+      footerImageSubsDeskTop,
+      footerImageSubsMobile,
+      footerBgColorMobile
+    } = this.props.data.footerImages;
     return (
       <div
         className={cs(bootstrap.containerFluid, globalStyles.minimumWidth)}
@@ -215,6 +222,13 @@ class Footer extends React.Component<Props, FooterState> {
                     [styles.footerTopBackground]: this.state.isInViewport
                   })
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
+            style={{
+              backgroundImage: `url(${
+                this.props.mobile
+                  ? footerImageSubsMobile
+                  : footerImageSubsDeskTop
+              })`
+            }}
           >
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col1, bootstrap.colMd3)}></div>
@@ -274,6 +288,12 @@ class Footer extends React.Component<Props, FooterState> {
                     [styles.footerBackground]: this.state.isInViewport
                   })
             } ${this.props.saleStatus ? cs(styles.footerSale20) : ""}`}
+            style={{
+              backgroundImage: `url(${
+                this.props.mobile ? footerImageMobile : footerImageDeskTop
+              })`,
+              backgroundColor: `${footerBgColorMobile}`
+            }}
           >
             <div>
               <div className={cs(bootstrap.row)}>
@@ -366,7 +386,13 @@ class Footer extends React.Component<Props, FooterState> {
                                         } else {
                                           return (
                                             <li
-                                              className={globalStyles.txtNormal}
+                                              className={cs(
+                                                globalStyles.txtNormal,
+                                                {
+                                                  [globalStyles.voffset2]:
+                                                    j == 2
+                                                }
+                                              )}
                                               key={j}
                                             >
                                               {" "}
@@ -555,7 +581,14 @@ class Footer extends React.Component<Props, FooterState> {
                               <ul>
                                 <li>{footerItems.name}</li>
                                 {footerItems.value.map((Item, index) => (
-                                  <li key={index}>
+                                  <li
+                                    key={index}
+                                    className={cs({
+                                      [globalStyles.voffset2]:
+                                        footerItems.name == "CONNECT" &&
+                                        index == 2
+                                    })}
+                                  >
                                     {Item.link !== "" ? (
                                       footerItems.name == "CONNECT" ? (
                                         <a

@@ -3,8 +3,13 @@ import LoginService from "services/login";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    goForgotPassword: (event: React.MouseEvent, email: string) => {
+    goForgotPassword: (
+      event: React.MouseEvent,
+      email: string,
+      boEmail?: string
+    ) => {
       localStorage.setItem("tempEmail", email);
+      localStorage.setItem("isBo", boEmail || "");
       LoginService.showForgotPassword(dispatch);
       event.preventDefault();
     },

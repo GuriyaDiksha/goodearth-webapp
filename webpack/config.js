@@ -75,7 +75,7 @@ let config = [
             filename: `${fileNamePattern}.js`
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico",".gif"],
             alias
         },
         plugins: [
@@ -105,7 +105,7 @@ let config = [
                       cacheName: 'home'
                     },
                   }, {
-                    urlPattern: /\.(?:png|jpg|jpeg|svg|ico)$/,
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|ico|gif)$/,
                     handler: 'CacheFirst',
                     options: {
                       cacheName: 'ge-images',
@@ -212,7 +212,7 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|woff2|gif)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|woff2)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: `${fileNamePattern}.[ext]`,
@@ -265,7 +265,7 @@ let config = [
             filename: `[name].js`,
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico",".gif"],
             alias
         },
         externals: [nodeExternals({
@@ -350,7 +350,7 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|woff2|gif)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|woff2)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: `${fileNamePattern}.[ext]`,

@@ -13,13 +13,13 @@ import { showMessage } from "actions/growlMessage";
 import { PRODUCT_UNPUBLISHED } from "constants/messages";
 
 export default {
-  updateWishlist: async function(dispatch: Dispatch, sortBy = "sequence") {
+  updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
     const res = await API.get<WishlistResponse>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/?sort_by=${sortBy}`
     );
 
-    dispatch(updateWishlist(res.data));
+    dispatch(updateWishlist(res.data, sortBy));
   },
 
   resetWishlist: function(dispatch: Dispatch) {
@@ -47,7 +47,7 @@ export default {
     dispatch: Dispatch,
     productId?: ProductID,
     id?: number,
-    sortyBy = "sequence"
+    sortyBy = "added_on"
   ) {
     const res = await API.delete<ApiResponse>(
       dispatch,
@@ -79,18 +79,21 @@ export default {
   moveToWishlist: async function(
     dispatch: Dispatch,
     basketLineId: ProductID,
-    source?: string
+    size: string,
+    source?: string,
+    sortBy?: string
   ) {
     const res = await API.post<ApiResponse>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
       {
-        basketLineId
+        basketLineId,
+        size
       }
     );
 
     if (res.success) {
-      this.updateWishlist(dispatch);
+      this.updateWishlist(dispatch, sortBy);
       BasketService.fetchBasket(dispatch, source);
     }
   },
@@ -114,7 +117,8 @@ export default {
     dispatch: Dispatch,
     id: number,
     size: string,
-    quantity?: number
+    quantity?: number,
+    sortBy?: string
   ) {
     const res = await API.post<ApiResponse>(
       dispatch,
@@ -125,7 +129,7 @@ export default {
         size
       }
     );
-    await this.updateWishlist(dispatch);
+    await this.updateWishlist(dispatch, sortBy);
     return res;
   }
 };

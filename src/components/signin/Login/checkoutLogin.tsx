@@ -131,12 +131,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       this.setState({ email });
     }
     this.firstEmailInput.current?.focus();
-    localStorage.removeItem("tempEmail");
+    // localStorage.removeItem("tempEmail");
   }
 
   UNSAFE_componentWillReceiveProps() {
-    if (!this.state.email) {
-      const email = localStorage.getItem("tempEmail");
+    const email = localStorage.getItem("tempEmail");
+    if (!this.state.email || email) {
       if (email) {
         this.setState({ email, isLoginDisabled: false }, () => {
           this.myBlur();
@@ -376,9 +376,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               disable={this.state.isPasswordDisabled}
               disablePassword={this.disablePassword}
             />
-            <p className={styles.loginChange} onClick={this.changeEmail}>
-              Change
-            </p>
+            {this.props.isBo ? (
+              ""
+            ) : (
+              <p className={styles.loginChange} onClick={this.changeEmail}>
+                Change
+              </p>
+            )}
           </div>
           <div>
             <InputField
@@ -412,7 +416,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 this.props.goForgotPassword(
                   e,
                   (this.emailInput.current && this.emailInput.current.value) ||
-                    ""
+                    "",
+                  this.props.isBo
                 );
               }}
             >
@@ -489,7 +494,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         )}
         <div className={cs(bootstrapStyles.col12)}>
           <div className={styles.loginForm}>{currentForm()}</div>
-          {footer}
+          {this.props.isBo ? "" : footer}
         </div>
         {this.state.disableSelectedbox && <Loader />}
       </Fragment>

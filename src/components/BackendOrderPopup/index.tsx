@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { useStore } from "react-redux";
 import cs from "classnames";
-import CheckoutService from "services/checkout";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Context } from "components/Modal/context.ts";
 import iconStyles from "styles/iconFonts.scss";
+import { updateComponent, updateModal } from "actions/modal";
+import BackendOrderPopup from "components/BackendOrderPopup/confirm";
 
 type Props = {};
 
@@ -15,13 +16,8 @@ const BackendPopup: React.FC<Props> = () => {
   const { closeModal } = useContext(Context);
 
   const clearBoBasket = async () => {
-    CheckoutService.clearBoBasket(dispatch)
-      .then(data => {
-        closeModal();
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    dispatch(updateComponent(<BackendOrderPopup />, true, undefined));
+    dispatch(updateModal(true));
   };
 
   return (
@@ -46,7 +42,7 @@ const BackendPopup: React.FC<Props> = () => {
           ></i>
         </div>
         <div className={styles.gcTnc}>
-          <div className={globalStyles.c22AI}></div>
+          <div className={globalStyles.c22AI}>Cart Modification</div>
           <div className={globalStyles.c10LR}>
             <p>
               {`By modifying the contents of this cart, all special promos and
@@ -63,7 +59,7 @@ const BackendPopup: React.FC<Props> = () => {
               {`NO, DON'T REMOVE THE DISCOUNT`}
             </a>
           </div>
-          <div className={styles.ctxLight}>
+          <div className={cs(styles.ctxLight, globalStyles.pointer)}>
             <p
               onClick={() => {
                 clearBoBasket();
