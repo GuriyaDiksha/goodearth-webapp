@@ -205,6 +205,9 @@ class PDPContainer extends React.Component<Props, State> {
       this.setState({
         updated: true
       });
+      window.setTimeout(() => {
+        window.scrollTo({ top: 0 });
+      }, 500);
     }
   }
 
