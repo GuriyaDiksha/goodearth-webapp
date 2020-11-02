@@ -26,6 +26,7 @@ import {
   LOGOUT_SUCCESS,
   LOGIN_SUCCESS
 } from "constants/messages";
+import Axios from "axios";
 
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -183,6 +184,7 @@ export default {
     return res;
   },
   getClientIpCurrency: async function() {
+    Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
     const response = await new Promise((resolve, reject) => {
       fetch(
         `https://api.ipdata.co/?api-key=f2c8da4302aa2d9667f6e6108ec175b88b01ff050522b335b9b2006e`,
