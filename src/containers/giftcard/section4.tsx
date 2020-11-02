@@ -30,7 +30,7 @@ const Section4: React.FC<Section4Props> = props => {
 
   const gotoNext = () => {
     if (subscribe) {
-      const data = props.data;
+      const data = Object.assign({}, props.data);
       data["imageUrl"] = data["imageUrl"].replace("/gc", "/gc_");
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
@@ -40,6 +40,9 @@ const Section4: React.FC<Section4Props> = props => {
           next({}, "card");
         })
         .catch(error => {
+          if (error.response.status == 406) {
+            return false;
+          }
           setNummsg("Internal Server Error");
         });
     } else {

@@ -23,6 +23,7 @@ import { Dispatch } from "redux";
 import HeaderService from "services/headerFooter";
 import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
+import GiftcardItem from "components/plpResultItem/giftCard";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -375,14 +376,19 @@ class Search extends React.Component<
                       this.gtmPushSearchClick(e, item, i);
                     }}
                   >
-                    <PlpResultItem
-                      product={item}
-                      addedToWishlist={false}
-                      currency={currency}
-                      key={item.id}
-                      mobile={mobile}
-                      onClickQuickView={this.onClickQuickView}
-                    />
+                    {item.productClass != "GiftCard" ? (
+                      <PlpResultItem
+                        product={item}
+                        addedToWishlist={false}
+                        currency={currency}
+                        key={item.id}
+                        mobile={mobile}
+                        onClickQuickView={this.onClickQuickView}
+                        isCorporate={true}
+                      />
+                    ) : (
+                      <GiftcardItem />
+                    )}
                   </div>
                 );
               })}

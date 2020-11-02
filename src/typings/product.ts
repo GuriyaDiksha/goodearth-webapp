@@ -96,6 +96,7 @@ export interface BasketProduct extends PartialProductItem {
   structure: string;
   parent: ProductID;
   attributes: ProductAttributes[];
+  productDeliveryDate: string;
 }
 
 export interface GroupedProductItem {

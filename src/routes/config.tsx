@@ -181,6 +181,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.BACKENDERROR,
+    component: loadable(() => import("containers/BackendOrderError")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.PUSHPANJALI,
     component: loadable(() => import("containers/home")),
     action: async () => null,

@@ -2,6 +2,7 @@ export type loginProps = {
   loginclick?: string;
   showRegister?: () => void;
   nextStep?: () => void;
+  isBo?: string;
 };
 
 export type loginState = {

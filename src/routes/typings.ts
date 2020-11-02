@@ -30,6 +30,7 @@ export enum ROUTES {
   BRIDAL = "/the-good-earth-registry",
   LOYALTYLANDING = "/cerise",
   ERROR = "/error-page",
+  BACKENDERROR = "/backend-order-error",
   PUSHPANJALI = "/puspanjali-festive-2020"
 }
 
