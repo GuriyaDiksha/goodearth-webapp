@@ -375,7 +375,7 @@ class Search extends React.Component<
                         key={item.id}
                         mobile={mobile}
                         onClickQuickView={this.onClickQuickView}
-                        isCorporate={true}
+                        isCorporate={false}
                       />
                     ) : (
                       <GiftcardItem />
