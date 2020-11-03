@@ -188,6 +188,13 @@ font-weight: bold;
   display: flex;
 }
 
+.inline-flex {
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-flex;
+  display: -inline-flex;
+}
+
 .flex.gutter-between {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;

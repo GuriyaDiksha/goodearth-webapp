@@ -109,7 +109,7 @@ const AddressMain: React.FC<Props> = props => {
     }
   }, []);
 
-  const isAddressValid = useCallback(
+  const isAddressPincodeValid = useCallback(
     (postCode: string, state: string): boolean => {
       let isValid = false;
       const validState = getStateFromPinCode(postCode);
@@ -121,9 +121,41 @@ const AddressMain: React.FC<Props> = props => {
     [pinCodeData]
   );
 
+  const isAddressValid = (address: AddressData): boolean => {
+    const {
+      postCode,
+      state,
+      country,
+      firstName,
+      lastName,
+      line1,
+      city,
+      phoneNumber
+    } = address;
+    let isValid = true;
+    if (country == "IN") {
+      const isPincodeValid = isAddressPincodeValid(postCode, state);
+      if (!isPincodeValid) {
+        isValid = false;
+      }
+    }
+    // validation for empty fields
+    if (
+      !firstName ||
+      !lastName ||
+      !line1 ||
+      !city ||
+      !phoneNumber ||
+      !country
+    ) {
+      isValid = false;
+    }
+    return isValid;
+  };
+
   const markAsDefault = (addressData: AddressData) => {
-    const { country, state, postCode } = addressData;
-    const isValid = country == "IN" ? isAddressValid(postCode, state) : true;
+    const { country } = addressData;
+    const isValid = isAddressValid(addressData);
     if (isValid) {
       setIsLoading(true);
       // extract formData from address

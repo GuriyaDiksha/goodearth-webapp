@@ -41,6 +41,7 @@ class PLP extends React.Component<
   {
     filterData: string;
     showmobileSort: boolean;
+    filterCount: number;
     mobileFilter: boolean;
     sortValue: string;
     flag: boolean;
@@ -58,6 +59,7 @@ class PLP extends React.Component<
     const param = urlParams.get("sort_by");
     this.state = {
       filterData: "All",
+      filterCount: 0,
       showmobileSort: false,
       mobileFilter: false,
       sortValue: param ? param : "hc",
@@ -123,6 +125,13 @@ class PLP extends React.Component<
     });
   };
 
+  setFilterCount = (count: number) => {
+    if (count != this.state.filterCount)
+      this.setState({
+        filterCount: count
+      });
+  };
+
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
@@ -157,10 +166,10 @@ class PLP extends React.Component<
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const queryString = nextProps.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const param = urlParams.get("sort_by");
     if (this.props.location.pathname != nextProps.location.pathname) {
-      const queryString = nextProps.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const param = urlParams.get("sort_by");
       this.setState({
         plpMaker: false,
         sortValue: param ? param : "hc",
@@ -168,6 +177,12 @@ class PLP extends React.Component<
           nextProps.location.pathname.includes("corporate-gifting") ||
           nextProps.location.search.includes("&src_type=cp"),
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
+      });
+    }
+
+    if (!param && this.state.sortValue != "hc") {
+      this.setState({
+        sortValue: "hc"
       });
     }
   }
@@ -201,18 +216,8 @@ class PLP extends React.Component<
       }
     ];
     return (
-      <div className={styles.pageBody}>
-        {mobile ? (
-          <PlpDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            onStateChange={this.onChangeFilterState}
-            showCaret={this.state.showmobileSort}
-            open={false}
-            value={this.state.sortValue}
-            key={"plpPageMobile"}
-          />
-        ) : (
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+        {!mobile && (
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
@@ -314,6 +319,7 @@ class PLP extends React.Component<
               <FilterList
                 onRef={(el: any) => (this.child = el)}
                 onChangeFilterState={this.onChangeFilterState}
+                setFilterCount={this.setFilterCount}
                 key={this.props.location.pathname}
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
@@ -420,6 +426,18 @@ class PLP extends React.Component<
             </div>
           </div>
         </div>
+        {mobile && (
+          <PlpDropdownMenu
+            filterCount={this.state.filterCount}
+            list={items}
+            onChange={this.onchangeFilter}
+            onStateChange={this.onChangeFilterState}
+            showCaret={this.state.showmobileSort}
+            open={false}
+            value={this.state.sortValue}
+            key={"plpPageMobile"}
+          />
+        )}
       </div>
     );
   }

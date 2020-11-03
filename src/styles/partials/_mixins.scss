@@ -515,6 +515,12 @@
   box-shadow: 0 10px 5px -6px tint(#000, 90%);
 }
 
+@mixin box-shadow($horizontal-offset: 0px, $vertical-offset: 0px, $blur: 0px, $spread: 0px, $color: white) {
+  -webkit-box-shadow: $horizontal-offset $vertical-offset $blur $spread $color;
+  -moz-box-shadow: $horizontal-offset $vertical-offset $blur $spread $color;
+  box-shadow: $horizontal-offset $vertical-offset $blur $spread $color;
+}
+
 @mixin transition($what, $time, $how) {
   -webkit-transition: $what $time $how;
   transition: $what $time $how;

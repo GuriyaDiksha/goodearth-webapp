@@ -18,6 +18,7 @@ import newCareersMobile from "../../images/careers/newCareersMobile.jpg";
 import { Link, useHistory } from "react-router-dom";
 import CareerService from "services/career";
 import { RouteParams } from "routes/typings";
+import metaActionCareer from "./metaAction";
 
 type Props = {} & RouteParams;
 
@@ -373,3 +374,4 @@ const Career: React.FC<Props> = props => {
 };
 
 export default Career;
+export { metaActionCareer };
