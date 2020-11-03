@@ -13,9 +13,18 @@
     padding: 0 5px;
     position: relative;
     i {
-      font-size: 40px;
+      background: grey;
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+      font-size: 20px;
       vertical-align: middle;
-      color: grey;
+      color: white;
+      &:before{
+        position: absolute;
+        top: -2px;
+        left: 10px;
+      }
     }
   }
 }
