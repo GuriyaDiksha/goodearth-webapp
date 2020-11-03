@@ -7,6 +7,10 @@ import { updateCollectionProducts } from "actions/product";
 import { updateComponent, updateModal } from "../../../actions/modal";
 import { ReactNode } from "react";
 
+import { updateProduct } from "actions/product";
+import { getProductIdFromSlug } from "utils/url.ts";
+import { Product, PartialProductItem } from "typings/product.js";
+
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
     fetchMoreProductsFromCollection: async (id: ProductID) => {
@@ -17,6 +21,24 @@ const mapActionsToProps = (dispatch: Dispatch) => {
 
       if (products && products.length) {
         dispatch(updateCollectionProducts(id, products));
+      }
+    },
+    fetchProduct: async (slug: string) => {
+      const id = getProductIdFromSlug(slug);
+      if (id) {
+        const product = await ProductService.fetchProductDetails(
+          dispatch,
+          id
+        ).catch(err => {
+          console.log("PDP API FAIL", err);
+        });
+        if (product) {
+          dispatch(
+            updateProduct({ ...product, partial: false } as Product<
+              PartialProductItem
+            >)
+          );
+        }
       }
     },
     updateComponentModal: (
