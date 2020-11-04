@@ -10,4 +10,6 @@ export type PLPResultItemProps = {
   isCollection?: boolean;
   isCorporate?: boolean;
   onClickQuickView?: (id: number) => void;
+  position: number;
+  page: string;
 };

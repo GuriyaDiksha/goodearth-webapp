@@ -84,11 +84,11 @@ const WishlistButton: React.FC<Props> = ({
         onMoveToWishlist?.();
       } else {
         if (addedToWishlist) {
-          WishlistService.removeFromWishlist(store.dispatch, id).then(() => {
+          WishlistService.removeFromWishlist(store.dispatch, id);
+        } else {
+          WishlistService.addToWishlist(store.dispatch, id, size).then(() => {
             gtmPushAddToWishlist();
           });
-        } else {
-          WishlistService.addToWishlist(store.dispatch, id, size);
         }
       }
     }

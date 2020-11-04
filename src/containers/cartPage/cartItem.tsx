@@ -309,7 +309,7 @@ const CartItems: React.FC<BasketItem> = memo(
               <div className={cs({ [globalStyles.hiddenEye]: isGiftCard })}>
                 <WishlistButton
                   source="cart"
-                  gtmListType=""
+                  gtmListType="cart"
                   title={title}
                   childAttributes={
                     product.childAttributes ? product.childAttributes : []

@@ -21,6 +21,8 @@ import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
 import Loader from "components/Loader";
 import ReactHtmlParser from "react-html-parser";
+import * as valid from "utils/validate";
+import { Currency } from "typings/currency";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -47,7 +49,11 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
     updateQuickviewId: async () => {
       dispatch(updateQuickviewId(0));
     },
-    fetchCollectioSpecificData: async (data: any, page: any) => {
+    fetchCollectioSpecificData: async (
+      data: any,
+      page: any,
+      currency: Currency
+    ) => {
       const id: any = getProductIdFromSlug(params.slug);
       const filterData = await CollectionService.fetchCollectioSpecificData(
         dispatch,
@@ -57,11 +63,16 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
+        valid.collectionProductImpression(
+          filterData,
+          "CollectionSpecific",
+          currency
+        );
         filterData.results = data.concat(filterData.results);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     },
-    reloadCollectioSpecificData: async () => {
+    reloadCollectioSpecificData: async (currency: Currency) => {
       const id: any = getProductIdFromSlug(params.slug);
       const filterData = await CollectionService.fetchCollectioSpecificData(
         dispatch,
@@ -70,6 +81,11 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
+        valid.collectionProductImpression(
+          filterData,
+          "CollectionSpecific",
+          currency
+        );
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     }
@@ -126,7 +142,7 @@ class CollectionSpecific extends React.Component<
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.currency != nextProps.currency) {
-      this.props.reloadCollectioSpecificData();
+      this.props.reloadCollectioSpecificData(nextProps.currency);
     }
   };
   handleScroll = () => {
@@ -161,7 +177,7 @@ class CollectionSpecific extends React.Component<
       loader: this.scrollload
     });
     this.props
-      .fetchCollectioSpecificData(results, next)
+      .fetchCollectioSpecificData(results, next, this.props.currency)
       .then(res => {
         this.scrollload = true;
         this.setState({
@@ -196,7 +212,6 @@ class CollectionSpecific extends React.Component<
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
-
     return (
       <div className={styles.collectionContainer}>
         {!mobile && (
@@ -282,6 +297,8 @@ class CollectionSpecific extends React.Component<
                   key={data.id + "plpDiv"}
                 >
                   <PlpResultItem
+                    page="Collection Specific"
+                    position={i}
                     product={data}
                     addedToWishlist={false}
                     currency={this.props.currency}

@@ -378,6 +378,8 @@ class Search extends React.Component<
                   >
                     {item.productClass != "GiftCard" ? (
                       <PlpResultItem
+                        page="Search"
+                        position={i}
                         product={item}
                         addedToWishlist={false}
                         currency={currency}

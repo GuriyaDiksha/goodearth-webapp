@@ -158,6 +158,256 @@ export function productImpression(
       }
     });
   } catch (e) {
+    console.log(e);
     console.log("Impression error");
+  }
+}
+
+export function sliderProductImpression(
+  data: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    let product = [];
+    position = position || 0;
+    if (!data) return false;
+    if (data.length < 1) return false;
+    product = data.map((prod: any, i: number) => {
+      const index = prod.categories.length - 1;
+      let category = prod.categories[index]
+        ? prod.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+      return Object.assign(
+        {},
+        {
+          name: prod.title,
+          id: prod.sku,
+          category: category,
+          list: list,
+          // price: child.priceRecords[currency],
+          brand: "Goodearth",
+          position: position + i + 1,
+          variant: prod.gaVariant
+        }
+      );
+    });
+    dataLayer.push({
+      event: "productImpression",
+      ecommerce: {
+        currencyCode: currency,
+        impressions: product
+      }
+    });
+  } catch (e) {
+    console.log("Impression error");
+    console.log(e);
+  }
+}
+
+export function promotionImpression(data: any) {
+  try {
+    const promotions = data.widgetImages.map((image: any) => {
+      return {
+        id: data.id || "",
+        name: data.name,
+        creative: image.title,
+        position: image.order
+      };
+    });
+    promotions;
+    dataLayer.push({
+      event: "promotionImpression",
+      ecommerce: {
+        promoView: {
+          promotions: promotions
+        }
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("promotionImpression error");
+  }
+}
+
+export function PDP(data: any, currency: Currency) {
+  try {
+    const products = [];
+    if (!data) return false;
+    if (data.length < 1) return false;
+    const index = data.categories.length - 1;
+    let category = data.categories[index]
+      ? data.categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+    products.push(
+      data.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: data.title,
+            id: child.sku,
+            category: category,
+            price: child.priceRecords[currency],
+            brand: "Goodearth",
+            variant: data.gaVariant
+          }
+        );
+      })
+    );
+    dataLayer.push({
+      event: "PDP",
+      ecommerce: {
+        detail: {
+          products
+        }
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("PDP impression error");
+  }
+}
+
+export function collectionProductImpression(
+  data: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    let product = [];
+    position = position || 0;
+    if (!data) return false;
+    if (data.length < 1) return false;
+    product = data.results.map((prod: any, i: number) => {
+      const index = prod.categories.length - 1;
+      let category = prod.categories[index]
+        ? prod.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+      return prod.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: category,
+            list: list,
+            price: child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: prod.color ? prod.color[0] : ""
+          }
+        );
+      });
+    });
+    dataLayer.push({
+      event: "productImpression",
+      ecommerce: {
+        currencyCode: currency,
+        impressions: product
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("Impression error");
+  }
+}
+
+export function weRecommendProductImpression(
+  data: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    let product = [];
+    position = position || 0;
+    if (!data) return false;
+    if (data.length < 1) return false;
+    product = data.map((prod: any, i: number) => {
+      const index = prod.categories.length - 1;
+      let category = prod.categories[index]
+        ? prod.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+      return prod.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: category,
+            list: list,
+            price: child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: prod.color ? prod.color[0] : ""
+          }
+        );
+      });
+    });
+    dataLayer.push({
+      event: "productImpression",
+      ecommerce: {
+        currencyCode: currency,
+        impressions: product
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("Impression error");
+  }
+}
+
+export function plpProductClick(
+  data: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    const products = [];
+    position = position || 0;
+    if (!data) return false;
+    if (data.length < 1) return false;
+    const index = data.categories.length - 1;
+    let category = data.categories[index]
+      ? data.categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+    products.push(
+      data.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: data.title,
+            id: child.sku,
+            category: category,
+            list: list,
+            price: child.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + 1,
+            variant: data.color ? data.color[0] : data.gaVariant || ""
+          }
+        );
+      })
+    );
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: currency,
+        click: {
+          actionField: { list: list },
+          products: products
+        }
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("ProductClick impression error");
   }
 }

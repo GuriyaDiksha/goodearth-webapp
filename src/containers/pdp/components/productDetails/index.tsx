@@ -90,7 +90,7 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   useLayoutEffect(() => {
-    setGtmListType(localStorage?.getItem("list") || "");
+    setGtmListType("PDP");
   });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {

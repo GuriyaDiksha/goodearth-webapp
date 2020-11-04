@@ -16,9 +16,10 @@ const RouteContainer: React.FC<Props> = ({
   const Component = component;
   const location = useLocation();
   const { refresh } = useSelector((state: AppState) => state.user);
+  const { currency } = useSelector((state: AppState) => state);
   params.refresh = "" + refresh;
   useEffect(() => {
-    action(store.dispatch, params, location);
+    action(store.dispatch, params, location, currency);
     let request: PageMetaRequest | undefined;
 
     if (meta) {
