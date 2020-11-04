@@ -262,7 +262,7 @@ export function PDP(data: any, currency: Currency) {
             category: category,
             price: child.priceRecords[currency],
             brand: "Goodearth",
-            variant: data.size
+            variant: child.size
           }
         );
       })
