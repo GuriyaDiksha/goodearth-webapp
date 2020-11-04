@@ -217,7 +217,6 @@ export function promotionImpression(data: any) {
         position: image.order
       };
     });
-    promotions;
     dataLayer.push({
       event: "promotionImpression",
       ecommerce: {
@@ -252,7 +251,7 @@ export function PDP(data: any, currency: Currency) {
             category: category,
             price: child.priceRecords[currency],
             brand: "Goodearth",
-            variant: data.gaVariant
+            variant: data.size
           }
         );
       })
@@ -410,4 +409,95 @@ export function plpProductClick(
     console.log(e);
     console.log("ProductClick impression error");
   }
+}
+
+export function promotionClick(data: any) {
+  try {
+    const promotions = [
+      {
+        id: data.id || "",
+        name: data.name,
+        creative: data.title,
+        position: data.order
+      }
+    ];
+    dataLayer.push({
+      event: "promotionClick",
+      ecommerce: {
+        promoClick: {
+          promotions: promotions
+        }
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("Promotion Click Impression error");
+  }
+}
+
+export function MoreFromCollectionProductImpression(
+  data: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    let product = [];
+    position = position || 0;
+    if (!data) return false;
+    if (data.length < 1) return false;
+    product = data.map((prod: any, i: number) => {
+      return Object.assign(
+        {},
+        {
+          name: prod.title,
+          id: prod.sku || prod.id,
+          category: "",
+          list: list,
+          price: prod.priceRecords[currency],
+          brand: "Goodearth",
+          position: position + i + 1,
+          variant: ""
+        }
+      );
+    });
+    dataLayer.push({
+      event: "productImpression",
+      ecommerce: {
+        currencyCode: currency,
+        impressions: product
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("Impression error");
+  }
+}
+
+export function MoreFromCollectionProductClick(
+  data: any,
+  list: any,
+  currency: Currency,
+  position: number
+) {
+  dataLayer.push({
+    event: "productClick",
+    ecommerce: {
+      currencyCode: currency,
+      click: {
+        actionField: { list: list },
+        products: [
+          {
+            name: data.title,
+            id: data.sku || data.id,
+            price: data.priceRecords[currency],
+            brand: "Goodearth",
+            category: "",
+            variant: "",
+            position: position
+          }
+        ]
+      }
+    }
+  });
 }

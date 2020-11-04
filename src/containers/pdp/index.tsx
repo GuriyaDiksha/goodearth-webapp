@@ -458,6 +458,7 @@ class PDPContainer extends React.Component<Props, State> {
         data={collectionProducts}
         setting={config as Settings}
         mobile={mobile}
+        currency={this.props.currency}
       />
     );
   }

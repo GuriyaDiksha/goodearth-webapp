@@ -23,7 +23,11 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
-    localStorage.setItem("list", "We Recommend");
+    const index = recommendedProducts.categories.length - 1;
+    let category = recommendedProducts.categories[index]
+      ? recommendedProducts.categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -32,12 +36,12 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           actionField: { list: "We Recommend" },
           products: [
             {
-              name: data.productName,
-              id: data.id,
-              price: data.pricerecords[currency],
+              name: recommendedProducts.title,
+              id: recommendedProducts.sku,
+              price: recommendedProducts.priceRecords[currency],
               brand: "Goodearth",
-              category: "",
-              variant: "",
+              category: category,
+              variant: recommendedProducts.childAttributes[0].size || "",
               position: i
             }
           ]

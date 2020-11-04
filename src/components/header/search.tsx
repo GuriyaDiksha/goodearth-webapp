@@ -135,7 +135,9 @@ class Search extends React.Component<Props, State> {
     const index = itemData.categories.length - 1;
     let category = itemData.categories[index].replace(/\s/g, "");
     category = category.replace(/>/g, "/");
-    // const cur = this.props.isSale ? itemData.discountedPriceRecords[this.props.currency] : itemData.priceRecords[this.props.currency]
+    const cur = this.props.isSale
+      ? itemData.discountedPriceRecords[this.props.currency]
+      : itemData.priceRecords[this.props.currency];
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -146,10 +148,10 @@ class Search extends React.Component<Props, State> {
             {
               name: data.title,
               id: itemData.childAttributes?.[0].sku,
-              price: null,
+              price: cur,
               brand: "Goodearth",
               category: category,
-              variant: itemData.gaVariant ? itemData.gaVariant : "",
+              variant: itemData.childAttributes?.[0].size || "",
               position: indices
             }
           ]

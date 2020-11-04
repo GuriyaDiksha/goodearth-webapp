@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
 import styles from "./styles.scss";
@@ -11,11 +11,20 @@ import "./slick.css";
 import { MoreCollectionSliderProps, MoreCollectionItem } from "./typings";
 import Slider from "react-slick";
 import LazyImage from "components/LazyImage";
+import * as valid from "utils/validate";
 
 const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
   props: MoreCollectionSliderProps
 ) => {
-  const { data, setting, mobile } = props;
+  const { data, setting, mobile, currency } = props;
+  useEffect(() => {
+    valid.MoreFromCollectionProductImpression(
+      data,
+      "More From Collection",
+      currency || "INR"
+    );
+  }, []);
+
   return (
     <div
       className={cs(bootstrapStyles.colMd12, "more-collection", {
@@ -40,7 +49,18 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     ) : (
                       ""
                     )}
-                    <Link to={item.url} className={styles.link}>
+                    <Link
+                      to={item.url}
+                      className={styles.link}
+                      onClick={() =>
+                        valid.MoreFromCollectionProductClick(
+                          item,
+                          "More From Collection",
+                          currency || "INR",
+                          i
+                        )
+                      }
+                    >
                       <LazyImage
                         aspectRatio="62:93"
                         src={item.image || "/static/img/noimageplp.png"}
@@ -50,7 +70,20 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     <div className={styles.moreBlock}>
                       <p className={styles.productH}>{item.collection}</p>
                       <p className={styles.productN}>
-                        <Link to={item.url}> {item.title} </Link>
+                        <Link
+                          to={item.url}
+                          onClick={() =>
+                            valid.MoreFromCollectionProductClick(
+                              item,
+                              "More From Collection",
+                              currency || "INR",
+                              i
+                            )
+                          }
+                        >
+                          {" "}
+                          {item.title}{" "}
+                        </Link>
                       </p>
                     </div>
                   </div>

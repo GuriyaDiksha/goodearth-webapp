@@ -123,7 +123,12 @@ class CategoryLanding extends React.Component<
               {img.banner_type == 1 ? (
                 <iframe width="70%" height="474px" src={img.video_url}></iframe>
               ) : (
-                <Link to={img.ctaUrl}>
+                <Link
+                  to={img.ctaUrl}
+                  onClick={() =>
+                    valid.promotionClick(Object.assign({}, data, img))
+                  }
+                >
                   <img src={img.image} className={globalStyles.imgResponsive} />
                 </Link>
               )}
@@ -134,7 +139,14 @@ class CategoryLanding extends React.Component<
                   styles.ctaCurly
                 )}
               >
-                <Link to={img.ctaUrl}>{img.ctaText}</Link>
+                <Link
+                  to={img.ctaUrl}
+                  onClick={() =>
+                    valid.promotionClick(Object.assign({}, data, img))
+                  }
+                >
+                  {img.ctaText}
+                </Link>
               </div>
             </div>
           );
@@ -177,7 +189,12 @@ class CategoryLanding extends React.Component<
                     globalStyles.textCenter
                   )}
                 >
-                  <Link to={widget.ctaUrl}>
+                  <Link
+                    to={widget.ctaUrl}
+                    onClick={() =>
+                      valid.promotionClick(Object.assign({}, allData, widget))
+                    }
+                  >
                     <span>{widget.ctaText}</span>
                   </Link>
                 </div>
@@ -202,7 +219,12 @@ class CategoryLanding extends React.Component<
                   globalStyles.textCenter
                 )}
               >
-                <Link to={widget.ctaUrl}>
+                <Link
+                  to={widget.ctaUrl}
+                  onClick={() =>
+                    valid.promotionClick(Object.assign({}, allData, widget))
+                  }
+                >
                   <span>{widget.ctaText}</span>
                 </Link>
               </div>
@@ -229,7 +251,14 @@ class CategoryLanding extends React.Component<
             <div className={bootstrap.colMd6}>
               <div className={cs(bootstrap.row, styles.leftPromo)}>
                 <div className={cs(bootstrap.colMd12, styles.promoDisp)}>
-                  <Link to={data[i].ctaUrl}>
+                  <Link
+                    to={data[i].ctaUrl}
+                    onClick={() =>
+                      valid.promotionClick(
+                        Object.assign({}, this.props.editSection, data[i + 1])
+                      )
+                    }
+                  >
                     <img
                       src={data[i].image}
                       alt={data[i].alt}
@@ -266,7 +295,18 @@ class CategoryLanding extends React.Component<
                         styles.pullRight
                       )}
                     >
-                      <Link to={data[i + 1].ctaUrl}>
+                      <Link
+                        to={data[i + 1].ctaUrl}
+                        onClick={() =>
+                          valid.promotionClick(
+                            Object.assign(
+                              {},
+                              this.props.editSection,
+                              data[i + 1]
+                            )
+                          )
+                        }
+                      >
                         {" "}
                         {data[i + 1].ctaText}{" "}
                       </Link>
@@ -296,7 +336,17 @@ class CategoryLanding extends React.Component<
                     {data[i - 1].description}
                   </div>
                   <div className={cs(styles.ctaCurly, styles.textCenter)}>
-                    <Link to={data[i - 1].ctaUrl}> {data[i - 1].ctaText}</Link>
+                    <Link
+                      to={data[i - 1].ctaUrl}
+                      onClick={() =>
+                        valid.promotionClick(
+                          Object.assign({}, this.props.editSection, data[i - 1])
+                        )
+                      }
+                    >
+                      {" "}
+                      {data[i - 1].ctaText}
+                    </Link>
                   </div>
                 </div>
                 <div
@@ -306,7 +356,14 @@ class CategoryLanding extends React.Component<
                     styles.textLeft
                   )}
                 >
-                  <Link to={data[i].ctaUrl}>
+                  <Link
+                    to={data[i].ctaUrl}
+                    onClick={() =>
+                      valid.promotionClick(
+                        Object.assign({}, this.props.editSection, data[i - 1])
+                      )
+                    }
+                  >
                     <img
                       src={data[i].image}
                       alt={data[i].alt}
@@ -336,7 +393,14 @@ class CategoryLanding extends React.Component<
                 <div className={bootstrap.col12}>
                   <div className={cs(bootstrap.row, styles.leftPromo)}>
                     <div className={cs(bootstrap.row, styles.promoDisp)}>
-                      <Link to={data.ctaUrl}>
+                      <Link
+                        to={data.ctaUrl}
+                        onClick={() =>
+                          valid.promotionClick(
+                            Object.assign({}, this.props.editSection, data)
+                          )
+                        }
+                      >
                         <LazyImage
                           src={data.image}
                           alt={data.alt}
@@ -360,7 +424,16 @@ class CategoryLanding extends React.Component<
                         {data.description}
                       </span>
                       <div className={styles.ctaCurly}>
-                        <Link to={data.ctaUrl}>{data.ctaText}</Link>
+                        <Link
+                          to={data.ctaUrl}
+                          onClick={() =>
+                            valid.promotionClick(
+                              Object.assign({}, this.props.editSection, data)
+                            )
+                          }
+                        >
+                          {data.ctaText}
+                        </Link>
                       </div>
                       <div>
                         <img src={bannermotive} />
@@ -378,6 +451,11 @@ class CategoryLanding extends React.Component<
                         src={data.image}
                         alt={data.title}
                         className={globalStyles.imgResponsive}
+                        onClick={() =>
+                          valid.promotionClick(
+                            Object.assign({}, this.props.editSection, data)
+                          )
+                        }
                       />
                     </Link>
                   </div>
@@ -391,7 +469,16 @@ class CategoryLanding extends React.Component<
                         {data.description}
                       </span>
                       <div className={styles.ctaCurly}>
-                        <Link to={data.ctaUrl}>{data.ctaText}</Link>
+                        <Link
+                          to={data.ctaUrl}
+                          onClick={() =>
+                            valid.promotionClick(
+                              Object.assign({}, this.props.editSection, data)
+                            )
+                          }
+                        >
+                          {data.ctaText}
+                        </Link>
                       </div>
                       <div className={globalStyles.voffset5}>
                         <img src={bird} />
