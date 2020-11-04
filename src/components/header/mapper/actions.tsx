@@ -37,17 +37,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (cookies: Cookies, page?: string) => {
       // if (page == "/") {
       // }
-      if (page == "/") {
-        HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-          console.log("FOOTER API ERROR ==== " + err);
-        });
-        HeaderService.fetchFooterDetails(dispatch).catch(err => {
-          console.log("FOOTER API ERROR ==== " + err);
-        });
-        Api.getAnnouncement(dispatch).catch(err => {
-          console.log("FOOTER API ERROR ==== " + err);
-        });
-      }
+      // if (page == "/") {
+      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      HeaderService.fetchFooterDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      // }
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
