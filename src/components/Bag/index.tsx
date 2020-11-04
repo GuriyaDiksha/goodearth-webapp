@@ -128,7 +128,7 @@ class Bag extends React.Component<Props, State> {
             </div>
             <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
-                {String.fromCharCode(currencyCodes[this.props.currency])}
+                {String.fromCharCode(...currencyCodes[this.props.currency])}
                 &nbsp;
                 {parseFloat(this.props.cart.total.toString()).toFixed(2)}
               </h5>
@@ -301,7 +301,7 @@ class Bag extends React.Component<Props, State> {
                 !
                 <br /> Select products worth{" "}
                 <span>
-                  {String.fromCharCode(currencyCodes[this.props.currency])}{" "}
+                  {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
                   {50000 - parseInt(this.props.cart.total.toString())}
                 </span>{" "}
                 or more to your order to qualify.

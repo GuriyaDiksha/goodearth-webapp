@@ -88,7 +88,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p className={cs(styles.bold, styles.price)}>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}
+                  {String.fromCharCode(
+                    ...currencyCode[data.currency as Currency]
+                  )}
                   &nbsp;{data.totalInclTax}
                 </p>
               </div>
@@ -170,7 +172,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}{" "}
+                  {String.fromCharCode(
+                    ...currencyCode[data.currency as Currency]
+                  )}{" "}
                   &nbsp;{data.totalInclTax}
                 </p>
               </div>
@@ -295,7 +299,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
                         {String.fromCharCode(
-                          currencyCode[item.priceCurrency as Currency]
+                          ...currencyCode[item.priceCurrency as Currency]
                         )}
                         &nbsp; {item.priceInclTax}
                       </p>

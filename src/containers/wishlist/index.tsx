@@ -472,7 +472,7 @@ class Wishlist extends React.Component<Props, State> {
             globalStyles.italic
           )}
         >
-          {String.fromCharCode(currencyCodes[this.props.currency]) +
+          {String.fromCharCode(...currencyCodes[this.props.currency]) +
             " " +
             this.state.totalPrice}
         </span>

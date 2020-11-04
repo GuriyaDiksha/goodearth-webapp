@@ -72,7 +72,9 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p className={cs(styles.bold, styles.price)}>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}
+                  {String.fromCharCode(
+                    ...currencyCode[data.currency as Currency]
+                  )}
                   &nbsp;{data.total}
                 </p>
               </div>

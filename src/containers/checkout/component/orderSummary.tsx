@@ -171,7 +171,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   {salestatus && item.product.discount ? (
                     <span className={styles.productPrice}>
                       <span className={styles.discountprice}>
-                        {String.fromCharCode(code)}{" "}
+                        {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
                           ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
@@ -182,7 +182,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>
                       &nbsp; &nbsp;
                       <span className={styles.strikeprice}>
-                        {String.fromCharCode(code)}{" "}
+                        {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
                           ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
@@ -197,7 +197,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                           item.product.badgeType == "B_flat"
                       })}
                     >
-                      {String.fromCharCode(code)}{" "}
+                      {String.fromCharCode(...code)}{" "}
                       {item.product.structure == "GiftCard"
                         ? parseFloat(item.GCValue.toString()).toFixed(2)
                         : parseFloat(
@@ -298,7 +298,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 </span>
               </span>
               <span className={styles.subtotal}>
-                (-) {String.fromCharCode(code)} {gift.amount}
+                (-) {String.fromCharCode(...code)} {gift.amount}
               </span>
             </div>
           );
@@ -344,7 +344,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </span>
             <span className={styles.subtotal}>
-              (-) {String.fromCharCode(code)} {gift.appliedAmount}
+              (-) {String.fromCharCode(...code)} {gift.appliedAmount}
             </span>
           </div>
         );
@@ -386,7 +386,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </span>
           <span className={styles.subtotal}>
-            (-) {String.fromCharCode(code)} {redeemDetails.points}
+            (-) {String.fromCharCode(...code)} {redeemDetails.points}
           </span>
         </div>
       );
@@ -507,7 +507,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
             <span className={styles.subtotal}>
-              (-) {String.fromCharCode(code)}{" "}
+              (-) {String.fromCharCode(...code)}{" "}
               {parseFloat(discount.amount).toFixed(2)}
             </span>
           </div>
@@ -533,7 +533,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>SUBTOTAL</span>
             <span className={styles.subtotal}>
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {parseFloat("" + basket.subTotal).toFixed(2)}
             </span>
           </div>
@@ -546,7 +546,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           >
             <span className={styles.subtotal}>ESTIMATED SHIPPING</span>
             <span className={styles.subtotal}>
-              (+) {String.fromCharCode(code)}{" "}
+              (+) {String.fromCharCode(...code)}{" "}
               {parseFloat(shippingCharge).toFixed(2)}
             </span>
           </div>
@@ -645,7 +645,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 TOTAL
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-                {String.fromCharCode(code)}{" "}
+                {String.fromCharCode(...code)}{" "}
                 {parseFloat("" + basket.total).toFixed(2)}
               </span>
             </div>

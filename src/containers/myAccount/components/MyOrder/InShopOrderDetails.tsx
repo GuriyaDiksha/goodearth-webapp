@@ -81,7 +81,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode["INR"])} &nbsp;
+                  {String.fromCharCode(...currencyCode["INR"])} &nbsp;
                   {shopdata.total}
                 </p>
               </div>
@@ -169,7 +169,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                         {item.title}
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
-                        {String.fromCharCode(currencyCode["INR"])}
+                        {String.fromCharCode(...currencyCode["INR"])}
                         &nbsp; {item.price}
                       </p>
                       <div className={styles.plp_prod_quantity}>

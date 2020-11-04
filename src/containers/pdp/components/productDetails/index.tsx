@@ -179,7 +179,7 @@ const ProductDetails: React.FC<Props> = ({
     updateComponentModal(
       <WallpaperPopup
         price={priceRecords[currency]}
-        currency={String.fromCharCode(currencyCodes[currency])}
+        currency={String.fromCharCode(...currencyCodes[currency])}
       />
     );
     changeModalState(true);
@@ -383,7 +383,7 @@ const ProductDetails: React.FC<Props> = ({
           >
             {info.isSale && discount && discountedPriceRecords ? (
               <span className={styles.discountedPrice}>
-                {String.fromCharCode(currencyCodes[currency])}
+                {String.fromCharCode(...currencyCodes[currency])}
                 &nbsp;
                 {discountPrices}
                 <br />
@@ -393,7 +393,7 @@ const ProductDetails: React.FC<Props> = ({
             )}
             {info.isSale && discount ? (
               <span className={styles.oldPrice}>
-                {String.fromCharCode(currencyCodes[currency])}
+                {String.fromCharCode(...currencyCodes[currency])}
                 &nbsp;
                 {price}
               </span>
@@ -402,7 +402,7 @@ const ProductDetails: React.FC<Props> = ({
                 className={badgeType == "B_flat" ? globalStyles.cerise : ""}
               >
                 {" "}
-                {String.fromCharCode(currencyCodes[currency])}
+                {String.fromCharCode(...currencyCodes[currency])}
                 &nbsp;
                 {price}
               </span>

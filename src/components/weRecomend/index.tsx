@@ -110,7 +110,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           <p className={styles.productN}>
             {item.discount ? (
               <span className={styles.discountprice}>
-                {String.fromCharCode(code)}{" "}
+                {String.fromCharCode(...code)}{" "}
                 {item.discountedPriceRecords[currency as Currency]}
               </span>
             ) : (
@@ -119,7 +119,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             {item.discount ? (
               <span className={styles.strikeprice}>
                 {" "}
-                {String.fromCharCode(code)}{" "}
+                {String.fromCharCode(...code)}{" "}
                 {item.pricerecords[currency as Currency]}{" "}
               </span>
             ) : (
@@ -129,7 +129,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
                 }
               >
                 {" "}
-                {String.fromCharCode(code)}{" "}
+                {String.fromCharCode(...code)}{" "}
                 {item.pricerecords[currency as Currency]}{" "}
               </span>
             )}

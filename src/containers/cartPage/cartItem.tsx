@@ -227,7 +227,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   <div className={styles.productPrice}>
                     {saleStatus && discount && discountedPriceRecords ? (
                       <span className={styles.discountprice}>
-                        {String.fromCharCode(currencyCodes[currency])}
+                        {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
                         {discountedPriceRecords[currency]}
                         &nbsp;&nbsp;&nbsp;
@@ -237,7 +237,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     )}
                     {saleStatus && discount ? (
                       <span className={styles.strikeprice}>
-                        {String.fromCharCode(currencyCodes[currency])}
+                        {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
                         {price}
                       </span>
@@ -248,7 +248,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         }
                       >
                         {" "}
-                        {String.fromCharCode(currencyCodes[currency])}
+                        {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
                         {product.structure == "GiftCard" ? GCValue : price}
                       </span>
