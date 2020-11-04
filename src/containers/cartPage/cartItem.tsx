@@ -68,7 +68,7 @@ const CartItems: React.FC<BasketItem> = memo(
                 brand: "Goodearth",
                 category: category,
                 // 'variant': product.ga_variant,
-                variant: "",
+                variant: product.childAttributes?.[0].size || "",
                 list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
                 quantity: quantity
               }
