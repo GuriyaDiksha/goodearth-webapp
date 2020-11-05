@@ -9,6 +9,7 @@ import mapDispatchToProps from "./mapper/actions";
 import GiftCardItem from "./giftDetail";
 import { AppState } from "reducers/typings";
 import OtpComponent from "components/OtpComponent";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -63,9 +64,14 @@ class CreditNote extends React.Component<Props, GiftState> {
       .then(response => {
         const { giftList } = this.state;
         if (response.currStatus == "Invalid-CN" || response.type == "GIFT") {
-          this.setState({
-            error: "Please enter a valid code"
-          });
+          this.setState(
+            {
+              error: "Please enter a valid code"
+            },
+            () => {
+              valid.errorTracking([this.state.error], location.href);
+            }
+          );
         } else if (response.currStatus == "Locked" && response.type == "CNI") {
           response.status = "locked";
           giftList.push(response);
@@ -110,18 +116,28 @@ class CreditNote extends React.Component<Props, GiftState> {
         }
       })
       .catch(err => {
-        this.setState({
-          error: err.response.data.message
-        });
+        this.setState(
+          {
+            error: err.response.data.message
+          },
+          () => {
+            valid.errorTracking([this.state.error], location.href);
+          }
+        );
       });
   };
 
   updateList = (response: any) => {
     const { giftList } = this.state;
     if (response.currStatus == "Invalid-CN") {
-      this.setState({
-        error: "Please enter a valid code"
-      });
+      this.setState(
+        {
+          error: "Please enter a valid code"
+        },
+        () => {
+          valid.errorTracking([this.state.error], location.href);
+        }
+      );
     } else if (response.currStatus == "Locked" && response.type == "CNI") {
       response.status = "locked";
       giftList.push(response);

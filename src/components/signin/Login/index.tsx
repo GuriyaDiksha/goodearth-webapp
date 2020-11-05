@@ -79,6 +79,10 @@ class LoginForm extends React.Component<Props, loginState> {
             msg: error,
             highlight: true
           });
+          valid.errorTracking(
+            ["This account already exists. Please set a new password"],
+            location.href
+          );
           this.emailInput.current && this.emailInput.current.focus();
         }
       } else {
@@ -102,6 +106,10 @@ class LoginForm extends React.Component<Props, loginState> {
           highlight: true
         });
         this.emailInput.current && this.emailInput.current.focus();
+        valid.errorTracking(
+          ["No registered user found. Please Sign Up"],
+          location.href
+        );
       }
     }
   }
@@ -181,10 +189,15 @@ class LoginForm extends React.Component<Props, loginState> {
               highlight: true
             });
           } else {
-            this.setState({
-              showerror:
-                "The user name and/or password you have entered is incorrect"
-            });
+            this.setState(
+              {
+                showerror:
+                  "The user name and/or password you have entered is incorrect"
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
           }
         });
     }

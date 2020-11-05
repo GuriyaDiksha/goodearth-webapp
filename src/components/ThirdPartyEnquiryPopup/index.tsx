@@ -18,6 +18,7 @@ import FormTextArea from "components/Formsy/FormTextArea";
 import FormSelect from "components/Formsy/FormSelect";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import * as valid from "utils/validate";
 
 type Props = {
   id: ProductID;
@@ -117,6 +118,14 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "thirdparty-enquiry-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
+      }
     }, 0);
   };
 
@@ -129,7 +138,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
       onValidSubmit={handleSubmit}
       onInvalidSubmit={handleInvalidSubmit}
     >
-      <div className={styles.categorylabel}>
+      <div className={styles.categorylabel} id="thirdparty-enquiry-form">
         <div>
           <FormInput
             name="name"

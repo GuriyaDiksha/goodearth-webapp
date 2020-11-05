@@ -43,11 +43,16 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!this.state.email) {
-      this.setState({
-        err: true,
-        msg: "Please Enter Email",
-        disableSelectedbox: false
-      });
+      this.setState(
+        {
+          err: true,
+          msg: "Please Enter Email",
+          disableSelectedbox: false
+        },
+        () => {
+          valid.errorTracking([this.state.msg as string], location.href);
+        }
+      );
     } else {
       const formData = new FormData();
       formData.append("email", this.state.email || "");
@@ -90,12 +95,21 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               msg: error,
               disableSelectedbox: false
             });
+            valid.errorTracking(
+              ["No registered user found. Please Sign Up"],
+              location.href
+            );
           } else {
-            this.setState({
-              err: true,
-              msg: err.response.data.email[0],
-              disableSelectedbox: false
-            });
+            this.setState(
+              {
+                err: true,
+                msg: err.response.data.email[0],
+                disableSelectedbox: false
+              },
+              () => {
+                valid.errorTracking([this.state.msg as string], location.href);
+              }
+            );
           }
         });
     }
