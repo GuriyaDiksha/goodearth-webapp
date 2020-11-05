@@ -6,6 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import whitelogo from "images/gelogoWhite.svg";
 import desktopImg from "images/desktopImg.jpg";
+import mobileImg from "images/mobileImg.jpg";
 import "styles/autosuggest.css";
 import LoginService from "services/login";
 // import iconStyles from "styles/iconFonts.scss";
@@ -23,7 +24,10 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const currencyList = useSelector(
     (state: AppState) => state.info.currencyList
   );
-  const currency = useSelector((state: AppState) => state.currency);
+  const {
+    currency,
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const curryList = currencyList.map(data => {
     return data.currencyCode;
   });
@@ -32,7 +36,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const [inputValue, setInputValue] = useState("");
   const [selectedCurrency, setSelectedCurrency] = useState("");
   const { closeModal } = useContext(Context);
-
+  let focused = false;
   useEffect(() => {
     currencyList.map((suggestion: any) => {
       if (suggestion.currencyCode == currency) {
@@ -46,7 +50,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   const getSuggestions = (value: string) => {
     const inputLength = value?.length || 0;
-    return inputLength === 0
+    return inputLength === 0 || focused
       ? currencyList
       : currencyList.filter(data => {
           const text = `${data.countryName} (${data.currencyCode} ${data.currencySymbol})`;
@@ -109,13 +113,20 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     setInputValue(newValue);
     setSelectedCurrency(newValue);
+    focused = false;
     event.stopPropagation();
+  };
+
+  const onFocus = () => {
+    focused = true;
+    setInputValue("");
   };
 
   const inputProps = {
     placeholder: "Select Your Currency",
     value: inputValue,
     onChange: onChange,
+    onFocus: onFocus,
     disabled: false,
     autoComplete: "new-password",
     className: "currencylist"
@@ -126,68 +137,68 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   };
 
   return (
-    <div>
-      <div
-        className={cs(
-          styles.introPage,
-          globalStyles.textCenter,
-          styles.introTransition
-        )}
-      >
-        <img src={desktopImg} className={globalStyles.imgResponsive} />
-        <div className={styles.content}>
-          <div className={globalStyles.textCenter}>
-            <img src={whitelogo} className={styles.logoWhite} />
-          </div>
-          <ul className={cs(styles.introlist)}>
-            {/* {this.createCategory()} */}
-            <li>Welcome to Good Earth</li>
-          </ul>
-          <ul className={styles.subHeading}>
-            Please select a location to continue
-          </ul>
-          <ul>
-            <div className={styles.suggestDropdown}>
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={() => setSuggestions([])}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                onSuggestionSelected={onSuggestionSelected}
-                shouldRenderSuggestions={shouldRenderSuggestions}
-                inputProps={inputProps}
-                id={"currencyid"}
-              />
-              {/* <label
+    <div
+      className={cs(
+        styles.introPage,
+        globalStyles.textCenter,
+        styles.introTransition
+      )}
+    >
+      <img
+        src={mobile ? mobileImg : desktopImg}
+        className={styles.imgResponsive}
+      />
+      <div className={styles.content}>
+        <div className={globalStyles.textCenter}>
+          <img src={whitelogo} className={styles.logoWhite} />
+        </div>
+        <ul className={cs(styles.introlist)}>
+          {/* {this.createCategory()} */}
+          <li>Welcome to Good Earth</li>
+        </ul>
+        <ul className={styles.subHeading}>
+          Please select a location to continue
+        </ul>
+        <ul>
+          <div className={styles.suggestDropdown}>
+            <Autosuggest
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={() => setSuggestions([])}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              onSuggestionSelected={onSuggestionSelected}
+              shouldRenderSuggestions={shouldRenderSuggestions}
+              inputProps={inputProps}
+              id={"currencyid"}
+            />
+            {/* <label
                         className={cs({
                         [globalStyles.hidden]: false
                         })}
                     >
                         {'hello'}
                     </label> */}
-              {errorMessage && (
-                <p
-                  className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
-                >
-                  {errorMessage}
-                </p>
-              )}
-            </div>
-          </ul>
-          <div className={styles.discover}>
-            <input
-              type="button"
-              className={globalStyles.ceriseBtn}
-              value="SHOP"
-              onClick={() => {
-                onChangeCurrency();
-              }}
-            />
+            {errorMessage && (
+              <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
+                {errorMessage}
+              </p>
+            )}
           </div>
+        </ul>
+        <div className={styles.discover}>
+          <input
+            type="button"
+            className={globalStyles.ceriseBtn}
+            value="SHOP"
+            onClick={() => {
+              onChangeCurrency();
+            }}
+          />
         </div>
-        <div className={cs(styles.textSkip, styles.categorylabel)}>
-          {/* <ul>
+      </div>
+      <div className={cs(styles.textSkip, styles.categorylabel)}>
+        {/* <ul>
                         <li className="subscribe">
                             <input type="checkbox" id="subscribe" value="on" checked={this.state.ischecked}
                                    onChange={this.saveIntropage.bind(this)}/>
@@ -197,7 +208,6 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
                             src={this.state.muted?"/static/img/icons_mute.svg":"/static/img/icons_no_mute.svg"}
                             width="50" onClick={this.soundToggle}/></li>
                     </ul> */}
-        </div>
       </div>
     </div>
     // </div>
