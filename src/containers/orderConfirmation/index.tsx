@@ -43,7 +43,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         price: line.priceInclTax,
         brand: "Good Earth",
         category: line.product.collection,
-        variant: null,
+        variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name
       };
