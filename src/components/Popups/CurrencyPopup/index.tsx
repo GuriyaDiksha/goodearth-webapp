@@ -91,12 +91,11 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   //   const currency = useSelector((state: AppState) => state.currency);
   const renderSuggestion = (data: any) => {
-    console.log(selectedCurrency, data.currencyCode);
     return (
       <div className={styles.flowRoot}>
         <div
           className={
-            data.currencyCode == selectedCurrency
+            data.currencyCode == currency
               ? cs(globalStyles.cerise, styles.left)
               : styles.left
           }
@@ -105,7 +104,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         </div>
         <div
           className={
-            data.currencyCode == selectedCurrency
+            data.currencyCode == currency
               ? cs(globalStyles.cerise, styles.left)
               : styles.right
           }

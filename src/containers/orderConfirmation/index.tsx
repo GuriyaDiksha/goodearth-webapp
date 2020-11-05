@@ -82,7 +82,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   const shippingAddress = confirmData.shippingAddress?.[0],
     billingAddress = confirmData.billingAddress?.[0];
-
+  if (!confirmData.number) {
+    return <></>;
+  }
   return (
     <div>
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
