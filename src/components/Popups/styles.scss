@@ -539,7 +539,7 @@
     width: 60%;
     position: relative;
     margin-left: 75px;
-    span{
+    .right{
       cursor: pointer;
       font-size: 10px;
       font-weight: normal;
@@ -548,6 +548,21 @@
       border-bottom: 1px solid #fff;
       letter-spacing: 0.1em;
       color: #666666;
+      float: right;
+    }
+    .left{
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: normal;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.1em;
+      color: #666666;
+      float:left
+    }
+    .flow-root {
+      display: flow-root;
     }
 }
 
@@ -556,7 +571,7 @@
     width: 100%;
     position: relative;
     margin-left: 0px;
-    span{
+    .right{
       cursor: pointer;
       font-size: 10px;
       font-weight: normal;
@@ -565,7 +580,20 @@
       border-bottom: 1px solid #fff;
       letter-spacing: 0.1em;
       color: #666666;
+      float: right;
     }
+    .left{
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: normal;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.1em;
+      color: #666666;
+      float:left
+    }
+
   } 
   .intro-page {
     .discover {
