@@ -20,5 +20,6 @@ export type RecommenedSliderProps = {
   data: RecommendData[];
   setting: Settings;
   currency: Currency;
+  recommendedProducts: any;
   mobile?: boolean;
 };

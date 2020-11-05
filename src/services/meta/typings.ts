@@ -17,4 +17,5 @@ export type PageMetaRequest = {
   page: string;
   pathName: string;
   productId?: string;
+  jobId?: string;
 };

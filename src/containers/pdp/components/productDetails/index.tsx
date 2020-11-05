@@ -90,7 +90,7 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   useLayoutEffect(() => {
-    setGtmListType(localStorage?.getItem("list") || "");
+    setGtmListType("PDP");
   });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
@@ -218,9 +218,9 @@ const ProductDetails: React.FC<Props> = ({
               price: priceRecords[currency],
               brand: "Goodearth",
               category: collection,
-              variant: gaVariant,
+              variant: childAttributes[0]?.size || "",
               quantity: quantity,
-              list: localStorage.getItem("list")
+              list: "PDP"
             }
           ]
         }
@@ -271,10 +271,15 @@ const ProductDetails: React.FC<Props> = ({
         selectedIndex = i;
       }
     });
-
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     updateComponentModal(
       <NotifyMePopup
         collection={collection}
+        category={category}
         price={priceRecords[currency]}
         currency={currency}
         childAttributes={childAttributes}

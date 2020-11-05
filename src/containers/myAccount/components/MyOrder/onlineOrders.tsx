@@ -266,6 +266,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               </div>
             </div>
             {data.lines.map((item: any) => {
+              const isDiscount =
+                +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
               return (
                 <div
                   className={cs(
@@ -298,10 +300,47 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                         {item.title}
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
-                        {String.fromCharCode(
-                          ...currencyCode[item.priceCurrency as Currency]
+                        {isDiscount ? (
+                          <span className={styles.discountprice}>
+                            {String.fromCharCode(
+                              ...currencyCode[item.priceCurrency as Currency]
+                            )}
+                            {+parseFloat(item.priceInclTax).toFixed(2) /
+                              +item.quantity}
+                            &nbsp;{" "}
+                          </span>
+                        ) : (
+                          ""
                         )}
-                        &nbsp; {item.priceInclTax}
+                        {isDiscount ? (
+                          <span className={styles.strikeprice}>
+                            {String.fromCharCode(
+                              ...currencyCode[item.priceCurrency as Currency]
+                            )}
+                            {+parseFloat(
+                              item.priceExclTaxExclDiscounts
+                            ).toFixed(2) / +item.quantity}
+                            &nbsp;{" "}
+                          </span>
+                        ) : (
+                          <span
+                            className={cs(
+                              {
+                                [globalStyles.cerise]:
+                                  item.product.badgeType == "B_flat"
+                              },
+                              styles.price
+                            )}
+                          >
+                            {String.fromCharCode(
+                              ...currencyCode[item.priceCurrency as Currency]
+                            )}
+                            &nbsp;{" "}
+                            {+parseFloat(
+                              item.priceExclTaxExclDiscounts
+                            ).toFixed(2) / +item.quantity}
+                          </span>
+                        )}
                       </p>
                       {item.product.size ? (
                         <div className={styles.plp_prod_quantity}>

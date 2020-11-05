@@ -28,7 +28,7 @@ import Slider, { Settings } from "react-slick";
 import LazyImage from "components/LazyImage";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
-
+import * as valid from "utils/validate";
 const mapStateToProps = (state: AppState) => {
   return {
     shopthelook1: state.category.shopthelook1,
@@ -186,7 +186,12 @@ class CategoryLanding extends React.Component<
               {img.banner_type == 1 ? (
                 <iframe width="70%" height="474px" src={img.video_url}></iframe>
               ) : (
-                <Link to={img.ctaUrl}>
+                <Link
+                  to={img.ctaUrl}
+                  onClick={() =>
+                    valid.promotionClick(Object.assign({}, data, img))
+                  }
+                >
                   <img src={img.image} className={globalStyles.imgResponsive} />
                 </Link>
               )}
@@ -197,7 +202,14 @@ class CategoryLanding extends React.Component<
                   styles.ctaCurly
                 )}
               >
-                <Link to={img.ctaUrl}>{img.ctaText}</Link>
+                <Link
+                  to={img.ctaUrl}
+                  onClick={() =>
+                    valid.promotionClick(Object.assign({}, data, img))
+                  }
+                >
+                  {img.ctaText}
+                </Link>
               </div>
             </div>
           );
@@ -205,6 +217,9 @@ class CategoryLanding extends React.Component<
       </Slider>
     );
 
+    if (html.length) {
+      valid.promotionImpression(data);
+    }
     return html;
   }
 
@@ -220,8 +235,8 @@ class CategoryLanding extends React.Component<
     });
   }
 
-  getBannerForCategory(widgetData: any, id: number) {
-    const data = widgetData || [],
+  getBannerForCategory(allData: any, id: number) {
+    const data = allData.widgetData || [],
       html: any = [];
     data.map((widget: any, i: number) => {
       if (this.props.device.mobile) {
@@ -237,7 +252,12 @@ class CategoryLanding extends React.Component<
                     globalStyles.textCenter
                   )}
                 >
-                  <Link to={widget.ctaUrl}>
+                  <Link
+                    to={widget.ctaUrl}
+                    onClick={() =>
+                      valid.promotionClick(Object.assign({}, allData, widget))
+                    }
+                  >
                     <span>{widget.ctaText}</span>
                   </Link>
                 </div>
@@ -262,7 +282,12 @@ class CategoryLanding extends React.Component<
                   globalStyles.textCenter
                 )}
               >
-                <Link to={widget.ctaUrl}>
+                <Link
+                  to={widget.ctaUrl}
+                  onClick={() =>
+                    valid.promotionClick(Object.assign({}, allData, widget))
+                  }
+                >
                   <span>{widget.ctaText}</span>
                 </Link>
               </div>
@@ -273,6 +298,9 @@ class CategoryLanding extends React.Component<
         );
       }
     });
+    if (html.length) {
+      valid.promotionImpression(allData);
+    }
     return html;
   }
 
@@ -286,7 +314,14 @@ class CategoryLanding extends React.Component<
             <div className={bootstrap.colMd6}>
               <div className={cs(bootstrap.row, styles.leftPromo)}>
                 <div className={cs(bootstrap.colMd12, styles.promoDisp)}>
-                  <Link to={data[i].ctaUrl}>
+                  <Link
+                    to={data[i].ctaUrl}
+                    onClick={() =>
+                      valid.promotionClick(
+                        Object.assign({}, this.props.editSection, data[i + 1])
+                      )
+                    }
+                  >
                     <img
                       src={data[i].image}
                       alt={data[i].alt}
@@ -323,7 +358,18 @@ class CategoryLanding extends React.Component<
                         styles.pullRight
                       )}
                     >
-                      <Link to={data[i + 1].ctaUrl}>
+                      <Link
+                        to={data[i + 1].ctaUrl}
+                        onClick={() =>
+                          valid.promotionClick(
+                            Object.assign(
+                              {},
+                              this.props.editSection,
+                              data[i + 1]
+                            )
+                          )
+                        }
+                      >
                         {" "}
                         {data[i + 1].ctaText}{" "}
                       </Link>
@@ -353,7 +399,17 @@ class CategoryLanding extends React.Component<
                     {data[i - 1].description}
                   </div>
                   <div className={cs(styles.ctaCurly, styles.textCenter)}>
-                    <Link to={data[i - 1].ctaUrl}> {data[i - 1].ctaText}</Link>
+                    <Link
+                      to={data[i - 1].ctaUrl}
+                      onClick={() =>
+                        valid.promotionClick(
+                          Object.assign({}, this.props.editSection, data[i - 1])
+                        )
+                      }
+                    >
+                      {" "}
+                      {data[i - 1].ctaText}
+                    </Link>
                   </div>
                 </div>
                 <div
@@ -363,7 +419,14 @@ class CategoryLanding extends React.Component<
                     styles.textLeft
                   )}
                 >
-                  <Link to={data[i].ctaUrl}>
+                  <Link
+                    to={data[i].ctaUrl}
+                    onClick={() =>
+                      valid.promotionClick(
+                        Object.assign({}, this.props.editSection, data[i - 1])
+                      )
+                    }
+                  >
                     <img
                       src={data[i].image}
                       alt={data[i].alt}
@@ -377,7 +440,124 @@ class CategoryLanding extends React.Component<
         }
       }
     }
+    if (htmlblock1.length) {
+      valid.promotionImpression(this.props.editSection);
+    }
     return htmlblock1;
+  }
+
+  createMiddleBlockMobile() {
+    const html: any = [];
+    {
+      this.props.editSection.widgetImages
+        ? this.props.editSection.widgetImages.map((data: any, i: number) => {
+            if (i % 2 == 0) {
+              html.push(
+                <div className={bootstrap.col12}>
+                  <div className={cs(bootstrap.row, styles.leftPromo)}>
+                    <div className={cs(bootstrap.row, styles.promoDisp)}>
+                      <Link
+                        to={data.ctaUrl}
+                        onClick={() =>
+                          valid.promotionClick(
+                            Object.assign({}, this.props.editSection, data)
+                          )
+                        }
+                      >
+                        <LazyImage
+                          src={data.image}
+                          alt={data.alt}
+                          className={globalStyles.imgResponsive}
+                        />
+                      </Link>
+                    </div>
+                    <div
+                      className={cs(
+                        bootstrap.col12,
+                        styles.promoDisp,
+                        styles.txtDisp
+                      )}
+                    >
+                      <h2 className={styles.headLink2}>
+                        <p>{data.title.split("|")[0]}</p>
+                        <p>{data.title.split("|")[1]}</p>
+                      </h2>
+
+                      <span className={styles.subtitleHead}>
+                        {data.description}
+                      </span>
+                      <div className={styles.ctaCurly}>
+                        <Link
+                          to={data.ctaUrl}
+                          onClick={() =>
+                            valid.promotionClick(
+                              Object.assign({}, this.props.editSection, data)
+                            )
+                          }
+                        >
+                          {data.ctaText}
+                        </Link>
+                      </div>
+                      <div>
+                        <img src={bannermotive} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            } else {
+              html.push(
+                <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
+                  <div className={cs(bootstrap.col12, styles.promoDisp)}>
+                    <Link to={data.ctaUrl}>
+                      <img
+                        src={data.image}
+                        alt={data.title}
+                        className={globalStyles.imgResponsive}
+                        onClick={() =>
+                          valid.promotionClick(
+                            Object.assign({}, this.props.editSection, data)
+                          )
+                        }
+                      />
+                    </Link>
+                  </div>
+                  <div className={cs(bootstrap.col12, styles.promoDisp)}>
+                    <div className={styles.alignDispLeft}>
+                      <h2 className={styles.headLink2}>
+                        <p>{data.title.split("|")[0]}</p>
+                        <p>{data.title.split("|")[1]}</p>
+                      </h2>
+                      <span className={styles.subtitleHead}>
+                        {data.description}
+                      </span>
+                      <div className={styles.ctaCurly}>
+                        <Link
+                          to={data.ctaUrl}
+                          onClick={() =>
+                            valid.promotionClick(
+                              Object.assign({}, this.props.editSection, data)
+                            )
+                          }
+                        >
+                          {data.ctaText}
+                        </Link>
+                      </div>
+                      <div className={globalStyles.voffset5}>
+                        <img src={bird} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+          })
+        : "";
+    }
+    if (html.length) {
+      valid.promotionImpression(this.props.editSection);
+    }
+    return html;
   }
 
   render() {
@@ -441,10 +621,7 @@ class CategoryLanding extends React.Component<
             <section>
               <div className={cs(bootstrap.row, styles.firstBlock)}>
                 <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
-                  {this.getBannerForCategory(
-                    shopthelook1.widgetImages,
-                    shopthelook1.id
-                  )}
+                  {this.getBannerForCategory(shopthelook1, shopthelook1.id)}
                   <div className={bootstrap.row}>
                     <div className={bootstrap.col12}>
                       {/* {show ? <ShopTheLook listdata={shopthelook1.product}
@@ -533,90 +710,7 @@ class CategoryLanding extends React.Component<
               <div className={styles.smallDesc}>{editSection.description}</div>
 
               <div className={bootstrap.row}>
-                {editSection.widgetImages
-                  ? editSection.widgetImages.map((data: any, i: number) => {
-                      if (i % 2 == 0) {
-                        return (
-                          <div className={bootstrap.col12}>
-                            <div
-                              className={cs(bootstrap.row, styles.leftPromo)}
-                            >
-                              <div
-                                className={cs(bootstrap.row, styles.promoDisp)}
-                              >
-                                <Link to={data.ctaUrl}>
-                                  <LazyImage
-                                    src={data.image}
-                                    alt={data.alt}
-                                    className={globalStyles.imgResponsive}
-                                  />
-                                </Link>
-                              </div>
-                              <div
-                                className={cs(
-                                  bootstrap.col12,
-                                  styles.promoDisp,
-                                  styles.txtDisp
-                                )}
-                              >
-                                <h2 className={styles.headLink2}>
-                                  <p>{data.title.split("|")[0]}</p>
-                                  <p>{data.title.split("|")[1]}</p>
-                                </h2>
-
-                                <span className={styles.subtitleHead}>
-                                  {data.description}
-                                </span>
-                                <div className={styles.ctaCurly}>
-                                  <Link to={data.ctaUrl}>{data.ctaText}</Link>
-                                </div>
-                                <div>
-                                  <img src={bannermotive} />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div
-                            className={cs(bootstrap.col12, bootstrap.colMd6)}
-                          >
-                            <div
-                              className={cs(bootstrap.col12, styles.promoDisp)}
-                            >
-                              <Link to={data.ctaUrl}>
-                                <img
-                                  src={data.image}
-                                  alt={data.title}
-                                  className={globalStyles.imgResponsive}
-                                />
-                              </Link>
-                            </div>
-                            <div
-                              className={cs(bootstrap.col12, styles.promoDisp)}
-                            >
-                              <div className={styles.alignDispLeft}>
-                                <h2 className={styles.headLink2}>
-                                  <p>{data.title.split("|")[0]}</p>
-                                  <p>{data.title.split("|")[1]}</p>
-                                </h2>
-                                <span className={styles.subtitleHead}>
-                                  {data.description}
-                                </span>
-                                <div className={styles.ctaCurly}>
-                                  <Link to={data.ctaUrl}>{data.ctaText}</Link>
-                                </div>
-                                <div className={globalStyles.voffset5}>
-                                  <img src={bird} />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                    })
-                  : ""}
+                {this.createMiddleBlockMobile()}
               </div>
             </div>
           </section>
@@ -655,6 +749,7 @@ class CategoryLanding extends React.Component<
                       data={peoplebuying.results}
                       setting={config}
                       mobile={mobile}
+                      currency={this.props.currency}
                     />
                   </div>
                 </div>
@@ -672,10 +767,7 @@ class CategoryLanding extends React.Component<
                   />
                 </div>
                 <div className={cs(bootstrap.col12, styles.heroBannerHome)}>
-                  {this.getBannerForCategory(
-                    shopthelook2.widgetImages,
-                    shopthelook2.id
-                  )}
+                  {this.getBannerForCategory(shopthelook2, shopthelook2.id)}
                   <div className={bootstrap.row}>
                     <div className={bootstrap.col12}>
                       {/* {showbottom ? <ShopTheLook listdata={shopthelook2.product}

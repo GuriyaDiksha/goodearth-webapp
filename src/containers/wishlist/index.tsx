@@ -100,6 +100,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             currency={currency}
             title={item.productName}
             childAttributes={childAttributes}
+            collection={item.collection}
             selectedIndex={selectedIndex}
             changeSize={changeSize}
             isSale={isSale}

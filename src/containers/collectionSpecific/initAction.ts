@@ -6,8 +6,14 @@ import {
 } from "actions/collection";
 import { updatePartialProducts } from "actions/product";
 import { getProductIdFromSlug } from "utils/url.ts";
+import * as valid from "utils/validate";
 
-const initActionSpecific: InitAction = async (dispatch, { slug }) => {
+const initActionSpecific: InitAction = async (
+  dispatch,
+  { slug },
+  location,
+  currency
+) => {
   const id = getProductIdFromSlug(slug);
   if (id) {
     const [filterData, bannerData] = await Promise.all([
@@ -25,6 +31,11 @@ const initActionSpecific: InitAction = async (dispatch, { slug }) => {
     const plpProduct: any = filterData && filterData.results;
 
     if (filterData) {
+      valid.collectionProductImpression(
+        filterData,
+        "CollectionSpecific",
+        currency || "INR"
+      );
       dispatch(updateCollectionSpecificData({ ...filterData }));
     }
     if (bannerData) {

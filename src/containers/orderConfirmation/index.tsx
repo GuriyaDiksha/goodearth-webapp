@@ -43,7 +43,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         price: line.priceInclTax,
         brand: "Good Earth",
         category: line.product.collection,
-        variant: null,
+        variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name
       };
@@ -314,11 +314,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 </span>
                               ) : (
                                 <span
-                                  className={
-                                    item.product.badgeType == "B_flat"
-                                      ? globalStyles.cerise
-                                      : ""
-                                  }
+                                  className={cs(
+                                    {
+                                      [globalStyles.cerise]:
+                                        item.product.badgeType == "B_flat"
+                                    },
+                                    styles.price
+                                  )}
                                 >
                                   {String.fromCharCode(
                                     ...currencyCode[

@@ -166,10 +166,10 @@ class PLP extends React.Component<
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const queryString = nextProps.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const param = urlParams.get("sort_by");
     if (this.props.location.pathname != nextProps.location.pathname) {
-      const queryString = nextProps.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const param = urlParams.get("sort_by");
       this.setState({
         plpMaker: false,
         sortValue: param ? param : "hc",
@@ -177,6 +177,12 @@ class PLP extends React.Component<
           nextProps.location.pathname.includes("corporate-gifting") ||
           nextProps.location.search.includes("&src_type=cp"),
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
+      });
+    }
+
+    if (!param && this.state.sortValue != "hc") {
+      this.setState({
+        sortValue: "hc"
       });
     }
   }
@@ -395,6 +401,8 @@ class PLP extends React.Component<
                     key={item.id}
                   >
                     <PlpResultItem
+                      page="PLP"
+                      position={index}
                       product={item}
                       addedToWishlist={false}
                       currency={currency}
