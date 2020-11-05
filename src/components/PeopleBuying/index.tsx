@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
 import styles from "./styles.scss";
@@ -13,15 +13,20 @@ import "./slick.css";
 import { PeopleRecommend, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
+import * as valid from "utils/validate";
 
 const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
-  const { data, setting, mobile } = props;
+  const { data, setting, mobile, currency } = props;
   const [currentId, setCurrentId] = useState(-1);
   if (typeof document == "undefined") {
     return null;
   }
+
+  useEffect(() => {
+    valid.sliderProductImpression(data, "PeopleBuying", currency || "INR");
+  }, []);
   const items = data?.map((item: PeopleRecommend, i: number) => {
     return (
       <div

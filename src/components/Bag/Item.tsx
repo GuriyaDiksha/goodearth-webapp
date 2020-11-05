@@ -218,6 +218,7 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <WishlistButton
+                  gtmListType="Mini Bag"
                   title={product.title}
                   childAttributes={product.childAttributes}
                   priceRecords={product.priceRecords}

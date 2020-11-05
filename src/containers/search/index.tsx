@@ -167,7 +167,7 @@ class Search extends React.Component<
           price: skuItem.priceRecords[this.props.currency],
           brand: "Goodearth",
           category: category,
-          variant: skuItem.color ? skuItem.color[0] : "",
+          variant: skuItem.color ? skuItem.color[0] : skuItem.size || "",
           position: i
         };
       });
@@ -378,6 +378,8 @@ class Search extends React.Component<
                   >
                     {item.productClass != "GiftCard" ? (
                       <PlpResultItem
+                        page="Search"
+                        position={i}
                         product={item}
                         addedToWishlist={false}
                         currency={currency}

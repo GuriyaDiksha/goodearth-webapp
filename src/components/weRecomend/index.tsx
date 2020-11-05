@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
 import styles from "./styles.scss";
@@ -14,15 +14,20 @@ import { RecommendData, RecommenedSliderProps } from "./typings";
 import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
 import LazyImage from "components/LazyImage";
+import * as valid from "utils/validate";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
-  const { data, setting, currency, mobile } = props;
+  const { data, setting, currency, mobile, recommendedProducts } = props;
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
-    localStorage.setItem("list", "We Recommend");
+    const index = recommendedProducts.categories.length - 1;
+    let category = recommendedProducts.categories[index]
+      ? recommendedProducts.categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -31,12 +36,12 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           actionField: { list: "We Recommend" },
           products: [
             {
-              name: data.productName,
-              id: data.id,
-              price: data.pricerecords[currency],
+              name: recommendedProducts.title,
+              id: recommendedProducts.sku,
+              price: recommendedProducts.priceRecords[currency],
               brand: "Goodearth",
-              category: "",
-              variant: "",
+              category: category,
+              variant: recommendedProducts.childAttributes[0].size || "",
               position: i
             }
           ]
@@ -49,6 +54,14 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
       return item.pricerecords[currency as Currency] != 0;
     }
   );
+
+  useEffect(() => {
+    valid.weRecommendProductImpression(
+      recommendedProducts,
+      "We Recommend",
+      currency
+    );
+  }, []);
 
   const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
     return (

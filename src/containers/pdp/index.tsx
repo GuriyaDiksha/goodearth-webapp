@@ -27,6 +27,7 @@ import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.png";
 import LazyImage from "components/LazyImage";
+import * as valid from "utils/validate";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -45,11 +46,16 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     data && data.recommendedProducts && data.recommendedProducts.length
       ? getProductSliderItems(data.recommendedProducts, state.products)
       : [];
+  const recommendedProducts =
+    data && data.recommendedProducts && data.recommendedProducts.length
+      ? data.recommendedProducts.map(id => state.products[id])
+      : [];
 
   return {
     id,
     data,
     recommendedSliderItems,
+    recommendedProducts,
     currency: state.currency,
     device: state.device,
     location: state.router.location,
@@ -109,6 +115,7 @@ class PDPContainer extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_pdp_view"
     });
+    valid.PDP(this.props.data, this.props.currency);
     if (this.props.device.mobile) {
       this.getProductImagesData();
       const elem = document.getElementById("pincode-bar");
@@ -396,6 +403,7 @@ class PDPContainer extends React.Component<Props, State> {
     return (
       <WeRecommendSlider
         data={recommendedSliderItems}
+        recommendedProducts={this.props.recommendedProducts}
         setting={config as Settings}
         currency={currency}
         mobile={mobile}
@@ -450,6 +458,7 @@ class PDPContainer extends React.Component<Props, State> {
         data={collectionProducts}
         setting={config as Settings}
         mobile={mobile}
+        currency={this.props.currency}
       />
     );
   }

@@ -45,6 +45,7 @@ type Props = {
   discount: boolean;
   badgeType?: string;
   discountedPrice?: number;
+  category?: string;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
 };
@@ -55,6 +56,7 @@ const NotifyMePopup: React.FC<Props> = ({
   price,
   discountedPrice,
   collection,
+  category,
   childAttributes,
   title,
   selectedIndex,
@@ -139,12 +141,11 @@ const NotifyMePopup: React.FC<Props> = ({
           products: [
             {
               name: title,
-              id: childAttributes[0].sku,
+              id: selectedSize?.sku || childAttributes[0].sku,
               price: price,
               brand: "Goodearth",
-              category: collection,
-              variant: null,
-              // 'variant': this.props.wishlist_product.ga_variant,
+              category: category,
+              variant: selectedSize?.size || childAttributes[0].size || "",
               quantity: quantity,
               list: localStorage.getItem("list")
             }
