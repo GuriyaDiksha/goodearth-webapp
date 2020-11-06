@@ -21,6 +21,7 @@ import mapDispatchToProps from "./mapper/actions";
 import { connect } from "react-redux";
 import { checkMail } from "utils/validate";
 import { genderOptions } from "constants/profile";
+import * as valid from "utils/validate";
 
 const mapStateToProps = () => {
   return {};
@@ -207,6 +208,14 @@ class RegisterForm extends React.Component<Props, registerState> {
         elem.focus();
         elem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "popup-register-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
+      }
     }, 0);
   };
 
@@ -372,7 +381,7 @@ class RegisterForm extends React.Component<Props, registerState> {
         onValidSubmit={this.handleSubmit}
         onInvalidSubmit={this.handleInvalidSubmit}
       >
-        <div className={styles.categorylabel}>
+        <div className={styles.categorylabel} id="popup-register-form">
           <div>
             <FormInput
               name="email"

@@ -121,7 +121,7 @@ class CollectionLanding extends React.Component<
     dataLayer.push({
       event: "CategoryLangingPageView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_Category_langingPageView"
+      PageTitle: "virtual_categoryLangingPage_view"
     });
     this.setState({
       landingMaker: true

@@ -9,6 +9,7 @@ import mapDispatchToProps from "./mapper/actions";
 import GiftCardItem from "./giftDetail";
 import { AppState } from "reducers/typings";
 import OtpComponent from "components/OtpComponent";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -125,9 +126,14 @@ class Giftcard extends React.Component<Props, GiftState> {
         const { status, currStatus, message } = err.response.data;
         if (!status) {
           if (currStatus == "Invalid-CN") {
-            this.setState({
-              error: message
-            });
+            this.setState(
+              {
+                error: message
+              },
+              () => {
+                valid.errorTracking([this.state.error], location.href);
+              }
+            );
           } else {
             // to be handled
           }
@@ -138,9 +144,14 @@ class Giftcard extends React.Component<Props, GiftState> {
   updateList = (response: any) => {
     const { giftList } = this.state;
     if (response.currStatus == "Invalid-CN") {
-      this.setState({
-        error: "Please enter a valid code"
-      });
+      this.setState(
+        {
+          error: "Please enter a valid code"
+        },
+        () => {
+          valid.errorTracking([this.state.error], location.href);
+        }
+      );
     } else if (
       response.currStatus == "Not Activated" &&
       response.type == "GIFT"

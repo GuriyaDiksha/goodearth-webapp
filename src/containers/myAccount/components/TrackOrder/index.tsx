@@ -12,6 +12,7 @@ import mapDispatchToProps from "../MyOrder/mapper/actions";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
 import { withRouter, RouteComponentProps } from "react-router";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -91,27 +92,42 @@ class TrackOrder extends React.Component<Props, State> {
       .then((response: any) => {
         if (response.count == 0) {
           // resetForm();
-          this.setState({
-            showerror:
-              "Order not found, please recheck the information entered.",
-            loader: false
-          });
+          this.setState(
+            {
+              showerror:
+                "Order not found, please recheck the information entered.",
+              loader: false
+            },
+            () => {
+              valid.errorTracking([this.state.showerror], location.href);
+            }
+          );
         } else if (response.results[0]?.isOnlyGiftOrder) {
-          this.setState({
-            showerror:
-              "E-gift card has been sent to the recipient's email address.",
-            loader: false
-          });
+          this.setState(
+            {
+              showerror:
+                "E-gift card has been sent to the recipient's email address.",
+              loader: false
+            },
+            () => {
+              valid.errorTracking([this.state.showerror], location.href);
+            }
+          );
         } else if (response.count > 0) {
           this.props
             .fetchCourierData(orderNumber)
             .then(data => {
               if (data == "error") {
-                this.setState({
-                  showerror:
-                    "Please retry in some time, unable to fetch order details at this time.",
-                  loader: false
-                });
+                this.setState(
+                  {
+                    showerror:
+                      "Please retry in some time, unable to fetch order details at this time.",
+                    loader: false
+                  },
+                  () => {
+                    valid.errorTracking([this.state.showerror], location.href);
+                  }
+                );
               } else {
                 this.setState({
                   trackingData: data,
@@ -122,21 +138,31 @@ class TrackOrder extends React.Component<Props, State> {
               }
             })
             .catch(err => {
-              this.setState({
-                showerror:
-                  "Please retry in some time, unable to fetch order details at this time.",
-                loader: false
-              });
+              this.setState(
+                {
+                  showerror:
+                    "Please retry in some time, unable to fetch order details at this time.",
+                  loader: false
+                },
+                () => {
+                  valid.errorTracking([this.state.showerror], location.href);
+                }
+              );
               console.log(err);
             });
         }
       })
       .catch(err => {
-        this.setState({
-          showerror:
-            "Please retry in some time, unable to fetch order details at this time.",
-          loader: false
-        });
+        this.setState(
+          {
+            showerror:
+              "Please retry in some time, unable to fetch order details at this time.",
+            loader: false
+          },
+          () => {
+            valid.errorTracking([this.state.showerror], location.href);
+          }
+        );
         console.log(err);
       });
   }
