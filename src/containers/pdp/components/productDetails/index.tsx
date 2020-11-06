@@ -41,6 +41,7 @@ import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
+import * as valid from "utils/validate";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -231,6 +232,7 @@ const ProductDetails: React.FC<Props> = ({
   const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
+      valid.errorTracking(["Please select size"], window.location.href);
       showError();
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
@@ -241,6 +243,7 @@ const ProductDetails: React.FC<Props> = ({
         .catch(err => {
           if (typeof err.response.data != "object") {
             dispatch(showMessage(err.response.data));
+            valid.errorTracking([err.response.data], window.location.href);
           }
         });
     }
