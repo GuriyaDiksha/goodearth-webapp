@@ -44,12 +44,6 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.HOME,
-    component: loadable(() => import("containers/home")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.SEARCH,
     component: loadable(() => import("containers/search")),
     action: initActionSearch,
@@ -190,6 +184,12 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.PUSHPANJALI,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.HOME,
     component: loadable(() => import("containers/home")),
     action: async () => null,
     exact: true
