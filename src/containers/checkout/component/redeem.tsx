@@ -9,6 +9,7 @@ import mapDispatchToProps from "../mapper/action";
 import iconStyles from "styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
 import OtpReedem from "components/OtpComponent/otpReedem";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -64,9 +65,14 @@ class Reedem extends React.Component<Props, RedeemState> {
   };
 
   updateError = () => {
-    this.setState({
-      error: "Please enter points"
-    });
+    this.setState(
+      {
+        error: "Please enter points"
+      },
+      () => {
+        valid.errorTracking([this.state.error], location.href);
+      }
+    );
     const elem: any = document.getElementById("redeem");
     elem.scrollIntoView();
     window.scrollBy(0, -200);

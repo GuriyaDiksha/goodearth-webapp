@@ -8,6 +8,7 @@ import FormInput from "../../../../components/Formsy/FormInput";
 import Formsy from "formsy-react";
 import { PasswordProps, State } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
+import * as valid from "utils/validate";
 
 const mapStateToProps = () => {
   return {};
@@ -63,6 +64,10 @@ class ChangePassword extends React.Component<Props, State> {
               break;
           }
         });
+        const errors = Object.entries(errorMessage).map(
+          ([key, value]) => value
+        );
+        valid.errorTracking(errors as string[], location.href);
       });
   };
 

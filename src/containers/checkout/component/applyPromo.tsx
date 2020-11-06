@@ -8,7 +8,7 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import PromoItem from "./promoDetails";
 import { AppState } from "reducers/typings";
-
+import * as valid from "utils/validate";
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
@@ -68,9 +68,14 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       .applyPromo(data)
       .then((response: any) => {
         if (response.status == false) {
-          this.setState({
-            error: response.message
-          });
+          this.setState(
+            {
+              error: response.message
+            },
+            () => {
+              valid.errorTracking([this.state.error], location.href);
+            }
+          );
         } else {
           this.setState(
             {
@@ -85,9 +90,14 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       })
       .catch(error => {
         const msg = error.response?.data?.[0];
-        this.setState({
-          error: msg
-        });
+        this.setState(
+          {
+            error: msg
+          },
+          () => {
+            valid.errorTracking([this.state.error], location.href);
+          }
+        );
       });
   };
 
@@ -119,9 +129,14 @@ class ApplyPromo extends React.Component<Props, GiftState> {
   };
 
   updateError = () => {
-    this.setState({
-      error: "Please enter a valid code"
-    });
+    this.setState(
+      {
+        error: "Please enter a valid code"
+      },
+      () => {
+        valid.errorTracking([this.state.error], location.href);
+      }
+    );
     const elem: any = document.getElementById("gift");
     elem.scrollIntoView();
     window.scrollBy(0, -200);
