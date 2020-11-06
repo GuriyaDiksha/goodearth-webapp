@@ -65,7 +65,7 @@ class ChangePassword extends React.Component<Props, State> {
           }
         });
         const errors = Object.entries(errorMessage).map(
-          ([key, value]) => value
+          ([key, value]) => (value as string[])[0]
         );
         valid.errorTracking(errors as string[], location.href);
       });

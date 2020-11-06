@@ -32,6 +32,7 @@ import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
+import * as util from "utils/validate";
 
 type Props = {
   basketLineId?: ProductID;
@@ -164,6 +165,7 @@ const NotifyMePopup: React.FC<Props> = ({
       closeModal();
     } else {
       setSizeErrorMsg("Please select size");
+      util.errorTracking(["Please select size"], location.href);
     }
   };
 
@@ -172,6 +174,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setMsg("");
     if (!valid) {
       setEmailError(message);
+      util.errorTracking([message], location.href);
     } else {
       if (selectedSize) {
         const { successful, message } = await ProductService.notifyMe(
@@ -182,12 +185,15 @@ const NotifyMePopup: React.FC<Props> = ({
 
         if (!successful) {
           setEmailError(message);
+          util.errorTracking([message], location.href);
         } else {
           setMsg(message);
+          util.errorTracking([message], location.href);
           basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {
         setSizeErrorMsg("Please select size");
+        util.errorTracking(["Please select size"], location.href);
       }
     }
   };

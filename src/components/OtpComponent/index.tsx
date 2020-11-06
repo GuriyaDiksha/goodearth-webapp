@@ -75,10 +75,15 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       : document.getElementsByName("gca");
     const elem = this.subscribeRef.current;
     if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState({
-        msgt:
-          "Please select at least one mode of communication for OTP verification of your gift card"
-      });
+      this.setState(
+        {
+          msgt:
+            "Please select at least one mode of communication for OTP verification of your gift card"
+        },
+        () => {
+          valid.errorTracking([this.state.msgt], location.href);
+        }
+      );
       const elem = document.getElementById(
         "selectError"
       ) as HTMLParagraphElement;
@@ -86,9 +91,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       return false;
     }
     if (elem && elem.checked == false) {
-      this.setState({
-        subscribeError: "Please accept the terms & conditions"
-      });
+      this.setState(
+        {
+          subscribeError: "Please accept the terms & conditions"
+        },
+        () => {
+          valid.errorTracking([this.state.subscribeError], location.href);
+        }
+      );
       return false;
     }
     data["email"] = email;
@@ -132,10 +142,15 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     }
 
     if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState({
-        msgt:
-          "Please select at least one mode of communication for OTP verification of your gift card"
-      });
+      this.setState(
+        {
+          msgt:
+            "Please select at least one mode of communication for OTP verification of your gift card"
+        },
+        () => {
+          valid.errorTracking([this.state.msgt], location.href);
+        }
+      );
       const elem = document.getElementById(
         "selectError"
       ) as HTMLParagraphElement;
@@ -143,9 +158,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       return false;
     }
     if (elem && elem.checked == false) {
-      this.setState({
-        subscribeError: "Please accept the terms & conditions"
-      });
+      this.setState(
+        {
+          subscribeError: "Please accept the terms & conditions"
+        },
+        () => {
+          valid.errorTracking([this.state.subscribeError], location.href);
+        }
+      );
       return false;
     }
 

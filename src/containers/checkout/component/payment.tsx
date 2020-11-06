@@ -91,6 +91,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
       if (currency == "GBP" && !subscribegbp) {
         setGbpError("Please agree to shipping & payment terms.");
+        valid.errorTracking(
+          ["Please agree to shipping & payment terms."],
+          location.href
+        );
         return false;
       }
       setIsLoading(true);
@@ -102,10 +106,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         .catch((error: any) => {
           const msg = valid.showErrors(error.response?.data);
           setPaymentError(msg);
+          valid.errorTracking([msg], location.href);
           setIsLoading(false);
         });
     } else {
       setPaymentError("Please select a payment method");
+      valid.errorTracking(["Please select a payment method"], location.href);
     }
   };
 
