@@ -23,9 +23,9 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
-    const index = recommendedProducts.categories.length - 1;
-    let category = recommendedProducts.categories[index]
-      ? recommendedProducts.categories[index].replace(/\s/g, "")
+    const index = recommendedProducts[i].categories.length - 1;
+    let category = recommendedProducts[i].categories[index]
+      ? recommendedProducts[i].categories[index].replace(/\s/g, "")
       : "";
     category = category.replace(/>/g, "/");
     dataLayer.push({
@@ -36,12 +36,12 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           actionField: { list: "We Recommend" },
           products: [
             {
-              name: recommendedProducts.title,
-              id: recommendedProducts.sku,
-              price: recommendedProducts.priceRecords[currency],
+              name: recommendedProducts[i].title,
+              id: recommendedProducts[i].sku,
+              price: recommendedProducts[i].priceRecords[currency],
               brand: "Goodearth",
               category: category,
-              variant: recommendedProducts.childAttributes[0].size || "",
+              variant: recommendedProducts[i].childAttributes[0].size || "",
               position: i
             }
           ]
