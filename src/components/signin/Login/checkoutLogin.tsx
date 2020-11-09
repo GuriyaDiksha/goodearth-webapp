@@ -184,15 +184,25 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         })
         .catch(err => {
           if (err.response.data.non_field_errors[0] == "NotEmail") {
-            this.setState({
-              msg: ["No registered user found"],
-              highlight: true
-            });
+            this.setState(
+              {
+                msg: ["No registered user found"],
+                highlight: true
+              },
+              () => {
+                valid.errorTracking(this.state.msg as string[], location.href);
+              }
+            );
           } else {
-            this.setState({
-              showerror:
-                "The user name and/or password you have entered is incorrect"
-            });
+            this.setState(
+              {
+                showerror:
+                  "The user name and/or password you have entered is incorrect"
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
           }
         });
     }

@@ -74,6 +74,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       setConfirmData(response.results?.[0]);
       gtmPushOrderConfirmation(response.results?.[0]);
     });
+    dataLayer.push({
+      event: "OrderConfirmationPageView",
+      PageURL: location.pathname,
+      PageTitle: "virtual_orderConfirmationPage_view"
+    });
   }, []);
 
   let totalItem = 0;

@@ -94,7 +94,7 @@ class CartPage extends React.Component<Props, State> {
     dataLayer.push({
       event: "CartPageView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_cartpage_view"
+      PageTitle: "virtual_cartPage_view"
     });
   }
 

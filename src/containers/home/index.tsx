@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 import { useLocation } from "react-router";
@@ -11,6 +11,13 @@ const Home: React.FC = () => {
       setMounted(true);
     }
   });
+  useEffect(() => {
+    dataLayer.push({
+      event: "HomePageView",
+      PageURL: location.pathname,
+      PageTitle: "virtual_homePage_view"
+    });
+  }, []);
   return (
     <div className={styles.makerTop}>
       {mounted && (

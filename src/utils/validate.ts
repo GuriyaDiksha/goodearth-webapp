@@ -262,7 +262,7 @@ export function PDP(data: any, currency: Currency) {
             category: category,
             price: child.priceRecords[currency],
             brand: "Goodearth",
-            variant: child.size
+            variant: child.size || ""
           }
         );
       })
@@ -511,4 +511,46 @@ export function MoreFromCollectionProductClick(
       }
     }
   });
+}
+
+export function errorTracking(errorMessage: string[], url: string) {
+  try {
+    dataLayer.push({
+      event: "errorMessage",
+      "Error Message": errorMessage,
+      "Error URL": url
+    });
+  } catch (e) {
+    console.log(e);
+    console.log("error Tracking error");
+  }
+}
+
+const toArray = (x: HTMLCollectionOf<Element>): any[] => {
+  const arr = [];
+  for (let i = 0; i < x.length; i++) {
+    arr.push(x[i]);
+  }
+  return arr;
+};
+
+export function getErrorList(
+  errorClass: string,
+  containerId?: string
+): string[] {
+  if (containerId) {
+    return toArray(
+      document
+        .getElementById(containerId)
+        ?.getElementsByClassName(errorClass) as HTMLCollectionOf<Element>
+    )
+      .map((element: HTMLElement) => element.textContent)
+      .filter(error => error) as string[];
+  } else {
+    return toArray(
+      document.getElementsByClassName(errorClass) as HTMLCollectionOf<Element>
+    )
+      .map((element: HTMLElement) => element.textContent)
+      .filter(error => error) as string[];
+  }
 }

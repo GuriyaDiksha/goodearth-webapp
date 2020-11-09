@@ -19,6 +19,7 @@ import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 import iconStyles from "styles/iconFonts.scss";
+import * as valid from "utils/validate";
 
 type Props = {
   year: number;
@@ -154,8 +155,11 @@ class PressStoriesContent extends React.Component<
         const errorObj = error.response.data.message;
         if (typeof errorObj == "object") {
           updateInputsWithError(errorObj);
+          const errors = Object.entries(errorObj).map(([key, value]) => value);
+          valid.errorTracking(errors as string[], location.href);
         } else if (typeof errorObj == "string") {
           this.setState({ successmsg: errorObj });
+          valid.errorTracking([errorObj], location.href);
         }
         // console.log(error);
       });
