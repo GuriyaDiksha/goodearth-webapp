@@ -204,11 +204,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             </span>
           </p>
         )}
-        {sizeExit && (
+        {sizeExit && !mobile && (
           <div
             className={cs(
               styles.productSizeList,
-              { [styles.productSizeListMobile]: mobile },
+              // { [styles.productSizeListMobile]: mobile },
               bootstyles.row
             )}
           >
