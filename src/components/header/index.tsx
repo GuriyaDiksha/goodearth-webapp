@@ -269,7 +269,7 @@ class Header extends React.Component<Props, State> {
               content={meta.ogDescription ? meta.ogDescription : ""}
             />
           }
-          {meta.ogImage && <meta property="og:image" content={meta.ogImage} />}
+          {<meta property="og:image" content={meta.ogImage || ""} />}
           {meta.ogUrl && <meta property="og:url" content={meta.ogUrl} />}
           {meta.ogType && <meta property="og:type" content={meta.ogType} />}
           {meta.ogSiteName && (

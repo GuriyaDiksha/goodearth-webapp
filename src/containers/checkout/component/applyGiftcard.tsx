@@ -9,6 +9,7 @@ import mapDispatchToProps from "../mapper/action";
 import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
 import { Link } from "react-router-dom";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -59,10 +60,15 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   applyCard = () => {
     if (!this.state.txtvalue) {
-      this.setState({
-        error: "Please enter a code",
-        isActivated: false
-      });
+      this.setState(
+        {
+          error: "Please enter a code",
+          isActivated: false
+        },
+        () => {
+          valid.errorTracking([this.state.error], location.href);
+        }
+      );
       return false;
     }
     const data: any = {
@@ -89,9 +95,14 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   gcBalanceOtp = (response: any) => {
     if (response.status == false) {
-      this.setState({
-        error: "Please enter a valid code"
-      });
+      this.setState(
+        {
+          error: "Please enter a valid code"
+        },
+        () => {
+          valid.errorTracking([this.state.error], location.href);
+        }
+      );
     } else {
       this.setState({
         newCardBox: false,
@@ -117,10 +128,15 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   };
 
   updateError = (value?: string, activate?: boolean) => {
-    this.setState({
-      error: value ? value : "Please enter a valid code",
-      isActivated: activate ? true : false
-    });
+    this.setState(
+      {
+        error: value ? value : "Please enter a valid code",
+        isActivated: activate ? true : false
+      },
+      () => {
+        valid.errorTracking([this.state.error], location.href);
+      }
+    );
     const elem: any = document.getElementById("gift");
     elem.scrollIntoView();
     window.scrollBy(0, -200);

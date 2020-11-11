@@ -23,6 +23,7 @@ import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 // import { updateCountryData } from "actions/address";
+import * as valid from "utils/validate";
 
 type Props = {
   addressData?: AddressData;
@@ -426,6 +427,14 @@ const AddressForm: React.FC<Props> = props => {
       if (firstErrorField) {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "address-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -1194,7 +1203,7 @@ const AddressForm: React.FC<Props> = props => {
         onValidSubmit={submitAddress}
         onInvalidSubmit={handleInvalidSubmit}
       >
-        <div className={styles.categorylabel}>
+        <div className={styles.categorylabel} id="address-form">
           <div>
             <FormInput
               name="emailId"

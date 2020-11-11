@@ -11,6 +11,7 @@ import { AppState } from "reducers/typings";
 import OtpComponent from "components/OtpComponent";
 import FormInput from "components/Formsy/FormInput";
 import Formsy from "formsy-react";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -55,9 +56,14 @@ class Giftcard extends React.Component<Props, GiftState> {
     this.props.balanceCheck(data).then((response: any) => {
       const { giftList } = this.state;
       if (response.currStatus == "Invalid-CN") {
-        this.setState({
-          error: "Please enter a valid code"
-        });
+        this.setState(
+          {
+            error: "Please enter a valid code"
+          },
+          () => {
+            valid.errorTracking([this.state.error], location.href);
+          }
+        );
         this.ActivateGCForm.current?.updateInputsWithError({
           giftCardCode: "Please enter a valid code"
         });
@@ -93,9 +99,14 @@ class Giftcard extends React.Component<Props, GiftState> {
   updateList = (response: any) => {
     const { giftList } = this.state;
     if (response.currStatus == "Invalid-CN") {
-      this.setState({
-        error: "Please enter a valid code"
-      });
+      this.setState(
+        {
+          error: "Please enter a valid code"
+        },
+        () => {
+          valid.errorTracking([this.state.error], location.href);
+        }
+      );
     } else {
       giftList.push(response);
       this.setState({
@@ -140,6 +151,14 @@ class Giftcard extends React.Component<Props, GiftState> {
       if (firstErrorField) {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "activate-giftcard-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -217,7 +236,7 @@ class Giftcard extends React.Component<Props, GiftState> {
             // onValidSubmit={() => console.log("submitted")}
             onInvalidSubmit={this.scrollToErrors}
           >
-            <div className={styles.categorylabel}>
+            <div className={styles.categorylabel} id="activate-giftcard-form">
               {showOTPValidationScreen ? (
                 ""
               ) : (

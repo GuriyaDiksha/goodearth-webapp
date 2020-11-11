@@ -15,6 +15,7 @@ import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
 import { showMessage } from "actions/growlMessage";
 import { ADD_TO_BAG_GIFTCARD_SUCCESS } from "constants/messages";
+import * as valid from "utils/validate";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -44,9 +45,14 @@ const Section4: React.FC<Section4Props> = props => {
             return false;
           }
           setNummsg("Internal Server Error");
+          valid.errorTracking(["Internal Server Error"], location.href);
         });
     } else {
       setNummsg("Please accept the Terms & Conditions");
+      valid.errorTracking(
+        ["Please accept the Terms & Conditions"],
+        location.href
+      );
     }
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     // this.props.next(this.state.giftimages[this.state.selectindex]);
