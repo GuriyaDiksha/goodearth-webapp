@@ -1,5 +1,5 @@
 import NodeCache from "node-cache";
 
 export default new NodeCache({
-  stdTTL: 600
+  stdTTL: 28800
 });
