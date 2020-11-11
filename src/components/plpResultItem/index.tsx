@@ -205,7 +205,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           </p>
         )}
         {sizeExit && !mobile && (
-          <div className={cs(styles.productSizeList, bootstyles.row)}>
+          <div
+            className={cs(
+              styles.productSizeList,
+              // { [styles.productSizeListMobile]: mobile },
+              bootstyles.row
+            )}
+          >
             <div className={styles.productSize}> size</div>
             <div className="">
               <ul>
@@ -215,7 +221,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     return (
                       <li
                         className={
-                          +data.stock || isStockAvailable ? "" : styles.disabled
+                          +data.stock || isCorporate ? "" : styles.disabled
                         }
                         key={i}
                       >

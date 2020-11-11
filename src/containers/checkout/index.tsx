@@ -597,7 +597,7 @@ class Checkout extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className={styles.pageBody}>
+      <div className={cs(bootstrap.containerFluid, styles.pageBody)}>
         <div className={styles.checkout}>
           <div className={bootstrap.row}>
             <div

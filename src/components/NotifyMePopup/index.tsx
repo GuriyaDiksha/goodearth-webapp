@@ -49,6 +49,7 @@ type Props = {
   category?: string;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
+  sortBy?: string;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -65,7 +66,8 @@ const NotifyMePopup: React.FC<Props> = ({
   onNotifyCart,
   isSale,
   discount,
-  badgeType
+  badgeType,
+  sortBy
 }) => {
   const { dispatch } = useStore();
 
@@ -158,8 +160,13 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
+      WishlistService.removeFromWishlist(
+        dispatch,
+        selectedSize.id,
+        undefined,
+        sortBy
+      );
       await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      await WishlistService.removeFromWishlist(dispatch, selectedSize.id);
       dispatch(showMessage(ADD_TO_BAG_SUCCESS));
       gtmPushAddToBag();
       closeModal();
@@ -297,7 +304,7 @@ const NotifyMePopup: React.FC<Props> = ({
             inputClass={styles.inputQuantity}
           />
         </div>
-        {(!selectedSize || (selectedSize && selectedSize.stock === 0)) && (
+        {selectedSize && selectedSize.stock === 0 && (
           <div className={cs(styles.emailInput, globalStyles.textLeft)}>
             <InputField
               id="width"
@@ -308,7 +315,7 @@ const NotifyMePopup: React.FC<Props> = ({
               label="Email"
               placeholder="Email Address"
               errorMsg={emailError}
-              disabled={userExists}
+              // disabled={userExists}
             />
           </div>
         )}

@@ -237,17 +237,8 @@ class Search extends React.Component<
       }
     ];
     return (
-      <div className={styles.pageBody}>
-        {mobile ? (
-          <PlpDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            onStateChange={this.onChangeFilterState}
-            showCaret={this.state.showmobileSort}
-            open={false}
-            value="hc"
-          />
-        ) : (
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+        {!mobile && (
           <SecondaryHeader classname={styles.subHeader}>
             <Fragment>
               <div
@@ -518,6 +509,16 @@ class Search extends React.Component<
             </div>
           </div>
         </div>
+        {mobile && (
+          <PlpDropdownMenu
+            list={items}
+            onChange={this.onchangeFilter}
+            onStateChange={this.onChangeFilterState}
+            showCaret={this.state.showmobileSort}
+            open={false}
+            value="hc"
+          />
+        )}
       </div>
     );
   }

@@ -66,15 +66,19 @@ export default {
     dispatch: Dispatch,
     request?: PageMetaRequest
   ) {
-    if (request) {
-      const meta: PageMetaResponse = await this.fetchPageMeta(
-        dispatch,
-        request
-      );
+    try {
+      if (request) {
+        const meta: PageMetaResponse = await this.fetchPageMeta(
+          dispatch,
+          request
+        );
 
-      dispatch(updatePageMeta(meta));
-    } else {
-      dispatch(resetPageMeta());
+        dispatch(updatePageMeta(meta));
+      } else {
+        dispatch(resetPageMeta());
+      }
+    } catch (err) {
+      console.log("Meta List API error!");
     }
   }
 };

@@ -16,6 +16,7 @@ type Props = {
   currency: Currency;
   mobile: boolean;
   isSale: boolean;
+  sortBy: string;
 };
 
 const SampleDisplay: React.FC<Props> = props => {
@@ -44,7 +45,7 @@ const SampleDisplay: React.FC<Props> = props => {
 
   const openPopup = (productId: number) => {
     const { item, currency } = props;
-    props.grid.openPopup(item, currency, isSale);
+    props.grid.openPopup(item, currency, props.sortBy, isSale);
   };
 
   const sizeText = (item: WishListGridItem) => {

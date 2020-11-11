@@ -72,7 +72,7 @@ const AddressForm: React.FC<Props> = props => {
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
 
-  const isAddressValid = useCallback(
+  const isAddressPincodeValid = useCallback(
     (postCode: string, state: string): boolean => {
       let isValid = false;
       // const validState = getStateFromPinCode(postCode);
@@ -1300,7 +1300,7 @@ const AddressForm: React.FC<Props> = props => {
                   isExisty: true,
                   isValidPostcode: (values, value) => {
                     const { postCode, state } = values;
-                    return isAddressValid(postCode, state);
+                    return isAddressPincodeValid(postCode, state);
 
                     // return handlePostcodeBlur(null, value);
                   }

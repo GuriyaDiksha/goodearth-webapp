@@ -117,6 +117,17 @@ export function productForGa(data: Basket, currency: Currency) {
   return product;
 }
 
+export function removeFroala(timeout = 500) {
+  setTimeout(() => {
+    const pbf = document.querySelector('[data-f-id="pbf"]');
+    if (pbf) {
+      let style = pbf.getAttribute("style") || "";
+      style = style.concat("display: none;");
+      pbf.setAttribute("style", style);
+    }
+  }, timeout);
+}
+
 export function productImpression(
   data: any,
   list: any,

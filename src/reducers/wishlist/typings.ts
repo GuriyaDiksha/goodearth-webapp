@@ -4,6 +4,7 @@ import { WishlistItem } from "typings/wishlist";
 
 export type State = {
   items: WishlistItem[];
+  sortBy: string;
 };
 
 export { Actions };

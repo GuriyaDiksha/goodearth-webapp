@@ -97,7 +97,13 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class CollectionSpecific extends React.Component<
   Props,
-  { specificMaker: boolean; nextPage: number | null; loader: boolean }
+  {
+    specificMaker: boolean;
+    nextPage: number | null;
+    loader: boolean;
+    shouldScroll: boolean;
+    scrollView: boolean;
+  }
 > {
   private scrollload = true;
 
@@ -106,8 +112,62 @@ class CollectionSpecific extends React.Component<
     this.state = {
       specificMaker: false,
       nextPage: null,
-      loader: false
+      loader: false,
+      shouldScroll: false,
+      scrollView: false
     };
+  }
+
+  getPdpProduct = (): any => {
+    let hasPdpProductDetails = false;
+    let pdpProductDetails;
+    if (localStorage.getItem("pdpProductScroll")) {
+      hasPdpProductDetails = true;
+      const item: any = localStorage.getItem("pdpProductScroll");
+      pdpProductDetails = JSON.parse(item);
+    }
+    return { hasPdpProductDetails, pdpProductDetails };
+  };
+
+  checkForProductScroll() {
+    const currentTimeStamp = new Date().getTime();
+    let shouldScroll;
+    let pdpProductScroll;
+    const hasPdpScrollableProduct = this.getPdpProduct();
+    if (hasPdpScrollableProduct.hasPdpProductDetails) {
+      pdpProductScroll = hasPdpScrollableProduct.pdpProductDetails;
+      if (pdpProductScroll) {
+        const pdpTimeStamp = new Date(pdpProductScroll.timestamp).getTime();
+        shouldScroll = currentTimeStamp - pdpTimeStamp < 8000;
+        this.setState(
+          {
+            shouldScroll: shouldScroll
+          },
+          () => {
+            if (this.state.shouldScroll) {
+              this.handleProductSearch();
+            }
+          }
+        );
+      }
+    }
+  }
+
+  handleProductSearch() {
+    const pdpProductScrollId = this.getPdpProduct().pdpProductDetails.id;
+    if (document.getElementById(pdpProductScrollId)) {
+      setTimeout(() => {
+        const element = document.getElementById(pdpProductScrollId);
+        element ? element.scrollIntoView(true) : "";
+        window.scrollBy(0, -150);
+        localStorage.removeItem("pdpProductScroll");
+      }, 1000);
+      this.setState({
+        scrollView: true
+      });
+    } else {
+      this.appendData();
+    }
   }
 
   onClickQuickView = (id: number) => {
@@ -137,12 +197,20 @@ class CollectionSpecific extends React.Component<
       specificMaker: true
     });
     window.addEventListener("scroll", this.handleScroll);
+    if (!this.state.scrollView) {
+      this.checkForProductScroll();
+    }
     // this.updateCollectionFilter(this.props.currency);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.currency != nextProps.currency) {
       this.props.reloadCollectioSpecificData(nextProps.currency);
+    }
+    if (this.props.collectionSpecificData != nextProps.collectionSpecificData) {
+      if (!this.state.scrollView) {
+        this.checkForProductScroll();
+      }
     }
   };
   handleScroll = () => {

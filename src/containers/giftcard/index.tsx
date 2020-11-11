@@ -162,7 +162,7 @@ class GiftCard extends React.Component<
       device: { mobile }
     } = this.props;
     return (
-      <div className={styles.pageBody}>
+      <div className={cs(bootstrap.containerFluid, styles.pageBody)}>
         {!mobile && (
           <SecondaryHeader>
             <div className={cs(bootstrap.colMd12, bootstrap.offsetMd1)}>
