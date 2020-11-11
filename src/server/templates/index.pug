@@ -50,13 +50,83 @@ html(lang='en')
           }
 
           function OpenChatBox() {
-              var rem2 = document.getElementById("lc_chat_layout");
-              rem2.classList.remove("lc-collapsed");
-              rem2.classList.remove("lc-expanded");
-              rem2.classList.add("lc-expanded");
-              rem2.style.height = null;
+              //- var rem2 = document.getElementById("lc_chat_layout");
+              //- rem2.classList.remove("lc-collapsed");
+              //- rem2.classList.remove("lc-expanded");
+              //- rem2.classList.add("lc-expanded");
+              //- rem2.style.height = null;
+              const oldChatButton = document.getElementById("fc_frame");
+              //- oldChatButton.classList.remove()
           }
-
+          
+            function initFreshChat() {
+              window.fcWidget.init({
+                token: "17403182-a90c-4083-85d3-079d49362ef1",
+                host: "https://wchat.freshchat.com",
+                config: {
+                  disableEvents: true,
+                  cssNames: {
+                    widget: 'fc_frame',
+                    open: 'fc_open',
+                    expanded: 'fc_expanded'
+                  },
+                  showFAQOnOpen: true,
+                  hideFAQ: true,
+                  agent: {
+                    hideName: false,
+                    hidePic: false,
+                    hideBio: false,
+                  },
+                  content: {
+                    placeholders: {
+                      search_field: 'Search',
+                      reply_field: 'Reply',
+                      csat_reply: 'Add your comments here'
+                    },
+                    actions: {
+                      csat_yes: 'Yes',
+                      csat_no: 'No',
+                      push_notify_yes: 'Yes',
+                      push_notify_no: 'No',
+                      tab_faq: 'Solutions',
+                      tab_chat: 'Chat',
+                      csat_submit: 'Submit'
+                    },
+                    headers: {
+                      chat: 'Welcome to Good Earth',
+                      chat_help: 'Reach out to us if you have any questions',
+                      faq: 'Solution Articles',
+                      faq_help: 'Browse our articles',
+                      faq_not_available: 'No Articles Found',
+                      faq_search_not_available: 'No articles were found for {{query}}',
+                      faq_useful: 'Was this article helpful?',
+                      faq_thankyou: 'Thank you for your feedback',
+                      faq_message_us: 'Message Us',
+                      push_notification: 'Don\'t miss out on any replies! Allow push notifications?',
+                      csat_question: 'Did we address your concerns??',
+                      csat_yes_question: 'How would you rate this interaction?',
+                      csat_no_question: 'How could we have helped better?',
+                      csat_thankyou: 'Thanks for the response',
+                      csat_rate_here: 'Submit your rating here',
+                      channel_response: {
+                        offline: 'We are currently away. Please leave us a message',
+                        online: {
+                          minutes: {
+                            one: "Currently replying in {!time!} minutes ",
+                            more: "Typically replies in {!time!} minutes"
+                          },
+                          hours: {
+                            one: "Currently replying in under an hour",
+                            more: "Typically replies in {!time!} hours",
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              });
+            }
+            function initialize(i,t){var e;i.getElementById(t)?initFreshChat():((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
 
           function ScrollToTop() {
               window.scrollTo({
