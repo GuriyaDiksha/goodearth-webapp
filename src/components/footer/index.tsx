@@ -543,11 +543,11 @@ class Footer extends React.Component<Props, FooterState> {
                               </ul>
                               <ul key="services">
                                 <li>
-                                  {this.props.data.footerList[index + 1].name}
+                                  {this.props.data.footerList[index + 1]?.name}
                                 </li>
                                 {this.props.data.footerList[
                                   index + 1
-                                ].value.map((Item, index) => (
+                                ]?.value?.map((Item, index) => (
                                   <li key={index}>
                                     {Item.link !== "" ? (
                                       // Item.text.toLowerCase() ==
@@ -708,7 +708,7 @@ class Footer extends React.Component<Props, FooterState> {
                               {" "}
                               <img
                                 src={
-                                  this.props.data.footerPlaylistData.ctaImage
+                                  this.props.data.footerPlaylistData?.ctaImage
                                 }
                                 className={cs(globalStyles.width250)}
                               />{" "}
