@@ -496,6 +496,14 @@ class Checkout extends React.Component<Props, State> {
               }
             });
             if (data.data.pageReload) {
+              const data: any = {
+                email: this.props.user.email
+              };
+              this.props.getLoyaltyPoints(data).then(loyalty => {
+                this.setState({
+                  loyaltyData: loyalty
+                });
+              });
               this.props.reloadPage(this.props.cookies);
             }
           }
