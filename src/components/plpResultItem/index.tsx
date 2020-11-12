@@ -12,6 +12,7 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import * as valid from "utils/validate";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -23,7 +24,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     mobile,
     isVisible,
     isCollection,
-    isCorporate
+    isCorporate,
+    position,
+    page
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -49,6 +52,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     onClickQuickView ? onClickQuickView(product.id) : "";
   };
 
+  const gtmProductClick = () => {
+    valid.plpProductClick(product, page, currency, position);
+  };
   const image = primaryimage
     ? product.plpImages
       ? product.plpImages[0]
@@ -97,7 +103,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         )}
-        <Link to={product.url} onMouseEnter={onMouseEnter}>
+        <Link
+          to={product.url}
+          onMouseEnter={onMouseEnter}
+          onClick={gtmProductClick}
+        >
           <LazyImage
             aspectRatio="62:93"
             src={image}
@@ -194,11 +204,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             </span>
           </p>
         )}
-        {sizeExit && (
+        {sizeExit && !mobile && (
           <div
             className={cs(
               styles.productSizeList,
-              { [styles.productSizeListMobile]: mobile },
+              // { [styles.productSizeListMobile]: mobile },
               bootstyles.row
             )}
           >

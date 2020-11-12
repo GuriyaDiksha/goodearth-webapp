@@ -2,11 +2,13 @@ import { Dispatch } from "redux";
 import { RouteParams } from "src/routes/typings";
 import { Location } from "history";
 import { PageMetaRequest } from "services/meta/typings";
+import { Currency } from "./currency";
 
 export type InitAction = (
   dispatch: Dispatch,
   params: RouteParams,
-  location: Location
+  location: Location,
+  currency?: Currency
 ) => void;
 
 export type MetaAction = (location: Location) => Partial<PageMetaRequest>;

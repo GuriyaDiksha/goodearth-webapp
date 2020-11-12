@@ -32,6 +32,7 @@ import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
+import * as util from "utils/validate";
 
 type Props = {
   basketLineId?: ProductID;
@@ -45,6 +46,7 @@ type Props = {
   discount: boolean;
   badgeType?: string;
   discountedPrice?: number;
+  category?: string;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
   sortBy?: string;
@@ -56,6 +58,7 @@ const NotifyMePopup: React.FC<Props> = ({
   price,
   discountedPrice,
   collection,
+  category,
   childAttributes,
   title,
   selectedIndex,
@@ -141,12 +144,11 @@ const NotifyMePopup: React.FC<Props> = ({
           products: [
             {
               name: title,
-              id: childAttributes[0].sku,
+              id: selectedSize?.sku || childAttributes[0].sku,
               price: price,
               brand: "Goodearth",
-              category: collection,
-              variant: null,
-              // 'variant': this.props.wishlist_product.ga_variant,
+              category: category,
+              variant: selectedSize?.size || childAttributes[0].size || "",
               quantity: quantity,
               list: localStorage.getItem("list")
             }
@@ -170,6 +172,7 @@ const NotifyMePopup: React.FC<Props> = ({
       closeModal();
     } else {
       setSizeErrorMsg("Please select size");
+      util.errorTracking(["Please select size"], location.href);
     }
   };
 
@@ -178,6 +181,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setMsg("");
     if (!valid) {
       setEmailError(message);
+      util.errorTracking([message], location.href);
     } else {
       if (selectedSize) {
         const { successful, message } = await ProductService.notifyMe(
@@ -188,12 +192,15 @@ const NotifyMePopup: React.FC<Props> = ({
 
         if (!successful) {
           setEmailError(message);
+          util.errorTracking([message], location.href);
         } else {
           setMsg(message);
+          util.errorTracking([message], location.href);
           basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {
         setSizeErrorMsg("Please select size");
+        util.errorTracking(["Please select size"], location.href);
       }
     }
   };

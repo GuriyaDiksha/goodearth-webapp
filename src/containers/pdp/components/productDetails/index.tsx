@@ -41,6 +41,7 @@ import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
+import * as valid from "utils/validate";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -90,7 +91,7 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   useLayoutEffect(() => {
-    setGtmListType(localStorage?.getItem("list") || "");
+    setGtmListType("PDP");
   });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
@@ -218,9 +219,9 @@ const ProductDetails: React.FC<Props> = ({
               price: priceRecords[currency],
               brand: "Goodearth",
               category: collection,
-              variant: gaVariant,
+              variant: childAttributes[0]?.size || "",
               quantity: quantity,
-              list: localStorage.getItem("list")
+              list: "PDP"
             }
           ]
         }
@@ -231,6 +232,7 @@ const ProductDetails: React.FC<Props> = ({
   const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
+      valid.errorTracking(["Please select size"], window.location.href);
       showError();
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
@@ -241,6 +243,7 @@ const ProductDetails: React.FC<Props> = ({
         .catch(err => {
           if (typeof err.response.data != "object") {
             dispatch(showMessage(err.response.data));
+            valid.errorTracking([err.response.data], window.location.href);
           }
         });
     }
@@ -271,10 +274,15 @@ const ProductDetails: React.FC<Props> = ({
         selectedIndex = i;
       }
     });
-
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     updateComponentModal(
       <NotifyMePopup
         collection={collection}
+        category={category}
         price={priceRecords[currency]}
         currency={currency}
         childAttributes={childAttributes}

@@ -43,7 +43,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         price: line.priceInclTax,
         brand: "Good Earth",
         category: line.product.collection,
-        variant: null,
+        variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name
       };
@@ -73,6 +73,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     fetchData().then(response => {
       setConfirmData(response.results?.[0]);
       gtmPushOrderConfirmation(response.results?.[0]);
+    });
+    dataLayer.push({
+      event: "OrderConfirmationPageView",
+      PageURL: location.pathname,
+      PageTitle: "virtual_orderConfirmationPage_view"
     });
   }, []);
 

@@ -8,6 +8,7 @@ import OtpBox from "./otpBox";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
+import * as valid from "utils/validate";
 
 class OtpReedem extends React.Component<otpRedeemProps, otpState> {
   constructor(props: otpRedeemProps) {
@@ -51,10 +52,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     const { email, phoneNo } = model;
     const data: any = {};
     if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState({
-        msgt:
-          "Please select at least one mode of communication for OTP verification of your gift card"
-      });
+      this.setState(
+        {
+          msgt:
+            "Please select at least one mode of communication for OTP verification of your gift card"
+        },
+        () => {
+          valid.errorTracking([this.state.msgt], location.href);
+        }
+      );
       return false;
     }
 
@@ -104,10 +110,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         .checkOtpRedeem(newData)
         .then(data => {
           if (data.message) {
-            this.setState({
-              showerror: data.message,
-              isLoading: false
-            });
+            this.setState(
+              {
+                showerror: data.message,
+                isLoading: false
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
           } else {
             // this.props.updateList(data);
             this.setState({
@@ -119,10 +130,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           }
         })
         .catch(err => {
-          this.setState({
-            showerror: err.response.data.message,
-            isLoading: false
-          });
+          this.setState(
+            {
+              showerror: err.response.data.message,
+              isLoading: false
+            },
+            () => {
+              valid.errorTracking([this.state.showerror], location.href);
+            }
+          );
         })
         .finally(() => {
           this.clearTimer();
@@ -216,10 +232,15 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         // }
       })
       .catch((error: any) => {
-        this.setState({
-          showerrorOtp: error.response.data.message,
-          isLoading: false
-        });
+        this.setState(
+          {
+            showerrorOtp: error.response.data.message,
+            isLoading: false
+          },
+          () => {
+            valid.errorTracking([this.state.showerrorOtp], location.href);
+          }
+        );
       });
   };
 

@@ -401,6 +401,8 @@ class PLP extends React.Component<
                     key={item.id}
                   >
                     <PlpResultItem
+                      page="PLP"
+                      position={index}
                       product={item}
                       addedToWishlist={false}
                       currency={currency}
