@@ -16,6 +16,18 @@
     top:5px;
 }
 
+.header-container-menu {
+  position: fixed;
+  bottom: 0px;
+  z-index: 10;
+  width: 100%;
+  background-color: rgb(249, 248, 245);
+  height: 50px;
+  .icon-home {
+    margin-top: 10px;
+  }
+}
+
 .header-container {
     position: fixed;
     top: $header-top;
@@ -1198,4 +1210,12 @@ visibility: visible !important;
   }
   
   
+}
+.mobile-wishlist {
+  font-size: 32px;
+  top: 2px;
+  color: $cerise;
+}
+.sidemenu-mobile {
+  margin-left: 70px;
 }
