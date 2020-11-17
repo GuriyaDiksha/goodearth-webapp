@@ -51,12 +51,11 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   const getSuggestions = (value: string) => {
     const inputLength = value?.length || 0;
-    return inputLength === 0 || focused
-      ? currencyList
-      : currencyList.filter(data => {
-          const text = `${data.countryName} (${data.currencyCode} ${data.currencySymbol})`;
-          return text.indexOf(value.toUpperCase()) > -1;
-        });
+    return inputLength === 0 || focused ? currencyList : currencyList;
+    // : currencyList.filter(data => {
+    //     const text = `${data.countryName} (${data.currencyCode} ${data.currencySymbol})`;
+    //     return text.indexOf(value.toUpperCase()) > -1;
+    //   });
   };
 
   const onChangeCurrency = () => {
@@ -106,7 +105,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         <div
           className={
             data.currencyCode == currency
-              ? cs(globalStyles.cerise, styles.left)
+              ? cs(globalStyles.cerise, styles.right)
               : styles.right
           }
         >
@@ -129,17 +128,19 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     setInputValue(newValue);
+    setTempValue(newValue);
     setSelectedCurrency(newValue);
     event.stopPropagation();
   };
 
   const onBlur = () => {
     setFocused(false);
-    // setInputValue(selectedCurrency);
+    setInputValue(tempValue);
   };
 
   const onFocus = () => {
     setFocused(true);
+    setTempValue(inputValue);
     setInputValue("");
   };
 
