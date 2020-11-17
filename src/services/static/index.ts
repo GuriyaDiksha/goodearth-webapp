@@ -5,7 +5,7 @@ export default {
   fetchTerms: async (dispatch: Dispatch, pageTitle: string) => {
     const res = await API.post<{ link: string; content: string }>(
       dispatch,
-      "https://db.goodearth.in/myapi/static/fetch_page_content/",
+      `${__API_HOST__}/myapi/static/fetch_page_content/`,
       {
         pageTitle
       }

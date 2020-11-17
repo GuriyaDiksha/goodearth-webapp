@@ -17,6 +17,7 @@ import FormSelect from "components/Formsy/FormSelect";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
 import { Context } from "components/Modal/context";
+import * as valid from "utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -81,9 +82,14 @@ class ProfileUpdater extends React.Component<Props, State> {
         this.setApiResponse(data);
       })
       .catch(err => {
-        this.setState({
-          showerror: "Something went wrong, please try again"
-        });
+        this.setState(
+          {
+            showerror: "Something went wrong, please try again"
+          },
+          () => {
+            valid.errorTracking([this.state.showerror], location.href);
+          }
+        );
       });
   }
 
@@ -104,9 +110,14 @@ class ProfileUpdater extends React.Component<Props, State> {
     if (!this.state.updateProfile) return false;
     const elem = document.getElementById("subscribeemails") as HTMLInputElement;
     if (elem.checked == false) {
-      this.setState({
-        showerror: "Please accept the terms & conditions"
-      });
+      this.setState(
+        {
+          showerror: "Please accept the terms & conditions"
+        },
+        () => {
+          valid.errorTracking([this.state.showerror], location.href);
+        }
+      );
       return false;
     }
     const { firstName, lastName, gender, subscribe } = model;
@@ -130,9 +141,14 @@ class ProfileUpdater extends React.Component<Props, State> {
       })
       .catch(err => {
         if (err) {
-          this.setState({
-            showerror: "Something went Wrong"
-          });
+          this.setState(
+            {
+              showerror: "Something went Wrong"
+            },
+            () => {
+              valid.errorTracking([this.state.showerror], location.href);
+            }
+          );
         }
       });
   };
@@ -145,6 +161,14 @@ class ProfileUpdater extends React.Component<Props, State> {
       if (firstErrorField) {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "profile-updater-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -163,7 +187,7 @@ class ProfileUpdater extends React.Component<Props, State> {
         onValidSubmit={this.handleSubmit}
         onInvalidSubmit={this.handleInvalidSubmit}
       >
-        <div className={styles.categorylabel}>
+        <div className={styles.categorylabel} id="profile-updater-form">
           <div>
             <FormInput
               name="emailId"

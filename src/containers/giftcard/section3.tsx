@@ -9,6 +9,8 @@ import Formsy from "formsy-react";
 import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 // import { Currency, currencyCode } from "typings/currency";
+import * as valid from "utils/validate";
+
 const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
   const emailInput = React.useRef<HTMLInputElement>(null);
@@ -74,6 +76,14 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "giftcard-section3-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
+      }
     }, 0);
   };
 
@@ -119,7 +129,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                 styles.formBg
               )}
             >
-              <div className={styles.categorylabel}>
+              <div className={styles.categorylabel} id="giftcard-section3-form">
                 <p className={styles.gcHead}> 3. Fill in the details</p>
                 <div>
                   <FormInput

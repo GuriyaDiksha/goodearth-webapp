@@ -12,7 +12,7 @@ export default {
   fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
     let headerData = CacheService.get("headerData") as HeaderData[];
 
-    if (headerData && __API_HOST__ == "https://www.goodearth.in") {
+    if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
       return headerData;
     }
     const res = await API.get<any>(
@@ -28,7 +28,7 @@ export default {
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
     let footerData = CacheService.get("footerData") as FooterDataProps;
 
-    if (footerData && __API_HOST__ == "https://www.goodearth.in") {
+    if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
       return footerData;
     }
 

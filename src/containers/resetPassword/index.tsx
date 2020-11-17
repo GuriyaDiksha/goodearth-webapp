@@ -16,6 +16,7 @@ import AccountService from "services/account";
 import { showMessage } from "actions/growlMessage";
 import CookieService from "services/cookie";
 import { ALL_SESSION_LOGOUT } from "constants/messages";
+import * as valid from "utils/validate";
 
 type Props = {
   uid: string;
@@ -50,6 +51,14 @@ const ResetPassword: React.FC<Props> = props => {
       if (firstErrorField) {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "reset-password-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -112,7 +121,10 @@ const ResetPassword: React.FC<Props> = props => {
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
       >
-        <div className={myAccountComponentStyles.categorylabel}>
+        <div
+          className={myAccountComponentStyles.categorylabel}
+          id="reset-password-form"
+        >
           <div>
             <FormInput
               name="password1"
