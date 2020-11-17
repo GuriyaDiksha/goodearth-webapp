@@ -172,8 +172,7 @@ class Giftcard extends React.Component<Props, GiftState> {
       });
     }
     const elem: any = document.getElementById("gift");
-    elem.scrollIntoView();
-    window.scrollBy(0, -200);
+    elem.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
   errorOnBlur = (event: React.FocusEvent<Element>) => {
