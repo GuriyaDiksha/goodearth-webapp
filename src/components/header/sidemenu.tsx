@@ -238,6 +238,9 @@ class SideMenu extends React.Component<Props, State> {
                         styles.iconStyle
                       )}
                     ></i>
+                    <span className={styles.badge}>
+                      {wishlistCount > 0 ? wishlistCount : ""}
+                    </span>
                   </Link>
                 ) : (
                   <div onClick={this.props.goLogin}>
@@ -251,9 +254,6 @@ class SideMenu extends React.Component<Props, State> {
                   </div>
                 )}
               </div>
-              <span className={styles.badge}>
-                {wishlistCount > 0 ? wishlistCount : ""}
-              </span>
             </li>
           )}
           <li
@@ -273,7 +273,16 @@ class SideMenu extends React.Component<Props, State> {
                 });
               }}
             ></i>
-            <span className={styles.badge}>{bagCount}</span>
+            <span
+              className={styles.badge}
+              onClick={(): void => {
+                this.setState({
+                  showBag: true
+                });
+              }}
+            >
+              {bagCount}
+            </span>
             {this.state.showBag && (
               <Bag
                 showShipping={this.props.showShipping}
