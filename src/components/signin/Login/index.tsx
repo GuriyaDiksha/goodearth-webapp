@@ -59,9 +59,7 @@ class LoginForm extends React.Component<Props, loginState> {
               highlight: false
             },
             () => {
-              this.passwordInput.current && this.passwordInput.current.focus();
-              this.passwordInput.current &&
-                this.passwordInput.current.scrollIntoView(true);
+              this.passwordInput.current?.focus();
             }
           );
         } else {
@@ -209,10 +207,10 @@ class LoginForm extends React.Component<Props, loginState> {
       return false;
     }
     value ? "" : this.checkMailValidation();
-    this.setState({
-      msg: "",
-      highlight: false
-    });
+    // this.setState({
+    //   msg: "",
+    //   highlight: false
+    // });
   }
 
   myBlurP() {
@@ -341,10 +339,12 @@ class LoginForm extends React.Component<Props, loginState> {
               inputRef={this.emailInput}
               disablePassword={this.disablePassword}
             />
+            <a tabIndex={0} style={{ width: "0" }}></a>
           </div>
           <div>
             <InputField
               blur={this.myBlurP.bind(this)}
+              id="popup-login-pass"
               placeholder={"Password"}
               value={this.state.password}
               keyUp={e => this.handleKeyUp(e, "password")}
