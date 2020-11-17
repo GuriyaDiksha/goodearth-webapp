@@ -309,9 +309,6 @@
       width: 8px;
     }
     /* background of the scrollbar except button or resizer */
-    ::-webkit-scrollbar-track {
-        // background-color:#fff
-    }
     /* scrollbar itself */
     &::-webkit-scrollbar-thumb {
         background-color:#a6a6a6;
@@ -424,9 +421,7 @@
   }
 
 }
-.btn-popup {
 
-}
 .gc-tnc {
   .cerise-btn30 {
     width: 30%;
@@ -447,3 +442,176 @@
 .maker-margin {
   margin-top: 55px;
 }
+
+.intro-page {
+
+  height: 100%;
+  .content {
+    position: fixed;
+    color: $white;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+
+  }
+
+  .logo-white {
+    width: 250px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .discover {
+    width: 60%;
+    margin: 50px 0 0 75px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  i {
+    border: solid $white;
+    display: inline-block;
+
+    &.arrow-down {
+      @include arrows(0, 2px, 2px, 0);
+      @include abc(45);
+    }
+
+  }
+  .text-skip {
+    position: fixed;
+    bottom: 0;
+    background-color: tint(#000, 30%);
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    line-height: 70px;
+    li {
+      display: inline-block;
+    }
+    label {
+      color: $white !important;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+  }
+  .img-responsive {
+    display: block;
+    height: auto;
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+// @media screen and (min-width: 992px) {
+//   .introlist {
+//     li {
+//       display: inline-block;
+//       margin: 0 15px;
+//       a {
+//         text-transform: uppercase;
+//         color: $white;
+//         letter-spacing: 5px;
+//         font-size: 22px;
+//         font-family: $font-Header;
+//       }
+//     }
+//   }
+// }
+
+.introlist {
+    position: relative;
+    text-transform: uppercase;
+    color: $white;
+    letter-spacing: 5px;
+    font-family: $font-Header;
+    font-size: 23px;
+    margin-top: 42px;
+}
+
+.sub-heading {
+  margin-top: 50px;
+}
+
+.suggest-dropdown {
+    width: 60%;
+    position: relative;
+    margin-left: 75px;
+    .right{
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: normal;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.1em;
+      color: #666666;
+      float: right;
+    }
+    .left{
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: normal;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.1em;
+      color: #666666;
+      float:left
+    }
+    .flow-root {
+      display: flow-root;
+    }
+}
+
+@media (max-width: 992px) { 
+  .suggest-dropdown {
+    width: 100%;
+    position: relative;
+    margin-left: 0px;
+    .right{
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: normal;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.1em;
+      color: #666666;
+      float: right;
+    }
+    .left{
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: normal;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #fff;
+      letter-spacing: 0.1em;
+      color: #666666;
+      float:left
+    }
+
+  } 
+  .intro-page {
+    .discover {
+      width: 100%;
+      margin: 40px 0 0 0px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.newcaret {
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  color: #000;
+  position: absolute;
+  top: 42%;
+  right: 10px;
+}
+

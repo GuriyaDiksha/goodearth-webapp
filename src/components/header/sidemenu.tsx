@@ -1,6 +1,6 @@
 import loadable from "@loadable/component";
 import React, { Fragment } from "react";
-import { currencyCode } from "../../typings/currency";
+// import { currencyCode } from "../../typings/currency";
 import { SideMenuProps } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -29,7 +29,8 @@ interface State {
 const mapStateToProps = (state: AppState) => {
   return {
     cookies: state.cookies,
-    slab: state.user.slab
+    slab: state.user.slab,
+    currencyList: state.info.currencyList
   };
 };
 
@@ -50,7 +51,7 @@ class SideMenu extends React.Component<Props, State> {
     };
   }
   static contextType = UserContext;
-
+  // CODE FOR CURRENCY CHANGE IN DESKTOP
   changeCurrency = (cur: any) => {
     const { changeCurrency, reloadPage, history, currency } = this.props;
     const data: any = {
@@ -64,7 +65,7 @@ class SideMenu extends React.Component<Props, State> {
             history.location.search.replace(currency, response.currency);
           history.replace(path);
         }
-        reloadPage(this.props.cookies);
+        reloadPage(this.props.cookies, history.location.pathname);
       });
     }
   };
@@ -77,20 +78,14 @@ class SideMenu extends React.Component<Props, State> {
   };
   render() {
     const { isLoggedIn } = this.context;
-    const items: DropdownItem[] = [
-      {
-        label: "INR" + " " + String.fromCharCode(currencyCode["INR"]),
-        value: "INR"
-      },
-      {
-        label: "USD" + " " + String.fromCharCode(currencyCode["USD"]),
-        value: "USD"
-      },
-      {
-        label: "GBP" + " " + String.fromCharCode(currencyCode["GBP"]),
-        value: "GBP"
-      }
-    ];
+    const curryList = this.props.currencyList.map(data => {
+      // return data.currencyCode
+      return {
+        label: data.currencyCode + " " + data.currencySymbol,
+        value: data.currencyCode
+      };
+    });
+    const items: DropdownItem[] = curryList;
 
     const profileItems: DropdownItem[] = [];
     isLoggedIn &&

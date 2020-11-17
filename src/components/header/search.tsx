@@ -446,7 +446,7 @@ class Search extends React.Component<Props, State> {
                                     {this.props.isSale && data.discount ? (
                                       <span className={styles.discountprice}>
                                         {String.fromCharCode(
-                                          currencyCodes[this.props.currency]
+                                          ...currencyCodes[this.props.currency]
                                         )}
                                         &nbsp;{" "}
                                         {
@@ -462,7 +462,7 @@ class Search extends React.Component<Props, State> {
                                     {this.props.isSale && data.discount ? (
                                       <span className={styles.strikeprice}>
                                         {String.fromCharCode(
-                                          currencyCodes[this.props.currency]
+                                          ...currencyCodes[this.props.currency]
                                         )}
                                         &nbsp;{" "}
                                         {data.priceRecords[this.props.currency]}
@@ -475,7 +475,7 @@ class Search extends React.Component<Props, State> {
                                         })}
                                       >
                                         {String.fromCharCode(
-                                          currencyCodes[this.props.currency]
+                                          ...currencyCodes[this.props.currency]
                                         )}
                                         &nbsp;{" "}
                                         {

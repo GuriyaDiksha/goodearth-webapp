@@ -303,7 +303,9 @@ const Section2: React.FC<Section2Props> = ({
                   className={selectvalue == pro.id ? styles.valueHover : ""}
                   id={pro.id}
                 >
-                  {String.fromCharCode(code) + " " + pro.priceRecords[currency]}
+                  {String.fromCharCode(...code) +
+                    " " +
+                    pro.priceRecords[currency]}
                 </span>
               ) : (
                 ""
@@ -348,7 +350,7 @@ const Section2: React.FC<Section2Props> = ({
                       />
                       <div className={styles.curr}>
                         {" "}
-                        {String.fromCharCode(code)}{" "}
+                        {String.fromCharCode(...code)}{" "}
                       </div>
                     </div>
                   ) : (

@@ -1,32 +1,40 @@
 import { PeopleRecommend } from "components/PeopleBuying/typings";
 import { MoreCollectionItem } from "components/NewArrival/typings";
 import { CategoryProps } from "containers/categoryLanding/typings";
-import Axios from "axios";
+import { Dispatch } from "redux";
+import API from "utils/api";
 
 export default {
   fetchCategoryMultiImage: async (
+    dispatch: Dispatch,
     id: number | string
   ): Promise<CategoryProps> => {
-    const res = await Axios.get(
-      `${__API_HOST__ + "/myapi/promotions/multi_image_page_widget/" + id}`,
-      {}
+    const res: any = await API.get(
+      dispatch,
+      `${__API_HOST__ + "/myapi/promotions/multi_image_page_widget/" + id}`
     );
 
     // const data: CollectionFilter = { ...res.data };
-    return { ...res.data };
+    return { ...res };
   },
-  newarrivals: async (id: number): Promise<MoreCollectionItem> => {
-    const res = await Axios.get(
-      `${__API_HOST__ + "/myapi/category/newarrivals/" + id}`,
-      {}
+  newarrivals: async (
+    dispatch: Dispatch,
+    id: number
+  ): Promise<MoreCollectionItem> => {
+    const res: any = await API.get(
+      dispatch,
+      `${__API_HOST__ + "/myapi/category/newarrivals/" + id}`
     );
-    return { ...res.data };
+    return { ...res };
   },
-  fetchLatestProduct: async (id: number): Promise<PeopleRecommend> => {
-    const res = await Axios.get(
-      `${__API_HOST__ + "/myapi/category/latest_bought_products/" + id}`,
-      {}
+  fetchLatestProduct: async (
+    dispatch: Dispatch,
+    id: number
+  ): Promise<PeopleRecommend> => {
+    const res: any = await API.get(
+      dispatch,
+      `${__API_HOST__ + "/myapi/category/latest_bought_products/" + id}`
     );
-    return { ...res.data };
+    return { ...res };
   }
 };
