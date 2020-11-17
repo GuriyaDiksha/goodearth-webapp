@@ -126,6 +126,9 @@ const BaseLayout: React.FC = () => {
     // });
     const popupCookie = CookieService.getCookie("makerinfo");
     const currencyPopup = CookieService.getCookie("currencypopup");
+    const queryString = location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
     if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
       dispatch(
@@ -137,7 +140,7 @@ const BaseLayout: React.FC = () => {
       dispatch(updateModal(true));
     }
 
-    if (!currencyPopup) {
+    if (!currencyPopup && !boId) {
       dispatch(updateComponent(<CurrencyPopup />, true));
       dispatch(updateModal(true));
     }

@@ -35,8 +35,9 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const [errorMessage, setErrorMessage] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [tempValue, setTempValue] = useState("");
   const { closeModal } = useContext(Context);
-  let focused = false;
+  const [focused, setFocused] = useState(false);
   useEffect(() => {
     currencyList.map((suggestion: any) => {
       if (suggestion.currencyCode == currency) {
@@ -129,12 +130,16 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     setInputValue(newValue);
     setSelectedCurrency(newValue);
-    focused = false;
     event.stopPropagation();
   };
 
+  const onBlur = () => {
+    setFocused(false);
+    // setInputValue(selectedCurrency);
+  };
+
   const onFocus = () => {
-    focused = true;
+    setFocused(true);
     setInputValue("");
   };
 
@@ -143,6 +148,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
     value: inputValue,
     onChange: onChange,
     onFocus: onFocus,
+    onBlur: onBlur,
     disabled: false,
     autoComplete: "new-password",
     className: "currencylist"
@@ -151,7 +157,6 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const shouldRenderSuggestions = () => {
     return true;
   };
-
   return (
     <div
       className={cs(
@@ -188,6 +193,13 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
               inputProps={inputProps}
               id={"currencyid"}
             />
+            <span
+              className={
+                focused
+                  ? globalStyles.hidden
+                  : cs(styles.newcaret, globalStyles.cerise)
+              }
+            ></span>
             {/* <label
                         className={cs({
                         [globalStyles.hidden]: false

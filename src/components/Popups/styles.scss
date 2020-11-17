@@ -498,8 +498,7 @@
   }
   .img-responsive {
     display: block;
-    max-width: 100%;
-    height: 100%;
+    height: auto;
     width: 100%;
     min-width: 100%;
   }
@@ -604,5 +603,15 @@
       }
     }
   }
+}
+
+.newcaret {
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  color: #000;
+  position: absolute;
+  top: 42%;
+  right: 10px;
 }
 
