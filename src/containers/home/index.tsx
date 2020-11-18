@@ -9,13 +9,13 @@ const Home: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const location = useLocation();
   const { currency } = useSelector((state: AppState) => state);
-
+  const { makerReloadToggle } = useSelector((state: AppState) => state.info);
   useLayoutEffect(() => {
     setMounted(false);
     setTimeout(() => {
       setMounted(true);
     }, 100);
-  }, [currency]);
+  }, [currency, makerReloadToggle]);
   useEffect(() => {
     dataLayer.push({
       event: "HomePageView",

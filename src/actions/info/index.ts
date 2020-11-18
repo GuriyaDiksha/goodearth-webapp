@@ -9,3 +9,6 @@ export const updatePopupBgUrl = (popupBgUrl: string) =>
 
 export const updateCurrencyList = (data: Currency[]) =>
   actionCreator("UPDATE_CURRENCY_LIST", data);
+
+export const updateMakerReloadToggle = (makerReloadToggle: boolean) =>
+  actionCreator("UPDATE_MAKER_RELOAD_TOGGLE", makerReloadToggle);
