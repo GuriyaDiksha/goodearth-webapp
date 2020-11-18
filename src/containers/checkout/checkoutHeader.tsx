@@ -110,15 +110,15 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     const { message, meta, mobile, currency } = this.props;
     const items: DropdownItem[] = [
       {
-        label: "INR" + " " + String.fromCharCode(currencyCode["INR"]),
+        label: "INR" + " " + String.fromCharCode(...currencyCode["INR"]),
         value: "INR"
       },
       {
-        label: "USD" + " " + String.fromCharCode(currencyCode["USD"]),
+        label: "USD" + " " + String.fromCharCode(...currencyCode["USD"]),
         value: "USD"
       },
       {
-        label: "GBP" + " " + String.fromCharCode(currencyCode["GBP"]),
+        label: "GBP" + " " + String.fromCharCode(...currencyCode["GBP"]),
         value: "GBP"
       }
     ];

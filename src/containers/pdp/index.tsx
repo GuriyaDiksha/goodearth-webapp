@@ -191,6 +191,10 @@ class PDPContainer extends React.Component<Props, State> {
         updated: false
       });
     }
+    if (this.props.currency != nextProps.currency) {
+      this.fetchMoreProductsFromCollection(nextProps.id);
+      this.props.fetchProduct(this.props.slug);
+    }
   }
 
   componentDidUpdate(props: Props) {

@@ -2,7 +2,8 @@ import { State, InfoActions } from "./typings";
 
 const initialState: State = {
   isSale: false,
-  popupBgUrl: ""
+  popupBgUrl: "",
+  currencyList: []
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -15,6 +16,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_POPUP_BG_URL": {
       const newState = { ...state };
       newState.popupBgUrl = action.payload;
+      return newState;
+    }
+    case "UPDATE_CURRENCY_LIST": {
+      const newState = { ...state };
+      newState.currencyList = action.payload;
       return newState;
     }
   }

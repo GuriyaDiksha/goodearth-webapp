@@ -366,6 +366,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   sendOtpApiCall = (formData: any) => {
+    this.setState({
+      disable: true
+    });
     this.props
       .sendOtp(formData)
       .then((data: any) => {
@@ -422,6 +425,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         // this.setState({
         //   showerror: "Server Error"
         // });
+      })
+      .finally(() => {
+        this.setState({
+          disable: false
+        });
       });
   };
 

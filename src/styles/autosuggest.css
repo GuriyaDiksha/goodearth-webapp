@@ -14,3 +14,17 @@ ul.react-autosuggest__suggestions-list li {
   cursor: pointer;
   text-align: left;
 }
+
+.currencylist {
+  background-color: #fff;
+  border: 1px solid #eee;
+  width: 100%;
+  padding: 6px;
+  font-size: 14px;
+  line-height: 25px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  text-align: start;
+}

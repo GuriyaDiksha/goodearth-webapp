@@ -10,6 +10,7 @@ import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
+import Api from "services/api";
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 import PincodePopup from "components/Popups/pincodePopup";
 import HeaderService from "services/headerFooter";
@@ -33,7 +34,24 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies) => {
+    reloadPage: (cookies: Cookies, page?: string) => {
+      // if (page == "/") {
+      // }
+      // if (page == "/") {
+      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      HeaderService.fetchFooterDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      // }
+      // if (page?.includes("/category_landing/")) {
+      //   // L
+      // }
+
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));

@@ -249,7 +249,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}{" "}
+                  {String.fromCharCode(
+                    ...currencyCode[data.currency as Currency]
+                  )}{" "}
                   &nbsp;{data.totalInclTax}
                 </p>
               </div>
@@ -379,7 +381,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                         {isdisCount ? (
                           <span className={styles.discountprice}>
                             {String.fromCharCode(
-                              currencyCode[item.priceCurrency as Currency]
+                              ...currencyCode[item.priceCurrency as Currency]
                             )}
                             {+parseFloat(item.priceInclTax).toFixed(2) /
                               +item.quantity}
@@ -391,7 +393,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                         {isdisCount ? (
                           <span className={styles.strikeprice}>
                             {String.fromCharCode(
-                              currencyCode[item.priceCurrency as Currency]
+                              ...currencyCode[item.priceCurrency as Currency]
                             )}
                             {+parseFloat(
                               item.priceExclTaxExclDiscounts
@@ -407,7 +409,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                             }
                           >
                             {String.fromCharCode(
-                              currencyCode[item.priceCurrency as Currency]
+                              ...currencyCode[item.priceCurrency as Currency]
                             )}
                             &nbsp;{" "}
                             {+parseFloat(
