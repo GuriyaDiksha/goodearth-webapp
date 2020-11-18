@@ -27,4 +27,18 @@ ul.react-autosuggest__suggestions-list li {
   appearance: none;
   border-radius: 0;
   text-align: start;
+  font-size: 12px;
+  color: #ab1e56;
+}
+input.currencylist::-webkit-input-placeholder {
+  font-style: normal;
+  font-size: 12px;
+}
+input.currencylist:-ms-input-placeholder {
+  font-style: normal;
+  font-size: 12px;
+}
+input.currencylist::-moz-placeholder {
+  font-style: normal;
+  font-size: 12px;
 }
