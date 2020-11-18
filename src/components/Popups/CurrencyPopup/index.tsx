@@ -198,6 +198,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
               renderSuggestion={renderSuggestion}
               onSuggestionSelected={onSuggestionSelected}
               shouldRenderSuggestions={shouldRenderSuggestions}
+              focusInputOnSuggestionClick={false}
               inputProps={inputProps}
               id={"currencyid"}
             />
