@@ -42,7 +42,8 @@ const MakerUtils: React.FC = () => {
       closeMakerPopup: function() {
         setMakerPopupCookie();
         dispatch(updateModal(false));
-      }
+      },
+      currency: CookieService.getCookie("currency") || "INR"
     };
   }, []);
 
