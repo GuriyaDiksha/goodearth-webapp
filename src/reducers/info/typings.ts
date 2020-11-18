@@ -5,6 +5,7 @@ export type State = {
   isSale: boolean;
   popupBgUrl: string;
   currencyList: any[];
+  makerReloadToggle: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;

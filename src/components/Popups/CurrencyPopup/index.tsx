@@ -17,6 +17,7 @@ import CookieService from "services/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useHistory } from "react-router";
+import { updateMakerReloadToggle } from "actions/info";
 type PopupProps = {};
 const CurrencyPopup: React.FC<PopupProps> = props => {
   const dispatch = useDispatch();
@@ -26,7 +27,8 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   );
   const {
     currency,
-    device: { mobile }
+    device: { mobile },
+    info: { makerReloadToggle }
   } = useSelector((state: AppState) => state);
   const curryList = currencyList.map(data => {
     return data.currencyCode;
@@ -69,16 +71,13 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
       LoginService.changeCurrency(dispatch, data).then(() => {
         history.push("/");
       });
-      const cookieString =
-        "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-      document.cookie = cookieString;
       CookieService.setCookie("currencypopup", "true", 365);
       closeModal();
     } else if (selectedCurrency == currency) {
-      const cookieString =
-        "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-      document.cookie = cookieString;
+      CookieService.setCookie("currency", selectedCurrency);
       CookieService.setCookie("currencypopup", "true", 365);
+      const makerToggle = !makerReloadToggle;
+      dispatch(updateMakerReloadToggle(makerToggle));
       closeModal();
     } else {
       setErrorMessage("please select correct currency");
