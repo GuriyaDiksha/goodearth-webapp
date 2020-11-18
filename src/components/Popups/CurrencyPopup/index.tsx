@@ -134,8 +134,8 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   };
 
   const onBlur = (event: any) => {
+    setFocused(false);
     if (event.target) {
-      setFocused(false);
       setInputValue(tempValue);
     }
   };
@@ -185,7 +185,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         </div>
         <ul className={cs(styles.introlist)}>
           {/* {this.createCategory()} */}
-          <li>Welcome to Good Earth</li>
+          <li>Welcome to {mobile && <br />}Good Earth</li>
         </ul>
         <ul className={styles.subHeading}>
           Please select a location to continue
