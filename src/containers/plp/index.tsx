@@ -64,7 +64,7 @@ class PLP extends React.Component<
       mobileFilter: false,
       sortValue: param ? param : "hc",
       flag: false,
-      plpMaker: true,
+      plpMaker: false,
       toggel: false,
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
@@ -103,6 +103,9 @@ class PLP extends React.Component<
         chatButtonElem.style.bottom = "10px";
       }
     }
+    this.setState({
+      plpMaker: true
+    });
   }
 
   componentDidUpdate(nextProps: Props) {
