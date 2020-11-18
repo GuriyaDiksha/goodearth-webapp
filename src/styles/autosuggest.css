@@ -15,7 +15,7 @@ ul.react-autosuggest__suggestions-list li {
   text-align: left;
 }
 
-.currencylist {
+input[type="text"].currencylist {
   background-color: #fff;
   border: 1px solid #eee;
   width: 100%;
@@ -27,18 +27,18 @@ ul.react-autosuggest__suggestions-list li {
   appearance: none;
   border-radius: 0;
   text-align: start;
-  font-size: 12px;
+  font-size: 12px !important;
   color: #ab1e56;
 }
-input.currencylist::-webkit-input-placeholder {
+input[type="text"].currencylist::-webkit-input-placeholder {
   font-style: normal;
-  font-size: 12px;
+  font-size: 12px !important;
 }
-input.currencylist:-ms-input-placeholder {
+input[type="text"].currencylist:-ms-input-placeholder {
   font-style: normal;
-  font-size: 12px;
+  font-size: 12px !important;
 }
-input.currencylist::-moz-placeholder {
+input[type="text"].currencylist::-moz-placeholder {
   font-style: normal;
-  font-size: 12px;
+  font-size: 12px !important;
 }
