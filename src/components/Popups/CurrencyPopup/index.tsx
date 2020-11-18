@@ -158,6 +158,13 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const shouldRenderSuggestions = () => {
     return true;
   };
+
+  const handleArrowClick = () => {
+    (document.getElementsByClassName(
+      "currencylist"
+    )[0] as HTMLInputElement)?.focus();
+    onFocus();
+  };
   return (
     <div
       className={cs(
@@ -200,6 +207,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
                   ? globalStyles.hidden
                   : cs(styles.newcaret, globalStyles.cerise)
               }
+              onClick={handleArrowClick}
             ></span>
             {/* <label
                         className={cs({

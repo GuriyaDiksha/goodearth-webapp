@@ -161,7 +161,7 @@ const BaseLayout: React.FC = () => {
                 currency.toString().toLowerCase()
               ) {
                 const data: any = {
-                  currency: goCurrencyValue.toString().toLowerCase()
+                  currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data);
               }
