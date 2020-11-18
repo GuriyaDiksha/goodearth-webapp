@@ -2,15 +2,22 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 import { useLocation } from "react-router";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 const Home: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const location = useLocation();
+  const { currency } = useSelector((state: AppState) => state);
+
   useLayoutEffect(() => {
-    if (!mounted) {
-      setMounted(true);
-    }
-  });
+    setMounted(false);
+    setTimeout(() => {
+      if (!mounted) {
+        setMounted(true);
+      }
+    }, 100);
+  }, [currency]);
   useEffect(() => {
     dataLayer.push({
       event: "HomePageView",
@@ -18,6 +25,7 @@ const Home: React.FC = () => {
       PageTitle: "virtual_homePage_view"
     });
   }, []);
+
   return (
     <div className={styles.makerTop}>
       {mounted && (

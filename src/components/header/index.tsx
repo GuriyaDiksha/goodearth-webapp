@@ -570,7 +570,7 @@ class Header extends React.Component<Props, State> {
                             <li
                               className={this.state.showC ? "" : styles.hidden}
                             >
-                              <ul>
+                              <ul className={styles.noMargin}>
                                 <li
                                   data-name="INR"
                                   className={
