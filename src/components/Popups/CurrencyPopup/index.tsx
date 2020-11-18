@@ -95,7 +95,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
       <div className={styles.flowRoot}>
         <div
           className={
-            data.currencyCode == currency
+            data.currencyCode == selectedCurrency
               ? cs(globalStyles.cerise, styles.left)
               : styles.left
           }
@@ -104,7 +104,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         </div>
         <div
           className={
-            data.currencyCode == currency
+            data.currencyCode == selectedCurrency
               ? cs(globalStyles.cerise, styles.right)
               : styles.right
           }
@@ -133,9 +133,11 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
     event.stopPropagation();
   };
 
-  const onBlur = () => {
-    setFocused(false);
-    setInputValue(tempValue);
+  const onBlur = (event: any) => {
+    if (event.target) {
+      setFocused(false);
+      setInputValue(tempValue);
+    }
   };
 
   const onFocus = () => {
