@@ -13,9 +13,7 @@ const Home: React.FC = () => {
   useLayoutEffect(() => {
     setMounted(false);
     setTimeout(() => {
-      if (!mounted) {
-        setMounted(true);
-      }
+      setMounted(true);
     }, 100);
   }, [currency]);
   useEffect(() => {
