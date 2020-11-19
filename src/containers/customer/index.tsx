@@ -93,10 +93,10 @@ const StaticPage: React.FC<Props> = props => {
       pageTitle: "cerise-terms"
     },
     {
-      label: "Joy Store Terms of Use",
+      label: "Sale Terms of Use",
       href: "/customer-assistance/sales-conditions",
       component: SaleTnc,
-      title: "Joy Store Terms of Use",
+      title: "Sale Terms of Use",
       loggedInOnly: false,
       pageTitle: "sales-condition"
     },
