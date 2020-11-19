@@ -228,7 +228,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         <div className={styles.discover}>
           <input
             type="button"
-            className={globalStyles.ceriseBtn}
+            className={cs(globalStyles.ceriseBtn, styles.shopBtn)}
             value="SHOP"
             onClick={() => {
               onChangeCurrency();
