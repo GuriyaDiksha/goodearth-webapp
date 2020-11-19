@@ -99,7 +99,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
               : styles.left
           }
         >
-          {data.countryName}
+          {data.countryName?.toUpperCase()}
         </div>
         <div
           className={
