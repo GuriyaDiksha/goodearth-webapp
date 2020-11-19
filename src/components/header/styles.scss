@@ -153,6 +153,9 @@
       white-space: nowrap;
       vertical-align: baseline;
       border-radius: 10px;
+      &:hover {
+        color: $cerise;
+      }
     }
     .icon-style {
       font-size: 22px;
