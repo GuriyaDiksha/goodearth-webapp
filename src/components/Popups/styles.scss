@@ -522,22 +522,24 @@
 
 .introlist {
     position: relative;
-    text-transform: uppercase;
-    color: $white;
-    letter-spacing: 5px;
-    font-family: $font-Header;
-    font-size: 23px;
+    color: #fff;
+    letter-spacing: 2px;
+    font-size: 30px;
+    font-family: $font-Serif;
     margin-top: 42px;
 }
 
 .sub-heading {
   margin-top: 50px;
+  font-family: $font-Lato;
+  letter-spacing: .5px;
+  font-size: 14px;
 }
 
 .suggest-dropdown {
-    width: 60%;
-    position: relative;
-    margin-left: 75px;
+  width: 70%;
+  position: relative;
+  margin-left: 60px;
     .right{
       cursor: pointer;
       font-size: 10px;

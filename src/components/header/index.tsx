@@ -570,7 +570,7 @@ class Header extends React.Component<Props, State> {
                             <li
                               className={this.state.showC ? "" : styles.hidden}
                             >
-                              <ul>
+                              <ul className={styles.noMargin}>
                                 <li
                                   data-name="INR"
                                   className={
@@ -583,7 +583,7 @@ class Header extends React.Component<Props, State> {
                                     this.clickToggle();
                                   }}
                                 >
-                                  INR(&#8377;)
+                                  India | INR(&#8377;)
                                 </li>
                                 <li
                                   data-name="USD"
@@ -597,7 +597,7 @@ class Header extends React.Component<Props, State> {
                                     this.clickToggle();
                                   }}
                                 >
-                                  USD (&#36;)
+                                  Rest Of The World | USD (&#36;)
                                 </li>
                                 <li
                                   data-name="GBP"
@@ -611,7 +611,7 @@ class Header extends React.Component<Props, State> {
                                     this.clickToggle();
                                   }}
                                 >
-                                  GBP (&#163;)
+                                  United Kingdom | GBP (&#163;)
                                 </li>
                               </ul>
                             </li>

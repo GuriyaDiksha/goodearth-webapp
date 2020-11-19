@@ -3,7 +3,8 @@ import { State, InfoActions } from "./typings";
 const initialState: State = {
   isSale: false,
   popupBgUrl: "",
-  currencyList: []
+  currencyList: [],
+  makerReloadToggle: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -21,6 +22,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_CURRENCY_LIST": {
       const newState = { ...state };
       newState.currencyList = action.payload;
+      return newState;
+    }
+    case "UPDATE_MAKER_RELOAD_TOGGLE": {
+      const newState = { ...state };
+      newState.makerReloadToggle = action.payload;
       return newState;
     }
   }

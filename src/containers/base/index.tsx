@@ -16,7 +16,7 @@ import { updateComponent, updateModal } from "actions/modal";
 // import flowerimg2 from "images/flower2.gif";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
-import MakerPopup from "components/Popups/MakerPopup";
+// import MakerPopup from "components/Popups/MakerPopup";
 import CurrencyPopup from "components/Popups/CurrencyPopup";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -27,7 +27,7 @@ const BaseLayout: React.FC = () => {
     currency
     // device: { mobile }
   } = useSelector((state: AppState) => state);
-  const isSuspended = true;
+  // const isSuspended = true;
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,12 +50,12 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  const setMakerPopupCookie = () => {
-    const cookieString =
-      "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-    document.cookie = cookieString;
-    CookieService.setCookie("makerinfo", "show", 365);
-  };
+  // const setMakerPopupCookie = () => {
+  //   const cookieString =
+  //     "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+  //   document.cookie = cookieString;
+  //   CookieService.setCookie("makerinfo", "show", 365);
+  // };
 
   // const throttle = _.throttle((e: any) => {
   //   const x = e.clientX - 100;
@@ -124,23 +124,27 @@ const BaseLayout: React.FC = () => {
     //     document.body.removeChild(img);
     //   }, 2000);
     // });
-    const popupCookie = CookieService.getCookie("makerinfo");
+    // const popupCookie = CookieService.getCookie("makerinfo");
     const currencyPopup = CookieService.getCookie("currencypopup");
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
-    const isHomePage = location.pathname == "/";
-    if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
-      dispatch(
-        updateComponent(
-          <MakerPopup acceptCondition={setMakerPopupCookie} />,
-          true
-        )
-      );
-      dispatch(updateModal(true));
-    }
+    // const isHomePage = location.pathname == "/";
+    // if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
+    //   dispatch(
+    //     updateComponent(
+    //       <MakerPopup acceptCondition={setMakerPopupCookie} />,
+    //       true
+    //     )
+    //   );
+    //   dispatch(updateModal(true));
+    // }
 
-    if (!currencyPopup && !boId) {
+    if (
+      !currencyPopup &&
+      !boId &&
+      !location.pathname.includes("/order/orderconfirmation/")
+    ) {
       dispatch(updateComponent(<CurrencyPopup />, true));
       dispatch(updateModal(true));
     }
@@ -157,7 +161,7 @@ const BaseLayout: React.FC = () => {
                 currency.toString().toLowerCase()
               ) {
                 const data: any = {
-                  currency: goCurrencyValue.toString().toLowerCase()
+                  currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data);
               }

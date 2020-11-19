@@ -17,6 +17,7 @@ import CookieService from "services/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useHistory } from "react-router";
+import { updateMakerReloadToggle } from "actions/info";
 type PopupProps = {};
 const CurrencyPopup: React.FC<PopupProps> = props => {
   const dispatch = useDispatch();
@@ -26,7 +27,8 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   );
   const {
     currency,
-    device: { mobile }
+    device: { mobile },
+    info: { makerReloadToggle }
   } = useSelector((state: AppState) => state);
   const curryList = currencyList.map(data => {
     return data.currencyCode;
@@ -51,12 +53,11 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   const getSuggestions = (value: string) => {
     const inputLength = value?.length || 0;
-    return inputLength === 0 || focused
-      ? currencyList
-      : currencyList.filter(data => {
-          const text = `${data.countryName} (${data.currencyCode} ${data.currencySymbol})`;
-          return text.indexOf(value.toUpperCase()) > -1;
-        });
+    return inputLength === 0 || focused ? currencyList : currencyList;
+    // : currencyList.filter(data => {
+    //     const text = `${data.countryName} (${data.currencyCode} ${data.currencySymbol})`;
+    //     return text.indexOf(value.toUpperCase()) > -1;
+    //   });
   };
 
   const onChangeCurrency = () => {
@@ -70,16 +71,13 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
       LoginService.changeCurrency(dispatch, data).then(() => {
         history.push("/");
       });
-      const cookieString =
-        "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-      document.cookie = cookieString;
       CookieService.setCookie("currencypopup", "true", 365);
       closeModal();
     } else if (selectedCurrency == currency) {
-      const cookieString =
-        "currencypopup=true; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-      document.cookie = cookieString;
+      CookieService.setCookie("currency", selectedCurrency);
       CookieService.setCookie("currencypopup", "true", 365);
+      const makerToggle = !makerReloadToggle;
+      dispatch(updateMakerReloadToggle(makerToggle));
       closeModal();
     } else {
       setErrorMessage("please select correct currency");
@@ -96,17 +94,17 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
       <div className={styles.flowRoot}>
         <div
           className={
-            data.currencyCode == currency
+            data.currencyCode == selectedCurrency
               ? cs(globalStyles.cerise, styles.left)
               : styles.left
           }
         >
-          {data.countryName}
+          {data.countryName?.toUpperCase()}
         </div>
         <div
           className={
-            data.currencyCode == currency
-              ? cs(globalStyles.cerise, styles.left)
+            data.currencyCode == selectedCurrency
+              ? cs(globalStyles.cerise, styles.right)
               : styles.right
           }
         >
@@ -129,17 +127,21 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   const onChange = (event: any, { newValue }: { newValue: string }) => {
     setInputValue(newValue);
+    setTempValue(newValue);
     setSelectedCurrency(newValue);
     event.stopPropagation();
   };
 
-  const onBlur = () => {
+  const onBlur = (event: any) => {
     setFocused(false);
-    // setInputValue(selectedCurrency);
+    if (event.target) {
+      setInputValue(tempValue);
+    }
   };
 
   const onFocus = () => {
     setFocused(true);
+    setTempValue(inputValue);
     setInputValue("");
   };
 
@@ -156,6 +158,13 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   const shouldRenderSuggestions = () => {
     return true;
+  };
+
+  const handleArrowClick = () => {
+    (document.getElementsByClassName(
+      "currencylist"
+    )[0] as HTMLInputElement)?.focus();
+    onFocus();
   };
   return (
     <div
@@ -175,7 +184,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         </div>
         <ul className={cs(styles.introlist)}>
           {/* {this.createCategory()} */}
-          <li>Welcome to Good Earth</li>
+          <li>Welcome to {mobile && <br />}Good Earth</li>
         </ul>
         <ul className={styles.subHeading}>
           Please select a location to continue
@@ -190,6 +199,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
               renderSuggestion={renderSuggestion}
               onSuggestionSelected={onSuggestionSelected}
               shouldRenderSuggestions={shouldRenderSuggestions}
+              focusInputOnSuggestionClick={false}
               inputProps={inputProps}
               id={"currencyid"}
             />
@@ -199,6 +209,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
                   ? globalStyles.hidden
                   : cs(styles.newcaret, globalStyles.cerise)
               }
+              onClick={handleArrowClick}
             ></span>
             {/* <label
                         className={cs({
