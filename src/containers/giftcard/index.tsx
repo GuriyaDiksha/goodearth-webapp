@@ -68,16 +68,41 @@ class GiftCard extends React.Component<
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.currency !== this.props.currency) {
-      this.goback("card");
-      this.setState({
-        selectedCountry: ""
-      });
+      this.goback("amount");
+      const newCurrency = this.state.countryData[this.state.selectedCountry];
+      if (nextProps.currency != newCurrency) {
+        let newCountry = "";
+        if (nextProps.currency == "INR") {
+          newCountry = "India";
+        } else if (nextProps.currency == "GBP") {
+          newCountry = "United Kingdom";
+        } else if (nextProps.currency == "AED") {
+          newCountry = "United Arab Emirates";
+        }
+        this.setState({
+          selectedCountry: newCountry
+        });
+      }
     }
   }
 
   goback = (section: string) => {
     this.setState({
       currentSection: section
+    });
+  };
+
+  setData = (data: any, section: string) => {
+    const giftCardData = this.state.finalData;
+    if (section == "card") {
+      giftCardData["imageUrl"] = data;
+    } else if (section == "amount") {
+      this.setState({
+        selectedCountry: data.selectedCountry
+      });
+    }
+    this.setState({
+      finalData: giftCardData
     });
   };
 
@@ -116,6 +141,7 @@ class GiftCard extends React.Component<
           <Section1
             giftimages={this.state.giftimages}
             next={this.next}
+            setData={this.setData}
             data={this.state.finalData}
           />
         );
@@ -130,6 +156,7 @@ class GiftCard extends React.Component<
             currency={this.props.currency}
             next={this.next}
             goback={this.goback}
+            setData={this.setData}
           />
         );
       case "form":

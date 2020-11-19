@@ -27,7 +27,7 @@ const Section2: React.FC<Section2Props> = ({
   selectedCountry,
   next,
   goback,
-  data
+  setData
 }) => {
   const code = currencyCode[currency as Currency];
   const sku = "I00121125";
@@ -84,6 +84,8 @@ const Section2: React.FC<Section2Props> = ({
   const onCountrySelect = (e: any) => {
     const country = e.target.value;
     setCountry(country);
+    const data: any = { selectedCountry: country };
+    setData(data, "amount");
     const newCurrency = countryData[country];
     if (currency != newCurrency) {
       dispatch(refreshPage(undefined));
