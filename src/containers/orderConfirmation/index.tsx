@@ -87,7 +87,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   const shippingAddress = confirmData.shippingAddress?.[0],
     billingAddress = confirmData.billingAddress?.[0];
-
+  if (!confirmData.number) {
+    return <></>;
+  }
   return (
     <div>
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
@@ -176,7 +178,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
                       <p>
                         {String.fromCharCode(
-                          currencyCode[confirmData.currency as Currency]
+                          ...currencyCode[confirmData.currency as Currency]
                         )}
                         &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
                       </p>
@@ -294,7 +296,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {isdisCount ? (
                                 <span className={styles.discountprice}>
                                   {String.fromCharCode(
-                                    currencyCode[item.priceCurrency as Currency]
+                                    ...currencyCode[
+                                      item.priceCurrency as Currency
+                                    ]
                                   )}
                                   {+parseFloat(item.priceInclTax).toFixed(2) /
                                     +item.quantity}
@@ -306,7 +310,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {isdisCount ? (
                                 <span className={styles.strikeprice}>
                                   {String.fromCharCode(
-                                    currencyCode[item.priceCurrency as Currency]
+                                    ...currencyCode[
+                                      item.priceCurrency as Currency
+                                    ]
                                   )}
                                   {+parseFloat(
                                     item.priceExclTaxExclDiscounts
@@ -324,7 +330,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   )}
                                 >
                                   {String.fromCharCode(
-                                    currencyCode[item.priceCurrency as Currency]
+                                    ...currencyCode[
+                                      item.priceCurrency as Currency
+                                    ]
                                   )}
                                   &nbsp;{" "}
                                   {+parseFloat(

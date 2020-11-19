@@ -117,7 +117,7 @@ const GiftCardItem = ({
               Balance amount:{" "}
               <span className={styles.fontBold}>
                 {" "}
-                {String.fromCharCode(unicode)} {remValues}{" "}
+                {String.fromCharCode(...unicode)} {remValues}{" "}
               </span>
               | Gift Card INACTIVE |{" "}
               <Link
@@ -226,7 +226,7 @@ const GiftCardItem = ({
             <span className={styles.op2}> Total value: </span>{" "}
             <span className={styles.fontBold}>
               {" "}
-              {String.fromCharCode(unicode)} {fullValue}{" "}
+              {String.fromCharCode(...unicode)} {fullValue}{" "}
             </span>
           </p>
           <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
@@ -234,7 +234,7 @@ const GiftCardItem = ({
             Balance amount:{" "}
             <span className={styles.fontBold}>
               {" "}
-              {String.fromCharCode(unicode)} {remValues}{" "}
+              {String.fromCharCode(...unicode)} {remValues}{" "}
             </span>
           </p>
           {conditionalRefresh && !isLoggedIn && (

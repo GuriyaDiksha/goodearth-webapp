@@ -176,7 +176,7 @@ const WishlistItem: React.FC<Props> = props => {
             {// this.state.salestatus
             true && data.discount ? (
               <span className={styles.discountprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {data.discountedPrice ? data.discountedPrice[currency] : ""}{" "}
                 &nbsp;{" "}
               </span>
@@ -186,12 +186,12 @@ const WishlistItem: React.FC<Props> = props => {
             {// this.state.salestatus
             true && data.discount ? (
               <span className={styles.strikeprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {data.price[currency]}
               </span>
             ) : (
               <span>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {data.price[currency]}
               </span>
             )}

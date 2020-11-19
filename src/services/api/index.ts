@@ -4,6 +4,7 @@ import { ApiResponse } from "typings/api";
 import { updateShopData } from "actions/shop";
 import { updateCurrency } from "actions/currency";
 import { updateSales, updatePopupBgUrl } from "actions/info";
+import { updateAnnouncement } from "actions/header";
 
 export default {
   fetchShopLocator: async function(dispatch: Dispatch) {
@@ -39,6 +40,6 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/promotions/announcement_bar/"}`
     );
-    return response;
+    dispatch(updateAnnouncement(response));
   }
 };

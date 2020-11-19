@@ -26,10 +26,10 @@ export const getParamsFromString = (value: string): any => {
   return null;
 };
 
-export const getJobIdFromSlug = (slug: string): number | null => {
+export const getJobIdFromSlug = (slug: string): string | null => {
   const matchArr = slug.split("-");
   if (matchArr.length > 1) {
-    const jobId = parseInt(matchArr[matchArr.length - 1]);
+    const jobId = matchArr[matchArr.length - 1];
     if (jobId) {
       return jobId;
     }

@@ -91,9 +91,6 @@ class PLP extends React.Component<
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_plp_view"
     });
-    this.setState({
-      plpMaker: true
-    });
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
@@ -106,13 +103,13 @@ class PLP extends React.Component<
         chatButtonElem.style.bottom = "10px";
       }
     }
+    this.setState({
+      plpMaker: true
+    });
   }
 
   componentDidUpdate(nextProps: Props) {
-    if (
-      this.props.location.pathname != nextProps.location.pathname &&
-      !this.state.plpMaker
-    ) {
+    if (!this.state.plpMaker) {
       this.setState({
         plpMaker: true
       });

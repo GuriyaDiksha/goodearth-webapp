@@ -174,7 +174,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           {info.isSale && product.discount ? (
             <span className={styles.discountprice}>
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {product.discountedPriceRecords[currency as Currency]}
             </span>
           ) : (
@@ -183,7 +183,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           {info.isSale && product.discount ? (
             <span className={styles.strikeprice}>
               {" "}
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {product.priceRecords[currency as Currency]}{" "}
             </span>
           ) : (
@@ -192,7 +192,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 product.badgeType == "B_flat" ? globalStyles.cerise : ""
               }
             >
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {product.priceRecords[currency as Currency]}
             </span>
           )}

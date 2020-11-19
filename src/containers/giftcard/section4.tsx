@@ -107,7 +107,7 @@ const Section4: React.FC<Section4Props> = props => {
               <p className={globalStyles.voffset3}>
                 You have received a Good Earth eGift card <br /> worth{" "}
                 <strong className={globalStyles.cerise}>
-                  {String.fromCharCode(code)}
+                  {String.fromCharCode(...code)}
                   {customPrice}
                 </strong>{" "}
                 from

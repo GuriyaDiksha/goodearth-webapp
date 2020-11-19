@@ -14,3 +14,31 @@ ul.react-autosuggest__suggestions-list li {
   cursor: pointer;
   text-align: left;
 }
+
+input[type="text"].currencylist {
+  background-color: #fff;
+  border: 1px solid #eee;
+  width: 100%;
+  padding: 6px;
+  font-size: 14px;
+  line-height: 25px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  text-align: start;
+  font-size: 12px !important;
+  color: #ab1e56;
+}
+input[type="text"].currencylist::-webkit-input-placeholder {
+  font-style: normal;
+  font-size: 12px !important;
+}
+input[type="text"].currencylist:-ms-input-placeholder {
+  font-style: normal;
+  font-size: 12px !important;
+}
+input[type="text"].currencylist::-moz-placeholder {
+  font-style: normal;
+  font-size: 12px !important;
+}

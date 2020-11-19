@@ -248,7 +248,7 @@ const NotifyMePopup: React.FC<Props> = ({
           <p className={styles.productN}>
             {isSale && discount ? (
               <span className={styles.discountprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                 {selectedSize
                   ? selectedSize.discountedPriceRecords[currency]
                   : discountedPrice}
@@ -259,14 +259,14 @@ const NotifyMePopup: React.FC<Props> = ({
             )}
             {isSale && discount ? (
               <span className={styles.strikeprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             ) : (
               <span
                 className={badgeType == "B_flat" ? globalStyles.cerise : ""}
               >
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             )}

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { showMessage } from "actions/growlMessage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BasketService from "../services/basket";
 import CookieService from "../services/cookie";
 import { updateModal } from "actions/modal";
+import { AppState } from "reducers/typings";
 
 const MakerUtils: React.FC = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const MakerUtils: React.FC = () => {
     document.cookie = cookieString;
     CookieService.setCookie("makerinfo", "show", 365);
   };
+  const currency = useSelector((state: AppState) => state.currency);
+
   useEffect(() => {
     (window as any).$goodearth = {
       AddToBag: function(
@@ -42,9 +45,10 @@ const MakerUtils: React.FC = () => {
       closeMakerPopup: function() {
         setMakerPopupCookie();
         dispatch(updateModal(false));
-      }
+      },
+      currency: currency
     };
-  }, []);
+  }, [currency]);
 
   return <></>;
 };
