@@ -3,43 +3,43 @@ import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
 import { updateheader } from "actions/header";
 // services
-import CacheService from "services/cache";
+// import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
 
 export default {
   fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
-    let headerData = CacheService.get("headerData") as HeaderData[];
+    // let headerData = CacheService.get("headerData") as HeaderData[];
 
-    if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
-      return headerData;
-    }
+    // if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
+    //   return headerData;
+    // }
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
     );
     dispatch(updateheader(res.results));
-    headerData = res.results as HeaderData[];
-    CacheService.set("headerData", headerData);
+    // headerData = res.results as HeaderData[];
+    // CacheService.set("headerData", headerData);
 
-    return headerData;
+    return res.results;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
-    let footerData = CacheService.get("footerData") as FooterDataProps;
+    // let footerData = CacheService.get("footerData") as FooterDataProps;
 
-    if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
-      return footerData;
-    }
+    // if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
+    //   return footerData;
+    // }
 
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__ + "/myapi/category/footer"}`
     );
-    footerData = res as FooterDataProps;
-    dispatch(updatefooter(footerData));
-    CacheService.set("footerData", footerData);
-    return footerData;
+    // footerData = res as FooterDataProps;
+    dispatch(updatefooter(res));
+    // CacheService.set("footerData", footerData);
+    return res as FooterDataProps;
   },
   makeNewsletterSignupRequest: async (dispatch: Dispatch, email: string) => {
     const res = await API.post<{ status: boolean; message: string }>(
