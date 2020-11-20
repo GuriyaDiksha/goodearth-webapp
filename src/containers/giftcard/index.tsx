@@ -63,6 +63,18 @@ class GiftCard extends React.Component<
       this.setState({
         countryData: response.data
       });
+      let newCountry = "";
+      if (this.props.currency == "INR") {
+        newCountry = "India";
+      } else if (this.props.currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (this.props.currency == "AED") {
+        newCountry = "United Arab Emirates";
+      }
+      newCountry &&
+        this.setState({
+          selectedCountry: newCountry
+        });
     });
   }
 
@@ -71,13 +83,15 @@ class GiftCard extends React.Component<
       this.goback("amount");
       const newCurrency = this.state.countryData[this.state.selectedCountry];
       if (nextProps.currency != newCurrency) {
-        let newCountry = "";
+        let newCountry = this.state.selectedCountry;
         if (nextProps.currency == "INR") {
           newCountry = "India";
         } else if (nextProps.currency == "GBP") {
           newCountry = "United Kingdom";
         } else if (nextProps.currency == "AED") {
           newCountry = "United Arab Emirates";
+        } else if (nextProps.currency == "USD") {
+          newCountry = "";
         }
         this.setState({
           selectedCountry: newCountry
