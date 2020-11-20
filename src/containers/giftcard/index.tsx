@@ -63,6 +63,18 @@ class GiftCard extends React.Component<
       this.setState({
         countryData: response.data
       });
+      let newCountry = "";
+      if (this.props.currency == "INR") {
+        newCountry = "India";
+      } else if (this.props.currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (this.props.currency == "AED") {
+        newCountry = "United Arab Emirates";
+      }
+      newCountry &&
+        this.setState({
+          selectedCountry: newCountry
+        });
     });
   }
 
