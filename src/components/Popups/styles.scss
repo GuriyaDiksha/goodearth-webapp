@@ -462,10 +462,13 @@
     }
   }
   .discover {
-    width: 60%;
-    margin: 50px 0 0 75px;
+    width: 70%;
+    margin: 40px auto;
     &:hover {
       cursor: pointer;
+    }
+    .shop-btn {
+      line-height: 47px;
     }
   }
   i {
@@ -539,7 +542,7 @@
 .suggest-dropdown {
   width: 70%;
   position: relative;
-  margin-left: 60px;
+  margin: auto;
     .right{
       cursor: pointer;
       font-size: 10px;
@@ -608,9 +611,9 @@
 }
 
 .newcaret {
-  border-top: 4px dashed;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
+  border-top: 5px dashed;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
   color: #000;
   position: absolute;
   top: 42%;
