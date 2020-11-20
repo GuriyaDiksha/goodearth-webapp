@@ -47,26 +47,24 @@ const Section2: React.FC<Section2Props> = ({
   useEffect(() => {
     const form = RegisterFormRef.current;
     if (form) {
-      let country = "";
+      let newCountry = country;
       if (currency == "INR") {
-        country = "India";
-        setSelectcurrency("INR");
+        newCountry = "India";
       } else if (currency == "GBP") {
-        form.updateInputsWithValue({
-          country: "United Kingdom"
-        });
+        newCountry = "United Kingdom";
       } else if (currency == "AED") {
-        form.updateInputsWithValue({
-          country: "United Arab Emirates"
-        });
+        newCountry = "United Arab Emirates";
+      } else if (currency == "USD") {
+        if (countryData[country] != currency && country) {
+          newCountry = "";
+        }
       }
-      if (country) {
+      (country || newCountry) &&
         form.updateInputsWithValue({
-          country: country
+          country: newCountry
         });
-        setCountry(country);
-        setSelectcurrency(currency);
-      }
+      setCountry(newCountry);
+      setSelectcurrency(currency);
     }
     window.scrollTo(0, 0);
   }, [currency]);
@@ -147,7 +145,7 @@ const Section2: React.FC<Section2Props> = ({
 
   const gotoNext = () => {
     const data: any = {};
-    if (!selectcurrency) {
+    if (!selectcurrency || !selectedCountry) {
       setCountrymsg(
         "Please choose the country you would like to ship this gift card to"
       );
