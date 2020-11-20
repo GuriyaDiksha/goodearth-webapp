@@ -31,7 +31,8 @@ export enum ROUTES {
   LOYALTYLANDING = "/cerise",
   ERROR = "/error-page",
   BACKENDERROR = "/backend-order-error",
-  PUSHPANJALI = "/puspanjali-festive-2020"
+  PUSHPANJALI = "/puspanjali-festive-2020",
+  MAINTENANCE = "/maintenance"
 }
 
 export type RouteConfig = RouteObject[];
