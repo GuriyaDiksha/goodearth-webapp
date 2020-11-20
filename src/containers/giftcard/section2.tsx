@@ -45,16 +45,31 @@ const Section2: React.FC<Section2Props> = ({
   const [country, setCountry] = useState(selectedCountry);
 
   useEffect(() => {
-    if (currency == "INR") {
-      const form = RegisterFormRef.current;
-      form &&
+    const form = RegisterFormRef.current;
+    if (form) {
+      let country = "";
+      if (currency == "INR") {
+        country = "India";
+        setSelectcurrency("INR");
+      } else if (currency == "GBP") {
         form.updateInputsWithValue({
-          country: "India"
+          country: "United Kingdom"
         });
-      setSelectcurrency("INR");
+      } else if (currency == "AED") {
+        form.updateInputsWithValue({
+          country: "United Arab Emirates"
+        });
+      }
+      if (country) {
+        form.updateInputsWithValue({
+          country: country
+        });
+        setCountry(country);
+        setSelectcurrency(currency);
+      }
     }
     window.scrollTo(0, 0);
-  }, []);
+  }, [currency]);
 
   const setValue = (id: string) => {
     const elem = document.getElementById(selectvalue) as HTMLInputElement;
