@@ -49,7 +49,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         );
       }
     });
-  }, []);
+  }, [currency]);
 
   const getSuggestions = (value: string) => {
     const inputLength = value?.length || 0;
