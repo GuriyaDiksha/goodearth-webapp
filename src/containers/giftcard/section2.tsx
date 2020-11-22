@@ -65,6 +65,7 @@ const Section2: React.FC<Section2Props> = ({
         });
       setCountry(newCountry);
       setSelectcurrency(currency);
+      setCountrymsg("");
     }
     window.scrollTo(0, 0);
   }, [currency]);
