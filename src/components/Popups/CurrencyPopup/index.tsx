@@ -69,10 +69,9 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         currency: selectedCurrency
       };
       LoginService.changeCurrency(dispatch, data).then(() => {
-        history.push("/");
+        CookieService.setCookie("currencypopup", "true", 365);
+        closeModal();
       });
-      CookieService.setCookie("currencypopup", "true", 365);
-      closeModal();
     } else if (selectedCurrency == currency) {
       CookieService.setCookie("currency", selectedCurrency);
       CookieService.setCookie("currencypopup", "true", 365);
