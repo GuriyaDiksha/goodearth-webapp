@@ -78,6 +78,22 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   // }
 
+  const gtmPushPaymentTracking = (
+    paymentMode: string[],
+    paymentMethod: string
+  ) => {
+    try {
+      dataLayer.push({
+        event: "paymentDetails",
+        paymentMode: paymentMode,
+        paymentMethod: paymentMethod
+      });
+    } catch (e) {
+      console.log(e);
+      console.log("payment Tracking error");
+    }
+  };
+
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     if (currentmethod.mode || isFree) {
@@ -99,8 +115,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         return false;
       }
       setIsLoading(true);
+      const paymentMode: string[] = [];
+      let paymentMethod = "";
+      if (!isFree) {
+        paymentMethod = currentmethod.value;
+        paymentMode.push("Online");
+      }
+      if (basket.giftCards.length > 0) {
+        paymentMode.push("GiftCard");
+      }
+      if (basket.loyalty.length > 0) {
+        paymentMode.push("Loyalty");
+      }
       checkout(data)
         .then((response: any) => {
+          gtmPushPaymentTracking(paymentMode, paymentMethod);
           location.href = `${__API_HOST__ + response.paymentUrl}`;
           setIsLoading(false);
         })
