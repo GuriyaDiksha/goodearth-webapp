@@ -53,12 +53,12 @@ const PlpDropdownMenu = ({
     onChange(data.value);
   };
   useEffect(() => {
-    if (showmobileSort) {
+    if (showmobileSort || menuOpen) {
       document.body.classList.add(globalStyles.noScroll);
     } else {
       document.body.classList.remove(globalStyles.noScroll);
     }
-  }, [showmobileSort]);
+  }, [showmobileSort, menuOpen]);
 
   return (
     <div className={cs(styles.cSort, bootstrap.col12, styles.filterSticky)}>
