@@ -138,8 +138,16 @@ class GiftCard extends React.Component<
       giftCardData["quantity"] = 1;
     } else if (section == "card") {
       // giftCardData = {};
+      let newCountry = "";
+      if (this.props.currency == "INR") {
+        newCountry = "India";
+      } else if (this.props.currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (this.props.currency == "AED") {
+        newCountry = "United Arab Emirates";
+      }
       this.setState({
-        selectedCountry: ""
+        selectedCountry: newCountry
       });
     }
     this.setState({
