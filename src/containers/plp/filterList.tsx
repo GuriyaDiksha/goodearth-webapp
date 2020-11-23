@@ -795,7 +795,7 @@ class FilterList extends React.Component<Props, State> {
       categoryObj[data].map((nestedList: any, j: number) => {
         filter.categoryShop[data]
           ? filter.categoryShop[data][nestedList[1]]
-            ? categorydata.categoryProductTypeMapping[nestedList[1]].map(
+            ? categorydata.categoryProductTypeMapping[nestedList[1]]?.map(
                 (level4: any) => {
                   if (this.productData.indexOf(level4) == -1) {
                     this.productData.push(level4);

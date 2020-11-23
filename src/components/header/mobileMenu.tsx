@@ -93,10 +93,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           ? cs(styles.menulevel2, styles.menulevel2Open)
           : styles.menulevel2;
       data.name.toLowerCase() == "winter velvets"
-        ? (spanClass += styles.subheadingImg)
+        ? (spanClass += ` ${styles.subheadingImg}`)
         : "";
       spanClass +=
-        data.name.toLowerCase().indexOf("sale") > -1 ? styles.menucolor : "";
+        data.name.toLowerCase().indexOf("sale") > -1
+          ? ` ${styles.menucolor}`
+          : "";
       html.push(
         data.url && data.children.length == 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
@@ -179,10 +181,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             ? cs(styles.menulevel2, styles.menulevel2Open)
             : styles.menulevel2;
         data.name.toLowerCase() == "winter velvets"
-          ? (spanClass += styles.subheadingImg)
+          ? (spanClass += ` ${styles.subheadingImg}`)
           : "";
         spanClass +=
-          data.name.toLowerCase().indexOf("sale") > -1 ? styles.menucolor : "";
+          data.name.toLowerCase().indexOf("sale") > -1
+            ? ` ${styles.menucolor}`
+            : "";
         html.push(
           data.url && data.children.length == 0 ? (
             <li key={data.id} onClick={this.props.clickToggle}>
