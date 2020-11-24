@@ -320,7 +320,7 @@ const ProductDetails: React.FC<Props> = ({
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity]);
+  }, [corporatePDP, selectedSize, quantity, currency]);
 
   const showSize = useMemo(() => {
     let show = false;

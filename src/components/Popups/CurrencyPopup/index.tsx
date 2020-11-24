@@ -16,12 +16,10 @@ import Autosuggest from "react-autosuggest";
 import CookieService from "services/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useHistory } from "react-router";
 import { updateMakerReloadToggle } from "actions/info";
 type PopupProps = {};
 const CurrencyPopup: React.FC<PopupProps> = props => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const currencyList = useSelector(
     (state: AppState) => state.info.currencyList
   );
@@ -69,10 +67,10 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         currency: selectedCurrency
       };
       LoginService.changeCurrency(dispatch, data).then(() => {
-        history.push("/");
+        CookieService.setCookie("currencypopup", "true", 365);
+        LoginService.reloadPage(dispatch);
+        closeModal();
       });
-      CookieService.setCookie("currencypopup", "true", 365);
-      closeModal();
     } else if (selectedCurrency == currency) {
       CookieService.setCookie("currency", selectedCurrency);
       CookieService.setCookie("currencypopup", "true", 365);
