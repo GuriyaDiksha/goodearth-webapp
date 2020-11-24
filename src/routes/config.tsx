@@ -189,6 +189,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.MAINTENANCE,
+    component: loadable(() => import("containers/maintenance")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.HOME,
     component: loadable(() => import("containers/home")),
     action: async () => null,
