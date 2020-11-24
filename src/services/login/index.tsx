@@ -18,6 +18,8 @@ import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import CacheService from "services/cache";
+import HeaderService from "services/headerFooter";
+import Api from "services/api";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
 import { showMessage } from "actions/growlMessage";
@@ -182,6 +184,18 @@ export default {
     CookieService.setCookie("currency", formData.currency, 365);
     dispatch(updateCurrency(formData.currency));
     return res;
+  },
+  reloadPage: (dispatch: Dispatch) => {
+    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    HeaderService.fetchFooterDetails(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    Api.getAnnouncement(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    BasketService.fetchBasket(dispatch);
   },
   getClientIpCurrency: async function() {
     Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
