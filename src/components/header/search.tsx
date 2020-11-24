@@ -64,6 +64,7 @@ type State = {
   featureData: WidgetImage[];
   showDifferentImage: boolean;
   currentImageIndex: number;
+  suggestions: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -76,7 +77,8 @@ class Search extends React.Component<Props, State> {
       count: 0,
       featureData: [],
       showDifferentImage: false,
-      currentImageIndex: -1
+      currentImageIndex: -1,
+      suggestions: []
     };
   }
 
@@ -202,7 +204,8 @@ class Search extends React.Component<Props, State> {
         this.setState({
           productData: data.results.data,
           url: searchUrl,
-          count: data.count
+          count: data.count,
+          suggestions: data.results.suggestions
         });
       })
       .catch(function(error) {
@@ -300,23 +303,28 @@ class Search extends React.Component<Props, State> {
                 )}
               >
                 <div className={bootstrapStyles.row}>
+                  <div className={bootstrapStyles.colMd3}></div>
                   <div
-                    className={cs(
-                      bootstrapStyles.colMd12,
-                      bootstrapStyles.col12,
-                      globalStyles.textCenter,
-                      styles.checkheight,
-                      { [styles.checkheightMobile]: this.props.mobile }
-                    )}
+                    className={cs(bootstrapStyles.row, bootstrapStyles.colMd8)}
                   >
-                    {this.state.searchValue.length > 1 ? (
-                      <div className={styles.npfMsg}>
-                        No products were found matching &nbsp;
-                        <span>{this.state.searchValue}</span>
-                      </div>
-                    ) : (
-                      ""
-                    )}
+                    <div
+                      className={cs(
+                        bootstrapStyles.colMd12,
+                        bootstrapStyles.col12,
+                        globalStyles.textCenter,
+                        styles.checkheight,
+                        { [styles.checkheightMobile]: this.props.mobile }
+                      )}
+                    >
+                      {this.state.searchValue.length > 1 ? (
+                        <div className={styles.npfMsg}>
+                          No products were found matching &nbsp;
+                          <span>{this.state.searchValue}</span>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -343,155 +351,201 @@ class Search extends React.Component<Props, State> {
                 <div className={bootstrapStyles.row}>
                   <div
                     className={cs(
-                      bootstrapStyles.colMd12,
-                      bootstrapStyles.col12,
-                      styles.checkheight,
-                      { [styles.checkheightMobile]: this.props.mobile }
+                      bootstrapStyles.colMd3,
+                      globalStyles.textCenter
                     )}
                   >
-                    {this.state.productData.length > 0
-                      ? this.state.productData.map((data, i) => {
-                          const isCombo = data.inStock;
+                    <p className={styles.suggestion}>suggestions</p>
+                    {this.state.suggestions.map(list => {
+                      return (
+                        <p className={styles.suggestionText} key={list.title}>
+                          <a
+                            href={list.url}
+                            className={cs(
+                              globalStyles.cerise,
+                              styles.firstText
+                            )}
+                          >
+                            {this.state.searchValue}
+                          </a>
+                          <span>{` in ${list.title}`}</span>
+                        </p>
+                      );
+                    })}
+                    ;
+                  </div>
+                  <div
+                    className={cs(bootstrapStyles.row, bootstrapStyles.colMd8)}
+                  >
+                    <div
+                      className={cs(
+                        bootstrapStyles.colMd12,
+                        bootstrapStyles.col12,
+                        styles.checkheight,
+                        { [styles.checkheightMobile]: this.props.mobile }
+                      )}
+                    >
+                      {this.state.productData.length > 0
+                        ? this.state.productData.map((data, i) => {
+                            const isCombo = data.inStock;
 
-                          let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
-                            (
-                              total: number,
-                              num: PartialChildProductAttributes
-                            ) => {
-                              return total + +num.stock;
-                            },
-                            0
-                          );
-                          totalStock = isCombo ? 100 : totalStock;
-                          const imageSource = !data.plpImages?.[0]
-                            ? noImagePlp
-                            : !data.plpImages?.[1]
-                            ? data.plpImages?.[0]
-                            : this.state.showDifferentImage &&
-                              !this.props.mobile &&
-                              this.state.currentImageIndex == i
-                            ? data.plpImages?.[1]
-                            : data.plpImages?.[0];
-                          return (
-                            <div
-                              key={i}
-                              className={cs(
-                                bootstrapStyles.colMd4,
-                                bootstrapStyles.col6
-                              )}
-                            >
-                              {data.salesBadgeImage ? (
-                                <div
-                                  className={cs(
-                                    {
-                                      [styles.badgePositionPlpMobile]: this
-                                        .props.mobile
-                                    },
-                                    {
-                                      [styles.badgePositionPlp]: !this.props
-                                        .mobile
-                                    }
-                                  )}
-                                >
-                                  <img src={data.salesBadgeImage} />
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                              <div className={styles.imageboxNew}>
-                                <Link
-                                  to={data.url}
-                                  onClick={this.showProduct.bind(this, data, i)}
-                                  onMouseOver={this.mouseOverImage.bind(
-                                    this,
-                                    i
-                                  )}
-                                  onMouseOut={this.mouseOutImage.bind(this, i)}
-                                >
-                                  <img
-                                    src={imageSource}
-                                    onError={this.addDefaultSrc}
-                                    alt=""
-                                    className={styles.imageResultNew}
-                                  />
-                                </Link>
-                                {totalStock <= 0 ? (
-                                  <div className={styles.outstock}>
-                                    <Link to={data.url}> NOTIFY ME </Link>
+                            let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
+                              (
+                                total: number,
+                                num: PartialChildProductAttributes
+                              ) => {
+                                return total + +num.stock;
+                              },
+                              0
+                            );
+                            totalStock = isCombo ? 100 : totalStock;
+                            const imageSource = !data.plpImages?.[0]
+                              ? noImagePlp
+                              : !data.plpImages?.[1]
+                              ? data.plpImages?.[0]
+                              : this.state.showDifferentImage &&
+                                !this.props.mobile &&
+                                this.state.currentImageIndex == i
+                              ? data.plpImages?.[1]
+                              : data.plpImages?.[0];
+                            return (
+                              <div
+                                key={i}
+                                className={cs(
+                                  bootstrapStyles.colMd4,
+                                  bootstrapStyles.col6
+                                )}
+                              >
+                                {data.salesBadgeImage ? (
+                                  <div
+                                    className={cs(
+                                      {
+                                        [styles.badgePositionPlpMobile]: this
+                                          .props.mobile
+                                      },
+                                      {
+                                        [styles.badgePositionPlp]: !this.props
+                                          .mobile
+                                      }
+                                    )}
+                                  >
+                                    <img src={data.salesBadgeImage} />
                                   </div>
                                 ) : (
                                   ""
                                 )}
-                              </div>
-                              <div className={styles.imageContent}>
-                                <p className={styles.productH}>
-                                  {data.collections}
-                                </p>
-                                <p className={styles.productN}>
+                                <div className={styles.imageboxNew}>
                                   <Link
                                     to={data.url}
-                                    onClick={e => {
-                                      this.showProduct.bind(this, data, i);
-                                    }}
+                                    onClick={this.showProduct.bind(
+                                      this,
+                                      data,
+                                      i
+                                    )}
+                                    onMouseOver={this.mouseOverImage.bind(
+                                      this,
+                                      i
+                                    )}
+                                    onMouseOut={this.mouseOutImage.bind(
+                                      this,
+                                      i
+                                    )}
                                   >
-                                    {data.productClass == "GiftCard"
-                                      ? "Gift Card"
-                                      : data.title}
+                                    <img
+                                      src={imageSource}
+                                      onError={this.addDefaultSrc}
+                                      alt=""
+                                      className={styles.imageResultNew}
+                                    />
                                   </Link>
-                                </p>
-                                {data.productClass == "GiftCard" ? (
-                                  ""
-                                ) : (
-                                  <p className={styles.productN}>
-                                    {this.props.isSale && data.discount ? (
-                                      <span className={styles.discountprice}>
-                                        {String.fromCharCode(
-                                          ...currencyCodes[this.props.currency]
-                                        )}
-                                        &nbsp;{" "}
-                                        {
-                                          data.discountedPriceRecords[
-                                            this.props.currency
-                                          ]
-                                        }{" "}
-                                        &nbsp;{" "}
-                                      </span>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {this.props.isSale && data.discount ? (
-                                      <span className={styles.strikeprice}>
-                                        {String.fromCharCode(
-                                          ...currencyCodes[this.props.currency]
-                                        )}
-                                        &nbsp;{" "}
-                                        {data.priceRecords[this.props.currency]}
-                                      </span>
-                                    ) : (
-                                      <p
-                                        className={cs(styles.productN, {
-                                          [globalStyles.cerise]:
-                                            data.badgeType == "B_flat"
-                                        })}
-                                      >
-                                        {String.fromCharCode(
-                                          ...currencyCodes[this.props.currency]
-                                        )}
-                                        &nbsp;{" "}
-                                        {
-                                          data.discountedPriceRecords[
-                                            this.props.currency
-                                          ]
-                                        }
-                                      </p>
-                                    )}
+                                  {totalStock <= 0 ? (
+                                    <div className={styles.outstock}>
+                                      <Link to={data.url}> NOTIFY ME </Link>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                                <div className={styles.imageContent}>
+                                  <p className={styles.productH}>
+                                    {data.collections}
                                   </p>
-                                )}
+                                  <p className={styles.productN}>
+                                    <Link
+                                      to={data.url}
+                                      onClick={e => {
+                                        this.showProduct.bind(this, data, i);
+                                      }}
+                                    >
+                                      {data.productClass == "GiftCard"
+                                        ? "Gift Card"
+                                        : data.title}
+                                    </Link>
+                                  </p>
+                                  {data.productClass == "GiftCard" ? (
+                                    ""
+                                  ) : (
+                                    <p className={styles.productN}>
+                                      {this.props.isSale && data.discount ? (
+                                        <span className={styles.discountprice}>
+                                          {String.fromCharCode(
+                                            ...currencyCodes[
+                                              this.props.currency
+                                            ]
+                                          )}
+                                          &nbsp;{" "}
+                                          {
+                                            data.discountedPriceRecords[
+                                              this.props.currency
+                                            ]
+                                          }{" "}
+                                          &nbsp;{" "}
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {this.props.isSale && data.discount ? (
+                                        <span className={styles.strikeprice}>
+                                          {String.fromCharCode(
+                                            ...currencyCodes[
+                                              this.props.currency
+                                            ]
+                                          )}
+                                          &nbsp;{" "}
+                                          {
+                                            data.priceRecords[
+                                              this.props.currency
+                                            ]
+                                          }
+                                        </span>
+                                      ) : (
+                                        <p
+                                          className={cs(styles.productN, {
+                                            [globalStyles.cerise]:
+                                              data.badgeType == "B_flat"
+                                          })}
+                                        >
+                                          {String.fromCharCode(
+                                            ...currencyCodes[
+                                              this.props.currency
+                                            ]
+                                          )}
+                                          &nbsp;{" "}
+                                          {
+                                            data.discountedPriceRecords[
+                                              this.props.currency
+                                            ]
+                                          }
+                                        </p>
+                                      )}
+                                    </p>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })
-                      : ""}
+                            );
+                          })
+                        : ""}
+                    </div>
                   </div>
                 </div>
                 {this.state.count > 0 ? (
@@ -571,42 +625,24 @@ class Search extends React.Component<Props, State> {
                       { [styles.checkheightMobile]: this.props.mobile }
                     )}
                   >
-                    {this.state.featureData.length > 0
-                      ? this.state.featureData.map((data, i) => {
-                          return (
-                            <div
-                              key={i}
-                              className={cs(
-                                bootstrapStyles.colMd3,
-                                bootstrapStyles.col6
-                              )}
-                            >
-                              <div className={styles.searchImageboxNew}>
-                                <Link
-                                  to={data.ctaUrl}
-                                  onClick={this.handleFeaturedProductClick.bind(
-                                    this,
-                                    data,
-                                    i
-                                  )}
-                                >
-                                  <img
-                                    src={
-                                      data.ctaImage == ""
-                                        ? "/src/image/noimageplp.png"
-                                        : data.ctaImage
-                                    }
-                                    onError={this.addDefaultSrc}
-                                    alt=""
-                                    className={styles.imageResultNew}
-                                  />
-                                </Link>
-                              </div>
-                              <div className={styles.imageContent}>
-                                <p className={styles.searchImageTitle}>
-                                  {data?.ctaText}
-                                </p>
-                                <p className={styles.searchFeature}>
+                    <div className={bootstrapStyles.colMd3}></div>
+                    <div
+                      className={cs(
+                        bootstrapStyles.row,
+                        bootstrapStyles.colMd9
+                      )}
+                    >
+                      {this.state.featureData.length > 0
+                        ? this.state.featureData.map((data, i) => {
+                            return (
+                              <div
+                                key={i}
+                                className={cs(
+                                  bootstrapStyles.colMd3,
+                                  bootstrapStyles.col6
+                                )}
+                              >
+                                <div className={styles.searchImageboxNew}>
                                   <Link
                                     to={data.ctaUrl}
                                     onClick={this.handleFeaturedProductClick.bind(
@@ -615,14 +651,40 @@ class Search extends React.Component<Props, State> {
                                       i
                                     )}
                                   >
-                                    {data.title}
+                                    <img
+                                      src={
+                                        data.ctaImage == ""
+                                          ? "/src/image/noimageplp.png"
+                                          : data.ctaImage
+                                      }
+                                      onError={this.addDefaultSrc}
+                                      alt=""
+                                      className={styles.imageResultNew}
+                                    />
                                   </Link>
-                                </p>
+                                </div>
+                                <div className={styles.imageContent}>
+                                  <p className={styles.searchImageTitle}>
+                                    {data?.ctaText}
+                                  </p>
+                                  <p className={styles.searchFeature}>
+                                    <Link
+                                      to={data.ctaUrl}
+                                      onClick={this.handleFeaturedProductClick.bind(
+                                        this,
+                                        data,
+                                        i
+                                      )}
+                                    >
+                                      {data.title}
+                                    </Link>
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })
-                      : ""}
+                            );
+                          })
+                        : ""}
+                    </div>
                   </div>
                 </div>
                 <div className={bootstrapStyles.row}>
