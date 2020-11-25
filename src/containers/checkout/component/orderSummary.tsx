@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import loadable from "@loadable/component";
 import globalStyles from "styles/global.scss";
@@ -390,6 +390,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     return false;
   };
+
+  useEffect(() => {
+    if (mobile && hasOutOfStockItems()) {
+      setShowSummary(true);
+      setTimeout(() => {
+        document
+          .getElementsByClassName(styles.textRemoveItems)[0]
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 200);
+    }
+  }, [basket]);
 
   const canCheckout = () => {
     if (pathname.indexOf("checkout") > -1) {
