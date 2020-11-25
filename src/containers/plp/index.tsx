@@ -176,6 +176,11 @@ class PLP extends React.Component<
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
       });
     }
+    if (this.props.currency != nextProps.currency) {
+      this.setState({
+        plpMaker: false
+      });
+    }
 
     if (!param && this.state.sortValue != "hc") {
       this.setState({
