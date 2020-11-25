@@ -269,7 +269,7 @@
     li {
       border-bottom: none;
       padding-left: 20px;
-      cursor: pointer;
+      // cursor: pointer;
 
       a {
         @include menu-copy();
@@ -750,3 +750,35 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   //   // min-height: 800px;
   //   min-height: 600px;
   // }
+
+.filter-item-cross {
+  right: 18px;
+  top: 3px;
+  position: relative;
+  float: right;
+  cursor: pointer;
+  font-size: 10px;
+  color: black !important;
+  height: 30px;
+  width: 15px;
+}
+
+.filter-item {
+  background-color: rgba(0,0,0,0.1);
+  padding: 3px 25px 3px 10px !important;
+  border-radius: 20px;
+  cursor: default;
+  color: #ab1e56 !important;
+  margin-bottom: 10px;
+}
+
+.width100 {
+  max-width: 100%;
+}
+
+.ellipses {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
