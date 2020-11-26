@@ -132,6 +132,7 @@ class CollectionLanding extends React.Component<
     this.setState({
       landingMaker: true
     });
+    window.scrollTo(0, 0);
   }
 
   componentDidUpdate(previous: Props) {
