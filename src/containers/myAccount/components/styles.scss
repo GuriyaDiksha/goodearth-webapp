@@ -75,6 +75,7 @@
     border: 1px solid tint(#000, 80%);
     min-height: 180px;
     text-align: left;
+    overflow-wrap: break-word;
     &.address-checkout {
       padding: 35px 25px 90px 25px;
     }

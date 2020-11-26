@@ -63,21 +63,60 @@ class GiftCard extends React.Component<
       this.setState({
         countryData: response.data
       });
+      let newCountry = "";
+      if (this.props.currency == "INR") {
+        newCountry = "India";
+      } else if (this.props.currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (this.props.currency == "AED") {
+        newCountry = "United Arab Emirates";
+      }
+      newCountry &&
+        this.setState({
+          selectedCountry: newCountry
+        });
     });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.currency !== this.props.currency) {
-      this.goback("card");
-      this.setState({
-        selectedCountry: ""
-      });
+      this.goback("amount");
+      const newCurrency = this.state.countryData[this.state.selectedCountry];
+      if (nextProps.currency != newCurrency) {
+        let newCountry = this.state.selectedCountry;
+        if (nextProps.currency == "INR") {
+          newCountry = "India";
+        } else if (nextProps.currency == "GBP") {
+          newCountry = "United Kingdom";
+        } else if (nextProps.currency == "AED") {
+          newCountry = "United Arab Emirates";
+        } else if (nextProps.currency == "USD") {
+          newCountry = "";
+        }
+        this.setState({
+          selectedCountry: newCountry
+        });
+      }
     }
   }
 
   goback = (section: string) => {
     this.setState({
       currentSection: section
+    });
+  };
+
+  setData = (data: any, section: string) => {
+    const giftCardData = this.state.finalData;
+    if (section == "card") {
+      giftCardData["imageUrl"] = data;
+    } else if (section == "amount") {
+      this.setState({
+        selectedCountry: data.selectedCountry
+      });
+    }
+    this.setState({
+      finalData: giftCardData
     });
   };
 
@@ -99,8 +138,16 @@ class GiftCard extends React.Component<
       giftCardData["quantity"] = 1;
     } else if (section == "card") {
       // giftCardData = {};
+      let newCountry = "";
+      if (this.props.currency == "INR") {
+        newCountry = "India";
+      } else if (this.props.currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (this.props.currency == "AED") {
+        newCountry = "United Arab Emirates";
+      }
       this.setState({
-        selectedCountry: ""
+        selectedCountry: newCountry
       });
     }
     this.setState({
@@ -116,6 +163,7 @@ class GiftCard extends React.Component<
           <Section1
             giftimages={this.state.giftimages}
             next={this.next}
+            setData={this.setData}
             data={this.state.finalData}
           />
         );
@@ -130,6 +178,7 @@ class GiftCard extends React.Component<
             currency={this.props.currency}
             next={this.next}
             goback={this.goback}
+            setData={this.setData}
           />
         );
       case "form":

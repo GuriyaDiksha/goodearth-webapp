@@ -19,6 +19,7 @@ export interface PlpResult {
   data: PartialProductItem[];
   banner: string;
   bannerMobile: string;
+  suggestions: any[];
 }
 
 export type PlpProps = {

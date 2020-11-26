@@ -153,6 +153,9 @@
       white-space: nowrap;
       vertical-align: baseline;
       border-radius: 10px;
+      &:hover {
+        color: $cerise;
+      }
     }
     .icon-style {
       font-size: 22px;
@@ -819,7 +822,6 @@ a {
     flex-wrap: wrap;
     justify-content: center;
     min-height: 300px;
-    padding: 0 10rem 0 10rem;
   }
   .checkheight-mobile {
     min-height: 300px;
@@ -1201,4 +1203,24 @@ visibility: visible !important;
   }
   
   
+}
+
+.suggestion {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #000;
+    cursor: pointer;
+    display: block;
+    font-family: $font-Lato;
+}
+.suggestion-text{
+  margin-top: 5px;
+  font-size: 14px;
+  float: left;
+  margin-left: 100px;
+  font-family: $font-Lato;
+  .first-text{
+    text-transform: uppercase;
+  }
 }

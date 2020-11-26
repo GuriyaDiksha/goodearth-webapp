@@ -320,7 +320,7 @@ const ProductDetails: React.FC<Props> = ({
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity]);
+  }, [corporatePDP, selectedSize, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -578,7 +578,7 @@ const ProductDetails: React.FC<Props> = ({
         >
           <div
             className={cs(globalStyles.textCenter, globalStyles.voffset1, {
-              [bootstrap.col9]: !corporatePDP,
+              [bootstrap.col8]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
               [bootstrap.colSm8]: !mobile,
               [bootstrap.colSm12]: corporatePDP && mobile
@@ -600,7 +600,7 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
           <div
-            className={cs(bootstrap.col3, globalStyles.textCenter, {
+            className={cs(bootstrap.col4, globalStyles.textCenter, {
               [styles.wishlistBtnContainer]: mobile,
               [globalStyles.voffset1]: mobile,
               [globalStyles.hidden]: corporatePDP

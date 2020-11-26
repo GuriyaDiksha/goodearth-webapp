@@ -4,6 +4,7 @@ export type Section1Props = {
   giftimages: string[];
   next: (data: any, section: string) => void;
   data: any;
+  setData: (data: any, section: string) => void;
 };
 
 export type Section2Props = {
@@ -15,6 +16,7 @@ export type Section2Props = {
   currency: Currency;
   next: (data: any, section: string) => void;
   goback: (section: string) => void;
+  setData: (data: any, section: string) => void;
 };
 
 export type Section3Props = {

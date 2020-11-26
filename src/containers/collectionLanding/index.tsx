@@ -122,6 +122,11 @@ class CollectionLanding extends React.Component<
         onloadState: false
       });
     }
+    if (this.props.currency != nextProps.currency) {
+      this.setState({
+        landingMaker: false
+      });
+    }
   }
   componentDidMount() {
     dataLayer.push({
@@ -144,6 +149,11 @@ class CollectionLanding extends React.Component<
         landingMaker: true
       });
       this.props.fetchCollectionMappingAndData();
+    }
+    if (this.props.currency != previous.currency) {
+      this.setState({
+        landingMaker: true
+      });
     }
   }
 
