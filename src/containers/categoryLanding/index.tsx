@@ -120,7 +120,9 @@ class CategoryLanding extends React.Component<
     this.setState({
       catLanding: true
     });
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 1000);
   }
 
   UNSAFE_componentWillReceiveProps(newprops: any) {
