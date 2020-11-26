@@ -17,6 +17,7 @@ const Home: React.FC = () => {
     }, 100);
   }, [currency, makerReloadToggle]);
   useEffect(() => {
+    window.scrollTo(0, 0);
     dataLayer.push({
       event: "HomePageView",
       PageURL: location.pathname,
