@@ -156,7 +156,7 @@ export function productImpression(
             price: child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
-            variant: prod.color ? prod.color[0] : ""
+            variant: child.size || ""
           }
         );
       });
@@ -269,6 +269,7 @@ export function PDP(data: any, currency: Currency) {
     );
     dataLayer.push({
       event: "PDP",
+      actionField: { list: "PDP", path: location.pathname },
       ecommerce: {
         detail: {
           products
@@ -309,7 +310,7 @@ export function collectionProductImpression(
             price: child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
-            variant: prod.color ? prod.color[0] : ""
+            variant: child.size || ""
           }
         );
       });
@@ -355,7 +356,7 @@ export function weRecommendProductImpression(
             price: child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
-            variant: prod.color ? prod.color[0] : ""
+            variant: child.size || ""
           }
         );
       });
@@ -401,7 +402,7 @@ export function plpProductClick(
             price: child.priceRecords[currency],
             brand: "Goodearth",
             position: position + 1,
-            variant: data.color ? data.color[0] : data.gaVariant || ""
+            variant: child.size || ""
           }
         );
       })
@@ -411,7 +412,7 @@ export function plpProductClick(
       ecommerce: {
         currencyCode: currency,
         click: {
-          actionField: { list: list },
+          actionField: { list: list, path: location.pathname },
           products: products
         }
       }
@@ -496,7 +497,7 @@ export function MoreFromCollectionProductClick(
     ecommerce: {
       currencyCode: currency,
       click: {
-        actionField: { list: list },
+        actionField: { list: list, path: location.pathname },
         products: [
           {
             name: data.title,

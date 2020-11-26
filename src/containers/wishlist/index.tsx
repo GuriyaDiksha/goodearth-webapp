@@ -381,7 +381,7 @@ class Wishlist extends React.Component<Props, State> {
             price: cur,
             brand: "Goodearth",
             position: i + 1,
-            variant: prod.gaVariant ? prod.gaVariant : null
+            variant: prod.size || ""
           }
         );
       });
