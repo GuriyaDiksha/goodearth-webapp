@@ -10,6 +10,7 @@ export type Props = {
   title?: string;
   childAttributes?: ChildProductAttributes[] | PartialChildProductAttributes[];
   priceRecords?: PriceRecord;
+  discountedPriceRecords?: PriceRecord;
   categories?: string[];
   id: ProductID;
   showText?: boolean;
