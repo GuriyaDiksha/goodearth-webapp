@@ -142,7 +142,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           this.myBlur();
         });
       }
-      this.firstEmailInput.current?.focus();
+      // this.firstEmailInput.current?.focus();
       localStorage.removeItem("tempEmail");
     }
   }
