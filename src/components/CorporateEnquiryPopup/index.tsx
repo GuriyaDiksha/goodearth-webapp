@@ -9,9 +9,9 @@ import React, {
 import { useStore } from "react-redux";
 import cs from "classnames";
 // components
+import Button from "components/Button";
 import CloseButton from "components/Modal/components/CloseButton";
 import InputField from "components/InputField";
-import Button from "components/Button";
 // services
 import ProductService from "services/product";
 // contexts

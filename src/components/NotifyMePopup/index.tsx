@@ -10,11 +10,11 @@ import React, {
 import { useStore } from "react-redux";
 import cs from "classnames";
 // components
-import CloseButton from "components/Modal/components/CloseButton";
-import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
-import InputField from "components/InputField";
+import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
+import CloseButton from "components/Modal/components/CloseButton";
+import InputField from "components/InputField";
 //actions
 import { showMessage } from "actions/growlMessage";
 // services

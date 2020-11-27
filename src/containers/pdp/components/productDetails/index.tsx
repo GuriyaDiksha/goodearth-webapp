@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
+import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
