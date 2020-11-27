@@ -216,7 +216,7 @@ const ProductDetails: React.FC<Props> = ({
             {
               name: title,
               id: childAttributes[0].sku,
-              price: priceRecords[currency],
+              price: discountedPriceRecords[currency] || priceRecords[currency],
               brand: "Goodearth",
               category: collection,
               variant: childAttributes[0]?.size || "",
@@ -611,6 +611,7 @@ const ProductDetails: React.FC<Props> = ({
               title={title}
               childAttributes={childAttributes}
               priceRecords={priceRecords}
+              discountedPriceRecords={discountedPriceRecords}
               categories={categories}
               id={id}
               showText={!mobile}

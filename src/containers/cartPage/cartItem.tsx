@@ -315,6 +315,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     product.childAttributes ? product.childAttributes : []
                   }
                   priceRecords={priceRecords}
+                  discountedPriceRecords={discountedPriceRecords}
                   categories={product.categories}
                   basketLineId={id}
                   id={product.id}

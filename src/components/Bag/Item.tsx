@@ -224,6 +224,7 @@ const LineItems: React.FC<BasketItem> = memo(
                   title={product.title}
                   childAttributes={product.childAttributes}
                   priceRecords={product.priceRecords}
+                  discountedPriceRecords={product.discountedPriceRecords}
                   categories={product.categories}
                   basketLineId={id}
                   size={size}

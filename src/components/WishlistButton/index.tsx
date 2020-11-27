@@ -23,6 +23,7 @@ const WishlistButton: React.FC<Props> = ({
   title,
   categories,
   priceRecords,
+  discountedPriceRecords,
   childAttributes,
   className,
   iconClassName,
@@ -57,7 +58,11 @@ const WishlistButton: React.FC<Props> = ({
               {
                 name: title,
                 id: childAttributes?.[0].sku,
-                price: priceRecords ? priceRecords[currency] : null,
+                price: discountedPriceRecords
+                  ? discountedPriceRecords[currency]
+                  : priceRecords
+                  ? priceRecords[currency]
+                  : null,
                 brand: "Goodearth",
                 category: category,
                 variant:
