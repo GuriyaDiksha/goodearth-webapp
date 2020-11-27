@@ -20,7 +20,8 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         accessToken: user.accessToken,
         email: user.email,
         fname: user.name.split(" ")[0],
-        lname: user.name.split(" ")[1]
+        lname: user.name.split(" ")[1],
+        requestParam: user
       };
       LoginService.loginSocial(dispatch, data)
         .then(res => {
@@ -42,7 +43,8 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         accessToken: user.tokenId,
         email: user.profileObj.email,
         fname: user.profileObj.givenName,
-        lname: user.profileObj.familyName
+        lname: user.profileObj.familyName,
+        requestParam: user
       };
       LoginService.loginSocial(dispatch, data)
         .then(res => {
