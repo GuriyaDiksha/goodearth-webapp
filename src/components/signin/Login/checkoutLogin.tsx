@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -127,10 +128,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
+    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email });
     }
-    this.firstEmailInput.current?.focus();
+    if (checkoutPopupCookie == "show") {
+      this.firstEmailInput.current?.focus();
+    }
     // localStorage.removeItem("tempEmail");
   }
 
