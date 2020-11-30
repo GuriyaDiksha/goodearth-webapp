@@ -120,7 +120,9 @@ class CategoryLanding extends React.Component<
     this.setState({
       catLanding: true
     });
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 1000);
   }
 
   UNSAFE_componentWillReceiveProps(newprops: any) {
@@ -132,14 +134,22 @@ class CategoryLanding extends React.Component<
 
     if (this.props.currency != newprops.currency) {
       this.props.reloadCategoryLanding(this.props);
+      this.setState({
+        catLanding: false
+      });
     }
   }
 
-  componentDidUpdate(previous: any, nextprops: any) {
+  componentDidUpdate(previousProps: any, previousState: any) {
     if (
-      this.props.location.pathname != previous.pathname &&
+      this.props.location.pathname != previousProps.location.pathname &&
       !this.state.catLanding
     ) {
+      this.setState({
+        catLanding: true
+      });
+    }
+    if (this.props.currency != previousProps.currency) {
       this.setState({
         catLanding: true
       });

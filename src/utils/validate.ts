@@ -153,7 +153,9 @@ export function productImpression(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price:
+              child.discountedPriceRecords[currency] ||
+              child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
             variant: prod.color ? prod.color[0] : ""
@@ -260,7 +262,9 @@ export function PDP(data: any, currency: Currency) {
             name: data.title,
             id: child.sku,
             category: category,
-            price: child.priceRecords[currency],
+            price:
+              child.discountedPriceRecords[currency] ||
+              child.priceRecords[currency],
             brand: "Goodearth",
             variant: child.size || ""
           }
@@ -306,7 +310,9 @@ export function collectionProductImpression(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price:
+              child.discountedPriceRecords[currency] ||
+              child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
             variant: prod.color ? prod.color[0] : ""
@@ -352,7 +358,9 @@ export function weRecommendProductImpression(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price:
+              child.discountedPriceRecords[currency] ||
+              child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
             variant: prod.color ? prod.color[0] : ""
@@ -398,7 +406,9 @@ export function plpProductClick(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price:
+              child.discountedPriceRecords[currency] ||
+              child.priceRecords[currency],
             brand: "Goodearth",
             position: position + 1,
             variant: data.color ? data.color[0] : data.gaVariant || ""
@@ -465,7 +475,9 @@ export function MoreFromCollectionProductImpression(
           id: prod.sku || prod.id,
           category: "",
           list: list,
-          price: prod.priceRecords[currency],
+          price:
+            prod.discountedPriceRecords[currency] ||
+            prod.priceRecords[currency],
           brand: "Goodearth",
           position: position + i + 1,
           variant: ""
@@ -501,7 +513,9 @@ export function MoreFromCollectionProductClick(
           {
             name: data.title,
             id: data.sku || data.id,
-            price: data.priceRecords[currency],
+            price:
+              data.discountedPriceRecords[currency] ||
+              data.priceRecords[currency],
             brand: "Goodearth",
             category: "",
             variant: "",

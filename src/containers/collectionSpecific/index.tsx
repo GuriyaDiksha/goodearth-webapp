@@ -206,6 +206,9 @@ class CollectionSpecific extends React.Component<
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.currency != nextProps.currency) {
       this.props.reloadCollectioSpecificData(nextProps.currency);
+      this.setState({
+        specificMaker: false
+      });
     }
     if (this.props.collectionSpecificData != nextProps.collectionSpecificData) {
       if (!this.state.scrollView) {
@@ -265,6 +268,11 @@ class CollectionSpecific extends React.Component<
       this.props.location.pathname != previous.location.pathname &&
       !this.state.specificMaker
     ) {
+      this.setState({
+        specificMaker: true
+      });
+    }
+    if (this.props.currency != previous.currency) {
       this.setState({
         specificMaker: true
       });
