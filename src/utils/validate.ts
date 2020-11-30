@@ -201,7 +201,7 @@ export function sliderProductImpression(
           // price: child.priceRecords[currency],
           brand: "Goodearth",
           position: position + i + 1,
-          variant: prod.gaVariant
+          variant: prod.size
         }
       );
     });
@@ -459,19 +459,21 @@ export function MoreFromCollectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     product = data.map((prod: any, i: number) => {
-      return Object.assign(
-        {},
-        {
-          name: prod.title,
-          id: prod.sku || prod.id,
-          category: "",
-          list: list,
-          price: prod.priceRecords[currency],
-          brand: "Goodearth",
-          position: position + i + 1,
-          variant: ""
-        }
-      );
+      return prod.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: "",
+            list: list,
+            price: prod.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: child.size || ""
+          }
+        );
+      });
     });
     dataLayer.push({
       event: "productImpression",
@@ -492,23 +494,32 @@ export function MoreFromCollectionProductClick(
   currency: Currency,
   position: number
 ) {
+  const products = [];
+  if (!data) return false;
+  if (data.length < 1) return false;
+  products.push(
+    data.childAttributes.map((child: any) => {
+      return Object.assign(
+        {},
+        {
+          name: data.title,
+          id: child.sku,
+          price: data.priceRecords[currency],
+          brand: "Goodearth",
+          category: "",
+          variant: child.size || "",
+          position: position
+        }
+      );
+    })
+  );
   dataLayer.push({
     event: "productClick",
     ecommerce: {
       currencyCode: currency,
       click: {
         actionField: { list: list, path: location.pathname },
-        products: [
-          {
-            name: data.title,
-            id: data.sku || data.id,
-            price: data.priceRecords[currency],
-            brand: "Goodearth",
-            category: "",
-            variant: "",
-            position: position
-          }
-        ]
+        products: products
       }
     }
   });
