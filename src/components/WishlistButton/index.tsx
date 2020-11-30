@@ -61,8 +61,8 @@ const WishlistButton: React.FC<Props> = ({
                 brand: "Goodearth",
                 category: category,
                 variant:
-                  childAttributes && childAttributes[0].color
-                    ? childAttributes[0].color[0]
+                  childAttributes && childAttributes[0].size
+                    ? childAttributes[0].size
                     : "",
                 quantity: 1,
                 list: gtmListType
