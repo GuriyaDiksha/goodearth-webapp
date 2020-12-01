@@ -71,7 +71,7 @@ class Quickview extends React.Component<Props, State> {
           item.priceRecords[this.props.currency],
         brand: "Goodearth",
         category: category,
-        variant: item.size || item.color || ""
+        variant: item.size || ""
       };
     });
     dataLayer.push({
