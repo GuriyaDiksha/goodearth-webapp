@@ -21,7 +21,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         email: user.email,
         fname: user.name.split(" ")[0],
         lname: user.name.split(" ")[1],
-        requestParam: user
+        requestParam: JSON.stringify(user)
       };
       LoginService.loginSocial(dispatch, data)
         .then(res => {
@@ -44,7 +44,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         email: user.profileObj.email,
         fname: user.profileObj.givenName,
         lname: user.profileObj.familyName,
-        requestParam: user
+        requestParam: JSON.stringify(user)
       };
       LoginService.loginSocial(dispatch, data)
         .then(res => {
