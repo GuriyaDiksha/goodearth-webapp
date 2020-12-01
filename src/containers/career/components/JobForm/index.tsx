@@ -732,7 +732,7 @@ class JobForm extends React.Component<Props, State> {
                       <li>
                         <a
                           href={
-                            "https://www.linkedin.com/sharing/share-offsite/?url=" +
+                            "https://www.linkedin.com/shareArticle?mini=true&url=" +
                             location.href
                           }
                           target="_blank"
