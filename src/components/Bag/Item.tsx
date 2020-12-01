@@ -66,7 +66,7 @@ const LineItems: React.FC<BasketItem> = memo(
             products: [
               {
                 name: product.title,
-                id: product.sku,
+                id: product.sku || product.childAttributes[0].sku,
                 price: price,
                 brand: "Goodearth",
                 category: category,
