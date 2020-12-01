@@ -67,7 +67,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               highlight: false
             },
             () => {
-              this.passwordInput.current && this.passwordInput.current.focus();
+              const checkoutPopupCookie = CookieService.getCookie(
+                "checkoutinfopopup"
+              );
+              checkoutPopupCookie == "show" &&
+                this.passwordInput.current &&
+                this.passwordInput.current.focus();
               this.passwordInput.current &&
                 this.passwordInput.current.scrollIntoView(true);
             }
