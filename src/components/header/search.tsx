@@ -470,7 +470,8 @@ class Search extends React.Component<Props, State> {
                   )}
                   <div
                     className={cs(bootstrapStyles.row, {
-                      [bootstrapStyles.colMd8]: suggestionsExist
+                      [bootstrapStyles.colMd8]: suggestionsExist,
+                      [bootstrapStyles.colMd12]: !suggestionsExist
                     })}
                   >
                     <div
