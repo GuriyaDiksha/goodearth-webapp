@@ -757,7 +757,7 @@ class FilterList extends React.Component<Props, State> {
     if (categoryObj.categoryShop) {
       html.push(
         <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-          <li>
+          <li className={styles.categoryTitle}>
             <span
               className={
                 Object.keys(this.state.filter.categoryShop).length == 0
@@ -785,7 +785,7 @@ class FilterList extends React.Component<Props, State> {
       const len = data[0].split(">").length;
       html.push(
         <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-          <li>
+          <li className={styles.categoryTitle}>
             <span
               className={
                 this.state.filter.categoryShop[data[0]]

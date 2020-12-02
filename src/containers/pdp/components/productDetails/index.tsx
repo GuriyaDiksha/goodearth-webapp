@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
+import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
@@ -216,7 +216,7 @@ const ProductDetails: React.FC<Props> = ({
             {
               name: title,
               id: childAttributes[0].sku,
-              price: priceRecords[currency],
+              price: discountedPriceRecords[currency] || priceRecords[currency],
               brand: "Goodearth",
               category: collection,
               variant: childAttributes[0]?.size || "",
@@ -320,7 +320,7 @@ const ProductDetails: React.FC<Props> = ({
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity, currency]);
+  }, [corporatePDP, selectedSize, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -611,6 +611,7 @@ const ProductDetails: React.FC<Props> = ({
               title={title}
               childAttributes={childAttributes}
               priceRecords={priceRecords}
+              discountedPriceRecords={discountedPriceRecords}
               categories={categories}
               id={id}
               showText={!mobile}

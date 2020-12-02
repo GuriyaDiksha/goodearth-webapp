@@ -103,6 +103,16 @@ class Search extends React.Component<Props, State> {
       });
   }
 
+  componentDidUpdate() {
+    if (
+      this.state.searchValue.length <= 2 &&
+      this.state.suggestions.length > 0
+    ) {
+      this.setState({
+        suggestions: []
+      });
+    }
+  }
   componentWillUnmount() {
     document.body.classList.remove(globalStyles.noScroll);
   }
@@ -230,6 +240,9 @@ class Search extends React.Component<Props, State> {
   render() {
     // const cur = "price" + this.props.currency.toLowerCase();
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
+    const suggestionsExist = this.state.suggestions.length > 0;
+    const productsExist = this.state.productData.length > 0;
+    const { mobile } = this.props;
     return (
       <div className={cs(globalStyles.minimumWidth, styles.search)}>
         <div>
@@ -266,7 +279,7 @@ class Search extends React.Component<Props, State> {
                   )}
                   onClick={this.onClickSearch}
                 ></i>
-                {!this.props.mobile && (
+                {!mobile && (
                   <i
                     className={cs(
                       iconStyles.icon,
@@ -284,55 +297,9 @@ class Search extends React.Component<Props, State> {
 
             <div
               className={
-                this.state.productData.length > 0 ||
-                (this.state.productData.length == 0 &&
-                  this.state.value.length > 2)
-                  ? globalStyles.hidden
-                  : cs(bootstrapStyles.row, globalStyles.voffset5)
-              }
-            >
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  styles.searchProducts,
-                  { [styles.searchProductsM]: this.props.mobile },
-                  {
-                    [styles.searchProductsIpad]:
-                      this.props.ipad && !this.props.mobile
-                  }
-                )}
-              >
-                <div className={bootstrapStyles.row}>
-                  <div className={bootstrapStyles.colMd3}></div>
-                  <div
-                    className={cs(bootstrapStyles.row, bootstrapStyles.colMd8)}
-                  >
-                    <div
-                      className={cs(
-                        bootstrapStyles.colMd12,
-                        bootstrapStyles.col12,
-                        globalStyles.textCenter,
-                        styles.checkheight,
-                        { [styles.checkheightMobile]: this.props.mobile }
-                      )}
-                    >
-                      {this.state.searchValue.length > 1 ? (
-                        <div className={styles.npfMsg}>
-                          No products were found matching &nbsp;
-                          <span>{this.state.searchValue}</span>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={
-                this.state.productData.length > 0
+                !productsExist &&
+                this.state.value.length <= 2 &&
+                !suggestionsExist
                   ? cs(bootstrapStyles.row, globalStyles.voffset5)
                   : globalStyles.hidden
               }
@@ -341,18 +308,82 @@ class Search extends React.Component<Props, State> {
                 className={cs(
                   bootstrapStyles.col12,
                   styles.searchProducts,
-                  { [styles.searchProductsM]: this.props.mobile },
                   {
-                    [styles.searchProductsIpad]:
-                      !this.props.ipad && !this.props.mobile
+                    [styles.onlySuggestionHeight]:
+                      suggestionsExist && !productsExist
+                  },
+                  { [styles.searchProductsM]: mobile },
+                  {
+                    [styles.searchProductsIpad]: this.props.ipad && !mobile
                   }
                 )}
               >
                 <div className={bootstrapStyles.row}>
                   <div
                     className={cs(
-                      bootstrapStyles.colMd3,
-                      globalStyles.textCenter
+                      bootstrapStyles.colMd12,
+                      bootstrapStyles.col12,
+                      globalStyles.textCenter,
+                      styles.checkheight,
+                      {
+                        [styles.noSuggestionPadding]:
+                          !mobile && !suggestionsExist,
+                        [styles.onlySuggestionMinHeight]:
+                          suggestionsExist && !productsExist,
+                        [styles.checkheightMobile]: mobile
+                      }
+                    )}
+                  >
+                    {this.state.searchValue.length > 1 ? (
+                      <div className={styles.npfMsg}>
+                        No products were found matching &nbsp;
+                        <span>{this.state.searchValue}</span>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={
+                !productsExist &&
+                suggestionsExist &&
+                this.state.value.length > 2
+                  ? cs(bootstrapStyles.row, globalStyles.voffset2)
+                  : globalStyles.hidden
+              }
+            >
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  styles.searchProducts,
+                  {
+                    [styles.onlySuggestionHeight]:
+                      suggestionsExist && !productsExist
+                  },
+                  { [styles.searchProductsM]: mobile },
+                  {
+                    [styles.searchProductsIpad]: this.props.ipad && !mobile
+                  }
+                )}
+              >
+                <div className={bootstrapStyles.row}>
+                  <div
+                    className={cs(
+                      bootstrapStyles.colMd8,
+                      bootstrapStyles.offsetMd2,
+                      styles.checkheight,
+                      {
+                        [styles.noSuggestionPadding]:
+                          !mobile && !suggestionsExist,
+                        [styles.onlySuggestionMinHeight]:
+                          suggestionsExist && !productsExist,
+                        [styles.onlySuggestionMobile]: mobile,
+                        [styles.checkheightMobile]: mobile
+                      }
                     )}
                   >
                     <p className={styles.suggestion}>suggestions</p>
@@ -372,17 +403,90 @@ class Search extends React.Component<Props, State> {
                         </p>
                       );
                     })}
-                    ;
                   </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className={
+                productsExist
+                  ? cs(bootstrapStyles.row, globalStyles.voffset5)
+                  : globalStyles.hidden
+              }
+            >
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  styles.searchProducts,
+                  {
+                    [styles.bothProductsSuggestionsMobile]: mobile,
+                    [styles.onlySuggestionHeight]:
+                      suggestionsExist && !productsExist
+                  },
+                  { [styles.searchProductsM]: mobile },
+                  {
+                    [styles.searchProductsIpad]: !this.props.ipad && !mobile
+                  }
+                )}
+              >
+                <div className={bootstrapStyles.row}>
+                  {suggestionsExist && (
+                    <div
+                      className={cs(
+                        bootstrapStyles.colMd3,
+                        globalStyles.textCenter,
+                        { [styles.suggestionsFlex]: mobile }
+                      )}
+                    >
+                      <p className={styles.suggestion}>suggestions</p>
+                      {this.state.suggestions.map(list => {
+                        return (
+                          <p className={styles.suggestionText} key={list.title}>
+                            <a
+                              href={list.url}
+                              className={cs(
+                                globalStyles.cerise,
+                                styles.firstText
+                              )}
+                            >
+                              {this.state.searchValue}
+                            </a>
+                            <span>{` in ${list.title}`}</span>
+                          </p>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {mobile && (
+                    <p
+                      className={cs(
+                        styles.suggestion,
+                        globalStyles.voffset2,
+                        globalStyles.marginB10
+                      )}
+                    >
+                      products
+                    </p>
+                  )}
                   <div
-                    className={cs(bootstrapStyles.row, bootstrapStyles.colMd8)}
+                    className={cs(bootstrapStyles.row, {
+                      [bootstrapStyles.colMd8]: suggestionsExist,
+                      [bootstrapStyles.colMd12]: !suggestionsExist
+                    })}
                   >
                     <div
                       className={cs(
                         bootstrapStyles.colMd12,
                         bootstrapStyles.col12,
                         styles.checkheight,
-                        { [styles.checkheightMobile]: this.props.mobile }
+                        styles.left,
+                        {
+                          [styles.noSuggestionPadding]:
+                            !mobile && !suggestionsExist,
+                          [styles.onlySuggestionMinHeight]:
+                            suggestionsExist && !productsExist,
+                          [styles.checkheightMobile]: mobile
+                        }
                       )}
                     >
                       {this.state.productData.length > 0
@@ -574,7 +678,8 @@ class Search extends React.Component<Props, State> {
             </div>
             <div
               className={`${
-                this.state.productData.length == 0 &&
+                !productsExist &&
+                !suggestionsExist &&
                 this.state.value.length > 2
                   ? cs(
                       bootstrapStyles.row,
@@ -583,7 +688,7 @@ class Search extends React.Component<Props, State> {
                     )
                   : globalStyles.hidden
               } ${
-                this.props.mobile == true
+                mobile == true
                   ? styles.searchProductsM
                   : this.props.ipad == true
                   ? styles.searchProductsIpad
@@ -599,7 +704,7 @@ class Search extends React.Component<Props, State> {
               >
                 {this.state.searchValue.length > 1 ? (
                   <div className={styles.npfMsg}>
-                    No products were found matching &nbsp;
+                    No products were found matcing &nbsp;
                     <span>{this.state.searchValue}</span>
                   </div>
                 ) : (
@@ -622,27 +727,49 @@ class Search extends React.Component<Props, State> {
                       bootstrapStyles.colMd12,
                       bootstrapStyles.col12,
                       styles.checkheight,
-                      { [styles.checkheightMobile]: this.props.mobile }
+                      {
+                        [styles.noSuggestionPadding]:
+                          !mobile && !suggestionsExist,
+                        [styles.checkheightMobile]: mobile
+                      }
                     )}
                   >
-                    <div className={bootstrapStyles.colMd3}></div>
-                    <div
-                      className={cs(
-                        bootstrapStyles.row,
-                        bootstrapStyles.colMd9
-                      )}
-                    >
-                      {this.state.featureData.length > 0
-                        ? this.state.featureData.map((data, i) => {
-                            return (
-                              <div
-                                key={i}
-                                className={cs(
-                                  bootstrapStyles.colMd3,
-                                  bootstrapStyles.col6
-                                )}
-                              >
-                                <div className={styles.searchImageboxNew}>
+                    {this.state.featureData.length > 0
+                      ? this.state.featureData.map((data, i) => {
+                          return (
+                            <div
+                              key={i}
+                              className={cs(
+                                bootstrapStyles.colMd3,
+                                bootstrapStyles.col6
+                              )}
+                            >
+                              <div className={styles.searchImageboxNew}>
+                                <Link
+                                  to={data.ctaUrl}
+                                  onClick={this.handleFeaturedProductClick.bind(
+                                    this,
+                                    data,
+                                    i
+                                  )}
+                                >
+                                  <img
+                                    src={
+                                      data.ctaImage == ""
+                                        ? "/src/image/noimageplp.png"
+                                        : data.ctaImage
+                                    }
+                                    onError={this.addDefaultSrc}
+                                    alt=""
+                                    className={styles.imageResultNew}
+                                  />
+                                </Link>
+                              </div>
+                              <div className={styles.imageContent}>
+                                <p className={styles.searchImageTitle}>
+                                  {data?.ctaText}
+                                </p>
+                                <p className={styles.searchFeature}>
                                   <Link
                                     to={data.ctaUrl}
                                     onClick={this.handleFeaturedProductClick.bind(
@@ -651,40 +778,14 @@ class Search extends React.Component<Props, State> {
                                       i
                                     )}
                                   >
-                                    <img
-                                      src={
-                                        data.ctaImage == ""
-                                          ? "/src/image/noimageplp.png"
-                                          : data.ctaImage
-                                      }
-                                      onError={this.addDefaultSrc}
-                                      alt=""
-                                      className={styles.imageResultNew}
-                                    />
+                                    {data.title}
                                   </Link>
-                                </div>
-                                <div className={styles.imageContent}>
-                                  <p className={styles.searchImageTitle}>
-                                    {data?.ctaText}
-                                  </p>
-                                  <p className={styles.searchFeature}>
-                                    <Link
-                                      to={data.ctaUrl}
-                                      onClick={this.handleFeaturedProductClick.bind(
-                                        this,
-                                        data,
-                                        i
-                                      )}
-                                    >
-                                      {data.title}
-                                    </Link>
-                                  </p>
-                                </div>
+                                </p>
                               </div>
-                            );
-                          })
-                        : ""}
-                    </div>
+                            </div>
+                          );
+                        })
+                      : ""}
                   </div>
                 </div>
                 <div className={bootstrapStyles.row}>

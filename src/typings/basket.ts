@@ -1,5 +1,10 @@
 import { ProductID } from "./id";
-import { BasketProduct, PLPProductItem } from "./product";
+import {
+  BasketProduct,
+  ChildProductAttributes,
+  PartialChildProductAttributes,
+  PLPProductItem
+} from "./product";
 import { Currency } from "./currency";
 import { BalanceProps } from "containers/checkout/component/typings";
 // import { LineItems } from "components/Bag/typings";
@@ -14,6 +19,7 @@ export type BasketStockRecord = {
 
 export type BasketLineItem = {
   id: number;
+  childAttributes: ChildProductAttributes[];
   bridalProfile: boolean;
   giftCardImage: string;
   quantity: number;

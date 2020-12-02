@@ -273,7 +273,9 @@
       border-bottom: none;
       padding-left: 20px;
       // cursor: pointer;
-
+      &.category-title {
+        cursor: pointer;
+      }
       a {
         @include menu-copy();
       }

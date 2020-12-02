@@ -194,6 +194,9 @@ class PDPContainer extends React.Component<Props, State> {
     if (this.props.currency != nextProps.currency) {
       this.fetchMoreProductsFromCollection(nextProps.id);
       this.props.fetchProduct(this.props.slug);
+      this.setState({
+        mounted: false
+      });
     }
   }
 
@@ -233,6 +236,11 @@ class PDPContainer extends React.Component<Props, State> {
       window.setTimeout(() => {
         window.scrollTo({ top: 0 });
       }, 500);
+    }
+    if (this.props.currency != props.currency) {
+      this.setState({
+        mounted: true
+      });
     }
   }
 

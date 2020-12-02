@@ -66,10 +66,12 @@ class Quickview extends React.Component<Props, State> {
       return {
         name: this.props.data.title,
         id: item.sku,
-        price: item.priceRecords[this.props.currency],
+        price:
+          item.discountedPriceRecords[this.props.currency] ||
+          item.priceRecords[this.props.currency],
         brand: "Goodearth",
         category: category,
-        variant: item.size || item.color || ""
+        variant: item.size || ""
       };
     });
     dataLayer.push({

@@ -38,7 +38,9 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             {
               name: recommendedProducts[i].title,
               id: recommendedProducts[i].sku,
-              price: recommendedProducts[i].priceRecords[currency],
+              price:
+                recommendedProducts[i].discountedPriceRecords[currency] ||
+                recommendedProducts[i].priceRecords[currency],
               brand: "Goodearth",
               category: category,
               variant: recommendedProducts[i].childAttributes[0].size || "",

@@ -153,10 +153,12 @@ export function productImpression(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
-            variant: prod.color ? prod.color[0] : ""
+            variant: child.size || ""
           }
         );
       });
@@ -201,7 +203,7 @@ export function sliderProductImpression(
           // price: child.priceRecords[currency],
           brand: "Goodearth",
           position: position + i + 1,
-          variant: prod.gaVariant
+          variant: prod.size
         }
       );
     });
@@ -260,7 +262,11 @@ export function PDP(data: any, currency: Currency) {
             name: data.title,
             id: child.sku,
             category: category,
-            price: child.priceRecords[currency],
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords
+              ? child.priceRecords[currency]
+              : data.priceRecords[currency],
             brand: "Goodearth",
             variant: child.size || ""
           }
@@ -269,6 +275,7 @@ export function PDP(data: any, currency: Currency) {
     );
     dataLayer.push({
       event: "PDP",
+      actionField: { list: "PDP", path: location.pathname },
       ecommerce: {
         detail: {
           products
@@ -306,10 +313,12 @@ export function collectionProductImpression(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
-            variant: prod.color ? prod.color[0] : ""
+            variant: child.size || ""
           }
         );
       });
@@ -352,10 +361,12 @@ export function weRecommendProductImpression(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
-            variant: prod.color ? prod.color[0] : ""
+            variant: child.size || ""
           }
         );
       });
@@ -398,10 +409,12 @@ export function plpProductClick(
             id: child.sku,
             category: category,
             list: list,
-            price: child.priceRecords[currency],
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
             brand: "Goodearth",
             position: position + 1,
-            variant: data.color ? data.color[0] : data.gaVariant || ""
+            variant: child.size || ""
           }
         );
       })
@@ -411,7 +424,7 @@ export function plpProductClick(
       ecommerce: {
         currencyCode: currency,
         click: {
-          actionField: { list: list },
+          actionField: { list: list, path: location.pathname },
           products: products
         }
       }
@@ -458,19 +471,23 @@ export function MoreFromCollectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     product = data.map((prod: any, i: number) => {
-      return Object.assign(
-        {},
-        {
-          name: prod.title,
-          id: prod.sku || prod.id,
-          category: "",
-          list: list,
-          price: prod.priceRecords[currency],
-          brand: "Goodearth",
-          position: position + i + 1,
-          variant: ""
-        }
-      );
+      return prod.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: prod.title,
+            id: child.sku,
+            category: "",
+            list: list,
+            price: prod.discountedPriceRecords
+              ? prod.discountedPriceRecords[currency]
+              : prod.priceRecords[currency],
+            brand: "Goodearth",
+            position: position + i + 1,
+            variant: child.size || ""
+          }
+        );
+      });
     });
     dataLayer.push({
       event: "productImpression",
@@ -491,23 +508,34 @@ export function MoreFromCollectionProductClick(
   currency: Currency,
   position: number
 ) {
+  const products = [];
+  if (!data) return false;
+  if (data.length < 1) return false;
+  products.push(
+    data.childAttributes.map((child: any) => {
+      return Object.assign(
+        {},
+        {
+          name: data.title,
+          id: child.sku,
+          price: data.discountedPriceRecords
+            ? data.discountedPriceRecords[currency]
+            : data.priceRecords[currency],
+          brand: "Goodearth",
+          category: "",
+          variant: child.size || "",
+          position: position
+        }
+      );
+    })
+  );
   dataLayer.push({
     event: "productClick",
     ecommerce: {
       currencyCode: currency,
       click: {
-        actionField: { list: list },
-        products: [
-          {
-            name: data.title,
-            id: data.sku || data.id,
-            price: data.priceRecords[currency],
-            brand: "Goodearth",
-            category: "",
-            variant: "",
-            position: position
-          }
-        ]
+        actionField: { list: list, path: location.pathname },
+        products: products
       }
     }
   });
