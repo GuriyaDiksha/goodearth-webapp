@@ -389,7 +389,12 @@ class Search extends React.Component<Props, State> {
                     <p className={styles.suggestion}>suggestions</p>
                     {this.state.suggestions.map(list => {
                       return (
-                        <p className={styles.suggestionText} key={list.title}>
+                        <p
+                          className={styles.suggestionText}
+                          key={Math.random()
+                            .toString(36)
+                            .substring(7)}
+                        >
                           <a
                             href={list.url}
                             className={cs(
@@ -397,7 +402,7 @@ class Search extends React.Component<Props, State> {
                               styles.firstText
                             )}
                           >
-                            {this.state.searchValue}
+                            {list.highlight}
                           </a>
                           <span>{` in ${list.title}`}</span>
                         </p>
@@ -441,7 +446,12 @@ class Search extends React.Component<Props, State> {
                       <p className={styles.suggestion}>suggestions</p>
                       {this.state.suggestions.map(list => {
                         return (
-                          <p className={styles.suggestionText} key={list.title}>
+                          <p
+                            className={styles.suggestionText}
+                            key={Math.random()
+                              .toString(36)
+                              .substring(7)}
+                          >
                             <a
                               href={list.url}
                               className={cs(
@@ -449,7 +459,7 @@ class Search extends React.Component<Props, State> {
                                 styles.firstText
                               )}
                             >
-                              {this.state.searchValue}
+                              {list.highlight}
                             </a>
                             <span>{` in ${list.title}`}</span>
                           </p>
