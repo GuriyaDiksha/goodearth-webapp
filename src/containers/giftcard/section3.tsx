@@ -189,6 +189,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                 <div>
                   <FormTextArea
                     placeholder=""
+                    maxLength={120}
                     name="message"
                     rows={5}
                     value={data["message"]}
