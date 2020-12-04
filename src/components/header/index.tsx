@@ -92,11 +92,10 @@ class Header extends React.Component<Props, State> {
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");
     if (id == "abandoncart") {
-      if (this.props.isLoggedIn) {
-        this.props.history.push("/cart");
-      } else {
+      if (!this.props.isLoggedIn) {
         this.props.goLogin();
       }
+      this.props.history.push("/cart");
     }
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
