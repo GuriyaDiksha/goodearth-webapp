@@ -82,6 +82,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     <div className={props.className}>
       <textarea
         rows={props.rows || 3}
+        maxLength={props.maxLength}
         cols={60}
         id={props.id}
         name={props.name}
