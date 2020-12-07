@@ -39,6 +39,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setTextarea(data["message"] || "");
   }, []);
 
   const handleSubmit = (
@@ -63,7 +64,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
     data["recipientEmailConfirm"] = recipientEmailConfirm;
     data["recipientName"] = recipientName;
     data["senderName"] = senderName;
-    data["message"] = message;
+    data["message"] = message.trim();
     next(data, "preview");
   };
 
@@ -198,11 +199,20 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       setTextarea(e.currentTarget.value);
                     }}
                     required
+                    validations={{
+                      isEmpty: (values, value) => {
+                        return value?.trim() ? true : false;
+                      }
+                    }}
+                    validationErrors={{
+                      isEmpty: "Please enter message"
+                    }}
                     // value={textarea}
                     // className={ehighlight ? "error-border" : ""}
                   ></FormTextArea>
                   <div className={globalStyles.textLeft}>
-                    Character Limit: {120 - textarea.length}
+                    Character Limit:{" "}
+                    {120 - (textarea.trim() == "" ? 0 : textarea.length)}
                   </div>
                   {/* {emsg ? (
                     <p className={globalStyles.errorMsg}>
