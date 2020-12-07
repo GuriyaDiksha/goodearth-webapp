@@ -68,7 +68,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
 
     html.push(
       <div className={bootstrapStyles.col12}>
-        <div className={styles.add}>
+        <div className={styles.add} id={data.number}>
           <address className={styles.orderBlock}>
             <label>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
@@ -134,8 +134,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     return html;
   };
 
-  const closeDetails = () => {
+  const closeDetails = (orderNum?: string) => {
     setIsOpenAddressIndex(-1);
+    setTimeout(() => {
+      const orderElem = orderNum && document.getElementById(orderNum);
+      if (orderElem) {
+        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 300);
   };
 
   const openAddress = (data: any, index: number) => {
@@ -179,7 +185,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </p>
               </div>
               <p className={styles.edit}>
-                <a className={globalStyles.cerise} onClick={closeDetails}>
+                <a
+                  className={globalStyles.cerise}
+                  onClick={() => closeDetails(data.number)}
+                >
                   {" "}
                   close{" "}
                 </a>
@@ -358,7 +367,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               );
             })}
             <div className={styles.edit}>
-              <a className={globalStyles.cerise} onClick={() => closeDetails()}>
+              <a
+                className={globalStyles.cerise}
+                onClick={() => closeDetails(data.number)}
+              >
                 {" "}
                 close{" "}
               </a>

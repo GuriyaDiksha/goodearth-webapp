@@ -14,6 +14,7 @@ import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import * as valid from "utils/validate";
 import Loader from "components/Loader";
+import iconStyles from "../../styles/iconFonts.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -756,7 +757,7 @@ class FilterList extends React.Component<Props, State> {
     if (categoryObj.categoryShop) {
       html.push(
         <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-          <li>
+          <li className={styles.categoryTitle}>
             <span
               className={
                 Object.keys(this.state.filter.categoryShop).length == 0
@@ -784,7 +785,7 @@ class FilterList extends React.Component<Props, State> {
       const len = data[0].split(">").length;
       html.push(
         <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-          <li>
+          <li className={styles.categoryTitle}>
             <span
               className={
                 this.state.filter.categoryShop[data[0]]
@@ -1012,68 +1013,138 @@ class FilterList extends React.Component<Props, State> {
 
   renderFilterList = (filterObj: any) => {
     const html = [];
+    let filterCount = 0;
     Object.keys(filterObj).map(data => {
       switch (data) {
         case "currentColor":
-        case "availableSize":
+        case "availableSize": {
+          const filter: any = [];
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1].isChecked) return false;
-            html.push(
-              <li key={data}>
-                <span>{data == "currentColor" ? "Color" : "Size"}: </span>
-                <span>
+            filter.push(
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
                   {data == "currentColor"
                     ? filterObj[data][data1].value.split("-")[1]
                     : filterObj[data][data1].value}
                 </span>
                 <span
+                  className={styles.filterItemCross}
                   onClick={e => this.deleteFilter(e, data, data1)}
                   data-color={data}
                 >
-                  x
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.crossfontSize
+                    )}
+                  ></i>
                 </span>
               </li>
             );
           });
+          if (filter.length > 0) {
+            html.push(
+              <li key={data}>
+                <span>{data == "currentColor" ? "Color" : "Size"}: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
+        }
         case "categoryShop":
           break;
-        case "price":
+        case "price": {
+          const filter: any = [];
           if (Object.keys(filterObj[data]).length == 0) return false;
-          html.push(
-            <li>
-              <span>Price: </span>
-              <span>
+          filter.push(
+            <li
+              key={"price"}
+              className={cs(globalStyles.inlineFlex, styles.width100)}
+            >
+              <span className={cs(styles.filterItem, styles.ellipses)}>
                 {filterObj[data].min_price}-{filterObj[data].max_price}
               </span>
-              <span onClick={e => this.deleteFilter(e, data, null)}>x</span>
+              <span
+                className={styles.filterItemCross}
+                onClick={e => this.deleteFilter(e, data, null)}
+              >
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.crossfontSize
+                  )}
+                ></i>
+              </span>
             </li>
           );
+          if (filter.length > 0) {
+            html.push(
+              <li>
+                <span>Price: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
-        case "productType":
+        }
+        case "productType": {
+          const filter: any = [];
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1]) return false;
-            html.push(
-              <li key={data1}>
-                <span>Product Type: </span>
-                <span>{data1.split("_")[1]}</span>
+            filter.push(
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
+                  {data1.split("_")[1]}
+                </span>
                 <span
+                  className={styles.filterItemCross}
                   onClick={e => this.deleteFilter(e, data, data1)}
                   data-product={data}
                 >
-                  x
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.crossfontSize
+                    )}
+                  ></i>
                 </span>
               </li>
             );
           });
+          if (filter.length > 0) {
+            html.push(
+              <li key={data}>
+                <span>Product Type: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
-        case "availableDiscount":
+        }
+        case "availableDiscount": {
+          const filter: any = [];
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1].isChecked) return false;
-            html.push(
-              <li key={data1}>
-                <span>Discount: </span>
-                <span>
+            filter.push(
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
                   {/* {self.props.facetObject.facets && self.props.facetObject.facets[data].map((discount) => {
                                 if(discount[0] == data1.split('_')[1]){
                                     return discount[1];
@@ -1083,15 +1154,32 @@ class FilterList extends React.Component<Props, State> {
                   {filterObj[data][data1].value}
                 </span>
                 <span
+                  className={styles.filterItemCross}
                   onClick={e => this.deleteFilter(e, data, data1)}
                   data-discount={data}
                 >
-                  x
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.crossfontSize
+                    )}
+                  ></i>
                 </span>
               </li>
             );
           });
+          if (filter.length > 0) {
+            html.push(
+              <li key={data}>
+                <span>Discount: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
+        }
       }
     });
     const name: any = "all";
@@ -1105,6 +1193,9 @@ class FilterList extends React.Component<Props, State> {
           Clear All
         </div>
       );
+      this.props.setFilterCount?.(filterCount);
+    } else {
+      this.props.setFilterCount?.(0);
     }
 
     return html;

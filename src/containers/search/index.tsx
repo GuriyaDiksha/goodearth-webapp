@@ -64,6 +64,7 @@ class Search extends React.Component<
   {
     filterData: string;
     showmobileSort: boolean;
+    filterCount: number;
     mobileFilter: boolean;
     searchText: string;
     sortValue: string;
@@ -80,6 +81,7 @@ class Search extends React.Component<
     const searchValue = urlParams.get("q");
     this.state = {
       filterData: "All",
+      filterCount: 0,
       showmobileSort: false,
       mobileFilter: false,
       searchText: searchValue ? searchValue : "",
@@ -97,6 +99,13 @@ class Search extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
+  };
+
+  setFilterCount = (count: number) => {
+    if (count != this.state.filterCount)
+      this.setState({
+        filterCount: count
+      });
   };
 
   onClickQuickView = (id: number) => {
@@ -294,6 +303,7 @@ class Search extends React.Component<
             <FilterListSearch
               key={"search"}
               onRef={(el: any) => (this.child = el)}
+              setFilterCount={this.setFilterCount}
               onChangeFilterState={this.onChangeFilterState}
             />
           </div>
@@ -513,6 +523,7 @@ class Search extends React.Component<
         </div>
         {mobile && (
           <PlpDropdownMenu
+            filterCount={this.state.filterCount}
             list={items}
             onChange={this.onchangeFilter}
             onStateChange={this.onChangeFilterState}
