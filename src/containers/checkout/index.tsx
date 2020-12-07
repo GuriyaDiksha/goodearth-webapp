@@ -213,6 +213,7 @@ class Checkout extends React.Component<Props, State> {
         .then((data: any) => {
           localStorage.setItem("tempEmail", data.email);
           if (this.props.user.email && data.isLogin) {
+            CookieService.setCookie("currency", data.currency, 365);
             this.props.logout().then(res => {
               localStorage.setItem("tempEmail", data.email);
               this.setState({
@@ -221,6 +222,7 @@ class Checkout extends React.Component<Props, State> {
               });
             });
           } else if (data.email) {
+            CookieService.setCookie("currency", data.currency, 365);
             this.setState({
               boEmail: data.email,
               boId: boId
