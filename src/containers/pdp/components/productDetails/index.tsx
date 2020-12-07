@@ -216,7 +216,7 @@ const ProductDetails: React.FC<Props> = ({
             {
               name: title,
               id: childAttributes[0].sku,
-              price: priceRecords[currency],
+              price: discountedPriceRecords[currency] || priceRecords[currency],
               brand: "Goodearth",
               category: collection,
               variant: childAttributes[0]?.size || "",
@@ -578,7 +578,7 @@ const ProductDetails: React.FC<Props> = ({
         >
           <div
             className={cs(globalStyles.textCenter, globalStyles.voffset1, {
-              [bootstrap.col9]: !corporatePDP,
+              [bootstrap.col8]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
               [bootstrap.colSm8]: !mobile,
               [bootstrap.colSm12]: corporatePDP && mobile
@@ -600,7 +600,7 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
           <div
-            className={cs(bootstrap.col3, globalStyles.textCenter, {
+            className={cs(bootstrap.col4, globalStyles.textCenter, {
               [styles.wishlistBtnContainer]: mobile,
               [globalStyles.voffset1]: mobile,
               [globalStyles.hidden]: corporatePDP
@@ -611,6 +611,7 @@ const ProductDetails: React.FC<Props> = ({
               title={title}
               childAttributes={childAttributes}
               priceRecords={priceRecords}
+              discountedPriceRecords={discountedPriceRecords}
               categories={categories}
               id={id}
               showText={!mobile}

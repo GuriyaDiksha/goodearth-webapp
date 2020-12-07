@@ -145,7 +145,7 @@ const NotifyMePopup: React.FC<Props> = ({
             {
               name: title,
               id: selectedSize?.sku || childAttributes[0].sku,
-              price: price,
+              price: discountedPrice || price,
               brand: "Goodearth",
               category: category,
               variant: selectedSize?.size || childAttributes[0].size || "",

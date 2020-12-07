@@ -164,7 +164,9 @@ class Search extends React.Component<
         return {
           name: item.title,
           id: skuItem.sku,
-          price: skuItem.priceRecords[this.props.currency],
+          price: skuItem.discountedPriceRecords
+            ? skuItem.discountedPriceRecords[this.props.currency]
+            : skuItem.priceRecords[this.props.currency],
           brand: "Goodearth",
           category: category,
           variant: skuItem.size || "",

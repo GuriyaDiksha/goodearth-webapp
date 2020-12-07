@@ -63,7 +63,7 @@ const CartItems: React.FC<BasketItem> = memo(
             products: [
               {
                 name: product.title,
-                id: product.sku,
+                id: product.sku || product.childAttributes[0].sku,
                 price: price,
                 brand: "Goodearth",
                 category: category,
@@ -315,6 +315,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     product.childAttributes ? product.childAttributes : []
                   }
                   priceRecords={priceRecords}
+                  discountedPriceRecords={discountedPriceRecords}
                   categories={product.categories}
                   basketLineId={id}
                   id={product.id}
