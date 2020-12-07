@@ -33,7 +33,9 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      props.setValue(event.currentTarget.value);
+      props.setValue(
+        event.currentTarget.value?.trim() == "" ? "" : event.currentTarget.value
+      );
       if (props.handleChange) {
         props.handleChange(event);
       }
