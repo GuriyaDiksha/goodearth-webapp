@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import EditRegistry from "./EditRegistry";
 import BridalItemsList from "./BridalItemsList";
 import BridalMobileProductUpdate from "./BridalMobileProductUpdate";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import { BridalItem, BridalProfileData } from "./typings";
 import BridalService from "services/bridal";
@@ -16,6 +16,7 @@ import styles from "./styles.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import bridalRing from "../../../../images/bridal/rings.svg";
 import iconEdit from "../../../../images/bridal/iconEdit.svg";
+import { AppState } from "reducers/typings";
 
 type Props = {
   // bridalProfile: BridalProfileData;
@@ -55,6 +56,7 @@ const ManageRegistryFull: React.FC<Props> = ({
   const [mobileIndex, setMobileIndex] = useState(0);
   const [occasion, setOccasion] = useState("");
   const dispatch = useDispatch();
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   useEffect(() => {
     if (bridalProfile) {
@@ -133,7 +135,7 @@ const ManageRegistryFull: React.FC<Props> = ({
           // update_address={updateAddress}
           bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
         />,
-        true
+        mobile ? true : false
       )
     );
     dispatch(updateModal(true));

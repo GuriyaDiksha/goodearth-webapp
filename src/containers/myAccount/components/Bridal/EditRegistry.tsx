@@ -19,6 +19,7 @@ import CloseButton from "components/Modal/components/CloseButton";
 import calendarIcon from "../../../../images/bridal/icons_bridal-registry-calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatePicker.css";
+import { updateModal } from "actions/modal";
 
 type Props = {
   eventDate: string;
@@ -68,6 +69,7 @@ const EditRegistry: React.FC<Props> = props => {
     BridalService.updateBridalEventDate(dispatch, data)
       .then(res => {
         props.changeDate(currentDate);
+        dispatch(updateModal(false));
       })
       .catch(error => {
         console.log(error);
@@ -224,122 +226,68 @@ const EditRegistry: React.FC<Props> = props => {
               </form>
             </div>
           </>
-          // <div className="login-form voffset7 text-center">
-          //   <div className="c22-A-I txt-cap">Edit date</div>
-          //   <form>
-          //     <ul className="categorylabel">
-          //       <li>
-          //         <DatePicker
-          //           startOpen={true}
-          //           minDate={new Date()}
-          //           selected={moment(date).toDate()}
-          //           onChange={onChange}
-          //           ref={(node: any) => {
-          //             pickerRef = node;
-          //           }}
-          //           onClickOutside={OnOutsideClick}
-          //         />
-          //         <div className="calendar-icon" onClick={OnOutsideClick}>
-          //           <img
-          //             src="/static/img/bridal/icons_bridal-registry-calendar.svg"
-          //             width="45"
-          //             height="45"
-          //           />
-          //         </div>
-          //         <li className="blank"></li>
-          //         {/* <DatePicker onChange={onChange}
-          //                                   value={new Date(date)}
-          //                                   dayPlaceholder="DD"
-          //                                   monthPlaceholder="MM"
-          //                                   yearPlaceholder="YYYY"
-          //                                   // formatLongDate={(locale, date) => formatDate(date, 'YYYY MMM dd')}
-          //                                   format="yyyy/MM/dd"
-          //                                   defaultView="decade"
-          //                                   view="month"
-          //                                   id="date_of_birth"
-          //                                   isOpen={true}
-          //                                   // disabled={data.date_of_birth == ''?false:true}
-          //                                   activeStartDate={new Date(date)}
-          //                                   minDetail="month"
-          //                                   clearIcon={date == "" || date == null ? null: <ClearIcon />}
-          //                                   calendarIcon={<CalendarIcon />}
-          //                                   // maxDate={new Date(new Date().setFullYear(new Date().getFullYear() - 15))}
-          //                                   minDate={new Date()}
-          //                                   returnValue="start"
-          //                                   showLeadingZeros={false}/> */}
-          //         {/* <label htmlFor="date_of_birth">Date of Birth</label> */}
-          //       </li>
-          //       <li>
-          //         <input
-          //           type="button"
-          //           value="SAVE DATE"
-          //           onClick={saveDate}
-          //           className="cerise-btn"
-          //         />
-          //       </li>
-          //     </ul>
-          //   </form>
-          // </div>
         );
 
       case "name":
         return (
-          <div className="login-form voffset7 text-center">
-            <div className="c22-A-I txt-cap">Edit Details</div>
-            <div>
-              <Formsy
-                ref={BridalNameFormRef}
-                onValidSubmit={handleSubmit}
-                // onInvalidSubmit={handleInvalidSubmit}
-              >
-                <div className={styles.categorylabel}>
-                  <div>
-                    <FormInput
-                      name="registrantName"
-                      placeholder="Registrant’s  Name"
-                      label={"Registrant’s Name"}
-                      inputRef={registrantNameRef}
-                      validations="isExisty"
-                      required
-                      value={bridalProfile?.registrantName || ""}
-                      handleChange={handleChange}
-                    />
+          <>
+            <div className={styles.heading}>Edit Details</div>
+            <div className={styles.loginForm}>
+              <div>
+                <Formsy
+                  ref={BridalNameFormRef}
+                  onValidSubmit={handleSubmit}
+                  // onInvalidSubmit={handleInvalidSubmit}
+                >
+                  <div className={styles.categorylabel}>
+                    <div>
+                      <FormInput
+                        name="registrantName"
+                        placeholder="Registrant’s  Name"
+                        label={"Registrant’s Name"}
+                        inputRef={registrantNameRef}
+                        validations="isExisty"
+                        required
+                        value={bridalProfile?.registrantName || ""}
+                        handleChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <FormInput
+                        name="coRegistrantName"
+                        placeholder="Co-registrant’s  Name"
+                        label={"Co-registrant’s  Name"}
+                        inputRef={coRegistrantNameRef}
+                        validations="isExisty"
+                        required
+                        value={bridalProfile?.coRegistrantName || ""}
+                        handleChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <FormInput
+                        name="registryName"
+                        inputRef={regName}
+                        placeholder="Registry Name (optional)"
+                        value={bridalProfile?.registryName || ""}
+                        label={"Registry Name"}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="submit"
+                        disabled={!updateProfile}
+                        className={cs(globalStyles.ceriseBtn, {
+                          [globalStyles.disabledBtn]: !updateProfile
+                        })}
+                        value="SAVE"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <FormInput
-                      name="coRegistrantName"
-                      placeholder="Co-registrant’s  Name"
-                      label={"Co-registrant’s  Name"}
-                      inputRef={coRegistrantNameRef}
-                      validations="isExisty"
-                      required
-                      value={bridalProfile?.coRegistrantName || ""}
-                      handleChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <FormInput
-                      name="registryName"
-                      inputRef={regName}
-                      placeholder="Registry Name (optional)"
-                      value={bridalProfile?.registryName || ""}
-                      label={"Registry Name"}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="submit"
-                      disabled={!updateProfile}
-                      className={cs(globalStyles.ceriseBtn, {
-                        [globalStyles.disabledBtn]: !updateProfile
-                      })}
-                      value="SAVE"
-                    />
-                  </div>
-                </div>
-              </Formsy>
+                </Formsy>
+              </div>
             </div>
-          </div>
+          </>
         );
       default:
     }
