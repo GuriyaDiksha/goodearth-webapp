@@ -382,38 +382,7 @@ class Header extends React.Component<Props, State> {
                     bootstrap.colMd2,
                     styles.hamburger
                   )}
-                >
-                  <i
-                    className={
-                      this.state.showMenu
-                        ? styles.hidden
-                        : cs(
-                            iconStyles.icon,
-                            iconStyles.iconLibraryMenu,
-                            styles.iconStyle,
-                            styles.iconFont
-                          )
-                    }
-                    onClick={() => {
-                      this.clickToggle();
-                    }}
-                  ></i>
-                  <i
-                    className={
-                      this.state.showMenu
-                        ? cs(
-                            iconStyles.icon,
-                            iconStyles.iconCrossNarrowBig,
-                            styles.iconStyle,
-                            styles.iconCrossFont
-                          )
-                        : styles.hidden
-                    }
-                    onClick={() => {
-                      this.clickToggle();
-                    }}
-                  ></i>
-                </div>
+                ></div>
               ) : (
                 ""
               )}
@@ -453,14 +422,18 @@ class Header extends React.Component<Props, State> {
                 </div>
               )}
               <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
-                <SideMenu
-                  showSearch={this.state.showSearch}
-                  toggleSearch={this.showSearch}
-                  mobile={this.props.mobile}
-                  wishlistData={wishlistData}
-                  currency={this.props.currency}
-                  sidebagData={this.props.cart}
-                />
+                {this.props.mobile ? (
+                  ""
+                ) : (
+                  <SideMenu
+                    showSearch={this.state.showSearch}
+                    toggleSearch={this.showSearch}
+                    mobile={this.props.mobile}
+                    wishlistData={wishlistData}
+                    currency={this.props.currency}
+                    sidebagData={this.props.cart}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -700,6 +673,111 @@ class Header extends React.Component<Props, State> {
         </div>
         <GrowlMessage {...message} />
         <MakerUtils />
+        <div className={cs(styles.headerContainerMenu)}>
+          <div className={bootstrap.row}>
+            <div className={cs(bootstrap.col2)}>
+              <img src={fabicon} className={styles.iconHome}></img>
+            </div>
+            <div className={cs(bootstrap.col2, styles.hamburger)}>
+              <i
+                className={
+                  this.state.showMenu
+                    ? styles.hidden
+                    : cs(
+                        iconStyles.icon,
+                        iconStyles.iconLibraryMenu,
+                        styles.iconStyle,
+                        styles.iconFont
+                      )
+                }
+                onClick={() => {
+                  this.clickToggle();
+                }}
+              ></i>
+              <i
+                className={
+                  this.state.showMenu
+                    ? cs(
+                        iconStyles.icon,
+                        iconStyles.iconCrossNarrowBig,
+                        styles.iconStyle,
+                        styles.iconCrossFont
+                      )
+                    : styles.hidden
+                }
+                onClick={() => {
+                  this.clickToggle();
+                }}
+              ></i>
+            </div>
+            <div className={cs(bootstrap.col2, styles.mobileWishlist)}>
+              {isLoggedIn ? (
+                <Link
+                  to="/wishlist"
+                  className={styles.wishlistLink}
+                  onClick={this.clickToggle}
+                >
+                  <i
+                    className={cs(
+                      styles.wishlistIcon,
+                      { [globalStyles.cerise]: wishlistIcon },
+                      {
+                        [iconStyles.iconWishlistAdded]: wishlistIcon
+                      },
+                      {
+                        [iconStyles.iconWishlist]: !wishlistIcon
+                      },
+                      iconStyles.icon
+                    )}
+                  />
+                  <span> {wishlistCount ? `(${wishlistCount})` : ""}</span>
+                </Link>
+              ) : (
+                <div
+                  onClick={e => {
+                    this.props.goLogin(e);
+                    this.clickToggle();
+                  }}
+                  className={styles.wishlistLink}
+                >
+                  <i
+                    className={cs(
+                      styles.wishlistIcon,
+                      { [globalStyles.cerise]: wishlistIcon },
+                      {
+                        [iconStyles.iconWishlistAdded]: wishlistIcon
+                      },
+                      {
+                        [iconStyles.iconWishlist]: !wishlistIcon
+                      },
+                      iconStyles.icon
+                    )}
+                  />
+                </div>
+              )}
+            </div>
+            <div
+              className={cs(
+                bootstrap.col3,
+                styles.sidemenuMobile,
+                globalStyles.cerise
+              )}
+            >
+              {this.props.mobile ? (
+                <SideMenu
+                  showSearch={this.state.showSearch}
+                  toggleSearch={this.showSearch}
+                  mobile={this.props.mobile}
+                  wishlistData={wishlistData}
+                  currency={this.props.currency}
+                  sidebagData={this.props.cart}
+                />
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

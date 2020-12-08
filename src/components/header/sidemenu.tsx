@@ -312,7 +312,7 @@ class SideMenu extends React.Component<Props, State> {
                         )
                   }
                 ></i>
-                <span>Search</span>
+                {mobile ? "" : <span>Search</span>}
               </p>
             </li>
           ) : (
@@ -325,7 +325,7 @@ class SideMenu extends React.Component<Props, State> {
                     styles.iconStyle
                   )}
                 ></i>
-                <span>Search</span>
+                {mobile ? "" : <span>Search</span>}
               </p>
             </li>
           )}
