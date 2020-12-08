@@ -63,7 +63,14 @@ let config = [
             splitChunks: {
                 chunks: 'all',
                 automaticNameDelimiter: "-",
-                minChunks: 3
+                minChunks: 3,
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendor',
+                        chunks: 'all'
+                    }
+                }
             }
         },
         entry: {
@@ -94,6 +101,7 @@ let config = [
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
             }),
+            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
             env === "development" ? new BundleAnalyzerPlugin() : () => {},
             new WorkboxPlugin.GenerateSW({
                 clientsClaim: true,
