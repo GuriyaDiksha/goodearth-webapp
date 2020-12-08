@@ -21,6 +21,8 @@ import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
 import Loader from "components/Loader";
 import ReactHtmlParser from "react-html-parser";
+import * as valid from "utils/validate";
+import { Currency } from "typings/currency";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -47,7 +49,11 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
     updateQuickviewId: async () => {
       dispatch(updateQuickviewId(0));
     },
-    fetchCollectioSpecificData: async (data: any, page: any) => {
+    fetchCollectioSpecificData: async (
+      data: any,
+      page: any,
+      currency: Currency
+    ) => {
       const id: any = getProductIdFromSlug(params.slug);
       const filterData = await CollectionService.fetchCollectioSpecificData(
         dispatch,
@@ -57,11 +63,16 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
+        valid.collectionProductImpression(
+          filterData,
+          "CollectionSpecific",
+          currency
+        );
         filterData.results = data.concat(filterData.results);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     },
-    reloadCollectioSpecificData: async () => {
+    reloadCollectioSpecificData: async (currency: Currency) => {
       const id: any = getProductIdFromSlug(params.slug);
       const filterData = await CollectionService.fetchCollectioSpecificData(
         dispatch,
@@ -70,6 +81,11 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
+        valid.collectionProductImpression(
+          filterData,
+          "CollectionSpecific",
+          currency
+        );
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     }
@@ -81,7 +97,13 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 class CollectionSpecific extends React.Component<
   Props,
-  { specificMaker: boolean; nextPage: number | null; loader: boolean }
+  {
+    specificMaker: boolean;
+    nextPage: number | null;
+    loader: boolean;
+    shouldScroll: boolean;
+    scrollView: boolean;
+  }
 > {
   private scrollload = true;
 
@@ -90,8 +112,62 @@ class CollectionSpecific extends React.Component<
     this.state = {
       specificMaker: false,
       nextPage: null,
-      loader: false
+      loader: false,
+      shouldScroll: false,
+      scrollView: false
     };
+  }
+
+  getPdpProduct = (): any => {
+    let hasPdpProductDetails = false;
+    let pdpProductDetails;
+    if (localStorage.getItem("pdpProductScroll")) {
+      hasPdpProductDetails = true;
+      const item: any = localStorage.getItem("pdpProductScroll");
+      pdpProductDetails = JSON.parse(item);
+    }
+    return { hasPdpProductDetails, pdpProductDetails };
+  };
+
+  checkForProductScroll() {
+    const currentTimeStamp = new Date().getTime();
+    let shouldScroll;
+    let pdpProductScroll;
+    const hasPdpScrollableProduct = this.getPdpProduct();
+    if (hasPdpScrollableProduct.hasPdpProductDetails) {
+      pdpProductScroll = hasPdpScrollableProduct.pdpProductDetails;
+      if (pdpProductScroll) {
+        const pdpTimeStamp = new Date(pdpProductScroll.timestamp).getTime();
+        shouldScroll = currentTimeStamp - pdpTimeStamp < 8000;
+        this.setState(
+          {
+            shouldScroll: shouldScroll
+          },
+          () => {
+            if (this.state.shouldScroll) {
+              this.handleProductSearch();
+            }
+          }
+        );
+      }
+    }
+  }
+
+  handleProductSearch() {
+    const pdpProductScrollId = this.getPdpProduct().pdpProductDetails.id;
+    if (document.getElementById(pdpProductScrollId)) {
+      setTimeout(() => {
+        const element = document.getElementById(pdpProductScrollId);
+        element ? element.scrollIntoView(true) : "";
+        window.scrollBy(0, -150);
+        localStorage.removeItem("pdpProductScroll");
+      }, 1000);
+      this.setState({
+        scrollView: true
+      });
+    } else {
+      this.appendData();
+    }
   }
 
   onClickQuickView = (id: number) => {
@@ -115,18 +191,29 @@ class CollectionSpecific extends React.Component<
     dataLayer.push({
       event: "CategoryLangingPageView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_Category_langingPageView"
+      PageTitle: "virtual_categoryLangingPage_view"
     });
     this.setState({
       specificMaker: true
     });
     window.addEventListener("scroll", this.handleScroll);
+    if (!this.state.scrollView) {
+      this.checkForProductScroll();
+    }
     // this.updateCollectionFilter(this.props.currency);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (this.props.currency != nextProps.currency) {
-      this.props.reloadCollectioSpecificData();
+      this.props.reloadCollectioSpecificData(nextProps.currency);
+      this.setState({
+        specificMaker: false
+      });
+    }
+    if (this.props.collectionSpecificData != nextProps.collectionSpecificData) {
+      if (!this.state.scrollView) {
+        this.checkForProductScroll();
+      }
     }
   };
   handleScroll = () => {
@@ -161,7 +248,7 @@ class CollectionSpecific extends React.Component<
       loader: this.scrollload
     });
     this.props
-      .fetchCollectioSpecificData(results, next)
+      .fetchCollectioSpecificData(results, next, this.props.currency)
       .then(res => {
         this.scrollload = true;
         this.setState({
@@ -185,6 +272,11 @@ class CollectionSpecific extends React.Component<
         specificMaker: true
       });
     }
+    if (this.props.currency != previous.currency) {
+      this.setState({
+        specificMaker: true
+      });
+    }
   }
 
   render() {
@@ -196,7 +288,6 @@ class CollectionSpecific extends React.Component<
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
-
     return (
       <div className={styles.collectionContainer}>
         {!mobile && (
@@ -221,6 +312,7 @@ class CollectionSpecific extends React.Component<
                 if (mobile && widget.imageType == 2) {
                   return (
                     <img
+                      key="mobile-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
                     />
@@ -228,6 +320,7 @@ class CollectionSpecific extends React.Component<
                 } else if (!mobile && widget.imageType == 1) {
                   return (
                     <img
+                      key="desktop-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
                     />
@@ -282,6 +375,8 @@ class CollectionSpecific extends React.Component<
                   key={data.id + "plpDiv"}
                 >
                   <PlpResultItem
+                    page="Collection Specific"
+                    position={i}
                     product={data}
                     addedToWishlist={false}
                     currency={this.props.currency}

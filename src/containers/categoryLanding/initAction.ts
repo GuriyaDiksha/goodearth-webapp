@@ -13,27 +13,35 @@ const initActionCategory: InitAction = async (dispatch, { slug }) => {
       shopthelook2,
       editSection,
       topliving,
-      peoplebuying,
-      newarrival
+      peoplebuying
+      // newarrival
     ] = await Promise.all([
-      CategoryService.fetchCategoryMultiImage(`CAT_${id}_1`).catch(err => {
-        console.log("Colloection Page error =" + id);
-      }),
-      CategoryService.fetchCategoryMultiImage(`CAT_${id}_2`).catch(err => {
-        console.log("Colloection Page error CAT_=" + id);
-      }),
-      CategoryService.fetchCategoryMultiImage(`${name}CURATED`).catch(err => {
-        console.log("Colloection Page error CURATED =" + id);
-      }),
-      CategoryService.fetchCategoryMultiImage(`TOP${name}`).catch(err => {
-        console.log("Colloection Page error TOP =" + id);
-      }),
-      CategoryService.fetchLatestProduct(id).catch(err => {
-        console.log("Colloection Page error =" + id);
-      }),
-      CategoryService.newarrivals(id).catch(err => {
+      CategoryService.fetchCategoryMultiImage(dispatch, `CAT_${id}_1`).catch(
+        err => {
+          console.log("Colloection Page error =" + id);
+        }
+      ),
+      CategoryService.fetchCategoryMultiImage(dispatch, `CAT_${id}_2`).catch(
+        err => {
+          console.log("Colloection Page error CAT_=" + id);
+        }
+      ),
+      CategoryService.fetchCategoryMultiImage(dispatch, `${name}CURATED`).catch(
+        err => {
+          console.log("Colloection Page error CURATED =" + id);
+        }
+      ),
+      CategoryService.fetchCategoryMultiImage(dispatch, `TOP${name}`).catch(
+        err => {
+          console.log("Colloection Page error TOP =" + id);
+        }
+      ),
+      CategoryService.fetchLatestProduct(dispatch, id).catch(err => {
         console.log("Colloection Page error =" + id);
       })
+      // CategoryService.newarrivals(dispatch,id).catch(err => {
+      //   console.log("Colloection Page error =" + id);
+      // })
     ]);
     const data: CategoryProps = {
       shopthelook1: shopthelook1,
@@ -41,7 +49,7 @@ const initActionCategory: InitAction = async (dispatch, { slug }) => {
       editSection: editSection,
       topliving: topliving,
       peoplebuying: peoplebuying,
-      newarrival: newarrival
+      newarrival: {}
     };
     dispatch(addCategoryData({ ...data }));
   }

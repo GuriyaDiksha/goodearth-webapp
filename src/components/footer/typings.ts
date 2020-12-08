@@ -32,6 +32,14 @@ export type FooterDataProps = {
     ctaUrl: string;
   };
   shopLocations: ShopLocations;
+  footerImages: {
+    footerImageDeskTop: string;
+    footerImageMobile: string;
+    footerImageSubsDeskTop: string;
+    footerImageSubsMobile: string;
+    footerBgColorDeskTop: string;
+    footerBgColorMobile: string;
+  };
 };
 export type FooterProps = {
   data: FooterDataProps;

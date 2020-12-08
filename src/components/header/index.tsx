@@ -88,6 +88,15 @@ class Header extends React.Component<Props, State> {
 
   componentDidMount() {
     this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("loginpopup");
+    if (id == "abandoncart") {
+      if (!this.props.isLoggedIn) {
+        this.props.goLogin();
+      }
+      this.props.history.push("/cart");
+    }
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
     });
@@ -109,7 +118,7 @@ class Header extends React.Component<Props, State> {
     const data: any = {
       currency: cur
     };
-    if (this.props.currency != data) {
+    if (this.props.currency != data.currency) {
       changeCurrency(data).then((response: any) => {
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
@@ -117,7 +126,7 @@ class Header extends React.Component<Props, State> {
             history.location.search.replace(currency, response.currency);
           history.replace(path);
         }
-        reloadPage(this.props.cookies);
+        reloadPage(this.props.cookies, history.location.pathname);
       });
     }
   };
@@ -269,7 +278,7 @@ class Header extends React.Component<Props, State> {
               content={meta.ogDescription ? meta.ogDescription : ""}
             />
           }
-          {meta.ogImage && <meta property="og:image" content={meta.ogImage} />}
+          {<meta property="og:image" content={meta.ogImage || ""} />}
           {meta.ogUrl && <meta property="og:url" content={meta.ogUrl} />}
           {meta.ogType && <meta property="og:type" content={meta.ogType} />}
           {meta.ogSiteName && (
@@ -364,105 +373,102 @@ class Header extends React.Component<Props, State> {
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
-          <div className={cs(bootstrap.row, styles.minimumWidth)}>
-            {this.props.mobile ? (
-              <div
-                className={cs(
-                  bootstrap.col3,
-                  bootstrap.colMd2,
-                  styles.hamburger
-                )}
-              >
-                <i
-                  className={
-                    this.state.showMenu
-                      ? styles.hidden
-                      : cs(
-                          iconStyles.icon,
-                          iconStyles.iconLibraryMenu,
-                          styles.iconStyle,
-                          styles.iconFont
-                        )
-                  }
-                  onClick={() => {
-                    this.clickToggle();
-                  }}
-                ></i>
-                <i
-                  className={
-                    this.state.showMenu
-                      ? cs(
-                          iconStyles.icon,
-                          iconStyles.iconCrossNarrowBig,
-                          styles.iconStyle,
-                          styles.iconCrossFont
-                        )
-                      : styles.hidden
-                  }
-                  onClick={() => {
-                    this.clickToggle();
-                  }}
-                ></i>
-              </div>
-            ) : (
-              ""
-            )}
-            <div
-              className={cs(
-                bootstrap.colMd2,
-                bootstrap.col6,
-                styles.logoContainer
+          <div className={styles.minimumWidth}>
+            <div className={bootstrap.row}>
+              {this.props.mobile ? (
+                <div
+                  className={cs(
+                    bootstrap.col3,
+                    bootstrap.colMd2,
+                    styles.hamburger
+                  )}
+                >
+                  <i
+                    className={
+                      this.state.showMenu
+                        ? styles.hidden
+                        : cs(
+                            iconStyles.icon,
+                            iconStyles.iconLibraryMenu,
+                            styles.iconStyle,
+                            styles.iconFont
+                          )
+                    }
+                    onClick={() => {
+                      this.clickToggle();
+                    }}
+                  ></i>
+                  <i
+                    className={
+                      this.state.showMenu
+                        ? cs(
+                            iconStyles.icon,
+                            iconStyles.iconCrossNarrowBig,
+                            styles.iconStyle,
+                            styles.iconCrossFont
+                          )
+                        : styles.hidden
+                    }
+                    onClick={() => {
+                      this.clickToggle();
+                    }}
+                  ></i>
+                </div>
+              ) : (
+                ""
               )}
-            >
-              <Link to="/" onClick={this.handleLogoClick}>
-                <img className={styles.logo} src={gelogoCerise} />
-              </Link>
-            </div>
-            {this.props.mobile ? (
-              ""
-            ) : (
               <div
                 className={cs(
-                  bootstrap.colMd6,
-                  bootstrap.col3,
-                  bootstrap.offsetMd1
+                  bootstrap.colMd2,
+                  bootstrap.col6,
+                  styles.logoContainer
                 )}
               >
-                <MainMenu
-                  show={this.state.show}
-                  ipad={false}
-                  onMouseOver={(data): void => {
-                    this.setState({
-                      show: data.show,
-                      activeIndex: data.activeIndex || 0
-                    });
-                  }}
-                  data={this.props.data}
-                  location={this.props.location}
+                <Link to="/" onClick={this.handleLogoClick}>
+                  <img className={styles.logo} src={gelogoCerise} />
+                </Link>
+              </div>
+              {this.props.mobile ? (
+                ""
+              ) : (
+                <div
+                  className={cs(
+                    bootstrap.colMd6,
+                    bootstrap.col3,
+                    bootstrap.offsetMd1
+                  )}
+                >
+                  <MainMenu
+                    show={this.state.show}
+                    ipad={false}
+                    onMouseOver={(data): void => {
+                      this.setState({
+                        show: data.show,
+                        activeIndex: data.activeIndex || 0
+                      });
+                    }}
+                    data={this.props.data}
+                    location={this.props.location}
+                  />
+                </div>
+              )}
+              <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
+                <SideMenu
+                  showSearch={this.state.showSearch}
+                  toggleSearch={this.showSearch}
+                  mobile={this.props.mobile}
+                  wishlistData={wishlistData}
+                  currency={this.props.currency}
+                  sidebagData={this.props.cart}
                 />
               </div>
-            )}
-            <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
-              <SideMenu
-                showSearch={this.state.showSearch}
-                toggleSearch={this.showSearch}
-                mobile={this.props.mobile}
-                wishlistData={wishlistData}
-                currency={this.props.currency}
-                sidebagData={this.props.cart}
-              />
             </div>
           </div>
-          <div className={cs(bootstrap.row, styles.menulistOverlap)}>
+          <div>
             <div
               className={
                 this.state.show
-                  ? cs(
-                      styles.dropdownMenuBar,
-                      styles.mainMenu,
-                      bootstrap.colMd12,
-                      bootstrap.row
-                    )
+                  ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
                   : styles.hidden
               }
             >
@@ -573,7 +579,7 @@ class Header extends React.Component<Props, State> {
                             <li
                               className={this.state.showC ? "" : styles.hidden}
                             >
-                              <ul>
+                              <ul className={styles.noMargin}>
                                 <li
                                   data-name="INR"
                                   className={
@@ -586,7 +592,7 @@ class Header extends React.Component<Props, State> {
                                     this.clickToggle();
                                   }}
                                 >
-                                  INR(&#8377;)
+                                  India | INR(&#8377;)
                                 </li>
                                 <li
                                   data-name="USD"
@@ -600,7 +606,7 @@ class Header extends React.Component<Props, State> {
                                     this.clickToggle();
                                   }}
                                 >
-                                  USD (&#36;)
+                                  Rest Of The World | USD (&#36;)
                                 </li>
                                 <li
                                   data-name="GBP"
@@ -614,7 +620,7 @@ class Header extends React.Component<Props, State> {
                                     this.clickToggle();
                                   }}
                                 >
-                                  GBP (&#163;)
+                                  United Kingdom | GBP (&#163;)
                                 </li>
                               </ul>
                             </li>

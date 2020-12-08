@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
+import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
@@ -54,6 +54,7 @@ import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import { updateProduct } from "actions/product";
+import * as valid from "utils/validate";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -86,7 +87,8 @@ const ProductDetails: React.FC<Props> = ({
   currency,
   isQuickview,
   changeModalState,
-  updateComponentModal
+  updateComponentModal,
+  closeModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
   const {
@@ -108,7 +110,7 @@ const ProductDetails: React.FC<Props> = ({
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
 
   useLayoutEffect(() => {
-    setGtmListType(localStorage?.getItem("list") || "");
+    setGtmListType("PDP");
   });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
@@ -204,7 +206,7 @@ const ProductDetails: React.FC<Props> = ({
     updateComponentModal(
       <WallpaperPopup
         price={priceRecords[currency]}
-        currency={String.fromCharCode(currencyCodes[currency])}
+        currency={String.fromCharCode(...currencyCodes[currency])}
       />
     );
     changeModalState(true);
@@ -240,12 +242,12 @@ const ProductDetails: React.FC<Props> = ({
             {
               name: title,
               id: childAttributes[0].sku,
-              price: priceRecords[currency],
+              price: discountedPriceRecords[currency] || priceRecords[currency],
               brand: "Goodearth",
               category: collection,
-              variant: gaVariant,
+              variant: childAttributes[0]?.size || "",
               quantity: quantity,
-              list: localStorage.getItem("list")
+              list: "PDP"
             }
           ]
         }
@@ -256,6 +258,7 @@ const ProductDetails: React.FC<Props> = ({
   const addToBasket = () => {
     if (!selectedSize) {
       setSizeError("Please select size");
+      valid.errorTracking(["Please select size"], window.location.href);
       showError();
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
@@ -264,7 +267,10 @@ const ProductDetails: React.FC<Props> = ({
           gtmPushAddToBag();
         })
         .catch(err => {
-          dispatch(showMessage(err.response.data));
+          if (typeof err.response.data != "object") {
+            dispatch(showMessage(err.response.data));
+            valid.errorTracking([err.response.data], window.location.href);
+          }
         });
     }
   };
@@ -315,13 +321,15 @@ const ProductDetails: React.FC<Props> = ({
           setIsRegistry(registry);
         }
         if (productId) {
-          ProductService.fetchProductDetails(productId).then(product => {
-            dispatch(
-              updateProduct({ ...product, partial: false } as Product<
-                PartialProductItem
-              >)
-            );
-          });
+          ProductService.fetchProductDetails(dispatch, productId).then(
+            product => {
+              dispatch(
+                updateProduct({ ...product, partial: false } as Product<
+                  PartialProductItem
+                >)
+              );
+            }
+          );
         }
       })
       .catch(err => {
@@ -360,10 +368,15 @@ const ProductDetails: React.FC<Props> = ({
         selectedIndex = i;
       }
     });
-
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     updateComponentModal(
       <NotifyMePopup
         collection={collection}
+        category={category}
         price={priceRecords[currency]}
         currency={currency}
         childAttributes={childAttributes}
@@ -401,7 +414,7 @@ const ProductDetails: React.FC<Props> = ({
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity]);
+  }, [corporatePDP, selectedSize, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -455,7 +468,13 @@ const ProductDetails: React.FC<Props> = ({
             )}
           >
             {collection && (
-              <Link to={collectionUrl || "#"}> {collection} </Link>
+              <Link
+                to={collectionUrl || "#"}
+                onClick={closeModal ? closeModal : () => null}
+              >
+                {" "}
+                {collection}{" "}
+              </Link>
             )}
           </div>
           <div className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}>
@@ -472,7 +491,7 @@ const ProductDetails: React.FC<Props> = ({
           >
             {info.isSale && discount && discountedPriceRecords ? (
               <span className={styles.discountedPrice}>
-                {String.fromCharCode(currencyCodes[currency])}
+                {String.fromCharCode(...currencyCodes[currency])}
                 &nbsp;
                 {discountPrices}
                 <br />
@@ -482,7 +501,7 @@ const ProductDetails: React.FC<Props> = ({
             )}
             {info.isSale && discount ? (
               <span className={styles.oldPrice}>
-                {String.fromCharCode(currencyCodes[currency])}
+                {String.fromCharCode(...currencyCodes[currency])}
                 &nbsp;
                 {price}
               </span>
@@ -491,7 +510,7 @@ const ProductDetails: React.FC<Props> = ({
                 className={badgeType == "B_flat" ? globalStyles.cerise : ""}
               >
                 {" "}
-                {String.fromCharCode(currencyCodes[currency])}
+                {String.fromCharCode(...currencyCodes[currency])}
                 &nbsp;
                 {price}
               </span>
@@ -568,7 +587,7 @@ const ProductDetails: React.FC<Props> = ({
                 </span>
               </div>
             )}
-            {categories && categories.indexOf("Living > Wallcoverings") !== -1 && (
+            {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
               <div
                 className={cs(bootstrap.colSm4, styles.label, {
                   [globalStyles.textCenter]: !mobile
@@ -675,7 +694,7 @@ const ProductDetails: React.FC<Props> = ({
         >
           <div
             className={cs(globalStyles.textCenter, globalStyles.voffset1, {
-              [bootstrap.col9]: !corporatePDP,
+              [bootstrap.col8]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
               [bootstrap.colSm8]: !mobile,
               [bootstrap.colSm12]: corporatePDP && mobile
@@ -708,6 +727,7 @@ const ProductDetails: React.FC<Props> = ({
               title={title}
               childAttributes={childAttributes}
               priceRecords={priceRecords}
+              discountedPriceRecords={discountedPriceRecords}
               categories={categories}
               id={id}
               showText={!mobile}

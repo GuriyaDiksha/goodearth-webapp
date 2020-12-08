@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import loadable from "@loadable/component";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
 import { OrderProps } from "./typings";
 import { Currency, currencyCode } from "typings/currency";
-import { Link, useLocation, NavLink } from "react-router-dom";
+import { Link, useLocation, NavLink, useHistory } from "react-router-dom";
 import iconStyles from "styles/iconFonts.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
@@ -37,6 +37,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
   };
 
+  const history = useHistory();
+  const queryString = history.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const boId = urlParams.get("bo_id");
+
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
     BasketService.fetchBasket(dispatch, "checkout");
@@ -67,14 +72,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     } else {
       html.push(
         <div className={styles.padd}>
-          {!isSuspended &&
-            (salestatus
-              ? currency == "INR"
-                ? "Delivery within 8-10 business days"
-                : "Delivery within 10-12 business days"
-              : currency == "INR"
-              ? "Expected Delivery: 6-8 business days"
-              : `Expected Delivery: 7-10 business days`)}
           <div>
             {isSuspended ? (
               ""
@@ -101,14 +98,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   measures are in place, to ensure a safe and secure shopping
                   experience for you.
                 </p>
-                <p>
-                  International orders: delivered within 10-12 business days
-                </p>
-                <p>
-                  Domestic orders: delivered within 15-18 business days. (You
-                  will see the delivery date for your order on your order
-                  confirmation.)
-                </p>
               </>
             )}
             {isSuspended && !isSale && (
@@ -119,18 +108,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   measures are in place, to ensure a safe and secure shopping
                   experience for you.
                 </p>
-                <p>
-                  International orders: delivered within 10-12 business days
-                </p>
-                <p>
-                  Domestic orders: delivered within 15-18 business days. (You
-                  will see the delivery date for your order on your order
-                  confirmation.)
-                </p>
-                {/* <p>
-                  We have resumed International shipping and shipping within
-                  India, in select zones (as per Government guidelines).
-                </p> */}
               </>
             )}
             {/* *Expected Delivery of Pichwai Art is 15 to 18 business days */}
@@ -166,7 +143,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   {salestatus && item.product.discount ? (
                     <span className={styles.productPrice}>
                       <span className={styles.discountprice}>
-                        {String.fromCharCode(code)}{" "}
+                        {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
                           ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
@@ -177,7 +154,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>
                       &nbsp; &nbsp;
                       <span className={styles.strikeprice}>
-                        {String.fromCharCode(code)}{" "}
+                        {String.fromCharCode(...code)}{" "}
                         {item.product.structure == "GiftCard"
                           ? parseFloat(item.GCValue.toString()).toFixed(2)
                           : parseFloat(
@@ -192,7 +169,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                           item.product.badgeType == "B_flat"
                       })}
                     >
-                      {String.fromCharCode(code)}{" "}
+                      {String.fromCharCode(...code)}{" "}
                       {item.product.structure == "GiftCard"
                         ? parseFloat(item.GCValue.toString()).toFixed(2)
                         : parseFloat(
@@ -272,24 +249,28 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={styles.textMuted}>
                   {" "}
                   {"PROMO CODE APPLIED"}
-                  <span
-                    className={styles.cross}
-                    onClick={() => {
-                      onPromoRemove(voucher.code);
-                    }}
-                  >
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconCrossNarrowBig,
-                        styles.discountFont
-                      )}
-                    ></i>
-                  </span>
+                  {boId ? (
+                    ""
+                  ) : (
+                    <span
+                      className={styles.cross}
+                      onClick={() => {
+                        onPromoRemove(voucher.code);
+                      }}
+                    >
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconCrossNarrowBig,
+                          styles.discountFont
+                        )}
+                      ></i>
+                    </span>
+                  )}
                 </span>
               </span>
               <span className={styles.subtotal}>
-                (-) {String.fromCharCode(code)} {gift.amount}
+                (-) {String.fromCharCode(...code)} {gift.amount}
               </span>
             </div>
           );
@@ -335,7 +316,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </span>
             <span className={styles.subtotal}>
-              (-) {String.fromCharCode(code)} {gift.appliedAmount}
+              (-) {String.fromCharCode(...code)} {gift.appliedAmount}
             </span>
           </div>
         );
@@ -377,7 +358,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </span>
           <span className={styles.subtotal}>
-            (-) {String.fromCharCode(code)} {redeemDetails.points}
+            (-) {String.fromCharCode(...code)} {redeemDetails.points}
           </span>
         </div>
       );
@@ -409,6 +390,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     return false;
   };
+
+  useEffect(() => {
+    if (mobile && hasOutOfStockItems()) {
+      setShowSummary(true);
+      setTimeout(() => {
+        document
+          .getElementsByClassName(styles.textRemoveItems)[0]
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 200);
+    }
+  }, [basket]);
 
   const canCheckout = () => {
     if (pathname.indexOf("checkout") > -1) {
@@ -498,7 +490,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
             <span className={styles.subtotal}>
-              (-) {String.fromCharCode(code)}{" "}
+              (-) {String.fromCharCode(...code)}{" "}
               {parseFloat(discount.amount).toFixed(2)}
             </span>
           </div>
@@ -524,7 +516,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.subtotal}>SUBTOTAL</span>
             <span className={styles.subtotal}>
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {parseFloat("" + basket.subTotal).toFixed(2)}
             </span>
           </div>
@@ -537,11 +529,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
           >
             <span className={styles.subtotal}>ESTIMATED SHIPPING</span>
             <span className={styles.subtotal}>
-              (+) {String.fromCharCode(code)}{" "}
+              (+) {String.fromCharCode(...code)}{" "}
               {parseFloat(shippingCharge).toFixed(2)}
             </span>
           </div>
-          {getDiscount(basket.offerDiscounts)}
+          {basket.finalDeliveryDate && (
+            <div className={styles.deliveryDate}>
+              Estimated Delivery On or Before:{" "}
+              <span className={styles.black}>{basket.finalDeliveryDate}</span>
+            </div>
+          )}
           {shippingAddress?.state && (
             <div
               className={cs(
@@ -553,6 +550,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
+          {getDiscount(basket.offerDiscounts)}
           {getCoupons()}
         </div>
       );
@@ -603,9 +601,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
           <h3 className={cs(globalStyles.textCenter, styles.summaryTitle)}>
             ORDER SUMMARY
             {page == "checkout" && !validbo ? (
-              <Link className={styles.editCart} to={"/cart"}>
-                EDIT CART
-              </Link>
+              boId ? (
+                ""
+              ) : (
+                <Link className={styles.editCart} to={"/cart"}>
+                  EDIT CART
+                </Link>
+              )
             ) : (
               ""
             )}
@@ -626,7 +628,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 TOTAL
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
-                {String.fromCharCode(code)}{" "}
+                {String.fromCharCode(...code)}{" "}
                 {parseFloat("" + basket.total).toFixed(2)}
               </span>
             </div>

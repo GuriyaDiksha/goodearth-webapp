@@ -1,6 +1,8 @@
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { ApiResponse } from "typings/api";
+import { updateBasket } from "actions/basket";
+import { Basket } from "typings/basket";
 
 export default {
   applyGiftCard: async function(dispatch: Dispatch, formData: any) {
@@ -57,6 +59,22 @@ export default {
       `${__API_HOST__ + "/mobiquest/loyalty_points_and_history/"}`,
       formData
     );
+    return res;
+  },
+  getBoDetail: async function(dispatch: Dispatch, id: string) {
+    const res = await API.get<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/checkout/get_bo_details/?boId=" + id}`
+    );
+    return res;
+  },
+  clearBoBasket: async function(dispatch: Dispatch) {
+    const res = await API.post<Basket>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/basket/clear_bo_basket/"}`,
+      {}
+    );
+    dispatch(updateBasket(res));
     return res;
   }
 };

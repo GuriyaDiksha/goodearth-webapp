@@ -17,7 +17,7 @@ const SignedIn: React.FC<{ loginVia: string }> = props => {
             <i
               className={cs(
                 iconStyles.icon,
-                iconStyles.iconEmailGrey,
+                iconStyles.iconEmail,
                 styles.iconStyle
               )}
             ></i>

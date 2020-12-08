@@ -33,7 +33,9 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      props.setValue(event.currentTarget.value);
+      props.setValue(
+        event.currentTarget.value?.trim() == "" ? "" : event.currentTarget.value
+      );
       if (props.handleChange) {
         props.handleChange(event);
       }
@@ -82,6 +84,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     <div className={props.className}>
       <textarea
         rows={props.rows || 3}
+        maxLength={props.maxLength}
         cols={60}
         id={props.id}
         name={props.name}

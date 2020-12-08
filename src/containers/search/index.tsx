@@ -23,6 +23,7 @@ import { Dispatch } from "redux";
 import HeaderService from "services/headerFooter";
 import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
+import GiftcardItem from "components/plpResultItem/giftCard";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -63,6 +64,7 @@ class Search extends React.Component<
   {
     filterData: string;
     showmobileSort: boolean;
+    filterCount: number;
     mobileFilter: boolean;
     searchText: string;
     sortValue: string;
@@ -79,6 +81,7 @@ class Search extends React.Component<
     const searchValue = urlParams.get("q");
     this.state = {
       filterData: "All",
+      filterCount: 0,
       showmobileSort: false,
       mobileFilter: false,
       searchText: searchValue ? searchValue : "",
@@ -96,6 +99,13 @@ class Search extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
+  };
+
+  setFilterCount = (count: number) => {
+    if (count != this.state.filterCount)
+      this.setState({
+        filterCount: count
+      });
   };
 
   onClickQuickView = (id: number) => {
@@ -163,10 +173,12 @@ class Search extends React.Component<
         return {
           name: item.title,
           id: skuItem.sku,
-          price: skuItem.priceRecords[this.props.currency],
+          price: skuItem.discountedPriceRecords
+            ? skuItem.discountedPriceRecords[this.props.currency]
+            : skuItem.priceRecords[this.props.currency],
           brand: "Goodearth",
           category: category,
-          variant: skuItem.color ? skuItem.color[0] : "",
+          variant: skuItem.size || "",
           position: i
         };
       });
@@ -236,17 +248,8 @@ class Search extends React.Component<
       }
     ];
     return (
-      <div className={styles.pageBody}>
-        {mobile ? (
-          <PlpDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            onStateChange={this.onChangeFilterState}
-            showCaret={this.state.showmobileSort}
-            open={false}
-            value="hc"
-          />
-        ) : (
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+        {!mobile && (
           <SecondaryHeader classname={styles.subHeader}>
             <Fragment>
               <div
@@ -300,6 +303,7 @@ class Search extends React.Component<
             <FilterListSearch
               key={"search"}
               onRef={(el: any) => (this.child = el)}
+              setFilterCount={this.setFilterCount}
               onChangeFilterState={this.onChangeFilterState}
             />
           </div>
@@ -375,14 +379,21 @@ class Search extends React.Component<
                       this.gtmPushSearchClick(e, item, i);
                     }}
                   >
-                    <PlpResultItem
-                      product={item}
-                      addedToWishlist={false}
-                      currency={currency}
-                      key={item.id}
-                      mobile={mobile}
-                      onClickQuickView={this.onClickQuickView}
-                    />
+                    {item.productClass != "GiftCard" ? (
+                      <PlpResultItem
+                        page="Search"
+                        position={i}
+                        product={item}
+                        addedToWishlist={false}
+                        currency={currency}
+                        key={item.id}
+                        mobile={mobile}
+                        onClickQuickView={this.onClickQuickView}
+                        isCorporate={false}
+                      />
+                    ) : (
+                      <GiftcardItem />
+                    )}
                   </div>
                 );
               })}
@@ -510,6 +521,17 @@ class Search extends React.Component<
             </div>
           </div>
         </div>
+        {mobile && (
+          <PlpDropdownMenu
+            filterCount={this.state.filterCount}
+            list={items}
+            onChange={this.onchangeFilter}
+            onStateChange={this.onChangeFilterState}
+            showCaret={this.state.showmobileSort}
+            open={false}
+            value="hc"
+          />
+        )}
       </div>
     );
   }

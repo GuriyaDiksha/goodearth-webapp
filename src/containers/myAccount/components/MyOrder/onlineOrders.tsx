@@ -68,7 +68,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
 
     html.push(
       <div className={bootstrapStyles.col12}>
-        <div className={styles.add}>
+        <div className={styles.add} id={data.number}>
           <address className={styles.orderBlock}>
             <label>order # {data.number}</label>
             <div className={bootstrapStyles.row}>
@@ -88,7 +88,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p className={cs(styles.bold, styles.price)}>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}
+                  {String.fromCharCode(
+                    ...currencyCode[data.currency as Currency]
+                  )}
                   &nbsp;{data.totalInclTax}
                 </p>
               </div>
@@ -132,8 +134,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     return html;
   };
 
-  const closeDetails = () => {
+  const closeDetails = (orderNum?: string) => {
     setIsOpenAddressIndex(-1);
+    setTimeout(() => {
+      const orderElem = orderNum && document.getElementById(orderNum);
+      if (orderElem) {
+        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 300);
   };
 
   const openAddress = (data: any, index: number) => {
@@ -170,12 +178,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}{" "}
+                  {String.fromCharCode(
+                    ...currencyCode[data.currency as Currency]
+                  )}{" "}
                   &nbsp;{data.totalInclTax}
                 </p>
               </div>
               <p className={styles.edit}>
-                <a className={globalStyles.cerise} onClick={closeDetails}>
+                <a
+                  className={globalStyles.cerise}
+                  onClick={() => closeDetails(data.number)}
+                >
                   {" "}
                   close{" "}
                 </a>
@@ -262,6 +275,8 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               </div>
             </div>
             {data.lines.map((item: any) => {
+              const isDiscount =
+                +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
               return (
                 <div
                   className={cs(
@@ -294,10 +309,47 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                         {item.title}
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
-                        {String.fromCharCode(
-                          currencyCode[item.priceCurrency as Currency]
+                        {isDiscount ? (
+                          <span className={styles.discountprice}>
+                            {String.fromCharCode(
+                              ...currencyCode[item.priceCurrency as Currency]
+                            )}
+                            {+parseFloat(item.priceInclTax).toFixed(2) /
+                              +item.quantity}
+                            &nbsp;{" "}
+                          </span>
+                        ) : (
+                          ""
                         )}
-                        &nbsp; {item.priceInclTax}
+                        {isDiscount ? (
+                          <span className={styles.strikeprice}>
+                            {String.fromCharCode(
+                              ...currencyCode[item.priceCurrency as Currency]
+                            )}
+                            {+parseFloat(
+                              item.priceExclTaxExclDiscounts
+                            ).toFixed(2) / +item.quantity}
+                            &nbsp;{" "}
+                          </span>
+                        ) : (
+                          <span
+                            className={cs(
+                              {
+                                [globalStyles.cerise]:
+                                  item.product.badgeType == "B_flat"
+                              },
+                              styles.price
+                            )}
+                          >
+                            {String.fromCharCode(
+                              ...currencyCode[item.priceCurrency as Currency]
+                            )}
+                            &nbsp;{" "}
+                            {+parseFloat(
+                              item.priceExclTaxExclDiscounts
+                            ).toFixed(2) / +item.quantity}
+                          </span>
+                        )}
                       </p>
                       {item.product.size ? (
                         <div className={styles.plp_prod_quantity}>
@@ -315,7 +367,10 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               );
             })}
             <div className={styles.edit}>
-              <a className={globalStyles.cerise} onClick={() => closeDetails()}>
+              <a
+                className={globalStyles.cerise}
+                onClick={() => closeDetails(data.number)}
+              >
                 {" "}
                 close{" "}
               </a>

@@ -17,6 +17,7 @@ import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
 import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import * as valid from "utils/validate";
 
 const Section2: React.FC<Section2Props> = ({
   productData,
@@ -26,7 +27,7 @@ const Section2: React.FC<Section2Props> = ({
   selectedCountry,
   next,
   goback,
-  data
+  setData
 }) => {
   const code = currencyCode[currency as Currency];
   const sku = "I00121125";
@@ -44,16 +45,30 @@ const Section2: React.FC<Section2Props> = ({
   const [country, setCountry] = useState(selectedCountry);
 
   useEffect(() => {
-    if (currency == "INR") {
-      const form = RegisterFormRef.current;
-      form &&
+    const form = RegisterFormRef.current;
+    if (form) {
+      let newCountry = country;
+      if (currency == "INR") {
+        newCountry = "India";
+      } else if (currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (currency == "AED") {
+        newCountry = "United Arab Emirates";
+      } else if (currency == "USD") {
+        if (countryData[country] != currency && country) {
+          newCountry = "";
+        }
+      }
+      (country || newCountry) &&
         form.updateInputsWithValue({
-          country: "India"
+          country: newCountry
         });
-      setSelectcurrency("INR");
+      setCountry(newCountry);
+      setSelectcurrency(currency);
+      setCountrymsg("");
     }
     window.scrollTo(0, 0);
-  }, []);
+  }, [currency]);
 
   const setValue = (id: string) => {
     const elem = document.getElementById(selectvalue) as HTMLInputElement;
@@ -83,6 +98,8 @@ const Section2: React.FC<Section2Props> = ({
   const onCountrySelect = (e: any) => {
     const country = e.target.value;
     setCountry(country);
+    const data: any = { selectedCountry: country };
+    setData(data, "amount");
     const newCurrency = countryData[country];
     if (currency != newCurrency) {
       dispatch(refreshPage(undefined));
@@ -129,9 +146,13 @@ const Section2: React.FC<Section2Props> = ({
 
   const gotoNext = () => {
     const data: any = {};
-    if (!selectcurrency) {
+    if (!selectcurrency || !selectedCountry) {
       setCountrymsg(
         "Please choose the country you would like to ship this gift card to"
+      );
+      valid.errorTracking(
+        ["Please choose the country you would like to ship this gift card to"],
+        location.href
       );
       const select = document.getElementsByName("country")[0];
       select.scrollIntoView(false);
@@ -143,9 +164,16 @@ const Section2: React.FC<Section2Props> = ({
         setNummsg(
           "Please enter a value or choose one of the default values listed above"
         );
+        valid.errorTracking(
+          [
+            "Please enter a value or choose one of the default values listed above"
+          ],
+          location.href
+        );
         return false;
       } else if (currValue(value).sta) {
         setNummsg(currValue(value).message);
+        valid.errorTracking([currValue(value).message], location.href);
         return false;
       } else {
         data["productId"] = selectvalue;
@@ -157,6 +185,12 @@ const Section2: React.FC<Section2Props> = ({
         setNumhighlight(true);
         setNummsg(
           "Please enter a value or choose one of the default values listed above"
+        );
+        valid.errorTracking(
+          [
+            "Please enter a value or choose one of the default values listed above"
+          ],
+          location.href
         );
         return false;
       } else {
@@ -285,7 +319,9 @@ const Section2: React.FC<Section2Props> = ({
                   className={selectvalue == pro.id ? styles.valueHover : ""}
                   id={pro.id}
                 >
-                  {String.fromCharCode(code) + " " + pro.priceRecords[currency]}
+                  {String.fromCharCode(...code) +
+                    " " +
+                    pro.priceRecords[currency]}
                 </span>
               ) : (
                 ""
@@ -330,7 +366,7 @@ const Section2: React.FC<Section2Props> = ({
                       />
                       <div className={styles.curr}>
                         {" "}
-                        {String.fromCharCode(code)}{" "}
+                        {String.fromCharCode(...code)}{" "}
                       </div>
                     </div>
                   ) : (

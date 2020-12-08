@@ -12,6 +12,7 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import * as valid from "utils/validate";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -23,7 +24,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     mobile,
     isVisible,
     isCollection,
-    isCorporate
+    isCorporate,
+    position,
+    page
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -49,6 +52,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     onClickQuickView ? onClickQuickView(product.id) : "";
   };
 
+  const gtmProductClick = () => {
+    valid.plpProductClick(product, page, currency, position);
+  };
   const image = primaryimage
     ? product.plpImages
       ? product.plpImages[0]
@@ -89,6 +95,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               title={product.title}
               childAttributes={product.childAttributes}
               priceRecords={product.priceRecords}
+              discountedPriceRecords={product.discountedPriceRecords}
               categories={product.categories}
               id={product.id}
               showText={false}
@@ -97,7 +104,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         )}
-        <Link to={product.url} onMouseEnter={onMouseEnter}>
+        <Link
+          to={product.url}
+          onMouseEnter={onMouseEnter}
+          onClick={gtmProductClick}
+        >
           <LazyImage
             aspectRatio="62:93"
             src={image}
@@ -141,6 +152,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     title={product.title}
                     childAttributes={product.childAttributes}
                     priceRecords={product.priceRecords}
+                    discountedPriceRecords={product.discountedPriceRecords}
                     categories={product.categories}
                     id={product.id}
                     showText={false}
@@ -164,7 +176,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           {info.isSale && product.discount ? (
             <span className={styles.discountprice}>
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {product.discountedPriceRecords[currency as Currency]}
             </span>
           ) : (
@@ -173,7 +185,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           {info.isSale && product.discount ? (
             <span className={styles.strikeprice}>
               {" "}
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {product.priceRecords[currency as Currency]}{" "}
             </span>
           ) : (
@@ -182,7 +194,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 product.badgeType == "B_flat" ? globalStyles.cerise : ""
               }
             >
-              {String.fromCharCode(code)}{" "}
+              {String.fromCharCode(...code)}{" "}
               {product.priceRecords[currency as Currency]}
             </span>
           )}
@@ -195,7 +207,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           </p>
         )}
         {sizeExit && !mobile && (
-          <div className={cs(styles.productSizeList, bootstyles.row)}>
+          <div
+            className={cs(
+              styles.productSizeList,
+              // { [styles.productSizeListMobile]: mobile },
+              bootstyles.row
+            )}
+          >
             <div className={styles.productSize}> size</div>
             <div className="">
               <ul>
@@ -205,7 +223,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     return (
                       <li
                         className={
-                          +data.stock || isStockAvailable ? "" : styles.disabled
+                          +data.stock || isCorporate ? "" : styles.disabled
                         }
                         key={i}
                       >

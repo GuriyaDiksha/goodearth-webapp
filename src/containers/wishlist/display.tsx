@@ -16,6 +16,7 @@ type Props = {
   currency: Currency;
   mobile: boolean;
   isSale: boolean;
+  sortBy: string;
 };
 
 const SampleDisplay: React.FC<Props> = props => {
@@ -44,7 +45,7 @@ const SampleDisplay: React.FC<Props> = props => {
 
   const openPopup = (productId: number) => {
     const { item, currency } = props;
-    props.grid.openPopup(item, currency, isSale);
+    props.grid.openPopup(item, currency, props.sortBy, isSale);
   };
 
   const sizeText = (item: WishListGridItem) => {
@@ -151,7 +152,7 @@ const SampleDisplay: React.FC<Props> = props => {
           <p className={styles.productN}>
             {isSale && data.discount ? (
               <span className={styles.discountprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {data.discountedPrice ? data.discountedPrice[currency] : ""}{" "}
                 &nbsp;{" "}
               </span>
@@ -160,7 +161,7 @@ const SampleDisplay: React.FC<Props> = props => {
             )}
             {isSale && data.discount ? (
               <span className={styles.strikeprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {data.price[currency]}
               </span>
             ) : (
@@ -169,7 +170,7 @@ const SampleDisplay: React.FC<Props> = props => {
                   data.badgeType == "B_flat" ? globalStyles.cerise : ""
                 }
               >
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;{" "}
                 {data.price[currency]}
               </span>
             )}

@@ -13,6 +13,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import ProfileUpdater from "components/signin/profileUpdater";
 import React from "react";
 import HeaderService from "services/headerFooter";
+import CookieService from "services/cookie";
 
 export default {
   fetchMeta: async function(
@@ -51,6 +52,7 @@ export default {
         );
         dispatch(updateUser({ slab: res.slab }));
       }
+      CookieService.setCookie("currency", meta.currency, 365);
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));
     }
@@ -68,15 +70,19 @@ export default {
     dispatch: Dispatch,
     request?: PageMetaRequest
   ) {
-    if (request) {
-      const meta: PageMetaResponse = await this.fetchPageMeta(
-        dispatch,
-        request
-      );
+    try {
+      if (request) {
+        const meta: PageMetaResponse = await this.fetchPageMeta(
+          dispatch,
+          request
+        );
 
-      dispatch(updatePageMeta(meta));
-    } else {
-      dispatch(resetPageMeta());
+        dispatch(updatePageMeta(meta));
+      } else {
+        dispatch(resetPageMeta());
+      }
+    } catch (err) {
+      console.log("Meta List API error!");
     }
   }
 };

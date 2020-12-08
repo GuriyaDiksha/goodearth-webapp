@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useLayoutEffect } from "react";
+import React, { useState, Fragment, useLayoutEffect, useEffect } from "react";
 import cs from "classnames";
 import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
@@ -7,6 +7,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 
 const PlpDropdownMenu = ({
+  filterCount,
   open,
   list,
   showCaret,
@@ -51,6 +52,14 @@ const PlpDropdownMenu = ({
     setShowmobileFilterList(false);
     onChange(data.value);
   };
+  useEffect(() => {
+    if (showmobileSort || menuOpen) {
+      document.body.classList.add(globalStyles.noScroll);
+    } else {
+      document.body.classList.remove(globalStyles.noScroll);
+    }
+  }, [showmobileSort, menuOpen]);
+
   return (
     <div className={cs(styles.cSort, bootstrap.col12, styles.filterSticky)}>
       <div
@@ -71,7 +80,11 @@ const PlpDropdownMenu = ({
               clickMobilefilter("Refine");
             }}
           >
-            <span>Refine</span>
+            {filterCount ? (
+              <span>{`Refine ( ${filterCount} )`}</span>
+            ) : (
+              <span>Refine</span>
+            )}
           </div>
           <div
             className={
@@ -91,21 +104,40 @@ const PlpDropdownMenu = ({
           [styles.productNumber]: menuOpen
         })}
       >
-        <div>
+        <div className={cs({ [styles.mobileFilterSortBg]: showmobileSort })}>
           <div
             className={
               showmobileFilterList
-                ? styles.mobileFilterHeader
+                ? cs(styles.mobileFilterHeader, {
+                    [styles.mobileFilterHeaderSort]: showmobileSort
+                  })
                 : globalStyles.hidden
             }
           >
-            <span>{showmobileSort ? "Sort" : "Refine"}</span>
+            {showmobileSort ? (
+              <span>{"Sort"}</span>
+            ) : filterCount ? (
+              <span>
+                <pre>
+                  {[
+                    "Refine  ",
+                    <span
+                      key="filter-count"
+                      className={globalStyles.cerise}
+                    >{`( ${filterCount} )`}</span>
+                  ]}
+                </pre>
+              </span>
+            ) : (
+              <span>Refine</span>
+            )}
             <span onClick={onInsideClick}>X</span>
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
               className={cs(bootstrap.col12, styles.mobileFilterMenu, {
-                [globalStyles.hidden]: !showmobileSort
+                [globalStyles.hidden]: !showmobileSort,
+                [styles.mobileFilterMenuSort]: showmobileSort
               })}
             >
               <ul className={styles.sort}>

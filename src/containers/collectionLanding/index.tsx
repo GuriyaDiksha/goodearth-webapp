@@ -39,12 +39,18 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
       const id = getProductIdFromSlug(params.level1);
       if (id) {
         const [filterData, collectionData] = await Promise.all([
-          CollectionService.fetchCollectionMapping(id, params.id).catch(err => {
+          CollectionService.fetchCollectionMapping(
+            dispatch,
+            id,
+            params.id
+          ).catch(err => {
             console.log("Collection Landing Error", err);
           }),
-          CollectionService.fetchCollectionData(+params.id).catch(err => {
-            console.log("Collection Landing Error", err);
-          })
+          CollectionService.fetchCollectionData(dispatch, +params.id).catch(
+            err => {
+              console.log("Collection Landing Error", err);
+            }
+          )
         ]);
         if (filterData) {
           dispatch(updateCollectionFilter({ ...filterData }));
@@ -116,16 +122,24 @@ class CollectionLanding extends React.Component<
         onloadState: false
       });
     }
+    if (this.props.currency != nextProps.currency) {
+      this.setState({
+        landingMaker: false
+      });
+    }
   }
   componentDidMount() {
     dataLayer.push({
       event: "CategoryLangingPageView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_Category_langingPageView"
+      PageTitle: "virtual_categoryLangingPage_view"
     });
     this.setState({
       landingMaker: true
     });
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 1000);
   }
 
   componentDidUpdate(previous: Props) {
@@ -137,6 +151,11 @@ class CollectionLanding extends React.Component<
         landingMaker: true
       });
       this.props.fetchCollectionMappingAndData();
+    }
+    if (this.props.currency != previous.currency) {
+      this.setState({
+        landingMaker: true
+      });
     }
   }
 

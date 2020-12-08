@@ -9,6 +9,7 @@ import Formsy from "formsy-react";
 import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import FormInput from "components/Formsy/FormInput";
+import * as valid from "utils/validate";
 
 class OtpComponent extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
@@ -74,20 +75,40 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       : document.getElementsByName("gca");
     const elem = this.subscribeRef.current;
     if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState({
-        msgt:
-          "Please select at least one mode of communication for OTP verification of your gift card"
-      });
-      const elem = document.getElementById(
+      this.setState(
+        {
+          msgt:
+            "Please select at least one mode of communication for OTP verification of your gift card"
+        },
+        () => {
+          valid.errorTracking([this.state.msgt], location.href);
+        }
+      );
+      const errorElem = document.getElementById(
         "selectError"
       ) as HTMLParagraphElement;
-      elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      if (elem && elem.checked == false) {
+        this.setState(
+          {
+            subscribeError: "Please accept the terms & conditions"
+          },
+          () => {
+            valid.errorTracking([this.state.subscribeError], location.href);
+          }
+        );
+      }
       return false;
     }
     if (elem && elem.checked == false) {
-      this.setState({
-        subscribeError: "Please accept the terms & conditions"
-      });
+      this.setState(
+        {
+          subscribeError: "Please accept the terms & conditions"
+        },
+        () => {
+          valid.errorTracking([this.state.subscribeError], location.href);
+        }
+      );
       return false;
     }
     data["email"] = email;
@@ -121,6 +142,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const data: any = {};
     if (!this.props.txtvalue) {
       this.props.updateError("Please enter a valid code");
+      valid.errorTracking(["Please enter a valid code"], location.href);
       return false;
     }
 
@@ -130,20 +152,40 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     }
 
     if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState({
-        msgt:
-          "Please select at least one mode of communication for OTP verification of your gift card"
-      });
-      const elem = document.getElementById(
+      this.setState(
+        {
+          msgt:
+            "Please select at least one mode of communication for OTP verification of your gift card"
+        },
+        () => {
+          valid.errorTracking([this.state.msgt], location.href);
+        }
+      );
+      const errorElem = document.getElementById(
         "selectError"
       ) as HTMLParagraphElement;
-      elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      if (elem && elem.checked == false) {
+        this.setState(
+          {
+            subscribeError: "Please accept the terms & conditions"
+          },
+          () => {
+            valid.errorTracking([this.state.subscribeError], location.href);
+          }
+        );
+      }
       return false;
     }
     if (elem && elem.checked == false) {
-      this.setState({
-        subscribeError: "Please accept the terms & conditions"
-      });
+      this.setState(
+        {
+          subscribeError: "Please accept the terms & conditions"
+        },
+        () => {
+          valid.errorTracking([this.state.subscribeError], location.href);
+        }
+      );
       return false;
     }
 
@@ -198,10 +240,15 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           .then(data => {
             // if(res.currStatus) {
             if (data.message) {
-              this.setState({
-                showerror: data.message,
-                disable: true
-              });
+              this.setState(
+                {
+                  showerror: data.message,
+                  disable: true
+                },
+                () => {
+                  valid.errorTracking([this.state.showerror], location.href);
+                }
+              );
             } else {
               this.props.updateList(data);
               this.setState({
@@ -216,11 +263,16 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             // }
           })
           .catch(err => {
-            this.setState({
-              showerror: err.response.data.message,
-              updateStatus: false,
-              disable: true
-            });
+            this.setState(
+              {
+                showerror: err.response.data.message,
+                updateStatus: false,
+                disable: true
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
           })
           .finally(() => {
             this.clearTimer();
@@ -240,11 +292,16 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
-          this.setState({
-            showerror: error.response.data.message,
-            updateStatus: false,
-            disable: true
-          });
+          this.setState(
+            {
+              showerror: error.response.data.message,
+              updateStatus: false,
+              disable: true
+            },
+            () => {
+              valid.errorTracking([this.state.showerror], location.href);
+            }
+          );
         })
         .finally(() => {
           this.clearTimer();
@@ -329,15 +386,24 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   sendOtpApiCall = (formData: any) => {
+    this.setState({
+      disable: true
+    });
     this.props
       .sendOtp(formData)
       .then((data: any) => {
         if (data.inputType == "GIFT" && data.currStatus == "Invalid-CN") {
-          this.setState({
-            showerrorOtp: "Invalid Gift Card Code"
-          });
+          this.setState(
+            {
+              showerrorOtp: "Invalid Gift Card Code"
+            },
+            () => {
+              valid.errorTracking([this.state.showerrorOtp], location.href);
+            }
+          );
         } else if (data.currStatus == "Invalid-CN") {
           this.props.updateError("Please enter a valid code");
+          valid.errorTracking(["Please enter a valid code"], location.href);
         } else {
           this.setState(
             {
@@ -362,9 +428,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               errorMessage = message;
             }
             this.props.updateError(errorMessage);
+            valid.errorTracking([errorMessage], location.href);
           }
           if (currStatus == "Active" || currStatus == "Expired") {
             this.props.updateError(message);
+            valid.errorTracking([message], location.href);
           }
           if (email) {
             this.RegisterFormRef1.current?.updateInputsWithError({ email });
@@ -377,6 +445,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         // this.setState({
         //   showerror: "Server Error"
         // });
+      })
+      .finally(() => {
+        this.setState({
+          disable: false
+        });
       });
   };
 

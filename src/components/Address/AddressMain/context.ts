@@ -15,7 +15,7 @@ export const AddressContext = createContext({
   checkPinCode: (x: string): boolean => {
     return true;
   },
-  isAddressValid: (postCode: string, state: string): boolean => {
+  isAddressValid: (address: AddressData): boolean => {
     return true;
   },
   markAsDefault: (x: AddressData) => {

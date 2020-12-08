@@ -481,8 +481,8 @@ const DesignJournalBook: React.FC<Props> = props => {
                             <a href={data.url}> {data.name} </a>
                           </p>
                           <p className={styles.productN}>
-                            {String.fromCharCode(currencyCodes[currency])}&nbsp;{" "}
-                            {data.price[currency]}
+                            {String.fromCharCode(...currencyCodes[currency])}
+                            &nbsp; {data.price[currency]}
                           </p>
                         </div>
                       </div>
@@ -627,7 +627,9 @@ const DesignJournalBook: React.FC<Props> = props => {
                                   <a href={data.url}> {data.name} </a>
                                 </p>
                                 <p className={styles.productN}>
-                                  {String.fromCharCode(currencyCodes[currency])}
+                                  {String.fromCharCode(
+                                    ...currencyCodes[currency]
+                                  )}
                                   &nbsp; {data.price[currency]}
                                 </p>
                               </div>
@@ -659,7 +661,9 @@ const DesignJournalBook: React.FC<Props> = props => {
                                 <a href={data.url}> {data.name} </a>
                               </p>
                               <p className={styles.productN}>
-                                {String.fromCharCode(currencyCodes[currency])}
+                                {String.fromCharCode(
+                                  ...currencyCodes[currency]
+                                )}
                                 &nbsp; {data.price[currency]}{" "}
                               </p>
                             </div>

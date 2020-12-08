@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import CareerService from "services/career";
 import ReCAPTCHA from "react-google-recaptcha";
 import Loader from "components/Loader";
+import * as valid from "utils/validate";
 
 const mapStateToProps = () => {
   return {};
@@ -161,9 +162,17 @@ class JobForm extends React.Component<Props, State> {
       const file = event.target.files && event.target.files[0];
       const fileSize = file && file.size;
       if (fileSize && Math.abs(fileSize / 1000000) > 10) {
-        this.setState({
-          fileSizeErrorMessage: "Upload limit is 10MB"
-        });
+        this.setState(
+          {
+            fileSizeErrorMessage: "Upload limit is 10MB"
+          },
+          () => {
+            valid.errorTracking(
+              [this.state.fileSizeErrorMessage],
+              location.href
+            );
+          }
+        );
         return;
       }
       const fileNameTobeShown =
@@ -201,6 +210,11 @@ class JobForm extends React.Component<Props, State> {
       if (firstErrorField) {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      // for error Tracking
+      const errorList = valid.getErrorList(globalStyles.errorMsg, "job-form");
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -277,10 +291,15 @@ class JobForm extends React.Component<Props, State> {
             }
           );
         } else {
-          this.setState({
-            successMessage: "Something went wrong. Please try again.",
-            isLoading: false
-          });
+          this.setState(
+            {
+              successMessage: "Something went wrong. Please try again.",
+              isLoading: false
+            },
+            () => {
+              valid.errorTracking([this.state.successMessage], location.href);
+            }
+          );
         }
       })
       .finally(() => {
@@ -347,6 +366,7 @@ class JobForm extends React.Component<Props, State> {
               styles.jobFormFields,
               styles.categorylabel
             )}
+            id="job-form"
           >
             {this.props.mode == "applyAll" ? (
               <div>
@@ -712,7 +732,7 @@ class JobForm extends React.Component<Props, State> {
                       <li>
                         <a
                           href={
-                            "https://www.linkedin.com/sharing/share-offsite/?url=" +
+                            "https://www.linkedin.com/shareArticle?mini=true&url=" +
                             location.href
                           }
                           target="_blank"

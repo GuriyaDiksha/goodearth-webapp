@@ -31,7 +31,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       forgotSuccess: false,
       successMsg: "",
       url: location.pathname + location.search,
-      disableSelectedbox: false
+      disableSelectedbox: false,
+      isBo: ""
     };
   }
 
@@ -42,11 +43,16 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!this.state.email) {
-      this.setState({
-        err: true,
-        msg: "Please Enter Email",
-        disableSelectedbox: false
-      });
+      this.setState(
+        {
+          err: true,
+          msg: "Please Enter Email",
+          disableSelectedbox: false
+        },
+        () => {
+          valid.errorTracking([this.state.msg as string], location.href);
+        }
+      );
     } else {
       const formData = new FormData();
       formData.append("email", this.state.email || "");
@@ -89,12 +95,21 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               msg: error,
               disableSelectedbox: false
             });
+            valid.errorTracking(
+              ["No registered user found. Please Sign Up"],
+              location.href
+            );
           } else {
-            this.setState({
-              err: true,
-              msg: err.response.data.email[0],
-              disableSelectedbox: false
-            });
+            this.setState(
+              {
+                err: true,
+                msg: err.response.data.email[0],
+                disableSelectedbox: false
+              },
+              () => {
+                valid.errorTracking([this.state.msg as string], location.href);
+              }
+            );
           }
         });
     }
@@ -117,10 +132,13 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.emailInput.current.focus();
     }
     const email = localStorage.getItem("tempEmail");
+    const isBo = localStorage.getItem("isBo") || "";
     this.setState({
-      email
+      email: email,
+      isBo: isBo
     });
     localStorage.removeItem("tempEmail");
+    localStorage.removeItem("isBo");
   }
 
   handleEmailBlur = (event: React.FocusEvent) => {
@@ -229,7 +247,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           heading="Forgot Password"
           subheading="Enter your email address and click on reset password."
           formContent={formContent}
-          footer={footer}
+          footer={this.state.isBo ? undefined : footer}
         />
         {this.state.disableSelectedbox && <Loader />}
       </Popup>

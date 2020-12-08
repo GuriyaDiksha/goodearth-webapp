@@ -15,7 +15,6 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
   const dispatch = useDispatch();
   const { mobile } = useStore().getState().device;
   // const history = useHistory();
-  console.log(mobile);
   useEffect(() => {
     props.isLoading(true);
     AccountService.fetchshopOrderDetails(dispatch, props.data.number)
@@ -30,7 +29,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
         console.error("Axios Error: ", err);
       });
     return () => {
-      props.hasShopped(false);
+      // props.hasShopped(false);
     };
   }, []);
 
@@ -64,11 +63,11 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
               <div
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
-                <p>{moment(shopdata.order_date).format("D MMM,YYYY")}</p>
+                <p>{moment(shopdata.sale_date).format("D MMM,YYYY")}</p>
                 <p>
                   <span className={styles.op2}>Status</span>: &nbsp;
                   <span className={styles.orderStatus}>
-                    {shopdata.quantity > 0 ? "Processed" : "Returned"}
+                    {shopdata.total_quantity > 0 ? "Processed" : "Returned"}
                   </span>
                 </p>
                 <p>
@@ -82,7 +81,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p>
-                  {String.fromCharCode(currencyCode["INR"])} &nbsp;
+                  {String.fromCharCode(...currencyCode["INR"])} &nbsp;
                   {shopdata.total}
                 </p>
               </div>
@@ -170,7 +169,7 @@ const InShopOrderDetails: React.FC<ShopProps> = props => {
                         {item.title}
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
-                        {String.fromCharCode(currencyCode["INR"])}
+                        {String.fromCharCode(...currencyCode["INR"])}
                         &nbsp; {item.price}
                       </p>
                       <div className={styles.plp_prod_quantity}>

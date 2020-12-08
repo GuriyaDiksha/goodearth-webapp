@@ -27,6 +27,7 @@ import Zoom from "components/Zoom";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.png";
 import LazyImage from "components/LazyImage";
+import * as valid from "utils/validate";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -45,11 +46,16 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     data && data.recommendedProducts && data.recommendedProducts.length
       ? getProductSliderItems(data.recommendedProducts, state.products)
       : [];
+  const recommendedProducts =
+    data && data.recommendedProducts && data.recommendedProducts.length
+      ? data.recommendedProducts.map(id => state.products[id])
+      : [];
 
   return {
     id,
     data,
     recommendedSliderItems,
+    recommendedProducts,
     currency: state.currency,
     device: state.device,
     location: state.router.location,
@@ -67,14 +73,15 @@ class PDPContainer extends React.Component<Props, State> {
     detailsSticky: true,
     activeImage: 0,
     detailStickyEnabled: true,
-    mounted: false
+    mounted: false,
+    updated: true
   };
 
   imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
   containerRef: RefObject<HTMLDivElement> = React.createRef();
-
+  pdpURL = "";
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -95,7 +102,20 @@ class PDPContainer extends React.Component<Props, State> {
     document.body.classList.add(globalStyles.fixed);
   };
 
+  onBeforeUnload = () => {
+    const pdpProductScroll = JSON.stringify({
+      id: Number(
+        (decodeURI(this.pdpURL)
+          .split("_")
+          .pop() as string).split("/")[0]
+      ),
+      timestamp: new Date()
+    });
+    localStorage.setItem("pdpProductScroll", pdpProductScroll);
+  };
+
   componentDidMount() {
+    this.pdpURL = this.props.location.pathname;
     if (
       !this.props.device.mobile &&
       this.imageOffsets.length < 1 &&
@@ -108,6 +128,7 @@ class PDPContainer extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_pdp_view"
     });
+    valid.PDP(this.props.data, this.props.currency);
     if (this.props.device.mobile) {
       this.getProductImagesData();
       const elem = document.getElementById("pincode-bar");
@@ -123,7 +144,8 @@ class PDPContainer extends React.Component<Props, State> {
     }
     this.setState(
       {
-        mounted: true
+        mounted: true,
+        updated: true
       },
       () => {
         window.setTimeout(() => {
@@ -135,6 +157,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    this.onBeforeUnload();
     document.removeEventListener("scroll", this.onScroll);
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
@@ -158,9 +181,22 @@ class PDPContainer extends React.Component<Props, State> {
         sidebarSticky: true,
         detailsSticky: true,
         activeImage: 0,
-        detailStickyEnabled: true
+        detailStickyEnabled: true,
+        mounted: false
       });
       this.fetchMoreProductsFromCollection(nextProps.id);
+    }
+    if (nextProps.location.pathname != this.props.location.pathname) {
+      this.setState({
+        updated: false
+      });
+    }
+    if (this.props.currency != nextProps.currency) {
+      this.fetchMoreProductsFromCollection(nextProps.id);
+      this.props.fetchProduct(this.props.slug);
+      this.setState({
+        mounted: false
+      });
     }
   }
 
@@ -178,7 +214,8 @@ class PDPContainer extends React.Component<Props, State> {
 
       const state: any = {
         sidebarSticky: true,
-        detailsSticky: true
+        detailsSticky: true,
+        mounted: true
       };
 
       if (productImages.length === 1 && this.state.detailStickyEnabled) {
@@ -187,6 +224,22 @@ class PDPContainer extends React.Component<Props, State> {
 
       this.setState(state, () => {
         document.addEventListener("scroll", this.onScroll);
+      });
+    }
+    if (
+      this.props.location.pathname != props.location.pathname &&
+      !this.state.updated
+    ) {
+      this.setState({
+        updated: true
+      });
+      window.setTimeout(() => {
+        window.scrollTo({ top: 0 });
+      }, 500);
+    }
+    if (this.props.currency != props.currency) {
+      this.setState({
+        mounted: true
       });
     }
   }
@@ -376,6 +429,7 @@ class PDPContainer extends React.Component<Props, State> {
     return (
       <WeRecommendSlider
         data={recommendedSliderItems}
+        recommendedProducts={this.props.recommendedProducts}
         setting={config as Settings}
         currency={currency}
         mobile={mobile}
@@ -430,6 +484,7 @@ class PDPContainer extends React.Component<Props, State> {
         data={collectionProducts}
         setting={config as Settings}
         mobile={mobile}
+        currency={this.props.currency}
       />
     );
   }
@@ -458,7 +513,7 @@ class PDPContainer extends React.Component<Props, State> {
       data: { categories }
     } = this.props;
 
-    if (categories.indexOf("Living > Wallcoverings") === -1) {
+    if (categories.indexOf("Home > Wallcoverings") === -1) {
       return null;
     }
     return <WallpaperFAQ mobile={mobile} />;
@@ -526,7 +581,7 @@ class PDPContainer extends React.Component<Props, State> {
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
-          {mobile && (
+          {mobile && this.state.updated && (
             <div
               className={cs(
                 bootstrap.col12,

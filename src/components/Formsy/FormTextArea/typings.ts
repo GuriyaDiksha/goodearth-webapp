@@ -7,6 +7,7 @@ export type Props = {
   label?: string;
   error?: string | (string | JSX.Element)[];
   placeholder: string;
+  maxLength?: number;
   border?: boolean;
   disable?: boolean;
   className?: string;

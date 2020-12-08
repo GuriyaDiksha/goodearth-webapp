@@ -731,10 +731,7 @@ const AddressSection: React.FC<AddressProps & {
 
   const onSelectAddress = (address?: AddressData) => {
     if (address) {
-      const isValid =
-        address.country == "IN"
-          ? isAddressValid(address.postCode, address.state)
-          : true;
+      const isValid = isAddressValid(address);
       if (isValid) {
         // this.props.onSelectAddress(address);
         onSubmit(address);

@@ -92,10 +92,12 @@ export type CollectionProductItem = {
 
 export interface BasketProduct extends PartialProductItem {
   stockRecords: BasketStockRecord[];
+  childAttributes: ChildProductAttributes[];
   inWishlist: boolean;
   structure: string;
   parent: ProductID;
   attributes: ProductAttributes[];
+  productDeliveryDate: string;
 }
 
 export interface GroupedProductItem {

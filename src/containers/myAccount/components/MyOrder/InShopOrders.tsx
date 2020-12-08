@@ -72,7 +72,9 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                   <span className={styles.op2}>Order Total</span>
                 </p>
                 <p className={cs(styles.bold, styles.price)}>
-                  {String.fromCharCode(currencyCode[data.currency as Currency])}
+                  {String.fromCharCode(
+                    ...currencyCode[data.currency as Currency]
+                  )}
                   &nbsp;{data.total}
                 </p>
               </div>
@@ -81,7 +83,11 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               <div className={bootstrapStyles.col8}>
                 <p className={styles.editView}>
                   <a
-                    className={isHide ? styles.op2 : globalStyles.cerise}
+                    className={
+                      isHide
+                        ? cs(styles.op2, globalStyles.disableCursor)
+                        : globalStyles.cerise
+                    }
                     onClick={() => (isHide ? "" : showDetails(index))}
                   >
                     {" "}

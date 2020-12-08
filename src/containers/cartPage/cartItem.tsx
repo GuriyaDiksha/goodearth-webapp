@@ -63,12 +63,12 @@ const CartItems: React.FC<BasketItem> = memo(
             products: [
               {
                 name: product.title,
-                id: product.sku,
+                id: product.sku || product.childAttributes[0].sku,
                 price: price,
                 brand: "Goodearth",
                 category: category,
                 // 'variant': product.ga_variant,
-                variant: "",
+                variant: product.childAttributes?.[0].size || "",
                 list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
                 quantity: quantity
               }
@@ -92,8 +92,13 @@ const CartItems: React.FC<BasketItem> = memo(
       });
       return size ? (
         <div>
-          <div className={styles.size}>Size: </div>
-          <div className={styles.productSize}>{size.value}</div>
+          <div className={cs(styles.size, { [styles.inline]: mobile })}>
+            Size:{" "}
+          </div>
+          {mobile && " "}
+          <div className={cs(styles.productSize, { [styles.inline]: mobile })}>
+            {size.value}
+          </div>
         </div>
       ) : (
         ""
@@ -210,11 +215,29 @@ const CartItems: React.FC<BasketItem> = memo(
                     <div className={styles.productName}>
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>
+                    {product.productDeliveryDate && (
+                      <div
+                        className={cs(
+                          styles.deliveryDate,
+                          globalStyles.voffset3,
+                          { [styles.extraWidth]: mobile }
+                        )}
+                      >
+                        Estimated Delivery On or Before: <br />
+                        <span className={styles.black}>
+                          {product.productDeliveryDate}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  <div className={styles.productPrice}>
+                  <div
+                    className={cs(styles.productPrice, {
+                      [styles.extraWidth]: mobile
+                    })}
+                  >
                     {saleStatus && discount && discountedPriceRecords ? (
                       <span className={styles.discountprice}>
-                        {String.fromCharCode(currencyCodes[currency])}
+                        {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
                         {discountedPriceRecords[currency]}
                         &nbsp;&nbsp;&nbsp;
@@ -224,7 +247,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     )}
                     {saleStatus && discount ? (
                       <span className={styles.strikeprice}>
-                        {String.fromCharCode(currencyCodes[currency])}
+                        {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
                         {price}
                       </span>
@@ -235,7 +258,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         }
                       >
                         {" "}
-                        {String.fromCharCode(currencyCodes[currency])}
+                        {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
                         {product.structure == "GiftCard" ? GCValue : price}
                       </span>
@@ -246,7 +269,8 @@ const CartItems: React.FC<BasketItem> = memo(
               <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
                 <div
                   className={cs(styles.section, styles.sectionMiddle, {
-                    [globalStyles.hiddenEye]: isGiftCard
+                    [globalStyles.hiddenEye]: isGiftCard,
+                    [styles.extraWidth]: mobile
                   })}
                 >
                   <div className={styles.productSize}>
@@ -296,12 +320,13 @@ const CartItems: React.FC<BasketItem> = memo(
               <div className={cs({ [globalStyles.hiddenEye]: isGiftCard })}>
                 <WishlistButton
                   source="cart"
-                  gtmListType=""
+                  gtmListType="cart"
                   title={title}
                   childAttributes={
                     product.childAttributes ? product.childAttributes : []
                   }
                   priceRecords={priceRecords}
+                  discountedPriceRecords={discountedPriceRecords}
                   categories={product.categories}
                   basketLineId={id}
                   id={product.id}

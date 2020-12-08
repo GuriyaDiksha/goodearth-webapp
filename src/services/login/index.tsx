@@ -18,6 +18,8 @@ import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import CacheService from "services/cache";
+import HeaderService from "services/headerFooter";
+import Api from "services/api";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
 import { showMessage } from "actions/growlMessage";
@@ -26,6 +28,7 @@ import {
   LOGOUT_SUCCESS,
   LOGIN_SUCCESS
 } from "constants/messages";
+import Axios from "axios";
 
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -67,13 +70,23 @@ export default {
     );
     return res;
   },
-  login: async function(dispatch: Dispatch, email: string, password: string) {
+  login: async function(
+    dispatch: Dispatch,
+    email: string,
+    password: string,
+    source?: string
+  ) {
+    const queryString = location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const boId = urlParams.get("bo_id");
+
     const res = await API.post<loginResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/login/"}`,
       {
         email: email,
-        password: password
+        password: password,
+        boId: boId
       }
     );
     CookieService.setCookie("atkn", res.token, 365);
@@ -84,7 +97,7 @@ export default {
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch);
+    BasketService.fetchBasket(dispatch, source);
     return res;
   },
   loginSocial: async function(dispatch: Dispatch, formdata: any) {
@@ -119,9 +132,13 @@ export default {
       CookieService.setCookie("currency", "INR", 365);
       dispatch(updateCurrency("INR"));
       dispatch(updateCookies({ tkn: "" }));
-      MetaService.updateMeta(dispatch, {});
+      MetaService.updateMeta(dispatch, {}).catch(err => {
+        console.log(err);
+      });
       WishlistService.resetWishlist(dispatch);
-      BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch).catch(err => {
+        console.log(err);
+      });
       dispatch(resetMeta(undefined));
       dispatch(showMessage(LOGOUT_SUCCESS, 5000));
       return res;
@@ -168,12 +185,24 @@ export default {
     dispatch(updateCurrency(formData.currency));
     return res;
   },
+  reloadPage: (dispatch: Dispatch) => {
+    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    HeaderService.fetchFooterDetails(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    Api.getAnnouncement(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    BasketService.fetchBasket(dispatch);
+  },
   getClientIpCurrency: async function() {
+    Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
     const response = await new Promise((resolve, reject) => {
-      fetch(
-        `https://api.ipdata.co/?api-key=f2c8da4302aa2d9667f6e6108ec175b88b01ff050522b335b9b2006e`,
-        { method: "GET" }
-      )
+      fetch(`https://api.ipdata.co/?api-key=${__IP_DATA_KEY__}`, {
+        method: "GET"
+      })
         .then(resp => resp.json())
         .then(data => {
           if (data.currency) {

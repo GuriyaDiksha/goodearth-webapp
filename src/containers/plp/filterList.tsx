@@ -13,6 +13,8 @@ import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import * as valid from "utils/validate";
+import iconStyles from "../../styles/iconFonts.scss";
+import multiColour from "../../images/multiColour.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -608,7 +610,7 @@ class FilterList extends React.Component<Props, State> {
         element ? element.scrollIntoView(true) : "";
         window.scrollBy(0, -150);
         localStorage.removeItem("pdpProductScroll");
-      }, 0);
+      }, 1000);
       this.setState({
         scrollView: true
       });
@@ -794,7 +796,7 @@ class FilterList extends React.Component<Props, State> {
       categoryObj[data].map((nestedList: any, j: number) => {
         filter.categoryShop[data]
           ? filter.categoryShop[data][nestedList[1]]
-            ? categorydata.categoryProductTypeMapping[nestedList[1]].map(
+            ? categorydata.categoryProductTypeMapping[nestedList[1]]?.map(
                 (level4: any) => {
                   if (this.productData.indexOf(level4) == -1) {
                     this.productData.push(level4);
@@ -1185,24 +1187,51 @@ class FilterList extends React.Component<Props, State> {
       const color: any = {
         "--my-color-var": "#" + data[0].split("-")[0]
       };
-      html.push(
-        <li className={styles.colorlabel} key={data[0]}>
-          <input
-            type="checkbox"
-            id={data[0]}
-            checked={
-              filter.currentColor[data[0]]
-                ? filter.currentColor[data[0]].isChecked
-                : false
-            }
-            onClick={this.handleClickColor}
-            value={data[0]}
-          />
-          <label htmlFor={data[0]} style={color}>
-            {data[0].split("-")[1]}
-          </label>
-        </li>
-      );
+      const multicolorImage: any = {
+        "--my-bg-image": `url(${multiColour})`
+      };
+      if (data[0].toLowerCase() == "multicolor") {
+        html.push(
+          <li
+            className={cs(styles.colorlabel, styles.multicolorlabel)}
+            key={data[0]}
+          >
+            <input
+              type="checkbox"
+              id={data[0]}
+              checked={
+                filter.currentColor[data[0]]
+                  ? filter.currentColor[data[0]].isChecked
+                  : false
+              }
+              onClick={this.handleClickColor}
+              value={data[0]}
+            />
+            <label htmlFor={data[0]} style={multicolorImage}>
+              {data[0].split("-")[0]}
+            </label>
+          </li>
+        );
+      } else {
+        html.push(
+          <li className={styles.colorlabel} key={data[0]}>
+            <input
+              type="checkbox"
+              id={data[0]}
+              checked={
+                filter.currentColor[data[0]]
+                  ? filter.currentColor[data[0]].isChecked
+                  : false
+              }
+              onClick={this.handleClickColor}
+              value={data[0]}
+            />
+            <label htmlFor={data[0]} style={color}>
+              {data[0].split("-")[1]}
+            </label>
+          </li>
+        );
+      }
     });
     return html;
   };
@@ -1313,68 +1342,138 @@ class FilterList extends React.Component<Props, State> {
 
   renderFilterList = (filterObj: any) => {
     const html = [];
+    let filterCount = 0;
     Object.keys(filterObj).map(data => {
       switch (data) {
         case "currentColor":
-        case "availableSize":
+        case "availableSize": {
+          const filter: any = [];
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1].isChecked) return false;
-            html.push(
-              <li key={data}>
-                <span>{data == "currentColor" ? "Color" : "Size"}: </span>
-                <span>
+            filter.push(
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
                   {data == "currentColor"
                     ? filterObj[data][data1].value.split("-")[1]
                     : filterObj[data][data1].value}
                 </span>
                 <span
+                  className={styles.filterItemCross}
                   onClick={e => this.deleteFilter(e, data, data1)}
                   data-color={data}
                 >
-                  x
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.crossfontSize
+                    )}
+                  ></i>
                 </span>
               </li>
             );
           });
+          if (filter.length > 0) {
+            html.push(
+              <li key={data}>
+                <span>{data == "currentColor" ? "Color" : "Size"}: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
+        }
         case "categoryShop":
           break;
-        case "price":
+        case "price": {
+          const filter: any = [];
           if (Object.keys(filterObj[data]).length == 0) return false;
-          html.push(
-            <li>
-              <span>Price: </span>
-              <span>
+          filter.push(
+            <li
+              key={"price"}
+              className={cs(globalStyles.inlineFlex, styles.width100)}
+            >
+              <span className={cs(styles.filterItem, styles.ellipses)}>
                 {filterObj[data].min_price}-{filterObj[data].max_price}
               </span>
-              <span onClick={e => this.deleteFilter(e, data, null)}>x</span>
+              <span
+                className={styles.filterItemCross}
+                onClick={e => this.deleteFilter(e, data, null)}
+              >
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconCrossNarrowBig,
+                    styles.crossfontSize
+                  )}
+                ></i>
+              </span>
             </li>
           );
+          if (filter.length > 0) {
+            html.push(
+              <li>
+                <span>Price: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
-        case "productType":
+        }
+        case "productType": {
+          const filter: any = [];
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1]) return false;
-            html.push(
-              <li key={data1}>
-                <span>Product Type: </span>
-                <span>{data1.split("_")[1]}</span>
+            filter.push(
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
+                  {data1.split("_")[1]}
+                </span>
                 <span
+                  className={styles.filterItemCross}
                   onClick={e => this.deleteFilter(e, data, data1)}
                   data-product={data}
                 >
-                  x
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.crossfontSize
+                    )}
+                  ></i>
                 </span>
               </li>
             );
           });
+          if (filter.length > 0) {
+            html.push(
+              <li key={data}>
+                <span>Product Type: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
-        case "availableDiscount":
+        }
+        case "availableDiscount": {
+          const filter: any = [];
           Object.keys(filterObj[data]).map((data1, index) => {
             if (!filterObj[data][data1].isChecked) return false;
-            html.push(
-              <li key={data1}>
-                <span>Discount: </span>
-                <span>
+            filter.push(
+              <li
+                key={data1}
+                className={cs(globalStyles.inlineFlex, styles.width100)}
+              >
+                <span className={cs(styles.filterItem, styles.ellipses)}>
                   {/* {self.props.facetObject.facets && self.props.facetObject.facets[data].map((discount) => {
                                 if(discount[0] == data1.split('_')[1]){
                                     return discount[1];
@@ -1384,15 +1483,32 @@ class FilterList extends React.Component<Props, State> {
                   {filterObj[data][data1].value}
                 </span>
                 <span
+                  className={styles.filterItemCross}
                   onClick={e => this.deleteFilter(e, data, data1)}
                   data-discount={data}
                 >
-                  x
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.crossfontSize
+                    )}
+                  ></i>
                 </span>
               </li>
             );
           });
+          if (filter.length > 0) {
+            html.push(
+              <li key={data}>
+                <span>Discount: </span>
+                <ul>{filter}</ul>
+              </li>
+            );
+            filterCount += filter.length;
+          }
           break;
+        }
       }
     });
     const name: any = "all";
@@ -1406,6 +1522,9 @@ class FilterList extends React.Component<Props, State> {
           Clear All
         </div>
       );
+      this.props.setFilterCount?.(filterCount);
+    } else {
+      this.props.setFilterCount?.(0);
     }
 
     return html;

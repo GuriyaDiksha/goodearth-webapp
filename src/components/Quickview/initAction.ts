@@ -11,7 +11,7 @@ const mapActionsToProps = (dispatch: Dispatch) => {
   return {
     fetchProductsDetails: async (id: ProductID) => {
       if (id) {
-        const product = await ProductService.fetchProductDetails(id);
+        const product = await ProductService.fetchProductDetails(dispatch, id);
         dispatch(
           updateProduct({ ...product, partial: false } as Product<
             PartialProductItem

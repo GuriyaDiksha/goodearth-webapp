@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
 import SignedIn from "../SignedIn";
 import { genderOptions } from "constants/profile";
+import * as valid from "utils/validate";
 
 const mapStateToProps = () => {
   return {};
@@ -169,6 +170,14 @@ class MyProfile extends React.Component<Props, State> {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
       }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "myprofile-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
+      }
     }, 0);
   };
 
@@ -198,7 +207,7 @@ class MyProfile extends React.Component<Props, State> {
             onValidSubmit={this.handleSubmit}
             onInvalidSubmit={this.handleInvalidSubmit}
           >
-            <div className={styles.categorylabel}>
+            <div className={styles.categorylabel} id="myprofile-form">
               <div>
                 <FormInput
                   name="emailId"

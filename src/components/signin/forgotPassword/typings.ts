@@ -8,4 +8,5 @@ export type ForgotPasswordState = {
   successMsg: string;
   url: string;
   disableSelectedbox: boolean;
+  isBo: string;
 };

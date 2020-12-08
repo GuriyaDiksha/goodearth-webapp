@@ -15,6 +15,7 @@ import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
 import { showMessage } from "actions/growlMessage";
 import { ADD_TO_BAG_GIFTCARD_SUCCESS } from "constants/messages";
+import * as valid from "utils/validate";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -30,7 +31,7 @@ const Section4: React.FC<Section4Props> = props => {
 
   const gotoNext = () => {
     if (subscribe) {
-      const data = props.data;
+      const data = Object.assign({}, props.data);
       data["imageUrl"] = data["imageUrl"].replace("/gc", "/gc_");
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
@@ -40,10 +41,19 @@ const Section4: React.FC<Section4Props> = props => {
           next({}, "card");
         })
         .catch(error => {
-          setNummsg("Internal Server Error");
+          if (error.response.status == 406) {
+            return false;
+          }
+          const errorMsg = error.response.data[0] || "Internal Server Error";
+          setNummsg(errorMsg);
+          valid.errorTracking([errorMsg], location.href);
         });
     } else {
       setNummsg("Please accept the Terms & Conditions");
+      valid.errorTracking(
+        ["Please accept the Terms & Conditions"],
+        location.href
+      );
     }
     // document.cookie = "giftcard_image=" + this.state.giftimages[this.state.selectindex] + "; expires=Sun, 15 Jul 2020 00:00:01 UTC; path=/";
     // this.props.next(this.state.giftimages[this.state.selectindex]);
@@ -98,7 +108,7 @@ const Section4: React.FC<Section4Props> = props => {
               <p className={globalStyles.voffset3}>
                 You have received a Good Earth eGift card <br /> worth{" "}
                 <strong className={globalStyles.cerise}>
-                  {String.fromCharCode(code)}
+                  {String.fromCharCode(...code)}
                   {customPrice}
                 </strong>{" "}
                 from

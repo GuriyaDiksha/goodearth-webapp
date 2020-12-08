@@ -51,6 +51,7 @@
         text-align: left;
         padding: 35px 25px 55px 25px;
         font-weight: 300;
+        overflow-wrap: break-word;
         address {
                 border: none;
                 padding: 25px 0;
@@ -121,6 +122,10 @@
             font-size: 14px;
             text-decoration: line-through;
             color: gray;
+            font-family: $font-Lato;
+        }
+        .price {
+            font-size: 16px;
             font-family: $font-Lato;
         }
     }

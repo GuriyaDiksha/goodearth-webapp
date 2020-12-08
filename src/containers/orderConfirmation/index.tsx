@@ -43,7 +43,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         price: line.priceInclTax,
         brand: "Good Earth",
         category: line.product.collection,
-        variant: null,
+        variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name
       };
@@ -74,6 +74,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       setConfirmData(response.results?.[0]);
       gtmPushOrderConfirmation(response.results?.[0]);
     });
+    dataLayer.push({
+      event: "OrderConfirmationPageView",
+      PageURL: location.pathname,
+      PageTitle: "virtual_orderConfirmationPage_view"
+    });
   }, []);
 
   let totalItem = 0;
@@ -82,7 +87,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   const shippingAddress = confirmData.shippingAddress?.[0],
     billingAddress = confirmData.billingAddress?.[0];
-
+  if (!confirmData.number) {
+    return <></>;
+  }
   return (
     <div>
       <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
@@ -171,7 +178,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
                       <p>
                         {String.fromCharCode(
-                          currencyCode[confirmData.currency as Currency]
+                          ...currencyCode[confirmData.currency as Currency]
                         )}
                         &nbsp; {parseFloat(confirmData.totalInclTax).toFixed(2)}
                       </p>
@@ -289,7 +296,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {isdisCount ? (
                                 <span className={styles.discountprice}>
                                   {String.fromCharCode(
-                                    currencyCode[item.priceCurrency as Currency]
+                                    ...currencyCode[
+                                      item.priceCurrency as Currency
+                                    ]
                                   )}
                                   {+parseFloat(item.priceInclTax).toFixed(2) /
                                     +item.quantity}
@@ -301,7 +310,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               {isdisCount ? (
                                 <span className={styles.strikeprice}>
                                   {String.fromCharCode(
-                                    currencyCode[item.priceCurrency as Currency]
+                                    ...currencyCode[
+                                      item.priceCurrency as Currency
+                                    ]
                                   )}
                                   {+parseFloat(
                                     item.priceExclTaxExclDiscounts
@@ -310,14 +321,18 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 </span>
                               ) : (
                                 <span
-                                  className={
-                                    item.product.badgeType == "B_flat"
-                                      ? globalStyles.cerise
-                                      : ""
-                                  }
+                                  className={cs(
+                                    {
+                                      [globalStyles.cerise]:
+                                        item.product.badgeType == "B_flat"
+                                    },
+                                    styles.price
+                                  )}
                                 >
                                   {String.fromCharCode(
-                                    currencyCode[item.priceCurrency as Currency]
+                                    ...currencyCode[
+                                      item.priceCurrency as Currency
+                                    ]
                                   )}
                                   &nbsp;{" "}
                                   {+parseFloat(

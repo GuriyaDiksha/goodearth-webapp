@@ -53,7 +53,7 @@
   // padding-top: 60px;
   &.cerise-club {
     background-color: #fbf6f0;
-    background-image: url(../../images/loyalty/ceriseBg.png), url(../../images/loyalty/ceriseMainlogo.svg), url(../../images/loyalty/ceriseBg2.png), url(../../images/loyalty/butterfly.png);
+    background-image: url(../../images/loyalty/ceriseBg.png), url(../../images/loyalty/ceriseMainlogo.svg), url(../../images/loyalty/ceriseBg2.png), url(../../images/loyalty/butterfly2.png);
     background-position: left 22% top 9%, center top 4%, left 112% top 54%, right 16% top 3%;
     background-size: 80%, 18%, 30%, 16%;
     max-width: 100%;
@@ -207,7 +207,7 @@
   bottom: 0;
   top: ($header-height + 50);
   left: 0;
-  z-index: 10;
+  z-index: 9;
   background-color: white;
   -webkit-transition: all 0.5s linear;
   -moz-transition: all 0.5s linear;

@@ -10,11 +10,11 @@ import React, {
 import { useStore } from "react-redux";
 import cs from "classnames";
 // components
-import CloseButton from "components/Modal/components/CloseButton";
-import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
-import InputField from "components/InputField";
+import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
+import CloseButton from "components/Modal/components/CloseButton";
+import InputField from "components/InputField";
 //actions
 import { showMessage } from "actions/growlMessage";
 // services
@@ -32,6 +32,7 @@ import { ADD_TO_BAG_SUCCESS } from "constants/messages";
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
+import * as util from "utils/validate";
 
 type Props = {
   basketLineId?: ProductID;
@@ -45,8 +46,10 @@ type Props = {
   discount: boolean;
   badgeType?: string;
   discountedPrice?: number;
+  category?: string;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
+  sortBy?: string;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -55,6 +58,7 @@ const NotifyMePopup: React.FC<Props> = ({
   price,
   discountedPrice,
   collection,
+  category,
   childAttributes,
   title,
   selectedIndex,
@@ -62,7 +66,8 @@ const NotifyMePopup: React.FC<Props> = ({
   onNotifyCart,
   isSale,
   discount,
-  badgeType
+  badgeType,
+  sortBy
 }) => {
   const { dispatch } = useStore();
 
@@ -139,12 +144,11 @@ const NotifyMePopup: React.FC<Props> = ({
           products: [
             {
               name: title,
-              id: childAttributes[0].sku,
-              price: price,
+              id: selectedSize?.sku || childAttributes[0].sku,
+              price: discountedPrice || price,
               brand: "Goodearth",
-              category: collection,
-              variant: null,
-              // 'variant': this.props.wishlist_product.ga_variant,
+              category: category,
+              variant: selectedSize?.size || childAttributes[0].size || "",
               quantity: quantity,
               list: localStorage.getItem("list")
             }
@@ -156,13 +160,19 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
+      WishlistService.removeFromWishlist(
+        dispatch,
+        selectedSize.id,
+        undefined,
+        sortBy
+      );
       await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      await WishlistService.removeFromWishlist(dispatch, selectedSize.id);
       dispatch(showMessage(ADD_TO_BAG_SUCCESS));
       gtmPushAddToBag();
       closeModal();
     } else {
       setSizeErrorMsg("Please select size");
+      util.errorTracking(["Please select size"], location.href);
     }
   };
 
@@ -171,6 +181,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setMsg("");
     if (!valid) {
       setEmailError(message);
+      util.errorTracking([message], location.href);
     } else {
       if (selectedSize) {
         const { successful, message } = await ProductService.notifyMe(
@@ -181,12 +192,15 @@ const NotifyMePopup: React.FC<Props> = ({
 
         if (!successful) {
           setEmailError(message);
+          util.errorTracking([message], location.href);
         } else {
           setMsg(message);
+          util.errorTracking([message], location.href);
           basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {
         setSizeErrorMsg("Please select size");
+        util.errorTracking(["Please select size"], location.href);
       }
     }
   };
@@ -234,7 +248,7 @@ const NotifyMePopup: React.FC<Props> = ({
           <p className={styles.productN}>
             {isSale && discount ? (
               <span className={styles.discountprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                 {selectedSize
                   ? selectedSize.discountedPriceRecords[currency]
                   : discountedPrice}
@@ -245,14 +259,14 @@ const NotifyMePopup: React.FC<Props> = ({
             )}
             {isSale && discount ? (
               <span className={styles.strikeprice}>
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             ) : (
               <span
                 className={badgeType == "B_flat" ? globalStyles.cerise : ""}
               >
-                {String.fromCharCode(currencyCodes[currency])}&nbsp;
+                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
                 {selectedSize ? selectedSize.priceRecords[currency] : price}
               </span>
             )}
@@ -290,7 +304,7 @@ const NotifyMePopup: React.FC<Props> = ({
             inputClass={styles.inputQuantity}
           />
         </div>
-        {(!selectedSize || (selectedSize && selectedSize.stock === 0)) && (
+        {selectedSize && selectedSize.stock === 0 && (
           <div className={cs(styles.emailInput, globalStyles.textLeft)}>
             <InputField
               id="width"
@@ -301,7 +315,7 @@ const NotifyMePopup: React.FC<Props> = ({
               label="Email"
               placeholder="Email Address"
               errorMsg={emailError}
-              disabled={userExists}
+              // disabled={userExists}
             />
           </div>
         )}

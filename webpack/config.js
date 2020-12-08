@@ -27,7 +27,7 @@ const cdnDomain = JSON.stringify("https://djhiy8e1dslha.cloudfront.net");
 const fbAppID = JSON.stringify(envConfig.fbAppID);
 const googleClientID = JSON.stringify(envConfig.googleClientID);
 const gtmId = JSON.stringify(envConfig.gtmID);
-
+const ipDataKey = JSON.stringify(envConfig.ipDataKey);
 const alias = {
     components : context + "/src/components",
     constants : context + "/src/constants",
@@ -63,7 +63,14 @@ let config = [
             splitChunks: {
                 chunks: 'all',
                 automaticNameDelimiter: "-",
-                minChunks: 3
+                minChunks: 3,
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendor',
+                        chunks: 'all'
+                    }
+                }
             }
         },
         entry: {
@@ -75,7 +82,7 @@ let config = [
             filename: `${fileNamePattern}.js`
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico",".gif"],
             alias
         },
         plugins: [
@@ -86,13 +93,15 @@ let config = [
                 __OMNI_HOST__: omniApiDomain,
                 __FB_APP_ID__: fbAppID,
                 __GOOGLE_CLIENT_ID__: googleClientID,
-                __GTM_ID__:gtmId
+                __GTM_ID__:gtmId,
+                __IP_DATA_KEY__: ipDataKey
             }),
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
                 filename: `${fileNamePattern}.css`
             }),
+            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
             env === "development" ? new BundleAnalyzerPlugin() : () => {},
             new WorkboxPlugin.GenerateSW({
                 clientsClaim: true,
@@ -105,7 +114,7 @@ let config = [
                       cacheName: 'home'
                     },
                   }, {
-                    urlPattern: /\.(?:png|jpg|jpeg|svg|ico)$/,
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|ico|gif)$/,
                     handler: 'CacheFirst',
                     options: {
                       cacheName: 'ge-images',
@@ -212,7 +221,7 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|woff2|gif)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|woff2)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: `${fileNamePattern}.[ext]`,
@@ -265,7 +274,7 @@ let config = [
             filename: `[name].js`,
         },
         resolve: {
-            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico"],
+            extensions: [".wasm", ".mjs", ".js", ".jsx", ".tsx", ".ts", ".json", ".scss", ".css",".svg",".jpg",".png",".ico",".gif"],
             alias
         },
         externals: [nodeExternals({
@@ -282,7 +291,8 @@ let config = [
                 __OMNI_HOST__: omniApiDomain,
                 __FB_APP_ID__: fbAppID,
                 __GOOGLE_CLIENT_ID__: googleClientID,
-                __GTM_ID__:gtmId
+                __GTM_ID__:gtmId,
+                __IP_DATA_KEY__: ipDataKey
 
             }),
             new MiniCssExtractPlugin({
@@ -350,7 +360,7 @@ let config = [
                       ]
                 },
                 {
-                    test: /\.(eot|otf|ttf|woff|woff2|gif)(\?.*)?$/,
+                    test: /\.(eot|otf|ttf|woff|woff2)(\?.*)?$/,
                     loader: 'file-loader',
                     options: {
                         name: `${fileNamePattern}.[ext]`,

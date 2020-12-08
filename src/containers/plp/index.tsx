@@ -41,6 +41,7 @@ class PLP extends React.Component<
   {
     filterData: string;
     showmobileSort: boolean;
+    filterCount: number;
     mobileFilter: boolean;
     sortValue: string;
     flag: boolean;
@@ -58,6 +59,7 @@ class PLP extends React.Component<
     const param = urlParams.get("sort_by");
     this.state = {
       filterData: "All",
+      filterCount: 0,
       showmobileSort: false,
       mobileFilter: false,
       sortValue: param ? param : "hc",
@@ -89,9 +91,6 @@ class PLP extends React.Component<
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_plp_view"
     });
-    this.setState({
-      plpMaker: true
-    });
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
@@ -104,13 +103,13 @@ class PLP extends React.Component<
         chatButtonElem.style.bottom = "10px";
       }
     }
+    this.setState({
+      plpMaker: true
+    });
   }
 
   componentDidUpdate(nextProps: Props) {
-    if (
-      this.props.location.pathname != nextProps.location.pathname &&
-      !this.state.plpMaker
-    ) {
+    if (!this.state.plpMaker) {
       this.setState({
         plpMaker: true
       });
@@ -121,6 +120,13 @@ class PLP extends React.Component<
     this.setState({
       plpMaker: false
     });
+  };
+
+  setFilterCount = (count: number) => {
+    if (count != this.state.filterCount)
+      this.setState({
+        filterCount: count
+      });
   };
 
   onClickQuickView = (id: number) => {
@@ -157,13 +163,28 @@ class PLP extends React.Component<
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const queryString = nextProps.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const param = urlParams.get("sort_by");
     if (this.props.location.pathname != nextProps.location.pathname) {
       this.setState({
         plpMaker: false,
+        sortValue: param ? param : "hc",
         corporoateGifting:
           nextProps.location.pathname.includes("corporate-gifting") ||
           nextProps.location.search.includes("&src_type=cp"),
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
+      });
+    }
+    if (this.props.currency != nextProps.currency) {
+      this.setState({
+        plpMaker: false
+      });
+    }
+
+    if (!param && this.state.sortValue != "hc") {
+      this.setState({
+        sortValue: "hc"
       });
     }
   }
@@ -197,18 +218,8 @@ class PLP extends React.Component<
       }
     ];
     return (
-      <div className={styles.pageBody}>
-        {mobile ? (
-          <PlpDropdownMenu
-            list={items}
-            onChange={this.onchangeFilter}
-            onStateChange={this.onChangeFilterState}
-            showCaret={this.state.showmobileSort}
-            open={false}
-            value={this.state.sortValue}
-            key={"plpPageMobile"}
-          />
-        ) : (
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+        {!mobile && (
           <SecondaryHeader>
             <Fragment>
               <div className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}>
@@ -302,7 +313,7 @@ class PLP extends React.Component<
               <CorporateFilter
                 onRef={(el: any) => (this.child = el)}
                 onChangeFilterState={this.onChangeFilterState}
-                key={this.props.location.pathname}
+                key="corporate-plp-filter"
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
               />
@@ -310,7 +321,8 @@ class PLP extends React.Component<
               <FilterList
                 onRef={(el: any) => (this.child = el)}
                 onChangeFilterState={this.onChangeFilterState}
-                key={this.props.location.pathname}
+                setFilterCount={this.setFilterCount}
+                key="plp-filter"
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
               />
@@ -391,6 +403,8 @@ class PLP extends React.Component<
                     key={item.id}
                   >
                     <PlpResultItem
+                      page="PLP"
+                      position={index}
                       product={item}
                       addedToWishlist={false}
                       currency={currency}
@@ -416,6 +430,18 @@ class PLP extends React.Component<
             </div>
           </div>
         </div>
+        {mobile && (
+          <PlpDropdownMenu
+            filterCount={this.state.filterCount}
+            list={items}
+            onChange={this.onchangeFilter}
+            onStateChange={this.onChangeFilterState}
+            showCaret={this.state.showmobileSort}
+            open={false}
+            value={this.state.sortValue}
+            key={"plpPageMobile"}
+          />
+        )}
       </div>
     );
   }

@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -66,7 +67,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               highlight: false
             },
             () => {
-              this.passwordInput.current && this.passwordInput.current.focus();
+              const checkoutPopupCookie = CookieService.getCookie(
+                "checkoutinfopopup"
+              );
+              checkoutPopupCookie == "show" &&
+                this.passwordInput.current &&
+                this.passwordInput.current.focus();
               this.passwordInput.current &&
                 this.passwordInput.current.scrollIntoView(true);
             }
@@ -127,12 +133,27 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
+    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email });
     }
-    this.firstEmailInput.current?.focus();
-    // this.emailInput.current && this.emailInput.current.focus();
-    localStorage.removeItem("tempEmail");
+    if (checkoutPopupCookie == "show") {
+      this.firstEmailInput.current?.focus();
+    }
+    // localStorage.removeItem("tempEmail");
+  }
+
+  UNSAFE_componentWillReceiveProps() {
+    const email = localStorage.getItem("tempEmail");
+    if (!this.state.email || email) {
+      if (email) {
+        this.setState({ email, isLoginDisabled: false }, () => {
+          this.myBlur();
+        });
+      }
+      // this.firstEmailInput.current?.focus();
+      localStorage.removeItem("tempEmail");
+    }
   }
 
   handleSubmitEmail = (event: React.FormEvent) => {
@@ -148,14 +169,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       eventLabel: location.pathname
     });
   };
-
   handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     this.myBlur(undefined, "submit");
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
-        .login(this.state.email || "", this.state.password || "")
+        .login(this.state.email || "", this.state.password || "", "checkout")
         .then(data => {
           this.gtmPushSignIn();
           dataLayer.push({
@@ -173,15 +193,25 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         })
         .catch(err => {
           if (err.response.data.non_field_errors[0] == "NotEmail") {
-            this.setState({
-              msg: ["No registered user found"],
-              highlight: true
-            });
+            this.setState(
+              {
+                msg: ["No registered user found"],
+                highlight: true
+              },
+              () => {
+                valid.errorTracking(this.state.msg as string[], location.href);
+              }
+            );
           } else {
-            this.setState({
-              showerror:
-                "The user name and/or password you have entered is incorrect"
-            });
+            this.setState(
+              {
+                showerror:
+                  "The user name and/or password you have entered is incorrect"
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
           }
         });
     }
@@ -365,9 +395,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               disable={this.state.isPasswordDisabled}
               disablePassword={this.disablePassword}
             />
-            <p className={styles.loginChange} onClick={this.changeEmail}>
-              Change
-            </p>
+            {this.props.isBo ? (
+              ""
+            ) : (
+              <p className={styles.loginChange} onClick={this.changeEmail}>
+                Change
+              </p>
+            )}
           </div>
           <div>
             <InputField
@@ -401,7 +435,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 this.props.goForgotPassword(
                   e,
                   (this.emailInput.current && this.emailInput.current.value) ||
-                    ""
+                    "",
+                  this.props.isBo
                 );
               }}
             >
@@ -478,7 +513,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         )}
         <div className={cs(bootstrapStyles.col12)}>
           <div className={styles.loginForm}>{currentForm()}</div>
-          {footer}
+          {this.props.isBo ? "" : footer}
         </div>
         {this.state.disableSelectedbox && <Loader />}
       </Fragment>

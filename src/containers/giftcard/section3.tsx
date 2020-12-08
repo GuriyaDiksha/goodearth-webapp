@@ -9,6 +9,8 @@ import Formsy from "formsy-react";
 import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 // import { Currency, currencyCode } from "typings/currency";
+import * as valid from "utils/validate";
+
 const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
   const emailInput = React.useRef<HTMLInputElement>(null);
@@ -37,6 +39,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setTextarea(data["message"] || "");
   }, []);
 
   const handleSubmit = (
@@ -61,7 +64,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
     data["recipientEmailConfirm"] = recipientEmailConfirm;
     data["recipientName"] = recipientName;
     data["senderName"] = senderName;
-    data["message"] = message;
+    data["message"] = message.trim();
     next(data, "preview");
   };
 
@@ -73,6 +76,14 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
       if (firstErrorField) {
         firstErrorField.focus();
         firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "giftcard-section3-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
       }
     }, 0);
   };
@@ -119,7 +130,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                 styles.formBg
               )}
             >
-              <div className={styles.categorylabel}>
+              <div className={styles.categorylabel} id="giftcard-section3-form">
                 <p className={styles.gcHead}> 3. Fill in the details</p>
                 <div>
                   <FormInput
@@ -179,6 +190,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                 <div>
                   <FormTextArea
                     placeholder=""
+                    maxLength={120}
                     name="message"
                     rows={5}
                     value={data["message"]}
@@ -187,11 +199,20 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       setTextarea(e.currentTarget.value);
                     }}
                     required
+                    validations={{
+                      isEmpty: (values, value) => {
+                        return value?.trim() ? true : false;
+                      }
+                    }}
+                    validationErrors={{
+                      isEmpty: "Please enter message"
+                    }}
                     // value={textarea}
                     // className={ehighlight ? "error-border" : ""}
                   ></FormTextArea>
                   <div className={globalStyles.textLeft}>
-                    Character Limit: {120 - textarea.length}
+                    Character Limit:{" "}
+                    {120 - (textarea.trim() == "" ? 0 : textarea.length)}
                   </div>
                   {/* {emsg ? (
                     <p className={globalStyles.errorMsg}>

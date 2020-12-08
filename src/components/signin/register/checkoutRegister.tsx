@@ -21,6 +21,7 @@ import { AppState } from "reducers/typings";
 import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
+import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -209,6 +210,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         elem.focus();
         elem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
+      // for error Tracking
+      const errorList = valid.getErrorList(
+        globalStyles.errorMsg,
+        "checkout-register-form"
+      );
+      if (errorList && errorList.length) {
+        valid.errorTracking(errorList, location.href);
+      }
     }, 0);
   };
 
@@ -238,6 +247,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             },
             true
           );
+        valid.errorTracking(err.response.data.email[0], location.href);
       });
   };
 
@@ -377,7 +387,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         onValidSubmit={this.handleSubmit}
         onInvalidSubmit={this.handleInvalidSubmit}
       >
-        <div className={styles.categorylabel}>
+        <div className={styles.categorylabel} id="checkout-register-form">
           <div>
             <FormInput
               name="email"

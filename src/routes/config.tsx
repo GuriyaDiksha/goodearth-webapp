@@ -2,6 +2,7 @@
 import loadable from "@loadable/component";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
 import { initAction, metaAction } from "containers/pdp";
+import { metaActionCareer } from "containers/career";
 import { initActionCollection } from "containers/collectionLanding";
 import { initActionSpecific } from "containers/collectionSpecific";
 import initActionPLP from "containers/plp/initAction";
@@ -43,12 +44,6 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.HOME,
-    component: loadable(() => import("containers/home")),
-    action: async () => null,
-    exact: true
-  },
-  {
     path: ROUTES.SEARCH,
     component: loadable(() => import("containers/search")),
     action: initActionSearch,
@@ -64,6 +59,7 @@ const routes: RouteConfig = [
     path: ROUTES.CAREER,
     component: loadable(() => import("containers/career")),
     action: async () => null,
+    meta: metaActionCareer,
     exact: false
   },
   {
@@ -176,6 +172,30 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.BRIDAL,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.BACKENDERROR,
+    component: loadable(() => import("containers/BackendOrderError")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.PUSHPANJALI,
+    component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.MAINTENANCE,
+    component: loadable(() => import("containers/maintenance")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.HOME,
     component: loadable(() => import("containers/home")),
     action: async () => null,
     exact: true

@@ -19,6 +19,7 @@ export interface PlpResult {
   data: PartialProductItem[];
   banner: string;
   bannerMobile: string;
+  suggestions: any[];
 }
 
 export type PlpProps = {
@@ -29,6 +30,7 @@ export type PlpProps = {
 };
 
 export type FilterProps = {
+  setFilterCount?: (count: number) => void;
   onRef: any;
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
 };

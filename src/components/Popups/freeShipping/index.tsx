@@ -54,7 +54,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
             <div>
               Select products worth{" "}
               <span>
-                {String.fromCharCode(currencyCodes[currency])}{" "}
+                {String.fromCharCode(...currencyCodes[currency])}{" "}
                 {props.remainingAmount}
               </span>{" "}
               or more to your order to qualify

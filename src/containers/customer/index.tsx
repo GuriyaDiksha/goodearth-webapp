@@ -12,7 +12,7 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
-import { useStore, useSelector } from "react-redux";
+import { useStore, useSelector, useDispatch } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import { AppState } from "reducers/typings";
@@ -24,6 +24,7 @@ import Cookie from "./components/Static/cookie";
 import Privacy from "./components/Static/privacy";
 import SaleTnc from "./components/Static/saletnc";
 import SaleTncAug2020 from "./components/Static/saleTncAug2020";
+import StaticService from "services/static";
 
 type Props = {
   isbridal: boolean;
@@ -53,55 +54,67 @@ const StaticPage: React.FC<Props> = props => {
     window.scrollTo(0, 0);
   }, []);
 
+  const dispatch = useDispatch();
+  const fetchTerms = async (pageTitle: string) => {
+    const res = await StaticService.fetchTerms(dispatch, pageTitle);
+    return res;
+  };
   const accountMenuItems: AccountMenuItem[] = [
     {
       label: "Shipping & Payment",
       href: "/customer-assistance/shipping-payment",
       component: Shipping,
       title: "Shipping & Payment",
-      loggedInOnly: false
+      loggedInOnly: false,
+      pageTitle: "shipping-payment"
     },
     {
       label: "Returns & Exchanges",
       href: "/customer-assistance/returns-exchanges",
       component: Returns,
       title: "Returns & Exchanges",
-      loggedInOnly: false
+      loggedInOnly: false,
+      pageTitle: "return-exchange"
     },
     {
       label: "Terms of Use",
       href: "/customer-assistance/terms-conditions",
       component: Terms,
       title: "Terms of Use",
-      loggedInOnly: false
+      loggedInOnly: false,
+      pageTitle: "terms-condition"
     },
     {
       label: "Cerise: Terms of Use",
       href: "/customer-assistance/terms",
       component: CeriseTerms,
       title: "Cerise: Terms of Use",
-      loggedInOnly: false
+      loggedInOnly: false,
+      pageTitle: "cerise-terms"
     },
     {
-      label: "Joy Store Terms of Use",
+      label: "Sale Terms of Use",
       href: "/customer-assistance/sales-conditions",
       component: SaleTnc,
-      title: "Joy Store Terms of Use",
-      loggedInOnly: false
+      title: "Sale Terms of Use",
+      loggedInOnly: false,
+      pageTitle: "sales-condition"
     },
     {
       label: "Privacy Policy",
       href: "/customer-assistance/privacy-policy",
       component: Privacy,
       title: "Privacy Policy",
-      loggedInOnly: false
+      loggedInOnly: false,
+      pageTitle: "privacy-policy"
     },
     {
       label: "Cookie Policy",
       href: "/customer-assistance/cookie-policy",
       component: Cookie,
       title: "Cookie Policy",
-      loggedInOnly: false
+      loggedInOnly: false,
+      pageTitle: "cookie-policy"
     }
   ];
   let bgClass = cs(globalStyles.colMd10, globalStyles.col12);
@@ -272,7 +285,8 @@ const StaticPage: React.FC<Props> = props => {
                     href,
                     label,
                     title,
-                    currentCallBackComponent
+                    currentCallBackComponent,
+                    pageTitle
                   }) => {
                     const Component = component;
                     return (
@@ -281,6 +295,7 @@ const StaticPage: React.FC<Props> = props => {
                           setCurrentSection={() => setCurrentSection(title)}
                           mobile={mobile}
                           currentCallBackComponent={currentCallBackComponent}
+                          fetchTerms={() => fetchTerms(pageTitle || "")}
                         />
                       </Route>
                     );
@@ -295,6 +310,7 @@ const StaticPage: React.FC<Props> = props => {
                     setCurrentSection={() =>
                       setCurrentSection("Sale Terms of Use")
                     }
+                    fetchTerms={() => fetchTerms("sales-term")}
                     mobile={mobile}
                   />
                 </Route>

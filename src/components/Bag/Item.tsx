@@ -34,6 +34,21 @@ const LineItems: React.FC<BasketItem> = memo(
       });
     };
 
+    const {
+      images,
+      collections,
+      title,
+      url,
+      priceRecords,
+      discount,
+      discountedPriceRecords,
+      badgeType,
+      inWishlist,
+      attributes
+    } = product;
+    const size =
+      attributes.find(attribute => attribute.name == "Size")?.value || "";
+
     const gtmPushDeleteCartItem = () => {
       const price = saleStatus
         ? product.discountedPriceRecords[currency]
@@ -51,11 +66,11 @@ const LineItems: React.FC<BasketItem> = memo(
             products: [
               {
                 name: product.title,
-                id: product.sku,
+                id: product.sku || product.childAttributes[0].sku,
                 price: price,
                 brand: "Goodearth",
                 category: category,
-                variant: product.gaVariant,
+                variant: size,
                 list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
                 quantity: quantity
               }
@@ -79,18 +94,6 @@ const LineItems: React.FC<BasketItem> = memo(
       });
       return size ? <div className={styles.size}>Size: {size.value}</div> : "";
     };
-
-    const {
-      images,
-      collections,
-      title,
-      url,
-      priceRecords,
-      discount,
-      discountedPriceRecords,
-      badgeType,
-      inWishlist
-    } = product;
 
     const price = priceRecords[currency];
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
@@ -124,7 +127,7 @@ const LineItems: React.FC<BasketItem> = memo(
                 <div className={styles.productPrice}>
                   {saleStatus && discount && discountedPriceRecords ? (
                     <span className={styles.discountprice}>
-                      {String.fromCharCode(currencyCodes[currency])}
+                      {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
                       {discountedPriceRecords[currency]}
                       &nbsp; &nbsp;
@@ -134,7 +137,7 @@ const LineItems: React.FC<BasketItem> = memo(
                   )}
                   {saleStatus && discount ? (
                     <span className={styles.strikeprice}>
-                      {String.fromCharCode(currencyCodes[currency])}
+                      {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
                       {isGiftCard ? GCValue : price}
                     </span>
@@ -145,7 +148,7 @@ const LineItems: React.FC<BasketItem> = memo(
                       }
                     >
                       {" "}
-                      {String.fromCharCode(currencyCodes[currency])}
+                      {String.fromCharCode(...currencyCodes[currency])}
                       &nbsp;
                       {isGiftCard ? GCValue : price}
                     </span>
@@ -218,11 +221,14 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <WishlistButton
+                  gtmListType="Mini Bag"
                   title={product.title}
                   childAttributes={product.childAttributes}
                   priceRecords={product.priceRecords}
+                  discountedPriceRecords={product.discountedPriceRecords}
                   categories={product.categories}
                   basketLineId={id}
+                  size={size}
                   id={product.id}
                   showText={false}
                   className="wishlist-font"
