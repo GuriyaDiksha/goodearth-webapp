@@ -50,7 +50,9 @@ export default {
         );
         dispatch(updateUser({ slab: res.slab }));
       }
-      CookieService.setCookie("currency", meta.currency, 365);
+      if (typeof document != "undefined") {
+        CookieService.setCookie("currency", meta.currency, 365);
+      }
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));
     }
