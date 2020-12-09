@@ -12,6 +12,7 @@ import * as Steps from "containers/checkout/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { CheckoutAddressContext } from "containers/checkout/component/context";
+import BridalContext from "containers/myAccount/components/Bridal/context";
 import { AppState } from "reducers/typings";
 // import * as CustomerAddressApi from "api/CustomerAddressApi";
 
@@ -42,6 +43,12 @@ const AddressItem: React.FC<Props> = props => {
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
+  const {
+    step,
+    changeBridalAddress,
+    setCurrentModule,
+    setCurrentModuleData
+  } = useContext(BridalContext);
   const [deleteError, setDeleteError] = useState("");
   const address = props.addressData;
   const deleteAddress = () => {
@@ -84,6 +91,47 @@ const AddressItem: React.FC<Props> = props => {
   //     }
   // }
 
+  const handleSelect = (address: AddressData) => {
+    switch (currentCallBackComponent) {
+      case "bridal":
+        if (step == "manage") {
+          changeBridalAddress(address.id);
+        } else {
+          setCurrentModuleData("address", {
+            userAddress: address
+          });
+          setCurrentModule("created");
+        }
+        break;
+      // case "checkout":
+      //     let products = valid.productForGa(props.items);
+      //     if(props.addressType == 'SHIPPING') {
+      //         dataLayer.push({
+      //             'event': 'checkout',
+      //             'ecommerce': {
+      //                 'currencyCode': window.currency,
+      //                 'checkout': {
+      //                     'actionField': {'step': 2},
+      //                     'products': products
+      //                 }
+      //             }
+      //         })
+      //     } else {
+      //         dataLayer.push({
+      //             'event': 'checkout',
+      //             'ecommerce': {
+      //                 'currencyCode': window.currency,
+      //                 'checkout': {
+      //                     'actionField': {'step': 3},
+      //                     'products': products
+      //                 }
+      //             }
+      //         })
+      //     }
+      //     props.onSelectAddress(props.address);
+      // break;
+    }
+  };
   // const openAddressForm = (address: AddressData) => {
   //     // props.showEditForm({showAddresses: false, addressData: data, editMode: true, newAddressMode: false, addressesAvailable: true});
   //     // if (props.setAddressModeProfile) {
@@ -173,7 +221,8 @@ const AddressItem: React.FC<Props> = props => {
           {
             [styles.addressItemContainerCheckout]:
               currentCallBackComponent == "checkout-shipping" ||
-              currentCallBackComponent == "checkout-billing"
+              currentCallBackComponent == "checkout-billing" ||
+              currentCallBackComponent == "bridal"
           },
           {
             [styles.ceriseAddressItemContainer]:
@@ -187,7 +236,8 @@ const AddressItem: React.FC<Props> = props => {
             {
               [styles.addressItemCheckout]:
                 currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing"
+                currentCallBackComponent == "checkout-billing" ||
+                currentCallBackComponent == "bridal"
             },
             { [styles.shippingBorder]: address.isTulsi },
             {
@@ -318,8 +368,13 @@ const AddressItem: React.FC<Props> = props => {
             )}
           {currentCallBackComponent == "bridal" && !address.isBridal && (
             <div
-              className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
-              onClick={() => props.selectAddress(address)}
+              className={cs(
+                globalStyles.ceriseBtn,
+                globalStyles.cursorPointer,
+                styles.shipToThisBtn
+              )}
+              // onClick={() => props.selectAddress(address)}
+              onClick={() => handleSelect(address)}
             >
               USE THIS ADDRESS
             </div>
@@ -331,7 +386,7 @@ const AddressItem: React.FC<Props> = props => {
                 styles.shipToThisBtn,
                 styles.addressInUse
               )}
-              onClick={() => props.selectAddress(address)}
+              // onClick={() => props.selectAddress(address)}
             >
               ADDRESS IN USE
             </div>

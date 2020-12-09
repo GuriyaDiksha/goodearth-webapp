@@ -107,12 +107,12 @@ class SideMenu extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-      // {
-      //   label: "Good Earth Registry",
-      //   href: "/about",
-      //   type: "link",
-      //   value: "Good Earth Registry"
-      // },
+      {
+        label: "Good Earth Registry",
+        href: "/account/bridal",
+        type: "link",
+        value: "Good Earth Registry"
+      },
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",

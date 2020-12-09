@@ -1542,8 +1542,10 @@ const AddressForm: React.FC<Props> = props => {
           </div>
         </div>
       </Formsy>
+
       {(currentCallBackComponent !== "checkout-billing" &&
-        currentCallBackComponent !== "checkout-shipping") ||
+        currentCallBackComponent !== "checkout-shipping" &&
+        currentCallBackComponent !== "bridal") ||
         (mobile && (
           <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
             <span

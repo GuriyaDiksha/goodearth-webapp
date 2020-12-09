@@ -279,7 +279,7 @@ let config = [
         },
         externals: [nodeExternals({
             whitelist: function(path){
-                            return  /slick-carousel|rc-slider|rc-util|react-circular-progressbar/.test(path);
+                            return  /slick-carousel|rc-slider|rc-util|react-circular-progressbar|react-datepicker|reactDatepicker/.test(path);
                         }
         })],
         plugins: [

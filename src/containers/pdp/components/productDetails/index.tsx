@@ -25,22 +25,35 @@ import NotifyMePopup from "components/NotifyMePopup";
 import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 // services
 import BasketService from "services/basket";
+import BridalService from "services/bridal";
+import ProductService from "services/product";
 // actions
 import { showMessage } from "actions/growlMessage";
 // typings
 import { Props } from "./typings";
-import { ChildProductAttributes } from "typings/product";
+import {
+  ChildProductAttributes,
+  PartialProductItem,
+  Product
+} from "typings/product";
 // constants
 import { currencyCodes } from "constants/currency";
 // styles
+import iconStyles from "../../../../styles/iconFonts.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
-import { ADD_TO_BAG_SUCCESS } from "constants/messages";
+import {
+  ADD_TO_BAG_SUCCESS,
+  ADD_TO_REGISTRY_AGAIN,
+  ADD_TO_REGISTRY_FAIL,
+  ADD_TO_REGISTRY_SUCCESS
+} from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
+import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 
 const ProductDetails: React.FC<Props> = ({
@@ -78,7 +91,10 @@ const ProductDetails: React.FC<Props> = ({
   closeModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
-  const { info } = useSelector((state: AppState) => state);
+  const {
+    info,
+    user: { bridalId, bridalCurrency }
+  } = useSelector((state: AppState) => state);
   // const [img] = images;
 
   const location = useLocation();
@@ -91,12 +107,21 @@ const ProductDetails: React.FC<Props> = ({
     childAttributes.length === 1 ? childAttributes[0] : null
   );
 
+  const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
+
   useLayoutEffect(() => {
     setGtmListType("PDP");
   });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
       setSelectedSize(childAttributes[0]);
+    }
+    if (childAttributes.length > 0) {
+      const registryMapping = {};
+      childAttributes.map(child => {
+        registryMapping[child.size] = child.isBridalProduct;
+      });
+      setIsRegistry(registryMapping);
     }
   }, [childAttributes, selectedSize]);
 
@@ -248,6 +273,74 @@ const ProductDetails: React.FC<Props> = ({
           }
         });
     }
+  };
+
+  const addToRegistry = (event: React.MouseEvent) => {
+    const formData: {
+      productId: number;
+      bridalProfileId: number;
+      qtyRequested: number;
+    } = {
+      productId: 0,
+      bridalProfileId: 0,
+      qtyRequested: 0
+    };
+    let productId = -1;
+    const element = event.currentTarget as HTMLElement;
+    if (
+      element.classList.contains(styles.active) ||
+      (selectedSize && isRegistry[selectedSize.size])
+    ) {
+      dispatch(showMessage(ADD_TO_REGISTRY_AGAIN));
+      return false;
+    }
+    if (childAttributes[0].size) {
+      if (!selectedSize) {
+        setSizeError("Please select size");
+        showError();
+        return false;
+      }
+      childAttributes.map(child => {
+        if (selectedSize.size == child.size) {
+          productId = child.id;
+        }
+      });
+    } else {
+      productId = childAttributes[0].id;
+    }
+
+    formData["productId"] = productId;
+    formData["bridalProfileId"] = bridalId;
+    formData["qtyRequested"] = quantity;
+    BridalService.addToRegistry(dispatch, formData)
+      .then(res => {
+        dispatch(showMessage(ADD_TO_REGISTRY_SUCCESS));
+        const registry = Object.assign({}, isRegistry);
+        if (selectedSize) {
+          registry[selectedSize.size] = true;
+          setIsRegistry(registry);
+        }
+        if (productId) {
+          ProductService.fetchProductDetails(dispatch, productId).then(
+            product => {
+              dispatch(
+                updateProduct({ ...product, partial: false } as Product<
+                  PartialProductItem
+                >)
+              );
+            }
+          );
+        }
+      })
+      .catch(err => {
+        const message = err.response.data.message;
+        if (message) {
+          dispatch(showMessage(message));
+        } else {
+          dispatch(showMessage(ADD_TO_REGISTRY_FAIL));
+        }
+      });
+    event.stopPropagation();
   };
 
   const setSelectedSKU = () => {
@@ -543,22 +636,38 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          {/* <div
-            className={cs(
-              bootstrap.col4,
-              globalStyles.textCenter,
-              styles.bridalSection
-            )}
-          >
+          {bridalId !== 0 && bridalCurrency == currency && (
             <div
               className={cs(
-                iconStyles.icon,
-                iconStyles.iconRings,
-                styles.bridalRing
+                bootstrap.col4,
+                globalStyles.textCenter,
+                styles.bridalSection
               )}
-            ></div>
-            <p className={styles.label}>add to registry</p>
-          </div> */}
+              onClick={addToRegistry}
+            >
+              <div
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconRings,
+                  styles.bridalRing,
+                  {
+                    [styles.active]:
+                      selectedSize && isRegistry[selectedSize.size]
+                  }
+                )}
+              ></div>
+              <p
+                className={cs(styles.label, {
+                  [globalStyles.cerise]:
+                    selectedSize && isRegistry[selectedSize.size]
+                })}
+              >
+                {selectedSize && isRegistry[selectedSize.size]
+                  ? "added"
+                  : "add to registry"}
+              </p>
+            </div>
+          )}
         </div>
         {info.isSale && fillerMessage ? (
           <div
