@@ -8,8 +8,8 @@ import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context.ts";
 // import { currencyCodes } from "constants/currency";
-// import { useSelector } from "react-redux";
-// import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type PopupProps = {
   //   remainingAmount: number;
@@ -20,7 +20,7 @@ type PopupProps = {
 const FreeShipping: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
-  //   const currency = useSelector((state: AppState) => state.currency);
+  const currency = useSelector((state: AppState) => state.currency);
 
   useEffect(() => {
     const btn = document.getElementById("info-popup-accept-button");
@@ -56,12 +56,29 @@ const FreeShipping: React.FC<PopupProps> = props => {
               relevant precautionary measures are in place, to ensure a safe and
               secure shopping experience for you.
             </p>
-            <p>
-              For any further assistance reach out to us at{" "}
-              <b className={globalStyles.cerise}>customercare@goodearth.in</b>
-            </p>
+            {currency == "INR" ? (
+              <p>
+                We are currently experiencing a hold-up in our delivery
+                operations due to sealed borders, in and around Delhi. The
+                developing situation is being closely monitored and we will get
+                your orders to you as soon as possible. For further assistance,
+                do reach out to us at{" "}
+                <b className={globalStyles.cerise}>customercare@goodearth.in</b>
+              </p>
+            ) : (
+              <p>
+                For any further assistance reach out to us at{" "}
+                <b className={globalStyles.cerise}>customercare@goodearth.in</b>
+              </p>
+            )}
           </div>
-          <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtn30)}>
+          <div
+            className={cs(
+              globalStyles.ceriseBtn,
+              styles.ceriseBtn30,
+              globalStyles.marginT20
+            )}
+          >
             <a
               id="info-popup-accept-button"
               tabIndex={-1}
