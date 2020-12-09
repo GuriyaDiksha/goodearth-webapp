@@ -172,9 +172,7 @@ const Bridal: React.FC<Props> = props => {
         case "address":
           if (userAddress) {
             const isValid =
-              userAddress.country == "IN"
-                ? isAddressValid(userAddress.postCode, userAddress.state)
-                : true;
+              userAddress.country == "IN" ? isAddressValid(userAddress) : true;
             if (isValid) {
               // this.props.onSelectAddress(address);
               newBridalDetails["userAddress"] = userAddress;

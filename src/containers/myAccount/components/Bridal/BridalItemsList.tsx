@@ -3,9 +3,16 @@ import { currencyCode, Currency } from "typings/currency";
 import { BridalItem } from "./typings";
 import BridalService from "services/bridal";
 import { useDispatch } from "react-redux";
-
+//styles
+import cs from "classnames";
+import globalStyles from "../../../../styles/global.scss";
+import styles from "./styles.scss";
+import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import iconStyles from "../../../../styles/iconFonts.scss";
+import cartIcon from "../../../../images/bridal/icons_cartregistry-details.svg";
 type Props = {
   product: BridalItem;
+  mobile: boolean;
   currency: Currency;
   bridalId: number;
   onMobileAdd: (index: number) => void;
@@ -99,97 +106,125 @@ const BridalItemsList: React.FC<Props> = props => {
     qtyRemaining
   } = props.product;
   return (
-    <div className="cart cart-container">
-      <div className="cart-item bridal-public">
-        <div className="row flex">
-          <div className="col-xs-5 col-md-3">
+    <div className={cs(styles.cart, styles.cartContainer)}>
+      <div className={cs("cart-item", styles.bridalPublic)}>
+        <div className={cs(bootstrapStyles.row, globalStyles.flex)}>
+          <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
             <a href={productUrl}>
-              <img className="product-image" src={productImage} />
+              <img className={styles.productImage} src={productImage} />
             </a>
           </div>
-          <div className="col-xs-7 col-md-9">
-            <div className="row-main">
-              <div className="col-xs-12 col-md-6">
-                <div className="section section-info">
+          <div className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}>
+            <div className={styles.rowMain}>
+              <div
+                className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
+              >
+                <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
-                    <div className="collection-name">{collection}</div>
-                    <div className="product-name">
+                    <div className={styles.collectionName}>{collection}</div>
+                    <div className={styles.productName}>
                       <a href={productUrl}>{productName}</a>
                     </div>
                   </div>
-                  <div className="product-price">
+                  <div className={styles.productPrice}>
                     {saleStatus && discount ? (
-                      <span className="product-price">
-                        <span className="discountprice">
+                      <span className={styles.productPrice}>
+                        <span className={styles.discountprice}>
                           {getCurrency()} {discountedPrice[props.currency]}
                         </span>
                         &nbsp;{" "}
-                        <span className="strikeprice">
+                        <span className={styles.strikeprice}>
                           {getCurrency()} {price[props.currency]}
                         </span>
                       </span>
                     ) : (
-                      <span className="product-price">
+                      <span className={styles.productPrice}>
                         {getCurrency()} {price[props.currency]}
                       </span>
                     )}
                   </div>
-                  <div className="smallfont">SIZE: {size}</div>
-                  <div className="smallfont voffset1">SKU: {sku}</div>
-                  <div
-                    className="icon-cart hidden-md hidden-lg voffset3"
-                    onClick={mobileAddToBag}
-                  >
-                    <img
-                      src="/static/img/icons_cartregistry-details.svg"
-                      width="40"
-                      height="40"
-                    />
+                  <div className={styles.smallfont}>SIZE: {size}</div>
+                  <div className={cs(styles.smallfont, globalStyles.voffset1)}>
+                    SKU: {sku}
                   </div>
+                  {props.mobile && (
+                    <div
+                      className={cs(styles.iconCart, globalStyles.voffset3)}
+                      onClick={mobileAddToBag}
+                    >
+                      <img src={cartIcon} width="40" height="40" />
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="col-xs-12 col-md-6 hidden-xs hidden-sm">
-                <div className="section section-middle">
-                  <div className="">
-                    <div className="hidden-xs hidden-sm text-muted">
-                      QTY REQUESTED
+              {!props.mobile && (
+                <div
+                  className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
+                >
+                  <div className={cs(styles.section, styles.sectionMiddle)}>
+                    <div className="">
+                      <div className={styles.textMuted}>QTY REQUESTED</div>
+                      <div className={styles.widgetQty}>
+                        <span className={styles.btnQty} onClick={decreaseState}>
+                          -
+                        </span>
+                        <span className={styles.qty}>{reqCurrent}</span>
+                        <span className={styles.btnQty} onClick={increaseState}>
+                          +
+                        </span>
+                      </div>
+                      <div
+                        className={cs(
+                          globalStyles.errorMsg,
+                          globalStyles.textCenter
+                        )}
+                      >
+                        {err}
+                      </div>
                     </div>
-                    <div className="widget-qty">
-                      <span className="btn-qty" onClick={decreaseState}>
-                        -
-                      </span>
-                      <span className="qty">{reqCurrent}</span>
-                      <span className="btn-qty" onClick={increaseState}>
-                        +
-                      </span>
+                    <div className={globalStyles.voffset3}>
+                      <div className={styles.textMuted}>QTY BOUGHT</div>
+                      <div
+                        className={cs(
+                          globalStyles.textCenter,
+                          globalStyles.C10LR
+                        )}
+                      >
+                        {qtyBought}
+                      </div>
                     </div>
-                    <div className="error-msg text-center">{err}</div>
-                  </div>
-                  <div className="voffset3">
-                    <div className="hidden-xs hidden-sm text-muted">
-                      QTY BOUGHT
+                    <div className={globalStyles.voffset3}>
+                      <div className={styles.textMuted}>QTY REMAINING</div>
+                      <div
+                        className={cs(
+                          globalStyles.textCenter,
+                          globalStyles.C10LR
+                        )}
+                      >
+                        {qtyRemaining}
+                      </div>
                     </div>
-                    <div className="text-center c10-L-R">{qtyBought}</div>
-                  </div>
-                  <div className="voffset3">
-                    <div className="hidden-xs hidden-sm text-muted">
-                      QTY REMAINING
-                    </div>
-                    <div className="text-center c10-L-R">{qtyRemaining}</div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           {qtyBought ? (
             ""
           ) : (
             <div title="Remove" onClick={deleteItem}>
-              <i className="icon icon_cross-narrow-big remove"></i>
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconCrossNarrowBig,
+                  styles.icon,
+                  styles.iconCross
+                )}
+              ></i>
             </div>
           )}
         </div>
-        <hr className="hr" />
+        <hr />
       </div>
     </div>
   );

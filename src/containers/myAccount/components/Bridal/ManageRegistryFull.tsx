@@ -350,6 +350,7 @@ const ManageRegistryFull: React.FC<Props> = ({
                       return (
                         <BridalItemsList
                           product={item}
+                          mobile={mobile}
                           currency={
                             bridalProfileData
                               ? bridalProfileData.currency

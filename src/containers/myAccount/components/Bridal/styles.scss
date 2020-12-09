@@ -1,5 +1,6 @@
 @import "../../../../styles/partials/mixins";
 @import "../../../../styles/partials/form";
+@import "../../../../styles/partials/variables";
 
 .login-form > p{
     padding: 0.5em 0;
@@ -1160,4 +1161,234 @@
 
 .margin-bottom-50 {
 margin-bottom: 50px !important;
+}
+
+.cart-container {
+  background-color: #fff;
+  padding: 20px 0;
+  position: relative;
+}
+
+.bridal-public {
+  .manage-height {
+    padding-top: 30px;
+  }
+  .section {
+    height: 90%;
+    &.section-info {
+      height: auto;
+    }
+  }
+  .smallfont {
+    font-size: 10px;
+  }
+  .cart-block {
+    margin: 30px 0 100px 0;
+    .cart-container {
+      padding: 0 30px;
+    }
+  }
+  .icon_cart {
+    font-size: 35px !important;
+    color: $cerise;
+    margin-top: 10px;
+  }
+}
+
+.cart {
+  img {
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .popup-notify {
+    .centerpage {
+      width: 900px;
+    }
+
+    .popup {
+      padding: 0 !important;
+    }
+  }
+  .heart {
+    &.icon_heart-cerise-fill {
+      color: $cerise;
+    }
+    .icon_heart-cerise-fill {
+      color: $cerise;
+    }
+  }
+  .heart:hover,
+  .remove:hover {
+    color: $cerise;
+  }
+
+  .message {
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    background-color: #8cb8aa;
+    font-style: italic;
+    font-family: $font-Lato;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .notify-message {
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    background-color: #ab1e56;
+    color: #fcfcfc;
+    font-style: italic;
+    font-family: $font-Lato;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .text-muted {
+    color: #808080;
+    font-size: 10px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: 1px;
+  }
+
+  .row-main {
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+
+  .section {
+    height: 100%;
+    padding: 20px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+
+
+
+  .collection-name {
+    @include plp_coll_name_desktop();
+  }
+
+  .product-name {
+    word-wrap: break-word;
+    @include plp_prod_name_desktop();
+  }
+
+  .product-name {
+    @include plp_prod_name_desktop();
+  }
+
+  .product-price {
+    margin-top: 0;
+    margin-bottom: 10px;
+    @include plp_prod_name_desktop();
+    font-family: "AmiriFont", "Baskerville", "Garamond";
+  }
+
+  .icon {
+    cursor: pointer;
+    font-size: 26px;
+  }
+
+  .icon_cross-narrow-big {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .product-price {
+    margin-top: 5px;
+  }
+
+  .size {
+    color: #333333;
+    font-family: $font-Lato;
+    font-size: 10px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+  }
+
+  .trigger-notify {
+    color: #808080;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .widget-qty {
+    margin-top: 10px;
+    min-width: 120px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 2px 0;
+    font-size: 12px;
+    line-height: 12px;
+
+    .qty {
+      padding: 5px 12px;
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      text-align: center;
+      border-left: 1px solid #ffffff;
+      border-right: 1px solid #ffffff;
+    }
+
+    .btn-qty {
+      font-size: 12px;
+      cursor: pointer;
+      padding: 5px 12px;
+    }
+  }
+}
+.discountprice {
+  color: $cerise;
+  font-family: $font-Serif;
+  font-size: 16px;
+}
+.strikeprice {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: gray;
+  font-family: $font-Lato;
+}
+.icon-cart {
+  color: tint(#000, 20%);
+  padding: 10px;
+  font-size: 32px;
+  background-color: #e4e4e4;
 }
