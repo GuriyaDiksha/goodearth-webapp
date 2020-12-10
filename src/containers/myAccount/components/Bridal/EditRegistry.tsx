@@ -18,7 +18,7 @@ import cs from "classnames";
 import CloseButton from "components/Modal/components/CloseButton";
 import calendarIcon from "../../../../images/bridal/icons_bridal-registry-calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
-import "../../../../styles/reactDatePicker.css";
+import "../../../../styles/reactDatepicker.css";
 import { updateModal } from "actions/modal";
 
 type Props = {

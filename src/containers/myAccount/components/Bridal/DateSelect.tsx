@@ -15,7 +15,7 @@ import globalStyles from "styles/global.scss";
 import cs from "classnames";
 import calendarIcon from "../../../../images/bridal/icons_bridal-registry-calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
-import "../../../../styles/reactDatePicker.css";
+import "../../../../styles/reactDatepicker.css";
 
 const DateSelect: React.FC = () => {
   // const [data, setData ] = useState();
