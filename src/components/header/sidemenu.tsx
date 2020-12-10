@@ -266,6 +266,7 @@ class SideMenu extends React.Component<Props, State> {
                 this.setState({
                   showBag: true
                 });
+                this.props.hideMenu();
               }}
             ></i>
             <span

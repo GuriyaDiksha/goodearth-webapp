@@ -65,6 +65,7 @@ export type SideMenuProps = {
   sidebagData: Basket;
   toggleSearch: () => void;
   showSearch: boolean;
+  hideMenu: () => void;
 };
 
 export interface MouseParameter {
