@@ -1357,7 +1357,9 @@ class FilterList extends React.Component<Props, State> {
               >
                 <span className={cs(styles.filterItem, styles.ellipses)}>
                   {data == "currentColor"
-                    ? filterObj[data][data1].value.split("-")[1]
+                    ? filterObj[data][data1].value.toLowerCase() == "multicolor"
+                      ? filterObj[data][data1].value
+                      : filterObj[data][data1].value.split("-")[1]
                     : filterObj[data][data1].value}
                 </span>
                 <span
