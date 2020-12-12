@@ -569,9 +569,6 @@ class Checkout extends React.Component<Props, State> {
             });
           })
           .catch(err => {
-            if (err.response.status == 406) {
-              return false;
-            }
             this.setState({
               billingError: valid.showErrors(err.response.data)
             });
