@@ -35,9 +35,14 @@ const Section1: React.FC<Section1Props> = props => {
   return (
     <div className={bootstrapStyles.row}>
       <section
-        className={cs(globalStyles.paddTop60, styles.gc, {
-          [styles.gcMobile]: mobile
-        })}
+        className={cs(
+          globalStyles.paddTop60,
+          styles.gc,
+          bootstrapStyles.col12,
+          {
+            [styles.gcMobile]: mobile
+          }
+        )}
       >
         <div className={bootstrapStyles.row}>
           <div
@@ -64,7 +69,7 @@ const Section1: React.FC<Section1Props> = props => {
               emailed to the recipient, and ready for them to use.
             </p>
           </div>
-          <div className={cs(bootstrapStyles.row, bootstrapStyles.col12)}>
+          <div className={bootstrapStyles.col12}>
             <div
               className={cs(
                 bootstrapStyles.col10,
@@ -76,85 +81,92 @@ const Section1: React.FC<Section1Props> = props => {
               <div className={styles.gcHead}> 1. Pick a design</div>
             </div>
           </div>
-          <div className={cs(bootstrapStyles.row, bootstrapStyles.col12)}>
-            <div
-              className={cs(
-                bootstrapStyles.row,
-                bootstrapStyles.col10,
-                bootstrapStyles.offset1,
-                bootstrapStyles.colMd8,
-                bootstrapStyles.offsetMd2,
-                globalStyles.textCenter,
-                globalStyles.paddTop40
-              )}
-            >
-              {props.giftimages.map((data: any, i: number) => {
-                return (
-                  <div
-                    key={i}
-                    className={cs(
-                      bootstrapStyles.col12,
-                      bootstrapStyles.colMd4
-                    )}
-                    onClick={() => {
-                      selectImage(i);
-                    }}
-                  >
-                    <img
-                      src={data}
-                      className={
-                        selected == "image" + i
-                          ? cs(styles.cardImg, styles.cardImgHover)
-                          : styles.cardImg
-                      }
-                    />
-                    <br />
-                    <div className={globalStyles.marginB10}>
-                      <input
-                        type="radio"
-                        id={"image" + i}
-                        name="radio-group"
-                        onChange={() => {
+          <div className={bootstrapStyles.col12}>
+            <div className={bootstrapStyles.row}>
+              <div
+                className={cs(
+                  bootstrapStyles.col10,
+                  bootstrapStyles.offset1,
+                  bootstrapStyles.colMd8,
+                  bootstrapStyles.offsetMd2,
+                  globalStyles.textCenter,
+                  globalStyles.paddTop40
+                )}
+              >
+                <div className={bootstrapStyles.row}>
+                  {props.giftimages.map((data: any, i: number) => {
+                    return (
+                      <div
+                        key={i}
+                        className={cs(
+                          bootstrapStyles.col12,
+                          bootstrapStyles.colMd4
+                        )}
+                        onClick={() => {
                           selectImage(i);
                         }}
-                        checked={selected == "image" + i}
-                      />
-                      <label htmlFor={"image" + i}></label>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div
-            className={cs(
-              bootstrapStyles.row,
-              bootstrapStyles.col12,
-              globalStyles.textCenter,
-              globalStyles.voffset6
-            )}
-          >
-            <div className={bootstrapStyles.col12}>
-              <div
-                className={cs(styles.bannerBtnLink, iconStyles.icon)}
-                onClick={() => {
-                  gotoNext();
-                }}
-              >
-                <span>choose value</span>
+                      >
+                        <div className={cs({ [styles.marginX15]: !mobile })}>
+                          <img
+                            src={data}
+                            className={
+                              selected == "image" + i
+                                ? cs(styles.cardImg, styles.cardImgHover)
+                                : styles.cardImg
+                            }
+                          />
+                          <br />
+                          <div className={globalStyles.marginB10}>
+                            <input
+                              type="radio"
+                              id={"image" + i}
+                              name="radio-group"
+                              onChange={() => {
+                                selectImage(i);
+                              }}
+                              checked={selected == "image" + i}
+                            />
+                            <label htmlFor={"image" + i}></label>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
           <div
             className={cs(
-              bootstrapStyles.row,
+              bootstrapStyles.col12,
+              globalStyles.textCenter,
+              globalStyles.voffset6
+            )}
+          >
+            <div className={bootstrapStyles.row}>
+              <div className={bootstrapStyles.col12}>
+                <div
+                  className={cs(styles.bannerBtnLink, iconStyles.icon)}
+                  onClick={() => {
+                    gotoNext();
+                  }}
+                >
+                  <span>choose value</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className={cs(
               bootstrapStyles.col12,
               globalStyles.textCenter,
               globalStyles.voffset4
             )}
           >
-            <div className={bootstrapStyles.col12}>
-              <i className={styles.arrowDown}></i>
+            <div className={bootstrapStyles.row}>
+              <div className={bootstrapStyles.col12}>
+                <i className={styles.arrowDown}></i>
+              </div>
             </div>
           </div>
         </div>

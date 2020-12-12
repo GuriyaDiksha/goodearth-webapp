@@ -91,9 +91,14 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   return (
     <div className={bootstrapStyles.row}>
       <section
-        className={cs(globalStyles.paddTop60, styles.gc, {
-          [styles.gcMobile]: mobile
-        })}
+        className={cs(
+          globalStyles.paddTop60,
+          styles.gc,
+          bootstrapStyles.col12,
+          {
+            [styles.gcMobile]: mobile
+          }
+        )}
       >
         <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div

@@ -66,9 +66,14 @@ const Section4: React.FC<Section4Props> = props => {
   return (
     <div className={bootstrapStyles.row}>
       <section
-        className={cs(globalStyles.paddTop60, styles.gc, {
-          [styles.gcMobile]: props.mobile
-        })}
+        className={cs(
+          globalStyles.paddTop60,
+          styles.gc,
+          bootstrapStyles.col12,
+          {
+            [styles.gcMobile]: props.mobile
+          }
+        )}
       >
         <div className={bootstrapStyles.row}>
           <div
