@@ -138,6 +138,13 @@ class Header extends React.Component<Props, State> {
     });
   };
 
+  hideMenu = () => {
+    this.state.showMenu &&
+      this.setState({
+        showMenu: false
+      });
+  };
+
   clickToggle = () => {
     const isMobileMenuOpen = !this.state.showMenu;
 
@@ -455,6 +462,7 @@ class Header extends React.Component<Props, State> {
               <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
                 <SideMenu
                   showSearch={this.state.showSearch}
+                  hideMenu={this.hideMenu}
                   toggleSearch={this.showSearch}
                   mobile={this.props.mobile}
                   wishlistData={wishlistData}
