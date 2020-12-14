@@ -352,7 +352,8 @@ const ProductDetails: React.FC<Props> = ({
           bootstrap.col10,
           bootstrap.offset1,
           bootstrap.colMd11,
-          styles.sideContainer
+          styles.sideContainer,
+          { [styles.marginT0]: images && images.length }
         )}
       >
         <div className={cs(bootstrap.row)}>
