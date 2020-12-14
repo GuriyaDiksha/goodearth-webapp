@@ -65,7 +65,8 @@ export type SideMenuProps = {
   sidebagData: Basket;
   toggleSearch: () => void;
   showSearch: boolean;
-  hideMenu: () => void;
+  showBag: boolean;
+  setShowBag: (showBag: boolean) => void;
 };
 
 export interface MouseParameter {
@@ -108,6 +109,7 @@ export interface State {
   activeIndex: number;
   selectedPincode: string | null;
   showPincodePopup: boolean;
+  showBag: boolean;
 }
 
 export interface MenuState {

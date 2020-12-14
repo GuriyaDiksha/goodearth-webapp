@@ -27,6 +27,8 @@ import Search from "./search";
 import ReactHtmlParser from "react-html-parser";
 import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
+import BottomMenu from "./bottomMenu";
+const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 
@@ -63,7 +65,8 @@ class Header extends React.Component<Props, State> {
       activeIndex: 0,
       urlParams: new URLSearchParams(props.location.search.slice(1)),
       selectedPincode: "",
-      showPincodePopup: false
+      showPincodePopup: false,
+      showBag: false
     };
   }
   static contextType = UserContext;
@@ -132,6 +135,9 @@ class Header extends React.Component<Props, State> {
   };
 
   showSearch = () => {
+    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+      return false;
+    }
     this.setState({
       showSearch: !this.state.showSearch,
       showMenu: false
@@ -169,6 +175,12 @@ class Header extends React.Component<Props, State> {
     });
   };
 
+  setShowBag = (showBag: boolean) => {
+    this.setState({
+      showBag
+    });
+  };
+
   handleLogoClick = () => {
     this.gtmPushLogoClick();
     this.setState({
@@ -199,11 +211,17 @@ class Header extends React.Component<Props, State> {
       goLogin,
       handleLogOut,
       announcement,
-      location
+      location,
+      mobile
     } = this.props;
     const messageText = announcement.message?.split("|");
     const wishlistCount = wishlistData.length;
     const wishlistIcon = wishlistCount > 0;
+    let bagCount = 0;
+    const item = this.props.cart.lineItems;
+    for (let i = 0; i < item.length; i++) {
+      bagCount = bagCount + item[i].quantity;
+    }
     const profileItems: DropdownItem[] = [];
     isLoggedIn &&
       profileItems.push(
@@ -382,7 +400,7 @@ class Header extends React.Component<Props, State> {
           )}
           <div className={styles.minimumWidth}>
             <div className={bootstrap.row}>
-              {this.props.mobile ? (
+              {mobile ? (
                 <div
                   className={cs(
                     bootstrap.col3,
@@ -435,7 +453,7 @@ class Header extends React.Component<Props, State> {
                   <img className={styles.logo} src={gelogoCerise} />
                 </Link>
               </div>
-              {this.props.mobile ? (
+              {mobile ? (
                 ""
               ) : (
                 <div
@@ -460,15 +478,40 @@ class Header extends React.Component<Props, State> {
                 </div>
               )}
               <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
-                <SideMenu
-                  showSearch={this.state.showSearch}
-                  hideMenu={this.hideMenu}
-                  toggleSearch={this.showSearch}
-                  mobile={this.props.mobile}
-                  wishlistData={wishlistData}
-                  currency={this.props.currency}
-                  sidebagData={this.props.cart}
-                />
+                {!mobile && (
+                  <SideMenu
+                    showBag={this.state.showBag}
+                    setShowBag={this.setShowBag}
+                    showSearch={this.state.showSearch}
+                    toggleSearch={this.showSearch}
+                    mobile={mobile}
+                    wishlistData={wishlistData}
+                    currency={this.props.currency}
+                    sidebagData={this.props.cart}
+                  />
+                )}
+                {mobile && (
+                  <li className={cs(styles.mobileSearch)}>
+                    <div onClick={this.showSearch}>
+                      <i
+                        className={
+                          this.state.showSearch
+                            ? cs(
+                                iconStyles.icon,
+                                iconStyles.iconCrossNarrowBig,
+                                styles.iconStyleCross
+                              )
+                            : cs(
+                                iconStyles.icon,
+                                iconStyles.iconSearch,
+                                styles.iconStyle
+                              )
+                        }
+                      ></i>
+                      {mobile ? "" : <span>Search</span>}
+                    </div>
+                  </li>
+                )}
               </div>
             </div>
           </div>
@@ -488,7 +531,7 @@ class Header extends React.Component<Props, State> {
                 }}
                 show={this.state.show}
                 menudata={this.props.data}
-                mobile={this.props.mobile}
+                mobile={mobile}
               />
             </div>
             <div
@@ -501,7 +544,7 @@ class Header extends React.Component<Props, State> {
                     : bootstrap.col12
                 }
               >
-                {this.props.mobile ? (
+                {mobile ? (
                   <div
                     className={
                       this.state.showMenu
@@ -708,6 +751,33 @@ class Header extends React.Component<Props, State> {
         </div>
         <GrowlMessage {...message} />
         <MakerUtils />
+        {mobile && (
+          <BottomMenu
+            showBag={this.state.showBag}
+            showSearch={this.showSearch}
+            isSearch={this.state.showSearch}
+            setShowBag={this.setShowBag}
+            wishlistCount={wishlistCount}
+            isLoggedIn={isLoggedIn}
+            showMenu={this.state.showMenu}
+            clickToggle={this.clickToggle}
+            goLogin={this.props.goLogin}
+            bagCount={bagCount}
+          />
+        )}
+        {this.state.showBag && (
+          <Bag
+            showShipping={this.props.showShipping}
+            cart={this.props.cart}
+            currency={this.props.currency}
+            active={this.state.showBag}
+            toggleBag={(): void => {
+              this.setState(prevState => {
+                return { showBag: !prevState.showBag };
+              });
+            }}
+          />
+        )}
       </div>
     );
   }
