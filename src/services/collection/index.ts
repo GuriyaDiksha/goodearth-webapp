@@ -40,7 +40,7 @@ export default {
       pagePath = `${__API_HOST__ +
         "/myapi/collection/collectionspecific/" +
         id +
-        "/?page_size=24"}`;
+        "?page_size=24"}`;
     }
     const res: any = await API.get(dispatch, pagePath);
     const data: CollectionSpecificProps = res;
@@ -55,7 +55,7 @@ export default {
       `${__API_HOST__ +
         "/myapi/promotions/multi_image_page_widget/COLL_" +
         id +
-        "_1/"}`
+        "_1"}`
     );
     const data: CollectionSpecificBannerProps = res;
     return data;

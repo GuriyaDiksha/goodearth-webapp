@@ -54,7 +54,7 @@ export default {
   fetchSearchFeaturedContent: async (dispatch: Dispatch) => {
     const res = await API.get<SearchFeaturedData>(
       dispatch,
-      `${__API_HOST__}/myapi/promotions/multi_image_page_widget/search_featured/`
+      `${__API_HOST__}/myapi/promotions/multi_image_page_widget/search_featured`
     );
     return res;
   },
