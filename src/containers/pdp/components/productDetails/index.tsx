@@ -335,6 +335,7 @@ const ProductDetails: React.FC<Props> = ({
 
     return show;
   }, [childAttributes]);
+  const withBadge = images && images.length && images[0].badgeImagePdp;
 
   return (
     <div className={bootstrap.row}>
@@ -344,7 +345,7 @@ const ProductDetails: React.FC<Props> = ({
           bootstrap.offset1,
           bootstrap.colMd11,
           styles.sideContainer,
-          { [styles.marginT0]: images && images.length }
+          { [styles.marginT0]: withBadge }
         )}
       >
         <div className={cs(bootstrap.row)}>
@@ -369,11 +370,9 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
           <div
-            className={cs(
-              bootstrap.col12,
-              styles.collectionHeader,
-              globalStyles.voffset3
-            )}
+            className={cs(bootstrap.col12, styles.collectionHeader, {
+              [globalStyles.voffset3]: !withBadge
+            })}
           >
             {collection && (
               <Link
@@ -427,7 +426,11 @@ const ProductDetails: React.FC<Props> = ({
         </div>
 
         {groupedProducts?.length ? (
-          <div className={cs(bootstrap.row, styles.spacer)}>
+          <div
+            className={cs(bootstrap.row, styles.spacer, {
+              [styles.spacerQuickview]: isQuickview && withBadge
+            })}
+          >
             <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
@@ -451,7 +454,11 @@ const ProductDetails: React.FC<Props> = ({
         )}
 
         {showSize ? (
-          <div className={cs(bootstrap.row, styles.spacer)}>
+          <div
+            className={cs(bootstrap.row, styles.spacer, {
+              [styles.spacerQuickview]: isQuickview && withBadge
+            })}
+          >
             <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
@@ -511,7 +518,11 @@ const ProductDetails: React.FC<Props> = ({
         ) : (
           ""
         )}
-        <div className={cs(bootstrap.row, styles.spacer)}>
+        <div
+          className={cs(bootstrap.row, styles.spacer, {
+            [styles.spacerQuickview]: isQuickview && withBadge
+          })}
+        >
           <div className={bootstrap.col8}>
             <div className={bootstrap.row}>
               <div
@@ -578,6 +589,7 @@ const ProductDetails: React.FC<Props> = ({
           className={cs(
             bootstrap.row,
             styles.spacer,
+            { [styles.spacerQuickview]: isQuickview && withBadge },
             styles.actionButtonsContainer,
             {
               [globalStyles.voffset3]: mobile
@@ -596,7 +608,7 @@ const ProductDetails: React.FC<Props> = ({
             {isQuickview ? (
               <Link
                 to={url}
-                className={styles.moreDetails}
+                className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
                 onClick={() => {
                   changeModalState(false);
                 }}

@@ -227,10 +227,7 @@ class Quickview extends React.Component<Props, State> {
             </div>
           )}
 
-          <div
-            className={cs(styles.detailsContainer, bootstrap.colMd6)}
-            ref={this.detailsRef}
-          >
+          <div className={cs(bootstrap.colMd6)} ref={this.detailsRef}>
             {this.getProductDetails()}
           </div>
           <button
