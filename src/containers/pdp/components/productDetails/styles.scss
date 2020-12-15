@@ -99,6 +99,9 @@
 .spacer {
     margin-top: 20px;
 }
+.spacer-quickview {
+    margin-top: 10px;
+}
 
 .error-msg {
     @include error-msg();
@@ -183,6 +186,9 @@
     &:hover {
         text-decoration: underline;
     }
+}
+.lh-45 {
+    line-height: 45px;
 }
 .widget-qty {
     display: flex;
