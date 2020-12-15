@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import cs from "classnames";
-import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Section1Props } from "./typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import Button from "./button";
 
 const Section1: React.FC<Section1Props> = props => {
   let imageName = "image0";
@@ -145,14 +145,7 @@ const Section1: React.FC<Section1Props> = props => {
           >
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col12}>
-                <div
-                  className={cs(styles.bannerBtnLink, iconStyles.icon)}
-                  onClick={() => {
-                    gotoNext();
-                  }}
-                >
-                  <span>choose value</span>
-                </div>
+                <Button value="choose value" onClick={gotoNext} />
               </div>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import cs from "classnames";
-import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
@@ -10,6 +9,7 @@ import FormInput from "../../components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 // import { Currency, currencyCode } from "typings/currency";
 import * as valid from "utils/validate";
+import Button from "./button";
 
 const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const RegisterFormRef = React.useRef<Formsy>(null);
@@ -251,20 +251,13 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                 styles.buttonBg
               )}
             >
-              <div
-                className={cs(styles.bannerBtnLink, iconStyles.icon)}
-                onClick={() => {
-                  gotoNext();
-                }}
-              >
-                <p>
-                  <input
-                    type="submit"
-                    className={styles.inputButton}
-                    value="proceed to preview card"
-                  />
-                </p>
-              </div>
+              <Button value="" onClick={gotoNext}>
+                <input
+                  type="submit"
+                  className={styles.inputButton}
+                  value="proceed to preview card"
+                />
+              </Button>
             </div>
             <div
               className={cs(

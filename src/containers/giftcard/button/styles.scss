@@ -1,0 +1,45 @@
+@import "../../../styles/partials/variables";
+
+$button-width: 250px;
+$button-width-mobile: 230px;
+
+.gc-button {
+    color: $cerise;
+    * {
+        cursor: pointer;
+    }
+    i {
+        position: absolute;
+        left: calc((100% - #{$button-width})/2 - 28px);
+        font-size: 52px;
+    }
+    i:last-child {
+        left: calc((100% - #{$button-width})/2 + #{$button-width} - 24px);
+        transform: scaleX(-1);
+    }
+    
+    span {
+        color: $white;
+        display: inline-block;
+        background-color: $cerise;
+        width: $button-width;
+        text-transform: uppercase;
+        font-size: 14px;
+        line-height: 52px;
+        vertical-align: top;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .gc-button {
+        i {
+            left: calc((100% - #{$button-width-mobile})/2 - 28px);
+        }
+        i:last-child {
+            left: calc((100% - #{$button-width-mobile})/2 + #{$button-width-mobile} - 24px);
+        }
+        span {
+            width: $button-width-mobile;
+        }
+    }
+}
