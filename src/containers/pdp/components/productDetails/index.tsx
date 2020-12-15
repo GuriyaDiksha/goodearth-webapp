@@ -78,7 +78,7 @@ const ProductDetails: React.FC<Props> = ({
   closeModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
-  const { info } = useSelector((state: AppState) => state);
+  const { info, basket } = useSelector((state: AppState) => state);
   // const [img] = images;
 
   const location = useLocation();
@@ -90,7 +90,15 @@ const ProductDetails: React.FC<Props> = ({
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
-
+  const items = basket.lineItems?.map(
+    item => item.product.childAttributes[0].id
+  );
+  const [addedToBag, setAddedToBag] = useState(false);
+  useEffect(() => {
+    setAddedToBag(
+      (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
+    );
+  }, [selectedSize]);
   useLayoutEffect(() => {
     setGtmListType("PDP");
   });
@@ -238,6 +246,7 @@ const ProductDetails: React.FC<Props> = ({
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
+          setAddedToBag(true);
           dispatch(showMessage(ADD_TO_BAG_SUCCESS));
           gtmPushAddToBag();
         })
@@ -316,12 +325,12 @@ const ProductDetails: React.FC<Props> = ({
       buttonText = "Notify Me";
       action = notifyMeClick;
     } else {
-      buttonText = "Add to Bag";
-      action = addToBasket;
+      buttonText = addedToBag ? "Added!" : "Add to Bag";
+      action = addedToBag ? () => null : addToBasket;
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity, currency, discount]);
+  }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -343,7 +352,8 @@ const ProductDetails: React.FC<Props> = ({
           bootstrap.col10,
           bootstrap.offset1,
           bootstrap.colMd11,
-          styles.sideContainer
+          styles.sideContainer,
+          { [styles.marginT0]: images && images.length }
         )}
       >
         <div className={cs(bootstrap.row)}>

@@ -27,7 +27,7 @@ const GrowlMessage: React.FC<Props> = ({ text, timeout = 3000 }) => {
       })}
     >
       <div className={styles.innerContainer}>
-        <div dangerouslySetInnerHTML={{ __html: text || "" }}></div>
+        <div>{text}</div>
         <span>
           <i
             className={cs(
