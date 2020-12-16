@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { currencyCode, Currency } from "typings/currency";
-import { BridalItem } from "./typings";
+import { BridalItemData } from "./typings";
 import BridalService from "services/bridal";
 import { useDispatch } from "react-redux";
 //styles
@@ -11,7 +11,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
 import cartIcon from "../../../../images/bridal/icons_cartregistry-details.svg";
 type Props = {
-  product: BridalItem;
+  product: BridalItemData;
   mobile: boolean;
   currency: Currency;
   bridalId: number;

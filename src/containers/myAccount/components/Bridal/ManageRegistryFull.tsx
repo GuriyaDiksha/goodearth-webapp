@@ -4,7 +4,7 @@ import BridalItemsList from "./BridalItemsList";
 import BridalMobileProductUpdate from "./BridalMobileProductUpdate";
 import { useDispatch, useSelector } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import { BridalItem, BridalProfileData } from "./typings";
+import { BridalItemData, BridalProfileData } from "./typings";
 import BridalService from "services/bridal";
 import { AddressData } from "components/Address/typings";
 import BridalContext from "./context";
@@ -48,7 +48,7 @@ const ManageRegistryFull: React.FC<Props> = ({
 
   // const [ showPopup, setShowPopup ] = useState(false);
   // const [ showMobilePopup, setShowMobilePopup ] = useState(false);
-  const [bridalItems, setBridalItems] = useState<BridalItem[]>([]);
+  const [bridalItems, setBridalItems] = useState<BridalItemData[]>([]);
   const [registryName, setRegistryName] = useState("");
   const [coRegistrantName, setCoRegistrantName] = useState("");
   const [registrantName, setRegistrantName] = useState("");

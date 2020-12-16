@@ -199,6 +199,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/home")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.BRIDALPUBLIC,
+    component: loadable(() => import("containers/bridal")),
+    action: async () => null,
+    exact: true
   }
 ];
 
