@@ -115,6 +115,7 @@ const CartItems: React.FC<BasketItem> = memo(
             discount={false}
             onNotifyCart={onNotifyCart}
             // changeSize={changeSize}
+            list="cart"
           />,
           false,
           ModalStyles.bottomAlign

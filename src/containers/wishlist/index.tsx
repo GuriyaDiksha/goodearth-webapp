@@ -107,6 +107,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             isSale={isSale}
             discount={item.discount}
             badgeType={item.badgeType}
+            list="wishlist"
           />,
           false,
           ModalStyles.bottomAlign
