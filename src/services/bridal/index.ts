@@ -123,9 +123,9 @@ export default {
     return res;
   },
   fetchBridalPublicProfile: async (dispatch: Dispatch, key: string) => {
-    const res = await API.get<BridalPublicProfileData>(
+    const res = await API.get<BridalPublicProfileData[]>(
       dispatch,
-      `${__API_HOST__}/myapi/customer/get_bridal_public_profile/${key}`
+      `${__API_HOST__}/myapi/customer/get_bridal_public_profile/${key}/`
     );
     return res;
   }

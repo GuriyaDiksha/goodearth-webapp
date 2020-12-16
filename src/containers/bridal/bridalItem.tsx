@@ -6,10 +6,15 @@ import { Dispatch } from "redux";
 import BasketService from "../../services/basket";
 import { connect } from "react-redux";
 import { Currency, currencyCode } from "typings/currency";
+import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
+import styles from "./styles.scss";
+import globalStyles from "../../styles/global.scss";
+import cs from "classnames";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    mobile: state.device.mobile
   };
 };
 
@@ -21,8 +26,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           dispatch,
           0,
           quantity,
-          url,
-          bridalId
+          undefined,
+          bridalId,
+          url
         );
         dispatch(showMessage("Item has been added to your bag!"));
         return res;
@@ -57,7 +63,7 @@ class BridalItem extends React.Component<Props, State> {
   state: State = {
     qtyCurrent: 1,
     buttonStatus: false,
-    btnDisable: "cerise-btn hidden-xs hidden-sm",
+    btnDisable: globalStyles.ceriseBtn,
     btnContent: "ADD TO BAG",
     err: ""
   };
@@ -66,13 +72,13 @@ class BridalItem extends React.Component<Props, State> {
     if (this.props.bridalItem.qtyRemaining == 0) {
       this.setState({
         buttonStatus: true,
-        btnDisable: "cerise-btn hidden-xs hidden-sm disabled-input",
+        btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
         btnContent: "Fulfilled"
       });
     } else if (this.props.bridalItem.stock == 0) {
       this.setState({
         buttonStatus: true,
-        btnDisable: "cerise-btn hidden-xs hidden-sm disabled-input",
+        btnDisable: cs(globalStyles.ceriseBtn, globalStyles.disabledBtn),
         btnContent: "Out Of Stock"
       });
     }
@@ -97,10 +103,10 @@ class BridalItem extends React.Component<Props, State> {
     }
   };
 
-  addToBag() {
-    const productUrl = `${__DOMAIN__}/myapi/products/${this.props.bridalItem.productId}/`;
+  addToBag = () => {
+    const productUrl = `${__DOMAIN__}/myapi/product/${this.props.bridalItem.productId}`;
     this.props.addToBag(this.state.qtyCurrent, productUrl, this.props.bridalId);
-  }
+  };
 
   mobileAddToBag = () => {
     const mobileAddIndex = this.props.index;
@@ -109,34 +115,37 @@ class BridalItem extends React.Component<Props, State> {
 
   render() {
     const code = currencyCode[this.props.currency as Currency];
+    const { mobile } = this.props;
     return (
-      <div className="cart cart-container">
-        <div className="cart-item gutter15">
-          <div className="row flex">
-            <div className="col-xs-5 col-md-2">
+      <div className={cs(styles.cart, styles.cartContainer)}>
+        <div className={cs(styles.cartItem, globalStyles.gutter15)}>
+          <div
+            className={cs(bootstrap.row, globalStyles.flex, globalStyles.row)}
+          >
+            <div className={cs(bootstrap.col5, bootstrap.colMd2)}>
               <a>
                 <img
-                  className="product-image"
+                  className={styles.productImage}
                   src={this.props.bridalItem.productImage}
                 />
               </a>
             </div>
-            <div className="col-xs-5 col-md-7">
-              <div className="row-main">
-                <div className="col-xs-12 col-md-6">
-                  <div className="section section-info">
+            <div className={cs(bootstrap.col5, bootstrap.colMd7)}>
+              <div className={styles.rowMain}>
+                <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
+                  <div className={cs(styles.section, styles.sectionInfo)}>
                     <div>
-                      <div className="collection-name">
+                      <div className={styles.collectionName}>
                         {this.props.bridalItem.collection}
                       </div>
-                      <div className="product-name">
+                      <div className={styles.productName}>
                         <a>{this.props.bridalItem.productName}</a>
                       </div>
                     </div>
-                    <div className="product-price">
+                    <div className={styles.productPrice}>
                       {this.props.isSale && this.props.bridalItem.discount ? (
-                        <span className="product-price">
-                          <span className="discountprice">
+                        <span className={styles.productPrice}>
+                          <span className={styles.discountprice}>
                             {String.fromCharCode(...code)}{" "}
                             {
                               this.props.bridalItem.discountedPrice[
@@ -145,81 +154,112 @@ class BridalItem extends React.Component<Props, State> {
                             }
                           </span>
                           &nbsp;{" "}
-                          <span className="strikeprice">
+                          <span className={styles.strikeprice}>
                             {String.fromCharCode(...code)}{" "}
                             {this.props.bridalItem.price[this.props.currency]}
                           </span>
                         </span>
                       ) : (
-                        <span className="product-price">
+                        <span className={styles.productPrice}>
                           {String.fromCharCode(...code)}{" "}
                           {this.props.bridalItem.price[this.props.currency]}
                         </span>
                       )}
                     </div>
-                    <div className="smallfont">
+                    <div className={styles.smallfont}>
                       SIZE: {this.props.bridalItem.size}
                     </div>
-                    <div className="smallfont voffset1">
+                    <div
+                      className={cs(styles.smallfont, globalStyles.voffset1)}
+                    >
                       SKU: {this.props.bridalItem.sku}
                     </div>
-                    <div
-                      className="icon-cart hidden-md hidden-lg voffset3"
-                      onClick={this.mobileAddToBag}
-                    >
-                      <img
-                        src="/static/img/icons_cartregistry-details.svg"
-                        width="40"
-                        height="40"
-                      />
-                    </div>
+                    {mobile && (
+                      <div
+                        className={cs(styles.iconCart, globalStyles.voffset3)}
+                        onClick={this.mobileAddToBag}
+                      >
+                        <img
+                          src="/static/img/icons_cartregistry-details.svg"
+                          width="40"
+                          height="40"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className="col-xs-12 col-md-6 hidden-xs hidden-sm">
-                  <div className="section section-middle">
-                    <div className="">
-                      <div className="hidden-xs hidden-sm text-muted">
-                        REQUESTED
-                      </div>
-                      <div className="text-center c10-L-R">
-                        {this.props.bridalItem.qtyRequested}
-                      </div>
-                    </div>
-                    <div className="">
-                      <div className="hidden-xs hidden-sm text-muted">
-                        REMAINING
-                      </div>
-                      <div className="text-center c10-L-R">
-                        {this.props.bridalItem.qtyRemaining}
-                      </div>
-                    </div>
-
-                    <div className="">
-                      <div className="hidden-xs hidden-sm text-muted">QTY</div>
-                      <div className="widget-qty">
-                        <span className="btn-qty" onClick={this.decreaseState}>
-                          -
-                        </span>
-                        <span className="qty">{this.state.qtyCurrent}</span>
-                        <span className="btn-qty" onClick={this.increaseState}>
-                          +
-                        </span>
-                      </div>
-                      {this.state.err ? (
-                        <div className="error-msg text-center">
-                          {this.state.err}
+                {!mobile && (
+                  <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
+                    <div className={cs(styles.section, styles.sectionMiddle)}>
+                      <div className="">
+                        <div className={styles.textMuted}>REQUESTED</div>
+                        <div
+                          className={cs(
+                            globalStyles.textCenter,
+                            globalStyles.c10LR
+                          )}
+                        >
+                          {this.props.bridalItem.qtyRequested}
                         </div>
-                      ) : (
-                        ""
-                      )}
+                      </div>
+                      <div className="">
+                        <div className={styles.textMuted}>REMAINING</div>
+                        <div
+                          className={cs(
+                            globalStyles.textCenter,
+                            globalStyles.c10LR
+                          )}
+                        >
+                          {this.props.bridalItem.qtyRemaining}
+                        </div>
+                      </div>
+
+                      <div className="">
+                        <div className={styles.textMuted}>QTY</div>
+                        <div className={styles.widgetQty}>
+                          <span
+                            className={styles.btnQty}
+                            onClick={this.decreaseState}
+                          >
+                            -
+                          </span>
+                          <span className={styles.qty}>
+                            {this.state.qtyCurrent}
+                          </span>
+                          <span
+                            className={styles.btnQty}
+                            onClick={this.increaseState}
+                          >
+                            +
+                          </span>
+                        </div>
+                        {this.state.err ? (
+                          <div
+                            className={cs(
+                              globalStyles.errorMsg,
+                              globalStyles.textCenter
+                            )}
+                          >
+                            {this.state.err}
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
-            <div className="col-xs-2 col-md-3 text-center">
-              <div className="section">
-                <div className="manage-height">
+            <div
+              className={cs(
+                bootstrap.col2,
+                bootstrap.colMd3,
+                globalStyles.textCenter
+              )}
+            >
+              <div className={styles.section}>
+                <div className={styles.manageHeight}>
                   <button
                     className={this.state.btnDisable}
                     onClick={this.addToBag}
@@ -227,11 +267,15 @@ class BridalItem extends React.Component<Props, State> {
                   >
                     {this.state.btnContent}
                   </button>
-                  <div className="c10-L-R  hidden-xs hidden-sm voffset2">
-                    For regular orders, the delivery time will be 6-8 business
-                    days
-                  </div>
-                  <div className="cerise">
+                  {!mobile && (
+                    <div
+                      className={cs(globalStyles.c10LR, globalStyles.voffset2)}
+                    >
+                      For regular orders, the delivery time will be 6-8 business
+                      days
+                    </div>
+                  )}
+                  <div className={globalStyles.cerise}>
                     {this.state.btnContent == "Fulfilled" ||
                     this.state.btnContent == "Out Of Stock"
                       ? this.state.btnContent

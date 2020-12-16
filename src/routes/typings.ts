@@ -33,7 +33,7 @@ export enum ROUTES {
   BACKENDERROR = "/backend-order-error",
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
-  BRIDALPUBLIC = "/bridal/:key"
+  BRIDALPUBLIC = "/bridal/:id"
 }
 
 export type RouteConfig = RouteObject[];

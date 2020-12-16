@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from "react";
-import BaseLayout from "components/base_layout";
-import Config from "components/config";
+import React from "react";
 import { connect } from "react-redux";
-// import * as mapper from "pages/bridal/mapper/bridalm"
-import BridalItem from "./BridalItem";
+import BridalItem from "./bridalItem";
 import { BridalPublicProfileData } from "../myAccount/components/Bridal/typings";
-import BridalMobile from "./addbridalmodal.jsx";
-// import InfoPopup from '../../components/common/popup/InfoPopup';
+import BridalMobile from "./bridalItemMobile";
 import BridalService from "../../services/bridal";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { AppState } from "reducers/typings";
-// import mapDispatchToProps from 'components/signin/Login/mapper/actions'
-
+import { updateComponent, updateModal } from "actions/modal";
+import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
+import styles from "./styles.scss";
+import globalStyles from "../../styles/global.scss";
+import cs from "classnames";
+import weddingFloral from "../../images/bridal/wedding-floral.png";
 type RouteInfo = {
-  key: string;
+  id: string;
 };
 
-const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
   return {
     getBridalPublicProfile: async () => {
       const res = await BridalService.fetchBridalPublicProfile(
         dispatch,
-        params.key
+        ownProps.id
       );
       return res;
+    },
+    showMobilePopup: (component: React.ReactNode) => {
+      dispatch(updateComponent(component, true));
+      dispatch(updateModal(true));
     }
   };
 };
@@ -41,8 +45,11 @@ type State = {
   showMobilePopup: boolean;
   mobileIndex: number;
   showSummary: boolean;
+  mobileScreen: string;
 };
-type Props = {} & RouteComponentProps<RouteInfo> &
+type Props = {
+  key: string;
+} & RouteComponentProps<RouteInfo> &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
@@ -60,7 +67,8 @@ class BridalCheckout extends React.Component<Props, State> {
     },
     showMobilePopup: false,
     mobileIndex: 0,
-    showSummary: false
+    showSummary: false,
+    mobileScreen: styles.summaryPadding
   };
   isSuspended = true;
   // this.state = {
@@ -82,33 +90,44 @@ class BridalCheckout extends React.Component<Props, State> {
   // }
 
   showHide = () => {
-    // let classValue = (this.state.mobile_screen == "summary-padding") ? "summary-padding hidden-xs hidden-sm" : "summary-padding";
-    // this.setState({mobile_screen: classValue});
-    // document.body.style.overflowY = 'auto';
-    // if (!this.state.showSummary) {
-    //     document.body.style.overflowY = 'hidden';
-    // }
-    // this.setState({
-    //     showSummary: !this.state.showSummary
-    // });
+    const classValue =
+      this.state.mobileScreen == "summary-padding"
+        ? "summary-padding hidden-xs hidden-sm"
+        : "summary-padding";
+    this.setState({ mobileScreen: classValue });
+    document.body.style.overflowY = "auto";
+    if (!this.state.showSummary) {
+      document.body.style.overflowY = "hidden";
+    }
+    this.setState({
+      showSummary: !this.state.showSummary
+    });
   };
 
   handleMobileAdd = (mindex: number) => {
-    this.setState({ showMobilePopup: true });
+    // this.setState({ showMobilePopup: true });
+    const component = (
+      <BridalMobile
+        // closeMobile={this.closeMobileAdd}
+        bridalItem={this.state.bridalProfile.items[this.state.mobileIndex]}
+        bridalId={this.state.bridalProfile.bridalId}
+      />
+    );
+    this.props.showMobilePopup(component);
     this.setState({ mobileIndex: mindex });
   };
 
-  closeMobileAdd = () => {
-    // this.setState({showMobilePopup: false});
-  };
+  // closeMobileAdd = () => {
+  //   this.setState({showMobilePopup: false});
+  // };
   redirectCheckout = () => {
-    // if(!this.canCheckoutRegistry()){
-    //     return false;
-    // }
+    if (!this.canCheckoutRegistry()) {
+      return false;
+    }
     // if(this.state.isSuspended) {
     //     this.resetInfoPopupCookie();
     // }
-    // location.href='/order/checkout/';
+    this.props.history.push("/order/checkout/");
   };
 
   componentDidMount() {
@@ -119,7 +138,7 @@ class BridalCheckout extends React.Component<Props, State> {
     this.props.getBridalPublicProfile().then(res => {
       if (res) {
         this.setState({
-          bridalProfile: res
+          bridalProfile: res[0]
         });
       }
     });
@@ -140,7 +159,11 @@ class BridalCheckout extends React.Component<Props, State> {
   }
 
   canCheckoutRegistry() {
-    if (window.ischeckout || this.getItemsCount() == 0) {
+    if (
+      // window.ischeckout
+      //  ||
+      this.getItemsCount() == 0
+    ) {
       return false;
     } else {
       return true;
@@ -153,6 +176,12 @@ class BridalCheckout extends React.Component<Props, State> {
     document.cookie = cookieString;
   }
 
+  // componentDidUpdate() {
+  //   if(this.props.mobile && this.state.showMobilePopup) {
+
+  //   }
+  // }
+
   render() {
     const {
       registrantName,
@@ -161,88 +190,170 @@ class BridalCheckout extends React.Component<Props, State> {
       eventDate,
       bridalId
     } = this.state.bridalProfile;
+    const { mobile } = this.props;
     return (
-      <BaseLayout>
-        <div className="row bridal-public">
-          <div className="col-xs-12 col-md-3 fix-ordersummary">
-            <div className="order-summary">
-              <span
-                className="btn-arrow visible-xs color-primary"
-                onClick={this.showHide}
-              >
-                <i
-                  className={
-                    this.state.showSummary
-                      ? "icon icon_downarrow-black"
-                      : "icon icon_uparrow-black"
-                  }
-                ></i>
-              </span>
-              <div className="summary-padding summary-header">
-                <h3 className="text-center summary-title">REGISTRY DETAILS</h3>
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+        <div className={cs(bootstrap.row, styles.bridalPublic)}>
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd3,
+              styles.fixOrdersummary
+            )}
+          >
+            <div className={styles.orderSummary}>
+              {mobile && (
+                <span
+                  className={cs(
+                    styles.btnArrow,
+                    "visible-xs",
+                    styles.colorPrimary
+                  )}
+                  onClick={this.showHide}
+                >
+                  <i
+                    className={
+                      this.state.showSummary
+                        ? "icon icon_downarrow-black"
+                        : "icon icon_uparrow-black"
+                    }
+                  ></i>
+                </span>
+              )}
+              <div className={styles.summaryPadding}>
+                <h3
+                  className={cs(globalStyles.textCenter, styles.summaryTitle)}
+                >
+                  REGISTRY DETAILS
+                </h3>
               </div>
-              <div className="summary-padding txtup">
+              <div className={cs(styles.summaryPadding, styles.txtup)}>
                 <hr className="hr" />
                 {registrantName}&nbsp; & &nbsp;{coRegistrantName}
               </div>
 
               <div className="">
-                <div className="summary-padding hidden-xs hidden-sm">
-                  <hr className="hr" />
-                  <div className="flex gutter-between total">
-                    <span className="subtotal voffset2">
-                      <span className="op2"> Event:</span>{" "}
-                      <span className="txt-cap"> {occasion} </span>{" "}
-                    </span>
+                {!mobile && (
+                  <div className={styles.summaryPadding}>
+                    <hr className="hr" />
+                    <div
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.gutterBetween
+                      )}
+                    >
+                      <span
+                        className={cs(styles.subtotal, globalStyles.voffset2)}
+                      >
+                        <span className={globalStyles.op2}> Event:</span>{" "}
+                        <span className={styles.txtCap}> {occasion} </span>{" "}
+                      </span>
+                    </div>
+                    <div
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.gutterBetween
+                      )}
+                    >
+                      <span
+                        className={cs(styles.subtotal, globalStyles.voffset2)}
+                      >
+                        <span className={globalStyles.op2}>Wedding Date:</span>{" "}
+                        {eventDate}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex gutter-between total">
-                    <span className="subtotal voffset2">
-                      <span className="op2">Wedding Date:</span> {eventDate}
-                    </span>
-                  </div>
-                </div>
+                )}
 
                 <div className="">
-                  <div className={this.state.mobile_screen}>
-                    <div className="hidden-lg hidden-md">
-                      <hr className="hr" />
-                      <div className="flex gutter-between total">
-                        <span className="subtotal voffset2">
-                          <span className="op2"> Event:</span>{" "}
-                          <span className="txt-cap"> {occasion} </span>{" "}
-                        </span>
+                  <div className={this.state.mobileScreen}>
+                    {mobile && (
+                      <div>
+                        <hr className="hr" />
+                        <div
+                          className={cs(
+                            styles.flex,
+                            styles.gutterBetween,
+                            styles.total
+                          )}
+                        >
+                          <span
+                            className={cs(
+                              styles.subtotal,
+                              globalStyles.voffset2
+                            )}
+                          >
+                            <span className={globalStyles.op2}> Event:</span>{" "}
+                            <span className={styles.txtCap}> {occasion} </span>{" "}
+                          </span>
+                        </div>
+                        <div
+                          className={cs(
+                            styles.flex,
+                            styles.gutterBetween,
+                            styles.total
+                          )}
+                        >
+                          <span
+                            className={cs(
+                              styles.subtotal,
+                              globalStyles.voffset2
+                            )}
+                          >
+                            <span className={globalStyles.op2}>
+                              Wedding Date:
+                            </span>{" "}
+                            {eventDate}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex gutter-between total">
-                        <span className="subtotal voffset2">
-                          <span className="op2">Wedding Date:</span> {eventDate}
-                        </span>
-                      </div>
-                    </div>
+                    )}
                     <hr className="hr" />
-                    <div className=" text-coupon voffset4">
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset4)}
+                    >
                       To purchase an item, please select the quantity and click{" "}
                       <span className="bold"> ADD TO BAG.</span>
                     </div>
-                    <div className=" text-coupon voffset2 cerise bold">
+                    <div
+                      className={cs(
+                        styles.textCoupon,
+                        globalStyles.voffset2,
+                        globalStyles.cerise,
+                        globalStyles.bold
+                      )}
+                    >
                       Please ensure you add the items from this public link only
                       to contribute towards this Bridal Registry.
                     </div>
-                    <div className=" text-coupon voffset2">
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset2)}
+                    >
                       If you need any assistance, talk to our representative on:
                     </div>
-                    <div className=" text-coupon voffset2">
-                      <a href="tel: +91 9582999555" className="cerise">
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset2)}
+                    >
+                      <a
+                        href="tel: +91 9582999555"
+                        className={globalStyles.cerise}
+                      >
                         +91 9582999555
                       </a>{" "}
                       /{" "}
-                      <a href="tel: +91 9582999888" className="cerise">
+                      <a
+                        href="tel: +91 9582999888"
+                        className={globalStyles.cerise}
+                      >
                         +91 9582999888
                       </a>
                     </div>
-                    <div className=" text-coupon voffset2">
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset2)}
+                    >
                       <a
                         href="https://www.goodearth.in/customer-assistance/terms-conditions"
-                        className="cerise"
+                        className={globalStyles.cerise}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -251,35 +362,41 @@ class BridalCheckout extends React.Component<Props, State> {
                       |{" "}
                       <a
                         href="https://www.goodearth.in/customer-assistance/returns-exchanges"
-                        className="cerise"
+                        className={globalStyles.cerise}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         Returns & Exchanges
                       </a>
                     </div>
-                    <div className="wishlist hidden-xs hidden-sm">
-                      <img src="/static/img/wedding-floral.png" />
+                    {!mobile && (
+                      <div className={styles.wishlist}>
+                        <img src={weddingFloral} />
+                      </div>
+                    )}
+                  </div>
+                  {mobile && (
+                    <div className={globalStyles.voffset4}>
+                      <input
+                        type="button"
+                        disabled={this.canCheckoutRegistry() ? false : true}
+                        className={
+                          this.canCheckoutRegistry()
+                            ? cs(globalStyles.ceriseBtn)
+                            : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                        }
+                        value="PROCEED TO CHECKOUT"
+                        onClick={this.redirectCheckout}
+                      />
                     </div>
-                  </div>
-                  <div className="hidden-md hidden-lg voffset4">
-                    <input
-                      type="button"
-                      disabled={this.canCheckoutRegistry() ? false : true}
-                      className={
-                        !this.canCheckoutRegistry()
-                          ? "cerise-btn disabled-btn"
-                          : "cerise-btn"
-                      }
-                      value="PROCEED TO CHECKOUT"
-                      onClick={this.redirectCheckout}
-                    />
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-xs-12 col-md-9 cart-block">
+          <div
+            className={cs(bootstrap.col12, bootstrap.colMd9, styles.cartBlock)}
+          >
             {this.state.bridalProfile.bridalId
               ? this.state.bridalProfile.items.map((item, index) => {
                   return (
@@ -294,36 +411,32 @@ class BridalCheckout extends React.Component<Props, State> {
                   );
                 })
               : ""}
-            <div className="hidden-xs hidden-sm voffset4 cart cart-container">
-              <div className="cart-item gutter15">
-                <input
-                  type="button"
-                  disabled={this.canCheckoutRegistry() ? false : true}
-                  className={
-                    !this.canCheckoutRegistry()
-                      ? "cerise-btn disabled-btn"
-                      : "cerise-btn"
-                  }
-                  value="PROCEED TO CHECKOUT"
-                  onClick={this.redirectCheckout}
-                />
+            {!mobile && (
+              <div
+                className={cs(
+                  globalStyles.voffset4,
+                  styles.cart,
+                  styles.cartContainer
+                )}
+              >
+                <div className={cs(styles.cartItem, globalStyles.gutter15)}>
+                  <input
+                    type="button"
+                    disabled={this.canCheckoutRegistry() ? false : true}
+                    className={
+                      this.canCheckoutRegistry()
+                        ? cs(globalStyles.ceriseBtn)
+                        : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                    }
+                    value="PROCEED TO CHECKOUT"
+                    onClick={this.redirectCheckout}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-        {this.props.mobile && this.state.showMobilePopup ? (
-          <BridalMobile
-            closeMobile={this.closeMobileAdd}
-            dispatch={this.props.dispatch}
-            itemData={this.state.bridalProfile.items[this.state.mobileIndex]}
-            showNotification={this.props.showNotification}
-            bridalId={bridalId}
-          />
-        ) : (
-          ""
-        )}
-        {/* {this.state.showInfoPopup? <InfoPopup acceptPopup={() => {this.setState({showInfoPopup: false})}} /> : ""} */}
-      </BaseLayout>
+      </div>
     );
   }
 }

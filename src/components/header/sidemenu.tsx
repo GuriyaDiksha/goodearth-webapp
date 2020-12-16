@@ -145,7 +145,7 @@ class SideMenu extends React.Component<Props, State> {
         event: "eventsToSend",
         eventAction: "wishListClick",
         eventCategory: "Click",
-        eventLabel: location.pathname
+        eventLabel: this.props.location.pathname
       });
     };
     const selectClass = this.state.showp
@@ -164,7 +164,12 @@ class SideMenu extends React.Component<Props, State> {
     for (let i = 0; i < item.length; i++) {
       bagCount = bagCount + item[i].quantity;
     }
-    const { mobile } = this.props;
+    const { mobile, location } = this.props;
+    const isBridalRegistryPage = location.pathname.indexOf("/bridal/") > -1;
+    const disableClass =
+      location.pathname.indexOf("/bridal/") > -1
+        ? styles.iconStyleDisabled
+        : "";
     return (
       <Fragment>
         <ul className={styles.sideMenuContainer}>
@@ -175,7 +180,8 @@ class SideMenu extends React.Component<Props, State> {
               className={cs(
                 styles.sideMenuItem,
                 styles.curr,
-                styles.currencyMenu
+                styles.currencyMenu,
+                disableClass
               )}
             >
               <SelectableDropdownMenu
@@ -184,6 +190,7 @@ class SideMenu extends React.Component<Props, State> {
                 items={items}
                 value={this.props.currency}
                 showCaret={true}
+                disabled={isBridalRegistryPage ? true : false}
                 onChangeCurrency={this.changeCurrency}
               ></SelectableDropdownMenu>
             </li>
@@ -198,9 +205,15 @@ class SideMenu extends React.Component<Props, State> {
                       styles.sideMenuItem,
                       styles.curr,
                       styles.hiddenXs,
-                      styles.hiddenSm
+                      styles.hiddenSm,
+                      disableClass
                     )
-                  : cs(styles.sideMenuItem, styles.hiddenXs, styles.hiddenSm)
+                  : cs(
+                      styles.sideMenuItem,
+                      styles.hiddenXs,
+                      styles.hiddenSm,
+                      disableClass
+                    )
               }
             >
               <div className={styles.innerProfileContainer}>
@@ -209,6 +222,7 @@ class SideMenu extends React.Component<Props, State> {
                   className={storyStyles.greyBG}
                   align="right"
                   items={profileItems}
+                  disabled={isBridalRegistryPage ? true : false}
                 ></DropdownMenu>
               </div>
             </li>
@@ -223,9 +237,18 @@ class SideMenu extends React.Component<Props, State> {
                 styles.hiddenSm
               )}
             >
-              <div className={cs(styles.iconStyle, styles.innerWishContainer)}>
+              <div
+                className={cs(
+                  styles.iconStyle,
+                  styles.innerWishContainer,
+                  disableClass
+                )}
+              >
                 {isLoggedIn ? (
-                  <Link to="/wishlist" onClick={gtmPushWishlistClick}>
+                  <Link
+                    to={isBridalRegistryPage ? "#" : "/wishlist"}
+                    onClick={gtmPushWishlistClick}
+                  >
                     <i
                       className={cs(
                         iconStyles.icon,
@@ -238,7 +261,11 @@ class SideMenu extends React.Component<Props, State> {
                     </span>
                   </Link>
                 ) : (
-                  <div onClick={this.props.goLogin}>
+                  <div
+                    onClick={
+                      isBridalRegistryPage ? () => null : this.props.goLogin
+                    }
+                  >
                     <i
                       className={cs(
                         iconStyles.icon,
@@ -295,8 +322,11 @@ class SideMenu extends React.Component<Props, State> {
         </ul>
         <ul>
           {mobile ? (
-            <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText} onClick={this.toggleSearch}>
+            <li className={cs(styles.firstMenu, disableClass)}>
+              <p
+                className={styles.searchText}
+                onClick={isBridalRegistryPage ? () => null : this.toggleSearch}
+              >
                 <i
                   className={
                     this.props.showSearch
@@ -316,8 +346,11 @@ class SideMenu extends React.Component<Props, State> {
               </p>
             </li>
           ) : (
-            <li className={cs(styles.firstMenu)}>
-              <p className={styles.searchText} onClick={this.toggleSearch}>
+            <li className={cs(styles.firstMenu, disableClass)}>
+              <p
+                className={styles.searchText}
+                onClick={isBridalRegistryPage ? () => null : this.toggleSearch}
+              >
                 <i
                   className={cs(
                     iconStyles.icon,
