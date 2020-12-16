@@ -248,6 +248,8 @@ class Header extends React.Component<Props, State> {
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
+    const isBridalRegistryPage =
+      this.props.location.pathname.indexOf("/bridal/") > -1;
     return (
       <div className="">
         <Helmet defer={false}>
@@ -332,7 +334,11 @@ class Header extends React.Component<Props, State> {
         <div className={cs(styles.headerContainer)}>
           <div
             className={styles.announcement}
-            style={{ backgroundColor: announcement.bgColorcode }}
+            style={{
+              backgroundColor: isBridalRegistryPage
+                ? announcement.bridalBgColorcode
+                : announcement.bgColorcode
+            }}
           >
             {messageText?.map((data, i) => {
               if (announcement.url) {
@@ -344,7 +350,7 @@ class Header extends React.Component<Props, State> {
                         ? i == 0
                           ? styles.boxx1
                           : styles.boxx2
-                        : "width100"
+                        : styles.width100
                     }
                   >
                     <Link to={announcement.url ? "" + announcement.url : "/"}>

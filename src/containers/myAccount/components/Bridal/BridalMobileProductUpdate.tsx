@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { BridalItem } from "./typings";
+import { BridalItemData } from "./typings";
 import BridalService from "services/bridal";
 
 type Props = {
   fetchBridalItems: () => void;
-  itemData: BridalItem;
+  itemData: BridalItemData;
   bridalId: number;
 };
 

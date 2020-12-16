@@ -2,7 +2,8 @@ import { Dispatch } from "redux";
 import API from "utils/api";
 import {
   BridalProfileData,
-  BridalItem
+  BridalItemData,
+  BridalPublicProfileData
 } from "containers/myAccount/components/Bridal/typings";
 
 type SaveBridalProfileData = {
@@ -17,7 +18,7 @@ type SaveBridalProfileData = {
 
 type BridalItemsResponse = {
   count: number;
-  results: BridalItem[];
+  results: BridalItemData[];
 };
 
 export default {
@@ -118,6 +119,13 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/customer/add_to_registry/`,
       formData
+    );
+    return res;
+  },
+  fetchBridalPublicProfile: async (dispatch: Dispatch, key: string) => {
+    const res = await API.get<BridalPublicProfileData[]>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/get_bridal_public_profile/${key}/`
     );
     return res;
   }

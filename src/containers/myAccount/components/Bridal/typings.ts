@@ -35,7 +35,7 @@ export type BridalProfileData = {
   userAddressId: number;
 };
 
-export type BridalItem = {
+export type BridalItemData = {
   id: number;
   productId: ProductID;
   size: string;
@@ -50,7 +50,19 @@ export type BridalItem = {
   price: PriceRecord;
   discountedPrice: PriceRecord;
   badgeImage: string;
+  badgeType?: string;
   discount: boolean;
   stock: number;
   sku: string;
+};
+
+export type BridalPublicProfileData = {
+  bridalId: number;
+  occasion: string;
+  eventDate: string;
+  registrantName: string;
+  coRegistrantName: string;
+  registryName: string;
+  currency: Currency;
+  items: BridalItemData[];
 };
