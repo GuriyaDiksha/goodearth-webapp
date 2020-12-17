@@ -1307,6 +1307,25 @@ visibility: visible !important;
     color: #000;
     font-weight: bold;
   }
+  .badge {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    left: 0;
+    min-width: 10px;
+    padding-top: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #969698;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10px;
+    &:hover {
+      color: $cerise;
+    }
+  }
 }
 
 .bottom-menu-item {
