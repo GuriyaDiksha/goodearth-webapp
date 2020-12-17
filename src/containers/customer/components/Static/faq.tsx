@@ -396,7 +396,7 @@ const Faq: React.FC = () => {
         </div>
         <div className={globalStyles.voffset4}>
           <h5>Can I redeem Cerise points on shipping charges?</h5>
-          <p>No, Cerise points can not be redeemed on shipping charges.</p>
+          <p>No, Cerise points cannot be redeemed on shipping charges.</p>
         </div>
       </div>
     </div>

@@ -53,10 +53,11 @@ const LineItems: React.FC<BasketItem> = memo(
       const price = saleStatus
         ? product.discountedPriceRecords[currency]
         : product.priceRecords[currency];
-      const index = product.categories.length - 1;
-      const category = product.categories[index]
-        ? product.categories[index].replace(/\s/g, "")
-        : "";
+      const index = product.categories ? product.categories.length - 1 : 0;
+      const category =
+        product.categories && product.categories[index]
+          ? product.categories[index].replace(/\s/g, "")
+          : "";
 
       dataLayer.push({
         event: "removeFromCart",
@@ -221,7 +222,7 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <WishlistButton
-                  gtmListType="Mini Bag"
+                  gtmListType="MiniBag"
                   title={product.title}
                   childAttributes={product.childAttributes}
                   priceRecords={product.priceRecords}

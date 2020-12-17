@@ -15,6 +15,7 @@ import Slider from "react-slick";
 import WishlistButton from "components/WishlistButton";
 import LazyImage from "components/LazyImage";
 import * as valid from "utils/validate";
+import CookieService from "../../services/cookie";
 
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
@@ -23,33 +24,44 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
-    const index = recommendedProducts[i].categories.length - 1;
-    let category = recommendedProducts[i].categories[index]
-      ? recommendedProducts[i].categories[index].replace(/\s/g, "")
-      : "";
-    category = category.replace(/>/g, "/");
-    dataLayer.push({
-      event: "productClick",
-      ecommerce: {
-        currencyCode: currency,
-        click: {
-          actionField: { list: "We Recommend" },
-          products: [
-            {
-              name: recommendedProducts[i].title,
-              id: recommendedProducts[i].sku,
-              price:
-                recommendedProducts[i].discountedPriceRecords[currency] ||
-                recommendedProducts[i].priceRecords[currency],
-              brand: "Goodearth",
-              category: category,
-              variant: recommendedProducts[i].childAttributes[0].size || "",
-              position: i
-            }
-          ]
+    try {
+      const index = recommendedProducts[i].categories
+        ? recommendedProducts[i].categories.length - 1
+        : 0;
+      let category =
+        recommendedProducts[i].categories &&
+        recommendedProducts[i].categories[index]
+          ? recommendedProducts[i].categories[index].replace(/\s/g, "")
+          : "";
+      category = category.replace(/>/g, "/");
+      const listPath = `WeRecommend ${location.pathname}`;
+      CookieService.setCookie("listPath", listPath);
+      dataLayer.push({
+        event: "productClick",
+        ecommerce: {
+          currencyCode: currency,
+          click: {
+            // actionField: { list: "We Recommend" },
+            actionField: { list: listPath },
+            products: [
+              {
+                name: recommendedProducts[i].title,
+                id: recommendedProducts[i].sku,
+                price:
+                  recommendedProducts[i].discountedPriceRecords[currency] ||
+                  recommendedProducts[i].priceRecords[currency],
+                brand: "Goodearth",
+                category: category,
+                variant: recommendedProducts[i].childAttributes[0].size || "",
+                position: i
+              }
+            ]
+          }
         }
-      }
-    });
+      });
+    } catch (err) {
+      console.log("weRecommend GTM error!");
+    }
   };
   const withoutZeroPriceData = data?.filter(
     (item: RecommendData, i: number) => {
@@ -60,7 +72,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   useEffect(() => {
     valid.weRecommendProductImpression(
       recommendedProducts,
-      "We Recommend",
+      "WeRecommend",
       currency
     );
   }, []);
@@ -95,7 +107,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             )}
           >
             <WishlistButton
-              gtmListType="We Recommend"
+              gtmListType="WeRecommend"
               id={item.id}
               showText={false}
               key={item.id}
