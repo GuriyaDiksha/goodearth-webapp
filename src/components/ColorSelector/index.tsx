@@ -7,7 +7,7 @@ import globalStyles from "styles/global.scss";
 
 import { Link } from "react-router-dom";
 
-const ColorSelector: React.FC<Props> = ({ products }) => {
+const ColorSelector: React.FC<Props> = ({ products, onClick }) => {
   const colors = products.map(({ url, id, images, color }) => {
     const [image] = images;
     const [colorString] = color;
@@ -19,7 +19,7 @@ const ColorSelector: React.FC<Props> = ({ products }) => {
     const colorName = colorString.split("-")[1];
 
     return (
-      <Link key={id} to={url} className={styles.link}>
+      <Link key={id} to={url} className={styles.link} onClick={onClick}>
         <img src={productImage} className={globalStyles.imgResponsive} />
         <div className={styles.text}>{colorName}</div>
       </Link>
