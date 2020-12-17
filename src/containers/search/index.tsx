@@ -24,6 +24,7 @@ import HeaderService from "services/headerFooter";
 import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import GiftcardItem from "components/plpResultItem/giftCard";
+import CookieService from "../../services/cookie";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -164,35 +165,45 @@ class Search extends React.Component<
   };
 
   gtmPushSearchClick = (e: any, item: PartialProductItem, i: number) => {
-    const index = item.categories.length - 1;
-    let category = item.categories[index].replace(/\s/g, "");
-    category = category.replace(/>/g, "/");
-    localStorage.setItem("list", "Search Page");
-    if (item.childAttributes && item.childAttributes.length > 0) {
-      const product = (item.childAttributes as any).map((skuItem: any) => {
-        return {
-          name: item.title,
-          id: skuItem.sku,
-          price: skuItem.discountedPriceRecords
-            ? skuItem.discountedPriceRecords[this.props.currency]
-            : skuItem.priceRecords[this.props.currency],
-          brand: "Goodearth",
-          category: category,
-          variant: skuItem.size || "",
-          position: i
-        };
-      });
-      // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
-      dataLayer.push({
-        event: "productClick",
-        ecommerce: {
-          currencyCode: this.props.currency,
-          click: {
-            actionField: { list: "Search Page" },
-            products: product
+    try {
+      let category = "";
+      if (item.categories) {
+        const index = item.categories.length - 1;
+        category = item.categories[index].replace(/\s/g, "");
+        category = category.replace(/>/g, "/");
+      }
+      // localStorage.setItem("list", "Search Page");
+      if (item.childAttributes && item.childAttributes.length > 0) {
+        const product = (item.childAttributes as any).map((skuItem: any) => {
+          return {
+            name: item.title,
+            id: skuItem.sku,
+            price: skuItem.discountedPriceRecords
+              ? skuItem.discountedPriceRecords[this.props.currency]
+              : skuItem.priceRecords[this.props.currency],
+            brand: "Goodearth",
+            category: category,
+            variant: skuItem.size || "",
+            position: i
+          };
+        });
+        const listPath = `Search ${location.pathname}`;
+        CookieService.setCookie("listPath", listPath);
+        // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
+        dataLayer.push({
+          event: "productClick",
+          ecommerce: {
+            currencyCode: this.props.currency,
+            click: {
+              // actionField: { list: "Search Page" },
+              actionField: { list: listPath },
+              products: product
+            }
           }
-        }
-      });
+        });
+      }
+    } catch (err) {
+      console.log("Search GTM error");
     }
   };
 

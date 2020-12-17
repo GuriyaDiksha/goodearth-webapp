@@ -375,7 +375,7 @@ class CollectionSpecific extends React.Component<
                   key={data.id + "plpDiv"}
                 >
                   <PlpResultItem
-                    page="Collection Specific"
+                    page="CollectionSpecific"
                     position={i}
                     product={data}
                     addedToWishlist={false}
