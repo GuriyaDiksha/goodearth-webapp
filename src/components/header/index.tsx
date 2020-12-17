@@ -66,7 +66,8 @@ class Header extends React.Component<Props, State> {
       urlParams: new URLSearchParams(props.location.search.slice(1)),
       selectedPincode: "",
       showPincodePopup: false,
-      showBag: false
+      showBag: false,
+      showCartMobile: false
     };
   }
   static contextType = UserContext;
@@ -103,6 +104,27 @@ class Header extends React.Component<Props, State> {
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
     });
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.location.pathname != prevProps.location.pathname) {
+      const isPDP =
+        this.props.location.pathname.includes("/catalogue/") &&
+        !this.props.location.pathname.includes("/catalogue/category");
+      if (isPDP) {
+        if (!this.state.showCartMobile) {
+          this.setState({
+            showCartMobile: true
+          });
+        }
+      } else {
+        if (this.state.showCartMobile) {
+          this.setState({
+            showCartMobile: false
+          });
+        }
+      }
+    }
   }
 
   mouseOut(data: { show: boolean }) {
@@ -491,26 +513,42 @@ class Header extends React.Component<Props, State> {
                   />
                 )}
                 {mobile && (
-                  <li className={cs(styles.mobileSearch)}>
-                    <div onClick={this.showSearch}>
-                      <i
-                        className={
-                          this.state.showSearch
-                            ? cs(
-                                iconStyles.icon,
-                                iconStyles.iconCrossNarrowBig,
-                                styles.iconStyleCross
-                              )
-                            : cs(
-                                iconStyles.icon,
-                                iconStyles.iconSearch,
-                                styles.iconStyle
-                              )
-                        }
-                      ></i>
-                      {mobile ? "" : <span>Search</span>}
-                    </div>
-                  </li>
+                  <ul className={cs(bootstrap.row)}>
+                    <li className={cs(styles.mobileSearch, bootstrap.col)}>
+                      <div onClick={this.showSearch}>
+                        <i
+                          className={
+                            this.state.showSearch
+                              ? cs(
+                                  iconStyles.icon,
+                                  iconStyles.iconCrossNarrowBig,
+                                  styles.iconStyleCross
+                                )
+                              : cs(
+                                  iconStyles.icon,
+                                  iconStyles.iconSearch,
+                                  styles.iconStyle
+                                )
+                          }
+                        ></i>
+                        {mobile ? "" : <span>Search</span>}
+                      </div>
+                    </li>
+                    {this.state.showCartMobile && (
+                      <li className={cs(styles.mobileSearch, bootstrap.col)}>
+                        <div onClick={() => this.setShowBag(true)}>
+                          <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconCart,
+                              styles.iconStyle
+                            )}
+                          ></i>
+                          <span className={styles.badge}>{bagCount}</span>
+                        </div>
+                      </li>
+                    )}
+                  </ul>
                 )}
               </div>
             </div>

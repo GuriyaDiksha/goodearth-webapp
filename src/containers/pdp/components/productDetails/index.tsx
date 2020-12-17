@@ -78,7 +78,7 @@ const ProductDetails: React.FC<Props> = ({
   closeModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
-  const { info, basket } = useSelector((state: AppState) => state);
+  const { info } = useSelector((state: AppState) => state);
   // const [img] = images;
 
   const location = useLocation();
@@ -90,15 +90,15 @@ const ProductDetails: React.FC<Props> = ({
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
-  const items = basket.lineItems?.map(
-    item => item.product.childAttributes[0].id
-  );
+  // const items = basket.lineItems?.map(
+  //   item => item.product.childAttributes[0].id
+  // );
   const [addedToBag, setAddedToBag] = useState(false);
-  useEffect(() => {
-    setAddedToBag(
-      (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
-    );
-  }, [selectedSize]);
+  // useEffect(() => {
+  //   setAddedToBag(
+  //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
+  //   );
+  // }, [selectedSize]);
   useLayoutEffect(() => {
     setGtmListType("PDP");
   });
@@ -247,6 +247,9 @@ const ProductDetails: React.FC<Props> = ({
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
           setAddedToBag(true);
+          setTimeout(() => {
+            setAddedToBag(false);
+          }, 3000);
           dispatch(showMessage(ADD_TO_BAG_SUCCESS));
           gtmPushAddToBag();
         })

@@ -110,6 +110,7 @@ export interface State {
   selectedPincode: string | null;
   showPincodePopup: boolean;
   showBag: boolean;
+  showCartMobile: boolean;
 }
 
 export interface MenuState {
