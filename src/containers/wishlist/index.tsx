@@ -369,6 +369,7 @@ class Wishlist extends React.Component<Props, State> {
         ? prod.category[index].replace(/\s/g, "")
         : "";
       category = category.replace(/>/g, "/");
+      const listPath = `Wishlist ${location.pathname}`;
       return prod.stockDetails.map(gtmItem => {
         const cur = this.state.saleStatus
           ? gtmItem.discountedPrice[currency]
@@ -379,7 +380,7 @@ class Wishlist extends React.Component<Props, State> {
             name: prod.productName,
             id: gtmItem.sku,
             category: category,
-            list: "Wishlist",
+            list: listPath,
             price: cur,
             brand: "Goodearth",
             position: i + 1,

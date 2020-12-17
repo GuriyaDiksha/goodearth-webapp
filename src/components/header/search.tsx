@@ -9,6 +9,7 @@ import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import HeaderService from "services/headerFooter";
+import CookieService from "../../services/cookie";
 import { WidgetImage } from "./typings";
 import {
   PartialProductItem,
@@ -144,18 +145,24 @@ class Search extends React.Component<Props, State> {
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
-    const index = itemData.categories.length - 1;
-    let category = itemData.categories[index].replace(/\s/g, "");
-    category = category.replace(/>/g, "/");
+    let category = "";
+    if (itemData.categories) {
+      const index = itemData.categories.length - 1;
+      category = itemData.categories[index].replace(/\s/g, "");
+      category = category.replace(/>/g, "/");
+    }
     const cur = this.props.isSale
       ? itemData.discountedPriceRecords[this.props.currency]
       : itemData.priceRecords[this.props.currency];
+    const listPath = `SearchPopup ${location.pathname}`;
+    CookieService.setCookie("listPath", listPath);
     dataLayer.push({
       event: "productClick",
       ecommerce: {
         currencyCode: this.props.currency,
         click: {
-          actionField: { list: "Search Popup" },
+          // actionField: { list: "Search Popup" },
+          actionField: { list: listPath },
           products: [
             {
               name: data.title,
@@ -210,7 +217,7 @@ class Search extends React.Component<Props, State> {
     this.props
       .fetchSearchProducts(searchUrl.split("/search")[1])
       .then(data => {
-        valid.productImpression(data, "Search List", this.props.currency);
+        valid.productImpression(data, "SearchPopup", this.props.currency);
         this.setState({
           productData: data.results.data,
           url: searchUrl,
