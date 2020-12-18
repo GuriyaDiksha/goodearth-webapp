@@ -14,7 +14,7 @@ const ErrorPage: React.FC = () => {
     setTimeout(() => {
       history.push("/");
     }, 3000);
-  });
+  }, []);
 
   return (
     <div className={globalStyles.col12}>

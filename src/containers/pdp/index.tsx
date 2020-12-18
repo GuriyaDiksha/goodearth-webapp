@@ -123,6 +123,9 @@ class PDPContainer extends React.Component<Props, State> {
     ) {
       this.getImageOffset();
     }
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,

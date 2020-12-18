@@ -13,6 +13,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import mapDispatchToProps from "./initAction";
 import fontStyles from "styles/iconFonts.scss";
+import CookieService from "../../services/cookie";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -59,31 +60,41 @@ class Quickview extends React.Component<Props, State> {
   };
 
   gtmPushOpenQuickview = () => {
-    const index = this.props.data.categories.length - 1;
-    let category = this.props.data.categories[index].replace(/\s/g, "");
-    category = category.replace(/>/g, "/");
-    const productList = this.props.data.childAttributes.map(item => {
-      return {
-        name: this.props.data.title,
-        id: item.sku,
-        price:
-          item.discountedPriceRecords[this.props.currency] ||
-          item.priceRecords[this.props.currency],
-        brand: "Goodearth",
-        category: category,
-        variant: item.size || ""
-      };
-    });
-    dataLayer.push({
-      event: "productImpression",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        detail: {
-          actionField: { list: "Quickview" },
-          products: productList
-        }
+    try {
+      let category = "";
+      if (this.props.data.categories) {
+        const index = this.props.data.categories.length - 1;
+        category = this.props.data.categories[index].replace(/\s/g, "");
+        category = category.replace(/>/g, "/");
       }
-    });
+      const productList = this.props.data.childAttributes.map(item => {
+        return {
+          name: this.props.data.title,
+          id: item.sku,
+          price: item.discountedPriceRecords
+            ? item.discountedPriceRecords[this.props.currency]
+            : item.priceRecords[this.props.currency],
+          brand: "Goodearth",
+          category: category,
+          variant: item.size || ""
+        };
+      });
+      const listPath = `Quickview ${location.pathname}`;
+      CookieService.setCookie("listPath", listPath);
+      dataLayer.push({
+        event: "productImpression",
+        ecommerce: {
+          currencyCode: this.props.currency,
+          detail: {
+            // actionField: { list: "Quickview" },
+            actionField: { list: listPath },
+            products: productList
+          }
+        }
+      });
+    } catch (err) {
+      console.log("Quickview GTM error!");
+    }
   };
 
   componentDidMount() {

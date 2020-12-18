@@ -215,6 +215,13 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
+  const setSelectedSKU = () => {
+    let currentSKU = sku;
+    if (selectedSize) {
+      currentSKU = selectedSize.sku;
+    }
+    return currentSKU;
+  };
   const gtmPushAddToBag = () => {
     dataLayer.push({
       event: "addToCart",
@@ -224,11 +231,11 @@ const ProductDetails: React.FC<Props> = ({
           products: [
             {
               name: title,
-              id: childAttributes[0].sku,
-              price: discountedPriceRecords[currency] || priceRecords[currency],
+              id: setSelectedSKU(),
+              price: discountPrices || price,
               brand: "Goodearth",
               category: collection,
-              variant: childAttributes[0]?.size || "",
+              variant: selectedSize?.size || "",
               quantity: quantity,
               list: "PDP"
             }
@@ -262,13 +269,6 @@ const ProductDetails: React.FC<Props> = ({
     }
   };
 
-  const setSelectedSKU = () => {
-    let currentSKU = sku;
-    if (selectedSize) {
-      currentSKU = selectedSize.sku;
-    }
-    return currentSKU;
-  };
   const onEnquireClick = () => {
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
@@ -305,6 +305,7 @@ const ProductDetails: React.FC<Props> = ({
         badgeType={badgeType}
         isSale={info.isSale}
         discountedPrice={discountPrices}
+        list={isQuickview ? "quickview" : "pdp"}
       />,
       false,
       ModalStyles.bottomAlign
