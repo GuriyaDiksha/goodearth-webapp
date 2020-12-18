@@ -129,6 +129,9 @@ class CollectionLanding extends React.Component<
     }
   }
   componentDidMount() {
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "CategoryLangingPageView",
       PageURL: this.props.location.pathname,
