@@ -501,7 +501,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     return (
       <Fragment>
         {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+          <div className={cs(bootstrapStyles.col12)}>
             <div
               className={cs(globalStyles.successMsg, globalStyles.textCenter)}
             >
