@@ -252,6 +252,9 @@ class Checkout extends React.Component<Props, State> {
           }
         })
       : "";
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "checkoutView",
       PageURL: this.props.location.pathname,
