@@ -17,6 +17,7 @@ import { showMessage } from "actions/growlMessage";
 import CookieService from "services/cookie";
 import { ALL_SESSION_LOGOUT } from "constants/messages";
 import * as valid from "utils/validate";
+import LoginService from "services/login";
 
 type Props = {
   uid: string;
@@ -24,12 +25,15 @@ type Props = {
 } & RouteComponentProps;
 
 const ResetPassword: React.FC<Props> = props => {
-  const { mobile } = useSelector((state: AppState) => state.device);
+  const {
+    device: { mobile },
+    user: { isLoggedIn }
+  } = useSelector((state: AppState) => state);
   const ResetPasswordFormRef = React.createRef<Formsy>();
   const [showPassword, setShowPassword] = useState(false);
   const [enableSubmit, setEnableSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const dispatch = useDispatch();
   const { uid, token } = props;
   const history = useHistory();
 
@@ -41,6 +45,9 @@ const ResetPassword: React.FC<Props> = props => {
       noContentContainerElem.classList.contains(globalStyles.contentContainer)
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
+    }
+    if (isLoggedIn) {
+      LoginService.logout(dispatch);
     }
   }, []);
   const handleInvalidSubmit = () => {
@@ -62,7 +69,6 @@ const ResetPassword: React.FC<Props> = props => {
       }
     }, 0);
   };
-  const dispatch = useDispatch();
 
   const handleSubmit = (
     model: any,
