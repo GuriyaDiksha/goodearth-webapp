@@ -86,6 +86,9 @@ class PLP extends React.Component<
   };
 
   componentDidMount() {
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "PlpView",
       PageURL: this.props.location.pathname,
@@ -174,6 +177,11 @@ class PLP extends React.Component<
           nextProps.location.pathname.includes("corporate-gifting") ||
           nextProps.location.search.includes("&src_type=cp"),
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
+      });
+    }
+    if (this.props.currency != nextProps.currency) {
+      this.setState({
+        plpMaker: false
       });
     }
 

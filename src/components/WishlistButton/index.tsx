@@ -1,5 +1,5 @@
 // modules
-import React, { memo, useContext, useCallback } from "react";
+import React, { memo, useContext, useCallback, useState } from "react";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // contexts
@@ -14,6 +14,7 @@ import LoginService from "services/login";
 import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
 import { AppState } from "reducers/typings";
+import Loader from "components/Loader";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -23,6 +24,7 @@ const WishlistButton: React.FC<Props> = ({
   title,
   categories,
   priceRecords,
+  discountedPriceRecords,
   childAttributes,
   className,
   iconClassName,
@@ -34,6 +36,7 @@ const WishlistButton: React.FC<Props> = ({
 }) => {
   const items = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
+  const [showLoader, setShowLoader] = useState(false);
   const store = useStore();
   const {
     currency,
@@ -41,36 +44,45 @@ const WishlistButton: React.FC<Props> = ({
   } = useSelector((state: AppState) => state);
   const addedToWishlist = items.indexOf(id) !== -1;
   const gtmPushAddToWishlist = () => {
-    if (gtmListType) {
-      const index = categories ? categories.length - 1 : 0;
-      let category =
-        categories &&
-        categories.length > 0 &&
-        categories[index].replace(/\s/g, "");
-      category = category && category.replace(/>/g, "/");
-      dataLayer.push({
-        event: "AddtoWishlist",
-        ecommerce: {
-          currencyCode: currency,
-          add: {
-            products: [
-              {
-                name: title,
-                id: childAttributes?.[0].sku,
-                price: priceRecords ? priceRecords[currency] : null,
-                brand: "Goodearth",
-                category: category,
-                variant:
-                  childAttributes && childAttributes[0].color
-                    ? childAttributes[0].color[0]
-                    : "",
-                quantity: 1,
-                list: gtmListType
-              }
-            ]
+    try {
+      if (gtmListType) {
+        const index = categories ? categories.length - 1 : 0;
+        let category =
+          categories &&
+          categories.length > 0 &&
+          categories[index].replace(/\s/g, "");
+        category = category && category.replace(/>/g, "/");
+        const listPath = `${gtmListType} ${location.pathname}`;
+        dataLayer.push({
+          event: "AddtoWishlist",
+          ecommerce: {
+            currencyCode: currency,
+            add: {
+              products: [
+                {
+                  name: title,
+                  id: childAttributes?.[0].sku,
+                  price: discountedPriceRecords
+                    ? discountedPriceRecords[currency]
+                    : priceRecords
+                    ? priceRecords[currency]
+                    : null,
+                  brand: "Goodearth",
+                  category: category,
+                  variant:
+                    childAttributes && childAttributes[0].size
+                      ? childAttributes[0].size
+                      : "",
+                  quantity: 1,
+                  list: listPath
+                }
+              ]
+            }
           }
-        }
-      });
+        });
+      }
+    } catch (err) {
+      console.log("Wishlist GTM error!");
     }
   };
 
@@ -78,52 +90,67 @@ const WishlistButton: React.FC<Props> = ({
     if (!isLoggedIn) {
       LoginService.showLogin(store.dispatch);
     } else {
+      setShowLoader(true);
       if (basketLineId) {
-        await WishlistService.moveToWishlist(
+        WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
           size || "",
           source,
           sortBy
-        );
-        onMoveToWishlist?.();
+        )
+          .then(() => {
+            onMoveToWishlist?.();
+          })
+          .finally(() => {
+            setShowLoader(false);
+          });
       } else {
         if (addedToWishlist) {
-          WishlistService.removeFromWishlist(store.dispatch, id);
-        } else {
-          WishlistService.addToWishlist(store.dispatch, id, size).then(() => {
-            gtmPushAddToWishlist();
+          WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
+            setShowLoader(false);
           });
+        } else {
+          WishlistService.addToWishlist(store.dispatch, id, size)
+            .then(() => {
+              gtmPushAddToWishlist();
+            })
+            .finally(() => {
+              setShowLoader(false);
+            });
         }
       }
     }
   }, [addedToWishlist, id, isLoggedIn, basketLineId, size]);
 
   return (
-    <div className={className}>
-      <div
-        className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
-          [iconStyles.iconWishlistAdded]:
-            (addedToWishlist && !basketLineId) || inWishlist,
-          [iconStyles.iconWishlist]:
-            (!addedToWishlist || basketLineId) && !inWishlist,
-          [styles.addedToWishlist]:
-            (addedToWishlist && !basketLineId) || inWishlist,
-          [styles.mobileWishlist]: mobile
-        })}
-        title={basketLineId ? "Move to Wishlist" : ""}
-        onClick={onClick}
-      ></div>
-      {showText && (
+    <>
+      <div className={className}>
         <div
-          className={cs(styles.label, {
-            [styles.addedToWishlist]: addedToWishlist
+          className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
+            [iconStyles.iconWishlistAdded]:
+              (addedToWishlist && !basketLineId) || inWishlist,
+            [iconStyles.iconWishlist]:
+              (!addedToWishlist || basketLineId) && !inWishlist,
+            [styles.addedToWishlist]:
+              (addedToWishlist && !basketLineId) || inWishlist,
+            [styles.mobileWishlist]: mobile
           })}
-        >
-          {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
-        </div>
-      )}
-    </div>
+          title={basketLineId ? "Move to Wishlist" : ""}
+          onClick={onClick}
+        ></div>
+        {showText && (
+          <div
+            className={cs(styles.label, {
+              [styles.addedToWishlist]: addedToWishlist
+            })}
+          >
+            {addedToWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
+          </div>
+        )}
+      </div>
+      {showLoader && <Loader />}
+    </>
   );
 };
 

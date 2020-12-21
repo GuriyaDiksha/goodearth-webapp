@@ -27,7 +27,7 @@ const Section2: React.FC<Section2Props> = ({
   selectedCountry,
   next,
   goback,
-  data
+  setData
 }) => {
   const code = currencyCode[currency as Currency];
   const sku = "I00121125";
@@ -45,16 +45,30 @@ const Section2: React.FC<Section2Props> = ({
   const [country, setCountry] = useState(selectedCountry);
 
   useEffect(() => {
-    if (currency == "INR") {
-      const form = RegisterFormRef.current;
-      form &&
+    const form = RegisterFormRef.current;
+    if (form) {
+      let newCountry = country;
+      if (currency == "INR") {
+        newCountry = "India";
+      } else if (currency == "GBP") {
+        newCountry = "United Kingdom";
+      } else if (currency == "AED") {
+        newCountry = "United Arab Emirates";
+      } else if (currency == "USD") {
+        if (countryData[country] != currency && country) {
+          newCountry = "";
+        }
+      }
+      (country || newCountry) &&
         form.updateInputsWithValue({
-          country: "India"
+          country: newCountry
         });
-      setSelectcurrency("INR");
+      setCountry(newCountry);
+      setSelectcurrency(currency);
+      setCountrymsg("");
     }
     window.scrollTo(0, 0);
-  }, []);
+  }, [currency]);
 
   const setValue = (id: string) => {
     const elem = document.getElementById(selectvalue) as HTMLInputElement;
@@ -84,6 +98,8 @@ const Section2: React.FC<Section2Props> = ({
   const onCountrySelect = (e: any) => {
     const country = e.target.value;
     setCountry(country);
+    const data: any = { selectedCountry: country };
+    setData(data, "amount");
     const newCurrency = countryData[country];
     if (currency != newCurrency) {
       dispatch(refreshPage(undefined));
@@ -130,7 +146,7 @@ const Section2: React.FC<Section2Props> = ({
 
   const gotoNext = () => {
     const data: any = {};
-    if (!selectcurrency) {
+    if (!selectcurrency || !selectedCountry) {
       setCountrymsg(
         "Please choose the country you would like to ship this gift card to"
       );

@@ -20,7 +20,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
   const {
     basket,
-    device: { mobile }
+    device: { mobile },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout, loyaltyData } = props;
   const [paymentError, setPaymentError] = useState("");
@@ -77,6 +78,22 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   // }
 
+  const gtmPushPaymentTracking = (
+    paymentMode: string[],
+    paymentMethod: string
+  ) => {
+    try {
+      dataLayer.push({
+        event: "paymentDetails",
+        paymentMode: paymentMode,
+        paymentMethod: paymentMethod
+      });
+    } catch (e) {
+      console.log(e);
+      console.log("payment Tracking error");
+    }
+  };
+
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     if (currentmethod.mode || isFree) {
@@ -98,8 +115,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         return false;
       }
       setIsLoading(true);
+      const paymentMode: string[] = [];
+      let paymentMethod = "";
+      if (!isFree) {
+        paymentMethod = currentmethod.value;
+        paymentMode.push("Online");
+      }
+      if (basket.giftCards.length > 0) {
+        paymentMode.push("GiftCard");
+      }
+      if (basket.loyalty.length > 0) {
+        paymentMode.push("Loyalty");
+      }
       checkout(data)
         .then((response: any) => {
+          gtmPushPaymentTracking(paymentMode, paymentMethod);
           location.href = `${__API_HOST__ + response.paymentUrl}`;
           setIsLoading(false);
         })
@@ -253,27 +283,36 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
       {isActive && (
         <Fragment>
-          {!basket.isOnlyGiftCart && giftWrapRender}
-          {giftwrap && !basket.isOnlyGiftCart && (
-            <div>
-              <textarea
-                rows={5}
-                cols={45}
-                className={styles.giftMessage}
-                value={textarea}
-                placeholder={"add message (optional)"}
-                autoComplete="new-password"
-                onChange={(e: any) => {
-                  setTextarea(e.target.value);
-                }}
-              />
-              <div className={cs(globalStyles.textLeft, styles.font14)}>
-                Character Limit: {120 - textarea.length}
+          {!basket.isOnlyGiftCart &&
+            (isSale ? currency == "INR" : true) &&
+            giftWrapRender}
+          {giftwrap &&
+            !basket.isOnlyGiftCart &&
+            (isSale ? currency == "INR" : true) && (
+              <div>
+                <textarea
+                  rows={5}
+                  cols={45}
+                  className={styles.giftMessage}
+                  value={textarea}
+                  placeholder={"add message (optional)"}
+                  autoComplete="new-password"
+                  onChange={(e: any) => {
+                    setTextarea(e.target.value);
+                  }}
+                />
+                <div className={cs(globalStyles.textLeft, styles.font14)}>
+                  Character Limit: {120 - textarea.length}
+                </div>
               </div>
-            </div>
+            )}
+          {giftwrap &&
+            !basket.isOnlyGiftCart &&
+            (isSale ? currency == "INR" : true) &&
+            giftShowPrice}
+          {!basket.isOnlyGiftCart && (isSale ? currency == "INR" : true) && (
+            <hr className={styles.hr} />
           )}
-          {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
-          {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
           <div className={globalStyles.marginT20}>
             {!basket.isOnlyGiftCart && (
               <div className={globalStyles.flex}>

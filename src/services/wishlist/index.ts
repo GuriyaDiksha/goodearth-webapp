@@ -31,7 +31,7 @@ export default {
     productId: ProductID,
     size?: string
   ) {
-    const res = await API.post<ApiResponse>(
+    const res = await API.post<WishlistResponse & ApiResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/wishlist/"}`,
       {
@@ -39,7 +39,7 @@ export default {
         size
       }
     );
-    this.updateWishlist(dispatch);
+    dispatch(updateWishlist(res.data, "added_on"));
     return res;
   },
 
@@ -47,17 +47,18 @@ export default {
     dispatch: Dispatch,
     productId?: ProductID,
     id?: number,
-    sortyBy = "added_on"
+    sortBy = "added_on"
   ) {
-    const res = await API.delete<ApiResponse>(
+    const res = await API.delete<WishlistResponse & ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/wishlist/"}`,
+      `${__API_HOST__}/myapi/wishlist/`,
       {
         productId,
-        id
+        id,
+        sortBy: sortBy
       }
     );
-    await this.updateWishlist(dispatch, sortyBy);
+    dispatch(updateWishlist(res.data, sortBy));
     return res;
   },
 
@@ -83,17 +84,18 @@ export default {
     source?: string,
     sortBy?: string
   ) {
-    const res = await API.post<ApiResponse>(
+    const res = await API.post<WishlistResponse & ApiResponse>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
       {
         basketLineId,
-        size
+        size,
+        sortBy
       }
     );
 
     if (res.success) {
-      this.updateWishlist(dispatch, sortBy);
+      dispatch(updateWishlist(res.data, sortBy));
       BasketService.fetchBasket(dispatch, source);
     }
   },

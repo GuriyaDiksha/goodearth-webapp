@@ -180,7 +180,8 @@ const BaseLayout: React.FC = () => {
     pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
-  if (confirmation || backOrder) {
+  const maintenance = pathname.indexOf("maintenance") > -1;
+  if (confirmation || backOrder || maintenance) {
     return (
       <div>
         <Switch>{routes}</Switch>

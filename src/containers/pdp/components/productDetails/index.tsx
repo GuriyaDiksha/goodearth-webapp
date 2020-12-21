@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import SizeSelector from "components/SizeSelector";
 import Quantity from "components/quantity";
+import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
@@ -206,6 +206,13 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
+  const setSelectedSKU = () => {
+    let currentSKU = sku;
+    if (selectedSize) {
+      currentSKU = selectedSize.sku;
+    }
+    return currentSKU;
+  };
   const gtmPushAddToBag = () => {
     dataLayer.push({
       event: "addToCart",
@@ -215,11 +222,11 @@ const ProductDetails: React.FC<Props> = ({
           products: [
             {
               name: title,
-              id: childAttributes[0].sku,
-              price: priceRecords[currency],
+              id: setSelectedSKU(),
+              price: discountPrices || price,
               brand: "Goodearth",
               category: collection,
-              variant: childAttributes[0]?.size || "",
+              variant: selectedSize?.size || "",
               quantity: quantity,
               list: "PDP"
             }
@@ -249,13 +256,6 @@ const ProductDetails: React.FC<Props> = ({
     }
   };
 
-  const setSelectedSKU = () => {
-    let currentSKU = sku;
-    if (selectedSize) {
-      currentSKU = selectedSize.sku;
-    }
-    return currentSKU;
-  };
   const onEnquireClick = () => {
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
@@ -292,6 +292,7 @@ const ProductDetails: React.FC<Props> = ({
         badgeType={badgeType}
         isSale={info.isSale}
         discountedPrice={discountPrices}
+        list={isQuickview ? "quickview" : "pdp"}
       />,
       false,
       ModalStyles.bottomAlign
@@ -320,7 +321,7 @@ const ProductDetails: React.FC<Props> = ({
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity]);
+  }, [corporatePDP, selectedSize, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -578,7 +579,7 @@ const ProductDetails: React.FC<Props> = ({
         >
           <div
             className={cs(globalStyles.textCenter, globalStyles.voffset1, {
-              [bootstrap.col9]: !corporatePDP,
+              [bootstrap.col8]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
               [bootstrap.colSm8]: !mobile,
               [bootstrap.colSm12]: corporatePDP && mobile
@@ -600,7 +601,7 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
           <div
-            className={cs(bootstrap.col3, globalStyles.textCenter, {
+            className={cs(bootstrap.col4, globalStyles.textCenter, {
               [styles.wishlistBtnContainer]: mobile,
               [globalStyles.voffset1]: mobile,
               [globalStyles.hidden]: corporatePDP
@@ -611,6 +612,7 @@ const ProductDetails: React.FC<Props> = ({
               title={title}
               childAttributes={childAttributes}
               priceRecords={priceRecords}
+              discountedPriceRecords={discountedPriceRecords}
               categories={categories}
               id={id}
               showText={!mobile}

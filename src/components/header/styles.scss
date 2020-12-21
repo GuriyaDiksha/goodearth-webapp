@@ -153,6 +153,9 @@
       white-space: nowrap;
       vertical-align: baseline;
       border-radius: 10px;
+      &:hover {
+        color: $cerise;
+      }
     }
     .icon-style {
       font-size: 22px;
@@ -819,16 +822,64 @@ a {
     flex-wrap: wrap;
     justify-content: center;
     min-height: 300px;
-    padding: 0 10rem 0 10rem;
   }
   .checkheight-mobile {
     min-height: 300px;
     padding: 0 2rem 0 2rem;
 
   }
+  .left {
+    justify-content: flex-start;
+  }
+  .no-suggestion-padding {
+    padding: 0 10rem 0 10rem;
+  }
+  .only-suggestion-min-height {
+    min-height: 100px;
+    flex-direction: column;
+    .suggestion {
+      padding-left: 120px;
+    }
+    .suggestion-text {
+      margin-left: 120px;
+    }
+  }
+  .only-suggestion-mobile {
+    padding: 0;
+    .suggestion {
+      padding-left: 20px;
+    }
+    .suggestion-text {
+      margin-left: 20px;
+    }
+  }
+}
+.only-suggestion-height {
+  height: auto;
+  .suggestion {
+    padding-left: 0;
+  }
+  .suggestion-text {
+    margin-left: 0;
+  }
 }
 }
-
+.both-products-suggestions-mobile {
+  .suggestions-flex {
+    flex-direction: column;  
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .suggestion {
+    text-align: left;
+    padding-left: 20px;
+  }
+  .suggestion-text {
+    text-align: left;
+    margin-left: 20px;
+  }
+}
 .search-imagebox-new {
 position: relative;
 display: block;
@@ -1201,4 +1252,26 @@ visibility: visible !important;
   }
   
   
+}
+
+.suggestion {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #000;
+    cursor: pointer;
+    display: block;
+    font-family: $font-Lato;
+    padding-left: 100px;
+    text-align: left;
+}
+.suggestion-text{
+  margin-top: 5px;
+  font-size: 14px;
+  float: left;
+  margin-left: 100px;
+  font-family: $font-Lato;
+  .first-text{
+    text-transform: uppercase;
+  }
 }

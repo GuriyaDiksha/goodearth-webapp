@@ -84,10 +84,20 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           valid.errorTracking([this.state.msgt], location.href);
         }
       );
-      const elem = document.getElementById(
+      const errorElem = document.getElementById(
         "selectError"
       ) as HTMLParagraphElement;
-      elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      if (elem && elem.checked == false) {
+        this.setState(
+          {
+            subscribeError: "Please accept the terms & conditions"
+          },
+          () => {
+            valid.errorTracking([this.state.subscribeError], location.href);
+          }
+        );
+      }
       return false;
     }
     if (elem && elem.checked == false) {
@@ -151,10 +161,20 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           valid.errorTracking([this.state.msgt], location.href);
         }
       );
-      const elem = document.getElementById(
+      const errorElem = document.getElementById(
         "selectError"
       ) as HTMLParagraphElement;
-      elem.scrollIntoView({ block: "center", behavior: "smooth" });
+      errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      if (elem && elem.checked == false) {
+        this.setState(
+          {
+            subscribeError: "Please accept the terms & conditions"
+          },
+          () => {
+            valid.errorTracking([this.state.subscribeError], location.href);
+          }
+        );
+      }
       return false;
     }
     if (elem && elem.checked == false) {

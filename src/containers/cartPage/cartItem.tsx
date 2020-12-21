@@ -47,35 +47,45 @@ const CartItems: React.FC<BasketItem> = memo(
     };
 
     const gtmPushDeleteCartItem = () => {
-      const price = saleStatus
-        ? product.discountedPriceRecords[currency]
-        : product.priceRecords[currency];
-      const index = product.categories.length - 1;
-      const category = product.categories[index]
-        ? product.categories[index].replace(/\s/g, "")
-        : "";
-
-      dataLayer.push({
-        event: "removeFromCart",
-        ecommerce: {
-          currencyCode: currency,
-          remove: {
-            products: [
-              {
-                name: product.title,
-                id: product.sku,
-                price: price,
-                brand: "Goodearth",
-                category: category,
-                // 'variant': product.ga_variant,
-                variant: product.childAttributes?.[0].size || "",
-                list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
-                quantity: quantity
-              }
-            ]
-          }
+      try {
+        const price = saleStatus
+          ? product.discountedPriceRecords[currency]
+          : product.priceRecords[currency];
+        let category = "";
+        if (product.categories) {
+          const index = product.categories.length - 1;
+          category = product.categories[index]
+            ? product.categories[index].replace(/\s/g, "")
+            : "";
         }
-      });
+
+        dataLayer.push({
+          event: "removeFromCart",
+          ecommerce: {
+            currencyCode: currency,
+            remove: {
+              products: [
+                {
+                  name: product.title,
+                  id: product.sku || product.childAttributes[0].sku,
+                  price: price,
+                  brand: "Goodearth",
+                  category: category,
+                  // 'variant': product.ga_variant,
+                  variant: product.childAttributes?.[0].size || "",
+                  list:
+                    location.href.indexOf("cart") != -1
+                      ? `Cart ${location.pathname}`
+                      : `Checkout ${location.pathname}`,
+                  quantity: quantity
+                }
+              ]
+            }
+          }
+        });
+      } catch (err) {
+        console.log("cartPage GTM error!");
+      }
     };
 
     const deleteItem = () => {
@@ -115,6 +125,7 @@ const CartItems: React.FC<BasketItem> = memo(
             discount={false}
             onNotifyCart={onNotifyCart}
             // changeSize={changeSize}
+            list="cart"
           />,
           false,
           ModalStyles.bottomAlign
@@ -315,6 +326,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     product.childAttributes ? product.childAttributes : []
                   }
                   priceRecords={priceRecords}
+                  discountedPriceRecords={discountedPriceRecords}
                   categories={product.categories}
                   basketLineId={id}
                   id={product.id}

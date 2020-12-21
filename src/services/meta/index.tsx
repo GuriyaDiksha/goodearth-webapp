@@ -13,6 +13,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import ProfileUpdater from "components/signin/profileUpdater";
 import React from "react";
 import HeaderService from "services/headerFooter";
+import CookieService from "services/cookie";
 
 export default {
   fetchMeta: async function(
@@ -48,6 +49,9 @@ export default {
           user.email
         );
         dispatch(updateUser({ slab: res.slab }));
+      }
+      if (typeof document != "undefined") {
+        CookieService.setCookie("currency", meta.currency, 365);
       }
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));

@@ -34,14 +34,30 @@ const LineItems: React.FC<BasketItem> = memo(
       });
     };
 
+    const {
+      images,
+      collections,
+      title,
+      url,
+      priceRecords,
+      discount,
+      discountedPriceRecords,
+      badgeType,
+      inWishlist,
+      attributes
+    } = product;
+    const size =
+      attributes.find(attribute => attribute.name == "Size")?.value || "";
+
     const gtmPushDeleteCartItem = () => {
       const price = saleStatus
         ? product.discountedPriceRecords[currency]
         : product.priceRecords[currency];
-      const index = product.categories.length - 1;
-      const category = product.categories[index]
-        ? product.categories[index].replace(/\s/g, "")
-        : "";
+      const index = product.categories ? product.categories.length - 1 : 0;
+      const category =
+        product.categories && product.categories[index]
+          ? product.categories[index].replace(/\s/g, "")
+          : "";
 
       dataLayer.push({
         event: "removeFromCart",
@@ -51,11 +67,11 @@ const LineItems: React.FC<BasketItem> = memo(
             products: [
               {
                 name: product.title,
-                id: product.sku,
+                id: product.sku || product.childAttributes[0].sku,
                 price: price,
                 brand: "Goodearth",
                 category: category,
-                variant: product.gaVariant,
+                variant: size,
                 list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
                 quantity: quantity
               }
@@ -80,20 +96,6 @@ const LineItems: React.FC<BasketItem> = memo(
       return size ? <div className={styles.size}>Size: {size.value}</div> : "";
     };
 
-    const {
-      images,
-      collections,
-      title,
-      url,
-      priceRecords,
-      discount,
-      discountedPriceRecords,
-      badgeType,
-      inWishlist,
-      attributes
-    } = product;
-    const size =
-      attributes.find(attribute => attribute.name == "Size")?.value || "";
     const price = priceRecords[currency];
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
     return (
@@ -220,10 +222,11 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <WishlistButton
-                  gtmListType="Mini Bag"
+                  gtmListType="MiniBag"
                   title={product.title}
                   childAttributes={product.childAttributes}
                   priceRecords={product.priceRecords}
+                  discountedPriceRecords={product.discountedPriceRecords}
                   categories={product.categories}
                   basketLineId={id}
                   size={size}

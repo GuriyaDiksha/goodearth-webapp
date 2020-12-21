@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import cs from "classnames";
 // components
+import Button from "components/Button";
 import CloseButton from "components/Modal/components/CloseButton";
 import InputField from "components/InputField";
-import Button from "components/Button";
-
 // styles
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";

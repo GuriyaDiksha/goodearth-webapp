@@ -13,6 +13,7 @@ import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
+import initActionCheckout from "containers/checkout/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -101,7 +102,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CHECKOUT,
     component: loadable(() => import("containers/checkout")),
-    action: async () => null,
+    action: initActionCheckout,
     exact: true
   },
   {
@@ -185,6 +186,12 @@ const routes: RouteConfig = [
   {
     path: ROUTES.PUSHPANJALI,
     component: loadable(() => import("containers/home")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.MAINTENANCE,
+    component: loadable(() => import("containers/maintenance")),
     action: async () => null,
     exact: true
   },

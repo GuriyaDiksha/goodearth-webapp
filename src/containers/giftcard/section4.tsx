@@ -44,8 +44,9 @@ const Section4: React.FC<Section4Props> = props => {
           if (error.response.status == 406) {
             return false;
           }
-          setNummsg("Internal Server Error");
-          valid.errorTracking(["Internal Server Error"], location.href);
+          const errorMsg = error.response.data[0] || "Internal Server Error";
+          setNummsg(errorMsg);
+          valid.errorTracking([errorMsg], location.href);
         });
     } else {
       setNummsg("Please accept the Terms & Conditions");

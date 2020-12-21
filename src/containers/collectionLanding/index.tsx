@@ -122,8 +122,16 @@ class CollectionLanding extends React.Component<
         onloadState: false
       });
     }
+    if (this.props.currency != nextProps.currency) {
+      this.setState({
+        landingMaker: false
+      });
+    }
   }
   componentDidMount() {
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "CategoryLangingPageView",
       PageURL: this.props.location.pathname,
@@ -132,6 +140,9 @@ class CollectionLanding extends React.Component<
     this.setState({
       landingMaker: true
     });
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 1000);
   }
 
   componentDidUpdate(previous: Props) {
@@ -143,6 +154,11 @@ class CollectionLanding extends React.Component<
         landingMaker: true
       });
       this.props.fetchCollectionMappingAndData();
+    }
+    if (this.props.currency != previous.currency) {
+      this.setState({
+        landingMaker: true
+      });
     }
   }
 

@@ -14,7 +14,8 @@ import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import { WishlistItem, WishListGridItem } from "typings/wishlist";
 import WishlistService from "services/wishlist";
 import { Link } from "react-router-dom";
-import * as _ from "lodash";
+import debounce from "lodash/debounce";
+import find from "lodash/find";
 import NotifyMePopup from "components/NotifyMePopup";
 import { updateComponent, updateModal } from "../../actions/modal";
 import { Currency } from "typings/currency";
@@ -106,6 +107,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             isSale={isSale}
             discount={item.discount}
             badgeType={item.badgeType}
+            list="wishlist"
           />,
           false,
           ModalStyles.bottomAlign
@@ -367,6 +369,7 @@ class Wishlist extends React.Component<Props, State> {
         ? prod.category[index].replace(/\s/g, "")
         : "";
       category = category.replace(/>/g, "/");
+      const listPath = `Wishlist ${location.pathname}`;
       return prod.stockDetails.map(gtmItem => {
         const cur = this.state.saleStatus
           ? gtmItem.discountedPrice[currency]
@@ -377,11 +380,11 @@ class Wishlist extends React.Component<Props, State> {
             name: prod.productName,
             id: gtmItem.sku,
             category: category,
-            list: "Wishlist",
+            list: listPath,
             price: cur,
             brand: "Goodearth",
             position: i + 1,
-            variant: prod.gaVariant ? prod.gaVariant : null
+            variant: prod.size || ""
           }
         );
       });
@@ -494,7 +497,7 @@ class Wishlist extends React.Component<Props, State> {
             itemWidth={150}
             itemHeight={300}
             responsive={true}
-            onMove={_.debounce(this.onMoveDebounced, 40)}
+            onMove={debounce(this.onMoveDebounced, 40)}
           />,
           document.getElementById("wishlist")
         );
@@ -509,7 +512,7 @@ class Wishlist extends React.Component<Props, State> {
             itemWidth={280}
             itemHeight={480}
             responsive={true}
-            onMove={_.debounce(this.onMoveDebounced, 40)}
+            onMove={debounce(this.onMoveDebounced, 40)}
           />,
           document.getElementById("wishlist")
         );
@@ -520,8 +523,8 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   onMoveDebounced = (source: any, target: any) => {
-    source = _.find(this.state.sampleItems, { key: parseInt(source, 10) });
-    target = _.find(this.state.sampleItems, { key: parseInt(target, 10) });
+    source = find(this.state.sampleItems, { key: parseInt(source, 10) });
+    target = find(this.state.sampleItems, { key: parseInt(target, 10) });
     const targetSort = target.sort;
 
     //CAREFUL, For maximum performance we must maintain the array's order, but change sort

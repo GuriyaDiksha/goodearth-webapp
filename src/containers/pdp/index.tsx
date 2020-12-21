@@ -123,6 +123,9 @@ class PDPContainer extends React.Component<Props, State> {
     ) {
       this.getImageOffset();
     }
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
@@ -194,6 +197,9 @@ class PDPContainer extends React.Component<Props, State> {
     if (this.props.currency != nextProps.currency) {
       this.fetchMoreProductsFromCollection(nextProps.id);
       this.props.fetchProduct(this.props.slug);
+      this.setState({
+        mounted: false
+      });
     }
   }
 
@@ -233,6 +239,11 @@ class PDPContainer extends React.Component<Props, State> {
       window.setTimeout(() => {
         window.scrollTo({ top: 0 });
       }, 500);
+    }
+    if (this.props.currency != props.currency) {
+      this.setState({
+        mounted: true
+      });
     }
   }
 
