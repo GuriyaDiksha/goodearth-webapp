@@ -92,11 +92,17 @@ const Bridal: React.FC<Props> = props => {
         setBridalAddress(bridalAddress);
       }
     });
-    getBridalProfileData();
     return () => {
       window.removeEventListener("beforeunload", confirmPopup);
     };
   }, []);
+
+  useEffect(() => {
+    if (props.bridalId) {
+      getBridalProfileData();
+    }
+  }, [props.bridalId]);
+
   const openBridalPop = () => {
     dispatch(updateComponent(<BridalPop />, true));
     dispatch(updateModal(true));

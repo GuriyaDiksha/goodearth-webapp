@@ -129,6 +129,7 @@ const ManageRegistryFull: React.FC<Props> = ({
           // mobile={mobile}
           clickType={clickType}
           eventDate={currentEventDate}
+          bridalProfile={bridalProfile}
           changeName={changeName}
           // close_popup={closePopup}
           changeDate={changeDate}

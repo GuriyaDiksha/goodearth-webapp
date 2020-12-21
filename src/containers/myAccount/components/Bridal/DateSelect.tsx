@@ -31,7 +31,7 @@ const DateSelect: React.FC = () => {
     // setIsOpen
   ] = useState(true);
   const [date, setDate] = useState(
-    data.eventDate ? moment(data.eventDate, "DD-MM-YYYY").toDate() : undefined
+    data.eventDate ? moment(data.eventDate, "YYYY-MM-DD").toDate() : undefined
   );
   let pickerRef: any = null;
   const onChange = (date: Date) => {

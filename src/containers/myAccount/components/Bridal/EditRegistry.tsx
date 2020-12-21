@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useRef } from "react";
 // import { CalendarIcon, ClearIcon } from 'components/common/form/Calendar';
 import DatePicker from "react-datepicker";
 // import DatePicker from 'react-date-picker';
@@ -7,7 +7,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import BridalService from "services/bridal";
-import BridalContext from "./context";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import styles from "./styles.scss";
@@ -20,8 +19,10 @@ import calendarIcon from "../../../../images/bridal/icons_bridal-registry-calend
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatepicker.css";
 import { updateModal } from "actions/modal";
+import { BridalProfileData } from "./typings";
 
 type Props = {
+  bridalProfile?: BridalProfileData;
   eventDate: string;
   bridalId: number;
   changeDate: (date: string) => void;
@@ -40,7 +41,7 @@ const EditRegistry: React.FC<Props> = props => {
   );
   const [updateProfile, setUpdateProfile] = useState(false);
 
-  const { bridalProfile } = useContext(BridalContext);
+  // const { bridalProfile } = useContext(BridalContext);
 
   const { mobile } = useSelector((state: AppState) => state.device);
 
@@ -248,7 +249,7 @@ const EditRegistry: React.FC<Props> = props => {
                         inputRef={registrantNameRef}
                         validations="isExisty"
                         required
-                        value={bridalProfile?.registrantName || ""}
+                        value={props.bridalProfile?.registrantName || ""}
                         handleChange={handleChange}
                       />
                     </div>
@@ -260,7 +261,7 @@ const EditRegistry: React.FC<Props> = props => {
                         inputRef={coRegistrantNameRef}
                         validations="isExisty"
                         required
-                        value={bridalProfile?.coRegistrantName || ""}
+                        value={props.bridalProfile?.coRegistrantName || ""}
                         handleChange={handleChange}
                       />
                     </div>
@@ -269,7 +270,7 @@ const EditRegistry: React.FC<Props> = props => {
                         name="registryName"
                         inputRef={regName}
                         placeholder="Registry Name (optional)"
-                        value={bridalProfile?.registryName || ""}
+                        value={props.bridalProfile?.registryName || ""}
                         label={"Registry Name"}
                       />
                     </div>

@@ -8,7 +8,7 @@ import styles from "../styles.scss";
 import { Props } from "../../typings";
 // import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
-import { removeFroala } from "utils/validate";
+import { scrollToId, removeFroala } from "utils/validate";
 
 export default class Shipping extends React.Component<
   Props,
@@ -26,6 +26,8 @@ export default class Shipping extends React.Component<
       this.setState({
         content: res.content
       });
+      // for handling scroll to particular element with id
+      scrollToId();
       removeFroala();
     });
   }
