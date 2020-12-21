@@ -99,6 +99,9 @@
 .spacer {
     margin-top: 20px;
 }
+.spacer-quickview {
+    margin-top: 10px;
+}
 
 .error-msg {
     @include error-msg();
@@ -184,6 +187,9 @@
         text-decoration: underline;
     }
 }
+.lh-45 {
+    line-height: 45px;
+}
 .widget-qty {
     display: flex;
     width: 100%;
@@ -195,4 +201,8 @@
     padding: 2px 0;
     // font-size: 12px;
     // line-height: 12px;
+}
+
+.margin-t-0 {
+  margin-top: 0;
 }

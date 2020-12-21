@@ -90,7 +90,15 @@ const ProductDetails: React.FC<Props> = ({
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
-
+  // const items = basket.lineItems?.map(
+  //   item => item.product.childAttributes[0].id
+  // );
+  const [addedToBag, setAddedToBag] = useState(false);
+  // useEffect(() => {
+  //   setAddedToBag(
+  //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
+  //   );
+  // }, [selectedSize]);
   useLayoutEffect(() => {
     setGtmListType("PDP");
   });
@@ -245,6 +253,10 @@ const ProductDetails: React.FC<Props> = ({
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
+          setAddedToBag(true);
+          setTimeout(() => {
+            setAddedToBag(false);
+          }, 3000);
           dispatch(showMessage(ADD_TO_BAG_SUCCESS));
           gtmPushAddToBag();
         })
@@ -317,12 +329,12 @@ const ProductDetails: React.FC<Props> = ({
       buttonText = "Notify Me";
       action = notifyMeClick;
     } else {
-      buttonText = "Add to Bag";
-      action = addToBasket;
+      buttonText = addedToBag ? "Added!" : "Add to Bag";
+      action = addedToBag ? () => null : addToBasket;
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity, currency, discount]);
+  }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -336,6 +348,7 @@ const ProductDetails: React.FC<Props> = ({
 
     return show;
   }, [childAttributes]);
+  const withBadge = images && images.length && images[0].badgeImagePdp;
 
   return (
     <div className={bootstrap.row}>
@@ -344,7 +357,8 @@ const ProductDetails: React.FC<Props> = ({
           bootstrap.col10,
           bootstrap.offset1,
           bootstrap.colMd11,
-          styles.sideContainer
+          styles.sideContainer,
+          { [styles.marginT0]: withBadge }
         )}
       >
         <div className={cs(bootstrap.row)}>
@@ -369,11 +383,9 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
           <div
-            className={cs(
-              bootstrap.col12,
-              styles.collectionHeader,
-              globalStyles.voffset3
-            )}
+            className={cs(bootstrap.col12, styles.collectionHeader, {
+              [globalStyles.voffset3]: !withBadge
+            })}
           >
             {collection && (
               <Link
@@ -427,7 +439,11 @@ const ProductDetails: React.FC<Props> = ({
         </div>
 
         {groupedProducts?.length ? (
-          <div className={cs(bootstrap.row, styles.spacer)}>
+          <div
+            className={cs(bootstrap.row, styles.spacer, {
+              [styles.spacerQuickview]: isQuickview && withBadge
+            })}
+          >
             <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
@@ -451,7 +467,11 @@ const ProductDetails: React.FC<Props> = ({
         )}
 
         {showSize ? (
-          <div className={cs(bootstrap.row, styles.spacer)}>
+          <div
+            className={cs(bootstrap.row, styles.spacer, {
+              [styles.spacerQuickview]: isQuickview && withBadge
+            })}
+          >
             <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
@@ -511,7 +531,11 @@ const ProductDetails: React.FC<Props> = ({
         ) : (
           ""
         )}
-        <div className={cs(bootstrap.row, styles.spacer)}>
+        <div
+          className={cs(bootstrap.row, styles.spacer, {
+            [styles.spacerQuickview]: isQuickview && withBadge
+          })}
+        >
           <div className={bootstrap.col8}>
             <div className={bootstrap.row}>
               <div
@@ -578,6 +602,7 @@ const ProductDetails: React.FC<Props> = ({
           className={cs(
             bootstrap.row,
             styles.spacer,
+            { [styles.spacerQuickview]: isQuickview && withBadge },
             styles.actionButtonsContainer,
             {
               [globalStyles.voffset3]: mobile
@@ -596,7 +621,7 @@ const ProductDetails: React.FC<Props> = ({
             {isQuickview ? (
               <Link
                 to={url}
-                className={styles.moreDetails}
+                className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
                 onClick={() => {
                   changeModalState(false);
                 }}
