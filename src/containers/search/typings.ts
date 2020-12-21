@@ -30,6 +30,7 @@ export type PlpProps = {
 };
 
 export type FilterProps = {
+  setFilterCount?: (count: number) => void;
   onRef: any;
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
 };

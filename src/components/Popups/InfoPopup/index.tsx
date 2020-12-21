@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -21,6 +21,11 @@ const FreeShipping: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const currency = useSelector((state: AppState) => state.currency);
+
+  useEffect(() => {
+    const btn = document.getElementById("info-popup-accept-button");
+    btn?.focus();
+  }, []);
 
   return (
     <div>
@@ -75,6 +80,8 @@ const FreeShipping: React.FC<PopupProps> = props => {
             )}
           >
             <a
+              id="info-popup-accept-button"
+              tabIndex={-1}
               onClick={() => {
                 props.acceptCondition();
                 closeModal();

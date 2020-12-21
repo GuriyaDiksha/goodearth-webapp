@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -66,7 +67,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               highlight: false
             },
             () => {
-              this.passwordInput.current && this.passwordInput.current.focus();
+              const checkoutPopupCookie = CookieService.getCookie(
+                "checkoutinfopopup"
+              );
+              checkoutPopupCookie == "show" &&
+                this.passwordInput.current &&
+                this.passwordInput.current.focus();
               this.passwordInput.current &&
                 this.passwordInput.current.scrollIntoView(true);
             }
@@ -127,10 +133,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
+    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email });
     }
-    this.firstEmailInput.current?.focus();
+    if (checkoutPopupCookie == "show") {
+      this.firstEmailInput.current?.focus();
+    }
     // localStorage.removeItem("tempEmail");
   }
 
@@ -142,7 +151,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           this.myBlur();
         });
       }
-      this.firstEmailInput.current?.focus();
+      // this.firstEmailInput.current?.focus();
       localStorage.removeItem("tempEmail");
     }
   }
@@ -492,7 +501,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     return (
       <Fragment>
         {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+          <div className={cs(bootstrapStyles.col12)}>
             <div
               className={cs(globalStyles.successMsg, globalStyles.textCenter)}
             >

@@ -146,6 +146,7 @@ class Quickview extends React.Component<Props, State> {
         key={data.sku}
         data={data}
         currency={currency}
+        closeModal={this.closeModal}
         mobile={mobile}
         wishlist={[]}
         isQuickview={true}

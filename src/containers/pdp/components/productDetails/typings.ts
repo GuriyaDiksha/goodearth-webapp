@@ -5,6 +5,7 @@ import { ProductID } from "typings/id";
 export type Props = {
   data: Product;
   currency: Currency;
+  closeModal?: () => void;
   mobile: boolean;
   wishlist: ProductID[];
   isQuickview?: boolean;

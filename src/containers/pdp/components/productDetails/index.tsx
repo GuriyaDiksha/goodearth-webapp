@@ -74,7 +74,8 @@ const ProductDetails: React.FC<Props> = ({
   currency,
   isQuickview,
   changeModalState,
-  updateComponentModal
+  updateComponentModal,
+  closeModal
 }) => {
   const [productTitle, subtitle] = title.split("(");
   const { info } = useSelector((state: AppState) => state);
@@ -375,7 +376,13 @@ const ProductDetails: React.FC<Props> = ({
             )}
           >
             {collection && (
-              <Link to={collectionUrl || "#"}> {collection} </Link>
+              <Link
+                to={collectionUrl || "#"}
+                onClick={closeModal ? closeModal : () => null}
+              >
+                {" "}
+                {collection}{" "}
+              </Link>
             )}
           </div>
           <div className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}>

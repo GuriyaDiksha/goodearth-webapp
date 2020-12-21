@@ -315,6 +315,7 @@ class CollectionSpecific extends React.Component<
                 if (mobile && widget.imageType == 2) {
                   return (
                     <img
+                      key="mobile-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
                     />
@@ -322,6 +323,7 @@ class CollectionSpecific extends React.Component<
                 } else if (!mobile && widget.imageType == 1) {
                   return (
                     <img
+                      key="desktop-collectionspecific-banner"
                       src={widget.image}
                       className={globalStyles.imgResponsive}
                     />

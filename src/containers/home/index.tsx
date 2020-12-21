@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 // import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-// import globalStyles from "../../styles/global.scss";
+import globalStyles from "../../styles/global.scss";
 // import cs from "classnames";
 import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
@@ -41,6 +41,22 @@ const Home: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const noContentContainerElem = document.getElementById(
+      "no-content"
+    ) as HTMLDivElement;
+    if (location.pathname == "/corporate-gifts-catalogue") {
+      if (
+        noContentContainerElem.classList.contains(globalStyles.contentContainer)
+      ) {
+        noContentContainerElem.classList.remove(globalStyles.contentContainer);
+      }
+    } else if (
+      !noContentContainerElem.classList.contains(globalStyles.contentContainer)
+    ) {
+      noContentContainerElem.classList.add(globalStyles.contentContainer);
+    }
+  }, [location.pathname]);
   // const mobileBannerImagePath =
   //   currency == "INR" ? INRBannerMobile : USDGBPBannerMobile;
   // const desktopBannerImagePath = currency == "INR" ? INRBanner : USDGBPBanner;

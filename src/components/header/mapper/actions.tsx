@@ -17,9 +17,9 @@ import HeaderService from "services/headerFooter";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    goLogin: (event: React.MouseEvent) => {
+    goLogin: (event?: React.MouseEvent) => {
       LoginService.showLogin(dispatch);
-      event.preventDefault();
+      event?.preventDefault();
     },
     handleLogOut: (history: any) => {
       LoginService.logout(dispatch);
