@@ -127,6 +127,27 @@ export function removeFroala(timeout = 500) {
   }, timeout);
 }
 
+export function scrollToId() {
+  setTimeout(() => {
+    const { hash, search } = location;
+    const id = search ? search.replace("?id=", "") : hash.replace("#", "");
+
+    if (id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView();
+        const headerHeight = 50;
+        const secondaryHeaderHeight = 48;
+        const announcementBarHeight = 30;
+        window.scrollBy(
+          0,
+          -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+        );
+      }
+    }
+  }, 1000);
+}
+
 export function productImpression(
   data: any,
   list: any,

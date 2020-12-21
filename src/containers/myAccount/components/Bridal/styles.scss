@@ -835,7 +835,6 @@
         bottom: auto;
         position: absolute;
       }
-      cursor: pointer;
       a:hover {
         cursor: pointer;
       }
@@ -982,10 +981,10 @@
   border-bottom: 1px solid #f2f2f2;
 }
 
-.heading {
-  @include c22-A-I();
-  line-height: 50px;
-}
+// .heading {
+//   @include c22-A-I();
+//   line-height: 50px;
+// }
 
 .field {
   margin: 20px 0;

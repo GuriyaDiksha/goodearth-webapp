@@ -14,11 +14,13 @@ import Api from "services/api";
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 import PincodePopup from "components/Popups/pincodePopup";
 import HeaderService from "services/headerFooter";
+import { updateNextUrl } from "actions/info";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    goLogin: (event?: React.MouseEvent) => {
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
       LoginService.showLogin(dispatch);
+      nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },
     handleLogOut: (history: any) => {
