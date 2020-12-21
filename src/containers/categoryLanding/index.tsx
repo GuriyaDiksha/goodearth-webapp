@@ -112,6 +112,9 @@ class CategoryLanding extends React.Component<
     isSale: false
   };
   componentDidMount() {
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "CategoryLandingView",
       PageURL: this.props.location.pathname,

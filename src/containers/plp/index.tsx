@@ -86,6 +86,9 @@ class PLP extends React.Component<
   };
 
   componentDidMount() {
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "PlpView",
       PageURL: this.props.location.pathname,

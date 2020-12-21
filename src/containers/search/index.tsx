@@ -121,6 +121,9 @@ class Search extends React.Component<
     this.setState({
       searchMaker: true
     });
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "SearchView",
       PageURL: this.props.location.pathname,

@@ -6,9 +6,12 @@ import MetaService from "services/meta";
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
 import Api from "services/api";
-import AddressService from "services/address";
+// import AddressService from "services/address";
 import LoginService from "services/login";
-import { updatePinCodeList, updateCountryData } from "./address";
+import {
+  // updatePinCodeList,
+  updateCountryData
+} from "./address";
 import { updateCurrencyList } from "./info";
 
 const initAction: any = async (store: Store) => {
@@ -35,14 +38,14 @@ const initAction: any = async (store: Store) => {
       .catch(err => {
         console.log("CURRENCY LIST API ERROR ==== " + err);
       }),
-    AddressService.fetchPinCodeData(store.dispatch)
-      .then(data => {
-        const pinCodeList = Object.keys(data);
-        store.dispatch(updatePinCodeList(data, pinCodeList));
-      })
-      .catch(err => {
-        console.log("PINCODE API ERROR ====" + err);
-      }),
+    // AddressService.fetchPinCodeData(store.dispatch)
+    //   .then(data => {
+    //     const pinCodeList = Object.keys(data);
+    //     store.dispatch(updatePinCodeList(data, pinCodeList));
+    //   })
+    //   .catch(err => {
+    //     console.log("PINCODE API ERROR ====" + err);
+    //   }),
     LoginService.fetchCountryData(store.dispatch)
       .then(data => {
         store.dispatch(updateCountryData(data));
