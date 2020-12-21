@@ -67,7 +67,9 @@ class Header extends React.Component<Props, State> {
       selectedPincode: "",
       showPincodePopup: false,
       showBag: false,
-      showCartMobile: false
+      showCartMobile:
+        this.props.location.pathname.includes("/catalogue/") &&
+        !this.props.location.pathname.includes("/catalogue/category")
     };
   }
   static contextType = UserContext;
