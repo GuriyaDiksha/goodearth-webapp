@@ -1184,7 +1184,9 @@ const AddressForm: React.FC<Props> = props => {
         }
       )}
     >
-      {currentCallBackComponent == "account" && (
+      {(currentCallBackComponent == "account" ||
+        currentCallBackComponent == "bridal" ||
+        currentCallBackComponent == "bridal-edit") && (
         <div className="back-btn-div">
           <div
             className={cs(
@@ -1246,7 +1248,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: isExistyError,
                 isWords: isAlphaError,
-                maxLength: "You can not type in more than 15 characters"
+                maxLength: "You cannot type in more than 15 characters"
               }}
             />
           </div>
@@ -1268,7 +1270,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: isExistyError,
                 isWords: isAlphaError,
-                maxLength: "You can not type in more than 15 characters"
+                maxLength: "You cannot type in more than 15 characters"
               }}
             />
           </div>
@@ -1420,7 +1422,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: isExistyError,
                 // isEmptyString: isExistyError,
-                maxLength: "You can not type in more than 70 characters"
+                maxLength: "You cannot type in more than 70 characters"
               }}
             />
           </div>
@@ -1435,7 +1437,7 @@ const AddressForm: React.FC<Props> = props => {
                 maxLength: 35
               }}
               validationErrors={{
-                maxLength: "You can not type in more than 35 characters"
+                maxLength: "You cannot type in more than 35 characters"
               }}
               // value={state.line2}
             />
@@ -1543,23 +1545,22 @@ const AddressForm: React.FC<Props> = props => {
         </div>
       </Formsy>
 
-      {(currentCallBackComponent !== "checkout-billing" &&
-        currentCallBackComponent !== "checkout-shipping" &&
-        currentCallBackComponent !== "bridal") ||
-        (mobile && (
-          <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
-            <span
-              className={cs(
-                styles.backBtn,
-                globalStyles.ointer,
-                styles.formSubheading
-              )}
-              onClick={closeAddressForm}
-            >
-              &lt; back
-            </span>
-          </div>
-        ))}
+      {((currentCallBackComponent !== "checkout-billing" &&
+        currentCallBackComponent !== "checkout-shipping") ||
+        mobile) && (
+        <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
+          <span
+            className={cs(
+              styles.backBtn,
+              globalStyles.ointer,
+              styles.formSubheading
+            )}
+            onClick={closeAddressForm}
+          >
+            &lt; back
+          </span>
+        </div>
+      )}
       {isLoggedIn &&
         !mobile &&
         (currentCallBackComponent == "checkout-billing" ||

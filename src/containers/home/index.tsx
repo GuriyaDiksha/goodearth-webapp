@@ -31,6 +31,9 @@ const Home: React.FC = () => {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "HomePageView",
       PageURL: location.pathname,

@@ -91,6 +91,9 @@ class CartPage extends React.Component<Props, State> {
       chatButtonElem.style.bottom = "10px";
     }
     this.props.fetchBasket();
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "CartPageView",
       PageURL: this.props.location.pathname,

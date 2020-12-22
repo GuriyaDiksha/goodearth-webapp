@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
-
+      WishlistService.updateWishlist(dispatch);
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));

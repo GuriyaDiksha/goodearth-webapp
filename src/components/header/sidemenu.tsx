@@ -1,4 +1,3 @@
-import loadable from "@loadable/component";
 import React, { Fragment } from "react";
 // import { currencyCode } from "../../typings/currency";
 import { SideMenuProps } from "./typings";
@@ -16,12 +15,9 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import mapDispatchToProps from "./mapper/actions";
 
-const Bag = loadable(() => import("../Bag/index"));
-
 interface State {
   showc: boolean;
   showp: boolean;
-  showBag: boolean;
   cartCount: number;
   openProfile: boolean;
 }
@@ -45,7 +41,6 @@ class SideMenu extends React.Component<Props, State> {
     this.state = {
       showc: false,
       showp: false,
-      showBag: false,
       cartCount: 0,
       openProfile: false
     };
@@ -281,47 +276,34 @@ class SideMenu extends React.Component<Props, State> {
               </div>
             </li>
           )}
-          <li
-            className={cs(styles.sideMenuItem, {
-              [styles.sideMenuItemMobile]: mobile
-            })}
-          >
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCart,
-                styles.iconStyle
-              )}
-              onClick={(): void => {
-                this.setState({
-                  showBag: true
-                });
-              }}
-            ></i>
-            <span
-              className={styles.badge}
-              onClick={(): void => {
-                this.setState({
-                  showBag: true
-                });
-              }}
+          {mobile ? (
+            ""
+          ) : (
+            <li
+              className={cs(styles.sideMenuItem, {
+                [styles.sideMenuItemMobile]: mobile
+              })}
             >
-              {bagCount}
-            </span>
-            {this.state.showBag && (
-              <Bag
-                showShipping={this.props.showShipping}
-                cart={this.props.sidebagData}
-                currency={this.props.currency}
-                active={this.state.showBag}
-                toggleBag={(): void => {
-                  this.setState(prevState => ({
-                    showBag: !prevState.showBag
-                  }));
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  iconStyles.iconCart,
+                  styles.iconStyle
+                )}
+                onClick={(): void => {
+                  this.props.setShowBag(true);
                 }}
-              />
-            )}
-          </li>
+              ></i>
+              <span
+                className={styles.badge}
+                onClick={(): void => {
+                  this.props.setShowBag(true);
+                }}
+              >
+                {bagCount}
+              </span>
+            </li>
+          )}
         </ul>
         <ul>
           {mobile ? (
@@ -345,7 +327,7 @@ class SideMenu extends React.Component<Props, State> {
                         )
                   }
                 ></i>
-                <span>Search</span>
+                {mobile ? "" : <span>Search</span>}
               </p>
             </li>
           ) : (
@@ -361,7 +343,7 @@ class SideMenu extends React.Component<Props, State> {
                     styles.iconStyle
                   )}
                 ></i>
-                <span>Search</span>
+                {mobile ? "" : <span>Search</span>}
               </p>
             </li>
           )}

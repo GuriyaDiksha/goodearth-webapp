@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import cs from "classnames";
-import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
@@ -16,6 +15,7 @@ import { Basket } from "typings/basket";
 import { showMessage } from "actions/growlMessage";
 import { ADD_TO_BAG_GIFTCARD_SUCCESS } from "constants/messages";
 import * as valid from "utils/validate";
+import Button from "./button";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -66,9 +66,14 @@ const Section4: React.FC<Section4Props> = props => {
   return (
     <div className={bootstrapStyles.row}>
       <section
-        className={cs(globalStyles.paddTop60, styles.gc, {
-          [styles.gcMobile]: props.mobile
-        })}
+        className={cs(
+          globalStyles.paddTop60,
+          styles.gc,
+          bootstrapStyles.col12,
+          {
+            [styles.gcMobile]: props.mobile
+          }
+        )}
       >
         <div className={bootstrapStyles.row}>
           <div
@@ -101,7 +106,7 @@ const Section4: React.FC<Section4Props> = props => {
               </div>
             </div>
             <div className={globalStyles.voffset2}>
-              <img src={imageUrl} />
+              <img className={styles.width100} src={imageUrl} />
             </div>
             <div className={cs(globalStyles.voffset3, styles.giftFont)}>
               <p>Dear {recipientName}</p>
@@ -193,18 +198,11 @@ const Section4: React.FC<Section4Props> = props => {
                 ) : (
                   <p className={globalStyles.errorMsg}></p>
                 )}
-                <div
-                  className={cs(
-                    styles.bannerBtnLink,
-                    iconStyles.icon,
-                    globalStyles.voffset4
-                  )}
-                  onClick={() => {
-                    gotoNext();
-                  }}
-                >
-                  <span>add to bag</span>
-                </div>
+                <Button
+                  className={globalStyles.voffset4}
+                  value="add to bag"
+                  onClick={gotoNext}
+                />
               </div>
             </div>
             <div

@@ -108,7 +108,7 @@ const BridalItemsList: React.FC<Props> = props => {
   return (
     <div className={cs(styles.cart, styles.cartContainer)}>
       <div className={cs("cart-item", styles.bridalPublic)}>
-        <div className={cs(bootstrapStyles.row, globalStyles.flex)}>
+        <div className={cs(bootstrapStyles.row, styles.nowrap)}>
           <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
             <a href={productUrl}>
               <img className={styles.productImage} src={productImage} />
@@ -187,7 +187,7 @@ const BridalItemsList: React.FC<Props> = props => {
                       <div
                         className={cs(
                           globalStyles.textCenter,
-                          globalStyles.C10LR
+                          globalStyles.c10LR
                         )}
                       >
                         {qtyBought}
@@ -198,7 +198,7 @@ const BridalItemsList: React.FC<Props> = props => {
                       <div
                         className={cs(
                           globalStyles.textCenter,
-                          globalStyles.C10LR
+                          globalStyles.c10LR
                         )}
                       >
                         {qtyRemaining}

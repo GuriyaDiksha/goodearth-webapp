@@ -188,6 +188,9 @@ class CollectionSpecific extends React.Component<
   }
 
   componentDidMount() {
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "CategoryLangingPageView",
       PageURL: this.props.location.pathname,
@@ -375,7 +378,7 @@ class CollectionSpecific extends React.Component<
                   key={data.id + "plpDiv"}
                 >
                   <PlpResultItem
-                    page="Collection Specific"
+                    page="CollectionSpecific"
                     position={i}
                     product={data}
                     addedToWishlist={false}

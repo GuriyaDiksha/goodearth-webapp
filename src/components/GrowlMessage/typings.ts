@@ -1,4 +1,6 @@
+import { ReactElement } from "react";
+
 export type Props = {
-  text?: string;
+  text?: string | ReactElement;
   timeout?: number;
 };
