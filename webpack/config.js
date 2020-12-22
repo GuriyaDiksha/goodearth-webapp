@@ -214,10 +214,15 @@ let config = [
                             },
                             importLoaders: 0,
                             localsConvention: "camelCase",
-                            sourceMap: true
+                            sourceMap: true,
                           }
                         },
-                        "sass-loader"
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                prependData: "$cdn: " + cdnDomain + ";",
+                            },
+                          }
                       ]
                 },
                 {
@@ -353,10 +358,15 @@ let config = [
                             },
                             importLoaders: 0,
                             localsConvention: "camelCase",
-                            sourceMap: true
+                            sourceMap: true,
                           }
                         },
-                        "sass-loader"
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                prependData: "$cdn: " + cdnDomain + ";",
+                            },
+                        }
                       ]
                 },
                 {

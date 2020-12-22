@@ -57,7 +57,7 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
             )}
           >
             <WishlistButton
-              gtmListType="What People Are Buying"
+              gtmListType="PeopleBuying"
               title={item.title}
               id={item.id}
               showText={false}

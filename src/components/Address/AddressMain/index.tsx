@@ -12,7 +12,7 @@ import MyAddress from "containers/myAccount/components/MyAddress";
 import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
-import { updatePinCodeList } from "actions/address";
+// import { updatePinCodeList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
 import * as Steps from "../../../containers/checkout/constants";
@@ -37,16 +37,16 @@ const AddressMain: React.FC<Props> = props => {
   // const [ pincodeList, setPincodeList ] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (Object.keys(pinCodeData).length < 1) {
-      setIsLoading(true);
-      AddressService.fetchPinCodeData(dispatch).then(data => {
-        setIsLoading(false);
-        const pinCodeList = Object.keys(data);
-        dispatch(updatePinCodeList(data, pinCodeList));
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (Object.keys(pinCodeData).length < 1) {
+  //     setIsLoading(true);
+  //     AddressService.fetchPinCodeData(dispatch).then(data => {
+  //       setIsLoading(false);
+  //       const pinCodeList = Object.keys(data);
+  //       dispatch(updatePinCodeList(data, pinCodeList));
+  //     });
+  //   }
+  // }, []);
   const [mode, setMode] = useState<AddressModes>("list");
 
   useEffect(() => {

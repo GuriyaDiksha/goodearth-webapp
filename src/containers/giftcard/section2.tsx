@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import cs from "classnames";
-import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
@@ -18,6 +17,7 @@ import { Cookies } from "typings/cookies";
 import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import * as valid from "utils/validate";
+import Button from "./button";
 
 const Section2: React.FC<Section2Props> = ({
   productData,
@@ -217,9 +217,14 @@ const Section2: React.FC<Section2Props> = ({
   return (
     <div className={bootstrapStyles.row}>
       <section
-        className={cs(globalStyles.paddTop60, styles.gc, {
-          [styles.gcMobile]: mobile
-        })}
+        className={cs(
+          globalStyles.paddTop60,
+          styles.gc,
+          bootstrapStyles.col12,
+          {
+            [styles.gcMobile]: mobile
+          }
+        )}
       >
         <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
           <div
@@ -405,14 +410,7 @@ const Section2: React.FC<Section2Props> = ({
           )}
         >
           <div className={bootstrapStyles.col12}>
-            <div
-              className={cs(styles.bannerBtnLink, iconStyles.icon)}
-              onClick={() => {
-                gotoNext();
-              }}
-            >
-              <span>PROCEED TO FILLING DETAILS</span>
-            </div>
+            <Button value="proceed to filling details" onClick={gotoNext} />
           </div>
         </div>
         <div

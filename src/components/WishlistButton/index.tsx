@@ -44,40 +44,45 @@ const WishlistButton: React.FC<Props> = ({
   } = useSelector((state: AppState) => state);
   const addedToWishlist = items.indexOf(id) !== -1;
   const gtmPushAddToWishlist = () => {
-    if (gtmListType) {
-      const index = categories ? categories.length - 1 : 0;
-      let category =
-        categories &&
-        categories.length > 0 &&
-        categories[index].replace(/\s/g, "");
-      category = category && category.replace(/>/g, "/");
-      dataLayer.push({
-        event: "AddtoWishlist",
-        ecommerce: {
-          currencyCode: currency,
-          add: {
-            products: [
-              {
-                name: title,
-                id: childAttributes?.[0].sku,
-                price: discountedPriceRecords
-                  ? discountedPriceRecords[currency]
-                  : priceRecords
-                  ? priceRecords[currency]
-                  : null,
-                brand: "Goodearth",
-                category: category,
-                variant:
-                  childAttributes && childAttributes[0].size
-                    ? childAttributes[0].size
-                    : "",
-                quantity: 1,
-                list: gtmListType
-              }
-            ]
+    try {
+      if (gtmListType) {
+        const index = categories ? categories.length - 1 : 0;
+        let category =
+          categories &&
+          categories.length > 0 &&
+          categories[index].replace(/\s/g, "");
+        category = category && category.replace(/>/g, "/");
+        const listPath = `${gtmListType} ${location.pathname}`;
+        dataLayer.push({
+          event: "AddtoWishlist",
+          ecommerce: {
+            currencyCode: currency,
+            add: {
+              products: [
+                {
+                  name: title,
+                  id: childAttributes?.[0].sku,
+                  price: discountedPriceRecords
+                    ? discountedPriceRecords[currency]
+                    : priceRecords
+                    ? priceRecords[currency]
+                    : null,
+                  brand: "Goodearth",
+                  category: category,
+                  variant:
+                    childAttributes && childAttributes[0].size
+                      ? childAttributes[0].size
+                      : "",
+                  quantity: 1,
+                  list: listPath
+                }
+              ]
+            }
           }
-        }
-      });
+        });
+      }
+    } catch (err) {
+      console.log("Wishlist GTM error!");
     }
   };
 

@@ -14,6 +14,7 @@ import initActionShop from "containers/shopLocator/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
+import initActionCheckout from "containers/checkout/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -102,7 +103,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CHECKOUT,
     component: loadable(() => import("containers/checkout")),
-    action: async () => null,
+    action: initActionCheckout,
     exact: true
   },
   {

@@ -16,6 +16,15 @@
     top:5px;
 }
 
+.header-container-menu {
+  position: fixed;
+  bottom: 0px;
+  z-index: 6;
+  width: 100%;
+  background-color: rgb(249, 248, 245);
+  height: 50px;
+}
+
 .header-container {
     position: fixed;
     top: $header-top;
@@ -976,7 +985,7 @@ input {
   padding-top: 4px;
   // top: 0px;
   padding-right: 8px;
-  margin-left: -30px;
+  // margin-left: -30px;
   color: #000;
   font-weight: bold;
 }
@@ -1273,4 +1282,93 @@ visibility: visible !important;
   .first-text{
     text-transform: uppercase;
   }
+}
+.mobile-wishlist {
+  font-size: 32px;
+  top: 2px;
+  color: $cerise;
+}
+// .sidemenu-mobile {
+//   margin-left: 70px;
+// }
+
+.mobile-search {
+  text-align: right;
+  line-height: 50px;
+  padding-right: 10px;
+  padding-top: 5px;
+  i {
+    font-size: 22px;
+  }
+  .icon-style-cross {
+    font-size: 14px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    color: #000;
+    font-weight: bold;
+  }
+  .badge {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    left: 0;
+    min-width: 10px;
+    padding-top: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #969698;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10px;
+    &:hover {
+      color: $cerise;
+    }
+  }
+}
+
+.bottom-menu-item {
+  text-align: center;
+  line-height: 50px;
+  padding-right: 0;
+  left: 0;
+  .badge {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    left: 0;
+    min-width: 10px;
+    padding-top: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #969698;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10px;
+    &:hover {
+      color: $cerise;
+    }
+  }
+  .icon-style {
+    font-size: 26px;
+    color: tint(#000, 20%);
+    margin: inherit;
+  }
+}
+
+.hamburger-bottom-menu {
+  top: 5px;
+}
+
+.wishlist-link-bottom-menu {
+  font-size: 28px;
+}
+.cart-bottom-menu {
+  padding-top: 5px;
+}
+.home-bottom-menu {
+  padding-top: 5px;
 }

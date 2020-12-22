@@ -50,6 +50,7 @@ type Props = {
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
   sortBy?: string;
+  list?: string;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -67,7 +68,8 @@ const NotifyMePopup: React.FC<Props> = ({
   isSale,
   discount,
   badgeType,
-  sortBy
+  sortBy,
+  list
 }) => {
   const { dispatch } = useStore();
 
@@ -145,12 +147,14 @@ const NotifyMePopup: React.FC<Props> = ({
             {
               name: title,
               id: selectedSize?.sku || childAttributes[0].sku,
-              price: discountedPrice || price,
+              price:
+                selectedSize?.discountedPriceRecords[currency] ||
+                selectedSize?.priceRecords[currency],
               brand: "Goodearth",
               category: category,
               variant: selectedSize?.size || childAttributes[0].size || "",
               quantity: quantity,
-              list: localStorage.getItem("list")
+              list: list || ""
             }
           ]
         }
@@ -195,7 +199,7 @@ const NotifyMePopup: React.FC<Props> = ({
           util.errorTracking([message], location.href);
         } else {
           setMsg(message);
-          util.errorTracking([message], location.href);
+          // util.errorTracking([message], location.href);
           basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {

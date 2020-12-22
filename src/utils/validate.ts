@@ -1,5 +1,6 @@
 import { Currency } from "typings/currency";
 import { Basket } from "typings/basket";
+import CookieService from "../services/cookie";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -159,12 +160,16 @@ export function productImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
+    const listPath = `${list} ${location.pathname}`;
     product = data.results.data.map((prod: any, i: number) => {
-      const index = prod.categories.length - 1;
-      let category = prod.categories[index]
-        ? prod.categories[index].replace(/\s/g, "")
-        : "";
-      category = category.replace(/>/g, "/");
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
           {},
@@ -172,7 +177,7 @@ export function productImpression(
             name: prod.title,
             id: child.sku,
             category: category,
-            list: list,
+            list: listPath,
             price: child.discountedPriceRecords
               ? child.discountedPriceRecords[currency]
               : child.priceRecords[currency],
@@ -207,19 +212,23 @@ export function sliderProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
+    const listPath = `${list} ${location.pathname}`;
     product = data.map((prod: any, i: number) => {
-      const index = prod.categories.length - 1;
-      let category = prod.categories[index]
-        ? prod.categories[index].replace(/\s/g, "")
-        : "";
-      category = category.replace(/>/g, "/");
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return Object.assign(
         {},
         {
           name: prod.title,
           id: prod.sku,
           category: category,
-          list: list,
+          list: listPath,
           // price: child.priceRecords[currency],
           brand: "Goodearth",
           position: position + i + 1,
@@ -269,11 +278,14 @@ export function PDP(data: any, currency: Currency) {
     const products = [];
     if (!data) return false;
     if (data.length < 1) return false;
-    const index = data.categories.length - 1;
-    let category = data.categories[index]
-      ? data.categories[index].replace(/\s/g, "")
-      : "";
-    category = category.replace(/>/g, "/");
+    let category = "";
+    if (data.categories) {
+      const index = data.categories.length - 1;
+      category = data.categories[index]
+        ? data.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+    }
     products.push(
       data.childAttributes.map((child: any) => {
         return Object.assign(
@@ -293,9 +305,12 @@ export function PDP(data: any, currency: Currency) {
         );
       })
     );
+    const listPath = CookieService.getCookie("listPath") || "";
+    CookieService.setCookie("listPath", "");
     dataLayer.push({
       event: "PDP",
-      actionField: { list: "PDP", path: location.pathname },
+      // actionField: { list: `PDP ${location.pathname}`},
+      actionField: { list: listPath },
       ecommerce: {
         detail: {
           products
@@ -319,12 +334,16 @@ export function collectionProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
+    const listPath = `${list} ${location.pathname}`;
     product = data.results.map((prod: any, i: number) => {
-      const index = prod.categories.length - 1;
-      let category = prod.categories[index]
-        ? prod.categories[index].replace(/\s/g, "")
-        : "";
-      category = category.replace(/>/g, "/");
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
           {},
@@ -332,7 +351,7 @@ export function collectionProductImpression(
             name: prod.title,
             id: child.sku,
             category: category,
-            list: list,
+            list: listPath,
             price: child.discountedPriceRecords
               ? child.discountedPriceRecords[currency]
               : child.priceRecords[currency],
@@ -367,12 +386,16 @@ export function weRecommendProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
+    const listPath = `${list} ${location.pathname}`;
     product = data.map((prod: any, i: number) => {
-      const index = prod.categories.length - 1;
-      let category = prod.categories[index]
-        ? prod.categories[index].replace(/\s/g, "")
-        : "";
-      category = category.replace(/>/g, "/");
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
           {},
@@ -380,7 +403,7 @@ export function weRecommendProductImpression(
             name: prod.title,
             id: child.sku,
             category: category,
-            list: list,
+            list: listPath,
             price: child.discountedPriceRecords
               ? child.discountedPriceRecords[currency]
               : child.priceRecords[currency],
@@ -415,11 +438,14 @@ export function plpProductClick(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
-    const index = data.categories.length - 1;
-    let category = data.categories[index]
-      ? data.categories[index].replace(/\s/g, "")
-      : "";
-    category = category.replace(/>/g, "/");
+    let category = "";
+    if (data.categories) {
+      const index = data.categories.length - 1;
+      category = data.categories[index]
+        ? data.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+    }
     products.push(
       data.childAttributes.map((child: any) => {
         return Object.assign(
@@ -428,7 +454,7 @@ export function plpProductClick(
             name: data.title,
             id: child.sku,
             category: category,
-            list: list,
+            // list: list,
             price: child.discountedPriceRecords
               ? child.discountedPriceRecords[currency]
               : child.priceRecords[currency],
@@ -439,12 +465,14 @@ export function plpProductClick(
         );
       })
     );
+    const listPath = `${list} ${location.pathname}`;
+    CookieService.setCookie("listPath", listPath);
     dataLayer.push({
       event: "productClick",
       ecommerce: {
         currencyCode: currency,
         click: {
-          actionField: { list: list, path: location.pathname },
+          actionField: { list: listPath },
           products: products
         }
       }
@@ -490,6 +518,7 @@ export function MoreFromCollectionProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
+    const listPath = `${list} ${location.pathname}`;
     product = data.map((prod: any, i: number) => {
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
@@ -498,7 +527,7 @@ export function MoreFromCollectionProductImpression(
             name: prod.title,
             id: child.sku,
             category: "",
-            list: list,
+            list: listPath,
             price: prod.discountedPriceRecords
               ? prod.discountedPriceRecords[currency]
               : prod.priceRecords[currency],
@@ -549,12 +578,14 @@ export function MoreFromCollectionProductClick(
       );
     })
   );
+  const listPath = `${list} ${location.pathname}`;
+  CookieService.setCookie("listPath", listPath);
   dataLayer.push({
     event: "productClick",
     ecommerce: {
       currencyCode: currency,
       click: {
-        actionField: { list: list, path: location.pathname },
+        actionField: { list: listPath },
         products: products
       }
     }

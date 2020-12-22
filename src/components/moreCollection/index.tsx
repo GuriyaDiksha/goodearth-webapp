@@ -20,7 +20,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
   useEffect(() => {
     valid.MoreFromCollectionProductImpression(
       data,
-      "More From Collection",
+      "MoreFromCollection",
       currency || "INR"
     );
   }, []);
@@ -55,7 +55,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                       onClick={() =>
                         valid.MoreFromCollectionProductClick(
                           item,
-                          "More From Collection",
+                          "MoreFromCollection",
                           currency || "INR",
                           i
                         )
@@ -75,7 +75,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                           onClick={() =>
                             valid.MoreFromCollectionProductClick(
                               item,
-                              "More From Collection",
+                              "MoreFromCollection",
                               currency || "INR",
                               i
                             )

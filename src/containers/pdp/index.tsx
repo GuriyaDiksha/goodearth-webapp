@@ -123,25 +123,28 @@ class PDPContainer extends React.Component<Props, State> {
     ) {
       this.getImageOffset();
     }
+    dataLayer.push(function(this: any) {
+      this.reset();
+    });
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_pdp_view"
     });
     valid.PDP(this.props.data, this.props.currency);
-    if (this.props.device.mobile) {
-      this.getProductImagesData();
-      const elem = document.getElementById("pincode-bar");
-      elem && elem.classList.add(globalStyles.hiddenEye);
-      const chatButtonElem = document.getElementById("chat-button");
-      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      if (scrollToTopButtonElem) {
-        scrollToTopButtonElem.style.bottom = "65px";
-      }
-      if (chatButtonElem) {
-        chatButtonElem.style.bottom = "10px";
-      }
-    }
+    // if (this.props.device.mobile) {
+    //   this.getProductImagesData();
+    //   const elem = document.getElementById("pincode-bar");
+    //   elem && elem.classList.add(globalStyles.hiddenEye);
+    //   const chatButtonElem = document.getElementById("chat-button");
+    //   const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    //   if (scrollToTopButtonElem) {
+    //     scrollToTopButtonElem.style.bottom = "65px";
+    //   }
+    //   if (chatButtonElem) {
+    //     chatButtonElem.style.bottom = "10px";
+    //   }
+    // }
     this.setState(
       {
         mounted: true,

@@ -109,6 +109,15 @@ const ProductDetails: React.FC<Props> = ({
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
 
+  // const items = basket.lineItems?.map(
+  //   item => item.product.childAttributes[0].id
+  // );
+  const [addedToBag, setAddedToBag] = useState(false);
+  // useEffect(() => {
+  //   setAddedToBag(
+  //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
+  //   );
+  // }, [selectedSize]);
   useLayoutEffect(() => {
     setGtmListType("PDP");
   });
@@ -232,6 +241,13 @@ const ProductDetails: React.FC<Props> = ({
     ];
   }, [details, compAndCare, compAndCare]);
 
+  const setSelectedSKU = () => {
+    let currentSKU = sku;
+    if (selectedSize) {
+      currentSKU = selectedSize.sku;
+    }
+    return currentSKU;
+  };
   const gtmPushAddToBag = () => {
     dataLayer.push({
       event: "addToCart",
@@ -241,11 +257,11 @@ const ProductDetails: React.FC<Props> = ({
           products: [
             {
               name: title,
-              id: childAttributes[0].sku,
-              price: discountedPriceRecords[currency] || priceRecords[currency],
+              id: setSelectedSKU(),
+              price: discountPrices || price,
               brand: "Goodearth",
               category: collection,
-              variant: childAttributes[0]?.size || "",
+              variant: selectedSize?.size || "",
               quantity: quantity,
               list: "PDP"
             }
@@ -263,6 +279,10 @@ const ProductDetails: React.FC<Props> = ({
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
+          setAddedToBag(true);
+          setTimeout(() => {
+            setAddedToBag(false);
+          }, 3000);
           dispatch(showMessage(ADD_TO_BAG_SUCCESS));
           gtmPushAddToBag();
         })
@@ -343,13 +363,6 @@ const ProductDetails: React.FC<Props> = ({
     event.stopPropagation();
   };
 
-  const setSelectedSKU = () => {
-    let currentSKU = sku;
-    if (selectedSize) {
-      currentSKU = selectedSize.sku;
-    }
-    return currentSKU;
-  };
   const onEnquireClick = () => {
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
@@ -386,6 +399,7 @@ const ProductDetails: React.FC<Props> = ({
         badgeType={badgeType}
         isSale={info.isSale}
         discountedPrice={discountPrices}
+        list={isQuickview ? "quickview" : "pdp"}
       />,
       false,
       ModalStyles.bottomAlign
@@ -409,12 +423,12 @@ const ProductDetails: React.FC<Props> = ({
       buttonText = "Notify Me";
       action = notifyMeClick;
     } else {
-      buttonText = "Add to Bag";
-      action = addToBasket;
+      buttonText = addedToBag ? "Added!" : "Add to Bag";
+      action = addedToBag ? () => null : addToBasket;
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, quantity, currency, discount]);
+  }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
     let show = false;
@@ -428,6 +442,7 @@ const ProductDetails: React.FC<Props> = ({
 
     return show;
   }, [childAttributes]);
+  const withBadge = images && images.length && images[0].badgeImagePdp;
 
   return (
     <div className={bootstrap.row}>
@@ -436,7 +451,8 @@ const ProductDetails: React.FC<Props> = ({
           bootstrap.col10,
           bootstrap.offset1,
           bootstrap.colMd11,
-          styles.sideContainer
+          styles.sideContainer,
+          { [styles.marginT0]: withBadge }
         )}
       >
         <div className={cs(bootstrap.row)}>
@@ -461,11 +477,9 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
           <div
-            className={cs(
-              bootstrap.col12,
-              styles.collectionHeader,
-              globalStyles.voffset3
-            )}
+            className={cs(bootstrap.col12, styles.collectionHeader, {
+              [globalStyles.voffset3]: !withBadge
+            })}
           >
             {collection && (
               <Link
@@ -519,7 +533,11 @@ const ProductDetails: React.FC<Props> = ({
         </div>
 
         {groupedProducts?.length ? (
-          <div className={cs(bootstrap.row, styles.spacer)}>
+          <div
+            className={cs(bootstrap.row, styles.spacer, {
+              [styles.spacerQuickview]: isQuickview && withBadge
+            })}
+          >
             <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
@@ -533,7 +551,10 @@ const ProductDetails: React.FC<Props> = ({
                   Color
                 </div>
                 <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
-                  <ColorSelector products={groupedProducts} />
+                  <ColorSelector
+                    products={groupedProducts}
+                    onClick={closeModal ? closeModal : () => null}
+                  />
                 </div>
               </div>
             </div>
@@ -543,7 +564,11 @@ const ProductDetails: React.FC<Props> = ({
         )}
 
         {showSize ? (
-          <div className={cs(bootstrap.row, styles.spacer)}>
+          <div
+            className={cs(bootstrap.row, styles.spacer, {
+              [styles.spacerQuickview]: isQuickview && withBadge
+            })}
+          >
             <div className={bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
@@ -603,7 +628,11 @@ const ProductDetails: React.FC<Props> = ({
         ) : (
           ""
         )}
-        <div className={cs(bootstrap.row, styles.spacer)}>
+        <div
+          className={cs(bootstrap.row, styles.spacer, {
+            [styles.spacerQuickview]: isQuickview && withBadge
+          })}
+        >
           <div className={bootstrap.col8}>
             <div className={bootstrap.row}>
               <div
@@ -686,6 +715,7 @@ const ProductDetails: React.FC<Props> = ({
           className={cs(
             bootstrap.row,
             styles.spacer,
+            { [styles.spacerQuickview]: isQuickview && withBadge },
             styles.actionButtonsContainer,
             {
               [globalStyles.voffset3]: mobile
@@ -704,7 +734,7 @@ const ProductDetails: React.FC<Props> = ({
             {isQuickview ? (
               <Link
                 to={url}
-                className={styles.moreDetails}
+                className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
                 onClick={() => {
                   changeModalState(false);
                 }}

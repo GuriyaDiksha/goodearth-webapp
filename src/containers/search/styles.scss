@@ -506,6 +506,14 @@
   }
 }
 
+.multicolorlabel {
+    input[type="radio"]:not(:checked) + label:before,
+    input[type="radio"]:checked + label:before, [type="checkbox"]:not(:checked) + label:before,
+    input[type="checkbox"]:checked + label:before {
+      background-image: var(--my-bg-image);
+    }
+  }
+
 input[type="radio"]:not(:checked) + label:after, [type="checkbox"]:not(:checked) + label:after {
   opacity: 0;
   transform: rotate(45deg);

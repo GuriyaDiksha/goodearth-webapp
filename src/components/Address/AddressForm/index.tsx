@@ -1248,7 +1248,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: isExistyError,
                 isWords: isAlphaError,
-                maxLength: "You can not type in more than 15 characters"
+                maxLength: "You cannot type in more than 15 characters"
               }}
             />
           </div>
@@ -1270,7 +1270,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: isExistyError,
                 isWords: isAlphaError,
-                maxLength: "You can not type in more than 15 characters"
+                maxLength: "You cannot type in more than 15 characters"
               }}
             />
           </div>
@@ -1422,7 +1422,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: isExistyError,
                 // isEmptyString: isExistyError,
-                maxLength: "You can not type in more than 70 characters"
+                maxLength: "You cannot type in more than 70 characters"
               }}
             />
           </div>
@@ -1437,7 +1437,7 @@ const AddressForm: React.FC<Props> = props => {
                 maxLength: 35
               }}
               validationErrors={{
-                maxLength: "You can not type in more than 35 characters"
+                maxLength: "You cannot type in more than 35 characters"
               }}
               // value={state.line2}
             />

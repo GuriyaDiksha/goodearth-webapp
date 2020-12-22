@@ -295,6 +295,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   cols={45}
                   className={styles.giftMessage}
                   value={textarea}
+                  maxLength={250}
                   placeholder={"add message (optional)"}
                   autoComplete="new-password"
                   onChange={(e: any) => {
@@ -302,7 +303,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   }}
                 />
                 <div className={cs(globalStyles.textLeft, styles.font14)}>
-                  Character Limit: {120 - textarea.length}
+                  Character Limit: {250 - textarea.length}
                 </div>
               </div>
             )}
