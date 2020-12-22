@@ -229,6 +229,9 @@ const AddressMain: React.FC<Props> = props => {
             selectAddress={address => null}
             isValidAddress={() => null}
             currentCallBackComponent={currentCallBackComponent}
+            showAddressInBridalUse={["bridal", "bridal-edit"].includes(
+              currentCallBackComponent
+            )}
           />
 
           {!showDefaultAddressOnly &&

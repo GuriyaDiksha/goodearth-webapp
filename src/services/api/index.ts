@@ -35,10 +35,12 @@ export default {
     );
     dispatch(updatePopupBgUrl(data.sign_up_bg_image));
   },
-  getAnnouncement: async function(dispatch: Dispatch) {
+  getAnnouncement: async function(dispatch: Dispatch, bridalKey?: string) {
     const response: any = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/promotions/announcement_bar/"}`
+      `${__API_HOST__}/myapi/promotions/announcement_bar/${
+        bridalKey ? "?bridal_key=" + bridalKey : ""
+      }`
     );
     dispatch(updateAnnouncement(response));
   }

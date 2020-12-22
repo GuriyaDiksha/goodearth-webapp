@@ -222,7 +222,7 @@
 
   .widget-qty {
     margin-top: 10px;
-    width: 100%;
+    // width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -1025,6 +1025,7 @@
       max-height: 80vh;
   }
   .section-middle {
+    text-align: center;
     border-left: 1px solid #eee;
   }
 
@@ -1317,6 +1318,10 @@ margin-bottom: 50px !important;
     font-weight: bold;
   }
 
+  .icon-cross {
+    font-size: 12px;
+    font-weight: bold;
+  }
   .product-price {
     margin-top: 5px;
   }
@@ -1387,4 +1392,7 @@ margin-bottom: 50px !important;
   padding: 10px;
   font-size: 32px;
   background-color: #e4e4e4;
+}
+.nowrap {
+  flex-wrap: nowrap;
 }

@@ -5,16 +5,13 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import AddressService from "services/address";
-// import * as valid from 'components/common/validation/validate'
-// import axios from 'axios';
-// import Config from "components/config";
 import * as Steps from "containers/checkout/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { CheckoutAddressContext } from "containers/checkout/component/context";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import { AppState } from "reducers/typings";
-// import * as CustomerAddressApi from "api/CustomerAddressApi";
+import bridalRing from "../../../images/bridal/rings.svg";
 
 type Props = {
   addressData: AddressData;
@@ -222,7 +219,8 @@ const AddressItem: React.FC<Props> = props => {
             [styles.addressItemContainerCheckout]:
               currentCallBackComponent == "checkout-shipping" ||
               currentCallBackComponent == "checkout-billing" ||
-              currentCallBackComponent == "bridal"
+              currentCallBackComponent == "bridal" ||
+              currentCallBackComponent == "bridal-edit"
           },
           {
             [styles.ceriseAddressItemContainer]:
@@ -237,7 +235,8 @@ const AddressItem: React.FC<Props> = props => {
               [styles.addressItemCheckout]:
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal"
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
             },
             { [styles.shippingBorder]: address.isTulsi },
             {
@@ -248,7 +247,24 @@ const AddressItem: React.FC<Props> = props => {
         >
           {!address.isTulsi && (
             <div className={styles.defaultContainer}>
-              <div className={styles.defaultAddressDiv}>
+              <div
+                className={cs(styles.defaultAddressDiv, {
+                  [styles.bridal]: address.isBridal
+                })}
+              >
+                {address.isBridal && (
+                  <svg
+                    viewBox="-3 -3 46 46"
+                    width="60"
+                    height="60"
+                    preserveAspectRatio="xMidYMid meet"
+                    x="0"
+                    y="0"
+                    className={styles.ceriseBridalRings}
+                  >
+                    <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                  </svg>
+                )}
                 {address.isDefaultForShipping && (
                   <div className={styles.defaultAddress}>Default</div>
                 )}
@@ -319,7 +335,8 @@ const AddressItem: React.FC<Props> = props => {
               [styles.addCheckoutActions]:
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing" ||
-                currentCallBackComponent == "bridal"
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit"
             })}
           >
             {!(
@@ -357,6 +374,7 @@ const AddressItem: React.FC<Props> = props => {
           </div>
           {currentCallBackComponent !== "account" &&
             currentCallBackComponent !== "bridal" &&
+            currentCallBackComponent !== "bridal-edit" &&
             props.currentCallBackComponent !== "cerise" && (
               <div
                 className={cs(globalStyles.ceriseBtn, styles.shipToThisBtn)}
@@ -366,31 +384,35 @@ const AddressItem: React.FC<Props> = props => {
                 &nbsp;TO THIS ADDRESS {address.isTulsi ? "(FREE)" : ""}
               </div>
             )}
-          {currentCallBackComponent == "bridal" && !address.isBridal && (
-            <div
-              className={cs(
-                globalStyles.ceriseBtn,
-                globalStyles.cursorPointer,
-                styles.shipToThisBtn
-              )}
-              // onClick={() => props.selectAddress(address)}
-              onClick={() => handleSelect(address)}
-            >
-              USE THIS ADDRESS
-            </div>
-          )}
-          {currentCallBackComponent == "bridal" && address.isBridal && (
-            <div
-              className={cs(
-                globalStyles.disabledBtn,
-                styles.shipToThisBtn,
-                styles.addressInUse
-              )}
-              // onClick={() => props.selectAddress(address)}
-            >
-              ADDRESS IN USE
-            </div>
-          )}
+          {(currentCallBackComponent == "bridal" ||
+            currentCallBackComponent == "bridal-edit") &&
+            !address.isBridal && (
+              <div
+                className={cs(
+                  globalStyles.ceriseBtn,
+                  globalStyles.cursorPointer,
+                  styles.shipToThisBtn
+                )}
+                // onClick={() => props.selectAddress(address)}
+                onClick={() => handleSelect(address)}
+              >
+                USE THIS ADDRESS
+              </div>
+            )}
+          {(currentCallBackComponent == "bridal" ||
+            currentCallBackComponent == "bridal-edit") &&
+            address.isBridal && (
+              <div
+                className={cs(
+                  globalStyles.disabledBtn,
+                  styles.shipToThisBtn,
+                  styles.addressInUse
+                )}
+                // onClick={() => props.selectAddress(address)}
+              >
+                ADDRESS IN USE
+              </div>
+            )}
         </div>
       </div>
       {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
