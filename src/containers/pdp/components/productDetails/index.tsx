@@ -457,7 +457,10 @@ const ProductDetails: React.FC<Props> = ({
                   Color
                 </div>
                 <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
-                  <ColorSelector products={groupedProducts} />
+                  <ColorSelector
+                    products={groupedProducts}
+                    onClick={closeModal ? closeModal : () => null}
+                  />
                 </div>
               </div>
             </div>
