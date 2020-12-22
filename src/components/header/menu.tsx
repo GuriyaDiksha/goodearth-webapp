@@ -69,16 +69,27 @@ class MainMenu extends React.Component<Props, MenuState> {
               }}
             >
               {highlightStories ? (
-                <a
-                  className={cs(disbaleClass, styles.hoverStories, {
-                    [styles.cerise]: !this.props.isSale
-                  })}
-                  href={isBridalRegistryPage ? "" : data.catLandingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {ReactHtmlParser(data.name)}
-                </a>
+                isBridalRegistryPage ? (
+                  <span
+                    className={cs(
+                      styles.disabledMenuItemStories,
+                      styles.iconStyleDisabled
+                    )}
+                  >
+                    {ReactHtmlParser(data.name)}
+                  </span>
+                ) : (
+                  <a
+                    className={cs(disbaleClass, styles.hoverStories, {
+                      [styles.cerise]: !this.props.isSale
+                    })}
+                    href={isBridalRegistryPage ? "" : data.catLandingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {ReactHtmlParser(data.name)}
+                  </a>
+                )
               ) : (
                 <Link
                   to={isBridalRegistryPage ? "#" : data.catLandingUrl}

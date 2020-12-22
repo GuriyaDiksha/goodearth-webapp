@@ -175,6 +175,12 @@ class Header extends React.Component<Props, State> {
       });
   };
 
+  clearBridalSession = async () => {
+    await this.props.clearBridalSession();
+    this.props.history.push("/");
+    this.props.reloadAfterBridal(this.props.cookies);
+  };
+
   clickToggle = () => {
     const isMobileMenuOpen = !this.state.showMenu;
 
@@ -301,7 +307,8 @@ class Header extends React.Component<Props, State> {
       }
     );
     const isBridalRegistryPage =
-      this.props.location.pathname.indexOf("/bridal/") > -1;
+      this.props.location.pathname.indexOf("/bridal/") > -1 &&
+      !(this.props.location.pathname.indexOf("/account/") > -1);
     return (
       <div className="">
         <Helmet defer={false}>
@@ -406,7 +413,34 @@ class Header extends React.Component<Props, State> {
                     }
                   >
                     <Link to={announcement.url ? "" + announcement.url : "/"}>
-                      <div>{ReactHtmlParser(data)}</div>
+                      {announcement.isBridalActive ? (
+                        <div>
+                          <>
+                            <svg
+                              style={{ verticalAlign: "bottom" }}
+                              viewBox="-5 -5 50 50"
+                              width="30"
+                              height="30"
+                              preserveAspectRatio="xMidYMid meet"
+                              x="0"
+                              y="0"
+                              className={styles.bridalRing}
+                            >
+                              <use xlinkHref="/static/img/bridal/rings.svg#bridal-ring"></use>
+                            </svg>{" "}
+                            {announcement.registrantName} &{" "}
+                            {announcement.coRegistrantName}&#39;s Bridal
+                            Registry (Public Link){" "}
+                            <b style={{ textDecoration: "underline" }}>
+                              <span onClick={this.props.clearBridalSession}>
+                                Close
+                              </span>
+                            </b>
+                          </>
+                        </div>
+                      ) : (
+                        <div>{ReactHtmlParser(data)}</div>
+                      )}
                     </Link>
                   </div>
                 );
@@ -419,7 +453,7 @@ class Header extends React.Component<Props, State> {
                         ? i == 0
                           ? styles.boxx1
                           : styles.boxx2
-                        : "width100"
+                        : styles.width100
                     }
                   >
                     {ReactHtmlParser(data)}
