@@ -128,5 +128,12 @@ export default {
       `${__API_HOST__}/myapi/customer/get_bridal_public_profile/${key}/`
     );
     return res;
+  },
+  clearBridalSession: async (dispatch: Dispatch) => {
+    const res = await API.get(
+      dispatch,
+      `${__API_HOST__}/myapi/bridal/clear_bridal_session/`
+    );
+    return res;
   }
 };
