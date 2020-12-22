@@ -14,6 +14,9 @@ const initAction: InitAction = async (dispatch, path) => {
       dispatch,
       id
     ).catch(err => {
+      if (err?.response?.status == 500) {
+        throw err;
+      }
       console.log("PDP API FAIL", err);
     });
     if (product) {
