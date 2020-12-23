@@ -65,6 +65,7 @@ export type Basket = {
   publishRemove: boolean;
   updated: boolean;
   addnewGiftcard: string | number;
+  bridal: boolean;
 };
 
 export interface BasketItem extends BasketLineItem {

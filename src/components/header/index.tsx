@@ -28,6 +28,7 @@ import ReactHtmlParser from "react-html-parser";
 import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
+import bridalRing from "../../images/bridal/rings.svg";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
@@ -413,34 +414,7 @@ class Header extends React.Component<Props, State> {
                     }
                   >
                     <Link to={announcement.url ? "" + announcement.url : "/"}>
-                      {announcement.isBridalActive ? (
-                        <div>
-                          <>
-                            <svg
-                              style={{ verticalAlign: "bottom" }}
-                              viewBox="-5 -5 50 50"
-                              width="30"
-                              height="30"
-                              preserveAspectRatio="xMidYMid meet"
-                              x="0"
-                              y="0"
-                              className={styles.bridalRing}
-                            >
-                              <use xlinkHref="/static/img/bridal/rings.svg#bridal-ring"></use>
-                            </svg>{" "}
-                            {announcement.registrantName} &{" "}
-                            {announcement.coRegistrantName}&#39;s Bridal
-                            Registry (Public Link){" "}
-                            <b style={{ textDecoration: "underline" }}>
-                              <span onClick={this.props.clearBridalSession}>
-                                Close
-                              </span>
-                            </b>
-                          </>
-                        </div>
-                      ) : (
-                        <div>{ReactHtmlParser(data)}</div>
-                      )}
+                      <div>{ReactHtmlParser(data)}</div>
                     </Link>
                   </div>
                 );
@@ -456,7 +430,37 @@ class Header extends React.Component<Props, State> {
                         : styles.width100
                     }
                   >
-                    {ReactHtmlParser(data)}
+                    {isBridalRegistryPage || announcement.isBridalActive ? (
+                      <div>
+                        <>
+                          <svg
+                            style={{ verticalAlign: "bottom" }}
+                            viewBox="-5 -5 50 50"
+                            width="30"
+                            height="30"
+                            preserveAspectRatio="xMidYMid meet"
+                            x="0"
+                            y="0"
+                            className={styles.bridalRing}
+                          >
+                            <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                          </svg>{" "}
+                          {announcement.registrantName} &{" "}
+                          {announcement.coRegistrantName}&#39;s Bridal Registry
+                          (Public Link){" "}
+                          <b
+                            style={{
+                              textDecoration: "underline",
+                              cursor: "pointer"
+                            }}
+                          >
+                            <span onClick={this.clearBridalSession}>Close</span>
+                          </b>
+                        </>
+                      </div>
+                    ) : (
+                      ReactHtmlParser(data)
+                    )}
                   </div>
                 );
               }

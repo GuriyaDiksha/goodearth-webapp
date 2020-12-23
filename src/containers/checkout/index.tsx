@@ -81,6 +81,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       return data;
     },
+    fetchAddressBridal: async () => {
+      const addressList = await AddressService.fetchAddressList(dispatch);
+      dispatch(updateAddressList(addressList));
+      return addressList;
+    },
     reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
@@ -200,9 +205,9 @@ class Checkout extends React.Component<Props, State> {
     // })
   }
   componentDidMount() {
-    const bridalId = CookieService.getCookie("bridalId");
-    const gaKey = CookieService.getCookie("_ga");
-    this.setState({ bridalId, gaKey });
+    // const bridalId = CookieService.getCookie("bridalId");
+    // const gaKey = CookieService.getCookie("_ga");
+    // this.setState({ bridalId, gaKey });
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -287,7 +292,23 @@ class Checkout extends React.Component<Props, State> {
       chatButtonElem.style.bottom = "10px";
     }
 
-    this.props.fetchBasket().then(() => {
+    this.props.fetchBasket().then(res => {
+      if (!this.props.user.isLoggedIn && res.bridal) {
+        this.props.fetchAddressBridal().then(addressList => {
+          const selectedAddresses = addressList.filter(
+            address => address.isBridal
+          );
+          const selectedAddress = selectedAddresses[0]
+            ? selectedAddresses[0]
+            : undefined;
+          if (selectedAddress) {
+            this.setState({
+              shippingAddress: selectedAddress
+            });
+          }
+        });
+      }
+
       dataLayer.push({
         event: "checkout",
         ecommerce: {

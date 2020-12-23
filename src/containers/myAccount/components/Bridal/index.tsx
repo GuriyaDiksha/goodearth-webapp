@@ -115,6 +115,7 @@ const Bridal: React.FC<Props> = props => {
           <ShareLink
             // changeScreen={closePopup}
             shareUrl={shareLink}
+            bridalProfile={bridalProfile}
             // bridalDetails={bridalDetails}
           />,
           true

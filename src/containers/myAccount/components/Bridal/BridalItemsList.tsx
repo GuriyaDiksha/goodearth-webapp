@@ -149,7 +149,7 @@ const BridalItemsList: React.FC<Props> = props => {
                   </div>
                   {props.mobile && (
                     <div
-                      className={cs(styles.iconCart, globalStyles.voffset3)}
+                      className={cs(globalStyles.voffset3)}
                       onClick={mobileAddToBag}
                     >
                       <img src={cartIcon} width="40" height="40" />

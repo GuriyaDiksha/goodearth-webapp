@@ -33,6 +33,7 @@ const AddressMain: React.FC<Props> = props => {
   const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData>();
   const { pinCodeData } = useSelector((state: AppState) => state.address);
+  const { bridal } = useSelector((state: AppState) => state.basket);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const dispatch = useDispatch();
@@ -344,6 +345,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            isBridal={bridal}
           >
             {addressContent}
           </AddressSection>
@@ -394,6 +396,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            isBridal={bridal}
           >
             {addressContent}
           </AddressSection>

@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { BridalItemData } from "./typings";
 import BridalService from "services/bridal";
+import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import iconStyles from "../../../../styles/iconFonts.scss";
+import styles from "./styles.scss";
+import globalStyles from "../../../../styles/global.scss";
+import cs from "classnames";
+import { Context } from "components/Modal/context";
 
 type Props = {
   fetchBridalItems: () => void;
@@ -13,10 +19,11 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
   const [currentQty, setCurrentQty] = useState(props.itemData.qtyRequested);
   const [btnDisable, setBtnDisable] = useState(true);
   const [err, setErr] = useState("");
-
+  const { closeModal } = useContext(Context);
   const closeMPopup = () => {
     props.fetchBridalItems();
     // & close popup
+    closeModal();
   };
   const dispatch = useDispatch();
 
@@ -60,22 +67,35 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
 
   return (
     <>
-      <div className="size-block-bridal ht centerpage-desktop text-center">
-        <div className="cross">
-          <i className="icon icon_cross" onClick={closeMPopup}></i>
+      <div
+        className={cs(
+          styles.sizeBlockBridal,
+          styles.ht,
+          styles.centerpageMobile,
+          globalStyles.textCenter
+        )}
+      >
+        <div className={styles.cross} onClick={closeMPopup}>
+          <i className={cs(iconStyles.icon, iconStyles.iconCrossNarrowBig)}></i>
         </div>
-        <div className="row voffset6">
-          <div className="col-xs-8 col-xs-offset-2">
-            <div className="login-form">
-              <div className="section section-middle cart">
-                <div className="voffset4">
-                  <div className="text-muted">QTY REQUESTED</div>
-                  <div className="widget-qty">
-                    <span className="btn-qty" onClick={decreaseState}>
+        <div className={cs(bootstrap.row, globalStyles.voffset6)}>
+          <div className={cs(bootstrap.col8, bootstrap.offset2)}>
+            <div className={styles.loginForm}>
+              <div
+                className={cs(
+                  styles.section,
+                  styles.sectionMiddle,
+                  styles.cart
+                )}
+              >
+                <div className={globalStyles.voffset4}>
+                  <div className={styles.textMuted}>QTY REQUESTED</div>
+                  <div className={styles.widgetQty}>
+                    <span className={styles.btnQty} onClick={decreaseState}>
                       -
                     </span>{" "}
-                    <span className="qty">{currentQty}</span>{" "}
-                    <span className="btn-qty" onClick={increaseState}>
+                    <span className={styles.qty}>{currentQty}</span>{" "}
+                    <span className={styles.btnQty} onClick={increaseState}>
                       +
                     </span>
                   </div>
@@ -90,17 +110,28 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                     errorMsg="Available qty in stock is"
                   />
                 </div> */}
-                  <div className="error-msg text-center">{err}</div>
+                  <div
+                    className={cs(
+                      globalStyles.errorMsg,
+                      globalStyles.textCenter
+                    )}
+                  >
+                    {err}
+                  </div>
                 </div>
-                <div className="voffset4">
-                  <div className="text-muted">QTY BOUGHT</div>
-                  <div className="text-center c10-L-R">
+                <div className={globalStyles.voffset4}>
+                  <div className={styles.textMuted}>QTY BOUGHT</div>
+                  <div
+                    className={cs(globalStyles.textCenter, globalStyles.c10LR)}
+                  >
                     {props.itemData.qtyBought}
                   </div>
                 </div>
-                <div className="voffset4">
-                  <div className="text-muted">QTY REMAINING</div>
-                  <div className="text-center c10-L-R">
+                <div className={globalStyles.voffset4}>
+                  <div className={styles.textMuted}>QTY REMAINING</div>
+                  <div
+                    className={cs(globalStyles.textCenter, globalStyles.c10LR)}
+                  >
                     {currentQty - props.itemData.qtyBought}
                   </div>
                 </div>
@@ -108,19 +139,35 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-xs-8 col-xs-offset-2 voffset3">
+        <div className={bootstrap.row}>
+          <div
+            className={cs(
+              bootstrap.col8,
+              bootstrap.offset2,
+              globalStyles.voffset3
+            )}
+          >
             <div
-              className={btnDisable ? "btn disabled-input" : "btn"}
+              className={
+                btnDisable
+                  ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
+                  : globalStyles.ceriseBtn
+              }
               onClick={save}
             >
               save
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-xs-8 col-xs-offset-2 voffset3">
-            <div className="c10-L-R">
+        <div className={bootstrap.row}>
+          <div
+            className={cs(
+              bootstrap.col8,
+              bootstrap.offset2,
+              globalStyles.voffset3
+            )}
+          >
+            <div className={globalStyles.c10LR}>
               For regular orders, the delivery time will be 6-8 business days.{" "}
               <br />
               <br />

@@ -78,7 +78,7 @@ const ManageRegistryFull: React.FC<Props> = ({
   const fetchBridalItems = () => {
     BridalService.fetchBridalItems(dispatch, bridalProfileData.bridalId).then(
       data => {
-        if (data.count) setBridalItems(data.results);
+        setBridalItems(data.results);
       }
     );
   };

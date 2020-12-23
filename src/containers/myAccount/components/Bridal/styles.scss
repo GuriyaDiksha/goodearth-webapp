@@ -406,7 +406,7 @@
     width: 100%;
   }
 
-  .centerpage-desktop-mobile {
+  .centerpage-mobile {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -898,7 +898,7 @@
   }
   &.ht {
     min-height: 330px;
-    height: 50vh !important;
+    height: 50vh;
   }
   .btn {
     @include cerise-btn();
@@ -931,6 +931,7 @@
       background-color: tint(#000, 85%) !important;
     }
     height: 100vh;
+    width: 100%;
     background-color: #fff;
     overflow: scroll;
     &.ht {
@@ -943,8 +944,8 @@
     .cross {
       border-bottom: 1px solid #f2f2f2;
       text-align: right;
-      font-size: 35px;
-      padding-right: 5px;
+      font-size: 16px;
+      // padding-right: 5px;
       cursor: pointer;
       position: fixed;
       width: 100%;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import BridalContext from "./context";
 import { Context } from "components/Modal/context.ts";
 import cs from "classnames";
 import globalStyles from "../../../../styles/global.scss";
@@ -10,6 +9,7 @@ import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import iconWhatsApp from "../../../../images/bridal/icons_whatsapp.svg";
 import iconEmail from "../../../../images/bridal/icons_email.svg";
+import { BridalProfileData } from "./typings";
 // import { BridalDetailsType } from './typings';
 // import Modal from '../../components/common/popup/Modal';
 // import InputField from 'components/common/signin/inputField'
@@ -18,6 +18,7 @@ import iconEmail from "../../../../images/bridal/icons_email.svg";
 type Props = {
   // changeScreen: () => void;
   shareUrl: string;
+  bridalProfile?: BridalProfileData;
   // bridalDetails: BridalDetailsType;
 };
 
@@ -37,59 +38,60 @@ const ShareLink: React.FC<Props> = props => {
     event.stopPropagation();
   };
   const { closeModal } = useContext(Context);
-  const {
-    // setCurrentModule,
-    // setCurrentModuleData,
-    data
-  } = useContext(BridalContext);
 
   useEffect(() => {
-    const whatsappUrl =
-      "whatsapp://send?text=As our special day draws near, we wanted to tell you that your presence at our wedding is all we ask. Having you with us will bring us the most joy of all." +
-      "%0D%0A%0D%0A" +
-      " However, if you are thinking of gifting us something, please use the link below to contribute to our new life together." +
-      "%0D%0A%0D%0A" +
-      props.shareUrl +
-      "%0D%0A%0D%0A" +
-      " As our gifting partner, we have registered with Good Earth’s Bridal Registry where you will find products chosen by us to help build this next stage of our lives.";
-    const whatsappElement = document.getElementById(
-      "whatsappShare"
-    ) as HTMLAnchorElement;
-    whatsappElement.setAttribute("href", whatsappUrl);
+    const data = props.bridalProfile;
+    if (data) {
+      const whatsappUrl =
+        (mobile
+          ? "whatsapp://send?text="
+          : "https://web.whatsapp.com/send?text=") +
+        "As our special day draws near, we wanted to tell you that your presence at our wedding is all we ask. Having you with us will bring us the most joy of all." +
+        "%0D%0A%0D%0A" +
+        " However, if you are thinking of gifting us something, please use the link below to contribute to our new life together." +
+        "%0D%0A%0D%0A" +
+        props.shareUrl +
+        "%0D%0A%0D%0A" +
+        " As our gifting partner, we have registered with Good Earth’s Bridal Registry where you will find products chosen by us to help build this next stage of our lives.";
+      const whatsappElement = document.getElementById(
+        "whatsappShare"
+      ) as HTMLAnchorElement;
+      whatsappElement.setAttribute("href", whatsappUrl);
 
-    const mailUrl =
-      "mailto:" +
-      "?cc=" +
-      "&subject=" +
-      "Public Link to " +
-      data.registrantName +
-      " and " +
-      data.coRegistrantName +
-      "'s Bridal registry" +
-      "&body=" +
-      "Dear," +
-      "%0D%0A%0D%0A" +
-      "As our special day draws near, we wanted to tell you that your presence at our wedding is all we ask. Having you with us will bring us the most joy of all." +
-      "%0D%0A%0D%0A" +
-      "However, if you are thinking of gifting us something, please use the link below to contribute to our new life together." +
-      "%0D%0A%0D%0A" +
-      props.shareUrl +
-      "%0D%0A%0D%0A" +
-      "As our gifting partner, we have registered with Good Earth’s Bridal Registry where you will find products chosen by us to help build this next stage of our lives." +
-      "%0D%0A%0D%0A" +
-      "With love and gratitude,";
-    const mailelement = document.getElementById(
-      "mailShare"
-    ) as HTMLAnchorElement;
-    mailelement.setAttribute("href", mailUrl);
-  }, []);
+      const mailUrl =
+        "mailto:" +
+        "?cc=" +
+        "&subject=" +
+        "Public Link to " +
+        data.registrantName +
+        " and " +
+        data.coRegistrantName +
+        "'s Bridal registry" +
+        "&body=" +
+        "Dear," +
+        "%0D%0A%0D%0A" +
+        "As our special day draws near, we wanted to tell you that your presence at our wedding is all we ask. Having you with us will bring us the most joy of all." +
+        "%0D%0A%0D%0A" +
+        "However, if you are thinking of gifting us something, please use the link below to contribute to our new life together." +
+        "%0D%0A%0D%0A" +
+        props.shareUrl +
+        "%0D%0A%0D%0A" +
+        "As our gifting partner, we have registered with Good Earth’s Bridal Registry where you will find products chosen by us to help build this next stage of our lives." +
+        "%0D%0A%0D%0A" +
+        "With love and gratitude,";
+      const mailelement = document.getElementById(
+        "mailShare"
+      ) as HTMLAnchorElement;
+      mailelement.setAttribute("href", mailUrl);
+    }
+  }, [props.bridalProfile]);
 
   return (
     <div
       className={cs(
         styles.sizeBlockBridal,
         styles.ht,
-        styles.centerpageDesktop,
+        { [styles.centerpageDesktop]: !mobile },
         { [styles.centerpageMobile]: mobile },
         globalStyles.textCenter
       )}
@@ -117,10 +119,20 @@ const ShareLink: React.FC<Props> = props => {
               </div>
 
               <div className={globalStyles.voffset3}>
-                <a id="whatsappShare" data-action="share/whatsapp/share">
+                <a
+                  id="whatsappShare"
+                  data-action="share/whatsapp/share"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   <img src={iconWhatsApp} width="50" />
                 </a>
-                <a id="mailShare" title="Share by Email">
+                <a
+                  id="mailShare"
+                  title="Share by Email"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   <img src={iconEmail} width="50" />
                 </a>
               </div>

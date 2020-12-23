@@ -10,7 +10,7 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
-
+import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -176,14 +176,10 @@ class BridalItem extends React.Component<Props, State> {
                     </div>
                     {mobile && (
                       <div
-                        className={cs(styles.iconCart, globalStyles.voffset3)}
+                        className={globalStyles.voffset3}
                         onClick={this.mobileAddToBag}
                       >
-                        <img
-                          src="/static/img/icons_cartregistry-details.svg"
-                          width="40"
-                          height="40"
-                        />
+                        <img src={cartIcon} width="40" height="40" />
                       </div>
                     )}
                   </div>
