@@ -132,7 +132,7 @@ export default {
   clearBridalSession: async (dispatch: Dispatch) => {
     const res = await API.get(
       dispatch,
-      `${__API_HOST__}/myapi/bridal/clear_bridal_session/`
+      `${__API_HOST__}/myapi/customer/clear_bridal_session/`
     );
     return res;
   }

@@ -27,6 +27,7 @@ export default {
       dispatch(showMessage(PRODUCT_UNPUBLISHED));
     }
     dispatch(updateBasket(res));
+    return res;
   },
 
   addToBasket: async function(

@@ -23,7 +23,8 @@ const initialState: State = {
   isOnlyGiftCart: false,
   publishRemove: false,
   updated: false,
-  addnewGiftcard: 0
+  addnewGiftcard: 0,
+  bridal: false
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {
