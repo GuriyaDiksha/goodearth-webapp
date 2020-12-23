@@ -13,6 +13,8 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import weddingFloral from "../../images/bridal/wedding-floral.png";
+import iconStyles from "styles/iconFonts.scss";
+
 type RouteInfo = {
   id: string;
 };
@@ -45,7 +47,6 @@ type State = {
   showMobilePopup: boolean;
   mobileIndex: number;
   showSummary: boolean;
-  mobileScreen: string;
 };
 type Props = {
   key: string;
@@ -67,8 +68,7 @@ class BridalCheckout extends React.Component<Props, State> {
     },
     showMobilePopup: false,
     mobileIndex: 0,
-    showSummary: false,
-    mobileScreen: styles.summaryPadding
+    showSummary: false
   };
   isSuspended = true;
   // this.state = {
@@ -90,17 +90,14 @@ class BridalCheckout extends React.Component<Props, State> {
   // }
 
   showHide = () => {
-    const classValue =
-      this.state.mobileScreen == "summary-padding"
-        ? "summary-padding hidden-xs hidden-sm"
-        : "summary-padding";
-    this.setState({ mobileScreen: classValue });
     document.body.style.overflowY = "auto";
     if (!this.state.showSummary) {
       document.body.style.overflowY = "hidden";
     }
-    this.setState({
-      showSummary: !this.state.showSummary
+    this.setState(prevState => {
+      return {
+        showSummary: !prevState.showSummary
+      };
     });
   };
 
@@ -109,7 +106,7 @@ class BridalCheckout extends React.Component<Props, State> {
     const component = (
       <BridalMobile
         // closeMobile={this.closeMobileAdd}
-        bridalItem={this.state.bridalProfile.items[this.state.mobileIndex]}
+        bridalItem={this.state.bridalProfile.items[mindex]}
         bridalId={this.state.bridalProfile.bridalId}
       />
     );
@@ -214,8 +211,8 @@ class BridalCheckout extends React.Component<Props, State> {
                   <i
                     className={
                       this.state.showSummary
-                        ? "icon icon_downarrow-black"
-                        : "icon icon_uparrow-black"
+                        ? cs(iconStyles.icon, iconStyles.icon_downarrowblack)
+                        : cs(iconStyles.icon, iconStyles.icon_uparrowblack)
                     }
                   ></i>
                 </span>
@@ -266,115 +263,121 @@ class BridalCheckout extends React.Component<Props, State> {
                 )}
 
                 <div className="">
-                  <div className={this.state.mobileScreen}>
-                    {mobile && (
-                      <div>
-                        <hr className="hr" />
-                        <div
-                          className={cs(
-                            styles.flex,
-                            styles.gutterBetween,
-                            styles.total
-                          )}
-                        >
-                          <span
+                  {(!mobile || this.state.showSummary) && (
+                    <div className={styles.summaryPadding}>
+                      {mobile && (
+                        <div>
+                          <hr className="hr" />
+                          <div
                             className={cs(
-                              styles.subtotal,
-                              globalStyles.voffset2
+                              styles.flex,
+                              styles.gutterBetween,
+                              styles.total
                             )}
                           >
-                            <span className={globalStyles.op2}> Event:</span>{" "}
-                            <span className={styles.txtCap}> {occasion} </span>{" "}
-                          </span>
-                        </div>
-                        <div
-                          className={cs(
-                            styles.flex,
-                            styles.gutterBetween,
-                            styles.total
-                          )}
-                        >
-                          <span
+                            <span
+                              className={cs(
+                                styles.subtotal,
+                                globalStyles.voffset2
+                              )}
+                            >
+                              <span className={globalStyles.op2}> Event:</span>{" "}
+                              <span className={styles.txtCap}>
+                                {" "}
+                                {occasion}{" "}
+                              </span>{" "}
+                            </span>
+                          </div>
+                          <div
                             className={cs(
-                              styles.subtotal,
-                              globalStyles.voffset2
+                              styles.flex,
+                              styles.gutterBetween,
+                              styles.total
                             )}
                           >
-                            <span className={globalStyles.op2}>
-                              Wedding Date:
-                            </span>{" "}
-                            {eventDate}
-                          </span>
+                            <span
+                              className={cs(
+                                styles.subtotal,
+                                globalStyles.voffset2
+                              )}
+                            >
+                              <span className={globalStyles.op2}>
+                                Wedding Date:
+                              </span>{" "}
+                              {eventDate}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    <hr className="hr" />
-                    <div
-                      className={cs(styles.textCoupon, globalStyles.voffset4)}
-                    >
-                      To purchase an item, please select the quantity and click{" "}
-                      <span className="bold"> ADD TO BAG.</span>
-                    </div>
-                    <div
-                      className={cs(
-                        styles.textCoupon,
-                        globalStyles.voffset2,
-                        globalStyles.cerise,
-                        globalStyles.bold
                       )}
-                    >
-                      Please ensure you add the items from this public link only
-                      to contribute towards this Bridal Registry.
-                    </div>
-                    <div
-                      className={cs(styles.textCoupon, globalStyles.voffset2)}
-                    >
-                      If you need any assistance, talk to our representative on:
-                    </div>
-                    <div
-                      className={cs(styles.textCoupon, globalStyles.voffset2)}
-                    >
-                      <a
-                        href="tel: +91 9582999555"
-                        className={globalStyles.cerise}
+                      <hr className="hr" />
+                      <div
+                        className={cs(styles.textCoupon, globalStyles.voffset4)}
                       >
-                        +91 9582999555
-                      </a>{" "}
-                      /{" "}
-                      <a
-                        href="tel: +91 9582999888"
-                        className={globalStyles.cerise}
-                      >
-                        +91 9582999888
-                      </a>
-                    </div>
-                    <div
-                      className={cs(styles.textCoupon, globalStyles.voffset2)}
-                    >
-                      <a
-                        href="https://www.goodearth.in/customer-assistance/terms-conditions"
-                        className={globalStyles.cerise}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Terms of Use
-                      </a>{" "}
-                      |{" "}
-                      <a
-                        href="https://www.goodearth.in/customer-assistance/returns-exchanges"
-                        className={globalStyles.cerise}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Returns & Exchanges
-                      </a>
-                    </div>
-                    {!mobile && (
-                      <div className={styles.wishlist}>
-                        <img src={weddingFloral} />
+                        To purchase an item, please select the quantity and
+                        click <span className="bold"> ADD TO BAG.</span>
                       </div>
-                    )}
-                  </div>
+                      <div
+                        className={cs(
+                          styles.textCoupon,
+                          globalStyles.voffset2,
+                          globalStyles.cerise,
+                          globalStyles.bold
+                        )}
+                      >
+                        Please ensure you add the items from this public link
+                        only to contribute towards this Bridal Registry.
+                      </div>
+                      <div
+                        className={cs(styles.textCoupon, globalStyles.voffset2)}
+                      >
+                        If you need any assistance, talk to our representative
+                        on:
+                      </div>
+                      <div
+                        className={cs(styles.textCoupon, globalStyles.voffset2)}
+                      >
+                        <a
+                          href="tel: +91 9582999555"
+                          className={globalStyles.cerise}
+                        >
+                          +91 9582999555
+                        </a>{" "}
+                        /{" "}
+                        <a
+                          href="tel: +91 9582999888"
+                          className={globalStyles.cerise}
+                        >
+                          +91 9582999888
+                        </a>
+                      </div>
+                      <div
+                        className={cs(styles.textCoupon, globalStyles.voffset2)}
+                      >
+                        <a
+                          href="https://www.goodearth.in/customer-assistance/terms-conditions"
+                          className={globalStyles.cerise}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Terms of Use
+                        </a>{" "}
+                        |{" "}
+                        <a
+                          href="https://www.goodearth.in/customer-assistance/returns-exchanges"
+                          className={globalStyles.cerise}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Returns & Exchanges
+                        </a>
+                      </div>
+                      {!mobile && (
+                        <div className={styles.wishlist}>
+                          <img src={weddingFloral} />
+                        </div>
+                      )}
+                    </div>
+                  )}
                   {mobile && (
                     <div className={globalStyles.voffset4}>
                       <input

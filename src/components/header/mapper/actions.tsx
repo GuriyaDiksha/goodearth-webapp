@@ -80,7 +80,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const res = await BridalService.clearBridalSession(dispatch);
       return res;
     },
-    reloadAfterBridal: (cookies: Cookies) => {
+    reloadAfterBridal: (cookies: Cookies, source: string) => {
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
@@ -88,6 +88,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         WishlistService.updateWishlist(dispatch);
         MetaService.updateMeta(dispatch, cookies);
       }
+      BasketService.fetchBasket(dispatch, source);
     }
   };
 };

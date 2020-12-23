@@ -19,18 +19,18 @@ type Props = {
 const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
   const [qtyCurrent, setQtyCurrent] = useState(1);
   const [buttonStatus, setButtonStatus] = useState(false);
-  const [btnDisable, setBtnDisable] = useState("btn");
+  const [btnDisable, setBtnDisable] = useState(globalStyles.ceriseBtn);
   const [btnContent, setBtnContent] = useState("ADD TO BAG");
   const [err, setErr] = useState("");
 
   useEffect(() => {
     if (bridalItem.qtyRemaining == 0) {
       setButtonStatus(true);
-      setBtnDisable("btn disabled-input");
+      setBtnDisable(cs(globalStyles.ceriseBtn, globalStyles.disabledBtn));
       setBtnContent("Fulfilled");
     } else if (bridalItem.stock == 0) {
       setButtonStatus(true);
-      setBtnDisable("btn disabled-input");
+      setBtnDisable(cs(globalStyles.ceriseBtn, globalStyles.disabledBtn));
       setBtnContent("Out Of Stock");
     }
   }, []);
@@ -84,8 +84,8 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
       className={cs(
         styles.sizeBlockBridal,
         styles.ht,
-        styles.centerpageDesktop,
-        styles.textCenter
+        styles.centerpageMobile,
+        globalStyles.textCenter
       )}
     >
       <div className={styles.cross} onClick={closeModal}>
@@ -106,7 +106,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
             <div
               className={cs(styles.section, styles.sectionMiddle, styles.cart)}
             >
-              <div className={styles.voffset7}>
+              <div className={globalStyles.voffset7}>
                 <div className={styles.textMuted}>REQUESTED</div>
                 <div
                   className={cs(globalStyles.textCenter, globalStyles.c10LR)}
@@ -181,7 +181,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
             <br />
             <br />
           </div>
-          <div className={globalStyles.cerise}>
+          <div className={cs(globalStyles.cerise, styles.font14)}>
             {btnContent == "Fulfilled" || btnContent == "Out Of Stock"
               ? btnContent
               : ""}
