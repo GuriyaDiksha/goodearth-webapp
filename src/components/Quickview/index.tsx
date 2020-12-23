@@ -99,9 +99,10 @@ class Quickview extends React.Component<Props, State> {
 
   componentDidMount() {
     const { fetchProductsDetails, id } = this.props;
-    fetchProductsDetails(id).then(() => {
-      this.gtmPushOpenQuickview();
-    });
+    fetchProductsDetails(id);
+    // .then(() => {
+    // this.gtmPushOpenQuickview();
+    // });
   }
 
   getProductImagesData = () => {
@@ -153,6 +154,7 @@ class Quickview extends React.Component<Props, State> {
         corporatePDP={this.props.corporatePDP ? true : false}
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
+        source={this.props.source}
       />
     );
   };
