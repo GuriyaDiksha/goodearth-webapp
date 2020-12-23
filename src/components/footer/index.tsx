@@ -445,7 +445,7 @@ class Footer extends React.Component<Props, FooterState> {
                           <li>find us on</li>
                           <li className={cs(styles.footerSocialicons)}>
                             <a
-                              href="http://www.facebook.com/goodearthindia"
+                              href="https://www.facebook.com/goodearthindia"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -458,7 +458,7 @@ class Footer extends React.Component<Props, FooterState> {
                               ></i>
                             </a>
                             <a
-                              href="http://www.instagram.com/goodearthindia"
+                              href="https://www.instagram.com/goodearthindia"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -471,7 +471,7 @@ class Footer extends React.Component<Props, FooterState> {
                               ></i>
                             </a>
                             <a
-                              href="http://pinterest.com/goodearthindia/"
+                              href="https://www.pinterest.com/goodearthindia/"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -645,8 +645,8 @@ class Footer extends React.Component<Props, FooterState> {
                         find us on
                       </div>
                       <div className={cs(styles.ftrHeadingWhite)}>
-                        <Link
-                          to="http://www.facebook.com/goodearthindia"
+                        <a
+                          href="https://www.facebook.com/goodearthindia"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -657,9 +657,9 @@ class Footer extends React.Component<Props, FooterState> {
                               styles.footerIcon
                             )}
                           ></i>
-                        </Link>
-                        <Link
-                          to="http://www.instagram.com/goodearthindia"
+                        </a>
+                        <a
+                          href="https://www.instagram.com/goodearthindia"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -670,9 +670,9 @@ class Footer extends React.Component<Props, FooterState> {
                               styles.footerIcon
                             )}
                           ></i>
-                        </Link>
-                        <Link
-                          to="http://pinterest.com/goodearthindia/"
+                        </a>
+                        <a
+                          href="https://www.pinterest.com/goodearthindia/"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -683,7 +683,7 @@ class Footer extends React.Component<Props, FooterState> {
                               styles.footerIcon
                             )}
                           ></i>
-                        </Link>
+                        </a>
                       </div>
                       {this.props.saleStatus ? (
                         ""
