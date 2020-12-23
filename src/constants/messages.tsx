@@ -23,3 +23,11 @@ export const LOGOUT_SUCCESS = "You have successfully been logged out!";
 export const LOGIN_SUCCESS = "Welcome to Good Earth!";
 export const PRODUCT_UNPUBLISHED =
   "Due to unavailability of some products your cart has been updated.";
+export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
+export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
+export const ADD_TO_REGISTRY_AGAIN = [
+  "To modify or edit items in your registry please ",
+  <Link to="/bridal" key="bridal">
+    manage your registry
+  </Link>
+];

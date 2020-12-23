@@ -143,7 +143,8 @@ const BaseLayout: React.FC = () => {
     if (
       !currencyPopup &&
       !boId &&
-      !location.pathname.includes("/order/orderconfirmation/")
+      !location.pathname.includes("/order/orderconfirmation/") &&
+      !location.pathname.includes("/bridal/")
     ) {
       dispatch(updateComponent(<CurrencyPopup />, true));
       dispatch(updateModal(true));

@@ -14,11 +14,14 @@ import Api from "services/api";
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 import PincodePopup from "components/Popups/pincodePopup";
 import HeaderService from "services/headerFooter";
+import BridalService from "services/bridal";
+import { updateNextUrl } from "actions/info";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    goLogin: (event?: React.MouseEvent) => {
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
       LoginService.showLogin(dispatch);
+      nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },
     handleLogOut: (history: any) => {
@@ -72,6 +75,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     getCustomerSlab: async (formData: any) => {
       const res = await HeaderService.getCustomerSlab(dispatch, formData);
       return res;
+    },
+    clearBridalSession: async () => {
+      const res = await BridalService.clearBridalSession(dispatch);
+      return res;
+    },
+    reloadAfterBridal: (cookies: Cookies) => {
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      WishlistService.updateWishlist(dispatch);
+      MetaService.updateMeta(dispatch, cookies);
     }
   };
 };

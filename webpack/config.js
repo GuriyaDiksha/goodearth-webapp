@@ -214,10 +214,15 @@ let config = [
                             },
                             importLoaders: 0,
                             localsConvention: "camelCase",
-                            sourceMap: true
+                            sourceMap: true,
                           }
                         },
-                        "sass-loader"
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                prependData: "$cdn: " + cdnDomain + ";",
+                            },
+                          }
                       ]
                 },
                 {
@@ -279,7 +284,7 @@ let config = [
         },
         externals: [nodeExternals({
             whitelist: function(path){
-                            return  /slick-carousel|rc-slider|rc-util|react-circular-progressbar/.test(path);
+                            return  /slick-carousel|rc-slider|rc-util|react-circular-progressbar|react-datepicker|reactDatepicker/.test(path);
                         }
         })],
         plugins: [
@@ -353,10 +358,15 @@ let config = [
                             },
                             importLoaders: 0,
                             localsConvention: "camelCase",
-                            sourceMap: true
+                            sourceMap: true,
                           }
                         },
-                        "sass-loader"
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                prependData: "$cdn: " + cdnDomain + ";",
+                            },
+                        }
                       ]
                 },
                 {

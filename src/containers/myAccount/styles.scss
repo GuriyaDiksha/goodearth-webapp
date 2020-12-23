@@ -24,7 +24,7 @@
     margin-left: 20%;
     li {
       line-height: 40px;
-      a {
+      a, span {
         font-size: 14px;
         font-family: $font-Lato;
         color: #333;
@@ -32,6 +32,16 @@
         &:hover {
           color: $cerise;
           text-decoration: none;
+        }
+      }
+      ul {
+        margin-left: 0;
+        li {
+          margin-left: 10% ;
+          line-height: 28px ;
+          a {
+            font-size: 12px ;
+          }
         }
       }
     }
@@ -241,5 +251,30 @@
         color: tint(#000, 50%);
       }
     }
+  }
+}
+
+
+.bridalleftsec {
+  position: relative;
+  z-index: 1;
+  a {
+    display: block;
+  }
+  &:after {
+    content: '-';
+    text-align: right;
+    position: absolute;
+    z-index: -1;
+    right: 20px;
+    font-size: 20px;
+    top: 0;
+    z-index: -1;
+  }
+  &.bridalplus:after {
+    content: '+';
+  }
+  a {
+    display: block;
   }
 }

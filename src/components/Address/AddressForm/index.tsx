@@ -1184,7 +1184,9 @@ const AddressForm: React.FC<Props> = props => {
         }
       )}
     >
-      {currentCallBackComponent == "account" && (
+      {(currentCallBackComponent == "account" ||
+        currentCallBackComponent == "bridal" ||
+        currentCallBackComponent == "bridal-edit") && (
         <div className="back-btn-div">
           <div
             className={cs(
@@ -1542,22 +1544,23 @@ const AddressForm: React.FC<Props> = props => {
           </div>
         </div>
       </Formsy>
-      {(currentCallBackComponent !== "checkout-billing" &&
+
+      {((currentCallBackComponent !== "checkout-billing" &&
         currentCallBackComponent !== "checkout-shipping") ||
-        (mobile && (
-          <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
-            <span
-              className={cs(
-                styles.backBtn,
-                globalStyles.ointer,
-                styles.formSubheading
-              )}
-              onClick={closeAddressForm}
-            >
-              &lt; back
-            </span>
-          </div>
-        ))}
+        mobile) && (
+        <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
+          <span
+            className={cs(
+              styles.backBtn,
+              globalStyles.ointer,
+              styles.formSubheading
+            )}
+            onClick={closeAddressForm}
+          >
+            &lt; back
+          </span>
+        </div>
+      )}
       {isLoggedIn &&
         !mobile &&
         (currentCallBackComponent == "checkout-billing" ||

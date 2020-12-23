@@ -45,9 +45,9 @@ class MainMenu extends React.Component<Props, MenuState> {
       <ul className={styles.menuContainer}>
         {data?.map((data: HeaderData, i: number) => {
           const isBridalRegistryPage =
-            location.pathname.indexOf("/bridal/") > 0;
+            location.pathname.indexOf("/bridal/") > -1;
           const disbaleClass =
-            location.pathname.indexOf("/bridal/") > 0
+            location.pathname.indexOf("/bridal/") > -1
               ? styles.iconStyleDisabled
               : "";
           const highlightStories =
@@ -56,32 +56,43 @@ class MainMenu extends React.Component<Props, MenuState> {
           return (
             <li
               key={i + "header"}
-              className={styles.menuItem}
+              className={cs(styles.menuItem, disbaleClass)}
               onMouseOver={(): void => {
-                this.props.ipad || highlightStories ? "" : this.mouseOver(i);
+                this.props.ipad || highlightStories || isBridalRegistryPage
+                  ? ""
+                  : this.mouseOver(i);
               }}
               onMouseLeave={(): void => {
-                this.props.ipad || highlightStories ? "" : this.mouseLeave(i);
+                this.props.ipad || highlightStories || isBridalRegistryPage
+                  ? ""
+                  : this.mouseLeave(i);
               }}
             >
               {highlightStories ? (
-                <a
-                  className={cs(disbaleClass, styles.hoverStories, {
-                    [styles.cerise]: !this.props.isSale
-                  })}
-                  href={data.catLandingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {ReactHtmlParser(data.name)}
-                </a>
+                isBridalRegistryPage ? (
+                  <span
+                    className={cs(
+                      styles.disabledMenuItemStories,
+                      styles.iconStyleDisabled
+                    )}
+                  >
+                    {ReactHtmlParser(data.name)}
+                  </span>
+                ) : (
+                  <a
+                    className={cs(disbaleClass, styles.hoverStories, {
+                      [styles.cerise]: !this.props.isSale
+                    })}
+                    href={isBridalRegistryPage ? "" : data.catLandingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {ReactHtmlParser(data.name)}
+                  </a>
+                )
               ) : (
                 <Link
-                  to={
-                    isBridalRegistryPage
-                      ? "javascript:void(0)"
-                      : data.catLandingUrl
-                  }
+                  to={isBridalRegistryPage ? "#" : data.catLandingUrl}
                   className={
                     this.state.selectedCategory == i ||
                     (highlightStories && this.props.ipad)

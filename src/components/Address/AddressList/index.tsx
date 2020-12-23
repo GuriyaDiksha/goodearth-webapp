@@ -28,7 +28,9 @@ const AddressList: React.FC<Props> = props => {
     if (
       (activeStep == "BILLING" &&
         props.currentCallBackComponent == "checkout-billing") ||
-      props.currentCallBackComponent == "account"
+      props.currentCallBackComponent == "account" ||
+      props.currentCallBackComponent == "bridal" ||
+      props.currentCallBackComponent == "bridal-edit"
     ) {
       if (addressData) {
         addressData = addressData.filter(address => !address.isTulsi);

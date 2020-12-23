@@ -57,7 +57,7 @@
     min-height: 160px;
     font-weight: 400;
     text-align: left;
-    padding: 35px 25px 93px 25px;
+    padding: 35px 25px 76px 25px;
     flex-grow: 1;
     border: none;
     font-family: $font-Lato;
@@ -67,12 +67,14 @@
     }
     &.shipping-border {
       border: 2px solid #8cb8aa;
+      padding: 35px 25px 110px 25px;
     }
     .ship-to-this-btn {
       position: absolute;
       bottom: 0;
       width: 100%;
       left: 0;
+      line-height: 50px;
     }
     .address-in-use {
       background-color: #868484;
@@ -350,4 +352,13 @@
 .address-list-container {
   display: flex;
   flex-wrap: wrap;
+}
+
+.address-item-container {
+  .address-item.address-in-use {
+    position: absolute;
+    background-color: #ccc;
+    height: 100%;
+    width: 100%;
+  }
 }

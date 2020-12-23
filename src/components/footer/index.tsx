@@ -373,7 +373,13 @@ class Footer extends React.Component<Props, FooterState> {
                                               </a>
                                             ) : ( */}
                                               <Link
-                                                to={currentValue.link}
+                                                to={
+                                                  currentValue.text.toLowerCase() ==
+                                                    "good earth registry" &&
+                                                  this.props.isLoggedIn
+                                                    ? "/account/bridal"
+                                                    : currentValue.link
+                                                }
                                                 onClick={() => {
                                                   this.subMenu(i);
                                                 }}
@@ -560,7 +566,17 @@ class Footer extends React.Component<Props, FooterState> {
                                       //     {Item.text}
                                       //   </a>
                                       // ) : (
-                                      <Link to={Item.link}>{Item.text}</Link>
+                                      <Link
+                                        to={
+                                          Item.text.toLowerCase() ==
+                                            "good earth registry" &&
+                                          this.props.isLoggedIn
+                                            ? "/account/bridal"
+                                            : Item.link
+                                        }
+                                      >
+                                        {Item.text}
+                                      </Link>
                                     ) : (
                                       //  )
                                       Item.text

@@ -175,6 +175,12 @@ class Header extends React.Component<Props, State> {
       });
   };
 
+  clearBridalSession = async () => {
+    await this.props.clearBridalSession();
+    this.props.history.push("/");
+    this.props.reloadAfterBridal(this.props.cookies);
+  };
+
   clickToggle = () => {
     const isMobileMenuOpen = !this.state.showMenu;
 
@@ -266,12 +272,15 @@ class Header extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-      // {
-      //   label: "Good Earth Registry",
-      //   href: "/about",
-      //   type: "link",
-      //   value: "Good Earth Registry"
-      // },
+      {
+        label: "Good Earth Registry",
+        href: isLoggedIn ? "/account/bridal" : "",
+        onClick: isLoggedIn
+          ? () => null
+          : () => this.props.goLogin(undefined, "/account/bridal"),
+        type: isLoggedIn ? "link" : "button",
+        value: "Good Earth Registry"
+      },
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
@@ -297,6 +306,9 @@ class Header extends React.Component<Props, State> {
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
+    const isBridalRegistryPage =
+      this.props.location.pathname.indexOf("/bridal/") > -1 &&
+      !(this.props.location.pathname.indexOf("/account/") > -1);
     return (
       <div className="">
         <Helmet defer={false}>
@@ -381,7 +393,11 @@ class Header extends React.Component<Props, State> {
         <div className={cs(styles.headerContainer)}>
           <div
             className={styles.announcement}
-            style={{ backgroundColor: announcement.bgColorcode }}
+            style={{
+              backgroundColor: isBridalRegistryPage
+                ? announcement.bridalBgColorcode
+                : announcement.bgColorcode
+            }}
           >
             {messageText?.map((data, i) => {
               if (announcement.url) {
@@ -393,11 +409,38 @@ class Header extends React.Component<Props, State> {
                         ? i == 0
                           ? styles.boxx1
                           : styles.boxx2
-                        : "width100"
+                        : styles.width100
                     }
                   >
                     <Link to={announcement.url ? "" + announcement.url : "/"}>
-                      <div>{ReactHtmlParser(data)}</div>
+                      {announcement.isBridalActive ? (
+                        <div>
+                          <>
+                            <svg
+                              style={{ verticalAlign: "bottom" }}
+                              viewBox="-5 -5 50 50"
+                              width="30"
+                              height="30"
+                              preserveAspectRatio="xMidYMid meet"
+                              x="0"
+                              y="0"
+                              className={styles.bridalRing}
+                            >
+                              <use xlinkHref="/static/img/bridal/rings.svg#bridal-ring"></use>
+                            </svg>{" "}
+                            {announcement.registrantName} &{" "}
+                            {announcement.coRegistrantName}&#39;s Bridal
+                            Registry (Public Link){" "}
+                            <b style={{ textDecoration: "underline" }}>
+                              <span onClick={this.props.clearBridalSession}>
+                                Close
+                              </span>
+                            </b>
+                          </>
+                        </div>
+                      ) : (
+                        <div>{ReactHtmlParser(data)}</div>
+                      )}
                     </Link>
                   </div>
                 );
@@ -410,7 +453,7 @@ class Header extends React.Component<Props, State> {
                         ? i == 0
                           ? styles.boxx1
                           : styles.boxx2
-                        : "width100"
+                        : styles.width100
                     }
                   >
                     {ReactHtmlParser(data)}
