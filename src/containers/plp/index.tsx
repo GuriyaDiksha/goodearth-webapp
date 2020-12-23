@@ -139,6 +139,7 @@ class PLP extends React.Component<
         id={id}
         productListId={plpProductId}
         corporatePDP={this.state.corporoateGifting}
+        source="PLP"
       />,
       true
     );
