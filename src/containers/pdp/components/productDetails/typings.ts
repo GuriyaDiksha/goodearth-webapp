@@ -12,4 +12,5 @@ export type Props = {
   changeModalState?: any;
   updateComponentModal?: any;
   corporatePDP: boolean;
+  source?: string;
 };
