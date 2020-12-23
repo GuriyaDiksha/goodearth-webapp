@@ -30,7 +30,22 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
       }
     })
     .map((filter: any) => filter.image);
-  const shopData = data ? data[0] : {};
+  const shopData =
+    data && data[0]
+      ? data[0]
+      : {
+          place: "",
+          shopContent: "",
+          opendays: "",
+          time: "",
+          address: "",
+          direction: "",
+          iframemap: "",
+          cafeHeading2: "",
+          cafeContent: "",
+          cafeTel1: "",
+          cafeDirection: ""
+        };
   const [showiframe, setShowiframe] = useState(false);
   const location = useLocation();
   useEffect(() => {
