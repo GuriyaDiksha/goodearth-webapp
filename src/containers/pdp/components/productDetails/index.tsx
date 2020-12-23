@@ -25,6 +25,7 @@ import NotifyMePopup from "components/NotifyMePopup";
 import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 // services
 import BasketService from "services/basket";
+import CookieService from "../../../../services/cookie";
 // actions
 import { showMessage } from "actions/growlMessage";
 // typings
@@ -75,7 +76,8 @@ const ProductDetails: React.FC<Props> = ({
   isQuickview,
   changeModalState,
   updateComponentModal,
-  closeModal
+  closeModal,
+  source
 }) => {
   const [productTitle, subtitle] = title.split("(");
   const { info } = useSelector((state: AppState) => state);
@@ -624,6 +626,8 @@ const ProductDetails: React.FC<Props> = ({
                 className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
                 onClick={() => {
                   changeModalState(false);
+                  const listPath = `${source || "PLP"} ${location.pathname}`;
+                  CookieService.setCookie("listPath", listPath);
                 }}
               >
                 view more details
