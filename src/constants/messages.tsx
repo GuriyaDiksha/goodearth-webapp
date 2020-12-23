@@ -31,3 +31,7 @@ export const ADD_TO_REGISTRY_AGAIN = [
     manage your registry
   </Link>
 ];
+export const REGISTRY_OWNER_CHECKOUT =
+  "Looks like you are the owner of this Bridal Registry! Your order will be placed against your registry";
+export const REGISTRY_MIXED_SHIPPING =
+  "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";

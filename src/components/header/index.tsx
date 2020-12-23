@@ -176,10 +176,10 @@ class Header extends React.Component<Props, State> {
       });
   };
 
-  clearBridalSession = async () => {
+  clearBridalSession = async (source: string) => {
     await this.props.clearBridalSession();
     this.props.history.push("/");
-    this.props.reloadAfterBridal(this.props.cookies);
+    this.props.reloadAfterBridal(this.props.cookies, source);
   };
 
   clickToggle = () => {
@@ -395,9 +395,10 @@ class Header extends React.Component<Props, State> {
           <div
             className={styles.announcement}
             style={{
-              backgroundColor: isBridalRegistryPage
-                ? announcement.bridalBgColorcode
-                : announcement.bgColorcode
+              backgroundColor:
+                announcement.isBridalActive || isBridalRegistryPage
+                  ? announcement.bridalBgColorcode
+                  : announcement.bgColorcode
             }}
           >
             {messageText?.map((data, i) => {
@@ -454,7 +455,19 @@ class Header extends React.Component<Props, State> {
                               cursor: "pointer"
                             }}
                           >
-                            <span onClick={this.clearBridalSession}>Close</span>
+                            <span
+                              onClick={() =>
+                                this.clearBridalSession(
+                                  location.pathname.includes("checkout")
+                                    ? "checkout"
+                                    : location.pathname.includes("cart")
+                                    ? "cart"
+                                    : ""
+                                )
+                              }
+                            >
+                              Close
+                            </span>
                           </b>
                         </>
                       </div>

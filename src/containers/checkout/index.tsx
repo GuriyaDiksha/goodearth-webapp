@@ -28,10 +28,15 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { User } from "typings/user";
 import { showMessage } from "actions/growlMessage";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import {
+  CURRENCY_CHANGED_SUCCESS,
+  REGISTRY_MIXED_SHIPPING,
+  REGISTRY_OWNER_CHECKOUT
+} from "constants/messages";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import InfoPopup from "components/Popups/InfoPopup";
+import { Basket } from "typings/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -43,7 +48,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     cookies: state.cookies,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    bridalId: state.user.bridalId
   };
 };
 
@@ -144,7 +150,6 @@ type State = {
   pancardNo: string;
   gstNo: string;
   gstType: string;
-  bridalId: string;
   unpublish: boolean;
   isLoading: boolean;
   id: string;
@@ -181,7 +186,6 @@ class Checkout extends React.Component<Props, State> {
       pancardNo: "",
       gstNo: "",
       gstType: "",
-      bridalId: "",
       unpublish: false,
       isLoading: false,
       id: "",
@@ -203,6 +207,17 @@ class Checkout extends React.Component<Props, State> {
     // this.setState({
     //     showInfoPopup: 'show'
     // })
+  }
+
+  checkToMessage(basket: Basket) {
+    let item1 = false,
+      item2 = false;
+
+    basket.lineItems.map(data => {
+      if (!data.bridalProfile) item1 = true;
+      if (data.bridalProfile) item2 = true;
+    });
+    return item1 && item2;
   }
   componentDidMount() {
     // const bridalId = CookieService.getCookie("bridalId");
@@ -307,6 +322,17 @@ class Checkout extends React.Component<Props, State> {
             });
           }
         });
+      }
+
+      let basketBridalId = 0;
+      res.lineItems.map(item =>
+        item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+      );
+      if (basketBridalId == this.props.bridalId) {
+        this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
+      }
+      if (this.checkToMessage(res)) {
+        this.props.showNotify(REGISTRY_MIXED_SHIPPING);
       }
 
       dataLayer.push({

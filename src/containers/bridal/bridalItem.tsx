@@ -256,20 +256,25 @@ class BridalItem extends React.Component<Props, State> {
             >
               <div className={styles.section}>
                 <div className={styles.manageHeight}>
-                  <button
-                    className={this.state.btnDisable}
-                    onClick={this.addToBag}
-                    disabled={this.state.buttonStatus}
-                  >
-                    {this.state.btnContent}
-                  </button>
                   {!mobile && (
-                    <div
-                      className={cs(globalStyles.c10LR, globalStyles.voffset2)}
-                    >
-                      For regular orders, the delivery time will be 6-8 business
-                      days
-                    </div>
+                    <>
+                      <button
+                        className={this.state.btnDisable}
+                        onClick={this.addToBag}
+                        disabled={this.state.buttonStatus}
+                      >
+                        {this.state.btnContent}
+                      </button>
+                      <div
+                        className={cs(
+                          globalStyles.c10LR,
+                          globalStyles.voffset2
+                        )}
+                      >
+                        For regular orders, the delivery time will be 6-8
+                        business days
+                      </div>
+                    </>
                   )}
                   <div className={globalStyles.cerise}>
                     {this.state.btnContent == "Fulfilled" ||

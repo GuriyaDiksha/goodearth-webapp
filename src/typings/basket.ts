@@ -20,7 +20,7 @@ export type BasketStockRecord = {
 export type BasketLineItem = {
   id: number;
   childAttributes: ChildProductAttributes[];
-  bridalProfile: boolean;
+  bridalProfile: number;
   giftCardImage: string;
   quantity: number;
   product: BasketProduct;

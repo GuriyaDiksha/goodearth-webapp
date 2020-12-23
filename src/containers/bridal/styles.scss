@@ -492,8 +492,8 @@
       .cross {
         border-bottom: 1px solid #f2f2f2;
         text-align: right;
-        font-size: 35px;
-        padding-right: 5px;
+        font-size: 16px;
+        padding: 10px;
         cursor: pointer;
         position: fixed;
         width: 100%;
@@ -569,7 +569,7 @@
     width: 100%;
   }
 
-  .centerpage-desktop-mobile {
+  .centerpage-mobile {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -914,4 +914,23 @@
         padding: 5px 12px;
       }
     }
+  }
+
+  .font14 {
+    font-size: 14px;
+  }
+
+  .btn-arrow {
+    top: -15px;
+    left: 50%;
+    cursor: pointer;
+    font-size: 10px;
+    position: absolute;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 2px solid tint(#000, 90%);
+    padding: 8px 11px 8px 9px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    display: inline-block !important;
   }

@@ -6,6 +6,7 @@ import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import { AddressContext } from "../AddressMain/context";
+import AddressItemBridal from "../AddressItemBridal";
 
 type Props = {
   addressDataList: AddressData[];
@@ -38,6 +39,14 @@ const AddressList: React.FC<Props> = props => {
           addressData = addressData.filter(address => !address.isBridal);
           // && window.user.email == address.Email_Id);
         }
+      }
+    }
+    if (
+      activeStep == "SHIPPING" &&
+      props.currentCallBackComponent == "checkout-shipping"
+    ) {
+      if (isBridal) {
+        addressData = addressData.filter(address => address.isBridal);
       }
     }
     // if (props.addressDataList && props.addressDataList.length > 0) {
@@ -143,7 +152,13 @@ const AddressList: React.FC<Props> = props => {
         className={cs(bootstrapStyles.row, styles.addressListContainer)}
         id="addressData"
       >
-        {addressData &&
+        {isBridal && activeStep == "SHIPPING" ? (
+          <AddressItemBridal
+            addressData={addressData[addressData.length - 1]}
+            addressType="SHIPPING"
+          />
+        ) : (
+          addressData &&
           addressData.length > 0 &&
           Object.entries(addressData).length !== 0 &&
           addressData.map((data, i) => {
@@ -181,7 +196,8 @@ const AddressList: React.FC<Props> = props => {
                 // markAsDefault={markAsDefault}
               />
             );
-          })}
+          })
+        )}
       </div>
       {isLoading && <Loader />}
     </div>
