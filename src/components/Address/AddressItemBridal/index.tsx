@@ -16,7 +16,6 @@ type Props = {
 const AddressItemBridal: React.FC<Props> = ({
   addressData,
   addressType,
-  selectAddress,
   title
 }) => {
   const { onSelectAddress } = useContext(CheckoutAddressContext);
