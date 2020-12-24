@@ -150,7 +150,7 @@ const AddressSection: React.FC<AddressProps & {
         >
           <div>
             <span className={globalStyles.marginR10}>
-              {address.registrantName} & {address.coRegistrantName}&#39;s
+              {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
               {address.occasion} Registry
             </span>
           </div>

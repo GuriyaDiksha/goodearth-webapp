@@ -69,8 +69,10 @@ class Header extends React.Component<Props, State> {
       showPincodePopup: false,
       showBag: false,
       showCartMobile:
-        this.props.location.pathname.includes("/catalogue/") &&
-        !this.props.location.pathname.includes("/catalogue/category")
+        (this.props.location.pathname.includes("/catalogue/") &&
+          !this.props.location.pathname.includes("/catalogue/category")) ||
+        (this.props.location.pathname.includes("/bridal/") &&
+          !this.props.location.pathname.includes("/account/"))
     };
   }
   static contextType = UserContext;
@@ -114,7 +116,10 @@ class Header extends React.Component<Props, State> {
       const isPDP =
         this.props.location.pathname.includes("/catalogue/") &&
         !this.props.location.pathname.includes("/catalogue/category");
-      if (isPDP) {
+      const isBridalPublicPage =
+        this.props.location.pathname.includes("/bridal/") &&
+        !this.props.location.pathname.includes("/account/");
+      if (isPDP || isBridalPublicPage) {
         if (!this.state.showCartMobile) {
           this.setState({
             showCartMobile: true
@@ -851,7 +856,7 @@ class Header extends React.Component<Props, State> {
         </div>
         <GrowlMessage {...message} />
         <MakerUtils />
-        {mobile && (
+        {mobile && !isBridalRegistryPage && (
           <BottomMenu
             showBag={this.state.showBag}
             showSearch={this.showSearch}
