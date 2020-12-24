@@ -62,11 +62,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
-      user: User
+      user: User,
+      isBridal = false
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
-        shippingAddressId
+        shippingAddressId,
+        isBridal
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
@@ -308,22 +310,6 @@ class Checkout extends React.Component<Props, State> {
     }
 
     this.props.fetchBasket().then(res => {
-      if (!this.props.user.isLoggedIn && res.bridal) {
-        this.props.fetchAddressBridal().then(addressList => {
-          const selectedAddresses = addressList.filter(
-            address => address.isBridal
-          );
-          const selectedAddress = selectedAddresses[0]
-            ? selectedAddresses[0]
-            : undefined;
-          if (selectedAddress) {
-            this.setState({
-              shippingAddress: selectedAddress
-            });
-          }
-        });
-      }
-
       let basketBridalId = 0;
       res.lineItems.map(item =>
         item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
@@ -523,8 +509,9 @@ class Checkout extends React.Component<Props, State> {
       // data.append("country", path + address.country + "/");
       // }
 
+      const { bridal } = this.props.basket;
       this.props
-        .specifyShippingAddress(address.id, address, this.props.user)
+        .specifyShippingAddress(address.id, address, this.props.user, bridal)
         .then(data => {
           if (data.status) {
             const isGoodearthShipping = address.isTulsi
