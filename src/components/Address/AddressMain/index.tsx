@@ -225,10 +225,6 @@ const AddressMain: React.FC<Props> = props => {
         <div>
           <AddressList
             addressDataList={addressList}
-            openAddressForm={address => null}
-            deleteAddress={id => null}
-            selectAddress={address => null}
-            isValidAddress={() => null}
             isBridal={bridal}
             currentCallBackComponent={currentCallBackComponent}
             showAddressInBridalUse={["bridal", "bridal-edit"].includes(

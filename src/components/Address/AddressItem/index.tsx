@@ -16,7 +16,6 @@ import bridalRing from "../../../images/bridal/rings.svg";
 type Props = {
   addressData: AddressData;
   title?: string;
-  selectAddress: (address: AddressData) => void;
   index: number;
   isOnlyAddress: boolean;
   // addressType?: string;

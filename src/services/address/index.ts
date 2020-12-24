@@ -69,10 +69,16 @@ export default {
     dispatch(updateAddressList(data));
     return data;
   },
-  specifyShippingAddress: async (dispatch: Dispatch, id: number) => {
+  specifyShippingAddress: async (
+    dispatch: Dispatch,
+    id: number,
+    isBridal: boolean
+  ) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/address/specify_shipping_address/?source=checkout`,
+      `${__API_HOST__}/myapi/address/specify_shipping_address/?source=checkout${
+        isBridal ? "&isBridal=true" : ""
+      }`,
       { shippingAddressId: id }
     );
     if (data.data.basket.updated || data.data.basket.publishRemove) {
