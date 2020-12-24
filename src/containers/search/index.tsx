@@ -298,6 +298,7 @@ class Search extends React.Component<
                   value="hc"
                   onChange={this.onchangeFilter}
                   showCaret={true}
+                  disabled={data.length == 0 ? true : false}
                 ></SelectableDropdownMenu>
               </div>
             </Fragment>
