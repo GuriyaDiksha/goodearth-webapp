@@ -47,22 +47,25 @@ const Bridal: React.FC<Props> = props => {
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-  const getBridalProfileData = () => {
-    BridalService.fetchBridalProfile(dispatch, props.bridalId).then(data => {
-      if (data) {
-        setBridalProfile(data);
-        setBridalDetails(Object.assign({}, data, { userAddress: undefined }));
-        setShareLink(`${__DOMAIN__}/${data.shareLink}`);
-        dispatch(
-          updateUser(
-            Object.assign({}, user, {
-              bridalId: data.bridalId,
-              bridalCurrency: data.currency
-            })
-          )
-        );
-      }
-    });
+  const getBridalProfileData = async () => {
+    const data = await BridalService.fetchBridalProfile(
+      dispatch,
+      props.bridalId
+    );
+    if (data) {
+      setBridalProfile(data);
+      setBridalDetails(Object.assign({}, data, { userAddress: undefined }));
+      setShareLink(`${__DOMAIN__}/${data.shareLink}`);
+      dispatch(
+        updateUser(
+          Object.assign({}, user, {
+            bridalId: data.bridalId,
+            bridalCurrency: data.currency
+          })
+        )
+      );
+    }
+    return data;
   };
 
   // componentWillMount() {
@@ -85,13 +88,6 @@ const Bridal: React.FC<Props> = props => {
   // }
 
   useEffect(() => {
-    AddressService.fetchAddressList(dispatch).then(addressList => {
-      dispatch(updateAddressList(addressList));
-      const bridalAddress = addressList.filter(address => address.isBridal)[0];
-      if (bridalAddress) {
-        setBridalAddress(bridalAddress);
-      }
-    });
     return () => {
       window.removeEventListener("beforeunload", confirmPopup);
     };
@@ -99,7 +95,17 @@ const Bridal: React.FC<Props> = props => {
 
   useEffect(() => {
     if (props.bridalId) {
-      getBridalProfileData();
+      getBridalProfileData().then(data => {
+        AddressService.fetchAddressList(dispatch).then(addressList => {
+          dispatch(updateAddressList(addressList));
+          const bridalAddress = addressList.filter(
+            address => address.id == data?.userAddressId
+          )[0];
+          if (bridalAddress) {
+            setBridalAddress(bridalAddress);
+          }
+        });
+      });
     }
   }, [props.bridalId]);
 
@@ -130,12 +136,12 @@ const Bridal: React.FC<Props> = props => {
 
   const { isAddressValid, openAddressForm } = useContext(AddressContext);
 
-  const changeAddress = () => {
+  const changeAddress = (newAddressId: number) => {
     AddressService.fetchAddressList(dispatch)
       .then(data => {
         const items = data;
         for (let i = 0; i < items.length; i++) {
-          if (items[i].isBridal) {
+          if (items[i].id == newAddressId) {
             setBridalAddress(items[i]);
             break;
           }
@@ -291,10 +297,10 @@ const Bridal: React.FC<Props> = props => {
       bridalId: props.bridalId,
       addressId
     };
-    BridalService.updateBridalAddress(dispatch, data).then(data => {
-      setBridalProfile(data);
-      setShareLink(`${__API_HOST__}/${data.shareLink}`);
-      changeAddress();
+    BridalService.updateBridalAddress(dispatch, data).then(res => {
+      setBridalProfile(res[0]);
+      setShareLink(`${__API_HOST__}/${res[0].shareLink}`);
+      changeAddress(data.addressId);
       setCurrentScreenValue("manageregistryfull");
     });
   };

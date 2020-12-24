@@ -44,7 +44,7 @@ export default {
     dispatch: Dispatch,
     data: { addressId: number; bridalId: number }
   ) => {
-    const res = await API.post<BridalProfileData>(
+    const res = await API.post<BridalProfileData[]>(
       dispatch,
       `${__API_HOST__}/myapi/customer/update_bridal_address/`,
       data
