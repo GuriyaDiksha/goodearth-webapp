@@ -70,7 +70,7 @@ const ProductDetails: React.FC<Props> = ({
     childAttributes,
     sizeChartHtml,
     categories,
-    loyalityDisabled,
+    loyaltyDisabled,
     shipping,
     compAndCare,
     sku,
@@ -443,7 +443,6 @@ const ProductDetails: React.FC<Props> = ({
     return show;
   }, [childAttributes]);
   const withBadge = images && images.length && images[0].badgeImagePdp;
-
   return (
     <div className={bootstrap.row}>
       <div
@@ -775,7 +774,7 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset1
           )}
         >
-          {loyalityDisabled ? (
+          {!loyaltyDisabled ? (
             <p className={styles.errorMsg}>
               This product is not eligible for Cerise points accumulation.
             </p>
