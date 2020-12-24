@@ -99,6 +99,16 @@ const AddressItem: React.FC<Props> = props => {
           setCurrentModule("created");
         }
         break;
+      case "bridal-edit":
+        if (step == "create") {
+          changeBridalAddress(address.id);
+        } else {
+          setCurrentModuleData("address", {
+            userAddress: address
+          });
+          setCurrentModule("created");
+        }
+        break;
       // case "checkout":
       //     let products = valid.productForGa(props.items);
       //     if(props.addressType == 'SHIPPING') {

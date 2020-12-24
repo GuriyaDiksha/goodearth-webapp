@@ -57,6 +57,7 @@ export default {
       }
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));
+      return meta;
     }
   },
 

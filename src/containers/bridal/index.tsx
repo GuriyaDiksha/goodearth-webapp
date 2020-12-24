@@ -386,7 +386,11 @@ class BridalCheckout extends React.Component<Props, State> {
                         className={
                           this.canCheckoutRegistry()
                             ? cs(globalStyles.ceriseBtn)
-                            : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                            : cs(
+                                globalStyles.ceriseBtn,
+                                globalStyles.disabled,
+                                styles.disabledBtn
+                              )
                         }
                         value="PROCEED TO CHECKOUT"
                         onClick={this.redirectCheckout}
