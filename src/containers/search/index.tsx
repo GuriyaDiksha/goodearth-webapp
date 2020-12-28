@@ -112,7 +112,7 @@ class Search extends React.Component<
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={plpProductId} />,
+      <Quickview id={id} productListId={plpProductId} source="Search" />,
       true
     );
     changeModalState(true);
