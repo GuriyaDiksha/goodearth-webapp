@@ -33,9 +33,13 @@ export default {
     dispatch: Dispatch,
     productId: ProductID,
     quantity: number,
-    productSku?: string
+    productSku?: string,
+    bridalId?: number,
+    url?: string
   ) {
-    const payLoad = productId
+    const payLoad = bridalId
+      ? { quantity, bridalId, url }
+      : productId
       ? { productId, quantity }
       : { productSku, quantity };
     const res = await API.post<Basket>(

@@ -1,0 +1,448 @@
+import React from "react";
+import { connect } from "react-redux";
+import BridalItem from "./bridalItem";
+import { BridalPublicProfileData } from "../myAccount/components/Bridal/typings";
+import BridalMobile from "./bridalItemMobile";
+import BridalService from "../../services/bridal";
+import { RouteComponentProps, withRouter } from "react-router";
+import { Dispatch } from "redux";
+import { AppState } from "reducers/typings";
+import { updateComponent, updateModal } from "actions/modal";
+import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
+import styles from "./styles.scss";
+import globalStyles from "../../styles/global.scss";
+import cs from "classnames";
+import weddingFloral from "../../images/bridal/wedding-floral.png";
+type RouteInfo = {
+  id: string;
+};
+
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
+  return {
+    getBridalPublicProfile: async () => {
+      const res = await BridalService.fetchBridalPublicProfile(
+        dispatch,
+        ownProps.id
+      );
+      return res;
+    },
+    showMobilePopup: (component: React.ReactNode) => {
+      dispatch(updateComponent(component, true));
+      dispatch(updateModal(true));
+    }
+  };
+};
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    cart: state.basket,
+    mobile: state.device.mobile
+  };
+};
+
+type State = {
+  bridalProfile: BridalPublicProfileData;
+  showMobilePopup: boolean;
+  mobileIndex: number;
+  showSummary: boolean;
+  mobileScreen: string;
+};
+type Props = {
+  key: string;
+} & RouteComponentProps<RouteInfo> &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+class BridalCheckout extends React.Component<Props, State> {
+  state: State = {
+    bridalProfile: {
+      registrantName: "",
+      coRegistrantName: "",
+      occasion: "",
+      eventDate: "",
+      items: [],
+      bridalId: 0,
+      registryName: "",
+      currency: "INR"
+    },
+    showMobilePopup: false,
+    mobileIndex: 0,
+    showSummary: false,
+    mobileScreen: styles.summaryPadding
+  };
+  isSuspended = true;
+  // this.state = {
+  // bridalItems: BridalItem[],
+  // mobile_screen: "summary-padding hidden-xs hidden-sm",
+  // showMobilePopup: false,
+  // mobileIndex: 0,
+  // isSuspended: window.is_covid19 ? window.is_covid19 : false,
+  // showInfoPopup: false,
+  // showSummary: false
+  // }
+  // this.showHide = this.showHide.bind(this);
+  // this.handleMobileAdd = this.handleMobileAdd.bind(this);
+  // this.closeMobileAdd = this.closeMobileAdd.bind(this);
+  // this.redirectCheckout = this.redirectCheckout.bind(this);
+  // this.canCheckoutRegistry = this.canCheckoutRegistry.bind(this);
+  // this.getItemsCount = this.getItemsCount.bind(this);
+  // this.resetInfoPopupCookie = this.resetInfoPopupCookie.bind(this);
+  // }
+
+  showHide = () => {
+    const classValue =
+      this.state.mobileScreen == "summary-padding"
+        ? "summary-padding hidden-xs hidden-sm"
+        : "summary-padding";
+    this.setState({ mobileScreen: classValue });
+    document.body.style.overflowY = "auto";
+    if (!this.state.showSummary) {
+      document.body.style.overflowY = "hidden";
+    }
+    this.setState({
+      showSummary: !this.state.showSummary
+    });
+  };
+
+  handleMobileAdd = (mindex: number) => {
+    // this.setState({ showMobilePopup: true });
+    const component = (
+      <BridalMobile
+        // closeMobile={this.closeMobileAdd}
+        bridalItem={this.state.bridalProfile.items[this.state.mobileIndex]}
+        bridalId={this.state.bridalProfile.bridalId}
+      />
+    );
+    this.props.showMobilePopup(component);
+    this.setState({ mobileIndex: mindex });
+  };
+
+  // closeMobileAdd = () => {
+  //   this.setState({showMobilePopup: false});
+  // };
+  redirectCheckout = () => {
+    if (!this.canCheckoutRegistry()) {
+      return false;
+    }
+    // if(this.state.isSuspended) {
+    //     this.resetInfoPopupCookie();
+    // }
+    this.props.history.push("/order/checkout/");
+  };
+
+  componentDidMount() {
+    const cookieString =
+      "intro=" + true + "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    // var key = window.location.href.replace(Config.hostname + 'bridal/', '');
+    this.props.getBridalPublicProfile().then(res => {
+      if (res) {
+        this.setState({
+          bridalProfile: res[0]
+        });
+      }
+    });
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 1000);
+  }
+
+  getItemsCount() {
+    let count = 0;
+    const items = this.props.cart ? this.props.cart.lineItems : [];
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        count = count + items[i].quantity;
+      }
+    }
+    return count;
+  }
+
+  canCheckoutRegistry() {
+    if (
+      // window.ischeckout
+      //  ||
+      this.getItemsCount() == 0
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  resetInfoPopupCookie() {
+    const cookieString =
+      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  }
+
+  // componentDidUpdate() {
+  //   if(this.props.mobile && this.state.showMobilePopup) {
+
+  //   }
+  // }
+
+  render() {
+    const {
+      registrantName,
+      coRegistrantName,
+      occasion,
+      eventDate,
+      bridalId
+    } = this.state.bridalProfile;
+    const { mobile } = this.props;
+    return (
+      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+        <div className={cs(bootstrap.row, styles.bridalPublic)}>
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd3,
+              styles.fixOrdersummary
+            )}
+          >
+            <div className={styles.orderSummary}>
+              {mobile && (
+                <span
+                  className={cs(
+                    styles.btnArrow,
+                    "visible-xs",
+                    styles.colorPrimary
+                  )}
+                  onClick={this.showHide}
+                >
+                  <i
+                    className={
+                      this.state.showSummary
+                        ? "icon icon_downarrow-black"
+                        : "icon icon_uparrow-black"
+                    }
+                  ></i>
+                </span>
+              )}
+              <div className={styles.summaryPadding}>
+                <h3
+                  className={cs(globalStyles.textCenter, styles.summaryTitle)}
+                >
+                  REGISTRY DETAILS
+                </h3>
+              </div>
+              <div className={cs(styles.summaryPadding, styles.txtup)}>
+                <hr className="hr" />
+                {registrantName}&nbsp; & &nbsp;{coRegistrantName}
+              </div>
+
+              <div className="">
+                {!mobile && (
+                  <div className={styles.summaryPadding}>
+                    <hr className="hr" />
+                    <div
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.gutterBetween
+                      )}
+                    >
+                      <span
+                        className={cs(styles.subtotal, globalStyles.voffset2)}
+                      >
+                        <span className={globalStyles.op2}> Event:</span>{" "}
+                        <span className={styles.txtCap}> {occasion} </span>{" "}
+                      </span>
+                    </div>
+                    <div
+                      className={cs(
+                        globalStyles.flex,
+                        globalStyles.gutterBetween
+                      )}
+                    >
+                      <span
+                        className={cs(styles.subtotal, globalStyles.voffset2)}
+                      >
+                        <span className={globalStyles.op2}>Wedding Date:</span>{" "}
+                        {eventDate}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="">
+                  <div className={this.state.mobileScreen}>
+                    {mobile && (
+                      <div>
+                        <hr className="hr" />
+                        <div
+                          className={cs(
+                            styles.flex,
+                            styles.gutterBetween,
+                            styles.total
+                          )}
+                        >
+                          <span
+                            className={cs(
+                              styles.subtotal,
+                              globalStyles.voffset2
+                            )}
+                          >
+                            <span className={globalStyles.op2}> Event:</span>{" "}
+                            <span className={styles.txtCap}> {occasion} </span>{" "}
+                          </span>
+                        </div>
+                        <div
+                          className={cs(
+                            styles.flex,
+                            styles.gutterBetween,
+                            styles.total
+                          )}
+                        >
+                          <span
+                            className={cs(
+                              styles.subtotal,
+                              globalStyles.voffset2
+                            )}
+                          >
+                            <span className={globalStyles.op2}>
+                              Wedding Date:
+                            </span>{" "}
+                            {eventDate}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    <hr className="hr" />
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset4)}
+                    >
+                      To purchase an item, please select the quantity and click{" "}
+                      <span className="bold"> ADD TO BAG.</span>
+                    </div>
+                    <div
+                      className={cs(
+                        styles.textCoupon,
+                        globalStyles.voffset2,
+                        globalStyles.cerise,
+                        globalStyles.bold
+                      )}
+                    >
+                      Please ensure you add the items from this public link only
+                      to contribute towards this Bridal Registry.
+                    </div>
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset2)}
+                    >
+                      If you need any assistance, talk to our representative on:
+                    </div>
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset2)}
+                    >
+                      <a
+                        href="tel: +91 9582999555"
+                        className={globalStyles.cerise}
+                      >
+                        +91 9582999555
+                      </a>{" "}
+                      /{" "}
+                      <a
+                        href="tel: +91 9582999888"
+                        className={globalStyles.cerise}
+                      >
+                        +91 9582999888
+                      </a>
+                    </div>
+                    <div
+                      className={cs(styles.textCoupon, globalStyles.voffset2)}
+                    >
+                      <a
+                        href="https://www.goodearth.in/customer-assistance/terms-conditions"
+                        className={globalStyles.cerise}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Terms of Use
+                      </a>{" "}
+                      |{" "}
+                      <a
+                        href="https://www.goodearth.in/customer-assistance/returns-exchanges"
+                        className={globalStyles.cerise}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Returns & Exchanges
+                      </a>
+                    </div>
+                    {!mobile && (
+                      <div className={styles.wishlist}>
+                        <img src={weddingFloral} />
+                      </div>
+                    )}
+                  </div>
+                  {mobile && (
+                    <div className={globalStyles.voffset4}>
+                      <input
+                        type="button"
+                        disabled={this.canCheckoutRegistry() ? false : true}
+                        className={
+                          this.canCheckoutRegistry()
+                            ? cs(globalStyles.ceriseBtn)
+                            : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                        }
+                        value="PROCEED TO CHECKOUT"
+                        onClick={this.redirectCheckout}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className={cs(bootstrap.col12, bootstrap.colMd9, styles.cartBlock)}
+          >
+            {this.state.bridalProfile.bridalId
+              ? this.state.bridalProfile.items.map((item, index) => {
+                  return (
+                    <BridalItem
+                      bridalItem={item}
+                      onMobileAdd={this.handleMobileAdd}
+                      currency={this.state.bridalProfile.currency}
+                      index={index}
+                      key={index}
+                      bridalId={bridalId}
+                    />
+                  );
+                })
+              : ""}
+            {!mobile && (
+              <div
+                className={cs(
+                  globalStyles.voffset4,
+                  styles.cart,
+                  styles.cartContainer
+                )}
+              >
+                <div className={cs(styles.cartItem, globalStyles.gutter15)}>
+                  <input
+                    type="button"
+                    disabled={this.canCheckoutRegistry() ? false : true}
+                    className={
+                      this.canCheckoutRegistry()
+                        ? cs(globalStyles.ceriseBtn)
+                        : cs(globalStyles.ceriseBtn, globalStyles.disabled)
+                    }
+                    value="PROCEED TO CHECKOUT"
+                    onClick={this.redirectCheckout}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+const BridalCheckoutRoute = withRouter(BridalCheckout);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BridalCheckoutRoute);

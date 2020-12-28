@@ -271,7 +271,7 @@ class TrackOrder extends React.Component<Props, State> {
               </div>
               <div>
                 {this.state.showerror ? (
-                  <p className={globalStyles.errorMsg}>
+                  <p className={cs(globalStyles.errorMsg, styles.ctaError)}>
                     {this.state.showerror}
                   </p>
                 ) : (
