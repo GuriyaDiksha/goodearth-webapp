@@ -13,7 +13,7 @@
   top: 50%;
   display: block;
   margin-top: -20px;
-  z-index: 8;
+  z-index: 5;
 }
 
 .slick-prev:before {
