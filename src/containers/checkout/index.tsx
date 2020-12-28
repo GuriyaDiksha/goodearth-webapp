@@ -28,10 +28,15 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { User } from "typings/user";
 import { showMessage } from "actions/growlMessage";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import {
+  CURRENCY_CHANGED_SUCCESS,
+  REGISTRY_MIXED_SHIPPING,
+  REGISTRY_OWNER_CHECKOUT
+} from "constants/messages";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import InfoPopup from "components/Popups/InfoPopup";
+import { Basket } from "typings/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -43,7 +48,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     cookies: state.cookies,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    bridalId: state.user.bridalId
   };
 };
 
@@ -56,11 +62,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
-      user: User
+      user: User,
+      isBridal = false
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
-        shippingAddressId
+        shippingAddressId,
+        isBridal
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
@@ -80,6 +88,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         dispatch(updateAddressList(addressList));
       });
       return data;
+    },
+    fetchAddressBridal: async () => {
+      const addressList = await AddressService.fetchAddressList(dispatch);
+      dispatch(updateAddressList(addressList));
+      return addressList;
     },
     reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
@@ -139,7 +152,6 @@ type State = {
   pancardNo: string;
   gstNo: string;
   gstType: string;
-  bridalId: string;
   unpublish: boolean;
   isLoading: boolean;
   id: string;
@@ -176,7 +188,6 @@ class Checkout extends React.Component<Props, State> {
       pancardNo: "",
       gstNo: "",
       gstType: "",
-      bridalId: "",
       unpublish: false,
       isLoading: false,
       id: "",
@@ -199,10 +210,21 @@ class Checkout extends React.Component<Props, State> {
     //     showInfoPopup: 'show'
     // })
   }
+
+  checkToMessage(basket: Basket) {
+    let item1 = false,
+      item2 = false;
+
+    basket.lineItems.map(data => {
+      if (!data.bridalProfile) item1 = true;
+      if (data.bridalProfile) item2 = true;
+    });
+    return item1 && item2;
+  }
   componentDidMount() {
-    const bridalId = CookieService.getCookie("bridalId");
-    const gaKey = CookieService.getCookie("_ga");
-    this.setState({ bridalId, gaKey });
+    // const bridalId = CookieService.getCookie("bridalId");
+    // const gaKey = CookieService.getCookie("_ga");
+    // this.setState({ bridalId, gaKey });
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -287,7 +309,18 @@ class Checkout extends React.Component<Props, State> {
       chatButtonElem.style.bottom = "10px";
     }
 
-    this.props.fetchBasket().then(() => {
+    this.props.fetchBasket().then(res => {
+      let basketBridalId = 0;
+      res.lineItems.map(item =>
+        item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+      );
+      if (basketBridalId == this.props.bridalId) {
+        this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
+      }
+      if (this.checkToMessage(res)) {
+        this.props.showNotify(REGISTRY_MIXED_SHIPPING);
+      }
+
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -476,8 +509,9 @@ class Checkout extends React.Component<Props, State> {
       // data.append("country", path + address.country + "/");
       // }
 
+      const { bridal } = this.props.basket;
       this.props
-        .specifyShippingAddress(address.id, address, this.props.user)
+        .specifyShippingAddress(address.id, address, this.props.user, bridal)
         .then(data => {
           if (data.status) {
             const isGoodearthShipping = address.isTulsi

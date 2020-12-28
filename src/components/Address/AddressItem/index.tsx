@@ -16,7 +16,6 @@ import bridalRing from "../../../images/bridal/rings.svg";
 type Props = {
   addressData: AddressData;
   title?: string;
-  selectAddress: (address: AddressData) => void;
   index: number;
   isOnlyAddress: boolean;
   // addressType?: string;
@@ -92,6 +91,16 @@ const AddressItem: React.FC<Props> = props => {
     switch (currentCallBackComponent) {
       case "bridal":
         if (step == "manage") {
+          changeBridalAddress(address.id);
+        } else {
+          setCurrentModuleData("address", {
+            userAddress: address
+          });
+          setCurrentModule("created");
+        }
+        break;
+      case "bridal-edit":
+        if (step == "create") {
           changeBridalAddress(address.id);
         } else {
           setCurrentModuleData("address", {

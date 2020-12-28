@@ -6,13 +6,10 @@ import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import { AddressContext } from "../AddressMain/context";
+import AddressItemBridal from "../AddressItemBridal";
 
 type Props = {
   addressDataList: AddressData[];
-  openAddressForm: (address: AddressData) => void;
-  deleteAddress: (id: number) => void;
-  selectAddress: (address: AddressData) => void;
-  isValidAddress: () => void;
   currentCallBackComponent: string;
   isBridal?: boolean;
   bridalId?: number;
@@ -34,10 +31,18 @@ const AddressList: React.FC<Props> = props => {
     ) {
       if (addressData) {
         addressData = addressData.filter(address => !address.isTulsi);
-        if (isBridal) {
-          addressData = addressData.filter(address => !address.isBridal);
-          // && window.user.email == address.Email_Id);
-        }
+        // if (isBridal) {
+        //   addressData = addressData.filter(address => !address.isBridal);
+        //   // && window.user.email == address.Email_Id);
+        // }
+      }
+    }
+    if (
+      activeStep == "SHIPPING" &&
+      props.currentCallBackComponent == "checkout-shipping"
+    ) {
+      if (isBridal) {
+        addressData = addressData.filter(address => address.isBridal);
       }
     }
     // if (props.addressDataList && props.addressDataList.length > 0) {
@@ -143,7 +148,13 @@ const AddressList: React.FC<Props> = props => {
         className={cs(bootstrapStyles.row, styles.addressListContainer)}
         id="addressData"
       >
-        {addressData &&
+        {isBridal && activeStep == "SHIPPING" ? (
+          <AddressItemBridal
+            addressData={addressData[addressData.length - 1]}
+            addressType="SHIPPING"
+          />
+        ) : (
+          addressData &&
           addressData.length > 0 &&
           Object.entries(addressData).length !== 0 &&
           addressData.map((data, i) => {
@@ -152,36 +163,12 @@ const AddressList: React.FC<Props> = props => {
                 key={data.id}
                 addressData={data}
                 index={i}
-                // openAddressForm={props.openAddressForm}
-                // getAddressDetails={props.getAddressDetails}
-                // setAddressAvailable={props.setAddressAvailable}
-                // setUpdatedDefaultAddress={this.setUpdatedDefaultAddress}
-                // setMode={props.setMode}
-                // isbridal={props.isbridal}
                 isOnlyAddress={addressData.length === 1}
-                // setCurrentModule={props.setCurrentModule}
-                // setCurrentModuleData={props.setCurrentModuleData}
-                // addressType={props.addressType}
-                // setAddressModeProfile={props.setAddressModeProfile}
-                // currentCallBackComponent={props.currentCallBackComponent}
-                // items={props.items}
-                // setLoadingStatus={setIsLoading}
-                selectAddress={props.selectAddress}
-                // toggleAddressForm={props.toggleAddressForm}
-                // deleteAddress={props.deleteAddress}
-                // dispatch={props.dispatch}
-                // shippingErrorMsg={props.shippingErrorMsg}
-                // billingErrorMsg={props.billingErrorMsg}
-                // addressIdError={props.addressIdError}
-                // removeErrorMessages={props.removeErrorMessages}
-                // changeBridalAddress={props.changeBridalAddress}
-                // case={props.case}
-                // isValidAddress={props.isValidAddress}
                 showAddressInBridalUse={props.showAddressInBridalUse}
-                // markAsDefault={markAsDefault}
               />
             );
-          })}
+          })
+        )}
       </div>
       {isLoading && <Loader />}
     </div>

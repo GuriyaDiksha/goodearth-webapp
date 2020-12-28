@@ -26,7 +26,9 @@ import { showMessage } from "actions/growlMessage";
 import {
   INVALID_SESSION_LOGOUT,
   LOGOUT_SUCCESS,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  REGISTRY_OWNER_CHECKOUT,
+  REGISTRY_MIXED_SHIPPING
 } from "constants/messages";
 import Axios from "axios";
 
@@ -95,9 +97,30 @@ export default {
     dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
-    MetaService.updateMeta(dispatch, { tkn: res.token });
+    const metaResponse = await MetaService.updateMeta(dispatch, {
+      tkn: res.token
+    });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch, source);
+    BasketService.fetchBasket(dispatch, source).then(res => {
+      if (metaResponse) {
+        let basketBridalId = 0;
+        res.lineItems.map(item =>
+          item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+        );
+        if (basketBridalId == metaResponse.bridalId) {
+          dispatch(showMessage(REGISTRY_OWNER_CHECKOUT));
+        }
+        let item1 = false,
+          item2 = false;
+        res.lineItems.map(data => {
+          if (!data.bridalProfile) item1 = true;
+          if (data.bridalProfile) item2 = true;
+        });
+        if (item1 && item2) {
+          dispatch(showMessage(REGISTRY_MIXED_SHIPPING));
+        }
+      }
+    });
     return res;
   },
   loginSocial: async function(dispatch: Dispatch, formdata: any) {

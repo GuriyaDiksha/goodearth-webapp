@@ -74,7 +74,7 @@
     }
     .bridal-public {
       .order-summary {
-        height: 100vh;
+        // height: 100vh;
         position: sticky;
       }
     }
@@ -96,75 +96,12 @@
       }
     }
   }
+
 .fix-ordersummary {
-    position: sticky;
-    position: -webkit-sticky;
-    top: 30px;
-  }
-  .order-summary {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    max-height: 77vh;
-    position: fixed;
-    padding-bottom: 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    background-color: tint(#000, 90%);
-    z-index: 1;
-    .justchk {
-
-      overflow: scroll;
-    }
-
-    hr {
-      margin: 10px 0 !important;
-    }
-    h3 {
-      line-height: 60px;
-      margin-bottom: 0;
-    }
-    .promo-message {
-      display: block;
-    }
-
-    .subtotal {
-      font-size: 14px;
-    }
-
-    .btn-arrow {
-      top: -15px;
-      left: 50%;
-      cursor: pointer;
-      font-size: 10px;
-      position: absolute;
-      border-radius: 20px;
-      background-color: #fff;
-      border: 2px solid tint(#000, 90%);
-      padding: 7px 11px 8px 9px;
-      -webkit-transform: translateX(-50%);
-      transform: translateX(-50%);
-      display: inline-block !important;
-    }
-
-    .total {
-      margin-bottom: 10px;
-    }
-
-    .order-items {
-      overflow-y: auto;
-    }
-
-    .summary-footer {
-      margin-top: 15px;
-    }
+    // position: sticky;
+    position: relative;
+    // position: -webkit-sticky;
+    // top: 30px;
   }
   .color-primary {
     color: #ab1e56;
@@ -466,6 +403,75 @@
         height: inherit;
       }
     }
+    .disabled-btn {
+      background-color: #f2f2f2 !important;
+      color: gray !important;
+    }
+    .order-summary {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-height: 77vh;
+      position: fixed;
+      padding-bottom: 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      background-color: tint(#000, 90%);
+      z-index: 1;
+      .justchk {
+  
+        overflow: scroll;
+      }
+  
+      hr {
+        margin: 10px 0 !important;
+      }
+      h3 {
+        line-height: 30px;
+        margin-bottom: 15px;
+      }
+      .promo-message {
+        display: block;
+      }
+  
+      .subtotal {
+        font-size: 14px;
+      }
+  
+      .btn-arrow {
+        top: -15px;
+        left: 50%;
+        cursor: pointer;
+        font-size: 10px;
+        position: absolute;
+        border-radius: 20px;
+        background-color: #fff;
+        border: 2px solid tint(#000, 90%);
+        padding: 7px 11px 8px 9px;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        display: inline-block !important;
+      }
+  
+      .total {
+        margin-bottom: 10px;
+      }
+  
+      .order-items {
+        overflow-y: auto;
+      }
+  
+      .summary-footer {
+        margin-top: 15px;
+      }
+    }
     .size-block-bridal {
       .scrolly {
         overflow-y: scroll;
@@ -492,8 +498,8 @@
       .cross {
         border-bottom: 1px solid #f2f2f2;
         text-align: right;
-        font-size: 35px;
-        padding-right: 5px;
+        font-size: 16px;
+        padding: 10px;
         cursor: pointer;
         position: fixed;
         width: 100%;
@@ -569,7 +575,7 @@
     width: 100%;
   }
 
-  .centerpage-desktop-mobile {
+  .centerpage-mobile {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -914,4 +920,23 @@
         padding: 5px 12px;
       }
     }
+  }
+
+  .font14 {
+    font-size: 14px;
+  }
+
+  .btn-arrow {
+    top: -15px;
+    left: 50%;
+    cursor: pointer;
+    font-size: 10px;
+    position: absolute;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 2px solid tint(#000, 90%);
+    padding: 8px 11px 8px 9px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    display: inline-block !important;
   }

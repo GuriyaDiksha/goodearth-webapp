@@ -199,22 +199,38 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         {shippingAddress ? (
                           <address>
                             <label>shipping address</label>
-                            <p>
-                              {shippingAddress.firstName}
-                              &nbsp; {shippingAddress.lastName}
-                              <br />
-                            </p>
-                            <p className={styles.light}>
-                              {shippingAddress.line1}
-                              <br />
-                              {shippingAddress.line2}{" "}
-                              {shippingAddress.line2 && <br />}
-                              {shippingAddress.state},{" "}
-                              {shippingAddress.postcode} <br />
-                              {shippingAddress.countryName}
-                              <br />
-                            </p>
-                            <p> {shippingAddress.phoneNumber}</p>
+                            {confirmData.isBridalOrder ? (
+                              <>
+                                <p>
+                                  {confirmData.registrantName} &{" "}
+                                  {confirmData.coRegistrantName}&#39;s <br />
+                                  {confirmData.occasion} Registry
+                                </p>
+                                <p className={styles.light}>
+                                  {" "}
+                                  Address predefined by registrant
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <p>
+                                  {shippingAddress.firstName}
+                                  &nbsp; {shippingAddress.lastName}
+                                  <br />
+                                </p>
+                                <p className={styles.light}>
+                                  {shippingAddress.line1}
+                                  <br />
+                                  {shippingAddress.line2}{" "}
+                                  {shippingAddress.line2 && <br />}
+                                  {shippingAddress.state},{" "}
+                                  {shippingAddress.postcode} <br />
+                                  {shippingAddress.countryName}
+                                  <br />
+                                </p>
+                                <p> {shippingAddress.phoneNumber}</p>
+                              </>
+                            )}
                           </address>
                         ) : (
                           ""

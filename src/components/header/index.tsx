@@ -28,6 +28,7 @@ import ReactHtmlParser from "react-html-parser";
 import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
+import bridalRing from "../../images/bridal/rings.svg";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
@@ -68,8 +69,10 @@ class Header extends React.Component<Props, State> {
       showPincodePopup: false,
       showBag: false,
       showCartMobile:
-        this.props.location.pathname.includes("/catalogue/") &&
-        !this.props.location.pathname.includes("/catalogue/category")
+        (this.props.location.pathname.includes("/catalogue/") &&
+          !this.props.location.pathname.includes("/catalogue/category")) ||
+        (this.props.location.pathname.includes("/bridal/") &&
+          !this.props.location.pathname.includes("/account/"))
     };
   }
   static contextType = UserContext;
@@ -113,7 +116,10 @@ class Header extends React.Component<Props, State> {
       const isPDP =
         this.props.location.pathname.includes("/catalogue/") &&
         !this.props.location.pathname.includes("/catalogue/category");
-      if (isPDP) {
+      const isBridalPublicPage =
+        this.props.location.pathname.includes("/bridal/") &&
+        !this.props.location.pathname.includes("/account/");
+      if (isPDP || isBridalPublicPage) {
         if (!this.state.showCartMobile) {
           this.setState({
             showCartMobile: true
@@ -175,10 +181,10 @@ class Header extends React.Component<Props, State> {
       });
   };
 
-  clearBridalSession = async () => {
+  clearBridalSession = async (source: string) => {
     await this.props.clearBridalSession();
     this.props.history.push("/");
-    this.props.reloadAfterBridal(this.props.cookies);
+    this.props.reloadAfterBridal(this.props.cookies, source);
   };
 
   clickToggle = () => {
@@ -394,9 +400,10 @@ class Header extends React.Component<Props, State> {
           <div
             className={styles.announcement}
             style={{
-              backgroundColor: isBridalRegistryPage
-                ? announcement.bridalBgColorcode
-                : announcement.bgColorcode
+              backgroundColor:
+                announcement.isBridalActive || isBridalRegistryPage
+                  ? announcement.bridalBgColorcode
+                  : announcement.bgColorcode
             }}
           >
             {messageText?.map((data, i) => {
@@ -413,34 +420,7 @@ class Header extends React.Component<Props, State> {
                     }
                   >
                     <Link to={announcement.url ? "" + announcement.url : "/"}>
-                      {announcement.isBridalActive ? (
-                        <div>
-                          <>
-                            <svg
-                              style={{ verticalAlign: "bottom" }}
-                              viewBox="-5 -5 50 50"
-                              width="30"
-                              height="30"
-                              preserveAspectRatio="xMidYMid meet"
-                              x="0"
-                              y="0"
-                              className={styles.bridalRing}
-                            >
-                              <use xlinkHref="/static/img/bridal/rings.svg#bridal-ring"></use>
-                            </svg>{" "}
-                            {announcement.registrantName} &{" "}
-                            {announcement.coRegistrantName}&#39;s Bridal
-                            Registry (Public Link){" "}
-                            <b style={{ textDecoration: "underline" }}>
-                              <span onClick={this.props.clearBridalSession}>
-                                Close
-                              </span>
-                            </b>
-                          </>
-                        </div>
-                      ) : (
-                        <div>{ReactHtmlParser(data)}</div>
-                      )}
+                      <div>{ReactHtmlParser(data)}</div>
                     </Link>
                   </div>
                 );
@@ -456,7 +436,49 @@ class Header extends React.Component<Props, State> {
                         : styles.width100
                     }
                   >
-                    {ReactHtmlParser(data)}
+                    {isBridalRegistryPage || announcement.isBridalActive ? (
+                      <div>
+                        <>
+                          <svg
+                            style={{ verticalAlign: "bottom" }}
+                            viewBox="-5 -5 50 50"
+                            width="30"
+                            height="30"
+                            preserveAspectRatio="xMidYMid meet"
+                            x="0"
+                            y="0"
+                            className={styles.bridalRing}
+                          >
+                            <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                          </svg>{" "}
+                          {announcement.registrantName} &{" "}
+                          {announcement.coRegistrantName}&#39;s Bridal Registry
+                          (Public Link){" "}
+                          <b
+                            style={{
+                              textDecoration: "underline",
+                              cursor: "pointer"
+                            }}
+                          >
+                            <span
+                              onClick={() =>
+                                this.clearBridalSession(
+                                  location.pathname.includes("checkout")
+                                    ? "checkout"
+                                    : location.pathname.includes("cart")
+                                    ? "cart"
+                                    : ""
+                                )
+                              }
+                            >
+                              Close
+                            </span>
+                          </b>
+                        </>
+                      </div>
+                    ) : (
+                      ReactHtmlParser(data)
+                    )}
                   </div>
                 );
               }
@@ -834,7 +856,7 @@ class Header extends React.Component<Props, State> {
         </div>
         <GrowlMessage {...message} />
         <MakerUtils />
-        {mobile && (
+        {mobile && !isBridalRegistryPage && (
           <BottomMenu
             showBag={this.state.showBag}
             showSearch={this.showSearch}

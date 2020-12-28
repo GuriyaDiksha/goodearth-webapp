@@ -13,10 +13,11 @@ import {
   updateCountryData
 } from "./address";
 import { updateCurrencyList } from "./info";
+import { MetaResponse } from "services/meta/typings";
 
 const initAction: any = async (store: Store) => {
   const state: AppState = store.getState();
-  let apiCalls = [
+  let apiCalls: Promise<void | MetaResponse | undefined>[] = [
     HeaderService.fetchHeaderDetails(store.dispatch)
       .then(data => {
         console.log(data);

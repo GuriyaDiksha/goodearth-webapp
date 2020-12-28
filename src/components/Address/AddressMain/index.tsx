@@ -33,6 +33,7 @@ const AddressMain: React.FC<Props> = props => {
   const { addressList } = useSelector((state: AppState) => state.address);
   const [editAddressData, setEditAddressData] = useState<AddressData>();
   const { pinCodeData } = useSelector((state: AppState) => state.address);
+  const { bridal } = useSelector((state: AppState) => state.basket);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const dispatch = useDispatch();
@@ -224,10 +225,7 @@ const AddressMain: React.FC<Props> = props => {
         <div>
           <AddressList
             addressDataList={addressList}
-            openAddressForm={address => null}
-            deleteAddress={id => null}
-            selectAddress={address => null}
-            isValidAddress={() => null}
+            isBridal={bridal}
             currentCallBackComponent={currentCallBackComponent}
             showAddressInBridalUse={["bridal", "bridal-edit"].includes(
               currentCallBackComponent
@@ -344,6 +342,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            isBridal={bridal}
           >
             {addressContent}
           </AddressSection>
@@ -394,6 +393,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            isBridal={bridal}
           >
             {addressContent}
           </AddressSection>

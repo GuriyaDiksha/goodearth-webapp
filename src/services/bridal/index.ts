@@ -44,7 +44,7 @@ export default {
     dispatch: Dispatch,
     data: { addressId: number; bridalId: number }
   ) => {
-    const res = await API.post<BridalProfileData>(
+    const res = await API.post<BridalProfileData[]>(
       dispatch,
       `${__API_HOST__}/myapi/customer/update_bridal_address/`,
       data
@@ -132,7 +132,7 @@ export default {
   clearBridalSession: async (dispatch: Dispatch) => {
     const res = await API.get(
       dispatch,
-      `${__API_HOST__}/myapi/bridal/clear_bridal_session/`
+      `${__API_HOST__}/myapi/customer/clear_bridal_session/`
     );
     return res;
   }

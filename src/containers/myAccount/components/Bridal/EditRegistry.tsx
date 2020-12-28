@@ -145,6 +145,7 @@ const EditRegistry: React.FC<Props> = props => {
     BridalService.updateBridalNames(dispatch, data)
       .then(res => {
         props.changeName(model);
+        dispatch(updateModal(false));
       })
       .catch(error => {
         // console.log(error);
@@ -272,6 +273,7 @@ const EditRegistry: React.FC<Props> = props => {
                         placeholder="Registry Name (optional)"
                         value={props.bridalProfile?.registryName || ""}
                         label={"Registry Name"}
+                        handleChange={handleChange}
                       />
                     </div>
                     <div>
