@@ -4,7 +4,7 @@ import cs from "classnames";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type Props = {
   wishlistCount: number;
@@ -30,6 +30,7 @@ const BottomMenu: React.FC<Props> = ({
   showSearch,
   isSearch
 }) => {
+  const location = useLocation();
   const gtmPushWishlistClick = () => {
     dataLayer.push({
       event: "eventsToSend",
@@ -48,7 +49,8 @@ const BottomMenu: React.FC<Props> = ({
                 className={cs(
                   iconStyles.iconBottomNavHome,
                   iconStyles.icon,
-                  styles.iconStyle
+                  styles.iconStyle,
+                  { [globalStyles.cerise]: location.pathname == "/" }
                 )}
               ></i>
             </Link>
@@ -116,8 +118,22 @@ const BottomMenu: React.FC<Props> = ({
                 <i
                   className={cs(
                     iconStyles.icon,
-                    iconStyles.iconWishlist,
-                    styles.iconStyle
+                    {
+                      [iconStyles.iconWishlist]: !location.pathname.includes(
+                        "/wishlist"
+                      )
+                    },
+                    {
+                      [iconStyles.iconWishlistAdded]: location.pathname.includes(
+                        "/wishlist"
+                      )
+                    },
+                    styles.iconStyle,
+                    {
+                      [globalStyles.cerise]: location.pathname.includes(
+                        "/wishlist"
+                      )
+                    }
                   )}
                 ></i>
                 <span className={styles.badge}>
