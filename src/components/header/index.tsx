@@ -429,7 +429,8 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.col3,
                     bootstrap.colMd2,
-                    styles.hamburger
+                    styles.hamburger,
+                    { [globalStyles.cerise]: mobile }
                   )}
                 >
                   <i
@@ -524,12 +525,14 @@ class Header extends React.Component<Props, State> {
                               ? cs(
                                   iconStyles.icon,
                                   iconStyles.iconCrossNarrowBig,
-                                  styles.iconStyleCross
+                                  styles.iconStyleCross,
+                                  { [globalStyles.cerise]: mobile }
                                 )
                               : cs(
                                   iconStyles.icon,
                                   iconStyles.iconSearch,
-                                  styles.iconStyle
+                                  styles.iconStyle,
+                                  { [globalStyles.cerise]: mobile }
                                 )
                           }
                         ></i>
