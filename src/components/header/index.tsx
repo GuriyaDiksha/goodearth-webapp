@@ -546,10 +546,17 @@ class Header extends React.Component<Props, State> {
                             className={cs(
                               iconStyles.icon,
                               iconStyles.iconCart,
-                              styles.iconStyle
+                              styles.iconStyle,
+                              { [globalStyles.cerise]: mobile }
                             )}
                           ></i>
-                          <span className={styles.badge}>{bagCount}</span>
+                          <span
+                            className={cs(styles.badge, {
+                              [globalStyles.cerise]: mobile
+                            })}
+                          >
+                            {bagCount}
+                          </span>
                         </div>
                       </li>
                     )}
