@@ -107,7 +107,7 @@ export default {
         res.lineItems.map(item =>
           item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
         );
-        if (basketBridalId == metaResponse.bridalId) {
+        if (basketBridalId && basketBridalId == metaResponse.bridalId) {
           dispatch(showMessage(REGISTRY_OWNER_CHECKOUT));
         }
         let item1 = false,
