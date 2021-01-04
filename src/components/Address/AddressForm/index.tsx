@@ -1185,7 +1185,7 @@ const AddressForm: React.FC<Props> = props => {
       )}
     >
       {(currentCallBackComponent == "account" ||
-        currentCallBackComponent == "bridal" ||
+        // currentCallBackComponent == "bridal" ||
         currentCallBackComponent == "bridal-edit") && (
         <div className="back-btn-div">
           <div
@@ -1546,7 +1546,8 @@ const AddressForm: React.FC<Props> = props => {
       </Formsy>
 
       {((currentCallBackComponent !== "checkout-billing" &&
-        currentCallBackComponent !== "checkout-shipping") ||
+        currentCallBackComponent !== "checkout-shipping" &&
+        currentCallBackComponent !== "bridal") ||
         mobile) && (
         <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
           <span
