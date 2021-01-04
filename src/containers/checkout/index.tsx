@@ -314,7 +314,7 @@ class Checkout extends React.Component<Props, State> {
       res.lineItems.map(item =>
         item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
       );
-      if (basketBridalId == this.props.bridalId) {
+      if (basketBridalId && basketBridalId == this.props.bridalId) {
         this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
       }
       if (this.checkToMessage(res)) {
