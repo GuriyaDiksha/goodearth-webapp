@@ -376,6 +376,7 @@ class Checkout extends React.Component<Props, State> {
         shippingData?.id !== this.state.shippingAddress?.id
       ) {
         this.setState({
+          shippingAddress: shippingData || undefined,
           activeStep: Steps.STEP_BILLING
         });
       }
@@ -383,7 +384,8 @@ class Checkout extends React.Component<Props, State> {
       if (!shippingData) {
         this.setState({
           activeStep: Steps.STEP_SHIPPING,
-          billingAddress: undefined
+          billingAddress: undefined,
+          shippingAddress: undefined
         });
       }
       if (shippingData !== this.state.shippingAddress) {
@@ -400,7 +402,8 @@ class Checkout extends React.Component<Props, State> {
       }
     } else {
       this.setState({
-        activeStep: Steps.STEP_LOGIN
+        activeStep: Steps.STEP_LOGIN,
+        shippingAddress: nextProps.user.shippingData || undefined
       });
     }
   }
