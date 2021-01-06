@@ -189,7 +189,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             }
           });
           // this.context.closeModal();
-          this.props.nextStep?.();
+          // this.props.nextStep?.();
         })
         .catch(err => {
           if (err.response.data.non_field_errors[0] == "NotEmail") {
