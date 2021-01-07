@@ -665,7 +665,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          {bridalId !== 0 && bridalCurrency == currency && (
+          {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
             <div
               className={cs(
                 bootstrap.col4,
