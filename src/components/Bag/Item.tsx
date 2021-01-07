@@ -99,7 +99,10 @@ const LineItems: React.FC<BasketItem> = memo(
     const price = priceRecords[currency];
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
     return (
-      <div className={cs(styles.cartItem, styles.gutter15, "cart-item")}>
+      <div
+        className={cs(styles.cartItem, styles.gutter15, "cart-item")}
+        data-sku={product.childAttributes[0].sku}
+      >
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
             <div className={styles.cartRing}></div>
