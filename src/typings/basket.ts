@@ -2,7 +2,6 @@ import { ProductID } from "./id";
 import {
   BasketProduct,
   ChildProductAttributes,
-  PartialChildProductAttributes,
   PLPProductItem
 } from "./product";
 import { Currency } from "./currency";
@@ -41,19 +40,15 @@ export type Basket = {
   voucherDiscounts: any[];
   offerDiscounts: any[];
   lineItems: BasketLineItem[];
-  // bridal: boolean;
   loyalityUpdated: boolean;
   isTaxKnown: boolean;
   products?: PLPProductItem[];
   totalWithOutGcItems?: number;
-  isBridal: boolean;
+  // isBridal: boolean;
   totalExclTax?: number;
   totalExclTaxExclDiscounts?: number;
   currency: Currency;
-  // lineItems: LineItems;
   loyaltyUpdated?: boolean;
-  // subTotal?: string;
-  // total?: string;
   totalWithOutGCItems?: number;
   shippingCharge: string | number;
   total: string | number;
@@ -66,6 +61,8 @@ export type Basket = {
   updated: boolean;
   addnewGiftcard: string | number;
   bridal: boolean;
+  bridalProfileId?: number;
+  bridalAddressId?: number;
 };
 
 export interface BasketItem extends BasketLineItem {

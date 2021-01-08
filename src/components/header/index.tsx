@@ -109,6 +109,18 @@ class Header extends React.Component<Props, State> {
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
     });
+
+    // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
+    const isBridalPublicPage =
+      this.props.location.pathname.includes("/bridal/") &&
+      !this.props.location.pathname.includes("/account/");
+    if (
+      this.props.announcement.isBridalActive &&
+      !this.props.cart.bridal &&
+      !isBridalPublicPage
+    ) {
+      this.props.fetchAnnouncement();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -131,6 +143,15 @@ class Header extends React.Component<Props, State> {
             showCartMobile: false
           });
         }
+      }
+
+      // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
+      if (
+        this.props.announcement.isBridalActive &&
+        !this.props.cart.bridal &&
+        !isBridalPublicPage
+      ) {
+        this.props.fetchAnnouncement();
       }
     }
   }
