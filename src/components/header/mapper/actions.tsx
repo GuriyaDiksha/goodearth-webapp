@@ -89,6 +89,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         MetaService.updateMeta(dispatch, cookies);
       }
       BasketService.fetchBasket(dispatch, source);
+    },
+    fetchAnnouncement: () => {
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("ANNOUNCEMENT API ERROR ==== " + err);
+      });
     }
   };
 };
