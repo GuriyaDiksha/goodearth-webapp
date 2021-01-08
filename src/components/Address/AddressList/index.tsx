@@ -7,6 +7,8 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import { AddressContext } from "../AddressMain/context";
 import AddressItemBridal from "../AddressItemBridal";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 type Props = {
   addressDataList: AddressData[];
@@ -19,6 +21,7 @@ type Props = {
 const AddressList: React.FC<Props> = props => {
   const { activeStep } = useContext(AddressContext);
   const [addressData, setAddressData] = useState(props.addressDataList);
+  const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { addressDataList, isBridal } = props;
   useEffect(() => {
     let addressData = addressDataList;
@@ -31,10 +34,11 @@ const AddressList: React.FC<Props> = props => {
     ) {
       if (addressData) {
         addressData = addressData.filter(address => !address.isTulsi);
-        // if (isBridal) {
-        //   addressData = addressData.filter(address => !address.isBridal);
-        //   // && window.user.email == address.Email_Id);
-        // }
+        if (isBridal) {
+          addressData = addressData.filter(
+            address => address.id != bridalAddressId
+          );
+        }
       }
     }
     if (
@@ -42,7 +46,9 @@ const AddressList: React.FC<Props> = props => {
       props.currentCallBackComponent == "checkout-shipping"
     ) {
       if (isBridal) {
-        addressData = addressData.filter(address => address.isBridal);
+        addressData = addressData.filter(
+          address => address.isBridal && address.id == bridalAddressId
+        );
       }
     }
     // if (props.addressDataList && props.addressDataList.length > 0) {
