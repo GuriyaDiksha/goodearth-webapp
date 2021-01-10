@@ -1,4 +1,3 @@
-import { showMessage } from "actions/growlMessage";
 import { BridalItemData } from "containers/myAccount/components/Bridal/typings";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -9,6 +8,7 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { Context } from "components/Modal/context";
+import * as util from "../../utils/validate";
 
 type Props = {
   bridalItem: BridalItemData;
@@ -67,14 +67,14 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
       productUrl
     )
       .then(res => {
-        dispatch(showMessage("Item has been added to your bag!"));
+        util.showGrowlMessage(dispatch, "Item has been added to your bag!");
       })
       .catch(err => {
-        let errorMessage = err.response.data.reason;
+        let errorMessage = err.response.data;
         if (typeof errorMessage != "string") {
           errorMessage = "Can't add to bag";
         }
-        dispatch(showMessage(errorMessage));
+        util.showGrowlMessage(dispatch, errorMessage);
       });
     // closeMobile();
   };
