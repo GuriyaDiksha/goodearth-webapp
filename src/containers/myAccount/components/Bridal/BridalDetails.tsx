@@ -25,9 +25,9 @@ const BridalDetails: React.FC = () => {
     const { registrantName, coRegistrantName, registryName } = model;
     if (!updateProfile) return false;
     setCurrentModuleData("details", {
-      registrantName: registrantName,
-      coRegistrantName: coRegistrantName,
-      registryName: registryName
+      registrantName: registrantName.trim(),
+      coRegistrantName: coRegistrantName.trim(),
+      registryName: registryName.trim()
     });
     setCurrentModule("address");
   };
@@ -37,8 +37,14 @@ const BridalDetails: React.FC = () => {
   const regName = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const registrantName = registrantNameRef.current?.value;
-    const coRegistrantName = coRegistrantNameRef.current?.value;
+    const registrantName =
+      registrantNameRef.current?.value.trim() == ""
+        ? ""
+        : registrantNameRef.current?.value;
+    const coRegistrantName =
+      coRegistrantNameRef.current?.value.trim() == ""
+        ? ""
+        : coRegistrantNameRef.current?.value;
 
     if (registrantName && coRegistrantName && !updateProfile) {
       setUpdateProfile(true);
