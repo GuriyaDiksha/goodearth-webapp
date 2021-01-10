@@ -13,7 +13,6 @@ import show from "../../images/show.svg";
 import hide from "../../images/hide.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
-import { showMessage } from "actions/growlMessage";
 import CookieService from "services/cookie";
 import { ALL_SESSION_LOGOUT } from "constants/messages";
 import * as valid from "utils/validate";
@@ -84,7 +83,7 @@ const ResetPassword: React.FC<Props> = props => {
         bridalId && CookieService.setCookie("bridalId", bridalId);
         bridalCurrency &&
           CookieService.setCookie("bridalCurrency", bridalCurrency);
-        dispatch(showMessage(ALL_SESSION_LOGOUT));
+        valid.showGrowlMessage(dispatch, ALL_SESSION_LOGOUT);
         let counter = 5;
         const timer = setInterval(function() {
           if (counter < 0) {

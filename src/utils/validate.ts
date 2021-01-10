@@ -1,6 +1,9 @@
 import { Currency } from "typings/currency";
 import { Basket } from "typings/basket";
 import CookieService from "../services/cookie";
+import { Dispatch } from "redux";
+import { hideMessage, showMessage } from "actions/growlMessage";
+import { ReactElement } from "react";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -633,3 +636,20 @@ export function getErrorList(
       .filter(error => error) as string[];
   }
 }
+
+const getUniqueId = () => {
+  return Math.floor((1 + Math.random()) * 0x1000)
+    .toString(16)
+    .substring(1);
+};
+export const showGrowlMessage = (
+  dispatch: Dispatch,
+  text: string | (string | JSX.Element)[] | ReactElement,
+  timeout = 3000
+) => {
+  const id = getUniqueId();
+  dispatch(showMessage(text, timeout, id));
+  setTimeout(() => {
+    dispatch(hideMessage(id));
+  }, timeout);
+};
