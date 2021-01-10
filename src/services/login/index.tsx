@@ -22,7 +22,6 @@ import HeaderService from "services/headerFooter";
 import Api from "services/api";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
-import { showMessage } from "actions/growlMessage";
 import {
   INVALID_SESSION_LOGOUT,
   LOGOUT_SUCCESS,
@@ -31,6 +30,7 @@ import {
   REGISTRY_MIXED_SHIPPING
 } from "constants/messages";
 import Axios from "axios";
+import * as util from "../../utils/validate";
 
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -94,7 +94,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
+    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     const metaResponse = await MetaService.updateMeta(dispatch, {
@@ -108,7 +108,7 @@ export default {
           item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
         );
         if (basketBridalId && basketBridalId == metaResponse.bridalId) {
-          dispatch(showMessage(REGISTRY_OWNER_CHECKOUT));
+          util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT);
         }
         let item1 = false,
           item2 = false;
@@ -117,7 +117,7 @@ export default {
           if (data.bridalProfile) item2 = true;
         });
         if (item1 && item2) {
-          dispatch(showMessage(REGISTRY_MIXED_SHIPPING));
+          util.showGrowlMessage(dispatch, REGISTRY_MIXED_SHIPPING, 6000);
         }
       }
     });
@@ -132,7 +132,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
+    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });
@@ -163,7 +163,7 @@ export default {
         console.log(err);
       });
       dispatch(resetMeta(undefined));
-      dispatch(showMessage(LOGOUT_SUCCESS, 5000));
+      util.showGrowlMessage(dispatch, LOGOUT_SUCCESS, 5000);
       return res;
     }
   },
@@ -176,7 +176,7 @@ export default {
     WishlistService.resetWishlist(dispatch);
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
-    dispatch(showMessage(INVALID_SESSION_LOGOUT, 5000));
+    util.showGrowlMessage(dispatch, INVALID_SESSION_LOGOUT, 5000);
   },
   register: async function(dispatch: Dispatch, formData: FormData) {
     const res = await API.post<registerResponse>(
@@ -187,7 +187,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
+    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });

@@ -6,7 +6,6 @@ import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import MetaService from "services/meta";
 import { Cookies } from "typings/cookies";
-import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
@@ -16,6 +15,7 @@ import PincodePopup from "components/Popups/pincodePopup";
 import HeaderService from "services/headerFooter";
 import BridalService from "services/bridal";
 import { updateNextUrl } from "actions/info";
+import * as util from "../../../utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number) => {
       dispatch(
