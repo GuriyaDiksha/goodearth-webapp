@@ -180,7 +180,11 @@ class Header extends React.Component<Props, State> {
             history.location.search.replace(currency, response.currency);
           history.replace(path);
         }
-        reloadPage(this.props.cookies, history.location.pathname);
+        reloadPage(
+          this.props.cookies,
+          history.location.pathname,
+          this.props.isLoggedIn
+        );
       });
     }
   };

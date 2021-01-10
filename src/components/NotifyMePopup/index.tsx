@@ -162,16 +162,25 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
-      WishlistService.removeFromWishlist(
-        dispatch,
-        selectedSize.id,
-        undefined,
-        sortBy
-      );
-      await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      util.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
-      gtmPushAddToBag();
-      closeModal();
+      userExists &&
+        WishlistService.removeFromWishlist(
+          dispatch,
+          selectedSize.id,
+          undefined,
+          sortBy
+        );
+      BasketService.addToBasket(dispatch, selectedSize.id, quantity)
+        .then(() => {
+          util.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
+          gtmPushAddToBag();
+          closeModal();
+        })
+        .catch(err => {
+          if (typeof err.response.data != "object") {
+            util.showGrowlMessage(dispatch, err.response.data);
+            util.errorTracking([err.response.data], window.location.href);
+          }
+        });
     } else {
       setSizeErrorMsg("Please select size");
       util.errorTracking(["Please select size"], location.href);

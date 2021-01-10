@@ -308,7 +308,8 @@ export function PDP(data: any, currency: Currency) {
         );
       })
     );
-    const listPath = CookieService.getCookie("listPath") || "";
+    const listPath =
+      CookieService.getCookie("listPath") || "DirectLandingOnWebsite";
     CookieService.setCookie("listPath", "");
     dataLayer.push({
       event: "PDP",

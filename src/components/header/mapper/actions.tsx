@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, page?: string) => {
+    reloadPage: (cookies: Cookies, page?: string, islogin?: boolean) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
-      WishlistService.updateWishlist(dispatch);
+      islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);

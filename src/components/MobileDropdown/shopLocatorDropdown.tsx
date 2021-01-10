@@ -63,14 +63,14 @@ const ShopDropdownMenu = ({
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div className={cs(bootstrap.col12, styles.mobileFilterMenu)}>
               <ul className={styles.sort}>
-                {list.map((data: any) => {
+                {list.map((data: any, i: number) => {
                   return (
                     <li
                       value={data}
                       onClick={() => {
                         onIClickSelected(data);
                       }}
-                      key={data.name}
+                      key={i}
                       className={cs({
                         [globalStyles.cerise]: displayValue == data.label
                       })}

@@ -177,7 +177,12 @@ class CollectionSpecific extends React.Component<
       collectionIds
     } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={collectionIds} key={id} />,
+      <Quickview
+        id={id}
+        productListId={collectionIds}
+        key={id}
+        source="CollectionSpecific"
+      />,
       true
     );
     changeModalState(true);

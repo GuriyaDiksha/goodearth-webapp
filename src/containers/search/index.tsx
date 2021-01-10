@@ -112,7 +112,7 @@ class Search extends React.Component<
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={plpProductId} />,
+      <Quickview id={id} productListId={plpProductId} source="Search" />,
       true
     );
     changeModalState(true);
@@ -298,6 +298,7 @@ class Search extends React.Component<
                   value="hc"
                   onChange={this.onchangeFilter}
                   showCaret={true}
+                  disabled={data.length == 0 ? true : false}
                 ></SelectableDropdownMenu>
               </div>
             </Fragment>
