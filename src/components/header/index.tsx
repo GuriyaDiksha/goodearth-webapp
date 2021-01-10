@@ -266,7 +266,6 @@ class Header extends React.Component<Props, State> {
   render() {
     const { isLoggedIn } = this.context;
     const {
-      message,
       wishlistData,
       meta,
       goLogin,
@@ -879,7 +878,7 @@ class Header extends React.Component<Props, State> {
             )}
           {this.state.showPincodePopup}
         </div>
-        <GrowlMessage {...message} />
+        <GrowlMessage />
         <MakerUtils />
         {mobile && !isBridalRegistryPage && (
           <BottomMenu
