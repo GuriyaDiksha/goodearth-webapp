@@ -27,6 +27,7 @@ import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
 import ProductService from "services/product";
+import CookieService from "../../../../services/cookie";
 // typings
 import { Props } from "./typings";
 import {
@@ -68,7 +69,7 @@ const ProductDetails: React.FC<Props> = ({
     childAttributes,
     sizeChartHtml,
     categories,
-    loyalityDisabled,
+    loyaltyDisabled,
     shipping,
     compAndCare,
     sku,
@@ -86,7 +87,8 @@ const ProductDetails: React.FC<Props> = ({
   isQuickview,
   changeModalState,
   updateComponentModal,
-  closeModal
+  closeModal,
+  source
 }) => {
   const [productTitle, subtitle] = title.split("(");
   const {
@@ -441,7 +443,6 @@ const ProductDetails: React.FC<Props> = ({
     return show;
   }, [childAttributes]);
   const withBadge = images && images.length && images[0].badgeImagePdp;
-
   return (
     <div className={bootstrap.row}>
       <div
@@ -730,11 +731,32 @@ const ProductDetails: React.FC<Props> = ({
           >
             {button}
             {isQuickview ? (
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colMd9,
+                  globalStyles.voffset1
+                )}
+              >
+                {!loyaltyDisabled ? (
+                  <p className={styles.errorMsg}>
+                    This product is not eligible for Cerise points accumulation.
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
+            ) : (
+              ""
+            )}
+            {isQuickview ? (
               <Link
                 to={url}
                 className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
                 onClick={() => {
                   changeModalState(false);
+                  const listPath = `${source || "PLP"} ${location.pathname}`;
+                  CookieService.setCookie("listPath", listPath);
                 }}
               >
                 view more details
@@ -766,21 +788,26 @@ const ProductDetails: React.FC<Props> = ({
             />
           </div>
         </div>
-        <div
-          className={cs(
-            bootstrap.col12,
-            bootstrap.colMd9,
-            globalStyles.voffset1
-          )}
-        >
-          {loyalityDisabled ? (
-            <p className={styles.errorMsg}>
-              This product is not eligible for Cerise points accumulation.
-            </p>
-          ) : (
-            ""
-          )}
-        </div>
+        {!isQuickview ? (
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd9,
+              { [globalStyles.voffset1]: !mobile },
+              { [globalStyles.voffset3]: mobile }
+            )}
+          >
+            {!loyaltyDisabled ? (
+              <p className={styles.errorMsg}>
+                This product is not eligible for Cerise points accumulation.
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
         <div
           className={cs(
             bootstrap.col12,

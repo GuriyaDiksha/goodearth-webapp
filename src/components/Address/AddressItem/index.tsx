@@ -349,7 +349,9 @@ const AddressItem: React.FC<Props> = props => {
             })}
           >
             {!(
-              address.isTulsi || props.currentCallBackComponent == "cerise"
+              address.isTulsi ||
+              address.isBackendOrder ||
+              props.currentCallBackComponent == "cerise"
             ) && (
               <span
                 className={cs(styles.action, {
@@ -366,6 +368,7 @@ const AddressItem: React.FC<Props> = props => {
             )}
             {!(
               address.isBridal ||
+              address.isBackendOrder ||
               props.isOnlyAddress ||
               address.isTulsi ||
               props.currentCallBackComponent == "cerise"
@@ -373,6 +376,7 @@ const AddressItem: React.FC<Props> = props => {
             {!(
               address.isBridal ||
               props.isOnlyAddress ||
+              address.isBackendOrder ||
               address.isTulsi ||
               props.currentCallBackComponent == "cerise"
             ) && (
