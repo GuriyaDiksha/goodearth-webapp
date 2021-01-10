@@ -15,8 +15,6 @@ import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
 import CloseButton from "components/Modal/components/CloseButton";
 import InputField from "components/InputField";
-//actions
-import { showMessage } from "actions/growlMessage";
 // services
 import BasketService from "services/basket";
 import ProductService from "services/product";
@@ -171,7 +169,7 @@ const NotifyMePopup: React.FC<Props> = ({
         sortBy
       );
       await BasketService.addToBasket(dispatch, selectedSize.id, quantity);
-      dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+      util.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
       gtmPushAddToBag();
       closeModal();
     } else {

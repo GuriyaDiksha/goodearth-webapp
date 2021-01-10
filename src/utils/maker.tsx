@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { showMessage } from "actions/growlMessage";
 import { useDispatch, useSelector } from "react-redux";
 import BasketService from "../services/basket";
 import CookieService from "../services/cookie";
 import { updateModal } from "actions/modal";
 import { AppState } from "reducers/typings";
-
+import * as util from "./validate";
 const MakerUtils: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -32,12 +31,12 @@ const MakerUtils: React.FC = () => {
 
         BasketService.addToBasket(dispatch, 0, quantity || 1, productSku)
           .then((res: any) => {
-            dispatch(showMessage("Item has been added to your bag!"));
+            util.showGrowlMessage(dispatch, "Item has been added to your bag!");
             BasketService.fetchBasket(dispatch);
           })
           .catch(error => {
             if (error.response.status == 406) {
-              dispatch(showMessage(error.response.data));
+              util.showGrowlMessage(dispatch, error.response.data);
             }
             console.log(error);
           });

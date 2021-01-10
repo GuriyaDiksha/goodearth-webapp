@@ -1,7 +1,6 @@
 import React from "react";
 import { AppState } from "reducers/typings";
 import { BridalItemData } from "containers/myAccount/components/Bridal/typings";
-import { showMessage } from "actions/growlMessage";
 import { Dispatch } from "redux";
 import BasketService from "../../services/basket";
 import { connect } from "react-redux";
@@ -11,6 +10,7 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
+import * as util from "../../utils/validate";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -30,14 +30,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           bridalId,
           url
         );
-        dispatch(showMessage("Item has been added to your bag!"));
+        util.showGrowlMessage(dispatch, "Item has been added to your bag!");
         return res;
       } catch (err) {
-        let errorMessage = err.response.data.reason;
+        let errorMessage = err.response.data;
         if (typeof errorMessage != "string") {
           errorMessage = "Can't add to bag";
         }
-        dispatch(showMessage(errorMessage));
+        util.showGrowlMessage(dispatch, errorMessage);
       }
     }
   };
