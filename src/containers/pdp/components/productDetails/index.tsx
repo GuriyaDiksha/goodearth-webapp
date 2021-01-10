@@ -27,8 +27,6 @@ import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
 import ProductService from "services/product";
-// actions
-import { showMessage } from "actions/growlMessage";
 // typings
 import { Props } from "./typings";
 import {
@@ -283,12 +281,12 @@ const ProductDetails: React.FC<Props> = ({
           setTimeout(() => {
             setAddedToBag(false);
           }, 3000);
-          dispatch(showMessage(ADD_TO_BAG_SUCCESS));
+          valid.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
         })
         .catch(err => {
           if (typeof err.response.data != "object") {
-            dispatch(showMessage(err.response.data));
+            valid.showGrowlMessage(dispatch, err.response.data);
             valid.errorTracking([err.response.data], window.location.href);
           }
         });
@@ -311,7 +309,7 @@ const ProductDetails: React.FC<Props> = ({
       element.classList.contains(styles.active) ||
       (selectedSize && isRegistry[selectedSize.size])
     ) {
-      dispatch(showMessage(ADD_TO_REGISTRY_AGAIN));
+      valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_AGAIN);
       return false;
     }
     if (childAttributes[0].size) {
@@ -334,7 +332,7 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
-        dispatch(showMessage(ADD_TO_REGISTRY_SUCCESS));
+        valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         if (selectedSize) {
           registry[selectedSize.size] = true;
@@ -355,9 +353,9 @@ const ProductDetails: React.FC<Props> = ({
       .catch(err => {
         const message = err.response.data.message;
         if (message) {
-          dispatch(showMessage(message));
+          valid.showGrowlMessage(dispatch, message);
         } else {
-          dispatch(showMessage(ADD_TO_REGISTRY_FAIL));
+          valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_FAIL);
         }
       });
     event.stopPropagation();
