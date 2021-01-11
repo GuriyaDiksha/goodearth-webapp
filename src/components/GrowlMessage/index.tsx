@@ -1,33 +1,25 @@
-import React, { useEffect } from "react";
+import React, { ReactElement } from "react";
 import cs from "classnames";
-import { useStore } from "react-redux";
-import { Props } from "./typings";
+import { useSelector, useStore } from "react-redux";
 import { hideMessage } from "actions/growlMessage";
 import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
+import { AppState } from "reducers/typings";
 
-const GrowlMessage: React.FC<Props> = ({ text, timeout = 3000 }) => {
+const GrowlMessage: React.FC = () => {
   const store = useStore();
-  let timeoutId: number | undefined;
-  const closeMessage = () => {
-    window.clearTimeout(timeoutId);
-    store.dispatch(hideMessage());
+  const growlMessages = useSelector((state: AppState) => state.message);
+  const closeMessage = (id: string) => {
+    store.dispatch(hideMessage(id));
   };
 
-  useEffect(() => {
-    if (text) {
-      timeoutId = window.setTimeout(closeMessage, timeout);
-    }
-  }, [text]);
-
-  return (
-    <div
-      className={cs(styles.container, {
-        [styles.visible]: text
-      })}
-    >
+  const Growl = (props: {
+    text: string | (string | JSX.Element)[] | ReactElement;
+    id: string;
+  }) => (
+    <div className={styles.growl} key={props.id}>
       <div className={styles.innerContainer}>
-        <div>{text}</div>
+        <div>{props.text}</div>
         <span>
           <i
             className={cs(
@@ -35,10 +27,30 @@ const GrowlMessage: React.FC<Props> = ({ text, timeout = 3000 }) => {
               iconStyles.iconCrossNarrowBig,
               styles.closeButton
             )}
-            onClick={closeMessage}
+            onClick={() => closeMessage(props.id)}
           />
         </span>
       </div>
+    </div>
+  );
+
+  return (
+    <div
+      className={cs(styles.container, {
+        [styles.visible]: growlMessages.length > 0
+      })}
+    >
+      {growlMessages &&
+        growlMessages.length > 0 &&
+        growlMessages.map(growlMessage => {
+          return (
+            <Growl
+              key={growlMessage.id}
+              text={growlMessage.text}
+              id={growlMessage.id}
+            />
+          );
+        })}
     </div>
   );
 };

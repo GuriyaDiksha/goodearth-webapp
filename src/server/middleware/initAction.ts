@@ -6,6 +6,6 @@ export default async function fetchInitialData(
   next: Koa.Next
 ) {
   const store = ctx.store;
-  await initAction(store);
+  await initAction(store, ctx.history);
   await next();
 }

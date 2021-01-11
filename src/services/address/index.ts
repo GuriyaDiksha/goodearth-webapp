@@ -10,8 +10,8 @@ import { updateAddressList } from "actions/address";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateBasket } from "actions/basket";
 import CacheService from "services/cache";
-import { showMessage } from "actions/growlMessage";
 import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import * as util from "../../utils/validate";
 
 export default {
   fetchAddressList: async (dispatch: Dispatch) => {
@@ -82,7 +82,7 @@ export default {
       { shippingAddressId: id }
     );
     if (data.data.basket.updated || data.data.basket.publishRemove) {
-      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
     dispatch(updateBasket(data.data.basket));
     return data;

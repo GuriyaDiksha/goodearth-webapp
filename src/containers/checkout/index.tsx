@@ -27,7 +27,6 @@ import { Cookies } from "typings/cookies";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { User } from "typings/user";
-import { showMessage } from "actions/growlMessage";
 import {
   CURRENCY_CHANGED_SUCCESS,
   REGISTRY_MIXED_SHIPPING,
@@ -57,7 +56,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     // create function for dispatch
     showNotify: (message: string) => {
-      dispatch(showMessage(message, 6000));
+      valid.showGrowlMessage(dispatch, message, 6000);
     },
     specifyShippingAddress: async (
       shippingAddressId: number,
@@ -98,7 +97,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch, "checkout");
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -376,6 +375,7 @@ class Checkout extends React.Component<Props, State> {
         shippingData?.id !== this.state.shippingAddress?.id
       ) {
         this.setState({
+          shippingAddress: shippingData || undefined,
           activeStep: Steps.STEP_BILLING
         });
       }
@@ -383,7 +383,8 @@ class Checkout extends React.Component<Props, State> {
       if (!shippingData) {
         this.setState({
           activeStep: Steps.STEP_SHIPPING,
-          billingAddress: undefined
+          billingAddress: undefined,
+          shippingAddress: undefined
         });
       }
       if (shippingData !== this.state.shippingAddress) {
@@ -398,9 +399,13 @@ class Checkout extends React.Component<Props, State> {
       ) {
         this.setState({ isGoodearthShipping: true });
       }
+      if (!nextProps.basket.bridal && this.props.basket.bridal) {
+        this.props.fetchAddressBridal();
+      }
     } else {
       this.setState({
-        activeStep: Steps.STEP_LOGIN
+        activeStep: Steps.STEP_LOGIN,
+        shippingAddress: nextProps.user.shippingData || undefined
       });
     }
   }

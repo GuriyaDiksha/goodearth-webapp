@@ -139,6 +139,7 @@ const Bridal: React.FC<Props> = props => {
   const changeAddress = (newAddressId: number) => {
     AddressService.fetchAddressList(dispatch)
       .then(data => {
+        dispatch(updateAddressList(data));
         const items = data;
         for (let i = 0; i < items.length; i++) {
           if (items[i].id == newAddressId) {
@@ -299,7 +300,7 @@ const Bridal: React.FC<Props> = props => {
     };
     BridalService.updateBridalAddress(dispatch, data).then(res => {
       setBridalProfile(res[0]);
-      setShareLink(`${__API_HOST__}/${res[0].shareLink}`);
+      setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
       changeAddress(data.addressId);
       setCurrentScreenValue("manageregistryfull");
     });
