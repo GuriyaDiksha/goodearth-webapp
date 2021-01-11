@@ -108,7 +108,7 @@ export default {
           item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
         );
         if (basketBridalId && basketBridalId == metaResponse.bridalId) {
-          util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT);
+          util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT, 6000);
         }
         let item1 = false,
           item2 = false;
@@ -176,7 +176,12 @@ export default {
     WishlistService.resetWishlist(dispatch);
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
-    util.showGrowlMessage(dispatch, INVALID_SESSION_LOGOUT, 5000);
+    util.showGrowlMessage(
+      dispatch,
+      INVALID_SESSION_LOGOUT,
+      5000,
+      "INVALID_SESSION_LOGOUT"
+    );
   },
   register: async function(dispatch: Dispatch, formData: FormData) {
     const res = await API.post<registerResponse>(

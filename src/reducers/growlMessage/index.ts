@@ -8,7 +8,24 @@ export const growlMessage = (
 ) => {
   switch (action.type) {
     case "SHOW_MESSAGE": {
-      return [...state, action.payload];
+      let isExistingMessage = false;
+      const newState = state.map(message => {
+        if (message.id == action.payload.id) {
+          isExistingMessage = true;
+          return {
+            ...message,
+            text: action.payload.text,
+            timeout: action.payload.timeout
+          };
+        } else {
+          return message;
+        }
+      });
+      if (isExistingMessage) {
+        return newState;
+      } else {
+        return [...state, action.payload];
+      }
     }
     case "HIDE_MESSAGE": {
       const id = action.payload.id;

@@ -1,22 +1,31 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import cs from "classnames";
-import { useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { hideMessage } from "actions/growlMessage";
 import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
 import { AppState } from "reducers/typings";
 
-const GrowlMessage: React.FC = () => {
-  const store = useStore();
-  const growlMessages = useSelector((state: AppState) => state.message);
-  const closeMessage = (id: string) => {
-    store.dispatch(hideMessage(id));
-  };
+type Props = {
+  text: string | (string | JSX.Element)[] | ReactElement;
+  id: string;
+  timeout: number;
+};
 
-  const Growl = (props: {
-    text: string | (string | JSX.Element)[] | ReactElement;
-    id: string;
-  }) => (
+const Growl: React.FC<Props> = props => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(hideMessage(props.id));
+    }, props.timeout);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+  const closeMessage = (id: string) => {
+    dispatch(hideMessage(id));
+  };
+  return (
     <div className={styles.growl} key={props.id}>
       <div className={styles.innerContainer}>
         <div>{props.text}</div>
@@ -33,7 +42,9 @@ const GrowlMessage: React.FC = () => {
       </div>
     </div>
   );
-
+};
+const GrowlMessage: React.FC = () => {
+  const growlMessages = useSelector((state: AppState) => state.message);
   return (
     <div
       className={cs(styles.container, {
@@ -48,6 +59,7 @@ const GrowlMessage: React.FC = () => {
               key={growlMessage.id}
               text={growlMessage.text}
               id={growlMessage.id}
+              timeout={growlMessage.timeout}
             />
           );
         })}
