@@ -8,9 +8,9 @@ import CopyLink from "./copyLink";
 
 import productDertailsStyles from "containers/pdp/components/productDetails/styles.scss";
 // actions
-import { showMessage } from "actions/growlMessage";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
+import * as util from "../../utils/validate";
 
 const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
   const whatsappLink = `${
@@ -20,8 +20,9 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
 
   const store = useStore();
   const copyText = () => {
-    store.dispatch(
-      showMessage("The link of this product has been copied to clipboard!")
+    util.showGrowlMessage(
+      store.dispatch,
+      "The link of this product has been copied to clipboard!"
     );
   };
 

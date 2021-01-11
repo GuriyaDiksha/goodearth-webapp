@@ -27,7 +27,11 @@ export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
 export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
 export const ADD_TO_REGISTRY_AGAIN = [
   "To modify or edit items in your registry please ",
-  <Link to="/bridal" key="bridal">
+  <Link
+    to="/account/bridal"
+    key="bridal"
+    style={{ textDecoration: "underline", pointerEvents: "all" }}
+  >
     manage your registry
   </Link>
 ];
