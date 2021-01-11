@@ -30,7 +30,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           bridalId,
           url
         );
-        util.showGrowlMessage(dispatch, "Item has been added to your bag!");
+        util.showGrowlMessage(
+          dispatch,
+          "Item has been added to your bag!",
+          3000,
+          "ADD_TO_BAG_BRIDAL"
+        );
         return res;
       } catch (err) {
         let errorMessage = err.response.data;
