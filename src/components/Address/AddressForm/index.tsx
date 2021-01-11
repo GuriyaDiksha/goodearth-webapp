@@ -24,6 +24,7 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 // import { updateCountryData } from "actions/address";
 import * as valid from "utils/validate";
+import BridalContext from "containers/myAccount/components/Bridal/context";
 
 type Props = {
   addressData?: AddressData;
@@ -69,6 +70,8 @@ const AddressForm: React.FC<Props> = props => {
   const { countryData, pinCodeData, addressList } = useSelector(
     (state: AppState) => state.address
   );
+
+  const { setBridalAddress, bridalProfile } = useContext(BridalContext);
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
 
@@ -454,7 +457,15 @@ const AddressForm: React.FC<Props> = props => {
     };
     if (mode == "new") {
       AddressService.addNewAddress(dispatch, formData)
-        .then(() => {
+        .then(addressList => {
+          if (currentCallBackComponent == "bridal-edit") {
+            const bridalAddress = addressList.filter(
+              address => address.id == bridalProfile?.userAddressId
+            )[0];
+            if (bridalAddress) {
+              setBridalAddress(bridalAddress);
+            }
+          }
           setIsLoading(false);
           closeAddressForm();
         })
@@ -474,7 +485,15 @@ const AddressForm: React.FC<Props> = props => {
     } else if (mode == "edit" && addressData) {
       const { id } = addressData;
       AddressService.updateAddress(dispatch, formData, id)
-        .then(() => {
+        .then(addressList => {
+          if (currentCallBackComponent == "bridal-edit") {
+            const bridalAddress = addressList.filter(
+              address => address.id == bridalProfile?.userAddressId
+            )[0];
+            if (bridalAddress) {
+              setBridalAddress(bridalAddress);
+            }
+          }
           setIsAddressChanged(false);
           setIsLoading(false);
           closeAddressForm();

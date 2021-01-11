@@ -407,6 +407,7 @@ const Bridal: React.FC<Props> = props => {
         bridalProfile: bridalProfile,
         bridalAddress: bridalAddress,
         data: bridalDetails,
+        setBridalAddress: setBridalAddress,
         setCurrentModule: setCurrentModule,
         setCurrentModuleData: setCurrentModuleData,
         setCurrentScreenValue: setCurrentScreenValue,
