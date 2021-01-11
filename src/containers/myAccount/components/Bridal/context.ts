@@ -19,6 +19,7 @@ type BridalContextType = {
   ) => void;
   setCurrentScreenValue: (value: string) => void;
   changeBridalAddress: (addressId: number) => void;
+  setBridalAddress: (address: AddressData) => void;
 };
 const initState: BridalContextType = {
   isBridal: true,
@@ -39,7 +40,8 @@ const initState: BridalContextType = {
   changeBridalAddress: (addressId: number) => null,
   setCurrentModule: (module: string) => null,
   setCurrentModuleData: (module: string, data: {}) => null,
-  setCurrentScreenValue: (value: string) => null
+  setCurrentScreenValue: (value: string) => null,
+  setBridalAddress: (address: AddressData) => null
 };
 const BridalContext = React.createContext(initState);
 export default BridalContext;
