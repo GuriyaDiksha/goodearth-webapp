@@ -171,7 +171,12 @@ const NotifyMePopup: React.FC<Props> = ({
         );
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
-          util.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
+          util.showGrowlMessage(
+            dispatch,
+            ADD_TO_BAG_SUCCESS,
+            3000,
+            "ADD_TO_BAG_SUCCESS"
+          );
           gtmPushAddToBag();
           closeModal();
         })

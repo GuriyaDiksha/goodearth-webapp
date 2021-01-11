@@ -22,7 +22,9 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
   const copyText = () => {
     util.showGrowlMessage(
       store.dispatch,
-      "The link of this product has been copied to clipboard!"
+      "The link of this product has been copied to clipboard!",
+      3000,
+      "LINK_COPIED_MESSAGE"
     );
   };
 

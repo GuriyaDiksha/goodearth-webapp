@@ -67,7 +67,12 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
       productUrl
     )
       .then(res => {
-        util.showGrowlMessage(dispatch, "Item has been added to your bag!");
+        util.showGrowlMessage(
+          dispatch,
+          "Item has been added to your bag!",
+          3000,
+          "ADD_TO_BAG_BRIDAL"
+        );
       })
       .catch(err => {
         let errorMessage = err.response.data;
