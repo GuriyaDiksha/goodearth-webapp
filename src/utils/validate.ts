@@ -2,7 +2,7 @@ import { Currency } from "typings/currency";
 import { Basket } from "typings/basket";
 import CookieService from "../services/cookie";
 import { Dispatch } from "redux";
-import { hideMessage, showMessage } from "actions/growlMessage";
+import { showMessage } from "actions/growlMessage";
 import { ReactElement } from "react";
 
 export function checkMail(email: any) {
@@ -646,11 +646,9 @@ const getUniqueId = () => {
 export const showGrowlMessage = (
   dispatch: Dispatch,
   text: string | (string | JSX.Element)[] | ReactElement,
-  timeout = 3000
+  timeout = 3000,
+  id?: string
 ) => {
-  const id = getUniqueId();
-  dispatch(showMessage(text, timeout, id));
-  setTimeout(() => {
-    dispatch(hideMessage(id));
-  }, timeout);
+  const newId = id ? id : getUniqueId();
+  dispatch(showMessage(text, timeout, newId));
 };
