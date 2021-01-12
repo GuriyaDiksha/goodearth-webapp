@@ -43,7 +43,8 @@ const initialState: State = {
   facetObject: {},
   plpProductId: [],
   filterState: false,
-  onload: false
+  onload: false,
+  plpMobileView: "grid"
 };
 
 export const plplist = (state = initialState, action: PlpActions): State => {
@@ -76,6 +77,11 @@ export const plplist = (state = initialState, action: PlpActions): State => {
       const newState = { ...state };
       newState.onload = false;
       newState.facetObject = action.payload;
+      return newState;
+    }
+    case "UPDATE_PLP_MOBILE_VIEW": {
+      const newState = { ...state };
+      newState.plpMobileView = action.payload;
       return newState;
     }
   }

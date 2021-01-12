@@ -8,6 +8,7 @@ export type State = {
   plpProductId: number[];
   filterState: boolean;
   onload: boolean;
+  plpMobileView: "list" | "grid";
 };
 
 export { Actions };
