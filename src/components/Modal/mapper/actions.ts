@@ -2,6 +2,7 @@ import { updateComponent, updateModal } from "../../../actions/modal";
 import { updateQuickviewId } from "actions/quickview";
 import { ReactNode } from "react";
 import { Dispatch } from "redux";
+import { updatePlpMobileView } from "actions/plp";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -13,6 +14,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     },
     updateQuickviewId: async () => {
       dispatch(updateQuickviewId(0));
+    },
+    updateMobileView: (plpMobileView: "list" | "grid") => {
+      dispatch(updatePlpMobileView(plpMobileView));
     }
   };
 };

@@ -19,6 +19,7 @@ import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
+import iconFonts from "../../styles/iconFonts.scss";
 
 const Quickview = loadable(() => import("components/Quickview"));
 
@@ -27,6 +28,8 @@ const mapStateToProps = (state: AppState) => {
     plpProductId: state.plplist.plpProductId,
     facetObject: state.plplist.facetObject,
     data: state.plplist.data,
+    plpMobileView: state.plplist.plpMobileView,
+    scrollDown: state.info.scrollDown,
     location: state.router.location,
     currency: state.currency,
     device: state.device
@@ -163,6 +166,12 @@ class PLP extends React.Component<
         mobileFilter: state,
         showmobileSort: false
       });
+    }
+  };
+
+  updateMobileView = (plpMobileView: "list" | "grid") => {
+    if (this.props.plpMobileView != plpMobileView) {
+      this.props.updateMobileView(plpMobileView);
     }
   };
 
@@ -336,7 +345,7 @@ class PLP extends React.Component<
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
-              { [globalStyles.paddTop20]: !this.state.showmobileSort },
+              { [globalStyles.paddTop70]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
@@ -433,6 +442,28 @@ class PLP extends React.Component<
               </div>
             </div>
           </div>
+          {mobile && (
+            <div
+              className={cs(styles.listGridBar, {
+                [styles.hide]: this.props.scrollDown
+              })}
+            >
+              <i
+                key="grid-icon"
+                className={cs(iconFonts.icon, iconFonts.iconGridView, {
+                  [styles.active]: this.props.plpMobileView == "grid"
+                })}
+                onClick={() => this.updateMobileView("grid")}
+              />
+              <i
+                key="list-icon"
+                className={cs(iconFonts.icon, iconFonts.iconListView, {
+                  [styles.active]: this.props.plpMobileView == "list"
+                })}
+                onClick={() => this.updateMobileView("list")}
+              />
+            </div>
+          )}
         </div>
         {mobile && (
           <PlpDropdownMenu
