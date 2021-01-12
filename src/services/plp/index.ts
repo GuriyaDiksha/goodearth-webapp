@@ -31,7 +31,9 @@ export default {
     );
     dispatch(newPlpList({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
-    valid.productImpression(res, "PLP", currency);
+    if (typeof document != "undefined") {
+      valid.productImpression(res, "PLP", currency);
+    }
     return res;
   },
   updateProduct: async function(

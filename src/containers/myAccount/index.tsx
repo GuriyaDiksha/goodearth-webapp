@@ -18,10 +18,10 @@ import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
 import ChangePassword from "./components/ChangePassword";
 import { useSelector, useDispatch } from "react-redux";
-import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
 import AddressMain from "components/Address/AddressMain";
+import Bridal from "./components/Bridal";
 import { AppState } from "reducers/typings";
 import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
@@ -39,7 +39,7 @@ type Props = {
 // }
 
 const MyAccount: React.FC<Props> = props => {
-  let bridalId = "";
+  const { bridalId } = useSelector((state: AppState) => state.user);
   const [accountListing, setAccountListing] = useState(false);
   const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -48,6 +48,90 @@ const MyAccount: React.FC<Props> = props => {
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
   const [currentSection, setCurrentSection] = useState("Profile");
+  const location = useLocation();
+  const [showRegistry, setShowRegistry] = useState(
+    location.pathname.includes("bridal") ? true : false
+  );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  // this.state = {
+  //     showregistry: location.search.split('=')[1] == 'bridal' ? true : false,
+  //     isCeriseClubMember: false
+  // }
+
+  // const setSelectedSection = () => {
+
+  //     switch (currentSection) {
+  //         case 'profile':
+  //             return <MyProfile/>
+  //             break;
+  //         case 'password':
+  //             return <ChangePassword/>
+  //             break;
+  //         case 'address':
+  //             return <RegistryAddress isCeriseClubMember={this.state.isCeriseClubMember} isbridal={this.props.isbridal} currentCallBackComponent="account" id={bridalId}/>
+  //             break;
+  //         case 'orders':
+  //             return <PastOrders setAccountPage={this.setAccountPage}/>
+  //             break;
+  //         case 'track':
+  //             return <Tracking setAccountPage={this.setAccountPage}/>
+  //             break;
+  //         case 'bridal':
+  //             return <MainBridal id={bridalId} mobile={mobile}/>
+  //             break;
+  //         case 'checkbalance':
+  //             return <CheckBalance />
+  //             break;
+  //         case 'agc':
+  //             return <Activate />
+  //             break;
+  //         case 'cerise':
+  //             return <CeriseClubMain mobile={mobile}/>
+  //             break;
+  //         default:
+
+  //     }
+  // }
+
+  // const getLoyaltyTransactions = () => {
+  //     const formData = new FormData();
+  //     formData.append("email", window.user.email);
+  //     formData.append("phoneno", "");
+  //     axios.post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
+  //     .then(res => {
+  //         if (res.data.is_success) {
+  //             let isCeriseClubMember = res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
+  //             this.setState({
+  //                 slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
+  //                 isCeriseClubMember: isCeriseClubMember
+  //             }, () => {
+  //                 const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
+  //                 this.props.updateCeriseClubAccess(slab);
+  //             })
+  //         }
+  //     })
+  //     .catch(err => {
+  //         console.log(err);
+  //     });
+  // }
+
+  // const showRegistry = () => {
+  //     this.setState({
+  //         showregistry: !this.state.showregistry
+  //     })
+  // }
+
+  // componentDidMount() {
+  //     this.getLoyaltyTransactions();
+  // }
+
+  // let ceriseClubAccess;
+  // if (slab) {
+  //     ceriseClubAccess = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "ff10" || slab.toLowerCase() == "ff15" || slab.toLowerCase() == "cerise sitara";
+  // }
   const { pathname } = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -73,7 +157,6 @@ const MyAccount: React.FC<Props> = props => {
   };
 
   useEffect(() => {
-    bridalId = CookieService.getCookie("bridalId");
     const noContentContainerElem = document.getElementById(
       "no-content"
     ) as HTMLDivElement;
@@ -141,6 +224,13 @@ const MyAccount: React.FC<Props> = props => {
       loggedInOnly: true
     });
   accountMenuItems.push(
+    {
+      label: "Good Earth Registry",
+      href: "/account/bridal",
+      component: Bridal,
+      title: "bridal",
+      loggedInOnly: true
+    },
     {
       label: "Activate Gift Card",
       href: "/account/giftcard-activation",
@@ -211,7 +301,7 @@ const MyAccount: React.FC<Props> = props => {
                 >
                   <span>
                     {path == "/account/bridal"
-                      ? bridalId == "0"
+                      ? bridalId == 0
                         ? "Create a Registry"
                         : "Manage Registry"
                       : path == "/account/giftcard-activation"
@@ -231,7 +321,7 @@ const MyAccount: React.FC<Props> = props => {
                   <div className={styles.filterCross}>
                     <span>
                       {path == "/account/bridal"
-                        ? bridalId == "0"
+                        ? bridalId == 0
                           ? "Create a Registry"
                           : "Manage Registry"
                         : path == "/account/giftcard-activation"
@@ -317,7 +407,54 @@ const MyAccount: React.FC<Props> = props => {
                 {accountMenuItems
                   .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
                   .map(item => {
-                    return (
+                    return item.title == "bridal" ? (
+                      <li
+                        key={item.label}
+                        className={
+                          showRegistry
+                            ? styles.bridalleftsec
+                            : cs(styles.bridalleftsec, styles.bridalplus)
+                        }
+                      >
+                        <span
+                          onClick={() => setShowRegistry(!showRegistry)}
+                          className={
+                            showRegistry && currentSection == "bridal"
+                              ? globalStyles.cerise
+                              : ""
+                          }
+                        >
+                          Good Earth Registry{" "}
+                        </span>
+                        {showRegistry ? (
+                          <ul>
+                            <li key="create-manage-bridal">
+                              <NavLink
+                                // name="bridal"
+
+                                to={item.href}
+                                activeClassName={globalStyles.cerise}
+                                // className={showregistry && currentSection == "bridal" ? "cerise":""}
+                              >
+                                {bridalId == 0
+                                  ? "Create a Registry"
+                                  : "Manage Registry"}
+                              </NavLink>
+                            </li>
+                            <li key="bridal-terms">
+                              <NavLink
+                                to="/customer-assistance/terms-conditions?id=bridalregistryterms"
+                                target="_blank"
+                              >
+                                Good Earth Registry Policy
+                              </NavLink>
+                            </li>
+                          </ul>
+                        ) : (
+                          ""
+                        )}
+                      </li>
+                    ) : (
                       <li key={item.label}>
                         {" "}
                         <NavLink
@@ -391,12 +528,26 @@ const MyAccount: React.FC<Props> = props => {
                               { [styles.accountFormBgMobile]: mobile }
                             )}
                           >
-                            <Component
-                              setCurrentSection={() => setCurrentSection(title)}
-                              currentCallBackComponent={
-                                currentCallBackComponent
-                              }
-                            />
+                            {title.toLowerCase() == "bridal" ? (
+                              <Component
+                                setCurrentSection={() =>
+                                  setCurrentSection(title)
+                                }
+                                currentCallBackComponent={
+                                  currentCallBackComponent
+                                }
+                                bridalId={bridalId}
+                              />
+                            ) : (
+                              <Component
+                                setCurrentSection={() =>
+                                  setCurrentSection(title)
+                                }
+                                currentCallBackComponent={
+                                  currentCallBackComponent
+                                }
+                              />
+                            )}
                           </div>
                         </div>
                       </div>

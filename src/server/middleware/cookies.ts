@@ -23,13 +23,21 @@ export default async function cookies(
   }
 
   if (token) {
-    store.dispatch(
-      updateCookies({
-        tkn: token
-      })
-    );
-  }
-  if (sessionId) {
+    if (sessionId) {
+      store.dispatch(
+        updateCookies({
+          tkn: token,
+          sessionid: sessionId
+        })
+      );
+    } else {
+      store.dispatch(
+        updateCookies({
+          tkn: token
+        })
+      );
+    }
+  } else if (sessionId) {
     store.dispatch(
       updateCookies({
         sessionid: sessionId

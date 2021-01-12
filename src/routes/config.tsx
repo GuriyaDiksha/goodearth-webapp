@@ -13,6 +13,7 @@ import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
+import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
 
 const paths: string[] = [];
@@ -199,6 +200,12 @@ const routes: RouteConfig = [
     path: ROUTES.HOME,
     component: loadable(() => import("containers/home")),
     action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.BRIDALPUBLIC,
+    component: loadable(() => import("containers/bridal")),
+    action: initActionBridal,
     exact: true
   }
 ];

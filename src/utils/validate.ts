@@ -1,6 +1,9 @@
 import { Currency } from "typings/currency";
 import { Basket } from "typings/basket";
 import CookieService from "../services/cookie";
+import { Dispatch } from "redux";
+import { showMessage } from "actions/growlMessage";
+import { ReactElement } from "react";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -43,11 +46,10 @@ export function getIsdfromnumber(data: any) {
   }
 }
 
-export function myPpup(e: Event) {
+export function confirmPopup(e: Event) {
   "use strict";
   e.preventDefault();
   e.returnValue = false;
-  // return "Hey, you're leaving the site. Bye!";
 }
 
 export function getPhnumber(data: any) {
@@ -127,6 +129,27 @@ export function removeFroala(timeout = 500) {
       pbf.setAttribute("style", style);
     }
   }, timeout);
+}
+
+export function scrollToId() {
+  setTimeout(() => {
+    const { hash, search } = location;
+    const id = search ? search.replace("?id=", "") : hash.replace("#", "");
+
+    if (id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView();
+        const headerHeight = 50;
+        const secondaryHeaderHeight = 48;
+        const announcementBarHeight = 30;
+        window.scrollBy(
+          0,
+          -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
+        );
+      }
+    }
+  }, 1000);
 }
 
 export function productImpression(
@@ -614,3 +637,18 @@ export function getErrorList(
       .filter(error => error) as string[];
   }
 }
+
+const getUniqueId = () => {
+  return Math.floor((1 + Math.random()) * 0x1000)
+    .toString(16)
+    .substring(1);
+};
+export const showGrowlMessage = (
+  dispatch: Dispatch,
+  text: string | (string | JSX.Element)[] | ReactElement,
+  timeout = 3000,
+  id?: string
+) => {
+  const newId = id ? id : getUniqueId();
+  dispatch(showMessage(text, timeout, newId));
+};
