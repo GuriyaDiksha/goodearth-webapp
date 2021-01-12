@@ -565,6 +565,33 @@
 }
 
 @media screen and (max-width: 992px) {
+  .bridal-icons {
+    ul {
+      &.icons {
+        li {
+          height: 120px;
+          width: 120px;
+
+          img {
+            width: 80px;
+          }
+          ~ li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+    ul {
+      &.txt {
+        li {
+          width: 120px;
+          ~ li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
   .bridal-block {
     .lane2 {
       position: absolute;
