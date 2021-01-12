@@ -12,6 +12,7 @@ import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useStore } from "react-redux";
+import bridalRing from "../../images/bridal/rings.svg";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -105,7 +106,21 @@ const LineItems: React.FC<BasketItem> = memo(
       >
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
-            <div className={styles.cartRing}></div>
+            <div className={styles.cartRing}>
+              {bridalProfile && (
+                <svg
+                  viewBox="-5 -5 50 50"
+                  width="40"
+                  height="40"
+                  preserveAspectRatio="xMidYMid meet"
+                  x="0"
+                  y="0"
+                  className={styles.ceriseBridalRings}
+                >
+                  <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                </svg>
+              )}
+            </div>
             <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
               <img
                 className={styles.productImage}
@@ -217,28 +232,30 @@ const LineItems: React.FC<BasketItem> = memo(
                   ""
                 )}
               </div>
-              <div
-                className={cs(
-                  bootstrap.col2,
-                  globalStyles.textCenter,
-                  styles.wishlistDisplay
-                )}
-              >
-                <WishlistButton
-                  gtmListType="MiniBag"
-                  title={product.title}
-                  childAttributes={product.childAttributes}
-                  priceRecords={product.priceRecords}
-                  discountedPriceRecords={product.discountedPriceRecords}
-                  categories={product.categories}
-                  basketLineId={id}
-                  size={size}
-                  id={product.id}
-                  showText={false}
-                  className="wishlist-font"
-                  inWishlist={inWishlist}
-                />
-              </div>
+              {!bridalProfile && (
+                <div
+                  className={cs(
+                    bootstrap.col2,
+                    globalStyles.textCenter,
+                    styles.wishlistDisplay
+                  )}
+                >
+                  <WishlistButton
+                    gtmListType="MiniBag"
+                    title={product.title}
+                    childAttributes={product.childAttributes}
+                    priceRecords={product.priceRecords}
+                    discountedPriceRecords={product.discountedPriceRecords}
+                    categories={product.categories}
+                    basketLineId={id}
+                    size={size}
+                    id={product.id}
+                    showText={false}
+                    className="wishlist-font"
+                    inWishlist={inWishlist}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

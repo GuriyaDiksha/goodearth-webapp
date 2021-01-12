@@ -24,8 +24,9 @@ const BaseLayout: React.FC = () => {
   const { pathname } = location;
   const dispatch = useDispatch();
   const {
-    currency
+    currency,
     // device: { mobile }
+    header: { announcementData }
   } = useSelector((state: AppState) => state);
   // const isSuspended = true;
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
@@ -143,7 +144,9 @@ const BaseLayout: React.FC = () => {
     if (
       !currencyPopup &&
       !boId &&
-      !location.pathname.includes("/order/orderconfirmation/")
+      !location.pathname.includes("/order/orderconfirmation/") &&
+      !location.pathname.includes("/bridal/") &&
+      !announcementData.isBridalActive
     ) {
       dispatch(updateComponent(<CurrencyPopup />, true));
       dispatch(updateModal(true));

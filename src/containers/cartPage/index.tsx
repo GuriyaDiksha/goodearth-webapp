@@ -14,10 +14,10 @@ import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
-import { showMessage } from "actions/growlMessage";
 import BasketService from "services/basket";
 import { ProductID } from "typings/id";
 import { updateModal } from "actions/modal";
+import * as util from "../../utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -32,7 +32,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     showNotify: (message: string) => {
-      dispatch(showMessage(message, 6000));
+      util.showGrowlMessage(dispatch, message, 6000);
     },
     undoMoveToWishlist: async () => {
       const res = await WishlistService.undoMoveToWishlist(dispatch);

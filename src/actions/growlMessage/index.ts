@@ -1,10 +1,16 @@
 import { ReactElement } from "react";
 import { actionCreator } from "utils/actionCreator";
 
-export const showMessage = (text: string | ReactElement, timeout?: number) =>
+export const showMessage = (
+  text: string | (string | JSX.Element)[] | ReactElement,
+  timeout: number,
+  id: string
+) =>
   actionCreator("SHOW_MESSAGE", {
     text,
-    timeout
+    timeout,
+    id
   });
 
-export const hideMessage = () => actionCreator("HIDE_MESSAGE", {});
+export const hideMessage = (id: string) =>
+  actionCreator("HIDE_MESSAGE", { id });
