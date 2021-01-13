@@ -518,7 +518,8 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.col3,
                     bootstrap.colLg2,
-                    styles.hamburger
+                    styles.hamburger,
+                    { [globalStyles.cerise]: mobile }
                   )}
                 >
                   <i
@@ -613,12 +614,14 @@ class Header extends React.Component<Props, State> {
                               ? cs(
                                   iconStyles.icon,
                                   iconStyles.iconCrossNarrowBig,
-                                  styles.iconStyleCross
+                                  styles.iconStyleCross,
+                                  { [globalStyles.cerise]: mobile }
                                 )
                               : cs(
                                   iconStyles.icon,
                                   iconStyles.iconSearch,
-                                  styles.iconStyle
+                                  styles.iconStyle,
+                                  { [globalStyles.cerise]: mobile }
                                 )
                           }
                         ></i>
@@ -632,10 +635,17 @@ class Header extends React.Component<Props, State> {
                             className={cs(
                               iconStyles.icon,
                               iconStyles.iconCart,
-                              styles.iconStyle
+                              styles.iconStyle,
+                              { [globalStyles.cerise]: mobile }
                             )}
                           ></i>
-                          <span className={styles.badge}>{bagCount}</span>
+                          <span
+                            className={cs(styles.badge, {
+                              [globalStyles.cerise]: mobile
+                            })}
+                          >
+                            {bagCount}
+                          </span>
                         </div>
                       </li>
                     )}
