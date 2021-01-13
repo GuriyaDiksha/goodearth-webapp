@@ -517,7 +517,7 @@ class Header extends React.Component<Props, State> {
                 <div
                   className={cs(
                     bootstrap.col3,
-                    bootstrap.colMd2,
+                    bootstrap.colLg2,
                     styles.hamburger
                   )}
                 >
@@ -557,7 +557,7 @@ class Header extends React.Component<Props, State> {
               )}
               <div
                 className={cs(
-                  bootstrap.colMd2,
+                  bootstrap.colLg2,
                   bootstrap.col6,
                   styles.logoContainer
                 )}
@@ -571,9 +571,9 @@ class Header extends React.Component<Props, State> {
               ) : (
                 <div
                   className={cs(
-                    bootstrap.colMd6,
+                    bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetMd1
+                    bootstrap.offsetLg1
                   )}
                 >
                   <MainMenu
@@ -590,7 +590,7 @@ class Header extends React.Component<Props, State> {
                   />
                 </div>
               )}
-              <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
+              <div className={cs(bootstrap.colLg3, bootstrap.col3)}>
                 {!mobile && (
                   <SideMenu
                     showBag={this.state.showBag}
