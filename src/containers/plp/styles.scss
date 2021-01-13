@@ -738,10 +738,16 @@ p.corporate-sub-heading {
   }
   i {
     display: inline-block;
-    font-size: 24px;
+    font-size: 22px;
     margin-left: 20px;
+    color: gray;
     &.active {
       color: $cerise;
     }
   }
+}
+.list-view-container {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
 }

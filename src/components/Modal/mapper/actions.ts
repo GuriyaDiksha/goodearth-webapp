@@ -6,8 +6,12 @@ import { updatePlpMobileView } from "actions/plp";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
-    updateComponentModal: (component: ReactNode, fullscreen?: boolean) => {
-      dispatch(updateComponent(component, fullscreen));
+    updateComponentModal: (
+      component: ReactNode,
+      fullscreen?: boolean,
+      bodyClass?: string
+    ) => {
+      dispatch(updateComponent(component, fullscreen, bodyClass));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
