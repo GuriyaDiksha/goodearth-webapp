@@ -78,8 +78,8 @@ const Section4: React.FC<Section4Props> = props => {
           <div
             className={cs(
               bootstrapStyles.col12,
-              bootstrapStyles.colMd4,
-              bootstrapStyles.offsetMd4,
+              bootstrapStyles.colLg4,
+              bootstrapStyles.offsetLg4,
               globalStyles.textCenter,
               styles.formBg,
               globalStyles.voffset3
