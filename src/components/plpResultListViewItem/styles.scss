@@ -1,0 +1,233 @@
+
+
+@import "../../styles/partials/variables";
+.image-boxnew {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.image-content {
+    text-align: center;
+    height: 160px;
+    margin-top: 15px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-resultnew{
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.plpMain{
+    .combodiv{
+        display: flex;
+    }
+    .product-size-list{
+        display: flex;
+    }
+}
+
+.hidden{
+    display: none !important;
+}
+.combodiv {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    background: rgba(255,255,255,0.8);
+    min-height: 40px;
+    line-height: 20px;
+    cursor: pointer;
+    p{
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #ab1e56;
+        font-family: $font-Lato;
+        letter-spacing: 2px;
+        padding-top: 10px;
+    }
+    .image-hover {
+        text-align: center;
+        width: 50%;
+    }
+    .image-hover-corporate {
+        text-align: center;
+        width: 100%;
+    }
+    .image-hover:nth-last-child(1) {
+        border-left: 1px solid gray;
+    }
+
+    .wishlist {
+        color: gray ;
+        font-size: 30px ;
+    }
+    i:hover{
+        color: #ab1e56;
+    }
+
+}
+
+.collection-name{
+    font-size: 12px;
+    font-family: $font-Serif;
+    color: gray;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media screen and (max-width: 992px){
+    .image-content {
+        padding: 0 10px;
+        margin-top: 10px;
+        // height: 134px;
+    }
+}
+
+.product-n{
+    margin: 5px 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    a {
+        font-size: 14px;
+        font-family: $font-Lato;
+        color: #000;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+    }
+    span {
+        font-size: 14px;
+        font-family: $font-Lato;
+        color: #000;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+    }
+    .discountprice {
+        color: #ab1e56;
+        font-family:  $font-Lato;
+        font-size: 16px;
+    }
+    
+    .strikeprice {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: gray;
+        font-family: $font-Lato;
+    }
+    a:hover {
+        color: #ab1e56;
+        text-decoration: none;
+    }
+}
+.product-size {
+    font-family: $font-Lato;
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #b3b3b3;
+    letter-spacing: 2px;
+    line-height: 25px;
+    justify-content: center;
+    padding-right: 10px;
+}
+
+.product-size-list {
+    display: flex;
+    justify-content: center;
+    &.product-size-list-mobile {
+        display: flex;
+    }
+    ul {
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        padding: 0 5px;
+        text-align: center;
+        li {
+            display: inline;
+            padding: 0 10px;
+            color: #ab1e56;
+            font-size: 12px;
+            line-height: 25px;
+            &.disabled {
+                text-decoration: line-through;
+                color: tint(#000, 70%);
+              }
+        }
+    }
+}
+.outstock {
+    background: url('../../images/outofstock-cta.svg') no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #ab1e56;
+    font-family: "HeaderFont","Trebuchet MS","geneva";
+    letter-spacing: 1px;
+    opacity: .8;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    line-height: 40px;
+    a {
+        font-size: 14px;
+    }
+}
+
+.badge-image{
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    left: 6px;
+    img {
+        width: 100%;
+    }
+}
+
+.new-badge-image{
+    width: 30%;
+    position: absolute;
+    top: 5px;
+    z-index: 4;
+    right: 6px;
+    img {
+        width: 100%;
+    }
+}
+
+.mobile-badge{
+    img {
+        width: 60%;
+    }
+}
+
+.actions {
+    margin: 5px 0;
+    .add-to-bag-list-view {
+        background-color: white;
+        color: $cerise;
+        border: 1px solid $cerise;
+        height: 38px;
+        line-height: 36px;
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 12px;
+    }
+}
