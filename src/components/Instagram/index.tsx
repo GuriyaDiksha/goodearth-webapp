@@ -26,21 +26,22 @@ const Instagram: React.FC<InstaProps> = Props => {
   // });
   useLayoutEffect(() => {
     fetch(
-      "https://graph.instagram.com/17841400218133714/media?fields=media_url&access_token=IGQVJVbnFjN0dyTjY1VHVBNTE3LUFiMDN4S2JScF90SVkwVmtmSlNhWUlraVFLLUs1RzF2MDQtWHhIdGdzS1JBaXZAiTEhUZAFY2SjZALV1lDYWt2ckJkOTJoaEVfTG9JdHpaX3RMUG1CM3NVTnl4dFNHRQZDZD",
+      "https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=IGQVJVNHVQSUE1UEhhR0lqVVJzckRRaGZAWYUV6NTBaSWU5dTRMQ19JOXB6eVBGM0k0OW1CM1MycGpNN2h2SVRHRmRzUGNxU1RmcVJwdENEUW1RNk05TUJXc3F3OVROMnlRRkFweDFhRlptdHlpQkYyVwZDZD",
       {
         method: "get"
       }
     )
       .then(res => res.json())
       .then(json => {
-        // debugger
-        setInstData([]);
-        // this.setState({instData: json.data || []});
+        const imageData = json.data.filter((temp: any) => {
+          return temp.media_type == "IMAGE";
+        });
+        setInstData(imageData);
       })
       .catch(function(err) {
         console.log(err);
       });
-  });
+  }, []);
   const settings = {
     infinite: true,
     speed: 500,
@@ -70,7 +71,7 @@ const Instagram: React.FC<InstaProps> = Props => {
             <div>
               <a href={data.link} target="_blank" rel="noopener noreferrer">
                 <img
-                  src={data.images.thumbnail.url}
+                  src={data.media_url}
                   className={globalStyles.imgResponsive}
                 />{" "}
               </a>
