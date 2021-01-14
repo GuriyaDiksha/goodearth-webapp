@@ -29,7 +29,8 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   childAttributes: [],
   images: [],
   plpImages: [],
-  productClass: ""
+  productClass: "",
+  sliderImages: []
 };
 
 export const product = (

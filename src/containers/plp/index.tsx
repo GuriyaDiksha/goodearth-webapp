@@ -164,7 +164,7 @@ class PLP extends React.Component<
       discount,
       badgeType
     } = product;
-    const selectedIndex = undefined;
+    const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
       updateComponentModal,
       changeModalState,
@@ -183,7 +183,7 @@ class PLP extends React.Component<
     category = category.replace(/>/g, "/");
     updateComponentModal(
       <NotifyMePopup
-        collection={collections.length > 0 ? collections[0] : ""}
+        collection={collections && collections.length > 0 ? collections[0] : ""}
         category={category}
         price={priceRecords[currency]}
         currency={currency}
@@ -411,7 +411,7 @@ class PLP extends React.Component<
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
-              { [globalStyles.paddTop70]: !this.state.showmobileSort },
+              { [globalStyles.paddTop20]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
@@ -527,11 +527,16 @@ class PLP extends React.Component<
                     );
                   })}
               <div
-                className={cs(
-                  bootstrap.colMd4,
-                  bootstrap.col6,
-                  styles.setWidth
-                )}
+                className={
+                  !mobile || this.props.plpMobileView == "grid"
+                    ? cs(bootstrap.colMd4, bootstrap.col6, styles.setWidth)
+                    : cs(
+                        bootstrap.colLg4,
+                        bootstrap.col12,
+                        styles.setWidth,
+                        styles.listViewContainer
+                      )
+                }
                 key={1}
               >
                 {this.state.corporoateGifting ? "" : <GiftcardItem />}

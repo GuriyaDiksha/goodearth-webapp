@@ -59,7 +59,7 @@
 }
 @media screen and (max-width: 992px) {
   .page-body{
-    margin-top: $header-height;
+    margin-top: $header-height + $grid-view-bar;
   }
   .imageContainerMobile {
     margin-left: 0;
