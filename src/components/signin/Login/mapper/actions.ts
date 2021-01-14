@@ -1,3 +1,4 @@
+import { updateNextUrl } from "actions/info";
 import { Dispatch } from "redux";
 import LoginService from "services/login";
 
@@ -26,6 +27,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     login: (email: string, password: string, source?: string) => {
       return LoginService.login(dispatch, email, password, source);
+    },
+    resetNextUrl: () => {
+      dispatch(updateNextUrl(""));
     }
   };
 };

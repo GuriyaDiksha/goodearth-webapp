@@ -21,9 +21,9 @@ import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
-import { showMessage } from "actions/growlMessage";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
+import * as util from "../../utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -49,10 +49,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch, "checkout");
-        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+        util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
         BasketService.fetchBasket(dispatch, "cart");
-        dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+        util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
       }
     },
     updateMeta: (
@@ -107,7 +107,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
   }
 
   render() {
-    const { message, meta, mobile, currency } = this.props;
+    const { meta, mobile, currency } = this.props;
     const items: DropdownItem[] = [
       {
         label: "INR" + " " + String.fromCharCode(...currencyCode["INR"]),
@@ -274,7 +274,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
             </div>
           </div>
         </div>
-        <GrowlMessage {...message} />
+        <GrowlMessage />
       </div>
     );
   }

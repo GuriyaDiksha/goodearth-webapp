@@ -14,7 +14,6 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
-import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import * as valid from "utils/validate";
 import Button from "./button";
@@ -83,7 +82,7 @@ const Section2: React.FC<Section2Props> = ({
   const reloadPage = (cookies: Cookies) => {
     MetaService.updateMeta(dispatch, cookies);
     BasketService.fetchBasket(dispatch);
-    dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+    valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
   };
 
   const changeCurrency = (newCurrency: Currency) => {
@@ -266,8 +265,8 @@ const Section2: React.FC<Section2Props> = ({
               className={cs(
                 bootstrapStyles.col10,
                 bootstrapStyles.offset1,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.textCenter,
                 styles.dropDiv2
               )}
@@ -348,8 +347,8 @@ const Section2: React.FC<Section2Props> = ({
               className={cs(
                 bootstrapStyles.col10,
                 bootstrapStyles.offset1,
-                bootstrapStyles.colMd2,
-                bootstrapStyles.offsetMd5,
+                bootstrapStyles.colLg2,
+                bootstrapStyles.offsetLg5,
                 globalStyles.voffset3
               )}
             >
@@ -384,8 +383,8 @@ const Section2: React.FC<Section2Props> = ({
               className={cs(
                 bootstrapStyles.col10,
                 bootstrapStyles.offset1,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.voffset2
               )}
             >

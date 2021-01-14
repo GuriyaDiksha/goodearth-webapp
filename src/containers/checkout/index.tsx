@@ -27,11 +27,15 @@ import { Cookies } from "typings/cookies";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { User } from "typings/user";
-import { showMessage } from "actions/growlMessage";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import {
+  CURRENCY_CHANGED_SUCCESS,
+  REGISTRY_MIXED_SHIPPING,
+  REGISTRY_OWNER_CHECKOUT
+} from "constants/messages";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import InfoPopup from "components/Popups/InfoPopup";
+import { Basket } from "typings/basket";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -43,7 +47,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     cookies: state.cookies,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    bridalId: state.user.bridalId
   };
 };
 
@@ -51,16 +56,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     // create function for dispatch
     showNotify: (message: string) => {
-      dispatch(showMessage(message, 6000));
+      valid.showGrowlMessage(dispatch, message, 6000);
     },
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
-      user: User
+      user: User,
+      isBridal = false
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
-        shippingAddressId
+        shippingAddressId,
+        isBridal
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
@@ -81,11 +88,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       return data;
     },
+    fetchAddressBridal: async () => {
+      const addressList = await AddressService.fetchAddressList(dispatch);
+      dispatch(updateAddressList(addressList));
+      return addressList;
+    },
     reloadPage: (cookies: Cookies) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch, "checkout");
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -139,7 +151,6 @@ type State = {
   pancardNo: string;
   gstNo: string;
   gstType: string;
-  bridalId: string;
   unpublish: boolean;
   isLoading: boolean;
   id: string;
@@ -176,7 +187,6 @@ class Checkout extends React.Component<Props, State> {
       pancardNo: "",
       gstNo: "",
       gstType: "",
-      bridalId: "",
       unpublish: false,
       isLoading: false,
       id: "",
@@ -199,10 +209,21 @@ class Checkout extends React.Component<Props, State> {
     //     showInfoPopup: 'show'
     // })
   }
+
+  checkToMessage(basket: Basket) {
+    let item1 = false,
+      item2 = false;
+
+    basket.lineItems.map(data => {
+      if (!data.bridalProfile) item1 = true;
+      if (data.bridalProfile) item2 = true;
+    });
+    return item1 && item2;
+  }
   componentDidMount() {
-    const bridalId = CookieService.getCookie("bridalId");
-    const gaKey = CookieService.getCookie("_ga");
-    this.setState({ bridalId, gaKey });
+    // const bridalId = CookieService.getCookie("bridalId");
+    // const gaKey = CookieService.getCookie("_ga");
+    // this.setState({ bridalId, gaKey });
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -287,7 +308,18 @@ class Checkout extends React.Component<Props, State> {
       chatButtonElem.style.bottom = "10px";
     }
 
-    this.props.fetchBasket().then(() => {
+    this.props.fetchBasket().then(res => {
+      let basketBridalId = 0;
+      res.lineItems.map(item =>
+        item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+      );
+      if (basketBridalId && basketBridalId == this.props.bridalId) {
+        this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
+      }
+      if (this.checkToMessage(res)) {
+        this.props.showNotify(REGISTRY_MIXED_SHIPPING);
+      }
+
       dataLayer.push({
         event: "checkout",
         ecommerce: {
@@ -343,6 +375,7 @@ class Checkout extends React.Component<Props, State> {
         shippingData?.id !== this.state.shippingAddress?.id
       ) {
         this.setState({
+          shippingAddress: shippingData || undefined,
           activeStep: Steps.STEP_BILLING
         });
       }
@@ -350,7 +383,8 @@ class Checkout extends React.Component<Props, State> {
       if (!shippingData) {
         this.setState({
           activeStep: Steps.STEP_SHIPPING,
-          billingAddress: undefined
+          billingAddress: undefined,
+          shippingAddress: undefined
         });
       }
       if (shippingData !== this.state.shippingAddress) {
@@ -365,9 +399,13 @@ class Checkout extends React.Component<Props, State> {
       ) {
         this.setState({ isGoodearthShipping: true });
       }
+      if (!nextProps.basket.bridal && this.props.basket.bridal) {
+        this.props.fetchAddressBridal();
+      }
     } else {
       this.setState({
-        activeStep: Steps.STEP_LOGIN
+        activeStep: Steps.STEP_LOGIN,
+        shippingAddress: nextProps.user.shippingData || undefined
       });
     }
   }
@@ -476,8 +514,9 @@ class Checkout extends React.Component<Props, State> {
       // data.append("country", path + address.country + "/");
       // }
 
+      const { bridal } = this.props.basket;
       this.props
-        .specifyShippingAddress(address.id, address, this.props.user)
+        .specifyShippingAddress(address.id, address, this.props.user, bridal)
         .then(data => {
           if (data.status) {
             const isGoodearthShipping = address.isTulsi

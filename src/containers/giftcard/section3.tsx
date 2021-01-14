@@ -129,8 +129,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
             <div
               className={cs(
                 bootstrapStyles.col12,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.textCenter,
                 styles.formBg
               )}
@@ -195,7 +195,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                 <div>
                   <FormTextArea
                     placeholder=""
-                    maxLength={120}
+                    maxLength={250}
                     name="message"
                     rows={5}
                     value={data["message"]}
@@ -217,7 +217,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                   ></FormTextArea>
                   <div className={globalStyles.textLeft}>
                     Character Limit:{" "}
-                    {120 - (textarea.trim() == "" ? 0 : textarea.length)}
+                    {250 - (textarea.trim() == "" ? 0 : textarea.length)}
                   </div>
                   {/* {emsg ? (
                     <p className={globalStyles.errorMsg}>
@@ -245,8 +245,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
             <div
               className={cs(
                 bootstrapStyles.col12,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.textCenter,
                 styles.buttonBg
               )}
