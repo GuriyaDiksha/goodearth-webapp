@@ -23,6 +23,7 @@ export interface PLPProductItem {
   productClass: string;
   inStock?: boolean;
   childAttributes?: PartialChildProductAttributes[] | ChildProductAttributes[];
+  sliderImages: ProductImage[];
 }
 
 export interface PartialProductItem extends PLPProductItem {

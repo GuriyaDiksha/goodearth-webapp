@@ -1,6 +1,7 @@
-import React, { EventHandler, MouseEvent, useMemo, useState } from "react";
+import React, { EventHandler, MouseEvent, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PLPResultItemProps } from "./typings";
+import "./slick.css";
 import styles from "./styles.scss";
 import { Currency, currencyCode } from "../../typings/currency";
 import cs from "classnames";
@@ -13,6 +14,8 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import * as valid from "utils/validate";
+import Button from "components/Button";
+import MobileSlider from "components/MobileSlider";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -32,7 +35,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
-  const [primaryimage, setPrimaryimage] = useState(true);
+  // const [primaryimage, setPrimaryimage] = useState(true);
   const { info } = useSelector((state: AppState) => state);
 
   let allOutOfStock = true;
@@ -41,9 +44,9 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       allOutOfStock = false;
     }
   });
-  const onMouseEnter = (): void => {
-    product.plpImages?.[1] ? setPrimaryimage(false) : "";
-  };
+  // const onMouseEnter = (): void => {
+  //   product.plpImages?.[1] ? setPrimaryimage(false) : "";
+  // };
   const attribute: any = product.childAttributes || [];
   const totalStock = attribute.reduce(function(total: any, num: any) {
     return total + +num.stock;
@@ -52,9 +55,9 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     attribute.filter(function(item: any) {
       return item.size;
     }).length > 0;
-  const onMouseLeave = (): void => {
-    product.plpImages?.[1] ? setPrimaryimage(true) : "";
-  };
+  // const onMouseLeave = (): void => {
+  //   product.plpImages?.[1] ? setPrimaryimage(true) : "";
+  // };
 
   const onClickQuickview = (): void => {
     onClickQuickView ? onClickQuickView(product.id) : "";
@@ -77,26 +80,37 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       action = () => notifyMeClick(product);
     }
     return (
-      <div
+      <Button
         className={cs(
           styles.addToBagListView,
           bootstrapStyles.col6,
           bootstrapStyles.offset3
         )}
         onClick={action}
-      >
-        {buttonText}
-      </div>
+        label={buttonText}
+      />
     );
   }, []);
-  const image = primaryimage
-    ? product.plpImages
-      ? product.plpImages[0]
-      : ""
-    : product.plpImages
-    ? product.plpImages[1]
-    : "";
   const isStockAvailable = isCorporate || product.inStock;
+
+  const mobileSlides =
+    mobile &&
+    product.sliderImages.map(({ id, productImage }, i: number) => {
+      return (
+        <div key={id} className={globalStyles.relative}>
+          <LazyImage
+            aspectRatio="62:93"
+            src={productImage.replace("/Micro/", "/Medium/")}
+            isVisible={isVisible}
+            className={globalStyles.imgResponsive}
+            onError={(e: any) => {
+              e.target.onerror = null;
+              e.target.src = noPlpImage;
+            }}
+          />
+        </div>
+      );
+    });
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
@@ -109,26 +123,9 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           <img src={product.justAddedBadge} />
         </div>
       )}
-      <div
-        className={styles.imageBoxnew}
-        id={"" + product.id}
-        onMouseLeave={onMouseLeave}
-      >
-        <Link
-          to={product.url}
-          onMouseEnter={onMouseEnter}
-          onClick={gtmProductClick}
-        >
-          <LazyImage
-            aspectRatio="62:93"
-            src={image}
-            className={styles.imageResultnew}
-            isVisible={isVisible}
-            onError={(e: any) => {
-              e.target.onerror = null;
-              e.target.src = noPlpImage;
-            }}
-          />
+      <div className={styles.imageBoxnew} id={"" + product.id}>
+        <Link to={product.url} onClick={gtmProductClick}>
+          <MobileSlider>{mobileSlides}</MobileSlider>
         </Link>
         <div
           className={cs(

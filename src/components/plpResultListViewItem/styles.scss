@@ -10,7 +10,7 @@
 }
 .image-content {
     text-align: center;
-    height: 160px;
+    // height: 160px;
     margin-top: 15px;
     width: 100%;
     white-space: nowrap;
@@ -221,13 +221,6 @@
 .actions {
     margin: 5px 0;
     .add-to-bag-list-view {
-        background-color: white;
-        color: $cerise;
-        border: 1px solid $cerise;
-        height: 38px;
-        line-height: 36px;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 12px;
+        line-height: 38px;
     }
 }
