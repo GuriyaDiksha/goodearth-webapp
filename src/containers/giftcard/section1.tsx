@@ -87,8 +87,8 @@ const Section1: React.FC<Section1Props> = props => {
                 className={cs(
                   bootstrapStyles.col10,
                   bootstrapStyles.offset1,
-                  bootstrapStyles.colMd8,
-                  bootstrapStyles.offsetMd2,
+                  bootstrapStyles.colLg8,
+                  bootstrapStyles.offsetLg2,
                   globalStyles.textCenter,
                   globalStyles.paddTop40
                 )}
@@ -100,7 +100,7 @@ const Section1: React.FC<Section1Props> = props => {
                         key={i}
                         className={cs(
                           bootstrapStyles.col12,
-                          bootstrapStyles.colMd4
+                          bootstrapStyles.colLg4
                         )}
                         onClick={() => {
                           selectImage(i);

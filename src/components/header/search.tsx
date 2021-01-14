@@ -192,7 +192,9 @@ class Search extends React.Component<Props, State> {
   checkSearchValue = (event: any) => {
     if (event.target.value.length > 2) {
       if (event.keyCode == 13) {
-        this.props.history.push(this.state.url);
+        this.props.history.push(
+          "/search?q=" + encodeURIComponent(event.target.value)
+        );
         this.closeSearch();
         return false;
       }

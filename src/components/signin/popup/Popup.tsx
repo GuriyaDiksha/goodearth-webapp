@@ -6,14 +6,20 @@ import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import geLogo from "../../../images/gelogoCerise.svg";
 import { Context } from "components/Modal/context.ts";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { updateNextUrl } from "actions/info";
 
 const Popup: React.FC<{ disableClose?: boolean }> = ({
   disableClose,
   children
 }) => {
-  const closePopup = useContext(Context).closeModal;
+  const dispatch = useDispatch();
+  const close = useContext(Context).closeModal;
+  const closePopup = () => {
+    dispatch(updateNextUrl(""));
+    close();
+  };
   const { popupBgUrl } = useSelector((state: AppState) => state.info);
   return (
     <div className={cs(bootstrapStyles.row, styles.row, styles.centerpage)}>

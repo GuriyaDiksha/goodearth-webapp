@@ -24,6 +24,7 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
 // import { updateCountryData } from "actions/address";
 import * as valid from "utils/validate";
+import BridalContext from "containers/myAccount/components/Bridal/context";
 
 type Props = {
   addressData?: AddressData;
@@ -69,6 +70,8 @@ const AddressForm: React.FC<Props> = props => {
   const { countryData, pinCodeData, addressList } = useSelector(
     (state: AppState) => state.address
   );
+
+  const { setBridalAddress, bridalProfile } = useContext(BridalContext);
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
 
@@ -454,7 +457,15 @@ const AddressForm: React.FC<Props> = props => {
     };
     if (mode == "new") {
       AddressService.addNewAddress(dispatch, formData)
-        .then(() => {
+        .then(addressList => {
+          if (currentCallBackComponent == "bridal-edit") {
+            const bridalAddress = addressList.filter(
+              address => address.id == bridalProfile?.userAddressId
+            )[0];
+            if (bridalAddress) {
+              setBridalAddress(bridalAddress);
+            }
+          }
           setIsLoading(false);
           closeAddressForm();
         })
@@ -474,7 +485,15 @@ const AddressForm: React.FC<Props> = props => {
     } else if (mode == "edit" && addressData) {
       const { id } = addressData;
       AddressService.updateAddress(dispatch, formData, id)
-        .then(() => {
+        .then(addressList => {
+          if (currentCallBackComponent == "bridal-edit") {
+            const bridalAddress = addressList.filter(
+              address => address.id == bridalProfile?.userAddressId
+            )[0];
+            if (bridalAddress) {
+              setBridalAddress(bridalAddress);
+            }
+          }
           setIsAddressChanged(false);
           setIsLoading(false);
           closeAddressForm();
@@ -1184,7 +1203,9 @@ const AddressForm: React.FC<Props> = props => {
         }
       )}
     >
-      {currentCallBackComponent == "account" && (
+      {(currentCallBackComponent == "account" ||
+        // currentCallBackComponent == "bridal" ||
+        currentCallBackComponent == "bridal-edit") && (
         <div className="back-btn-div">
           <div
             className={cs(
@@ -1542,22 +1563,24 @@ const AddressForm: React.FC<Props> = props => {
           </div>
         </div>
       </Formsy>
-      {(currentCallBackComponent !== "checkout-billing" &&
-        currentCallBackComponent !== "checkout-shipping") ||
-        (mobile && (
-          <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
-            <span
-              className={cs(
-                styles.backBtn,
-                globalStyles.ointer,
-                styles.formSubheading
-              )}
-              onClick={closeAddressForm}
-            >
-              &lt; back
-            </span>
-          </div>
-        ))}
+
+      {((currentCallBackComponent !== "checkout-billing" &&
+        currentCallBackComponent !== "checkout-shipping" &&
+        currentCallBackComponent !== "bridal") ||
+        mobile) && (
+        <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
+          <span
+            className={cs(
+              styles.backBtn,
+              globalStyles.ointer,
+              styles.formSubheading
+            )}
+            onClick={closeAddressForm}
+          >
+            &lt; back
+          </span>
+        </div>
+      )}
       {isLoggedIn &&
         !mobile &&
         (currentCallBackComponent == "checkout-billing" ||

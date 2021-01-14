@@ -219,7 +219,7 @@ class TrackOrder extends React.Component<Props, State> {
               <div>
                 <FormInput
                   name="orderNumber"
-                  placeholder={"Order Number"}
+                  placeholder={"Order Number*"}
                   label={"Order Number"}
                   value={this.state.orderNumber}
                   keyUp={e => {
@@ -271,7 +271,7 @@ class TrackOrder extends React.Component<Props, State> {
               </div>
               <div>
                 {this.state.showerror ? (
-                  <p className={globalStyles.errorMsg}>
+                  <p className={cs(globalStyles.errorMsg, styles.ctaError)}>
                     {this.state.showerror}
                   </p>
                 ) : (

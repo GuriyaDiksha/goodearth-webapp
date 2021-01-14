@@ -16,14 +16,19 @@ import * as valid from "utils/validate";
 import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
+import { RouteComponentProps, withRouter } from "react-router";
+import { AppState } from "reducers/typings";
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    nextUrl: state.info.nextUrl
+  };
 };
 
 type Props = loginProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 class LoginForm extends React.Component<Props, loginState> {
   constructor(props: Props) {
     super(props);
@@ -160,6 +165,8 @@ class LoginForm extends React.Component<Props, loginState> {
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
           this.gtmPushSignIn();
+          this.props.nextUrl && this.props.history.push(this.props.nextUrl);
+          this.props.resetNextUrl();
           window.scrollTo(0, 0);
         })
         .catch(err => {
@@ -455,4 +462,5 @@ class LoginForm extends React.Component<Props, loginState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+const LoginFormRoute = withRouter(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginFormRoute);

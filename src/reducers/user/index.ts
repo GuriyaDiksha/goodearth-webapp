@@ -6,6 +6,8 @@ export const initialState: State = {
   email: "",
   id: "",
   bridal: false,
+  bridalId: 0,
+  bridalCurrency: "INR",
   loyalityEligible: false,
   isLoggedIn: false,
   refresh: true,
