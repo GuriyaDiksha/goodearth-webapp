@@ -95,6 +95,7 @@ export default {
     dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch, source);
@@ -112,6 +113,7 @@ export default {
     dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch);
@@ -167,6 +169,7 @@ export default {
     dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch);

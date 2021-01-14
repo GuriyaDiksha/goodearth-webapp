@@ -25,7 +25,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
       };
       LoginService.loginSocial(dispatch, data)
         .then(res => {
-          closeModel();
+          // closeModel();
         })
         .catch(err => {
           console.log("Cant Login due to ankur sir !!!!!!");

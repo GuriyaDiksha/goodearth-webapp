@@ -160,7 +160,6 @@ class LoginForm extends React.Component<Props, loginState> {
         .login(this.state.email || "", this.state.password || "")
         .then(data => {
           this.gtmPushSignIn();
-          this.context.closeModal();
           window.scrollTo(0, 0);
         })
         .catch(err => {
