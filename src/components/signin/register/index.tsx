@@ -109,7 +109,6 @@ class RegisterForm extends React.Component<Props, registerState> {
           disableButton: false
         });
         this.gtmPushRegister();
-        this.context.closeModal();
         window.scrollTo(0, 0);
       })
       .catch(err => {
