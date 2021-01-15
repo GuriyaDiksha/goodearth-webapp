@@ -94,23 +94,33 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   const isStockAvailable = isCorporate || product.inStock;
 
   const mobileSlides =
-    mobile &&
-    product.sliderImages.map(({ id, productImage }, i: number) => {
-      return (
-        <div key={id} className={globalStyles.relative}>
-          <LazyImage
-            aspectRatio="62:93"
-            src={productImage.replace("/Micro/", "/Medium/")}
-            isVisible={isVisible}
-            className={globalStyles.imgResponsive}
-            onError={(e: any) => {
-              e.target.onerror = null;
-              e.target.src = noPlpImage;
-            }}
-          />
-        </div>
-      );
-    });
+    mobile && product.plpSliderImages
+      ? product.plpSliderImages.map((productImage, i: number) => {
+          return (
+            <div key={i} className={globalStyles.relative}>
+              <LazyImage
+                aspectRatio="62:93"
+                src={productImage.replace("/Micro/", "/Medium/")}
+                isVisible={isVisible}
+                className={globalStyles.imgResponsive}
+                onError={(e: any) => {
+                  e.target.onerror = null;
+                  e.target.src = noPlpImage;
+                }}
+              />
+            </div>
+          );
+        })
+      : [
+          <div key={"no-image"} className={globalStyles.relative}>
+            <LazyImage
+              aspectRatio="62:93"
+              src={noPlpImage}
+              isVisible={isVisible}
+              className={globalStyles.imgResponsive}
+            />
+          </div>
+        ];
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (

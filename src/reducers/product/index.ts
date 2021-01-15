@@ -30,7 +30,7 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   images: [],
   plpImages: [],
   productClass: "",
-  sliderImages: []
+  plpSliderImages: []
 };
 
 export const product = (
