@@ -273,7 +273,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                       <address>
                         <label>shipping address</label>
                         <p>
-                          {data.registrant_name}
+                          {data.registrantName}
                           &nbsp; & &nbsp;{data.coRegistrantName}
                           {"'s "}
                           {data.occasion} Registry
