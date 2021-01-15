@@ -50,7 +50,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
+export type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
 
@@ -96,7 +96,19 @@ class Header extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
+    const isBridalPublicPage =
+      this.props.location.pathname.includes("/bridal/") &&
+      !this.props.location.pathname.includes("/account/");
+    let bridalKey = "";
+    if (isBridalPublicPage) {
+      const pathArray = this.props.location.pathname.split("/");
+      bridalKey = pathArray[pathArray.length - 1];
+    }
+    this.props.onLoadAPiCall(
+      this.props.isLoggedIn,
+      this.props.cookies,
+      bridalKey
+    );
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");
@@ -111,9 +123,6 @@ class Header extends React.Component<Props, State> {
     });
 
     // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
-    const isBridalPublicPage =
-      this.props.location.pathname.includes("/bridal/") &&
-      !this.props.location.pathname.includes("/account/");
     if (
       this.props.announcement.isBridalActive &&
       !this.props.cart.bridal &&

@@ -26,6 +26,7 @@ const BaseLayout: React.FC = () => {
   const {
     currency,
     // device: { mobile }
+    basket: { bridal },
     header: { announcementData }
   } = useSelector((state: AppState) => state);
   // const isSuspended = true;
@@ -153,7 +154,14 @@ const BaseLayout: React.FC = () => {
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
-    if (!cookieCurrency) {
+    if (
+      !cookieCurrency &&
+      !(
+        location.pathname.includes("/bridal/") ||
+        announcementData.isBridalActive ||
+        bridal
+      )
+    ) {
       LoginService.getClientIpCurrency()
         .then(curr => {
           if (curr != "error") {

@@ -28,8 +28,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       LoginService.logout(dispatch);
       history.push("/");
     },
-    onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
-      MetaService.updateMeta(dispatch, cookies);
+    onLoadAPiCall: (
+      basketcall: boolean,
+      cookies: Cookies,
+      bridalKey?: string
+    ) => {
+      MetaService.updateMeta(dispatch, cookies, bridalKey);
       basketcall && WishlistService.updateWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
     },

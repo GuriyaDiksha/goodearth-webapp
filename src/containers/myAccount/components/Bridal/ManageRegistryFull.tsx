@@ -219,8 +219,9 @@ const ManageRegistryFull: React.FC<Props> = ({
           ) : (
             <span className="">
               {" "}
-              {registrantName} &amp; {coRegistrantName}&#39;s {occasion}{" "}
-              Registry
+              {registrantName} &amp; {coRegistrantName}
+              <span className={globalStyles.txtSmall}>&#39;s </span>
+              {occasion} Registry
             </span>
           )}
         </div>
@@ -238,11 +239,13 @@ const ManageRegistryFull: React.FC<Props> = ({
                   ) : (
                     <span className="">
                       {" "}
-                      {registrantName} &&nbsp;{coRegistrantName}&#39;s&nbsp;
+                      {registrantName}&nbsp;&&nbsp;{coRegistrantName}
+                      <span className={globalStyles.txtSmall}>&#39;s </span>
                       {occasion}&nbsp;Registry
                     </span>
                   )}
                   <span
+                    className={globalStyles.pointer}
                     onClick={e => {
                       changeRData("name");
                     }}
@@ -267,6 +270,7 @@ const ManageRegistryFull: React.FC<Props> = ({
                   </span>
                   : {currentEventDate}
                   <span
+                    className={globalStyles.pointer}
                     onClick={e => {
                       changeRData("date");
                     }}
@@ -288,6 +292,7 @@ const ManageRegistryFull: React.FC<Props> = ({
                 <p className={cs(styles.light, styles.letterSpacing1)}>
                   SHIPPING ADDRESS{" "}
                   <span
+                    className={globalStyles.pointer}
                     onClick={e => {
                       showManageAddressComponent();
                     }}
