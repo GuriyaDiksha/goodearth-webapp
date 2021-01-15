@@ -11,5 +11,4 @@ export type State = {
   activeImage: number;
   detailStickyEnabled: boolean;
   mounted: boolean;
-  updated: boolean;
 };
