@@ -14,6 +14,7 @@ import { AppState } from "reducers/typings";
 import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
+const Delivery = loadable(() => import("components/Popups/DeliveryPopup"));
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -400,6 +401,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           ?.scrollIntoView({ behavior: "smooth" });
       }, 200);
     }
+    dispatch(updateComponent(<Delivery remainingAmount={1000} />, true));
+    dispatch(updateModal(true));
   }, [basket]);
 
   const canCheckout = () => {
