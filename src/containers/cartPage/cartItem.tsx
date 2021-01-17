@@ -13,9 +13,9 @@ import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useStore } from "react-redux";
 import { updateModal, updateComponent } from "actions/modal";
-import NotifyMePopup from "components/NotifyMePopup";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes } from "typings/product";
+import { POPUP } from "constants/components";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -118,20 +118,19 @@ const CartItems: React.FC<BasketItem> = memo(
     const showNotifyPopup = () => {
       dispatch(
         updateComponent(
-          <NotifyMePopup
-            basketLineId={id}
-            price={product.priceRecords[currency]}
-            currency={currency}
-            title={product.title}
-            childAttributes={
-              product.childAttributes as ChildProductAttributes[]
-            }
-            selectedIndex={0}
-            discount={false}
-            onNotifyCart={onNotifyCart}
-            // changeSize={changeSize}
-            list="cart"
-          />,
+          POPUP.NOTIFYMEPOPUP,
+          {
+            basketLineId: id,
+            price: product.priceRecords[currency],
+            currency: currency,
+            title: product.title,
+            childAttributes: product.childAttributes as ChildProductAttributes[],
+            selectedIndex: 0,
+            discount: false,
+            onNotifyCart: onNotifyCart,
+            // changeSize:{changeSize},
+            list: "cart"
+          },
           false,
           ModalStyles.bottomAlign
         )

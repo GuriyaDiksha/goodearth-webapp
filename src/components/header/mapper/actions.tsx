@@ -1,7 +1,6 @@
 import React from "react";
 import { Dispatch } from "redux";
 import LoginService from "services/login";
-import loadable from "@loadable/component";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import MetaService from "services/meta";
@@ -11,9 +10,8 @@ import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
 import Api from "services/api";
-const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
-import PincodePopup from "components/Popups/pincodePopup";
 import HeaderService from "services/headerFooter";
+import { POPUP } from "constants/components";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -57,16 +55,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
     },
     showShipping: (remainingAmount: number) => {
-      dispatch(
-        updateComponent(
-          <FreeShipping remainingAmount={remainingAmount} />,
-          true
-        )
-      );
+      dispatch(updateComponent(POPUP.FREESHIPPING, { remainingAmount }, true));
       dispatch(updateModal(true));
     },
     showPincodePopup: (setPincode: (pinCode: string) => void) => {
-      dispatch(updateComponent(<PincodePopup setPincode={setPincode} />, true));
+      dispatch(updateComponent(POPUP.PINCODEPOPUP, { setPincode }, true));
       dispatch(updateModal(true));
     },
     getCustomerSlab: async (formData: any) => {

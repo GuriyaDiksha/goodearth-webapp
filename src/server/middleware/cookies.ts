@@ -1,6 +1,8 @@
 import Koa from "koa";
 import { updateCookies } from "actions/cookies";
 import { updateCurrency } from "actions/currency";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "../../constants/components";
 // import API from "utils/api";
 
 export default async function cookies(
@@ -11,7 +13,23 @@ export default async function cookies(
   const sessionId = ctx.cookies.get("sessionid");
   const currency: any = ctx.cookies.get("currency");
   const store = ctx.store;
-
+  // for currency popup
+  const dispatch = ctx.store.dispatch;
+  const { pathname, search } = ctx.history.location;
+  const currencyPopup = ctx.cookies.get("currencypopup");
+  const queryString = search;
+  const urlParams = new URLSearchParams(queryString);
+  const boId = urlParams.get("bo_id");
+  if (
+    !currencyPopup &&
+    !boId &&
+    !pathname.includes("/order/orderconfirmation/") &&
+    !pathname.includes("/bridal/")
+  ) {
+    dispatch(updateComponent(POPUP.CURRENCY, null, true));
+    dispatch(updateModal(true));
+  }
+  console.log(ctx.history.location.pathname);
   ctx.customCookies = {
     tkn: token,
     sessionid: sessionId
