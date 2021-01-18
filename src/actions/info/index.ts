@@ -12,3 +12,6 @@ export const updateCurrencyList = (data: Currency[]) =>
 
 export const updateMakerReloadToggle = (makerReloadToggle: boolean) =>
   actionCreator("UPDATE_MAKER_RELOAD_TOGGLE", makerReloadToggle);
+
+export const updateNextUrl = (nextUrl: string) =>
+  actionCreator("UPDATE_NEXT_URL", nextUrl);

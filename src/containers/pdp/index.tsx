@@ -73,8 +73,7 @@ class PDPContainer extends React.Component<Props, State> {
     detailsSticky: true,
     activeImage: 0,
     detailStickyEnabled: true,
-    mounted: false,
-    updated: true
+    mounted: false
   };
 
   imageOffsets: number[] = [];
@@ -148,8 +147,7 @@ class PDPContainer extends React.Component<Props, State> {
     // }
     this.setState(
       {
-        mounted: true,
-        updated: true
+        mounted: true
       },
       () => {
         window.setTimeout(() => {
@@ -190,11 +188,6 @@ class PDPContainer extends React.Component<Props, State> {
       });
       this.fetchMoreProductsFromCollection(nextProps.id);
     }
-    if (nextProps.location.pathname != this.props.location.pathname) {
-      this.setState({
-        updated: false
-      });
-    }
     if (this.props.currency != nextProps.currency) {
       this.fetchMoreProductsFromCollection(nextProps.id);
       this.props.fetchProduct(this.props.slug);
@@ -229,17 +222,6 @@ class PDPContainer extends React.Component<Props, State> {
       this.setState(state, () => {
         document.addEventListener("scroll", this.onScroll);
       });
-    }
-    if (
-      this.props.location.pathname != props.location.pathname &&
-      !this.state.updated
-    ) {
-      this.setState({
-        updated: true
-      });
-      window.setTimeout(() => {
-        window.scrollTo({ top: 0 });
-      }, 500);
     }
     if (this.props.currency != props.currency) {
       this.setState({
@@ -585,8 +567,9 @@ class PDPContainer extends React.Component<Props, State> {
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
-          {mobile && this.state.updated && (
+          {mobile && (
             <div
+              key={this.props.id?.toString()}
               className={cs(
                 bootstrap.col12,
                 globalStyles.mobileSliderContainer

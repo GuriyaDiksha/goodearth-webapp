@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles.scss";
 import { Props } from "../../typings";
 import ReactHtmlParser from "react-html-parser";
-import { removeFroala } from "utils/validate";
+import { scrollToId, removeFroala } from "utils/validate";
 
 const SaleTnc: React.FC<Props> = props => {
   const [content, setContent] = useState("");
@@ -12,6 +12,8 @@ const SaleTnc: React.FC<Props> = props => {
     props.setCurrentSection();
     props.fetchTerms().then(res => {
       setContent(res.content);
+      // for handling scroll to particular element with id
+      scrollToId();
       removeFroala();
     });
   }, []);

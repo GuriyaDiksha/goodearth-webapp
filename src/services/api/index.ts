@@ -14,10 +14,12 @@ export default {
     );
     dispatch(updateShopData(res));
   },
-  getCurrency: async function(dispatch: Dispatch) {
+  getCurrency: async function(dispatch: Dispatch, bridalKey?: string) {
     const curr: any = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/common/current_currency"}`
+      `${__API_HOST__}/myapi/common/current_currency${
+        bridalKey ? "?bridal_key=" + bridalKey : ""
+      }`
     );
     dispatch(updateCurrency(curr));
   },
@@ -35,10 +37,12 @@ export default {
     );
     dispatch(updatePopupBgUrl(data.sign_up_bg_image));
   },
-  getAnnouncement: async function(dispatch: Dispatch) {
+  getAnnouncement: async function(dispatch: Dispatch, bridalKey?: string) {
     const response: any = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/promotions/announcement_bar/"}`
+      `${__API_HOST__}/myapi/promotions/announcement_bar/${
+        bridalKey ? "?bridal_key=" + bridalKey : ""
+      }`
     );
     dispatch(updateAnnouncement(response));
   }

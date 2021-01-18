@@ -17,12 +17,14 @@ import { POPUP } from "constants/components";
 export default {
   fetchMeta: async function(
     dispatch: Dispatch,
-    cookies: Cookies
+    cookies: Cookies,
+    bridalKey?: string
   ): Promise<MetaResponse> {
+    const payload = !bridalKey ? {} : { bridalKey };
     const res: MetaResponse = await API.post(
       dispatch,
       `${__API_HOST__ + `/myapi/auth/meta/`}`,
-      {}
+      payload
       // {
       //     Authorization: `Token ${cookies.tkn || ""}`
       // }
@@ -30,12 +32,22 @@ export default {
     return res;
   },
 
-  updateMeta: async function(dispatch: Dispatch, cookies: Cookies) {
+  updateMeta: async function(
+    dispatch: Dispatch,
+    cookies: Cookies,
+    bridalKey?: string
+  ) {
     let user: Partial<User> = initialState;
     if (cookies.tkn) {
-      const meta: MetaResponse = await this.fetchMeta(dispatch, cookies);
+      const meta: MetaResponse = await this.fetchMeta(
+        dispatch,
+        cookies,
+        bridalKey
+      );
       user = meta.user || {};
       user.bridal = meta.bridalUser;
+      user.bridalId = meta.bridalId;
+      user.bridalCurrency = meta.bridalCurrency;
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       if (typeof document != "undefined" && user.email && !user.gender) {
@@ -54,6 +66,7 @@ export default {
       }
       dispatch(updateCurrency(meta.currency));
       dispatch(updateUser(user));
+      return meta;
     }
   },
 

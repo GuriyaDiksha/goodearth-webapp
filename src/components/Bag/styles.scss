@@ -315,3 +315,15 @@
   color: gray;
   font-family: $font-Lato;
 }
+
+.cart-ring {
+  position: absolute !important;
+  left: 5px;
+  top: -10px;
+  z-index: 1;
+  .cerise-bridal-rings {
+    background-color: $cerise;
+    fill: $white;
+    border-radius: 50%;
+  }
+}

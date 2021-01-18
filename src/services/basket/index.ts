@@ -6,8 +6,8 @@ import { updateBasket } from "actions/basket";
 // utils
 import API from "utils/api";
 import { ProductID } from "typings/id";
-import { showMessage } from "actions/growlMessage";
 import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import * as util from "../../utils/validate";
 
 export default {
   fetchBasket: async function(dispatch: Dispatch, source?: string) {
@@ -24,18 +24,23 @@ export default {
         : "") + (boId ? "&boId=" + boId : "")}`
     );
     if (res.updated || res.publishRemove) {
-      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
     dispatch(updateBasket(res));
+    return res;
   },
 
   addToBasket: async function(
     dispatch: Dispatch,
     productId: ProductID,
     quantity: number,
-    productSku?: string
+    productSku?: string,
+    bridalId?: number,
+    url?: string
   ) {
-    const payLoad = productId
+    const payLoad = bridalId
+      ? { quantity, bridalId, url }
+      : productId
       ? { productId, quantity }
       : { productSku, quantity };
     const res = await API.post<Basket>(
@@ -63,7 +68,7 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
     dispatch(updateBasket(res));
     return res;
@@ -83,7 +88,7 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
     dispatch(updateBasket(res));
   },
@@ -96,7 +101,7 @@ export default {
       null
     );
     if (res.basket.updated || res.basket.publishRemove) {
-      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
     dispatch(updateBasket(res.basket));
     return res;
