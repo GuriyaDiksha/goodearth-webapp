@@ -731,25 +731,6 @@ const ProductDetails: React.FC<Props> = ({
           >
             {button}
             {isQuickview ? (
-              <div
-                className={cs(
-                  bootstrap.col12,
-                  bootstrap.colMd9,
-                  globalStyles.voffset1
-                )}
-              >
-                {!loyaltyDisabled ? (
-                  <p className={styles.errorMsg}>
-                    This product is not eligible for Cerise points accumulation.
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
-              ""
-            )}
-            {isQuickview ? (
               <Link
                 to={url}
                 className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
@@ -788,26 +769,21 @@ const ProductDetails: React.FC<Props> = ({
             />
           </div>
         </div>
-        {!isQuickview ? (
-          <div
-            className={cs(
-              bootstrap.col12,
-              bootstrap.colMd9,
-              { [globalStyles.voffset1]: !mobile },
-              { [globalStyles.voffset3]: mobile }
-            )}
-          >
-            {!loyaltyDisabled ? (
-              <p className={styles.errorMsg}>
-                This product is not eligible for Cerise points accumulation.
-              </p>
-            ) : (
-              ""
-            )}
-          </div>
-        ) : (
-          ""
-        )}
+        <div
+          className={cs(bootstrap.col12, bootstrap.colMd9, {
+            [styles.quickviewLoyaltyMessage]: isQuickview,
+            [globalStyles.voffset1]: !mobile,
+            [globalStyles.voffset3]: mobile
+          })}
+        >
+          {!loyaltyDisabled ? (
+            <p className={styles.errorMsg}>
+              This product is not eligible for Cerise points accumulation.
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
         <div
           className={cs(
             bootstrap.col12,
