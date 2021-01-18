@@ -6,7 +6,7 @@ import styles from "./styles.scss";
 import { Context } from "components/Modal/context.ts";
 import iconStyles from "styles/iconFonts.scss";
 import { updateComponent, updateModal } from "actions/modal";
-import BackendOrderPopup from "components/BackendOrderPopup/confirm";
+import { POPUP } from "constants/components";
 
 type Props = {};
 
@@ -16,7 +16,7 @@ const BackendPopup: React.FC<Props> = () => {
   const { closeModal } = useContext(Context);
 
   const clearBoBasket = async () => {
-    dispatch(updateComponent(<BackendOrderPopup />, true, undefined));
+    dispatch(updateComponent(POPUP.BACKENDORDER, null, true, undefined));
     dispatch(updateModal(true));
   };
 

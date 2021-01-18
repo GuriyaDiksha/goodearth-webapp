@@ -18,11 +18,7 @@ import Button from "components/Button";
 import Share from "components/Share";
 import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
-import SizeChartPopup from "../sizeChartPopup";
 import ColorSelector from "components/ColorSelector";
-import WallpaperPopup from "../wallpaperPopup";
-import NotifyMePopup from "components/NotifyMePopup";
-import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 // services
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
@@ -54,6 +50,7 @@ import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
+import { POPUP } from "constants/components";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -203,7 +200,7 @@ const ProductDetails: React.FC<Props> = ({
       return;
     }
     // renderModal(<SizeChartPopup html={sizeChartHtml} />);
-    updateComponentModal(<SizeChartPopup html={sizeChartHtml} />);
+    updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
     changeModalState(true);
   }, [sizeChartHtml]);
 
@@ -212,12 +209,10 @@ const ProductDetails: React.FC<Props> = ({
   const [height, width] = size.match(/[0-9.]+/gim) || [];
 
   const onWallpaperClick = useCallback(() => {
-    updateComponentModal(
-      <WallpaperPopup
-        price={priceRecords[currency]}
-        currency={String.fromCharCode(...currencyCodes[currency])}
-      />
-    );
+    updateComponentModal(POPUP.WALLPAPERPOPUP, {
+      price: priceRecords[currency],
+      currency: String.fromCharCode(...currencyCodes[currency])
+    });
     changeModalState(true);
   }, [height, width, currency]);
 
@@ -366,7 +361,11 @@ const ProductDetails: React.FC<Props> = ({
   const onEnquireClick = () => {
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
-      <ThirdPartyEnquiryPopup id={id} quantity={quantity} />,
+      POPUP.THIRDPARTYENQUIRYPOPUP,
+      {
+        id: id,
+        quantity: quantity
+      },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
     );
@@ -387,20 +386,21 @@ const ProductDetails: React.FC<Props> = ({
       : "";
     category = category.replace(/>/g, "/");
     updateComponentModal(
-      <NotifyMePopup
-        collection={collection}
-        category={category}
-        price={priceRecords[currency]}
-        currency={currency}
-        childAttributes={childAttributes}
-        title={title}
-        selectedIndex={selectedIndex}
-        discount={discount}
-        badgeType={badgeType}
-        isSale={info.isSale}
-        discountedPrice={discountPrices}
-        list={isQuickview ? "quickview" : "pdp"}
-      />,
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collection,
+        category: category,
+        price: priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes,
+        title: title,
+        selectedIndex: selectedIndex,
+        discount: discount,
+        badgeType: badgeType,
+        isSale: info.isSale,
+        discountedPrice: discountPrices,
+        list: isQuickview ? "quickview" : "pdp"
+      },
       false,
       ModalStyles.bottomAlign
     );

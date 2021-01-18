@@ -7,10 +7,12 @@ import { AppState } from "reducers/typings";
 import { Context } from "./context";
 import mapActionsToProps from "./mapper/actions";
 import globalStyles from "styles/global.scss";
+import { popupComponents } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
     component: state.modal.component,
+    props: state.modal.props,
     openModal: state.modal.openModal,
     fullscreen: state.modal.fullscreen,
     bodyClass: state.modal.bodyClass,
@@ -52,9 +54,10 @@ class Modal extends React.Component<ModalProps> {
       className,
       fullscreen,
       openModal,
-      component
+      component,
+      props
     } = this.props;
-
+    const Comp = popupComponents[component];
     return openModal ? (
       <Context.Provider
         value={{
@@ -68,7 +71,7 @@ class Modal extends React.Component<ModalProps> {
               [styles.fullscreen]: fullscreen
             })}
           >
-            {component}
+            <Comp {...props} />
           </div>
         </div>
       </Context.Provider>

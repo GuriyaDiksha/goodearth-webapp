@@ -34,6 +34,7 @@ import {
 } from "constants/messages";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 import InfoPopup from "components/Popups/InfoPopup";
 import { Basket } from "typings/basket";
 
@@ -113,7 +114,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     showPopup: (setInfoPopupCookie: () => void) => {
       dispatch(
         updateComponent(
-          <InfoPopup acceptCondition={setInfoPopupCookie} />,
+          POPUP.INFOPOPUP,
+          { acceptCondition: setInfoPopupCookie },
           true
         )
       );
