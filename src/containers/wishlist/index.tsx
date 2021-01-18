@@ -16,7 +16,6 @@ import WishlistService from "services/wishlist";
 import { Link } from "react-router-dom";
 import debounce from "lodash/debounce";
 import find from "lodash/find";
-import NotifyMePopup from "components/NotifyMePopup";
 import { updateComponent, updateModal } from "../../actions/modal";
 import { Currency } from "typings/currency";
 import globalStyles from "../../styles/global.scss";
@@ -27,6 +26,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { WidgetImage } from "components/header/typings";
 // services
 import HeaderService from "services/headerFooter";
+import { POPUP } from "constants/components";
 
 let AbsoluteGrid: any;
 
@@ -94,21 +94,22 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
       dispatch(
         updateComponent(
-          <NotifyMePopup
-            sortBy={sortBy}
-            price={price}
-            discountedPrice={item.discountedPrice[currency]}
-            currency={currency}
-            title={item.productName}
-            childAttributes={childAttributes}
-            collection={item.collection}
-            selectedIndex={selectedIndex}
-            changeSize={changeSize}
-            isSale={isSale}
-            discount={item.discount}
-            badgeType={item.badgeType}
-            list="wishlist"
-          />,
+          POPUP.NOTIFYMEPOPUP,
+          {
+            sortBy: sortBy,
+            price: price,
+            discountedPrice: item.discountedPrice[currency],
+            currency: currency,
+            title: item.productName,
+            childAttributes: childAttributes,
+            collection: item.collection,
+            selectedIndex: selectedIndex,
+            changeSize: changeSize,
+            isSale: isSale,
+            discount: item.discount,
+            badgeType: item.badgeType,
+            list: "wishlist"
+          },
           false,
           ModalStyles.bottomAlign
         )

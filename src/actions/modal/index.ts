@@ -1,11 +1,17 @@
 import { actionCreator } from "utils/actionCreator";
-import { ReactNode } from "react";
 
 export const updateComponent = (
-  component: ReactNode,
+  component: string,
+  props: any,
   fullscreen = false,
   bodyClass?: string
-) => actionCreator("UPDATE_COMPONENT", { component, fullscreen, bodyClass });
+) =>
+  actionCreator("UPDATE_COMPONENT", {
+    component,
+    props,
+    fullscreen,
+    bodyClass
+  });
 
 export const updateModal = (data: boolean) =>
   actionCreator("UPDATE_MODAL", data);
