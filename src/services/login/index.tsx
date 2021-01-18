@@ -21,14 +21,16 @@ import HeaderService from "services/headerFooter";
 import Api from "services/api";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
-import { showMessage } from "actions/growlMessage";
 import {
   INVALID_SESSION_LOGOUT,
   LOGOUT_SUCCESS,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  REGISTRY_OWNER_CHECKOUT,
+  REGISTRY_MIXED_SHIPPING
 } from "constants/messages";
 import Axios from "axios";
 import { POPUP } from "constants/components";
+import * as util from "../../utils/validate";
 
 export default {
   showForgotPassword: function(
@@ -86,12 +88,33 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
+    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
-    MetaService.updateMeta(dispatch, { tkn: res.token });
+    const metaResponse = await MetaService.updateMeta(dispatch, {
+      tkn: res.token
+    });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch, source);
+    BasketService.fetchBasket(dispatch, source).then(res => {
+      if (metaResponse) {
+        let basketBridalId = 0;
+        res.lineItems.map(item =>
+          item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+        );
+        if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+          util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT, 6000);
+        }
+        let item1 = false,
+          item2 = false;
+        res.lineItems.map(data => {
+          if (!data.bridalProfile) item1 = true;
+          if (data.bridalProfile) item2 = true;
+        });
+        if (item1 && item2) {
+          util.showGrowlMessage(dispatch, REGISTRY_MIXED_SHIPPING, 6000);
+        }
+      }
+    });
     return res;
   },
   loginSocial: async function(dispatch: Dispatch, formdata: any) {
@@ -103,7 +126,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
+    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });
@@ -134,7 +157,7 @@ export default {
         console.log(err);
       });
       dispatch(resetMeta(undefined));
-      dispatch(showMessage(LOGOUT_SUCCESS, 5000));
+      util.showGrowlMessage(dispatch, LOGOUT_SUCCESS, 5000);
       return res;
     }
   },
@@ -147,7 +170,12 @@ export default {
     WishlistService.resetWishlist(dispatch);
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
-    dispatch(showMessage(INVALID_SESSION_LOGOUT, 5000));
+    util.showGrowlMessage(
+      dispatch,
+      INVALID_SESSION_LOGOUT,
+      5000,
+      "INVALID_SESSION_LOGOUT"
+    );
   },
   register: async function(dispatch: Dispatch, formData: FormData) {
     const res = await API.post<registerResponse>(
@@ -158,7 +186,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    dispatch(showMessage(`${res.firstName}, ${LOGIN_SUCCESS}`, 5000));
+    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     MetaService.updateMeta(dispatch, { tkn: res.token });

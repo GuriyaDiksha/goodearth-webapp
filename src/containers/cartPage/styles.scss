@@ -402,3 +402,15 @@ display: inline-table;
 .inline {
   display: inline-block;
 }
+
+.cart-ring {
+  position: absolute !important;
+  left: 5px;
+  top: -10px;
+  z-index: 1;
+  .cerise-bridal-rings {
+    background-color: $cerise;
+    fill: $white;
+    border-radius: 50%;
+  }
+}

@@ -9,8 +9,8 @@ import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
 import { Basket } from "typings/basket";
-import { showMessage } from "actions/growlMessage";
 import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import * as util from "../../utils/validate";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {
@@ -110,7 +110,7 @@ export default {
       null
     );
     if (res.basket.updated || res.basket.publishRemove) {
-      dispatch(showMessage(PRODUCT_UNPUBLISHED));
+      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
     return res;
   },

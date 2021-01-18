@@ -6,13 +6,12 @@ import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import { AddressContext } from "../AddressMain/context";
+import AddressItemBridal from "../AddressItemBridal";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 type Props = {
   addressDataList: AddressData[];
-  openAddressForm: (address: AddressData) => void;
-  deleteAddress: (id: number) => void;
-  selectAddress: (address: AddressData) => void;
-  isValidAddress: () => void;
   currentCallBackComponent: string;
   isBridal?: boolean;
   bridalId?: number;
@@ -22,20 +21,34 @@ type Props = {
 const AddressList: React.FC<Props> = props => {
   const { activeStep } = useContext(AddressContext);
   const [addressData, setAddressData] = useState(props.addressDataList);
+  const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { addressDataList, isBridal } = props;
   useEffect(() => {
     let addressData = addressDataList;
     if (
       (activeStep == "BILLING" &&
         props.currentCallBackComponent == "checkout-billing") ||
-      props.currentCallBackComponent == "account"
+      props.currentCallBackComponent == "account" ||
+      props.currentCallBackComponent == "bridal" ||
+      props.currentCallBackComponent == "bridal-edit"
     ) {
       if (addressData) {
         addressData = addressData.filter(address => !address.isTulsi);
         if (isBridal) {
-          addressData = addressData.filter(address => !address.isBridal);
-          // && window.user.email == address.Email_Id);
+          addressData = addressData.filter(
+            address => address.id != bridalAddressId
+          );
         }
+      }
+    }
+    if (
+      activeStep == "SHIPPING" &&
+      props.currentCallBackComponent == "checkout-shipping"
+    ) {
+      if (isBridal) {
+        addressData = addressData.filter(
+          address => address.isBridal && address.id == bridalAddressId
+        );
       }
     }
     // if (props.addressDataList && props.addressDataList.length > 0) {
@@ -141,7 +154,13 @@ const AddressList: React.FC<Props> = props => {
         className={cs(bootstrapStyles.row, styles.addressListContainer)}
         id="addressData"
       >
-        {addressData &&
+        {isBridal && activeStep == "SHIPPING" ? (
+          <AddressItemBridal
+            addressData={addressData[addressData.length - 1]}
+            addressType="SHIPPING"
+          />
+        ) : (
+          addressData &&
           addressData.length > 0 &&
           Object.entries(addressData).length !== 0 &&
           addressData.map((data, i) => {
@@ -150,36 +169,12 @@ const AddressList: React.FC<Props> = props => {
                 key={data.id}
                 addressData={data}
                 index={i}
-                // openAddressForm={props.openAddressForm}
-                // getAddressDetails={props.getAddressDetails}
-                // setAddressAvailable={props.setAddressAvailable}
-                // setUpdatedDefaultAddress={this.setUpdatedDefaultAddress}
-                // setMode={props.setMode}
-                // isbridal={props.isbridal}
                 isOnlyAddress={addressData.length === 1}
-                // setCurrentModule={props.setCurrentModule}
-                // setCurrentModuleData={props.setCurrentModuleData}
-                // addressType={props.addressType}
-                // setAddressModeProfile={props.setAddressModeProfile}
-                // currentCallBackComponent={props.currentCallBackComponent}
-                // items={props.items}
-                // setLoadingStatus={setIsLoading}
-                selectAddress={props.selectAddress}
-                // toggleAddressForm={props.toggleAddressForm}
-                // deleteAddress={props.deleteAddress}
-                // dispatch={props.dispatch}
-                // shippingErrorMsg={props.shippingErrorMsg}
-                // billingErrorMsg={props.billingErrorMsg}
-                // addressIdError={props.addressIdError}
-                // removeErrorMessages={props.removeErrorMessages}
-                // changeBridalAddress={props.changeBridalAddress}
-                // case={props.case}
-                // isValidAddress={props.isValidAddress}
                 showAddressInBridalUse={props.showAddressInBridalUse}
-                // markAsDefault={markAsDefault}
               />
             );
-          })}
+          })
+        )}
       </div>
       {isLoading && <Loader />}
     </div>

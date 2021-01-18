@@ -5,26 +5,33 @@ import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import MetaService from "services/meta";
 import { Cookies } from "typings/cookies";
-import { showMessage } from "actions/growlMessage";
 import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
 import Api from "services/api";
 import HeaderService from "services/headerFooter";
 import { POPUP } from "constants/components";
+import BridalService from "services/bridal";
+import { updateNextUrl } from "actions/info";
+import * as util from "../../../utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    goLogin: (event?: React.MouseEvent) => {
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
       LoginService.showLogin(dispatch);
+      nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },
     handleLogOut: (history: any) => {
       LoginService.logout(dispatch);
       history.push("/");
     },
-    onLoadAPiCall: (basketcall: boolean, cookies: Cookies) => {
-      MetaService.updateMeta(dispatch, cookies);
+    onLoadAPiCall: (
+      basketcall: boolean,
+      cookies: Cookies,
+      bridalKey?: string
+    ) => {
+      MetaService.updateMeta(dispatch, cookies, bridalKey);
       basketcall && WishlistService.updateWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
     },
@@ -32,7 +39,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, page?: string) => {
+    reloadPage: (cookies: Cookies, page?: string, islogin?: boolean) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
@@ -49,10 +56,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
-      WishlistService.updateWishlist(dispatch);
+      islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
-      dispatch(showMessage(CURRENCY_CHANGED_SUCCESS, 7000));
+      util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number) => {
       dispatch(updateComponent(POPUP.FREESHIPPING, { remainingAmount }, true));
@@ -65,6 +72,25 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     getCustomerSlab: async (formData: any) => {
       const res = await HeaderService.getCustomerSlab(dispatch, formData);
       return res;
+    },
+    clearBridalSession: async () => {
+      const res = await BridalService.clearBridalSession(dispatch);
+      return res;
+    },
+    reloadAfterBridal: (cookies: Cookies, source: string) => {
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      if (cookies.tkn) {
+        WishlistService.updateWishlist(dispatch);
+        MetaService.updateMeta(dispatch, cookies);
+      }
+      BasketService.fetchBasket(dispatch, source);
+    },
+    fetchAnnouncement: () => {
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("ANNOUNCEMENT API ERROR ==== " + err);
+      });
     }
   };
 };

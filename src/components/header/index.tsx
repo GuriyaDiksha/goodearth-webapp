@@ -28,6 +28,7 @@ import ReactHtmlParser from "react-html-parser";
 import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
+import bridalRing from "../../images/bridal/rings.svg";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
@@ -49,7 +50,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
+export type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
 
@@ -68,8 +69,10 @@ class Header extends React.Component<Props, State> {
       showPincodePopup: false,
       showBag: false,
       showCartMobile:
-        this.props.location.pathname.includes("/catalogue/") &&
-        !this.props.location.pathname.includes("/catalogue/category")
+        (this.props.location.pathname.includes("/catalogue/") &&
+          !this.props.location.pathname.includes("/catalogue/category")) ||
+        (this.props.location.pathname.includes("/bridal/") &&
+          !this.props.location.pathname.includes("/account/"))
     };
   }
   static contextType = UserContext;
@@ -93,7 +96,19 @@ class Header extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
+    const isBridalPublicPage =
+      this.props.location.pathname.includes("/bridal/") &&
+      !this.props.location.pathname.includes("/account/");
+    let bridalKey = "";
+    if (isBridalPublicPage) {
+      const pathArray = this.props.location.pathname.split("/");
+      bridalKey = pathArray[pathArray.length - 1];
+    }
+    this.props.onLoadAPiCall(
+      this.props.isLoggedIn,
+      this.props.cookies,
+      bridalKey
+    );
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");
@@ -106,6 +121,15 @@ class Header extends React.Component<Props, State> {
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
     });
+
+    // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
+    if (
+      this.props.announcement.isBridalActive &&
+      !this.props.cart.bridal &&
+      !isBridalPublicPage
+    ) {
+      this.props.fetchAnnouncement();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -113,7 +137,10 @@ class Header extends React.Component<Props, State> {
       const isPDP =
         this.props.location.pathname.includes("/catalogue/") &&
         !this.props.location.pathname.includes("/catalogue/category");
-      if (isPDP) {
+      const isBridalPublicPage =
+        this.props.location.pathname.includes("/bridal/") &&
+        !this.props.location.pathname.includes("/account/");
+      if (isPDP || isBridalPublicPage) {
         if (!this.state.showCartMobile) {
           this.setState({
             showCartMobile: true
@@ -125,6 +152,15 @@ class Header extends React.Component<Props, State> {
             showCartMobile: false
           });
         }
+      }
+
+      // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
+      if (
+        this.props.announcement.isBridalActive &&
+        !this.props.cart.bridal &&
+        !isBridalPublicPage
+      ) {
+        this.props.fetchAnnouncement();
       }
     }
   }
@@ -153,7 +189,11 @@ class Header extends React.Component<Props, State> {
             history.location.search.replace(currency, response.currency);
           history.replace(path);
         }
-        reloadPage(this.props.cookies, history.location.pathname);
+        reloadPage(
+          this.props.cookies,
+          history.location.pathname,
+          this.props.isLoggedIn
+        );
       });
     }
   };
@@ -173,6 +213,12 @@ class Header extends React.Component<Props, State> {
       this.setState({
         showMenu: false
       });
+  };
+
+  clearBridalSession = async (source: string) => {
+    await this.props.clearBridalSession();
+    this.props.history.push("/");
+    this.props.reloadAfterBridal(this.props.cookies, source);
   };
 
   clickToggle = () => {
@@ -229,7 +275,6 @@ class Header extends React.Component<Props, State> {
   render() {
     const { isLoggedIn } = this.context;
     const {
-      message,
       wishlistData,
       meta,
       goLogin,
@@ -266,12 +311,15 @@ class Header extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-      // {
-      //   label: "Good Earth Registry",
-      //   href: "/about",
-      //   type: "link",
-      //   value: "Good Earth Registry"
-      // },
+      {
+        label: "Good Earth Registry",
+        href: isLoggedIn ? "/account/bridal" : "",
+        onClick: isLoggedIn
+          ? () => null
+          : () => this.props.goLogin(undefined, "/account/bridal"),
+        type: isLoggedIn ? "link" : "button",
+        value: "Good Earth Registry"
+      },
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
@@ -297,6 +345,9 @@ class Header extends React.Component<Props, State> {
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }
     );
+    const isBridalRegistryPage =
+      this.props.location.pathname.indexOf("/bridal/") > -1 &&
+      !(this.props.location.pathname.indexOf("/account/") > -1);
     return (
       <div className="">
         <Helmet defer={false}>
@@ -381,7 +432,12 @@ class Header extends React.Component<Props, State> {
         <div className={cs(styles.headerContainer)}>
           <div
             className={styles.announcement}
-            style={{ backgroundColor: announcement.bgColorcode }}
+            style={{
+              backgroundColor:
+                announcement.isBridalActive || isBridalRegistryPage
+                  ? announcement.bridalBgColorcode
+                  : announcement.bgColorcode
+            }}
           >
             {messageText?.map((data, i) => {
               if (announcement.url) {
@@ -393,7 +449,7 @@ class Header extends React.Component<Props, State> {
                         ? i == 0
                           ? styles.boxx1
                           : styles.boxx2
-                        : "width100"
+                        : styles.width100
                     }
                   >
                     <Link to={announcement.url ? "" + announcement.url : "/"}>
@@ -410,10 +466,52 @@ class Header extends React.Component<Props, State> {
                         ? i == 0
                           ? styles.boxx1
                           : styles.boxx2
-                        : "width100"
+                        : styles.width100
                     }
                   >
-                    {ReactHtmlParser(data)}
+                    {isBridalRegistryPage || announcement.isBridalActive ? (
+                      <div>
+                        <>
+                          <svg
+                            style={{ verticalAlign: "bottom" }}
+                            viewBox="-5 -5 50 50"
+                            width="30"
+                            height="30"
+                            preserveAspectRatio="xMidYMid meet"
+                            x="0"
+                            y="0"
+                            className={styles.bridalRing}
+                          >
+                            <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                          </svg>{" "}
+                          {announcement.registrantName} &{" "}
+                          {announcement.coRegistrantName}&#39;s Bridal Registry
+                          (Public Link){" "}
+                          <b
+                            style={{
+                              textDecoration: "underline",
+                              cursor: "pointer"
+                            }}
+                          >
+                            <span
+                              onClick={() =>
+                                this.clearBridalSession(
+                                  location.pathname.includes("checkout")
+                                    ? "checkout"
+                                    : location.pathname.includes("cart")
+                                    ? "cart"
+                                    : ""
+                                )
+                              }
+                            >
+                              Close
+                            </span>
+                          </b>
+                        </>
+                      </div>
+                    ) : (
+                      ReactHtmlParser(data)
+                    )}
                   </div>
                 );
               }
@@ -799,9 +897,9 @@ class Header extends React.Component<Props, State> {
             )}
           {this.state.showPincodePopup}
         </div>
-        <GrowlMessage {...message} />
+        <GrowlMessage />
         <MakerUtils />
-        {mobile && (
+        {mobile && !isBridalRegistryPage && (
           <BottomMenu
             showBag={this.state.showBag}
             showSearch={this.showSearch}

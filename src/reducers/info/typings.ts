@@ -6,6 +6,7 @@ export type State = {
   popupBgUrl: string;
   currencyList: any[];
   makerReloadToggle: boolean;
+  nextUrl: string;
 };
 
 export type InfoActions = ActionType<typeof Actions>;

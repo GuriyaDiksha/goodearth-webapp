@@ -52,7 +52,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   sliderImages: ProductImage[];
   childAttributes: ChildProductAttributes[];
   sizeChartHtml?: string;
-  loyalityDisabled?: boolean;
+  loyaltyDisabled?: boolean;
   designJournalTagging?: DesignJournalTag[];
   fillerMessage: string;
   collectionProducts?: CollectionProductItem[];
