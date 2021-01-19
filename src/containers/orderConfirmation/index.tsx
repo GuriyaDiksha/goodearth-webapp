@@ -271,6 +271,20 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       </div>
                     </div>
                   </div>
+                  <div
+                    className={cs(
+                      bootstrapStyles.row,
+                      globalStyles.voffset2,
+                      styles.borderAdd
+                    )}
+                  >
+                    <div className={styles.add}>
+                      <p className={styles.delivery}>DELIVERY INSTRUCTIONS</p>
+                      <p className={styles.light}>
+                        Please handle the item with care
+                      </p>
+                    </div>
+                  </div>
                   {confirmData.lines?.map((item: any) => {
                     // according bakwas by gaurav
                     const isdisCount =
