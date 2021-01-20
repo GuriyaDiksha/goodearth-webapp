@@ -143,7 +143,9 @@ const BridalItemsList: React.FC<Props> = props => {
                       </span>
                     )}
                   </div>
-                  <div className={styles.smallfont}>SIZE: {size}</div>
+                  <div className={cs(styles.smallfont, globalStyles.voffset2)}>
+                    SIZE: {size}
+                  </div>
                   <div className={cs(styles.smallfont, globalStyles.voffset1)}>
                     SKU: {sku}
                   </div>
@@ -212,7 +214,11 @@ const BridalItemsList: React.FC<Props> = props => {
           {qtyBought ? (
             ""
           ) : (
-            <div title="Remove" onClick={deleteItem}>
+            <div
+              title="Remove"
+              className={styles.bridalItemRemove}
+              onClick={deleteItem}
+            >
               <i
                 className={cs(
                   iconStyles.icon,

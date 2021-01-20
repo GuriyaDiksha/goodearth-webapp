@@ -1,4 +1,3 @@
-import loadable from "@loadable/component";
 import React, { Fragment } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
@@ -21,12 +20,9 @@ import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
 import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
-import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
-import NotifyMePopup from "components/NotifyMePopup";
-
-const Quickview = loadable(() => import("components/Quickview"));
+import { POPUP } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -146,7 +142,10 @@ class PLP extends React.Component<
     const mobile = this.props.device.mobile;
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
-      <ThirdPartyEnquiryPopup id={id} />,
+      POPUP.THIRDPARTYENQUIRYPOPUP,
+      {
+        id
+      },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
     );
@@ -182,20 +181,21 @@ class PLP extends React.Component<
       : "";
     category = category.replace(/>/g, "/");
     updateComponentModal(
-      <NotifyMePopup
-        collection={collections && collections.length > 0 ? collections[0] : ""}
-        category={category}
-        price={priceRecords[currency]}
-        currency={currency}
-        childAttributes={childAttributes as ChildProductAttributes[]}
-        title={title}
-        selectedIndex={selectedIndex}
-        discount={discount}
-        badgeType={badgeType}
-        isSale={isSale}
-        discountedPrice={discountedPriceRecords[currency]}
-        list={"plp"}
-      />,
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collections && collections.length > 0 ? collections[0] : "",
+        category: category,
+        price: priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes as ChildProductAttributes[],
+        title: title,
+        selectedIndex: selectedIndex,
+        discount: discount,
+        badgeType: badgeType,
+        isSale: isSale,
+        discountedPrice: discountedPriceRecords[currency],
+        list: "plp"
+      },
       false,
       ModalStyles.bottomAlign
     );
@@ -204,12 +204,13 @@ class PLP extends React.Component<
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
-      <Quickview
-        id={id}
-        productListId={plpProductId}
-        corporatePDP={this.state.corporoateGifting}
-        source="PLP"
-      />,
+      POPUP.QUICKVIEW,
+      {
+        id: id,
+        productListId: plpProductId,
+        corporatePDP: this.state.corporoateGifting,
+        source: "PLP"
+      },
       true
     );
     changeModalState(true);

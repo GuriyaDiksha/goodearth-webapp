@@ -1,5 +1,4 @@
 import React from "react";
-import loadable from "@loadable/component";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import {
@@ -30,28 +29,23 @@ import {
   REGISTRY_MIXED_SHIPPING
 } from "constants/messages";
 import Axios from "axios";
+import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
-
-const LoginForm = loadable(() => import("components/signin/Login"));
-const RegisterForm = loadable(() => import("components/signin/register"));
-const ForgotPasswordForm = loadable(() =>
-  import("components/signin/forgotPassword")
-);
 
 export default {
   showForgotPassword: function(
     dispatch: Dispatch,
     event?: React.MouseEvent
   ): void {
-    dispatch(updateComponent(<ForgotPasswordForm />, true));
+    dispatch(updateComponent(POPUP.FORGOTPASSWORDFORM, null, true));
     dispatch(updateModal(true));
   },
   showLogin: function(dispatch: Dispatch, event?: React.MouseEvent): void {
-    dispatch(updateComponent(<LoginForm />, true));
+    dispatch(updateComponent(POPUP.LOGINFORM, null, true));
     dispatch(updateModal(true));
   },
   showRegister: function(dispatch: Dispatch, event?: React.MouseEvent): void {
-    dispatch(updateComponent(<RegisterForm />, true));
+    dispatch(updateComponent(POPUP.REGISTERFORM, null, true));
     dispatch(updateModal(true));
   },
   checkUserPassword: async function(dispatch: Dispatch, email: string) {
@@ -97,6 +91,7 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -135,6 +130,7 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch);
@@ -195,6 +191,7 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch);

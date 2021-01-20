@@ -5,7 +5,6 @@ import ProductService from "services/product";
 
 import { updateCollectionProducts } from "actions/product";
 import { updateComponent, updateModal } from "../../../actions/modal";
-import { ReactNode } from "react";
 
 import { updateProduct } from "actions/product";
 import { getProductIdFromSlug } from "utils/url.ts";
@@ -42,11 +41,12 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       }
     },
     updateComponentModal: (
-      component: ReactNode,
+      component: string,
+      props: any,
       fullscreen = false,
       bodyClass?: string
     ) => {
-      dispatch(updateComponent(component, fullscreen, bodyClass));
+      dispatch(updateComponent(component, props, fullscreen, bodyClass));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));

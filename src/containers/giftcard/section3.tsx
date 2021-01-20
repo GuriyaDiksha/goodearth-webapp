@@ -129,8 +129,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
             <div
               className={cs(
                 bootstrapStyles.col12,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.textCenter,
                 styles.formBg
               )}
@@ -245,8 +245,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
             <div
               className={cs(
                 bootstrapStyles.col12,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.textCenter,
                 styles.buttonBg
               )}

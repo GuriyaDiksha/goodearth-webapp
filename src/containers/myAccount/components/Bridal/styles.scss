@@ -565,6 +565,33 @@
 }
 
 @media screen and (max-width: 992px) {
+  .bridal-icons {
+    ul {
+      &.icons {
+        li {
+          height: 120px;
+          width: 120px;
+
+          img {
+            width: 80px;
+          }
+          ~ li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+    ul {
+      &.txt {
+        li {
+          width: 120px;
+          ~ li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
   .bridal-block {
     .lane2 {
       position: absolute;
@@ -1271,7 +1298,7 @@ margin-bottom: 50px !important;
 
   .section {
     height: 100%;
-    padding: 20px 0;
+    // padding: 20px 0;
     display: -webkit-box;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -1396,4 +1423,9 @@ margin-bottom: 50px !important;
 }
 .nowrap {
   flex-wrap: nowrap;
+}
+.bridal-item-remove {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

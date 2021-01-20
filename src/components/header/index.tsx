@@ -50,7 +50,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
+export type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
 
@@ -96,7 +96,19 @@ class Header extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.onLoadAPiCall(this.props.isLoggedIn, this.props.cookies);
+    const isBridalPublicPage =
+      this.props.location.pathname.includes("/bridal/") &&
+      !this.props.location.pathname.includes("/account/");
+    let bridalKey = "";
+    if (isBridalPublicPage) {
+      const pathArray = this.props.location.pathname.split("/");
+      bridalKey = pathArray[pathArray.length - 1];
+    }
+    this.props.onLoadAPiCall(
+      this.props.isLoggedIn,
+      this.props.cookies,
+      bridalKey
+    );
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");
@@ -111,9 +123,6 @@ class Header extends React.Component<Props, State> {
     });
 
     // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
-    const isBridalPublicPage =
-      this.props.location.pathname.includes("/bridal/") &&
-      !this.props.location.pathname.includes("/account/");
     if (
       this.props.announcement.isBridalActive &&
       !this.props.cart.bridal &&
@@ -517,8 +526,9 @@ class Header extends React.Component<Props, State> {
                 <div
                   className={cs(
                     bootstrap.col3,
-                    bootstrap.colMd2,
-                    styles.hamburger
+                    bootstrap.colLg2,
+                    styles.hamburger,
+                    { [globalStyles.cerise]: mobile }
                   )}
                 >
                   <i
@@ -557,7 +567,7 @@ class Header extends React.Component<Props, State> {
               )}
               <div
                 className={cs(
-                  bootstrap.colMd2,
+                  bootstrap.colLg2,
                   bootstrap.col6,
                   styles.logoContainer
                 )}
@@ -571,9 +581,9 @@ class Header extends React.Component<Props, State> {
               ) : (
                 <div
                   className={cs(
-                    bootstrap.colMd6,
+                    bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetMd1
+                    bootstrap.offsetLg1
                   )}
                 >
                   <MainMenu
@@ -590,7 +600,7 @@ class Header extends React.Component<Props, State> {
                   />
                 </div>
               )}
-              <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
+              <div className={cs(bootstrap.colLg3, bootstrap.col3)}>
                 {!mobile && (
                   <SideMenu
                     showBag={this.state.showBag}
@@ -613,12 +623,14 @@ class Header extends React.Component<Props, State> {
                               ? cs(
                                   iconStyles.icon,
                                   iconStyles.iconCrossNarrowBig,
-                                  styles.iconStyleCross
+                                  styles.iconStyleCross,
+                                  { [globalStyles.cerise]: mobile }
                                 )
                               : cs(
                                   iconStyles.icon,
                                   iconStyles.iconSearch,
-                                  styles.iconStyle
+                                  styles.iconStyle,
+                                  { [globalStyles.cerise]: mobile }
                                 )
                           }
                         ></i>
@@ -632,10 +644,17 @@ class Header extends React.Component<Props, State> {
                             className={cs(
                               iconStyles.icon,
                               iconStyles.iconCart,
-                              styles.iconStyle
+                              styles.iconStyle,
+                              { [globalStyles.cerise]: mobile }
                             )}
                           ></i>
-                          <span className={styles.badge}>{bagCount}</span>
+                          <span
+                            className={cs(styles.badge, {
+                              [globalStyles.cerise]: mobile
+                            })}
+                          >
+                            {bagCount}
+                          </span>
                         </div>
                       </li>
                     )}

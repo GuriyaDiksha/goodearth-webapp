@@ -1,9 +1,9 @@
 import * as Actions from "actions/modal";
 import { ActionType } from "typings/actionCreator";
-import { ReactNode } from "react";
 
 export type State = {
-  component: ReactNode;
+  component: string;
+  props: any;
   openModal: boolean;
   fullscreen: boolean;
   bodyClass: string;
