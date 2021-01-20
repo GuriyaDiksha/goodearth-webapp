@@ -13,9 +13,10 @@ import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
 import { useStore } from "react-redux";
 import { updateModal, updateComponent } from "actions/modal";
-import NotifyMePopup from "components/NotifyMePopup";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes } from "typings/product";
+import { POPUP } from "constants/components";
+import bridalRing from "../../images/bridal/rings.svg";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -118,20 +119,19 @@ const CartItems: React.FC<BasketItem> = memo(
     const showNotifyPopup = () => {
       dispatch(
         updateComponent(
-          <NotifyMePopup
-            basketLineId={id}
-            price={product.priceRecords[currency]}
-            currency={currency}
-            title={product.title}
-            childAttributes={
-              product.childAttributes as ChildProductAttributes[]
-            }
-            selectedIndex={0}
-            discount={false}
-            onNotifyCart={onNotifyCart}
-            // changeSize={changeSize}
-            list="cart"
-          />,
+          POPUP.NOTIFYMEPOPUP,
+          {
+            basketLineId: id,
+            price: product.priceRecords[currency],
+            currency: currency,
+            title: product.title,
+            childAttributes: product.childAttributes as ChildProductAttributes[],
+            selectedIndex: 0,
+            discount: false,
+            onNotifyCart: onNotifyCart,
+            // changeSize:{changeSize},
+            list: "cart"
+          },
           false,
           ModalStyles.bottomAlign
         )
@@ -208,7 +208,21 @@ const CartItems: React.FC<BasketItem> = memo(
           <div
             className={cs(bootstrap.col5, bootstrap.colMd2, styles.cartPadding)}
           >
-            <div className={styles.cartRing}></div>
+            <div className={styles.cartRing}>
+              {bridalProfile && (
+                <svg
+                  viewBox="-5 -5 50 50"
+                  width="40"
+                  height="40"
+                  preserveAspectRatio="xMidYMid meet"
+                  x="0"
+                  y="0"
+                  className={styles.ceriseBridalRings}
+                >
+                  <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                </svg>
+              )}
+            </div>
             <Link to={isGiftCard ? "#" : url}>
               <img className={styles.productImage} src={imageUrl} />
             </Link>
@@ -328,7 +342,11 @@ const CartItems: React.FC<BasketItem> = memo(
                   onClick={deleteItem}
                 ></i>
               </div>
-              <div className={cs({ [globalStyles.hiddenEye]: isGiftCard })}>
+              <div
+                className={cs({
+                  [globalStyles.hiddenEye]: isGiftCard || bridalProfile
+                })}
+              >
                 <WishlistButton
                   source="cart"
                   gtmListType="cart"

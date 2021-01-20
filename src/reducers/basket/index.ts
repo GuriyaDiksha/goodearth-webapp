@@ -2,7 +2,6 @@ import { State, BasketActions } from "./typings";
 
 const initialState: State = {
   finalDeliveryDate: "",
-  isBridal: false,
   currency: "INR",
   isTaxKnown: false,
   lineItems: [],
@@ -23,7 +22,10 @@ const initialState: State = {
   isOnlyGiftCart: false,
   publishRemove: false,
   updated: false,
-  addnewGiftcard: 0
+  addnewGiftcard: 0,
+  bridal: false,
+  bridalProfileId: 0,
+  bridalAddressId: 0
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

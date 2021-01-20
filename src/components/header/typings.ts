@@ -38,6 +38,8 @@ export type AnnouncementBar = {
   bgColorcode: string;
   bridalBgColorcode: string;
   isBridalActive: boolean;
+  registrantName?: string;
+  coRegistrantName?: string;
 };
 
 export type WishListType = {

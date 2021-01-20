@@ -13,10 +13,19 @@ import {
   updateCountryData
 } from "./address";
 import { updateCurrencyList } from "./info";
+import { MetaResponse } from "services/meta/typings";
 
-const initAction: any = async (store: Store) => {
+const initAction: any = async (store: Store, history: any) => {
   const state: AppState = store.getState();
-  let apiCalls = [
+  const isBridalPublicPage =
+    history.location.pathname.includes("/bridal/") &&
+    !history.location.pathname.includes("/account/");
+  let bridalKey = "";
+  if (isBridalPublicPage) {
+    const pathArray = history.location.pathname.split("/");
+    bridalKey = pathArray[pathArray.length - 1];
+  }
+  let apiCalls: Promise<void | MetaResponse | undefined>[] = [
     HeaderService.fetchHeaderDetails(store.dispatch)
       .then(data => {
         console.log(data);
@@ -60,7 +69,7 @@ const initAction: any = async (store: Store) => {
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       }),
-    ApiService.getCurrency(store.dispatch).catch(err => {
+    ApiService.getCurrency(store.dispatch, bridalKey).catch(err => {
       console.log("CURRENCY API ERROR ==== " + err);
     }),
     ApiService.getSalesStatus(store.dispatch).catch(err => {
@@ -73,9 +82,11 @@ const initAction: any = async (store: Store) => {
 
   if (state.cookies.tkn) {
     apiCalls = apiCalls.concat([
-      MetaService.updateMeta(store.dispatch, state.cookies).catch(err => {
-        console.log("META API ERROR ==== " + err);
-      })
+      MetaService.updateMeta(store.dispatch, state.cookies, bridalKey).catch(
+        err => {
+          console.log("META API ERROR ==== " + err);
+        }
+      )
     ]);
   }
   return Promise.all(apiCalls);

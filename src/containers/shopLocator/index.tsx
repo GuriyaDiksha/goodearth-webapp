@@ -133,9 +133,12 @@ class ShopLocator extends React.Component<
       device: { mobile }
     } = this.props;
 
-    const isCafe = this.props.shopData[this.state.city]?.filter(
-      (store: any) => store.cafeHeading2
-    );
+    const isCafe =
+      this.props.shopData[this.state.city]?.filter(
+        (store: any) =>
+          store.place.replace(/\s/g, "_") == this.props.shopname &&
+          store.cafeHeading2
+      ).length > 0;
 
     return (
       <SecondaryHeader>

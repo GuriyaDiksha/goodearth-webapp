@@ -8,6 +8,7 @@ export type AddressData = AddressFormData & {
   coRegistrantName: string;
   occasion: string;
   isTulsi?: boolean;
+  isBackendOrder?: boolean;
 };
 
 export type specifyShippingAddressResponse = {
@@ -44,17 +45,17 @@ export type Props = {
   selectedAddress?: AddressData;
   currentCallBackComponent: string;
   isActive?: boolean;
-  next: (step: string) => void;
-  finalizeAddress: (
+  next?: (step: string) => void;
+  finalizeAddress?: (
     address: AddressData | null,
     activeStep: string,
     obj: { gstNo?: string; panPassportNo: string; gstType?: string }
   ) => void;
-  hidesameShipping: boolean;
+  hidesameShipping?: boolean;
   activeStep?: string;
   // items: Basket;
-  bridalId: string;
-  isGoodearthShipping: boolean;
+  bridalId?: string;
+  isGoodearthShipping?: boolean;
   addressType: string;
   addresses: AddressData[];
   setCurrentSection?: () => void;
