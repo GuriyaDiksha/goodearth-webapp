@@ -317,7 +317,7 @@ padding-left: 15px;
   width: 100%;
 }
 .bag-contents {
-  padding: 25px 5px;
+  padding: 25px 5px 200px 5px;
 }
 .section {
   padding: 0 0 20px 0;
@@ -413,4 +413,124 @@ display: inline-table;
     fill: $white;
     border-radius: 50%;
   }
+}
+
+  /* empty wishlist content */
+.checkheight {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  min-height: 300px;
+  padding: 0 2rem 0 2rem;
+}
+.checkheight-mobile {
+  min-height: 300px;
+  padding: 0;
+}
+
+.npf-msg {
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: tint(#000, 50%);
+  font-style: italic;
+  span {
+    color: $cerise;
+  }
+  }
+
+  .search-imagebox-new {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding: 135% 0 0 0;
+    }
+    
+    .search-heading {
+    font-size: 25px;
+    h2 {
+      font-size: 25px;
+      font-family: "Baskerville","Amiri","Serif";
+      color: #333;
+      line-height: 60px;
+      margin-top: 10px;
+    }
+    }
+    .search-heading-mobile {
+      h2 {
+        line-height: 30px;
+      }
+    }
+    .image-content {
+      text-align: center;
+      height: 110px;
+      margin-top: 15px;
+      width: 100%;
+  }
+    
+    .search-image-title {
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #464646;
+    font-family: "HeaderFont","Trebuchet MS","geneva";
+    display: block;
+    text-align: center;
+    letter-spacing: 0.5px;
+    position: relative;
+    }
+    
+    .search-bottom-block-second {
+    width: 100vw;
+    height: 150px;
+    z-index: 10;
+    padding: 10px 0;
+    }
+    
+    .search-bottom-block {
+    //position: fixed;
+    // bottom: 0;
+    width: 100vw;
+    height: 150px;
+    background-color: tint(#000, 90%);
+    z-index: 10;
+    padding: 10px 0;
+    .count {
+      font-style: italic;
+      margin-top: 25px;
+      font-size: 13px;
+      letter-spacing: .5px;
+    }
+    p {
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 6px;
+      font-size: 15px;
+      color: $cerise;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    }
+.image-result-new {
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.search-feature {
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  a {
+    color: #ab1e56;
+    text-decoration: underline;
+  }
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
