@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import EditRegistry from "./EditRegistry";
 import BridalItemsList from "./BridalItemsList";
-import BridalMobileProductUpdate from "./BridalMobileProductUpdate";
 import { useDispatch, useSelector } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import { BridalItemData, BridalProfileData } from "./typings";
@@ -17,6 +15,7 @@ import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import bridalRing from "../../../../images/bridal/rings.svg";
 import iconEdit from "../../../../images/bridal/iconEdit.svg";
 import { AppState } from "reducers/typings";
+import { POPUP } from "constants/components";
 
 type Props = {
   // bridalProfile: BridalProfileData;
@@ -86,12 +85,13 @@ const ManageRegistryFull: React.FC<Props> = ({
   const openMobileProductUpdatePopup = () => {
     dispatch(
       updateComponent(
-        <BridalMobileProductUpdate
-          itemData={bridalItems && bridalItems[mobileIndex]}
-          // closeMobile={closeMobileAdd}
-          bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
-          fetchBridalItems={fetchBridalItems}
-        />,
+        POPUP.BRIDALMOBILEPRODUCTUPDATE,
+        {
+          itemData: bridalItems && bridalItems[mobileIndex],
+          // closeMobile: closeMobileAdd,
+          bridalId: bridalProfileData ? bridalProfileData.bridalId : 0,
+          fetchBridalItems: fetchBridalItems
+        },
         true
       )
     );
@@ -125,17 +125,18 @@ const ManageRegistryFull: React.FC<Props> = ({
   const openEditRegistryPopup = (clickType: string) => {
     dispatch(
       updateComponent(
-        <EditRegistry
-          // mobile={mobile}
-          clickType={clickType}
-          eventDate={currentEventDate}
-          bridalProfile={bridalProfile}
-          changeName={changeName}
-          // close_popup={closePopup}
-          changeDate={changeDate}
-          // update_address={updateAddress}
-          bridalId={bridalProfileData ? bridalProfileData.bridalId : 0}
-        />,
+        POPUP.EDITREGISTRY,
+        {
+          // mobile: mobile,
+          clickType: clickType,
+          eventDate: currentEventDate,
+          bridalProfile: bridalProfile,
+          changeName: changeName,
+          // close_popup: closePopup,
+          changeDate: changeDate,
+          // update_address: updateAddress,
+          bridalId: bridalProfileData ? bridalProfileData.bridalId : 0
+        },
         mobile ? true : false
       )
     );
