@@ -17,6 +17,11 @@ import Zoom from "components/Zoom";
 import SizeChartPopup from "containers/pdp/components/sizeChartPopup";
 import WallpaperPopup from "containers/pdp/components/wallpaperPopup";
 import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
+import BridalMobile from "containers/bridal/bridalItemMobile";
+import EditRegistry from "containers/myAccount/components/Bridal/EditRegistry";
+import BridalMobileProductUpdate from "containers/myAccount/components/Bridal/BridalMobileProductUpdate";
+import BridalPop from "containers/myAccount/components/Bridal/BridalPop";
+import ShareLink from "containers/myAccount/components/Bridal/ShareLink";
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
@@ -34,7 +39,12 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   zoom: Zoom,
   sizeChartPopup: SizeChartPopup,
   wallpaperPopup: WallpaperPopup,
-  thirdPartyEnquiryPopup: ThirdPartyEnquiryPopup
+  thirdPartyEnquiryPopup: ThirdPartyEnquiryPopup,
+  bridalMobile: BridalMobile,
+  editRegistry: EditRegistry,
+  bridalMobileProductUpdate: BridalMobileProductUpdate,
+  bridalPop: BridalPop,
+  shareLink: ShareLink
 };
 
 export enum POPUP {
@@ -53,5 +63,10 @@ export enum POPUP {
   ZOOM = "zoom",
   SIZECHARTPOPUP = "sizeChartPopup",
   WALLPAPERPOPUP = "wallpaperPopup",
-  THIRDPARTYENQUIRYPOPUP = "thirdPartyEnquiryPopup"
+  THIRDPARTYENQUIRYPOPUP = "thirdPartyEnquiryPopup",
+  BRIDALMOBILE = "bridalMobile",
+  EDITREGISTRY = "editRegistry",
+  BRIDALMOBILEPRODUCTUPDATE = "bridalMobileProductUpdate",
+  BRIDALPOP = "bridalPop",
+  SHARELINK = "shareLink"
 }
