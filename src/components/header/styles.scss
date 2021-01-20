@@ -77,6 +77,18 @@
       .icon-style {
         font-size: 16px;
       }
+      .disabled-menu-item-stories {
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #464646;
+        font-family: "HeaderFont", "Trebuchet MS", "geneva";
+        letter-spacing: 2px;
+        display: block;
+        text-align: center;
+        letter-spacing: 0.2em;
+        position: relative;
+        line-height: 50px;
+      }
     }
     .disabled-menu-item {
       display: inline-block;

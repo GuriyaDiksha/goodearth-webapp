@@ -43,7 +43,7 @@ const AddressSection: React.FC<AddressProps & {
     (props.activeStep == Steps.STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
     !isGoodearthShipping &&
-    (props.activeStep == Steps.STEP_BILLING || props.isBridal);
+    !props.isBridal;
   // state = {
   // address: "",
   // showAddressForm: isLoggedIn ? false : props.activeStep == Steps.STEP_BILLING ? (props.isBridal ? true : false) : true,
@@ -94,8 +94,8 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   useEffect(() => {
-    setSameAsShipping(!isGoodearthShipping && hidesameShipping);
-  }, [isGoodearthShipping, hidesameShipping]);
+    setSameAsShipping(!isGoodearthShipping && hidesameShipping && !isBridal);
+  }, [isGoodearthShipping, hidesameShipping, isBridal]);
 
   const renderActions = function() {
     if (isActive && isLoggedIn) {
@@ -150,8 +150,8 @@ const AddressSection: React.FC<AddressProps & {
         >
           <div>
             <span className={globalStyles.marginR10}>
-              {address.registrantName} & {address.coRegistrantName}&#39;s
-              Wedding Registry
+              {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
+              {address.occasion} Registry
             </span>
           </div>
           <div>

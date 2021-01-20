@@ -86,6 +86,10 @@
         font-size: 38px;
         line-height: 50px;
     }
+    &.active {
+        background-color: $cerise;
+        border: 1px solid $cerise;
+    }
 }
 
 .bridal-section {
@@ -205,4 +209,9 @@
 
 .margin-t-0 {
   margin-top: 0;
+}
+
+.quickview-loyalty-message {
+    position: absolute;
+    bottom: 75px;
 }
