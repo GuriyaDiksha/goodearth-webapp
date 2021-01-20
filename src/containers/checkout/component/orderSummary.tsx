@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import cs from "classnames";
-import loadable from "@loadable/component";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
 import { OrderProps } from "./typings";
@@ -13,7 +12,7 @@ import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
 import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
-const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
+import { POPUP } from "constants/components";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -437,9 +436,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
     ) {
       dispatch(
         updateComponent(
-          <FreeShipping
-            remainingAmount={50000 - parseInt(basket.total.toString())}
-          />,
+          POPUP.FREESHIPPING,
+          {
+            remainingAmount: 50000 - parseInt(basket.total.toString())
+          },
           true
         )
       );

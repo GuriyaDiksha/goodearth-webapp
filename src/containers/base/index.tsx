@@ -17,7 +17,7 @@ import { updateComponent, updateModal } from "actions/modal";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
-import CurrencyPopup from "components/Popups/CurrencyPopup";
+import { POPUP } from "constants/components";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const location = useLocation();
@@ -149,7 +149,7 @@ const BaseLayout: React.FC = () => {
       !location.pathname.includes("/bridal/") &&
       !announcementData.isBridalActive
     ) {
-      dispatch(updateComponent(<CurrencyPopup />, true));
+      dispatch(updateComponent(POPUP.CURRENCY, null, true));
       dispatch(updateModal(true));
     }
 

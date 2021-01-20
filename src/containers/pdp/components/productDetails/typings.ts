@@ -10,7 +10,12 @@ export type Props = {
   wishlist: ProductID[];
   isQuickview?: boolean;
   changeModalState?: any;
-  updateComponentModal?: any;
+  updateComponentModal: (
+    component: string,
+    props: any,
+    fullScreen?: boolean,
+    bodyClass?: string
+  ) => void;
   corporatePDP: boolean;
   source?: string;
 };
