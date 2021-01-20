@@ -7,11 +7,9 @@ import DateSelect from "./DateSelect";
 import BridalDetails from "./BridalDetails";
 import AddressMain from "components/Address/AddressMain";
 import RegistryCreated from "./RegistryCreated";
-import BridalPop from "./BridalPop";
 import ManageRegistry from "./ManageRegistry";
 import ManageRegistryFull from "./ManageRegistryFull";
 // import ManageAddress from './manageaddress'
-import ShareLink from "./ShareLink";
 import { confirmPopup } from "utils/validate";
 import { BridalDetailsType, BridalProfileData } from "./typings";
 
@@ -22,6 +20,7 @@ import AddressService from "services/address";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { updateAddressList } from "actions/address";
 import { updateUser } from "actions/user";
+import { POPUP } from "constants/components";
 
 type Props = {
   bridalId: number;
@@ -110,7 +109,7 @@ const Bridal: React.FC<Props> = props => {
   }, [props.bridalId]);
 
   const openBridalPop = () => {
-    dispatch(updateComponent(<BridalPop />, true));
+    dispatch(updateComponent(POPUP.BRIDALPOP, null, true));
     dispatch(updateModal(true));
   };
 
@@ -118,12 +117,13 @@ const Bridal: React.FC<Props> = props => {
     if (shareLink) {
       dispatch(
         updateComponent(
-          <ShareLink
+          POPUP.SHARELINK,
+          {
             // changeScreen={closePopup}
-            shareUrl={shareLink}
-            bridalProfile={bridalProfile}
+            shareUrl: shareLink,
+            bridalProfile: bridalProfile
             // bridalDetails={bridalDetails}
-          />,
+          },
           true
         )
       );
