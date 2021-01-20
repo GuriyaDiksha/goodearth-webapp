@@ -1,17 +1,17 @@
 import { updateComponent, updateModal } from "../../../actions/modal";
 import { updateQuickviewId } from "actions/quickview";
-import { ReactNode } from "react";
 import { Dispatch } from "redux";
 import { updatePlpMobileView } from "actions/plp";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
     updateComponentModal: (
-      component: ReactNode,
+      component: string,
+      props: any,
       fullscreen?: boolean,
       bodyClass?: string
     ) => {
-      dispatch(updateComponent(component, fullscreen, bodyClass));
+      dispatch(updateComponent(component, props, fullscreen, bodyClass));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));

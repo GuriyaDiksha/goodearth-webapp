@@ -372,7 +372,12 @@ class BridalCheckout extends React.Component<Props, State> {
                         </a>
                       </div>
                       {!mobile && (
-                        <div className={styles.wishlist}>
+                        <div
+                          className={cs(
+                            globalStyles.marginT20,
+                            globalStyles.textCenter
+                          )}
+                        >
                           <img src={weddingFloral} />
                         </div>
                       )}

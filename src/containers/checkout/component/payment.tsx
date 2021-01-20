@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 import Loader from "components/Loader";
 import Reedem from "./redeem";
 import { updateComponent, updateModal } from "actions/modal";
-import ShippingPopup from "./shippingPopup";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import * as valid from "utils/validate";
+import { POPUP } from "constants/components";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -63,7 +63,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (!subscribegbp) {
       dispatch(
         updateComponent(
-          <ShippingPopup closeModal={closeModal} acceptCondition={setAccept} />,
+          POPUP.SHIPPINGPOPUP,
+          { closeModal: closeModal, acceptCondition: setAccept },
           true
         )
       );
@@ -462,9 +463,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 htmlFor="subscribe"
                 className={cs(globalStyles.pointer, styles.linkCerise)}
               >
-                I agree to receiving e-mails, calls and text messages for
-                service related information. To know more how we keep your data
-                safe, refer to our{" "}
+                I agree to receiving e-mails, newsletters, calls and text
+                messages for service related information. To know more how we
+                keep your data safe, refer to our{" "}
                 <Link to="/customer-assistance/privacy-policy" target="_blank">
                   Privacy Policy
                 </Link>

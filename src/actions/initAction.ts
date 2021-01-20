@@ -82,9 +82,11 @@ const initAction: any = async (store: Store, history: any) => {
 
   if (state.cookies.tkn) {
     apiCalls = apiCalls.concat([
-      MetaService.updateMeta(store.dispatch, state.cookies).catch(err => {
-        console.log("META API ERROR ==== " + err);
-      })
+      MetaService.updateMeta(store.dispatch, state.cookies, bridalKey).catch(
+        err => {
+          console.log("META API ERROR ==== " + err);
+        }
+      )
     ]);
   }
   return Promise.all(apiCalls);
