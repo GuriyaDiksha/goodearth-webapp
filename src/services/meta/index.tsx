@@ -10,10 +10,9 @@ import { User } from "typings/user";
 import { initialState } from "reducers/user";
 import API from "utils/api";
 import { updateComponent, updateModal } from "actions/modal";
-import ProfileUpdater from "components/signin/profileUpdater";
-import React from "react";
 import HeaderService from "services/headerFooter";
 import CookieService from "services/cookie";
+import { POPUP } from "constants/components";
 
 export default {
   fetchMeta: async function(
@@ -52,7 +51,7 @@ export default {
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       if (typeof document != "undefined" && user.email && !user.gender) {
-        dispatch(updateComponent(<ProfileUpdater />, true));
+        dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
       }
       if (user.email) {

@@ -2,7 +2,8 @@ import { State, ModalActions } from "./typings";
 // import * as Actions from "actions/quickview";
 
 const initialState: State = {
-  component: null,
+  component: "",
+  props: null,
   openModal: false,
   fullscreen: false,
   bodyClass: ""
@@ -14,6 +15,7 @@ export const modal = (state = initialState, action: ModalActions): State => {
       return {
         ...state,
         component: action.payload.component,
+        props: action.payload.props,
         fullscreen: action.payload.fullscreen,
         bodyClass: action.payload.bodyClass || ""
       };

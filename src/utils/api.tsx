@@ -6,8 +6,7 @@ import { updateCookies } from "actions/cookies";
 import CookieService from "services/cookie";
 import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
-import BackendOrderPopup from "components/BackendOrderPopup";
-import React from "react";
+import { POPUP } from "constants/components";
 
 class API {
   static async get<T>(
@@ -120,7 +119,7 @@ class API {
                   err.response.data?.reason == "BACKEND_ORDER_BASKET"
                 ) {
                   dispatch(
-                    updateComponent(<BackendOrderPopup />, true, undefined)
+                    updateComponent(POPUP.BACKENDORDER, null, true, undefined)
                   );
                   dispatch(updateModal(true));
                   reject(err);
