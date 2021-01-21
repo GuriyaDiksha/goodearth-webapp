@@ -18,3 +18,6 @@ export const updateNextUrl = (nextUrl: string) =>
 
 export const updateDeliveryText = (text: string) =>
   actionCreator("UPDATE_DELIVERY_TEXT", text);
+
+export const updateScrollDown = (scrollDown: boolean) =>
+  actionCreator("UPDATE_SCROLL_DOWN", scrollDown);

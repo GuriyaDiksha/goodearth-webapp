@@ -7,9 +7,6 @@ import styles from "../styles.scss";
 // import { PopupProps } from "./typings";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context.ts";
-// import { currencyCodes } from "constants/currency";
-// import { useSelector } from "react-redux";
-// import { AppState } from "reducers/typings";
 import { NavLink } from "react-router-dom";
 
 type PopupProps = {
@@ -21,7 +18,6 @@ type PopupProps = {
 const Delivery: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
-  //   const currency = useSelector((state: AppState) => state.currency);
   const [textarea, setTextarea] = useState("");
 
   return (

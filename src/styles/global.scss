@@ -387,6 +387,10 @@ font-weight: bold;
   padding-top: 60px;
 }
 
+.paddTop-70 {
+  padding-top: 70px;
+}
+
 .paddTop-40 {
   padding-top: 40px;
 }
@@ -421,6 +425,9 @@ font-weight: bold;
 }
 .txt-cap {
   text-transform: capitalize;
+}
+.txt-small {
+  text-transform: lowercase;
 }
 .lh40 {
   line-height: 40px;

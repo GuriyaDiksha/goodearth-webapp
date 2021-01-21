@@ -234,18 +234,20 @@ class BridalItem extends React.Component<Props, State> {
                             +
                           </span>
                         </div>
-                        {this.state.err ? (
-                          <div
-                            className={cs(
-                              globalStyles.errorMsg,
-                              globalStyles.textCenter
-                            )}
-                          >
-                            {this.state.err}
-                          </div>
-                        ) : (
-                          ""
-                        )}
+                        <div className={styles.h15}>
+                          {this.state.err ? (
+                            <div
+                              className={cs(
+                                globalStyles.errorMsg,
+                                globalStyles.textCenter
+                              )}
+                            >
+                              {this.state.err}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

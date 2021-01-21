@@ -146,9 +146,14 @@
     position: fixed;
     margin-bottom: 0;
     bottom: 50px;
+    left: 0;
     align-self: flex-start;
     z-index: 6;
     background-color: white;
+    transition: bottom 0.3s;
+    &.hide {
+      bottom: 0;
+    }
 }
 
 .mobile-filter-sort-bg {

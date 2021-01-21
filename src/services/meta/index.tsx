@@ -10,20 +10,21 @@ import { User } from "typings/user";
 import { initialState } from "reducers/user";
 import API from "utils/api";
 import { updateComponent, updateModal } from "actions/modal";
-import ProfileUpdater from "components/signin/profileUpdater";
-import React from "react";
 import HeaderService from "services/headerFooter";
 import CookieService from "services/cookie";
+import { POPUP } from "constants/components";
 
 export default {
   fetchMeta: async function(
     dispatch: Dispatch,
-    cookies: Cookies
+    cookies: Cookies,
+    bridalKey?: string
   ): Promise<MetaResponse> {
+    const payload = !bridalKey ? {} : { bridalKey };
     const res: MetaResponse = await API.post(
       dispatch,
       `${__API_HOST__ + `/myapi/auth/meta/`}`,
-      {}
+      payload
       // {
       //     Authorization: `Token ${cookies.tkn || ""}`
       // }
@@ -31,10 +32,18 @@ export default {
     return res;
   },
 
-  updateMeta: async function(dispatch: Dispatch, cookies: Cookies) {
+  updateMeta: async function(
+    dispatch: Dispatch,
+    cookies: Cookies,
+    bridalKey?: string
+  ) {
     let user: Partial<User> = initialState;
     if (cookies.tkn) {
-      const meta: MetaResponse = await this.fetchMeta(dispatch, cookies);
+      const meta: MetaResponse = await this.fetchMeta(
+        dispatch,
+        cookies,
+        bridalKey
+      );
       user = meta.user || {};
       user.bridal = meta.bridalUser;
       user.bridalId = meta.bridalId;
@@ -42,7 +51,7 @@ export default {
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       if (typeof document != "undefined" && user.email && !user.gender) {
-        dispatch(updateComponent(<ProfileUpdater />, true));
+        dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
       }
       if (user.email) {
