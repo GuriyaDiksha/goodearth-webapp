@@ -23,6 +23,10 @@
   width: 100%;
   background-color: rgb(249, 248, 245);
   height: 50px;
+  transition: bottom 0.3s;
+  &.hide {
+    bottom: -50px;
+  }
 }
 
 .header-container {

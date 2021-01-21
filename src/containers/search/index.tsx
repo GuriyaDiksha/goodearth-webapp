@@ -1,5 +1,4 @@
-import loadable from "@loadable/component";
-import React, { Fragment, ReactNode } from "react";
+import React, { Fragment } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import initActionSearch from "./initAction";
@@ -25,8 +24,7 @@ import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import CookieService from "../../services/cookie";
-
-const Quickview = loadable(() => import("components/Quickview"));
+import { POPUP } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -44,8 +42,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
     },
-    updateComponentModal: (component: ReactNode, fullscreen?: boolean) => {
-      dispatch(updateComponent(component, fullscreen));
+    updateComponentModal: (
+      component: string,
+      props: any,
+      fullscreen?: boolean
+    ) => {
+      dispatch(updateComponent(component, props, fullscreen));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
@@ -112,7 +114,8 @@ class Search extends React.Component<
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
-      <Quickview id={id} productListId={plpProductId} source="Search" />,
+      POPUP.QUICKVIEW,
+      { id: id, productListId: plpProductId, source: "Search" },
       true
     );
     changeModalState(true);

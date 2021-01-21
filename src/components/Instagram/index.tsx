@@ -69,7 +69,11 @@ const Instagram: React.FC<InstaProps> = Props => {
         {instData?.map((data: any) => {
           return (
             <div>
-              <a href={data.link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={data.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   src={data.media_url}
                   className={globalStyles.imgResponsive}

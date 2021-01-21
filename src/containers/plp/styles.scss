@@ -59,7 +59,7 @@
 }
 @media screen and (max-width: 992px) {
   .page-body{
-    margin-top: $header-height;
+    margin-top: $header-height + $grid-view-bar;
   }
   .imageContainerMobile {
     margin-left: 0;
@@ -719,4 +719,35 @@ p.corporate-sub-heading {
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+}
+.list-grid-bar {
+  width: 100%;
+  height: 50px;
+  padding: 10px 20px;
+  background-color: white;
+  position: fixed;
+  top: $header-height;
+  z-index: 3;
+  box-shadow: 0 8px 6px -6px #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transition: top 0.3s;
+  &.hide {
+    top: 0px;
+  }
+  i {
+    display: inline-block;
+    font-size: 22px;
+    margin-left: 20px;
+    color: gray;
+    &.active {
+      color: $cerise;
+    }
+  }
+}
+.list-view-container {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
 }

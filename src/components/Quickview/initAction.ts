@@ -5,7 +5,6 @@ import { updateProduct } from "../../actions/product";
 import { updateQuickviewId } from "../../actions/quickview";
 import { Product, PartialProductItem } from "../../typings/product.js";
 import { updateModal, updateComponent } from "../../actions/modal";
-import { ReactNode } from "react";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -23,11 +22,12 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       }
     },
     updateComponentModal: (
-      component: ReactNode,
+      component: string,
+      props: any,
       fullscreen = false,
       bodyClass?: string
     ) => {
-      dispatch(updateComponent(component, fullscreen, bodyClass));
+      dispatch(updateComponent(component, props, fullscreen, bodyClass));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));

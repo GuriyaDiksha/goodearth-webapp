@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import BridalItem from "./bridalItem";
 import { BridalPublicProfileData } from "../myAccount/components/Bridal/typings";
-import BridalMobile from "./bridalItemMobile";
 import BridalService from "../../services/bridal";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
@@ -14,6 +13,7 @@ import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import weddingFloral from "../../images/bridal/wedding-floral.png";
 import iconStyles from "styles/iconFonts.scss";
+import { POPUP } from "constants/components";
 
 type RouteInfo = {
   id: string;
@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
       );
       return res;
     },
-    showMobilePopup: (component: React.ReactNode) => {
-      dispatch(updateComponent(component, true));
+    showMobilePopup: (component: string, props: any) => {
+      dispatch(updateComponent(component, props, true));
       dispatch(updateModal(true));
     }
   };
@@ -103,14 +103,13 @@ class BridalCheckout extends React.Component<Props, State> {
 
   handleMobileAdd = (mindex: number) => {
     // this.setState({ showMobilePopup: true });
-    const component = (
-      <BridalMobile
-        // closeMobile={this.closeMobileAdd}
-        bridalItem={this.state.bridalProfile.items[mindex]}
-        bridalId={this.state.bridalProfile.bridalId}
-      />
-    );
-    this.props.showMobilePopup(component);
+    const component = POPUP.BRIDALMOBILE;
+    const props = {
+      // closeMobile={this.closeMobileAdd}
+      bridalItem: this.state.bridalProfile.items[mindex],
+      bridalId: this.state.bridalProfile.bridalId
+    };
+    this.props.showMobilePopup(component, props);
     this.setState({ mobileIndex: mindex });
   };
 
@@ -372,7 +371,12 @@ class BridalCheckout extends React.Component<Props, State> {
                         </a>
                       </div>
                       {!mobile && (
-                        <div className={styles.wishlist}>
+                        <div
+                          className={cs(
+                            globalStyles.marginT20,
+                            globalStyles.textCenter
+                          )}
+                        >
                           <img src={weddingFloral} />
                         </div>
                       )}

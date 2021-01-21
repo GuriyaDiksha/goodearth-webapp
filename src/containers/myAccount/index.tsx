@@ -4,7 +4,6 @@ import {
   NavLink,
   Switch,
   Route,
-  useRouteMatch,
   useLocation,
   useHistory
 } from "react-router-dom";
@@ -44,7 +43,6 @@ const MyAccount: React.FC<Props> = props => {
   const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
-  const { path } = useRouteMatch();
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
   const [currentSection, setCurrentSection] = useState("Profile");
@@ -300,11 +298,11 @@ const MyAccount: React.FC<Props> = props => {
                   onClick={() => setAccountListing(true)}
                 >
                   <span>
-                    {path == "/account/bridal"
+                    {pathname == "/account/bridal"
                       ? bridalId == 0
                         ? "Create a Registry"
                         : "Manage Registry"
-                      : path == "/account/giftcard-activation"
+                      : pathname == "/account/giftcard-activation"
                       ? "Activate Gift Card"
                       : currentSection}
                   </span>
@@ -320,11 +318,11 @@ const MyAccount: React.FC<Props> = props => {
                 <div className={styles.mobileFilterHeader}>
                   <div className={styles.filterCross}>
                     <span>
-                      {path == "/account/bridal"
+                      {pathname == "/account/bridal"
                         ? bridalId == 0
                           ? "Create a Registry"
                           : "Manage Registry"
-                        : path == "/account/giftcard-activation"
+                        : pathname == "/account/giftcard-activation"
                         ? "Activate Gift Card"
                         : currentSection}
                     </span>

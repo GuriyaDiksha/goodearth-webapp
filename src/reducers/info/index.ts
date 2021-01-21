@@ -6,7 +6,8 @@ const initialState: State = {
   currencyList: [],
   makerReloadToggle: false,
   nextUrl: "",
-  deliveryText: ""
+  deliveryText: "",
+  scrollDown: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -39,6 +40,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_DELIVERY_TEXT": {
       const newState = { ...state };
       newState.deliveryText = action.payload;
+      return newState;
+    }
+    case "UPDATE_SCROLL_DOWN": {
+      const newState = { ...state };
+      newState.scrollDown = action.payload;
       return newState;
     }
   }

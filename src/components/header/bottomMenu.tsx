@@ -4,7 +4,9 @@ import cs from "classnames";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
-import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
+import { Link } from "react-router-dom";
 
 type Props = {
   wishlistCount: number;
@@ -30,7 +32,9 @@ const BottomMenu: React.FC<Props> = ({
   showSearch,
   isSearch
 }) => {
-  const location = useLocation();
+  const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
+  const location = useSelector((state: AppState) => state.router.location);
+  const isPLP = location.pathname.includes("/catalogue/category");
   const gtmPushWishlistClick = () => {
     dataLayer.push({
       event: "eventsToSend",
@@ -40,7 +44,11 @@ const BottomMenu: React.FC<Props> = ({
     });
   };
   return (
-    <div className={cs(styles.headerContainerMenu)}>
+    <div
+      className={cs(styles.headerContainerMenu, {
+        [styles.hide]: isPLP && scrollDown
+      })}
+    >
       <div className={bootstrap.row}>
         <div className={cs(bootstrap.col)}>
           <div className={cs(styles.bottomMenuItem, styles.homeBottomMenu)}>
