@@ -1,26 +1,59 @@
+
+
 .music{
     position: fixed;
-    top: 90px;
     right: 90px;
     z-index: 10;
-    .toggel-menu {
-        position: absolute;
-        cursor: pointer;
-        inset: 0px;
-        transition: all 0.4s ease 0s;
-        background: rgb(163, 163, 163);
+    top: 110px;
+    .not-checked {
+        position: absolute !important;
+        cursor: pointer !important;
+        inset: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: rgb(163, 163, 163) !important;
         border-radius: 24px !important;
-        // background-color: rgb(0, 0, 0);
+        
     }
+    .checked{
+        position: absolute !important;
+        cursor: pointer !important;
+        inset: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: #a3a3a3 !important;
+        border-radius: 24px !important;
+        background-color: rgb(0, 0, 0) !important;
+    }
+    .music-fonts {
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #464646;
+        font-family: "HeaderFont", "Trebuchet MS", "geneva";
+        letter-spacing: 0.2em;
+    }
+    .music-name {
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #999999;
+        bottom: 6px;
+        position: absolute;
+        left: 22px;
+    }
+}
+
+
+.margin-top {
+    margin-top: 19px;
 }
 
 .open-music {
     --music-player-height-collapsed: 48px;
-    --music-player-height-expanded: 102px;
+    --music-player-height-expanded: 70px;
     --music-player-sub-component-height: 24px;
     background: rgb(255, 255, 255);
-    max-height: var(--music-player-height-expanded);
-    width: 240px;
+    height: var(--music-player-height-expanded);
+    width: 220px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 4px, rgba(35, 41, 54, 0.08) 0px 8px 16px;
     overflow: hidden;
     padding: 12px 24px;
@@ -29,7 +62,7 @@
     position: absolute;
     top: 24px;
     right: 0px;
-    transition: var(--video-player-animation-default);
+    transition: all 0.4s ease 0s;
     transform: translateX(0px);
     opacity: 1;
     visibility: visible;
@@ -41,7 +74,7 @@
     --music-player-height-expanded: 102px;
     --music-player-sub-component-height: 24px;
     background: rgb(255, 255, 255);
-    max-height: var(--music-player-height-collapsed);
+    height: var(--music-player-height-collapsed);
     width: 142px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 4px, rgba(35, 41, 54, 0.08) 0px 8px 16px;
     overflow: hidden;
@@ -51,7 +84,7 @@
     position: absolute;
     top: 24px;
     right: 0px;
-    transition: var(--video-player-animation-default);
+    transition: all 0.4s ease 0s;
     transform: translateX(0px);
     opacity: 1;
     visibility: visible;
@@ -63,7 +96,7 @@
 }
 
 
-.toggel-menu::before {
+.toggel-close::before {
     position: absolute;
     content: "";
     height: 20px;
@@ -75,9 +108,40 @@
     transition: all 0.4s ease 0s;
 }
 
+.toggel-open::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 7px;
+    top: 2px;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.4s ease 0s;
+    transform: translateX(16px);
+}
+
 .label1 {
+    position: absolute;
+    display: inline-block;
+    height: 17px;
+    width: 29px;
+    top: 20px;
+    right: 20px;
+}
+
+.label-on {
     position: relative;
     display: inline-block;
     height: 24px;
     width: 40px;
+    /* right: 0; */
+    float: right;
+    margin-left: 97px;
+    margin-top: 24px;
 }
+
+.inline {
+    display: inline-block;
+}
+
