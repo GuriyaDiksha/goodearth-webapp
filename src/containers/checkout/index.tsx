@@ -35,7 +35,6 @@ import {
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
-import InfoPopup from "components/Popups/InfoPopup";
 import { Basket } from "typings/basket";
 
 const mapStateToProps = (state: AppState) => {
