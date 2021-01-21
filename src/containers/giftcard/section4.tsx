@@ -8,13 +8,14 @@ import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import Formsy from "formsy-react";
 import { Currency, currencyCode } from "typings/currency";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GiftcardService from "services/giftcard";
 import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
 import { ADD_TO_BAG_GIFTCARD_SUCCESS } from "constants/messages";
 import * as valid from "utils/validate";
 import Button from "./button";
+import { AppState } from "reducers/typings";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -24,9 +25,11 @@ const Section4: React.FC<Section4Props> = props => {
     goback,
     next
   } = props;
+
   const [subscribe, setSubscribe] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
+  const { tablet } = useSelector((state: AppState) => state.device);
 
   const gotoNext = () => {
     if (subscribe) {
@@ -78,7 +81,8 @@ const Section4: React.FC<Section4Props> = props => {
           <div
             className={cs(
               bootstrapStyles.col12,
-              bootstrapStyles.colLg5,
+              { [bootstrapStyles.colLg5]: tablet },
+              { [bootstrapStyles.colLg4]: !tablet },
               bootstrapStyles.offsetLg4,
               globalStyles.textCenter,
               styles.formBg,
