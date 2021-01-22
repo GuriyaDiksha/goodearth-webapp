@@ -365,7 +365,6 @@ class CeriseClubMain extends Component<Props, State> {
                     index={0}
                     currentCallBackComponent="cerise"
                     isOnlyAddress={false}
-                    selectAddress={() => null}
                   />
                 </div>
               )}

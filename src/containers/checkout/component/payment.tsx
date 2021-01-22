@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 import Loader from "components/Loader";
 import Reedem from "./redeem";
 import { updateComponent, updateModal } from "actions/modal";
-import ShippingPopup from "./shippingPopup";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import * as valid from "utils/validate";
+import { POPUP } from "constants/components";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -63,7 +63,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (!subscribegbp) {
       dispatch(
         updateComponent(
-          <ShippingPopup closeModal={closeModal} acceptCondition={setAccept} />,
+          POPUP.SHIPPINGPOPUP,
+          { closeModal: closeModal, acceptCondition: setAccept },
           true
         )
       );

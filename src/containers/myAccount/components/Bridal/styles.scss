@@ -1,0 +1,1431 @@
+@import "../../../../styles/partials/mixins";
+@import "../../../../styles/partials/form";
+@import "../../../../styles/partials/variables";
+
+.login-form > p{
+    padding: 0.5em 0;
+    line-height: 20px;
+    font-size: 14px;
+    @include c10-L-R();
+  }
+
+.add {
+    address {
+    .edit {
+        width: 90%;
+    }
+    }
+}
+
+.bridal-ring-cerise {
+    fill: $cerise;
+}
+.heading {
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+
+.arrow-down {
+    border: solid #4d4d4d;
+    padding: 10px;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    display: inline-block;
+}
+
+.arrow-up{
+    border: solid #4d4d4d;
+    padding: 10px;
+    border-width: 0 1px 1px 0;
+    transform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+    display: inline-block;
+}
+
+.bridal-icons {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    ul {
+
+    &.icons {
+        margin-top: 30px;
+        li {
+        background-color: tint(#000, 95%);
+        height: 130px;
+        width: 130px;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid transparent;
+        cursor: pointer;
+        img {
+            width: 80px;
+        }
+        ~ li {
+            margin-left: 50px;
+        }
+        &:hover {
+            border: 1px solid $cerise;
+            svg {
+            fill: $cerise;
+            }
+        }
+        &.active {
+            border: 1px solid $cerise;
+            .bridal-ring {
+            fill: $cerise;
+            }
+        }
+        }
+    }
+    }
+    ul {
+
+    &.txt {
+        li {
+        width: 130px;
+        place-items: center;
+        display: inline-block;
+        font-size: 12px;
+        text-align: center;
+        text-transform: capitalize;
+        line-height: 30px;
+        ~ li {
+            margin-left: 50px;
+        }
+        }
+        margin-bottom: 30px;
+    }
+    }
+}
+.letter-spacing1 {
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.add {
+    address {
+    &.order-block {
+        &.manage-add {
+        min-height: 260px;
+        height: auto;
+        &.address-in-use {
+            position: absolute;
+            background-color: #ccc;
+            height: 100%;
+            width: 100%;
+
+        }
+        .letter-spacing1 {
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        }
+      border-color: #e6e6e6;
+    }
+    border: 1px solid #ccc;
+    }
+}
+
+.bridalicon-pdp {
+    .bridal-ring {
+      // background-color: tint(#000, 70%);
+      // border-radius: 50%;
+      fill: #000;
+      cursor: pointer;
+      &.active {
+        background-color: $cerise;
+      }
+    }
+
+    .pdp_spec {
+      color: #000;
+    }
+  }
+
+  .back-gc {
+    line-height: 50px;
+    font-size: 12px;
+    color: #000;
+    text-transform: none;
+    letter-spacing: 1px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    a {
+      cursor: pointer;
+      color: #000;
+    }
+  }
+  .gc-form {
+    li {
+      a {
+        color: $cerise;
+      }
+      div {
+        label {
+          position: absolute;
+          top: -10px;
+          left: 10px;
+          font-weight: 100;
+          font-size: 10px;
+          color: #999;
+          letter-spacing: 1px;
+          background-color: #fff;
+          padding: 3px;
+        }
+      }
+    }
+  }
+
+.gc-head {
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+  
+.blank {
+    display: block;
+    height: 250px;
+  }
+  .calendar-icon {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    svg {
+      fill: $cerise;
+    }
+  }
+  .login-form {
+    .share-txt-box {
+      position: relative;
+      width: 100%;
+      border: 1px solid tint(#000, 90%);
+      text-align: left;
+      input[type="text"] {
+        border: none;
+        width: 74%;
+      }
+    }
+  }
+  .rc {
+    .bridal-ring {
+      fill: $cerise;
+    }
+    .c22-A-I {
+      margin-top: 0;
+    }
+  }
+
+  .widget-qty {
+    margin-top: 10px;
+    // width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 2px 0;
+    font-size: 10px;
+
+    input {
+      padding: 3px 12px;
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      width: inherit;
+      text-align: center;
+      border-left: 1px solid #ffffff;
+      border-right: 1px solid #ffffff;
+    }
+
+    .plus-quantity, .minus-quantity {
+      font-size: 12px;
+      cursor: pointer;
+      padding: 3px 12px;
+    }
+  }
+
+  .size-block {
+    width: 430px;
+    min-height: 360px;
+    background-color: $white;
+    &.enquire {
+      .cross {
+        cursor: unset;
+      }
+    }
+    &.ipops {
+      .slick-arrow {
+        &.slick-prev {
+          left: -100px;
+          height: 72px;
+          &:before {
+            font-size: 60px;
+            left: -5px;
+          }
+        }
+        &.slick-next {
+          right: -100px;
+          height: 72px;
+          &:after {
+            font-size: 60px;
+            right: -5px;
+          }
+        }
+      }
+  
+      .cerise-btn {
+        position: relative !important;
+        width: 260px !important;
+      }
+      img {
+        height: 483px;
+        border: 5px solid #fff;
+      }
+      width: 692px;
+      height: 650px;
+      .txt {
+        padding: 2em 5em;
+      }
+      .slick-dots {
+        bottom: -20px;
+        li {
+          button {
+            background: $cerise;
+          }
+        }
+      }
+      .cross {
+        border-bottom: none;
+        background-color: transparent;
+      }
+    }
+    &.text-left-error {
+      .error-msg {
+        text-align: left;
+      }
+    }
+    .pdp_spec {
+      @include pdp_spec();
+      margin-top: 10px;
+    }
+    .cerise-btn {
+      @include cerise-btn();
+      position: absolute;
+      bottom: 0;
+    }
+    .plp_coll_name_desktop {
+      @include plp_coll_name_desktop();
+    }
+    .plp_prod_name_desktop {
+      @include plp_prod_name_desktop();
+    }
+    .cross {
+      border-bottom: 1px solid tint(#000, 95%);
+      text-align: right;
+      font-size: 35px;
+      //margin: 0 10px 20px 10px;
+      padding-right: 5px;
+      cursor: pointer;
+      position: fixed;
+      z-index: 10;
+      background-color: #fff;
+      width: 100%;
+    }
+    .price {
+      font-size: 12px;
+      line-height: 30px;
+      font-family: "AmiriFont", "Baskerville", "Garamond";
+      margin-top: 0;
+    }
+    .error-msg {
+      @include error-msg();
+      text-align: center;
+    }
+  }
+
+  .size-block-mobile {
+    background-color: white;
+    &.ipops {
+      width: 100%;
+      height: 100%;
+      margin-top: 30px;
+      .icon_cross {
+        &:before {
+          color: #fff;
+        }
+      }
+      .slick-dots {
+        bottom: 0px;
+      }
+      img {
+        height: 450px;
+      }
+      .add-btn {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 101;
+        .cerise-btn {
+          width: 100% !important;
+        }
+      }
+      .slick-slider {
+        // margin-top: 48px;
+      }
+      .txt {
+        padding: 2em;
+        -webkit-box-shadow: -1px -2px 5px 0px rgba(212, 212, 212, 1);
+        -moz-box-shadow: -1px -2px 5px 0px rgba(212, 212, 212, 1);
+        box-shadow: -1px -2px 5px 0px rgba(212, 212, 212, 1);
+      }
+      .cross {
+        border-bottom: none;
+        background-color: tint(#000, 50%);
+      }
+      &.enquire {
+        .cross {
+          cursor: unset;
+        }
+      }
+    }
+  }
+
+  .centerpage-desktop {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  .centerpage-mobile {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  .bridal-ring {
+    fill: $cerise;
+  }
+
+.bridal-pop-btn {
+  width: 260px;
+}
+
+@media screen and (max-width: 320px) {
+  .size-block-mobile {
+    &.ipops {
+      img {
+        height: 370px !important;
+      }
+    }
+  }
+}
+
+.bridal-block {
+  .lane2 {
+    position: absolute;
+    right: 10%;
+  }
+  .add {
+    address {
+      margin-bottom: 0;
+      .edit {
+        width: 90%;
+      }
+    }
+  }
+
+  .bridal-ring-cerise {
+    fill: $cerise;
+  }
+  .heading {
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .login-form {
+    p {
+      padding: 0.5em 0;
+      line-height: 20px;
+      font-size: 14px;
+    }
+  }
+  i {
+    //border: solid tint(#000, 30%);
+    //display: inline-block;
+    &.arrow-down {
+      @include arrows(0, 2px, 2px, 0);
+      @include abc(45);
+    }
+    &.arrow-up {
+      @include arrows(0, 1px, 1px, 0);
+      @include abc(225);
+      //cursor: pointer;
+    }
+  }
+  .bridal-icons {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    ul {
+
+      &.icons {
+        margin-top: 30px;
+        li {
+          background-color: tint(#000, 95%);
+          height: 130px;
+          width: 130px;
+          display: inline-grid;
+          place-items: center;
+          border: 1px solid transparent;
+          cursor: pointer;
+          img {
+            width: 80px;
+          }
+          ~ li {
+            margin-left: 50px;
+          }
+          &:hover {
+            border: 1px solid $cerise;
+            svg {
+              fill: $cerise;
+            }
+          }
+          &.active {
+            border: 1px solid $cerise;
+            .bridal-ring {
+              fill: $cerise;
+            }
+          }
+        }
+      }
+    }
+    ul {
+
+      &.txt {
+        li {
+          width: 130px;
+          place-items: center;
+          display: inline-block;
+          font-size: 12px;
+          text-align: center;
+          text-transform: capitalize;
+          line-height: 30px;
+          ~ li {
+            margin-left: 50px;
+          }
+        }
+        margin-bottom: 30px;
+      }
+    }
+  }
+  .letter-spacing1 {
+    letter-spacing: 1px;
+  }
+
+  .add {
+    address {
+      margin-bottom: 0;
+      &.order-block {
+        &.manage-add {
+          min-height: 260px;
+          height: auto;
+          &.address-in-use {
+            position: absolute;
+            background-color: #ccc;
+            height: 100%;
+            width: 100%;
+
+          }
+          .letter-spacing1 {
+            letter-spacing: 1px;
+          }
+        }
+      }
+      label {
+        position: absolute;
+        top: -8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: tint(#000, 50%);
+        background-color: #fff;
+        padding: 0 3px;
+        font-size: 13px;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .bridal-icons {
+    ul {
+      &.icons {
+        li {
+          height: 120px;
+          width: 120px;
+
+          img {
+            width: 80px;
+          }
+          ~ li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+    ul {
+      &.txt {
+        li {
+          width: 120px;
+          ~ li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+  .bridal-block {
+    .lane2 {
+      position: absolute;
+      right: 6%;
+    }
+    .heading {
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    .login-form {
+      p {
+        padding: 0.5em 0;
+        line-height: 20px;
+        font-size: 14px;
+      }
+    }
+    i {
+      //border: solid tint(#000, 30%);
+      //display: inline-block;
+      &.arrow-down {
+        @include arrows(0, 2px, 2px, 0);
+        @include abc(45);
+      }
+      &.arrow-up {
+        @include arrows(0, 1px, 1px, 0);
+        @include abc(225);
+        //cursor: pointer;
+      }
+    }
+    .bridal-icons {
+      ul {
+        &.icons {
+          li {
+            height: 120px;
+            width: 120px;
+
+            img {
+              width: 80px;
+            }
+            ~ li {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+      ul {
+        &.txt {
+          li {
+            width: 120px;
+            ~ li {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.light {
+  color: tint(#000, 50%);
+}
+.black {
+  color: black;
+}
+
+.add {
+  address {
+    margin-bottom: 0;
+    border: 1px solid tint(#000, 80%);
+    min-height: 180px;
+    text-align: left;
+    hr {
+      margin: 15px 0;
+      border: 0;
+      border-top: 1px solid #eeeeee;
+    }
+    &.address-checkout {
+      padding: 35px 25px 90px 25px;
+    }
+    padding: 35px 25px 55px 25px;
+    font-weight: 300;
+    address {
+      border: none;
+      padding: 25px 0;
+    }
+    .border-add {
+      border-top: 1px solid tint(#000, 90%);
+      padding-top: 30px;
+      .purchased-shop {
+        height: 70px;
+      }
+      img {
+        padding-right: 20px;
+      }
+    }
+    &.order-block {
+      background-color: tint(#000, 95%);
+
+      &.manage-add {
+        background-color: $white;
+        min-height: 160px;
+        &.shipping-border {
+          min-height: 310px;
+        }
+        font-weight: 400;
+        div.default-address {
+          @include error-msg();
+          text-align: right;
+          font-size: 12px !important;
+        }
+        div.default-container {
+          display: block;
+          width: 90%;
+          div.default-address-div {
+            text-align: right;
+            font-size: 10px;
+            height: 18px;
+            font-style: italic;
+            display: grid;
+            margin-bottom: 18px;
+            grid-template-columns: 22fr 1fr;
+            &.bridal {
+              grid-template-columns: 4fr 15fr 1fr;
+            }
+            letter-spacing: 1px;
+            .radio {
+              display: block;
+              position: relative;
+              margin-bottom: 12px;
+              cursor: pointer;
+              font-size: 22px;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+              }
+              .checkmark {
+                position: absolute;
+                height: 15px;
+                width: 15px;
+                background-color: #fff;
+                border: 1px solid #888;
+                border-radius: 50%;
+              }
+              input ~ .checkmark {
+                background-color: #fff;
+              }
+
+              /* When the radio button is checked, add a blue background */
+              input:checked ~ .checkmark {
+                background-color: #fff;
+              }
+
+              /* Create the indicator (the dot/circle - hidden when not checked) */
+              .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+              }
+
+              /* Show the indicator (dot/circle) when checked */
+              input:checked ~ .checkmark:after {
+                display: block;
+              }
+
+              /* Style the indicator (dot/circle) */
+              .checkmark:after {
+                top: 3px;
+                left: 3px;
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: #000;
+              }
+            }
+
+          }
+          .cerise-bridal-rings {
+            background-color: #ab1e56;
+            border-radius: 50%;
+            fill: #fff;
+            height: 35px;
+            width: 35px;
+            padding: 2px;
+            position: relative;
+            top: -10px;
+          }
+        }
+        .default-address-checkbox {
+          position: relative;
+          left: 95%;
+          height: 15px;
+          width: 15px;
+          background-color: #fff;
+          border: 1px solid #888;
+          border-radius: 50%;
+          padding: 20px 0;
+        }
+      }
+      min-height: 160px;
+      border-color: tint(#000, 90%);
+      span {
+        //text-transform: uppercase; cant use this --- it will make order status span uppercase
+        //text-decoration: underline;
+        &.order-status {
+          text-transform: uppercase;
+          text-decoration: underline;
+        }
+      }
+    }
+    .order-block {
+      min-height: 160px;
+      span {
+        //text-transform: uppercase; cant use this --- it will make order status span uppercase
+        //text-decoration: underline;
+        &.order-status {
+          text-transform: uppercase;
+          text-decoration: underline;
+        }
+      }
+    }
+    .edit-track {
+      bottom: 25px;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      &.add-checkout-actions {
+        bottom: auto;
+        position: absolute;
+      }
+      cursor: pointer;
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    .edit-view {
+
+      bottom: 25px;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      &.add-checkout-actions {
+        bottom: auto;
+        position: absolute;
+      }
+      cursor: pointer;
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    .edit {
+
+      bottom: 25px;
+      position: absolute;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      &.add-checkout-actions {
+        bottom: auto;
+        position: absolute;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    p {
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+      text-transform: capitalize;
+      svg {
+        vertical-align: text-bottom;
+      }
+      &.names {
+        text-transform: none;
+      }
+      &.price {
+        font-size: 18px;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+    }
+    .light {
+      color: tint(#000, 50%);
+
+    }
+    label {
+      position: absolute;
+      top: -8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: tint(#000, 50%);
+      background-color: #fff;
+      padding: 0 3px;
+      font-size: 13px;
+      font-weight: 400;
+    }
+  }
+}
+
+.size-block-bridal {
+  h2 {
+    font-size: 23px;
+    font-family: "Baskerville","Amiri","Serif";
+    color: #333;
+    line-height: 60px;
+    text-transform: capitalize;
+  }
+  width: 30%;
+  //min-height: 360px;
+  background-color: #fff;
+  // height: 80vh !important;
+  .scrolly {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 80vh;
+    @include scrollbar-default();
+    &:hover {
+      @include scrollbar();
+    }
+  }
+  &.ht {
+    min-height: 330px;
+    height: 50vh;
+  }
+  .btn {
+    @include cerise-btn();
+    position: relative;
+  }
+  .cross {
+    border-bottom: 1px solid #f2f2f2;
+    text-align: right;
+    padding: 15px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 10;
+    background-color: #fff;
+    width: 100%;
+    }
+
+}
+@media screen and (max-width:992px) {
+  .size-block-bridal {
+    .scrolly {
+      overflow-y: scroll;
+      overflow-x: hidden;
+      height: 90vh;
+      @include scrollbar-default();
+      &:hover {
+        @include scrollbar();
+      }
+    }
+    .disabled-input {
+      background-color: tint(#000, 85%) !important;
+    }
+    height: 100vh;
+    width: 100%;
+    background-color: #fff;
+    overflow: scroll;
+    &.ht {
+      height: 60vh;
+    }
+    .btn {
+      @include cerise-btn();
+      position: relative;
+    }
+    .cross {
+      border-bottom: 1px solid #f2f2f2;
+      text-align: right;
+      font-size: 16px;
+      // padding-right: 5px;
+      cursor: pointer;
+      position: fixed;
+      width: 100%;
+      z-index: 10;
+      background-color: #fff;
+    }
+
+  }
+}
+
+// edit popups
+.container {
+  width: 100%;
+  min-height: 360px;
+  background-color: #fff;
+  bottom: 0;
+  padding-bottom: 55px;
+  position: relative;
+}
+
+.inner-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 30px;
+  max-height: 90vh;
+  &.inner-container-mobile {
+    height: 90vh;
+    max-height: none;
+  }
+}
+.header {
+  height: 50px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+// .heading {
+//   @include c22-A-I();
+//   line-height: 50px;
+// }
+
+.field {
+  margin: 20px 0;
+}
+
+.subheading {
+  @include c10-L-R();
+}
+
+.close-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 36px;
+  display: block;
+  margin: auto;
+  top: 2px;
+  right: 5px;
+}
+
+.enquire-error {
+  @include error-msg();
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+
+@media screen and (min-width: 992px) {
+  .container {
+      width: 430px;
+      max-width: 50vw;
+      min-height: 20vh;
+      padding-bottom: 0;
+      bottom: unset;
+  }
+
+  .inner-container {
+      max-height: 80vh;
+  }
+  .section-middle {
+    text-align: center;
+    border-left: 1px solid #eee;
+  }
+
+}
+
+.xradio {
+  .radio1 {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default radio button */
+  .radio1 input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    border: 1px solid #888;
+    border-radius: 50%;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .radio1:hover input ~ .checkmark {
+    background-color: #fff;
+  }
+
+  /* When the radio button is checked, add a blue background */
+  .radio1 input:checked ~ .checkmark {
+    background-color: #fff;
+  }
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  .radio1 input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the indicator (dot/circle) */
+  .radio1 .checkmark:after {
+    top: 3px;
+    left: 3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #000;
+  }
+}
+
+.radiobtn1 {
+  display: flex;
+  > div {
+    width: 90%;
+  }
+  > div.guest-email {
+    width: 100%;
+  }
+}
+
+.radio-input {
+    position: relative;
+    margin: 20px 0;
+}
+
+.login-form {
+  .flex{
+    display: flex;
+    width: 100%;
+    div.country-code {
+      width: 25%;
+    }
+    input.code-input{
+      position: relative;
+      background-color: #f2f2f2;
+    }
+  }
+  .contact-number{
+    width: 100%;
+    border-left: 0px;
+    position: relative;
+  }
+    .country-code {
+      display: flex;
+      grid-template-columns: 1fr 4fr;
+      // top:25px;
+    }
+  }
+
+
+  .categorylabel {
+      .country-code {
+          > div {
+              width: 100% !important;
+          }
+      }
+      .country-code-gc {
+          top: 0px !important;
+      }
+  }
+
+.msg {
+  font-size: 12px;
+  color: #666;
+  text-align: left;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.margin-bottom-50 {
+margin-bottom: 50px !important;
+}
+
+.cart-container {
+  background-color: #fff;
+  padding: 20px 0;
+  position: relative;
+}
+
+.bridal-public {
+  .manage-height {
+    padding-top: 30px;
+  }
+  .section {
+    height: 90%;
+    &.section-info {
+      height: auto;
+    }
+  }
+  .smallfont {
+    font-size: 10px;
+  }
+  .cart-block {
+    margin: 30px 0 100px 0;
+    .cart-container {
+      padding: 0 30px;
+    }
+  }
+  .icon_cart {
+    font-size: 35px !important;
+    color: $cerise;
+    margin-top: 10px;
+  }
+}
+
+.cart {
+  img {
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .popup-notify {
+    .centerpage {
+      width: 900px;
+    }
+
+    .popup {
+      padding: 0 !important;
+    }
+  }
+  .heart {
+    &.icon_heart-cerise-fill {
+      color: $cerise;
+    }
+    .icon_heart-cerise-fill {
+      color: $cerise;
+    }
+  }
+  .heart:hover,
+  .remove:hover {
+    color: $cerise;
+  }
+
+  .message {
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    background-color: #8cb8aa;
+    font-style: italic;
+    font-family: $font-Lato;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .notify-message {
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    background-color: #ab1e56;
+    color: #fcfcfc;
+    font-style: italic;
+    font-family: $font-Lato;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .text-muted {
+    color: #808080;
+    font-size: 10px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: 1px;
+  }
+
+  .row-main {
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+
+  .section {
+    height: 100%;
+    // padding: 20px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+
+
+
+  .collection-name {
+    @include plp_coll_name_desktop();
+  }
+
+  .product-name {
+    word-wrap: break-word;
+    @include plp_prod_name_desktop();
+  }
+
+  .product-name {
+    @include plp_prod_name_desktop();
+  }
+
+  .product-price {
+    margin-top: 0;
+    margin-bottom: 10px;
+    @include plp_prod_name_desktop();
+    font-family: "AmiriFont", "Baskerville", "Garamond";
+  }
+
+  .icon {
+    cursor: pointer;
+    font-size: 26px;
+  }
+
+  .icon_cross-narrow-big {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .icon-cross {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .product-price {
+    margin-top: 5px;
+  }
+
+  .size {
+    color: #333333;
+    font-family: $font-Lato;
+    font-size: 10px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+  }
+
+  .trigger-notify {
+    color: #808080;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .widget-qty {
+    margin-top: 10px;
+    min-width: 120px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 2px 0;
+    font-size: 12px;
+    line-height: 12px;
+
+    .qty {
+      padding: 5px 12px;
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      text-align: center;
+      border-left: 1px solid #ffffff;
+      border-right: 1px solid #ffffff;
+    }
+
+    .btn-qty {
+      font-size: 12px;
+      cursor: pointer;
+      padding: 5px 12px;
+    }
+  }
+}
+.discountprice {
+  color: $cerise;
+  font-family: $font-Serif;
+  font-size: 16px;
+}
+.strikeprice {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: gray;
+  font-family: $font-Lato;
+}
+.icon-cart {
+  color: tint(#000, 20%);
+  padding: 10px;
+  font-size: 32px;
+  background-color: #e4e4e4;
+}
+.nowrap {
+  flex-wrap: nowrap;
+}
+.bridal-item-remove {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
