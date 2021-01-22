@@ -3,8 +3,50 @@
 .music{
     position: fixed;
     right: 90px;
-    z-index: 10;
+    z-index: 4;
     top: 110px;
+    .not-checked {
+        position: absolute !important;
+        cursor: pointer !important;
+        inset: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: rgb(163, 163, 163) !important;
+        border-radius: 24px !important;
+        
+    }
+    .checked{
+        position: absolute !important;
+        cursor: pointer !important;
+        inset: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: #a3a3a3 !important;
+        border-radius: 24px !important;
+        background-color: rgb(0, 0, 0) !important;
+    }
+    .music-fonts {
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #464646;
+        font-family: "HeaderFont", "Trebuchet MS", "geneva";
+        letter-spacing: 0.2em;
+    }
+    .music-name {
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #999999;
+        bottom: 6px;
+        position: absolute;
+        left: 22px;
+    }
+}
+
+.music-mobile {
+    position: fixed;
+    right: 20px;
+    z-index: 4;
+    top: 100px;
     .not-checked {
         position: absolute !important;
         cursor: pointer !important;
