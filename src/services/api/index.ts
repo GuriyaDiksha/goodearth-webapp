@@ -41,5 +41,12 @@ export default {
       `${__API_HOST__ + "/myapi/promotions/announcement_bar/"}`
     );
     dispatch(updateAnnouncement(response));
+  },
+  getMusicData: async function(dispatch: Dispatch) {
+    const data: any = await API.get(
+      dispatch,
+      `${__API_HOST__}/myapi/promotions/audio_playlist/`
+    );
+    return data;
   }
 };
