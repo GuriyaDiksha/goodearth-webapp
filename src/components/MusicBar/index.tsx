@@ -58,7 +58,7 @@ const MusicPlayer: React.FC = memo(() => {
     >
       <div>
         <div className={music ? cs(styles.openMusic) : cs(styles.closeMusic)}>
-          <div className={styles.musicFonts}>GOODEARTH PLAYLIST</div>
+          <div className={styles.musicFonts}>GOOD EARTH PLAYLIST</div>
           <label className={styles.label1}>
             <input
               type="checkbox"
