@@ -2,13 +2,16 @@ import React, { memo, useEffect, useState } from "react";
 import cs from "classnames";
 import ApiService from "services/api";
 import styles from "./styles.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const MusicPlayer: React.FC = memo(() => {
   const [music, setMusic] = useState(false);
   const [musicData, setMusicData] = useState([]);
   const [name, setName] = useState([]);
   const [musiclength, setMusiclength] = useState(0);
+
+  const { mobile } = useSelector((state: AppState) => state.device);
 
   const dispatch = useDispatch();
   const [audio] = useState<any>(
@@ -41,7 +44,13 @@ const MusicPlayer: React.FC = memo(() => {
   }, []);
 
   return (
-    <div className={cs(styles.topClose, styles.music)}>
+    <div
+      className={
+        mobile
+          ? cs(styles.musicMobile, styles.music)
+          : cs(styles.topClose, styles.music)
+      }
+    >
       <div>
         <div className={music ? cs(styles.openMusic) : cs(styles.closeMusic)}>
           <span className={styles.musicFonts}>MUSIC</span>
