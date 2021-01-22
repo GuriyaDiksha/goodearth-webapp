@@ -1,4 +1,5 @@
-
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 .music{
     position: fixed;
@@ -27,14 +28,17 @@
         transition: all 0.4s ease 0s !important;
         background: #a3a3a3 !important;
         border-radius: 24px !important;
-        background-color: rgb(0, 0, 0) !important;
+        background-color: $cerise !important;
     }
     .music-fonts {
-        font-size: 14px;
+        font-size: 10px;
         text-transform: uppercase;
-        color: #464646;
+        color: white;
         font-family: "HeaderFont", "Trebuchet MS", "geneva";
         letter-spacing: 0.2em;
+        margin-left: -15px;
+        word-break: break-word;
+        width: 100px;
     }
     .music-name {
         text-transform: capitalize;
@@ -97,12 +101,11 @@
 
 .open-music {
     --music-player-height-collapsed: 48px;
-    --music-player-height-expanded: 70px;
+    --music-player-height-expanded: 102px;
     --music-player-sub-component-height: 24px;
-    background: rgb(255, 255, 255);
-    height: var(--music-player-height-expanded);
-    width: 220px;
-    box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 4px, rgba(35, 41, 54, 0.08) 0px 8px 16px;
+    background: $cerise;
+    height: var(--music-player-height-collapsed);
+    width: 142px;
     overflow: hidden;
     padding: 12px 24px;
     display: flex;
@@ -115,13 +118,14 @@
     opacity: 1;
     visibility: visible;
     z-index: 1;
+    background-color: rgba(255, 0, 0, 0);
 }
 
 .close-music {
     --music-player-height-collapsed: 48px;
     --music-player-height-expanded: 102px;
     --music-player-sub-component-height: 24px;
-    background: rgb(255, 255, 255);
+    background: $cerise;
     height: var(--music-player-height-collapsed);
     width: 142px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 4px, rgba(35, 41, 54, 0.08) 0px 8px 16px;
