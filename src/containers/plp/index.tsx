@@ -1,4 +1,3 @@
-import loadable from "@loadable/component";
 import React, { Fragment } from "react";
 import SecondaryHeader from "components/SecondaryHeader";
 import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
@@ -19,8 +18,7 @@ import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
-
-const Quickview = loadable(() => import("components/Quickview"));
+import { POPUP } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -135,12 +133,13 @@ class PLP extends React.Component<
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
-      <Quickview
-        id={id}
-        productListId={plpProductId}
-        corporatePDP={this.state.corporoateGifting}
-        source="PLP"
-      />,
+      POPUP.QUICKVIEW,
+      {
+        id: id,
+        productListId: plpProductId,
+        corporatePDP: this.state.corporoateGifting,
+        source: "PLP"
+      },
       true
     );
     changeModalState(true);

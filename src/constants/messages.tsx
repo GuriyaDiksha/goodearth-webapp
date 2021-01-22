@@ -23,3 +23,19 @@ export const LOGOUT_SUCCESS = "You have successfully been logged out!";
 export const LOGIN_SUCCESS = "Welcome to Good Earth!";
 export const PRODUCT_UNPUBLISHED =
   "Due to unavailability of some products your cart has been updated.";
+export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
+export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
+export const ADD_TO_REGISTRY_AGAIN = [
+  "To modify or edit items in your registry please ",
+  <Link
+    to="/account/bridal"
+    key="bridal"
+    style={{ textDecoration: "underline", pointerEvents: "all" }}
+  >
+    manage your registry
+  </Link>
+];
+export const REGISTRY_OWNER_CHECKOUT =
+  "Looks like you are the owner of this Bridal Registry! Your order will be placed against your registry";
+export const REGISTRY_MIXED_SHIPPING =
+  "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";

@@ -9,7 +9,7 @@ import { Props } from "../../typings";
 // import Faq from "./faq";
 // import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
-import { removeFroala } from "utils/validate";
+import { scrollToId, removeFroala } from "utils/validate";
 
 export default class CeriseTerms extends React.Component<
   Props,
@@ -28,6 +28,8 @@ export default class CeriseTerms extends React.Component<
       this.setState({
         content: res.content
       });
+      // for handling scroll to particular element with id
+      scrollToId();
       removeFroala();
     });
   }

@@ -1,5 +1,4 @@
-import loadable from "@loadable/component";
-import React, { ReactNode } from "react";
+import React from "react";
 import MakerEnhance from "maker-enhance";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
@@ -23,8 +22,7 @@ import Loader from "components/Loader";
 import ReactHtmlParser from "react-html-parser";
 import * as valid from "utils/validate";
 import { Currency } from "typings/currency";
-
-const Quickview = loadable(() => import("components/Quickview"));
+import { POPUP } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -40,8 +38,12 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
   return {
-    updateComponentModal: (component: ReactNode, fullscreen?: boolean) => {
-      dispatch(updateComponent(component, fullscreen));
+    updateComponentModal: (
+      component: string,
+      props: any,
+      fullscreen?: boolean
+    ) => {
+      dispatch(updateComponent(component, props, fullscreen));
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
@@ -177,12 +179,13 @@ class CollectionSpecific extends React.Component<
       collectionIds
     } = this.props;
     updateComponentModal(
-      <Quickview
-        id={id}
-        productListId={collectionIds}
-        key={id}
-        source="CollectionSpecific"
-      />,
+      POPUP.QUICKVIEW,
+      {
+        id: id,
+        productListId: collectionIds,
+        key: id,
+        source: "CollectionSpecific"
+      },
       true
     );
     changeModalState(true);

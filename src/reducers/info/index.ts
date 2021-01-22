@@ -4,7 +4,8 @@ const initialState: State = {
   isSale: false,
   popupBgUrl: "",
   currencyList: [],
-  makerReloadToggle: false
+  makerReloadToggle: false,
+  nextUrl: ""
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -27,6 +28,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_MAKER_RELOAD_TOGGLE": {
       const newState = { ...state };
       newState.makerReloadToggle = action.payload;
+      return newState;
+    }
+    case "UPDATE_NEXT_URL": {
+      const newState = { ...state };
+      newState.nextUrl = action.payload;
       return newState;
     }
   }

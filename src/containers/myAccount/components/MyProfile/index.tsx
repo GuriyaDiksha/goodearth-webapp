@@ -181,6 +181,12 @@ class MyProfile extends React.Component<Props, State> {
     }, 0);
   };
 
+  setUpdateProfile = () => {
+    if (!this.state.updateProfile) {
+      this.setState({ updateProfile: true });
+    }
+  };
+
   render() {
     const { loginVia } = this.state;
     const {
@@ -218,9 +224,7 @@ class MyProfile extends React.Component<Props, State> {
                   label={"First Name"}
                   keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
                   required
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   disable={firstName ? true : false}
                   className={cs({ [styles.disabledInput]: firstName })}
                 />
@@ -231,9 +235,7 @@ class MyProfile extends React.Component<Props, State> {
                   placeholder={"Last Name"}
                   label={"Last Name"}
                   keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   disable={lastName ? true : false}
                   className={cs({ [styles.disabledInput]: lastName })}
                 />
@@ -246,9 +248,7 @@ class MyProfile extends React.Component<Props, State> {
                   value={gender || undefined}
                   label="Select Gender"
                   placeholder="Select Gender"
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   disable={gender ? true : false}
                   className={cs({ [styles.disabledInput]: gender })}
                 />
@@ -257,9 +257,7 @@ class MyProfile extends React.Component<Props, State> {
                 <FormInput
                   name="dateOfBirth"
                   type="date"
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   value={dateOfBirth}
                   disable={dateOfBirth ? true : false}
                   className={cs({ [styles.disabledInput]: dateOfBirth })}
@@ -307,9 +305,7 @@ class MyProfile extends React.Component<Props, State> {
               >
                 <CountryCode
                   // fetchCountryData={fetchCountryData}
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   name="phoneCountryCode"
                   placeholder="Code"
                   label="Code"
@@ -329,9 +325,7 @@ class MyProfile extends React.Component<Props, State> {
                 <FormInput
                   name="phoneNumber"
                   placeholder={"Contact Number"}
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   type="number"
                   label={"Contact Number"}
                   disable={phoneNumber ? true : false}
@@ -352,9 +346,7 @@ class MyProfile extends React.Component<Props, State> {
                   name="panPassportNumber"
                   placeholder={"Pan/Passport"}
                   label={"Pan/Passport"}
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   disable={panPassportNumber ? true : false}
                   className={cs({ [styles.disabledInput]: panPassportNumber })}
                 />
@@ -364,9 +356,7 @@ class MyProfile extends React.Component<Props, State> {
                   value={subscribe || false}
                   name="subscribe"
                   disable={false}
-                  handleChange={() => {
-                    this.setState({ updateProfile: true });
-                  }}
+                  handleChange={() => this.setUpdateProfile()}
                   id="subscribe"
                   label={[
                     "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",

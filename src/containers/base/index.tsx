@@ -18,15 +18,17 @@ import MusicPlayer from "components/MusicBar";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
-import CurrencyPopup from "components/Popups/CurrencyPopup";
+import { POPUP } from "constants/components";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useDispatch();
   const {
-    currency
+    currency,
     // device: { mobile }
+    basket: { bridal },
+    header: { announcementData }
   } = useSelector((state: AppState) => state);
   // const isSuspended = true;
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
@@ -144,14 +146,23 @@ const BaseLayout: React.FC = () => {
     if (
       !currencyPopup &&
       !boId &&
-      !location.pathname.includes("/order/orderconfirmation/")
+      !location.pathname.includes("/order/orderconfirmation/") &&
+      !location.pathname.includes("/bridal/") &&
+      !announcementData.isBridalActive
     ) {
-      dispatch(updateComponent(<CurrencyPopup />, true));
+      dispatch(updateComponent(POPUP.CURRENCY, null, true));
       dispatch(updateModal(true));
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
-    if (!cookieCurrency) {
+    if (
+      !cookieCurrency &&
+      !(
+        location.pathname.includes("/bridal/") ||
+        announcementData.isBridalActive ||
+        bridal
+      )
+    ) {
       LoginService.getClientIpCurrency()
         .then(curr => {
           if (curr != "error") {
