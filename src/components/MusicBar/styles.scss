@@ -8,7 +8,10 @@
     .not-checked {
         position: absolute !important;
         cursor: pointer !important;
-        inset: -8px !important;
+        top: -8px !important;
+        bottom: -8px !important;
+        left: -8px !important;
+        right: -8px !important;
         transition: all 0.4s ease 0s !important;
         background: rgb(163, 163, 163) !important;
         border-radius: 24px !important;
@@ -17,7 +20,10 @@
     .checked{
         position: absolute !important;
         cursor: pointer !important;
-        inset: -8px !important;
+        top: -8px !important;
+        bottom: -8px !important;
+        left: -8px !important;
+        right: -8px !important;
         transition: all 0.4s ease 0s !important;
         background: #a3a3a3 !important;
         border-radius: 24px !important;
