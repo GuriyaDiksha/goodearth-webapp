@@ -4,6 +4,7 @@ import ApiService from "services/api";
 import styles from "./styles.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import iconStyles from "styles/iconFonts.scss";
 
 const MusicPlayer: React.FC = memo(() => {
   const [music, setMusic] = useState(false);
@@ -58,7 +59,10 @@ const MusicPlayer: React.FC = memo(() => {
     >
       <div>
         <div className={music ? cs(styles.openMusic) : cs(styles.closeMusic)}>
-          <div className={styles.musicFonts}>GOOD EARTH PLAYLIST</div>
+          <div className={styles.musicFonts}>
+            Flashback 25{" "}
+            <i className={cs(iconStyles.iconMusic, iconStyles.icon)} />
+          </div>
           <label className={styles.label1}>
             <input
               type="checkbox"
