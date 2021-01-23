@@ -368,10 +368,6 @@ class Header extends React.Component<Props, State> {
             data-defer={false}
           ></link>
           <link rel="icon" href={fabicon} data-defer={false}></link>
-          <meta
-            name="facebook-domain-verification"
-            content="y1f0j866fc97d71mt4j843t0usqlvu"
-          />
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}
           {meta.ogTitle && (
             <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />
