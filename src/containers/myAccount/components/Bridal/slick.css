@@ -1,16 +1,16 @@
-.slick-arrow.slick-prev {
+.bridal-pop .slick-arrow.slick-prev {
   left: -100px;
   height: 72px;
 }
-.slick-arrow.slick-prev:before {
+.bridal-pop .slick-arrow.slick-prev:before {
   font-size: 60px;
   left: -5px;
 }
-.slick-arrow.slick-next {
+.bridal-pop .slick-arrow.slick-next {
   right: -100px;
   height: 72px;
 }
-.slick-arrow.slick-next:before {
+.bridal-pop .slick-arrow.slick-next:before {
   font-size: 60px;
   right: -5px;
 }
