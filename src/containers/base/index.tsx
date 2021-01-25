@@ -12,6 +12,7 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
+import MusicPlayer from "components/MusicBar";
 // import flowerimg1 from "images/flower1.gif";
 // import flowerimg2 from "images/flower2.gif";
 // import flowerimg3 from "images/flower3.gif";
@@ -195,6 +196,7 @@ const BaseLayout: React.FC = () => {
   if (confirmation || backOrder || maintenance) {
     return (
       <div>
+        <MusicPlayer />
         <Switch>{routes}</Switch>
         <Modal />
       </div>
@@ -204,6 +206,7 @@ const BaseLayout: React.FC = () => {
       <Fragment>
         {isCheckout ? <CheckoutHeader /> : <Header />}
         <div className={globalStyles.contentContainer} id="no-content">
+          <MusicPlayer />
           <Switch>{routes}</Switch>
         </div>
         {isCheckout ? "" : <Footer />}

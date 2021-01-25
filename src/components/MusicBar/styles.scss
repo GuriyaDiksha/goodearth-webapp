@@ -1,0 +1,204 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.music{
+    position: fixed;
+    right: 90px;
+    z-index: 4;
+    top: 110px;
+    .not-checked {
+        position: absolute !important;
+        cursor: pointer !important;
+        top: -8px !important;
+        bottom: -8px !important;
+        left: -8px !important;
+        right: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: rgb(163, 163, 163) !important;
+        border-radius: 24px !important;
+        
+    }
+    .checked{
+        position: absolute !important;
+        cursor: pointer !important;
+        top: -8px !important;
+        bottom: -8px !important;
+        left: -8px !important;
+        right: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: #a3a3a3 !important;
+        border-radius: 24px !important;
+        background-color: $cerise !important;
+    }
+    .music-fonts {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: white;
+        text-align: center;
+        font-family: "HeaderFont", "Trebuchet MS", "geneva";
+        letter-spacing: 0.2em;
+        margin-left: -20px;
+        word-break: break-word;
+        width: 100px;
+    }
+    .music-name {
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #999999;
+        bottom: 6px;
+        position: absolute;
+        left: 22px;
+    }
+}
+
+.music-mobile {
+    position: fixed;
+    right: 20px;
+    z-index: 4;
+    top: 100px;
+    .not-checked {
+        position: absolute !important;
+        cursor: pointer !important;
+        inset: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: rgb(163, 163, 163) !important;
+        border-radius: 24px !important;
+        
+    }
+    .checked{
+        position: absolute !important;
+        cursor: pointer !important;
+        inset: -8px !important;
+        transition: all 0.4s ease 0s !important;
+        background: #a3a3a3 !important;
+        border-radius: 24px !important;
+        background-color: $cerise !important;
+    }
+    .music-fonts {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: white;
+        text-align: center;
+        font-family: "HeaderFont", "Trebuchet MS", "geneva";
+        letter-spacing: 0.2em;
+        margin-left: -20px;
+        word-break: break-word;
+        width: 100px;
+    }
+    .music-name {
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #999999;
+        bottom: 6px;
+        position: absolute;
+        left: 22px;
+    }
+}
+
+
+.margin-top {
+    margin-top: 19px;
+}
+
+.open-music {
+    --music-player-height-collapsed: 48px;
+    --music-player-height-expanded: 102px;
+    --music-player-sub-component-height: 24px;
+    background: $cerise;
+    height: var(--music-player-height-collapsed);
+    width: 156px;
+    overflow: hidden;
+    padding: 12px 24px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 24px;
+    right: 0px;
+    transition: all 0.4s ease 0s;
+    transform: translateX(0px);
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+    background-color: rgba(255, 0, 0, 0);
+}
+
+.close-music {
+    --music-player-height-collapsed: 48px;
+    --music-player-height-expanded: 102px;
+    --music-player-sub-component-height: 24px;
+    background: $cerise;
+    height: var(--music-player-height-collapsed);
+    width: 156px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 4px, rgba(35, 41, 54, 0.08) 0px 8px 16px;
+    overflow: hidden;
+    padding: 12px 24px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 24px;
+    right: 0px;
+    transition: all 0.4s ease 0s;
+    transform: translateX(0px);
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+.toggel-input {
+    left:-999px
+}
+
+
+.toggel-close::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 2px;
+    top: 2px;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.4s ease 0s;
+}
+
+.toggel-open::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 7px;
+    top: 2px;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.4s ease 0s;
+    transform: translateX(16px);
+}
+
+.label1 {
+    position: absolute;
+    display: inline-block;
+    height: 17px;
+    width: 29px;
+    top: 20px;
+    right: 17px;
+}
+
+.label-on {
+    position: relative;
+    display: inline-block;
+    height: 24px;
+    width: 40px;
+    /* right: 0; */
+    float: right;
+    margin-left: 97px;
+    margin-top: 24px;
+}
+
+.inline {
+    display: inline-block;
+}
+
