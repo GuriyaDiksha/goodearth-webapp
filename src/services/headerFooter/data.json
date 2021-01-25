@@ -1,0 +1,1327 @@
+{
+    "count": 6,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 26,
+            "name": "Home",
+            "url": "/catalogue/category/living_26/?source=plp&category_shop=Home",
+            "labelDesktop": null,
+            "labelMobile": null,
+            "catLandingUrl": "/category_landing/living_26/",
+            "leftMenu": [
+                {
+                    "id": 17,
+                    "name": "GIFTING",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/gifting",
+                    "children": [
+                        {
+                            "id": 18,
+                            "name": "Gifting Favourites",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites"
+                        },
+                        {
+                            "id": 3,
+                            "name": "Gift Card",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/giftcard/"
+                        },
+                        {
+                            "id": 19,
+                            "name": "Gifts Of Gratitude",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting+Exclusives"
+                        },
+                        {
+                            "id": 9,
+                            "name": "Corporate Gifting",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/corporate-gifts-catalogue"
+                        }
+                    ]
+                },
+                {
+                    "id": 40,
+                    "name": "Puspanjali",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/puspanjali-festive-2020",
+                    "children": []
+                },
+                {
+                    "id": 39,
+                    "name": "GE X Souk Pop up",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/catalogue/category/souk_264/?source=plp&category_shop=Souk&src_type=cp",
+                    "children": []
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "id": 28,
+                        "name": "Dining",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/living/dining_28/?source=plp&category_shop=Home+%3E+Dining",
+                        "children": [
+                            {
+                                "id": 28,
+                                "name": "Dining Collections",
+                                "url": "/allcollection/living_26/28/"
+                            },
+                            {
+                                "id": 30,
+                                "name": "Dinnerware",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/dining_28/?source=plp&category_shop=Home+%3E+Dining+%3E+Dinnerware"
+                            },
+                            {
+                                "id": 33,
+                                "name": "Glassware & Barware",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/dining_28/?source=plp&category_shop=Home+%3E+Dining+%3E+Glassware+%26+Barware"
+                            },
+                            {
+                                "id": 34,
+                                "name": "Table Linen",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/dining_28/?source=plp&category_shop=Home+%3E+Dining+%3E+Table+Linen"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 177,
+                        "name": "Tea & Coffee",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/living/test123_177/?source=plp&category_shop=Home+%3E+Tea+%26+Coffee",
+                        "children": [
+                            {
+                                "id": 190,
+                                "name": "Tea & Coffee Sets",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/test123_177/?source=plp&category_shop=Home+%3E+Tea+%26+Coffee+%3E+Tea+%26+Coffee+Sets"
+                            },
+                            {
+                                "id": 191,
+                                "name": "Mugs",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/test123_177/?source=plp&category_shop=Home+%3E+Tea+%26+Coffee+%3E+Mugs"
+                            },
+                            {
+                                "id": 32,
+                                "name": "Serveware",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/test123_177/?source=plp&category_shop=Home+%3E+Tea+%26+Coffee+%3E+Serveware"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 49,
+                        "name": "Decor",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/living/decor_49/?source=plp&category_shop=Home+%3E+Decor",
+                        "children": [
+                            {
+                                "id": 146,
+                                "name": "Votives & Lanterns",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/decor_49/?source=plp&category_shop=Home+%3E+Decor+%3E+Votives+%26+Lanterns"
+                            },
+                            {
+                                "id": 147,
+                                "name": "Vases & Accessories",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/decor_49/?source=plp&category_shop=Home+%3E+Decor+%3E+Vases+%26+Accessories"
+                            },
+                            {
+                                "id": 192,
+                                "name": "Ambient Fragrances",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/decor_49/?source=plp&category_shop=Home+%3E+Decor+%3E+Ambient+Fragrances"
+                            },
+                            {
+                                "id": 56,
+                                "name": "Journals",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/decor_49/?source=plp&category_shop=Home+%3E+Decor+%3E+Journals"
+                            },
+                            {
+                                "id": 50,
+                                "name": "Naqashi",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/decor_49/?source=plp&category_shop=Home+%3E+Decor+%3E+Naqashi"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 48,
+                        "name": "Wallcoverings",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/living/wallcoverings_48/?source=plp&category_shop=Home+%3E+Wallcoverings",
+                        "children": []
+                    }
+                ],
+                [
+                    {
+                        "id": 47,
+                        "name": "Cushions",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/living/cushions_47/?source=plp&category_shop=Home+%3E+Cushions",
+                        "children": [
+                            {
+                                "id": 47,
+                                "name": "Cushions Collections",
+                                "url": "/allcollection/living_26/47/"
+                            },
+                            {
+                                "id": 227,
+                                "name": "Block Prints",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&category_shop=Home+%3E+Cushions+%3E+Block+Prints"
+                            },
+                            {
+                                "id": 88,
+                                "name": "Embroidered",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&category_shop=Home+%3E+Cushions+%3E+Embroidered"
+                            },
+                            {
+                                "id": 137,
+                                "name": "Brocades",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&category_shop=Home+%3E+Cushions+%3E+Brocades"
+                            },
+                            {
+                                "id": 228,
+                                "name": "Woven",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&category_shop=Home+%3E+Cushions+%3E+Woven"
+                            },
+                            {
+                                "id": 89,
+                                "name": "Prints",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/cushions_47/?source=plp&category_shop=Home+%3E+Cushions+%3E+Prints"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 105,
+                        "name": "Soft Furnishings",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/living/gandhara_105/?source=plp&category_shop=Home+%3E+Soft+Furnishings",
+                        "children": [
+                            {
+                                "id": 41,
+                                "name": "Sheers & Curtains",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/gandhara_105/?source=plp&category_shop=Home+%3E+Soft+Furnishings+%3E+Sheers+%26+Curtains"
+                            },
+                            {
+                                "id": 183,
+                                "name": "Fabrics",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/gandhara_105/?source=plp&category_shop=Home+%3E+Soft+Furnishings+%3E+Fabrics"
+                            },
+                            {
+                                "id": 203,
+                                "name": "Throws",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/gandhara_105/?source=plp&category_shop=Home+%3E+Soft+Furnishings+%3E+Throws"
+                            },
+                            {
+                                "id": 224,
+                                "name": "Dhurries",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/living/gandhara_105/?source=plp&category_shop=Home+%3E+Soft+Furnishings+%3E+Dhurries"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "categoryLogoImage": "",
+            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+            "categoryImageUrl": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites"
+        },
+        {
+            "id": 194,
+            "name": "Bed & Bath",
+            "url": "/catalogue/category/bed-bath_194/?source=plp&category_shop=Bed & Bath",
+            "labelDesktop": null,
+            "labelMobile": null,
+            "catLandingUrl": "/category_landing/bed-bath_194/",
+            "leftMenu": [
+                {
+                    "id": 17,
+                    "name": "GIFTING",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/gifting",
+                    "children": [
+                        {
+                            "id": 18,
+                            "name": "Gifting Favourites",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites"
+                        },
+                        {
+                            "id": 3,
+                            "name": "Gift Card",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/giftcard/"
+                        },
+                        {
+                            "id": 19,
+                            "name": "Gifts Of Gratitude",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting+Exclusives"
+                        },
+                        {
+                            "id": 9,
+                            "name": "Corporate Gifting",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/corporate-gifts-catalogue"
+                        },
+                        {
+                            "id": 11,
+                            "name": "Good Earth Registry",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "//the-good-earth-registry/"
+                        }
+                    ]
+                },
+                {
+                    "id": 40,
+                    "name": "Puspanjali",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/puspanjali-festive-2020",
+                    "children": []
+                },
+                {
+                    "id": 39,
+                    "name": "GE X Souk Pop up",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/catalogue/category/souk_264/?source=plp&category_shop=Souk&src_type=cp",
+                    "children": []
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "id": 35,
+                        "name": "Bed",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+%3E+Bed",
+                        "children": [
+                            {
+                                "id": 35,
+                                "name": "Bed Collections",
+                                "url": "/allcollection/bed-bath_194/35/"
+                            },
+                            {
+                                "id": 145,
+                                "name": "Bed Covers",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+%3E+Bed+%3E+Bed+Covers"
+                            },
+                            {
+                                "id": 40,
+                                "name": "Quilts & Dohars",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+%3E+Bed+%3E+Quilts+%26+Dohars"
+                            },
+                            {
+                                "id": 39,
+                                "name": "Bolsters & Shams",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+%3E+Bed+%3E+Bolsters+%26+Shams"
+                            },
+                            {
+                                "id": 184,
+                                "name": "Sleep & Loungewear",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+%3E+Bed+%3E+Sleep+%26+Loungewear"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 195,
+                        "name": "Soft Furnishings",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/bed-bath/soft-furnishings_195/?source=plp&category_shop=Bed+%26+Bath+%3E+Soft+Furnishings",
+                        "children": [
+                            {
+                                "id": 196,
+                                "name": "Sheers & Curtains",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/soft-furnishings_195/?source=plp&category_shop=Bed+%26+Bath+%3E+Soft+Furnishings+%3E+Sheers+%26+Curtains"
+                            },
+                            {
+                                "id": 197,
+                                "name": "Fabrics",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/soft-furnishings_195/?source=plp&category_shop=Bed+%26+Bath+%3E+Soft+Furnishings+%3E+Fabrics"
+                            },
+                            {
+                                "id": 204,
+                                "name": "Throws",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/soft-furnishings_195/?source=plp&category_shop=Bed+%26+Bath+%3E+Soft+Furnishings+%3E+Throws"
+                            },
+                            {
+                                "id": 225,
+                                "name": "Dhurries",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/soft-furnishings_195/?source=plp&category_shop=Bed+%26+Bath+%3E+Soft+Furnishings+%3E+Dhurries"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 198,
+                        "name": "Bath & Body",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/bed-bath/bath-body_198/?source=plp&category_shop=Bed+%26+Bath+%3E+Bath+%26+Body",
+                        "children": [
+                            {
+                                "id": 199,
+                                "name": "Soaps",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bath-body_198/?source=plp&category_shop=Bed+%26+Bath+%3E+Bath+%26+Body+%3E+Soaps"
+                            },
+                            {
+                                "id": 200,
+                                "name": "Skincare",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bath-body_198/?source=plp&category_shop=Bed+%26+Bath+%3E+Bath+%26+Body+%3E+Skincare"
+                            },
+                            {
+                                "id": 67,
+                                "name": "Towels",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bath-body_198/?source=plp&category_shop=Bed+%26+Bath+%3E+Bath+%26+Body+%3E+Towels"
+                            },
+                            {
+                                "id": 69,
+                                "name": "Bathroom Accessories",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/bed-bath/bath-body_198/?source=plp&category_shop=Bed+%26+Bath+%3E+Bath+%26+Body+%3E+Bathroom+Accessories"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "categoryLogoImage": "",
+            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu_feature-Ferdaus.jpg",
+            "categoryImageUrl": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+>+Bed"
+        },
+        {
+            "id": 1,
+            "name": "Apparel",
+            "url": "/catalogue/category/women_1/?source=plp&category_shop=Apparel",
+            "labelDesktop": null,
+            "labelMobile": null,
+            "catLandingUrl": "/category_landing/women_1/",
+            "leftMenu": [
+                {
+                    "id": 17,
+                    "name": "GIFTING",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/gifting",
+                    "children": [
+                        {
+                            "id": 18,
+                            "name": "Gifting Favourites",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites"
+                        },
+                        {
+                            "id": 3,
+                            "name": "Gift Card",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/giftcard/"
+                        },
+                        {
+                            "id": 19,
+                            "name": "Gifts Of Gratitude",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting+Exclusives"
+                        },
+                        {
+                            "id": 9,
+                            "name": "Corporate Gifting",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/corporate-gifts-catalogue"
+                        }
+                    ]
+                },
+                {
+                    "id": 40,
+                    "name": "Puspanjali",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/puspanjali-festive-2020",
+                    "children": []
+                },
+                {
+                    "id": 39,
+                    "name": "GE X Souk Pop up",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/catalogue/category/souk_264/?source=plp&category_shop=Souk&src_type=cp",
+                    "children": []
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "id": 1,
+                        "name": "ALL COLLECTIONS",
+                        "url": "/allcollection/women_1/1/",
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "children": []
+                    },
+                    {
+                        "id": 238,
+                        "name": "Essentials",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/women/traditional-essentials_238/?source=plp&category_shop=Apparel+%3E+Essentials",
+                        "children": []
+                    },
+                    {
+                        "id": 240,
+                        "name": "Occasion",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/women/occasion_240/?source=plp&category_shop=Apparel+%3E+Occasion",
+                        "children": []
+                    }
+                ],
+                [
+                    {
+                        "id": 3,
+                        "name": "Womens Clothing",
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing",
+                        "children": [
+                            {
+                                "id": 6,
+                                "name": "Kurtas & Kaftans",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing+%3E+Kurtas+%26+Kaftans"
+                            },
+                            {
+                                "id": 5,
+                                "name": "Tops",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing+%3E+Tops"
+                            },
+                            {
+                                "id": 10,
+                                "name": "Dresses & Tunics",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing+%3E+Dresses+%26+Tunics"
+                            },
+                            {
+                                "id": 14,
+                                "name": "Farshis & Pants",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing+%3E+Farshis+%26+Pants"
+                            },
+                            {
+                                "id": 7,
+                                "name": "Jackets & Overlays",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing+%3E+Jackets+%26+Overlays"
+                            },
+                            {
+                                "id": 16,
+                                "name": "Lehengas & Skirts",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing+%3E+Lehengas+%26+Skirts"
+                            },
+                            {
+                                "id": 22,
+                                "name": "Saris & Blouses",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Womens+Clothing+%3E+Saris+%26+Blouses"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 23,
+                        "name": "Accessories",
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "url": "/catalogue/category/women/accessories_23/?source=plp&category_shop=Apparel+%3E+Accessories",
+                        "children": [
+                            {
+                                "id": 20,
+                                "name": "Odhanis",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/accessories_23/?source=plp&category_shop=Apparel+%3E+Accessories+%3E+Odhanis"
+                            },
+                            {
+                                "id": 21,
+                                "name": "Scarves & Stoles",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/accessories_23/?source=plp&category_shop=Apparel+%3E+Accessories+%3E+Scarves+%26+Stoles"
+                            },
+                            {
+                                "id": 174,
+                                "name": "Bags & Potlis",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/accessories_23/?source=plp&category_shop=Apparel+%3E+Accessories+%3E+Bags+%26+Potlis"
+                            },
+                            {
+                                "id": 173,
+                                "name": "Mojris & Chappals",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/accessories_23/?source=plp&category_shop=Apparel+%3E+Accessories+%3E+Mojris+%26+Chappals"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 172,
+                        "name": "Men",
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "url": "/catalogue/category/women/men_172/?source=plp&category_shop=Apparel+%3E+Men",
+                        "children": [
+                            {
+                                "id": 257,
+                                "name": "Mens Clothing",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/men_172/?source=plp&category_shop=Apparel+%3E+Men+%3E+Mens+Clothing"
+                            },
+                            {
+                                "id": 258,
+                                "name": "Mens Accessories",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/men_172/?source=plp&category_shop=Apparel+%3E+Men+%3E+Mens+Accessories"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 161,
+                        "name": "Designer Series",
+                        "labelDesktop": "",
+                        "labelMobile": "",
+                        "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series",
+                        "children": [
+                            {
+                                "id": 261,
+                                "name": "GE x Aurus Pop Up",
+                                "labelDesktop": null,
+                                "labelMobile": "<p><span style=\"color: rgb(181, 42, 107);\">GE x Aurus Pop Up</span></p>",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+GE+x+Aurus+Pop+Up"
+                            },
+                            {
+                                "id": 245,
+                                "name": "Ezma",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Ezma"
+                            },
+                            {
+                                "id": 243,
+                                "name": "Raw Mango",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Raw+Mango"
+                            },
+                            {
+                                "id": 246,
+                                "name": "Artisau",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Artisau"
+                            },
+                            {
+                                "id": 244,
+                                "name": "Anavila",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Anavila"
+                            },
+                            {
+                                "id": 247,
+                                "name": "Buna",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Buna"
+                            },
+                            {
+                                "id": 251,
+                                "name": "Kesya",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Kesya"
+                            },
+                            {
+                                "id": 249,
+                                "name": "11 11",
+                                "labelDesktop": "<p>11.11</p>",
+                                "labelMobile": "<p>11.11</p>",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+11+11"
+                            },
+                            {
+                                "id": 252,
+                                "name": "En Inde",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+En+Inde"
+                            },
+                            {
+                                "id": 263,
+                                "name": "Soham Dave",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Soham+Dave"
+                            },
+                            {
+                                "id": 265,
+                                "name": "Shorshe",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/women/chanderi_161/?source=plp&category_shop=Apparel+%3E+Designer+Series+%3E+Shorshe"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "categoryLogoImage": "",
+            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-nauhreen.jpg",
+            "categoryImageUrl": "/catalogue/category/women/chanderi_161/aurus_261/?source=plp&category_shop=Apparel+>+Designer+Series+>+GE+x+Aurus+Pop+Up"
+        },
+        {
+            "id": 57,
+            "name": "Kids",
+            "url": "/catalogue/category/kids_57/?source=plp&category_shop=Kids",
+            "labelDesktop": null,
+            "labelMobile": null,
+            "catLandingUrl": "/category_landing/kids_57/",
+            "leftMenu": [
+                {
+                    "id": 17,
+                    "name": "GIFTING",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/gifting",
+                    "children": [
+                        {
+                            "id": 18,
+                            "name": "Gifting Favourites",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites"
+                        },
+                        {
+                            "id": 3,
+                            "name": "Gift Card",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/giftcard/"
+                        },
+                        {
+                            "id": 19,
+                            "name": "Gifts Of Gratitude",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting+Exclusives"
+                        },
+                        {
+                            "id": 9,
+                            "name": "Corporate Gifting",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/corporate-gifts-catalogue"
+                        }
+                    ]
+                },
+                {
+                    "id": 40,
+                    "name": "Puspanjali",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/puspanjali-festive-2020",
+                    "children": []
+                },
+                {
+                    "id": 39,
+                    "name": "GE X Souk Pop up",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/catalogue/category/souk_264/?source=plp&category_shop=Souk&src_type=cp",
+                    "children": []
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "id": 63,
+                        "name": "Clothing",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/kids/clothing_63/?source=plp&category_shop=Kids+%3E+Clothing",
+                        "children": [
+                            {
+                                "id": 85,
+                                "name": "Everyday",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/clothing_63/?source=plp&category_shop=Kids+%3E+Clothing+%3E+Everyday"
+                            },
+                            {
+                                "id": 84,
+                                "name": "Festive",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/clothing_63/?source=plp&category_shop=Kids+%3E+Clothing+%3E+Festive"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 59,
+                        "name": "Newborn Gifting",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/kids/bed_59/?source=plp&category_shop=Kids+%3E+Newborn+Gifting",
+                        "children": [
+                            {
+                                "id": 76,
+                                "name": "Infant Sets",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&category_shop=Kids+%3E+Newborn+Gifting+%3E+Infant+Sets"
+                            },
+                            {
+                                "id": 61,
+                                "name": "Silver & Copperware",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&category_shop=Kids+%3E+Newborn+Gifting+%3E+Silver+%26+Copperware"
+                            },
+                            {
+                                "id": 77,
+                                "name": "Dohars & Quilts",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&category_shop=Kids+%3E+Newborn+Gifting+%3E+Dohars+%26+Quilts"
+                            },
+                            {
+                                "id": 148,
+                                "name": "Blankets",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&category_shop=Kids+%3E+Newborn+Gifting+%3E+Blankets"
+                            },
+                            {
+                                "id": 231,
+                                "name": "Pillows & Bolsters",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&category_shop=Kids+%3E+Newborn+Gifting+%3E+Pillows+%26+Bolsters"
+                            },
+                            {
+                                "id": 81,
+                                "name": "Towels",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/bed_59/?source=plp&category_shop=Kids+%3E+Newborn+Gifting+%3E+Towels"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 229,
+                        "name": "Junior",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/kids/kids-junior_229/?source=plp&category_shop=Kids+%3E+Junior",
+                        "children": [
+                            {
+                                "id": 232,
+                                "name": "Towels",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/kids-junior_229/?source=plp&category_shop=Kids+%3E+Junior+%3E+Towels"
+                            },
+                            {
+                                "id": 230,
+                                "name": "Dohars & Quilts",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/kids-junior_229/?source=plp&category_shop=Kids+%3E+Junior+%3E+Dohars+%26+Quilts"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 62,
+                        "name": "Read & Play",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/kids/playtime_62/?source=plp&category_shop=Kids+%3E+Read+%26+Play",
+                        "children": [
+                            {
+                                "id": 86,
+                                "name": "Books",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/playtime_62/?source=plp&category_shop=Kids+%3E+Read+%26+Play+%3E+Books"
+                            },
+                            {
+                                "id": 87,
+                                "name": "Tents",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/playtime_62/?source=plp&category_shop=Kids+%3E+Read+%26+Play+%3E+Tents"
+                            },
+                            {
+                                "id": 226,
+                                "name": "Umbrellas",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/kids/playtime_62/?source=plp&category_shop=Kids+%3E+Read+%26+Play+%3E+Umbrellas"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "categoryLogoImage": "",
+            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu_feature-playtime.jpg",
+            "categoryImageUrl": "/catalogue/category/kids/playtime_62/?source=plp&category_shop=Kids+>+Read+%26+Play"
+        },
+        {
+            "id": 64,
+            "name": "Spa",
+            "url": "/catalogue/category/wellness_64/?source=plp&category_shop=Spa",
+            "labelDesktop": null,
+            "labelMobile": null,
+            "catLandingUrl": "/category_landing/wellness_64/",
+            "leftMenu": [
+                {
+                    "id": 17,
+                    "name": "GIFTING",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/gifting",
+                    "children": [
+                        {
+                            "id": 18,
+                            "name": "Gifting Favourites",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites"
+                        },
+                        {
+                            "id": 3,
+                            "name": "Gift Card",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/giftcard/"
+                        },
+                        {
+                            "id": 19,
+                            "name": "Gifts Of Gratitude",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting+Exclusives"
+                        },
+                        {
+                            "id": 9,
+                            "name": "Corporate Gifting",
+                            "labelDesktop": "",
+                            "labelMobile": "",
+                            "url": "/corporate-gifts-catalogue"
+                        }
+                    ]
+                },
+                {
+                    "id": 40,
+                    "name": "Puspanjali",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/puspanjali-festive-2020",
+                    "children": []
+                },
+                {
+                    "id": 39,
+                    "name": "GE X Souk Pop up",
+                    "labelDesktop": "",
+                    "labelMobile": "",
+                    "url": "/catalogue/category/souk_264/?source=plp&category_shop=Souk&src_type=cp",
+                    "children": []
+                }
+            ],
+            "rightMenu": [
+                [
+                    {
+                        "id": 206,
+                        "name": "Ancient Incense",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/wellness/ancient-incense_2_206/?source=plp&category_shop=Spa+%3E+Ancient+Incense",
+                        "children": [
+                            {
+                                "id": 207,
+                                "name": "Incence Sets",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/ancient-incense_2_206/?source=plp&category_shop=Spa+%3E+Ancient+Incense+%3E+Incence+Sets"
+                            },
+                            {
+                                "id": 208,
+                                "name": "Burners & Holders",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/ancient-incense_2_206/?source=plp&category_shop=Spa+%3E+Ancient+Incense+%3E+Burners+%26+Holders"
+                            },
+                            {
+                                "id": 209,
+                                "name": "Incense",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/ancient-incense_2_206/?source=plp&category_shop=Spa+%3E+Ancient+Incense+%3E+Incense"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 210,
+                        "name": "Fragrance",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/wellness/fragrance_210/?source=plp&category_shop=Spa+%3E+Fragrance",
+                        "children": [
+                            {
+                                "id": 211,
+                                "name": "Aromatherapy Sets",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/fragrance_210/?source=plp&category_shop=Spa+%3E+Fragrance+%3E+Aromatherapy+Sets"
+                            },
+                            {
+                                "id": 212,
+                                "name": "Essential Oils & Burners",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/fragrance_210/?source=plp&category_shop=Spa+%3E+Fragrance+%3E+Essential+Oils+%26+Burners"
+                            },
+                            {
+                                "id": 213,
+                                "name": "Reed Diffusers",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/fragrance_210/?source=plp&category_shop=Spa+%3E+Fragrance+%3E+Reed+Diffusers"
+                            },
+                            {
+                                "id": 214,
+                                "name": "Candles",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/fragrance_210/?source=plp&category_shop=Spa+%3E+Fragrance+%3E+Candles"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 215,
+                        "name": "Bath & Body",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/wellness/bath-body_215/?source=plp&category_shop=Spa+%3E+Bath+%26+Body",
+                        "children": [
+                            {
+                                "id": 216,
+                                "name": "Soaps",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/bath-body_215/?source=plp&category_shop=Spa+%3E+Bath+%26+Body+%3E+Soaps"
+                            },
+                            {
+                                "id": 217,
+                                "name": "Skin care",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/bath-body_215/?source=plp&category_shop=Spa+%3E+Bath+%26+Body+%3E+Skin+care"
+                            },
+                            {
+                                "id": 218,
+                                "name": "Towels",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/bath-body_215/?source=plp&category_shop=Spa+%3E+Bath+%26+Body+%3E+Towels"
+                            },
+                            {
+                                "id": 219,
+                                "name": "Bathroom Accessories",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/bath-body_215/?source=plp&category_shop=Spa+%3E+Bath+%26+Body+%3E+Bathroom+Accessories"
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "id": 75,
+                        "name": "Everything Else",
+                        "labelDesktop": null,
+                        "labelMobile": null,
+                        "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&category_shop=Spa+%3E+Everything+Else",
+                        "children": [
+                            {
+                                "id": 169,
+                                "name": "Copperware",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&category_shop=Spa+%3E+Everything+Else+%3E+Copperware"
+                            },
+                            {
+                                "id": 170,
+                                "name": "Herbal Tea & Honey",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&category_shop=Spa+%3E+Everything+Else+%3E+Herbal+Tea+%26+Honey"
+                            },
+                            {
+                                "id": 168,
+                                "name": "Umbrella",
+                                "labelDesktop": "",
+                                "labelMobile": "",
+                                "url": "/catalogue/category/wellness/wellness-accessories_75/?source=plp&category_shop=Spa+%3E+Everything+Else+%3E+Umbrella"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "categoryLogoImage": "",
+            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-padmadhuna.jpg",
+            "categoryImageUrl": "/catalogue/category/wellness/ancient-incense_2_206/?source=plp&category_shop=Spa+>+Ancient+Incense"
+        },
+        {
+            "id": 98,
+            "name": "Stories",
+            "url": "https://www.goodearth.in/stories",
+            "labelDesktop": "",
+            "labelMobile": "",
+            "catLandingUrl": "https://www.goodearth.in/stories",
+            "leftMenu": [
+                {
+                    "id": 0,
+                    "name": "Featured",
+                    "url": "https://www.goodearth.in/stories",
+                    "children": [],
+                    "labelDesktop": "",
+                    "labelMobile": ""
+                }
+            ],
+            "rightMenu": [],
+            "categoryLogoImage": "",
+            "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/LD-Menu_Banner_Copy.jpg",
+            "categoryImageUrl": "https://www.goodearth.in/stories/lockdown-dreamscapes/"
+        }
+    ],
+    "megaMenuResults": [
+        {
+            "columns": [
+                {
+                    "separator": true,
+                    "templates==l2": [
+                        {
+                            "publishOnMobile": true,
+                            "templateType": "L2L3",
+                            "templateData": {
+                                "componentType": "l2",
+                                "componentData": {
+                                    "text": "giftcard",
+                                    "link": "/giftcard"
+                                },
+                                "children": [
+                                    {
+                                        "componentType": "l3",
+                                        "componentData": {
+                                            "text": "",
+                                            "link": ""
+                                        }
+                                    },
+                                    {
+                                        "componentType": "l3",
+                                        "componentData": {
+                                            "text": "",
+                                            "link": ""
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "publishOnMobile": true,
+                            "templateType": "L2L3",
+                            "templateData": {
+                                "componentType": "l2",
+                                "componentData": {
+                                    "text": "",
+                                    "link": ""
+                                },
+                                "children": [
+                                    {
+                                        "componentType": "l3",
+                                        "componentData": {
+                                            "text": "",
+                                            "link": ""
+                                        }
+                                    },
+                                    {
+                                        "componentType": "l3",
+                                        "componentData": {
+                                            "text": "",
+                                            "link": ""
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                    
+                },
+                {
+                    "separator": false,
+                    "templates": [
+                        {
+                            "publishOnMobile": false,
+                            "templateType": "IMAGE",
+                            "templateData": [
+                                {
+                                    "componentType": "title",
+                                    "componentData": {
+                                        "title": "",
+                                        "link": "",
+                                        "ctaName": ""
+                                    },
+                                    "children": [
+                                        {
+                                            "componentType": "image",
+                                            "componentData": {
+                                                "src": "",
+                                                "heading": "",
+                                                "subHeading": "",
+                                                "link": ""
+                                            }
+                                        },
+                                        {
+                                            "componentType": "image",
+                                            "componentData": {
+                                                "src": "",
+                                                "heading": "",
+                                                "subHeading": "",
+                                                "link": ""
+                                            }
+                                        }
+                                    ]
+                                }   
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "text": "giftcard",
+            "url": "/giftcard"
+        }
+    ]
+}
