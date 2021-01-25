@@ -32,6 +32,46 @@ export interface HeaderData {
   categoryImageUrl: string;
 }
 
+export type MenuComponentL2L3Data = {
+  text: string;
+  link: string;
+};
+
+export type MenuComponentTitleData = {
+  title: string;
+  link: string;
+  ctaName: string;
+};
+
+export type MenuComponentImageData = {
+  src: string;
+  heading: string;
+  subHeading: string;
+  link: string;
+};
+export interface MenuComponent {
+  componentType: string;
+  componentData:
+    | MenuComponentL2L3Data
+    | MenuComponentTitleData
+    | MenuComponentImageData;
+  children?: MenuComponent[];
+}
+export interface MenuTemplates {
+  publishOnMobile: boolean;
+  templateType: string;
+  templateData: MenuComponent[];
+}
+export interface MenuColumn {
+  separator: boolean;
+  templates: MenuTemplates[];
+}
+export interface MegaMenuData {
+  columns: MenuColumn[];
+  text: string;
+  url: string;
+}
+
 export type AnnouncementBar = {
   url: number | null;
   message: string;
@@ -86,10 +126,30 @@ export type MenuProps = {
   location: Location;
 };
 
+export type MegaMenuProps = {
+  show: boolean;
+  ipad: boolean;
+  onMouseOver: (value: MouseParameter) => void;
+  data: MegaMenuData[];
+  currency?: Currency;
+  mobile?: boolean;
+  location: Location;
+};
+
 export type MenuListProps = {
   activeIndex: number;
   mouseOut: (value: MouseParameter) => void;
   menudata: HeaderData[];
+  show?: boolean;
+  currency?: Currency;
+  mobile?: boolean;
+  ipad: boolean;
+};
+
+export type MegaMenuListProps = {
+  activeIndex: number;
+  mouseOut: (value: MouseParameter) => void;
+  menudata: MegaMenuData[];
   show?: boolean;
   currency?: Currency;
   mobile?: boolean;

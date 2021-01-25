@@ -32,10 +32,13 @@ import bridalRing from "../../images/bridal/rings.svg";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
+import MegaMenu from "./megaMenu";
+import { MegaMenuList } from "./megaMenulist";
 
 const mapStateToProps = (state: AppState) => {
   return {
     data: state.header.data,
+    megaMenuData: state.header.megaMenuData,
     announcement: state.header.announcementData,
     currency: state.currency,
     mobile: state.device.mobile,
@@ -586,7 +589,7 @@ class Header extends React.Component<Props, State> {
                     bootstrap.offsetMd1
                   )}
                 >
-                  <MainMenu
+                  {/* <MainMenu
                     show={this.state.show}
                     ipad={false}
                     onMouseOver={(data): void => {
@@ -596,6 +599,18 @@ class Header extends React.Component<Props, State> {
                       });
                     }}
                     data={this.props.data}
+                    location={this.props.location}
+                  /> */}
+                  <MegaMenu
+                    show={this.state.show}
+                    ipad={false}
+                    onMouseOver={(data): void => {
+                      this.setState({
+                        show: data.show,
+                        activeIndex: data.activeIndex || 0
+                      });
+                    }}
+                    data={this.props.megaMenuData}
                     location={this.props.location}
                   />
                 </div>
@@ -666,12 +681,13 @@ class Header extends React.Component<Props, State> {
           <div>
             <div
               className={
-                this.state.show
-                  ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
-                  : styles.hidden
+                // this.state.show
+                // ?
+                cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
+                // : styles.hidden
               }
             >
-              <MenuList
+              {/* <MenuList
                 ipad={false}
                 activeIndex={this.state.activeIndex}
                 mouseOut={(data): void => {
@@ -679,6 +695,16 @@ class Header extends React.Component<Props, State> {
                 }}
                 show={this.state.show}
                 menudata={this.props.data}
+                mobile={mobile}
+              /> */}
+              <MegaMenuList
+                ipad={false}
+                activeIndex={this.state.activeIndex}
+                mouseOut={(data): void => {
+                  this.mouseOut(data);
+                }}
+                show={this.state.show}
+                menudata={this.props.megaMenuData}
                 mobile={mobile}
               />
             </div>
