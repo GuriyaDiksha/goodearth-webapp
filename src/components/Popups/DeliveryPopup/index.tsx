@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -8,6 +8,8 @@ import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context.ts";
 import { NavLink } from "react-router-dom";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 type PopupProps = {
   saveInstruction: (data: string) => any;
@@ -19,6 +21,11 @@ const Delivery: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const [textarea, setTextarea] = useState("");
+  const { deliveryText } = useSelector((state: AppState) => state.info);
+
+  useEffect(() => {
+    setTextarea(deliveryText);
+  }, []);
 
   return (
     <div>
@@ -83,7 +90,13 @@ const Delivery: React.FC<PopupProps> = props => {
               Your instructions help us provide you with a seamless online
               shopping experience.Kindly note, our deliver teams reserve the
               right to refuse certain instructions under special circumstance.
-              Read T&C to know more.
+              <a
+                href={"/customer-assistance/terms-conditions "}
+                className={styles.terms}
+              >
+                Read T&C{" "}
+              </a>
+              to know more.
             </div>
           </div>
         </div>
@@ -98,7 +111,7 @@ const Delivery: React.FC<PopupProps> = props => {
             to="/"
             onClick={e => {
               e.preventDefault();
-              props.saveInstruction(textarea);
+              props.saveInstruction(textarea.trim());
               closeModal();
             }}
           >
