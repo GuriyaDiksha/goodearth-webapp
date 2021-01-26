@@ -67,7 +67,8 @@ const BridalPop: React.FC = () => {
             styles.sizeBlockMobile,
             styles.ipops,
             styles.centerpageDesktopMobile,
-            globalStyles.textCenter
+            globalStyles.textCenter,
+            "bridal-pop"
           )}
         >
           {/* <div className="cross" onClick={() => {props.close()} }><i
@@ -118,7 +119,8 @@ const BridalPop: React.FC = () => {
             styles.sizeBlock,
             styles.ipops,
             styles.centerpageDesktop,
-            globalStyles.textCenter
+            globalStyles.textCenter,
+            "bridal-pop"
           )}
         >
           {/* <div className="cross" onClick={() => {props.close()} }><i
