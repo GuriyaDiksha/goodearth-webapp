@@ -132,6 +132,9 @@ let config = [
                       },
                     },
                   }],
+                  additionalManifestEntries: [{
+                      url: `${apiDomain}/myapi/address/countries_state/`
+                  }]
             }),
             new WebpackPwaManifest({
                 filename: `manifest.v${envConfig.manifestVersion}.json`,
