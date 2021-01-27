@@ -1,6 +1,7 @@
 import React, { EventHandler, MouseEvent, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PLPResultItemProps } from "./typings";
+import "../../styles/myslick.css";
 import "./slick.css";
 import styles from "./styles.scss";
 import { Currency, currencyCode } from "../../typings/currency";
