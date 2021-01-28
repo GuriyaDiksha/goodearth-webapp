@@ -133,7 +133,8 @@ let config = [
                     },
                   }],
                   additionalManifestEntries: [{
-                      url: `${apiDomain}/myapi/address/countries_state/`
+                      url: `${envConfig.apidomain}/myapi/address/countries_state/`,
+                      revision: null
                   }]
             }),
             new WebpackPwaManifest({
