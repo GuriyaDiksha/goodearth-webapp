@@ -67,7 +67,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
-    // this.props.fetchCountryData();
+    this.props.fetchCountryData();
   }
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {

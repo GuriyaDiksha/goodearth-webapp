@@ -241,7 +241,10 @@ export default {
     return response;
   },
   fetchCountryData: async (dispatch: Dispatch) => {
-    const countryData = CacheService.get("countryData") as countryDataResponse;
+    let countryData: countryDataResponse | [] = [];
+    if (typeof document == "undefined") {
+      countryData = CacheService.get("countryData") as countryDataResponse;
+    }
     if (countryData && countryData.length > 0) {
       return countryData;
     }
@@ -249,7 +252,9 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/address/countries_state/"}`
     );
-    CacheService.set("countryData", res);
+    if (typeof document == "undefined") {
+      CacheService.set("countryData", res);
+    }
     return res;
   }
 };
