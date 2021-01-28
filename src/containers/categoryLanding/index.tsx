@@ -17,7 +17,7 @@ import CategoryService from "services/category";
 import { CategoryProps } from "typings/category";
 import { addCategoryData } from "actions/category";
 import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
-// import Instagram from "components/Instagram"
+import Instagram from "components/Instagram";
 import "./slick.css";
 import initActionCollection from "./initAction";
 // import { Settings } from "react-slick";
@@ -823,7 +823,7 @@ class CategoryLanding extends React.Component<
         )}
         <section>
           <div id="inst" className={styles.instafeed1}>
-            {/* <Instagram/> */}
+            <Instagram />
             {/* {this.getInstagram()} */}
           </div>
           <div className={cs(styles.iconInsta, globalStyles.textCenter)}>

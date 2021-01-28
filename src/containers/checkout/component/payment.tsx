@@ -463,9 +463,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 htmlFor="subscribe"
                 className={cs(globalStyles.pointer, styles.linkCerise)}
               >
-                I agree to receiving e-mails, calls and text messages for
-                service related information. To know more how we keep your data
-                safe, refer to our{" "}
+                I agree to receiving e-mails, newsletters, calls and text
+                messages for service related information. To know more how we
+                keep your data safe, refer to our{" "}
                 <Link to="/customer-assistance/privacy-policy" target="_blank">
                   Privacy Policy
                 </Link>

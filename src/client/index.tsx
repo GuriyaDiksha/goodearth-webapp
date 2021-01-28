@@ -37,7 +37,12 @@ window.onload = () => {
   // document.body.appendChild(modalContainer);
   // document.body.appendChild(root);
   hydrate(application, root);
-
+  const updatedDevice = getDevice(window.navigator.userAgent);
+  const mobile = updatedDevice.mobile || window.innerWidth < 992;
+  const device = store.getState().device;
+  if (device.mobile !== mobile || device.tablet !== updatedDevice.tablet) {
+    store.dispatch(updateDeviceInfo(mobile, updatedDevice.tablet));
+  }
   window.addEventListener(
     "resize",
     debounce(() => {
