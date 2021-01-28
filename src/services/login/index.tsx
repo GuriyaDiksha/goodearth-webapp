@@ -91,6 +91,7 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -129,6 +130,7 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch);
@@ -189,6 +191,7 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch);

@@ -167,7 +167,6 @@ class LoginForm extends React.Component<Props, loginState> {
           this.gtmPushSignIn();
           this.props.nextUrl && this.props.history.push(this.props.nextUrl);
           this.props.resetNextUrl();
-          this.context.closeModal();
           window.scrollTo(0, 0);
         })
         .catch(err => {

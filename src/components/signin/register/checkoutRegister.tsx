@@ -616,7 +616,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               name="terms"
               disable={!this.state.showFields}
               label={[
-                "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
+                "I agree to receiving e-mails, newsletters, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
                 <Link
                   key="terms"
                   to="/customer-assistance/privacy-policy"
