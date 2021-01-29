@@ -357,7 +357,11 @@ class Header extends React.Component<Props, State> {
           {
             <meta
               name="description"
-              content={meta.description ? meta.description : ""}
+              content={
+                meta.description
+                  ? meta.description
+                  : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+              }
             />
           }
           <link
