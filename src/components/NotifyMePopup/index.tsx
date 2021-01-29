@@ -250,7 +250,13 @@ const NotifyMePopup: React.FC<Props> = ({
   }, [selectedSize]);
 
   const sizeExists = childAttributes[0].size;
+  let allOutOfStock = true;
 
+  childAttributes.forEach(({ stock }) => {
+    if (stock > 0) {
+      allOutOfStock = false;
+    }
+  });
   return (
     <div className={cs(styles.container)}>
       <div className={styles.header}>
@@ -320,7 +326,7 @@ const NotifyMePopup: React.FC<Props> = ({
             inputClass={styles.inputQuantity}
           />
         </div>
-        {selectedSize && selectedSize.stock === 0 && (
+        {((selectedSize && selectedSize.stock === 0) || allOutOfStock) && (
           <div className={cs(styles.emailInput, globalStyles.textLeft)}>
             <InputField
               id="width"

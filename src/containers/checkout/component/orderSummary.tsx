@@ -12,6 +12,7 @@ import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
 import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
+import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
 
 const OrderSummary: React.FC<OrderProps> = props => {
@@ -26,11 +27,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
   } = props;
   const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
+  const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { isSale } = useSelector((state: AppState) => state.info);
+  const { deliveryText } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
     setIsSuspended(true);
@@ -464,6 +467,20 @@ const OrderSummary: React.FC<OrderProps> = props => {
       LoginService.showLogin(dispatch);
     }
   };
+  const saveInstruction = (data: string) => {
+    dispatch(updateDeliveryText(data));
+  };
+
+  const openDeliveryBox = () => {
+    dispatch(
+      updateComponent(
+        POPUP.DELIVERY,
+        { saveInstruction: saveInstruction },
+        true
+      )
+    );
+    dispatch(updateModal(true));
+  };
 
   const getDiscount = (data: any) => {
     // let initial = 0,
@@ -548,6 +565,50 @@ const OrderSummary: React.FC<OrderProps> = props => {
               )}
             >
               to {shippingAddress.state} - {shippingAddress.postCode}
+            </div>
+          )}
+          {page == "cart" || basket.isOnlyGiftCart ? (
+            ""
+          ) : (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                globalStyles.marginT20
+              )}
+            >
+              <span
+                className={cs(
+                  styles.subtotal,
+                  globalStyles.cerise,
+                  globalStyles.pointer
+                )}
+                onClick={openDeliveryBox}
+              >
+                {deliveryText.length == 0 ? "ADD" : "EDIT"} DELIVERY
+                INSTRUCTIONS
+              </span>
+              {/* <span className={styles.subtotal}>
+              (+) {String.fromCharCode(...code)}{" "}
+              {parseFloat(shippingCharge).toFixed(2)}
+            </span> */}
+            </div>
+          )}
+          {deliveryText.length == 0 ||
+          page == "cart" ||
+          basket.isOnlyGiftCart ? (
+            ""
+          ) : (
+            <div className={cs(styles.deliveryDate, styles.wrap)}>
+              {fullText ? deliveryText : deliveryText.substr(0, 85)}
+              <span
+                className={globalStyles.cerise}
+                onClick={() => {
+                  setFullText(!fullText);
+                }}
+              >
+                [{fullText ? "-" : "+"}]
+              </span>
             </div>
           )}
           {getDiscount(basket.offerDiscounts)}

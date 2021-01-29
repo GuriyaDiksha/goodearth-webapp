@@ -67,7 +67,7 @@ class RegisterForm extends React.Component<Props, registerState> {
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
-    // this.props.fetchCountryData();
+    this.props.fetchCountryData();
   }
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -109,7 +109,6 @@ class RegisterForm extends React.Component<Props, registerState> {
           disableButton: false
         });
         this.gtmPushRegister();
-        this.context.closeModal();
         window.scrollTo(0, 0);
       })
       .catch(err => {
@@ -614,7 +613,7 @@ class RegisterForm extends React.Component<Props, registerState> {
               name="terms"
               disable={!this.state.showFields}
               label={[
-                "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
+                "I agree to receiving e-mails, newsletters, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
                 <Link
                   key="terms"
                   to="/customer-assistance/privacy-policy"
