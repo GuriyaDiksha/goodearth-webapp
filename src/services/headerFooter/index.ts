@@ -3,7 +3,7 @@ import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
 import { updateheader } from "actions/header";
 // services
-// import CacheService from "services/cache";
+import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
@@ -26,19 +26,23 @@ export default {
     return res.results;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
-    // let footerData = CacheService.get("footerData") as FooterDataProps;
-
-    // if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
-    //   return footerData;
-    // }
+    let footerData: FooterDataProps | null = null;
+    if (typeof document == "undefined") {
+      footerData = CacheService.get("footerData") as FooterDataProps;
+    }
+    if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
+      return footerData;
+    }
 
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__ + "/myapi/category/footer"}`
     );
-    // footerData = res as FooterDataProps;
-    dispatch(updatefooter(res));
-    // CacheService.set("footerData", footerData);
+    footerData = res as FooterDataProps;
+    dispatch(updatefooter(footerData));
+    if (typeof document == "undefined") {
+      CacheService.set("footerData", footerData);
+    }
     return res as FooterDataProps;
   },
   makeNewsletterSignupRequest: async (dispatch: Dispatch, email: string) => {
@@ -84,10 +88,15 @@ export default {
     return res;
   },
   getCurrencyList: async function(dispatch: Dispatch) {
+    const currencyList = CacheService.get("currencyList");
+    if (currencyList && __API_HOST__ == "https://pb.goodearth.in") {
+      return currencyList;
+    }
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__}/myapi/common/country_with_symbol/`
     );
+    CacheService.set("currencyList", res);
     return res;
   }
 };
