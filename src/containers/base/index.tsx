@@ -196,6 +196,7 @@ const BaseLayout: React.FC = () => {
   if (confirmation || backOrder || maintenance) {
     return (
       <div>
+        <MusicPlayer />
         <Switch>{routes}</Switch>
         <Modal />
       </div>

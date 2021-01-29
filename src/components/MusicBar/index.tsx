@@ -4,12 +4,13 @@ import ApiService from "services/api";
 import styles from "./styles.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import iconStyles from "styles/iconFonts.scss";
 
 const MusicPlayer: React.FC = memo(() => {
   const [music, setMusic] = useState(false);
   const [musicData, setMusicData] = useState([]);
-  const [name, setName] = useState([]);
-  const [musiclength, setMusiclength] = useState(0);
+  // const [name, setName] = useState([]);
+  // const [musiclength, setMusiclength] = useState(0);
 
   const { mobile } = useSelector((state: AppState) => state.device);
 
@@ -30,15 +31,20 @@ const MusicPlayer: React.FC = memo(() => {
   useEffect(() => {
     ApiService.getMusicData(dispatch).then(data => {
       setMusicData(data[0]?.audioList);
-      setName(data[0]?.name);
+      // setName(data[0]?.name);
+      const musictemp = data[0]?.audioList;
+      let musiclength = 0;
       // setAudio(new Audio(data[0]?.audioList[musiclength]));
       audio.src = data[0]?.audioList[musiclength];
       audio.addEventListener("ended", function() {
-        setMusiclength(musiclength + 1);
-        audio.src = musicData[musiclength + 1];
+        ++musiclength;
+        audio.src = musictemp[musiclength];
         audio.pause();
         audio.load();
         audio.play();
+        if (musiclength == musictemp.length - 1) {
+          musiclength = -1;
+        }
       });
     });
   }, []);
@@ -53,7 +59,10 @@ const MusicPlayer: React.FC = memo(() => {
     >
       <div>
         <div className={music ? cs(styles.openMusic) : cs(styles.closeMusic)}>
-          <span className={styles.musicFonts}>MUSIC</span>
+          <div className={styles.musicFonts}>
+            Flashback 25{" "}
+            <i className={cs(iconStyles.iconMusic, iconStyles.icon)} />
+          </div>
           <label className={styles.label1}>
             <input
               type="checkbox"
@@ -75,7 +84,7 @@ const MusicPlayer: React.FC = memo(() => {
               }
             ></label>
           </label>
-          {music ? <p className={styles.musicName}>{name}</p> : ""}
+          {/* {music ? <p className={styles.musicName}>{name}</p> : ""} */}
         </div>
       </div>
     </div>
