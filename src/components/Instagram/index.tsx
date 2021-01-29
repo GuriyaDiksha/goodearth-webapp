@@ -1,8 +1,8 @@
 import React, { useState, useLayoutEffect } from "react";
 // import { Link } from "react-router-dom";
 // import cs from "classnames";
-// import styles from "./styles.scss";
-import globalStyles from "../../styles/global.scss";
+import styles from "./styles.scss";
+// import globalStyles from "../../styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -74,10 +74,7 @@ const Instagram: React.FC<InstaProps> = Props => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img
-                  src={data.media_url}
-                  className={globalStyles.imgResponsive}
-                />{" "}
+                <img src={data.media_url} className={styles.imgResponsive} />{" "}
               </a>
             </div>
           );
