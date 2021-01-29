@@ -20,6 +20,7 @@ import CareerService from "services/career";
 import ReCAPTCHA from "react-google-recaptcha";
 import Loader from "components/Loader";
 import * as valid from "utils/validate";
+import { updateCountryData } from "actions/address";
 
 const mapStateToProps = () => {
   return {};
@@ -29,6 +30,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     fetchCountryData: async () => {
       const countryData = await LoginService.fetchCountryData(dispatch);
+      dispatch(updateCountryData(countryData));
       return countryData;
     },
     saveJobApplication: async (formData: any) => {
