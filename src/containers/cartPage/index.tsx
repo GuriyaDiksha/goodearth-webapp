@@ -9,7 +9,7 @@ import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CartItems from "./cartItem";
 import OrderSummary from "containers/checkout/component/orderSummary";
-import motifTigerTree from "../../images/motifTigerTree.png";
+// import motifTigerTree from "../../images/motifTigerTree.png";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 import WishlistService from "services/wishlist";
@@ -18,6 +18,9 @@ import BasketService from "services/basket";
 import { ProductID } from "typings/id";
 import { updateModal } from "actions/modal";
 import * as util from "../../utils/validate";
+import { WidgetImage } from "components/header/typings";
+import HeaderService from "services/headerFooter";
+import noImagePlp from "../../images/noimageplp.png";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -51,6 +54,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       dispatch(updateModal(false));
       return res;
+    },
+    fetchFeaturedContent: async () => {
+      const res = HeaderService.fetchSearchFeaturedContent(dispatch);
+      return res;
     }
   };
 };
@@ -65,6 +72,7 @@ type State = {
   isSale: boolean;
   showUndoWishlist: boolean;
   showNotifyMessage: boolean;
+  featureData: WidgetImage[];
 };
 class CartPage extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -75,7 +83,8 @@ class CartPage extends React.Component<Props, State> {
       showbottom: false,
       isSale: false,
       showUndoWishlist: false,
-      showNotifyMessage: false
+      showNotifyMessage: false,
+      featureData: []
     };
   }
 
@@ -91,6 +100,16 @@ class CartPage extends React.Component<Props, State> {
       chatButtonElem.style.bottom = "10px";
     }
     this.props.fetchBasket();
+    this.props
+      .fetchFeaturedContent()
+      .then(data => {
+        this.setState({
+          featureData: data.widgetImages
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
     dataLayer.push(function(this: any) {
       this.reset();
     });
@@ -167,9 +186,100 @@ class CartPage extends React.Component<Props, State> {
   getItems() {
     const {
       cart: { lineItems },
-      currency
+      currency,
+      mobile
     } = this.props;
 
+    const emptyCartContent = (
+      <div className={styles.cart}>
+        {/* {this.renderMessage()} */}
+        <div
+          className={cs(
+            globalStyles.marginT40,
+            globalStyles.textCenter,
+            // bootstrap.colMd4,
+            // bootstrap.offsetMd4,
+            {
+              [bootstrap.col12]: !mobile,
+              [bootstrap.col10]: mobile,
+              [bootstrap.offset1]: mobile
+            }
+          )}
+        >
+          <div className={styles.emptyMsg}> Your bag is currently empty </div>
+          <div
+            className={cs(
+              bootstrap.colMd12,
+              styles.searchHeading,
+              { [styles.searchHeadingMobile]: mobile },
+              globalStyles.textCenter
+            )}
+          >
+            <h2 className={globalStyles.voffset5}>
+              Looking to discover some ideas?
+            </h2>
+          </div>
+          <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
+            <div className={bootstrap.row}>
+              <div
+                className={cs(
+                  bootstrap.colMd12,
+                  bootstrap.col12,
+                  styles.noResultPadding,
+                  styles.checkheight,
+                  { [styles.checkheightMobile]: mobile }
+                )}
+              >
+                {this.state.featureData.length > 0
+                  ? this.state.featureData.map((data, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className={cs(bootstrap.colMd3, bootstrap.col6)}
+                        >
+                          <div className={styles.searchImageboxNew}>
+                            <Link to={data.ctaUrl}>
+                              <img
+                                src={
+                                  data.ctaImage == ""
+                                    ? noImagePlp
+                                    : data.ctaImage
+                                }
+                                // onError={this.addDefaultSrc}
+                                alt=""
+                                className={styles.imageResultNew}
+                              />
+                            </Link>
+                          </div>
+                          <div className={styles.imageContent}>
+                            <p className={styles.searchImageTitle}>
+                              {data.ctaText}
+                            </p>
+                            <p className={styles.searchFeature}>
+                              <Link to={data.ctaUrl}>{data.title}</Link>
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : ""}
+              </div>
+            </div>
+            {mobile ? (
+              ""
+            ) : (
+              <div className={bootstrap.row}>
+                <div className={cs(bootstrap.colMd12, bootstrap.col12)}>
+                  <div className={cs(styles.searchBottomBlockSecond)}>
+                    <div className=" text-center"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
     const item = lineItems.map(item => {
       return (
         <CartItems
@@ -183,44 +293,12 @@ class CartPage extends React.Component<Props, State> {
         />
       );
     });
-    return item.length > 0 ? (
-      item
-    ) : (
-      // <p className={cs(globalStyles.marginT20, globalStyles.textCenter)}>
-      //   No items added to bag.
-      // </p>
-      <div className={styles.cart}>
-        {/* {this.renderMessage()} */}
-        <div
-          className={cs(
-            globalStyles.marginT40,
-            globalStyles.textCenter,
-            bootstrap.colMd4,
-            bootstrap.offsetMd4,
-            bootstrap.colSm8,
-            bootstrap.offsetSm2,
-            bootstrap.col10,
-            bootstrap.offset1
-          )}
-        >
-          <div className={styles.emptyMsg}> Your bag is currently empty </div>
-          <div className={cs(globalStyles.voffset3, globalStyles.c10LR)}>
-            {" "}
-            Looking to discover some ideas?{" "}
-          </div>
-          <div className={globalStyles.voffset5}>
-            {" "}
-            <Link to="/">
-              <button className={globalStyles.ceriseBtn}>Explore</button>
-            </Link>{" "}
-          </div>
-          <div className={globalStyles.voffset5}>
-            {" "}
-            <img src={motifTigerTree} />{" "}
-          </div>
-        </div>
-      </div>
-    );
+    return item.length > 0
+      ? item
+      : // <p className={cs(globalStyles.marginT20, globalStyles.textCenter)}>
+        //   No items added to bag.
+        // </p>
+        emptyCartContent;
   }
 
   goToCart() {

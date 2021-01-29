@@ -48,6 +48,7 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     cookies: state.cookies,
     isSale: state.info.isSale,
+    deliveryText: state.info.deliveryText,
     bridalId: state.user.bridalId
   };
 };
@@ -632,6 +633,9 @@ class Checkout extends React.Component<Props, State> {
     }
     if (this.state.boId) {
       data["BoId"] = this.state.boId;
+    }
+    if (this.props.deliveryText) {
+      data["deliveryInstructions"] = this.props.deliveryText;
     }
     const response = await this.props.finalCheckout(data);
     dataLayer.push({

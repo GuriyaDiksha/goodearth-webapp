@@ -15,14 +15,14 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { useSelector, useDispatch } from "react-redux";
-// import LoginService from "services/login";
+import LoginService from "services/login";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import { AddressData, AddressFormData } from "../typings";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
-// import { updateCountryData } from "actions/address";
+import { updateCountryData } from "actions/address";
 import * as valid from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 
@@ -1133,6 +1133,12 @@ const AddressForm: React.FC<Props> = props => {
   const isEmailError = "Please enter the correct email";
 
   useEffect(() => {
+    if (!countryData || countryData.length == 0) {
+      LoginService.fetchCountryData(dispatch).then(countryData => {
+        // changeCountryData(countryData);
+        dispatch(updateCountryData(countryData));
+      });
+    }
     const firstField = document.getElementById("first-field") as HTMLDivElement;
     firstField && firstField.focus();
     setIsLoading(false);

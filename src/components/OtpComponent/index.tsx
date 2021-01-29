@@ -429,17 +429,26 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             }
             this.props.updateError(errorMessage);
             valid.errorTracking([errorMessage], location.href);
-          }
-          if (currStatus == "Active" || currStatus == "Expired") {
+          } else if (currStatus == "Active" || currStatus == "Expired") {
             this.props.updateError(message);
             valid.errorTracking([message], location.href);
-          }
-          if (email) {
+          } else if (email) {
             this.RegisterFormRef1.current?.updateInputsWithError({ email });
             const elem: any = document.getElementById("creditNoteEmail");
             elem.scrollIntoView();
             window.scrollBy(0, -200);
             elem.focus();
+          } else {
+            if (message) {
+              this.setState(
+                {
+                  showerrorOtp: message
+                },
+                () => {
+                  valid.errorTracking([this.state.showerrorOtp], location.href);
+                }
+              );
+            }
           }
         }
         // this.setState({
