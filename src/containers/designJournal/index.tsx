@@ -232,13 +232,26 @@ const DesignJournal: React.FC = () => {
               )}
               id="block1"
             >
-              <p className={styles.pdpCollName}>design collection 2018-19</p>
-              <p className={cs(styles.pdpProdName, globalStyles.voffset2)}>
+              <p
+                className={cs(styles.pdpCollName, {
+                  [styles.pdpCollNameMobile]: mobile
+                })}
+              >
+                design collection 2018-19
+              </p>
+              <p
+                className={cs(
+                  styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
+                  globalStyles.voffset2
+                )}
+              >
                 Gandhara Design Journal
               </p>
               <p
                 className={cs(
                   styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
                   globalStyles.italic,
                   globalStyles.voffset2
                 )}
@@ -330,26 +343,28 @@ const DesignJournal: React.FC = () => {
                 </div>
               </div>
             )}
-            <div
-              className={cs(
-                styles.pdtName,
-                styles.posNew3,
-                styles.visibleblock
-              )}
-              id="blocks17"
-            >
-              <div> Taxila Collection</div>
-              <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
-                <a
-                  href="https://www.goodearth.in/collection/living_taxila-2_320/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.link}
-                >
-                  explore
-                </a>
+            {!mobile && (
+              <div
+                className={cs(
+                  styles.pdtName,
+                  styles.posNew3,
+                  styles.visibleblock
+                )}
+                id="blocks17"
+              >
+                <div> Taxila Collection</div>
+                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                  <a
+                    href="https://www.goodearth.in/collection/living_taxila-2_320/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                  >
+                    explore
+                  </a>
+                </div>
               </div>
-            </div>
+            )}
             {!mobile && (
               <div
                 className={cs(
@@ -449,13 +464,26 @@ const DesignJournal: React.FC = () => {
               className={cs(styles.txtBlock, styles.pos1, styles.visibleblock)}
               id="blocks21"
             >
-              <p className={styles.pdpCollName}>design collection 2016-17</p>
-              <p className={cs(styles.pdpProdName, globalStyles.voffset2)}>
+              <p
+                className={cs(styles.pdpCollName, {
+                  [styles.pdpCollNameMobile]: mobile
+                })}
+              >
+                design collection 2016-17
+              </p>
+              <p
+                className={cs(
+                  styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
+                  globalStyles.voffset2
+                )}
+              >
                 shambala design journal
               </p>
               <p
                 className={cs(
                   styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
                   globalStyles.italic,
                   globalStyles.voffset2
                 )}
@@ -700,13 +728,26 @@ const DesignJournal: React.FC = () => {
               className={cs(styles.txtBlock, styles.pos4, styles.visibleblock)}
               id="block4"
             >
-              <p className={styles.pdpCollName}>design collection 2014-15</p>
-              <p className={cs(styles.pdpProdName, globalStyles.voffset2)}>
+              <p
+                className={cs(styles.pdpCollName, {
+                  [styles.pdpCollNameMobile]: mobile
+                })}
+              >
+                design collection 2014-15
+              </p>
+              <p
+                className={cs(
+                  styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
+                  globalStyles.voffset2
+                )}
+              >
                 samarqand design journal
               </p>
               <p
                 className={cs(
                   styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
                   globalStyles.italic,
                   globalStyles.voffset2
                 )}
@@ -771,7 +812,7 @@ const DesignJournal: React.FC = () => {
               <div
                 className={cs(
                   styles.pdtName,
-                  styles.poskv,
+                  styles.posKv,
                   styles.visibleblock
                 )}
                 id="styles.poskv"
@@ -934,13 +975,26 @@ const DesignJournal: React.FC = () => {
               className={cs(styles.txtBlock, styles.pos6, styles.visibleblock)}
               id="block6"
             >
-              <p className={styles.pdpCollName}>design collection 2013-14</p>
-              <p className={cs(styles.pdpProdName, globalStyles.voffset2)}>
+              <p
+                className={cs(styles.pdpCollName, {
+                  [styles.pdpCollNameMobile]: mobile
+                })}
+              >
+                design collection 2013-14
+              </p>
+              <p
+                className={cs(
+                  styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
+                  globalStyles.voffset2
+                )}
+              >
                 ratnakara design journal
               </p>
               <p
                 className={cs(
                   styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
                   globalStyles.italic,
                   globalStyles.voffset2
                 )}
@@ -1055,7 +1109,7 @@ const DesignJournal: React.FC = () => {
                 <div
                   className={cs(
                     styles.pdtName,
-                    styles.posdt,
+                    styles.posDt,
                     styles.visibleblock
                   )}
                   id="blocks-dt"
@@ -1152,16 +1206,29 @@ const DesignJournal: React.FC = () => {
             </map>
 
             <div
-              className={cs(styles.txtBlock, styles.pos9a, styles.visibleblock)}
+              className={cs(styles.txtBlock, styles.pos9A, styles.visibleblock)}
               id="block9a"
             >
-              <p className={styles.pdpCollName}>design collection 2012-13</p>
-              <p className={cs(styles.pdpProdName, globalStyles.voffset2)}>
+              <p
+                className={cs(styles.pdpCollName, {
+                  [styles.pdpCollNameMobile]: mobile
+                })}
+              >
+                design collection 2012-13
+              </p>
+              <p
+                className={cs(
+                  styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
+                  globalStyles.voffset2
+                )}
+              >
                 farah baksh design journal
               </p>
               <p
                 className={cs(
                   styles.pdpProdName,
+                  { [styles.pdpProdNameMobile]: mobile },
                   globalStyles.italic,
                   globalStyles.voffset2
                 )}
