@@ -144,7 +144,13 @@ const BottomMenu: React.FC<Props> = ({
                     }
                   )}
                 ></i>
-                <span className={styles.badge}>
+                <span
+                  className={cs(styles.badge, {
+                    [globalStyles.cerise]: location.pathname.includes(
+                      "/wishlist"
+                    )
+                  })}
+                >
                   {wishlistCount > 0 ? wishlistCount : ""}
                 </span>
               </Link>
