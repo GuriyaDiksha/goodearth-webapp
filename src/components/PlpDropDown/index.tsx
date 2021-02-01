@@ -45,6 +45,10 @@ const PlpDropdownMenu = ({
     }
   }, [showCaret]);
 
+  useEffect(() => {
+    setDisplayValue(value || displayValue);
+  }, [value]);
+
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.value);
     setOpenState(false);
