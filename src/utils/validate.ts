@@ -98,20 +98,40 @@ export function copyTextToClipboard(text: string) {
   return false;
 }
 
-export function productForGa(data: Basket, currency: Currency) {
+export const checkoutSteps = [
+  "Initiated Checkout",
+  "Shipping Details",
+  "Billing Details",
+  "Payment Details"
+];
+
+export function categoryForGa(categories: string[]) {
+  let category = "";
+  if (categories && categories.length > 0) {
+    const index = categories.length - 1;
+    category = categories[index] ? categories[index].replace(/\s/g, "") : "";
+    category = category.replace(/>/g, "/");
+  }
+  return category;
+}
+
+export function productForBasketGa(data: Basket, currency: Currency) {
   let product: any = [];
-  if (data.products) {
-    product = data.products.map((prod: any) => {
+  if (data.lineItems) {
+    product = data.lineItems.map(prod => {
+      const category = categoryForGa(prod.product.categories);
       return Object.assign(
         {},
         {
           name: prod.product.title,
-          id: prod.product.sku,
-          list: "CHECKOUT",
-          price: prod.product.pricerecords[currency],
+          id: prod.product.childAttributes[0].sku,
+          price: prod.product.childAttributes[0].discountedPriceRecords
+            ? prod.product.childAttributes[0].discountedPriceRecords[currency]
+            : prod.product.childAttributes[0].priceRecords[currency],
           brand: "Goodearth",
+          category: category,
           quantity: prod.quantity,
-          variant: null
+          variant: prod.product.childAttributes[0].size || ""
         }
       );
     });
@@ -651,4 +671,22 @@ export const showGrowlMessage = (
 ) => {
   const newId = id ? id : getUniqueId();
   dispatch(showMessage(text, timeout, newId));
+};
+
+export const checkoutGTM = (
+  step: number,
+  currency: Currency,
+  basket: Basket
+) => {
+  const productList = productForBasketGa(basket, currency);
+  dataLayer.push({
+    event: "checkout",
+    ecommerce: {
+      currencyCode: currency,
+      checkout: {
+        actionField: { step, option: checkoutSteps[step - 1] },
+        products: productList
+      }
+    }
+  });
 };
