@@ -282,11 +282,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           if (this.state.msg !== "") {
             this.setState({
               msg: "",
-              highlight: false,
-              showerror: "",
-              isLoginDisabled: false
+              highlight: false
             });
           }
+          this.setState({
+            showerror: "",
+            isLoginDisabled: false
+          });
         }
       }
     }
