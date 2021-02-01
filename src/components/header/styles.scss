@@ -802,7 +802,7 @@ a {
     border: 1px solid tint(#000, 80%);
     margin: 20px auto;
     background-color: $white;
-    padding: 0 120px;
+    padding: 0 200px 0 120px;
     line-height: 60px;
     font-size: 20px;
   }
@@ -1025,7 +1025,7 @@ span {
   .search-input-block {
     line-height: 60px;
     input {
-      padding: 0 20px;
+      padding: 0 170px 0 20px;
       border: none;
       line-height: 40px;
     }
