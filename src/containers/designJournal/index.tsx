@@ -146,7 +146,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Gandhara Design Journal"
                 title="Gandhara Design Journal"
-                href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
+                // href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
                 coords="1045,142,1613,945"
                 shape="rect"
               />
@@ -155,7 +155,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Pariza Vase"
                 title="Pariza Vase"
-                href="https://www.goodearth.in/catalogue/pariza-vase-large_14128/"
+                // href="https://www.goodearth.in/catalogue/pariza-vase-large_14128/"
                 coords="2031,554,296"
                 shape="circle"
               />
@@ -164,7 +164,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Taxila Collection"
                 title="Taxila Collection"
-                href="https://www.goodearth.in/collection/living_taxila-2_320/"
+                // href="https://www.goodearth.in/collection/living_taxila-2_320/"
                 coords="1365,1399,1401,1238,1518,1062,1694,962,1874,930,2101,994,2247,1111,2322,1282,2345,1399"
                 shape="poly"
               />
@@ -173,7 +173,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Gandhara Design Journal"
                 title="Gandhara Design Journal"
-                href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
+                // href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
                 // coords="1045,142,1613,945"
                 coords="290,1399,312,1013,401,954,818,1036,1331,1089,1312,1397"
                 shape="poly"
@@ -190,7 +190,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks2"
               >
                 <div> Pariza Vase</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/pariza-vase-large_14128/"
                     target="_blank"
@@ -199,7 +199,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -212,7 +212,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks22"
               >
                 <div> Gandhara Design Journal</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
                     target="_blank"
@@ -221,7 +221,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             <div
@@ -264,7 +264,7 @@ const DesignJournal: React.FC = () => {
                   inspiration for Design Collection 2018-19{" "}
                 </p>
               )}
-              <p className={cs(styles.txtLink, globalStyles.voffset3)}>
+              {/* <p className={cs(styles.txtLink, globalStyles.voffset3)}>
                 <a
                   href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
                   target="_blank"
@@ -272,7 +272,7 @@ const DesignJournal: React.FC = () => {
                 >
                   explore inside
                 </a>
-              </p>
+              </p> */}
             </div>
           </div>
 
@@ -288,7 +288,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Taxila Tea Mug"
                 title="Taxila Tea Mug"
-                href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&amp;currency=INR&amp;category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
+                // href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&amp;currency=INR&amp;category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
                 coords="1175,530,1531,868"
                 shape="rect"
               />
@@ -297,7 +297,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Sutra Curve Tray"
                 title="Sutra Curve Tray"
-                href="https://www.goodearth.in/catalogue/sutra-curve-tray_14361/"
+                // href="https://www.goodearth.in/catalogue/sutra-curve-tray_14361/"
                 coords="1071,993,1908,1252"
                 shape="rect"
               />
@@ -306,7 +306,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Taxila Collection"
                 title="Taxila Collection"
-                href="https://www.goodearth.in/collection/living_taxila-2_320/"
+                // href="https://www.goodearth.in/collection/living_taxila-2_320/"
                 coords="1367,2,1391,185,1467,314,1546,410,1749,501,2042,471,2254,295,2336,64,2332,2"
                 shape="poly"
               />
@@ -315,7 +315,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Gandhara Design Journal"
                 title="Gandhara Design Journal"
-                href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
+                // href="https://www.goodearth.in/designjournalbook/?id=GandharaJournal2019"
                 // coords="1045,142,1613,945"
                 coords="280,0,240,350,759,414,1295,463,1312,0"
                 shape="poly"
@@ -331,7 +331,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks1"
               >
                 <div> Taxila Tea Mug</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
                     target="_blank"
@@ -340,7 +340,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -353,7 +353,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks17"
               >
                 <div> Taxila Collection</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/collection/living_taxila-2_320/"
                     target="_blank"
@@ -362,7 +362,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -375,7 +375,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks18"
               >
                 <div> Sutra Curve Tray</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/sutra-curve-tray_14361/"
                     target="_blank"
@@ -384,7 +384,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -401,7 +401,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Shambala Design Journal"
                 title="Shambala Design Journal"
-                href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
+                // href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
                 coords="324,153,882,960"
                 shape="rect"
               />
@@ -410,7 +410,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Sutra Curve Tray"
                 title="Sutra Curve Tray"
-                href="https://www.goodearth.in/catalogue/sutra-curve-tray_14361/"
+                // href="https://www.goodearth.in/catalogue/sutra-curve-tray_14361/"
                 coords="1902,0,1096,278"
                 shape="rect"
               />
@@ -419,7 +419,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Shambala Design Journal"
                 title="Shambala Design Journal"
-                href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
+                // href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
                 coords="1026,426,2124,1181"
                 shape="rect"
               />
@@ -430,7 +430,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks19"
               >
                 <div> Shambala Design Journal</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
                     target="_blank"
@@ -439,7 +439,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -448,7 +448,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks20"
               >
                 <div> Shambala Design Journal</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/shambala-design-journal_8553/"
                     target="_blank"
@@ -457,7 +457,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             <div
@@ -497,7 +497,7 @@ const DesignJournal: React.FC = () => {
                   Himalayas.{" "}
                 </p>
               )}
-              <p className={cs(styles.txtLink, globalStyles.voffset3)}>
+              {/* <p className={cs(styles.txtLink, globalStyles.voffset3)}>
                 <a
                   href="https://www.goodearth.in/designjournalbook/?id=ShambalaDesignJournal2017"
                   target="_blank"
@@ -505,7 +505,7 @@ const DesignJournal: React.FC = () => {
                 >
                   explore inside
                 </a>
-              </p>
+              </p> */}
             </div>
           </div>
 
@@ -521,7 +521,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Tea & Coffee"
                 title="Tea & Coffee"
-                href="https://www.goodearth.in/catalogue/shambala-tea-plate-set-of-4_8283/"
+                // href="https://www.goodearth.in/catalogue/shambala-tea-plate-set-of-4_8283/"
                 coords="422,2,399,72,443,182,532,267,657,346,848,314,931,229,973,34,943,8"
                 shape="poly"
               />
@@ -530,7 +530,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Indechine Collection"
                 title="Indechine Collection"
-                href="https://www.goodearth.in/collection/living_indechine_223/"
+                // href="https://www.goodearth.in/collection/living_indechine_223/"
                 coords="1303,796,500"
                 shape="circle"
               />
@@ -557,7 +557,7 @@ const DesignJournal: React.FC = () => {
                 >
                   (Set of 4)
                 </p>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/shambala-tea-plate-set-of-4_8283/"
                     target="_blank"
@@ -566,7 +566,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -575,7 +575,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks4"
               >
                 <div> Indechine Collection</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/collection/living_indechine_223/"
                     target="_blank"
@@ -584,7 +584,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -601,7 +601,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Mug"
                 title="Mug"
-                href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
+                // href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
                 coords="774,78,748,373,1020,418,1056,354,1117,263,1136,182,1086,138,1062,93"
                 shape="poly"
               />
@@ -610,7 +610,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Bowl"
                 title="Bowl"
-                href="https://www.goodearth.in/catalogue/shambala-bowl_6783/"
+                // href="https://www.goodearth.in/catalogue/shambala-bowl_6783/"
                 coords="1595,569,412"
                 shape="circle"
               />
@@ -619,7 +619,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Samarqand Journal"
                 title="Samarqand Journal"
-                href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315/"
+                // href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315/"
                 coords="1730,1011,2269,1249"
                 shape="rect"
               />
@@ -630,7 +630,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks5"
               >
                 <div> Tea & Coffee</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&currency=INR&category_shop=Living+%3E+Dining+%3E+Tea+%26+Coffee"
                     target="_blank"
@@ -639,7 +639,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -648,7 +648,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks6"
               >
                 <div> Shambala Bowl</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/shambala-bowl_6783/"
                     target="_blank"
@@ -657,7 +657,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -674,7 +674,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Samarqand Journal"
                 title="Samarqand Journal"
-                href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315/"
+                // href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315/"
                 coords="1734,2,2311,555"
                 shape="rect"
               />
@@ -683,7 +683,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Samarqand Design Journal"
                 title="Samarqand Design Journal"
-                href="https://www.goodearth.in/catalogue/the-story-of-babur_8348/"
+                // href="https://www.goodearth.in/catalogue/the-story-of-babur_8348/"
                 coords="1770,1107,729,280"
                 shape="rect"
               />
@@ -694,7 +694,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks7"
               >
                 <div> Samarqand Design Journal</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315/"
                     target="_blank"
@@ -703,7 +703,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -712,7 +712,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks8"
               >
                 <div> Samarqand Design Journal</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315"
                     target="_blank"
@@ -721,7 +721,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             <div
@@ -761,7 +761,7 @@ const DesignJournal: React.FC = () => {
                   Empire.{" "}
                 </p>
               )}
-              <p className={cs(styles.txtLink, globalStyles.voffset3)}>
+              {/* <p className={cs(styles.txtLink, globalStyles.voffset3)}>
                 <a
                   href="https://www.goodearth.in/catalogue/samarqanddesign-journal_2315/"
                   target="_blank"
@@ -769,7 +769,7 @@ const DesignJournal: React.FC = () => {
                 >
                   explore inside
                 </a>
-              </p>
+              </p> */}
             </div>
           </div>
 
@@ -785,7 +785,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Candle"
                 title="Candle"
-                href="https://www.goodearth.in/catalogue/mia-candle-set-of-2-neroli_8220/"
+                // href="https://www.goodearth.in/catalogue/mia-candle-set-of-2-neroli_8220/"
                 coords="1653,170,168"
                 shape="circle"
               />
@@ -794,7 +794,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Nishaat Collection"
                 title="Nishaat Collection"
-                href="https://www.goodearth.in/collection/living_nishaat_6/"
+                // href="https://www.goodearth.in/collection/living_nishaat_6/"
                 coords="1123,718,331"
                 shape="circle"
               />
@@ -803,7 +803,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Kassel Vase"
                 title="Kassel Vase"
-                href="https://www.goodearth.in/catalogue/kasselvase_1508/"
+                // href="https://www.goodearth.in/catalogue/kasselvase_1508/"
                 coords="1641,857,1658,946,1599,1054,1527,1145,1471,1187,1463,1228,1484,1240,1550,1223,1633,1136,1730,1092,1855,1232,1997,1245,2351,950,2377,844,2220,636,2027,498,1857,515,1728,589,1635,744"
                 shape="poly"
               />
@@ -818,7 +818,7 @@ const DesignJournal: React.FC = () => {
                 id="styles.poskv"
               >
                 <div>Kassel Vase</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/kasselvase_1508/"
                     target="_blank"
@@ -827,7 +827,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
 
@@ -853,7 +853,7 @@ const DesignJournal: React.FC = () => {
                 >
                   (Set Of 2)
                 </p>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/mia-candle-set-of-2-neroli_8220/"
                     target="_blank"
@@ -862,7 +862,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -875,7 +875,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks9"
               >
                 <div> Nishaat Collection</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/collection/living_nishaat_6/"
                     target="_blank"
@@ -884,7 +884,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -901,7 +901,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Chaand Votive"
                 title="Chaand Votive"
-                href="https://www.goodearth.in/catalogue/chaand-votive-white-frosted_8205/"
+                // href="https://www.goodearth.in/catalogue/chaand-votive-white-frosted_8205/"
                 coords="1092,2,975,208,1043,288,1172,346,1236,341,1367,89,1338,42,1270,4"
                 shape="poly"
               />
@@ -910,7 +910,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Ratnakara Journal"
                 title="Ratnakara Journal"
-                href="https://www.goodearth.in/catalogue/ratnakaradesign-journal_1352/"
+                // href="https://www.goodearth.in/catalogue/ratnakaradesign-journal_1352/"
                 coords="216,248,757,1035"
                 shape="rect"
               />
@@ -937,7 +937,7 @@ const DesignJournal: React.FC = () => {
                 >
                   (White Frosted)
                 </p>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/chaand-votive-white-frosted_8205/"
                     target="_blank"
@@ -946,7 +946,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             {!mobile && (
@@ -959,7 +959,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks11"
               >
                 <div> Ratnakara Journal</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/ratnakaradesign-journal_1352/"
                     target="_blank"
@@ -968,7 +968,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
             <div
@@ -1008,7 +1008,7 @@ const DesignJournal: React.FC = () => {
                   Gems&#39;.
                 </p>
               )}
-              <p className={cs(styles.txtLink, globalStyles.voffset3)}>
+              {/* <p className={cs(styles.txtLink, globalStyles.voffset3)}>
                 <a
                   href="https://www.goodearth.in/catalogue/ratnakaradesign-journal_1352/"
                   target="_blank"
@@ -1016,7 +1016,7 @@ const DesignJournal: React.FC = () => {
                 >
                   explore inside
                 </a>
-              </p>
+              </p> */}
             </div>
           </div>
 
@@ -1032,7 +1032,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Silver Tray"
                 title="Silver Tray"
-                href="https://www.goodearth.in/catalogue/tamara-pedestal_8160/"
+                // href="https://www.goodearth.in/catalogue/tamara-pedestal_8160/"
                 coords="935,1250,1119,1082,1365,1033,1577,1084,1747,1203,1792,1250"
                 shape="poly"
               />
@@ -1042,7 +1042,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Playing Cards Box"
                 title="Playing Cards Box"
-                href="https://www.goodearth.in/catalogue/golden-howdahplaying-card-box_3192/"
+                // href="https://www.goodearth.in/catalogue/golden-howdahplaying-card-box_3192/"
                 coords="1404,567,1929,982"
                 shape="rect"
               />
@@ -1057,7 +1057,7 @@ const DesignJournal: React.FC = () => {
                 id="blocks12"
               >
                 <div> Golden Howdah Playing Card Box</div>
-                <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
+                {/* <div className={cs(globalStyles.c10LR, globalStyles.voffset2)}>
                   <a
                     href="https://www.goodearth.in/catalogue/golden-howdahplaying-card-box_3192/"
                     target="_blank"
@@ -1066,7 +1066,7 @@ const DesignJournal: React.FC = () => {
                   >
                     explore
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -1083,7 +1083,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Silver Tray"
                 title="Silver Tray"
-                href="https://www.goodearth.in/catalogue/tamara-pedestal_8160/"
+                // href="https://www.goodearth.in/catalogue/tamara-pedestal_8160/"
                 coords="895,28,806,218,823,456,871,634,1081,823,1482,867,1817,670,1919,413,1908,373,1753,360,1344,363,1340,108,1753,98,1775,331,1914,354,1857,38"
                 shape="poly"
               />
@@ -1092,7 +1092,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Glasses"
                 title="Glasses"
-                href="https://www.goodearth.in/catalogue/sarovar-glasses-set-of-6_8135/"
+                // href="https://www.goodearth.in/catalogue/sarovar-glasses-set-of-6_8135/"
                 coords="1342,109,1760,340"
                 shape="rect"
               />
@@ -1101,7 +1101,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Tamara Pedestal"
                 title="Tamara Pedestal"
-                href="https://www.goodearth.in/catalogue/darbar-tray_8169/"
+                // href="https://www.goodearth.in/catalogue/darbar-tray_8169/"
                 coords="8,704,125,469,157,454,1013,982,1041,1011,884,1242,11,1247"
                 shape="poly"
               />
@@ -1115,7 +1115,7 @@ const DesignJournal: React.FC = () => {
                   id="blocks-dt"
                 >
                   <div> Darbar Tray</div>
-                  <div
+                  {/* <div
                     className={cs(globalStyles.c10LR, globalStyles.voffset2)}
                   >
                     <a
@@ -1126,7 +1126,7 @@ const DesignJournal: React.FC = () => {
                     >
                       explore
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               )}
               {!mobile && (
@@ -1139,7 +1139,7 @@ const DesignJournal: React.FC = () => {
                   id="blocks13"
                 >
                   <div> Glasses</div>
-                  <div
+                  {/* <div
                     className={cs(globalStyles.c10LR, globalStyles.voffset2)}
                   >
                     <a
@@ -1150,7 +1150,7 @@ const DesignJournal: React.FC = () => {
                     >
                       explore
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               )}
               {!mobile && (
@@ -1163,7 +1163,7 @@ const DesignJournal: React.FC = () => {
                   id="blocks14"
                 >
                   <div> Tamara Pedestal</div>
-                  <div
+                  {/* <div
                     className={cs(globalStyles.c10LR, globalStyles.voffset2)}
                   >
                     <a
@@ -1174,7 +1174,7 @@ const DesignJournal: React.FC = () => {
                     >
                       explore
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </map>
@@ -1199,7 +1199,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Serai Plate"
                 title="Serai Plate"
-                href="https://www.goodearth.in/collection/living_serai_60/"
+                // href="https://www.goodearth.in/collection/living_serai_60/"
                 coords="1264,1246,1270,1184,1293,1133,1329,1091,1302,942,1382,798,1493,741,1635,753,1732,794,1817,927,1800,1069,1747,1163,1758,1241"
                 shape="poly"
               />
@@ -1257,7 +1257,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Serai Plate"
                 title="Serai Plate"
-                href="https://www.goodearth.in/collection/living_serai_60/"
+                // href="https://www.goodearth.in/collection/living_serai_60/"
                 coords="1264,4,1287,142,1380,237,1571,278,1728,316,1770,443,1912,547,2186,466,2235,299,2152,87,2012,36,1755,11"
                 shape="poly"
               />
@@ -1266,7 +1266,7 @@ const DesignJournal: React.FC = () => {
                 rel="noopener noreferrer"
                 alt="Golkonda Glasses"
                 title="Golkonda Glasses"
-                href="https://www.goodearth.in/catalogue/golkondaglassesset-of-4_289/"
+                // href="https://www.goodearth.in/catalogue/golkondaglassesset-of-4_289/"
                 coords="708,210,816,445,869,490,797,606,804,645,1013,793,1052,799,1149,617,1020,363,863,134,840,119"
                 shape="poly"
               />
@@ -1292,7 +1292,7 @@ const DesignJournal: React.FC = () => {
                   >
                     (Set of 4)
                   </p>
-                  <div
+                  {/* <div
                     className={cs(globalStyles.c10LR, globalStyles.voffset2)}
                   >
                     <a
@@ -1303,7 +1303,7 @@ const DesignJournal: React.FC = () => {
                     >
                       explore
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               )}
               {!mobile && (
@@ -1328,7 +1328,7 @@ const DesignJournal: React.FC = () => {
                   >
                     (Set of 4)
                   </p>
-                  <div
+                  {/* <div
                     className={cs(globalStyles.c10LR, globalStyles.voffset2)}
                   >
                     <a
@@ -1339,7 +1339,7 @@ const DesignJournal: React.FC = () => {
                     >
                       explore
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </map>
