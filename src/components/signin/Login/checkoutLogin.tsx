@@ -178,16 +178,6 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         .login(this.state.email || "", this.state.password || "", "checkout")
         .then(data => {
           this.gtmPushSignIn();
-          dataLayer.push({
-            event: "checkout",
-            ecommerce: {
-              currencyCode: this.props.currency,
-              checkout: {
-                actionField: { step: 1 },
-                products: this.props.basket.products
-              }
-            }
-          });
           // this.context.closeModal();
           // this.props.nextStep?.();
         })

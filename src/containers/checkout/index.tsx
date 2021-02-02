@@ -268,16 +268,7 @@ class Checkout extends React.Component<Props, State> {
       getLoyaltyPoints
     } = this.props;
     this.state.isGoodearthShipping
-      ? dataLayer.push({
-          event: "checkout",
-          ecommerce: {
-            currencyCode: this.props.currency,
-            checkout: {
-              actionField: { step: 2 },
-              products: this.props.basket.products
-            }
-          }
-        })
+      ? valid.checkoutGTM(2, this.props.currency, this.props.basket)
       : "";
     dataLayer.push(function(this: any) {
       this.reset();
@@ -321,17 +312,7 @@ class Checkout extends React.Component<Props, State> {
       if (this.checkToMessage(res)) {
         this.props.showNotify(REGISTRY_MIXED_SHIPPING);
       }
-
-      dataLayer.push({
-        event: "checkout",
-        ecommerce: {
-          currencyCode: this.props.currency,
-          checkout: {
-            actionField: { step: 1 },
-            products: this.props.basket.products
-          }
-        }
-      });
+      valid.checkoutGTM(1, this.props.currency, res);
     });
   }
   componentWillUnmount() {
@@ -533,16 +514,7 @@ class Checkout extends React.Component<Props, State> {
               activeStep: Steps.STEP_BILLING,
               shippingError: ""
             });
-            dataLayer.push({
-              event: "checkout",
-              ecommerce: {
-                currencyCode: this.props.currency,
-                checkout: {
-                  actionField: { step: 2 },
-                  products: this.props.basket.products
-                }
-              }
-            });
+            valid.checkoutGTM(2, this.props.currency, this.props.basket);
             if (data.data.pageReload) {
               const data: any = {
                 email: this.props.user.email
@@ -601,16 +573,7 @@ class Checkout extends React.Component<Props, State> {
               gstNo: obj.gstNo || "",
               gstType: obj.gstType || ""
             });
-            dataLayer.push({
-              event: "checkout",
-              ecommerce: {
-                currencyCode: this.props.currency,
-                checkout: {
-                  actionField: { step: 3 },
-                  products: this.props.basket.products
-                }
-              }
-            });
+            valid.checkoutGTM(3, this.props.currency, this.props.basket);
           })
           .catch(err => {
             this.setState({
