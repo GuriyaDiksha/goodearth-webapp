@@ -105,6 +105,36 @@
         }
       }
     }
+    .free-instruction{
+      padding: 0 30px;
+      color: tint(#000, 30%);
+      letter-spacing: .5px;
+      font-size: 10px;
+      font-style: italic;
+      text-align: left;
+      .cerise-btn {
+        position: inherit;
+        margin: 25px 0 20px 0;
+      }
+      .terms{
+        text-decoration: underline;
+        color: #000 !important;
+      }
+    
+      span {
+        font-weight: bold;
+        color: #000;
+      }
+      a {
+        color: $cerise !important;
+        &.link {
+          font-size: 12px;
+          letter-spacing: 1px;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+      }
+    }
 .link-text-underline {
   text-decoration: underline;
   cursor: pointer;
