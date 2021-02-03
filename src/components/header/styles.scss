@@ -156,11 +156,37 @@
     }
     .inner-wish-container {
       margin-top: 4px !important;
+      color: $cerise;
+      &:hover {
+        a {
+          color: inherit;
+        }
+      }
       a {
        color: #000;
        &:hover {
          text-decoration: none;
+         color: inherit;
        }
+      }
+    }
+    .inner-cart-container {
+      margin-top: 4px !important;
+      color: $cerise;
+      &:hover {
+        i {
+          color: inherit;
+        }
+        .badge {
+          color: inherit;
+        }
+      }
+      i {
+        color: #000;
+        &:hover {
+          text-decoration: none;
+          color: inherit;
+        }
       }
     }
     .badge {
@@ -179,7 +205,8 @@
       vertical-align: baseline;
       border-radius: 10px;
       &:hover {
-        color: $cerise;
+        // color: $cerise;
+        color: inherit;
       }
     }
     .icon-style {
@@ -802,7 +829,7 @@ a {
     border: 1px solid tint(#000, 80%);
     margin: 20px auto;
     background-color: $white;
-    padding: 0 120px;
+    padding: 0 200px 0 120px;
     line-height: 60px;
     font-size: 20px;
   }
@@ -1025,7 +1052,7 @@ span {
   .search-input-block {
     line-height: 60px;
     input {
-      padding: 0 20px;
+      padding: 0 170px 0 20px;
       border: none;
       line-height: 40px;
     }
