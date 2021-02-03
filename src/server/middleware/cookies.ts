@@ -13,6 +13,8 @@ export default async function cookies(
   const sessionId = ctx.cookies.get("sessionid");
   const currency: any = ctx.cookies.get("currency");
   const store = ctx.store;
+  const agent = ctx.request.get("user-agent");
+  const isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(agent);
   // for currency popup
   const dispatch = ctx.store.dispatch;
   const { pathname, search } = ctx.history.location;
@@ -24,12 +26,12 @@ export default async function cookies(
     !currencyPopup &&
     !boId &&
     !pathname.includes("/order/orderconfirmation/") &&
-    !pathname.includes("/bridal/")
+    !pathname.includes("/bridal/") &&
+    !isBot
   ) {
     dispatch(updateComponent(POPUP.CURRENCY, null, true));
     dispatch(updateModal(true));
   }
-  console.log(ctx.history.location.pathname);
   ctx.customCookies = {
     tkn: token,
     sessionid: sessionId
