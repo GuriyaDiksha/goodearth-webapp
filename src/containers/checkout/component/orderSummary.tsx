@@ -579,7 +579,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             >
               <span
                 className={cs(
-                  styles.subtotal,
+                  styles.deliveryfont,
                   globalStyles.cerise,
                   globalStyles.pointer
                 )}
@@ -601,14 +601,19 @@ const OrderSummary: React.FC<OrderProps> = props => {
           ) : (
             <div className={cs(styles.deliveryDate, styles.wrap)}>
               {fullText ? deliveryText : deliveryText.substr(0, 85)}
-              <span
-                className={globalStyles.cerise}
-                onClick={() => {
-                  setFullText(!fullText);
-                }}
-              >
-                [{fullText ? "-" : "+"}]
-              </span>
+              {deliveryText.length > 85 ? (
+                <span
+                  className={cs(globalStyles.cerise, globalStyles.pointer)}
+                  onClick={() => {
+                    setFullText(!fullText);
+                  }}
+                >
+                  {" "}
+                  [{fullText ? "-" : "+"}]
+                </span>
+              ) : (
+                ""
+              )}
             </div>
           )}
           {getDiscount(basket.offerDiscounts)}
