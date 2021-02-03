@@ -116,19 +116,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       disableButton: true
     });
     this.props
-      .register(formData)
+      .register(formData, "checkout")
       .then(data => {
         this.gtmPushRegister();
-        dataLayer.push({
-          event: "checkout",
-          ecommerce: {
-            currencyCode: this.props.currency,
-            checkout: {
-              actionField: { step: 1 },
-              products: this.props.basket.products
-            }
-          }
-        });
         this.props.nextStep?.();
       })
       .catch(err => {

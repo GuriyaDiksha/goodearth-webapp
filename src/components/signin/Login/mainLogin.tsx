@@ -67,12 +67,7 @@ class MainLogin extends React.Component<Props, loginState> {
               highlight: false
             },
             () => {
-              const checkoutPopupCookie = CookieService.getCookie(
-                "checkoutinfopopup"
-              );
-              checkoutPopupCookie == "show" &&
-                this.passwordInput.current &&
-                this.passwordInput.current.focus();
+              this.passwordInput.current && this.passwordInput.current.focus();
               this.passwordInput.current &&
                 this.passwordInput.current.scrollIntoView(true);
             }
