@@ -7,6 +7,7 @@ import {
   updateOnload
 } from "actions/plp";
 import PlpService from "services/plp";
+import { updateScrollDown } from "actions/info";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -33,6 +34,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     },
     updateOnload: (data: boolean) => {
       dispatch(updateOnload(data));
+    },
+    updateScrollDown: (scrollDown: boolean) => {
+      dispatch(updateScrollDown(scrollDown));
     }
   };
 };

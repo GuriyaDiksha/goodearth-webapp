@@ -15,3 +15,9 @@ export const updateMakerReloadToggle = (makerReloadToggle: boolean) =>
 
 export const updateNextUrl = (nextUrl: string) =>
   actionCreator("UPDATE_NEXT_URL", nextUrl);
+
+export const updateDeliveryText = (text: string) =>
+  actionCreator("UPDATE_DELIVERY_TEXT", text);
+
+export const updateScrollDown = (scrollDown: boolean) =>
+  actionCreator("UPDATE_SCROLL_DOWN", scrollDown);

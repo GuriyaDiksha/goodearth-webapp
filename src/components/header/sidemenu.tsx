@@ -300,26 +300,24 @@ class SideMenu extends React.Component<Props, State> {
                 [styles.sideMenuItemMobile]: mobile
               })}
             >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCart,
-                  styles.iconStyle
-                )}
-                onClick={(): void => {
-                  this.props.setShowBag(true);
-                  this.props.onSideMenuClick("Cart");
-                }}
-              ></i>
-              <span
-                className={styles.badge}
-                onClick={(): void => {
-                  this.props.setShowBag(true);
-                  this.props.onSideMenuClick("Cart");
-                }}
-              >
-                {bagCount}
-              </span>
+              <div className={cs(styles.iconStyle, styles.innerCartContainer)}>
+                <i
+                  className={cs(iconStyles.icon, iconStyles.iconCart)}
+                  onClick={(): void => {
+                    this.props.setShowBag(true);
+                    this.props.onSideMenuClick("Cart");
+                  }}
+                ></i>
+                <span
+                  className={styles.badge}
+                  onClick={(): void => {
+                    this.props.setShowBag(true);
+                    this.props.onSideMenuClick("Cart");
+                  }}
+                >
+                  {bagCount}
+                </span>
+              </div>
             </li>
           )}
         </ul>
