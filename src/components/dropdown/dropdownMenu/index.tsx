@@ -14,14 +14,18 @@ const DropdownMenu = ({
   className,
   children,
   items,
-  disabled
+  disabled,
+  onDropDownMenuClick
 }: DropdownMenuProps): JSX.Element => {
   const getMenuItems = (): JSX.Element[] => {
     return items.map(item => {
       const itemProps: DropdownMenuItemProps = {
         href: item.href,
         label: item.label,
-        onClick: item.onClick,
+        onClick: (e: React.MouseEvent<Element, MouseEvent>) => {
+          onDropDownMenuClick?.("Profile Item");
+          item.onClick?.(e);
+        },
         type: item.type || "link"
       };
       return (

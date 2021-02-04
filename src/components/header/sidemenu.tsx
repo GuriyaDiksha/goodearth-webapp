@@ -61,6 +61,7 @@ class SideMenu extends React.Component<Props, State> {
             history.location.search.replace(currency, response.currency);
           history.replace(path);
         }
+        this.props.onSideMenuClick("Currency");
         reloadPage(
           this.props.cookies,
           history.location.pathname,
@@ -75,6 +76,7 @@ class SideMenu extends React.Component<Props, State> {
       return false;
     }
     this.props.toggleSearch();
+    this.props.onSideMenuClick("Search");
   };
   render() {
     const { isLoggedIn } = this.context;
@@ -225,6 +227,7 @@ class SideMenu extends React.Component<Props, State> {
                   className={storyStyles.greyBG}
                   align="right"
                   items={profileItems}
+                  onDropDownMenuClick={this.props.onSideMenuClick}
                   disabled={isBridalRegistryPage ? true : false}
                 ></DropdownMenu>
               </div>
@@ -250,7 +253,10 @@ class SideMenu extends React.Component<Props, State> {
                 {isLoggedIn ? (
                   <Link
                     to={isBridalRegistryPage ? "#" : "/wishlist"}
-                    onClick={gtmPushWishlistClick}
+                    onClick={() => {
+                      gtmPushWishlistClick();
+                      this.props.onSideMenuClick("Wishlist");
+                    }}
                   >
                     <i
                       className={cs(
@@ -266,7 +272,12 @@ class SideMenu extends React.Component<Props, State> {
                 ) : (
                   <div
                     onClick={
-                      isBridalRegistryPage ? () => null : this.props.goLogin
+                      isBridalRegistryPage
+                        ? () => null
+                        : () => {
+                            this.props.onSideMenuClick("Wishlist");
+                            this.props.goLogin();
+                          }
                     }
                   >
                     <i
@@ -294,12 +305,14 @@ class SideMenu extends React.Component<Props, State> {
                   className={cs(iconStyles.icon, iconStyles.iconCart)}
                   onClick={(): void => {
                     this.props.setShowBag(true);
+                    this.props.onSideMenuClick("Cart");
                   }}
                 ></i>
                 <span
                   className={styles.badge}
                   onClick={(): void => {
                     this.props.setShowBag(true);
+                    this.props.onSideMenuClick("Cart");
                   }}
                 >
                   {bagCount}
