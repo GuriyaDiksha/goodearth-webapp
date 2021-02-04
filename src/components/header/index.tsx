@@ -923,17 +923,22 @@ class Header extends React.Component<Props, State> {
                                     key={item.label}
                                     onClick={e => {
                                       item.onClick && item.onClick(e);
-                                      util.headerClickGTM(
-                                        "Profile Item",
-                                        "Top",
-                                        true,
-                                        isLoggedIn
-                                      );
                                       this.clickToggle();
                                     }}
                                   >
                                     {item.type == "button" ? (
-                                      <>{item.label}</>
+                                      <span
+                                        onClick={() => {
+                                          util.headerClickGTM(
+                                            "Profile Item",
+                                            "Top",
+                                            true,
+                                            isLoggedIn
+                                          );
+                                        }}
+                                      >
+                                        {item.label}
+                                      </span>
                                     ) : (
                                       <NavLink
                                         key={item.label}
