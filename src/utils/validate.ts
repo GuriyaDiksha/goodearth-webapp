@@ -690,3 +690,46 @@ export const checkoutGTM = (
     }
   });
 };
+
+export const headerClickGTM = (
+  clickType: string,
+  location: "Top" | "Bottom",
+  mobile: boolean,
+  isLoggedIn: boolean
+) => {
+  try {
+    dataLayer.push({
+      event: "Header Click",
+      clickType,
+      location,
+      device: mobile ? "mobile" : "desktop",
+      userStatus: isLoggedIn ? "logged in" : "logged out"
+    });
+  } catch (e) {
+    console.log("Header click GTM error!");
+  }
+};
+
+export const menuNavigationGTM = (
+  l1: string,
+  l2: string,
+  l3: string,
+  url: string,
+  mobile: boolean,
+  isLoggedIn: boolean
+) => {
+  try {
+    dataLayer.push({
+      event: "Menu Navigation",
+      clickType: "Category",
+      l1,
+      l2,
+      l3,
+      device: mobile ? "mobile" : "desktop",
+      userStatus: isLoggedIn ? "logged in" : "logged out",
+      url
+    });
+  } catch (e) {
+    console.log("Menu Navigation GTM error!");
+  }
+};
