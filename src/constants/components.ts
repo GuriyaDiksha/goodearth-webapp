@@ -22,6 +22,7 @@ import EditRegistry from "containers/myAccount/components/Bridal/EditRegistry";
 import BridalMobileProductUpdate from "containers/myAccount/components/Bridal/BridalMobileProductUpdate";
 import BridalPop from "containers/myAccount/components/Bridal/BridalPop";
 import ShareLink from "containers/myAccount/components/Bridal/ShareLink";
+const Delivery = loadable(() => import("components/Popups/DeliveryPopup"));
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
@@ -44,7 +45,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   editRegistry: EditRegistry,
   bridalMobileProductUpdate: BridalMobileProductUpdate,
   bridalPop: BridalPop,
-  shareLink: ShareLink
+  shareLink: ShareLink,
+  delivery: Delivery
 };
 
 export enum POPUP {
@@ -68,5 +70,6 @@ export enum POPUP {
   EDITREGISTRY = "editRegistry",
   BRIDALMOBILEPRODUCTUPDATE = "bridalMobileProductUpdate",
   BRIDALPOP = "bridalPop",
-  SHARELINK = "shareLink"
+  SHARELINK = "shareLink",
+  DELIVERY = "delivery"
 }
