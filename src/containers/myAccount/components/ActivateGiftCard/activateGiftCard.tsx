@@ -170,9 +170,9 @@ class Giftcard extends React.Component<Props, GiftState> {
       this.ActivateGCForm.current?.updateInputsWithError({
         giftCardCode: message
       });
+      const elem: any = document.getElementById("gift");
+      elem.scrollIntoView({ block: "center", behavior: "smooth" });
     }
-    const elem: any = document.getElementById("gift");
-    elem.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
   errorOnBlur = (event: React.FocusEvent<Element>) => {
