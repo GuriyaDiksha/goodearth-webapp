@@ -352,7 +352,9 @@ class Header extends React.Component<Props, State> {
       <div className="">
         <Helmet defer={false}>
           <title>
-            Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
+            {meta.title
+              ? meta.title
+              : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
           {
             <meta
