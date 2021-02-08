@@ -5,6 +5,8 @@ import styles from "./styles.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 // import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 import globalStyles from "styles/global.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const PlpDropdownMenu = ({
   filterCount,
@@ -20,6 +22,7 @@ const PlpDropdownMenu = ({
   const [showmobileSort, setShowmobileSort] = useState(false);
   const [showmobileFilterList, setShowmobileFilterList] = useState(false);
   const [mobileFilter, setMobileFilter] = useState(false);
+  const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const clickMobilefilter = (value: string) => {
     if (value == "Refine") {
       setShowmobileFilterList(true);
@@ -65,7 +68,11 @@ const PlpDropdownMenu = ({
   }, [showmobileSort, menuOpen]);
 
   return (
-    <div className={cs(styles.cSort, bootstrap.col12, styles.filterSticky)}>
+    <div
+      className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
+        [styles.hide]: scrollDown
+      })}
+    >
       <div
         className={cs({ [globalStyles.hidden]: menuOpen }, bootstrap.col12, {
           [styles.productNumber]: !menuOpen

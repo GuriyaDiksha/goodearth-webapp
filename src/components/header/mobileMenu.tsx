@@ -80,7 +80,17 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       ? ""
       : html.push(
           <li onClick={this.props.clickToggle}>
-            <Link to={headerData.catLandingUrl}>
+            <Link
+              to={headerData.catLandingUrl}
+              onClick={() => {
+                this.props.onMobileMenuClick(
+                  headerData.name,
+                  "",
+                  "",
+                  headerData.catLandingUrl
+                );
+              }}
+            >
               {" "}
               <span className="">Featured</span>
             </Link>
@@ -102,7 +112,17 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       html.push(
         data.url && data.children.length == 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
-            <Link to={data.url}>
+            <Link
+              to={data.url}
+              onClick={() => {
+                this.props.onMobileMenuClick(
+                  headerData.name,
+                  data.name,
+                  "",
+                  data.url
+                );
+              }}
+            >
               <span>
                 {ReactHtmlParser(
                   data.labelMobile ? data.labelMobile : data.name
@@ -133,7 +153,19 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 <ul key={data.url}>
                   {data.url && data.children.length > 1 ? (
                     <li onClick={this.props.clickToggle}>
-                      <Link to={data.url}>View All</Link>
+                      <Link
+                        to={data.url}
+                        onClick={() => {
+                          this.props.onMobileMenuClick(
+                            headerData.name,
+                            data.name,
+                            "",
+                            data.url
+                          );
+                        }}
+                      >
+                        View All
+                      </Link>
                     </li>
                   ) : (
                     ""
@@ -146,6 +178,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       >
                         <Link
                           to={innerdata.url}
+                          onClick={() => {
+                            this.props.onMobileMenuClick(
+                              headerData.name,
+                              data.name,
+                              innerdata.name,
+                              innerdata.url
+                            );
+                          }}
                           className={
                             innerdata.name.toLowerCase().indexOf("sale") > -1
                               ? styles.menucolor
@@ -190,7 +230,17 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         html.push(
           data.url && data.children.length == 0 ? (
             <li key={data.id} onClick={this.props.clickToggle}>
-              <Link to={data.url}>
+              <Link
+                to={data.url}
+                onClick={() => {
+                  this.props.onMobileMenuClick(
+                    headerData.name,
+                    data.name,
+                    "",
+                    data.url
+                  );
+                }}
+              >
                 <span>
                   {ReactHtmlParser(
                     data.labelMobile ? data.labelMobile : data.name
@@ -221,7 +271,19 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   <ul key={data.url}>
                     {data.url && data.children.length > 1 ? (
                       <li onClick={this.props.clickToggle}>
-                        <Link to={data.url}>View All</Link>
+                        <Link
+                          to={data.url}
+                          onClick={() => {
+                            this.props.onMobileMenuClick(
+                              headerData.name,
+                              data.name,
+                              "",
+                              data.url
+                            );
+                          }}
+                        >
+                          View All
+                        </Link>
                       </li>
                     ) : (
                       ""
@@ -234,6 +296,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                         >
                           <Link
                             to={innerdata.url}
+                            onClick={() => {
+                              this.props.onMobileMenuClick(
+                                headerData.name,
+                                data.name,
+                                innerdata.name,
+                                innerdata.url
+                              );
+                            }}
                             className={
                               innerdata.name.toLowerCase().indexOf("sale") > -1
                                 ? styles.menucolor
@@ -310,6 +380,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     [styles.cerise]: !this.props.isSale
                   })}
                   href={data.catLandingUrl}
+                  onClick={() => {
+                    this.props.onMobileMenuClick(
+                      data.name,
+                      "",
+                      "",
+                      data.catLandingUrl
+                    );
+                  }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

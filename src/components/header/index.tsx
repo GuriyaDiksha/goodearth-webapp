@@ -29,6 +29,7 @@ import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
 import bridalRing from "../../images/bridal/rings.svg";
+import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
@@ -198,6 +199,35 @@ class Header extends React.Component<Props, State> {
     }
   };
 
+  onSideMenuClick = (clickType: string) => {
+    util.headerClickGTM(
+      clickType,
+      "Top",
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
+  };
+
+  onBottomMenuClick = (clickType: string) => {
+    util.headerClickGTM(
+      clickType,
+      "Bottom",
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
+  };
+
+  onMenuClick = (l1: string, l2: string, l3: string, url: string) => {
+    util.menuNavigationGTM(
+      l1,
+      l2,
+      l3,
+      url,
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
+  };
+
   showSearch = () => {
     if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
       return false;
@@ -253,6 +283,12 @@ class Header extends React.Component<Props, State> {
 
   handleLogoClick = () => {
     this.gtmPushLogoClick();
+    util.headerClickGTM(
+      "Logo",
+      "Top",
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
     this.setState({
       showC: false,
       showMenu: false,
@@ -550,6 +586,12 @@ class Header extends React.Component<Props, State> {
                     }
                     onClick={() => {
                       this.clickToggle();
+                      util.headerClickGTM(
+                        "Mobile Menu",
+                        "Top",
+                        true,
+                        isLoggedIn
+                      );
                     }}
                   ></i>
                   <i
@@ -609,6 +651,7 @@ class Header extends React.Component<Props, State> {
               <div className={cs(bootstrap.colLg3, bootstrap.col3)}>
                 {!mobile && (
                   <SideMenu
+                    onSideMenuClick={this.onSideMenuClick}
                     showBag={this.state.showBag}
                     setShowBag={this.setShowBag}
                     showSearch={this.state.showSearch}
@@ -622,7 +665,13 @@ class Header extends React.Component<Props, State> {
                 {mobile && (
                   <ul className={cs(bootstrap.row)}>
                     <li className={cs(styles.mobileSearch, bootstrap.col)}>
-                      <div onClick={this.showSearch}>
+                      <div
+                        onClick={() => {
+                          !this.state.showSearch &&
+                            this.onSideMenuClick("Search");
+                          this.showSearch();
+                        }}
+                      >
                         <i
                           className={
                             this.state.showSearch
@@ -645,7 +694,12 @@ class Header extends React.Component<Props, State> {
                     </li>
                     {this.state.showCartMobile && (
                       <li className={cs(styles.mobileSearch, bootstrap.col)}>
-                        <div onClick={() => this.setShowBag(true)}>
+                        <div
+                          onClick={() => {
+                            this.setShowBag(true);
+                            this.onSideMenuClick("Cart");
+                          }}
+                        >
                           <i
                             className={cs(
                               iconStyles.icon,
@@ -679,6 +733,7 @@ class Header extends React.Component<Props, State> {
             >
               <MenuList
                 ipad={false}
+                onHeaderMenuClick={this.onMenuClick}
                 activeIndex={this.state.activeIndex}
                 mouseOut={(data): void => {
                   this.mouseOut(data);
@@ -709,6 +764,7 @@ class Header extends React.Component<Props, State> {
                     {
                       <>
                         <Mobilemenu
+                          onMobileMenuClick={this.onMenuClick}
                           menudata={this.props.data}
                           location={this.props.location}
                           clickToggle={this.clickToggle}
@@ -720,7 +776,15 @@ class Header extends React.Component<Props, State> {
                                 <Link
                                   to="/wishlist"
                                   className={styles.wishlistLink}
-                                  onClick={this.clickToggle}
+                                  onClick={() => {
+                                    this.clickToggle();
+                                    util.headerClickGTM(
+                                      "Wishlist",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
+                                  }}
                                 >
                                   <i
                                     className={cs(
@@ -745,6 +809,12 @@ class Header extends React.Component<Props, State> {
                                 <div
                                   onClick={e => {
                                     this.props.goLogin(e);
+                                    util.headerClickGTM(
+                                      "Wishlist",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                   className={styles.wishlistLink}
@@ -794,6 +864,12 @@ class Header extends React.Component<Props, State> {
                                   }
                                   onClick={() => {
                                     this.changeCurrency("INR");
+                                    util.headerClickGTM(
+                                      "Currency",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                 >
@@ -808,6 +884,12 @@ class Header extends React.Component<Props, State> {
                                   }
                                   onClick={() => {
                                     this.changeCurrency("USD");
+                                    util.headerClickGTM(
+                                      "Currency",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                 >
@@ -822,6 +904,12 @@ class Header extends React.Component<Props, State> {
                                   }
                                   onClick={() => {
                                     this.changeCurrency("GBP");
+                                    util.headerClickGTM(
+                                      "Currency",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                 >
@@ -841,11 +929,30 @@ class Header extends React.Component<Props, State> {
                                     }}
                                   >
                                     {item.type == "button" ? (
-                                      <>{item.label}</>
+                                      <span
+                                        onClick={() => {
+                                          util.headerClickGTM(
+                                            "Profile Item",
+                                            "Top",
+                                            true,
+                                            isLoggedIn
+                                          );
+                                        }}
+                                      >
+                                        {item.label}
+                                      </span>
                                     ) : (
                                       <NavLink
                                         key={item.label}
                                         to={item.href as string}
+                                        onClick={() => {
+                                          util.headerClickGTM(
+                                            "Profile Item",
+                                            "Top",
+                                            true,
+                                            isLoggedIn
+                                          );
+                                        }}
                                       >
                                         {item.label}
                                       </NavLink>
@@ -907,6 +1014,7 @@ class Header extends React.Component<Props, State> {
         <MakerUtils />
         {mobile && !isBridalRegistryPage && (
           <BottomMenu
+            onBottomMenuClick={this.onBottomMenuClick}
             showBag={this.state.showBag}
             showSearch={this.showSearch}
             isSearch={this.state.showSearch}

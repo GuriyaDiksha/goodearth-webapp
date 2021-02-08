@@ -29,7 +29,7 @@ type Props = loginProps &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-class CheckoutLoginForm extends React.Component<Props, loginState> {
+class MainLogin extends React.Component<Props, loginState> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -67,12 +67,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               highlight: false
             },
             () => {
-              const checkoutPopupCookie = CookieService.getCookie(
-                "checkoutinfopopup"
-              );
-              checkoutPopupCookie == "show" &&
-                this.passwordInput.current &&
-                this.passwordInput.current.focus();
+              this.passwordInput.current && this.passwordInput.current.focus();
               this.passwordInput.current &&
                 this.passwordInput.current.scrollIntoView(true);
             }
@@ -178,6 +173,16 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         .login(this.state.email || "", this.state.password || "", "checkout")
         .then(data => {
           this.gtmPushSignIn();
+          dataLayer.push({
+            event: "checkout",
+            ecommerce: {
+              currencyCode: this.props.currency,
+              checkout: {
+                actionField: { step: 1 },
+                products: this.props.basket.products
+              }
+            }
+          });
           // this.context.closeModal();
           // this.props.nextStep?.();
         })
@@ -493,7 +498,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     return (
       <Fragment>
         {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col12)}>
+          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
             <div
               className={cs(globalStyles.successMsg, globalStyles.textCenter)}
             >
@@ -503,7 +508,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         ) : (
           ""
         )}
-        <div className={cs(bootstrapStyles.col12)}>
+        <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
           <div className={styles.loginForm}>{currentForm()}</div>
           {this.props.isBo ? "" : footer}
         </div>
@@ -513,4 +518,4 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutLoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(MainLogin);

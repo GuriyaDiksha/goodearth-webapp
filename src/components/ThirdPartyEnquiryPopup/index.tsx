@@ -22,7 +22,7 @@ import * as valid from "utils/validate";
 
 type Props = {
   id: ProductID;
-  quantity: number;
+  quantity?: number;
 };
 
 const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {

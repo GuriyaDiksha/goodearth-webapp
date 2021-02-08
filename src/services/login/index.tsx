@@ -97,6 +97,9 @@ export default {
     });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch, source).then(res => {
+      if (source == "checkout") {
+        util.checkoutGTM(1, metaResponse?.currency || "INR", res);
+      }
       if (metaResponse) {
         let basketBridalId = 0;
         res.lineItems.map(item =>
@@ -179,7 +182,11 @@ export default {
       "INVALID_SESSION_LOGOUT"
     );
   },
-  register: async function(dispatch: Dispatch, formData: FormData) {
+  register: async function(
+    dispatch: Dispatch,
+    formData: FormData,
+    source?: string
+  ) {
     const res = await API.post<registerResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/register/"}`,
@@ -192,9 +199,15 @@ export default {
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     dispatch(updateModal(false));
-    MetaService.updateMeta(dispatch, { tkn: res.token });
+    const metaResponse = await MetaService.updateMeta(dispatch, {
+      tkn: res.token
+    });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch);
+    BasketService.fetchBasket(dispatch).then(res => {
+      if (source == "checkout") {
+        util.checkoutGTM(1, metaResponse?.currency || "INR", res);
+      }
+    });
     return res;
   },
   changeCurrency: async function(
@@ -244,7 +257,10 @@ export default {
     return response;
   },
   fetchCountryData: async (dispatch: Dispatch) => {
-    const countryData = CacheService.get("countryData") as countryDataResponse;
+    let countryData: countryDataResponse | [] = [];
+    if (typeof document == "undefined") {
+      countryData = CacheService.get("countryData") as countryDataResponse;
+    }
     if (countryData && countryData.length > 0) {
       return countryData;
     }
@@ -252,7 +268,9 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/address/countries_state/"}`
     );
-    CacheService.set("countryData", res);
+    if (typeof document == "undefined") {
+      CacheService.set("countryData", res);
+    }
     return res;
   }
 };
