@@ -23,3 +23,6 @@ export const updateFilterData = (data: string) =>
 
 export const updateOnload = (data: boolean) =>
   actionCreator("UPDATE_ONLOAD", data);
+
+export const updatePlpMobileView = (plpMobileView: "list" | "grid") =>
+  actionCreator("UPDATE_PLP_MOBILE_VIEW", plpMobileView);

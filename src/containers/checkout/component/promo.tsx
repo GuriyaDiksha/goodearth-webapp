@@ -10,6 +10,7 @@ import ApplyPromo from "./applyPromo";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
+import * as util from "utils/validate";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, selectedAddress } = props;
@@ -43,31 +44,13 @@ const PromoSection: React.FC<PromoProps> = props => {
     ) {
       PromoChild.gcBalance();
     } else {
-      dataLayer.push({
-        event: "checkout",
-        ecommerce: {
-          currencyCode: currency,
-          checkout: {
-            actionField: { step: 4 },
-            products: basket.products
-          }
-        }
-      });
+      util.checkoutGTM(4, currency, basket);
       next(Steps.STEP_PAYMENT);
     }
   };
 
   const onNext = () => {
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: currency,
-        checkout: {
-          actionField: { step: 4 },
-          products: basket.products
-        }
-      }
-    });
+    util.checkoutGTM(4, currency, basket);
     next(Steps.STEP_PAYMENT);
   };
 

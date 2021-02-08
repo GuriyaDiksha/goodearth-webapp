@@ -4,4 +4,5 @@ import { DropdownItem } from "../baseDropdownMenu/typings";
 export type DropdownMenuProps = BaseDropdownMenuProps & {
   items: DropdownItem[];
   display: JSX.Element | string;
+  onDropDownMenuClick?: (clickType: string) => void;
 };

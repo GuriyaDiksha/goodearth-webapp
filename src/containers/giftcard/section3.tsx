@@ -16,6 +16,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const emailInput = React.useRef<HTMLInputElement>(null);
   const lastNameInput = React.useRef<HTMLInputElement>(null);
   const [textarea, setTextarea] = useState("");
+  const englishandSpace = /^[a-zA-Z\s]+$/;
   // const [ehighlight, setEhighlight] = useState(false);
   // const [emsg, setEmsg] = useState("");
 
@@ -145,6 +146,16 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     value={data["recipientName"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
+                    validations={{
+                      isEnglish: (values, value) => {
+                        if (value) {
+                          return englishandSpace.test(value);
+                        } else return true;
+                      }
+                    }}
+                    validationErrors={{
+                      isEnglish: "Only alphabets are allowed"
+                    }}
                     required
                   />
                 </div>
@@ -236,6 +247,16 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     // className={showFieldsClass}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
+                    validations={{
+                      isEnglish: (values, value) => {
+                        if (value) {
+                          return englishandSpace.test(value);
+                        } else return true;
+                      }
+                    }}
+                    validationErrors={{
+                      isEnglish: "Only alphabets are allowed"
+                    }}
                     required
                   />
                 </div>
