@@ -31,11 +31,13 @@ const LoginForm: React.FC<{}> = props => {
   };
   return (
     <Popup>
-      <div className={cs(bootstrapStyles.col9, bootstrapStyles.offset2)}>
-        <div className={styles.formHeading}>Welcome back</div>
+      <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+        <div className={styles.formHeading}>
+          {isRegister ? "Welcome" : "Welcome Back"}
+        </div>
         <div className={styles.formSubheading}>
           {isRegister
-            ? "First time visiting? Enter your email address and password to join in."
+            ? "Please Enter Your Email To Register"
             : "Enter your email address to register or sign in."}
         </div>
 
