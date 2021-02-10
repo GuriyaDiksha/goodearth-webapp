@@ -35,7 +35,8 @@ const mapStateToProps = (state: AppState) => {
     message: state.message,
     location: state.router.location,
     meta: state.meta,
-    cookies: state.cookies
+    cookies: state.cookies,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
@@ -88,6 +89,12 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     };
     if (this.props.currency != data.currency) {
       return changeCurrency(data).then(response => {
+        util.headerClickGTM(
+          "Currency",
+          "Top",
+          this.props.mobile,
+          this.props.isLoggedIn
+        );
         reloadPage(this.props.cookies, this.props.location.pathname);
       });
     }
@@ -169,7 +176,9 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       <div>
         <Helmet>
           <title>
-            Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
+            {meta.title
+              ? meta.title
+              : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
           <link rel="icon" href={fabicon}></link>
           <meta
@@ -240,7 +249,14 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               <Link
                 to="/"
                 onClick={e => {
-                  this.state.boId ? e.preventDefault() : "";
+                  this.state.boId
+                    ? e.preventDefault()
+                    : util.headerClickGTM(
+                        "Logo",
+                        "Top",
+                        this.props.mobile,
+                        this.props.isLoggedIn
+                      );
                 }}
               >
                 <img

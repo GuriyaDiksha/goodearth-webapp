@@ -78,6 +78,24 @@ class Footer extends React.Component<Props, FooterState> {
       }
     }
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.setState(
+        {
+          newsletterEmail: "",
+          newsletterMessage: ""
+        },
+        () => {
+          const news = document.getElementById(
+            "newsletter"
+          ) as HTMLInputElement;
+          news.value = "";
+        }
+      );
+    }
+  }
+
   componentDidMount() {
     const cookie = CookieService.getCookie("goodearth");
     if (cookie != "show") {

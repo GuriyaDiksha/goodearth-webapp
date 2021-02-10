@@ -276,7 +276,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       className={cs(
                         bootstrapStyles.row,
                         globalStyles.voffset2,
-                        styles.borderAdd
+                        styles.borderAdd,
+                        styles.deliveryPadding
                       )}
                     >
                       <div className={styles.add}>
