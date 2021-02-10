@@ -176,7 +176,9 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       <div>
         <Helmet>
           <title>
-            Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
+            {meta.title
+              ? meta.title
+              : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
           <link rel="icon" href={fabicon}></link>
           <meta
