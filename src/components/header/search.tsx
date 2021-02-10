@@ -200,10 +200,13 @@ class Search extends React.Component<Props, State> {
     const key = String.fromCharCode(
       !event.charCode ? event.which : event.charCode
     );
-    if (!regex.test(key) && event.charCode != 13) {
+    if (event.type != "paste" && !regex.test(key) && event.charCode != 13) {
       event.preventDefault();
       return false;
     }
+  };
+
+  checkSearchValueUp = (event: any) => {
     if (event.target.value.length > 2) {
       if (event.charCode == 13) {
         this.props.history.push(
@@ -286,6 +289,7 @@ class Search extends React.Component<Props, State> {
                   ref={this.searchBoxRef}
                   onKeyPress={this.checkSearchValue}
                   onPaste={this.checkSearchValue}
+                  onKeyUp={this.checkSearchValueUp}
                   onChange={this.handleChange.bind(this)}
                 />
                 <span
