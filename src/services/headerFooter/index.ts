@@ -31,6 +31,7 @@ export default {
       footerData = CacheService.get("footerData") as FooterDataProps;
     }
     if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
+      dispatch(updatefooter(footerData));
       return footerData;
     }
 
