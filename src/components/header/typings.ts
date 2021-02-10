@@ -129,6 +129,7 @@ export interface MobileState {
   activeindex2: number;
   activeindex3: number;
   showmenulevel3: boolean;
+  showInnerMenu: boolean;
 }
 
 export type SearchFeaturedData = {
