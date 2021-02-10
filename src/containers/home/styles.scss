@@ -38,8 +38,8 @@ p {
         line-height: 40px;
         width: 160px;
         text-align: center;
+        color: white;
     }
-    
 }
 .b2 {
     
@@ -128,7 +128,6 @@ p {
             background: url(../../images/greyBg.jpg) repeat;
             text-align: center;
             padding: 5%;
-           
             width: 100%;
    
     }
@@ -170,4 +169,27 @@ p {
     }
     }
 }
+}
+.section3-content {
+    background-color: #f4f1f1;
+    text-align: center;
+    padding: 100px 50px 50px 50px;
+}
+
+.cta-margin {
+    margin-top: 25px;
+}
+
+.bottem-banner {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    width: 30%;
+    text-align: center;
+}
+
+.cta-bottom {
+    color: white;
+    margin-top: 15px;
+    text-decoration: underline;
 }
