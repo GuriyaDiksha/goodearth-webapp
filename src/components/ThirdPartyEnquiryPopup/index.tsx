@@ -1,10 +1,11 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import cs from "classnames";
 // components
 import CloseButton from "components/Modal/components/CloseButton";
 // services
 import ProductService from "services/product";
+import LoginService from "services/login";
 // contexts
 import { Context as ModalContext } from "components/Modal/context";
 // styles
@@ -19,6 +20,7 @@ import FormSelect from "components/Formsy/FormSelect";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import * as valid from "utils/validate";
+import { updateCountryData } from "actions/address";
 
 type Props = {
   id: ProductID;
@@ -36,15 +38,29 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     string | (string | JSX.Element)[]
   >("");
 
+  const countryData = useSelector(
+    (state: AppState) => state.address.countryData
+  );
+  useEffect(() => {
+    if (!countryData || countryData.length == 0) {
+      LoginService.fetchCountryData(dispatch).then(countryData => {
+        // changeCountryData(countryData);
+        dispatch(updateCountryData(countryData));
+      });
+    }
+  }, []);
+
   const stateOptions = useSelector((state: AppState) =>
-    state.address.countryData
-      .filter(country => country.code2 == "IN")[0]
-      .regionSet.map(state => {
-        return Object.assign({}, state, {
-          value: state.nameAscii,
-          label: state.nameAscii
-        });
-      })
+    state.address.countryData.length > 0
+      ? state.address.countryData
+          .filter(country => country.code2 == "IN")[0]
+          .regionSet.map(state => {
+            return Object.assign({}, state, {
+              value: state.nameAscii,
+              label: state.nameAscii
+            });
+          })
+      : []
   );
 
   const modeOptions = [
