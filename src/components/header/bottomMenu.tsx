@@ -19,6 +19,7 @@ type Props = {
   showBag: boolean;
   setShowBag: (showBag: boolean) => void;
   bagCount: number;
+  onBottomMenuClick?: (clickType: string) => void;
 };
 const BottomMenu: React.FC<Props> = ({
   bagCount,
@@ -30,7 +31,8 @@ const BottomMenu: React.FC<Props> = ({
   showBag,
   setShowBag,
   showSearch,
-  isSearch
+  isSearch,
+  onBottomMenuClick
 }) => {
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const location = useSelector((state: AppState) => state.router.location);
@@ -52,7 +54,7 @@ const BottomMenu: React.FC<Props> = ({
       <div className={bootstrap.row}>
         <div className={cs(bootstrap.col)}>
           <div className={cs(styles.bottomMenuItem, styles.homeBottomMenu)}>
-            <Link to="/">
+            <Link to="/" onClick={() => onBottomMenuClick?.("Logo")}>
               <i
                 className={cs(
                   iconStyles.iconBottomNavHome,
@@ -66,7 +68,12 @@ const BottomMenu: React.FC<Props> = ({
         </div>
         <div className={cs(bootstrap.col)}>
           <li className={cs(styles.mobileSearch, styles.bottomMenuItem)}>
-            <div onClick={showSearch}>
+            <div
+              onClick={() => {
+                showSearch();
+                onBottomMenuClick?.("Search");
+              }}
+            >
               <i
                 className={
                   isSearch
@@ -100,6 +107,7 @@ const BottomMenu: React.FC<Props> = ({
               }
               onClick={() => {
                 clickToggle();
+                onBottomMenuClick?.("Mobile Menu");
               }}
             ></i>
             <i
@@ -115,6 +123,7 @@ const BottomMenu: React.FC<Props> = ({
               }
               onClick={() => {
                 clickToggle();
+                onBottomMenuClick?.("Mobile Menu");
               }}
             ></i>
           </div>
@@ -122,7 +131,13 @@ const BottomMenu: React.FC<Props> = ({
         <div className={cs(bootstrap.col, styles.mobileWishlist)}>
           <div className={styles.bottomMenuItem}>
             {isLoggedIn ? (
-              <Link to="/wishlist" onClick={gtmPushWishlistClick}>
+              <Link
+                to="/wishlist"
+                onClick={() => {
+                  gtmPushWishlistClick();
+                  onBottomMenuClick?.("Wishlist");
+                }}
+              >
                 <i
                   className={cs(
                     iconStyles.icon,
@@ -144,12 +159,23 @@ const BottomMenu: React.FC<Props> = ({
                     }
                   )}
                 ></i>
-                <span className={styles.badge}>
+                <span
+                  className={cs(styles.badge, {
+                    [globalStyles.cerise]: location.pathname.includes(
+                      "/wishlist"
+                    )
+                  })}
+                >
                   {wishlistCount > 0 ? wishlistCount : ""}
                 </span>
               </Link>
             ) : (
-              <div onClick={goLogin}>
+              <div
+                onClick={() => {
+                  goLogin();
+                  onBottomMenuClick?.("Wishlist");
+                }}
+              >
                 <i
                   className={cs(
                     iconStyles.icon,
@@ -173,6 +199,7 @@ const BottomMenu: React.FC<Props> = ({
                   )}
                   onClick={(): void => {
                     setShowBag(true);
+                    onBottomMenuClick?.("Cart");
                   }}
                 ></i>
                 <span

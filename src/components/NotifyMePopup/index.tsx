@@ -337,7 +337,7 @@ const NotifyMePopup: React.FC<Props> = ({
               label="Email"
               placeholder="Email Address"
               errorMsg={emailError}
-              // disabled={userExists}
+              disabled={userExists}
             />
           </div>
         )}

@@ -6,10 +6,13 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
+import * as util from "../../utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    mobile: state.device.mobile,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = MenuProps & ReturnType<typeof mapStateToProps>;
@@ -38,6 +41,12 @@ class MainMenu extends React.Component<Props, MenuState> {
       this.setState({ selectedCategory: -1 });
     }
   }
+
+  onHeaderMenuClick = (name: string, url: string) => {
+    const { mobile, isLoggedIn } = this.props;
+    util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
+    util.menuNavigationGTM(name, "", "", url, mobile, isLoggedIn);
+  };
 
   render() {
     const { data, location } = this.props;
@@ -84,6 +93,9 @@ class MainMenu extends React.Component<Props, MenuState> {
                       [styles.cerise]: !this.props.isSale
                     })}
                     href={isBridalRegistryPage ? "" : data.catLandingUrl}
+                    onClick={() =>
+                      this.onHeaderMenuClick(data.name, data.catLandingUrl)
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -93,6 +105,9 @@ class MainMenu extends React.Component<Props, MenuState> {
               ) : (
                 <Link
                   to={isBridalRegistryPage ? "#" : data.catLandingUrl}
+                  onClick={() =>
+                    this.onHeaderMenuClick(data.name, data.catLandingUrl)
+                  }
                   className={
                     this.state.selectedCategory == i ||
                     (highlightStories && this.props.ipad)
