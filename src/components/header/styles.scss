@@ -158,11 +158,14 @@
       margin-top: 4px !important;
       color: $cerise;
       &:hover {
-        a {
+        a, div {
+          color: inherit;
+        }
+        .badge {
           color: inherit;
         }
       }
-      a {
+      a, div {
        color: #000;
        &:hover {
          text-decoration: none;
