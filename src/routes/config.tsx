@@ -90,7 +90,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.SAFETYMEASURES,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -138,7 +138,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.ABOUTUS,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -162,19 +162,19 @@ const routes: RouteConfig = [
   // }
   {
     path: ROUTES.CORPORATEGIFTING,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
   {
     path: ROUTES.GIFTINGLANDING,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
   {
     path: ROUTES.BRIDAL,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -186,7 +186,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.PUSHPANJALI,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
