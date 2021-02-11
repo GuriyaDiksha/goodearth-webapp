@@ -285,11 +285,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       {isActive && (
         <Fragment>
           {!basket.isOnlyGiftCart &&
-            (isSale ? currency == "INR" : true) &&
+            (isSale ? currency != "INR" : true) &&
             giftWrapRender}
           {giftwrap &&
             !basket.isOnlyGiftCart &&
-            (isSale ? currency == "INR" : true) && (
+            (isSale ? currency != "INR" : true) && (
               <div>
                 <textarea
                   rows={5}
@@ -310,9 +310,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             )}
           {giftwrap &&
             !basket.isOnlyGiftCart &&
-            (isSale ? currency == "INR" : true) &&
+            (isSale ? currency != "INR" : true) &&
             giftShowPrice}
-          {!basket.isOnlyGiftCart && (isSale ? currency == "INR" : true) && (
+          {!basket.isOnlyGiftCart && (isSale ? currency != "INR" : true) && (
             <hr className={styles.hr} />
           )}
           <div className={globalStyles.marginT20}>
