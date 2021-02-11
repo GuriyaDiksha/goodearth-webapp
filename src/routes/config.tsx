@@ -7,7 +7,10 @@ import { initActionCollection } from "containers/collectionLanding";
 import { initActionSpecific } from "containers/collectionSpecific";
 import initActionPLP from "containers/plp/initAction";
 import initActionSearch from "containers/search/initAction";
-import initActionCategory from "containers/categoryLanding/initAction";
+import {
+  initActionCategoryLanding,
+  metaActionCategoryLanding
+} from "containers/categoryLanding";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
@@ -74,7 +77,8 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CATEGORY,
     component: loadable(() => import("containers/categoryLanding")),
-    action: initActionCategory,
+    action: initActionCategoryLanding,
+    meta: metaActionCategoryLanding,
     exact: true
   },
   {
