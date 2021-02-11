@@ -95,7 +95,7 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
-          size || "",
+          size || childAttributes?.[0].size || "",
           source,
           sortBy
         )
