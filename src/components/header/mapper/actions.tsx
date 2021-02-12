@@ -61,8 +61,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
     },
-    showShipping: (remainingAmount: number) => {
-      dispatch(updateComponent(POPUP.FREESHIPPING, { remainingAmount }, true));
+    showShipping: (remainingAmount: number, freeShippingApplicable: number) => {
+      dispatch(
+        updateComponent(
+          POPUP.FREESHIPPING,
+          { remainingAmount, freeShippingApplicable },
+          true
+        )
+      );
       dispatch(updateModal(true));
     },
     showPincodePopup: (setPincode: (pinCode: string) => void) => {
