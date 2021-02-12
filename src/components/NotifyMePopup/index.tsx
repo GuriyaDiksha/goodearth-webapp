@@ -167,7 +167,8 @@ const NotifyMePopup: React.FC<Props> = ({
           dispatch,
           selectedSize.id,
           undefined,
-          sortBy
+          sortBy,
+          selectedSize.size
         );
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
