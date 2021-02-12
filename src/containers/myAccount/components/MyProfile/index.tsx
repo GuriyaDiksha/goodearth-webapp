@@ -336,7 +336,7 @@ class MyProfile extends React.Component<Props, State> {
                     }
                   }}
                   validationErrors={{
-                    isPhoneValid: "This field is Required."
+                    isPhoneValid: "Please enter your Contact Number"
                   }}
                   keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                 />

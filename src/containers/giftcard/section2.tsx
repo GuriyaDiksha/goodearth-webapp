@@ -124,19 +124,22 @@ const Section2: React.FC<Section2Props> = ({
         if (+value < 5000) {
           status = true;
           msg =
-            "Sorry, the minimum value E-Gift card is 5000. Please enter a custom value greater than or equal to that.";
+            "Sorry, the minimum value of Gift Card is Rs 5000. Please enter a value greater than or equal to Rs 5000.";
         } else if (+value > 500000) {
           status = true;
           msg =
-            "Sorry, the maximum value E-Gift card is 5,00,000. Please enter a custom value less than or equal to that.";
+            "Sorry, the maximum value of Gift card is Rs 5,00,000. Please enter a value less than or equal to Rs 5,00,000.";
         }
         break;
       case "USD":
       case "GBP":
         if (+value < 50) {
           status = true;
-          msg =
-            "Sorry, the minimum value E-Gift card is 50. Please enter a custom value greater than or equal to that.";
+          msg = `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
+            currencyCode[currency]
+          )} 50. Please enter a value greater than or equal to ${String.fromCharCode(
+            currencyCode[currency]
+          )} 50.`;
         }
         break;
     }
@@ -146,11 +149,9 @@ const Section2: React.FC<Section2Props> = ({
   const gotoNext = () => {
     const data: any = {};
     if (!selectcurrency || !selectedCountry) {
-      setCountrymsg(
-        "Please choose the country you would like to ship this gift card to"
-      );
+      setCountrymsg("Please choose the country of shipment");
       valid.errorTracking(
-        ["Please choose the country you would like to ship this gift card to"],
+        ["Please choose the country of shipment"],
         location.href
       );
       const select = document.getElementsByName("country")[0];
@@ -161,11 +162,11 @@ const Section2: React.FC<Section2Props> = ({
       const value = element.value;
       if (value == "") {
         setNummsg(
-          "Please enter a value or choose one of the default values listed above"
+          "Please enter a value or choose one of the default values from above"
         );
         valid.errorTracking(
           [
-            "Please enter a value or choose one of the default values listed above"
+            "Please enter a value or choose one of the default values from above"
           ],
           location.href
         );
@@ -183,11 +184,11 @@ const Section2: React.FC<Section2Props> = ({
       if (selectvalue == "") {
         setNumhighlight(true);
         setNummsg(
-          "Please enter a value or choose one of the default values listed above"
+          "Please enter a value or choose one of the default values from above"
         );
         valid.errorTracking(
           [
-            "Please enter a value or choose one of the default values listed above"
+            "Please enter a value or choose one of the default values from above"
           ],
           location.href
         );

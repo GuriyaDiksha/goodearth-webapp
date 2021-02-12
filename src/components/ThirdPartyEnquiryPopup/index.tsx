@@ -212,7 +212,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
               maxLength: 75
             }}
             validationErrors={{
-              isEmail: "Enter valid email",
+              isEmail: "Please enter a valid Email ID",
               maxLength: "You are allowed to enter upto 75 characters only"
             }}
             required
