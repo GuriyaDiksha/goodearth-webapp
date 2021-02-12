@@ -62,7 +62,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     if (!this.state.txtvalue) {
       this.setState(
         {
-          error: "Please enter a code",
+          error: "Please enter a Code",
           isActivated: false
         },
         () => {
@@ -97,7 +97,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     if (response.status == false) {
       this.setState(
         {
-          error: "Please enter a valid code"
+          error: "Please enter a valid Gift Card code."
         },
         () => {
           valid.errorTracking([this.state.error], location.href);
@@ -130,7 +130,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   updateError = (value?: string, activate?: boolean) => {
     this.setState(
       {
-        error: value ? value : "Please enter a valid code",
+        error: value ? value : "Please enter a valid Gift Card code.",
         isActivated: activate ? true : false
       },
       () => {
