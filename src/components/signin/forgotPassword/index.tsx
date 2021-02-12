@@ -46,7 +46,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       this.setState(
         {
           err: true,
-          msg: "Please Enter Email",
+          msg: "Please enter your Email ID",
           disableSelectedbox: false
         },
         () => {
@@ -74,7 +74,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
           // console.log("err: " + err.response.data.email[0]);
           if (err.response.data.isNewEmail) {
             const error = [
-              "No registered user found. Please ",
+              "This account does not exist. Please ",
               <span
                 className={globalStyles.linkTextUnderline}
                 key={2}
@@ -96,7 +96,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               disableSelectedbox: false
             });
             valid.errorTracking(
-              ["No registered user found. Please Sign Up"],
+              ["This account does not exist. Please Sign Up"],
               location.href
             );
           } else {
@@ -144,12 +144,12 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   handleEmailBlur = (event: React.FocusEvent) => {
     if (valid.checkBlank(this.state.email)) {
       this.setState({
-        msg: "Please Enter Email",
+        msg: "Please enter your Email ID",
         err: true
       });
     } else if (!valid.checkMail(this.state.email)) {
       this.setState({
-        msg: "Enter valid email",
+        msg: "Please enter a valid Email ID",
         err: true
       });
     }
@@ -159,12 +159,12 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     if (event.keyCode !== 13) {
       if (valid.checkBlank(this.state.email)) {
         this.setState({
-          msg: "Please Enter Email",
+          msg: "Please enter your Email ID",
           err: true
         });
       } else if (!valid.checkMail(this.state.email)) {
         this.setState({
-          msg: "Enter valid email",
+          msg: "Please enter a valid Email ID",
           err: true
         });
       } else {

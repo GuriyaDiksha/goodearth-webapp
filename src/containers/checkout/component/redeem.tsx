@@ -40,7 +40,7 @@ class Reedem extends React.Component<Props, RedeemState> {
     const value = event.target.value;
     if (value == "" || +value < 0) {
       this.setState({
-        error: "Please enter Points",
+        error: "Please enter your Cerise Points",
         txtvalue: ""
       });
     } else if (
@@ -53,7 +53,7 @@ class Reedem extends React.Component<Props, RedeemState> {
       });
     } else {
       this.setState({
-        error: "Can't enter value more than " + loyaltyData.eligiblePoints
+        error: "You can redeem points upto " + loyaltyData.eligiblePoints
       });
     }
   };
@@ -67,7 +67,7 @@ class Reedem extends React.Component<Props, RedeemState> {
   updateError = () => {
     this.setState(
       {
-        error: "Please enter points"
+        error: "Please enter your Cerise Points"
       },
       () => {
         valid.errorTracking([this.state.error], location.href);
