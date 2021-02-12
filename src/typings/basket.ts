@@ -63,6 +63,8 @@ export type Basket = {
   bridal: boolean;
   bridalProfileId?: number;
   bridalAddressId?: number;
+  freeShippingThreshold: number;
+  freeShippingApplicable: number;
 };
 
 export interface BasketItem extends BasketLineItem {
