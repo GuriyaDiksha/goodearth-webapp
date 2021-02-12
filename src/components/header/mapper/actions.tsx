@@ -50,12 +50,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         console.log("FOOTER API ERROR ==== " + err);
       });
       Api.getAnnouncement(dispatch).catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
+        console.log("Announcement API ERROR ==== " + err);
       });
       // }
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
+      HeaderService.fetchHomepageData(dispatch).catch(err => {
+        console.log("Homepage API ERROR ==== " + err);
+      });
+
       islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
