@@ -200,7 +200,11 @@ class Search extends React.Component<Props, State> {
     const key = String.fromCharCode(
       !event.charCode ? event.which : event.charCode
     );
-    if (event.type != "paste" && !regex.test(key) && event.charCode != 13) {
+    if (
+      event.type != "paste" &&
+      !regex.test(key) &&
+      (!event.charCode ? event.which : event.charCode) != 13
+    ) {
       event.preventDefault();
       return false;
     }
@@ -208,7 +212,7 @@ class Search extends React.Component<Props, State> {
 
   checkSearchValueUp = (event: any) => {
     if (event.target.value.length > 2) {
-      if (event.charCode == 13) {
+      if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
           "/search?q=" +
             encodeURIComponent(event.target.value.replace(/[^A-Z0-9 ]+/i, ""))
