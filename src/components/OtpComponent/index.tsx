@@ -141,8 +141,19 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const { email, phoneNo } = model;
     const data: any = {};
     if (!this.props.txtvalue) {
-      this.props.updateError("Please enter a valid code");
-      valid.errorTracking(["Please enter a valid code"], location.href);
+      this.props.updateError(
+        `Please enter a valid ${
+          this.props.isCredit ? "Credit Note" : "Gift Card"
+        } code`
+      );
+      valid.errorTracking(
+        [
+          `Please enter a valid ${
+            this.props.isCredit ? "Credit Note" : "Gift Card"
+          } code`
+        ],
+        location.href
+      );
       return false;
     }
 
@@ -402,8 +413,19 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             }
           );
         } else if (data.currStatus == "Invalid-CN") {
-          this.props.updateError("Please enter a valid code");
-          valid.errorTracking(["Please enter a valid code"], location.href);
+          this.props.updateError(
+            `Please enter a valid ${
+              this.props.isCredit ? "Credit Note" : "Gift Card"
+            } code`
+          );
+          valid.errorTracking(
+            [
+              `Please enter a valid ${
+                this.props.isCredit ? "Credit Note" : "Gift Card"
+              } code`
+            ],
+            location.href
+          );
         } else {
           this.setState(
             {
@@ -423,7 +445,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         const { status, currStatus, message, email } = error.response.data;
         if (!status) {
           if (currStatus == "Invalid-CN") {
-            let errorMessage = "Please enter a valid code";
+            let errorMessage = `Please enter a valid ${
+              this.props.isCredit ? "Credit Note" : "Gift Card"
+            } code`;
             if (message) {
               errorMessage = message;
             }
@@ -702,7 +726,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     maxLength: 75
                   }}
                   validationErrors={{
-                    isEmail: "Enter valid email",
+                    isEmail: "Please enter a valid Email ID",
                     maxLength:
                       "You are allowed to enter upto 75 characters only"
                   }}
@@ -760,7 +784,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                       : {}
                   }
                   validationErrors={{
-                    isEmail: "Enter valid email",
+                    isEmail: "Please enter a valid Email ID",
                     maxLength:
                       "You are allowed to enter upto 75 characters only"
                   }}
