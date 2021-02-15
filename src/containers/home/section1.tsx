@@ -71,7 +71,7 @@ const Section1: React.FC = () => {
             </div>
           </div>
           <div className={bootstrap.row}>
-            {motive.map((item: any, i: number) => {
+            {motive?.map((item: any, i: number) => {
               return (
                 <div
                   className={cs(
