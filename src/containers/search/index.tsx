@@ -159,9 +159,12 @@ class Search extends React.Component<
   };
 
   handleChange = (event: any) => {
-    this.setState({
-      searchText: event.target.value
-    });
+    const regex = /^[A-Za-z0-9% ]+$/;
+    if (regex.test(event.target.value)) {
+      this.setState({
+        searchText: event.target.value
+      });
+    }
   };
 
   onEnterSearch = (event: any) => {
