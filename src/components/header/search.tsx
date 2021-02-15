@@ -196,7 +196,7 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValue = (event: any) => {
-    const regex = /^[A-Za-z0-9 ]+$/;
+    const regex = /^[A-Za-z0-9% ]+$/;
     const key = String.fromCharCode(
       !event.charCode ? event.which : event.charCode
     );
@@ -215,15 +215,15 @@ class Search extends React.Component<Props, State> {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
           "/search?q=" +
-            encodeURIComponent(event.target.value.replace(/[^A-Z0-9 ]+/i, ""))
+            encodeURIComponent(event.target.value.replace(/[^A-Z0-9% ]+/i, ""))
         );
         this.closeSearch();
         return false;
       }
       this.setState({
-        value: event.target.value.replace(/[^A-Z0-9 ]+/i, "")
+        value: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
       });
-      this.getSearchDataApi(event.target.value.replace(/[^A-Z0-9 ]+/i, ""));
+      this.getSearchDataApi(event.target.value.replace(/[^A-Z0-9% ]+/i, ""));
     } else {
       this.setState({
         productData: [],
