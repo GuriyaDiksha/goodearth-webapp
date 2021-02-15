@@ -127,7 +127,7 @@ const NotifyMePopup: React.FC<Props> = ({
       message = "This field is required";
     } else if (!re.test(value)) {
       valid = false;
-      message = "Enter valid email";
+      message = "Please enter a valid Email ID";
     }
 
     return {
@@ -167,7 +167,8 @@ const NotifyMePopup: React.FC<Props> = ({
           dispatch,
           selectedSize.id,
           undefined,
-          sortBy
+          sortBy,
+          selectedSize.size
         );
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
@@ -187,8 +188,8 @@ const NotifyMePopup: React.FC<Props> = ({
           }
         });
     } else {
-      setSizeErrorMsg("Please select size");
-      util.errorTracking(["Please select size"], location.href);
+      setSizeErrorMsg("Please select a Size to proceed");
+      util.errorTracking(["Please select a Size to proceed"], location.href);
     }
   };
 
@@ -215,8 +216,8 @@ const NotifyMePopup: React.FC<Props> = ({
           basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {
-        setSizeErrorMsg("Please select size");
-        util.errorTracking(["Please select size"], location.href);
+        setSizeErrorMsg("Please select a Size to proceed");
+        util.errorTracking(["Please select a Size to proceed"], location.href);
       }
     }
   };
@@ -320,7 +321,7 @@ const NotifyMePopup: React.FC<Props> = ({
             maxValue={maxQuantity}
             currentValue={quantity}
             onChange={onQuantityChange}
-            errorMsg={selectedSize ? "Available qty in stock is" : ""}
+            // errorMsg={selectedSize ? "Available qty in stock is" : ""}
             disabled={(selectedSize && selectedSize.stock == 0) || false}
             className={styles.quantityWrapper}
             inputClass={styles.inputQuantity}

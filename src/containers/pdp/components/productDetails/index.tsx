@@ -189,7 +189,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select size");
+        setSizeError("Please select a Size to proceed");
       }
     },
     [selectedSize]
@@ -268,8 +268,11 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select size");
-      valid.errorTracking(["Please select size"], window.location.href);
+      setSizeError("Please select a Size to proceed");
+      valid.errorTracking(
+        ["Please select a Size to proceed"],
+        window.location.href
+      );
       showError();
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
@@ -311,7 +314,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select size");
+        setSizeError("Please select a Size to proceed");
         showError();
         return false;
       }
@@ -659,7 +662,7 @@ const ProductDetails: React.FC<Props> = ({
                   maxValue={corporatePDP ? 1 : maxQuantity}
                   currentValue={quantity}
                   onChange={onQuantityChange}
-                  errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                  // errorMsg={selectedSize ? "Available qty in stock is" : ""}
                 />
               </div>
             </div>
