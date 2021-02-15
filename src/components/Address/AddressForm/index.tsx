@@ -1334,7 +1334,7 @@ const AddressForm: React.FC<Props> = props => {
                 }}
                 validationErrors={{
                   isExisty: "Please fill this field",
-                  isValidPostcode: "Please enter valid Pin/Zip code"
+                  isValidPostcode: "Please enter a valid Pin/Zip code"
                 }}
                 changeState={changeState}
                 placeholder="Pin/Zip Code"
