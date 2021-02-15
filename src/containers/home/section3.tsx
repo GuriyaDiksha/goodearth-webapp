@@ -1,4 +1,4 @@
-import React, { Fragment, useLayoutEffect, useState } from "react";
+import React, { Fragment } from "react";
 import styles from "./styles.scss";
 // import { useLocation } from "react-router";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
