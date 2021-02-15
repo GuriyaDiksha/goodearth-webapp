@@ -575,7 +575,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
-          {page == "cart" || basket.isOnlyGiftCart ? (
+          {page == "cart" || basket.isOnlyGiftCart || salestatus ? (
             ""
           ) : (
             <div
@@ -604,7 +604,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           )}
           {deliveryText.length == 0 ||
           page == "cart" ||
-          basket.isOnlyGiftCart ? (
+          basket.isOnlyGiftCart ||
+          salestatus ? (
             ""
           ) : (
             <div className={cs(styles.deliveryDate, styles.wrap)}>
