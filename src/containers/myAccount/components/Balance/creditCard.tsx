@@ -66,7 +66,7 @@ class CreditNote extends React.Component<Props, GiftState> {
         if (response.currStatus == "Invalid-CN" || response.type == "GIFT") {
           this.setState(
             {
-              error: "Please enter a valid code"
+              error: "Please enter a valid Credit Note code."
             },
             () => {
               valid.errorTracking([this.state.error], location.href);
@@ -132,7 +132,7 @@ class CreditNote extends React.Component<Props, GiftState> {
     if (response.currStatus == "Invalid-CN") {
       this.setState(
         {
-          error: "Please enter a valid code"
+          error: "Please enter a valid Credit Note code."
         },
         () => {
           valid.errorTracking([this.state.error], location.href);

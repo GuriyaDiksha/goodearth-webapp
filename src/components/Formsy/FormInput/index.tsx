@@ -60,18 +60,18 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const getRequiredErrorMessage = useCallback((name: string) => {
     switch (name) {
       case "email":
-        return "Please enter Email";
+        return "Please enter your Email ID";
       case "firstName":
-        return "Please enter First Name";
+        return "Please enter your First Name";
       case "name":
         return "Please enter Name";
       case "lastName":
-        return "Please enter Last Name";
+        return "Please enter your Last Name";
       case "dateOfBirth":
         return "Please enter valid date of birth";
       case "phoneNo":
       case "phoneNumber":
-        return "Please enter Phone Number";
+        return "Please enter your Contact Number";
       case "password1":
         return "Please enter at least 6 characters for the password";
       case "password2":
@@ -86,19 +86,19 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "recipientEmail":
         return "Please enter Recipient's Email";
       case "message":
-        return "Please enter message";
+        return "Please enter your message";
       case "senderName":
         return "Please enter Sender's Name";
       case "giftCardCode":
         return "Please enter Gift Card Code";
       case "orderNumber":
-        return "Please enter Order Number";
+        return "Please enter a valid Order Number";
       case "city":
-        return "Please enter City";
+        return "Please enter your City";
       case "postCode":
-        return "Please enter valid Pin/Zip code";
+        return "Please enter a valid Pin/Zip code";
       case "line1":
-        return "Please enter Address Line 1";
+        return "Please enter your Address";
       default:
         return "This field is required";
     }

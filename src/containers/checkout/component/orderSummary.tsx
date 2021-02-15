@@ -424,6 +424,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
     document.cookie = cookieString;
   };
   const chkshipping = (event: any) => {
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable,
+      shippable
+    } = basket;
     if (page != "cart") {
       return false;
     }
@@ -432,16 +438,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      basket.total >= 45000 &&
-      basket.total < 50000 &&
+      total >= freeShippingThreshold &&
+      total < freeShippingApplicable &&
       currency == "INR" &&
-      basket.shippable
+      shippable
     ) {
       dispatch(
         updateComponent(
           POPUP.FREESHIPPING,
           {
-            remainingAmount: 50000 - parseInt(basket.total.toString())
+            remainingAmount:
+              freeShippingApplicable - parseInt(basket.total.toString()),
+            freeShippingApplicable
           },
           true
         )
