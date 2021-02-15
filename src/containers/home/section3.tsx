@@ -6,6 +6,7 @@ import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Section3: React.FC = () => {
   //   const location = useLocation();
@@ -19,12 +20,12 @@ const Section3: React.FC = () => {
       <section>
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
-            <a href={imagedata.url}>
+            <Link to={imagedata.url}>
               <img
                 src={imagedata.image}
                 className={globalStyles.imgResponsive}
               />
-            </a>
+            </Link>
           </div>
           <div
             className={cs(
@@ -37,32 +38,32 @@ const Section3: React.FC = () => {
               <div className={styles.subtitle}>{imagedata.title}</div>
               <div className={styles.title}>{imagedata.subtitle}</div>
               <p>{imagedata.description}</p>
-              <a href={imagedata.ctaUrl}>
+              <Link to={imagedata.ctaUrl}>
                 {" "}
                 <div className={cs(styles.ctaB1, styles.ctaMargin)}>
                   {" "}
                   {imagedata.ctaText}{" "}
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </section>
       <section>
         <div className={cs(styles.b1, styles.bgb1)}>
-          <a href={bottemBanner.url}>
+          <Link to={bottemBanner.url}>
             <img
               src={bottemBanner.image}
               className={globalStyles.imgResponsive}
             />
-          </a>
+          </Link>
           <div className={styles.bottemBanner}>
             <div className={styles.subtitle}>{bottemBanner.title}</div>
             <div className={styles.title}>{bottemBanner.subtitle}</div>
             <p>{bottemBanner.description}</p>
-            <a href={bottemBanner.ctaUrl}>
+            <Link to={bottemBanner.ctaUrl}>
               <div className={styles.ctaBottom}>{bottemBanner.ctaText} </div>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
