@@ -8,17 +8,12 @@ import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 
 const Section3: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
   //   const location = useLocation();
   const { section3 } = useSelector((state: AppState) => state.home);
 
-  const imagedata = section3.widgetImages?.[0];
-  const bottemBanner = section3.widgetImages?.[1];
-  useLayoutEffect(() => {
-    if (!mounted) {
-      setMounted(true);
-    }
-  });
+  const imagedata = section3.widgetImages?.[0] || {};
+  const bottemBanner = section3.widgetImages?.[1] || {};
+
   return (
     <Fragment>
       <section>
