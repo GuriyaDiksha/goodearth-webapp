@@ -160,7 +160,7 @@ class Search extends React.Component<
 
   handleChange = (event: any) => {
     const regex = /^[A-Za-z0-9% ]+$/;
-    if (regex.test(event.target.value)) {
+    if (event.target.value == "" || regex.test(event.target.value)) {
       this.setState({
         searchText: event.target.value
       });
