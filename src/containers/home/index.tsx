@@ -20,10 +20,12 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.makerTop}>
-      <Section1 />
-      <Section2 />
-      <Section3 />
+    <div className={styles.homePage}>
+      <div className={styles.makerTop}>
+        <Section1 />
+        <Section2 />
+        <Section3 />
+      </div>
     </div>
   );
 };

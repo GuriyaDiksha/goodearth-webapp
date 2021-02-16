@@ -5,6 +5,8 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import cs from "classnames";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { Link } from "react-router-dom";
+import Button from "containers/giftcard/button";
 
 const Section1: React.FC = () => {
   const { section1 } = useSelector((state: AppState) => state.home);
@@ -18,19 +20,20 @@ const Section1: React.FC = () => {
     <Fragment>
       <section>
         <div className={styles.b1}>
-          <a href={banner.url}>
+          <Link to={banner.url}>
             <img src={banner.image} className={globalStyles.imgResponsive} />
-          </a>
+          </Link>
           <div className={styles.contentB1}>
             <div className={styles.subtitle}>{banner.title}</div>
             <div className={styles.title}>{banner.subtitle}</div>
             <p>{banner.description}</p>
-            <a href={banner.ctaUrl}>
+            <Link to={banner.ctaUrl}>
               {" "}
               <div className={cs(styles.ctaB1, styles.ctaMargin)}>
-                {banner.ctaText}{" "}
+                <Button value={banner.ctaText} onClick={() => null} />
+                {/* {banner.ctaText}{" "} */}
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -38,34 +41,37 @@ const Section1: React.FC = () => {
         <div className={cs(styles.b2, styles.bgImg)}>
           <div className={cs(bootstrap.row)}>
             <div className={cs(bootstrap.col6)}>
-              <a href={imagedata1.url}>
+              <Link to={imagedata1.url}>
                 <img
                   src={imagedata1.image}
                   className={globalStyles.imgResponsive}
                 />
-              </a>
+              </Link>
               <div className={styles.contentB2}>
                 <div className={styles.title}>{imagedata1.title}</div>
                 <p>{imagedata1.description}</p>
                 <div className={styles.ctaB2}>
                   {" "}
-                  <a href={imagedata1.ctaUrl}> {imagedata1.ctaText} </a>{" "}
+                  <Link to={imagedata1.ctaUrl}>
+                    {" "}
+                    {imagedata1.ctaText}{" "}
+                  </Link>{" "}
                 </div>
               </div>
             </div>
             <div className={cs(bootstrap.col6)}>
-              <a href={imagedata2.url}>
+              <Link to={imagedata2.url}>
                 <img
                   src={imagedata2.image}
                   className={globalStyles.imgResponsive}
                 />
-              </a>
+              </Link>
               <div className={styles.contentB2R}>
                 <div className={styles.title}>{imagedata2.title}</div>
                 <p>{imagedata2.description}</p>
                 <div className={styles.ctaB2}>
                   {" "}
-                  <a href={imagedata2.ctaUrl}> {imagedata2.ctaText} </a>
+                  <Link to={imagedata2.ctaUrl}> {imagedata2.ctaText} </Link>
                 </div>
               </div>
             </div>
