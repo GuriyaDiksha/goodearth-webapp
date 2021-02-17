@@ -115,6 +115,7 @@ class CategoryLanding extends React.Component<
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    valid.pageViewGTM("CategoryLanding");
     dataLayer.push({
       event: "CategoryLandingView",
       PageURL: this.props.location.pathname,
@@ -130,6 +131,7 @@ class CategoryLanding extends React.Component<
 
   UNSAFE_componentWillReceiveProps(newprops: any) {
     if (this.props.location.pathname != newprops.pathname) {
+      valid.pageViewGTM("CategoryLanding");
       this.setState({
         catLanding: false
       });

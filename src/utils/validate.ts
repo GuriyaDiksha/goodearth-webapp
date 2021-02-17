@@ -102,7 +102,8 @@ export const checkoutSteps = [
   "Initiated Checkout",
   "Shipping Details",
   "Billing Details",
-  "Payment Details"
+  "Payment Details",
+  "Proceed to Payment Gateway"
 ];
 
 export function categoryForGa(categories: string[]) {
@@ -183,7 +184,7 @@ export function productImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
-    const listPath = `${list} ${location.pathname}`;
+    const listPath = `${list}`;
     product = data.results.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -235,7 +236,7 @@ export function sliderProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
-    const listPath = `${list} ${location.pathname}`;
+    const listPath = `${list}`;
     product = data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -328,8 +329,7 @@ export function PDP(data: any, currency: Currency) {
         );
       })
     );
-    const listPath =
-      CookieService.getCookie("listPath") || "DirectLandingOnWebsite";
+    const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     CookieService.setCookie("listPath", "");
     dataLayer.push({
       event: "PDP",
@@ -358,7 +358,7 @@ export function collectionProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
-    const listPath = `${list} ${location.pathname}`;
+    const listPath = `${list}`;
     product = data.results.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -410,7 +410,7 @@ export function weRecommendProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
-    const listPath = `${list} ${location.pathname}`;
+    const listPath = `${list}`;
     product = data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -489,7 +489,7 @@ export function plpProductClick(
         );
       })
     );
-    const listPath = `${list} ${location.pathname}`;
+    const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
       event: "productClick",
@@ -542,7 +542,7 @@ export function MoreFromCollectionProductImpression(
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
-    const listPath = `${list} ${location.pathname}`;
+    const listPath = `${list}`;
     product = data.map((prod: any, i: number) => {
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
@@ -602,7 +602,7 @@ export function MoreFromCollectionProductClick(
       );
     })
   );
-  const listPath = `${list} ${location.pathname}`;
+  const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   dataLayer.push({
     event: "productClick",
@@ -714,7 +714,6 @@ export const menuNavigationGTM = (
   l1: string,
   l2: string,
   l3: string,
-  url: string,
   mobile: boolean,
   isLoggedIn: boolean
 ) => {
@@ -727,9 +726,23 @@ export const menuNavigationGTM = (
       l3,
       device: mobile ? "mobile" : "desktop",
       userStatus: isLoggedIn ? "logged in" : "logged out",
-      url
+      url: `${location.pathname}${location.search}`
     });
   } catch (e) {
     console.log("Menu Navigation GTM error!");
+  }
+};
+
+export const pageViewGTM = (title: string) => {
+  try {
+    dataLayer.push({
+      event: "pageview",
+      page: {
+        path: location.pathname,
+        title
+      }
+    });
+  } catch (e) {
+    console.log("Page VIew GTM error!");
   }
 };
