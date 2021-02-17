@@ -5,6 +5,7 @@ import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Section2: React.FC = () => {
   const {
@@ -39,16 +40,16 @@ const Section2: React.FC = () => {
         {imagedata?.map((item: any) => {
           return (
             <div className={cs(bootstrap.colMd4, bootstrap.col6, styles.padd)}>
-              <a href={item.url}>
+              <Link to={item.url}>
                 <img src={item.image} className={globalStyles.imgResponsive} />
-              </a>
+              </Link>
               <div className={styles.sec4Content}>
                 <div className={styles.subtitle}>{item.title}</div>
                 <div className={styles.title}>{item.subtitle}</div>
                 <p>{item.description}</p>
                 <div className={styles.ctaB2}>
                   {" "}
-                  <a href={item.ctaUrl}> {item.ctaText} </a>{" "}
+                  <Link to={item.ctaUrl}> {item.ctaText} </Link>{" "}
                 </div>
               </div>
             </div>
