@@ -6,7 +6,7 @@ import cs from "classnames";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link } from "react-router-dom";
-import Button from "containers/giftcard/button";
+import Button from "containers/home/Button";
 
 const Section1: React.FC = () => {
   const {
