@@ -37,7 +37,7 @@ $home-top: $header-height;
             // background-color: #ab1e56;
             // line-height: 40px;
             // width: 160px;
-            text-align: center;
+            text-align: left;
             // color: white;
         }
     }
@@ -137,6 +137,7 @@ $home-top: $header-height;
         .cta-b1 {
             margin: 25px auto 25px auto;
             color: #fff;
+            text-align: center;
         }
     }
     .b2 {
