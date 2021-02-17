@@ -7,13 +7,52 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 
 const Section1: React.FC = () => {
-  const { section1 } = useSelector((state: AppState) => state.home);
-  const banner = section1.widgetImages?.[0] || {};
-  const imagedata1 = section1.widgetImages?.[1] || {};
-  const imagedata2 = section1.widgetImages?.[2] || {};
-  const motive = section1.widgetImages?.filter((data: any) => {
-    return data.title == "motif";
-  });
+  const {
+    home: { section1 },
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
+  let banner: any = {};
+  const image: any[] = [];
+  const motive: any[] = [];
+  if (section1.widgetImages) {
+    section1.widgetImages.map((data: any) => {
+      switch (data.order) {
+        case 1: {
+          if (data.imageType == 3) {
+            banner = data;
+          } else if (data.imageType == 2 && mobile) {
+            banner = data;
+          } else if (data.imageType == 1 && !mobile) {
+            banner = data;
+          }
+          break;
+        }
+        case 2:
+        case 3:
+          {
+            if (data.imageType == 3) {
+              image.push(data);
+            } else if (data.imageType == 2 && mobile) {
+              image.push(data);
+            } else if (data.imageType == 1 && !mobile) {
+              image.push(data);
+            }
+          }
+          break;
+        case 4:
+        case 5:
+        case 6:
+          motive.push(data);
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  const imagedata1 = image?.[0] || {};
+  const imagedata2 = image?.[1] || {};
+
   return (
     <Fragment>
       <section>

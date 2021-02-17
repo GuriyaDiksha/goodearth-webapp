@@ -9,10 +9,43 @@ import { useSelector } from "react-redux";
 
 const Section3: React.FC = () => {
   //   const location = useLocation();
-  const { section3 } = useSelector((state: AppState) => state.home);
+  const {
+    home: { section3 },
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
 
-  const imagedata = section3.widgetImages?.[0] || {};
-  const bottemBanner = section3.widgetImages?.[1] || {};
+  let imagedata: any = {};
+  let bottemBanner: any = {};
+
+  if (section3.widgetImages) {
+    section3.widgetImages.map((data: any) => {
+      switch (data.order) {
+        case 1: {
+          if (data.imageType == 3) {
+            imagedata = data;
+          } else if (data.imageType == 2 && mobile) {
+            imagedata = data;
+          } else if (data.imageType == 1 && !mobile) {
+            imagedata = data;
+          }
+          break;
+        }
+        case 2:
+          {
+            if (data.imageType == 3) {
+              bottemBanner = data;
+            } else if (data.imageType == 2 && mobile) {
+              bottemBanner = data;
+            } else if (data.imageType == 1 && !mobile) {
+              bottemBanner = data;
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    });
+  }
 
   return (
     <Fragment>
