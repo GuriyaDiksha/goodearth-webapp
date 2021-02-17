@@ -7,10 +7,32 @@ import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 
 const Section2: React.FC = () => {
-  const { section2 } = useSelector((state: AppState) => state.home);
+  const {
+    home: { section2 },
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
 
   const imagedata = section2.widgetImages;
-
+  if (section2.widgetImages) {
+    section2.widgetImages.map((data: any) => {
+      switch (data.order) {
+        case 1:
+        case 2:
+        case 3: {
+          if (data.imageType == 3) {
+            imagedata.push(data);
+          } else if (data.imageType == 2 && mobile) {
+            imagedata.push(data);
+          } else if (data.imageType == 1 && !mobile) {
+            imagedata.push(data);
+          }
+          break;
+        }
+        default:
+          break;
+      }
+    });
+  }
   return (
     <section>
       <div className={cs(bootstrap.row, styles.sec4)}>
