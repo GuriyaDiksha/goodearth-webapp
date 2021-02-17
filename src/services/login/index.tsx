@@ -230,6 +230,9 @@ export default {
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
+    HeaderService.fetchHomepageData(dispatch).catch(err => {
+      console.log("Homepage API ERROR ==== " + err);
+    });
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
