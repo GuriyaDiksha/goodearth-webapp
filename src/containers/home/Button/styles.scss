@@ -1,8 +1,5 @@
 @import "../../../styles/partials/variables";
 
-$button-width: 250px;
-$button-width-mobile: 230px;
-
 .gc-button {
     color: $cerise;
     * {
@@ -22,24 +19,9 @@ $button-width-mobile: 230px;
         color: $white;
         display: inline-block;
         background-color: $cerise;
-        width: $button-width;
         text-transform: uppercase;
         font-size: 14px;
         line-height: 52px;
         vertical-align: top;
-    }
-}
-
-@media screen and (max-width: 992px) {
-    .gc-button {
-        i {
-            left: calc((100% - #{$button-width-mobile})/2 - 28px);
-        }
-        i:last-child {
-            left: calc((100% - #{$button-width-mobile})/2 + #{$button-width-mobile} - 24px);
-        }
-        span {
-            width: $button-width-mobile;
-        }
     }
 }
