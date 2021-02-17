@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MobileListProps, MobileState, HeaderData } from "./typings";
 import styles from "./styles.scss";
+import fontStyles from "styles/iconFonts.scss";
+import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import { AppState } from "reducers/typings";
@@ -23,7 +26,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       showmenulevel2: false,
       activeindex2: -1,
       activeindex3: -1,
-      showmenulevel3: false
+      showmenulevel3: false,
+      showInnerMenu: false
     };
   }
 
@@ -34,9 +38,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     index == this.state.activeindex
       ? this.setState({
           activeindex: index,
-          showmenulevel1: !this.state.showmenulevel1
+          showmenulevel1: !this.state.showmenulevel1,
+          showInnerMenu: !this.state.showInnerMenu
         })
-      : this.setState({ activeindex: index, showmenulevel1: true });
+      : this.setState({
+          activeindex: index,
+          showmenulevel1: true,
+          showInnerMenu: true
+        });
   }
 
   Clickmenulevel2(index: number) {
@@ -71,6 +80,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         });
   }
 
+  closeInnerMenu = () => {
+    this.setState({
+      showInnerMenu: false,
+      showmenulevel2: false,
+      showmenulevel3: false
+    });
+  };
+
   createListElement(headerData: HeaderData) {
     const html = [];
     const leftData = headerData.leftMenu || [];
@@ -79,21 +96,53 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     isStories
       ? ""
       : html.push(
-          <li onClick={this.props.clickToggle}>
-            <Link
-              to={headerData.catLandingUrl}
-              onClick={() => {
-                this.props.onMobileMenuClick(
-                  headerData.name,
-                  "",
-                  "",
-                  headerData.catLandingUrl
-                );
-              }}
-            >
-              {" "}
-              <span className="">Featured</span>
-            </Link>
+          <li>
+            <div className={cs(styles.innerMenuHeading, bootstrap.row)}>
+              <span
+                className={cs(styles.back, bootstrap.col3)}
+                onClick={this.closeInnerMenu}
+              >
+                back
+              </span>
+              <span className={cs(styles.title, bootstrap.col6)}>
+                <Link
+                  to={headerData.catLandingUrl}
+                  onClick={() => {
+                    this.props.onMobileMenuClick(
+                      headerData.name,
+                      "",
+                      "",
+                      headerData.catLandingUrl
+                    );
+                    this.props.clickToggle();
+                  }}
+                >
+                  {headerData.name}
+                </Link>
+              </span>
+              <span className={cs(bootstrap.col3, globalStyles.textRight)}>
+                <Link
+                  to={headerData.catLandingUrl}
+                  onClick={() => {
+                    this.props.onMobileMenuClick(
+                      headerData.name,
+                      "",
+                      "",
+                      headerData.catLandingUrl
+                    );
+                    this.props.clickToggle();
+                  }}
+                >
+                  <i
+                    className={cs(
+                      fontStyles.icon,
+                      fontStyles.iconDoubleArrowRight,
+                      styles.doubleArrow
+                    )}
+                  ></i>
+                </Link>
+              </span>
+            </div>
           </li>
         );
     let k = 0;
@@ -122,6 +171,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   data.url
                 );
               }}
+              className={styles.menulevel2Link}
             >
               <span>
                 {ReactHtmlParser(
@@ -240,6 +290,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     data.url
                   );
                 }}
+                className={styles.menulevel2Link}
               >
                 <span>
                   {ReactHtmlParser(
@@ -336,17 +387,18 @@ class Mobilemenu extends React.Component<Props, MobileState> {
   }
 
   render() {
-    return (
+    const outerMenu = (
       <ul className={styles.mobileMainMenu}>
         {this.props.menudata.map((data, i) => {
           return (
             <li
               key={i}
-              className={
+              className={cs(
                 this.props.location.pathname.indexOf("/bridal/") > 0
                   ? styles.iconStyleDisabled
-                  : ""
-              }
+                  : "",
+                styles.outerMenuItem
+              )}
             >
               {data.name.toLowerCase() != "stories" ? (
                 <>
@@ -370,9 +422,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                         ? styles.showheader1
                         : styles.hidden
                     }
-                  >
-                    <ul>{this.createListElement(this.props.menudata[i])}</ul>
-                  </p>
+                  ></p>
                 </>
               ) : (
                 <a
@@ -401,6 +451,15 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         })}
       </ul>
     );
+    const innerMenu = (
+      <div className={styles.mobileMainMenu}>
+        <ul className={styles.innerMenuMobile}>
+          {this.state.activeindex > -1 &&
+            this.createListElement(this.props.menudata[this.state.activeindex])}
+        </ul>
+      </div>
+    );
+    return this.state.showInnerMenu ? innerMenu : outerMenu;
   }
 }
 export default connect(mapStateToProps)(Mobilemenu);

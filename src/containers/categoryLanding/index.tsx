@@ -19,7 +19,8 @@ import { addCategoryData } from "actions/category";
 import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
 import Instagram from "components/Instagram";
 import "./slick.css";
-import initActionCollection from "./initAction";
+import initActionCategoryLanding from "./initAction";
+import metaActionCategoryLanding from "./metaAction";
 // import { Settings } from "react-slick";
 // import CollectionImage from "components/collectionItem";
 // import { CollectionItem } from "components/collectionItem/typings";
@@ -849,4 +850,5 @@ class CategoryLanding extends React.Component<
   }
 }
 export default connect(mapStateToProps, mapActionsToProps)(CategoryLanding);
-export { initActionCollection };
+export { initActionCategoryLanding };
+export { metaActionCategoryLanding };

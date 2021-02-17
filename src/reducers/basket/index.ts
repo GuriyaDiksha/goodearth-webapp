@@ -25,7 +25,9 @@ const initialState: State = {
   addnewGiftcard: 0,
   bridal: false,
   bridalProfileId: 0,
-  bridalAddressId: 0
+  bridalAddressId: 0,
+  freeShippingApplicable: 1000000000,
+  freeShippingThreshold: 1000000000
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

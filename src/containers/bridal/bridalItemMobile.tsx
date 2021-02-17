@@ -42,7 +42,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
       qty += 1;
       setQtyCurrent(qty);
     } else {
-      setErr("Available qty in stock is " + maxQty);
+      setErr(`Only ${maxQty} piece${maxQty > 1 ? "s" : ""} available in stock`);
     }
   };
 

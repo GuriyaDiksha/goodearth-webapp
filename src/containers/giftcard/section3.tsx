@@ -172,7 +172,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       maxLength: 75
                     }}
                     validationErrors={{
-                      isEmail: "Enter valid email",
+                      isEmail: "Please enter a valid Email ID",
                       maxLength:
                         "You are allowed to enter upto 75 characters only"
                     }}
@@ -195,10 +195,10 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       equalsField: "recipientEmail"
                     }}
                     validationErrors={{
-                      isEmail: "Enter valid email",
+                      isEmail: "Please enter a valid Email ID",
                       maxLength:
                         "You are allowed to enter upto 75 characters only",
-                      equalsField: "Email do not match"
+                      equalsField: "The Email ID entered doesn't match"
                     }}
                     required
                   />
@@ -221,7 +221,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       }
                     }}
                     validationErrors={{
-                      isEmpty: "Please enter message"
+                      isEmpty: "Please enter your message"
                     }}
                     // value={textarea}
                     // className={ehighlight ? "error-border" : ""}

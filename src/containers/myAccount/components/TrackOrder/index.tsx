@@ -95,7 +95,7 @@ class TrackOrder extends React.Component<Props, State> {
           this.setState(
             {
               showerror:
-                "Order not found, please recheck the information entered.",
+                "Entered Order Number doesn't exist. Please try again.",
               loader: false
             },
             () => {
@@ -260,7 +260,7 @@ class TrackOrder extends React.Component<Props, State> {
                     maxLength: 75
                   }}
                   validationErrors={{
-                    isEmail: "Enter valid email",
+                    isEmail: "Please enter a valid Email ID",
                     maxLength:
                       "You are allowed to enter upto 75 characters only"
                   }}
