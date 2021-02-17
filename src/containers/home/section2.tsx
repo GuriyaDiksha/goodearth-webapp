@@ -13,7 +13,7 @@ const Section2: React.FC = () => {
     device: { mobile }
   } = useSelector((state: AppState) => state);
 
-  const imagedata = section2.widgetImages;
+  const imagedata: any[] = [];
   if (section2.widgetImages) {
     section2.widgetImages.map((data: any) => {
       switch (data.order) {

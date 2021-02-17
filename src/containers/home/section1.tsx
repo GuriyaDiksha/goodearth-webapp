@@ -44,7 +44,15 @@ const Section1: React.FC = () => {
         case 4:
         case 5:
         case 6:
-          motive.push(data);
+          {
+            if (data.imageType == 3) {
+              motive.push(data);
+            } else if (data.imageType == 2 && mobile) {
+              motive.push(data);
+            } else if (data.imageType == 1 && !mobile) {
+              motive.push(data);
+            }
+          }
           break;
         default:
           break;
