@@ -34,7 +34,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           ? recommendedProducts[i].categories[index].replace(/\s/g, "")
           : "";
       category = category.replace(/>/g, "/");
-      const listPath = `WeRecommend ${location.pathname}`;
+      const listPath = `WeRecommend`;
       CookieService.setCookie("listPath", listPath);
       dataLayer.push({
         event: "productClick",

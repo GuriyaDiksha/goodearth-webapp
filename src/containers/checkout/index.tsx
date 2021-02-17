@@ -226,6 +226,7 @@ class Checkout extends React.Component<Props, State> {
     // const bridalId = CookieService.getCookie("bridalId");
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
+    valid.pageViewGTM("Checkout");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -601,16 +602,7 @@ class Checkout extends React.Component<Props, State> {
       data["deliveryInstructions"] = this.props.deliveryText;
     }
     const response = await this.props.finalCheckout(data);
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        checkout: {
-          actionField: { step: 5 },
-          products: this.props.basket.products
-        }
-      }
-    });
+    valid.checkoutGTM(5, this.props.currency, this.props.basket);
     return response;
   };
 
