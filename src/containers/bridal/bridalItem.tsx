@@ -96,7 +96,9 @@ class BridalItem extends React.Component<Props, State> {
       qtyCurrent += 1;
       this.setState({ qtyCurrent: qtyCurrent });
     } else {
-      this.setState({ err: "Available qty in stock is " + maxQty });
+      this.setState({
+        err: `Only ${maxQty} piece${maxQty > 1 ? "s" : ""} available in stock`
+      });
     }
   };
 

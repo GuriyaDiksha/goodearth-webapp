@@ -1,7 +1,200 @@
 @import "../../styles/partials/variables";
 
 $home-top: $header-height;
-
-.maker-top{
-    margin-top: $home-top;
+.home-page {
+    .maker-top{
+        margin-top: $home-top;
+    }
+    .title {
+        font-family: $font-Serif;
+        font-size: 36px;
+        letter-spacing: 0.5px;
+        line-height: 75px;
+    }
+    .subtitle {
+        font-family: $font-Lato;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    p {
+        font-family: $font-Serif;
+        font-size: 18px;
+        line-height: 30px;
+        letter-spacing: 0.5px;
+    }
+    
+    .b1 {
+        position: relative;
+        color: #000;
+        
+       
+        .cta-b1 {
+            font-family: $font-Lato;
+            // font-size: 12px;
+            text-transform: uppercase;
+            margin-top: 25px;
+            // background-color: #ab1e56;
+            // line-height: 40px;
+            // width: 160px;
+            text-align: left;
+            // color: white;
+        }
+    }
+    .b2 {
+        
+        .title {
+            font-size: 30px;
+        }
+    }
+    
+    .cta-b2 {
+        font-family: $font-Lato;
+        font-size: 13px;
+        text-transform: uppercase;
+        margin-top: 25px;
+        color: #ab1e56;
+        letter-spacing: 1px;
+        font-weight: bold;
+        text-decoration: underline;
+        &::after {
+            content: '>';
+        }
+    }
+    .bgb1 {
+        background: url(../../images/greyBg.jpg) repeat;
+        padding: 4%;
+    }
+    .content-space {
+        padding: 30px;
+    }   
 }
+
+@media screen and (min-width: 992px) {
+    .home-page {
+        .b1 {
+            position: relative;
+            color: #fff;
+            .content-b1 {
+                position: absolute;
+                top: 12%;
+                left: 8%;
+                width: 30%;
+                
+            }
+        }
+        .b2 {
+                position: relative;
+                padding: 6%;
+                color: #fff;
+                .content-b2 {
+                    position: absolute;
+                    left: 90px;
+                    top: 50px;
+                    width: 70%;
+                }
+                .content-b2-r {
+                    position: absolute;
+                    left: 90px;
+                    bottom: 50px;
+                    width: 70%;
+                }
+                img {
+                    padding: 5%;
+                }
+            
+            &.bg-img {
+                background: url(../../images/greyBg.jpg) repeat;
+            }
+        }
+        .sec4 {
+            padding: 30px;
+            .padd {
+                padding: 15px;
+            }
+            .sec4-content {
+                text-align: center;
+            padding: 30px 15px;
+            .title{
+                font-size: 30px;
+                line-height: 60px;
+            }
+            }
+        }
+    }
+}
+@media screen and (max-width: 992px) {
+    // /static/images/greyBg.35f84871bde61d2446482b90d5b3f08b.jpg
+    .home-page {
+        .b1 {
+            .content-b1 {
+                background: url(../../images/greyBg.jpg) repeat;
+                text-align: center;
+                padding: 5%;
+                width: 100%;
+        
+        }
+        .cta-b1 {
+            margin: 25px auto 25px auto;
+            color: #fff;
+            text-align: center;
+        }
+    }
+    .b2 {
+        text-align: center;
+        color: #000;
+        .content-b2 {
+            padding: 5px;
+        }
+        .content-b2-r {
+            padding: 5px;
+        }
+        .title {
+            font-size: 18px;
+            line-height: 60px;
+        }
+        p {
+            font-size: 14px;
+            line-height: 24px;
+        }
+    }
+    .sec4 {
+            
+        .sec4-content {
+            text-align: center;
+        padding: 30px 5px;
+        .title {
+            font-size: 18px;
+            line-height: 60px;
+        }
+        p {
+            font-size: 14px;
+            line-height: 24px;
+        }
+        }
+    }
+}
+}
+    .section3-content {
+        background-color: #f4f1f1;
+        text-align: center;
+        padding: 100px 50px 50px 50px;
+    }
+    
+    .cta-margin {
+        margin-top: 25px;
+    }
+    
+    .bottem-banner {
+        position: absolute;
+        top: 30%;
+        left: 15%;
+        width: 30%;
+        text-align: center;
+    }
+    
+    .cta-bottom {
+        color: white;
+        margin-top: 15px;
+        text-decoration: underline;
+    }

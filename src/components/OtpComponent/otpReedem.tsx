@@ -431,7 +431,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                     : {}
                 }
                 validationErrors={{
-                  isEmail: "Enter valid email",
+                  isEmail: "Please enter a valid Email ID",
                   maxLength: "You are allowed to enter upto 75 characters only"
                 }}
                 required={radioType != "email" ? "isFalse" : true}
