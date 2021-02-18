@@ -6,8 +6,9 @@ import { updateProduct } from "actions/product";
 import { getProductIdFromSlug } from "utils/url.ts";
 import { Product, PartialProductItem } from "typings/product.js";
 
-const initAction: InitAction = async (dispatch, path) => {
+const initAction: InitAction = async (store, path) => {
   const { slug } = path;
+  const dispatch = store.dispatch;
   const id = getProductIdFromSlug(slug);
   if (id) {
     const product = await ProductService.fetchProductDetails(

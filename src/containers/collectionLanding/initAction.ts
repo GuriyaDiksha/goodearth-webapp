@@ -7,8 +7,9 @@ import {
 } from "actions/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
 
-const initActionCollection: InitAction = async (dispatch, params) => {
+const initActionCollection: InitAction = async (store, params) => {
   const id = getProductIdFromSlug(params.level1);
+  const dispatch = store.dispatch;
   if (id) {
     const [filterData, collectionData] = await Promise.all([
       CollectionService.fetchCollectionMapping(dispatch, id, params.id).catch(
