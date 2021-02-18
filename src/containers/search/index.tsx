@@ -25,6 +25,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import CookieService from "../../services/cookie";
 import { POPUP } from "constants/components";
+import * as util from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -127,6 +128,7 @@ class Search extends React.Component<
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    util.pageViewGTM("Search");
     dataLayer.push({
       event: "SearchView",
       PageURL: this.props.location.pathname,
@@ -193,7 +195,7 @@ class Search extends React.Component<
             position: i
           };
         });
-        const listPath = `Search ${location.pathname}`;
+        const listPath = `SearchResults`;
         CookieService.setCookie("listPath", listPath);
         // let cur = this.state.salestatus ? item.product.discounted_pricerecord[window.currency] : item.product.pricerecords[window.currency]
         dataLayer.push({
