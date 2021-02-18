@@ -210,6 +210,10 @@ const LineItems: React.FC<BasketItem> = memo(
                     onChange={x => null}
                     onUpdate={handleChange}
                     class={styles.myQuantity}
+                    disabled={
+                      product.stockRecords &&
+                      product.stockRecords[0].numInStock < 1
+                    }
                     // errorMsg="Available qty in stock is"
                   />
                 </div>
