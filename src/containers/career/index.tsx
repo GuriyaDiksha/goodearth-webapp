@@ -19,6 +19,7 @@ import { Link, useHistory } from "react-router-dom";
 import CareerService from "services/career";
 import { RouteParams } from "routes/typings";
 import metaActionCareer from "./metaAction";
+import * as util from "utils/validate";
 
 type Props = {} & RouteParams;
 
@@ -70,6 +71,7 @@ const Career: React.FC<Props> = props => {
         // do nothing
       });
     window.scrollTo(0, 0);
+    util.pageViewGTM("Career");
   }, []);
 
   const openJobForm = (job?: Job) => {

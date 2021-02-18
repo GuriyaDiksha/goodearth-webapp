@@ -79,7 +79,7 @@ class Quickview extends React.Component<Props, State> {
           variant: item.size || ""
         };
       });
-      const listPath = `Quickview ${location.pathname}`;
+      const listPath = `Quickview`;
       CookieService.setCookie("listPath", listPath);
       dataLayer.push({
         event: "productImpression",

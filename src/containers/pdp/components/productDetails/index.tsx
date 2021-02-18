@@ -739,7 +739,7 @@ const ProductDetails: React.FC<Props> = ({
                 className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
                 onClick={() => {
                   changeModalState(false);
-                  const listPath = `${source || "PLP"} ${location.pathname}`;
+                  const listPath = `${source || "PLP"}`;
                   CookieService.setCookie("listPath", listPath);
                 }}
               >

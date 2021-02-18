@@ -160,7 +160,7 @@ class Search extends React.Component<Props, State> {
     const cur = this.props.isSale
       ? itemData.discountedPriceRecords[this.props.currency]
       : itemData.priceRecords[this.props.currency];
-    const listPath = `SearchPopup ${location.pathname}`;
+    const listPath = `SearchResults`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
       event: "productClick",
@@ -241,7 +241,7 @@ class Search extends React.Component<Props, State> {
     this.props
       .fetchSearchProducts(searchUrl.split("/search")[1])
       .then(data => {
-        valid.productImpression(data, "SearchPopup", this.props.currency);
+        valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
           productData: data.results.data,
           url: searchUrl,

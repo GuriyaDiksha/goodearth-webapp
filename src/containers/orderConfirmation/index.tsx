@@ -11,6 +11,7 @@ import birdImage from "images/birdMotif.png";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
+import * as util from "utils/validate";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -77,6 +78,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    util.pageViewGTM("OrderConfirmation");
     dataLayer.push({
       event: "OrderConfirmationPageView",
       PageURL: location.pathname,

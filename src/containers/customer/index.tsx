@@ -25,6 +25,7 @@ import Privacy from "./components/Static/privacy";
 import SaleTnc from "./components/Static/saletnc";
 import SaleTncAug2020 from "./components/Static/saleTncAug2020";
 import StaticService from "services/static";
+import * as util from "utils/validate";
 
 type Props = {
   isbridal: boolean;
@@ -52,6 +53,7 @@ const StaticPage: React.FC<Props> = props => {
   useEffect(() => {
     bridalId = CookieService.getCookie("bridalId");
     window.scrollTo(0, 0);
+    util.pageViewGTM("Static");
   }, []);
 
   const dispatch = useDispatch();

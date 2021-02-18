@@ -17,6 +17,7 @@ import ShopDetail from "./shopDetails";
 import locIcon from "../../images/location-icon.svg";
 import iconStyles from "../../styles/iconFonts.scss";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import * as util from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -55,6 +56,10 @@ class ShopLocator extends React.Component<
       currentSection: section
     });
   };
+
+  componentDidMount() {
+    util.pageViewGTM("ShopLocator");
+  }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (nextProps.city !== this.props.city) {
