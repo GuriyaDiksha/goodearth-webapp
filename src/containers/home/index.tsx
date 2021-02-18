@@ -7,6 +7,7 @@ import globalStyles from "../../styles/global.scss";
 import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import * as util from "utils/validate";
 // import { Link } from "react-router-dom";
 // import INRBanner from "../../images/banner/INRBanner.jpg";
 // import USDGBPBanner from "../../images/banner/USDGBPBanner.jpg";
@@ -34,6 +35,7 @@ const Home: React.FC = () => {
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    util.pageViewGTM("Home");
     dataLayer.push({
       event: "HomePageView",
       PageURL: location.pathname,

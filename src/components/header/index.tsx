@@ -217,12 +217,11 @@ class Header extends React.Component<Props, State> {
     );
   };
 
-  onMenuClick = (l1: string, l2: string, l3: string, url: string) => {
+  onMenuClick = (l1: string, l2: string, l3: string) => {
     util.menuNavigationGTM(
       l1,
       l2,
       l3,
-      url,
       this.props.mobile,
       this.props.isLoggedIn
     );
