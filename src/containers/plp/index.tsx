@@ -23,6 +23,7 @@ import PlpResultListViewItem from "components/plpResultListViewItem";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import { POPUP } from "constants/components";
+import * as util from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -94,6 +95,7 @@ class PLP extends React.Component<
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    util.pageViewGTM("PLP");
     dataLayer.push({
       event: "PlpView",
       PageURL: this.props.location.pathname,
@@ -247,6 +249,7 @@ class PLP extends React.Component<
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get("sort_by");
     if (this.props.location.pathname != nextProps.location.pathname) {
+      util.pageViewGTM("PLP");
       this.setState({
         plpMaker: false,
         sortValue: param ? param : "hc",

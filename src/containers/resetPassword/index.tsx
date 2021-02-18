@@ -48,6 +48,7 @@ const ResetPassword: React.FC<Props> = props => {
     if (isLoggedIn) {
       LoginService.logout(dispatch);
     }
+    valid.pageViewGTM("ResetPassword");
   }, []);
   const handleInvalidSubmit = () => {
     setTimeout(() => {

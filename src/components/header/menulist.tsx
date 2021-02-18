@@ -76,12 +76,7 @@ class MenuList extends React.Component<MenuListProps> {
                     className={spanClass + columnUrlClass}
                     to={column.url ? column.url : "#"}
                     onClick={() => {
-                      this.props.onHeaderMenuClick(
-                        data.name,
-                        column.name,
-                        "",
-                        column.url
-                      );
+                      this.props.onHeaderMenuClick(data.name, column.name, "");
                       this.mouseLeave();
                     }}
                   >
@@ -102,8 +97,7 @@ class MenuList extends React.Component<MenuListProps> {
                               this.props.onHeaderMenuClick(
                                 data.name,
                                 column.name,
-                                data1.name,
-                                data1.url
+                                data1.name
                               );
                               this.mouseLeave();
                             }}
@@ -150,12 +144,7 @@ class MenuList extends React.Component<MenuListProps> {
                 <li>
                   <Link
                     onClick={() => {
-                      this.props.onHeaderMenuClick(
-                        data.name,
-                        column.name,
-                        "",
-                        column.url
-                      );
+                      this.props.onHeaderMenuClick(data.name, column.name, "");
                       this.mouseLeave();
                     }}
                     className={
@@ -185,8 +174,7 @@ class MenuList extends React.Component<MenuListProps> {
                           this.props.onHeaderMenuClick(
                             data.name,
                             column.name,
-                            data1.name,
-                            data1.url
+                            data1.name
                           );
                         }}
                         to={data1.url}

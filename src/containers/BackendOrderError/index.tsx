@@ -6,6 +6,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import motifTigerTree from "../../images/motifTigerTree.png";
 import { Link } from "react-router-dom";
 import gelogoCerise from "../../images/gelogoCerise.svg";
+import * as util from "utils/validate";
 
 class ErrorPage extends React.Component<{}, {}> {
   getItems() {
@@ -47,6 +48,9 @@ class ErrorPage extends React.Component<{}, {}> {
         </div>
       </div>
     );
+  }
+  componentDidMount() {
+    util.pageViewGTM("BackendOrderError");
   }
 
   render() {

@@ -126,6 +126,7 @@ class PDPContainer extends React.Component<Props, State> {
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    valid.pageViewGTM("PDP");
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
@@ -179,6 +180,7 @@ class PDPContainer extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.id && this.props.id != nextProps.id) {
+      valid.pageViewGTM("PDP");
       this.setState({
         sidebarSticky: true,
         detailsSticky: true,
