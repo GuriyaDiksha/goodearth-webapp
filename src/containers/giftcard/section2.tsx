@@ -149,11 +149,11 @@ const Section2: React.FC<Section2Props> = ({
   const gotoNext = () => {
     const data: any = {};
     if (!selectcurrency || !selectedCountry) {
-      setCountrymsg("Please choose the country of shipment");
-      valid.errorTracking(
-        ["Please choose the country of shipment"],
-        location.href
-      );
+      // setCountrymsg("Please choose the country of shipment");
+      // valid.errorTracking(
+      //   ["Please choose the country of shipment"],
+      //   location.href
+      // );
       const select = document.getElementsByName("country")[0];
       select.scrollIntoView(false);
       return false;
