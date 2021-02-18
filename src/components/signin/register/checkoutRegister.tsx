@@ -541,10 +541,22 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
-                minLength: 6
+                minLength: 6,
+                isValid: (values, value) => {
+                  return (
+                    values.password1 &&
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
               }}
               validationErrors={{
-                minLength: "Please enter at least 6 characters for the password"
+                minLength:
+                  "Please enter at least 6 characters for the password",
+                isValid:
+                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
               required
             />
