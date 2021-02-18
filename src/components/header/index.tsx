@@ -469,6 +469,7 @@ class Header extends React.Component<Props, State> {
           {meta.twitterSite && (
             <meta name="twitter:site" content={meta.twitterSite} />
           )}
+          <meta httpEquiv="X-Frame-Options" content="deny" />
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
