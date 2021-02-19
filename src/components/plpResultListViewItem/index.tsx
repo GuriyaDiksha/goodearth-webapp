@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import * as valid from "utils/validate";
 import Button from "components/Button";
 import MobileSlider from "components/MobileSlider";
+import CookieService from "services/cookie";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -65,6 +66,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   };
 
   const gtmProductClick = () => {
+    CookieService.setCookie("listPath", page);
     valid.plpProductClick(product, page, currency, position);
   };
 
