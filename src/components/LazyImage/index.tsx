@@ -9,9 +9,19 @@ export default class LazyImage extends React.Component<Props, State> {
   container: HTMLDivElement | null = null;
   constructor(props: Props) {
     super(props);
+    let imgHeight: number,
+      style: any = {};
+    if (this.props.aspectRatio) {
+      const [width, height] = this.props.aspectRatio.split(":");
+      imgHeight = (Number(height) * 100) / Number(width);
+      style = {
+        paddingTop: `${imgHeight}%`
+      };
+    }
 
     this.state = {
-      isVisible: props.isVisible === undefined ? false : props.isVisible
+      isVisible: props.isVisible === undefined ? false : props.isVisible,
+      style
     };
   }
 
@@ -43,20 +53,24 @@ export default class LazyImage extends React.Component<Props, State> {
     }
   };
 
+  onLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    if (this.props.shouldUpdateAspectRatio) {
+      const img = e.currentTarget;
+      const width = img.naturalWidth;
+      const height = img.naturalHeight;
+      const imgHeight = (Number(height) * 100) / Number(width);
+      this.setState({
+        style: {
+          paddingTop: `${imgHeight}%`
+        }
+      });
+    }
+    this.props.onLoad?.(e);
+  };
+
   render() {
     const { src, alt, className, aspectRatio, containerClassName } = this.props;
-    let imgHeight: number,
-      style: any = {};
-    if (aspectRatio) {
-      const [width, height] = aspectRatio.split(":");
-      imgHeight = (Number(height) * 100) / Number(width);
-
-      style = {
-        paddingTop: `${imgHeight}%`
-      };
-    }
-    const { isVisible } = this.state;
-
+    const { isVisible, style } = this.state;
     return (
       <div
         className={cs(styles.container, containerClassName, {
@@ -71,7 +85,7 @@ export default class LazyImage extends React.Component<Props, State> {
             alt={alt || "image"}
             className={cs(styles.lazyImage, className)}
             onClick={this.props.onClick}
-            onLoad={this.props.onLoad}
+            onLoad={this.onLoad}
             onError={this.props.onError}
           />
         )}

@@ -187,7 +187,7 @@ const ResetPassword: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                equalsField: "Passwords do not match",
+                equalsField: "The password entered doesn't match",
                 isValid:
                   "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
