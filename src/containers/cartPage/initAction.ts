@@ -1,6 +1,6 @@
 import { InitAction } from "typings/actions";
 
-const initActionCart: InitAction = async (dispatch, { slug }) => {
+const initActionCart: InitAction = async (store, { slug }) => {
   //no code
 };
 

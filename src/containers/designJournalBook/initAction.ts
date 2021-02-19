@@ -1,15 +1,17 @@
-import { Dispatch } from "redux";
+import { Store } from "redux";
 import DesignJournalService from "services/designJournal";
 import { InitAction } from "typings/actions";
 
 const initActionDesignJournalBook: InitAction = async (
-  dispatch: Dispatch,
+  store: Store,
   params,
   { search }
 ) => {
-  DesignJournalService.onLoadDesignJournalBook(dispatch, search).catch(err => {
-    console.log("Design Journal Error", err);
-  });
+  DesignJournalService.onLoadDesignJournalBook(store.dispatch, search).catch(
+    err => {
+      console.log("Design Journal Error", err);
+    }
+  );
 };
 
 export default initActionDesignJournalBook;

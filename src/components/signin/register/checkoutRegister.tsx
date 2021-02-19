@@ -393,7 +393,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 maxLength: 75
               }}
               validationErrors={{
-                isEmail: "Enter valid email",
+                isEmail: "Please enter a valid Email ID",
                 maxLength: "You are allowed to enter upto 75 characters only"
               }}
               required
@@ -526,7 +526,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isPhoneValid: "This field is Required."
+                isPhoneValid: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
             />
@@ -591,7 +591,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                equalsField: "Passwords do not match",
+                equalsField: "The Password entered doesn't match",
                 isValid:
                   "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}

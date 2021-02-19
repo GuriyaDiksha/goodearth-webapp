@@ -42,10 +42,10 @@ class MainMenu extends React.Component<Props, MenuState> {
     }
   }
 
-  onHeaderMenuClick = (name: string, url: string) => {
+  onHeaderMenuClick = (name: string) => {
     const { mobile, isLoggedIn } = this.props;
     util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
-    util.menuNavigationGTM(name, "", "", url, mobile, isLoggedIn);
+    util.menuNavigationGTM(name, "", "", mobile, isLoggedIn);
   };
 
   render() {
@@ -93,9 +93,7 @@ class MainMenu extends React.Component<Props, MenuState> {
                       [styles.cerise]: !this.props.isSale
                     })}
                     href={isBridalRegistryPage ? "" : data.catLandingUrl}
-                    onClick={() =>
-                      this.onHeaderMenuClick(data.name, data.catLandingUrl)
-                    }
+                    onClick={() => this.onHeaderMenuClick(data.name)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -105,9 +103,7 @@ class MainMenu extends React.Component<Props, MenuState> {
               ) : (
                 <Link
                   to={isBridalRegistryPage ? "#" : data.catLandingUrl}
-                  onClick={() =>
-                    this.onHeaderMenuClick(data.name, data.catLandingUrl)
-                  }
+                  onClick={() => this.onHeaderMenuClick(data.name)}
                   className={
                     this.state.selectedCategory == i ||
                     (highlightStories && this.props.ipad)

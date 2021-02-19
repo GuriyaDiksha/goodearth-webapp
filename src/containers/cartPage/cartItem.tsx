@@ -314,6 +314,10 @@ const CartItems: React.FC<BasketItem> = memo(
                         onChange={x => null}
                         onUpdate={handleChange}
                         class="my-quantity"
+                        disabled={
+                          product.stockRecords &&
+                          product.stockRecords[0].numInStock < 1
+                        }
                         // errorMsg="Available qty in stock is"
                       />
                     </div>

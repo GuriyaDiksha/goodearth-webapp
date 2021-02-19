@@ -9,11 +9,12 @@ import { getProductIdFromSlug } from "utils/url.ts";
 import * as valid from "utils/validate";
 
 const initActionSpecific: InitAction = async (
-  dispatch,
+  store,
   { slug },
   location,
   currency
 ) => {
+  const dispatch = store.dispatch;
   const id = getProductIdFromSlug(slug);
   if (id) {
     const [filterData, bannerData] = await Promise.all([

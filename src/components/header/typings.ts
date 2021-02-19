@@ -95,14 +95,14 @@ export type MenuListProps = {
   currency?: Currency;
   mobile?: boolean;
   ipad: boolean;
-  onHeaderMenuClick: (l1: string, l2: string, l3: string, url: string) => void;
+  onHeaderMenuClick: (l1: string, l2: string, l3: string) => void;
 };
 
 export type MobileListProps = {
   menudata: HeaderData[];
   location: Location;
   clickToggle: () => void;
-  onMobileMenuClick: (l1: string, l2: string, l3: string, url: string) => void;
+  onMobileMenuClick: (l1: string, l2: string, l3: string) => void;
 };
 export interface State {
   show: boolean;
@@ -129,6 +129,7 @@ export interface MobileState {
   activeindex2: number;
   activeindex3: number;
   showmenulevel3: boolean;
+  showInnerMenu: boolean;
 }
 
 export type SearchFeaturedData = {

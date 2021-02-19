@@ -44,7 +44,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
 
   if (matchedRoute && matchedRoute.route) {
     const { route, params } = matchedRoute;
-    await route.action(store.dispatch, params, history.location);
+    await route.action(store, params, history.location);
 
     let request: PageMetaRequest | undefined;
 

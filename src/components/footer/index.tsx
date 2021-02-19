@@ -159,13 +159,13 @@ class Footer extends React.Component<Props, FooterState> {
     if (valid.checkBlank(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
-        newsletterMessage: "Please enter email"
+        newsletterMessage: "Please enter your Email ID"
       });
       update = false;
     } else if (!valid.checkMail(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
-        newsletterMessage: "Enter valid email"
+        newsletterMessage: "Please enter a valid Email ID"
       });
       update = false;
     } else if (e.target.value.length > 75) {
