@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link } from "react-router-dom";
 import Button from "containers/home/Button";
+import LazyImage from "components/LazyImage";
 
 const Section1: React.FC = () => {
   const {
@@ -68,7 +69,12 @@ const Section1: React.FC = () => {
       <section>
         <div className={styles.b1}>
           <Link to={banner.url}>
-            <img src={banner.image} className={globalStyles.imgResponsive} />
+            <LazyImage
+              src={banner.image}
+              className={globalStyles.imgResponsive}
+              aspectRatio={mobile ? "0.75:1" : "2.4:1"}
+              shouldUpdateAspectRatio={true}
+            />
           </Link>
           <div className={styles.contentB1}>
             <div className={styles.subtitle}>{banner.title}</div>
@@ -87,11 +93,13 @@ const Section1: React.FC = () => {
       <section>
         <div className={cs(styles.b2, styles.bgImg)}>
           <div className={cs(bootstrap.row)}>
-            <div className={cs(bootstrap.col6)}>
+            <div className={cs(bootstrap.col6, styles.container)}>
               <Link to={imagedata1.url}>
-                <img
+                <LazyImage
                   src={imagedata1.image}
                   className={globalStyles.imgResponsive}
+                  aspectRatio="0.8:1"
+                  shouldUpdateAspectRatio={true}
                 />
               </Link>
               <div className={styles.contentB2}>
@@ -106,11 +114,13 @@ const Section1: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className={cs(bootstrap.col6)}>
+            <div className={cs(bootstrap.col6, styles.container)}>
               <Link to={imagedata2.url}>
-                <img
+                <LazyImage
                   src={imagedata2.image}
                   className={globalStyles.imgResponsive}
+                  aspectRatio="0.8:1"
+                  shouldUpdateAspectRatio={true}
                 />
               </Link>
               <div className={styles.contentB2R}>
@@ -134,7 +144,7 @@ const Section1: React.FC = () => {
                   )}
                   key={i}
                 >
-                  <img src={item.image} width="40%" />
+                  <img src={item.image} width="40px" />
                 </div>
               );
             })}
