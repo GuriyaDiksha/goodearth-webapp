@@ -7,6 +7,7 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import LazyImage from "components/LazyImage";
 
 const Section3: React.FC = () => {
   //   const location = useLocation();
@@ -54,9 +55,11 @@ const Section3: React.FC = () => {
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
             <Link to={imagedata.url}>
-              <img
+              <LazyImage
                 src={imagedata.image}
                 className={globalStyles.imgResponsive}
+                aspectRatio="0.95:1"
+                shouldUpdateAspectRatio={true}
               />
             </Link>
           </div>
@@ -73,7 +76,7 @@ const Section3: React.FC = () => {
               <p>{imagedata.description}</p>
               <Link to={imagedata.ctaUrl}>
                 {" "}
-                <div className={cs(styles.ctaB1, styles.ctaMargin)}>
+                <div className={cs(styles.ctaSection5)}>
                   {" "}
                   {imagedata.ctaText}{" "}
                 </div>
@@ -85,14 +88,16 @@ const Section3: React.FC = () => {
       <section>
         <div className={cs(styles.b1, styles.bgb1)}>
           <Link to={bottemBanner.url}>
-            <img
+            <LazyImage
               src={bottemBanner.image}
               className={globalStyles.imgResponsive}
+              aspectRatio="2.1:1"
+              shouldUpdateAspectRatio={true}
             />
           </Link>
           <div className={styles.bottemBanner}>
-            <div className={styles.subtitle}>{bottemBanner.title}</div>
-            <div className={styles.title}>{bottemBanner.subtitle}</div>
+            <div className={styles.title}>{bottemBanner.title}</div>
+            <div className={styles.subtitle}>{bottemBanner.subtitle}</div>
             <p>{bottemBanner.description}</p>
             <Link to={bottemBanner.ctaUrl}>
               <div className={styles.ctaBottom}>{bottemBanner.ctaText} </div>

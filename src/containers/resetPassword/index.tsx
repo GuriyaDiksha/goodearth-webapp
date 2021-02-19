@@ -48,6 +48,7 @@ const ResetPassword: React.FC<Props> = props => {
     if (isLoggedIn) {
       LoginService.logout(dispatch);
     }
+    valid.pageViewGTM("ResetPassword");
   }, []);
   const handleInvalidSubmit = () => {
     setTimeout(() => {
@@ -165,7 +166,7 @@ const ResetPassword: React.FC<Props> = props => {
                 equalsField: "password1"
               }}
               validationErrors={{
-                equalsField: "Passwords do not match"
+                equalsField: "The password entered doesn't match"
               }}
               required
             />

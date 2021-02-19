@@ -3,6 +3,14 @@ import styles from "./styles.scss";
 import Section1 from "./section1";
 import Section2 from "./section2";
 import Section3 from "./section3";
+// import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+// import cs from "classnames";
+import * as util from "utils/validate";
+// import { Link } from "react-router-dom";
+// import INRBanner from "../../images/banner/INRBanner.jpg";
+// import USDGBPBanner from "../../images/banner/USDGBPBanner.jpg";
+// import INRBannerMobile from "../../images/banner/INRBannerMobile.jpg";
+// import USDGBPBannerMobile from "../../images/banner/USDGBPBannerMobile.jpg";
 
 const Home: React.FC = () => {
   useEffect(() => {
@@ -12,6 +20,7 @@ const Home: React.FC = () => {
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    util.pageViewGTM("Home");
     dataLayer.push({
       event: "HomePageView",
       PageURL: location.pathname,

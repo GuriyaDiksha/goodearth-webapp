@@ -229,6 +229,11 @@ class TrackOrder extends React.Component<Props, State> {
                       this.setState({ showerror: "" });
                     }
                   }}
+                  handleChange={e => {
+                    if (e.target.value == "") {
+                      this.setState({ showerror: "" });
+                    }
+                  }}
                   blur={e => this.errorOnBlur(e)}
                   required
                 />
