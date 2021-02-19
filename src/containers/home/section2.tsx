@@ -6,6 +6,7 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import LazyImage from "components/LazyImage";
 
 const Section2: React.FC = () => {
   const {
@@ -41,7 +42,12 @@ const Section2: React.FC = () => {
           return (
             <div className={cs(bootstrap.colMd4, bootstrap.col6, styles.padd)}>
               <Link to={item.url}>
-                <img src={item.image} className={globalStyles.imgResponsive} />
+                <LazyImage
+                  src={item.image}
+                  className={globalStyles.imgResponsive}
+                  aspectRatio="0.83:1"
+                  shouldUpdateAspectRatio={true}
+                />
               </Link>
               <div className={styles.sec4Content}>
                 <div className={styles.subtitle}>{item.title}</div>
