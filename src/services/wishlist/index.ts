@@ -47,7 +47,8 @@ export default {
     dispatch: Dispatch,
     productId?: ProductID,
     id?: number,
-    sortBy = "added_on"
+    sortBy = "added_on",
+    size?: string
   ) {
     const res = await API.delete<WishlistResponse & ApiResponse>(
       dispatch,
@@ -55,7 +56,8 @@ export default {
       {
         productId,
         id,
-        sortBy: sortBy
+        sortBy: sortBy,
+        size
       }
     );
     dispatch(updateWishlist(res.data, sortBy));

@@ -4,7 +4,8 @@ import { CategoryProps } from "typings/category";
 import { addCategoryData } from "actions/category";
 import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
 
-const initActionCategory: InitAction = async (dispatch, { slug }) => {
+const initActionCategory: InitAction = async (store, { slug }) => {
+  const dispatch = store.dispatch;
   const id = getProductIdFromSlug(slug);
   const name = getProductNameFromSlug(slug)?.toUpperCase();
   if (id) {

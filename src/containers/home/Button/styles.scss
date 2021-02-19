@@ -1,0 +1,27 @@
+@import "../../../styles/partials/variables";
+
+.gc-button {
+    color: $cerise;
+    * {
+        cursor: pointer;
+    }
+    i {
+        position: relative;
+        left: 17px;
+        font-size: 52px;
+    }
+    i:last-child {
+        left: -17px;
+        transform: scaleX(-1);
+    }
+    
+    span {
+        color: $white;
+        display: inline-block;
+        background-color: $cerise;
+        text-transform: uppercase;
+        font-size: 14px;
+        line-height: 52px;
+        vertical-align: top;
+    }
+}

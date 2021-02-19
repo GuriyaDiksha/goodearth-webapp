@@ -192,8 +192,8 @@ class PressStoriesContent extends React.Component<
                   maxLength: 75
                 }}
                 validationErrors={{
-                  isEmail: "Enter valid email",
-                  isExisty: "Please enter email",
+                  isEmail: "Please enter a valid Email ID",
+                  isExisty: "Please enter your Email ID",
                   maxLength: "You are allowed to enter upto 75 characters only"
                 }}
                 required
@@ -217,7 +217,7 @@ class PressStoriesContent extends React.Component<
                   isExisty: true
                 }}
                 validationErrors={{
-                  isExisty: "Please enter message"
+                  isExisty: "Please enter your message"
                 }}
                 required
               />

@@ -89,6 +89,7 @@ class CartPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    util.pageViewGTM("Cart");
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
     if (scrollToTopButtonElem) {

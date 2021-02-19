@@ -7,6 +7,7 @@ import PressStoryService from "services/pressStory";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
+import * as util from "utils/validate";
 
 const PressStories: React.FC = () => {
   const [data, setData] = useState<PressStory[]>([]);
@@ -26,6 +27,7 @@ const PressStories: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
 
   useEffect(() => {
+    util.pageViewGTM("PressStories");
     let year = "";
     if (history.location.pathname != "/press-stories") {
       year = history.location.pathname

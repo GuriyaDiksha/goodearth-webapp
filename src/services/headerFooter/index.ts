@@ -2,6 +2,9 @@ import { HeaderData, SearchFeaturedData } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
 import { updateheader } from "actions/header";
+import HomeService from "services/home";
+import { HomeProps } from "typings/home";
+import { addHomeData } from "actions/home";
 // services
 import CacheService from "services/cache";
 import { Dispatch } from "redux";
@@ -99,5 +102,24 @@ export default {
     );
     CacheService.set("currencyList", res);
     return res;
+  },
+  fetchHomepageData: async function(dispatch: Dispatch) {
+    const [section1, section2, section3] = await Promise.all([
+      HomeService.fetchHomeSession1(dispatch).catch(err => {
+        console.log("Home session1 Api error");
+      }),
+      HomeService.fetchHomeSession2(dispatch).catch(err => {
+        console.log("Home session2 Api error");
+      }),
+      HomeService.fetchHomeSession3(dispatch).catch(err => {
+        console.log("Home session3 Api error");
+      })
+    ]);
+    const data: HomeProps = {
+      section1: section1,
+      section2: section2,
+      section3: section3
+    };
+    dispatch(addHomeData({ ...data }));
   }
 };
