@@ -164,7 +164,7 @@ class ChangePassword extends React.Component<Props, State> {
                       validationErrors={{
                         minLength:
                           "Please enter at least 6 characters for the password",
-                        equalsField: "Passwords do not match"
+                        equalsField: "The password entered doesn't match"
                       }}
                       required
                     />
