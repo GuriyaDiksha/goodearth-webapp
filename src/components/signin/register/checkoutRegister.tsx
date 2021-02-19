@@ -579,10 +579,21 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               isPaste={true}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
-                equalsField: "password1"
+                equalsField: "password1",
+                isValid: (values, value) => {
+                  return (
+                    values.password1 &&
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
               }}
               validationErrors={{
-                equalsField: "Passwords do not match"
+                equalsField: "Passwords do not match",
+                isValid:
+                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
               required
             />
