@@ -41,6 +41,13 @@ app.use(reduxStore);
 app.use(cookies);
 app.use(device);
 app.use(initAction);
+app.use(async (ctx, next) => {
+  const currency: any = ctx.cookies.get("currency");
+  if (currency == "INR" && ctx.url != "/maintenance") {
+    ctx.redirect("maintenance");
+  }
+  await next();
+});
 app.use(viewHandler);
 
 app.listen(PORT, () => {
