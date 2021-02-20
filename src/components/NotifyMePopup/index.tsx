@@ -31,6 +31,7 @@ import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
 import * as util from "utils/validate";
+import Loader from "components/Loader";
 
 type Props = {
   basketLineId?: ProductID;
@@ -91,7 +92,7 @@ const NotifyMePopup: React.FC<Props> = ({
     },
     [selectedSize]
   );
-
+  const [showLoader, setShowLoader] = useState(false);
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
@@ -170,6 +171,7 @@ const NotifyMePopup: React.FC<Props> = ({
           sortBy,
           selectedSize.size
         );
+      setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
           util.showGrowlMessage(
@@ -186,6 +188,9 @@ const NotifyMePopup: React.FC<Props> = ({
             util.showGrowlMessage(dispatch, err.response.data);
             util.errorTracking([err.response.data], window.location.href);
           }
+        })
+        .finally(() => {
+          setShowLoader(false);
         });
     } else {
       setSizeErrorMsg("Please select a Size to proceed");
@@ -344,6 +349,7 @@ const NotifyMePopup: React.FC<Props> = ({
         )}
         {button}
       </div>
+      {showLoader && <Loader />}
     </div>
   );
 };
