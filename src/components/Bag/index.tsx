@@ -306,7 +306,7 @@ class Bag extends React.Component<Props, State> {
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>
                 You&apos; re a step away from{" "}
-                <span className={globalStyles.linkTextUnderline}>
+                <span className={globalStyles.textUnderline}>
                   free shipping
                 </span>
                 !
