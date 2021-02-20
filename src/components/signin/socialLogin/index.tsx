@@ -9,6 +9,7 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import { props } from "./typings";
+import * as util from "../../../utils/validate";
 
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           // closeModel();
         })
         .catch(err => {
+          const data = err.response?.data;
+          util.showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
+          closeModel();
           console.log("Cant Login due to ankur sir !!!!!!");
         });
     } else {
@@ -51,6 +55,9 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           closeModel();
         })
         .catch(err => {
+          const data = err.response?.data;
+          util.showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
+          closeModel();
           console.log("Cant Login due to ankur sir !!!!!!");
         });
     } else {

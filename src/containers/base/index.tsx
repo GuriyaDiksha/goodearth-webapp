@@ -145,6 +145,7 @@ const BaseLayout: React.FC = () => {
     // });
     // const popupCookie = CookieService.getCookie("makerinfo");
     const currencyPopup = CookieService.getCookie("currencypopup");
+    const isBridalBasket = CookieService.getCookie("isBridal");
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
@@ -161,6 +162,7 @@ const BaseLayout: React.FC = () => {
 
     if (
       !currencyPopup &&
+      (!isBridalBasket || isBridalBasket == "no") &&
       !boId &&
       !location.pathname.includes("/order/orderconfirmation/") &&
       !location.pathname.includes("/bridal/") &&
@@ -204,6 +206,13 @@ const BaseLayout: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (bridal) {
+      CookieService.setCookie("isBridal", "yes");
+    } else {
+      CookieService.setCookie("isBridal", "no");
+    }
+  }, [bridal]);
   const isCheckout =
     pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
