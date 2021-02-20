@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import { AppState } from "reducers/typings";
 import { NavLink } from "react-router-dom";
 import styles from "./styles.scss";
+import "../../../../styles/myslick.css";
 import "./slick.css";
 // import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
