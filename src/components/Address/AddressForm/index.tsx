@@ -940,6 +940,7 @@ const AddressForm: React.FC<Props> = props => {
     const form = AddressFormRef.current;
     const { state } = form && form.getModel();
     if (state != newState) {
+      setIsAddressChanged(true);
       form && form.updateInputsWithValue({ state: newState });
     }
 
