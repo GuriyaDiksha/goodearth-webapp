@@ -19,7 +19,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         provider: "facebook",
         uid: user.userID,
         accessToken: user.accessToken,
-        email: "darpanrawat@goodearth.in",
+        email: user.email,
         fname: user.name.split(" ")[0],
         lname: user.name.split(" ")[1],
         requestParam: JSON.stringify(user)
@@ -31,8 +31,8 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         .catch(err => {
           const data = err.response?.data;
           util.showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
-          console.log("Cant Login due to ankur sir !!!!!!");
           closeModel();
+          console.log("Cant Login due to ankur sir !!!!!!");
         });
     } else {
       console.log("Cant Login due not avalable number!!!!!!");
@@ -45,7 +45,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         provider: "google",
         uid: user.googleId,
         accessToken: user.tokenId,
-        email: "darpanrawat@goodearth.in",
+        email: user.profileObj.email,
         fname: user.profileObj.givenName,
         lname: user.profileObj.familyName,
         requestParam: JSON.stringify(user)
@@ -57,8 +57,8 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         .catch(err => {
           const data = err.response?.data;
           util.showGrowlMessage(dispatch, data?.non_field_errors?.[0], 6000);
-          console.log("Cant Login due to ankur sir !!!!!!");
           closeModel();
+          console.log("Cant Login due to ankur sir !!!!!!");
         });
     } else {
       console.log("Cant Login due not avalable number!!!!!!");
