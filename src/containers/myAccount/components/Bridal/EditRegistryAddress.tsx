@@ -4,6 +4,7 @@ import { AddressContext } from "components/Address/AddressMain/context";
 import styles from "./styles.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
+import ReactHtmlParser from "react-html-parser";
 import cs from "classnames";
 
 const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
@@ -38,10 +39,11 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
           <span
             className={globalStyles.pointer}
             onClick={() => setCurrentScreenValue("manageregistryfull")}
-            dangerouslySetInnerHTML={{
-              __html: mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
-            }}
-          ></span>
+          >
+            {ReactHtmlParser(
+              mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
+            )}
+          </span>
         </div>
         <div className={cs(globalStyles.textCenter, globalStyles.c22AI)}>
           {mode == "edit" ? "Edit Address" : "Saved Addresses"}
@@ -58,10 +60,11 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
           <span
             className={globalStyles.pointer}
             onClick={() => setCurrentScreenValue("manageregistryfull")}
-            dangerouslySetInnerHTML={{
-              __html: mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
-            }}
-          ></span>
+          >
+            {ReactHtmlParser(
+              mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
+            )}
+          </span>
         </div>
       </div>
     </div>
