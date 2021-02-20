@@ -118,22 +118,11 @@ class ChangePassword extends React.Component<Props, State> {
                       }
                       type={"password"}
                       validations={{
-                        minLength: 6,
-                        isValid: (values, value) => {
-                          return (
-                            values.password1 &&
-                            value &&
-                            /[a-z]/.test(value) &&
-                            /[0-9]/.test(value) &&
-                            /[A-Z]/.test(value)
-                          );
-                        }
+                        minLength: 6
                       }}
                       validationErrors={{
                         minLength:
-                          "Please enter at least 6 characters for the password",
-                        isValid:
-                          "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
+                          "Please enter at least 6 characters for the password"
                       }}
                       required
                     />
@@ -161,7 +150,9 @@ class ChangePassword extends React.Component<Props, State> {
                       }}
                       validationErrors={{
                         minLength:
-                          "Please enter at least 6 characters for the password"
+                          "Please enter at least 6 characters for the password",
+                        isValid:
+                          "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
                       }}
                       required
                     />
