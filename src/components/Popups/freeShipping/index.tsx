@@ -56,7 +56,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
           <div className={styles.freeShipping}>
             <div>
               You’re a step away from{" "}
-              <span className={styles.linkTextUnderline}>free shipping!</span>
+              <span className={globalStyles.textUnderline}>free shipping!</span>
             </div>
             <div>
               Select products worth{" "}
