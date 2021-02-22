@@ -203,7 +203,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.HOME,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: initActionHome,
     exact: true
   },
