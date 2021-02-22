@@ -19,6 +19,7 @@ import Share from "components/Share";
 import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import ColorSelector from "components/ColorSelector";
+import ReactHtmlParser from "react-html-parser";
 // services
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
@@ -189,7 +190,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select size");
+        setSizeError("Please select a Size to proceed");
       }
     },
     [selectedSize]
@@ -220,17 +221,17 @@ const ProductDetails: React.FC<Props> = ({
     return [
       {
         header: "Details",
-        body: <div dangerouslySetInnerHTML={{ __html: details }}></div>,
+        body: <div>{ReactHtmlParser(details)}</div>,
         id: "details"
       },
       {
         header: "Dimensions & Care",
-        body: <div dangerouslySetInnerHTML={{ __html: compAndCare }}></div>,
+        body: <div>{ReactHtmlParser(compAndCare)}</div>,
         id: "compAndCare"
       },
       {
         header: "Shipping & Handling",
-        body: <div dangerouslySetInnerHTML={{ __html: shipping }}></div>,
+        body: <div>{ReactHtmlParser(shipping)}</div>,
         id: "shippAndHandle"
       }
     ];
@@ -268,8 +269,11 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select size");
-      valid.errorTracking(["Please select size"], window.location.href);
+      setSizeError("Please select a Size to proceed");
+      valid.errorTracking(
+        ["Please select a Size to proceed"],
+        window.location.href
+      );
       showError();
     } else {
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
@@ -311,7 +315,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select size");
+        setSizeError("Please select a Size to proceed");
         showError();
         return false;
       }
@@ -457,7 +461,11 @@ const ProductDetails: React.FC<Props> = ({
         <div className={cs(bootstrap.row)}>
           {images && images[0]?.badgeImagePdp && (
             <div className={bootstrap.col12}>
-              <img src={images[0]?.badgeImagePdp} width="100" />
+              <img
+                src={images[0]?.badgeImagePdp}
+                width="100"
+                className={styles.badgeImg}
+              />
             </div>
           )}
 
@@ -659,7 +667,7 @@ const ProductDetails: React.FC<Props> = ({
                   maxValue={corporatePDP ? 1 : maxQuantity}
                   currentValue={quantity}
                   onChange={onQuantityChange}
-                  errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                  // errorMsg={selectedSize ? "Available qty in stock is" : ""}
                 />
               </div>
             </div>
@@ -705,8 +713,9 @@ const ProductDetails: React.FC<Props> = ({
               globalStyles.voffset3,
               styles.errorMsg
             )}
-            dangerouslySetInnerHTML={{ __html: fillerMessage || "" }}
-          ></div>
+          >
+            {ReactHtmlParser(fillerMessage)}
+          </div>
         ) : (
           ""
         )}

@@ -1,7 +1,273 @@
 @import "../../styles/partials/variables";
 
 $home-top: $header-height;
-
-.maker-top{
-    margin-top: $home-top;
+.home-page {
+    .maker-top{
+        margin-top: $home-top;
+    }
+    .title {
+        font-family: $font-Serif;
+        font-size: 32px;
+        letter-spacing: 0.5px;
+        line-height: 75px;
+    }
+    .subtitle {
+        font-family: $font-Lato;
+        font-size: 14px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+    p {
+        font-family: $font-Serif;
+        font-size: 18px;
+        line-height: 30px;
+        letter-spacing: 0.5px;
+    }
+    
+    .b1 {
+        position: relative;
+        color: #000;
+        
+    }
+    .b2 {
+        
+        .title {
+            font-size: 30px;
+        }
+    }
+    
+    .cta-b2 {
+        font-family: $font-Lato;
+        font-size: 13px;
+        text-transform: uppercase;
+        margin-top: 25px;
+        color: #ab1e56;
+        letter-spacing: 1px;
+        font-weight: bold;
+        text-decoration: underline;
+        &::after {
+            content: '>';
+        }
+    }
+    .bgb1 {
+        background: url(../../images/greyBg.jpg) repeat;
+        padding: 3%;
+    }
+    .content-space {
+        padding: 30px;
+    }   
+    .cta-b1 {
+        font-family: $font-Lato;
+        // font-size: 12px;
+        text-transform: uppercase;
+        margin-top: 25px;
+        // background-color: #ab1e56;
+        // line-height: 40px;
+        // width: 160px;
+        text-align: left;
+        // color: white;
+    }
+    .cta-section5 {
+        font-family: "LatoFont", "Helvetica", "Arial";
+        text-transform: uppercase;
+        margin-top: 25px;
+        text-align: center;
+        color: $cerise;
+        font-size: 14px;
+        letter-spacing: .5px;
+        text-decoration: underline;
+    }
 }
+
+@media screen and (min-width: 992px) {
+    .home-page {
+        .b1 {
+            position: relative;
+            color: #fff;
+            .content-b1 {
+                position: absolute;
+                top: 12%;
+                left: 8%;
+                width: 30%;
+                
+            }
+        }
+        .b2 {
+                position: relative;
+                padding: 6%;
+                color: #fff;
+                .content-b2 {
+                    position: absolute;
+                    left: 11%;
+                    top: 8%;
+                    width: 70%;
+                }
+                .content-b2-r {
+                    position: absolute;
+                    left: 11%;
+                    bottom: 8%;
+                    width: 70%;
+                }
+                .container {
+                    padding: 3%;
+                }
+            
+            &.bg-img {
+                background: url(../../images/greyBg.jpg) repeat;
+            }
+        }
+        .sec4 {
+            padding: 30px;
+            .padd {
+                padding: 15px;
+            }
+            .sec4-content {
+                text-align: center;
+            padding: 30px 15px;
+            .title{
+                font-size: 30px;
+                line-height: 60px;
+            }
+            }
+        }
+    }
+}
+@media screen and (max-width: 992px) {
+    // /static/images/greyBg.35f84871bde61d2446482b90d5b3f08b.jpg
+    .home-page {
+        .b1 {
+            .content-b1 {
+                background: url(../../images/greyBg.jpg) repeat;
+                text-align: center;
+                padding: 5%;
+                width: 100%;
+        
+        }
+        .subtitle {
+            font-size: 10px;
+            margin: 10px 0;
+        }
+        .title {
+            font-size: 25px;
+            line-height: 50px;
+        }
+        .cta-b1 {
+            margin: 25px auto 25px auto;
+            color: #fff;
+            text-align: center;
+        }
+        p {
+            font-size: 12px;
+            line-height: 18px;
+        }
+    }
+    .b2 {
+        text-align: center;
+        color: #000;
+        .content-b2 {
+            padding: 5px;
+        }
+        .content-b2-r {
+            padding: 5px;
+        }
+        .title {
+            font-size: 18px;
+            line-height: 30px;
+        }
+        p {
+            font-size: 14px;
+            line-height: 24px;
+        }
+    }
+    .cta-b2 {
+        font-size: 10px;
+    }
+    .sec4 {
+            
+        .sec4-content {
+            text-align: center;
+        padding: 30px 5px;
+        .title {
+            font-size: 20px;
+            line-height: 30px;
+            margin-bottom: 12px;
+        }
+        .subtitle {
+            font-size: 13px;
+        }
+        p {
+            font-size: 14px;
+            line-height: 24px;
+        }
+        }
+    }
+    .section3-content {
+        background-color: #f4f1f1;
+        text-align: center;
+        padding: 0 2%;
+    }
+    .content-space {
+        padding: 10px 0;
+        .subtitle {
+            font-size: 12px;
+            margin: 8px 0;
+        }
+        .title {
+            font-size: 20px;
+            line-height: 30px;
+        }
+        p {
+            font-size: 12px;
+            line-height: 18px;
+            margin: 12px 0;
+        }
+        .cta-section5 {
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+    }
+    .bgb1 {
+        padding: 0;
+        background: inherit;
+    }
+    .bottem-banner {
+        width: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+        padding: 20px 0;
+        .title {
+            font-size: 20px;
+            line-height: 30px;
+            margin: 12px 0;
+        }
+        .cta-bottom {
+            font-size: 12px;
+            color: $cerise;
+        }
+    }
+}
+}
+    .section3-content {
+        background-color: #f4f1f1;
+        text-align: center;
+        padding: 100px 50px 50px 50px;
+    }
+    
+    .cta-margin {
+        margin-top: 25px;
+    }
+    
+    .bottem-banner {
+        position: absolute;
+        top: 30%;
+        left: 15%;
+        width: 30%;
+        text-align: center;
+    }
+    
+    .cta-bottom {
+        color: white;
+        margin-top: 15px;
+        text-decoration: underline;
+    }

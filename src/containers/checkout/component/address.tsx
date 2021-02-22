@@ -343,11 +343,11 @@ const AddressSection: React.FC<AddressProps & {
       setPanCheck("");
       validate = true;
     } else if (valid.checkBlank(pancardText)) {
-      setPanError("Please enter number");
+      setPanError("Please enter your PAN Number");
       setPanCheck("");
       validate = false;
     } else {
-      setPanError("Please enter correct number");
+      setPanError("Please enter a valid PAN Number");
       setPanCheck("");
       validate = false;
     }
@@ -361,13 +361,13 @@ const AddressSection: React.FC<AddressProps & {
   const gstValidation = () => {
     if (gstText.length > 0) {
       if (gstText.length != 15 && gstType == "GSTIN") {
-        setError("Please enter correct GST ");
+        setError("Please enter a valid GST Number");
         return false;
       } else if (gstText.length != 15 && gstType == "UID") {
-        setError("Please enter correct UID");
+        setError("Please enter a valid UID Number");
         return false;
       } else if (gstText.length != 15 && gstType == "GID") {
-        setError("Please enter correct GID");
+        setError("Please enter a valid GID Number");
         return false;
       } else {
         setError("");
@@ -377,7 +377,7 @@ const AddressSection: React.FC<AddressProps & {
       const text =
         gstType == "GSTIN" ? "GST" : gstType == "UID" ? "UID" : "GID";
 
-      setError("Please enter " + text + " number");
+      setError("Please enter a " + text + " number");
       return false;
     }
   };
@@ -388,10 +388,10 @@ const AddressSection: React.FC<AddressProps & {
       setPanError("");
       return true;
     } else if (valid.checkBlank(gstPan)) {
-      setGstPanError("Please enter number");
+      setGstPanError("Please enter your PAN Number");
       return false;
     } else {
-      setGstPanError("Please enter correct number");
+      setGstPanError("Please enter a valid PAN Number");
       return false;
     }
   };

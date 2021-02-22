@@ -50,19 +50,29 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         console.log("FOOTER API ERROR ==== " + err);
       });
       Api.getAnnouncement(dispatch).catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
+        console.log("Announcement API ERROR ==== " + err);
       });
       // }
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
+      HeaderService.fetchHomepageData(dispatch).catch(err => {
+        console.log("Homepage API ERROR ==== " + err);
+      });
+
       islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
     },
-    showShipping: (remainingAmount: number) => {
-      dispatch(updateComponent(POPUP.FREESHIPPING, { remainingAmount }, true));
+    showShipping: (remainingAmount: number, freeShippingApplicable: number) => {
+      dispatch(
+        updateComponent(
+          POPUP.FREESHIPPING,
+          { remainingAmount, freeShippingApplicable },
+          true
+        )
+      );
       dispatch(updateModal(true));
     },
     showPincodePopup: (setPincode: (pinCode: string) => void) => {
