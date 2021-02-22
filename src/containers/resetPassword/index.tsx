@@ -178,7 +178,7 @@ const ResetPassword: React.FC<Props> = props => {
                 equalsField: "password1",
                 isValid: (values, value) => {
                   return (
-                    values.password1 &&
+                    values.password2 &&
                     value &&
                     /[a-z]/.test(value) &&
                     /[0-9]/.test(value) &&
