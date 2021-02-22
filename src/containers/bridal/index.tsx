@@ -168,11 +168,11 @@ class BridalCheckout extends React.Component<Props, State> {
     }
   }
 
-  resetInfoPopupCookie() {
-    const cookieString =
-      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    document.cookie = cookieString;
-  }
+  // resetInfoPopupCookie() {
+  //   const cookieString =
+  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+  //   document.cookie = cookieString;
+  // }
 
   // componentDidUpdate() {
   //   if(this.props.mobile && this.state.showMobilePopup) {
