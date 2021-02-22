@@ -140,7 +140,7 @@ class ChangePassword extends React.Component<Props, State> {
                         minLength: 6,
                         isValid: (values, value) => {
                           return (
-                            values.password1 &&
+                            values.newPassword &&
                             value &&
                             /[a-z]/.test(value) &&
                             /[0-9]/.test(value) &&
@@ -173,7 +173,7 @@ class ChangePassword extends React.Component<Props, State> {
                         equalsField: "newPassword",
                         isValid: (values, value) => {
                           return (
-                            values.password1 &&
+                            values.newPassword1 &&
                             value &&
                             /[a-z]/.test(value) &&
                             /[0-9]/.test(value) &&
