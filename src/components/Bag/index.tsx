@@ -184,11 +184,11 @@ class Bag extends React.Component<Props, State> {
     }
   }
 
-  resetInfoPopupCookie() {
-    const cookieString =
-      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    document.cookie = cookieString;
-  }
+  // resetInfoPopupCookie() {
+  //   const cookieString =
+  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+  //   document.cookie = cookieString;
+  // }
 
   chkshipping = (event: React.MouseEvent) => {
     // if (window.ischeckout) {
@@ -200,9 +200,9 @@ class Bag extends React.Component<Props, State> {
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
-    if (this.state.isSuspended) {
-      this.resetInfoPopupCookie();
-    }
+    // if (this.state.isSuspended) {
+    //   this.resetInfoPopupCookie();
+    // }
     if (
       !this.state.freeShipping &&
       total >= freeShippingThreshold &&
