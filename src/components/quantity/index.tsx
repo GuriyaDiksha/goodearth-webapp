@@ -8,7 +8,9 @@ class Quantity extends React.Component<QuantityItem, State> {
     super(props);
     this.state = {
       showError: false,
-      errorMsg: `Available qty in stock is ${props.currentValue}`
+      errorMsg: `Only ${props.currentValue} piece${
+        props.currentValue > 1 ? "s" : ""
+      } available in stock`
     };
   }
 
@@ -31,7 +33,9 @@ class Quantity extends React.Component<QuantityItem, State> {
         .catch(err => {
           this.setState({
             showError: true,
-            errorMsg: `Available qty in stock is ${this.props.currentValue}`
+            errorMsg: `Only ${this.props.currentValue} piece${
+              this.props.currentValue > 1 ? "s" : ""
+            } available in stock`
           });
         });
   };
@@ -92,7 +96,9 @@ class Quantity extends React.Component<QuantityItem, State> {
               if (props.id) {
                 this.setState({
                   showError: true,
-                  errorMsg: `Available qty in stock is ${props.currentValue}`
+                  errorMsg: `Only ${props.currentValue} piece${
+                    props.currentValue > 1 ? "s" : ""
+                  } available in stock`
                 });
               }
             }

@@ -418,30 +418,38 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return true;
   };
 
-  const resetInfoPopupCookie = () => {
-    const cookieString =
-      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    document.cookie = cookieString;
-  };
+  // const resetInfoPopupCookie = () => {
+  //   const cookieString =
+  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+  //   document.cookie = cookieString;
+  // };
   const chkshipping = (event: any) => {
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable,
+      shippable
+    } = basket;
     if (page != "cart") {
       return false;
     }
-    if (isSuspended) {
-      resetInfoPopupCookie();
-    }
+    // if (isSuspended) {
+    //   resetInfoPopupCookie();
+    // }
     if (
       !freeShipping &&
-      basket.total >= 45000 &&
-      basket.total < 50000 &&
+      total >= freeShippingThreshold &&
+      total < freeShippingApplicable &&
       currency == "INR" &&
-      basket.shippable
+      shippable
     ) {
       dispatch(
         updateComponent(
           POPUP.FREESHIPPING,
           {
-            remainingAmount: 50000 - parseInt(basket.total.toString())
+            remainingAmount:
+              freeShippingApplicable - parseInt(basket.total.toString()),
+            freeShippingApplicable
           },
           true
         )
@@ -567,7 +575,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
-          {page == "cart" || basket.isOnlyGiftCart ? (
+          {page == "cart" || basket.isOnlyGiftCart || salestatus ? (
             ""
           ) : (
             <div
@@ -596,7 +604,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           )}
           {deliveryText.length == 0 ||
           page == "cart" ||
-          basket.isOnlyGiftCart ? (
+          basket.isOnlyGiftCart ||
+          salestatus ? (
             ""
           ) : (
             <div className={cs(styles.deliveryDate, styles.wrap)}>

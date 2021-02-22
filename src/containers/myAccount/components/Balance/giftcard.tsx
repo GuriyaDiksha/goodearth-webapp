@@ -146,7 +146,7 @@ class Giftcard extends React.Component<Props, GiftState> {
     if (response.currStatus == "Invalid-CN") {
       this.setState(
         {
-          error: "Please enter a valid code"
+          error: "Please enter a valid Gift Card code"
         },
         () => {
           valid.errorTracking([this.state.error], location.href);

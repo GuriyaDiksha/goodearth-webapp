@@ -7,10 +7,14 @@ import { initActionCollection } from "containers/collectionLanding";
 import { initActionSpecific } from "containers/collectionSpecific";
 import initActionPLP from "containers/plp/initAction";
 import initActionSearch from "containers/search/initAction";
-import initActionCategory from "containers/categoryLanding/initAction";
+import {
+  initActionCategoryLanding,
+  metaActionCategoryLanding
+} from "containers/categoryLanding";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
+import initActionHome from "containers/home/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
@@ -73,7 +77,8 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CATEGORY,
     component: loadable(() => import("containers/categoryLanding")),
-    action: initActionCategory,
+    action: initActionCategoryLanding,
+    meta: metaActionCategoryLanding,
     exact: true
   },
   {
@@ -90,7 +95,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.SAFETYMEASURES,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -138,7 +143,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.ABOUTUS,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -162,19 +167,19 @@ const routes: RouteConfig = [
   // }
   {
     path: ROUTES.CORPORATEGIFTING,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
   {
     path: ROUTES.GIFTINGLANDING,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
   {
     path: ROUTES.BRIDAL,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -186,7 +191,7 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.PUSHPANJALI,
-    component: loadable(() => import("containers/home")),
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   },
@@ -198,8 +203,8 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.HOME,
-    component: loadable(() => import("containers/home")),
-    action: async () => null,
+    component: loadable(() => import("containers/makerpage")),
+    action: initActionHome,
     exact: true
   },
   {

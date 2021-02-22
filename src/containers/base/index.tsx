@@ -12,8 +12,11 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
+import styles from "./styles.scss";
+// import iconStyles from "../../styles/iconFonts.scss";
+// import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
-// import flowerimg1 from "images/flower1.gif";
+import whatsapp from "../../images/whatsapp.svg";
 // import flowerimg2 from "images/flower2.gif";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
@@ -59,7 +62,20 @@ const BaseLayout: React.FC = () => {
   //   document.cookie = cookieString;
   //   CookieService.setCookie("makerinfo", "show", 365);
   // };
-
+  const Whatsapp = () => {
+    return (
+      <div className={styles.whatsappIcon}>
+        <a
+          href={"https://wa.me/+917669303665"}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {/* <i className={cs(iconStyles.icon,iconStyles.iconFooterWhatsapp)}></i> */}
+          <img src={whatsapp} width="40px" />
+        </a>
+      </div>
+    );
+  };
   // const throttle = _.throttle((e: any) => {
   //   const x = e.clientX - 100;
   //   const y = e.clientY - 50;
@@ -129,6 +145,7 @@ const BaseLayout: React.FC = () => {
     // });
     // const popupCookie = CookieService.getCookie("makerinfo");
     const currencyPopup = CookieService.getCookie("currencypopup");
+    const isBridalBasket = CookieService.getCookie("isBridal");
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
@@ -145,6 +162,7 @@ const BaseLayout: React.FC = () => {
 
     if (
       !currencyPopup &&
+      (!isBridalBasket || isBridalBasket == "no") &&
       !boId &&
       !location.pathname.includes("/order/orderconfirmation/") &&
       !location.pathname.includes("/bridal/") &&
@@ -188,6 +206,13 @@ const BaseLayout: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (bridal) {
+      CookieService.setCookie("isBridal", "yes");
+    } else {
+      CookieService.setCookie("isBridal", "no");
+    }
+  }, [bridal]);
   const isCheckout =
     pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
@@ -204,6 +229,7 @@ const BaseLayout: React.FC = () => {
   } else {
     return (
       <Fragment>
+        <Whatsapp />
         {isCheckout ? <CheckoutHeader /> : <Header />}
         <div className={globalStyles.contentContainer} id="no-content">
           {/* <MusicPlayer /> */}

@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
-import CookieService from "services/cookie";
+// import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -128,14 +128,15 @@ class MainLogin extends React.Component<Props, loginState> {
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
-    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
+    // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email });
     }
-    if (checkoutPopupCookie == "show") {
-      this.firstEmailInput.current?.focus();
-    }
+    // if (checkoutPopupCookie == "show") {
+    //   this.firstEmailInput.current?.focus();
+    // }
     // localStorage.removeItem("tempEmail");
+    this.firstEmailInput.current?.focus();
   }
 
   UNSAFE_componentWillReceiveProps() {
@@ -201,7 +202,7 @@ class MainLogin extends React.Component<Props, loginState> {
             this.setState(
               {
                 showerror:
-                  "The user name and/or password you have entered is incorrect"
+                  "Looks like either your Email ID or Password were incorrect. Please try again."
               },
               () => {
                 valid.errorTracking([this.state.showerror], location.href);
@@ -230,16 +231,18 @@ class MainLogin extends React.Component<Props, loginState> {
         msgp: "Please enter your password",
         highlightp: true
       });
-    } else if (this.state.password && this.state.password.length < 6) {
-      if (
-        this.state.msgp !==
-        "Please enter at least 6 characters for the password"
-      )
-        this.setState({
-          msgp: "Please enter at least 6 characters for the password",
-          highlightp: true
-        });
-    } else {
+    }
+    // else if (this.state.password && this.state.password.length < 6) {
+    //   if (
+    //     this.state.msgp !==
+    //     "Please enter at least 6 characters for the password"
+    //   )
+    //     this.setState({
+    //       msgp: "Please enter at least 6 characters for the password",
+    //       highlightp: true
+    //     });
+    // }
+    else {
       this.setState({
         msgp: "",
         highlightp: false
@@ -258,17 +261,17 @@ class MainLogin extends React.Component<Props, loginState> {
         this.myBlur(event);
       } else {
         if (valid.checkBlank(this.state.email)) {
-          if (this.state.msg !== "Please Enter Email") {
+          if (this.state.msg !== "Please enter your Email ID") {
             this.setState({
-              msg: "Please Enter Email",
+              msg: "Please enter your Email ID",
               highlight: true,
               showerror: ""
             });
           }
         } else if (!valid.checkMail(this.state.email)) {
-          if (this.state.msg !== "Enter valid email") {
+          if (this.state.msg !== "Please enter a valid Email ID") {
             this.setState({
-              msg: "Enter valid email",
+              msg: "Please enter a valid Email ID",
               highlight: true,
               showerror: ""
             });

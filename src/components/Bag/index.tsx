@@ -184,29 +184,35 @@ class Bag extends React.Component<Props, State> {
     }
   }
 
-  resetInfoPopupCookie() {
-    const cookieString =
-      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    document.cookie = cookieString;
-  }
+  // resetInfoPopupCookie() {
+  //   const cookieString =
+  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+  //   document.cookie = cookieString;
+  // }
 
   chkshipping = (event: React.MouseEvent) => {
     // if (window.ischeckout) {
     //     return false;
     // }
     // const self = this;
-    if (this.state.isSuspended) {
-      this.resetInfoPopupCookie();
-    }
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable
+    } = this.props.cart;
+    // if (this.state.isSuspended) {
+    //   this.resetInfoPopupCookie();
+    // }
     if (
       !this.state.freeShipping &&
-      this.props.cart.total >= 45000 &&
-      this.props.cart.total < 50000 &&
+      total >= freeShippingThreshold &&
+      total < freeShippingApplicable &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
     ) {
       this.props.showShipping(
-        50000 - parseInt(this.props.cart.total.toString())
+        freeShippingApplicable - parseInt(total.toString()),
+        freeShippingApplicable
       );
       event.preventDefault();
     }
@@ -216,6 +222,11 @@ class Bag extends React.Component<Props, State> {
     //   return false;
     // }
     // this.amountLeft = 50000 - this.props.cart.subTotal;
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable
+    } = this.props.cart;
     if (
       !this.props.cart.lineItems ||
       this.hasOutOfStockItems() ||
@@ -228,8 +239,8 @@ class Bag extends React.Component<Props, State> {
         shipping: false
       });
     } else if (
-      this.props.cart.total >= 45000 &&
-      this.props.cart.total < 50000 &&
+      total >= freeShippingThreshold &&
+      total < freeShippingApplicable &&
       this.state.shipping == false &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
@@ -238,7 +249,7 @@ class Bag extends React.Component<Props, State> {
         shipping: true
       });
     } else if (
-      (this.props.cart.total < 45000 || this.props.cart.total >= 50000) &&
+      (total < freeShippingThreshold || total >= freeShippingApplicable) &&
       this.state.shipping
     ) {
       this.setState({
@@ -295,14 +306,15 @@ class Bag extends React.Component<Props, State> {
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>
                 You&apos; re a step away from{" "}
-                <span className={globalStyles.linkTextUnderline}>
+                <span className={globalStyles.textUnderline}>
                   free shipping
                 </span>
                 !
                 <br /> Select products worth{" "}
                 <span>
                   {String.fromCharCode(...currencyCodes[this.props.currency])}{" "}
-                  {50000 - parseInt(this.props.cart.total.toString())}
+                  {this.props.cart.freeShippingApplicable -
+                    parseInt(this.props.cart.total.toString())}
                 </span>{" "}
                 or more to your order to qualify.
               </div>

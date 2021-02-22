@@ -395,7 +395,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 maxLength: 75
               }}
               validationErrors={{
-                isEmail: "Enter valid email",
+                isEmail: "Please enter a valid Email ID",
                 maxLength: "You are allowed to enter upto 75 characters only"
               }}
               required
@@ -533,7 +533,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isPhoneValid: "This field is Required."
+                isPhoneValid: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
             />
@@ -548,10 +548,22 @@ class RegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
-                minLength: 6
+                minLength: 6,
+                isValid: (values, value) => {
+                  return (
+                    values.password1 &&
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
               }}
               validationErrors={{
-                minLength: "Please enter at least 6 characters for the password"
+                minLength:
+                  "Please enter at least 6 characters for the password",
+                isValid:
+                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
               required
             />
@@ -574,10 +586,21 @@ class RegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
-                equalsField: "password1"
+                equalsField: "password1",
+                isValid: (values, value) => {
+                  return (
+                    values.password1 &&
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
               }}
               validationErrors={{
-                equalsField: "Passwords do not match"
+                equalsField: "The Password entered doesn't match",
+                isValid:
+                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
               required
             />

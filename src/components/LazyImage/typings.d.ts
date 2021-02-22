@@ -10,8 +10,10 @@ export type Props = {
   onClick?: () => void;
   onLoad?: EventHandler<SyntheticEvent<HTMLImageElement>>;
   onError?: EventHandler<SyntheticEvent<HTMLImageElement>>;
+  shouldUpdateAspectRatio?: boolean;
 };
 
 export type State = {
   isVisible: boolean;
+  style: any;
 };
