@@ -322,7 +322,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   timer = () => {
     this.setState({
-      otpTimer: this.props.otpFor == "activateGC" ? 120 : 300
+      otpTimer: 300
     });
     this.timerId = setInterval(() => {
       this.decrementTimeRemaining();
