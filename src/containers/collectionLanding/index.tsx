@@ -15,6 +15,7 @@ import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
 import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
+import ReactHtmlParser from "react-html-parser";
 import {
   updateCollectionData,
   updateCollectionFilter
@@ -241,11 +242,7 @@ class CollectionLanding extends React.Component<
           >
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
               <h1>{collectionName} Collections </h1>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: this.props.data.description
-                }}
-              ></p>
+              <p>{ReactHtmlParser(this.props.data.description)}</p>
             </div>
           </div>
         )}

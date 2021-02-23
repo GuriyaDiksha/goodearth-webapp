@@ -20,6 +20,7 @@ import CareerService from "services/career";
 import ReCAPTCHA from "react-google-recaptcha";
 import Loader from "components/Loader";
 import * as valid from "utils/validate";
+import ReactHtmlParser from "react-html-parser";
 import { updateCountryData } from "actions/address";
 
 const mapStateToProps = () => {
@@ -701,10 +702,9 @@ class JobForm extends React.Component<Props, State> {
                 JOB DESCRIPTION
               </h5>
               <h6>{job.jobTitle}</h6>
-              <div
-                className={cs(styles.jdInfo, globalStyles.op2)}
-                dangerouslySetInnerHTML={{ __html: job.jobLongDescription }}
-              ></div>
+              <div className={cs(styles.jdInfo, globalStyles.op2)}>
+                {ReactHtmlParser(job.jobLongDescription)}
+              </div>
               {this.props.mode == "applyAll" ? (
                 ""
               ) : (

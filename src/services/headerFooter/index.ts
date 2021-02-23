@@ -10,22 +10,30 @@ import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
+import { Currency } from "typings/currency";
 
 export default {
-  fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
-    // let headerData = CacheService.get("headerData") as HeaderData[];
-
-    // if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
-    //   return headerData;
-    // }
+  fetchHeaderDetails: async (
+    dispatch: Dispatch,
+    currency: Currency
+  ): Promise<HeaderData[]> => {
+    let headerData: HeaderData[] | null = null;
+    if (typeof document == "undefined") {
+      headerData = CacheService.get(`headerData-${currency}`) as HeaderData[];
+    }
+    if (headerData) {
+      dispatch(updateheader(headerData));
+      return headerData;
+    }
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
     );
     dispatch(updateheader(res.results));
-    // headerData = res.results as HeaderData[];
-    // CacheService.set("headerData", headerData);
-
+    headerData = res.results as HeaderData[];
+    if (typeof document == "undefined") {
+      CacheService.set(`headerData-${res.currency}`, headerData);
+    }
     return res.results;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {

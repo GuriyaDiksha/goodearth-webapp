@@ -35,13 +35,20 @@ const Section2: React.FC = () => {
       }
     });
   }
+
   return (
     <section>
       <div className={cs(bootstrap.row, styles.sec4)}>
-        {imagedata?.map((item: any) => {
+        {imagedata?.map((item: any, i: number) => {
           return (
-            <div className={cs(bootstrap.colMd4, bootstrap.col6, styles.padd)}>
-              <Link to={item.url}>
+            <div
+              className={cs(
+                bootstrap.colMd4,
+                imagedata.length - 1 == i ? bootstrap.col12 : bootstrap.col6,
+                styles.padd
+              )}
+            >
+              <Link to={item.url} target={item.urlTab ? "_blank" : ""}>
                 <LazyImage
                   src={item.image}
                   className={globalStyles.imgResponsive}
@@ -55,7 +62,10 @@ const Section2: React.FC = () => {
                 <p>{item.description}</p>
                 <div className={styles.ctaB2}>
                   {" "}
-                  <Link to={item.ctaUrl}> {item.ctaText} </Link>{" "}
+                  <Link to={item.ctaUrl} target={item.ctaTab ? "_blank" : ""}>
+                    {" "}
+                    {item.ctaText}{" "}
+                  </Link>{" "}
                 </div>
               </div>
             </div>

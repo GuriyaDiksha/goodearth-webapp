@@ -73,6 +73,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
+    this.props.fetchCountryData();
   }
   gtmPushRegister = () => {
     dataLayer.push({

@@ -63,12 +63,11 @@ const Section1: React.FC = () => {
 
   const imagedata1 = image?.[0] || {};
   const imagedata2 = image?.[1] || {};
-
   return (
     <Fragment>
       <section>
         <div className={styles.b1}>
-          <Link to={banner.url}>
+          <Link to={banner.url} target={banner.urlTab ? "_blank" : ""}>
             <LazyImage
               src={banner.image}
               className={globalStyles.imgResponsive}
@@ -80,7 +79,7 @@ const Section1: React.FC = () => {
             <div className={styles.subtitle}>{banner.title}</div>
             <div className={styles.title}>{banner.subtitle}</div>
             <p>{banner.description}</p>
-            <Link to={banner.ctaUrl}>
+            <Link to={banner.ctaUrl} target={banner.ctaTab ? "_blank" : ""}>
               {" "}
               <div className={cs(styles.ctaB1, styles.ctaMargin)}>
                 <Button value={banner.ctaText} onClick={() => null} />
@@ -94,7 +93,10 @@ const Section1: React.FC = () => {
         <div className={cs(styles.b2, styles.bgImg)}>
           <div className={cs(bootstrap.row)}>
             <div className={cs(bootstrap.col6, styles.container)}>
-              <Link to={imagedata1.url}>
+              <Link
+                to={imagedata1.url}
+                target={imagedata1.urlTab ? "_blank" : ""}
+              >
                 <LazyImage
                   src={imagedata1.image}
                   className={globalStyles.imgResponsive}
@@ -107,7 +109,10 @@ const Section1: React.FC = () => {
                 <p>{imagedata1.description}</p>
                 <div className={styles.ctaB2}>
                   {" "}
-                  <Link to={imagedata1.ctaUrl}>
+                  <Link
+                    to={imagedata1.ctaUrl}
+                    target={imagedata1.ctaTab ? "_blank" : ""}
+                  >
                     {" "}
                     {imagedata1.ctaText}{" "}
                   </Link>{" "}
@@ -115,7 +120,10 @@ const Section1: React.FC = () => {
               </div>
             </div>
             <div className={cs(bootstrap.col6, styles.container)}>
-              <Link to={imagedata2.url}>
+              <Link
+                to={imagedata2.url}
+                target={imagedata2.urlTab ? "_blank" : ""}
+              >
                 <LazyImage
                   src={imagedata2.image}
                   className={globalStyles.imgResponsive}
