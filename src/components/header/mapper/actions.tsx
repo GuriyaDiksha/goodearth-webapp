@@ -39,7 +39,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, page?: string, islogin?: boolean) => {
+    reloadPage: (
+      cookies: Cookies,
+      currency: Currency,
+      page?: string,
+      islogin?: boolean
+    ) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
