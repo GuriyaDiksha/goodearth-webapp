@@ -132,10 +132,10 @@ let config = [
                       },
                     },
                   }],
-                  additionalManifestEntries: [{
-                      url: `${envConfig.apidomain}/myapi/address/countries_state/`,
-                      revision: null
-                  }]
+                //   additionalManifestEntries: [{
+                //       url: `${envConfig.apidomain}/myapi/address/countries_state/`,
+                //       revision: null
+                //   }]
             }),
             new WebpackPwaManifest({
                 filename: `manifest.v${envConfig.manifestVersion}.json`,

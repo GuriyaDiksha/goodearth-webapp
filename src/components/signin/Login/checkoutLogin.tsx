@@ -58,52 +58,64 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   async checkMailValidation() {
     if (this.state.email) {
       const data = await this.props.checkUserPassword(this.state.email);
-      if (data.emailExist) {
-        if (data.passwordExist) {
-          this.setState(
-            {
-              showCurrentSection: "login",
-              msg: "",
-              highlight: false
-            },
-            () => {
-              // const checkoutPopupCookie = CookieService.getCookie(
-              //   "checkoutinfopopup"
-              // );
-              // checkoutPopupCookie == "show" &&
-              this.passwordInput.current && this.passwordInput.current.focus();
-              this.passwordInput.current &&
-                this.passwordInput.current.scrollIntoView(true);
-            }
-          );
-        } else {
-          const error = [
-            "This account already exists. Please ",
-            <span
-              className={cs(
-                globalStyles.errorMsg,
-                globalStyles.linkTextUnderline
-              )}
-              key={1}
-              onClick={this.handleResetPassword}
-            >
-              set a new password
-            </span>
-          ];
-          this.setState({
-            msg: error,
-            highlight: true
-          });
-          this.emailInput.current && this.emailInput.current.focus();
-        }
+      if (data.invalidDomain) {
+        this.setState(
+          {
+            showerror: data.message
+          },
+          () => {
+            valid.errorTracking([this.state.showerror], location.href);
+          }
+        );
       } else {
-        localStorage.setItem("tempEmail", this.state.email);
-        this.props.showRegister?.();
-        // this.setState({
-        //   highlight: true,
-        //   showCurrentSection:'register'
-        // });
-        // this.emailInput.current && this.emailInput.current.focus();
+        if (data.emailExist) {
+          if (data.passwordExist) {
+            this.setState(
+              {
+                showCurrentSection: "login",
+                msg: "",
+                highlight: false
+              },
+              () => {
+                // const checkoutPopupCookie = CookieService.getCookie(
+                //   "checkoutinfopopup"
+                // );
+                // checkoutPopupCookie == "show" &&
+                this.passwordInput.current &&
+                  this.passwordInput.current.focus();
+                this.passwordInput.current &&
+                  this.passwordInput.current.scrollIntoView(true);
+              }
+            );
+          } else {
+            const error = [
+              "This account already exists. Please ",
+              <span
+                className={cs(
+                  globalStyles.errorMsg,
+                  globalStyles.linkTextUnderline
+                )}
+                key={1}
+                onClick={this.handleResetPassword}
+              >
+                set a new password
+              </span>
+            ];
+            this.setState({
+              msg: error,
+              highlight: true
+            });
+            this.emailInput.current && this.emailInput.current.focus();
+          }
+        } else {
+          localStorage.setItem("tempEmail", this.state.email);
+          this.props.showRegister?.();
+          // this.setState({
+          //   highlight: true,
+          //   showCurrentSection:'register'
+          // });
+          // this.emailInput.current && this.emailInput.current.focus();
+        }
       }
     }
   }
