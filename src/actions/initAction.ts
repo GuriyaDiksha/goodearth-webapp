@@ -2,6 +2,7 @@
 import HeaderService from "services/headerFooter";
 import ApiService from "services/api";
 import MetaService from "services/meta";
+import Koa from "koa";
 // typings
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
@@ -15,8 +16,12 @@ import Api from "services/api";
 import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
 
-const initAction: any = async (store: Store, history: any) => {
-  const state: AppState = store.getState();
+const initAction: any = async (
+  ctx: Koa.ParameterizedContext<Koa.DefaultContext>,
+  history: any
+) => {
+  const store: Store = ctx.store;
+  const state: AppState = ctx.store.getState();
   const isBridalPublicPage =
     history.location.pathname.includes("/bridal/") &&
     !history.location.pathname.includes("/account/");
