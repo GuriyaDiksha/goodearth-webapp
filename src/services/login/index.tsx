@@ -28,7 +28,7 @@ import {
   REGISTRY_OWNER_CHECKOUT,
   REGISTRY_MIXED_SHIPPING
 } from "constants/messages";
-import Axios from "axios";
+// import Axios from "axios";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
 
@@ -223,8 +223,8 @@ export default {
     dispatch(updateCurrency(formData.currency));
     return res;
   },
-  reloadPage: (dispatch: Dispatch) => {
-    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+  reloadPage: (dispatch: Dispatch, currency: Currency) => {
+    HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
@@ -239,7 +239,7 @@ export default {
     BasketService.fetchBasket(dispatch);
   },
   getClientIpCurrency: async function() {
-    Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
+    // Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
     const response = await new Promise((resolve, reject) => {
       fetch(`https://api.ipdata.co/?api-key=${__IP_DATA_KEY__}`, {
         method: "GET"

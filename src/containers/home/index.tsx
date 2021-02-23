@@ -3,7 +3,7 @@ import styles from "./styles.scss";
 import Section1 from "./section1";
 import Section2 from "./section2";
 import Section3 from "./section3";
-// import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 // import cs from "classnames";
 import * as util from "utils/validate";
 // import { Link } from "react-router-dom";
@@ -31,9 +31,11 @@ const Home: React.FC = () => {
   return (
     <div className={styles.homePage}>
       <div className={styles.makerTop}>
-        <Section1 />
-        <Section2 />
-        <Section3 />
+        <div className={bootstrap.containerFluid}>
+          <Section1 />
+          <Section2 />
+          <Section3 />
+        </div>
       </div>
     </div>
   );
