@@ -16,6 +16,7 @@ import CookieService from "services/cookie";
 import AddressService from "services/address";
 import CheckoutService from "services/checkout";
 import LoginService from "services/login";
+import HeaderService from "services/headerFooter";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
@@ -99,6 +100,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch, "checkout");
       valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+      HeaderService.fetchHomepageData(dispatch);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
