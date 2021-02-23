@@ -6,6 +6,7 @@ export type checkUserPasswordResponse = {
   message: string;
   emailExist: boolean;
   passwordExist: boolean;
+  invalidDomain: boolean;
 };
 
 export type logoutResponse = {
