@@ -133,7 +133,7 @@ html(lang='en')
                 }
               });
             }
-            //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+            //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 10000)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
 
           function ScrollToTop() {
               window.scrollTo({
@@ -159,6 +159,8 @@ html(lang='en')
         
         script.
           window.dataLayer = window.dataLayer || [];
+          var isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(window.navigator.userAgent);
+          if(!isBot) {
           (function (a, s, y, n, c, h, i, d, e) {
             s.className += ' ' + y;
             h.start = 1 * new Date;
@@ -185,7 +187,7 @@ html(lang='en')
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
           })(window, document, 'script', 'dataLayer', !{gtmdata})
-
+          }
         noscript.
           <iframe src="https://www.googletagmanager.com/ns.html?id="+!{gtmdata}
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
