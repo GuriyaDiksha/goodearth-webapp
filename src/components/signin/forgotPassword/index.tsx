@@ -213,7 +213,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     const footer = (
       <>
         <SocialLogin closeModel={this.closeModal} />
-        <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
+        {/* <div className={cs(styles.socialLoginText, styles.socialLoginFooter)}>
           {" "}
           Not a member?{" "}
           <span
@@ -228,7 +228,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             {" "}
             SIGN UP{" "}
           </span>
-        </div>
+        </div> */}
       </>
     );
 
