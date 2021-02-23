@@ -54,7 +54,7 @@ const Section3: React.FC = () => {
       <section>
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
-            <Link to={imagedata.url}>
+            <Link to={imagedata.url} target={imagedata.urlTab ? "_blank" : ""}>
               <LazyImage
                 src={imagedata.image}
                 className={globalStyles.imgResponsive}
@@ -74,7 +74,10 @@ const Section3: React.FC = () => {
               <div className={styles.subtitle}>{imagedata.title}</div>
               <div className={styles.title}>{imagedata.subtitle}</div>
               <p>{imagedata.description}</p>
-              <Link to={imagedata.ctaUrl}>
+              <Link
+                to={imagedata.ctaUrl}
+                target={imagedata.ctaTab ? "_blank" : ""}
+              >
                 {" "}
                 <div className={cs(styles.ctaSection5)}>
                   {" "}
@@ -87,7 +90,10 @@ const Section3: React.FC = () => {
       </section>
       <section>
         <div className={cs(styles.b1, styles.bgb1)}>
-          <Link to={bottemBanner.url}>
+          <Link
+            to={bottemBanner.url}
+            target={bottemBanner.urlTab ? "_blank" : ""}
+          >
             <LazyImage
               src={bottemBanner.image}
               className={globalStyles.imgResponsive}
@@ -99,7 +105,10 @@ const Section3: React.FC = () => {
             <div className={styles.title}>{bottemBanner.title}</div>
             <div className={styles.subtitle}>{bottemBanner.subtitle}</div>
             <p>{bottemBanner.description}</p>
-            <Link to={bottemBanner.ctaUrl}>
+            <Link
+              to={bottemBanner.ctaUrl}
+              target={bottemBanner.ctaTab ? "_blank" : ""}
+            >
               <div className={styles.ctaBottom}>{bottemBanner.ctaText} </div>
             </Link>
           </div>
