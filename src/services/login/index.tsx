@@ -152,8 +152,8 @@ export default {
         "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       // RESET CURRENCY TO DEFAULT INR
-      CookieService.setCookie("currency", "INR", 365);
-      dispatch(updateCurrency("INR"));
+      // CookieService.setCookie("currency", "INR", 365);
+      // dispatch(updateCurrency("INR"));
       dispatch(updateCookies({ tkn: "" }));
       MetaService.updateMeta(dispatch, {}).catch(err => {
         console.log(err);
