@@ -17,11 +17,12 @@ export default {
     dispatch: Dispatch,
     currency: Currency
   ): Promise<HeaderData[]> => {
-    let headerData: HeaderData[] | null = null;
+    let headerData: HeaderData[] = [];
     if (typeof document == "undefined") {
-      headerData = CacheService.get(`headerData-${currency}`) as HeaderData[];
+      headerData =
+        CacheService.get(`headerData-${currency}`) || ([] as HeaderData[]);
     }
-    if (headerData) {
+    if (headerData.length > 0) {
       dispatch(updateheader(headerData));
       return headerData;
     }
