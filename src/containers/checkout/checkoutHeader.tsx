@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -68,7 +68,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class CheckoutHeader extends React.Component<Props, { boId: string }> {
   constructor(props: Props) {
@@ -89,6 +90,9 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     };
     if (this.props.currency != data.currency) {
       return changeCurrency(data).then(response => {
+        if (data.currency == "INR") {
+          this.props.history.push("/maintenance");
+        }
         util.headerClickGTM(
           "Currency",
           "Top",
@@ -300,5 +304,8 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutHeader);
+const CheckoutHeaderRouter = withRouter(CheckoutHeader);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CheckoutHeaderRouter);
