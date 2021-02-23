@@ -19,11 +19,13 @@ export default async function cookies(
   const dispatch = ctx.store.dispatch;
   const { pathname, search } = ctx.history.location;
   const currencyPopup = ctx.cookies.get("currencypopup");
+  const isBridalBasket = ctx.cookies.get("isBridal");
   const queryString = search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
   if (
     !currencyPopup &&
+    (!isBridalBasket || isBridalBasket == "no") &&
     !boId &&
     !pathname.includes("/order/orderconfirmation/") &&
     !pathname.includes("/bridal/") &&

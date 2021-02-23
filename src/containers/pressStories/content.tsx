@@ -8,6 +8,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import SecondaryHeader from "components/SecondaryHeader";
 import iconPdf from "../../images/iconsPdf.svg";
+import ReactHtmlParser from "react-html-parser";
 
 type Props = {
   content: PressStory[];
@@ -70,12 +71,10 @@ const Content: React.FC<Props> = props => {
             <div className={cs(bootstrapStyles.col12, styles.firstPara)}>
               {props.content[props.readIndex].shortDesc}
             </div>
-            <div
-              className={cs(bootstrapStyles.col12, styles.contentImg)}
-              dangerouslySetInnerHTML={{
-                __html: props.content[props.readIndex].longDesc
-              }}
-            />
+            <div className={cs(bootstrapStyles.col12, styles.contentImg)}>
+              {" "}
+              {ReactHtmlParser(props.content[props.readIndex].longDesc)}
+            </div>
             <br />
             <br />
             <div

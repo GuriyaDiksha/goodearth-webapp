@@ -195,6 +195,7 @@ class Header extends React.Component<Props, State> {
         }
         reloadPage(
           this.props.cookies,
+          response.currency,
           history.location.pathname,
           this.props.isLoggedIn
         );
