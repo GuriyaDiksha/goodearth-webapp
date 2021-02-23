@@ -28,7 +28,7 @@ import {
   REGISTRY_OWNER_CHECKOUT,
   REGISTRY_MIXED_SHIPPING
 } from "constants/messages";
-import Axios from "axios";
+// import Axios from "axios";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
 
@@ -92,6 +92,7 @@ export default {
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     dispatch(updateModal(false));
+    HeaderService.fetchHomepageData(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -151,8 +152,8 @@ export default {
         "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       // RESET CURRENCY TO DEFAULT INR
-      CookieService.setCookie("currency", "INR", 365);
-      dispatch(updateCurrency("INR"));
+      // CookieService.setCookie("currency", "INR", 365);
+      // dispatch(updateCurrency("INR"));
       dispatch(updateCookies({ tkn: "" }));
       MetaService.updateMeta(dispatch, {}).catch(err => {
         console.log(err);
@@ -161,6 +162,7 @@ export default {
       BasketService.fetchBasket(dispatch).catch(err => {
         console.log(err);
       });
+      HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
       util.showGrowlMessage(dispatch, LOGOUT_SUCCESS, 5000);
       return res;
@@ -202,6 +204,7 @@ export default {
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
+    HeaderService.fetchHomepageData(dispatch);
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch).then(res => {
       if (source == "checkout") {
@@ -223,7 +226,7 @@ export default {
     dispatch(updateCurrency(formData.currency));
     return res;
   },
-  reloadPage: (dispatch: Dispatch) => {
+  reloadPage: (dispatch: Dispatch, currency: Currency) => {
     HeaderService.fetchHeaderDetails(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
@@ -239,7 +242,7 @@ export default {
     BasketService.fetchBasket(dispatch);
   },
   getClientIpCurrency: async function() {
-    Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
+    // Axios.post(`${__API_HOST__}/myapi/common/count_api_hits/`);
     const response = await new Promise((resolve, reject) => {
       fetch(`https://api.ipdata.co/?api-key=${__IP_DATA_KEY__}`, {
         method: "GET"
