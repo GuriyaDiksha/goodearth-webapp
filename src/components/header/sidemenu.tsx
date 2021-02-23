@@ -64,6 +64,7 @@ class SideMenu extends React.Component<Props, State> {
         this.props.onSideMenuClick("Currency");
         reloadPage(
           this.props.cookies,
+          response.currency,
           history.location.pathname,
           this.props.user.isLoggedIn
         );
