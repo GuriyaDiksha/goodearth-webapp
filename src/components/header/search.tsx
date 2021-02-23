@@ -137,7 +137,7 @@ class Search extends React.Component<Props, State> {
       this.props.toggle();
     }
     if (this.props.currency != nextProps.currency) {
-      this.getSearchDataApi(this.state.value);
+      this.getSearchDataApi(this.state.searchValue);
       // nextProps.mobile
       //   ? this.updateDataFromAPI("load")
       //   : this.updateDataFromAPI();
@@ -187,7 +187,7 @@ class Search extends React.Component<Props, State> {
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.value.length > 2) {
+    if (this.state.searchValue.length > 2) {
       // console.log(encodeURIComponent(this.state.url))
       this.props.history.push(this.state.url);
       this.closeSearch();
@@ -221,14 +221,15 @@ class Search extends React.Component<Props, State> {
         return false;
       }
       this.setState({
-        value: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
+        searchValue: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
       });
       this.getSearchDataApi(event.target.value.replace(/[^A-Z0-9% ]+/i, ""));
     } else {
       this.setState({
         productData: [],
         count: 0,
-        url: "/search"
+        url: "/search",
+        searchValue: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
       });
     }
   };
@@ -331,7 +332,7 @@ class Search extends React.Component<Props, State> {
             <div
               className={
                 !productsExist &&
-                this.state.value.length <= 2 &&
+                this.state.searchValue.length <= 2 &&
                 !suggestionsExist
                   ? cs(bootstrapStyles.row, globalStyles.voffset5)
                   : globalStyles.hidden
@@ -384,7 +385,7 @@ class Search extends React.Component<Props, State> {
               className={
                 !productsExist &&
                 suggestionsExist &&
-                this.state.value.length > 2
+                this.state.searchValue.length > 2
                   ? cs(bootstrapStyles.row, globalStyles.voffset2)
                   : globalStyles.hidden
               }
@@ -723,7 +724,7 @@ class Search extends React.Component<Props, State> {
               className={`${
                 !productsExist &&
                 !suggestionsExist &&
-                this.state.value.length > 2
+                this.state.searchValue.length > 2
                   ? cs(
                       bootstrapStyles.row,
                       styles.searchProducts,
