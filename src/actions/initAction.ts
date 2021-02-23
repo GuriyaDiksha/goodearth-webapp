@@ -2,7 +2,6 @@
 import HeaderService from "services/headerFooter";
 import ApiService from "services/api";
 import MetaService from "services/meta";
-import Koa from "koa";
 // typings
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
@@ -15,14 +14,9 @@ import Api from "services/api";
 // } from "./address";
 import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
-import { Currency } from "typings/currency";
 
-const initAction: any = async (
-  ctx: Koa.ParameterizedContext<Koa.DefaultContext>,
-  history: any
-) => {
-  const store: Store = ctx.store;
-  const state: AppState = ctx.store.getState();
+const initAction: any = async (store: Store, history: any) => {
+  const state: AppState = store.getState();
   const isBridalPublicPage =
     history.location.pathname.includes("/bridal/") &&
     !history.location.pathname.includes("/account/");
@@ -31,7 +25,14 @@ const initAction: any = async (
     const pathArray = history.location.pathname.split("/");
     bridalKey = pathArray[pathArray.length - 1];
   }
-  const apiCalls: Promise<void | MetaResponse | undefined>[] = [
+  let apiCalls: Promise<void | MetaResponse | undefined>[] = [
+    HeaderService.fetchHeaderDetails(store.dispatch)
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log("HEADER API ERROR ==== " + err);
+      }),
     HeaderService.fetchFooterDetails(store.dispatch)
       .then(data => {
         console.log(data);
@@ -78,30 +79,16 @@ const initAction: any = async (
       console.log("Popup Bg Api Status ==== " + err);
     })
   ];
-  let currency: Currency = "INR";
+
   if (state.cookies.tkn) {
-    try {
-      const res = await MetaService.updateMeta(
-        store.dispatch,
-        state.cookies,
-        bridalKey
-      );
-      currency = res?.currency || currency;
-    } catch (err) {
-      console.log("META API ERROR ==== " + err);
-    }
-  } else {
-    currency = (ctx.cookies.get("currency") as Currency) || "INR";
+    apiCalls = apiCalls.concat([
+      MetaService.updateMeta(store.dispatch, state.cookies, bridalKey).catch(
+        err => {
+          console.log("META API ERROR ==== " + err);
+        }
+      )
+    ]);
   }
-  apiCalls.concat([
-    HeaderService.fetchHeaderDetails(store.dispatch, currency)
-      .then(data => {
-        console.log(data);
-      })
-      .catch(err => {
-        console.log("HEADER API ERROR ==== " + err);
-      })
-  ]);
   return Promise.all(apiCalls);
 };
 export default initAction;

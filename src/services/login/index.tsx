@@ -92,6 +92,7 @@ export default {
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     dispatch(updateModal(false));
+    HeaderService.fetchHomepageData(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -161,6 +162,7 @@ export default {
       BasketService.fetchBasket(dispatch).catch(err => {
         console.log(err);
       });
+      HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
       util.showGrowlMessage(dispatch, LOGOUT_SUCCESS, 5000);
       return res;
@@ -202,6 +204,7 @@ export default {
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
+    HeaderService.fetchHomepageData(dispatch);
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch).then(res => {
       if (source == "checkout") {
@@ -224,7 +227,7 @@ export default {
     return res;
   },
   reloadPage: (dispatch: Dispatch, currency: Currency) => {
-    HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
+    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
