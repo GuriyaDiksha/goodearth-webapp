@@ -5,7 +5,6 @@ export default async function fetchInitialData(
   ctx: Koa.ParameterizedContext<Koa.DefaultContext>,
   next: Koa.Next
 ) {
-  const store = ctx.store;
-  await initAction(store, ctx.history);
+  await initAction(ctx, ctx.history);
   await next();
 }

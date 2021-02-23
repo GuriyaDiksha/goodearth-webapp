@@ -39,13 +39,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, page?: string, islogin?: boolean) => {
+    reloadPage: (
+      cookies: Cookies,
+      currency: Currency,
+      page?: string,
+      islogin?: boolean
+    ) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
-      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
-      });
+      HeaderService.fetchHeaderDetails(dispatch, currency as Currency).catch(
+        err => {
+          console.log("FOOTER API ERROR ==== " + err);
+        }
+      );
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
