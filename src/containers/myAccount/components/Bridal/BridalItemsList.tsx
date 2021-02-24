@@ -108,7 +108,8 @@ const BridalItemsList: React.FC<Props> = props => {
     sku,
     size,
     qtyBought,
-    qtyRemaining
+    qtyRemaining,
+    badgeType
   } = props.product;
   console.log(discount);
   return (
@@ -144,7 +145,12 @@ const BridalItemsList: React.FC<Props> = props => {
                         </span>
                       </span>
                     ) : (
-                      <span className={styles.productPrice}>
+                      <span
+                        className={cs(
+                          styles.productPrice,
+                          badgeType == "B_flat" ? globalStyles.cerise : ""
+                        )}
+                      >
                         {getCurrency()} {price[props.currency]}
                       </span>
                     )}
