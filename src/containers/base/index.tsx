@@ -56,6 +56,11 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
+  history.listen((location, action) => {
+    if (action == "POP" && CookieService.getCookie("currency") == "INR") {
+      history.push("/maintenance");
+    }
+  });
   // const setMakerPopupCookie = () => {
   //   const cookieString =
   //     "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
