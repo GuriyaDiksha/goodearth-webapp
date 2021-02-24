@@ -101,6 +101,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       BasketService.fetchBasket(dispatch, "checkout");
       valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
       HeaderService.fetchHomepageData(dispatch);
+      HeaderService.fetchHeaderDetails(dispatch);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);

@@ -167,7 +167,14 @@ class BridalItem extends React.Component<Props, State> {
                           </span>
                         </span>
                       ) : (
-                        <span className={styles.productPrice}>
+                        <span
+                          className={cs(
+                            styles.productPrice,
+                            this.props.bridalItem.badgeType == "B_flat"
+                              ? globalStyles.cerise
+                              : ""
+                          )}
+                        >
                           {String.fromCharCode(...code)}{" "}
                           {this.props.bridalItem.price[this.props.currency]}
                         </span>
