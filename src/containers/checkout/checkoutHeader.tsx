@@ -108,9 +108,9 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     };
     if (this.props.currency != data.currency) {
       return changeCurrency(data).then(response => {
-        if (data.currency == "INR") {
-          this.props.history.push("/maintenance");
-        }
+        // if (data.currency == "INR") {
+        //   this.props.history.push("/maintenance");
+        // }
         util.headerClickGTM(
           "Currency",
           "Top",

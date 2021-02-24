@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Switch, useLocation } from "react-router";
+import { Switch, useHistory, useLocation } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
@@ -24,8 +24,8 @@ import whatsapp from "../../images/whatsapp.svg";
 import { POPUP } from "constants/components";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
-  const location = useLocation();
-  const { pathname } = location;
+  const history = useHistory();
+  const { pathname } = history.location;
   const dispatch = useDispatch();
   const {
     currency,
@@ -93,6 +93,16 @@ const BaseLayout: React.FC = () => {
   //   }, 2000);
   // }, 100);
   // }
+
+  if (
+    typeof document == "object" &&
+    CookieService.getCookie("currency") == "INR" &&
+    CookieService.getCookie("currencypopup") &&
+    history.location.pathname != "/maintenance"
+  ) {
+    // debugger
+    history.push("/maintenance");
+  }
 
   useEffect(() => {
     // let isDragging = false;
