@@ -424,7 +424,7 @@ class JobForm extends React.Component<Props, State> {
                 validationErrors={{
                   isExisty: isExistyError,
                   maxLength: "Max limit reached.",
-                  isAlpha: "Name Should contain only alphabets."
+                  isAlpha: "Only alphabets are allowed."
                 }}
               />
             </div>
@@ -442,7 +442,7 @@ class JobForm extends React.Component<Props, State> {
                 validationErrors={{
                   isExisty: isExistyError,
                   maxLength: "Max limit reached.",
-                  isAlpha: "Name Should contain only alphabets."
+                  isAlpha: "Only alphabets are allowed."
                 }}
               />
             </div>
