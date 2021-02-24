@@ -88,7 +88,7 @@ const NotificationForm: React.FC = () => {
   const prepareFormData = (model: any) => {
     const formData = new FormData();
     const { email, firstName, lastName, phone } = model;
-    formData.append("email", email || "");
+    formData.append("email", email.toString().toLowerCase() || "");
     formData.append("firstName", firstName || "");
     formData.append("lastName", lastName || "");
     phone ? formData.append("phone", `+91${phone}`) : "";
@@ -156,7 +156,7 @@ const NotificationForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Name Should contain only alphabets."
+                isAlpha: "Only alphabets are allowed."
               }}
             />
           </div>
@@ -171,7 +171,7 @@ const NotificationForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Name Should contain only alphabets."
+                isAlpha: "Only alphabets are allowed."
               }}
             />
           </div>
@@ -262,7 +262,7 @@ const NotificationForm: React.FC = () => {
               <LazyImage
                 src={mobile ? mubaarakMobile : mubaarakDesktop}
                 className={globalStyles.imgResponsive}
-                aspectRatio={mobile ? "0.84:1" : "3.77:1"}
+                aspectRatio={mobile ? "0.96:1" : "3.77:1"}
               />
             </div>
           </div>

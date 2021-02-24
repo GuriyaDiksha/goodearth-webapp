@@ -217,6 +217,9 @@
 
 @media screen and (max-width: 992px) {
     h4 {
-        font-size: 14px;
+        font-size: 14px !important;
+    }
+    .job-application {
+        margin-top: 30px !important;
     }
 }
