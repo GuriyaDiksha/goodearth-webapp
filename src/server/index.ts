@@ -43,6 +43,8 @@ app.use(device);
 app.use(initAction);
 app.use(viewHandler);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
+
+server.timeout = 600000;
