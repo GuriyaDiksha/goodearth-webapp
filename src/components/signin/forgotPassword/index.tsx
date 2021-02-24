@@ -181,7 +181,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   };
 
   render() {
-    const { goRegister } = this.props;
+    // const { goRegister } = this.props;
     const formContent = (
       <form onSubmit={this.handleSubmit}>
         <div className={styles.categorylabel}>
