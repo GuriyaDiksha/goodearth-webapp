@@ -24,6 +24,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -277,7 +278,7 @@ class PLP extends React.Component<
       device: { mobile },
       currency,
       data: {
-        results: { breadcrumb, banner, bannerMobile, data },
+        results: { breadcrumb, banner, bannerMobile, data, bannerUrl },
         count
       }
     } = this.props;
@@ -430,10 +431,19 @@ class PLP extends React.Component<
             {banner || bannerMobile ? (
               <div className={cs(bootstrap.row)}>
                 <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
-                  <img
-                    src={mobile ? bannerMobile : banner}
-                    className={globalStyles.imgResponsive}
-                  />
+                  {bannerUrl ? (
+                    <Link to={bannerUrl}>
+                      <img
+                        src={mobile ? bannerMobile : banner}
+                        className={globalStyles.imgResponsive}
+                      />
+                    </Link>
+                  ) : (
+                    <img
+                      src={mobile ? bannerMobile : banner}
+                      className={globalStyles.imgResponsive}
+                    />
+                  )}
                 </div>
               </div>
             ) : (
