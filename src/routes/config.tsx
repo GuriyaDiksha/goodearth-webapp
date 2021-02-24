@@ -208,6 +208,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.MUBARAK,
+    component: loadable(() => import("containers/mubaarak")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.BRIDALPUBLIC,
     component: loadable(() => import("containers/bridal")),
     action: initActionBridal,
