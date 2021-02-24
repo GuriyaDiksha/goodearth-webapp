@@ -82,8 +82,9 @@ const Section1: React.FC = () => {
             <Link to={banner.ctaUrl} target={banner.ctaTab ? "_blank" : ""}>
               {" "}
               <div className={cs(styles.ctaB1, styles.ctaMargin)}>
-                <Button value={banner.ctaText} onClick={() => null} />
-                {/* {banner.ctaText}{" "} */}
+                {banner.ctaText && (
+                  <Button value={banner.ctaText} onClick={() => null} />
+                )}
               </div>
             </Link>
           </div>
