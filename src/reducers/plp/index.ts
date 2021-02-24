@@ -38,7 +38,8 @@ const initialState: State = {
       breadcrumb: [],
       data: [],
       banner: "",
-      bannerMobile: ""
+      bannerMobile: "",
+      bannerUrl: ""
     }
   },
   facetObject: {},
