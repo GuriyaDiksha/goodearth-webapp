@@ -262,7 +262,7 @@ font-weight: bold;
 .disabled-btn {
   background-color: tint(#000, 95%);
   color: tint(#000, 50%);
-  cursor: default;
+  cursor: default !important;
 }
 
 .error-border {
