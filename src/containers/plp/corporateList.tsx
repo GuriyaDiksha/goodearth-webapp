@@ -385,7 +385,7 @@ class CorporateFilter extends React.Component<Props, State> {
     // to check if scrolling down
     if (this.props.mobile) {
       const scroll = window.pageYOffset || document.documentElement.scrollTop;
-      if (this.prevScroll < scroll) {
+      if (this.prevScroll < scroll - 5) {
         if (!this.props.scrollDown) {
           this.props.updateScrollDown(true);
         }
