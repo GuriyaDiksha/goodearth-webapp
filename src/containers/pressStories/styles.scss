@@ -143,6 +143,7 @@
     }
     .filter-sticky {
       position: sticky;
+      position: -webkit-sticky;
       padding: 30px;
       height: 85vh;
       background-color: $white;
