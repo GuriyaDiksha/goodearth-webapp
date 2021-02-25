@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Switch, useHistory, useLocation } from "react-router";
+import { Switch, useHistory } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
