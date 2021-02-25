@@ -20,7 +20,8 @@ const mapStateToProps = (state: AppState) => {
     data: state.footer.data,
     mobile: state.device.mobile,
     isLoggedIn: state.user.email ? true : false,
-    saleStatus: false
+    saleStatus: false,
+    isSale: state.info.isSale
   };
 };
 
@@ -515,7 +516,7 @@ class Footer extends React.Component<Props, FooterState> {
                             </a>
                           </li>
                         </ul>
-                        {this.props.saleStatus ? (
+                        {this.props.isSale ? (
                           ""
                         ) : (
                           <ul className={cs(styles.footerPlaylist)}>
@@ -728,7 +729,7 @@ class Footer extends React.Component<Props, FooterState> {
                           ></i>
                         </a>
                       </div>
-                      {this.props.saleStatus ? (
+                      {this.props.isSale ? (
                         ""
                       ) : (
                         <div>
