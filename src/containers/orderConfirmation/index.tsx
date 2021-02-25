@@ -38,12 +38,19 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     };
 
     const products = result.lines.map((line: any) => {
+      const index = line.product.categories
+        ? line.product.categories.length - 1
+        : 0;
+      const category =
+        line.product.categories && line.product.categories[index]
+          ? line.product.categories[index].replace(/\s/g, "")
+          : "";
       return {
         name: line.title,
         id: line.product.sku,
         price: line.priceInclTax,
-        brand: "Good Earth",
-        category: line.product.collection,
+        brand: "Goodearth",
+        category: category,
         variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name
