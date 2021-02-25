@@ -76,6 +76,7 @@
       .order-summary {
         // height: 100vh;
         position: sticky;
+        position: -webkit-sticky;
       }
     }
     .cart-container {
