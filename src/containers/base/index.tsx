@@ -99,16 +99,6 @@ const BaseLayout: React.FC = () => {
   // }, 100);
   // }
 
-  if (
-    typeof document == "object" &&
-    CookieService.getCookie("currency") == "INR" &&
-    CookieService.getCookie("currencypopup") &&
-    history.location.pathname != "/maintenance"
-  ) {
-    // debugger
-    history.push("/maintenance");
-  }
-
   useEffect(() => {
     // let isDragging = false;
     document.addEventListener("wheel", (e: WheelEvent) => {
@@ -218,6 +208,9 @@ const BaseLayout: React.FC = () => {
         .catch(error => {
           console.log(error);
         });
+    }
+    if (history.location.pathname == "/maintenance") {
+      history.push("/");
     }
   }, []);
 
