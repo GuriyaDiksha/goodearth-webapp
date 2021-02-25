@@ -416,7 +416,6 @@ class PLP extends React.Component<
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
-              { [globalStyles.paddTop20]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
@@ -478,9 +477,22 @@ class PLP extends React.Component<
               className={
                 mobile
                   ? banner
-                    ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                    : cs(bootstrap.row, styles.imageContainerMobile)
-                  : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
+                    ? cs(
+                        bootstrap.row,
+                        styles.imageContainerMobileBanner,
+                        globalStyles.paddTop20
+                      )
+                    : cs(
+                        bootstrap.row,
+                        styles.imageContainerMobile,
+                        globalStyles.paddTop20
+                      )
+                  : cs(
+                      bootstrap.row,
+                      styles.imageContainer,
+                      styles.minHeight,
+                      globalStyles.paddTop20
+                    )
               }
               id="product_images"
             >

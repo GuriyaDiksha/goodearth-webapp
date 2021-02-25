@@ -88,7 +88,7 @@ const NotificationForm: React.FC = () => {
   const prepareFormData = (model: any) => {
     const formData = new FormData();
     const { email, firstName, lastName, phone } = model;
-    formData.append("email", email.toString().toLowerCase() || "");
+    formData.append("email", email ? email.toString().toLowerCase() : "");
     formData.append("firstName", firstName || "");
     formData.append("lastName", lastName || "");
     phone ? formData.append("phone", `+91${phone}`) : "";
