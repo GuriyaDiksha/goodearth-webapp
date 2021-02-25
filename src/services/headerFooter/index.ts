@@ -121,5 +121,12 @@ export default {
       section3: section3
     };
     dispatch(addHomeData({ ...data }));
+  },
+  saveMubaarak: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<{
+      message: string;
+      errors: string[] | { [x: string]: string }[];
+    }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
+    return res;
   }
 };
