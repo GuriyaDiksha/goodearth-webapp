@@ -62,9 +62,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
-      HeaderService.fetchHomepageData(dispatch).catch(err => {
-        console.log("Homepage API ERROR ==== " + err);
-      });
+      // HeaderService.fetchHomepageData(dispatch).catch(err => {
+      //   console.log("Homepage API ERROR ==== " + err);
+      // });
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch, "checkout");

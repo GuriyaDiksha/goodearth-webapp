@@ -61,9 +61,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
-      HeaderService.fetchHomepageData(dispatch).catch(err => {
-        console.log("Homepage API ERROR ==== " + err);
-      });
+      // HeaderService.fetchHomepageData(dispatch).catch(err => {
+      //   console.log("Homepage API ERROR ==== " + err);
+      // });
 
       islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);
