@@ -100,7 +100,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch, "checkout");
       valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
-      HeaderService.fetchHomepageData(dispatch);
+      // HeaderService.fetchHomepageData(dispatch);
       HeaderService.fetchHeaderDetails(dispatch);
     },
     finalCheckout: async (data: FormData) => {
