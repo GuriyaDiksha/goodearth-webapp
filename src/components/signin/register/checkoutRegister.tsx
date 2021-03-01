@@ -73,6 +73,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
+    this.props.fetchCountryData();
   }
   gtmPushRegister = () => {
     dataLayer.push({
@@ -116,19 +117,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       disableButton: true
     });
     this.props
-      .register(formData)
+      .register(formData, "checkout")
       .then(data => {
         this.gtmPushRegister();
-        dataLayer.push({
-          event: "checkout",
-          ecommerce: {
-            currencyCode: this.props.currency,
-            checkout: {
-              actionField: { step: 1 },
-              products: this.props.basket.products
-            }
-          }
-        });
         this.props.nextStep?.();
       })
       .catch(err => {
@@ -403,7 +394,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 maxLength: 75
               }}
               validationErrors={{
-                isEmail: "Enter valid email",
+                isEmail: "Please enter a valid Email ID",
                 maxLength: "You are allowed to enter upto 75 characters only"
               }}
               required
@@ -536,7 +527,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isPhoneValid: "This field is Required."
+                isPhoneValid: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
             />
@@ -551,10 +542,22 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
-                minLength: 6
+                minLength: 6,
+                isValid: (values, value) => {
+                  return (
+                    values.password1 &&
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
               }}
               validationErrors={{
-                minLength: "Please enter at least 6 characters for the password"
+                minLength:
+                  "Please enter at least 6 characters for the password",
+                isValid:
+                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
               required
             />
@@ -577,10 +580,21 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               isPaste={true}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
-                equalsField: "password1"
+                equalsField: "password1",
+                isValid: (values, value) => {
+                  return (
+                    values.password1 &&
+                    value &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value)
+                  );
+                }
               }}
               validationErrors={{
-                equalsField: "Passwords do not match"
+                equalsField: "The Password entered doesn't match",
+                isValid:
+                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
               required
             />
@@ -616,7 +630,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               name="terms"
               disable={!this.state.showFields}
               label={[
-                "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
+                "I agree to receiving e-mails, newsletters, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
                 <Link
                   key="terms"
                   to="/customer-assistance/privacy-policy"

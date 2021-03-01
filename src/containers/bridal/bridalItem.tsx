@@ -96,7 +96,9 @@ class BridalItem extends React.Component<Props, State> {
       qtyCurrent += 1;
       this.setState({ qtyCurrent: qtyCurrent });
     } else {
-      this.setState({ err: "Available qty in stock is " + maxQty });
+      this.setState({
+        err: `Only ${maxQty} piece${maxQty > 1 ? "s" : ""} available in stock`
+      });
     }
   };
 
@@ -165,7 +167,14 @@ class BridalItem extends React.Component<Props, State> {
                           </span>
                         </span>
                       ) : (
-                        <span className={styles.productPrice}>
+                        <span
+                          className={cs(
+                            styles.productPrice,
+                            this.props.bridalItem.badgeType == "B_flat"
+                              ? globalStyles.cerise
+                              : ""
+                          )}
+                        >
                           {String.fromCharCode(...code)}{" "}
                           {this.props.bridalItem.price[this.props.currency]}
                         </span>

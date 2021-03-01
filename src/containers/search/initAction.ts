@@ -1,8 +1,8 @@
 import { InitAction } from "typings/actions";
 import SearchService from "services/search";
 
-const initActionSearch: InitAction = async (dispatch, params, { search }) => {
-  await SearchService.onLoadSearchPage(dispatch, search).catch(err => {
+const initActionSearch: InitAction = async (store, params, { search }) => {
+  await SearchService.onLoadSearchPage(store.dispatch, search).catch(err => {
     console.log("Search Error API error", err);
   });
 };

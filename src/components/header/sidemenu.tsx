@@ -55,14 +55,19 @@ class SideMenu extends React.Component<Props, State> {
     };
     if (this.props.currency != data.currency) {
       return changeCurrency(data).then((response: any) => {
+        // if (data.currency == "INR") {
+        //   history.push("/maintenance");
+        // }
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
             history.location.pathname +
             history.location.search.replace(currency, response.currency);
           history.replace(path);
         }
+        this.props.onSideMenuClick("Currency");
         reloadPage(
           this.props.cookies,
+          response.currency,
           history.location.pathname,
           this.props.user.isLoggedIn
         );
@@ -75,6 +80,7 @@ class SideMenu extends React.Component<Props, State> {
       return false;
     }
     this.props.toggleSearch();
+    this.props.onSideMenuClick("Search");
   };
   render() {
     const { isLoggedIn } = this.context;
@@ -225,6 +231,7 @@ class SideMenu extends React.Component<Props, State> {
                   className={storyStyles.greyBG}
                   align="right"
                   items={profileItems}
+                  onDropDownMenuClick={this.props.onSideMenuClick}
                   disabled={isBridalRegistryPage ? true : false}
                 ></DropdownMenu>
               </div>
@@ -250,7 +257,10 @@ class SideMenu extends React.Component<Props, State> {
                 {isLoggedIn ? (
                   <Link
                     to={isBridalRegistryPage ? "#" : "/wishlist"}
-                    onClick={gtmPushWishlistClick}
+                    onClick={() => {
+                      gtmPushWishlistClick();
+                      this.props.onSideMenuClick("Wishlist");
+                    }}
                   >
                     <i
                       className={cs(
@@ -266,7 +276,12 @@ class SideMenu extends React.Component<Props, State> {
                 ) : (
                   <div
                     onClick={
-                      isBridalRegistryPage ? () => null : this.props.goLogin
+                      isBridalRegistryPage
+                        ? () => null
+                        : () => {
+                            this.props.onSideMenuClick("Wishlist");
+                            this.props.goLogin();
+                          }
                     }
                   >
                     <i
@@ -289,24 +304,24 @@ class SideMenu extends React.Component<Props, State> {
                 [styles.sideMenuItemMobile]: mobile
               })}
             >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCart,
-                  styles.iconStyle
-                )}
-                onClick={(): void => {
-                  this.props.setShowBag(true);
-                }}
-              ></i>
-              <span
-                className={styles.badge}
-                onClick={(): void => {
-                  this.props.setShowBag(true);
-                }}
-              >
-                {bagCount}
-              </span>
+              <div className={cs(styles.iconStyle, styles.innerCartContainer)}>
+                <i
+                  className={cs(iconStyles.icon, iconStyles.iconCart)}
+                  onClick={(): void => {
+                    this.props.setShowBag(true);
+                    this.props.onSideMenuClick("Cart");
+                  }}
+                ></i>
+                <span
+                  className={styles.badge}
+                  onClick={(): void => {
+                    this.props.setShowBag(true);
+                    this.props.onSideMenuClick("Cart");
+                  }}
+                >
+                  {bagCount}
+                </span>
+              </div>
             </li>
           )}
         </ul>

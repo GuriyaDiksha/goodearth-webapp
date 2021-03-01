@@ -11,6 +11,7 @@ import birdImage from "images/birdMotif.png";
 import AccountServices from "services/account";
 import { currencyCode, Currency } from "typings/currency";
 import moment from "moment";
+import * as util from "utils/validate";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
@@ -37,12 +38,19 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     };
 
     const products = result.lines.map((line: any) => {
+      const index = line.product.categories
+        ? line.product.categories.length - 1
+        : 0;
+      const category =
+        line.product.categories && line.product.categories[index]
+          ? line.product.categories[index].replace(/\s/g, "")
+          : "";
       return {
         name: line.title,
         id: line.product.sku,
         price: line.priceInclTax,
-        brand: "Good Earth",
-        category: line.product.collection,
+        brand: "Goodearth",
+        category: category,
         variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name
@@ -77,6 +85,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    util.pageViewGTM("OrderConfirmation");
     dataLayer.push({
       event: "OrderConfirmationPageView",
       PageURL: location.pathname,
@@ -271,6 +280,25 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       </div>
                     </div>
                   </div>
+                  {confirmData.deliveryInstructions ? (
+                    <div
+                      className={cs(
+                        bootstrapStyles.row,
+                        globalStyles.voffset2,
+                        styles.borderAdd,
+                        styles.deliveryPadding
+                      )}
+                    >
+                      <div className={styles.add}>
+                        <p className={styles.delivery}>DELIVERY INSTRUCTIONS</p>
+                        <p className={styles.light}>
+                          {confirmData.deliveryInstructions}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   {confirmData.lines?.map((item: any) => {
                     // according bakwas by gaurav
                     const isdisCount =

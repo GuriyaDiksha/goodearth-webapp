@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { currencyCode, Currency } from "typings/currency";
 import { BridalItemData } from "./typings";
 import BridalService from "services/bridal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //styles
 import cs from "classnames";
 import globalStyles from "../../../../styles/global.scss";
@@ -10,6 +10,7 @@ import styles from "./styles.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
 import cartIcon from "../../../../images/bridal/icons_cartregistry-details.svg";
+import { AppState } from "reducers/typings";
 type Props = {
   product: BridalItemData;
   mobile: boolean;
@@ -22,7 +23,7 @@ type Props = {
 };
 
 const BridalItemsList: React.FC<Props> = props => {
-  const saleStatus = false;
+  const saleStatus = useSelector((state: AppState) => state.info.isSale);
   const [reqCurrent, setReqCurrent] = useState(props.product.qtyRequested);
   const [err, setErr] = useState("");
 
@@ -37,7 +38,11 @@ const BridalItemsList: React.FC<Props> = props => {
   const dispatch = useDispatch();
   const increaseState = () => {
     if (reqCurrent >= props.product.stock) {
-      setErr("Available qty in stock is " + props.product.stock);
+      setErr(
+        `Only ${props.product.stock} piece${
+          props.product.stock > 1 ? "s" : ""
+        } available in stock`
+      );
       return false;
     }
 
@@ -103,8 +108,10 @@ const BridalItemsList: React.FC<Props> = props => {
     sku,
     size,
     qtyBought,
-    qtyRemaining
+    qtyRemaining,
+    badgeType
   } = props.product;
+  console.log(discount);
   return (
     <div className={cs(styles.cart, styles.cartContainer)}>
       <div className={cs("cart-item", styles.bridalPublic)}>
@@ -138,7 +145,12 @@ const BridalItemsList: React.FC<Props> = props => {
                         </span>
                       </span>
                     ) : (
-                      <span className={styles.productPrice}>
+                      <span
+                        className={cs(
+                          styles.productPrice,
+                          badgeType == "B_flat" ? globalStyles.cerise : ""
+                        )}
+                      >
                         {getCurrency()} {price[props.currency]}
                       </span>
                     )}

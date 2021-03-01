@@ -15,14 +15,14 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { useSelector, useDispatch } from "react-redux";
-// import LoginService from "services/login";
+import LoginService from "services/login";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import { AddressData, AddressFormData } from "../typings";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
 import { Country } from "components/Formsy/CountryCode/typings";
 import AddressService from "services/address";
-// import { updateCountryData } from "actions/address";
+import { updateCountryData } from "actions/address";
 import * as valid from "utils/validate";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 
@@ -940,6 +940,7 @@ const AddressForm: React.FC<Props> = props => {
     const form = AddressFormRef.current;
     const { state } = form && form.getModel();
     if (state != newState) {
+      setIsAddressChanged(true);
       form && form.updateInputsWithValue({ state: newState });
     }
 
@@ -1133,6 +1134,12 @@ const AddressForm: React.FC<Props> = props => {
   const isEmailError = "Please enter the correct email";
 
   useEffect(() => {
+    if (!countryData || countryData.length == 0) {
+      LoginService.fetchCountryData(dispatch).then(countryData => {
+        // changeCountryData(countryData);
+        dispatch(updateCountryData(countryData));
+      });
+    }
     const firstField = document.getElementById("first-field") as HTMLDivElement;
     firstField && firstField.focus();
     setIsLoading(false);
@@ -1265,7 +1272,7 @@ const AddressForm: React.FC<Props> = props => {
                 maxLength: 15
               }}
               validationErrors={{
-                isExisty: isExistyError,
+                isExisty: "Please enter your First Name",
                 isWords: isAlphaError,
                 maxLength: "You cannot type in more than 15 characters"
               }}
@@ -1287,7 +1294,7 @@ const AddressForm: React.FC<Props> = props => {
                 maxLength: 15
               }}
               validationErrors={{
-                isExisty: isExistyError,
+                isExisty: "Please enter your Last Name",
                 isWords: isAlphaError,
                 maxLength: "You cannot type in more than 15 characters"
               }}
@@ -1327,8 +1334,8 @@ const AddressForm: React.FC<Props> = props => {
                   }
                 }}
                 validationErrors={{
-                  isExisty: "isExistyError",
-                  isValidPostcode: "Please enter valid Pin/Zip code"
+                  isExisty: "Please fill this field",
+                  isValidPostcode: "Please enter a valid Pin/Zip code"
                 }}
                 changeState={changeState}
                 placeholder="Pin/Zip Code"
@@ -1359,7 +1366,7 @@ const AddressForm: React.FC<Props> = props => {
                   matchRegexp: /^[a-z\d\-_\s]+$/i
                 }}
                 validationErrors={{
-                  isExisty: isExistyError,
+                  isExisty: "Please fill this field",
                   matchRegexp: isAlphanumericError
                 }}
               />
@@ -1385,7 +1392,7 @@ const AddressForm: React.FC<Props> = props => {
                   isExisty: true
                 }}
                 validationErrors={{
-                  isExisty: isExistyError,
+                  isExisty: "Please select your Country",
                   isEmptyString: isExistyError
                 }}
               />
@@ -1439,7 +1446,7 @@ const AddressForm: React.FC<Props> = props => {
                 isExisty: true
               }}
               validationErrors={{
-                isExisty: isExistyError,
+                isExisty: "Please enter your Address",
                 // isEmptyString: isExistyError,
                 maxLength: "You cannot type in more than 70 characters"
               }}
@@ -1475,7 +1482,7 @@ const AddressForm: React.FC<Props> = props => {
                 isWords: true
               }}
               validationErrors={{
-                isExisty: isExistyError,
+                isExisty: "Please enter your City",
                 isWords: isAlphaError
               }}
             />
@@ -1508,8 +1515,8 @@ const AddressForm: React.FC<Props> = props => {
                 matchRegexp: /^[0-9\-/]+$/
               }}
               validationErrors={{
-                isExisty: isExistyError,
-                matchRegexp: "Please enter valid a phone number"
+                isExisty: "Please enter your Contact Number",
+                matchRegexp: "Please enter a valid Contact Number"
               }}
             />
           </div>

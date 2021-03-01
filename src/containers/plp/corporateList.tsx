@@ -24,7 +24,8 @@ const mapStateToProps = (state: AppState) => {
     nextUrl: state.plplist.data.next,
     listdata: state.plplist.data.results.data,
     salestatus: state.info.isSale,
-    location: state.router.location
+    location: state.router.location,
+    scrollDown: state.info.scrollDown
   };
 };
 
@@ -332,6 +333,7 @@ class CorporateFilter extends React.Component<Props, State> {
       rangevalue: [value[0], value[1]]
     });
   };
+  prevScroll = 0;
 
   afterChangeValue = (value: any) => {
     if (value[0] == value[1]) return false;
@@ -378,6 +380,21 @@ class CorporateFilter extends React.Component<Props, State> {
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
     if (windowBottom + 2000 >= docHeight && this.state.scrollload) {
       this.appendData();
+    }
+
+    // to check if scrolling down
+    if (this.props.mobile) {
+      const scroll = window.pageYOffset || document.documentElement.scrollTop;
+      if (this.prevScroll < scroll - 5) {
+        if (!this.props.scrollDown) {
+          this.props.updateScrollDown(true);
+        }
+      } else if (this.prevScroll > scroll) {
+        if (this.props.scrollDown) {
+          this.props.updateScrollDown(false);
+        }
+      }
+      this.prevScroll = scroll;
     }
   };
   createList = (plpList: any) => {
@@ -568,7 +585,8 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll, { passive: true });
+    this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
   }
 

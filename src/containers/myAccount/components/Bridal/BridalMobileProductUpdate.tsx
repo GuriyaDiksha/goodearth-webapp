@@ -55,9 +55,10 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
   };
 
   const increaseState = () => {
+    const { stock } = props.itemData;
     let qty = currentQty;
     if (qty >= props.itemData.stock) {
-      setErr("Available qty in stock is " + props.itemData.stock);
+      setErr(`Only ${stock} piece${stock > 1 ? "s" : ""} available in stock`);
       return false;
     }
     qty += 1;

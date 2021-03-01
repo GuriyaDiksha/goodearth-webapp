@@ -14,6 +14,7 @@ import cs from "classnames";
 import weddingFloral from "../../images/bridal/wedding-floral.png";
 import iconStyles from "styles/iconFonts.scss";
 import { POPUP } from "constants/components";
+import * as util from "utils/validate";
 
 type RouteInfo = {
   id: string;
@@ -127,6 +128,7 @@ class BridalCheckout extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    util.pageViewGTM("BridalPublic");
     const cookieString =
       "intro=" + true + "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
@@ -166,11 +168,11 @@ class BridalCheckout extends React.Component<Props, State> {
     }
   }
 
-  resetInfoPopupCookie() {
-    const cookieString =
-      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    document.cookie = cookieString;
-  }
+  // resetInfoPopupCookie() {
+  //   const cookieString =
+  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+  //   document.cookie = cookieString;
+  // }
 
   // componentDidUpdate() {
   //   if(this.props.mobile && this.state.showMobilePopup) {

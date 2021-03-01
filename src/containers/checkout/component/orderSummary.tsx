@@ -12,6 +12,7 @@ import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
 import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
+import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
 
 const OrderSummary: React.FC<OrderProps> = props => {
@@ -26,11 +27,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
   } = props;
   const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
+  const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { isSale } = useSelector((state: AppState) => state.info);
+  const { deliveryText } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
     setIsSuspended(true);
@@ -415,30 +418,38 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return true;
   };
 
-  const resetInfoPopupCookie = () => {
-    const cookieString =
-      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    document.cookie = cookieString;
-  };
+  // const resetInfoPopupCookie = () => {
+  //   const cookieString =
+  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+  //   document.cookie = cookieString;
+  // };
   const chkshipping = (event: any) => {
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable,
+      shippable
+    } = basket;
     if (page != "cart") {
       return false;
     }
-    if (isSuspended) {
-      resetInfoPopupCookie();
-    }
+    // if (isSuspended) {
+    //   resetInfoPopupCookie();
+    // }
     if (
       !freeShipping &&
-      basket.total >= 45000 &&
-      basket.total < 50000 &&
+      total >= freeShippingThreshold &&
+      total < freeShippingApplicable &&
       currency == "INR" &&
-      basket.shippable
+      shippable
     ) {
       dispatch(
         updateComponent(
           POPUP.FREESHIPPING,
           {
-            remainingAmount: 50000 - parseInt(basket.total.toString())
+            remainingAmount:
+              freeShippingApplicable - parseInt(basket.total.toString()),
+            freeShippingApplicable
           },
           true
         )
@@ -463,6 +474,20 @@ const OrderSummary: React.FC<OrderProps> = props => {
       e.preventDefault();
       LoginService.showLogin(dispatch);
     }
+  };
+  const saveInstruction = (data: string) => {
+    dispatch(updateDeliveryText(data));
+  };
+
+  const openDeliveryBox = () => {
+    dispatch(
+      updateComponent(
+        POPUP.DELIVERY,
+        { saveInstruction: saveInstruction },
+        true
+      )
+    );
+    dispatch(updateModal(true));
   };
 
   const getDiscount = (data: any) => {
@@ -548,6 +573,56 @@ const OrderSummary: React.FC<OrderProps> = props => {
               )}
             >
               to {shippingAddress.state} - {shippingAddress.postCode}
+            </div>
+          )}
+          {page == "cart" || basket.isOnlyGiftCart || salestatus ? (
+            ""
+          ) : (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                globalStyles.marginT20
+              )}
+            >
+              <span
+                className={cs(
+                  styles.deliveryfont,
+                  globalStyles.cerise,
+                  globalStyles.pointer
+                )}
+                onClick={openDeliveryBox}
+              >
+                {deliveryText.length == 0 ? "ADD" : "EDIT"} DELIVERY
+                INSTRUCTIONS
+              </span>
+              {/* <span className={styles.subtotal}>
+              (+) {String.fromCharCode(...code)}{" "}
+              {parseFloat(shippingCharge).toFixed(2)}
+            </span> */}
+            </div>
+          )}
+          {deliveryText.length == 0 ||
+          page == "cart" ||
+          basket.isOnlyGiftCart ||
+          salestatus ? (
+            ""
+          ) : (
+            <div className={cs(styles.deliveryDate, styles.wrap)}>
+              {fullText ? deliveryText : deliveryText.substr(0, 85)}
+              {deliveryText.length > 85 ? (
+                <span
+                  className={cs(globalStyles.cerise, globalStyles.pointer)}
+                  onClick={() => {
+                    setFullText(!fullText);
+                  }}
+                >
+                  {" "}
+                  [{fullText ? "-" : "+"}]
+                </span>
+              ) : (
+                ""
+              )}
             </div>
           )}
           {getDiscount(basket.offerDiscounts)}

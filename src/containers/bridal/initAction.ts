@@ -2,11 +2,12 @@ import { InitAction } from "../../typings/actions";
 import Api from "../../services/api";
 
 const initActionBridal: InitAction = async (
-  dispatch,
+  store,
   params,
   location,
   currency
 ) => {
+  const dispatch = store.dispatch;
   const pathArray = location.pathname.split("/");
   const isBridal =
     pathArray.includes("bridal") && !pathArray.includes("account");

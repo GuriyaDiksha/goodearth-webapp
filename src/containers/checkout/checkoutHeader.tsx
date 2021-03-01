@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import LoginService from "services/login";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
+import HeaderService from "services/headerFooter";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { currencyCode, Currency } from "typings/currency";
@@ -24,6 +25,7 @@ import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
 import * as util from "../../utils/validate";
+import Api from "services/api";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -35,7 +37,8 @@ const mapStateToProps = (state: AppState) => {
     message: state.message,
     location: state.router.location,
     meta: state.meta,
-    cookies: state.cookies
+    cookies: state.cookies,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
@@ -45,7 +48,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, pathname: string) => {
+    reloadPage: (cookies: Cookies, pathname: string, currency: Currency) => {
+      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      HeaderService.fetchFooterDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Announcement API ERROR ==== " + err);
+      });
+      // }
+      // if (page?.includes("/category_landing/")) {
+      //   // L
+      // }
+      HeaderService.fetchHomepageData(dispatch).catch(err => {
+        console.log("Homepage API ERROR ==== " + err);
+      });
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch, "checkout");
@@ -67,7 +86,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class CheckoutHeader extends React.Component<Props, { boId: string }> {
   constructor(props: Props) {
@@ -88,7 +108,20 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     };
     if (this.props.currency != data.currency) {
       return changeCurrency(data).then(response => {
-        reloadPage(this.props.cookies, this.props.location.pathname);
+        // if (data.currency == "INR") {
+        //   this.props.history.push("/maintenance");
+        // }
+        util.headerClickGTM(
+          "Currency",
+          "Top",
+          this.props.mobile,
+          this.props.isLoggedIn
+        );
+        reloadPage(
+          this.props.cookies,
+          this.props.location.pathname,
+          data.currency
+        );
       });
     }
     // this.setState({
@@ -169,12 +202,19 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
       <div>
         <Helmet>
           <title>
-            Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
+            {meta.title
+              ? meta.title
+              : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
           <link rel="icon" href={fabicon}></link>
-          {meta.description && (
-            <meta name="description" content={meta.description} />
-          )}
+          <meta
+            name="description"
+            content={
+              meta.description
+                ? meta.description
+                : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+            }
+          />
           {meta.keywords && <meta name="keywords" content={meta.keywords} />}
           {meta.ogTitle && (
             <meta property="og:title" content={`Goodearth | ${meta.ogTitle}`} />
@@ -235,7 +275,14 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               <Link
                 to="/"
                 onClick={e => {
-                  this.state.boId ? e.preventDefault() : "";
+                  this.state.boId
+                    ? e.preventDefault()
+                    : util.headerClickGTM(
+                        "Logo",
+                        "Top",
+                        this.props.mobile,
+                        this.props.isLoggedIn
+                      );
                 }}
               >
                 <img
@@ -279,5 +326,8 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutHeader);
+const CheckoutHeaderRouter = withRouter(CheckoutHeader);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CheckoutHeaderRouter);

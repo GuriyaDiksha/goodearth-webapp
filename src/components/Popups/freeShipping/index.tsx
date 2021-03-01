@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 
 type PopupProps = {
   remainingAmount: number;
+  freeShippingApplicable: number;
   // closeModal: (data?: any) => any;
   // acceptCondition: (data?: any) => any;
 };
@@ -22,6 +23,12 @@ const FreeShipping: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const currency = useSelector((state: AppState) => state.currency);
+  let amountINR = props.freeShippingApplicable.toString();
+  if (amountINR.length > 3) {
+    const amountArray = amountINR.split("");
+    amountArray.splice(-3, 0, ",");
+    amountINR = amountArray.join("");
+  }
 
   return (
     <div>
@@ -49,7 +56,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
           <div className={styles.freeShipping}>
             <div>
               You’re a step away from{" "}
-              <span className={styles.linkTextUnderline}>free shipping!</span>
+              <span className={globalStyles.textUnderline}>free shipping!</span>
             </div>
             <div>
               Select products worth{" "}
@@ -62,7 +69,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
             <div className={globalStyles.voffset3}>
               {" "}
               <span>
-                *Orders within India above Rs. 50,000 are eligible for free
+                *Orders within India above Rs. {amountINR} are eligible for free
                 shipping
               </span>
             </div>

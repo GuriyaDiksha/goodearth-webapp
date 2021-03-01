@@ -31,6 +31,7 @@ import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
 import * as util from "utils/validate";
+import Loader from "components/Loader";
 
 type Props = {
   basketLineId?: ProductID;
@@ -91,7 +92,7 @@ const NotifyMePopup: React.FC<Props> = ({
     },
     [selectedSize]
   );
-
+  const [showLoader, setShowLoader] = useState(false);
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
@@ -127,7 +128,7 @@ const NotifyMePopup: React.FC<Props> = ({
       message = "This field is required";
     } else if (!re.test(value)) {
       valid = false;
-      message = "Enter valid email";
+      message = "Please enter a valid Email ID";
     }
 
     return {
@@ -167,8 +168,10 @@ const NotifyMePopup: React.FC<Props> = ({
           dispatch,
           selectedSize.id,
           undefined,
-          sortBy
+          sortBy,
+          selectedSize.size
         );
+      setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
           util.showGrowlMessage(
@@ -185,10 +188,13 @@ const NotifyMePopup: React.FC<Props> = ({
             util.showGrowlMessage(dispatch, err.response.data);
             util.errorTracking([err.response.data], window.location.href);
           }
+        })
+        .finally(() => {
+          setShowLoader(false);
         });
     } else {
-      setSizeErrorMsg("Please select size");
-      util.errorTracking(["Please select size"], location.href);
+      setSizeErrorMsg("Please select a Size to proceed");
+      util.errorTracking(["Please select a Size to proceed"], location.href);
     }
   };
 
@@ -215,8 +221,8 @@ const NotifyMePopup: React.FC<Props> = ({
           basketLineId && onNotifyCart?.(basketLineId);
         }
       } else {
-        setSizeErrorMsg("Please select size");
-        util.errorTracking(["Please select size"], location.href);
+        setSizeErrorMsg("Please select a Size to proceed");
+        util.errorTracking(["Please select a Size to proceed"], location.href);
       }
     }
   };
@@ -250,7 +256,13 @@ const NotifyMePopup: React.FC<Props> = ({
   }, [selectedSize]);
 
   const sizeExists = childAttributes[0].size;
+  let allOutOfStock = true;
 
+  childAttributes.forEach(({ stock }) => {
+    if (stock > 0) {
+      allOutOfStock = false;
+    }
+  });
   return (
     <div className={cs(styles.container)}>
       <div className={styles.header}>
@@ -314,13 +326,13 @@ const NotifyMePopup: React.FC<Props> = ({
             maxValue={maxQuantity}
             currentValue={quantity}
             onChange={onQuantityChange}
-            errorMsg={selectedSize ? "Available qty in stock is" : ""}
+            // errorMsg={selectedSize ? "Available qty in stock is" : ""}
             disabled={(selectedSize && selectedSize.stock == 0) || false}
             className={styles.quantityWrapper}
             inputClass={styles.inputQuantity}
           />
         </div>
-        {selectedSize && selectedSize.stock === 0 && (
+        {((selectedSize && selectedSize.stock === 0) || allOutOfStock) && (
           <div className={cs(styles.emailInput, globalStyles.textLeft)}>
             <InputField
               id="width"
@@ -331,12 +343,13 @@ const NotifyMePopup: React.FC<Props> = ({
               label="Email"
               placeholder="Email Address"
               errorMsg={emailError}
-              // disabled={userExists}
+              disabled={userExists}
             />
           </div>
         )}
         {button}
       </div>
+      {showLoader && <Loader />}
     </div>
   );
 };

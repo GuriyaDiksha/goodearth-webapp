@@ -7,6 +7,8 @@ export type State = {
   currencyList: any[];
   makerReloadToggle: boolean;
   nextUrl: string;
+  deliveryText: string;
+  scrollDown: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;
