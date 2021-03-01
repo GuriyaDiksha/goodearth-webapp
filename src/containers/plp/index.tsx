@@ -18,16 +18,25 @@ import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
+import iconFonts from "../../styles/iconFonts.scss";
+import PlpResultListViewItem from "components/plpResultListViewItem";
+import ModalStyles from "components/Modal/styles.scss";
+import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import { POPUP } from "constants/components";
+import * as util from "utils/validate";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
     plpProductId: state.plplist.plpProductId,
     facetObject: state.plplist.facetObject,
     data: state.plplist.data,
+    plpMobileView: state.plplist.plpMobileView,
+    scrollDown: state.info.scrollDown,
     location: state.router.location,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    isSale: state.info.isSale
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -87,6 +96,7 @@ class PLP extends React.Component<
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    util.pageViewGTM("PLP");
     dataLayer.push({
       event: "PlpView",
       PageURL: this.props.location.pathname,
@@ -130,6 +140,70 @@ class PLP extends React.Component<
       });
   };
 
+  onEnquireClick = (id: number) => {
+    const { updateComponentModal, changeModalState } = this.props;
+    const mobile = this.props.device.mobile;
+    updateComponentModal(
+      // <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      POPUP.THIRDPARTYENQUIRYPOPUP,
+      {
+        id
+      },
+      mobile ? true : false,
+      mobile ? ModalStyles.bottomAlign : undefined
+    );
+    changeModalState(true);
+  };
+
+  notifyMeClick = (product: PLPProductItem) => {
+    const {
+      categories,
+      collections,
+      priceRecords,
+      discountedPriceRecords,
+      childAttributes,
+      title,
+      discount,
+      badgeType
+    } = product;
+    const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
+    const {
+      updateComponentModal,
+      changeModalState,
+      currency,
+      isSale
+    } = this.props;
+    // childAttributes?.map((v, i) => {
+    //   if (v.id === selectedSize?.id) {
+    //     selectedIndex = i;
+    //   }
+    // });
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+    updateComponentModal(
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collections && collections.length > 0 ? collections[0] : "",
+        category: category,
+        price: priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes as ChildProductAttributes[],
+        title: title,
+        selectedIndex: selectedIndex,
+        discount: discount,
+        badgeType: badgeType,
+        isSale: isSale,
+        discountedPrice: discountedPriceRecords[currency],
+        list: "plp"
+      },
+      false,
+      ModalStyles.bottomAlign
+    );
+    changeModalState(true);
+  };
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
     updateComponentModal(
@@ -165,11 +239,18 @@ class PLP extends React.Component<
     }
   };
 
+  updateMobileView = (plpMobileView: "list" | "grid") => {
+    if (this.props.plpMobileView != plpMobileView) {
+      this.props.updateMobileView(plpMobileView);
+    }
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const queryString = nextProps.location.search;
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get("sort_by");
     if (this.props.location.pathname != nextProps.location.pathname) {
+      util.pageViewGTM("PLP");
       this.setState({
         plpMaker: false,
         sortValue: param ? param : "hc",
@@ -197,7 +278,7 @@ class PLP extends React.Component<
       device: { mobile },
       currency,
       data: {
-        results: { breadcrumb, banner, bannerMobile, data },
+        results: { breadcrumb, banner, bannerMobile, data, bannerUrl },
         count
       }
     } = this.props;
@@ -335,7 +416,6 @@ class PLP extends React.Component<
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
-              { [globalStyles.paddTop20]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
@@ -350,10 +430,19 @@ class PLP extends React.Component<
             {banner || bannerMobile ? (
               <div className={cs(bootstrap.row)}>
                 <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
-                  <img
-                    src={mobile ? bannerMobile : banner}
-                    className={globalStyles.imgResponsive}
-                  />
+                  {bannerUrl ? (
+                    <Link to={bannerUrl}>
+                      <img
+                        src={mobile ? bannerMobile : banner}
+                        className={globalStyles.imgResponsive}
+                      />
+                    </Link>
+                  ) : (
+                    <img
+                      src={mobile ? bannerMobile : banner}
+                      className={globalStyles.imgResponsive}
+                    />
+                  )}
                 </div>
               </div>
             ) : (
@@ -388,50 +477,120 @@ class PLP extends React.Component<
               className={
                 mobile
                   ? banner
-                    ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                    : cs(bootstrap.row, styles.imageContainerMobile)
-                  : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
+                    ? cs(
+                        bootstrap.row,
+                        styles.imageContainerMobileBanner,
+                        globalStyles.paddTop20
+                      )
+                    : cs(
+                        bootstrap.row,
+                        styles.imageContainerMobile,
+                        globalStyles.paddTop20
+                      )
+                  : cs(
+                      bootstrap.row,
+                      styles.imageContainer,
+                      styles.minHeight,
+                      globalStyles.paddTop20
+                    )
               }
               id="product_images"
             >
               {this.state.flag ? <Loader /> : ""}
-              {data.map((item, index) => {
-                return (
-                  <div
-                    className={cs(
-                      bootstrap.colMd4,
-                      bootstrap.col6,
-                      styles.setWidth
-                    )}
-                    key={item.id}
-                  >
-                    <PlpResultItem
-                      page="PLP"
-                      position={index}
-                      product={item}
-                      addedToWishlist={false}
-                      currency={currency}
-                      key={item.id}
-                      mobile={mobile}
-                      isVisible={index < 3 ? true : undefined}
-                      onClickQuickView={this.onClickQuickView}
-                      isCorporate={this.state.corporoateGifting}
-                    />
-                  </div>
-                );
-              })}
+
+              {!mobile || this.props.plpMobileView == "grid"
+                ? data.map((item, index) => {
+                    return (
+                      <div
+                        className={cs(
+                          bootstrap.colMd4,
+                          bootstrap.col6,
+                          styles.setWidth
+                        )}
+                        key={item.id}
+                      >
+                        <PlpResultItem
+                          page="PLP"
+                          position={index}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          key={item.id}
+                          mobile={mobile}
+                          isVisible={index < 3 ? true : undefined}
+                          onClickQuickView={this.onClickQuickView}
+                          isCorporate={this.state.corporoateGifting}
+                        />
+                      </div>
+                    );
+                  })
+                : data.map((item, index) => {
+                    return (
+                      <div
+                        className={cs(
+                          bootstrap.colLg4,
+                          bootstrap.col12,
+                          styles.setWidth,
+                          styles.listViewContainer
+                        )}
+                        key={item.id}
+                      >
+                        <PlpResultListViewItem
+                          page="PLP"
+                          position={index}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          key={item.id}
+                          mobile={mobile}
+                          isVisible={index < 3 ? true : undefined}
+                          onClickQuickView={this.onClickQuickView}
+                          isCorporate={this.state.corporoateGifting}
+                          notifyMeClick={this.notifyMeClick}
+                          onEnquireClick={this.onEnquireClick}
+                        />
+                      </div>
+                    );
+                  })}
               <div
-                className={cs(
-                  bootstrap.colMd4,
-                  bootstrap.col6,
-                  styles.setWidth
-                )}
+                className={
+                  !mobile || this.props.plpMobileView == "grid"
+                    ? cs(bootstrap.colMd4, bootstrap.col6, styles.setWidth)
+                    : cs(
+                        bootstrap.colLg4,
+                        bootstrap.col12,
+                        styles.setWidth,
+                        styles.listViewContainer
+                      )
+                }
                 key={1}
               >
                 {this.state.corporoateGifting ? "" : <GiftcardItem />}
               </div>
             </div>
           </div>
+          {mobile && (
+            <div
+              className={cs(styles.listGridBar, {
+                [styles.hide]: this.props.scrollDown
+              })}
+            >
+              <i
+                key="grid-icon"
+                className={cs(iconFonts.icon, iconFonts.iconGridView, {
+                  [styles.active]: this.props.plpMobileView == "grid"
+                })}
+                onClick={() => this.updateMobileView("grid")}
+              />
+              <i
+                key="list-icon"
+                className={cs(iconFonts.icon, iconFonts.iconListView, {
+                  [styles.active]: this.props.plpMobileView == "list"
+                })}
+                onClick={() => this.updateMobileView("list")}
+              />
+            </div>
+          )}
         </div>
         {mobile && (
           <PlpDropdownMenu

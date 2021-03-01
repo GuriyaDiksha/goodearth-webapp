@@ -214,6 +214,11 @@
       font-weight: 600;
       font-family: $font-Lato;
     }
+
+    .deliveryfont {
+      font-size: 12px;
+      font-family: $font-Lato;
+    }
   
     .grand-total {
       font-size: 18px;
@@ -312,4 +317,8 @@
   line-height: 20px;
   justify-content: center;
   text-transform: none;
+}
+
+.wrap {
+  word-wrap: break-word;
 }

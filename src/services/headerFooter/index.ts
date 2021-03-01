@@ -6,8 +6,11 @@ import {
 import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
 import { updateheader } from "actions/header";
+import HomeService from "services/home";
+import { HomeProps } from "typings/home";
+import { addHomeData } from "actions/home";
 // services
-// import CacheService from "services/cache";
+import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
@@ -36,19 +39,24 @@ export default {
     return res.results;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
-    // let footerData = CacheService.get("footerData") as FooterDataProps;
-
-    // if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
-    //   return footerData;
-    // }
+    let footerData: FooterDataProps | null = null;
+    if (typeof document == "undefined") {
+      footerData = CacheService.get("footerData") as FooterDataProps;
+    }
+    if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
+      dispatch(updatefooter(footerData));
+      return footerData;
+    }
 
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__ + "/myapi/category/footer"}`
     );
-    // footerData = res as FooterDataProps;
-    dispatch(updatefooter(res));
-    // CacheService.set("footerData", footerData);
+    footerData = res as FooterDataProps;
+    dispatch(updatefooter(footerData));
+    if (typeof document == "undefined") {
+      CacheService.set("footerData", footerData);
+    }
     return res as FooterDataProps;
   },
   makeNewsletterSignupRequest: async (dispatch: Dispatch, email: string) => {
@@ -94,10 +102,41 @@ export default {
     return res;
   },
   getCurrencyList: async function(dispatch: Dispatch) {
+    const currencyList = CacheService.get("currencyList");
+    if (currencyList && __API_HOST__ == "https://pb.goodearth.in") {
+      return currencyList;
+    }
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__}/myapi/common/country_with_symbol/`
     );
+    CacheService.set("currencyList", res);
+    return res;
+  },
+  fetchHomepageData: async function(dispatch: Dispatch) {
+    const [section1, section2, section3] = await Promise.all([
+      HomeService.fetchHomeSession1(dispatch).catch(err => {
+        console.log("Home session1 Api error");
+      }),
+      HomeService.fetchHomeSession2(dispatch).catch(err => {
+        console.log("Home session2 Api error");
+      }),
+      HomeService.fetchHomeSession3(dispatch).catch(err => {
+        console.log("Home session3 Api error");
+      })
+    ]);
+    const data: HomeProps = {
+      section1: section1,
+      section2: section2,
+      section3: section3
+    };
+    dispatch(addHomeData({ ...data }));
+  },
+  saveMubaarak: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<{
+      message: string;
+      errors: string[] | { [x: string]: string }[];
+    }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
     return res;
   }
 };

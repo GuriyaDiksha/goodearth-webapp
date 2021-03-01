@@ -39,7 +39,7 @@ class MenuList extends React.Component<MenuListProps> {
   createListElement(
     headerData: MenuData[][],
     leftMenu: MenuData[],
-    imageurl: HeaderData,
+    data: HeaderData,
     bigimage: string
   ) {
     if (headerData.length == 0) return false;
@@ -57,7 +57,7 @@ class MenuList extends React.Component<MenuListProps> {
         labelDesktop: "",
         labelMobile: "",
         name: "Featured ",
-        url: imageurl.catLandingUrl
+        url: data.catLandingUrl
       });
     }
     if (leftMenu.length > 0) {
@@ -75,7 +75,10 @@ class MenuList extends React.Component<MenuListProps> {
                   <Link
                     className={spanClass + columnUrlClass}
                     to={column.url ? column.url : "#"}
-                    onClick={this.mouseLeave}
+                    onClick={() => {
+                      this.props.onHeaderMenuClick(data.name, column.name, "");
+                      this.mouseLeave();
+                    }}
                   >
                     <span>
                       {ReactHtmlParser(
@@ -88,7 +91,17 @@ class MenuList extends React.Component<MenuListProps> {
                   ? column.children.map((data1, index) => {
                       return (
                         <li key={index + "colChildren"}>
-                          <Link to={data1.url} onClick={this.mouseLeave}>
+                          <Link
+                            to={data1.url}
+                            onClick={() => {
+                              this.props.onHeaderMenuClick(
+                                data.name,
+                                column.name,
+                                data1.name
+                              );
+                              this.mouseLeave();
+                            }}
+                          >
                             <span>
                               {ReactHtmlParser(
                                 data1.labelDesktop
@@ -109,7 +122,7 @@ class MenuList extends React.Component<MenuListProps> {
     } else {
       html.push(<ul className={bootstrap.colMd2} key="no-left-menu"></ul>);
     }
-    headerData.map((data, i) => {
+    headerData.map((rightData, i) => {
       html.push(
         <ul
           key={i + "headerData"}
@@ -117,7 +130,7 @@ class MenuList extends React.Component<MenuListProps> {
             headerData.length - 1 == i ? bootstrap.colMd2 : bootstrap.colMd2
           }
         >
-          {data?.map((column, j) => {
+          {rightData?.map((column, j) => {
             const class1 =
               column.name.toLowerCase().indexOf("sale") > -1
                 ? cs(styles.menucolor, styles.subheading, styles.subheadingImg)
@@ -130,7 +143,10 @@ class MenuList extends React.Component<MenuListProps> {
               <div key={j + "header-data"}>
                 <li>
                   <Link
-                    onClick={this.mouseLeave}
+                    onClick={() => {
+                      this.props.onHeaderMenuClick(data.name, column.name, "");
+                      this.mouseLeave();
+                    }}
                     className={
                       column.name.toLowerCase() == "winter velvets"
                         ? class1
@@ -153,7 +169,14 @@ class MenuList extends React.Component<MenuListProps> {
                   return (
                     <li key={index}>
                       <Link
-                        onClick={this.mouseLeave}
+                        onClick={() => {
+                          this.mouseLeave();
+                          this.props.onHeaderMenuClick(
+                            data.name,
+                            column.name,
+                            data1.name
+                          );
+                        }}
                         to={data1.url}
                         className={isSale ? styles.menucolor : ""}
                       >
@@ -187,8 +210,8 @@ class MenuList extends React.Component<MenuListProps> {
               <div>
                 <Link
                   to={
-                    imageurl.categoryImageUrl
-                      ? imageurl.categoryImageUrl
+                    data.categoryImageUrl
+                      ? data.categoryImageUrl
                       : "JavaScript:Void(0);"
                   }
                   onClick={this.mouseLeave}
@@ -200,11 +223,11 @@ class MenuList extends React.Component<MenuListProps> {
           </ul>
         )
       : "";
-    imageurl.categoryLogoImage && this.props.show
+    data.categoryLogoImage && this.props.show
       ? html.push(
           <div className={styles.innerLogo}>
             <img
-              src={imageurl.categoryLogoImage}
+              src={data.categoryLogoImage}
               className={styles.imgResponsive}
               data-test="true"
             />

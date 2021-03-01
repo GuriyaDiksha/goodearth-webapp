@@ -17,9 +17,10 @@ import CategoryService from "services/category";
 import { CategoryProps } from "typings/category";
 import { addCategoryData } from "actions/category";
 import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
-// import Instagram from "components/Instagram"
+import Instagram from "components/Instagram";
 import "./slick.css";
-import initActionCollection from "./initAction";
+import initActionCategoryLanding from "./initAction";
+import metaActionCategoryLanding from "./metaAction";
 // import { Settings } from "react-slick";
 // import CollectionImage from "components/collectionItem";
 // import { CollectionItem } from "components/collectionItem/typings";
@@ -115,6 +116,7 @@ class CategoryLanding extends React.Component<
     dataLayer.push(function(this: any) {
       this.reset();
     });
+    valid.pageViewGTM("CategoryLanding");
     dataLayer.push({
       event: "CategoryLandingView",
       PageURL: this.props.location.pathname,
@@ -130,6 +132,7 @@ class CategoryLanding extends React.Component<
 
   UNSAFE_componentWillReceiveProps(newprops: any) {
     if (this.props.location.pathname != newprops.pathname) {
+      valid.pageViewGTM("CategoryLanding");
       this.setState({
         catLanding: false
       });
@@ -823,7 +826,7 @@ class CategoryLanding extends React.Component<
         )}
         <section>
           <div id="inst" className={styles.instafeed1}>
-            {/* <Instagram/> */}
+            <Instagram />
             {/* {this.getInstagram()} */}
           </div>
           <div className={cs(styles.iconInsta, globalStyles.textCenter)}>
@@ -849,4 +852,5 @@ class CategoryLanding extends React.Component<
   }
 }
 export default connect(mapStateToProps, mapActionsToProps)(CategoryLanding);
-export { initActionCollection };
+export { initActionCategoryLanding };
+export { metaActionCategoryLanding };

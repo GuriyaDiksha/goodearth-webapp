@@ -123,6 +123,12 @@ class Search extends React.Component<Props, State> {
   };
 
   handleChange = (e: any) => {
+    const regex = /^[A-Za-z0-9 ]+$/;
+    const key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (!regex.test(key)) {
+      e.preventDefault();
+      return false;
+    }
     this.setState({ searchValue: e.target.value });
   };
 
@@ -131,7 +137,7 @@ class Search extends React.Component<Props, State> {
       this.props.toggle();
     }
     if (this.props.currency != nextProps.currency) {
-      this.getSearchDataApi(this.state.value);
+      this.getSearchDataApi(this.state.searchValue);
       // nextProps.mobile
       //   ? this.updateDataFromAPI("load")
       //   : this.updateDataFromAPI();
@@ -154,7 +160,7 @@ class Search extends React.Component<Props, State> {
     const cur = this.props.isSale
       ? itemData.discountedPriceRecords[this.props.currency]
       : itemData.priceRecords[this.props.currency];
-    const listPath = `SearchPopup ${location.pathname}`;
+    const listPath = `SearchResults`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
       event: "productClick",
@@ -181,7 +187,7 @@ class Search extends React.Component<Props, State> {
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.value.length > 2) {
+    if (this.state.searchValue.length > 2) {
       // console.log(encodeURIComponent(this.state.url))
       this.props.history.push(this.state.url);
       this.closeSearch();
@@ -190,21 +196,40 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValue = (event: any) => {
+    const regex = /^[A-Za-z0-9% ]+$/;
+    const key = String.fromCharCode(
+      !event.charCode ? event.which : event.charCode
+    );
+    if (
+      event.type != "paste" &&
+      !regex.test(key) &&
+      (!event.charCode ? event.which : event.charCode) != 13
+    ) {
+      event.preventDefault();
+      return false;
+    }
+  };
+
+  checkSearchValueUp = (event: any) => {
     if (event.target.value.length > 2) {
-      if (event.keyCode == 13) {
-        this.props.history.push(this.state.url);
+      if ((!event.charCode ? event.which : event.charCode) == 13) {
+        this.props.history.push(
+          "/search?q=" +
+            encodeURIComponent(event.target.value.replace(/[^A-Z0-9% ]+/i, ""))
+        );
         this.closeSearch();
         return false;
       }
       this.setState({
-        value: event.target.value
+        searchValue: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
       });
-      this.getSearchDataApi(event.target.value);
+      this.getSearchDataApi(event.target.value.replace(/[^A-Z0-9% ]+/i, ""));
     } else {
       this.setState({
         productData: [],
         count: 0,
-        url: "/search"
+        url: "/search",
+        searchValue: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
       });
     }
   };
@@ -217,7 +242,7 @@ class Search extends React.Component<Props, State> {
     this.props
       .fetchSearchProducts(searchUrl.split("/search")[1])
       .then(data => {
-        valid.productImpression(data, "SearchPopup", this.props.currency);
+        valid.productImpression(data, "SearchResults", this.props.currency);
         this.setState({
           productData: data.results.data,
           url: searchUrl,
@@ -267,7 +292,9 @@ class Search extends React.Component<Props, State> {
                   type="text"
                   placeholder="Looking for something?"
                   ref={this.searchBoxRef}
-                  onKeyUp={this.checkSearchValue}
+                  onKeyPress={this.checkSearchValue}
+                  onPaste={this.checkSearchValue}
+                  onKeyUp={this.checkSearchValueUp}
                   onChange={this.handleChange.bind(this)}
                 />
                 <span
@@ -305,7 +332,7 @@ class Search extends React.Component<Props, State> {
             <div
               className={
                 !productsExist &&
-                this.state.value.length <= 2 &&
+                this.state.searchValue.length <= 2 &&
                 !suggestionsExist
                   ? cs(bootstrapStyles.row, globalStyles.voffset5)
                   : globalStyles.hidden
@@ -358,7 +385,7 @@ class Search extends React.Component<Props, State> {
               className={
                 !productsExist &&
                 suggestionsExist &&
-                this.state.value.length > 2
+                this.state.searchValue.length > 2
                   ? cs(bootstrapStyles.row, globalStyles.voffset2)
                   : globalStyles.hidden
               }
@@ -697,7 +724,7 @@ class Search extends React.Component<Props, State> {
               className={`${
                 !productsExist &&
                 !suggestionsExist &&
-                this.state.value.length > 2
+                this.state.searchValue.length > 2
                   ? cs(
                       bootstrapStyles.row,
                       styles.searchProducts,

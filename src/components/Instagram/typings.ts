@@ -1,5 +1,5 @@
 export interface InstaProps {
-  collectionName: string;
-  productUrl: string;
-  productImage: string;
+  collectionName?: string;
+  productUrl?: string;
+  productImage?: string;
 }

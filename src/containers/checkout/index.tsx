@@ -16,6 +16,7 @@ import CookieService from "services/cookie";
 import AddressService from "services/address";
 import CheckoutService from "services/checkout";
 import LoginService from "services/login";
+import HeaderService from "services/headerFooter";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
@@ -48,6 +49,7 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     cookies: state.cookies,
     isSale: state.info.isSale,
+    deliveryText: state.info.deliveryText,
     bridalId: state.user.bridalId
   };
 };
@@ -98,6 +100,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch, "checkout");
       valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+      HeaderService.fetchHomepageData(dispatch);
+      HeaderService.fetchHeaderDetails(dispatch);
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -202,14 +206,14 @@ class Checkout extends React.Component<Props, State> {
       loyaltyData: {}
     };
   }
-  setInfoPopupCookie() {
-    const cookieString =
-      "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-    document.cookie = cookieString;
-    // this.setState({
-    //     showInfoPopup: 'show'
-    // })
-  }
+  // setInfoPopupCookie() {
+  //   const cookieString =
+  //     "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+  //   document.cookie = cookieString;
+  //   // this.setState({
+  //   //     showInfoPopup: 'show'
+  //   // })
+  // }
 
   checkToMessage(basket: Basket) {
     let item1 = false,
@@ -225,7 +229,8 @@ class Checkout extends React.Component<Props, State> {
     // const bridalId = CookieService.getCookie("bridalId");
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
-    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
+    valid.pageViewGTM("Checkout");
+    // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
@@ -259,24 +264,15 @@ class Checkout extends React.Component<Props, State> {
           this.props.history.push("/backend-order-error");
         });
     }
-    if (this.state.isSuspended && checkoutPopupCookie !== "show") {
-      this.props.showPopup(this.setInfoPopupCookie);
-    }
+    // if (this.state.isSuspended && checkoutPopupCookie !== "show") {
+    //   this.props.showPopup(this.setInfoPopupCookie);
+    // }
     const {
       user: { email },
       getLoyaltyPoints
     } = this.props;
     this.state.isGoodearthShipping
-      ? dataLayer.push({
-          event: "checkout",
-          ecommerce: {
-            currencyCode: this.props.currency,
-            checkout: {
-              actionField: { step: 2 },
-              products: this.props.basket.products
-            }
-          }
-        })
+      ? valid.checkoutGTM(2, this.props.currency, this.props.basket)
       : "";
     dataLayer.push(function(this: any) {
       this.reset();
@@ -320,17 +316,7 @@ class Checkout extends React.Component<Props, State> {
       if (this.checkToMessage(res)) {
         this.props.showNotify(REGISTRY_MIXED_SHIPPING);
       }
-
-      dataLayer.push({
-        event: "checkout",
-        ecommerce: {
-          currencyCode: this.props.currency,
-          checkout: {
-            actionField: { step: 1 },
-            products: this.props.basket.products
-          }
-        }
-      });
+      valid.checkoutGTM(1, this.props.currency, res);
     });
   }
   componentWillUnmount() {
@@ -532,16 +518,7 @@ class Checkout extends React.Component<Props, State> {
               activeStep: Steps.STEP_BILLING,
               shippingError: ""
             });
-            dataLayer.push({
-              event: "checkout",
-              ecommerce: {
-                currencyCode: this.props.currency,
-                checkout: {
-                  actionField: { step: 2 },
-                  products: this.props.basket.products
-                }
-              }
-            });
+            valid.checkoutGTM(2, this.props.currency, this.props.basket);
             if (data.data.pageReload) {
               const data: any = {
                 email: this.props.user.email
@@ -600,16 +577,7 @@ class Checkout extends React.Component<Props, State> {
               gstNo: obj.gstNo || "",
               gstType: obj.gstType || ""
             });
-            dataLayer.push({
-              event: "checkout",
-              ecommerce: {
-                currencyCode: this.props.currency,
-                checkout: {
-                  actionField: { step: 3 },
-                  products: this.props.basket.products
-                }
-              }
-            });
+            valid.checkoutGTM(3, this.props.currency, this.props.basket);
           })
           .catch(err => {
             this.setState({
@@ -633,17 +601,11 @@ class Checkout extends React.Component<Props, State> {
     if (this.state.boId) {
       data["BoId"] = this.state.boId;
     }
+    if (this.props.deliveryText) {
+      data["deliveryInstructions"] = this.props.deliveryText;
+    }
     const response = await this.props.finalCheckout(data);
-    dataLayer.push({
-      event: "checkout",
-      ecommerce: {
-        currencyCode: this.props.currency,
-        checkout: {
-          actionField: { step: 5 },
-          products: this.props.basket.products
-        }
-      }
-    });
+    valid.checkoutGTM(5, this.props.currency, this.props.basket);
     return response;
   };
 

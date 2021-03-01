@@ -29,6 +29,7 @@ import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
 import bridalRing from "../../images/bridal/rings.svg";
+import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
@@ -186,6 +187,9 @@ class Header extends React.Component<Props, State> {
     };
     if (this.props.currency != data.currency) {
       changeCurrency(data).then((response: any) => {
+        // if (data.currency == "INR") {
+        //   history.push("/maintenance");
+        // }
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
             history.location.pathname +
@@ -194,11 +198,40 @@ class Header extends React.Component<Props, State> {
         }
         reloadPage(
           this.props.cookies,
+          response.currency,
           history.location.pathname,
           this.props.isLoggedIn
         );
       });
     }
+  };
+
+  onSideMenuClick = (clickType: string) => {
+    util.headerClickGTM(
+      clickType,
+      "Top",
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
+  };
+
+  onBottomMenuClick = (clickType: string) => {
+    util.headerClickGTM(
+      clickType,
+      "Bottom",
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
+  };
+
+  onMenuClick = (l1: string, l2: string, l3: string) => {
+    util.menuNavigationGTM(
+      l1,
+      l2,
+      l3,
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
   };
 
   showSearch = () => {
@@ -256,6 +289,12 @@ class Header extends React.Component<Props, State> {
 
   handleLogoClick = () => {
     this.gtmPushLogoClick();
+    util.headerClickGTM(
+      "Logo",
+      "Top",
+      this.props.mobile,
+      this.props.isLoggedIn
+    );
     this.setState({
       showC: false,
       showMenu: false,
@@ -355,12 +394,18 @@ class Header extends React.Component<Props, State> {
       <div className="">
         <Helmet defer={false}>
           <title>
-            Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in
+            {meta.title
+              ? meta.title
+              : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
           {
             <meta
               name="description"
-              content={meta.description ? meta.description : ""}
+              content={
+                meta.description
+                  ? meta.description
+                  : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+              }
             />
           }
           <link
@@ -430,6 +475,7 @@ class Header extends React.Component<Props, State> {
           {meta.twitterSite && (
             <meta name="twitter:site" content={meta.twitterSite} />
           )}
+          <meta httpEquiv="X-Frame-Options" content="deny" />
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
@@ -529,7 +575,7 @@ class Header extends React.Component<Props, State> {
                 <div
                   className={cs(
                     bootstrap.col3,
-                    bootstrap.colMd2,
+                    bootstrap.colLg2,
                     styles.hamburger,
                     { [globalStyles.cerise]: mobile }
                   )}
@@ -547,6 +593,12 @@ class Header extends React.Component<Props, State> {
                     }
                     onClick={() => {
                       this.clickToggle();
+                      util.headerClickGTM(
+                        "Mobile Menu",
+                        "Top",
+                        true,
+                        isLoggedIn
+                      );
                     }}
                   ></i>
                   <i
@@ -570,7 +622,7 @@ class Header extends React.Component<Props, State> {
               )}
               <div
                 className={cs(
-                  bootstrap.colMd2,
+                  bootstrap.colLg2,
                   bootstrap.col6,
                   styles.logoContainer
                 )}
@@ -584,9 +636,9 @@ class Header extends React.Component<Props, State> {
               ) : (
                 <div
                   className={cs(
-                    bootstrap.colMd6,
+                    bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetMd1
+                    bootstrap.offsetLg1
                   )}
                 >
                   {/* <MainMenu
@@ -615,9 +667,10 @@ class Header extends React.Component<Props, State> {
                   />
                 </div>
               )}
-              <div className={cs(bootstrap.colMd3, bootstrap.col3)}>
+              <div className={cs(bootstrap.colLg3, bootstrap.col3)}>
                 {!mobile && (
                   <SideMenu
+                    onSideMenuClick={this.onSideMenuClick}
                     showBag={this.state.showBag}
                     setShowBag={this.setShowBag}
                     showSearch={this.state.showSearch}
@@ -631,7 +684,13 @@ class Header extends React.Component<Props, State> {
                 {mobile && (
                   <ul className={cs(bootstrap.row)}>
                     <li className={cs(styles.mobileSearch, bootstrap.col)}>
-                      <div onClick={this.showSearch}>
+                      <div
+                        onClick={() => {
+                          !this.state.showSearch &&
+                            this.onSideMenuClick("Search");
+                          this.showSearch();
+                        }}
+                      >
                         <i
                           className={
                             this.state.showSearch
@@ -654,7 +713,12 @@ class Header extends React.Component<Props, State> {
                     </li>
                     {this.state.showCartMobile && (
                       <li className={cs(styles.mobileSearch, bootstrap.col)}>
-                        <div onClick={() => this.setShowBag(true)}>
+                        <div
+                          onClick={() => {
+                            this.setShowBag(true);
+                            this.onSideMenuClick("Cart");
+                          }}
+                        >
                           <i
                             className={cs(
                               iconStyles.icon,
@@ -689,6 +753,7 @@ class Header extends React.Component<Props, State> {
             >
               {/* <MenuList
                 ipad={false}
+                onHeaderMenuClick={this.onMenuClick}
                 activeIndex={this.state.activeIndex}
                 mouseOut={(data): void => {
                   this.mouseOut(data);
@@ -729,6 +794,7 @@ class Header extends React.Component<Props, State> {
                     {
                       <>
                         <Mobilemenu
+                          onMobileMenuClick={this.onMenuClick}
                           menudata={this.props.data}
                           location={this.props.location}
                           clickToggle={this.clickToggle}
@@ -740,7 +806,15 @@ class Header extends React.Component<Props, State> {
                                 <Link
                                   to="/wishlist"
                                   className={styles.wishlistLink}
-                                  onClick={this.clickToggle}
+                                  onClick={() => {
+                                    this.clickToggle();
+                                    util.headerClickGTM(
+                                      "Wishlist",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
+                                  }}
                                 >
                                   <i
                                     className={cs(
@@ -765,6 +839,12 @@ class Header extends React.Component<Props, State> {
                                 <div
                                   onClick={e => {
                                     this.props.goLogin(e);
+                                    util.headerClickGTM(
+                                      "Wishlist",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                   className={styles.wishlistLink}
@@ -814,6 +894,12 @@ class Header extends React.Component<Props, State> {
                                   }
                                   onClick={() => {
                                     this.changeCurrency("INR");
+                                    util.headerClickGTM(
+                                      "Currency",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                 >
@@ -828,6 +914,12 @@ class Header extends React.Component<Props, State> {
                                   }
                                   onClick={() => {
                                     this.changeCurrency("USD");
+                                    util.headerClickGTM(
+                                      "Currency",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                 >
@@ -842,6 +934,12 @@ class Header extends React.Component<Props, State> {
                                   }
                                   onClick={() => {
                                     this.changeCurrency("GBP");
+                                    util.headerClickGTM(
+                                      "Currency",
+                                      "Top",
+                                      true,
+                                      isLoggedIn
+                                    );
                                     this.clickToggle();
                                   }}
                                 >
@@ -861,11 +959,30 @@ class Header extends React.Component<Props, State> {
                                     }}
                                   >
                                     {item.type == "button" ? (
-                                      <>{item.label}</>
+                                      <span
+                                        onClick={() => {
+                                          util.headerClickGTM(
+                                            "Profile Item",
+                                            "Top",
+                                            true,
+                                            isLoggedIn
+                                          );
+                                        }}
+                                      >
+                                        {item.label}
+                                      </span>
                                     ) : (
                                       <NavLink
                                         key={item.label}
                                         to={item.href as string}
+                                        onClick={() => {
+                                          util.headerClickGTM(
+                                            "Profile Item",
+                                            "Top",
+                                            true,
+                                            isLoggedIn
+                                          );
+                                        }}
                                       >
                                         {item.label}
                                       </NavLink>
@@ -927,6 +1044,7 @@ class Header extends React.Component<Props, State> {
         <MakerUtils />
         {mobile && !isBridalRegistryPage && (
           <BottomMenu
+            onBottomMenuClick={this.onBottomMenuClick}
             showBag={this.state.showBag}
             showSearch={this.showSearch}
             isSearch={this.state.showSearch}

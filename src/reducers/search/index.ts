@@ -24,7 +24,8 @@ export const PRODUCT_INIT_STATE: PLPProductItem = {
   url: "",
   childAttributes: [],
   plpImages: [],
-  productClass: ""
+  productClass: "",
+  plpSliderImages: []
 };
 
 const initialState: State = {
@@ -37,7 +38,8 @@ const initialState: State = {
       breadcrumb: [],
       data: [],
       banner: "",
-      bannerMobile: ""
+      bannerMobile: "",
+      bannerUrl: ""
     }
   },
   facetObject: {},

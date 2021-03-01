@@ -23,6 +23,10 @@
   width: 100%;
   background-color: rgb(249, 248, 245);
   height: 50px;
+  transition: bottom 0.3s;
+  &.hide {
+    bottom: -50px;
+  }
 }
 
 .header-container {
@@ -152,11 +156,40 @@
     }
     .inner-wish-container {
       margin-top: 4px !important;
-      a {
+      color: $cerise;
+      &:hover {
+        a, div {
+          color: inherit;
+        }
+        .badge {
+          color: inherit;
+        }
+      }
+      a, div {
        color: #000;
        &:hover {
          text-decoration: none;
+         color: inherit;
        }
+      }
+    }
+    .inner-cart-container {
+      margin-top: 4px !important;
+      color: $cerise;
+      &:hover {
+        i {
+          color: inherit;
+        }
+        .badge {
+          color: inherit;
+        }
+      }
+      i {
+        color: #000;
+        &:hover {
+          text-decoration: none;
+          color: inherit;
+        }
       }
     }
     .badge {
@@ -175,7 +208,8 @@
       vertical-align: baseline;
       border-radius: 10px;
       &:hover {
-        color: $cerise;
+        // color: $cerise;
+        color: inherit;
       }
     }
     .icon-style {
@@ -282,14 +316,14 @@
     }
   }
 
-  .menulevel1 {
-    &:after {
-      content: '+';
-      float: right;
-      font-size: 25px;
-      color: tint(#000, 50%);
-    }
-  }
+  // .menulevel1 {
+    // &:after {
+    //   content: '>';
+    //   float: right;
+    //   font-size: 25px;
+    //   color: tint(#000, 50%);
+    // }
+  // }
   .menulevel1-open {
     &:after {
       content: '-';
@@ -365,7 +399,7 @@
   left: 0;
   padding: 0px;
   height: 100%;
-  overflow: scroll;
+  // overflow: scroll;
   .col-xs-10 {
     padding: 0;
   }
@@ -411,7 +445,7 @@
     margin: 0;
     padding: 0;
     font-weight: normal;
-    margin-bottom: 60px;
+    margin-bottom: 100px;
   }
   li {
     @include menu-subcopy();
@@ -484,8 +518,10 @@
   ul{
     padding: 0px;
   }
-  li {
+  .outer-menu-item {
     border-bottom: 1px solid tint(#000, 90%);
+  }
+  li {
     color: #000;
     font-size: 14px;
     font-family: $font-Header;
@@ -495,14 +531,15 @@
     position: relative;
     span {
       @include menu-cat-mobile();
+      font-family: inherit;
     }
     li {
       border-bottom: none;
       padding-left: 20px;
-      &:first-child {
-        border-top: 1px solid tint(#000, 90%);
-      }
-      a {
+      // &:first-child {
+      //   border-top: 1px solid tint(#000, 90%);
+      // }
+      a, span {
         @include menu-copy();
         display: block;
       }
@@ -519,12 +556,21 @@
     padding-left: 20px;
     display: block;
     &:after {
-      content: '+';
+      content: '';
+      float: right;
+      border: solid $cerise;
       font-weight: bold;
-      // float: right;
+      border-width: 0 2px 2px 0;
+      width: 8px;
+      height: 8px;
+      transform: rotate(-45deg);
+      top: 25px;
+      position: relative;
+      right: 5px;
+    }
+    .right-arrow {
       font-size: 25px;
       color: $cerise;
-      font-family: $font-Lato;
       font-weight: 300;
       position: absolute;
       right: 0;
@@ -565,22 +611,26 @@
       }
     }
     &:after {
-      content: '';
-      float: right;
-      border: solid $cerise;
-      border-width: 0 2px 2px 0;
-      width: 8px;
-      height: 8px;
-      transform: rotate(45deg);
-      top: 21px;
+      content: '+';
+      font-weight: bold;
+      font-size: 25px;
+      color: $cerise;
+      font-family: "LatoFont","Helvetica","Arial";
+      font-weight: 300;
       position: absolute;
-      right: 5px;
+      right: 0;
+      top: 0;
     }
   }
   .menulevel2-open {
     &:after {
-      transform: rotate(225deg);
+      content: '-';
     }
+  }
+  .menulevel2-link {
+    text-transform: uppercase;
+    display: block;
+    // padding-left: 20px;
   }
 }
 
@@ -798,7 +848,7 @@ a {
     border: 1px solid tint(#000, 80%);
     margin: 20px auto;
     background-color: $white;
-    padding: 0 120px;
+    padding: 0 200px 0 120px;
     line-height: 60px;
     font-size: 20px;
   }
@@ -1021,7 +1071,7 @@ span {
   .search-input-block {
     line-height: 60px;
     input {
-      padding: 0 20px;
+      padding: 0 170px 0 20px;
       border: none;
       line-height: 40px;
     }
@@ -1383,4 +1433,48 @@ visibility: visible !important;
 }
 .home-bottom-menu {
   padding-top: 5px;
+}
+
+ul.inner-menu-mobile {
+  padding: 0 20px;
+  &>li:first-child {
+      background-color: #FCFCFA;
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+      z-index: 1;
+      border-bottom: 1px solid #e6e6e6;
+      margin: 0 -35px;
+      padding: 0 35px;
+  }
+}
+.inner-menu-heading {
+  text-align: center;
+  .back {
+    text-transform: capitalize;
+    color: #464646;
+    font-size: 12px;
+    &:before {
+      content: '';
+      float: left;
+      border: solid black;
+      border-width: 0 1px 1px 0;
+      width: 8px;
+      height: 8px;
+      transform: rotate(135deg);
+      top: 21px;
+      position: absolute;
+      left: 5px;
+    }
+  }
+  .title {
+    text-transform: uppercase;
+  }
+}
+
+.double-arrow {
+  font-size: 32px;
+  vertical-align: middle;
+  right: -10px;
+  position: relative;
 }

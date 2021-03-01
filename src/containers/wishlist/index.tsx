@@ -27,6 +27,7 @@ import { WidgetImage } from "components/header/typings";
 // services
 import HeaderService from "services/headerFooter";
 import { POPUP } from "constants/components";
+import * as util from "utils/validate";
 
 let AbsoluteGrid: any;
 
@@ -285,6 +286,7 @@ class Wishlist extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
+    util.pageViewGTM("Wishlist");
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -370,7 +372,7 @@ class Wishlist extends React.Component<Props, State> {
         ? prod.category[index].replace(/\s/g, "")
         : "";
       category = category.replace(/>/g, "/");
-      const listPath = `Wishlist ${location.pathname}`;
+      const listPath = `Wishlist`;
       return prod.stockDetails.map(gtmItem => {
         const cur = this.state.saleStatus
           ? gtmItem.discountedPrice[currency]

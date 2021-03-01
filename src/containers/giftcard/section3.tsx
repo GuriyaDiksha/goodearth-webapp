@@ -16,6 +16,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
   const emailInput = React.useRef<HTMLInputElement>(null);
   const lastNameInput = React.useRef<HTMLInputElement>(null);
   const [textarea, setTextarea] = useState("");
+  const englishandSpace = /^[a-zA-Z\s]+$/;
   // const [ehighlight, setEhighlight] = useState(false);
   // const [emsg, setEmsg] = useState("");
 
@@ -129,8 +130,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
             <div
               className={cs(
                 bootstrapStyles.col12,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.textCenter,
                 styles.formBg
               )}
@@ -145,6 +146,16 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     value={data["recipientName"]}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
+                    validations={{
+                      isEnglish: (values, value) => {
+                        if (value) {
+                          return englishandSpace.test(value);
+                        } else return true;
+                      }
+                    }}
+                    validationErrors={{
+                      isEnglish: "Only alphabets are allowed"
+                    }}
                     required
                   />
                 </div>
@@ -161,7 +172,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       maxLength: 75
                     }}
                     validationErrors={{
-                      isEmail: "Enter valid email",
+                      isEmail: "Please enter a valid Email ID",
                       maxLength:
                         "You are allowed to enter upto 75 characters only"
                     }}
@@ -184,10 +195,10 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       equalsField: "recipientEmail"
                     }}
                     validationErrors={{
-                      isEmail: "Enter valid email",
+                      isEmail: "Please enter a valid Email ID",
                       maxLength:
                         "You are allowed to enter upto 75 characters only",
-                      equalsField: "Email do not match"
+                      equalsField: "The Email ID entered doesn't match"
                     }}
                     required
                   />
@@ -210,7 +221,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       }
                     }}
                     validationErrors={{
-                      isEmpty: "Please enter message"
+                      isEmpty: "Please enter your message"
                     }}
                     // value={textarea}
                     // className={ehighlight ? "error-border" : ""}
@@ -236,6 +247,16 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                     // className={showFieldsClass}
                     keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                     inputRef={lastNameInput}
+                    validations={{
+                      isEnglish: (values, value) => {
+                        if (value) {
+                          return englishandSpace.test(value);
+                        } else return true;
+                      }
+                    }}
+                    validationErrors={{
+                      isEnglish: "Only alphabets are allowed"
+                    }}
                     required
                   />
                 </div>
@@ -245,8 +266,8 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
             <div
               className={cs(
                 bootstrapStyles.col12,
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 globalStyles.textCenter,
                 styles.buttonBg
               )}

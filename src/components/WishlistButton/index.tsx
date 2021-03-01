@@ -52,7 +52,7 @@ const WishlistButton: React.FC<Props> = ({
           categories.length > 0 &&
           categories[index].replace(/\s/g, "");
         category = category && category.replace(/>/g, "/");
-        const listPath = `${gtmListType} ${location.pathname}`;
+        const listPath = `${gtmListType}`;
         dataLayer.push({
           event: "AddtoWishlist",
           ecommerce: {
@@ -95,7 +95,7 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
-          size || "",
+          size || childAttributes?.[0].size || "",
           source,
           sortBy
         )

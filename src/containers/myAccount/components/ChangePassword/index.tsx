@@ -137,11 +137,22 @@ class ChangePassword extends React.Component<Props, State> {
                       }
                       type={"password"}
                       validations={{
-                        minLength: 6
+                        minLength: 6,
+                        isValid: (values, value) => {
+                          return (
+                            values.newPassword &&
+                            value &&
+                            /[a-z]/.test(value) &&
+                            /[0-9]/.test(value) &&
+                            /[A-Z]/.test(value)
+                          );
+                        }
                       }}
                       validationErrors={{
                         minLength:
-                          "Please enter at least 6 characters for the password"
+                          "Please enter at least 6 characters for the password",
+                        isValid:
+                          "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
                       }}
                       required
                     />
@@ -159,12 +170,23 @@ class ChangePassword extends React.Component<Props, State> {
                       type={"password"}
                       validations={{
                         minLength: 6,
-                        equalsField: "newPassword"
+                        equalsField: "newPassword",
+                        isValid: (values, value) => {
+                          return (
+                            values.newPassword1 &&
+                            value &&
+                            /[a-z]/.test(value) &&
+                            /[0-9]/.test(value) &&
+                            /[A-Z]/.test(value)
+                          );
+                        }
                       }}
                       validationErrors={{
                         minLength:
                           "Please enter at least 6 characters for the password",
-                        equalsField: "Passwords do not match"
+                        isValid:
+                          "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter.",
+                        equalsField: "The password entered doesn't match"
                       }}
                       required
                     />

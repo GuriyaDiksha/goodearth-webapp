@@ -15,12 +15,14 @@ import { CollectionItem } from "components/collectionItem/typings";
 import MobileDropdownMenu from "components/MobileDropdown";
 import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
+import ReactHtmlParser from "react-html-parser";
 import {
   updateCollectionData,
   updateCollectionFilter
 } from "actions/collection";
 import { getProductIdFromSlug } from "utils/url.ts";
 import { RouteComponentProps, withRouter } from "react-router";
+import * as util from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -117,6 +119,7 @@ class CollectionLanding extends React.Component<
       });
     }
     if (this.props.location.pathname != nextProps.location.pathname) {
+      util.pageViewGTM("CollectionLanding");
       this.setState({
         landingMaker: false,
         onloadState: false
@@ -132,11 +135,12 @@ class CollectionLanding extends React.Component<
     dataLayer.push(function(this: any) {
       this.reset();
     });
-    dataLayer.push({
-      event: "CategoryLangingPageView",
-      PageURL: this.props.location.pathname,
-      PageTitle: "virtual_categoryLangingPage_view"
-    });
+    util.pageViewGTM("CollectionLanding");
+    // dataLayer.push({
+    //   event: "CategoryLangingPageView",
+    //   PageURL: this.props.location.pathname,
+    //   PageTitle: "virtual_categoryLangingPage_view"
+    // });
     this.setState({
       landingMaker: true
     });
@@ -238,11 +242,7 @@ class CollectionLanding extends React.Component<
           >
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
               <h1>{collectionName} Collections </h1>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: this.props.data.description
-                }}
-              ></p>
+              <p>{ReactHtmlParser(this.props.data.description)}</p>
             </div>
           </div>
         )}

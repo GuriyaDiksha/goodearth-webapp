@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
-import CookieService from "services/cookie";
+// import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -58,53 +58,64 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   async checkMailValidation() {
     if (this.state.email) {
       const data = await this.props.checkUserPassword(this.state.email);
-      if (data.emailExist) {
-        if (data.passwordExist) {
-          this.setState(
-            {
-              showCurrentSection: "login",
-              msg: "",
-              highlight: false
-            },
-            () => {
-              const checkoutPopupCookie = CookieService.getCookie(
-                "checkoutinfopopup"
-              );
-              checkoutPopupCookie == "show" &&
-                this.passwordInput.current &&
-                this.passwordInput.current.focus();
-              this.passwordInput.current &&
-                this.passwordInput.current.scrollIntoView(true);
-            }
-          );
-        } else {
-          const error = [
-            "This account already exists. Please ",
-            <span
-              className={cs(
-                globalStyles.errorMsg,
-                globalStyles.linkTextUnderline
-              )}
-              key={1}
-              onClick={this.handleResetPassword}
-            >
-              set a new password
-            </span>
-          ];
-          this.setState({
-            msg: error,
-            highlight: true
-          });
-          this.emailInput.current && this.emailInput.current.focus();
-        }
+      if (data.invalidDomain) {
+        this.setState(
+          {
+            showerror: data.message
+          },
+          () => {
+            valid.errorTracking([this.state.showerror], location.href);
+          }
+        );
       } else {
-        localStorage.setItem("tempEmail", this.state.email);
-        this.props.showRegister?.();
-        // this.setState({
-        //   highlight: true,
-        //   showCurrentSection:'register'
-        // });
-        // this.emailInput.current && this.emailInput.current.focus();
+        if (data.emailExist) {
+          if (data.passwordExist) {
+            this.setState(
+              {
+                showCurrentSection: "login",
+                msg: "",
+                highlight: false
+              },
+              () => {
+                // const checkoutPopupCookie = CookieService.getCookie(
+                //   "checkoutinfopopup"
+                // );
+                // checkoutPopupCookie == "show" &&
+                this.passwordInput.current &&
+                  this.passwordInput.current.focus();
+                this.passwordInput.current &&
+                  this.passwordInput.current.scrollIntoView(true);
+              }
+            );
+          } else {
+            const error = [
+              "This account already exists. Please ",
+              <span
+                className={cs(
+                  globalStyles.errorMsg,
+                  globalStyles.linkTextUnderline
+                )}
+                key={1}
+                onClick={this.handleResetPassword}
+              >
+                set a new password
+              </span>
+            ];
+            this.setState({
+              msg: error,
+              highlight: true
+            });
+            this.emailInput.current && this.emailInput.current.focus();
+          }
+        } else {
+          localStorage.setItem("tempEmail", this.state.email);
+          this.props.showRegister?.();
+          // this.setState({
+          //   highlight: true,
+          //   showCurrentSection:'register'
+          // });
+          // this.emailInput.current && this.emailInput.current.focus();
+        }
       }
     }
   }
@@ -133,14 +144,15 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail");
-    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
+    // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
       this.setState({ email });
     }
-    if (checkoutPopupCookie == "show") {
-      this.firstEmailInput.current?.focus();
-    }
+    // if (checkoutPopupCookie == "show") {
+    //   this.firstEmailInput.current?.focus();
+    // }
     // localStorage.removeItem("tempEmail");
+    this.firstEmailInput.current?.focus();
   }
 
   UNSAFE_componentWillReceiveProps() {
@@ -178,16 +190,6 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         .login(this.state.email || "", this.state.password || "", "checkout")
         .then(data => {
           this.gtmPushSignIn();
-          dataLayer.push({
-            event: "checkout",
-            ecommerce: {
-              currencyCode: this.props.currency,
-              checkout: {
-                actionField: { step: 1 },
-                products: this.props.basket.products
-              }
-            }
-          });
           // this.context.closeModal();
           // this.props.nextStep?.();
         })
@@ -206,7 +208,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             this.setState(
               {
                 showerror:
-                  "The user name and/or password you have entered is incorrect"
+                  "Looks like either your Email ID or Password were incorrect. Please try again."
               },
               () => {
                 valid.errorTracking([this.state.showerror], location.href);
@@ -235,16 +237,18 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         msgp: "Please enter your password",
         highlightp: true
       });
-    } else if (this.state.password && this.state.password.length < 6) {
-      if (
-        this.state.msgp !==
-        "Please enter at least 6 characters for the password"
-      )
-        this.setState({
-          msgp: "Please enter at least 6 characters for the password",
-          highlightp: true
-        });
-    } else {
+    }
+    // else if (this.state.password && this.state.password.length < 6) {
+    //   if (
+    //     this.state.msgp !==
+    //     "Please enter at least 6 characters for the password"
+    //   )
+    //     this.setState({
+    //       msgp: "Please enter at least 6 characters for the password",
+    //       highlightp: true
+    //     });
+    // }
+    else {
       this.setState({
         msgp: "",
         highlightp: false
@@ -263,17 +267,17 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         this.myBlur(event);
       } else {
         if (valid.checkBlank(this.state.email)) {
-          if (this.state.msg !== "Please Enter Email") {
+          if (this.state.msg !== "Please enter your Email ID") {
             this.setState({
-              msg: "Please Enter Email",
+              msg: "Please enter your Email ID",
               highlight: true,
               showerror: ""
             });
           }
         } else if (!valid.checkMail(this.state.email)) {
-          if (this.state.msg !== "Enter valid email") {
+          if (this.state.msg !== "Please enter a valid Email ID") {
             this.setState({
-              msg: "Enter valid email",
+              msg: "Please enter a valid Email ID",
               highlight: true,
               showerror: ""
             });
@@ -282,11 +286,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           if (this.state.msg !== "") {
             this.setState({
               msg: "",
-              highlight: false,
-              showerror: "",
-              isLoginDisabled: false
+              highlight: false
             });
           }
+          this.setState({
+            showerror: "",
+            isLoginDisabled: false
+          });
         }
       }
     }

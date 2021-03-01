@@ -2,21 +2,26 @@
 import HeaderService from "services/headerFooter";
 import ApiService from "services/api";
 import MetaService from "services/meta";
+import Koa from "koa";
 // typings
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
 import Api from "services/api";
 // import AddressService from "services/address";
-import LoginService from "services/login";
-import {
-  // updatePinCodeList,
-  updateCountryData
-} from "./address";
+// import LoginService from "services/login";
+// import {
+//   // updatePinCodeList,
+//   updateCountryData
+// } from "./address";
 import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
 
-const initAction: any = async (store: Store, history: any) => {
-  const state: AppState = store.getState();
+const initAction: any = async (
+  ctx: Koa.ParameterizedContext<Koa.DefaultContext>,
+  history: any
+) => {
+  const store: Store = ctx.store;
+  const state: AppState = ctx.store.getState();
   const isBridalPublicPage =
     history.location.pathname.includes("/bridal/") &&
     !history.location.pathname.includes("/account/");
@@ -55,13 +60,13 @@ const initAction: any = async (store: Store, history: any) => {
     //   .catch(err => {
     //     console.log("PINCODE API ERROR ====" + err);
     //   }),
-    LoginService.fetchCountryData(store.dispatch)
-      .then(data => {
-        store.dispatch(updateCountryData(data));
-      })
-      .catch(err => {
-        console.log("COUNTRYSTATE API ERROR ====" + err);
-      }),
+    // LoginService.fetchCountryData(store.dispatch)
+    //   .then(data => {
+    //     store.dispatch(updateCountryData(data));
+    //   })
+    //   .catch(err => {
+    //     console.log("COUNTRYSTATE API ERROR ====" + err);
+    //   }),
     Api.getAnnouncement(store.dispatch)
       .then(data => {
         console.log(data);

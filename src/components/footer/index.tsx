@@ -20,7 +20,8 @@ const mapStateToProps = (state: AppState) => {
     data: state.footer.data,
     mobile: state.device.mobile,
     isLoggedIn: state.user.email ? true : false,
-    saleStatus: false
+    saleStatus: false,
+    isSale: state.info.isSale
   };
 };
 
@@ -78,6 +79,24 @@ class Footer extends React.Component<Props, FooterState> {
       }
     }
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.setState(
+        {
+          newsletterEmail: "",
+          newsletterMessage: ""
+        },
+        () => {
+          const news = document.getElementById(
+            "newsletter"
+          ) as HTMLInputElement;
+          news.value = "";
+        }
+      );
+    }
+  }
+
   componentDidMount() {
     const cookie = CookieService.getCookie("goodearth");
     if (cookie != "show") {
@@ -141,13 +160,13 @@ class Footer extends React.Component<Props, FooterState> {
     if (valid.checkBlank(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
-        newsletterMessage: "Please enter email"
+        newsletterMessage: "Please enter your Email ID"
       });
       update = false;
     } else if (!valid.checkMail(e.target.value)) {
       this.setState({
         newsletterEmail: e.target.value,
-        newsletterMessage: "Enter valid email"
+        newsletterMessage: "Please enter a valid Email ID"
       });
       update = false;
     } else if (e.target.value.length > 75) {
@@ -497,7 +516,7 @@ class Footer extends React.Component<Props, FooterState> {
                             </a>
                           </li>
                         </ul>
-                        {this.props.saleStatus ? (
+                        {this.props.isSale ? (
                           ""
                         ) : (
                           <ul className={cs(styles.footerPlaylist)}>
@@ -710,7 +729,7 @@ class Footer extends React.Component<Props, FooterState> {
                           ></i>
                         </a>
                       </div>
-                      {this.props.saleStatus ? (
+                      {this.props.isSale ? (
                         ""
                       ) : (
                         <div>
