@@ -12,7 +12,7 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import styles from "./styles.scss";
+// import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
@@ -56,11 +56,11 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  // history.listen((location, action) => {
-  //   if (action == "POP" && CookieService.getCookie("currency") == "INR") {
-  //     history.push("/maintenance");
-  //   }
-  // });
+  history.listen((location, action) => {
+    if (action == "POP" && CookieService.getCookie("currency") == "INR") {
+      history.push("/maintenance");
+    }
+  });
   // const setMakerPopupCookie = () => {
   //   const cookieString =
   //     "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
@@ -98,6 +98,16 @@ const BaseLayout: React.FC = () => {
   //   }, 2000);
   // }, 100);
   // }
+
+  if (
+    typeof document == "object" &&
+    CookieService.getCookie("currency") == "INR" &&
+    CookieService.getCookie("currencypopup") &&
+    history.location.pathname != "/maintenance"
+  ) {
+    // debugger
+    history.push("/maintenance");
+  }
 
   useEffect(() => {
     // let isDragging = false;
@@ -209,9 +219,9 @@ const BaseLayout: React.FC = () => {
           console.log(error);
         });
     }
-    if (history.location.pathname == "/maintenance") {
-      history.push("/");
-    }
+    // if (history.location.pathname == "/maintenance") {
+    //   history.push("/");
+    // }
   }, []);
 
   useEffect(() => {
