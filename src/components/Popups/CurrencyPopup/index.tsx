@@ -17,7 +17,7 @@ import CookieService from "services/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { updateMakerReloadToggle } from "actions/info";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 type PopupProps = {};
 const CurrencyPopup: React.FC<PopupProps> = props => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const curryList = currencyList.map(data => {
     return data.currencyCode;
   });
-  const history = useHistory();
+  // const history = useHistory();
   const [suggestions, setSuggestions] = useState<any[]>(currencyList);
   const [errorMessage, setErrorMessage] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -71,9 +71,9 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
       LoginService.changeCurrency(dispatch, data).then(() => {
         CookieService.setCookie("currencypopup", "true", 365);
         LoginService.reloadPage(dispatch, data.currency);
-        if (selectedCurrency == "INR") {
-          history.push("/maintenance");
-        }
+        // if (selectedCurrency == "INR") {
+        //   history.push("/maintenance");
+        // }
         closeModal();
       });
     } else if (selectedCurrency == currency) {
@@ -81,9 +81,9 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
       CookieService.setCookie("currencypopup", "true", 365);
       const makerToggle = !makerReloadToggle;
       dispatch(updateMakerReloadToggle(makerToggle));
-      if (selectedCurrency == "INR") {
-        history.push("/maintenance");
-      }
+      // if (selectedCurrency == "INR") {
+      //   history.push("/maintenance");
+      // }
       closeModal();
     } else {
       setErrorMessage("please select correct currency");
