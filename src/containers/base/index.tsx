@@ -56,11 +56,11 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  history.listen((location, action) => {
-    if (action == "POP" && CookieService.getCookie("currency") == "INR") {
-      history.push("/maintenance");
-    }
-  });
+  // history.listen((location, action) => {
+  //   if (action == "POP" && CookieService.getCookie("currency") == "INR") {
+  //     history.push("/maintenance");
+  //   }
+  // });
   // const setMakerPopupCookie = () => {
   //   const cookieString =
   //     "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
@@ -99,15 +99,15 @@ const BaseLayout: React.FC = () => {
   // }, 100);
   // }
 
-  if (
-    typeof document == "object" &&
-    CookieService.getCookie("currency") == "INR" &&
-    CookieService.getCookie("currencypopup") &&
-    history.location.pathname != "/maintenance"
-  ) {
-    // debugger
-    history.push("/maintenance");
-  }
+  // if (
+  //   typeof document == "object" &&
+  //   CookieService.getCookie("currency") == "INR" &&
+  //   CookieService.getCookie("currencypopup") &&
+  //   history.location.pathname != "/maintenance"
+  // ) {
+  //   // debugger
+  //   history.push("/maintenance");
+  // }
 
   useEffect(() => {
     // let isDragging = false;
@@ -219,9 +219,9 @@ const BaseLayout: React.FC = () => {
           console.log(error);
         });
     }
-    // if (history.location.pathname == "/maintenance") {
-    //   history.push("/");
-    // }
+    if (history.location.pathname == "/maintenance") {
+      history.push("/");
+    }
   }, []);
 
   useEffect(() => {
