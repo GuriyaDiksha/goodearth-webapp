@@ -12,7 +12,7 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import styles from "./styles.scss";
+// import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
@@ -97,6 +97,16 @@ const BaseLayout: React.FC = () => {
   //     document.body.removeChild(img);
   //   }, 2000);
   // }, 100);
+  // }
+
+  // if (
+  //   typeof document == "object" &&
+  //   CookieService.getCookie("currency") == "INR" &&
+  //   CookieService.getCookie("currencypopup") &&
+  //   history.location.pathname != "/maintenance"
+  // ) {
+  //   // debugger
+  //   history.push("/maintenance");
   // }
 
   useEffect(() => {
