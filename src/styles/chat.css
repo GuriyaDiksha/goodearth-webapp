@@ -187,7 +187,7 @@
   color: #fff;
   cursor: pointer;
   display: table;
-  position: absolute;
+  position: fixed;
   right: 10px;
   z-index: 9;
   height: 45px;
