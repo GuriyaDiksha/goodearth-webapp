@@ -14,7 +14,7 @@ import {
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
-import initActionHome from "containers/home/initAction";
+// import initActionHome from "containers/home/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
@@ -203,8 +203,8 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.HOME,
-    component: loadable(() => import("containers/home")),
-    action: initActionHome,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
     exact: true
   },
   {

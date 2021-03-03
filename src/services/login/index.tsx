@@ -92,7 +92,7 @@ export default {
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     dispatch(updateModal(false));
-    HeaderService.fetchHomepageData(dispatch);
+    // HeaderService.fetchHomepageData(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -162,7 +162,7 @@ export default {
       BasketService.fetchBasket(dispatch).catch(err => {
         console.log(err);
       });
-      HeaderService.fetchHomepageData(dispatch);
+      // HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
       util.showGrowlMessage(dispatch, LOGOUT_SUCCESS, 5000);
       return res;
@@ -204,7 +204,7 @@ export default {
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
-    HeaderService.fetchHomepageData(dispatch);
+    // HeaderService.fetchHomepageData(dispatch);
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch).then(res => {
       if (source == "checkout") {
@@ -233,9 +233,9 @@ export default {
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
-    HeaderService.fetchHomepageData(dispatch).catch(err => {
-      console.log("Homepage API ERROR ==== " + err);
-    });
+    // HeaderService.fetchHomepageData(dispatch).catch(err => {
+    //   console.log("Homepage API ERROR ==== " + err);
+    // });
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
