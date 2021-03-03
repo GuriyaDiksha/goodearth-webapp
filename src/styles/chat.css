@@ -176,14 +176,14 @@
 }
 
 #fc_frame.fc-widget-small {
-  bottom: 120px !important;
-  right: 0px !important;
+  bottom: 0px !important;
+  right: -10px !important;
 }
 
 .fresh-chat{
-  border-radius: 34px 8px 34px 34px;
+  /* border-radius: 34px 8px 34px 34px; */
   bottom: 140px;
-  box-shadow: 0 5px 4px 0 rgb(0 0 0 / 26%);
+  /* box-shadow: 0 5px 4px 0 rgb(0 0 0 / 26%); */
   color: #fff;
   cursor: pointer;
   display: table;
@@ -192,7 +192,10 @@
   z-index: 9;
   height: 45px;
   width: 45px;
-  background-color: #ab1e56 !important;
+  background-image: url('https://djhiy8e1dslha.cloudfront.net/media/misc/fresh_chat.svg');
+  /* background-color: #ab1e56 !important; */
+  background-size: cover;
+  border-radius: 50%;
   -webkit-transition: transform .5s ease-in;
   -moz-transition: transform .5s ease-in;
   -o-transition: transform .5s ease-in;
