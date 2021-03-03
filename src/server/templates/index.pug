@@ -32,6 +32,7 @@ html(lang='en')
           function OpenChatBox() { 
               if(window.fcWidget.isInitialized() && window.fcWidget.isLoaded()) {
               if(!window.fcWidget.isOpen()) {
+                OpenBox();
                 window.fcWidget.open();
               } else {
                 window.fcWidget.close();
