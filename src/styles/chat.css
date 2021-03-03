@@ -10,20 +10,51 @@
     text-align: center;
     cursor: pointer;
     position: fixed;
-    bottom: 75px;
+    bottom: 30px;
     right: 10px;
     z-index: 99;
     -webkit-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     -moz-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-    -webkit-transition: all 0.3s ease;
+    /* -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; */
     transform: translateY(150px);
     -webkit-transform: translateY(150px);
     -moz-transform: translateY(150px);
     -o-transform: translateY(150px);
+  }
+
+  .chat-close {
+    line-height: 2.7;
+    text-align: center;
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 10px;
+    z-index: 99;
+    width: 45px;
+    height: 45px;
+    background-color: black;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .chat-close:before, .chat-close:after {
+    position: absolute;
+    left: 20px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #fff;
+    top:7px;
+  }
+  .chat-close:before {
+    transform: rotate(45deg);
+  }
+  .chat-close:after {
+    transform: rotate(-45deg);
   }
   
   .chat-button.active {
@@ -94,6 +125,31 @@
       height: 0;
       overflow: hidden;
   }
+
+  .whatsapp-active {
+    position: fixed;
+    bottom: 77px;
+    right: 12px;
+    z-index: 9;
+    -webkit-transition: transform .5s ease-in;
+    -moz-transition: transform .5s ease-in;
+    -o-transition: transform .5s ease-in;
+    transition: transform .5s ease-in;
+    transform: translateY(45px);
+    -webkit-transform: translateY(45px);
+    -moz-transform: translateY(45px);
+    -o-transform: translateY(45px);
+  }
+
+  .whatsapp-active.activate {
+    /* display: none; */
+    transform: translateY(-4px);
+    -webkit-transform: translateY(-4px);
+    -moz-transform: translateY(-4px);
+    -o-transform: translateY(-4px);
+  }
+
+
   
   .scrollToTop-arrow {
     font-size: 15px;
@@ -117,4 +173,41 @@
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10+ and Edge */
   user-select: none; /* Standard syntax */
+}
+
+#fc_frame.fc-widget-small {
+  bottom: 120px !important;
+  right: 0px !important;
+}
+
+.fresh-chat{
+  border-radius: 34px 8px 34px 34px;
+  bottom: 140px;
+  box-shadow: 0 5px 4px 0 rgb(0 0 0 / 26%);
+  color: #fff;
+  cursor: pointer;
+  display: table;
+  position: absolute;
+  right: 10px;
+  z-index: 9;
+  height: 45px;
+  width: 45px;
+  background-color: #ab1e56 !important;
+  -webkit-transition: transform .5s ease-in;
+  -moz-transition: transform .5s ease-in;
+  -o-transition: transform .5s ease-in;
+  transition: transform .5s ease-in;
+  transform: translateY(0px);
+  -webkit-transform: translateY(0px);
+  -moz-transform: translateY(0px);
+  -o-transform: translateY(0px);
+}
+
+.fresh-chat.active {
+  transform: translateY(113px);
+  -webkit-transform: translateY(113px);
+  -moz-transform: translateY(113px);
+  -o-transform: translateY(113px);
+  opacity: 0;
+  /* display: none; */
 }
