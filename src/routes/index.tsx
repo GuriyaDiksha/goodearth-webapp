@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { routes } from "./config";
 import RouteContainer from "containers/route";
-
+// import maintenance from "containers/maintenance";
 const routeMap = routes.map(({ path, component, action, exact, meta }) => {
   return (
     <Route

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import LoginService from "services/login";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
+import HeaderService from "services/headerFooter";
 import { Dispatch } from "redux";
 import UserContext from "contexts/user";
 import { currencyCode, Currency } from "typings/currency";
@@ -24,6 +25,7 @@ import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
 import * as util from "../../utils/validate";
+import Api from "services/api";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -46,7 +48,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, pathname: string) => {
+    reloadPage: (cookies: Cookies, pathname: string, currency: Currency) => {
+      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      HeaderService.fetchFooterDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Announcement API ERROR ==== " + err);
+      });
+      // }
+      // if (page?.includes("/category_landing/")) {
+      //   // L
+      // }
+      // HeaderService.fetchHomepageData(dispatch).catch(err => {
+      //   console.log("Homepage API ERROR ==== " + err);
+      // });
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch, "checkout");
@@ -68,7 +86,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class CheckoutHeader extends React.Component<Props, { boId: string }> {
   constructor(props: Props) {
@@ -89,13 +108,20 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     };
     if (this.props.currency != data.currency) {
       return changeCurrency(data).then(response => {
+        // if (data.currency == "INR") {
+        //   this.props.history.push("/maintenance");
+        // }
         util.headerClickGTM(
           "Currency",
           "Top",
           this.props.mobile,
           this.props.isLoggedIn
         );
-        reloadPage(this.props.cookies, this.props.location.pathname);
+        reloadPage(
+          this.props.cookies,
+          this.props.location.pathname,
+          data.currency
+        );
       });
     }
     // this.setState({
@@ -300,5 +326,8 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutHeader);
+const CheckoutHeaderRouter = withRouter(CheckoutHeader);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CheckoutHeaderRouter);

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Switch, useLocation } from "react-router";
+import { Switch, useHistory } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
 import Footer from "components/footer";
@@ -12,11 +12,11 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import styles from "./styles.scss";
+// import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
-import whatsapp from "../../images/whatsapp.svg";
+// import whatsapp from "../../images/whatsapp.svg";
 // import flowerimg2 from "images/flower2.gif";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
@@ -24,8 +24,8 @@ import whatsapp from "../../images/whatsapp.svg";
 import { POPUP } from "constants/components";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
-  const location = useLocation();
-  const { pathname } = location;
+  const history = useHistory();
+  const { pathname } = history.location;
   const dispatch = useDispatch();
   const {
     currency,
@@ -56,26 +56,31 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
+  // history.listen((location, action) => {
+  //   if (action == "POP" && CookieService.getCookie("currency") == "INR") {
+  //     history.push("/maintenance");
+  //   }
+  // });
   // const setMakerPopupCookie = () => {
   //   const cookieString =
   //     "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
   //   document.cookie = cookieString;
   //   CookieService.setCookie("makerinfo", "show", 365);
   // };
-  const Whatsapp = () => {
-    return (
-      <div className={styles.whatsappIcon}>
-        <a
-          href={"https://wa.me/+917669303665"}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {/* <i className={cs(iconStyles.icon,iconStyles.iconFooterWhatsapp)}></i> */}
-          <img src={whatsapp} width="40px" />
-        </a>
-      </div>
-    );
-  };
+  // const Whatsapp = () => {
+  //   return (
+  //     <div className={styles.whatsappIcon}>
+  //       <a
+  //         href={"https://wa.me/+917669303665"}
+  //         target="_blank"
+  //         rel="noopener noreferrer"
+  //       >
+  //         {/* <i className={cs(iconStyles.icon,iconStyles.iconFooterWhatsapp)}></i> */}
+  //         <img src={whatsapp} width="40px" />
+  //       </a>
+  //     </div>
+  //   );
+  // };
   // const throttle = _.throttle((e: any) => {
   //   const x = e.clientX - 100;
   //   const y = e.clientY - 50;
@@ -92,6 +97,16 @@ const BaseLayout: React.FC = () => {
   //     document.body.removeChild(img);
   //   }, 2000);
   // }, 100);
+  // }
+
+  // if (
+  //   typeof document == "object" &&
+  //   CookieService.getCookie("currency") == "INR" &&
+  //   CookieService.getCookie("currencypopup") &&
+  //   history.location.pathname != "/maintenance"
+  // ) {
+  //   // debugger
+  //   history.push("/maintenance");
   // }
 
   useEffect(() => {
@@ -204,6 +219,9 @@ const BaseLayout: React.FC = () => {
           console.log(error);
         });
     }
+    if (history.location.pathname == "/maintenance") {
+      history.push("/");
+    }
   }, []);
 
   useEffect(() => {
@@ -229,7 +247,7 @@ const BaseLayout: React.FC = () => {
   } else {
     return (
       <Fragment>
-        <Whatsapp />
+        {/* <Whatsapp /> */}
         {isCheckout ? <CheckoutHeader /> : <Header />}
         <div className={globalStyles.contentContainer} id="no-content">
           {/* <MusicPlayer /> */}

@@ -48,11 +48,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
-      HeaderService.fetchHeaderDetails(dispatch, currency as Currency).catch(
-        err => {
-          console.log("FOOTER API ERROR ==== " + err);
-        }
-      );
+      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
@@ -63,9 +61,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page?.includes("/category_landing/")) {
       //   // L
       // }
-      HeaderService.fetchHomepageData(dispatch).catch(err => {
-        console.log("Homepage API ERROR ==== " + err);
-      });
+      // HeaderService.fetchHomepageData(dispatch).catch(err => {
+      //   console.log("Homepage API ERROR ==== " + err);
+      // });
 
       islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);

@@ -10,31 +10,22 @@ import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
-import { Currency } from "typings/currency";
 
 export default {
-  fetchHeaderDetails: async (
-    dispatch: Dispatch,
-    currency: Currency
-  ): Promise<HeaderData[]> => {
-    let headerData: HeaderData[] = [];
-    if (typeof document == "undefined") {
-      headerData =
-        CacheService.get(`headerData-${currency}`) || ([] as HeaderData[]);
-    }
-    if (headerData.length > 0) {
-      dispatch(updateheader(headerData));
-      return headerData;
-    }
+  fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
+    // let headerData = CacheService.get("headerData") as HeaderData[];
+
+    // if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
+    //   return headerData;
+    // }
     const res = await API.get<any>(
       dispatch,
       `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
     );
     dispatch(updateheader(res.results));
-    headerData = res.results as HeaderData[];
-    if (typeof document == "undefined") {
-      CacheService.set(`headerData-${res.currency}`, headerData);
-    }
+    // headerData = res.results as HeaderData[];
+    // CacheService.set("headerData", headerData);
+
     return res.results;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
@@ -130,5 +121,12 @@ export default {
       section3: section3
     };
     dispatch(addHomeData({ ...data }));
+  },
+  saveMubaarak: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<{
+      message: string;
+      errors: string[] | { [x: string]: string }[];
+    }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
+    return res;
   }
 };
