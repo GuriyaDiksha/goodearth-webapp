@@ -24,6 +24,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -277,7 +278,7 @@ class PLP extends React.Component<
       device: { mobile },
       currency,
       data: {
-        results: { breadcrumb, banner, bannerMobile, data },
+        results: { breadcrumb, banner, bannerMobile, data, bannerUrl },
         count
       }
     } = this.props;
@@ -415,7 +416,6 @@ class PLP extends React.Component<
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
-              { [globalStyles.paddTop20]: !this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
               bootstrap.colMd10,
               bootstrap.col12
@@ -430,10 +430,19 @@ class PLP extends React.Component<
             {banner || bannerMobile ? (
               <div className={cs(bootstrap.row)}>
                 <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
-                  <img
-                    src={mobile ? bannerMobile : banner}
-                    className={globalStyles.imgResponsive}
-                  />
+                  {bannerUrl ? (
+                    <Link to={bannerUrl}>
+                      <img
+                        src={mobile ? bannerMobile : banner}
+                        className={globalStyles.imgResponsive}
+                      />
+                    </Link>
+                  ) : (
+                    <img
+                      src={mobile ? bannerMobile : banner}
+                      className={globalStyles.imgResponsive}
+                    />
+                  )}
                 </div>
               </div>
             ) : (
@@ -468,9 +477,22 @@ class PLP extends React.Component<
               className={
                 mobile
                   ? banner
-                    ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                    : cs(bootstrap.row, styles.imageContainerMobile)
-                  : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
+                    ? cs(
+                        bootstrap.row,
+                        styles.imageContainerMobileBanner,
+                        globalStyles.paddTop20
+                      )
+                    : cs(
+                        bootstrap.row,
+                        styles.imageContainerMobile,
+                        globalStyles.paddTop20
+                      )
+                  : cs(
+                      bootstrap.row,
+                      styles.imageContainer,
+                      styles.minHeight,
+                      globalStyles.paddTop20
+                    )
               }
               id="product_images"
             >

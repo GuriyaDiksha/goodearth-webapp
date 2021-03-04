@@ -2,6 +2,7 @@
 
 div.page-sticky-element {
     position: sticky;
+    position: -webkit-sticky;
     top: 130px;
     height: max-content;
 
