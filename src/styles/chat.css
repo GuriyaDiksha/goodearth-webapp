@@ -128,7 +128,7 @@
 
   .whatsapp-active {
     position: fixed;
-    bottom: 77px;
+    bottom: 85px;
     right: 12px;
     z-index: 9;
     -webkit-transition: transform .5s ease-in;
