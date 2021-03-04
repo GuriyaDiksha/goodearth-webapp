@@ -225,8 +225,6 @@ class MyProfile extends React.Component<Props, State> {
                   keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
                   required
                   handleChange={() => this.setUpdateProfile()}
-                  disable={firstName ? true : false}
-                  className={cs({ [styles.disabledInput]: firstName })}
                 />
               </div>
               <div>
@@ -236,8 +234,6 @@ class MyProfile extends React.Component<Props, State> {
                   label={"Last Name"}
                   keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
                   handleChange={() => this.setUpdateProfile()}
-                  disable={lastName ? true : false}
-                  className={cs({ [styles.disabledInput]: lastName })}
                 />
               </div>
               <div className={styles.userGenderPicker}>
