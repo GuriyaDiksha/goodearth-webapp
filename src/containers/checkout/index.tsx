@@ -485,6 +485,19 @@ class Checkout extends React.Component<Props, State> {
     }, 500);
   }
 
+  showErrorMsgs = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorMsg
+      )[0] as HTMLInputElement;
+
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 500);
+  };
+
   finalizeAddress = (
     address: AddressData | null,
     activeStep: string,
@@ -584,6 +597,7 @@ class Checkout extends React.Component<Props, State> {
               billingError: valid.showErrors(err.response.data)
             });
             this.showErrorMsg();
+            this.showErrorMsgs();
           });
       }
     }
