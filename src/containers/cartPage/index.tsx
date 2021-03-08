@@ -92,6 +92,8 @@ class CartPage extends React.Component<Props, State> {
     util.pageViewGTM("Cart");
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    const freshChatButtonElem = document.getElementById("fresh-chat");
+    const whatsappButtonElem = document.getElementById("whatsapp");
     if (scrollToTopButtonElem) {
       scrollToTopButtonElem.style.display = "none";
       scrollToTopButtonElem.style.bottom = "65px";
@@ -99,6 +101,12 @@ class CartPage extends React.Component<Props, State> {
     if (chatButtonElem) {
       chatButtonElem.style.display = "none";
       chatButtonElem.style.bottom = "10px";
+    }
+    if (freshChatButtonElem) {
+      freshChatButtonElem.style.display = "none";
+    }
+    if (whatsappButtonElem) {
+      whatsappButtonElem.style.display = "none";
     }
     this.props.fetchBasket();
     this.props
@@ -124,6 +132,8 @@ class CartPage extends React.Component<Props, State> {
   componentWillUnmount() {
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    const freshChatButtonElem = document.getElementById("fresh-chat");
+    const whatsappButtonElem = document.getElementById("whatsapp");
     if (scrollToTopButtonElem) {
       scrollToTopButtonElem.style.removeProperty("display");
       scrollToTopButtonElem.style.removeProperty("bottom");
@@ -131,6 +141,12 @@ class CartPage extends React.Component<Props, State> {
     if (chatButtonElem) {
       chatButtonElem.style.removeProperty("display");
       chatButtonElem.style.removeProperty("bottom");
+    }
+    if (freshChatButtonElem) {
+      freshChatButtonElem.style.removeProperty("display");
+    }
+    if (whatsappButtonElem) {
+      whatsappButtonElem.style.removeProperty("display");
     }
   }
 
