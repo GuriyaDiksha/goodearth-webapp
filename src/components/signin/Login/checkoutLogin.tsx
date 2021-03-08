@@ -204,6 +204,17 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 valid.errorTracking(this.state.msg as string[], location.href);
               }
             );
+          } else if (err.response.data.non_field_errors[0] == "MaxRetries") {
+            this.setState(
+              {
+                showerror:
+                  "You have exceeded max login attempts, please try after some time"
+                // highlight: true
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
           } else {
             this.setState(
               {
