@@ -51,10 +51,22 @@ html(lang='en')
                 document.getElementById('chat-button').className = "chat-button active";
                 document.getElementById('whatsapp').className = 'whatsapp-active';
                 document.getElementById('fresh-chat').className = 'fresh-chat active';
+                // to handle scroll button hide
+                if (window.innerHeight - window.pageYOffset < 0) {
+                  const scrollToTopButton = document.getElementById("scrollToTop-btn");
+                  if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
+                      scrollToTopButton.classList.replace("scrollToTop-btn-hidden", "scrollToTop-btn");
+                  }
+              }
               } else {
                 document.getElementById('chat-button').className = "chat-close";
                 document.getElementById('whatsapp').className = 'whatsapp-active activate';
                 document.getElementById('fresh-chat').className = 'fresh-chat';
+                // to handle scroll button show
+                const scrollToTopButton = document.getElementById("scrollToTop-btn");
+                  if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn")) {
+                      scrollToTopButton.classList.replace("scrollToTop-btn", "scrollToTop-btn-hidden");
+                  }
               }
               //- document.getElementById('fc_frame').style = {display:'block'}
           }
@@ -140,8 +152,9 @@ html(lang='en')
           }
           window.addEventListener('scroll', function () {
               if (window.innerHeight - window.pageYOffset < 0) {
+                  const isMenuOpen = document.getElementById("chat-button").classList.contains("chat-close");
                   const scrollToTopButton = document.getElementById("scrollToTop-btn");
-                  if (scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
+                  if (!isMenuOpen && scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
                       scrollToTopButton.classList.replace("scrollToTop-btn-hidden", "scrollToTop-btn");
                   }
               }
@@ -194,6 +207,9 @@ html(lang='en')
         div !{scripts}
         div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
           i(class='icon_uparrow-white')
+        div(id='whatsapp' class='whatsapp-active')
+          a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
+            img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
         div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
           i(class='icon-chat')
         div(id='chat-button', onclick='OpenBox()', class='chat-button active')
