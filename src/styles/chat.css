@@ -215,3 +215,10 @@
   opacity: 0;
   /* display: none; */
 }
+
+.whatsapp-img {
+  background-image: url("../images/whatsapp.svg");
+  width: 40px;
+  height: 40px;
+  display: block;
+}
