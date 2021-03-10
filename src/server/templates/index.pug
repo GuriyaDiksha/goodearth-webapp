@@ -49,7 +49,7 @@ html(lang='en')
               //- rem2.style.height = null;
               if(document.getElementById('chat-button').className == "chat-close") {
                 document.getElementById('chat-button').className = "chat-button active";
-                document.getElementById('whatsapp').className = 'whatsapp-active';
+                document.getElementById('whatsapp').className = 'whatsapp-img whatsapp-active';
                 document.getElementById('fresh-chat').className = 'fresh-chat active';
                 // to handle scroll button hide
                 if (window.innerHeight - window.pageYOffset < 0) {
@@ -60,7 +60,7 @@ html(lang='en')
               }
               } else {
                 document.getElementById('chat-button').className = "chat-close";
-                document.getElementById('whatsapp').className = 'whatsapp-active activate';
+                document.getElementById('whatsapp').className = 'whatsapp-img whatsapp-active activate';
                 document.getElementById('fresh-chat').className = 'fresh-chat';
                 // to handle scroll button show
                 const scrollToTopButton = document.getElementById("scrollToTop-btn");
@@ -207,8 +207,8 @@ html(lang='en')
         div !{scripts}
         div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
           i(class='icon_uparrow-white')
-        a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer' class='whatsapp-img')
-          div(id='whatsapp' class='whatsapp-active')
+        a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
+          div(id='whatsapp' class='whatsapp-img whatsapp-active')
             //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
         div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
           i(class='icon-chat')
