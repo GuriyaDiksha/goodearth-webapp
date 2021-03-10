@@ -739,6 +739,13 @@ const ProductDetails: React.FC<Props> = ({
             })}
           >
             {button}
+            {!loyaltyDisabled && isQuickview ? (
+              <p className={styles.errorMsg}>
+                This product is not eligible for Cerise points accumulation.
+              </p>
+            ) : (
+              ""
+            )}
             {isQuickview ? (
               <Link
                 to={url}
@@ -785,7 +792,7 @@ const ProductDetails: React.FC<Props> = ({
             [globalStyles.voffset3]: mobile
           })}
         >
-          {!loyaltyDisabled ? (
+          {!loyaltyDisabled && !isQuickview ? (
             <p className={styles.errorMsg}>
               This product is not eligible for Cerise points accumulation.
             </p>
