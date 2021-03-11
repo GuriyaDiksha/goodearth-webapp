@@ -11,7 +11,8 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import ReactHtmlParser from "react-html-parser";
-
+import L2L3 from "./templates/L2L3";
+import Image from "./templates/Image";
 class MegaMenuList extends React.Component<MegaMenuListProps> {
   constructor(props: MegaMenuListProps) {
     super(props);
@@ -42,13 +43,42 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
     this.props.mouseOut({ show: true });
   };
 
+  templatesMap: { name: string; component: React.ComponentType<any> }[] = [
+    {
+      name: "L2L3",
+      component: L2L3
+    },
+    {
+      name: "IMAGE",
+      component: Image
+    }
+  ];
   createColumns = (columns: MenuColumn[]) => {
     return (
       columns &&
-      columns.map((column: MenuColumn) => {
-        <div
-          style={{ width: "100px", height: "100px", border: "1px solid red" }}
-        ></div>;
+      columns.map((column: MenuColumn, index: number) => {
+        return (
+          <div
+            key={index}
+            style={{ border: "1px solid red" }}
+            className={bootstrap.colMd2}
+          >
+            {column.templates.map((template, index) => {
+              const templateCompArray = this.templatesMap.filter(
+                mapItem => mapItem.name == template.templateType
+              )[0];
+              const TemplateComp = templateCompArray
+                ? templateCompArray.component
+                : undefined;
+              return (
+                TemplateComp && (
+                  <TemplateComp key={index} data={template.templateData} />
+                )
+              );
+            })}
+            <div className={styles.separator}></div>
+          </div>
+        );
       })
     );
   };
@@ -232,7 +262,7 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
   }
 
   render() {
-    if (!this.props.menudata) return false;
+    if (!this.props.menudata || this.props.menudata.length == 0) return false;
     const data: MegaMenuData = this.props.menudata[this.props.activeIndex || 0];
     // const emptyMenuHide =
     //   data && data.rightMenu && data.leftMenu

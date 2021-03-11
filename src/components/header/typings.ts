@@ -30,6 +30,7 @@ export interface HeaderData {
   categoryLogoImage?: string | null;
   image?: string;
   categoryImageUrl: string;
+  templates: MenuTemplates[];
 }
 
 export type MenuComponentL2L3Data = {

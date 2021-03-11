@@ -12,7 +12,7 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
-import styles from "./styles.scss";
+// import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
