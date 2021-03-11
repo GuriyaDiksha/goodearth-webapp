@@ -19,12 +19,14 @@ const Image: React.FC<Props> = ({ data }) => {
             <Link to={componentData.link}>
               <img className={styles.img} src={componentData.src} />
             </Link>
-            <Link className={styles.heading} to={componentData.link}>
-              {componentData.heading}
-            </Link>
-            <Link className={styles.subheading} to={componentData.link}>
-              {componentData.subHeading}
-            </Link>
+            <div className={styles.container}>
+              <Link className={styles.heading} to={componentData.link}>
+                {componentData.heading}
+              </Link>
+              <Link className={styles.subheading} to={componentData.link}>
+                {componentData.subHeading}
+              </Link>
+            </div>
           </>
         ) : (
           <>
