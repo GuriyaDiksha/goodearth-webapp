@@ -13,12 +13,12 @@ const PressStories: React.FC = () => {
   const [data, setData] = useState<PressStory[]>([]);
   const [options, setOptions] = useState<DropdownItem[]>([]);
 
-  const updatePressStoriesData = (data: PressStoriesResponse) => {
+  const updatePressStoriesData = (story: PressStoriesResponse) => {
     const yearOptions: DropdownItem[] = [];
-    data.archive.map((item, index) => {
+    story.archive.map((item, index) => {
       yearOptions.push({ value: item.toString(), label: item.toString() });
     });
-    setData(data.data);
+    setData(story.data);
     setOptions(yearOptions);
   };
 
@@ -38,11 +38,11 @@ const PressStories: React.FC = () => {
       year = new Date().getFullYear().toString();
       history.push("/press-stories/" + year, {});
     }
-    PressStoryService.fetchPressStories(dispatch, year).then(data =>
+    PressStoryService.fetchPressStories(dispatch, year).then(res =>
       // updatePressStoriesData(data)
       updatePressStoriesData({
-        archive: data.archive,
-        data: data.data
+        archive: res.archive,
+        data: res.data
       })
     );
   }, []);
@@ -71,8 +71,8 @@ const PressStories: React.FC = () => {
     let index = 0;
     if (data.length == 0) return false;
     if (year && id) {
-      data.map((data, i) => {
-        if (data.url == id) {
+      data.map((item, i) => {
+        if (item.url == id) {
           index = i;
         }
       });
@@ -93,6 +93,7 @@ const PressStories: React.FC = () => {
           readMore={readMore}
           content={data}
           options={options}
+          key={parseInt(year)}
           year={parseInt(year)}
           updatePressStoriesData={updatePressStoriesData}
         />
