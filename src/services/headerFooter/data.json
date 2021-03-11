@@ -280,7 +280,36 @@
             ],
             "categoryLogoImage": "",
             "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
-            "categoryImageUrl": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites"
+            "categoryImageUrl": "/catalogue/category/Home/corporate-gifts_103/?source=plp&category_shop=Home+>+Art+of+Gifting+>+Gifting++Favourites",
+            "templates": [
+                {
+                    "publishOnMobile": true,
+                    "templateType": "L2L3",
+                    "templateData": {
+                        "componentType": "l2",
+                        "componentData": {
+                            "text": "giftcard",
+                            "link": "/giftcard"
+                        },
+                        "children": [
+                            {
+                                "componentType": "l3",
+                                "componentData": {
+                                    "text": "",
+                                    "link": ""
+                                }
+                            },
+                            {
+                                "componentType": "l3",
+                                "componentData": {
+                                    "text": "",
+                                    "link": ""
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
         },
         {
             "id": 194,
@@ -477,7 +506,8 @@
             ],
             "categoryLogoImage": "",
             "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu_feature-Ferdaus.jpg",
-            "categoryImageUrl": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+>+Bed"
+            "categoryImageUrl": "/catalogue/category/bed-bath/bed_35/?source=plp&category_shop=Bed+%26+Bath+>+Bed",
+            "templates": []
         },
         {
             "id": 1,
@@ -781,7 +811,8 @@
             ],
             "categoryLogoImage": "",
             "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-nauhreen.jpg",
-            "categoryImageUrl": "/catalogue/category/women/chanderi_161/aurus_261/?source=plp&category_shop=Apparel+>+Designer+Series+>+GE+x+Aurus+Pop+Up"
+            "categoryImageUrl": "/catalogue/category/women/chanderi_161/aurus_261/?source=plp&category_shop=Apparel+>+Designer+Series+>+GE+x+Aurus+Pop+Up",
+            "templates": []
         },
         {
             "id": 57,
@@ -984,7 +1015,8 @@
             ],
             "categoryLogoImage": "",
             "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu_feature-playtime.jpg",
-            "categoryImageUrl": "/catalogue/category/kids/playtime_62/?source=plp&category_shop=Kids+>+Read+%26+Play"
+            "categoryImageUrl": "/catalogue/category/kids/playtime_62/?source=plp&category_shop=Kids+>+Read+%26+Play",
+            "templates": []
         },
         {
             "id": 64,
@@ -1192,7 +1224,8 @@
             ],
             "categoryLogoImage": "",
             "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-padmadhuna.jpg",
-            "categoryImageUrl": "/catalogue/category/wellness/ancient-incense_2_206/?source=plp&category_shop=Spa+>+Ancient+Incense"
+            "categoryImageUrl": "/catalogue/category/wellness/ancient-incense_2_206/?source=plp&category_shop=Spa+>+Ancient+Incense",
+            "templates": []
         },
         {
             "id": 98,
@@ -1214,7 +1247,8 @@
             "rightMenu": [],
             "categoryLogoImage": "",
             "image": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/LD-Menu_Banner_Copy.jpg",
-            "categoryImageUrl": "https://www.goodearth.in/stories/lockdown-dreamscapes/"
+            "categoryImageUrl": "https://www.goodearth.in/stories/lockdown-dreamscapes/",
+            "templates": []
         }
     ],
     "megaMenuResults": [
@@ -1222,7 +1256,86 @@
             "columns": [
                 {
                     "separator": true,
-                    "templates==l2": [
+                    "templates": [
+                        {
+                            "publishOnMobile": true,
+                            "templateType": "L2L3",
+                            "templateData": {
+                                "componentType": "l2",
+                                "componentData": {
+                                    "text": "giftcard",
+                                    "link": "/giftcard"
+                                },
+                                "children": [
+                                    {
+                                        "componentType": "l3",
+                                        "componentData": {
+                                            "text": "gifting favourites",
+                                            "link": ""
+                                        }
+                                    },
+                                    {
+                                        "componentType": "l3",
+                                        "componentData": {
+                                            "text": "gift card",
+                                            "link": "/giftcard"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "publishOnMobile": true,
+                            "templateType": "L2L3",
+                            "templateData": {
+                                "componentType": "l2",
+                                "componentData": {
+                                    "text": "dining",
+                                    "link": ""
+                                },
+                                "children": [
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "separator": false,
+                    "templates": [
+                        {
+                            "publishOnMobile": false,
+                            "templateType": "IMAGE",
+                            "templateData": {
+                                "componentType": "title",
+                                "componentData": {
+                                    "title": "Decor",
+                                    "link": "/cart",
+                                    "ctaName": "Decor Cart"
+                                },
+                                "children": [
+                                    {
+                                        "componentType": "image",
+                                        "componentData": {
+                                            "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                            "heading": "Gifting Image",
+                                            "subHeading": "Gifting Image subheading",
+                                            "link": "/gifting"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ],
+            "text": "giftcard",
+            "url": "/giftcard"
+        },
+        {
+            "columns": [
+                {
+                    "separator": true,
+                    "templates": [
                         {
                             "publishOnMobile": true,
                             "templateType": "L2L3",
@@ -1278,7 +1391,6 @@
                             }
                         }
                     ]
-                    
                 },
                 {
                     "separator": false,
@@ -1286,36 +1398,71 @@
                         {
                             "publishOnMobile": false,
                             "templateType": "IMAGE",
-                            "templateData": [
-                                {
-                                    "componentType": "title",
-                                    "componentData": {
-                                        "title": "",
-                                        "link": "",
-                                        "ctaName": ""
-                                    },
-                                    "children": [
-                                        {
-                                            "componentType": "image",
-                                            "componentData": {
-                                                "src": "",
-                                                "heading": "",
-                                                "subHeading": "",
-                                                "link": ""
-                                            }
-                                        },
-                                        {
-                                            "componentType": "image",
-                                            "componentData": {
-                                                "src": "",
-                                                "heading": "",
-                                                "subHeading": "",
-                                                "link": ""
-                                            }
+                            "templateData": {
+                                "componentType": "title",
+                                "componentData": {
+                                    "title": "Decoration",
+                                    "link": "/cart",
+                                    "ctaName": "Decor Cart >"
+                                },
+                                "children": [
+                                    {
+                                        "componentType": "image",
+                                        "componentData": {
+                                            "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                            "heading": "Gifting Image",
+                                            "subHeading": "Gifting Image subheading",
+                                            "link": "/gifting"
                                         }
-                                    ]
-                                }   
-                            ]
+                                    },
+                                    {
+                                        "componentType": "image",
+                                        "componentData": {
+                                            "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                            "heading": "Another Gifting Image",
+                                            "subHeading": "Ano Gifting Image subheading",
+                                            "link": "/gifting"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "separator": false,
+                    "templates": [
+                        {
+                            "publishOnMobile": false,
+                            "templateType": "CONTENT",
+                            "templateData": {
+                                "componentType": "title",
+                                "componentData": {
+                                    "title": "Decoration",
+                                    "link": "/cart",
+                                    "ctaName": "Decor Cart >"
+                                },
+                                "children": [
+                                    {
+                                        "componentType": "image",
+                                        "componentData": {
+                                            "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                            "heading": "Gifting Image",
+                                            "subHeading": "Gifting Image subheading",
+                                            "link": "/gifting"
+                                        }
+                                    },
+                                    {
+                                        "componentType": "image",
+                                        "componentData": {
+                                            "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                            "heading": "Another Gifting Image",
+                                            "subHeading": "Ano Gifting Image subheading",
+                                            "link": "/gifting"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }

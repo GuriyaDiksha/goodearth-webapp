@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SideMenu from "./sidemenu";
-import MainMenu from "./menu";
+// import MainMenu from "./menu";
 import { MenuList } from "./menulist";
 import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -751,17 +751,6 @@ class Header extends React.Component<Props, State> {
                 // : styles.hidden
               }
             >
-              {/* <MenuList
-                ipad={false}
-                onHeaderMenuClick={this.onMenuClick}
-                activeIndex={this.state.activeIndex}
-                mouseOut={(data): void => {
-                  this.mouseOut(data);
-                }}
-                show={this.state.show}
-                menudata={this.props.data}
-                mobile={mobile}
-              /> */}
               <MegaMenuList
                 ipad={false}
                 activeIndex={this.state.activeIndex}
@@ -770,6 +759,17 @@ class Header extends React.Component<Props, State> {
                 }}
                 show={this.state.show}
                 menudata={this.props.megaMenuData}
+                mobile={mobile}
+              />
+              <MenuList
+                ipad={false}
+                onHeaderMenuClick={this.onMenuClick}
+                activeIndex={this.state.activeIndex}
+                mouseOut={(data): void => {
+                  this.mouseOut(data);
+                }}
+                show={this.state.show}
+                menudata={this.props.data}
                 mobile={mobile}
               />
             </div>
