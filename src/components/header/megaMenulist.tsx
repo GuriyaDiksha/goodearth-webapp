@@ -13,6 +13,9 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import ReactHtmlParser from "react-html-parser";
 import L2L3 from "./templates/L2L3";
 import Image from "./templates/Image";
+import Content from "./templates/Content";
+import VerticalImage from "./templates/VerticalImage";
+import ImageWithSideSubheading from "./templates/ImageWithSideSubheading";
 class MegaMenuList extends React.Component<MegaMenuListProps> {
   constructor(props: MegaMenuListProps) {
     super(props);
@@ -51,6 +54,18 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
     {
       name: "IMAGE",
       component: Image
+    },
+    {
+      name: "CONTENT",
+      component: Content
+    },
+    {
+      name: "VERTICALIMAGE",
+      component: VerticalImage
+    },
+    {
+      name: "IMAGEWITHSIDESUBHEADING",
+      component: ImageWithSideSubheading
     }
   ];
   createColumns = (columns: MenuColumn[]) => {
@@ -60,8 +75,10 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
         return (
           <div
             key={index}
-            style={{ border: "1px solid red" }}
-            className={bootstrap.colMd2}
+            className={cs(
+              bootstrap.colMd2,
+              column.separator ? styles.separator : ""
+            )}
           >
             {column.templates.map((template, index) => {
               const templateCompArray = this.templatesMap.filter(
@@ -76,7 +93,6 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
                 )
               );
             })}
-            <div className={styles.separator}></div>
           </div>
         );
       })

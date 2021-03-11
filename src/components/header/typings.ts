@@ -61,7 +61,7 @@ export interface MenuComponent {
 export interface MenuTemplates {
   publishOnMobile: boolean;
   templateType: string;
-  templateData: MenuComponent[];
+  templateData: MenuComponent;
 }
 export interface MenuColumn {
   separator: boolean;
