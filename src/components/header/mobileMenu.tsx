@@ -9,6 +9,7 @@ import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMobile";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -93,6 +94,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     const leftData = headerData.leftMenu || [];
     const rightData = headerData.rightMenu || [];
     const isStories = headerData.name.toLowerCase() == "stories";
+    const templates = headerData.templates || [];
     isStories
       ? ""
       : html.push(
@@ -358,6 +360,15 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         );
         k++;
       });
+    });
+    templates.map(template => {
+      if (template.publishOnMobile) {
+        html.push(
+          <div onClick={() => this.props.clickToggle()}>
+            <ImageWithSideSubheadingMobile data={template.templateData} />
+          </div>
+        );
+      }
     });
     return html;
   }
