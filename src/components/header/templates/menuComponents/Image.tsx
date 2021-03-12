@@ -30,11 +30,15 @@ const Image: React.FC<Props> = ({ data }) => {
           </>
         ) : (
           <>
-            <div>
+            <div className={styles.imgContainer}>
               <img className={styles.img} src={componentData.src} />
             </div>
-            <div className={styles.heading}>{componentData.heading}</div>
-            <div className={styles.subheading}>{componentData.subHeading}</div>
+            <div className={styles.container}>
+              <div className={styles.heading}>{componentData.heading}</div>
+              <div className={styles.subheading}>
+                {componentData.subHeading}
+              </div>
+            </div>
           </>
         );
       })}

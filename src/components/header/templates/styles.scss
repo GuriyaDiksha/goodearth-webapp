@@ -266,3 +266,58 @@
 .separator {
     border-left: 1px solid gray;
 }
+
+.image-with-side-subheading-mobile {
+    .title {
+        border-bottom: none;
+        padding-left: 20px;
+        line-height: 30px;
+        letter-spacing: .05em;
+        margin-top: 25px;
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #000;
+        font-family: "LatoFont", "Helvetica", "Arial";
+    }
+    .img-container {
+        display: inline;
+    }
+    .img {
+        width: 50%;
+        // padding-left: 8%;
+        padding-right: 4%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+    .container {
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 50%;
+        .heading {
+            border-bottom: none;
+            // padding-left: 20px;
+            line-height: 18px;
+            letter-spacing: .05em;
+            margin-top: 15px;
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+            font-family: "LatoFont", "Helvetica", "Arial";
+        }
+        .subheading {
+            font-size: 11px;
+            text-transform: capitalize;
+            font-family: "LatoFont", "Helvetica", "Arial";
+            letter-spacing: 0.09em;
+            color: #000;
+            border-bottom: none;
+            // padding-left: 20px;
+            line-height: 18px;
+        }
+    }
+}

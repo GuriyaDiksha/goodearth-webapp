@@ -11,7 +11,7 @@ import styles from "./styles.scss";
 import cs from "classnames";
 import SideMenu from "./sidemenu";
 // import MainMenu from "./menu";
-import { MenuList } from "./menulist";
+// import { MenuList } from "./menulist";
 import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
@@ -745,10 +745,9 @@ class Header extends React.Component<Props, State> {
           <div>
             <div
               className={
-                // this.state.show
-                // ?
-                cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
-                // : styles.hidden
+                this.state.show
+                  ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
+                  : styles.hidden
               }
             >
               <MegaMenuList
@@ -761,7 +760,7 @@ class Header extends React.Component<Props, State> {
                 menudata={this.props.megaMenuData}
                 mobile={mobile}
               />
-              <MenuList
+              {/* <MenuList
                 ipad={false}
                 onHeaderMenuClick={this.onMenuClick}
                 activeIndex={this.state.activeIndex}
@@ -771,7 +770,7 @@ class Header extends React.Component<Props, State> {
                 show={this.state.show}
                 menudata={this.props.data}
                 mobile={mobile}
-              />
+              /> */}
             </div>
             <div
               className={cs(bootstrap.row, bootstrap.col12, styles.mobileMenu)}
