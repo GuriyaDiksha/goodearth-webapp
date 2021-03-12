@@ -284,26 +284,45 @@
             "templates": [
                 {
                     "publishOnMobile": true,
-                    "templateType": "L2L3",
+                    "templateType": "IMAGE",
                     "templateData": {
-                        "componentType": "l2",
+                        "componentType": "title",
                         "componentData": {
-                            "text": "giftcard",
-                            "link": "/giftcard"
+                            "title": "",
+                            "link": "/cart",
+                            "ctaName": "hello"
                         },
                         "children": [
                             {
-                                "componentType": "l3",
+                                "componentType": "image",
                                 "componentData": {
-                                    "text": "",
-                                    "link": ""
+                                    "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                    "heading": "",
+                                    "subHeading": "Gifting Image subheading",
+                                    "link": "/gifting"
                                 }
-                            },
+                            }
+                        ]
+                    }
+                },
+                {
+                    "publishOnMobile": true,
+                    "templateType": "IMAGE",
+                    "templateData": {
+                        "componentType": "title",
+                        "componentData": {
+                            "title": "",
+                            "link": "/cart",
+                            "ctaName": "hello"
+                        },
+                        "children": [
                             {
-                                "componentType": "l3",
+                                "componentType": "image",
                                 "componentData": {
-                                    "text": "",
-                                    "link": ""
+                                    "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                    "heading": "",
+                                    "subHeading": "Gifting Image subheading",
+                                    "link": "/gifting"
                                 }
                             }
                         ]
@@ -1308,16 +1327,16 @@
                             "templateData": {
                                 "componentType": "title",
                                 "componentData": {
-                                    "title": "Decor",
+                                    "title": "",
                                     "link": "/cart",
-                                    "ctaName": "Decor Cart"
+                                    "ctaName": ""
                                 },
                                 "children": [
                                     {
                                         "componentType": "image",
                                         "componentData": {
                                             "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
-                                            "heading": "Gifting Image",
+                                            "heading": "",
                                             "subHeading": "Gifting Image subheading",
                                             "link": "/gifting"
                                         }
@@ -1401,7 +1420,7 @@
                                         "componentType": "image",
                                         "componentData": {
                                             "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
-                                            "heading": "Gifting Image",
+                                            "heading": "",
                                             "subHeading": "Gifting Image subheading",
                                             "link": "/gifting"
                                         }
