@@ -296,6 +296,8 @@ class Checkout extends React.Component<Props, State> {
     }
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    const freshChatButtonElem = document.getElementById("fresh-chat");
+    const whatsappButtonElem = document.getElementById("whatsapp");
     if (scrollToTopButtonElem) {
       scrollToTopButtonElem.style.display = "none";
       scrollToTopButtonElem.style.bottom = "65px";
@@ -305,6 +307,12 @@ class Checkout extends React.Component<Props, State> {
       chatButtonElem.style.bottom = "10px";
     }
 
+    if (freshChatButtonElem) {
+      freshChatButtonElem.style.display = "none";
+    }
+    if (whatsappButtonElem) {
+      whatsappButtonElem.style.display = "none";
+    }
     this.props.fetchBasket().then(res => {
       let basketBridalId = 0;
       res.lineItems.map(item =>
@@ -322,6 +330,8 @@ class Checkout extends React.Component<Props, State> {
   componentWillUnmount() {
     const chatButtonElem = document.getElementById("chat-button");
     const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+    const freshChatButtonElem = document.getElementById("fresh-chat");
+    const whatsappButtonElem = document.getElementById("whatsapp");
     if (scrollToTopButtonElem) {
       scrollToTopButtonElem.style.removeProperty("display");
       scrollToTopButtonElem.style.removeProperty("bottom");
@@ -329,6 +339,12 @@ class Checkout extends React.Component<Props, State> {
     if (chatButtonElem) {
       chatButtonElem.style.removeProperty("display");
       chatButtonElem.style.removeProperty("bottom");
+    }
+    if (freshChatButtonElem) {
+      freshChatButtonElem.style.removeProperty("display");
+    }
+    if (whatsappButtonElem) {
+      whatsappButtonElem.style.removeProperty("display");
     }
   }
 
@@ -485,6 +501,19 @@ class Checkout extends React.Component<Props, State> {
     }, 500);
   }
 
+  showErrorMsgs = () => {
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorMsg
+      )[0] as HTMLInputElement;
+
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 500);
+  };
+
   finalizeAddress = (
     address: AddressData | null,
     activeStep: string,
@@ -584,6 +613,7 @@ class Checkout extends React.Component<Props, State> {
               billingError: valid.showErrors(err.response.data)
             });
             this.showErrorMsg();
+            this.showErrorMsgs();
           });
       }
     }
