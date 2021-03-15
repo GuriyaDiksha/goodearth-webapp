@@ -69,7 +69,7 @@ const BaseLayout: React.FC = () => {
   // };
   // const Whatsapp = () => {
   //   return (
-  //     <div className={styles.whatsappIcon}>
+  //     <div className={"whatsapp-active"} id={"whatsapp"}>
   //       <a
   //         href={"https://wa.me/+917669303665"}
   //         target="_blank"

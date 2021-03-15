@@ -102,6 +102,8 @@ class MyProfile extends React.Component<Props, State> {
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     if (!this.state.updateProfile) return false;
     const {
+      firstName,
+      lastName,
       phoneCountryCode,
       phoneNumber,
       gender,
@@ -110,6 +112,8 @@ class MyProfile extends React.Component<Props, State> {
       subscribe
     } = model;
     const formData: any = {};
+    formData["firstName"] = firstName || "";
+    formData["lastName"] = lastName || "";
     if (phoneCountryCode && phoneNumber) {
       formData["phoneCountryCode"] = phoneCountryCode;
       formData["phoneNumber"] = phoneNumber;
