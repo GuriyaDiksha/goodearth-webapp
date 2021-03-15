@@ -74,7 +74,8 @@ class MainLogin extends React.Component<Props, loginState> {
               {
                 showCurrentSection: "login",
                 msg: "",
-                highlight: false
+                highlight: false,
+                successMsg: ""
               },
               () => {
                 this.passwordInput.current &&
