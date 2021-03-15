@@ -5,7 +5,7 @@
         line-height: 30px;
         letter-spacing: .05em;
         margin-top: 25px;
-        display: inline-block;
+        display: block;
         font-size: 14px;
         font-weight: bold;
         text-transform: uppercase;
@@ -21,6 +21,7 @@
         border-bottom: none;
         padding-left: 20px;
         line-height: 30px;
+        display: block;
     }
 }
 
