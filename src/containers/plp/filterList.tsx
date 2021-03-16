@@ -1203,49 +1203,49 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     facets.currentColor.map((data: any, i: number) => {
       const color: any = {
-        "--my-color-var": "#" + data[0].split("-")[0]
+        "--my-color-var": "#" + data.split("-")[0]
       };
       const multicolorImage: any = {
         "--my-bg-image": `url(${multiColour})`
       };
-      if (data[0].toLowerCase() == "multicolor") {
+      if (data.toLowerCase() == "multicolor") {
         html.push(
           <li
             className={cs(styles.colorlabel, styles.multicolorlabel)}
-            key={data[0]}
+            key={data}
           >
             <input
               type="checkbox"
-              id={data[0]}
+              id={data}
               checked={
-                filter.currentColor[data[0]]
-                  ? filter.currentColor[data[0]].isChecked
+                filter.currentColor[data]
+                  ? filter.currentColor[data].isChecked
                   : false
               }
               onClick={this.handleClickColor}
-              value={data[0]}
+              value={data}
             />
-            <label htmlFor={data[0]} style={multicolorImage}>
-              {data[0].split("-")[0]}
+            <label htmlFor={data} style={multicolorImage}>
+              {data.split("-")[0]}
             </label>
           </li>
         );
       } else {
         html.push(
-          <li className={styles.colorlabel} key={data[0]}>
+          <li className={styles.colorlabel} key={data}>
             <input
               type="checkbox"
-              id={data[0]}
+              id={data}
               checked={
-                filter.currentColor[data[0]]
-                  ? filter.currentColor[data[0]].isChecked
+                filter.currentColor[data]
+                  ? filter.currentColor[data].isChecked
                   : false
               }
               onClick={this.handleClickColor}
-              value={data[0]}
+              value={data}
             />
-            <label htmlFor={data[0]} style={color}>
-              {data[0].split("-")[1]}
+            <label htmlFor={data} style={color}>
+              {data.split("-")[1]}
             </label>
           </li>
         );

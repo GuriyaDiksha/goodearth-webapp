@@ -14,7 +14,7 @@ export default {
   fetchPlpProducts: async function(dispatch: Dispatch, url: string) {
     const res = await API.get<PlpProps>(
       dispatch,
-      `${__API_HOST__ + `/myapi/search/` + url}`
+      `${__API_HOST__ + `/myapi/search/algolia_search` + url}`
     );
     dispatch(updateProduct({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
@@ -27,7 +27,7 @@ export default {
   ) {
     const res = await API.get<PlpProps>(
       dispatch,
-      `${__API_HOST__ + `/myapi/search/` + url}`
+      `${__API_HOST__ + `/myapi/search/algolia_search` + url}`
     );
     dispatch(newPlpList({ ...res }));
     dispatch(updatePlpProduct(res.results.data));
@@ -43,7 +43,7 @@ export default {
   ) {
     const res = await API.get<PlpProps>(
       dispatch,
-      `${__API_HOST__ + `/myapi/search/` + url}`
+      `${__API_HOST__ + `/myapi/search/algolia_search` + url}`
     );
     dispatch(updatePlpProduct(res.results.data));
     res.results.data = listdata.concat(res.results.data);
