@@ -99,6 +99,22 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               ["This account does not exist. Please Sign Up"],
               location.href
             );
+          } else if (err.response.data.error_message) {
+            let errorMsg = err.response.data.error_message[0];
+            if (errorMsg == "MaxRetries") {
+              errorMsg =
+                "You have exceeded max attempts, please try after some time.";
+            }
+            this.setState(
+              {
+                err: true,
+                msg: errorMsg,
+                disableSelectedbox: false
+              },
+              () => {
+                valid.errorTracking([this.state.msg as string], location.href);
+              }
+            );
           } else {
             this.setState(
               {
