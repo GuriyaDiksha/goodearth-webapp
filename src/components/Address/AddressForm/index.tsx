@@ -475,8 +475,17 @@ const AddressForm: React.FC<Props> = props => {
           if (typeof errData == "string") {
             setErrorMessage(errData);
           } else if (typeof errData == "object") {
-            form && form.updateInputsWithError(errData, true);
-            handleInvalidSubmit();
+            if (err.response.data.error_message) {
+              let errorMsg = err.response.data.error_message[0];
+              if (errorMsg == "MaxRetries") {
+                errorMsg =
+                  "You have exceeded max attempts, please try after some time.";
+              }
+              setErrorMessage(errorMsg);
+            } else {
+              form && form.updateInputsWithError(errData, true);
+              handleInvalidSubmit();
+            }
           }
         })
         .finally(() => {
@@ -504,8 +513,17 @@ const AddressForm: React.FC<Props> = props => {
           if (typeof errData == "string") {
             setErrorMessage(errData);
           } else if (typeof errData == "object") {
-            form && form.updateInputsWithError(errData, true);
-            handleInvalidSubmit();
+            if (err.response.data.error_message) {
+              let errorMsg = err.response.data.error_message[0];
+              if (errorMsg == "MaxRetries") {
+                errorMsg =
+                  "You have exceeded max attempts, please try after some time.";
+              }
+              setErrorMessage(errorMsg);
+            } else {
+              form && form.updateInputsWithError(errData, true);
+              handleInvalidSubmit();
+            }
           }
         })
         .finally(() => {

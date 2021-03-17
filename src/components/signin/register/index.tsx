@@ -168,7 +168,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 let errorMsg = err.response.data[data][0];
                 if (errorMsg == "MaxRetries") {
                   errorMsg =
-                    "You have exceeded max registeration attempts, please try after some time.";
+                    "You have exceeded max registration attempts, please try after some time.";
                 }
                 this.setState({
                   showerror: errorMsg
