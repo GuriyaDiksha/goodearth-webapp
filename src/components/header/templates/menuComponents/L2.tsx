@@ -14,13 +14,15 @@ const L2: React.FC<Props> = ({ data }) => {
   const componentData = data.componentData as MenuComponentL2L3Data;
   return (
     <>
-      {componentData.link ? (
-        <Link className={styles.l2} to={componentData.link}>
-          {componentData.text}
-        </Link>
-      ) : (
-        <div className={styles.l2}>{componentData.text}</div>
-      )}
+      <div className={styles.blockL2}>
+        {componentData.link ? (
+          <Link className={styles.l2} to={componentData.link}>
+            {componentData.text}
+          </Link>
+        ) : (
+          <div className={styles.l2}>{componentData.text}</div>
+        )}
+      </div>
 
       {data.children && data.children.length > 0 && <L3 data={data.children} />}
     </>
