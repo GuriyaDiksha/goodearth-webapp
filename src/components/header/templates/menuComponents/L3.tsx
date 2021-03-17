@@ -12,14 +12,19 @@ type Props = {
 const L3: React.FC<Props> = ({ data }) => {
   return (
     <>
-      {data.map(menuComponent => {
+      {data.map((menuComponent, index) => {
         const componentData = menuComponent.componentData as MenuComponentL2L3Data;
-        return componentData.link ? (
-          <Link className={styles.l3} to={componentData.link}>
-            {componentData.text}
-          </Link>
-        ) : (
-          <div className={styles.l3}>{componentData.text}</div>
+        return (
+          <div key={index} className={styles.block}>
+            {" "}
+            {componentData.link ? (
+              <Link className={styles.l3} to={componentData.link}>
+                {componentData.text}
+              </Link>
+            ) : (
+              <div className={styles.l3}>{componentData.text}</div>
+            )}
+          </div>
         );
       })}
     </>
