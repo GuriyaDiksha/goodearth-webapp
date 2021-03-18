@@ -33,6 +33,7 @@ import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
+// import Mobilemenu from "./mobileMenu";
 import MegaMenu from "./megaMenu";
 import { MegaMenuList } from "./megaMenulist";
 
@@ -795,6 +796,7 @@ class Header extends React.Component<Props, State> {
                         <Mobilemenu
                           onMobileMenuClick={this.onMenuClick}
                           menudata={this.props.data}
+                          megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
                           clickToggle={this.clickToggle}
                         />
