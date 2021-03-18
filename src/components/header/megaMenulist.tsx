@@ -77,6 +77,7 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
             key={index}
             className={cs(
               bootstrap.colMd2,
+              styles.columnContainer,
               column.separator ? styles.separator : ""
             )}
           >
