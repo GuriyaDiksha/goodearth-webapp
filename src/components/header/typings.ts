@@ -73,6 +73,19 @@ export interface MegaMenuData {
   url: string;
 }
 
+export interface InnerMenuData {
+  text: string;
+  url: string;
+  l2MenuData: L2MenuData[];
+  templates: MenuTemplates[];
+}
+
+export interface L2MenuData {
+  text: string;
+  link: string;
+  children?: L2MenuData[];
+}
+
 export type AnnouncementBar = {
   url: number | null;
   message: string;
@@ -161,6 +174,7 @@ export type MegaMenuListProps = {
 
 export type MobileListProps = {
   menudata: HeaderData[];
+  megaMenuData: MegaMenuData[];
   location: Location;
   clickToggle: () => void;
   onMobileMenuClick: (l1: string, l2: string, l3: string) => void;
