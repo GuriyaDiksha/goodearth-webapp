@@ -23,7 +23,8 @@ import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMo
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    currency: state.currency
   };
 };
 type Props = MobileListProps & ReturnType<typeof mapStateToProps>;
@@ -57,6 +58,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           showmenulevel1: true,
           showInnerMenu: true
         });
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.currency != this.props.currency) {
+      this.closeInnerMenu();
+    }
   }
 
   Clickmenulevel2(index: number) {
@@ -166,7 +173,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
   createMegaListElement(megaMenuData: MegaMenuData) {
     const html = [];
     const innerMenuData: InnerMenuData = this.createInnerMenuData(megaMenuData);
-    console.log(innerMenuData);
+    // console.log(innerMenuData);
     const l2MenuData = innerMenuData.l2MenuData || [];
     const isStories = innerMenuData.text.toLowerCase() == "stories";
     const templates = innerMenuData.templates || [];
@@ -294,7 +301,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                               : ""
                           }
                         >
-                          <p>{ReactHtmlParser(innerdata.text)}</p>
+                          <p>{ReactHtmlParser(innerdata.text.toLowerCase())}</p>
                         </Link>
                       </li>
                     );
@@ -665,7 +672,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           {this.state.activeindex > -1 &&
             // this.createListElement(this.props.menudata[this.state.activeindex])}
             this.createMegaListElement(
-              this.props.megaMenuData[this.state.activeindex]
+              this.props.megaMenuData[
+                this.state.activeindex < this.props.megaMenuData.length
+                  ? this.state.activeindex
+                  : 0
+              ]
             )}
         </ul>
       </div>

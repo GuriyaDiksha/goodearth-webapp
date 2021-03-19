@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // }
       // if (page == "/") {
       HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
+        console.log("HEADER API ERROR ==== " + err);
       });
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);

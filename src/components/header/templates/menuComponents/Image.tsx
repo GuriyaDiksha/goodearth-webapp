@@ -23,7 +23,7 @@ const Image: React.FC<Props> = ({ data }) => {
                   <img className={styles.img} src={componentData.src} />
                 </Link>
                 <div className={styles.container}>
-                  <div className={styles.block}>
+                  <div className={styles.blockHeading}>
                     <Link className={styles.heading} to={componentData.link}>
                       {componentData.heading}
                     </Link>
@@ -39,7 +39,7 @@ const Image: React.FC<Props> = ({ data }) => {
                   <img className={styles.img} src={componentData.src} />
                 </div>
                 <div className={styles.container}>
-                  <div className={styles.block}>
+                  <div className={styles.blockHeading}>
                     <div className={styles.heading}>
                       {componentData.heading}
                     </div>
