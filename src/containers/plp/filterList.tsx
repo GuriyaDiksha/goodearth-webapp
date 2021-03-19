@@ -181,11 +181,11 @@ class FilterList extends React.Component<Props, State> {
     const { pathname } = this.props.history.location;
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
-      urllist = this.props.facets.categoryShopUrl;
+      urllist = this.props.facets.categoryShopDetail;
       urllist.some((urlData: any) => {
-        currentKey = Object.keys(urlData)[0];
+        currentKey = urlData.path;
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = urlData[currentKey];
+          mainUrl = urlData.url;
           return true;
         }
       });
@@ -376,31 +376,19 @@ class FilterList extends React.Component<Props, State> {
     }
   };
   createList = (plpList: any) => {
-    if (!plpList.results.facets.categoryShop) return false;
+    if (!plpList.results.facets.categoryShopDetail) return false;
     const { currency } = this.props;
     const { filter } = this.state;
     const minMaxvalue: any = [];
     let currentRange: any = [];
     this.createFilterfromUrl();
-    const pricearray: any = [],
-      currentCurrency =
-        "price" +
-        currency[0].toUpperCase() +
-        currency.substring(1).toLowerCase();
-    plpList.results.facets[currentCurrency].map(function(a: any) {
-      pricearray.push(+a[0]);
-    });
-    if (pricearray.length > 0) {
-      minMaxvalue.push(
-        pricearray.reduce(function(a: any, b: any) {
-          return Math.min(a, b);
-        })
-      );
-      minMaxvalue.push(
-        pricearray.reduce(function(a: any, b: any) {
-          return Math.max(a, b);
-        })
-      );
+    const currentCurrency =
+      "price" + currency[0].toUpperCase() + currency.substring(1).toLowerCase();
+    const min = +plpList.results.facets[currentCurrency]?.[0];
+    const max = +plpList.results.facets[currentCurrency]?.[1];
+    if (plpList.results.facets[currentCurrency].length > 0) {
+      minMaxvalue.push(min);
+      minMaxvalue.push(max);
     }
     if (filter.price.min_price) {
       currentRange.push(filter.price.min_price);
@@ -571,7 +559,7 @@ class FilterList extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (
       nextProps.onload &&
-      nextProps.facets.categoryShop &&
+      nextProps.facets.categoryShopDetail &&
       this.props.updateFacets
     ) {
       this.props.updateOnload(false);
@@ -644,108 +632,125 @@ class FilterList extends React.Component<Props, State> {
 
   getSortedFacets = (facets: any): any => {
     if (facets.length == 0) return false;
-    const categories: any = [],
-      subCategories: any = [],
-      categoryNames: any = [],
-      categoryObj: any = {};
+    const categoryObj: any = {};
     const { filter } = this.state;
 
-    let selectIndex: any = -1,
-      check = "";
+    let selectIndex: any = -1;
+    // check = "";
 
-    if (facets.categoryShop && facets.categoryShop.length > 0) {
-      facets.categoryShop.map((v: any, i: number) => {
-        const baseCategory = v[0];
-        let categoryUrl: any = "";
-        if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
-          categoryUrl = facets.categoryShopDetail.filter(function(
-            k: any,
-            i: any
-          ) {
-            return Object.prototype.hasOwnProperty.call(k, baseCategory);
-          })[0];
-        }
-        if (categoryUrl) {
-          v.push(categoryUrl[baseCategory]);
-        }
-        const labelArr = baseCategory.split(">");
-        labelArr.shift();
-        if (labelArr.length > 1) {
-          //categories having child categories
-          categories.push(v);
-          if (categoryNames.indexOf(labelArr[0].trim()) == -1) {
-            categoryNames.push(labelArr[0].trim());
-          }
-        } else if (labelArr.length == 1) {
-          subCategories.push(v);
-        }
-      });
+    // if (facets.categoryShop && facets.categoryShop.length > 0) {
+    //   facets.categoryShop.map((v: any, i: number) => {
+    //     const baseCategory = v[0];
+    //     let categoryUrl: any = "";
+    //     if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
+    //       categoryUrl = facets.categoryShopDetail.filter(function(
+    //         k: any,
+    //         i: any
+    //       ) {
+    //         return Object.prototype.hasOwnProperty.call(k, baseCategory);
+    //       })[0];
+    //     }
+    //     if (categoryUrl) {
+    //       v.push(categoryUrl[baseCategory]);
+    //     }
+    //     const labelArr = baseCategory.split(">");
+    //     labelArr.shift();
+    //     if (labelArr.length > 1) {
+    //       //categories having child categories
+    //       categories.push(v);
+    //       if (categoryNames.indexOf(labelArr[0].trim()) == -1) {
+    //         categoryNames.push(labelArr[0].trim());
+    //       }
+    //     } else if (labelArr.length == 1) {
+    //       subCategories.push(v);
+    //     }
+    //   });
 
-      facets.categories = categories;
-      facets.subCategories = subCategories;
-    }
+    //   facets.categories = categories;
+    //   facets.subCategories = subCategories;
+    // }
 
-    for (let i = 0; i < categoryNames.length; i++) {
-      facets.subCategories.map(function(v: any, k: any) {
-        if (v[0].indexOf(categoryNames[i]) != -1) {
-          facets.categories.push(v);
-          facets.subCategories.splice(k, 1);
-        }
-      });
-    }
-
-    facets.categories.map((data: any, i: number) => {
-      const tempKey = data[0].split(">")[1].trim(),
-        viewData = data[0].split(">");
-      viewData.length > 2 ? viewData.pop() : "";
-      categoryObj[tempKey]
-        ? false
-        : (categoryObj[tempKey] = [["View all", viewData.join(">").trim()]]);
-      if (data[0].split(">")[2]) {
-        categoryObj[tempKey].push([data[0].split(">")[2].trim()].concat(data));
-      }
-    });
-
-    // code for setting all values of filter false
-    facets.subCategories.map((data: any, i: number) => {
-      const key = data[0].split(">")[1].trim();
-      if (filter.categoryShop[key]) {
-        // check that view all is clicked or not by (arrow key >)
-        if (filter.categoryShop[key][data[0]]) {
-          // nestedList[1].split('>').length == 2 ? check = data : '';
-          selectIndex = key;
-          // this.state.old_selected_category = key;
-          // filter.categoryShop[key][data[0]] = false
-        }
-      } else {
-        filter.categoryShop[key] = {};
-        filter.categoryShop[key][data[0]] = false;
-      }
-    });
-    let oldSelectedCategory: any = this.state.oldSelectedCategory;
-    // code for setting  all values of filter is false
-    Object.keys(categoryObj).map((data, i) => {
-      categoryObj[data].map((nestedList: any, j: number) => {
-        if (filter.categoryShop[data]) {
-          // check that view all is clicked or not by (arrow key >)
-          if (filter.categoryShop[data][nestedList[1]]) {
-            nestedList[1].split(">").length == 2 ? (check = data) : "";
-            selectIndex = data;
-            oldSelectedCategory = data;
-          } else {
-            if (check == data) {
-              filter.categoryShop[data][nestedList[1]] = true;
-              selectIndex = data;
-            } else {
-              filter.categoryShop[data][nestedList[1]] = false;
+    // for (let i = 0; i < categoryNames.length; i++) {
+    //   facets.subCategories.map(function(v: any, k: any) {
+    //     if (v[0].indexOf(categoryNames[i]) != -1) {
+    //       facets.categories.push(v);
+    //       facets.subCategories.splice(k, 1);
+    //     }
+    //   });
+    // }
+    if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
+      facets.categories = facets.categoryShopDetail.map(
+        (data: any, i: number) => {
+          categoryObj[data.name] = [];
+          categoryObj[data.name].push(["View all", data.path.trim()]);
+          if (!filter.categoryShop[data.name]) {
+            filter.categoryShop[data.name] = {};
+            if (!filter.categoryShop[data.name][data.path.trim()]) {
+              filter.categoryShop[data.name][data.path.trim()] = false;
             }
           }
-        } else {
-          filter.categoryShop[data] = {};
-          filter.categoryShop[data][nestedList[1]] = false;
+          data.children = data.children.sort(function(a: any, b: any) {
+            return +a.sequence - +b.sequence;
+          });
+          data.children.map((child: any) => {
+            categoryObj[data.name].push([child.name.trim(), child.path.trim()]);
+            if (filter.categoryShop[data.name]) {
+              if (filter.categoryShop[data.name][data.path.trim()]) {
+                filter.categoryShop[data.name][child.path.trim()] = true;
+              } else if (!filter.categoryShop[data.name][child.path.trim()]) {
+                filter.categoryShop[data.name][child.path.trim()] = false;
+              }
+            }
+          });
+
+          return [data.path, data.name, data.sequence];
         }
-      });
+      );
+    }
+
+    facets.categories = facets.categories.sort((a: any, b: any) => {
+      return +a[2] - +b[2];
     });
+    // // code for setting all values of filter false
+    // facets.subCategories.map((data: any, i: number) => {
+    //   const key = data[0].split(">")[1].trim();
+    //   if (filter.categoryShop[key]) {
+    //     // check that view all is clicked or not by (arrow key >)
+    //     if (filter.categoryShop[key][data[0]]) {
+    //       // nestedList[1].split('>').length == 2 ? check = data : '';
+    //       selectIndex = key;
+    //       // this.state.old_selected_category = key;
+    //       // filter.categoryShop[key][data[0]] = false
+    //     }
+    //   } else {
+    //     filter.categoryShop[key] = {};
+    //     filter.categoryShop[key][data[0]] = false;
+    //   }
+    // });
+    let oldSelectedCategory: any = this.state.oldSelectedCategory;
+    // // code for setting  all values of filter is false
+    // Object.keys(categoryObj).map((data, i) => {
+    //   categoryObj[data].map((nestedList: any, j: number) => {
+    //     if (filter.categoryShop[data]) {
+    //       // check that view all is clicked or not by (arrow key >)
+    //       if (filter.categoryShop[data][nestedList[1]]) {
+    //         nestedList[1].split(">").length == 2 ? (check = data) : "";
+    //         selectIndex = data;
+    //         oldSelectedCategory = data;
+    //       } else {
+    //         if (check == data) {
+    //           filter.categoryShop[data][nestedList[1]] = true;
+    //           selectIndex = data;
+    //         } else {
+    //           filter.categoryShop[data][nestedList[1]] = false;
+    //         }
+    //       }
+    //     } else {
+    //       filter.categoryShop[data] = {};
+    //       filter.categoryShop[data][nestedList[1]] = false;
+    //     }
+    //   });
+    // });
     // code for all product_by filter false
     if (facets.categoryProductTypeMapping) {
       Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
@@ -1012,26 +1017,26 @@ class FilterList extends React.Component<Props, State> {
   createCatagoryFromFacets = (categoryObj: any, categorydata: any) => {
     let html: any = [];
     if (!categoryObj) return false;
-    const cat = categorydata.categories
-      .concat(categorydata.subCategories)
-      .filter(function(a: any) {
-        return a[0].split(">").length == 2;
-      });
+    // const cat = categorydata.categories
+    //   .concat(categorydata.subCategories)
+    //   .filter(function(a: any) {
+    //     return a[0].split(">").length == 2;
+    //   });
 
-    const subcat = cat.sort(function(a: any, b: any) {
-      return +a[1] - +b[1];
-    });
-    subcat.map((data: any) => {
-      for (const key in categoryObj) {
-        if (data[0].endsWith(key)) {
-          html = this.generateCatagory(categoryObj, key, html);
-        }
-      }
-      categorydata.subCategories.map((sub: any) => {
-        if (data[0].indexOf(sub[0]) > -1) {
-          html = this.generateSubCatagory(sub, html);
-        }
-      });
+    // const subcat = cat.sort(function(a: any, b: any) {
+    //   return +a[1] - +b[1];
+    // });
+    categorydata.categories.map((data: any) => {
+      // for (const key in categoryObj) {
+      //   if (data[0].endsWith(key)) {
+      html = this.generateCatagory(categoryObj, data[1], html);
+      //   }
+      // }
+      // categoryObj[data].map((sub: any) => {
+      //   // if (data[0].indexOf(sub[0]) > -1) {
+      //     html = this.generateCatagory(categoryObj, sub[0], html);
+      //   // }
+      // });
     });
     return html;
   };
