@@ -50,7 +50,6 @@
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
-        margin-top: 15px;
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
@@ -70,13 +69,20 @@
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
-        margin-top: 15px;
-        margin-bottom: 50px;
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
         color: #000;
         font-family: "LatoFont", "Helvetica", "Arial";
+    }
+    .block-heading {
+        display: block;
+        margin-top: 10px;
+    }
+    .block-cta {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 50px;
     }
 }
 
@@ -103,7 +109,6 @@
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
-        margin-top: 15px;
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
@@ -123,13 +128,20 @@
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
-        margin-top: 50px;
-        margin-bottom:  15px;
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
         color: #000;
         font-family: "LatoFont", "Helvetica", "Arial";
+    }
+    .block-heading {
+        display: block;
+        margin-top: 10px;
+    }
+    .block-cta {
+        display: block;
+        margin-top: 50px;
+        margin-bottom: 15px;
     }
 }
 
@@ -156,7 +168,6 @@
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
-        margin-top: 15px;
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
@@ -176,13 +187,20 @@
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
-        margin-top: 10px;
-        margin-bottom: 15px;
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
         color: #000;
         font-family: "LatoFont", "Helvetica", "Arial";
+    }
+    .block-heading {
+        display: block;
+        margin-top: 10px;
+    }
+    .block-cta {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 15px;
     }
 }
 
@@ -217,7 +235,6 @@
             border-bottom: none;
             line-height: 18px;
             letter-spacing: .05em;
-            margin-top: 15px;
             display: block;
             font-size: 12px;
             font-weight: bold;
@@ -249,6 +266,13 @@
         margin-top: 15px;
         margin-bottom: 50px;
         display: block;
+    }
+    .block-heading {
+        display: block;
+        margin-top: 10px;
+    }
+    .img-container {
+        display: inline;
     }
 }
 
