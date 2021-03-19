@@ -191,6 +191,9 @@ class Header extends React.Component<Props, State> {
         // if (data.currency == "INR") {
         //   history.push("/maintenance");
         // }
+        this.setState({
+          activeIndex: 0
+        });
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
             history.location.pathname +

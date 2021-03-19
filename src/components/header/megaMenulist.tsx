@@ -282,7 +282,11 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
 
   render() {
     if (!this.props.menudata || this.props.menudata.length == 0) return false;
-    const data: MegaMenuData = this.props.menudata[this.props.activeIndex || 0];
+    const data: MegaMenuData = this.props.menudata[
+      this.props.activeIndex < this.props.menudata.length
+        ? this.props.activeIndex
+        : 0
+    ];
     // const emptyMenuHide =
     //   data && data.rightMenu && data.leftMenu
     //     ? data.rightMenu.length == 0 && data.leftMenu.length == 0
