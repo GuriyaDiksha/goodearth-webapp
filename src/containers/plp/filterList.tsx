@@ -426,7 +426,8 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      changeLoader
+      changeLoader,
+      history
     } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
@@ -437,68 +438,69 @@ class FilterList extends React.Component<Props, State> {
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
       changeLoader?.(true);
-      const filterUrl = "?" + nextUrl.split("?")[1];
+      const filterUrl = history.location.search;
       // const pageSize = mobile ? 10 : 20;
       const pageSize = 20;
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        plpList => {
-          changeLoader?.(false);
-          valid.productImpression(
-            plpList,
-            "PLP",
-            this.props.currency,
-            plpList.results.data.length
+      updateProduct(
+        filterUrl + `&page=${nextUrl}` + `&page_size=${pageSize}`,
+        listdata
+      ).then(plpList => {
+        changeLoader?.(false);
+        valid.productImpression(
+          plpList,
+          "PLP",
+          this.props.currency,
+          plpList.results.data.length
+        );
+        this.createFilterfromUrl();
+        const pricearray: any = [],
+          currentCurrency =
+            "price" +
+            currency[0].toUpperCase() +
+            currency.substring(1).toLowerCase();
+        plpList.results.facets[currentCurrency].map(function(a: any) {
+          pricearray.push(+a[0]);
+        });
+        if (pricearray.length > 0) {
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.min(a, b);
+            })
           );
-          this.createFilterfromUrl();
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          plpList.results.facets[currentCurrency].map(function(a: any) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
-          }
-
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
-          }
-
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: plpList.count
-            },
-            () => {
-              if (!this.state.scrollView && this.state.shouldScroll) {
-                this.handleProductSearch();
-              }
-            }
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.max(a, b);
+            })
           );
-          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
         }
-      );
+
+        if (filter.price.min_price) {
+          currentRange.push(filter.price.min_price);
+          currentRange.push(filter.price.max_price);
+        } else {
+          currentRange = minMaxvalue;
+        }
+
+        this.setState(
+          {
+            rangevalue: currentRange,
+            initialrangevalue: {
+              min: minMaxvalue[0],
+              max: minMaxvalue[1]
+            },
+            disableSelectedbox: false,
+            scrollload: true,
+            flag: true,
+            totalItems: plpList.count
+          },
+          () => {
+            if (!this.state.scrollView && this.state.shouldScroll) {
+              this.handleProductSearch();
+            }
+          }
+        );
+        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      });
     }
   };
 
@@ -768,11 +770,13 @@ class FilterList extends React.Component<Props, State> {
           (level3: any, j: number) => {
             if (filter.categoryShop[level2][level3]) {
               selectIndex = level2;
-              oldSelectedCategory = level2.split(">")[0];
+              oldSelectedCategory = level2;
             }
           }
         );
       });
+    } else {
+      selectIndex = oldSelectedCategory;
     }
 
     this.setState({
