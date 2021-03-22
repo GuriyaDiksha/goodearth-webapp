@@ -1565,29 +1565,29 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     facets.availableSize.map((data: any, i: number) => {
       html.push(
-        <span key={data[0] + i}>
+        <span key={data + i}>
           <input
             type="checkbox"
-            id={data[0] + i}
+            id={data + i}
             checked={
               filter.availableSize[data[0]]
                 ? filter.availableSize[data[0]].isChecked
                 : false
             }
             onClick={this.handleClickSize}
-            value={data[0]}
+            value={data}
           />
           <li>
             <label
-              htmlFor={data[0] + i}
+              htmlFor={data + i}
               className={
-                filter.availableSize[data[0]] &&
-                filter.availableSize[data[0]].isChecked
+                filter.availableSize[data] &&
+                filter.availableSize[data].isChecked
                   ? cs(styles.sizeCat, styles.select_size)
                   : styles.sizeCat
               }
             >
-              {data[0]}
+              {data}
             </label>
           </li>
         </span>
