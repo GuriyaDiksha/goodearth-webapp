@@ -753,15 +753,15 @@ class FilterList extends React.Component<Props, State> {
 
   createCatagoryFromFacets = (categoryObj: any) => {
     const html: any = [];
-    if (!categoryObj.categoryShop) return false;
+    if (!categoryObj.categoryShopDetail) return false;
 
-    if (categoryObj.categoryShop) {
+    if (categoryObj.categoryShopDetail) {
       html.push(
         <ul className={cs(styles.categorylabel, styles.searchCategory)}>
           <li className={styles.categoryTitle}>
             <span
               className={
-                Object.keys(this.state.filter.categoryShop).length == 0
+                this.state.filter.categoryShop.length == 0
                   ? globalStyles.cerise
                   : ""
               }
@@ -769,35 +769,29 @@ class FilterList extends React.Component<Props, State> {
               data-value="all"
               id="all"
             >
-              All (
-              {categoryObj.categoryShop[0]
-                ? categoryObj.categoryShop.filter(
-                    (category: any) => category[0] == "All"
-                  )[0][1]
-                : "0"}
-              )
+              All ({this.props.data.results.data.length + 1})
             </span>
           </li>
         </ul>
       );
     }
-    categoryObj.categoryShop.map((data: any, i: number) => {
+    categoryObj.categoryShopDetail.map((data: any, i: number) => {
       if (data[0] == "All") return false;
-      const len = data[0].split(">").length;
+      // const len = data[0].split(">").length;
       html.push(
         <ul className={cs(styles.categorylabel, styles.searchCategory)}>
           <li className={styles.categoryTitle}>
             <span
               className={
-                this.state.filter.categoryShop[data[0]]
+                this.state.filter.categoryShop[data.path]
                   ? globalStyles.cerise
                   : ""
               }
               onClick={this.handleClickCategory}
-              data-value={data}
-              id={data[0]}
+              data-value={data.path}
+              id={data.path}
             >
-              {data[0].split(">")[len - 1] + " (" + data[2] + ")"}
+              {data.name + " (" + 0 + ")"}
             </span>
           </li>
         </ul>
