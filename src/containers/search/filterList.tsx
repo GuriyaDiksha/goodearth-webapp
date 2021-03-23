@@ -386,7 +386,7 @@ class FilterList extends React.Component<Props, State> {
     }
   };
   createList = (plpList: any) => {
-    if (!plpList.results.facets.categoryShop) return false;
+    if (!plpList.results.facets.categoryShopDetail) return false;
     const { currency } = this.props;
     const { filter } = this.state;
     const minMaxvalue: any = [];
@@ -547,7 +547,7 @@ class FilterList extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    if (nextProps.onload && nextProps.facets.categoryShop) {
+    if (nextProps.onload && nextProps.facets.categoryShopDetail) {
       this.props.updateOnload(false);
       this.createList(nextProps.data);
     }

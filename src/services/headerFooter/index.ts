@@ -69,7 +69,7 @@ export default {
   fetchSearchProducts: async function(dispatch: Dispatch, url: string) {
     const res = await API.get<PlpProps>(
       dispatch,
-      `${__API_HOST__ + "/myapi/search/" + url}`
+      `${__API_HOST__ + "/myapi/search/algolia_search" + url}`
     );
     // dispatch(newSearchList({ ...res }));
     // dispatch(updatePlpProduct(res.results.data));
