@@ -382,14 +382,15 @@ class FilterList extends React.Component<Props, State> {
     const minMaxvalue: any = [];
     let currentRange: any = [];
     this.createFilterfromUrl();
+    let pricearray: any = [];
     const currentCurrency =
       "price" + currency[0].toUpperCase() + currency.substring(1).toLowerCase();
-    const min = +plpList.results.facets[currentCurrency]?.[0];
-    const max = +plpList.results.facets[currentCurrency]?.[1];
-    if (plpList.results.facets[currentCurrency].length > 0) {
-      minMaxvalue.push(min);
-      minMaxvalue.push(max);
+    pricearray = plpList.results.facets[currentCurrency];
+    if (pricearray.length > 0) {
+      minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
+      minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
     }
+
     if (filter.price.min_price) {
       currentRange.push(filter.price.min_price);
       currentRange.push(filter.price.max_price);
@@ -453,25 +454,15 @@ class FilterList extends React.Component<Props, State> {
           plpList.results.data.length
         );
         this.createFilterfromUrl();
-        const pricearray: any = [],
-          currentCurrency =
-            "price" +
-            currency[0].toUpperCase() +
-            currency.substring(1).toLowerCase();
-        plpList.results.facets[currentCurrency].map(function(a: any) {
-          pricearray.push(+a[0]);
-        });
+        let pricearray: any = [];
+        const currentCurrency =
+          "price" +
+          currency[0].toUpperCase() +
+          currency.substring(1).toLowerCase();
+        pricearray = plpList.results.facets[currentCurrency];
         if (pricearray.length > 0) {
-          minMaxvalue.push(
-            pricearray.reduce(function(a: number, b: number) {
-              return Math.min(a, b);
-            })
-          );
-          minMaxvalue.push(
-            pricearray.reduce(function(a: number, b: number) {
-              return Math.max(a, b);
-            })
-          );
+          minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
+          minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
         }
 
         if (filter.price.min_price) {
@@ -638,48 +629,7 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
 
     let selectIndex: any = -1;
-    // check = "";
 
-    // if (facets.categoryShop && facets.categoryShop.length > 0) {
-    //   facets.categoryShop.map((v: any, i: number) => {
-    //     const baseCategory = v[0];
-    //     let categoryUrl: any = "";
-    //     if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
-    //       categoryUrl = facets.categoryShopDetail.filter(function(
-    //         k: any,
-    //         i: any
-    //       ) {
-    //         return Object.prototype.hasOwnProperty.call(k, baseCategory);
-    //       })[0];
-    //     }
-    //     if (categoryUrl) {
-    //       v.push(categoryUrl[baseCategory]);
-    //     }
-    //     const labelArr = baseCategory.split(">");
-    //     labelArr.shift();
-    //     if (labelArr.length > 1) {
-    //       //categories having child categories
-    //       categories.push(v);
-    //       if (categoryNames.indexOf(labelArr[0].trim()) == -1) {
-    //         categoryNames.push(labelArr[0].trim());
-    //       }
-    //     } else if (labelArr.length == 1) {
-    //       subCategories.push(v);
-    //     }
-    //   });
-
-    //   facets.categories = categories;
-    //   facets.subCategories = subCategories;
-    // }
-
-    // for (let i = 0; i < categoryNames.length; i++) {
-    //   facets.subCategories.map(function(v: any, k: any) {
-    //     if (v[0].indexOf(categoryNames[i]) != -1) {
-    //       facets.categories.push(v);
-    //       facets.subCategories.splice(k, 1);
-    //     }
-    //   });
-    // }
     if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
       facets.categories = facets.categoryShopDetail.map(
         (data: any, i: number) => {
@@ -687,6 +637,7 @@ class FilterList extends React.Component<Props, State> {
           categoryObj[data.name].push(["View all", data.path.trim()]);
           if (!filter.categoryShop[data.name]) {
             filter.categoryShop[data.name] = {};
+            // // code for setting  all values of filter is false
             if (!filter.categoryShop[data.name][data.path.trim()]) {
               filter.categoryShop[data.name][data.path.trim()] = false;
             }
@@ -713,46 +664,8 @@ class FilterList extends React.Component<Props, State> {
     facets.categories = facets.categories.sort((a: any, b: any) => {
       return +a[2] - +b[2];
     });
-    // // code for setting all values of filter false
-    // facets.subCategories.map((data: any, i: number) => {
-    //   const key = data[0].split(">")[1].trim();
-    //   if (filter.categoryShop[key]) {
-    //     // check that view all is clicked or not by (arrow key >)
-    //     if (filter.categoryShop[key][data[0]]) {
-    //       // nestedList[1].split('>').length == 2 ? check = data : '';
-    //       selectIndex = key;
-    //       // this.state.old_selected_category = key;
-    //       // filter.categoryShop[key][data[0]] = false
-    //     }
-    //   } else {
-    //     filter.categoryShop[key] = {};
-    //     filter.categoryShop[key][data[0]] = false;
-    //   }
-    // });
     let oldSelectedCategory: any = this.state.oldSelectedCategory;
-    // // code for setting  all values of filter is false
-    // Object.keys(categoryObj).map((data, i) => {
-    //   categoryObj[data].map((nestedList: any, j: number) => {
-    //     if (filter.categoryShop[data]) {
-    //       // check that view all is clicked or not by (arrow key >)
-    //       if (filter.categoryShop[data][nestedList[1]]) {
-    //         nestedList[1].split(">").length == 2 ? (check = data) : "";
-    //         selectIndex = data;
-    //         oldSelectedCategory = data;
-    //       } else {
-    //         if (check == data) {
-    //           filter.categoryShop[data][nestedList[1]] = true;
-    //           selectIndex = data;
-    //         } else {
-    //           filter.categoryShop[data][nestedList[1]] = false;
-    //         }
-    //       }
-    //     } else {
-    //       filter.categoryShop[data] = {};
-    //       filter.categoryShop[data][nestedList[1]] = false;
-    //     }
-    //   });
-    // });
+
     // code for all product_by filter false
     if (facets.categoryProductTypeMapping) {
       Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {

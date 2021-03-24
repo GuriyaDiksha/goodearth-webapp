@@ -593,7 +593,7 @@ class CorporateFilter extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (
       nextProps.onload &&
-      nextProps.facets.categoryShop &&
+      nextProps.facets.categoryShopDetail &&
       this.props.updateFacets
     ) {
       this.props.updateOnload(false);
@@ -666,116 +666,77 @@ class CorporateFilter extends React.Component<Props, State> {
 
   getSortedFacets = (facets: any): any => {
     if (facets.length == 0) return false;
-    const categories: any = [],
-      subCategories: any = [],
-      categoryNames: any = [],
-      categoryObj: any = {};
+    const categoryObj: any = {};
     const { filter } = this.state;
 
     let selectIndex: any = -1;
 
-    if (facets.categoryShop && facets.categoryShop.length > 0) {
-      facets.categoryShop.map((v: any, i: number) => {
-        const baseCategory = v[0];
-        let categoryUrl: any = "";
-        if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
-          categoryUrl = facets.categoryShopDetail.filter(function(
-            k: any,
-            i: any
-          ) {
-            return Object.prototype.hasOwnProperty.call(k, baseCategory);
-          })[0];
-        }
-        if (categoryUrl) {
-          v.push(categoryUrl[baseCategory]);
-        }
-        const labelArr = baseCategory.split(">");
-        labelArr.shift();
-        if (labelArr.length > 1) {
-          //categories having child categories
-          categories.push(v);
-          if (categoryNames.indexOf(labelArr[0].trim()) == -1) {
-            categoryNames.push(labelArr[0].trim());
-          }
-        } else if (labelArr.length == 1) {
-          subCategories.push(v);
-        }
-      });
-
-      facets.categories = categories;
-      facets.subCategories = subCategories;
-    }
-
-    for (let i = 0; i < categoryNames.length; i++) {
-      facets.subCategories.map(function(v: any, k: any) {
-        if (v[0].indexOf(categoryNames[i]) != -1) {
-          facets.categories.push(v);
-          facets.subCategories.splice(k, 1);
-        }
-      });
-    }
-
-    facets.categories.map((data: any, i: number) => {
-      const tempKey = data[0].split(">")[1].trim(),
-        viewData = data[0].split(">");
-      viewData.length > 2 ? viewData.pop() : "";
-      categoryObj[tempKey]
-        ? false
-        : (categoryObj[tempKey] = [["View all", viewData.join(">").trim()]]);
-      if (data[0].split(">")[2]) {
-        categoryObj[tempKey].push([data[0].split(">")[2].trim()].concat(data));
-      }
-    });
-
-    // code for setting all values of filter false
-    facets.categoryShop.map((data: any, i: number) => {
-      // const key = data[0].split(">")[1].trim();
-      const key = data[0].split(">")[0]
-        ? data[0].split(">")[0].trim()
-        : data[0].trim();
-      if (key.indexOf("View All") == -1) {
-        if (filter.categoryShop[key]) {
-          // check that view all is clicked or not by (arrow key >)
-          if (filter.categoryShop[key][data[0]]) {
-            // nestedList[1].split('>').length == 2 ? check = data : '';
-            selectIndex = key;
-            // this.state.old_selected_category = key;
-            // filter.categoryShop[key][data[0]] = false
-          } else {
-            if (this.haveCorporate) {
-              filter.categoryShop[key][data[0].trim()] = true;
-            } else {
-              filter.categoryShop[key][data[0].trim()] = false;
+    if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
+      facets.categories = facets.categoryShopDetail.map(
+        (data: any, i: number) => {
+          categoryObj[data.name] = [];
+          categoryObj[data.name].push(["View all", data.path.trim()]);
+          if (!filter.categoryShop[data.name]) {
+            filter.categoryShop[data.name] = {};
+            // // code for setting  all values of filter is false
+            if (!filter.categoryShop[data.name][data.path.trim()]) {
+              filter.categoryShop[data.name][data.path.trim()] = false;
             }
           }
-        } else {
-          filter.categoryShop[key] = {};
-          if (this.haveCorporate) {
-            filter.categoryShop[key][data[0].trim()] = true;
-          } else {
-            filter.categoryShop[key][data[0].trim()] = false;
-          }
-          // filter.categoryShop[key][data[0]] = false;
-        }
-      }
-    });
-    const oldSelectedCategory: any = this.state.oldSelectedCategory;
+          data.children = data.children.sort(function(a: any, b: any) {
+            return +a.sequence - +b.sequence;
+          });
+          data.children.map((child: any) => {
+            categoryObj[data.name].push([child.name.trim(), child.path.trim()]);
+            if (filter.categoryShop[data.name]) {
+              if (filter.categoryShop[data.name][data.path.trim()]) {
+                filter.categoryShop[data.name][child.path.trim()] = true;
+              } else if (!filter.categoryShop[data.name][child.path.trim()]) {
+                filter.categoryShop[data.name][child.path.trim()] = false;
+              }
+            }
+          });
 
-    const someSelected = Object.keys(filter.categoryShop).some((data, i) => {
-      const nestedVal = Object.keys(filter.categoryShop[data]).some(
-        (nestedList, j) => {
-          return !filter.categoryShop[data][nestedList];
+          return [data.path, data.name, data.sequence];
         }
       );
-      return nestedVal;
+    }
+
+    facets.categories = facets.categories.sort((a: any, b: any) => {
+      return +a[2] - +b[2];
     });
-    // this.view_all = !someSelected;
+    let oldSelectedCategory: any = this.state.oldSelectedCategory;
+
+    // code for all product_by filter false
+    if (facets.categoryProductTypeMapping) {
+      Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
+        facets.categoryProductTypeMapping[level4].map((productBy: any) => {
+          if (!filter.productType["pb_" + productBy]) {
+            filter.productType["pb_" + productBy] = false;
+          }
+        });
+      });
+    }
+    // code for set active open state and set selected old value
+    if (!oldSelectedCategory) {
+      Object.keys(filter.categoryShop).map((level2: any, i: number) => {
+        Object.keys(filter.categoryShop[level2]).map(
+          (level3: any, j: number) => {
+            if (filter.categoryShop[level2][level3]) {
+              selectIndex = level2;
+              oldSelectedCategory = level2;
+            }
+          }
+        );
+      });
+    } else {
+      selectIndex = oldSelectedCategory;
+    }
 
     this.setState({
       activeindex2: selectIndex + "l",
       oldSelectedCategory: oldSelectedCategory,
-      filter: filter,
-      isViewAll: !someSelected
+      filter: filter
     });
     return { categoryObj: categoryObj, facets: facets };
   };
@@ -961,13 +922,13 @@ class CorporateFilter extends React.Component<Props, State> {
     const html: any = [];
     const { filter } = this.state;
     if (!categoryObj) return false;
-    categorydata.categoryShop.map((data: any, i: number) => {
+    categorydata.categories.map((data: any, i: number) => {
       const name = data[0].split(">")[1]
           ? data[0].split(">")[1].trim()
           : data[0].split(">")[0].trim(),
         id = data[0].trim(),
         cat = data[0].split(">")[0].trim();
-      if (id == "View All") {
+      if (i == 0) {
         html.push(
           <ul>
             <li>
@@ -976,41 +937,14 @@ class CorporateFilter extends React.Component<Props, State> {
                   <li>
                     <input
                       type="checkbox"
-                      id={id}
+                      id="View all"
                       disabled={this.state.disableSelectedbox}
                       checked={this.state.isViewAll}
                       onClick={this.handleClickCategory}
                       name="View all"
-                      value={cat}
+                      value="View all"
                     />
-                    <label htmlFor={id}>{name}</label>
-                  </li>
-                </ul>
-              </p>
-            </li>
-          </ul>
-        );
-      } else {
-        html.push(
-          <ul>
-            <li>
-              <p className="showheader2">
-                <ul className={styles.categorylabel}>
-                  <li>
-                    <input
-                      type="checkbox"
-                      id={id}
-                      disabled={this.state.disableSelectedbox}
-                      checked={
-                        filter.categoryShop[cat]
-                          ? filter.categoryShop[cat][id]
-                          : false
-                      }
-                      onClick={this.handleClickCategory}
-                      value={cat}
-                      name={cat}
-                    />
-                    <label htmlFor={id}>{name}</label>
+                    <label htmlFor="View all">View all</label>
                   </li>
                 </ul>
               </p>
@@ -1018,6 +952,32 @@ class CorporateFilter extends React.Component<Props, State> {
           </ul>
         );
       }
+      html.push(
+        <ul>
+          <li>
+            <p className="showheader2">
+              <ul className={styles.categorylabel}>
+                <li>
+                  <input
+                    type="checkbox"
+                    id={id}
+                    disabled={this.state.disableSelectedbox}
+                    checked={
+                      filter.categoryShop[cat]
+                        ? filter.categoryShop[cat][id]
+                        : false
+                    }
+                    onClick={this.handleClickCategory}
+                    value={cat}
+                    name={cat}
+                  />
+                  <label htmlFor={id}>{name}</label>
+                </li>
+              </ul>
+            </p>
+          </li>
+        </ul>
+      );
     });
     return html;
   };
