@@ -179,10 +179,10 @@ class FilterList extends React.Component<Props, State> {
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
       urllist = this.props.facets.categoryShopDetail;
-      urllist.some((url: any) => {
-        currentKey = Object.keys(url)[0];
+      urllist.some((urlData: any) => {
+        currentKey = urlData.path;
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = url[currentKey];
+          mainUrl = urlData.url;
           return true;
         }
       });
@@ -392,26 +392,15 @@ class FilterList extends React.Component<Props, State> {
     const minMaxvalue: any = [];
     let currentRange: any = [];
     this.createFilterfromUrl();
-    const pricearray: any = [],
-      currentCurrency =
-        "price" +
-        currency[0].toUpperCase() +
-        currency.substring(1).toLowerCase();
-    plpList.results.facets[currentCurrency].map(function(a: any) {
-      pricearray.push(+a[0]);
-    });
+    let pricearray: any = [];
+    const currentCurrency =
+      "price" + currency[0].toUpperCase() + currency.substring(1).toLowerCase();
+    pricearray = plpList.results.facets[currentCurrency];
     if (pricearray.length > 0) {
-      minMaxvalue.push(
-        pricearray.reduce(function(a: any, b: any) {
-          return Math.min(a, b);
-        })
-      );
-      minMaxvalue.push(
-        pricearray.reduce(function(a: any, b: any) {
-          return Math.max(a, b);
-        })
-      );
+      minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
+      minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
     }
+
     if (filter.price.min_price) {
       currentRange.push(filter.price.min_price);
       currentRange.push(filter.price.max_price);
@@ -464,25 +453,15 @@ class FilterList extends React.Component<Props, State> {
             searchList.results.data.length
           );
           this.createFilterfromUrl();
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          searchList.results.facets[currentCurrency].map(function(a: any) {
-            pricearray.push(+a[0]);
-          });
+          let pricearray: any = [];
+          const currentCurrency =
+            "price" +
+            currency[0].toUpperCase() +
+            currency.substring(1).toLowerCase();
+          pricearray = searchList.results.facets[currentCurrency];
           if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
+            minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
+            minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
           }
 
           if (filter.price.min_price) {
@@ -761,7 +740,7 @@ class FilterList extends React.Component<Props, State> {
           <li className={styles.categoryTitle}>
             <span
               className={
-                this.state.filter.categoryShop.length == 0
+                Object.keys(this.state.filter.categoryShop).length == 0
                   ? globalStyles.cerise
                   : ""
               }
@@ -769,7 +748,7 @@ class FilterList extends React.Component<Props, State> {
               data-value="all"
               id="all"
             >
-              All ({this.props.data.results.data.length + 1})
+              All ({this.props.data.count})
             </span>
           </li>
         </ul>
@@ -791,7 +770,7 @@ class FilterList extends React.Component<Props, State> {
               data-value={data.path}
               id={data.path}
             >
-              {data.name + " (" + 0 + ")"}
+              {data.name + " (" + data.count + ")"}
             </span>
           </li>
         </ul>
@@ -879,49 +858,49 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     facets.currentColor.map((data: any, i: number) => {
       const color: any = {
-        "--my-color-var": "#" + data[0].split("-")[0]
+        "--my-color-var": "#" + data.split("-")[0]
       };
       const multicolorImage: any = {
         "--my-bg-image": `url(${multiColour})`
       };
-      if (data[0].toLowerCase() == "multicolor") {
+      if (data.toLowerCase() == "multicolor") {
         html.push(
           <li
             className={cs(styles.colorlabel, styles.multicolorlabel)}
-            key={data[0]}
+            key={data}
           >
             <input
               type="checkbox"
-              id={data[0]}
+              id={data}
               checked={
-                filter.currentColor[data[0]]
-                  ? filter.currentColor[data[0]].isChecked
+                filter.currentColor[data]
+                  ? filter.currentColor[data].isChecked
                   : false
               }
               onClick={this.handleClickColor}
-              value={data[0]}
+              value={data}
             />
-            <label htmlFor={data[0]} style={multicolorImage}>
-              {data[0].split("-")[0]}
+            <label htmlFor={data} style={multicolorImage}>
+              {data.split("-")[0]}
             </label>
           </li>
         );
       } else {
         html.push(
-          <li className={styles.colorlabel} key={data[0]}>
+          <li className={styles.colorlabel} key={data}>
             <input
               type="checkbox"
-              id={data[0]}
+              id={data}
               checked={
-                filter.currentColor[data[0]]
-                  ? filter.currentColor[data[0]].isChecked
+                filter.currentColor[data]
+                  ? filter.currentColor[data].isChecked
                   : false
               }
               onClick={this.handleClickColor}
-              value={data[0]}
+              value={data}
             />
-            <label htmlFor={data[0]} style={color}>
-              {data[0].split("-")[1]}
+            <label htmlFor={data} style={color}>
+              {data.split("-")[1]}
             </label>
           </li>
         );
