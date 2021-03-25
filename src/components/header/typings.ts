@@ -83,6 +83,7 @@ export interface InnerMenuData {
 export interface L2MenuData {
   text: string;
   link: string;
+  ctaName?: string;
   children?: L2MenuData[];
 }
 
