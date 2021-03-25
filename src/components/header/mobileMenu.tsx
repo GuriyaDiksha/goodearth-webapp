@@ -131,11 +131,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               .componentData as MenuComponentTitleData;
             const children = template.templateData.children;
 
-            const { title, link } = componentData;
+            const { title, link, ctaName } = componentData;
             l2MenuData.text = title;
             l2MenuData.link = link;
+            l2MenuData.ctaName = ctaName || "";
             children &&
-              children.length > 1 &&
+              children.length > 0 &&
               children.map((child, index) => {
                 const childComponentData = child.componentData as MenuComponentImageData;
                 const l3MenuData: L2MenuData = {
@@ -262,7 +263,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             >
               {data.children ? (
                 <ul key={data.link}>
-                  {data.link && data.children.length > 1 ? (
+                  {data.link && data.children.length > 0 ? (
                     <li onClick={this.props.clickToggle}>
                       <Link
                         to={data.link}
@@ -274,7 +275,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           );
                         }}
                       >
-                        View All
+                        {data.ctaName || "View All"}
                       </Link>
                     </li>
                   ) : (
