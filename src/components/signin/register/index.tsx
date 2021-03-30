@@ -163,6 +163,17 @@ class RegisterForm extends React.Component<Props, registerState> {
                 );
               }
               break;
+            default:
+              if (typeof err.response.data == "object") {
+                let errorMsg = err.response.data[data][0];
+                if (errorMsg == "MaxRetries") {
+                  errorMsg =
+                    "You have exceeded max registration attempts, please try after some time.";
+                }
+                this.setState({
+                  showerror: errorMsg
+                });
+              }
           }
         });
       });
