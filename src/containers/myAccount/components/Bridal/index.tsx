@@ -40,6 +40,7 @@ const Bridal: React.FC<Props> = props => {
   const [currentScreenValue, setCurrentScreenValue] = useState("manage");
   const [bridalAddress, setBridalAddress] = useState<AddressData>();
   const [bridalProfile, setBridalProfile] = useState<BridalProfileData>();
+  // const [ registryCreateError, setRegistryCreateError ] = useState("");
   // const [ showPopup, setShowPopup ] = useState(false);
   const [shareLink, setShareLink] = useState("");
   // const [ showpop, setShowpop ] = useState(false);
@@ -229,6 +230,13 @@ const Bridal: React.FC<Props> = props => {
           // setState({
           //     showerror: "Something went Wrong"
           // })
+          // if(err.response.data.error_message) {
+          //   let errorMsg = err.response.data.error_message[0];
+          //   if(errorMsg == "MaxRetries") {
+          //     errorMsg = "You have exceeded max attempts, please try after some time."
+          //   }
+          //   setRegistryCreateError(errorMsg);
+          // }
         });
     }
   };
@@ -288,7 +296,9 @@ const Bridal: React.FC<Props> = props => {
       //                       currentCallBackComponent="bridal"
       //                       addressType="SHIPPING" case="create"/>
       case "created":
-        return <RegistryCreated createRegistry={createRegistry} />;
+        return (
+          <RegistryCreated errorMessage="" createRegistry={createRegistry} />
+        );
       default:
     }
   };

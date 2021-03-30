@@ -174,6 +174,17 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 );
               }
               break;
+            default:
+              if (typeof err.response.data == "object") {
+                let errorMsg = err.response.data[data][0];
+                if (errorMsg == "MaxRetries") {
+                  errorMsg =
+                    "You have exceeded max registration attempts, please try after some time";
+                }
+                this.setState({
+                  showerror: errorMsg
+                });
+              }
           }
         });
       });
@@ -231,14 +242,33 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         });
       })
       .catch(err => {
-        this.RegisterFormRef.current &&
-          this.RegisterFormRef.current.updateInputsWithError(
+        if (err.response.data.email) {
+          this.RegisterFormRef.current &&
+            this.RegisterFormRef.current.updateInputsWithError(
+              {
+                email: err.response.data.email[0]
+              },
+              true
+            );
+          valid.errorTracking(err.response.data.email[0], location.href);
+        } else if (err.response.data.error_message) {
+          let errorMsg = err.response.data.error_message[0];
+          if (errorMsg == "MaxRetries") {
+            errorMsg =
+              "You have exceeded max attempts, please try after some time.";
+          }
+          this.setState(
             {
-              email: err.response.data.email[0]
+              showerror: errorMsg
             },
-            true
+            () => {
+              valid.errorTracking(
+                [this.state.showerror as string],
+                location.href
+              );
+            }
           );
-        valid.errorTracking(err.response.data.email[0], location.href);
+        }
       });
   };
 
