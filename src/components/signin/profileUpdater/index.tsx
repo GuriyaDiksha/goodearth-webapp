@@ -140,7 +140,21 @@ class ProfileUpdater extends React.Component<Props, State> {
         window.scrollTo(0, 0);
       })
       .catch(err => {
-        if (err) {
+        if (err.response.data.error_message) {
+          let errorMsg = err.response.data.error_message[0];
+          if (errorMsg == "MaxRetries") {
+            errorMsg =
+              "You have exceeded max attempts, please try after some time.";
+          }
+          this.setState(
+            {
+              showerror: errorMsg
+            },
+            () => {
+              valid.errorTracking([this.state.showerror], location.href);
+            }
+          );
+        } else if (err) {
           this.setState(
             {
               showerror: "Something went Wrong"
