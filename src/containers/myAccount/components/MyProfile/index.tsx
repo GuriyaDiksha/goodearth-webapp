@@ -160,6 +160,17 @@ class MyProfile extends React.Component<Props, State> {
                 true
               );
               break;
+            case "error_message": {
+              let errorMsg = err.response.data[data][0];
+              if (errorMsg == "MaxRetries") {
+                errorMsg =
+                  "You have exceeded max attempts, please try after some time.";
+              }
+              this.setState({
+                showerror: errorMsg
+              });
+              break;
+            }
           }
         });
       });
