@@ -305,6 +305,19 @@ class JobForm extends React.Component<Props, State> {
           );
         }
       })
+      .catch(err => {
+        if (typeof err.response.data == "object") {
+          const key = Object.keys(err.response.data)[0];
+          let errorMsg = err.response.data[key];
+          if (errorMsg == "MaxRetries") {
+            errorMsg =
+              "You have exceeded max attempts, please try after some time.";
+          }
+          this.setState({
+            successMessage: errorMsg
+          });
+        }
+      })
       .finally(() => {
         this.setState({
           isLoading: false
