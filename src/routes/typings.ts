@@ -34,7 +34,9 @@ export enum ROUTES {
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
   BRIDALPUBLIC = "/bridal/:id",
-  MUBARAK = "/mubaarak-hour-notification"
+  MUBARAK = "/mubaarak-hour-notification",
+  WITHMAKER = "/withmaker",
+  WITHOUTMAKER = "/withoutmaker"
 }
 
 export type RouteConfig = RouteObject[];
