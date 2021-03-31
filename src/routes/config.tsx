@@ -218,6 +218,18 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/bridal")),
     action: initActionBridal,
     exact: true
+  },
+  {
+    path: ROUTES.WITHMAKER,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.WITHOUTMAKER,
+    component: loadable(() => import("containers/withoutmaker")),
+    action: async () => null,
+    exact: true
   }
 ];
 
