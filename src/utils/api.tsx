@@ -100,8 +100,8 @@ class API {
                     res.headers.sessionid,
                     365
                   );
-                  dispatch(updateCookies({ sessionid: res.headers.sessionid }));
                 }
+                dispatch(updateCookies({ sessionid: res.headers.sessionid }));
               }
               if (res.status == 200 || res.status == 201) {
                 resolve(res.data);
