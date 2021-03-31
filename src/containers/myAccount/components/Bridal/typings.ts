@@ -14,6 +14,7 @@ export type BridalDetailsType = {
 
 export type Props = {
   createRegistry: () => void;
+  errorMessage: string;
   // currentCallBackComponent?: string;
   // isBridal?: boolean;
   // data: BridalDetailsType;
