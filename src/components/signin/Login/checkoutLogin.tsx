@@ -224,7 +224,10 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
                 valid.errorTracking(this.state.msg as string[], location.href);
               }
             );
-          } else if (err.response.data.error_message[0] == "MaxRetries") {
+          } else if (
+            err.response.data.error_message &&
+            err.response.data.error_message[0] == "MaxRetries"
+          ) {
             this.setState(
               {
                 showerror:
