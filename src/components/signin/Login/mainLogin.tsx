@@ -131,11 +131,28 @@ class MainLogin extends React.Component<Props, loginState> {
         });
       })
       .catch((err: any) => {
-        console.log("err: " + err.response.data.email[0]);
-        this.setState({
-          highlight: true,
-          msg: err.response.data.email[0]
-        });
+        if (err.response.data.email) {
+          console.log("err: " + err.response.data.email[0]);
+          this.setState({
+            highlight: true,
+            msg: err.response.data.email[0]
+          });
+        } else if (err.response.data.error_message) {
+          let errorMsg = err.response.data.error_message[0];
+          if (errorMsg == "MaxRetries") {
+            errorMsg =
+              "You have exceeded max attempts, please try after some time.";
+          }
+          this.setState(
+            {
+              msg: errorMsg,
+              highlight: true
+            },
+            () => {
+              valid.errorTracking([this.state.msg as string], location.href);
+            }
+          );
+        }
       });
   };
 
@@ -201,7 +218,10 @@ class MainLogin extends React.Component<Props, loginState> {
           // this.props.nextStep?.();
         })
         .catch(err => {
-          if (err.response.data.non_field_errors[0] == "NotEmail") {
+          if (
+            err.response.data.error_message &&
+            err.response.data.error_message[0] == "NotEmail"
+          ) {
             this.setState(
               {
                 msg: ["No registered user found"],
@@ -211,11 +231,14 @@ class MainLogin extends React.Component<Props, loginState> {
                 valid.errorTracking(this.state.msg as string[], location.href);
               }
             );
-          } else if (err.response.data.non_field_errors[0] == "MaxRetries") {
+          } else if (
+            err.response.data.error_message &&
+            err.response.data.error_message[0] == "MaxRetries"
+          ) {
             this.setState(
               {
                 showerror:
-                  "You have exceeded max login attempts, please try after some time"
+                  "You have exceeded max login attempts, please try after some time."
                 // highlight: true
               },
               () => {
