@@ -57,6 +57,9 @@ export interface Product<T = ProductID> extends PartialProductItem {
   designJournalTagging?: DesignJournalTag[];
   fillerMessage: string;
   collectionProducts?: CollectionProductItem[];
+  pairItWithProducts?: PLPProductItem[];
+  looksProducts?: PLPProductItem[];
+  lookImageUrl?: string;
   groupedProducts?: GroupedProductItem[];
 }
 
