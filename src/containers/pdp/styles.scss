@@ -50,3 +50,57 @@ $pdp-top: $header-height + $secondary-header-height;
         padding-bottom: 3px;
     }
 }
+
+.looks-btn {
+    background-color: white;
+    color: #ab1e56;
+    letter-spacing: 2px;
+    font-family: "LatoFont", "Helvetica", "Arial";
+    text-transform: uppercase;
+    line-height: 42px;
+    text-align: center;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    bottom: 50px;
+    position: sticky;
+    left: calc(50% - 165px);
+    padding: 0 10px;
+    a {
+      color: #fff;
+      display: inline-block;
+      width: 100%;
+    }
+  }
+
+.looks-btn-mobile {
+    // width: 0px;
+    position: absolute;
+    left: calc(50% - 70px);
+}
+
+.looks-item-container {
+    padding: 10px;
+    padding-bottom: 40px;
+}
+
+.looks-container {
+    padding: 0 60px;
+}
+.looks-container-list-view {
+    padding: 0 30px;
+}
+.header {
+    font-size: 25px;
+    font-family: $font-Serif;
+    color: #333;
+    line-height: 60px;
+    text-transform: capitalize;
+    text-align: center;
+    width: 100%;
+}
+.looks-main-image {
+    padding-top: 10px;
+    padding-left: 21%;
+}
