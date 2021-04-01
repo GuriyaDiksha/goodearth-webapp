@@ -771,7 +771,13 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
 
-          <div className={cs(styles.footerBottom, bootstrap.colMd12)}>
+          <div
+            className={
+              this.props.mobile
+                ? cs(styles.footerBottomMobile, bootstrap.colMd12)
+                : cs(styles.footerBottom, bootstrap.colMd12)
+            }
+          >
             <div className={cs(bootstrap.row)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
                 All rights reserved | &copy;{" "}
