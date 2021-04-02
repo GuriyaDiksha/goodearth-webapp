@@ -35,9 +35,10 @@ import { POPUP } from "constants/components";
 import PairItWithSlider from "components/pairItWith";
 import PDPLooksItem from "../../components/pairItWith/PDPLooksItem";
 import ModalStyles from "components/Modal/styles.scss";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
 import iconFonts from "../../styles/iconFonts.scss";
+import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -643,59 +644,90 @@ class PDPContainer extends React.Component<Props, State> {
             {!mobile && (
               <div className={bootstrap.colMd4}>
                 <div className={styles.looksMainImage}>
-                  <Link
+                  {/* <Link
                     to={data.url}
                     // onClick={gtmProductClick}
-                  >
-                    <LazyImage
-                      aspectRatio="62:93"
-                      src={data.lookImageUrl || ""}
-                      className={styles.imageResultnew}
-                      // isVisible={}
-                      onError={(e: any) => {
-                        e.target.onerror = null;
-                        e.target.src = noPlpImage;
-                      }}
-                    />
-                  </Link>
+                  > */}
+                  <LazyImage
+                    aspectRatio="62:93"
+                    src={data.lookImageUrl || ""}
+                    className={styles.imageResultnew}
+                    // isVisible={}
+                    onError={(e: any) => {
+                      e.target.onerror = null;
+                      e.target.src = noPlpImage;
+                    }}
+                  />
+                  {/* </Link> */}
                 </div>
               </div>
             )}
-            <div
-              className={cs(bootstrap.colMd8, styles.looksContainer, {
-                [styles.looksContainerListView]: mobile
-              })}
-            >
-              <div className={bootstrap.row}>
-                {this.props.data.looksProducts &&
-                  this.props.data.looksProducts.map((item, i) => {
-                    return (
-                      <div
-                        key={i}
-                        className={cs(
-                          styles.looksItemContainer,
-                          bootstrap.colMd4
-                        )}
-                      >
-                        <PDPLooksItem
-                          page="PLP"
-                          position={i}
-                          product={item}
-                          addedToWishlist={false}
-                          currency={currency || "INR"}
-                          key={item.id}
-                          mobile={mobile || false}
-                          // isVisible={index < 3 ? true : undefined}
-                          // onClickQuickView={onClickQuickView}
-                          isCorporate={false}
-                          notifyMeClick={this.notifyMeClick}
-                          onEnquireClick={this.onEnquireClick}
-                        />
-                      </div>
-                    );
-                  })}
+            {mobile && this.props.plpMobileView == "grid" ? (
+              this.props.data.looksProducts &&
+              this.props.data.looksProducts.map((item, index) => {
+                return (
+                  <div
+                    className={cs(
+                      bootstrap.colMd4,
+                      bootstrap.col6,
+                      styles.setWidth
+                    )}
+                    key={item.id}
+                  >
+                    <PDPLooksGridItem
+                      page="PLP"
+                      position={index}
+                      product={item}
+                      addedToWishlist={false}
+                      currency={currency}
+                      key={item.id}
+                      mobile={mobile}
+                      isVisible={index < 3 ? true : undefined}
+                      // onClickQuickView={this.onClickQuickView}
+                      // isCorporate={this.state.corporoateGifting}
+                      onEnquireClick={this.onEnquireClick}
+                      notifyMeClick={this.notifyMeClick}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <div
+                className={cs(bootstrap.colMd8, styles.looksContainer, {
+                  [styles.looksContainerListView]: mobile
+                })}
+              >
+                <div className={bootstrap.row}>
+                  {this.props.data.looksProducts &&
+                    this.props.data.looksProducts.map((item, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className={cs(
+                            styles.looksItemContainer,
+                            bootstrap.colMd4
+                          )}
+                        >
+                          <PDPLooksItem
+                            page="PLP"
+                            position={i}
+                            product={item}
+                            addedToWishlist={false}
+                            currency={currency || "INR"}
+                            key={item.id}
+                            mobile={mobile || false}
+                            // isVisible={index < 3 ? true : undefined}
+                            // onClickQuickView={onClickQuickView}
+                            isCorporate={false}
+                            notifyMeClick={this.notifyMeClick}
+                            onEnquireClick={this.onEnquireClick}
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </>
@@ -708,12 +740,12 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile }
     } = this.props;
 
-    // if (
-    //   pairItWithProducts.length < (mobile ? 2 : 4) ||
-    //   typeof document == "undefined"
-    // ) {
-    //   return null;
-    // }
+    if (
+      pairItWithProducts.length < (mobile ? 2 : 4) ||
+      typeof document == "undefined"
+    ) {
+      return null;
+    }
 
     const config: Settings = {
       dots: false,
