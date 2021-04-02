@@ -9,6 +9,7 @@ import { updateComponent, updateModal } from "../../../actions/modal";
 import { updateProduct } from "actions/product";
 import { getProductIdFromSlug } from "utils/url.ts";
 import { Product, PartialProductItem } from "typings/product.js";
+import { updatePlpMobileView } from "actions/plp";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -50,6 +51,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
+    },
+    updateMobileView: (plpMobileView: "list" | "grid") => {
+      dispatch(updatePlpMobileView(plpMobileView));
     }
   };
 };
