@@ -78,6 +78,7 @@ $pdp-top: $header-height + $secondary-header-height;
     // width: 0px;
     position: absolute;
     left: calc(50% - 70px);
+    bottom: 80px;
 }
 
 .looks-item-container {
@@ -104,3 +105,30 @@ $pdp-top: $header-height + $secondary-header-height;
     padding-top: 10px;
     padding-left: 21%;
 }
+
+.list-grid-bar {
+    width: 100%;
+    height: 50px;
+    padding: 10px 20px;
+    background-color: white;
+    position: sticky;
+    top: $header-height;
+    z-index: 3;
+    box-shadow: 0 8px 6px -6px #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: top 0.3s;
+    &.hide {
+      top: 0px;
+    }
+    i {
+      display: inline-block;
+      font-size: 22px;
+      margin-left: 20px;
+      color: gray;
+      &.active {
+        color: $cerise;
+      }
+    }
+  }
