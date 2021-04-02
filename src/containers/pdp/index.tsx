@@ -767,11 +767,12 @@ class PDPContainer extends React.Component<Props, State> {
         {
           breakpoint: 768,
           settings: {
-            slidesToShow: 2,
+            slidesToShow: 1.1,
             centerMode: true,
             className: "center",
-            centerPadding: "20px",
-            slidesToScroll: 1
+            centerPadding: "30px",
+            slidesToScroll: 1,
+            arrows: false
           }
         }
       ]
