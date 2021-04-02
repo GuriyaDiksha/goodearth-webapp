@@ -543,6 +543,14 @@ export function MoreFromCollectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
+    let category = "";
+    if (data.categories) {
+      const index = data.categories.length - 1;
+      category = data.categories[index]
+        ? data.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+    }
     product = data.map((prod: any, i: number) => {
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
@@ -550,7 +558,7 @@ export function MoreFromCollectionProductImpression(
           {
             name: prod.title,
             id: child.sku,
-            category: "",
+            category: category,
             list: listPath,
             price: prod.discountedPriceRecords
               ? prod.discountedPriceRecords[currency]
@@ -584,6 +592,14 @@ export function MoreFromCollectionProductClick(
   const products = [];
   if (!data) return false;
   if (data.length < 1) return false;
+  let category = "";
+  if (data.categories) {
+    const index = data.categories.length - 1;
+    category = data.categories[index]
+      ? data.categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+  }
   products.push(
     data.childAttributes.map((child: any) => {
       return Object.assign(
@@ -595,7 +611,7 @@ export function MoreFromCollectionProductClick(
             ? data.discountedPriceRecords[currency]
             : data.priceRecords[currency],
           brand: "Goodearth",
-          category: "",
+          category: category,
           variant: child.size || "",
           position: position
         }
