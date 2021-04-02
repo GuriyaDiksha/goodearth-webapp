@@ -158,20 +158,22 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
                   //     </p>
                   //   </div>
                   // </div>
-                  <PDPLooksItem
-                    page="PLP"
-                    position={i}
-                    product={item}
-                    addedToWishlist={false}
-                    currency={currency || "INR"}
-                    key={item.id}
-                    mobile={mobile || false}
-                    // isVisible={index < 3 ? true : undefined}
-                    // onClickQuickView={onClickQuickView}
-                    isCorporate={false}
-                    notifyMeClick={notifyMeClick}
-                    onEnquireClick={onEnquireClick}
-                  />
+                  <div key={item.id} className={styles.slide}>
+                    <PDPLooksItem
+                      page="PLP"
+                      position={i}
+                      product={item}
+                      addedToWishlist={false}
+                      currency={currency || "INR"}
+                      key={item.id}
+                      mobile={mobile || false}
+                      // isVisible={index < 3 ? true : undefined}
+                      // onClickQuickView={onClickQuickView}
+                      isCorporate={false}
+                      notifyMeClick={notifyMeClick}
+                      onEnquireClick={onEnquireClick}
+                    />
+                  </div>
                 );
               }
             )}
