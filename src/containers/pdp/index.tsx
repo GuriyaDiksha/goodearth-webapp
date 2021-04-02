@@ -37,6 +37,7 @@ import PDPLooksItem from "../../components/pairItWith/PDPLooksItem";
 import ModalStyles from "components/Modal/styles.scss";
 import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
+import iconFonts from "../../styles/iconFonts.scss";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -69,7 +70,9 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     device: state.device,
     location: state.router.location,
     corporatePDP: state.meta.templateType === "corporate_pdp",
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    plpMobileView: state.plplist.plpMobileView,
+    scrollDown: state.info.scrollDown
   };
 };
 
@@ -84,7 +87,7 @@ class PDPContainer extends React.Component<Props, State> {
     activeImage: 0,
     detailStickyEnabled: true,
     mounted: false,
-    showLooks: true
+    showLooks: false
   };
 
   imageOffsets: number[] = [];
@@ -208,14 +211,19 @@ class PDPContainer extends React.Component<Props, State> {
         mounted: false
       });
     }
-    if (
-      nextProps.data.looksProducts &&
-      nextProps.data.looksProducts.length > 0 &&
-      !this.state.showLooks
-    ) {
-      this.setState({
-        showLooks: true
-      });
+    if (nextProps.data && nextProps.data.looksProducts) {
+      if (nextProps.data.looksProducts.length > 2 && !this.state.showLooks) {
+        this.setState({
+          showLooks: true
+        });
+      } else if (
+        nextProps.data.looksProducts.length < 2 &&
+        this.state.showLooks
+      ) {
+        this.setState({
+          showLooks: false
+        });
+      }
     }
   }
 
@@ -445,6 +453,12 @@ class PDPContainer extends React.Component<Props, State> {
     );
   }
 
+  updateMobileView = (plpMobileView: "list" | "grid") => {
+    if (this.props.plpMobileView != plpMobileView) {
+      this.props.updateMobileView(plpMobileView);
+    }
+  };
+
   getMoreCollectionProductsSection() {
     const {
       data: { collectionProducts = [] },
@@ -598,72 +612,93 @@ class PDPContainer extends React.Component<Props, State> {
       data
     } = this.props;
     return (
-      <div>
-        <h2
-          id="looks-section"
-          className={cs(styles.header, globalStyles.voffset5)}
-        >
-          Shop The Look
-        </h2>
-        <div className={bootstrap.row}>
-          {!mobile && (
-            <div className={bootstrap.colMd4}>
-              <div className={styles.looksMainImage}>
-                <Link
-                  to={data.url}
-                  // onClick={gtmProductClick}
-                >
-                  <LazyImage
-                    aspectRatio="62:93"
-                    src={data.lookImageUrl || ""}
-                    className={styles.imageResultnew}
-                    // isVisible={}
-                    onError={(e: any) => {
-                      e.target.onerror = null;
-                      e.target.src = noPlpImage;
-                    }}
-                  />
-                </Link>
-              </div>
-            </div>
-          )}
+      <>
+        {mobile && (
           <div
-            className={cs(bootstrap.colMd8, styles.looksContainer, {
-              [styles.looksContainerListView]: mobile
+            className={cs(styles.listGridBar, globalStyles.voffset5, {
+              [styles.hide]: this.props.scrollDown
             })}
           >
-            <div className={bootstrap.row}>
-              {this.props.data.looksProducts &&
-                this.props.data.looksProducts.map((item, i) => {
-                  return (
-                    <div
-                      key={i}
-                      className={cs(
-                        styles.looksItemContainer,
-                        bootstrap.colMd4
-                      )}
-                    >
-                      <PDPLooksItem
-                        page="PLP"
-                        position={i}
-                        product={item}
-                        addedToWishlist={false}
-                        currency={currency || "INR"}
-                        key={item.id}
-                        mobile={mobile || false}
-                        // isVisible={index < 3 ? true : undefined}
-                        // onClickQuickView={onClickQuickView}
-                        isCorporate={false}
-                        notifyMeClick={this.notifyMeClick}
-                        onEnquireClick={this.onEnquireClick}
-                      />
-                    </div>
-                  );
-                })}
+            <i
+              key="grid-icon"
+              className={cs(iconFonts.icon, iconFonts.iconGridView, {
+                [styles.active]: this.props.plpMobileView == "grid"
+              })}
+              onClick={() => this.updateMobileView("grid")}
+            />
+            <i
+              key="list-icon"
+              className={cs(iconFonts.icon, iconFonts.iconListView, {
+                [styles.active]: this.props.plpMobileView == "list"
+              })}
+              onClick={() => this.updateMobileView("list")}
+            />
+          </div>
+        )}
+        <div>
+          <h2 id="looks-section" className={styles.header}>
+            Shop The Look
+          </h2>
+          <div className={bootstrap.row}>
+            {!mobile && (
+              <div className={bootstrap.colMd4}>
+                <div className={styles.looksMainImage}>
+                  <Link
+                    to={data.url}
+                    // onClick={gtmProductClick}
+                  >
+                    <LazyImage
+                      aspectRatio="62:93"
+                      src={data.lookImageUrl || ""}
+                      className={styles.imageResultnew}
+                      // isVisible={}
+                      onError={(e: any) => {
+                        e.target.onerror = null;
+                        e.target.src = noPlpImage;
+                      }}
+                    />
+                  </Link>
+                </div>
+              </div>
+            )}
+            <div
+              className={cs(bootstrap.colMd8, styles.looksContainer, {
+                [styles.looksContainerListView]: mobile
+              })}
+            >
+              <div className={bootstrap.row}>
+                {this.props.data.looksProducts &&
+                  this.props.data.looksProducts.map((item, i) => {
+                    return (
+                      <div
+                        key={i}
+                        className={cs(
+                          styles.looksItemContainer,
+                          bootstrap.colMd4
+                        )}
+                      >
+                        <PDPLooksItem
+                          page="PLP"
+                          position={i}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency || "INR"}
+                          key={item.id}
+                          mobile={mobile || false}
+                          // isVisible={index < 3 ? true : undefined}
+                          // onClickQuickView={onClickQuickView}
+                          isCorporate={false}
+                          notifyMeClick={this.notifyMeClick}
+                          onEnquireClick={this.onEnquireClick}
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   };
 
@@ -802,7 +837,7 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             >
               <MobileSlider>{mobileSlides}</MobileSlider>
-              {this.state.showLooks && (
+              {this.state.showLooks && mobile && (
                 <div
                   id="looks-btn-mobile"
                   className={cs(styles.looksBtnMobile, styles.looksBtn)}
@@ -862,7 +897,7 @@ class PDPContainer extends React.Component<Props, State> {
           >
             {this.getProductDetails()}
           </div>
-          {this.state.showLooks && (
+          {this.state.showLooks && !mobile && (
             <div
               id="looks-btn"
               className={styles.looksBtn}
@@ -873,7 +908,7 @@ class PDPContainer extends React.Component<Props, State> {
           )}
         </div>
         {this.getWallpaperFAQ()}
-        {this.getLooksSection()}
+        {this.state.showLooks && this.getLooksSection()}
         <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         {mounted && (
           <MakerEnhance
