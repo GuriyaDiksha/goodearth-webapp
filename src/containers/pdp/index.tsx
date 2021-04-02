@@ -35,7 +35,7 @@ import { POPUP } from "constants/components";
 import PairItWithSlider from "components/pairItWith";
 import PDPLooksItem from "../../components/pairItWith/PDPLooksItem";
 import ModalStyles from "components/Modal/styles.scss";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
 import iconFonts from "../../styles/iconFonts.scss";
 import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
@@ -644,21 +644,21 @@ class PDPContainer extends React.Component<Props, State> {
             {!mobile && (
               <div className={bootstrap.colMd4}>
                 <div className={styles.looksMainImage}>
-                  <Link
+                  {/* <Link
                     to={data.url}
                     // onClick={gtmProductClick}
-                  >
-                    <LazyImage
-                      aspectRatio="62:93"
-                      src={data.lookImageUrl || ""}
-                      className={styles.imageResultnew}
-                      // isVisible={}
-                      onError={(e: any) => {
-                        e.target.onerror = null;
-                        e.target.src = noPlpImage;
-                      }}
-                    />
-                  </Link>
+                  > */}
+                  <LazyImage
+                    aspectRatio="62:93"
+                    src={data.lookImageUrl || ""}
+                    className={styles.imageResultnew}
+                    // isVisible={}
+                    onError={(e: any) => {
+                      e.target.onerror = null;
+                      e.target.src = noPlpImage;
+                    }}
+                  />
+                  {/* </Link> */}
                 </div>
               </div>
             )}
