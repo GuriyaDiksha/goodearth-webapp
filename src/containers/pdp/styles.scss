@@ -112,7 +112,7 @@ $pdp-top: $header-height + $secondary-header-height;
     padding: 10px 20px;
     background-color: white;
     position: sticky;
-    top: $header-height;
+    top: $header-height - 1px;
     z-index: 3;
     box-shadow: 0 8px 6px -6px #e6e6e6;
     display: flex;
