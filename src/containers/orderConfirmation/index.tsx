@@ -41,10 +41,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       const index = line.product.categories
         ? line.product.categories.length - 1
         : 0;
-      const category =
+      let category =
         line.product.categories && line.product.categories[index]
           ? line.product.categories[index].replace(/\s/g, "")
           : "";
+      category = category.replace(/>/g, "/");
       return {
         name: line.title,
         id: line.product.sku,
