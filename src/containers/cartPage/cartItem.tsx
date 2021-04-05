@@ -58,6 +58,7 @@ const CartItems: React.FC<BasketItem> = memo(
           category = product.categories[index]
             ? product.categories[index].replace(/\s/g, "")
             : "";
+          category = category.replace(/>/g, "/");
         }
 
         dataLayer.push({

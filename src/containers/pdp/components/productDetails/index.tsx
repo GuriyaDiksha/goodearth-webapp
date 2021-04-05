@@ -245,6 +245,11 @@ const ProductDetails: React.FC<Props> = ({
     return currentSKU;
   };
   const gtmPushAddToBag = () => {
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -256,7 +261,7 @@ const ProductDetails: React.FC<Props> = ({
               id: setSelectedSKU(),
               price: discountPrices || price,
               brand: "Goodearth",
-              category: collection,
+              category: category,
               variant: selectedSize?.size || "",
               quantity: quantity,
               list: "PDP"

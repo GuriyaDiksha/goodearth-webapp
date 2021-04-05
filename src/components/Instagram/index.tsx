@@ -26,7 +26,7 @@ const Instagram: React.FC<InstaProps> = Props => {
   // });
   useLayoutEffect(() => {
     fetch(
-      "https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=IGQVJVNHVQSUE1UEhhR0lqVVJzckRRaGZAWYUV6NTBaSWU5dTRMQ19JOXB6eVBGM0k0OW1CM1MycGpNN2h2SVRHRmRzUGNxU1RmcVJwdENEUW1RNk05TUJXc3F3OVROMnlRRkFweDFhRlptdHlpQkYyVwZDZD",
+      "https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=IGQVJYbDJsdXBHT1hGY2M1ZA1dlOHJvVGY1OHpmZA1Y2NGZAFVUs0T084RzlDa1FxeEgtaUpqcmZAZATDFiYlluWjY3SmItcVY1ZAkRBMzI3LUIxcGtlSFpfN2w3LWhZAcU96RzBIZAVN5U2RzR3NRcXlxY1BvLQZDZD",
       {
         method: "get"
       }
