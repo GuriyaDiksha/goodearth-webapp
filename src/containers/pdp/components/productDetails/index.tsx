@@ -220,7 +220,7 @@ const ProductDetails: React.FC<Props> = ({
   const accordionSections = useMemo(() => {
     return [
       {
-        header: "Details",
+        header: "PRODUCT DETAILS",
         body: <div>{ReactHtmlParser(details)}</div>,
         id: "details"
       },
