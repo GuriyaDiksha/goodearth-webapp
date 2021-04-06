@@ -1,4 +1,4 @@
-import React, { EventHandler, MouseEvent, useMemo, useState } from "react";
+import React, { EventHandler, MouseEvent, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PLPResultItemProps } from "./typings.d";
 import styles from "./styles.scss";
@@ -34,12 +34,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
-  const [primaryimage, setPrimaryimage] = useState(true);
+  // const [primaryimage, setPrimaryimage] = useState(true);
   const { info } = useSelector((state: AppState) => state);
 
-  const onMouseEnter = (): void => {
-    product.plpImages?.[1] ? setPrimaryimage(false) : "";
-  };
   const attribute: any = product.childAttributes || [];
   const totalStock = attribute.reduce(function(total: any, num: any) {
     return total + +num.stock;
@@ -48,9 +45,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   //   attribute.filter(function(item: any) {
   //     return item.size;
   //   }).length > 0;
-  const onMouseLeave = (): void => {
-    product.plpImages?.[1] ? setPrimaryimage(true) : "";
-  };
 
   const onClickQuickview = (): void => {
     onClickQuickView ? onClickQuickView(product.id) : "";
@@ -92,13 +86,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     CookieService.setCookie("listPath", page);
     valid.plpProductClick(product, page, currency, position);
   };
-  const image = primaryimage
-    ? product.plpImages
-      ? product.plpImages[0]
-      : ""
-    : product.plpImages
-    ? product.plpImages[1]
-    : "";
+  const image = product.lookImageUrl
+    ? product.lookImageUrl
+    : product.images?.[0]
+    ? product.images[0].productImage
+    : "/static/img/noimageplp.png";
   const isStockAvailable = isCorporate || product.inStock;
   return (
     <div className={styles.plpMain}>
@@ -115,7 +107,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}
-        onMouseLeave={onMouseLeave}
+        // onMouseLeave={onMouseLeave}
       >
         {mobile && !isCorporate && (
           <div
@@ -141,11 +133,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         )}
-        <Link
-          to={product.url}
-          onMouseEnter={onMouseEnter}
-          onClick={gtmProductClick}
-        >
+        <Link to={product.url} onClick={gtmProductClick}>
           <LazyImage
             aspectRatio="62:93"
             src={image}
