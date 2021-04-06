@@ -112,52 +112,6 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
             {(data as PLPProductItem[])?.map(
               (item: PLPProductItem, i: number) => {
                 return (
-                  // <div key={item.id} className={styles.slide}>
-                  //   {item.salesBadgeImage ? (
-                  //     <div className={styles.saleBanner}>
-                  //       <img src={item.salesBadgeImage} />
-                  //     </div>
-                  //   ) : (
-                  //     ""
-                  //   )}
-                  //   <Link
-                  //     to={item.url}
-                  //     className={styles.link}
-                  //     onClick={() =>
-                  //       valid.MoreFromCollectionProductClick(
-                  //         item,
-                  //         "MoreFromCollection",
-                  //         currency || "INR",
-                  //         i
-                  //       )
-                  //     }
-                  //   >
-                  //     <LazyImage
-                  //       aspectRatio="62:93"
-                  //       src={item.plpImages?.[0] || "/static/img/noimageplp.png"}
-                  //       className={cs(globalStyles.imgResponsive)}
-                  //     />
-                  //   </Link>
-                  //   <div className={styles.moreBlock}>
-                  //     {/* <p className={styles.productH}>{item.collection}</p> */}
-                  //     <p className={styles.productN}>
-                  //       <Link
-                  //         to={item.url}
-                  //         onClick={() =>
-                  //           valid.MoreFromCollectionProductClick(
-                  //             item,
-                  //             "MoreFromCollection",
-                  //             currency || "INR",
-                  //             i
-                  //           )
-                  //         }
-                  //       >
-                  //         {" "}
-                  //         {item.title}{" "}
-                  //       </Link>
-                  //     </p>
-                  //   </div>
-                  // </div>
                   <div key={item.id} className={styles.slide}>
                     <PDPLooksItem
                       page="PLP"
@@ -167,8 +121,6 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
                       currency={currency || "INR"}
                       key={item.id}
                       mobile={mobile || false}
-                      // isVisible={index < 3 ? true : undefined}
-                      // onClickQuickView={onClickQuickView}
                       isCorporate={false}
                       notifyMeClick={notifyMeClick}
                       onEnquireClick={onEnquireClick}

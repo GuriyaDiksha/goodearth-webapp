@@ -67,6 +67,7 @@ $pdp-top: $header-height + $secondary-header-height;
     position: sticky;
     left: calc(50% - 165px);
     padding: 0 10px;
+    width: max-content;
     a {
       color: #fff;
       display: inline-block;
@@ -74,6 +75,18 @@ $pdp-top: $header-height + $secondary-header-height;
     }
   }
 
+.looks-btn-overlay {
+    background-color: white;
+    z-index: 2;
+    position: absolute;
+    line-height: 42px;
+    bottom: 0px;
+    position: absolute;
+    right: 10px;
+    height: 42px;
+    width: 80%;
+    padding-left: 40px;
+}
 .looks-btn-mobile {
     // width: 0px;
     position: absolute;
@@ -82,8 +95,8 @@ $pdp-top: $header-height + $secondary-header-height;
 }
 
 .looks-item-container {
-    padding: 10px;
-    padding-bottom: 40px;
+    margin-top: 10px;
+    padding: 0 10px 40px 10px;
 }
 
 .looks-container {
