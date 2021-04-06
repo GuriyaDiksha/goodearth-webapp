@@ -25,6 +25,15 @@ const L2: React.FC<Props> = ({ data }) => {
       </div>
 
       {data.children && data.children.length > 0 && <L3 data={data.children} />}
+      <div className={styles.blockCta}>
+        {componentData.link ? (
+          <Link className={styles.cta} to={componentData.link}>
+            {componentData.ctaName}
+          </Link>
+        ) : (
+          <div className={styles.cta}>{componentData.ctaName}</div>
+        )}
+      </div>
     </>
   );
 };

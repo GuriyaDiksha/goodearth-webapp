@@ -25,6 +25,21 @@
     .block-l2 {
         display: block;
     }
+    .cta {
+        border-bottom: none;
+        line-height: 30px;
+        letter-spacing: .05em;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #000;
+        font-family: "LatoFont", "Helvetica", "Arial";
+    }
+    .block-cta {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 50px;
+    }
 }
 
 .image {
