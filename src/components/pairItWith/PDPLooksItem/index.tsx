@@ -141,7 +141,11 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           {/* <MobileSlider>{mobileSlides}</MobileSlider> */}
           <LazyImage
             aspectRatio="62:93"
-            src={product.plpImages?.[0] || "/static/img/noimageplp.png"}
+            src={
+              product.lookImageUrl ||
+              product.images?.[0].productImage ||
+              "/static/img/noimageplp.png"
+            }
             className={styles.imageResultnew}
             isVisible={isVisible}
             onError={(e: any) => {
@@ -161,38 +165,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
         >
           <Link to={product.url}> NOTIFY ME</Link>
         </div>
-        {/* {!mobile && (
-          <div className={styles.combodiv}>
-            <div
-              className={
-                isCorporate ? styles.imageHoverCorporate : styles.imageHover
-              }
-            >
-              <p onClick={onClickQuickview}>quickview</p>
-            </div>
-            {!isCorporate && (
-              <div className={styles.imageHover}>
-                <div
-                  className={cs(globalStyles.textCenter, {
-                    [styles.wishlistBtnContainer]: mobile
-                  })}
-                >
-                  <WishlistButton
-                    gtmListType="Search"
-                    title={product.title}
-                    childAttributes={product.childAttributes}
-                    priceRecords={product.priceRecords}
-                    discountedPriceRecords={product.discountedPriceRecords}
-                    categories={product.categories}
-                    id={product.id}
-                    showText={false}
-                    key={product.id}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        )} */}
       </div>
       <div className={styles.imageContent}>
         {isCollection ? (
