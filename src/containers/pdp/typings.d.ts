@@ -12,4 +12,5 @@ export type State = {
   detailStickyEnabled: boolean;
   mounted: boolean;
   showLooks: boolean;
+  showAddToBagMobile: boolean;
 };
