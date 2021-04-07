@@ -634,7 +634,7 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile },
       data
     } = this.props;
-    return (
+    return data ? (
       <>
         {mobile && (
           <div
@@ -674,7 +674,7 @@ class PDPContainer extends React.Component<Props, State> {
                     aspectRatio="62:93"
                     src={
                       data.lookImageUrl ||
-                      data.images?.[0].productImage ||
+                      data.images?.[0]?.productImage ||
                       "/static/img/noimageplp.png"
                     }
                     className={styles.imageResultnew}
@@ -755,6 +755,8 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
       </>
+    ) : (
+      ""
     );
   };
 
