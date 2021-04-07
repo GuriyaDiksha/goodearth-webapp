@@ -37,6 +37,9 @@
         display: flex;
     }
 }
+.plpMain {
+    position: relative;
+}
 
 .hidden{
     display: none !important;
@@ -195,7 +198,7 @@
     position: absolute;
     top: 0;
     z-index: 3;
-    left: 6px;
+    left: 0;
     img {
         width: 100%;
     }
