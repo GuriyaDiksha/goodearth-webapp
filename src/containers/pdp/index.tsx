@@ -848,12 +848,10 @@ class PDPContainer extends React.Component<Props, State> {
   handleLooksClick = () => {
     const elem = document.getElementById("looks-section");
     if (elem) {
-      // const headerOffset = 130;
-      // const elemPos = elem.getBoundingClientRect().top;
-      // const offsetPos = elemPos - headerOffset;
-      // window.scroll({top: offsetPos, behavior: "smooth"});
-      elem.scrollIntoView({ block: "center", behavior: "smooth" });
-      // window.scrollBy(0, -200);
+      const headerOffset = 130;
+      const elemPos = elem.offsetTop;
+      const offsetPos = elemPos - headerOffset;
+      window.scroll({ top: offsetPos, behavior: "smooth" });
     }
   };
 
