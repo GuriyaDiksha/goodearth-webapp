@@ -30,6 +30,7 @@
 }
 
 .plpMain{
+    position: relative;
     .combodiv{
         display: flex;
     }
@@ -194,8 +195,8 @@
     width: 30%;
     position: absolute;
     top: 0;
-    z-index: 3;
-    left: 36px;
+    z-index: 2;
+    left: 6px;
     img {
         width: 100%;
     }

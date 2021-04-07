@@ -38,7 +38,6 @@ import ModalStyles from "components/Modal/styles.scss";
 import noPlpImage from "images/noimageplp.png";
 import iconFonts from "../../styles/iconFonts.scss";
 import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
-import PlpResultListViewItem from "components/plpResultListViewItem";
 import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 
 const VerticalImageSelector = loadable(() =>
@@ -89,9 +88,10 @@ class PDPContainer extends React.Component<Props, State> {
     activeImage: 0,
     detailStickyEnabled: true,
     mounted: false,
-    showLooks: this.props.data.looksProducts
-      ? this.props.data.looksProducts.length > 2
-      : false,
+    showLooks:
+      this.props.data && this.props.data.looksProducts
+        ? this.props.data.looksProducts.length >= 2
+        : false,
     showAddToBagMobile: true
   };
 
@@ -217,7 +217,7 @@ class PDPContainer extends React.Component<Props, State> {
       });
     }
     if (nextProps.data && nextProps.data.looksProducts) {
-      if (nextProps.data.looksProducts.length > 2 && !this.state.showLooks) {
+      if (nextProps.data.looksProducts.length >= 2 && !this.state.showLooks) {
         this.setState({
           showLooks: true
         });
@@ -717,40 +717,6 @@ class PDPContainer extends React.Component<Props, State> {
                   </div>
                 );
               })
-            ) : mobile && this.props.plpMobileView == "list" ? (
-              <div
-                className={cs(bootstrap.colMd8, styles.looksContainer, {
-                  [styles.looksContainerListView]: mobile
-                })}
-              >
-                <div className={bootstrap.row}>
-                  {this.props.data.looksProducts &&
-                    this.props.data.looksProducts.map((item, i) => {
-                      return (
-                        <div
-                          key={i}
-                          className={cs(
-                            styles.looksItemContainer,
-                            bootstrap.colMd4
-                          )}
-                        >
-                          <PlpResultListViewItem
-                            page="PLP"
-                            position={i}
-                            product={item}
-                            addedToWishlist={false}
-                            currency={currency || "INR"}
-                            key={item.id}
-                            mobile={mobile || false}
-                            isCorporate={false}
-                            notifyMeClick={this.notifyMeClick}
-                            onEnquireClick={this.onEnquireClick}
-                          />
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
             ) : (
               <div
                 className={cs(bootstrap.colMd8, styles.looksContainer, {
