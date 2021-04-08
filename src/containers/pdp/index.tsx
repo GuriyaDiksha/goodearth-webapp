@@ -8,7 +8,11 @@ import metaAction from "./metaAction";
 import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
-import { Product } from "typings/product";
+import {
+  ChildProductAttributes,
+  PLPProductItem,
+  Product
+} from "typings/product";
 import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import PdpImage from "./components/pdpImage";
@@ -28,6 +32,13 @@ import zoom from "images/zoom.png";
 import LazyImage from "components/LazyImage";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
+import PairItWithSlider from "components/pairItWith";
+import ModalStyles from "components/Modal/styles.scss";
+// import { Link } from "react-router-dom";
+import noPlpImage from "images/noimageplp.png";
+import iconFonts from "../../styles/iconFonts.scss";
+import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
+import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -59,7 +70,10 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     currency: state.currency,
     device: state.device,
     location: state.router.location,
-    corporatePDP: state.meta.templateType === "corporate_pdp"
+    corporatePDP: state.meta.templateType === "corporate_pdp",
+    isSale: state.info.isSale,
+    plpMobileView: state.plplist.plpMobileView,
+    scrollDown: state.info.scrollDown
   };
 };
 
@@ -73,7 +87,12 @@ class PDPContainer extends React.Component<Props, State> {
     detailsSticky: true,
     activeImage: 0,
     detailStickyEnabled: true,
-    mounted: false
+    mounted: false,
+    showLooks:
+      this.props.data && this.props.data.looksProducts
+        ? this.props.data.looksProducts.length >= 2
+        : false,
+    showAddToBagMobile: true
   };
 
   imageOffsets: number[] = [];
@@ -197,6 +216,20 @@ class PDPContainer extends React.Component<Props, State> {
         mounted: false
       });
     }
+    if (nextProps.data && nextProps.data.looksProducts) {
+      if (nextProps.data.looksProducts.length >= 2 && !this.state.showLooks) {
+        this.setState({
+          showLooks: true
+        });
+      } else if (
+        nextProps.data.looksProducts.length < 2 &&
+        this.state.showLooks
+      ) {
+        this.setState({
+          showLooks: false
+        });
+      }
+    }
   }
 
   componentDidUpdate(props: Props) {
@@ -238,8 +271,25 @@ class PDPContainer extends React.Component<Props, State> {
     } = this.props;
     const { containerRef, sidebarRef, detailsRef, imageOffsets } = this;
 
-    if (mobile) {
-      return;
+    if (mobile && this.state.showLooks) {
+      const looksElem = document.getElementById("looks-section");
+      if (looksElem) {
+        const showAddToBagMobile =
+          looksElem.getBoundingClientRect().top - window.innerHeight > 0;
+        if (showAddToBagMobile) {
+          if (!this.state.showAddToBagMobile) {
+            this.setState({
+              showAddToBagMobile
+            });
+          }
+        } else {
+          if (this.state.showAddToBagMobile) {
+            this.setState({
+              showAddToBagMobile
+            });
+          }
+        }
+      }
     }
     if (
       containerRef &&
@@ -373,6 +423,7 @@ class PDPContainer extends React.Component<Props, State> {
     } = this.props;
     return (
       <ProductDetails
+        showAddToBagMobile={this.state.showAddToBagMobile}
         corporatePDP={corporatePDP}
         data={data}
         key={data.sku}
@@ -424,6 +475,12 @@ class PDPContainer extends React.Component<Props, State> {
       />
     );
   }
+
+  updateMobileView = (plpMobileView: "list" | "grid") => {
+    if (this.props.plpMobileView != plpMobileView) {
+      this.props.updateMobileView(plpMobileView);
+    }
+  };
 
   getMoreCollectionProductsSection() {
     const {
@@ -507,6 +564,266 @@ class PDPContainer extends React.Component<Props, State> {
     return <WallpaperFAQ mobile={mobile} />;
   };
 
+  onEnquireClick = (id: number) => {
+    const { updateComponentModal, changeModalState } = this.props;
+    const mobile = this.props.device.mobile;
+    updateComponentModal(
+      // <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      POPUP.THIRDPARTYENQUIRYPOPUP,
+      {
+        id
+      },
+      mobile ? true : false,
+      mobile ? ModalStyles.bottomAlign : undefined
+    );
+    changeModalState(true);
+  };
+
+  notifyMeClick = (product: PLPProductItem) => {
+    const {
+      categories,
+      collections,
+      priceRecords,
+      discountedPriceRecords,
+      childAttributes,
+      title,
+      discount,
+      badgeType
+    } = product;
+    const {
+      updateComponentModal,
+      changeModalState,
+      currency,
+      isSale
+    } = this.props;
+    const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
+    // childAttributes?.map((v, i) => {
+    //   if (v.id === selectedSize?.id) {
+    //     selectedIndex = i;
+    //   }
+    // });
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+    updateComponentModal(
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collections && collections.length > 0 ? collections[0] : "",
+        category: category,
+        price: priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes as ChildProductAttributes[],
+        title: title,
+        selectedIndex: selectedIndex,
+        discount: discount,
+        badgeType: badgeType,
+        isSale: isSale,
+        discountedPrice: discountedPriceRecords[currency],
+        list: "pdp"
+      },
+      false,
+      ModalStyles.bottomAlign
+    );
+    changeModalState(true);
+  };
+  getLooksSection = () => {
+    const {
+      currency,
+      device: { mobile },
+      data
+    } = this.props;
+    return data ? (
+      <>
+        {mobile && (
+          <div
+            className={cs(styles.listGridBar, globalStyles.voffset5, {
+              [styles.hide]: this.props.scrollDown
+            })}
+          >
+            <i
+              key="grid-icon"
+              className={cs(iconFonts.icon, iconFonts.iconGridView, {
+                [styles.active]: this.props.plpMobileView == "grid"
+              })}
+              onClick={() => this.updateMobileView("grid")}
+            />
+            <i
+              key="list-icon"
+              className={cs(iconFonts.icon, iconFonts.iconListView, {
+                [styles.active]: this.props.plpMobileView == "list"
+              })}
+              onClick={() => this.updateMobileView("list")}
+            />
+          </div>
+        )}
+        <div>
+          <h2 id="looks-section" className={styles.header}>
+            Shop The Look
+          </h2>
+          <div className={bootstrap.row}>
+            {!mobile && (
+              <div className={bootstrap.colMd4}>
+                <div className={styles.looksMainImage}>
+                  {/* <Link
+                    to={data.url}
+                    // onClick={gtmProductClick}
+                  > */}
+                  <LazyImage
+                    aspectRatio="62:93"
+                    src={
+                      data.lookImageUrl ||
+                      (data.images?.[0]
+                        ? data.images?.[0].productImage
+                        : "/static/img/noimageplp.png")
+                    }
+                    className={styles.imageResultnew}
+                    // isVisible={}
+                    onError={(e: any) => {
+                      e.target.onerror = null;
+                      e.target.src = noPlpImage;
+                    }}
+                  />
+                  {/* </Link> */}
+                </div>
+              </div>
+            )}
+            {mobile && this.props.plpMobileView == "grid" ? (
+              this.props.data.looksProducts &&
+              this.props.data.looksProducts.map((item, index) => {
+                return (
+                  <div
+                    className={cs(
+                      bootstrap.colMd4,
+                      bootstrap.col6,
+                      styles.setWidth
+                    )}
+                    key={item.id}
+                  >
+                    <PDPLooksGridItem
+                      page="PLP"
+                      position={index}
+                      product={item}
+                      addedToWishlist={false}
+                      currency={currency}
+                      key={item.id}
+                      mobile={mobile}
+                      isVisible={index < 3 ? true : undefined}
+                      // onClickQuickView={this.onClickQuickView}
+                      // isCorporate={this.state.corporoateGifting}
+                      onEnquireClick={this.onEnquireClick}
+                      notifyMeClick={this.notifyMeClick}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <div
+                className={cs(bootstrap.colMd8, styles.looksContainer, {
+                  [styles.looksContainerListView]: mobile
+                })}
+              >
+                <div className={bootstrap.row}>
+                  {this.props.data.looksProducts &&
+                    this.props.data.looksProducts.map((item, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className={cs(
+                            styles.looksItemContainer,
+                            bootstrap.colMd4
+                          )}
+                        >
+                          <PDPLooksItem
+                            page="PLP"
+                            position={i}
+                            product={item}
+                            addedToWishlist={false}
+                            currency={currency || "INR"}
+                            key={item.id}
+                            mobile={mobile || false}
+                            isCorporate={false}
+                            notifyMeClick={this.notifyMeClick}
+                            onEnquireClick={this.onEnquireClick}
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+    ) : (
+      ""
+    );
+  };
+
+  getPairItWithSection = () => {
+    const {
+      data: { pairItWithProducts = [] },
+      device: { mobile }
+    } = this.props;
+
+    if (
+      pairItWithProducts.length < (mobile ? 2 : 4) ||
+      typeof document == "undefined"
+    ) {
+      return null;
+    }
+
+    const config: Settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 3,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 2000,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+            arrows: true
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1.1,
+            centerMode: true,
+            className: "center",
+            centerPadding: "30px",
+            slidesToScroll: 1,
+            arrows: false
+          }
+        }
+      ]
+    };
+    return (
+      <PairItWithSlider
+        data={pairItWithProducts}
+        setting={config as Settings}
+        mobile={mobile}
+        currency={this.props.currency}
+      />
+    );
+  };
+
+  handleLooksClick = () => {
+    const elem = document.getElementById("looks-section");
+    if (elem) {
+      const headerOffset = 130;
+      const elemPos = elem.offsetTop;
+      const offsetPos = elemPos - headerOffset;
+      window.scroll({ top: offsetPos, behavior: "smooth" });
+    }
+  };
+
   getMobileZoomListener = (index: number) => {
     return () => {
       this.onImageClick(index);
@@ -578,6 +895,15 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             >
               <MobileSlider>{mobileSlides}</MobileSlider>
+              {this.state.showLooks && mobile && (
+                <div
+                  id="looks-btn-mobile"
+                  className={cs(styles.looksBtnMobile, styles.looksBtn)}
+                  onClick={this.handleLooksClick}
+                >
+                  shop the look
+                </div>
+              )}
             </div>
           )}
           {!mobile && (
@@ -613,6 +939,18 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             >
               {this.getProductImages()}
+              {this.state.showLooks && !mobile && (
+                <div
+                  id="looks-btn"
+                  className={styles.looksBtn}
+                  onClick={this.handleLooksClick}
+                >
+                  shop the look
+                </div>
+              )}
+              {this.state.showLooks && !mobile && (
+                <div className={styles.looksBtnOverlay}></div>
+              )}
             </div>
           )}
 
@@ -631,6 +969,8 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
+        {this.state.showLooks && this.getLooksSection()}
+        <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         {mounted && (
           <MakerEnhance
             user="goodearth"

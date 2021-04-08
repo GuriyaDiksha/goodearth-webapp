@@ -1,6 +1,6 @@
 
 
-@import "../../styles/partials/variables";
+@import "../../../styles/partials/variables";
 .image-boxnew {
     position: relative;
     display: block;
@@ -10,7 +10,7 @@
 }
 .image-content {
     text-align: center;
-    // height: 160px;
+    height: 140px;
     margin-top: 15px;
     width: 100%;
     white-space: nowrap;
@@ -29,14 +29,16 @@
     right: 0;
 }
 
-.plpMain{
-    position: relative;
+.plpMain:hover{
     .combodiv{
         display: flex;
     }
     .product-size-list{
         display: flex;
     }
+}
+.plpMain {
+    position: relative;
 }
 
 .hidden{
@@ -148,7 +150,7 @@
 }
 
 .product-size-list {
-    display: flex;
+    display: none;
     justify-content: center;
     &.product-size-list-mobile {
         display: flex;
@@ -172,7 +174,7 @@
     }
 }
 .outstock {
-    background: url('../../images/outofstock-cta.svg') no-repeat;
+    background: url('../../../images/outofstock-cta.svg') no-repeat;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -216,12 +218,5 @@
 .mobile-badge{
     img {
         width: 60%;
-    }
-}
-
-.actions {
-    margin: 5px 0;
-    .add-to-bag-list-view {
-        line-height: 38px;
     }
 }
