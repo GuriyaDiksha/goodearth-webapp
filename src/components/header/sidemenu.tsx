@@ -130,7 +130,10 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Cerise Program",
-        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
+        href:
+          isLoggedIn && this.props.slab && this.props.slab != "Fresh"
+            ? "/account/cerise"
+            : "/cerise",
         type: "link",
         value: "Cerise Program"
       },
