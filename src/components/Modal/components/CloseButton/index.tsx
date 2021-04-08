@@ -14,7 +14,10 @@ const CloseButton: React.FC<Props> = ({ className, children }) => {
   const { closeModal } = useContext(Context);
 
   return (
-    <button className={cs(styles.closeButton, className)} onClick={closeModal}>
+    <button
+      className={cs(className ? className : styles.closeButton)}
+      onClick={closeModal}
+    >
       {children || (
         <span className={cs(fontStyles.icon, fontStyles.iconCross)} />
       )}
