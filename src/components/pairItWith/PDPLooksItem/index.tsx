@@ -143,8 +143,9 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             aspectRatio="62:93"
             src={
               product.lookImageUrl ||
-              product.images?.[0]?.productImage ||
-              "/static/img/noimageplp.png"
+              (product.images?.[0]
+                ? product.images?.[0].productImage
+                : "/static/img/noimageplp.png")
             }
             className={styles.imageResultnew}
             isVisible={isVisible}
