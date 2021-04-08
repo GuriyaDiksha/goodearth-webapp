@@ -15,6 +15,7 @@ import AddressService from "services/address";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import AddressItem from "components/Address/AddressItem";
 import { updateAddressList } from "actions/address";
+import { updateMicroUrl } from "actions/info";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -37,6 +38,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
+    },
+    updateMicroUrl: (url: string) => {
+      dispatch(updateMicroUrl(url));
     }
   };
 };
@@ -135,7 +139,9 @@ class CeriseClubMain extends Component<Props, State> {
   };
 
   viewStatementMicrosite = () => {
-    location.href = `https://goodearthindia.mloyalretail.com/microsite/default.asp?cid=${this.state.customerUniqueID}`;
+    const { updateMicroUrl, history } = this.props;
+    updateMicroUrl(this.state.customerUniqueID);
+    history.push("/microsite");
   };
 
   getLoader() {

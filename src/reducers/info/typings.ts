@@ -9,6 +9,7 @@ export type State = {
   nextUrl: string;
   deliveryText: string;
   scrollDown: boolean;
+  microUrl: string;
 };
 
 export type InfoActions = ActionType<typeof Actions>;
