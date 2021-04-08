@@ -674,8 +674,9 @@ class PDPContainer extends React.Component<Props, State> {
                     aspectRatio="62:93"
                     src={
                       data.lookImageUrl ||
-                      data.images?.[0]?.productImage ||
-                      "/static/img/noimageplp.png"
+                      (data.images?.[0]
+                        ? data.images?.[0].productImage
+                        : "/static/img/noimageplp.png")
                     }
                     className={styles.imageResultnew}
                     // isVisible={}
