@@ -36,7 +36,8 @@ export enum ROUTES {
   BRIDALPUBLIC = "/bridal/:id",
   MUBARAK = "/mubaarak-hour-notification",
   WITHMAKER = "/withmaker",
-  WITHOUTMAKER = "/withoutmaker"
+  WITHOUTMAKER = "/withoutmaker",
+  MICROSITE = "/microsite"
 }
 
 export type RouteConfig = RouteObject[];

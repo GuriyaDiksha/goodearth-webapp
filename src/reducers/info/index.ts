@@ -7,7 +7,8 @@ const initialState: State = {
   makerReloadToggle: false,
   nextUrl: "",
   deliveryText: "",
-  scrollDown: false
+  scrollDown: false,
+  microUrl: ""
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -45,6 +46,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_SCROLL_DOWN": {
       const newState = { ...state };
       newState.scrollDown = action.payload;
+      return newState;
+    }
+    case "UPDATE_MICRO_URL": {
+      const newState = { ...state };
+      newState.microUrl = action.payload;
       return newState;
     }
   }
