@@ -1,6 +1,6 @@
 
 
-@import "../../styles/partials/variables";
+@import "../../../styles/partials/variables";
 .image-boxnew {
     position: relative;
     display: block;
@@ -172,7 +172,7 @@
     }
 }
 .outstock {
-    background: url('../../images/outofstock-cta.svg') no-repeat;
+    background: url('../../../images/outofstock-cta.svg') no-repeat;
     position: absolute;
     top: 50%;
     left: 50%;
