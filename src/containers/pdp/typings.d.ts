@@ -11,4 +11,6 @@ export type State = {
   activeImage: number;
   detailStickyEnabled: boolean;
   mounted: boolean;
+  showLooks: boolean;
+  showAddToBagMobile: boolean;
 };

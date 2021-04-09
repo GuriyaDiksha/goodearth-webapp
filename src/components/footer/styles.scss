@@ -81,6 +81,15 @@
   font-weight: 300;
 }
 
+.footer-bottomMobile {
+  @include ftr-copy-white-desktop();
+  background-color: tint(#000, 20%);
+  color: #fff;
+  padding-top: 15px;
+  padding-bottom: 55px;
+  font-weight: 300;
+}
+
 .fix-bottom {
   position: fixed;
   bottom: 0;
