@@ -7,12 +7,6 @@ import Koa from "koa";
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
 import Api from "services/api";
-// import AddressService from "services/address";
-// import LoginService from "services/login";
-// import {
-//   // updatePinCodeList,
-//   updateCountryData
-// } from "./address";
 import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
 
@@ -52,21 +46,6 @@ const initAction: any = async (
       .catch(err => {
         console.log("CURRENCY LIST API ERROR ==== " + err);
       }),
-    // AddressService.fetchPinCodeData(store.dispatch)
-    //   .then(data => {
-    //     const pinCodeList = Object.keys(data);
-    //     store.dispatch(updatePinCodeList(data, pinCodeList));
-    //   })
-    //   .catch(err => {
-    //     console.log("PINCODE API ERROR ====" + err);
-    //   }),
-    // LoginService.fetchCountryData(store.dispatch)
-    //   .then(data => {
-    //     store.dispatch(updateCountryData(data));
-    //   })
-    //   .catch(err => {
-    //     console.log("COUNTRYSTATE API ERROR ====" + err);
-    //   }),
     Api.getAnnouncement(store.dispatch)
       .then(data => {
         console.log(data);
@@ -77,9 +56,7 @@ const initAction: any = async (
     ApiService.getCurrency(store.dispatch, bridalKey).catch(err => {
       console.log("CURRENCY API ERROR ==== " + err);
     }),
-    ApiService.getSalesStatus(store.dispatch).catch(err => {
-      console.log("Sales Api Status ==== " + err);
-    }),
+
     ApiService.getPopupBgUrl(store.dispatch).catch(err => {
       console.log("Popup Bg Api Status ==== " + err);
     })
