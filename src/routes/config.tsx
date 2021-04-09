@@ -230,6 +230,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/withoutmaker")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.MICROSITE,
+    component: loadable(() => import("containers/microsite")),
+    action: async () => null,
+    exact: true
   }
 ];
 
