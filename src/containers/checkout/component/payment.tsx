@@ -185,12 +185,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           key: "payu",
           value: "DEBIT CARD",
           mode: "DC"
+        },
+        {
+          key: "paypal",
+          value: "PAYPAL",
+          mode: "NA"
         }
-        // {
-        //   key: "paypal",
-        //   value: "PAYPAL",
-        //   mode: "NA"
-        // }
       ];
     }
     return methods;
