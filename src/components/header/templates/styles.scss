@@ -2,28 +2,37 @@
     margin-bottom: 25px;
     padding-left: 10%;
     padding-right: 10%;
+    .img {
+        width: 100%;
+        margin-top: 10px;
+    }
     .l2 {
         border-bottom: none;
         // padding-left: 20px;
         line-height: 30px;
         letter-spacing: .05em;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
-        color: #000;
+        color: #1b1b1b;
         font-family: "LatoFont", "Helvetica", "Arial";
     }
     .l3 {
-        font-size: 12px;
+        font-size: 11px;
         text-transform: capitalize;
         font-family: "LatoFont", "Helvetica", "Arial";
         letter-spacing: 0.09em;
-        color: #000;
+        color: #1b1b1b;
         border-bottom: none;
         line-height: 30px;
     }
     .block-l2 {
         display: block;
+    }
+    .block-cta {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 30px;
     }
 }
 
@@ -31,58 +40,35 @@
     margin-bottom: 25px;
     padding-left: 10%;
     padding-right: 10%;
-    .title {
-        border-bottom: none;
-        line-height: 30px;
-        letter-spacing: .05em;
-        display: inline-block;
-        font-size: 14px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
-    }
     .img {
         width: 100%;
-        margin-top: 15px;
+        margin-top: 10px;
     }
     .heading {
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
         font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
+        font-weight: normal;
+        color: #1b1b1b;
         font-family: "LatoFont", "Helvetica", "Arial";
     }
     .subheading {
         font-size: 11px;
-        text-transform: capitalize;
         font-family: "LatoFont", "Helvetica", "Arial";
         letter-spacing: 0.09em;
-        color: #000;
+        color: #1b1b1b;
         border-bottom: none;
         line-height: 18px;
     }
-    .cta {
-        border-bottom: none;
-        line-height: 30px;
-        letter-spacing: .05em;
-        font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
-    }
     .block-heading {
         display: block;
-        margin-top: 10px;
+        margin-top: 15px;
     }
     .block-cta {
         display: block;
         margin-top: 15px;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
     }
 }
 
@@ -90,58 +76,35 @@
     margin-bottom: 25px;
     padding-left: 10%;
     padding-right: 10%;
-    .title {
-        border-bottom: none;
-        line-height: 30px;
-        letter-spacing: .05em;
-        display: inline-block;
-        font-size: 14px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
-    }
     .img {
         width: 100%;
-        margin-top: 15px;
+        margin-top: 10px;
     }
     .heading {
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
         font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
+        font-weight: normal;
+        color: #1b1b1b;
         font-family: "LatoFont", "Helvetica", "Arial";
     }
     .subheading {
         font-size: 11px;
-        text-transform: capitalize;
         font-family: "LatoFont", "Helvetica", "Arial";
         letter-spacing: 0.09em;
-        color: #000;
+        color: #1b1b1b;
         border-bottom: none;
         line-height: 18px;
     }
-    .cta {
-        border-bottom: none;
-        line-height: 30px;
-        letter-spacing: .05em;
-        font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
-    }
     .block-heading {
         display: block;
-        margin-top: 10px;
+        margin-top: 15px;
     }
     .block-cta {
         display: block;
-        margin-top: 50px;
-        margin-bottom: 15px;
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
 }
 
@@ -149,58 +112,35 @@
     margin-bottom: 25px;
     padding-left: 10%;
     padding-right: 10%;
-    .title {
-        border-bottom: none;
-        line-height: 30px;
-        letter-spacing: .05em;
-        display: inline-block;
-        font-size: 14px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
-    }
     .img {
         width: 100%;
-        margin-top: 15px;
+        margin-top: 10px;
     }
     .heading {
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
         font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
+        font-weight: normal;
+        color: #1b1b1b;
         font-family: "LatoFont", "Helvetica", "Arial";
     }
     .subheading {
         font-size: 11px;
-        text-transform: capitalize;
         font-family: "LatoFont", "Helvetica", "Arial";
         letter-spacing: 0.09em;
-        color: #000;
+        color: #1b1b1b;
         border-bottom: none;
         line-height: 18px;
     }
-    .cta {
-        border-bottom: none;
-        line-height: 30px;
-        letter-spacing: .05em;
-        font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
-    }
     .block-heading {
         display: block;
-        margin-top: 10px;
+        margin-top: 15px;
     }
     .block-cta {
         display: block;
         margin-top: 10px;
-        margin-bottom: 15px;
+        margin-bottom: 30px;
     }
 }
 
@@ -215,7 +155,7 @@
         border-bottom: none;
         line-height: 30px;
         letter-spacing: .05em;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
         color: #000;
@@ -237,39 +177,27 @@
             letter-spacing: .05em;
             display: block;
             font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #000;
+            font-weight: normal;
+            color: #1b1b1b;
             font-family: "LatoFont", "Helvetica", "Arial";
         }
         .subheading {
             font-size: 11px;
-            text-transform: capitalize;
             font-family: "LatoFont", "Helvetica", "Arial";
             letter-spacing: 0.09em;
-            color: #000;
+            color: #1b1b1b;
             border-bottom: none;
             line-height: 18px;
         }
     }
-    .cta {
-        border-bottom: none;
-        line-height: 30px;
-        letter-spacing: .05em;
-        font-size: 12px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
-    }
     .block-cta {
         margin-top: 15px;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         display: block;
     }
     .block-heading {
         display: block;
-        margin-top: 10px;
+        margin-top: 15px;
     }
     .img-container {
         display: inline;
@@ -279,18 +207,6 @@
 .image-with-side-subheading-mobile {
     .featured-mobile-container {
         display: block;
-    }
-    .title {
-        border-bottom: none;
-        padding-left: 20px;
-        line-height: 30px;
-        letter-spacing: .05em;
-        display: block;
-        font-size: 14px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #000;
-        font-family: "LatoFont", "Helvetica", "Arial";
     }
     .img-container {
         display: inline;
@@ -316,14 +232,12 @@
             display: block;
             font-size: 12px;
             font-weight: bold;
-            text-transform: uppercase;
             color: #000;
             font-family: "LatoFont", "Helvetica", "Arial";
         }
         .subheading {
             display: none;
             font-size: 11px;
-            text-transform: capitalize;
             font-family: "LatoFont", "Helvetica", "Arial";
             letter-spacing: 0.09em;
             color: #000;
@@ -335,4 +249,28 @@
 }
 .block {
     display: block;
+}
+
+.title {
+    border-bottom: none;
+    // padding-left: 20px;
+    line-height: 30px;
+    letter-spacing: .05em;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #1b1b1b;
+    font-family: "LatoFont", "Helvetica", "Arial";
+}
+
+.cta {
+    border-bottom: none;
+    line-height: 30px;
+    letter-spacing: .05em;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #1b1b1b;
+    font-family: "LatoFont", "Helvetica", "Arial";
 }

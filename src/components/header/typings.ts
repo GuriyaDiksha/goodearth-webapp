@@ -36,6 +36,8 @@ export interface HeaderData {
 export type MenuComponentL2L3Data = {
   text: string;
   link: string;
+  ctaName: string;
+  src: string;
 };
 
 export type MenuComponentTitleData = {
