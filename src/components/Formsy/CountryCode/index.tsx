@@ -136,6 +136,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
           {props.errorMessage}
         </p>
       )}
+      {props.value?.length > 0 ? <span className={styles.arrow}></span> : ""}
     </div>
   );
 };
