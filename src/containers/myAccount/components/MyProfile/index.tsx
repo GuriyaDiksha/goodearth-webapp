@@ -323,7 +323,7 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => this.setUpdateProfile()}
                   name="phoneCountryCode"
                   placeholder="Code"
-                  label="Code"
+                  label="Country Code"
                   value=""
                   disable={phoneCountryCode ? true : false}
                   id="isd_code"

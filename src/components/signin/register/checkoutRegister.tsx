@@ -530,7 +530,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <CountryCode
               name="code"
               placeholder="Code"
-              label="Code"
+              label="Country Code"
               disable={!this.state.showFields}
               id="isdcode"
               value=""
