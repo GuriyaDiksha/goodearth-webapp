@@ -93,6 +93,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             this.setState({
               err: true,
               msg: error,
+              successMsg: "",
               disableSelectedbox: false
             });
             valid.errorTracking(
@@ -109,6 +110,7 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
               {
                 err: true,
                 msg: errorMsg,
+                successMsg: "",
                 disableSelectedbox: false
               },
               () => {

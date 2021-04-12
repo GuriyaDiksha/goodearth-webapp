@@ -86,7 +86,8 @@ const ProductDetails: React.FC<Props> = ({
   changeModalState,
   updateComponentModal,
   closeModal,
-  source
+  source,
+  showAddToBagMobile
 }) => {
   const [productTitle, subtitle] = title.split("(");
   const {
@@ -245,6 +246,11 @@ const ProductDetails: React.FC<Props> = ({
     return currentSKU;
   };
   const gtmPushAddToBag = () => {
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -256,7 +262,7 @@ const ProductDetails: React.FC<Props> = ({
               id: setSelectedSKU(),
               price: discountPrices || price,
               brand: "Goodearth",
-              category: collection,
+              category: category,
               variant: selectedSize?.size || "",
               quantity: quantity,
               list: "PDP"
@@ -735,12 +741,13 @@ const ProductDetails: React.FC<Props> = ({
               [bootstrap.col8]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
               [bootstrap.colSm8]: !mobile,
-              [bootstrap.colSm12]: corporatePDP && mobile
+              [bootstrap.colSm12]: corporatePDP && mobile,
+              [globalStyles.hidden]: mobile && !showAddToBagMobile
             })}
           >
             {button}
             {!loyaltyDisabled && isQuickview ? (
-              <p className={styles.errorMsg}>
+              <p className={cs(styles.errorMsg, styles.notEligible)}>
                 This product is not eligible for Cerise points accumulation.
               </p>
             ) : (
@@ -766,7 +773,7 @@ const ProductDetails: React.FC<Props> = ({
             className={cs(bootstrap.col4, globalStyles.textCenter, {
               [styles.wishlistBtnContainer]: mobile,
               [globalStyles.voffset1]: mobile,
-              [globalStyles.hidden]: corporatePDP
+              [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
             })}
           >
             <WishlistButton
