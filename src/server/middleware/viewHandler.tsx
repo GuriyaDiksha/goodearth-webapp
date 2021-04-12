@@ -17,6 +17,8 @@ import { cssChunks } from "../staticAssets/cssChunks";
 import { LinkTag, Chunks } from "../typings";
 import config from "../../config";
 import { getPushHeader } from "../utils/response";
+import { Store } from "redux";
+import { AppState } from "reducers/typings";
 
 const statsFile = path.resolve("dist/static/loadable-stats.json");
 
@@ -37,10 +39,14 @@ const matchRoute = (url: string, routes: string[]) => {
 };
 
 const viewHandler: Koa.Middleware = async function(ctx, next) {
-  const store = ctx.store;
+  const store: Store = ctx.store;
   const history = ctx.history;
   const matchedRoute = matchRoute(ctx.URL.pathname, paths);
+  const state: AppState = ctx.store.getState();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ["client"] });
+  if (!ctx.cookies.get("sessionid")) {
+    ctx.cookies.set("sessionid", state.cookies.sessionid);
+  }
 
   if (matchedRoute && matchedRoute.route) {
     const { route, params } = matchedRoute;

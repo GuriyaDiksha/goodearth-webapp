@@ -18,4 +18,5 @@ export type Props = {
   ) => void;
   corporatePDP: boolean;
   source?: string;
+  showAddToBagMobile?: boolean;
 };

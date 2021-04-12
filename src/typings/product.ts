@@ -24,10 +24,11 @@ export interface PLPProductItem {
   inStock?: boolean;
   childAttributes?: PartialChildProductAttributes[] | ChildProductAttributes[];
   plpSliderImages: string[];
+  lookImageUrl?: string;
+  images?: ProductImage[];
 }
 
 export interface PartialProductItem extends PLPProductItem {
-  images?: ProductImage[];
   sku: string;
   gaVariant: string;
   recommendationFinalScore?: number;
@@ -57,6 +58,9 @@ export interface Product<T = ProductID> extends PartialProductItem {
   designJournalTagging?: DesignJournalTag[];
   fillerMessage: string;
   collectionProducts?: CollectionProductItem[];
+  pairItWithProducts?: PLPProductItem[];
+  looksProducts?: PLPProductItem[];
+  lookImageUrl?: string;
   groupedProducts?: GroupedProductItem[];
 }
 
