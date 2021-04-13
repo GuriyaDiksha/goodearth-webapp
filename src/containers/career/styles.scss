@@ -332,13 +332,13 @@ p.job-description {
             }
             .country-code {
                 display: grid;
-                grid-template-columns: 2fr 15fr;
+                grid-template-columns: 3fr 14fr;
                 >div {
                     width: 100%;
                 }
                 &.country-code-mobile {
                     display: grid;
-                    grid-template-columns: 4fr 15fr;
+                    grid-template-columns: 6fr 13fr;
                 }
             }
         }
