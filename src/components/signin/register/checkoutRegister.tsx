@@ -5,7 +5,7 @@ import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import moment from "moment";
 import Formsy from "formsy-react";
 import FormInput from "../../Formsy/FormInput";
@@ -22,12 +22,15 @@ import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
-
 const mapStateToProps = (state: AppState) => {
+  const isdList = state.address.countryData.map(list => {
+    return list.isdCode;
+  });
   return {
     location: state.router.location,
     basket: state.basket,
-    currency: state.currency
+    currency: state.currency,
+    countryData: isdList
   };
 };
 
@@ -402,6 +405,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     // const { goLogin } = this.props;
+
     const formContent = (
       <Formsy
         ref={this.RegisterFormRef}
@@ -537,10 +541,20 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               validations={{
                 isCodeValid: (values, value) => {
                   return !(values.phone && value == "");
+                },
+                isValidCode: (values, value) => {
+                  if (value) {
+                    return (
+                      this.props.countryData.indexOf(value ? value : "") > -1
+                    );
+                  } else {
+                    return true;
+                  }
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required"
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
               }}
             />
             <FormInput
