@@ -5,7 +5,7 @@
     .img {
         width: 100%;
         margin-top: 10px;
-        margin-bottom: 15px;
+        margin-bottom: 7px;
     }
     .l2 {
         border-bottom: none;
@@ -30,11 +30,11 @@
     .block-l2 {
         display: block;
     }
-    .block-cta {
-        display: block;
-        margin-top: 15px;
-        margin-bottom: 30px;
-    }
+    // .block-cta {
+    //     display: block;
+    //     margin-top: 15px;
+    //     margin-bottom: 30px;
+    // }
 }
 
 .image {
@@ -60,23 +60,27 @@
         letter-spacing: 0.09em;
         color: #1b1b1b;
         border-bottom: none;
-        line-height: 18px;
+        line-height: 16px;
+        display: block;
     }
     .block-heading {
         display: block;
-        margin-top: 15px;
+        margin-top: 5px;
     }
-    .block-cta {
-        display: block;
-        margin-top: 15px;
-        margin-bottom: 30px;
+//     .block-cta {
+//         display: block;
+//         margin-top: 15px;
+//         margin-bottom: 30px;
+//     }
+    .container {
+        margin-bottom: 10px;
     }
 }
 
 .content {
     margin-bottom: 25px;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 15%;
+    padding-right: 15%;
     .img {
         width: 100%;
         margin-top: 10px;
@@ -100,13 +104,13 @@
     }
     .block-heading {
         display: block;
-        margin-top: 15px;
+        // margin-top: 15px;
     }
-    .block-cta {
-        display: block;
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
+    // .block-cta {
+    //     display: block;
+    //     margin-top: 30px;
+    //     margin-bottom: 30px;
+    // }
 }
 
 .vertical-image {
@@ -136,13 +140,13 @@
     }
     .block-heading {
         display: block;
-        margin-top: 15px;
+        margin-top: 5px;
     }
-    .block-cta {
-        display: block;
-        margin-top: 10px;
-        margin-bottom: 30px;
-    }
+    // .block-cta {
+    //     display: block;
+    //     margin-top: 10px;
+    //     margin-bottom: 30px;
+    // }
 }
 
 .image-with-side-subheading {
@@ -191,11 +195,11 @@
             line-height: 18px;
         }
     }
-    .block-cta {
-        margin-top: 15px;
-        margin-bottom: 30px;
-        display: block;
-    }
+    // .block-cta {
+    //     margin-top: 15px;
+    //     margin-bottom: 30px;
+    //     display: block;
+    // }
     .block-heading {
         display: block;
         margin-top: 15px;
@@ -274,4 +278,10 @@
     text-transform: uppercase;
     color: #1b1b1b;
     font-family: "LatoFont", "Helvetica", "Arial";
+}
+
+.block-cta {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: block;
 }
