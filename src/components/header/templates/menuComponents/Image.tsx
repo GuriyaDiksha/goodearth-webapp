@@ -28,9 +28,11 @@ const Image: React.FC<Props> = ({ data }) => {
                       {componentData.heading}
                     </Link>
                   </div>
-                  <Link className={styles.subheading} to={componentData.link}>
-                    {componentData.subHeading}
-                  </Link>
+                  {componentData.subHeading && (
+                    <Link className={styles.subheading} to={componentData.link}>
+                      {componentData.subHeading}
+                    </Link>
+                  )}
                 </div>
               </>
             ) : (
@@ -44,9 +46,11 @@ const Image: React.FC<Props> = ({ data }) => {
                       {componentData.heading}
                     </div>
                   </div>
-                  <div className={styles.subheading}>
-                    {componentData.subHeading}
-                  </div>
+                  {componentData.subHeading && (
+                    <div className={styles.subheading}>
+                      {componentData.subHeading}
+                    </div>
+                  )}
                 </div>
               </>
             )}
