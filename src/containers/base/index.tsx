@@ -11,7 +11,7 @@ import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
-import { updateComponent, updateModal } from "actions/modal";
+// import { updateComponent, updateModal } from "actions/modal";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 // import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
@@ -22,7 +22,7 @@ import cs from "classnames";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
-import { POPUP } from "constants/components";
+// import { POPUP } from "constants/components";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
@@ -184,8 +184,8 @@ const BaseLayout: React.FC = () => {
       !location.pathname.includes("/bridal/") &&
       !announcementData.isBridalActive
     ) {
-      dispatch(updateComponent(POPUP.CURRENCY, null, true));
-      dispatch(updateModal(true));
+      // dispatch(updateComponent(POPUP.CURRENCY, null, true));
+      // dispatch(updateModal(true));
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
@@ -210,6 +210,12 @@ const BaseLayout: React.FC = () => {
                   currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data);
+              } else {
+                CookieService.setCookie(
+                  "currency",
+                  goCurrencyValue.toString().toUpperCase(),
+                  365
+                );
               }
             }
           } else {
