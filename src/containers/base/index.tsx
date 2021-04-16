@@ -178,6 +178,16 @@ const BaseLayout: React.FC = () => {
     const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
     if (
+      !currencyPopup &&
+      (!isBridalBasket || isBridalBasket == "no") &&
+      !boId &&
+      !location.pathname.includes("/order/orderconfirmation/") &&
+      !location.pathname.includes("/bridal/") &&
+      !announcementData.isBridalActive
+    ) {
+      dispatch(updateComponent(POPUP.CURRENCY, null, true));
+      dispatch(updateModal(true));
+    } else if (
       isHomePage &&
       isSuspended &&
       checkoutInfoPopupCookie != "show"
@@ -191,18 +201,6 @@ const BaseLayout: React.FC = () => {
         )
       );
       dispatch(updateModal(true));
-    }
-
-    if (
-      !currencyPopup &&
-      (!isBridalBasket || isBridalBasket == "no") &&
-      !boId &&
-      !location.pathname.includes("/order/orderconfirmation/") &&
-      !location.pathname.includes("/bridal/") &&
-      !announcementData.isBridalActive
-    ) {
-      // dispatch(updateComponent(POPUP.CURRENCY, null, true));
-      // dispatch(updateModal(true));
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
@@ -227,12 +225,12 @@ const BaseLayout: React.FC = () => {
                   currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data);
-              } else {
-                CookieService.setCookie(
-                  "currency",
-                  goCurrencyValue.toString().toUpperCase(),
-                  365
-                );
+                // } else {
+                //   CookieService.setCookie(
+                //     "currency",
+                //     goCurrencyValue.toString().toUpperCase(),
+                //     365
+                //   );
               }
             }
           } else {
