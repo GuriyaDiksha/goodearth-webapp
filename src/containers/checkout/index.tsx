@@ -206,14 +206,14 @@ class Checkout extends React.Component<Props, State> {
       loyaltyData: {}
     };
   }
-  // setInfoPopupCookie() {
-  //   const cookieString =
-  //     "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-  //   document.cookie = cookieString;
-  //   // this.setState({
-  //   //     showInfoPopup: 'show'
-  //   // })
-  // }
+  setInfoPopupCookie() {
+    const cookieString =
+      "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    // this.setState({
+    //     showInfoPopup: 'show'
+    // })
+  }
 
   checkToMessage(basket: Basket) {
     let item1 = false,
@@ -230,7 +230,7 @@ class Checkout extends React.Component<Props, State> {
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
     valid.pageViewGTM("Checkout");
-    // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
+    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
@@ -264,9 +264,9 @@ class Checkout extends React.Component<Props, State> {
           this.props.history.push("/backend-order-error");
         });
     }
-    // if (this.state.isSuspended && checkoutPopupCookie !== "show") {
-    //   this.props.showPopup(this.setInfoPopupCookie);
-    // }
+    if (this.state.isSuspended && checkoutPopupCookie !== "show") {
+      this.props.showPopup(this.setInfoPopupCookie);
+    }
     const {
       user: { email },
       getLoyaltyPoints
