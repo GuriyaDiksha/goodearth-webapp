@@ -1,8 +1,8 @@
 import Koa from "koa";
 import { updateCookies } from "actions/cookies";
 import { updateCurrency } from "actions/currency";
-// import { updateComponent, updateModal } from "actions/modal";
-// import { POPUP } from "../../constants/components";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "../../constants/components";
 // import API from "utils/api";
 
 export default async function cookies(
@@ -16,7 +16,7 @@ export default async function cookies(
   const agent = ctx.request.get("user-agent");
   const isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(agent);
   // for currency popup
-  // const dispatch = ctx.store.dispatch;
+  const dispatch = ctx.store.dispatch;
   const { pathname, search } = ctx.history.location;
   const currencyPopup = ctx.cookies.get("currencypopup");
   const isBridalBasket = ctx.cookies.get("isBridal");
@@ -31,8 +31,8 @@ export default async function cookies(
     !pathname.includes("/bridal/") &&
     !isBot
   ) {
-    // dispatch(updateComponent(POPUP.CURRENCY, null, true));
-    // dispatch(updateModal(true));
+    dispatch(updateComponent(POPUP.CURRENCY, null, true));
+    dispatch(updateModal(true));
   }
   ctx.customCookies = {
     tkn: token,
