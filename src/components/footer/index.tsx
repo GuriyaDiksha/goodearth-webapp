@@ -204,9 +204,18 @@ class Footer extends React.Component<Props, FooterState> {
           }
         })
         .catch(error => {
-          const msg = valid.showErrors(error.response.data.message);
-          this.setState({ newsletterMessage: msg });
-          // console.log(error);
+          if (error.response.data.error_message) {
+            let errorMsg = error.response.data.error_message[0];
+            if (errorMsg == "MaxRetries") {
+              errorMsg =
+                "You have exceeded max attempts, please try after some time.";
+            }
+            this.setState({ newsletterMessage: errorMsg });
+          } else {
+            const msg = valid.showErrors(error.response.data.message);
+            this.setState({ newsletterMessage: msg });
+            // console.log(error);
+          }
         });
     }
   };

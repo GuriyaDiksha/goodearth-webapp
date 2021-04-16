@@ -8,7 +8,7 @@ import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import moment from "moment";
 import Formsy from "formsy-react";
 import FormInput from "../../Formsy/FormInput";
@@ -517,7 +517,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             <CountryCode
               name="code"
               placeholder="Code"
-              label="Code"
+              label="Country Code"
               disable={!this.state.showFields}
               id="isdcode"
               value=""
