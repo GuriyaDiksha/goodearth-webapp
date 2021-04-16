@@ -418,11 +418,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return true;
   };
 
-  // const resetInfoPopupCookie = () => {
-  //   const cookieString =
-  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-  //   document.cookie = cookieString;
-  // };
+  const resetInfoPopupCookie = () => {
+    const cookieString =
+      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  };
   const chkshipping = (event: any) => {
     const {
       total,
@@ -433,9 +433,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (page != "cart") {
       return false;
     }
-    // if (isSuspended) {
-    //   resetInfoPopupCookie();
-    // }
+    if (isSuspended) {
+      resetInfoPopupCookie();
+    }
     if (
       !freeShipping &&
       total >= freeShippingThreshold &&

@@ -34,7 +34,7 @@ const BaseLayout: React.FC = () => {
     basket: { bridal },
     header: { announcementData }
   } = useSelector((state: AppState) => state);
-  // const isSuspended = true;
+  const isSuspended = true;
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -159,22 +159,39 @@ const BaseLayout: React.FC = () => {
     //     document.body.removeChild(img);
     //   }, 2000);
     // });
-    // const popupCookie = CookieService.getCookie("makerinfo");
+
+    const setInfoPopupCookie = () => {
+      const cookieString =
+        "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      document.cookie = cookieString;
+      // this.setState({
+      //     showInfoPopup: 'show'
+      // })
+    };
+    const checkoutInfoPopupCookie = CookieService.getCookie(
+      "checkoutinfopopup"
+    );
     const currencyPopup = CookieService.getCookie("currencypopup");
     const isBridalBasket = CookieService.getCookie("isBridal");
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
-    // const isHomePage = location.pathname == "/";
-    // if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
-    //   dispatch(
-    //     updateComponent(
-    //       <MakerPopup acceptCondition={setMakerPopupCookie} />,
-    //       true
-    //     )
-    //   );
-    //   dispatch(updateModal(true));
-    // }
+    const isHomePage = location.pathname == "/";
+    if (
+      isHomePage &&
+      isSuspended &&
+      checkoutInfoPopupCookie != "show"
+      // && currencyPopup
+    ) {
+      dispatch(
+        updateComponent(
+          POPUP.INFOPOPUP,
+          { acceptCondition: setInfoPopupCookie },
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    }
 
     if (
       !currencyPopup &&
@@ -184,8 +201,8 @@ const BaseLayout: React.FC = () => {
       !location.pathname.includes("/bridal/") &&
       !announcementData.isBridalActive
     ) {
-      dispatch(updateComponent(POPUP.CURRENCY, null, true));
-      dispatch(updateModal(true));
+      // dispatch(updateComponent(POPUP.CURRENCY, null, true));
+      // dispatch(updateModal(true));
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
@@ -210,6 +227,12 @@ const BaseLayout: React.FC = () => {
                   currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data);
+              } else {
+                CookieService.setCookie(
+                  "currency",
+                  goCurrencyValue.toString().toUpperCase(),
+                  365
+                );
               }
             }
           } else {
