@@ -558,7 +558,7 @@ class JobForm extends React.Component<Props, State> {
             >
               <FormInput
                 name="isd"
-                label="Code"
+                label="Country Code"
                 placeholder="Code"
                 validations={{
                   isExisty: true

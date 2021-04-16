@@ -21,3 +21,6 @@ export const updateDeliveryText = (text: string) =>
 
 export const updateScrollDown = (scrollDown: boolean) =>
   actionCreator("UPDATE_SCROLL_DOWN", scrollDown);
+
+export const updateMicroUrl = (url: string) =>
+  actionCreator("UPDATE_MICRO_URL", url);
