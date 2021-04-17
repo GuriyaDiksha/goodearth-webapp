@@ -161,14 +161,14 @@ const BaseLayout: React.FC = () => {
 
     const setInfoPopupCookie = () => {
       const cookieString =
-        "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+        "checkoutinfopopup2=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
       document.cookie = cookieString;
       // this.setState({
       //     showInfoPopup: 'show'
       // })
     };
     const checkoutInfoPopupCookie = CookieService.getCookie(
-      "checkoutinfopopup"
+      "checkoutinfopopup2"
     );
     const currencyPopup = CookieService.getCookie("currencypopup");
     const isBridalBasket = CookieService.getCookie("isBridal");
