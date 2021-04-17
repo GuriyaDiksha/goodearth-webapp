@@ -420,7 +420,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const resetInfoPopupCookie = () => {
     const cookieString =
-      "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+      "checkoutinfopopup2=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     document.cookie = cookieString;
   };
   const chkshipping = (event: any) => {
