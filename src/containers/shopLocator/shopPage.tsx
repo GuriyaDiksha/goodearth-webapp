@@ -7,6 +7,7 @@ import styles from "./styles.scss";
 import { ShopLocatorProps } from "./typings";
 import { Link } from "react-router-dom";
 import cafeicon from "../../images/cafe-icon.svg";
+import ReactHtmlParser from "react-html-parser";
 
 const ShopPage: React.FC<ShopLocatorProps> = props => {
   const { data, mobile } = props;
@@ -51,7 +52,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               </div>
 
               <h3>
-                {item.place}
+                {ReactHtmlParser(item.place)}
                 {item.cafeAddress && (
                   <Link to={`${viewLink}#cafe`}>
                     <img src={cafeicon} className={styles.iconCafe} />
@@ -59,42 +60,33 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                 )}
               </h3>
 
-              <div className={cs(styles.small, styles.city)}>{item.city}</div>
+              <div className={cs(styles.small, styles.city)}>
+                {ReactHtmlParser(item.city)}
+              </div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
-                <strong className={styles.black}> {item.opendays} </strong>{" "}
+                <strong className={styles.black}>
+                  {" "}
+                  {ReactHtmlParser(item.opendays)}{" "}
+                </strong>{" "}
                 <br />
-                {item.time}
+                {ReactHtmlParser(item.time)}
               </div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
                 {item.address?.split(";").map((line: string, i: number) => {
                   return (
                     <div key={i} className={styles.small}>
-                      {line}
+                      {ReactHtmlParser(line)}
                     </div>
                   );
                 })}
               </div>
               <div className={cs(styles.small, globalStyles.voffset3)}>
-                {item.tel1?.map((num: string, i: number) => {
-                  if (mobile) {
-                    const number = "tel:" + (num ? num.split("+")[1] : num);
-                    return (
-                      <div key={i}>
-                        <a href={number} rel="noopener noreferrer">
-                          {num}
-                        </a>
-                        <br />
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div key={i}>
-                        {num}
-                        <br />
-                      </div>
-                    );
-                  }
-                })}
+                {item.tel1 && (
+                  <div>
+                    {ReactHtmlParser(item.tel1)}
+                    <br />
+                  </div>
+                )}
               </div>
               <div
                 className={cs(
