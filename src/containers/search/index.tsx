@@ -398,13 +398,13 @@ class Search extends React.Component<
                       styles.setWidth
                     )}
                     key={item.id}
-                    onClick={e => {
-                      this.gtmPushSearchClick(e, item, i);
-                    }}
+                    // onClick={e => {
+                    //   this.gtmPushSearchClick(e, item, i);
+                    // }}
                   >
                     {item.productClass != "GiftCard" ? (
                       <PlpResultItem
-                        page="Search"
+                        page="SearchResults"
                         position={i}
                         product={item}
                         addedToWishlist={false}
