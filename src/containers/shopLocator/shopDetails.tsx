@@ -9,6 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import BannerSlider from "components/BannerSlider";
 import { Settings } from "react-slick";
 import borderImg from "images/category/bannerBottom.jpg";
+import ReactHtmlParser from "react-html-parser";
 
 const ShopDetail: React.FC<ShopLocatorProps> = props => {
   const { mobile, data } = props;
@@ -131,18 +132,18 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
             >
               <div className={cs(styles.shopAddBlock, globalStyles.voffset5)}>
                 <div className={styles.shop}>
-                  SHOP &nbsp;<h3> {shopData.place} </h3>
+                  SHOP &nbsp;<h3> {ReactHtmlParser(shopData.place)} </h3>
                 </div>
                 <div className={cs(globalStyles.voffset2, styles.para)}>
-                  {shopData.shopContent}
+                  {ReactHtmlParser(shopData.shopContent)}
                 </div>
                 <div className={cs(styles.small, globalStyles.voffset5)}>
                   <strong className={styles.black}>
                     {" "}
-                    {shopData.opendays}{" "}
+                    {ReactHtmlParser(shopData.opendays)}{" "}
                   </strong>{" "}
                   <br />
-                  {shopData.time}
+                  {ReactHtmlParser(shopData.time)}
                 </div>
                 <div className={cs(styles.small, globalStyles.voffset3)}>
                   {shopData.address
@@ -150,7 +151,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
                     .map((line: string, i: number) => {
                       return (
                         <div className={styles.small} key={i}>
-                          {line}
+                          {ReactHtmlParser(line)}
                         </div>
                       );
                     })}
@@ -225,35 +226,14 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
                       Café &nbsp;<h3> {shopData.cafeHeading2}</h3>
                     </div>
                     <div className={cs(globalStyles.voffset2, styles.para)}>
-                      {shopData.cafeContent}{" "}
+                      {ReactHtmlParser(shopData.cafeContent)}{" "}
                     </div>
                     <div className={cs(styles.small, globalStyles.voffset4)}>
                       <div className={styles.bold}>CALL FOR RESERVATIONS</div>
                       <div className={cs(globalStyles.voffset2, styles.small)}>
-                        {shopData.cafeTel1?.map((num: string, i: number) => {
-                          if (mobile) {
-                            return (
-                              <div key={i}>
-                                <a
-                                  rel="noopener noreferrer"
-                                  href={
-                                    "tel:" + (num ? num.split("+")[1] : num)
-                                  }
-                                >
-                                  {num}
-                                </a>
-                                <br />
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <div key={i}>
-                                {num}
-                                <br />
-                              </div>
-                            );
-                          }
-                        })}
+                        {shopData.cafeTel1 && (
+                          <div>{ReactHtmlParser(shopData.cafeTel1)}</div>
+                        )}
                       </div>
                     </div>
                     <div
