@@ -208,7 +208,7 @@ class Checkout extends React.Component<Props, State> {
   }
   setInfoPopupCookie() {
     const cookieString =
-      "checkoutinfopopup2=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
     // this.setState({
     //     showInfoPopup: 'show'
@@ -230,7 +230,7 @@ class Checkout extends React.Component<Props, State> {
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
     valid.pageViewGTM("Checkout");
-    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup2");
+    const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
