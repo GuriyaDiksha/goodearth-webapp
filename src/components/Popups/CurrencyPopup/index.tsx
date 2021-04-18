@@ -64,7 +64,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
 
   const setInfoPopupCookie = () => {
     const cookieString =
-      "checkoutinfopopup2=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
     // this.setState({
     //     showInfoPopup: 'show'
@@ -73,7 +73,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const showInfoPopup = () => {
     const isHomePage = location.pathname == "/";
     const checkoutInfoPopupCookie = CookieService.getCookie(
-      "checkoutinfopopup2"
+      "checkoutinfopopup3"
     );
     if (
       isHomePage &&

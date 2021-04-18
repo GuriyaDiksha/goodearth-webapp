@@ -186,7 +186,7 @@ class Bag extends React.Component<Props, State> {
 
   resetInfoPopupCookie() {
     const cookieString =
-      "checkoutinfopopup2=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+      "checkoutinfopopup3=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     document.cookie = cookieString;
   }
 
