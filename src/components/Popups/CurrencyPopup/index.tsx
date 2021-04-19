@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 // import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
@@ -10,13 +10,15 @@ import mobileImg from "images/mobileImg.jpg";
 import "styles/autosuggest.css";
 import LoginService from "services/login";
 // import iconStyles from "styles/iconFonts.scss";
-import { Context } from "components/Modal/context.ts";
+// import { Context } from "components/Modal/context.ts";
 import { AppState } from "reducers/typings";
 import Autosuggest from "react-autosuggest";
 import CookieService from "services/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { updateMakerReloadToggle } from "actions/info";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 // import { useHistory } from "react-router";
 type PopupProps = {};
 const CurrencyPopup: React.FC<PopupProps> = props => {
@@ -38,7 +40,7 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
   const [inputValue, setInputValue] = useState("");
   const [selectedCurrency, setSelectedCurrency] = useState("");
   const [tempValue, setTempValue] = useState("");
-  const { closeModal } = useContext(Context);
+  // const { closeModal } = useContext(Context);
   const [focused, setFocused] = useState(false);
   useEffect(() => {
     currencyList.map((suggestion: any) => {
@@ -60,6 +62,35 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
     //   });
   };
 
+  const setInfoPopupCookie = () => {
+    const cookieString =
+      "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+    document.cookie = cookieString;
+    // this.setState({
+    //     showInfoPopup: 'show'
+    // })
+  };
+  const showInfoPopup = () => {
+    const isHomePage = location.pathname == "/";
+    const checkoutInfoPopupCookie = CookieService.getCookie(
+      "checkoutinfopopup3"
+    );
+    if (
+      isHomePage &&
+      // isSuspended &&
+      checkoutInfoPopupCookie != "show"
+      // && currencyPopup
+    ) {
+      dispatch(
+        updateComponent(
+          POPUP.INFOPOPUP,
+          { acceptCondition: setInfoPopupCookie },
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    }
+  };
   const onChangeCurrency = () => {
     if (
       currency != selectedCurrency &&
@@ -74,7 +105,8 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
         // if (selectedCurrency == "INR") {
         //   history.push("/maintenance");
         // }
-        closeModal();
+        showInfoPopup();
+        // closeModal();
       });
     } else if (selectedCurrency == currency) {
       CookieService.setCookie("currency", selectedCurrency);
@@ -84,7 +116,8 @@ const CurrencyPopup: React.FC<PopupProps> = props => {
       // if (selectedCurrency == "INR") {
       //   history.push("/maintenance");
       // }
-      closeModal();
+      showInfoPopup();
+      // closeModal();
     } else {
       setErrorMessage("please select correct currency");
     }

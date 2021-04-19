@@ -11,7 +11,7 @@ import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
-// import { updateComponent, updateModal } from "actions/modal";
+import { updateComponent, updateModal } from "actions/modal";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 // import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
@@ -22,7 +22,7 @@ import cs from "classnames";
 // import flowerimg3 from "images/flower3.gif";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
-// import { POPUP } from "constants/components";
+import { POPUP } from "constants/components";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
@@ -34,7 +34,7 @@ const BaseLayout: React.FC = () => {
     basket: { bridal },
     header: { announcementData }
   } = useSelector((state: AppState) => state);
-  // const isSuspended = true;
+  const isSuspended = true;
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -159,22 +159,39 @@ const BaseLayout: React.FC = () => {
     //     document.body.removeChild(img);
     //   }, 2000);
     // });
-    // const popupCookie = CookieService.getCookie("makerinfo");
+
+    const setInfoPopupCookie = () => {
+      const cookieString =
+        "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      document.cookie = cookieString;
+      // this.setState({
+      //     showInfoPopup: 'show'
+      // })
+    };
+    const checkoutInfoPopupCookie = CookieService.getCookie(
+      "checkoutinfopopup3"
+    );
     const currencyPopup = CookieService.getCookie("currencypopup");
     const isBridalBasket = CookieService.getCookie("isBridal");
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
-    // const isHomePage = location.pathname == "/";
-    // if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
-    //   dispatch(
-    //     updateComponent(
-    //       <MakerPopup acceptCondition={setMakerPopupCookie} />,
-    //       true
-    //     )
-    //   );
-    //   dispatch(updateModal(true));
-    // }
+    const isHomePage = location.pathname == "/";
+    if (
+      isHomePage &&
+      isSuspended &&
+      checkoutInfoPopupCookie != "show"
+      // && currencyPopup
+    ) {
+      dispatch(
+        updateComponent(
+          POPUP.INFOPOPUP,
+          { acceptCondition: setInfoPopupCookie },
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    }
 
     if (
       !currencyPopup &&

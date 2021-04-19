@@ -30,7 +30,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-type Props = ProfileProps & ReturnType<typeof mapDispatchToProps>;
+type Props = ProfileProps &
+  ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>;
 class MyProfile extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -338,7 +340,8 @@ class MyProfile extends React.Component<Props, State> {
                       return !(values.phoneNumber && value == "");
                     },
                     isValidCode: (values, value) => {
-                      if (value) {
+                      // this.props
+                      if (value && this.props.countryData.length > 0) {
                         return (
                           this.props.countryData.indexOf(value ? value : "") >
                           -1

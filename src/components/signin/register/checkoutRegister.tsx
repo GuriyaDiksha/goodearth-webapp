@@ -543,7 +543,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   return !(values.phone && value == "");
                 },
                 isValidCode: (values, value) => {
-                  if (value) {
+                  if (value && this.props.countryData.length > 0) {
                     return (
                       this.props.countryData.indexOf(value ? value : "") > -1
                     );

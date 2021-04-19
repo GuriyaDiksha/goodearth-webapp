@@ -33,9 +33,6 @@ export default async function cookies(
   ) {
     // dispatch(updateComponent(POPUP.CURRENCY, null, true));
     // dispatch(updateModal(true));
-    // console.log("ctx object:");
-    // console.log(ctx);
-    // console.log(ctx.request.headers);
   }
   ctx.customCookies = {
     tkn: token,
