@@ -606,6 +606,16 @@ p {
 
 }
 
+.file-uploadMsg {
+    display: grid;
+    span{
+        font-size: 12px;
+        color: #999;
+        letter-spacing: 1px;
+        font-family: $font-Lato;
+    }
+}
+
 career-filter {
     padding-left: 48px;
 }
