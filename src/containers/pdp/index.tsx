@@ -200,6 +200,7 @@ class PDPContainer extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.id && this.props.id != nextProps.id) {
       valid.pageViewGTM("PDP");
+      valid.PDP(nextProps.data, this.props.currency);
       this.setState({
         sidebarSticky: true,
         detailsSticky: true,
@@ -208,6 +209,12 @@ class PDPContainer extends React.Component<Props, State> {
         mounted: false
       });
       this.fetchMoreProductsFromCollection(nextProps.id);
+    }
+    if (this.props.data && !this.props.data.title && nextProps.data.title) {
+      valid.PDP(nextProps.data, this.props.currency);
+    }
+    if (!this.props.data && nextProps.data?.title) {
+      valid.PDP(nextProps.data, this.props.currency);
     }
     if (this.props.currency != nextProps.currency) {
       this.fetchMoreProductsFromCollection(nextProps.id);

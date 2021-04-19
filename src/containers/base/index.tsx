@@ -162,14 +162,14 @@ const BaseLayout: React.FC = () => {
 
     const setInfoPopupCookie = () => {
       const cookieString =
-        "checkoutinfopopup=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+        "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
       document.cookie = cookieString;
       // this.setState({
       //     showInfoPopup: 'show'
       // })
     };
     const checkoutInfoPopupCookie = CookieService.getCookie(
-      "checkoutinfopopup"
+      "checkoutinfopopup3"
     );
     const currencyPopup = CookieService.getCookie("currencypopup");
     const isBridalBasket = CookieService.getCookie("isBridal");
@@ -178,16 +178,6 @@ const BaseLayout: React.FC = () => {
     const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
     if (
-      !currencyPopup &&
-      (!isBridalBasket || isBridalBasket == "no") &&
-      !boId &&
-      !location.pathname.includes("/order/orderconfirmation/") &&
-      !location.pathname.includes("/bridal/") &&
-      !announcementData.isBridalActive
-    ) {
-      dispatch(updateComponent(POPUP.CURRENCY, null, true));
-      dispatch(updateModal(true));
-    } else if (
       isHomePage &&
       isSuspended &&
       checkoutInfoPopupCookie != "show"
@@ -201,6 +191,18 @@ const BaseLayout: React.FC = () => {
         )
       );
       dispatch(updateModal(true));
+    }
+
+    if (
+      !currencyPopup &&
+      (!isBridalBasket || isBridalBasket == "no") &&
+      !boId &&
+      !location.pathname.includes("/order/orderconfirmation/") &&
+      !location.pathname.includes("/bridal/") &&
+      !announcementData.isBridalActive
+    ) {
+      // dispatch(updateComponent(POPUP.CURRENCY, null, true));
+      // dispatch(updateModal(true));
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
@@ -225,12 +227,12 @@ const BaseLayout: React.FC = () => {
                   currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data);
-                // } else {
-                //   CookieService.setCookie(
-                //     "currency",
-                //     goCurrencyValue.toString().toUpperCase(),
-                //     365
-                //   );
+              } else {
+                CookieService.setCookie(
+                  "currency",
+                  goCurrencyValue.toString().toUpperCase(),
+                  365
+                );
               }
             }
           } else {
