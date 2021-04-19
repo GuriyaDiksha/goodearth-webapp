@@ -1523,7 +1523,7 @@ const AddressForm: React.FC<Props> = props => {
                   return !(values.phone && value == "");
                 },
                 isValidCode: (values, value) => {
-                  if (value) {
+                  if (value && isdList.length > 0) {
                     return isdList.indexOf(value ? value : "") > -1;
                   } else {
                     return true;
