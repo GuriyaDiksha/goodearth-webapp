@@ -287,7 +287,8 @@ class JobForm extends React.Component<Props, State> {
           this.setState(
             {
               successMessage: data.message,
-              isLoading: false
+              isLoading: false,
+              fileSizeErrorMessage: ""
             },
             () => {
               this.resetFormData();
@@ -633,6 +634,14 @@ class JobForm extends React.Component<Props, State> {
                 )}
               </div>
             </div>
+            {this.state.fileSizeErrorMessage ? (
+              ""
+            ) : (
+              <div className={styles.fileUploadMsg}>
+                <span>Max File size allowed: 10 MB</span>
+                <span>File format supported .pdf and .docx</span>
+              </div>
+            )}
             {this.state.fileSizeErrorMessage ? (
               <p
                 className={cs(

@@ -44,7 +44,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
   const matchedRoute = matchRoute(ctx.URL.pathname, paths);
   const state: AppState = ctx.store.getState();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ["client"] });
-  if (!ctx.cookies.get("sessionid")) {
+  if (ctx.cookies.get("sessionid") != state.cookies.sessionid) {
     ctx.cookies.set("sessionid", state.cookies.sessionid);
   }
 
