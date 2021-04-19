@@ -151,17 +151,34 @@ class Search extends React.Component<Props, State> {
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
+    const products = [];
+    if (!data) return false;
     let category = "";
     if (itemData.categories) {
       const index = itemData.categories.length - 1;
       category = itemData.categories[index].replace(/\s/g, "");
       category = category.replace(/>/g, "/");
     }
-    const cur = this.props.isSale
-      ? itemData.discountedPriceRecords[this.props.currency]
-      : itemData.priceRecords[this.props.currency];
     const listPath = `SearchResults`;
     CookieService.setCookie("listPath", listPath);
+    products.push(
+      itemData.childAttributes?.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: data.title,
+            id: itemData.childAttributes?.[0].sku,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[this.props.currency]
+              : child.priceRecords[this.props.currency],
+            brand: "Goodearth",
+            category: category,
+            variant: itemData.childAttributes?.[0].size || "",
+            position: indices
+          }
+        );
+      })
+    );
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -169,17 +186,7 @@ class Search extends React.Component<Props, State> {
         click: {
           // actionField: { list: "Search Popup" },
           actionField: { list: listPath },
-          products: [
-            {
-              name: data.title,
-              id: itemData.childAttributes?.[0].sku,
-              price: cur,
-              brand: "Goodearth",
-              category: category,
-              variant: itemData.childAttributes?.[0].size || "",
-              position: indices
-            }
-          ]
+          products: products
         }
       }
     });
