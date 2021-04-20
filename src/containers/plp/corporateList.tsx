@@ -585,6 +585,7 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    valid.moveChatDown();
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
@@ -662,6 +663,7 @@ class CorporateFilter extends React.Component<Props, State> {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
     this.unlisten();
+    valid.moveChatUp();
   }
 
   getSortedFacets = (facets: any): any => {
