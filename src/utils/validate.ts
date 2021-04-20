@@ -273,6 +273,58 @@ export function sliderProductImpression(
   }
 }
 
+export function sliderProductClick(
+  prod: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    let product = [];
+    position = position || 0;
+    if (!prod) return false;
+    // if (data.length < 1) return false;
+    const listPath = `${list}`;
+    let category = "";
+    if (prod.categories) {
+      const index = prod.categories.length - 1;
+      category = prod.categories[index]
+        ? prod.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+    }
+    product = [
+      Object.assign(
+        {},
+        {
+          name: prod.title,
+          id: prod.sku,
+          category: category,
+          // list: listPath,
+          // price: child.priceRecords[currency],
+          brand: "Goodearth",
+          position: position + 1,
+          variant: prod.size || ""
+        }
+      )
+    ];
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: currency,
+        click: {
+          actionField: { list: listPath },
+          products: product
+        }
+      }
+    });
+    CookieService.setCookie("listPath", listPath);
+  } catch (e) {
+    console.log("Impression error");
+    console.log(e);
+  }
+}
+
 export function promotionImpression(data: any) {
   try {
     const promotions = data.widgetImages.map((image: any) => {
@@ -560,9 +612,9 @@ export function MoreFromCollectionProductImpression(
             id: child.sku,
             category: category,
             list: listPath,
-            price: prod.discountedPriceRecords
-              ? prod.discountedPriceRecords[currency]
-              : prod.priceRecords[currency],
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
             variant: child.size || ""
@@ -607,9 +659,9 @@ export function MoreFromCollectionProductClick(
         {
           name: data.title,
           id: child.sku,
-          price: data.discountedPriceRecords
-            ? data.discountedPriceRecords[currency]
-            : data.priceRecords[currency],
+          price: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency],
           brand: "Goodearth",
           category: category,
           variant: child.size || "",
