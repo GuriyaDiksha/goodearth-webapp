@@ -25,7 +25,7 @@ const Microsite: React.FC = (props: any) => {
       </div>
       <iframe
         className={styles.iframeBox}
-        src={`https://goodearthindia.mloyalretail.com/microsite/default.asp?cid=${
+        src={`https://goodearthindia.mloyalretail.com/microsite/default_new.asp?cid=${
           props.id ? props.id : microUrl
         }`}
       ></iframe>
