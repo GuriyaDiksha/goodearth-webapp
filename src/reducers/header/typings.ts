@@ -1,9 +1,14 @@
 import * as Actions from "actions/header";
 import { ActionType } from "typings/actionCreator";
-import { HeaderData, AnnouncementBar } from "components/header/typings";
+import {
+  HeaderData,
+  AnnouncementBar,
+  MegaMenuData
+} from "components/header/typings";
 
 export type HeaderState = {
   data: HeaderData[];
+  megaMenuData: MegaMenuData[];
   announcementData: AnnouncementBar;
 };
 
