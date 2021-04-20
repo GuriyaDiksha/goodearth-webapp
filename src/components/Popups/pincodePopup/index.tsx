@@ -97,7 +97,7 @@ class PincodePopup extends React.Component<Props, State> {
         <div
           className={cs(
             globalStyles.c22AI,
-            globalStyles.voffset7,
+            globalStyles.voffset5,
             styles.fontHt
           )}
         >
@@ -146,7 +146,7 @@ class PincodePopup extends React.Component<Props, State> {
         <div
           className={cs(
             globalStyles.c22AI,
-            globalStyles.voffset7,
+            globalStyles.voffset5,
             styles.fontHt
           )}
         >
