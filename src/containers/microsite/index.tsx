@@ -16,7 +16,7 @@ const Microsite: React.FC = (props: any) => {
   return (
     <div className={styles.makerTop}>
       <div
-        className={styles.subHeading}
+        className={mobile ? styles.subHeadingMobile : styles.subHeading}
         onClick={() => {
           history.push("/account/cerise");
         }}
