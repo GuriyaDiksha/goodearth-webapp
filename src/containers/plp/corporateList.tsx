@@ -133,7 +133,11 @@ class CorporateFilter extends React.Component<Props, State> {
               //   isViewAll = true;
               // }
 
-              if (cc[i] == "Corporate Gifting" || cc[i] == "Souk") {
+              if (
+                cc[i] == "Corporate Gifting" ||
+                cc[i] == "Souk" ||
+                cc[i] == "Home > Pero"
+              ) {
                 this.haveCorporate = true;
               } else {
                 filter.categoryShop[csKey][cc[i]] = true;
@@ -962,9 +966,9 @@ class CorporateFilter extends React.Component<Props, State> {
     const { filter } = this.state;
     if (!categoryObj) return false;
     categorydata.categoryShop.map((data: any, i: number) => {
-      const name = data[0].split(">")[1]
-          ? data[0].split(">")[1].trim()
-          : data[0].split(">")[0].trim(),
+      const name = data[0].split(">")?.[2]
+          ? data[0].split(">")[2]?.trim()
+          : data[0].split(">")[1]?.trim(),
         id = data[0].trim(),
         cat = data[0].split(">")[0].trim();
       if (id == "View All") {
@@ -981,9 +985,9 @@ class CorporateFilter extends React.Component<Props, State> {
                       checked={this.state.isViewAll}
                       onClick={this.handleClickCategory}
                       name="View all"
-                      value={cat}
+                      value={id}
                     />
-                    <label htmlFor={id}>{name}</label>
+                    <label htmlFor={id}>{id}</label>
                   </li>
                 </ul>
               </p>
