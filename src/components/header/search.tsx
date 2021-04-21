@@ -13,7 +13,8 @@ import CookieService from "../../services/cookie";
 import { WidgetImage } from "./typings";
 import {
   PartialProductItem,
-  PartialChildProductAttributes
+  PartialChildProductAttributes,
+  ChildProductAttributes
 } from "typings/product";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
@@ -162,22 +163,24 @@ class Search extends React.Component<Props, State> {
     const listPath = `SearchResults`;
     CookieService.setCookie("listPath", listPath);
     products.push(
-      itemData.childAttributes?.map((child: any) => {
-        return Object.assign(
-          {},
-          {
-            name: data.title,
-            id: itemData.childAttributes?.[0].sku,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[this.props.currency]
-              : child.priceRecords[this.props.currency],
-            brand: "Goodearth",
-            category: category,
-            variant: itemData.childAttributes?.[0].size || "",
-            position: indices
-          }
-        );
-      })
+      (itemData.childAttributes as ChildProductAttributes[])?.map(
+        (child: any) => {
+          return Object.assign(
+            {},
+            {
+              name: data.title,
+              id: itemData.childAttributes?.[0].sku,
+              price: child.discountedPriceRecords
+                ? child.discountedPriceRecords[this.props.currency]
+                : child.priceRecords[this.props.currency],
+              brand: "Goodearth",
+              category: category,
+              variant: itemData.childAttributes?.[0].size || "",
+              position: indices
+            }
+          );
+        }
+      )
     );
     dataLayer.push({
       event: "productClick",

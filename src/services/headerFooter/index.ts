@@ -21,7 +21,7 @@ import { Currency } from "typings/currency";
 export default {
   fetchHeaderDetails: async (
     dispatch: Dispatch,
-    currency: Currency
+    currency?: Currency
   ): Promise<HeaderData[]> => {
     let menu: Menu | null = null;
     if (typeof document == "undefined") {
