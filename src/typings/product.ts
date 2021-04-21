@@ -26,6 +26,7 @@ export interface PLPProductItem {
   plpSliderImages: string[];
   lookImageUrl?: string;
   images?: ProductImage[];
+  invisibleFields: string[];
 }
 
 export interface PartialProductItem extends PLPProductItem {

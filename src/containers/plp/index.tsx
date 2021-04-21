@@ -328,7 +328,7 @@ class PLP extends React.Component<
             </Fragment>
           </SecondaryHeader>
         )}
-        {corporoateGifting &&
+        {/* {corporoateGifting &&
           (mobile ? (
             <div
               className={cs(
@@ -381,7 +381,7 @@ class PLP extends React.Component<
                 </p>
               </div>
             </div>
-          ))}
+          ))} */}
         <div className={cs(bootstrap.row, globalStyles.minimumWidth)}>
           <div
             id="filter_by"
