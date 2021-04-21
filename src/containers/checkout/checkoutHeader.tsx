@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return response;
     },
     reloadPage: (cookies: Cookies, pathname: string, currency: Currency) => {
-      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+      HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
