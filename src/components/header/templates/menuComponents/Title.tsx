@@ -16,11 +16,25 @@ const Title: React.FC<Props> = ({ data }) => {
     <>
       <div className={styles.blockTitle}>
         {componentData.link ? (
-          <Link className={styles.title} to={componentData.link}>
-            {componentData.title}
-          </Link>
+          <>
+            <Link className={styles.title} to={componentData.link}>
+              {componentData.title}
+            </Link>
+            {componentData.src && (
+              <Link to={componentData.link}>
+                <img className={styles.img} src={componentData.src} />
+              </Link>
+            )}
+          </>
         ) : (
-          <div className={styles.title}>{componentData.title}</div>
+          <>
+            <div className={styles.title}>{componentData.title}</div>
+            {componentData.src && (
+              <div className={styles.imgContainer}>
+                <img className={styles.img} src={componentData.src} />
+              </div>
+            )}
+          </>
         )}
       </div>
       {data.children && data.children.length > 0 && (

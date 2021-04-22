@@ -16,6 +16,7 @@ import Image from "./templates/Image";
 import Content from "./templates/Content";
 import VerticalImage from "./templates/VerticalImage";
 import ImageWithSideSubheading from "./templates/ImageWithSideSubheading";
+import TitleHeading from "./templates/TitleHeading";
 class MegaMenuList extends React.Component<MegaMenuListProps> {
   constructor(props: MegaMenuListProps) {
     super(props);
@@ -66,6 +67,10 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
     {
       name: "IMAGEWITHSIDESUBHEADING",
       component: ImageWithSideSubheading
+    },
+    {
+      name: "TITLEHEADING",
+      component: TitleHeading
     }
   ];
   createColumns = (columns: MenuColumn[]) => {

@@ -19,9 +19,11 @@ const Image: React.FC<Props> = ({ data }) => {
             {" "}
             {componentData.link ? (
               <>
-                <Link to={componentData.link}>
-                  <img className={styles.img} src={componentData.src} />
-                </Link>
+                {componentData.src && (
+                  <Link to={componentData.link}>
+                    <img className={styles.img} src={componentData.src} />
+                  </Link>
+                )}
                 <div className={styles.container}>
                   <div className={styles.blockHeading}>
                     <Link className={styles.heading} to={componentData.link}>
@@ -37,9 +39,11 @@ const Image: React.FC<Props> = ({ data }) => {
               </>
             ) : (
               <>
-                <div className={styles.imgContainer}>
-                  <img className={styles.img} src={componentData.src} />
-                </div>
+                {componentData.src && (
+                  <div className={styles.imgContainer}>
+                    <img className={styles.img} src={componentData.src} />
+                  </div>
+                )}
                 <div className={styles.container}>
                   <div className={styles.blockHeading}>
                     <div className={styles.heading}>
