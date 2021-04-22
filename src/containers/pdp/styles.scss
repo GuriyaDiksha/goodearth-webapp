@@ -88,7 +88,7 @@ $pdp-top: $header-height + $secondary-header-height;
     padding-left: 40px;
 }
 .looks-btn-mobile {
-    // width: 0px;
+    width: auto;
     position: absolute;
     left: calc(50% - 70px);
     bottom: 80px;
