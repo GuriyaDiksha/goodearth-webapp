@@ -285,3 +285,44 @@
     margin-bottom: 15px;
     display: block;
 }
+
+.title-heading {
+    margin-bottom: 25px;
+    padding-left: 10%;
+    padding-right: 10%;
+    .img {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 7px;
+    }
+    .heading {
+        border-bottom: none;
+        line-height: 30px;
+        letter-spacing: .05em;
+        font-size: 12px;
+        font-weight: normal;
+        color: #1b1b1b;
+        font-family: "LatoFont", "Helvetica", "Arial";
+    }
+    .subheading {
+        font-size: 11px;
+        font-family: "LatoFont", "Helvetica", "Arial";
+        letter-spacing: 0.09em;
+        color: #1b1b1b;
+        border-bottom: none;
+        line-height: 16px;
+        display: block;
+    }
+    .block-heading {
+        display: block;
+        // margin-top: 5px;
+    }
+//     .block-cta {
+//         display: block;
+//         margin-top: 15px;
+//         margin-bottom: 30px;
+//     }
+    // .container {
+    //     margin-bottom: 10px;
+    // }
+}
