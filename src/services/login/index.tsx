@@ -227,7 +227,7 @@ export default {
     return res;
   },
   reloadPage: (dispatch: Dispatch, currency: Currency) => {
-    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+    HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
