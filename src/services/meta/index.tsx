@@ -20,11 +20,11 @@ export default {
     cookies: Cookies,
     bridalKey?: string
   ): Promise<MetaResponse> {
-    const payload = !bridalKey ? {} : { bridalKey };
+    // const payload = !bridalKey ? {} : { bridalKey };
     const res: MetaResponse = await API.post(
       dispatch,
       `${__API_HOST__ + `/myapi/auth/meta/`}`,
-      payload
+      {}
       // {
       //     Authorization: `Token ${cookies.tkn || ""}`
       // }
