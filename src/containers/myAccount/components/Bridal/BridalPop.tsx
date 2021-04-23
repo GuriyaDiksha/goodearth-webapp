@@ -12,12 +12,12 @@ import "./slick.css";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
 // import * as mapper from "pages/myaccount/mappers/accountm"
-import ipopM3 from "../../../../images/bridal/ipops/mobile/ipopM3.jpg";
-import ipopM2 from "../../../../images/bridal/ipops/mobile/ipopM2.jpg";
+import ipopM3 from "../../../../images/bridal/ipops/mobile/ipopM3.png";
+import ipopM2 from "../../../../images/bridal/ipops/mobile/ipopM2.png";
 import ipopM4 from "../../../../images/bridal/ipops/mobile/ipopM4.jpg";
 import ipopM1 from "../../../../images/bridal/ipops/mobile/ipopM1.jpg";
-import ipop3 from "../../../../images/bridal/ipops/ipop3.jpg";
-import ipop2 from "../../../../images/bridal/ipops/ipop2.jpg";
+import ipop3 from "../../../../images/bridal/ipops/ipop3.png";
+import ipop2 from "../../../../images/bridal/ipops/ipop2.png";
 import ipop1 from "../../../../images/bridal/ipops/ipop1.jpg";
 import { updateModal } from "actions/modal";
 

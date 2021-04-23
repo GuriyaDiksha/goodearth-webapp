@@ -989,7 +989,7 @@ class PDPContainer extends React.Component<Props, State> {
         )}
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
-          {this.getMoreCollectionProductsSection()}
+          {!this.state.showLooks && this.getMoreCollectionProductsSection()}
         </div>
       </div>
     );
