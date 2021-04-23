@@ -20,7 +20,7 @@ import ReactHtmlParser from "react-html-parser";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMobile";
-
+import TitleHeadingMobile from "./templates/TitleHeadingMobile";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -319,11 +319,19 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     });
     templates.map(template => {
       if (template.publishOnMobile) {
-        html.push(
-          <div onClick={() => this.props.clickToggle()}>
-            <ImageWithSideSubheadingMobile data={template.templateData} />
-          </div>
-        );
+        if (template.templateType == "TITLEHEADING") {
+          html.push(
+            <div onClick={() => this.props.clickToggle()}>
+              <TitleHeadingMobile data={template.templateData} />
+            </div>
+          );
+        } else {
+          html.push(
+            <div onClick={() => this.props.clickToggle()}>
+              <ImageWithSideSubheadingMobile data={template.templateData} />
+            </div>
+          );
+        }
       }
     });
     return html;
