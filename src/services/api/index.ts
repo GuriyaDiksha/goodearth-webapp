@@ -24,10 +24,12 @@ export default {
     );
     dispatch(updateCurrency(curr));
   },
-  getSalesStatus: async function(dispatch: Dispatch) {
+  getSalesStatus: async function(dispatch: Dispatch, bridalKey?: string) {
     const data: any = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/common/sale_status"}`
+      `${__API_HOST__ +
+        "/myapi/common/sale_status" +
+        (bridalKey ? `/?bridalKey=${bridalKey}` : "")}`
     );
     dispatch(updateSales(data.sale));
   },
