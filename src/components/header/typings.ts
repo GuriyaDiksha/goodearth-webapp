@@ -236,3 +236,8 @@ export type WidgetImage = {
   urlDisplayName: string;
   order: number;
 };
+
+export type Menu = {
+  results: HeaderData[];
+  megaMenuResults: MegaMenuData[];
+};

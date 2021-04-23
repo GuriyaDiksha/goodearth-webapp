@@ -52,6 +52,11 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     });
   }
 
+  ctx.set("Strict-Transport-Security", "max-age=60");
+  if (ctx.url.includes("/account")) {
+    ctx.set("Cache-Control", "no-cache");
+  }
+
   if (matchedRoute && matchedRoute.route) {
     const { route, params } = matchedRoute;
     await route.action(store, params, history.location);
