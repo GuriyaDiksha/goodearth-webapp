@@ -14,7 +14,7 @@ $home-top: $header-height;
 
 .sub-heading {
     position:absolute;
-    top: 200px;
+    top: 150px;
     left: 270px;
     cursor: pointer;
     z-index: 1;
@@ -26,7 +26,7 @@ $home-top: $header-height;
 
 .sub-headingMobile {
     position:absolute;
-    top: 220px;
+    top: 145px;
     left: 30px;
     cursor: pointer;
     z-index: 1;
@@ -34,4 +34,9 @@ $home-top: $header-height;
     font-family: $font-Lato;
     color: #666;
     letter-spacing: 1px;
+}
+
+.back-images {
+    height: 20px;
+
 }
