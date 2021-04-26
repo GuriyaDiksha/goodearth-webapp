@@ -665,6 +665,52 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             </li>
           );
         })}
+        <li
+          key="gifting"
+          className={cs(
+            this.props.location.pathname.indexOf("/bridal/") > 0
+              ? styles.iconStyleDisabled
+              : "",
+            styles.outerMenuItem
+          )}
+          onClick={this.props.clickToggle}
+        >
+          <>
+            <Link
+              className={styles.menulevel1Stories}
+              onClick={() => {
+                this.props.onMobileMenuClick("gifting", "", "");
+              }}
+              to="/gifting"
+            >
+              {ReactHtmlParser("gifting")}
+            </Link>
+          </>
+        </li>
+        <li
+          key="stories"
+          className={cs(
+            this.props.location.pathname.indexOf("/bridal/") > 0
+              ? styles.iconStyleDisabled
+              : "",
+            styles.outerMenuItem
+          )}
+          onClick={this.props.clickToggle}
+        >
+          <a
+            className={cs(styles.menulevel1Stories, {
+              [styles.cerise]: !this.props.isSale
+            })}
+            href={"/stories"}
+            onClick={() => {
+              this.props.onMobileMenuClick("stories", "", "");
+            }}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {ReactHtmlParser("stories")}
+          </a>
+        </li>
       </ul>
     );
     const innerMenu = (
