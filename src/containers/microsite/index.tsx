@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
+import back from "../../images/back.svg";
 
 const Microsite: React.FC = (props: any) => {
   const history = useHistory();
@@ -21,7 +22,8 @@ const Microsite: React.FC = (props: any) => {
           history.push("/account/cerise");
         }}
       >
-        {mobile ? "< Back" : "< Back to My Account"}
+        <img src={back} className={styles.backImage}></img>
+        {/* {mobile ? "< Back" : "< Back to My Account"} */}
       </div>
       <iframe
         className={styles.iframeBox}
