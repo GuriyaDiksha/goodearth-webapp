@@ -978,8 +978,6 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
-        {this.state.showLooks && this.getLooksSection()}
-        <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         {mounted && (
           <MakerEnhance
             user="goodearth"
@@ -987,6 +985,8 @@ class PDPContainer extends React.Component<Props, State> {
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
+        {this.state.showLooks && this.getLooksSection()}
+        <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {!this.state.showLooks && this.getMoreCollectionProductsSection()}
