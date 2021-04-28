@@ -274,16 +274,37 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             // }
           })
           .catch(err => {
-            this.setState(
-              {
-                showerror: err.response.data.message,
-                updateStatus: false,
-                disable: true
-              },
-              () => {
-                valid.errorTracking([this.state.showerror], location.href);
+            if (err.response.data.error_message) {
+              let errorMsg = err.response.data.error_message[0];
+              if (errorMsg == "MaxRetries") {
+                errorMsg =
+                  "You have exceeded max attempts, please try after some time.";
               }
-            );
+              this.setState(
+                {
+                  showerror: errorMsg,
+                  updateStatus: false,
+                  disable: true
+                },
+                () => {
+                  valid.errorTracking(
+                    [this.state.showerror as string],
+                    location.href
+                  );
+                }
+              );
+            } else {
+              this.setState(
+                {
+                  showerror: err.response.data.message,
+                  updateStatus: false,
+                  disable: true
+                },
+                () => {
+                  valid.errorTracking([this.state.showerror], location.href);
+                }
+              );
+            }
           })
           .finally(() => {
             this.clearTimer();
@@ -303,16 +324,37 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
-          this.setState(
-            {
-              showerror: error.response.data.message,
-              updateStatus: false,
-              disable: true
-            },
-            () => {
-              valid.errorTracking([this.state.showerror], location.href);
+          if (error.response.data.error_message) {
+            let errorMsg = error.response.data.error_message[0];
+            if (errorMsg == "MaxRetries") {
+              errorMsg =
+                "You have exceeded max attempts, please try after some time.";
             }
-          );
+            this.setState(
+              {
+                showerror: errorMsg,
+                updateStatus: false,
+                disable: true
+              },
+              () => {
+                valid.errorTracking(
+                  [this.state.showerror as string],
+                  location.href
+                );
+              }
+            );
+          } else {
+            this.setState(
+              {
+                showerror: error.response.data.message,
+                updateStatus: false,
+                disable: true
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
+          }
         })
         .finally(() => {
           this.clearTimer();

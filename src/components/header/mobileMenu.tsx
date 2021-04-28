@@ -1,6 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { MobileListProps, MobileState, HeaderData } from "./typings";
+import {
+  MobileListProps,
+  MobileState,
+  HeaderData,
+  MegaMenuData,
+  InnerMenuData,
+  L2MenuData,
+  MenuComponentTitleData,
+  MenuComponentImageData,
+  MenuComponentL2L3Data
+} from "./typings";
 import styles from "./styles.scss";
 import fontStyles from "styles/iconFonts.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
@@ -9,10 +19,12 @@ import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
+import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMobile";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    currency: state.currency
   };
 };
 type Props = MobileListProps & ReturnType<typeof mapStateToProps>;
@@ -46,6 +58,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           showmenulevel1: true,
           showInnerMenu: true
         });
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.currency != this.props.currency) {
+      this.closeInnerMenu();
+    }
   }
 
   Clickmenulevel2(index: number) {
@@ -88,11 +106,235 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     });
   };
 
+  createInnerMenuData(megaMenuData: MegaMenuData) {
+    const innerMenuData: InnerMenuData = {
+      text: megaMenuData.text,
+      url: megaMenuData.url,
+      l2MenuData: [],
+      templates: []
+    };
+    megaMenuData.columns.map((column, index) => {
+      column.templates.map((template, index) => {
+        if (template.publishOnMobile) {
+          innerMenuData.templates.push(template);
+        } else {
+          const l2MenuData: L2MenuData = { text: "", link: "", children: [] };
+          if (
+            [
+              "IMAGE",
+              "CONTENT",
+              "VERTICALIMAGE",
+              "IMAGEWITHSIDESUBHEADING"
+            ].includes(template.templateType)
+          ) {
+            const componentData = template.templateData
+              .componentData as MenuComponentTitleData;
+            const children = template.templateData.children;
+
+            const { title, link, ctaName } = componentData;
+            l2MenuData.text = title;
+            l2MenuData.link = link;
+            l2MenuData.ctaName = ctaName || "";
+            children &&
+              children.length > 0 &&
+              children.map((child, index) => {
+                const childComponentData = child.componentData as MenuComponentImageData;
+                const l3MenuData: L2MenuData = {
+                  text: childComponentData.heading,
+                  link: childComponentData.link
+                };
+                l2MenuData.children && l2MenuData.children.push(l3MenuData);
+              });
+          } else if (["L2L3"].includes(template.templateType)) {
+            const componentData = template.templateData
+              .componentData as MenuComponentL2L3Data;
+            const children = template.templateData.children;
+
+            const { text, link } = componentData;
+            l2MenuData.text = text;
+            l2MenuData.link = link;
+            children &&
+              children.length > 1 &&
+              children.map((child, index) => {
+                const childComponentData = child.componentData as MenuComponentL2L3Data;
+                const l3MenuData: L2MenuData = {
+                  text: childComponentData.text,
+                  link: childComponentData.link
+                };
+                l2MenuData.children && l2MenuData.children.push(l3MenuData);
+              });
+          }
+          innerMenuData.l2MenuData.push(l2MenuData);
+        }
+      });
+    });
+    return innerMenuData;
+  }
+
+  createMegaListElement(megaMenuData: MegaMenuData) {
+    const html = [];
+    const innerMenuData: InnerMenuData = this.createInnerMenuData(megaMenuData);
+    // console.log(innerMenuData);
+    const l2MenuData = innerMenuData.l2MenuData || [];
+    const isStories = innerMenuData.text.toLowerCase() == "stories";
+    const templates = innerMenuData.templates || [];
+    isStories
+      ? ""
+      : html.push(
+          <li>
+            <div className={cs(styles.innerMenuHeading, bootstrap.row)}>
+              <span
+                className={cs(styles.back, bootstrap.col3)}
+                onClick={this.closeInnerMenu}
+              >
+                back
+              </span>
+              <span className={cs(styles.title, bootstrap.col6)}>
+                <Link
+                  to={innerMenuData.url}
+                  onClick={() => {
+                    this.props.onMobileMenuClick(innerMenuData.text, "", "");
+                    this.props.clickToggle();
+                  }}
+                >
+                  {innerMenuData.text}
+                </Link>
+              </span>
+              <span className={cs(bootstrap.col3, globalStyles.textRight)}>
+                <Link
+                  to={innerMenuData.url}
+                  onClick={() => {
+                    this.props.onMobileMenuClick(innerMenuData.text, "", "");
+                    this.props.clickToggle();
+                  }}
+                >
+                  <i
+                    className={cs(
+                      fontStyles.icon,
+                      fontStyles.iconDoubleArrowRight,
+                      styles.doubleArrow
+                    )}
+                  ></i>
+                </Link>
+              </span>
+            </div>
+          </li>
+        );
+    let k = 0;
+    l2MenuData.map((data, j) => {
+      let spanClass =
+        this.state.showmenulevel2 && this.state.activeindex2 == k
+          ? cs(styles.menulevel2, styles.menulevel2Open)
+          : styles.menulevel2;
+      data.text.toLowerCase() == "winter velvets"
+        ? (spanClass += ` ${styles.subheadingImg}`)
+        : "";
+      spanClass +=
+        data.text.toLowerCase().indexOf("sale") > -1
+          ? ` ${styles.menucolor}`
+          : "";
+      html.push(
+        data.link && data.children && data.children.length == 0 ? (
+          <li key={j + "leftData"} onClick={this.props.clickToggle}>
+            <Link
+              to={data.link}
+              onClick={() => {
+                this.props.onMobileMenuClick(innerMenuData.text, data.text, "");
+              }}
+              className={styles.menulevel2Link}
+            >
+              <span>{ReactHtmlParser(data.text)}</span>
+            </Link>
+          </li>
+        ) : (
+          <li>
+            <span
+              className={spanClass}
+              onClick={this.Clickmenulevel2.bind(this, k)}
+            >
+              <span>{ReactHtmlParser(data.text)}</span>
+            </span>
+            <p
+              className={
+                this.state.showmenulevel2 && this.state.activeindex2 == k
+                  ? styles.showheader2
+                  : styles.hidden
+              }
+            >
+              {data.children ? (
+                <ul key={data.link}>
+                  {data.link && data.children.length > 0 ? (
+                    <li onClick={this.props.clickToggle}>
+                      <Link
+                        to={data.link}
+                        onClick={() => {
+                          this.props.onMobileMenuClick(
+                            innerMenuData.text,
+                            data.text,
+                            ""
+                          );
+                        }}
+                      >
+                        {data.ctaName || "View All"}
+                      </Link>
+                    </li>
+                  ) : (
+                    ""
+                  )}
+                  {data.children.map((innerdata, i) => {
+                    return (
+                      <li
+                        key={i + "mobileChildren"}
+                        onClick={this.props.clickToggle}
+                      >
+                        <Link
+                          to={innerdata.link}
+                          onClick={() => {
+                            this.props.onMobileMenuClick(
+                              innerMenuData.text,
+                              data.text,
+                              innerdata.text
+                            );
+                          }}
+                          className={
+                            innerdata.text.toLowerCase().indexOf("sale") > -1
+                              ? styles.menucolor
+                              : ""
+                          }
+                        >
+                          <p>{ReactHtmlParser(innerdata.text.toLowerCase())}</p>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                ""
+              )}
+            </p>
+          </li>
+        )
+      );
+      k++;
+    });
+    templates.map(template => {
+      if (template.publishOnMobile) {
+        html.push(
+          <div onClick={() => this.props.clickToggle()}>
+            <ImageWithSideSubheadingMobile data={template.templateData} />
+          </div>
+        );
+      }
+    });
+    return html;
+  }
+
   createListElement(headerData: HeaderData) {
     const html = [];
     const leftData = headerData.leftMenu || [];
     const rightData = headerData.rightMenu || [];
     const isStories = headerData.name.toLowerCase() == "stories";
+    const templates = headerData.templates || [];
     isStories
       ? ""
       : html.push(
@@ -359,13 +601,22 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         k++;
       });
     });
+    templates.map(template => {
+      if (template.publishOnMobile) {
+        html.push(
+          <div onClick={() => this.props.clickToggle()}>
+            <ImageWithSideSubheadingMobile data={template.templateData} />
+          </div>
+        );
+      }
+    });
     return html;
   }
 
   render() {
     const outerMenu = (
       <ul className={styles.mobileMainMenu}>
-        {this.props.menudata.map((data, i) => {
+        {this.props.megaMenuData.map((data, i) => {
           return (
             <li
               key={i}
@@ -376,7 +627,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 styles.outerMenuItem
               )}
             >
-              {data.name.toLowerCase() != "stories" ? (
+              {data.text.toLowerCase() != "stories" ? (
                 <>
                   <span
                     className={
@@ -386,11 +637,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     }
                     onClick={this.Clickmenulevel1.bind(this, i)}
                   >
-                    {ReactHtmlParser(
-                      this.props.isSale && data.labelMobile
-                        ? data.labelMobile
-                        : data.name
-                    )}
+                    {ReactHtmlParser(data.text)}
                   </span>
                   <p
                     className={
@@ -405,28 +652,79 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   className={cs(styles.menulevel1Stories, {
                     [styles.cerise]: !this.props.isSale
                   })}
-                  href={data.catLandingUrl}
+                  href={data.url}
                   onClick={() => {
-                    this.props.onMobileMenuClick(data.name, "", "");
+                    this.props.onMobileMenuClick(data.text, "", "");
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {ReactHtmlParser(
-                    data.labelMobile ? data.labelMobile : data.name
-                  )}
+                  {ReactHtmlParser(data.text)}
                 </a>
               )}
             </li>
           );
         })}
+        <li
+          key="gifting"
+          className={cs(
+            this.props.location.pathname.indexOf("/bridal/") > 0
+              ? styles.iconStyleDisabled
+              : "",
+            styles.outerMenuItem
+          )}
+          onClick={this.props.clickToggle}
+        >
+          <>
+            <Link
+              className={styles.menulevel1Stories}
+              onClick={() => {
+                this.props.onMobileMenuClick("gifting", "", "");
+              }}
+              to="/gifting"
+            >
+              {ReactHtmlParser("gifting")}
+            </Link>
+          </>
+        </li>
+        <li
+          key="stories"
+          className={cs(
+            this.props.location.pathname.indexOf("/bridal/") > 0
+              ? styles.iconStyleDisabled
+              : "",
+            styles.outerMenuItem
+          )}
+          onClick={this.props.clickToggle}
+        >
+          <a
+            className={cs(styles.menulevel1Stories, {
+              [styles.cerise]: !this.props.isSale
+            })}
+            href={"/stories"}
+            onClick={() => {
+              this.props.onMobileMenuClick("stories", "", "");
+            }}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {ReactHtmlParser("stories")}
+          </a>
+        </li>
       </ul>
     );
     const innerMenu = (
       <div className={styles.mobileMainMenu}>
         <ul className={styles.innerMenuMobile}>
           {this.state.activeindex > -1 &&
-            this.createListElement(this.props.menudata[this.state.activeindex])}
+            // this.createListElement(this.props.menudata[this.state.activeindex])}
+            this.createMegaListElement(
+              this.props.megaMenuData[
+                this.state.activeindex < this.props.megaMenuData.length
+                  ? this.state.activeindex
+                  : 0
+              ]
+            )}
         </ul>
       </div>
     );

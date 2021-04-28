@@ -10,8 +10,8 @@ import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SideMenu from "./sidemenu";
-import MainMenu from "./menu";
-import { MenuList } from "./menulist";
+// import MainMenu from "./menu";
+// import { MenuList } from "./menulist";
 import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
@@ -33,10 +33,14 @@ import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
+// import Mobilemenu from "./mobileMenu";
+import MegaMenu from "./megaMenu";
+import { MegaMenuList } from "./megaMenulist";
 
 const mapStateToProps = (state: AppState) => {
   return {
     data: state.header.data,
+    megaMenuData: state.header.megaMenuData,
     announcement: state.header.announcementData,
     currency: state.currency,
     mobile: state.device.mobile,
@@ -187,6 +191,9 @@ class Header extends React.Component<Props, State> {
         // if (data.currency == "INR") {
         //   history.push("/maintenance");
         // }
+        this.setState({
+          activeIndex: 0
+        });
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
             history.location.pathname +
@@ -638,7 +645,7 @@ class Header extends React.Component<Props, State> {
                     bootstrap.offsetLg1
                   )}
                 >
-                  <MainMenu
+                  {/* <MainMenu
                     show={this.state.show}
                     ipad={false}
                     onMouseOver={(data): void => {
@@ -648,6 +655,18 @@ class Header extends React.Component<Props, State> {
                       });
                     }}
                     data={this.props.data}
+                    location={this.props.location}
+                  /> */}
+                  <MegaMenu
+                    show={this.state.show}
+                    ipad={false}
+                    onMouseOver={(data): void => {
+                      this.setState({
+                        show: data.show,
+                        activeIndex: data.activeIndex || 0
+                      });
+                    }}
+                    data={this.props.megaMenuData}
                     location={this.props.location}
                   />
                 </div>
@@ -735,7 +754,17 @@ class Header extends React.Component<Props, State> {
                   : styles.hidden
               }
             >
-              <MenuList
+              <MegaMenuList
+                ipad={false}
+                activeIndex={this.state.activeIndex}
+                mouseOut={(data): void => {
+                  this.mouseOut(data);
+                }}
+                show={this.state.show}
+                menudata={this.props.megaMenuData}
+                mobile={mobile}
+              />
+              {/* <MenuList
                 ipad={false}
                 onHeaderMenuClick={this.onMenuClick}
                 activeIndex={this.state.activeIndex}
@@ -745,7 +774,7 @@ class Header extends React.Component<Props, State> {
                 show={this.state.show}
                 menudata={this.props.data}
                 mobile={mobile}
-              />
+              /> */}
             </div>
             <div
               className={cs(bootstrap.row, bootstrap.col12, styles.mobileMenu)}
@@ -770,6 +799,7 @@ class Header extends React.Component<Props, State> {
                         <Mobilemenu
                           onMobileMenuClick={this.onMenuClick}
                           menudata={this.props.data}
+                          megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
                           clickToggle={this.clickToggle}
                         />

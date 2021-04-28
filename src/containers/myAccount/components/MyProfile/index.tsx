@@ -19,12 +19,20 @@ import mapDispatchToProps from "./mapper/actions";
 import SignedIn from "../SignedIn";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
+import { AppState } from "reducers/typings";
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  const isdList = state.address.countryData.map(list => {
+    return list.isdCode;
+  });
+  return {
+    countryData: isdList
+  };
 };
 
-type Props = ProfileProps & ReturnType<typeof mapDispatchToProps>;
+type Props = ProfileProps &
+  ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>;
 class MyProfile extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -323,17 +331,29 @@ class MyProfile extends React.Component<Props, State> {
                   handleChange={() => this.setUpdateProfile()}
                   name="phoneCountryCode"
                   placeholder="Code"
-                  label="Code"
+                  label="Country Code"
                   value=""
                   disable={phoneCountryCode ? true : false}
                   id="isd_code"
                   validations={{
                     isCodeValid: (values, value) => {
                       return !(values.phoneNumber && value == "");
+                    },
+                    isValidCode: (values, value) => {
+                      // this.props
+                      if (value && this.props.countryData.length > 0) {
+                        return (
+                          this.props.countryData.indexOf(value ? value : "") >
+                          -1
+                        );
+                      } else {
+                        return true;
+                      }
                     }
                   }}
                   validationErrors={{
-                    isCodeValid: "Required"
+                    isCodeValid: "Required",
+                    isValidCode: "Enter valid code"
                   }}
                 />
 

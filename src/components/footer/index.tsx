@@ -204,9 +204,18 @@ class Footer extends React.Component<Props, FooterState> {
           }
         })
         .catch(error => {
-          const msg = valid.showErrors(error.response.data.message);
-          this.setState({ newsletterMessage: msg });
-          // console.log(error);
+          if (error.response.data.error_message) {
+            let errorMsg = error.response.data.error_message[0];
+            if (errorMsg == "MaxRetries") {
+              errorMsg =
+                "You have exceeded max attempts, please try after some time.";
+            }
+            this.setState({ newsletterMessage: errorMsg });
+          } else {
+            const msg = valid.showErrors(error.response.data.message);
+            this.setState({ newsletterMessage: msg });
+            // console.log(error);
+          }
         });
     }
   };
@@ -771,7 +780,13 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
 
-          <div className={cs(styles.footerBottom, bootstrap.colMd12)}>
+          <div
+            className={
+              this.props.mobile
+                ? cs(styles.footerBottomMobile, bootstrap.colMd12)
+                : cs(styles.footerBottom, bootstrap.colMd12)
+            }
+          >
             <div className={cs(bootstrap.row)}>
               <div className={cs(bootstrap.col12, globalStyles.textCenter)}>
                 All rights reserved | &copy;{" "}

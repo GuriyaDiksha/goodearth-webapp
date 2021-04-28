@@ -12,9 +12,10 @@ import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 // import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
-// import cs from "classnames";
+import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
 // import whatsapp from "../../images/whatsapp.svg";
 // import flowerimg2 from "images/flower2.gif";
@@ -272,7 +273,13 @@ const BaseLayout: React.FC = () => {
       <Fragment>
         {/* <Whatsapp /> */}
         {isCheckout ? <CheckoutHeader /> : <Header />}
-        <div className={globalStyles.contentContainer} id="no-content">
+        <div
+          className={cs(
+            globalStyles.contentContainer,
+            bootstrap.containerFluid
+          )}
+          id="no-content"
+        >
           {/* <MusicPlayer /> */}
           <Switch>{routes}</Switch>
         </div>

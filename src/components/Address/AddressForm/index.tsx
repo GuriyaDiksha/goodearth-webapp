@@ -70,7 +70,9 @@ const AddressForm: React.FC<Props> = props => {
   const { countryData, pinCodeData, addressList } = useSelector(
     (state: AppState) => state.address
   );
-
+  const isdList = countryData.map(list => {
+    return list.isdCode;
+  });
   const { setBridalAddress, bridalProfile } = useContext(BridalContext);
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -1516,8 +1518,22 @@ const AddressForm: React.FC<Props> = props => {
               disable={!!props.currentCallBackComponent}
               placeholder="Code"
               name="phoneCountryCode"
-              // code={state.isdCode}
-              // highlightCode={state.highlightCode}
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                },
+                isValidCode: (values, value) => {
+                  if (value && isdList.length > 0) {
+                    return isdList.indexOf(value ? value : "") > -1;
+                  } else {
+                    return true;
+                  }
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
+              }}
             />
 
             <FormInput

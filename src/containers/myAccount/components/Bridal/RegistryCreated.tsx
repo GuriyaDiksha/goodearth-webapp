@@ -5,6 +5,7 @@ import BridalContext from "./context";
 import { Props } from "./typings";
 
 import styles from "./styles.scss";
+import glasses from "../../../../images/bridal/glasses.svg";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
@@ -63,17 +64,31 @@ const RegistryCreated: React.FC<Props> = props => {
           )}
         >
           <div className={globalStyles.textCenter}>
-            <svg
-              viewBox="-3 -3 46 46"
-              width="80"
-              height="80"
-              preserveAspectRatio="xMidYMid meet"
-              x="0"
-              y="0"
-              className={styles.bridalRing}
-            >
-              <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-            </svg>
+            {data.occasion == "special occasion" ? (
+              <svg
+                viewBox="-3 -3 46 46"
+                width="100"
+                height="100"
+                preserveAspectRatio="xMidYMid meet"
+                x="0"
+                y="0"
+                className={styles.bridalRing}
+              >
+                <use xlinkHref={`${glasses}#bridal-glasses`}></use>
+              </svg>
+            ) : (
+              <svg
+                viewBox="-3 -3 46 46"
+                width="80"
+                height="80"
+                preserveAspectRatio="xMidYMid meet"
+                x="0"
+                y="0"
+                className={styles.bridalRing}
+              >
+                <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+              </svg>
+            )}
           </div>
           <div
             className={cs(globalStyles.c22AI, globalStyles.lh40, {

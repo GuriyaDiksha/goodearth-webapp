@@ -1,0 +1,84 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.header {
+    font-size: 25px;
+    font-family: $font-Serif;
+    color: #333;
+    line-height: 60px;
+    text-transform: capitalize;
+    text-align: center;
+    width: 100%;
+}
+.more-block {
+    margin: 20px 0 100px 0;
+    padding: 10px 0;
+    text-align: center;
+}
+.product-h {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 2px;
+    font-family: $font-Serif;
+    line-height: 30px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 30px;
+    padding-top: 5px;
+}
+.product-n {
+    font-size: 14px;
+    font-family: $font-Lato;
+    color: #000;
+    text-transform: capitalize;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 10px;
+    a {
+        font-size: 14px;
+        font-family: $font-Lato;
+        color: #000;
+        text-transform: capitalize;
+        &:hover {
+            color: $cerise;
+        }
+    }
+}
+.img-responsive{
+    display: block;
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    min-width: 100%;
+}
+.slide {
+    // display: block;
+    padding: 0 3px;
+    position: relative;
+}
+
+.sale-banner {
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    left: 6px;
+    img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .more-block{
+        border-right: 1px solid #ccc;
+    }
+}
+
+.slider-container {
+    margin-bottom: 40px;
+}
