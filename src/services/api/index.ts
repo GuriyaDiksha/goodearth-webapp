@@ -31,6 +31,9 @@ export default {
       `${__API_HOST__}/myapi/common/sale_status${bridalKeyParam}`
     );
     dispatch(updateSales(data.sale));
+    if (bridalKey) {
+      dispatch(updateCurrency(data.currency));
+    }
   },
   getPopupBgUrl: async function(dispatch: Dispatch) {
     let data: any = CacheService.get("popupBgUrl");
