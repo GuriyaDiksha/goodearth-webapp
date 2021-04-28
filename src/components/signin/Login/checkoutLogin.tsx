@@ -45,6 +45,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         this.props.location.pathname + this.props.location.search,
       isPasswordDisabled: true,
       isLoginDisabled: true,
+      isSecondStepLoginDisabled: true,
       shouldFocusOnPassword: false,
       successMsg: "",
       showPassword: false,
@@ -271,6 +272,11 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         msgp: "Please enter your password",
         highlightp: true
       });
+      if (!this.state.isSecondStepLoginDisabled) {
+        this.setState({
+          isSecondStepLoginDisabled: true
+        });
+      }
     }
     // else if (this.state.password && this.state.password.length < 6) {
     //   if (
@@ -287,6 +293,11 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         msgp: "",
         highlightp: false
       });
+      if (this.state.isSecondStepLoginDisabled) {
+        this.setState({
+          isSecondStepLoginDisabled: false
+        });
+      }
     }
   }
 
@@ -493,12 +504,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
             <input
               type="submit"
               className={
-                this.state.isLoginDisabled
+                this.state.isSecondStepLoginDisabled
                   ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
                   : globalStyles.ceriseBtn
               }
               value="continue"
-              disabled={this.state.isLoginDisabled}
+              disabled={this.state.isSecondStepLoginDisabled}
             />
           </div>
         </div>

@@ -21,4 +21,5 @@ export type loginState = {
   successMsg: string;
   showPassword: boolean;
   showCurrentSection?: string;
+  isSecondStepLoginDisabled: boolean;
 };

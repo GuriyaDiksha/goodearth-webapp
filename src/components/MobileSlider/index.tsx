@@ -15,7 +15,8 @@ const MobileSlider: React.FC<Props> = ({ dots = true, children }) => {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    arrows: false
   };
   return (
     <div className="mobile-slider">

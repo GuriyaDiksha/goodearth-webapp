@@ -1,4 +1,8 @@
-import { HeaderData, SearchFeaturedData } from "components/header/typings";
+import {
+  HeaderData,
+  MegaMenuData,
+  SearchFeaturedData
+} from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
 import { updateheader } from "actions/header";
@@ -10,6 +14,7 @@ import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
+// import * as data from "./data.json";
 
 export default {
   fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
@@ -20,9 +25,15 @@ export default {
     // }
     const res = await API.get<any>(
       dispatch,
-      `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
+      // `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
+      `${__API_HOST__ + "/myapi/category/top_menu_data-v1/"}`
     );
-    dispatch(updateheader(res.results));
+    dispatch(
+      updateheader({
+        results: res.results as HeaderData[],
+        megaMenuResults: res.megaMenuResults as MegaMenuData[]
+      })
+    );
     // headerData = res.results as HeaderData[];
     // CacheService.set("headerData", headerData);
 
