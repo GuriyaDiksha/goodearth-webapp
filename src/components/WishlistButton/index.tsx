@@ -15,6 +15,7 @@ import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
+import { ChildProductAttributes } from "typings/product";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -42,7 +43,22 @@ const WishlistButton: React.FC<Props> = ({
     currency,
     wishlist: { sortBy }
   } = useSelector((state: AppState) => state);
-  const addedToWishlist = items.indexOf(id) !== -1;
+  let addedToWishlist = items.indexOf(id) !== -1;
+  if (
+    !addedToWishlist &&
+    !basketLineId &&
+    childAttributes &&
+    childAttributes.length > 0
+  ) {
+    for (let i = 0; i < childAttributes.length; i++) {
+      if (
+        items.indexOf((childAttributes[i] as ChildProductAttributes).id) != -1
+      ) {
+        addedToWishlist = true;
+        break;
+      }
+    }
+  }
   const gtmPushAddToWishlist = () => {
     try {
       if (gtmListType) {
