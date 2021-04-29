@@ -175,32 +175,34 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>
-        <p className={styles.productN}>
-          {info.isSale && product.discount ? (
-            <span className={styles.discountprice}>
-              {String.fromCharCode(...code)}{" "}
-              {product.discountedPriceRecords[currency as Currency]}
-            </span>
-          ) : (
-            ""
-          )}
-          {info.isSale && product.discount ? (
-            <span className={styles.strikeprice}>
-              {" "}
-              {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}{" "}
-            </span>
-          ) : (
-            <span
-              className={
-                product.badgeType == "B_flat" ? globalStyles.cerise : ""
-              }
-            >
-              {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}
-            </span>
-          )}
-        </p>
+        {!(product.invisibleFields.indexOf("price") > -1) && (
+          <p className={styles.productN}>
+            {info.isSale && product.discount ? (
+              <span className={styles.discountprice}>
+                {String.fromCharCode(...code)}{" "}
+                {product.discountedPriceRecords[currency as Currency]}
+              </span>
+            ) : (
+              ""
+            )}
+            {info.isSale && product.discount ? (
+              <span className={styles.strikeprice}>
+                {" "}
+                {String.fromCharCode(...code)}{" "}
+                {product.priceRecords[currency as Currency]}{" "}
+              </span>
+            ) : (
+              <span
+                className={
+                  product.badgeType == "B_flat" ? globalStyles.cerise : ""
+                }
+              >
+                {String.fromCharCode(...code)}{" "}
+                {product.priceRecords[currency as Currency]}
+              </span>
+            )}
+          </p>
+        )}
         {product.justAddedBadge && mobile && (
           <p className={styles.productN}>
             <span className={styles.mobileBadge}>
