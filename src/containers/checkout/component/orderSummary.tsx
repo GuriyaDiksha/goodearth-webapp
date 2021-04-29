@@ -39,6 +39,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
   };
 
+  const showDeliveryTimelines = false;
   const history = useHistory();
   const queryString = history.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -558,7 +559,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {parseFloat(shippingCharge).toFixed(2)}
             </span>
           </div>
-          {basket.finalDeliveryDate && (
+          {basket.finalDeliveryDate && showDeliveryTimelines && (
             <div className={styles.deliveryDate}>
               Estimated Delivery On or Before:{" "}
               <span className={styles.black}>{basket.finalDeliveryDate}</span>

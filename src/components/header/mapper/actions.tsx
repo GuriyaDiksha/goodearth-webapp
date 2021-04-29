@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
-      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+      HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
         console.log("HEADER API ERROR ==== " + err);
       });
       HeaderService.fetchFooterDetails(dispatch).catch(err => {

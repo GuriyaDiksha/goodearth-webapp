@@ -1,6 +1,7 @@
 import Koa from "koa";
 import { updateCookies } from "actions/cookies";
 import { updateCurrency } from "actions/currency";
+import { AppState } from "reducers/typings";
 // import { updateComponent, updateModal } from "actions/modal";
 // import { POPUP } from "../../constants/components";
 // import API from "utils/api";
@@ -15,16 +16,18 @@ export default async function cookies(
   const store = ctx.store;
   const agent = ctx.request.get("user-agent");
   const isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(agent);
+  const state: AppState = ctx.store.getState();
+  const storeCurrency = state.currency;
   // for currency popup
   // const dispatch = ctx.store.dispatch;
   const { pathname, search } = ctx.history.location;
-  const currencyPopup = ctx.cookies.get("currencypopup");
+  // const currencyPopup = ctx.cookies.get("currencypopup");
   const isBridalBasket = ctx.cookies.get("isBridal");
   const queryString = search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
   if (
-    !currencyPopup &&
+    !currency &&
     (!isBridalBasket || isBridalBasket == "no") &&
     !boId &&
     !pathname.includes("/order/orderconfirmation/") &&
@@ -40,7 +43,7 @@ export default async function cookies(
   };
   if (["INR", "USD", "GBP"].indexOf(currency) > -1) {
     store.dispatch(updateCurrency(currency));
-  } else {
+  } else if (!storeCurrency) {
     store.dispatch(updateCurrency("INR"));
   }
 
