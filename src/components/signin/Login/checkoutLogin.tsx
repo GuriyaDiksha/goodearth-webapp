@@ -9,7 +9,7 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import * as valid from "utils/validate";
 import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
