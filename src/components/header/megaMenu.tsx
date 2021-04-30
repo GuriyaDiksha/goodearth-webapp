@@ -6,10 +6,13 @@ import cs from "classnames";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
+import * as util from "../../utils/validate";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    mobile: state.device.mobile,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = MegaMenuProps & ReturnType<typeof mapStateToProps>;
@@ -41,6 +44,27 @@ class MegaMenu extends React.Component<Props, MenuState> {
       this.setState({ selectedCategory: -1 });
     }
   }
+
+  onHeaderMenuClick = (name: string, url: string) => {
+    const { mobile, isLoggedIn } = this.props;
+    util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
+    const obj = {
+      l1: name,
+      l2: "",
+      l3: "",
+      clickUrl1: url,
+      clickUrl2: "",
+      clickUrl3: "",
+      template: "",
+      img2: "",
+      img3: "",
+      cta: "",
+      subHeading: "",
+      mobile: mobile,
+      isLoggedIn: isLoggedIn
+    };
+    util.megaMenuNavigationGTM(obj);
+  };
 
   render() {
     const { data, location } = this.props;
@@ -92,6 +116,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
                       [styles.cerise]: !this.props.isSale && !isGifting
                     })}
                     href={isBridalRegistryPage ? "" : data.url}
+                    onClick={() => this.onHeaderMenuClick(data.text, data.url)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -101,6 +126,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               ) : (
                 <Link
                   to={isBridalRegistryPage ? "#" : data.url}
+                  onClick={() => this.onHeaderMenuClick(data.text, data.url)}
                   className={
                     this.state.selectedCategory == i ||
                     (highlightStories && this.props.ipad)
@@ -129,6 +155,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
           ) : (
             <Link
               to="/gifting"
+              onClick={() => this.onHeaderMenuClick("gifting", "/gifting")}
               className={cs(disbaleClass, styles.hoverStories)}
             >
               {ReactHtmlParser("gifting")}
@@ -153,6 +180,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               href="/stories"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => this.onHeaderMenuClick("stories", "/stories")}
             >
               {ReactHtmlParser("stories")}
             </a>
