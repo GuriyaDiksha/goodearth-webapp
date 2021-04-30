@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 const mapStateToProps = (state: AppState) => {
   return {
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    slab: state.user.slab
   };
 };
 type Props = CartProps &
@@ -205,6 +206,7 @@ class Bag extends React.Component<Props, State> {
     }
     if (
       !this.state.freeShipping &&
+      this.props.slab.toLowerCase() != "sitara" &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       this.props.currency == "INR" &&
@@ -302,7 +304,7 @@ class Bag extends React.Component<Props, State> {
               ></i>
             </div>
           </div>
-          {this.state.shipping ? (
+          {this.state.shipping && this.props.slab.toLowerCase() != "sitara" ? (
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>
                 You&apos; re a step away from{" "}
