@@ -238,6 +238,39 @@ class Header extends React.Component<Props, State> {
     );
   };
 
+  onMegaMenuClick = ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => {
+    const obj = {
+      l1: l1 || "",
+      l2: l2 || "",
+      l3: l3 || "",
+      clickUrl1: clickUrl1 || "",
+      clickUrl2: clickUrl2 || "",
+      clickUrl3: clickUrl3 || "",
+      template: template || "",
+      img2: img2 || "",
+      img3: img3 || "",
+      cta: cta || "",
+      subHeading: subHeading || "",
+      mobile: this.props.mobile || false,
+      isLoggedIn: this.props.isLoggedIn || false
+    };
+    util.megaMenuNavigationGTM(obj);
+  };
+
   showSearch = () => {
     if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
       return false;
@@ -756,6 +789,7 @@ class Header extends React.Component<Props, State> {
             >
               <MegaMenuList
                 ipad={false}
+                onHeaderMegaMenuClick={this.onMegaMenuClick}
                 activeIndex={this.state.activeIndex}
                 mouseOut={(data): void => {
                   this.mouseOut(data);
@@ -798,6 +832,7 @@ class Header extends React.Component<Props, State> {
                       <>
                         <Mobilemenu
                           onMobileMenuClick={this.onMenuClick}
+                          onHeaderMegaMenuClick={this.onMegaMenuClick}
                           menudata={this.props.data}
                           megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
