@@ -9,30 +9,104 @@ import Image from "./Image";
 
 type Props = {
   data: MenuComponent;
+  templateType: string;
+  l1: string;
+  onHeaderMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
 };
-const Title: React.FC<Props> = ({ data }) => {
+const Title: React.FC<Props> = ({
+  data,
+  templateType,
+  l1,
+  onHeaderMegaMenuClick
+}) => {
   const componentData = data.componentData as MenuComponentTitleData;
   return (
     <>
       <div className={styles.blockTitle}>
         {componentData.link ? (
-          <Link className={styles.title} to={componentData.link}>
+          <Link
+            className={styles.title}
+            to={componentData.link}
+            onClick={() =>
+              onHeaderMegaMenuClick({
+                l1,
+                l2: componentData.title,
+                clickUrl2: componentData.link,
+                template: templateType
+              })
+            }
+          >
             {componentData.title}
           </Link>
         ) : (
-          <div className={styles.title}>{componentData.title}</div>
+          <div
+            className={styles.title}
+            onClick={() =>
+              onHeaderMegaMenuClick({
+                l1,
+                l2: componentData.title,
+                template: templateType
+              })
+            }
+          >
+            {componentData.title}
+          </div>
         )}
       </div>
       {data.children && data.children.length > 0 && (
-        <Image data={data.children} />
+        <Image
+          data={data.children}
+          templateType={templateType}
+          l1={l1}
+          l2={componentData.title}
+          onHeaderMegaMenuClick={onHeaderMegaMenuClick}
+        />
       )}
       <div className={styles.blockCta}>
         {componentData.link ? (
-          <Link className={styles.cta} to={componentData.link}>
+          <Link
+            className={styles.cta}
+            to={componentData.link}
+            onClick={() =>
+              onHeaderMegaMenuClick({
+                l1,
+                l2: componentData.title,
+                clickUrl2: componentData.link,
+                template: templateType,
+                cta: componentData.ctaName
+              })
+            }
+          >
             {componentData.ctaName}
           </Link>
         ) : (
-          <div className={styles.cta}>{componentData.ctaName}</div>
+          <div
+            className={styles.cta}
+            onClick={() =>
+              onHeaderMegaMenuClick({
+                l1,
+                l2: componentData.title,
+                template: templateType,
+                cta: componentData.ctaName
+              })
+            }
+          >
+            {componentData.ctaName}
+          </div>
         )}
       </div>
     </>

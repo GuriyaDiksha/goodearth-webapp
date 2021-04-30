@@ -321,7 +321,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       if (template.publishOnMobile) {
         html.push(
           <div onClick={() => this.props.clickToggle()}>
-            <ImageWithSideSubheadingMobile data={template.templateData} />
+            <ImageWithSideSubheadingMobile
+              data={template.templateData}
+              templateType={template.templateType}
+              l1={megaMenuData.text}
+              onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
+            />
           </div>
         );
       }
@@ -334,7 +339,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     const leftData = headerData.leftMenu || [];
     const rightData = headerData.rightMenu || [];
     const isStories = headerData.name.toLowerCase() == "stories";
-    const templates = headerData.templates || [];
+    // const templates = headerData.templates || [];
     isStories
       ? ""
       : html.push(
@@ -601,15 +606,15 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         k++;
       });
     });
-    templates.map(template => {
-      if (template.publishOnMobile) {
-        html.push(
-          <div onClick={() => this.props.clickToggle()}>
-            <ImageWithSideSubheadingMobile data={template.templateData} />
-          </div>
-        );
-      }
-    });
+    // templates.map(template => {
+    //   if (template.publishOnMobile) {
+    //     html.push(
+    //       <div onClick={() => this.props.clickToggle()}>
+    //         <ImageWithSideSubheadingMobile data={template.templateData} />
+    //       </div>
+    //     );
+    //   }
+    // });
     return html;
   }
 
