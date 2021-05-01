@@ -193,7 +193,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 <Link
                   to={innerMenuData.url}
                   onClick={() => {
-                    this.props.onMobileMenuClick(innerMenuData.text, "", "");
+                    this.props.onMobileMenuClick({
+                      l1: innerMenuData.text,
+                      clickUrl1: innerMenuData.url
+                    });
                     this.props.clickToggle();
                   }}
                 >
@@ -204,7 +207,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 <Link
                   to={innerMenuData.url}
                   onClick={() => {
-                    this.props.onMobileMenuClick(innerMenuData.text, "", "");
+                    this.props.onMobileMenuClick({
+                      l1: innerMenuData.text,
+                      clickUrl1: innerMenuData.url
+                    });
                     this.props.clickToggle();
                   }}
                 >
@@ -239,7 +245,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             <Link
               to={data.link}
               onClick={() => {
-                this.props.onMobileMenuClick(innerMenuData.text, data.text, "");
+                this.props.onMobileMenuClick({
+                  l1: innerMenuData.text,
+                  clickUrl1: innerMenuData.url
+                });
               }}
               className={styles.menulevel2Link}
             >
@@ -268,11 +277,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       <Link
                         to={data.link}
                         onClick={() => {
-                          this.props.onMobileMenuClick(
-                            innerMenuData.text,
-                            data.text,
-                            ""
-                          );
+                          this.props.onMobileMenuClick({
+                            l1: innerMenuData.text,
+                            l2: data.text,
+                            clickUrl2: data.link
+                          });
                         }}
                       >
                         {data.ctaName || "View All"}
@@ -290,11 +299,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                         <Link
                           to={innerdata.link}
                           onClick={() => {
-                            this.props.onMobileMenuClick(
-                              innerMenuData.text,
-                              data.text,
-                              innerdata.text
-                            );
+                            this.props.onMobileMenuClick({
+                              l1: innerMenuData.text,
+                              l2: data.text,
+                              l3: innerdata.text,
+                              clickUrl3: innerdata.link
+                            });
                           }}
                           className={
                             innerdata.text.toLowerCase().indexOf("sale") > -1
@@ -355,7 +365,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 <Link
                   to={headerData.catLandingUrl}
                   onClick={() => {
-                    this.props.onMobileMenuClick(headerData.name, "", "");
+                    // this.props.onMobileMenuClick(headerData.name, "", "");
                     this.props.clickToggle();
                   }}
                 >
@@ -366,7 +376,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 <Link
                   to={headerData.catLandingUrl}
                   onClick={() => {
-                    this.props.onMobileMenuClick(headerData.name, "", "");
+                    // this.props.onMobileMenuClick(headerData.name, "", "");
                     this.props.clickToggle();
                   }}
                 >
@@ -401,7 +411,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             <Link
               to={data.url}
               onClick={() => {
-                this.props.onMobileMenuClick(headerData.name, data.name, "");
+                // this.props.onMobileMenuClick(headerData.name, data.name, "");
               }}
               className={styles.menulevel2Link}
             >
@@ -438,11 +448,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       <Link
                         to={data.url}
                         onClick={() => {
-                          this.props.onMobileMenuClick(
-                            headerData.name,
-                            data.name,
-                            ""
-                          );
+                          // this.props.onMobileMenuClick(
+                          //   headerData.name,
+                          //   data.name,
+                          //   ""
+                          // );
                         }}
                       >
                         View All
@@ -460,11 +470,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                         <Link
                           to={innerdata.url}
                           onClick={() => {
-                            this.props.onMobileMenuClick(
-                              headerData.name,
-                              data.name,
-                              innerdata.name
-                            );
+                            // this.props.onMobileMenuClick(
+                            //   headerData.name,
+                            //   data.name,
+                            //   innerdata.name
+                            // );
                           }}
                           className={
                             innerdata.name.toLowerCase().indexOf("sale") > -1
@@ -513,7 +523,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               <Link
                 to={data.url}
                 onClick={() => {
-                  this.props.onMobileMenuClick(headerData.name, data.name, "");
+                  // this.props.onMobileMenuClick(headerData.name, data.name, "");
                 }}
                 className={styles.menulevel2Link}
               >
@@ -550,11 +560,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                         <Link
                           to={data.url}
                           onClick={() => {
-                            this.props.onMobileMenuClick(
-                              headerData.name,
-                              data.name,
-                              ""
-                            );
+                            // this.props.onMobileMenuClick(
+                            //   headerData.name,
+                            //   data.name,
+                            //   ""
+                            // );
                           }}
                         >
                           View All
@@ -572,11 +582,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           <Link
                             to={innerdata.url}
                             onClick={() => {
-                              this.props.onMobileMenuClick(
-                                headerData.name,
-                                data.name,
-                                innerdata.name
-                              );
+                              // this.props.onMobileMenuClick(
+                              //   headerData.name,
+                              //   data.name,
+                              //   innerdata.name
+                              // );
                             }}
                             className={
                               innerdata.name.toLowerCase().indexOf("sale") > -1
@@ -659,7 +669,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   })}
                   href={data.url}
                   onClick={() => {
-                    this.props.onMobileMenuClick(data.text, "", "");
+                    this.props.onMobileMenuClick({
+                      l1: data.text,
+                      clickUrl1: data.url
+                    });
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -684,7 +697,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             <Link
               className={styles.menulevel1Stories}
               onClick={() => {
-                this.props.onMobileMenuClick("gifting", "", "");
+                this.props.onMobileMenuClick({
+                  l1: "gifting",
+                  clickUrl1: "/gifting"
+                });
               }}
               to="/gifting"
             >
@@ -708,7 +724,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             })}
             href={"/stories"}
             onClick={() => {
-              this.props.onMobileMenuClick("stories", "", "");
+              this.props.onMobileMenuClick({
+                l1: "stories",
+                clickUrl1: "/stories"
+              });
             }}
             target="_blank"
             rel="noopener noreferrer"
