@@ -15,6 +15,7 @@ import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
+import { ChildProductAttributes } from "typings/product";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -53,6 +54,7 @@ const WishlistButton: React.FC<Props> = ({
           categories[index].replace(/\s/g, "");
         category = category && category.replace(/>/g, "/");
         const listPath = `${gtmListType}`;
+        const child = childAttributes as ChildProductAttributes[];
         dataLayer.push({
           event: "AddtoWishlist",
           ecommerce: {
@@ -61,11 +63,11 @@ const WishlistButton: React.FC<Props> = ({
               products: [
                 {
                   name: title,
-                  id: childAttributes?.[0].sku,
-                  price: discountedPriceRecords
-                    ? discountedPriceRecords[currency]
-                    : priceRecords
-                    ? priceRecords[currency]
+                  id: child?.[0].sku,
+                  price: child?.[0].discountedPriceRecords
+                    ? child?.[0].discountedPriceRecords[currency]
+                    : child?.[0].priceRecords
+                    ? child?.[0].priceRecords[currency]
                     : null,
                   brand: "Goodearth",
                   category: category,
