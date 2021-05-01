@@ -5,5 +5,5 @@ export type MobileDropdownMenuProps = {
   display?: JSX.Element | string;
   open?: boolean;
   showCaret?: boolean;
-  onChange: (data: any) => void;
+  onChange: (data: any, label?: string) => void;
 };
