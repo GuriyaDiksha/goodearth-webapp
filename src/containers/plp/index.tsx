@@ -81,7 +81,7 @@ class PLP extends React.Component<
   }
   private child: any = FilterList;
 
-  onchangeFilter = (data: any): void => {
+  onchangeFilter = (data: any, label?: string): void => {
     this.child.changeValue(null, data);
     const {
       device: { mobile }
@@ -90,6 +90,7 @@ class PLP extends React.Component<
       this.child.clickCloseFilter();
     }
     this.setState({ sortValue: data });
+    util.sortGTM(label || data);
   };
 
   componentDidMount() {
@@ -242,6 +243,7 @@ class PLP extends React.Component<
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
       this.props.updateMobileView(plpMobileView);
+      util.viewSelectionGTM(plpMobileView);
     }
   };
 
