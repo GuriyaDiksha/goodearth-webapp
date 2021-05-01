@@ -195,7 +195,16 @@ export type MobileListProps = {
   megaMenuData: MegaMenuData[];
   location: Location;
   clickToggle: () => void;
-  onMobileMenuClick: (l1: string, l2: string, l3: string) => void;
+  onMobileMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3
+  }: {
+    [x: string]: string;
+  }) => void;
   onHeaderMegaMenuClick: ({
     l1,
     l2,
