@@ -3,7 +3,9 @@ import {
   MenuComponentImageData
 } from "components/header/typings";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { AppState } from "reducers/typings";
 import styles from "../styles.scss";
 
 type Props = {
@@ -34,6 +36,7 @@ const Image: React.FC<Props> = ({
   l2,
   onHeaderMegaMenuClick
 }) => {
+  const { mobile } = useSelector((state: AppState) => state.device);
   return (
     <>
       {data.map((menuComponent, index) => {
@@ -52,11 +55,20 @@ const Image: React.FC<Props> = ({
                       l3: componentData.heading,
                       clickUrl3: componentData.link,
                       template: templateType,
-                      img3: componentData.src
+                      img3: mobile
+                        ? componentData.thumbnailSrc || componentData.src
+                        : componentData.src
                     })
                   }
                 >
-                  <img className={styles.img} src={componentData.src} />
+                  <img
+                    className={styles.img}
+                    src={
+                      mobile
+                        ? componentData.thumbnailSrc || componentData.src
+                        : componentData.src
+                    }
+                  />
                 </Link>
                 <div className={styles.container}>
                   <div className={styles.blockHeading}>
@@ -106,11 +118,20 @@ const Image: React.FC<Props> = ({
                       l2: l2 || "",
                       l3: componentData.heading,
                       template: templateType,
-                      img3: componentData.src
+                      img3: mobile
+                        ? componentData.thumbnailSrc || componentData.src
+                        : componentData.src
                     })
                   }
                 >
-                  <img className={styles.img} src={componentData.src} />
+                  <img
+                    className={styles.img}
+                    src={
+                      mobile
+                        ? componentData.thumbnailSrc || componentData.src
+                        : componentData.src
+                    }
+                  />
                 </div>
                 <div className={styles.container}>
                   <div className={styles.blockHeading}>
