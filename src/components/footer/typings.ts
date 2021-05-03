@@ -3,6 +3,8 @@
 export type List = {
   text: string;
   link: string;
+  iconImage?: string;
+  newTabLink?: string;
 };
 
 export type FooterList = {

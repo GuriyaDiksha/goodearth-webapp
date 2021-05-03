@@ -435,9 +435,24 @@ class Footer extends React.Component<Props, FooterState> {
                                               )}
                                               key={j}
                                             >
-                                              {" "}
+                                              {currentValue.iconImage && (
+                                                <img
+                                                  className={
+                                                    styles.footerConnectIcon
+                                                  }
+                                                  src={currentValue.iconImage}
+                                                />
+                                              )}
                                               {currentValue.link ? (
                                                 <a href={currentValue.link}>
+                                                  {currentValue.text}
+                                                </a>
+                                              ) : currentValue.newTabLink ? (
+                                                <a
+                                                  href={currentValue.newTabLink}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                >
                                                   {currentValue.text}
                                                 </a>
                                               ) : (
@@ -642,7 +657,13 @@ class Footer extends React.Component<Props, FooterState> {
                                         index == 2
                                     })}
                                   >
-                                    {Item.link !== "" ? (
+                                    {Item.iconImage && (
+                                      <img
+                                        className={styles.footerConnectIcon}
+                                        src={Item.iconImage}
+                                      />
+                                    )}
+                                    {Item.link ? (
                                       footerItems.name == "CONNECT" ? (
                                         <a
                                           className={globalStyles.txtNormal}
@@ -653,6 +674,15 @@ class Footer extends React.Component<Props, FooterState> {
                                       ) : (
                                         <Link to={Item.link}>{Item.text}</Link>
                                       )
+                                    ) : Item.newTabLink ? (
+                                      <a
+                                        className={globalStyles.txtNormal}
+                                        href={Item.newTabLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {Item.text}
+                                      </a>
                                     ) : (
                                       Item.text
                                     )}
