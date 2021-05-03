@@ -1461,6 +1461,7 @@ const AddressForm: React.FC<Props> = props => {
               // onChange={handleKeypress}
               // value={state.line1}
               handleChange={() => setIsAddressChanged(true)}
+              maxlength={75}
               validations={{
                 maxLength: 75,
                 isExisty: true
@@ -1479,6 +1480,7 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="Address Line 2"
               // onChange={handleKeypress}
               handleChange={() => setIsAddressChanged(true)}
+              maxlength={75}
               validations={{
                 maxLength: 75
               }}
