@@ -68,7 +68,7 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
       component: ImageWithSideSubheading
     }
   ];
-  createColumns = (columns: MenuColumn[]) => {
+  createColumns = ({ columns, text }: MegaMenuData) => {
     return (
       columns &&
       columns.map((column: MenuColumn, index: number) => {
@@ -91,7 +91,13 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
               return (
                 TemplateComp && (
                   <div onClick={this.mouseLeave}>
-                    <TemplateComp key={index} data={template.templateData} />
+                    <TemplateComp
+                      key={index}
+                      data={template.templateData}
+                      templateType={templateCompArray.name}
+                      l1={text}
+                      onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
+                    />
                   </div>
                 )
               );
@@ -309,7 +315,7 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
         }}
       >
         {/* {this.createDataForHeader()} */}
-        {this.createColumns(data.columns)}
+        {this.createColumns(data)}
       </div>
     );
   }
