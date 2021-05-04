@@ -1461,14 +1461,15 @@ const AddressForm: React.FC<Props> = props => {
               // onChange={handleKeypress}
               // value={state.line1}
               handleChange={() => setIsAddressChanged(true)}
+              maxlength={75}
               validations={{
-                maxLength: 70,
+                maxLength: 75,
                 isExisty: true
               }}
               validationErrors={{
                 isExisty: "Please enter your Address",
                 // isEmptyString: isExistyError,
-                maxLength: "You cannot type in more than 70 characters"
+                maxLength: "You cannot type in more than 75 characters"
               }}
             />
           </div>
@@ -1479,11 +1480,12 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="Address Line 2"
               // onChange={handleKeypress}
               handleChange={() => setIsAddressChanged(true)}
+              maxlength={75}
               validations={{
-                maxLength: 35
+                maxLength: 75
               }}
               validationErrors={{
-                maxLength: "You cannot type in more than 35 characters"
+                maxLength: "You cannot type in more than 75 characters"
               }}
               // value={state.line2}
             />

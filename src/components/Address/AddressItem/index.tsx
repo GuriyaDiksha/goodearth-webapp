@@ -34,7 +34,8 @@ const AddressItem: React.FC<Props> = props => {
     markAsDefault,
     setIsLoading,
     currentCallBackComponent,
-    activeStep
+    activeStep,
+    isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
   // const isDefaultAddress = () => {
@@ -141,6 +142,19 @@ const AddressItem: React.FC<Props> = props => {
       //     }
       //     props.onSelectAddress(props.address);
       // break;
+    }
+  };
+
+  const onSelectBridalAddress = (address: AddressData) => {
+    if (address) {
+      const isValid = isAddressValid(address);
+      if (isValid) {
+        // this.props.onSelectAddress(address);
+        handleSelect(address);
+      } else {
+        // this.manageAddressPostcode("edit", address);
+        openAddressForm(address);
+      }
     }
   };
   // const openAddressForm = (address: AddressData) => {
@@ -416,7 +430,8 @@ const AddressItem: React.FC<Props> = props => {
                 )}
                 // onClick={() => props.selectAddress(address)}
                 onClick={() => {
-                  if (address.id != userAddress?.id) handleSelect(address);
+                  if (address.id != userAddress?.id)
+                    onSelectBridalAddress(address);
                 }}
               >
                 USE THIS ADDRESS
