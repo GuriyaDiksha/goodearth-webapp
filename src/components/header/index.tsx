@@ -1006,18 +1006,21 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {false &&
-            this.props.currency.toString().toUpperCase() == "INR" &&
-            (this.props.location.pathname.includes("/catalogue/")
-              ? this.props.location.pathname.includes("/category/")
-                ? true
-                : false
-              : true) && (
+          {this.props.currency.toString().toUpperCase() == "INR" &&
+            // ((this.props.location.pathname.includes("/catalogue/")
+            //   ? this.props.location.pathname.includes("/category/")
+            //     ? true
+            //     : false
+            //   : true)
+            !(
+              this.props.location.pathname.includes("/search") ||
+              this.props.location.pathname.includes("/catalogue")
+            ) && (
               <div className={styles.fixedPincodeBar} id="pincode-bar">
                 <div>
                   <span>
-                    We have resumed deliveries Pan India. Enter your Pincode to
-                    check if your location is serviceable.
+                    Due to the current restrictions on movement, please enter
+                    your Pincode to check if your location is serviceable.
                   </span>
                   <a
                     className={styles.pincodeBarBtn}

@@ -35,6 +35,7 @@ const CartItems: React.FC<BasketItem> = memo(
     const [value, setValue] = useState(quantity | 0);
     const { dispatch } = useStore();
 
+    const showDeliveryTimelines = false;
     useEffect(() => {
       setValue(quantity);
     }, [quantity]);
@@ -241,7 +242,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     <div className={styles.productName}>
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>
-                    {product.productDeliveryDate && (
+                    {product.productDeliveryDate && showDeliveryTimelines && (
                       <div
                         className={cs(
                           styles.deliveryDate,
