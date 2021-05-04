@@ -191,7 +191,7 @@ const Bridal: React.FC<Props> = props => {
             if (isValid) {
               // this.props.onSelectAddress(address);
               newBridalDetails["userAddress"] = userAddress;
-              setCurrentModule("created");
+              setCurrentModule("address");
             } else {
               // this.manageAddressPostcode("edit", address);
               openAddressForm(userAddress);
