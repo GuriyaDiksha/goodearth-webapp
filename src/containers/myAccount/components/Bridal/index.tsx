@@ -21,7 +21,7 @@ import { AddressContext } from "components/Address/AddressMain/context";
 import { updateAddressList } from "actions/address";
 import { updateUser } from "actions/user";
 import { POPUP } from "constants/components";
-
+import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
 };
@@ -191,7 +191,7 @@ const Bridal: React.FC<Props> = props => {
             if (isValid) {
               // this.props.onSelectAddress(address);
               newBridalDetails["userAddress"] = userAddress;
-              setCurrentModule("address");
+              // setCurrentModule("address");
             } else {
               // this.manageAddressPostcode("edit", address);
               openAddressForm(userAddress);
@@ -223,7 +223,7 @@ const Bridal: React.FC<Props> = props => {
               bridalCurrency: currency
             });
             dispatch(updateUser(updatedUser));
-            openBridalPop();
+            setCurrentModule("created");
           }
         })
         .catch(err => {
@@ -288,6 +288,7 @@ const Bridal: React.FC<Props> = props => {
             addressType="SHIPPING"
             error=""
             addresses={[]}
+            createRegistry={createRegistry}
           />
         );
       // return <ManageAddress isbridal={true}
@@ -297,7 +298,7 @@ const Bridal: React.FC<Props> = props => {
       //                       addressType="SHIPPING" case="create"/>
       case "created":
         return (
-          <RegistryCreated errorMessage="" createRegistry={createRegistry} />
+          <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
         );
       default:
     }

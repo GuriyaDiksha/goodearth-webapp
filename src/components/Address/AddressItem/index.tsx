@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -100,7 +100,7 @@ const AddressItem: React.FC<Props> = props => {
           setCurrentModuleData("address", {
             userAddress: address
           });
-          setCurrentModule("created");
+          // setCurrentModule("created");
           // setCurrentModule("address");
         }
         break;
@@ -220,7 +220,6 @@ const AddressItem: React.FC<Props> = props => {
       : "div";
   const billingEditDisable =
     activeStep == "BILLING" && shippingData && address.id == shippingData.id;
-  console.log(address.id, userAddress?.id);
   return (
     <div
       className={
