@@ -164,7 +164,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const email = localStorage.getItem("tempEmail");
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
-      this.setState({ email });
+      this.setState({ email, isLoginDisabled: false }, () => {
+        this.myBlur();
+      });
     }
     // if (checkoutPopupCookie == "show") {
     //   this.firstEmailInput.current?.focus();

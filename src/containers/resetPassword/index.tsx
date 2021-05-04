@@ -13,7 +13,7 @@ import show from "../../images/show.svg";
 import hide from "../../images/hide.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
-import CookieService from "services/cookie";
+// import CookieService from "services/cookie";
 import { ALL_SESSION_LOGOUT } from "constants/messages";
 import * as valid from "utils/validate";
 import LoginService from "services/login";
@@ -86,16 +86,19 @@ const ResetPassword: React.FC<Props> = props => {
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
         resetForm();
-        const { bridalCurrency, bridalId } = data;
-        bridalId && CookieService.setCookie("bridalId", bridalId);
-        bridalCurrency &&
-          CookieService.setCookie("bridalCurrency", bridalCurrency);
+        // const { bridalCurrency, bridalId } = data;
+        // bridalId && CookieService.setCookie("bridalId", bridalId);
+        // bridalCurrency &&
+        //   CookieService.setCookie("bridalCurrency", bridalCurrency);
         valid.showGrowlMessage(dispatch, ALL_SESSION_LOGOUT);
         let counter = 5;
         const timer = setInterval(function() {
           if (counter < 0) {
             history.push(data.redirectTo || "/");
             clearInterval(timer);
+            localStorage.setItem("tempEmail", data.email);
+            data.redirectTo != "/order/checkout" &&
+              LoginService.showLogin(dispatch);
           } else {
             setErrorMessage(
               data.message + " This page will redirect in " + counter + " sec."
