@@ -4,9 +4,9 @@ import { ProfileResponse } from "containers/myAccount/components/MyProfile/typin
 import { MyOrdersResponse } from "containers/myAccount/components/MyOrder/typings";
 import { BalanceProps } from "containers/myAccount/components/Balance/typings";
 import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
-import CookieService from "services/cookie";
+// import CookieService from "services/cookie";
 import { updateCookies } from "actions/cookies";
-import { updateUser } from "actions/user";
+import { resetMeta } from "actions/user";
 import MetaService from "services/meta";
 import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
@@ -165,14 +165,19 @@ export default {
       `${__API_HOST__}/myapi/auth/confirm_reset_password/`,
       formData
     );
-    CookieService.setCookie("atkn", data.token, 365);
-    // CookieService.setCookie("userId", data.userId, 365);
-    // CookieService.setCookie("email", data.email, 365);
-    dispatch(updateCookies({ tkn: data.token }));
-    dispatch(updateUser({ isLoggedIn: true }));
-    MetaService.updateMeta(dispatch, { tkn: data.token });
-    WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch);
+    // do same as logout
+    document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    dispatch(updateCookies({ tkn: "" }));
+    MetaService.updateMeta(dispatch, {}).catch(err => {
+      console.log(err);
+    });
+    WishlistService.resetWishlist(dispatch);
+    BasketService.fetchBasket(dispatch).catch(err => {
+      console.log(err);
+    });
+    dispatch(resetMeta(undefined));
     return data;
   },
   activateGiftCard: async (dispatch: Dispatch, formData: FormData) => {
