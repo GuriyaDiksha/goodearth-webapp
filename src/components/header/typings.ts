@@ -173,6 +173,21 @@ export type MegaMenuListProps = {
   currency?: Currency;
   mobile?: boolean;
   ipad: boolean;
+  onHeaderMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
 };
 
 export type MobileListProps = {
@@ -180,7 +195,31 @@ export type MobileListProps = {
   megaMenuData: MegaMenuData[];
   location: Location;
   clickToggle: () => void;
-  onMobileMenuClick: (l1: string, l2: string, l3: string) => void;
+  onMobileMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3
+  }: {
+    [x: string]: string;
+  }) => void;
+  onHeaderMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
 };
 export interface State {
   show: boolean;

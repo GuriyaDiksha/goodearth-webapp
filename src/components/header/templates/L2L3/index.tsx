@@ -5,11 +5,28 @@ import L2 from "../menuComponents/L2";
 
 type Props = {
   data: MenuComponent;
+  templateType: string;
+  l1: string;
+  onHeaderMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
 };
-const L2L3: React.FC<Props> = ({ data }) => {
+const L2L3: React.FC<Props> = props => {
   return (
     <div className={styles.l2l3}>
-      <L2 data={data} />
+      <L2 {...props} />
     </div>
   );
 };

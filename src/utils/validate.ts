@@ -778,13 +778,20 @@ export const headerClickGTM = (
   }
 };
 
-export const menuNavigationGTM = (
-  l1: string,
-  l2: string,
-  l3: string,
-  mobile: boolean,
-  isLoggedIn: boolean
-) => {
+export const menuNavigationGTM = ({
+  l1,
+  l2,
+  l3,
+  clickUrl1,
+  clickUrl2,
+  clickUrl3,
+  mobile,
+  isLoggedIn
+}: {
+  [x: string]: string | boolean;
+  mobile: boolean;
+  isLoggedIn: boolean;
+}) => {
   try {
     dataLayer.push({
       event: "Menu Navigation",
@@ -792,6 +799,52 @@ export const menuNavigationGTM = (
       l1,
       l2,
       l3,
+      clickUrl1,
+      clickUrl2,
+      clickUrl3,
+      device: mobile ? "mobile" : "desktop",
+      userStatus: isLoggedIn ? "logged in" : "logged out",
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Menu Navigation GTM error!");
+  }
+};
+
+export const megaMenuNavigationGTM = ({
+  l1,
+  l2,
+  l3,
+  clickUrl1,
+  clickUrl2,
+  clickUrl3,
+  template,
+  img2,
+  img3,
+  cta,
+  subHeading,
+  mobile,
+  isLoggedIn
+}: {
+  [x: string]: string | boolean;
+  mobile: boolean;
+  isLoggedIn: boolean;
+}) => {
+  try {
+    dataLayer.push({
+      event: "Menu Navigation",
+      clickType: "Category",
+      l1,
+      l2,
+      l3,
+      clickUrl1,
+      clickUrl2,
+      clickUrl3,
+      template,
+      img2,
+      img3,
+      cta,
+      subHeading,
       device: mobile ? "mobile" : "desktop",
       userStatus: isLoggedIn ? "logged in" : "logged out",
       url: `${location.pathname}${location.search}`
