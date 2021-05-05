@@ -45,7 +45,16 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
   const state: AppState = ctx.store.getState();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ["client"] });
   if (ctx.cookies.get("sessionid") != state.cookies.sessionid) {
-    ctx.cookies.set("sessionid", state.cookies.sessionid);
+    const expires = new Date(new Date().setMonth(new Date().getMonth() + 12));
+    ctx.cookies.set("sessionid", state.cookies.sessionid, {
+      httpOnly: false,
+      expires: expires
+    });
+  }
+
+  ctx.set("Strict-Transport-Security", "max-age=60");
+  if (ctx.url.includes("/account")) {
+    ctx.set("Cache-Control", "no-cache");
   }
 
   if (matchedRoute && matchedRoute.route) {

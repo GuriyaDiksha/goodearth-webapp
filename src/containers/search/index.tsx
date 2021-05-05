@@ -122,6 +122,7 @@ class Search extends React.Component<
     changeModalState(true);
   };
   componentDidMount() {
+    // util.moveChatDown();
     this.setState({
       searchMaker: true
     });
@@ -144,6 +145,10 @@ class Search extends React.Component<
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  componentWillUnmount() {
+    // util.moveChatUp();
   }
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {

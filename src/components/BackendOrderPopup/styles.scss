@@ -251,7 +251,7 @@
 .size-block-not-fixed.form-block {
 
   .gc-tnc {
-    padding: 0px 50px 10px 50px;
+    padding: 50px 50px 10px 50px;
     .c10-L-R {
       padding-bottom: 0px;
     }
@@ -300,9 +300,9 @@
       width: 8px;
     }
     /* background of the scrollbar except button or resizer */
-    ::-webkit-scrollbar-track {
+    // ::-webkit-scrollbar-track {
         // background-color:#fff
-    }
+    // }
     /* scrollbar itself */
     &::-webkit-scrollbar-thumb {
         background-color:#a6a6a6;

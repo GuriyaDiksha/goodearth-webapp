@@ -867,3 +867,19 @@ export const pageViewGTM = (title: string) => {
     console.log("Page VIew GTM error!");
   }
 };
+
+export const moveChatUp = () => {
+  const chatContainer = document.getElementById("chat-container");
+  if (chatContainer) {
+    chatContainer.classList.remove("chat-container-down");
+    chatContainer.classList.add("chat-container");
+  }
+};
+
+export const moveChatDown = () => {
+  const chatContainer = document.getElementById("chat-container");
+  if (chatContainer) {
+    chatContainer.classList.remove("chat-container");
+    chatContainer.classList.add("chat-container-down");
+  }
+};
