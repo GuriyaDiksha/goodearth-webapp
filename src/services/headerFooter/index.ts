@@ -1,6 +1,7 @@
 import {
   HeaderData,
   MegaMenuData,
+  Menu,
   SearchFeaturedData
 } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
@@ -14,10 +15,22 @@ import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
+import { Currency } from "typings/currency";
 // import * as data from "./data.json";
 
 export default {
-  fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
+  fetchHeaderDetails: async (
+    dispatch: Dispatch,
+    currency?: Currency
+  ): Promise<HeaderData[]> => {
+    let menu: Menu | null = null;
+    if (typeof document == "undefined") {
+      menu = CacheService.get(`menu-${currency}`) as Menu;
+    }
+    if (menu) {
+      dispatch(updateheader(menu));
+      return menu.results;
+    }
     // let headerData = CacheService.get("headerData") as HeaderData[];
 
     // if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
@@ -36,7 +49,12 @@ export default {
     );
     // headerData = res.results as HeaderData[];
     // CacheService.set("headerData", headerData);
-
+    if (typeof document == "undefined") {
+      CacheService.set(`menu-${res.currency}`, {
+        results: res.results as HeaderData[],
+        megaMenuResults: res.megaMenuResults as MegaMenuData[]
+      });
+    }
     return res.results;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {

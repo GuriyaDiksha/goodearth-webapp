@@ -9,9 +9,9 @@
     line-height: 2.7;
     text-align: center;
     cursor: pointer;
-    position: fixed;
-    bottom: 75px;
-    right: 10px;
+    position: relative;
+    bottom: 0;
+    right: -2px;
     z-index: 9;
     -webkit-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     -moz-box-shadow: 0px 2px 10px -1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
@@ -30,9 +30,9 @@
     line-height: 2.7;
     text-align: center;
     cursor: pointer;
-    position: fixed;
-    bottom: 75px;
-    right: 10px;
+    position: absolute;
+    bottom: 0;
+    right: -2px;
     z-index: 9;
     width: 45px;
     height: 45px;
@@ -109,9 +109,9 @@
     line-height: 2.2;
     text-align: center;
     cursor: pointer;
-    position: fixed;
-    bottom: 130px;
-    right: 12px;
+    position: absolute;
+    bottom: 55px;
+    right: 0;
     z-index: 9;
     -webkit-transition: opacity 0.4s ease-in;
     -moz-transition: opacity 0.4s ease-in;
@@ -128,9 +128,9 @@
   }
 
   .whatsapp-active {
-    position: fixed;
-    bottom: 132px;
-    right: 23px;
+    position: absolute;
+    bottom: 57px;
+    right: 11px;
     z-index: 9;
     -webkit-transition: transform .5s ease-in, height 0.5s ease-in, width 0.5s ease-in, right 0.5s ease-in;
     -moz-transition: transform .5s ease-in, height 0.5s ease-in, width 0.5s ease-in, right 0.5s ease-in;
@@ -146,7 +146,7 @@
     /* display: none; */
     height: 40px;
     width: 40px;
-    right: 12px;
+    right: 0;
     transform: none;
     -webkit-transform: none;
     -moz-transform: none;
@@ -186,13 +186,13 @@
 
 .fresh-chat{
   /* border-radius: 34px 8px 34px 34px; */
-  bottom: 200px;
+  bottom: 125px;
   /* box-shadow: 0 5px 4px 0 rgb(0 0 0 / 26%); */
   color: #fff;
   cursor: pointer;
   display: table;
-  position: fixed;
-  right: 10px;
+  position: absolute;
+  right: -2px;
   z-index: 9;
   height: 45px;
   width: 45px;
@@ -217,7 +217,7 @@
   -o-transform: translateY(113px);
   height: 20px;
   width: 20px;
-  right: 24px;
+  right: 12px;
   /* display: none; */
 }
 
@@ -226,4 +226,33 @@
   width: 20px;
   height: 20px;
   display: block;
+}
+
+.chat-container {
+  bottom: 75px;
+  position: fixed;
+  right: 12px;
+  z-index: 9;
+}
+
+.chat-container-down {
+  bottom: 75px;
+  position: fixed;
+  right: 12px;
+  z-index: 9;
+}
+
+@media screen and (max-width: 992px) {
+  .chat-container {
+    bottom: 145px;
+    position: fixed;
+    right: 12px;
+    z-index: 9;
+  }
+  .chat-container-down {
+    bottom: 75px;
+    position: fixed;
+    right: 12px;
+    z-index: 9;
+  }
 }

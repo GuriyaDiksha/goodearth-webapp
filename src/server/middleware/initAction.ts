@@ -8,7 +8,15 @@ export default async function fetchInitialData(
   next: Koa.Next
 ) {
   const store: Store = ctx.store;
-  await ApiService.getSalesStatus(store.dispatch).catch(err => {
+  const isBridalPublicPage =
+    ctx.request.path.includes("/bridal/") &&
+    !ctx.request.path.includes("/account/");
+  let bridalKey = "";
+  if (isBridalPublicPage) {
+    const pathArray = ctx.request.path.split("/");
+    bridalKey = pathArray[pathArray.length - 1];
+  }
+  await ApiService.getSalesStatus(store.dispatch, bridalKey).catch(err => {
     console.log("Sales Api Status ==== " + err);
   });
   await initAction(ctx, ctx.history);

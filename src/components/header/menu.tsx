@@ -45,7 +45,7 @@ class MainMenu extends React.Component<Props, MenuState> {
   onHeaderMenuClick = (name: string) => {
     const { mobile, isLoggedIn } = this.props;
     util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
-    util.menuNavigationGTM(name, "", "", mobile, isLoggedIn);
+    // util.menuNavigationGTM(name, "", "", mobile, isLoggedIn);
   };
 
   render() {

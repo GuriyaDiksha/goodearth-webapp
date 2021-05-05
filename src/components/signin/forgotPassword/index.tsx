@@ -9,7 +9,7 @@ import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
 import * as valid from "utils/validate";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
 import { mapDispatchToProps } from "./mapper/actions";

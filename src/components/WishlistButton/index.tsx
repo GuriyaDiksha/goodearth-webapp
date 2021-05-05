@@ -15,6 +15,7 @@ import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
 import { AppState } from "reducers/typings";
 import Loader from "components/Loader";
+import { ChildProductAttributes } from "typings/product";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -34,7 +35,7 @@ const WishlistButton: React.FC<Props> = ({
   inWishlist,
   onMoveToWishlist
 }) => {
-  const items = useContext(WishlistContext);
+  const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
   const [showLoader, setShowLoader] = useState(false);
   const store = useStore();
@@ -42,7 +43,10 @@ const WishlistButton: React.FC<Props> = ({
     currency,
     wishlist: { sortBy }
   } = useSelector((state: AppState) => state);
-  const addedToWishlist = items.indexOf(id) !== -1;
+  let addedToWishlist = wishlistItems.indexOf(id) !== -1;
+  if (!addedToWishlist && basketLineId) {
+    addedToWishlist = wishlistChildItems.indexOf(id) != -1;
+  }
   const gtmPushAddToWishlist = () => {
     try {
       if (gtmListType) {
@@ -53,6 +57,7 @@ const WishlistButton: React.FC<Props> = ({
           categories[index].replace(/\s/g, "");
         category = category && category.replace(/>/g, "/");
         const listPath = `${gtmListType}`;
+        const child = childAttributes as ChildProductAttributes[];
         dataLayer.push({
           event: "AddtoWishlist",
           ecommerce: {
@@ -61,11 +66,11 @@ const WishlistButton: React.FC<Props> = ({
               products: [
                 {
                   name: title,
-                  id: childAttributes?.[0].sku,
-                  price: discountedPriceRecords
-                    ? discountedPriceRecords[currency]
-                    : priceRecords
-                    ? priceRecords[currency]
+                  id: child?.[0].sku,
+                  price: child?.[0].discountedPriceRecords
+                    ? child?.[0].discountedPriceRecords[currency]
+                    : child?.[0].priceRecords
+                    ? child?.[0].priceRecords[currency]
                     : null,
                   brand: "Goodearth",
                   category: category,
@@ -92,19 +97,31 @@ const WishlistButton: React.FC<Props> = ({
     } else {
       setShowLoader(true);
       if (basketLineId) {
-        WishlistService.moveToWishlist(
-          store.dispatch,
-          basketLineId,
-          size || childAttributes?.[0].size || "",
-          source,
-          sortBy
-        )
-          .then(() => {
-            onMoveToWishlist?.();
-          })
-          .finally(() => {
+        if (addedToWishlist) {
+          WishlistService.removeFromWishlist(
+            store.dispatch,
+            id,
+            undefined,
+            sortBy,
+            size
+          ).finally(() => {
             setShowLoader(false);
           });
+        } else {
+          WishlistService.moveToWishlist(
+            store.dispatch,
+            basketLineId,
+            size || childAttributes?.[0].size || "",
+            source,
+            sortBy
+          )
+            .then(() => {
+              onMoveToWishlist?.();
+            })
+            .finally(() => {
+              setShowLoader(false);
+            });
+        }
       } else {
         if (addedToWishlist) {
           WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
@@ -128,15 +145,18 @@ const WishlistButton: React.FC<Props> = ({
       <div className={className}>
         <div
           className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
-            [iconStyles.iconWishlistAdded]:
-              (addedToWishlist && !basketLineId) || inWishlist,
-            [iconStyles.iconWishlist]:
-              (!addedToWishlist || basketLineId) && !inWishlist,
-            [styles.addedToWishlist]:
-              (addedToWishlist && !basketLineId) || inWishlist,
+            [iconStyles.iconWishlistAdded]: addedToWishlist || inWishlist,
+            [iconStyles.iconWishlist]: !addedToWishlist && !inWishlist,
+            [styles.addedToWishlist]: addedToWishlist || inWishlist,
             [styles.mobileWishlist]: mobile
           })}
-          title={basketLineId ? "Move to Wishlist" : ""}
+          title={
+            basketLineId
+              ? addedToWishlist
+                ? "Remove from Wishlist"
+                : "Move to Wishlist"
+              : ""
+          }
           onClick={onClick}
         ></div>
         {showText && (

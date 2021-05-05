@@ -9,7 +9,7 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import * as valid from "utils/validate";
 import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
@@ -164,7 +164,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const email = localStorage.getItem("tempEmail");
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
-      this.setState({ email });
+      this.setState({ email, isLoginDisabled: false }, () => {
+        this.myBlur();
+      });
     }
     // if (checkoutPopupCookie == "show") {
     //   this.firstEmailInput.current?.focus();
