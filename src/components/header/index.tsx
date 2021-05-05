@@ -100,6 +100,19 @@ class Header extends React.Component<Props, State> {
     // }
   };
 
+  listenAnnouncementBarClick = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.addEventListener("click", event => {
+        const elem = event.target as HTMLAnchorElement;
+        util.announcementBarGTM(
+          elem.dataset.text || "",
+          elem.getAttribute("href") || ""
+        );
+      });
+    }
+  };
+
   componentDidMount() {
     const isBridalPublicPage =
       this.props.location.pathname.includes("/bridal/") &&
@@ -135,6 +148,10 @@ class Header extends React.Component<Props, State> {
     ) {
       this.props.fetchAnnouncement();
     }
+
+    // add click listener for announcement bar
+    this.listenAnnouncementBarClick("bar1");
+    this.listenAnnouncementBarClick("bar2");
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -551,7 +568,9 @@ class Header extends React.Component<Props, State> {
                     }
                   >
                     <Link to={announcement.url ? "" + announcement.url : "/"}>
-                      <div>{ReactHtmlParser(data)}</div>
+                      <div id="announcement-bar-container">
+                        {ReactHtmlParser(data)}
+                      </div>
                     </Link>
                   </div>
                 );

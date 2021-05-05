@@ -883,3 +883,28 @@ export const moveChatDown = () => {
     chatContainer.classList.add("chat-container-down");
   }
 };
+
+export const footerGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Footer Navigation",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Footer Navigation GTM error!");
+  }
+};
+
+export const announcementBarGTM = (clickText: string, clickUrl: string) => {
+  try {
+    dataLayer.push({
+      event: "Announcement Bar Click",
+      clickText,
+      clickUrl,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Announcement Bar click GTM error!");
+  }
+};
