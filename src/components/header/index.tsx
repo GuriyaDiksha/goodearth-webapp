@@ -976,7 +976,8 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {this.props.currency.toString().toUpperCase() == "INR" &&
+          {false &&
+            this.props.currency.toString().toUpperCase() == "INR" &&
             // ((this.props.location.pathname.includes("/catalogue/")
             //   ? this.props.location.pathname.includes("/category/")
             //     ? true
