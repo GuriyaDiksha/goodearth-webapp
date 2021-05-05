@@ -4,7 +4,7 @@ import cs from "classnames";
 import CheckoutService from "services/checkout";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import iconStyles from "styles/iconFonts.scss";
 
 type Props = {};
