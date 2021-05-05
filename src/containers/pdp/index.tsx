@@ -518,6 +518,7 @@ class PDPContainer extends React.Component<Props, State> {
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
       this.props.updateMobileView(plpMobileView);
+      valid.viewSelectionGTM(plpMobileView);
     }
   };
 
