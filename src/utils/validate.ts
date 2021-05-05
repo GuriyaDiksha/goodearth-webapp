@@ -595,15 +595,15 @@ export function MoreFromCollectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    let category = "";
-    if (data.categories) {
-      const index = data.categories.length - 1;
-      category = data.categories[index]
-        ? data.categories[index].replace(/\s/g, "")
-        : "";
-      category = category.replace(/>/g, "/");
-    }
     product = data.map((prod: any, i: number) => {
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
           {},

@@ -151,8 +151,16 @@ class PDPContainer extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_pdp_view"
     });
-    valid.PDP(this.props.data, this.props.currency);
+    const { data, currency } = this.props;
+    valid.PDP(data, currency);
     valid.moveChatDown();
+    if (data && data.looksProducts && data.looksProducts.length >= 2) {
+      valid.MoreFromCollectionProductImpression(
+        data.looksProducts,
+        "ShopByLook",
+        currency
+      );
+    }
     // if (this.props.device.mobile) {
     //   this.getProductImagesData();
     //   const elem = document.getElementById("pincode-bar");
@@ -200,9 +208,17 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const { data, currency } = nextProps;
     if (this.props.id && this.props.id != nextProps.id) {
       valid.pageViewGTM("PDP");
       valid.PDP(nextProps.data, this.props.currency);
+      if (data && data.looksProducts && data.looksProducts.length >= 2) {
+        valid.MoreFromCollectionProductImpression(
+          data.looksProducts,
+          "ShopByLook",
+          currency
+        );
+      }
       this.setState({
         sidebarSticky: true,
         detailsSticky: true,
@@ -214,9 +230,23 @@ class PDPContainer extends React.Component<Props, State> {
     }
     if (this.props.data && !this.props.data.title && nextProps.data.title) {
       valid.PDP(nextProps.data, this.props.currency);
+      if (data && data.looksProducts && data.looksProducts.length >= 2) {
+        valid.MoreFromCollectionProductImpression(
+          data.looksProducts,
+          "ShopByLook",
+          currency
+        );
+      }
     }
     if (!this.props.data && nextProps.data?.title) {
       valid.PDP(nextProps.data, this.props.currency);
+      if (data && data.looksProducts && data.looksProducts.length >= 2) {
+        valid.MoreFromCollectionProductImpression(
+          data.looksProducts,
+          "ShopByLook",
+          currency
+        );
+      }
     }
     if (this.props.currency != nextProps.currency) {
       this.fetchMoreProductsFromCollection(nextProps.id);
@@ -711,7 +741,7 @@ class PDPContainer extends React.Component<Props, State> {
                     key={item.id}
                   >
                     <PDPLooksGridItem
-                      page="PLP"
+                      page="ShopByLook"
                       position={index}
                       product={item}
                       addedToWishlist={false}
@@ -745,7 +775,7 @@ class PDPContainer extends React.Component<Props, State> {
                           )}
                         >
                           <PDPLooksItem
-                            page="PLP"
+                            page="ShopByLook"
                             position={i}
                             product={item}
                             addedToWishlist={false}
