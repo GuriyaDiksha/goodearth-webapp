@@ -57,7 +57,7 @@ const PlpDropdownMenu = ({
     setOpenState(false);
     setShowmobileSort(false);
     setShowmobileFilterList(false);
-    onChange(data.value);
+    onChange(data.value, data.label);
   };
   useEffect(() => {
     if (showmobileSort || menuOpen) {

@@ -479,6 +479,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
+    dataLayer.push({
+      event: "Delivery Instruction",
+      message: data
+    });
   };
 
   const openDeliveryBox = () => {

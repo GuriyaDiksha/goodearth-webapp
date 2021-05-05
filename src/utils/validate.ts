@@ -883,3 +883,26 @@ export const moveChatDown = () => {
     chatContainer.classList.add("chat-container-down");
   }
 };
+
+export const viewSelectionGTM = (clickType: "list" | "grid") => {
+  try {
+    dataLayer.push({
+      event: "View Selection",
+      clickType
+    });
+  } catch (e) {
+    console.log("View Selection GTM error!");
+  }
+};
+
+export const sortGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Sort",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Sort GTM error!");
+  }
+};

@@ -122,6 +122,7 @@ const Career: React.FC<Props> = props => {
     if (location) {
       setLocationFilter(location);
       setShowMobileDropdown(false);
+      util.sortGTM(location);
     }
   };
 
