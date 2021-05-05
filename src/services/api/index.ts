@@ -24,12 +24,16 @@ export default {
     );
     dispatch(updateCurrency(curr));
   },
-  getSalesStatus: async function(dispatch: Dispatch) {
+  getSalesStatus: async function(dispatch: Dispatch, bridalKey?: string) {
+    const bridalKeyParam = bridalKey ? `${`/?bridalKey=${bridalKey}`}` : "";
     const data: any = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/common/sale_status"}`
+      `${__API_HOST__}/myapi/common/sale_status${bridalKeyParam}`
     );
     dispatch(updateSales(data.sale));
+    if (bridalKey) {
+      dispatch(updateCurrency(data.currency));
+    }
   },
   getPopupBgUrl: async function(dispatch: Dispatch) {
     let data: any = CacheService.get("popupBgUrl");

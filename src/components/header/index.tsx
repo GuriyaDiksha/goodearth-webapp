@@ -228,14 +228,59 @@ class Header extends React.Component<Props, State> {
     );
   };
 
-  onMenuClick = (l1: string, l2: string, l3: string) => {
-    util.menuNavigationGTM(
-      l1,
-      l2,
-      l3,
-      this.props.mobile,
-      this.props.isLoggedIn
-    );
+  onMenuClick = ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3
+  }: {
+    [x: string]: string;
+  }) => {
+    util.menuNavigationGTM({
+      l1: l1 || "",
+      l2: l2 || "",
+      l3: l3 || "",
+      clickUrl1: clickUrl1 || "",
+      clickUrl2: clickUrl2 || "",
+      clickUrl3: clickUrl3 || "",
+      mobile: this.props.mobile,
+      isLoggedIn: this.props.isLoggedIn
+    });
+  };
+
+  onMegaMenuClick = ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => {
+    const obj = {
+      l1: l1 || "",
+      l2: l2 || "",
+      l3: l3 || "",
+      clickUrl1: clickUrl1 || "",
+      clickUrl2: clickUrl2 || "",
+      clickUrl3: clickUrl3 || "",
+      template: template || "",
+      img2: img2 || "",
+      img3: img3 || "",
+      cta: cta || "",
+      subHeading: subHeading || "",
+      mobile: this.props.mobile || false,
+      isLoggedIn: this.props.isLoggedIn || false
+    };
+    util.megaMenuNavigationGTM(obj);
   };
 
   showSearch = () => {
@@ -756,6 +801,7 @@ class Header extends React.Component<Props, State> {
             >
               <MegaMenuList
                 ipad={false}
+                onHeaderMegaMenuClick={this.onMegaMenuClick}
                 activeIndex={this.state.activeIndex}
                 mouseOut={(data): void => {
                   this.mouseOut(data);
@@ -798,6 +844,7 @@ class Header extends React.Component<Props, State> {
                       <>
                         <Mobilemenu
                           onMobileMenuClick={this.onMenuClick}
+                          onHeaderMegaMenuClick={this.onMegaMenuClick}
                           menudata={this.props.data}
                           megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
@@ -1006,18 +1053,21 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {false &&
-            this.props.currency.toString().toUpperCase() == "INR" &&
-            (this.props.location.pathname.includes("/catalogue/")
-              ? this.props.location.pathname.includes("/category/")
-                ? true
-                : false
-              : true) && (
+          {this.props.currency.toString().toUpperCase() == "INR" &&
+            // ((this.props.location.pathname.includes("/catalogue/")
+            //   ? this.props.location.pathname.includes("/category/")
+            //     ? true
+            //     : false
+            //   : true)
+            !(
+              this.props.location.pathname.includes("/search") ||
+              this.props.location.pathname.includes("/catalogue")
+            ) && (
               <div className={styles.fixedPincodeBar} id="pincode-bar">
                 <div>
                   <span>
-                    We have resumed deliveries Pan India. Enter your Pincode to
-                    check if your location is serviceable.
+                    Due to the current restrictions on movement, please enter
+                    your Pincode to check if your location is serviceable.
                   </span>
                   <a
                     className={styles.pincodeBarBtn}

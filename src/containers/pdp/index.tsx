@@ -152,6 +152,7 @@ class PDPContainer extends React.Component<Props, State> {
       PageTitle: "virtual_pdp_view"
     });
     valid.PDP(this.props.data, this.props.currency);
+    valid.moveChatDown();
     // if (this.props.device.mobile) {
     //   this.getProductImagesData();
     //   const elem = document.getElementById("pincode-bar");
@@ -195,6 +196,7 @@ class PDPContainer extends React.Component<Props, State> {
       //   chatButtonElem.style.bottom = "10px";
       // }
     }
+    valid.moveChatUp();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -976,8 +978,6 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
-        {this.state.showLooks && this.getLooksSection()}
-        <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         {mounted && (
           <MakerEnhance
             user="goodearth"
@@ -985,9 +985,11 @@ class PDPContainer extends React.Component<Props, State> {
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
+        {this.state.showLooks && this.getLooksSection()}
+        <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
-          {this.getMoreCollectionProductsSection()}
+          {!this.state.showLooks && this.getMoreCollectionProductsSection()}
         </div>
       </div>
     );
