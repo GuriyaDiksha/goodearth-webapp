@@ -133,7 +133,7 @@ class PDPContainer extends React.Component<Props, State> {
       PageTitle: "virtual_pdp_view"
     });
     valid.PDP(this.props.data, this.props.currency);
-    valid.moveChatDown();
+    // valid.moveChatDown();
     // if (this.props.device.mobile) {
     //   this.getProductImagesData();
     //   const elem = document.getElementById("pincode-bar");
@@ -177,7 +177,7 @@ class PDPContainer extends React.Component<Props, State> {
       //   chatButtonElem.style.bottom = "10px";
       // }
     }
-    valid.moveChatUp();
+    // valid.moveChatUp();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
