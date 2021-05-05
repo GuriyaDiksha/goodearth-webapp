@@ -167,7 +167,10 @@ const Bridal: React.FC<Props> = props => {
         registryName,
         userAddress
       } = obj;
-      const newBridalDetails: BridalDetailsType = bridalDetails;
+      const newBridalDetails: BridalDetailsType = Object.assign(
+        {},
+        bridalDetails
+      );
       switch (section) {
         case "create":
           newBridalDetails["occasion"] = occasion ? occasion : "";
