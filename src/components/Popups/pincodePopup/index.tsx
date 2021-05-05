@@ -94,13 +94,7 @@ class PincodePopup extends React.Component<Props, State> {
     const { closeModal } = this.context;
     const pincodeForm = (
       <div>
-        <div
-          className={cs(
-            globalStyles.c22AI,
-            globalStyles.voffset5,
-            styles.fontHt
-          )}
-        >
+        <div className={cs(globalStyles.c22AI, styles.fontHt)}>
           We have resumed deliveries Pan India.
         </div>
         <div className={globalStyles.c10LR}>
@@ -143,13 +137,7 @@ class PincodePopup extends React.Component<Props, State> {
     );
     const pincodeSuccess = (
       <div>
-        <div
-          className={cs(
-            globalStyles.c22AI,
-            globalStyles.voffset5,
-            styles.fontHt
-          )}
-        >
+        <div className={cs(globalStyles.c22AI, styles.fontHt)}>
           Start shopping!
         </div>
         <div className={globalStyles.c10LR}>
@@ -174,9 +162,7 @@ class PincodePopup extends React.Component<Props, State> {
     );
     const pincodeFail = (
       <div>
-        <div className={cs(globalStyles.c22AI, globalStyles.voffset7)}>
-          Pincode Not Serviceable
-        </div>
+        <div className={cs(globalStyles.c22AI)}>Pincode Not Serviceable</div>
         <div className={globalStyles.c10LR}>
           <p>
             As per defined Covid 19 restrictions, we will not be able to deliver
@@ -232,7 +218,7 @@ class PincodePopup extends React.Component<Props, State> {
             )}
           ></i>
         </div>
-        <div className={cs(styles.gcTnc, globalStyles.voffset5)}>
+        <div className={cs(styles.gcTnc)}>
           {this.state.status === "" && pincodeForm}
           {this.state.status === "yes" && pincodeSuccess}
           {this.state.status === "no" && pincodeFail}
