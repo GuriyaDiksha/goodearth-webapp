@@ -3,7 +3,7 @@ import ProductService from "services/product";
 // import product from "./data.json";
 
 import { updateProduct } from "actions/product";
-import { getProductIdFromSlug } from "utils/url.ts";
+import { getProductIdFromSlug } from "utils/url";
 import { Product, PartialProductItem } from "typings/product.js";
 
 const initAction: InitAction = async (store, path, cur, currency, history) => {
