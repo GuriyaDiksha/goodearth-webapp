@@ -204,7 +204,7 @@ class Wishlist extends React.Component<Props, State> {
       });
   };
 
-  onChangeFilter = (data?: string) => {
+  onChangeFilter = (data?: string, label?: string) => {
     ReactDOM.unmountComponentAtNode(
       document.getElementById("wishlist") as HTMLDivElement
     );
@@ -252,6 +252,9 @@ class Wishlist extends React.Component<Props, State> {
         break;
       default:
         break;
+    }
+    if (data) {
+      util.sortGTM(label || data);
     }
     window.scrollTo(0, 0);
   };
