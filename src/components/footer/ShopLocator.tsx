@@ -32,6 +32,11 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
         eventCategory: "Click",
         eventLabel: location.pathname
       });
+      // dataLayer.push({
+      //   event: 'Shop Locator',
+      //   'Location Selected': data?.value,
+      //   url: `${location.pathname}${location.search}`
+      // });
     }
   };
 

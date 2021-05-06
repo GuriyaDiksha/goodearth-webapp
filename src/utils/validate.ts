@@ -595,15 +595,15 @@ export function MoreFromCollectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    let category = "";
-    if (data.categories) {
-      const index = data.categories.length - 1;
-      category = data.categories[index]
-        ? data.categories[index].replace(/\s/g, "")
-        : "";
-      category = category.replace(/>/g, "/");
-    }
     product = data.map((prod: any, i: number) => {
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
           {},
@@ -881,5 +881,53 @@ export const moveChatDown = () => {
   if (chatContainer) {
     chatContainer.classList.remove("chat-container");
     chatContainer.classList.add("chat-container-down");
+  }
+};
+
+export const viewSelectionGTM = (clickType: "list" | "grid") => {
+  try {
+    dataLayer.push({
+      event: "View Selection",
+      clickType
+    });
+  } catch (e) {
+    console.log("View Selection GTM error!");
+  }
+};
+
+export const sortGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Sort",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Sort GTM error!");
+  }
+};
+
+export const footerGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Footer Navigation",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Footer Navigation GTM error!");
+  }
+};
+
+export const announcementBarGTM = (clickText: string, clickUrl: string) => {
+  try {
+    dataLayer.push({
+      event: "Announcement Bar Click",
+      clickText,
+      clickUrl,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Announcement Bar click GTM error!");
   }
 };
