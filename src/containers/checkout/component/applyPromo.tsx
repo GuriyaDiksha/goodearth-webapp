@@ -9,10 +9,12 @@ import mapDispatchToProps from "../mapper/action";
 import PromoItem from "./promoDetails";
 import { AppState } from "reducers/typings";
 import * as valid from "utils/validate";
+import { RouteComponentProps, withRouter } from "react-router";
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
-    voucherDiscounts: state.basket.voucherDiscounts
+    voucherDiscounts: state.basket.voucherDiscounts,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 export type PromoProps = {
@@ -21,7 +23,8 @@ export type PromoProps = {
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
-  PromoProps;
+  PromoProps &
+  RouteComponentProps;
 
 class ApplyPromo extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -65,7 +68,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
       cardId: this.state.txtvalue
     };
     this.props
-      .applyPromo(data)
+      .applyPromo(data, this.props.history, this.props.isLoggedIn)
       .then((response: any) => {
         if (response.status == false) {
           this.setState(
@@ -121,11 +124,13 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     const data: any = {
       cardId: code
     };
-    this.props.removePromo(data).then(response => {
-      this.setState({
-        newCardBox: true
+    this.props
+      .removePromo(data, this.props.history, this.props.isLoggedIn)
+      .then(response => {
+        this.setState({
+          newCardBox: true
+        });
       });
-    });
   };
 
   updateError = () => {
@@ -208,4 +213,5 @@ class ApplyPromo extends React.Component<Props, GiftState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplyPromo);
+const ApplyPromoRouter = withRouter(ApplyPromo);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplyPromoRouter);
