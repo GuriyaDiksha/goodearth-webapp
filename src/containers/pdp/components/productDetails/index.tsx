@@ -77,7 +77,8 @@ const ProductDetails: React.FC<Props> = ({
     salesBadgeImage,
     fillerMessage,
     justAddedBadge,
-    badgeType
+    badgeType,
+    invisibleFields
   },
   corporatePDP,
   mobile,
@@ -508,41 +509,43 @@ const ProductDetails: React.FC<Props> = ({
             {productTitle}
             {subtitle && <p>({subtitle.split(")")[0]})</p>}
           </div>
-          <div
-            className={cs(
-              bootstrap.col12,
-              bootstrap.colMd4,
-              styles.priceContainer,
-              { [globalStyles.textCenter]: !mobile }
-            )}
-          >
-            {info.isSale && discount && discountedPriceRecords ? (
-              <span className={styles.discountedPrice}>
-                {String.fromCharCode(...currencyCodes[currency])}
-                &nbsp;
-                {discountPrices}
-                <br />
-              </span>
-            ) : (
-              ""
-            )}
-            {info.isSale && discount ? (
-              <span className={styles.oldPrice}>
-                {String.fromCharCode(...currencyCodes[currency])}
-                &nbsp;
-                {price}
-              </span>
-            ) : (
-              <span
-                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
-              >
-                {" "}
-                {String.fromCharCode(...currencyCodes[currency])}
-                &nbsp;
-                {price}
-              </span>
-            )}
-          </div>
+          {!(invisibleFields.indexOf("price") > -1) && (
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd4,
+                styles.priceContainer,
+                { [globalStyles.textCenter]: !mobile }
+              )}
+            >
+              {info.isSale && discount && discountedPriceRecords ? (
+                <span className={styles.discountedPrice}>
+                  {String.fromCharCode(...currencyCodes[currency])}
+                  &nbsp;
+                  {discountPrices}
+                  <br />
+                </span>
+              ) : (
+                ""
+              )}
+              {info.isSale && discount ? (
+                <span className={styles.oldPrice}>
+                  {String.fromCharCode(...currencyCodes[currency])}
+                  &nbsp;
+                  {price}
+                </span>
+              ) : (
+                <span
+                  className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                >
+                  {" "}
+                  {String.fromCharCode(...currencyCodes[currency])}
+                  &nbsp;
+                  {price}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {groupedProducts?.length ? (
