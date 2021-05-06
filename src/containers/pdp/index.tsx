@@ -39,6 +39,7 @@ import noPlpImage from "images/noimageplp.png";
 import iconFonts from "../../styles/iconFonts.scss";
 import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
 import PDPLooksItem from "components/pairItWith/PDPLooksItem";
+import CookieService from "services/cookie";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -518,6 +519,7 @@ class PDPContainer extends React.Component<Props, State> {
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
       this.props.updateMobileView(plpMobileView);
+      CookieService.setCookie("plpMobileView", plpMobileView);
       valid.viewSelectionGTM(plpMobileView);
     }
   };
