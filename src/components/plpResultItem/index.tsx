@@ -140,7 +140,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 isCorporate ? styles.imageHoverCorporate : styles.imageHover
               }
             >
-              <p onClick={onClickQuickview}>add to bag</p>
+              <p onClick={onClickQuickview}>
+                {isCorporate ? "quickview" : "add to bag"}
+              </p>
             </div>
             {!isCorporate && (
               <div className={styles.imageHover}>
