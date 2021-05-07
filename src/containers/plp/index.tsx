@@ -118,11 +118,11 @@ class PLP extends React.Component<
     this.setState({
       plpMaker: true
     });
-    util.moveChatDown();
+    // util.moveChatDown();
   }
 
   componentWillUnmount() {
-    util.moveChatUp();
+    // util.moveChatUp();
   }
 
   componentDidUpdate(nextProps: Props) {

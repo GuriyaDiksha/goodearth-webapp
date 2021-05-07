@@ -3,7 +3,7 @@ import { useStore } from "react-redux";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import iconStyles from "styles/iconFonts.scss";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
