@@ -48,7 +48,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, pathname: string, currency: Currency) => {
+    reloadPage: (
+      cookies: Cookies,
+      pathname: string,
+      currency: Currency,
+      history: any,
+      isLoggedIn: boolean
+    ) => {
       HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
@@ -67,7 +73,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // });
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch, "checkout");
+        BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
         util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
         BasketService.fetchBasket(dispatch, "cart");
@@ -120,7 +126,9 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
         reloadPage(
           this.props.cookies,
           this.props.location.pathname,
-          data.currency
+          data.currency,
+          this.props.history,
+          this.props.isLoggedIn
         );
       });
     }
