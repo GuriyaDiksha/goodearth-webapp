@@ -595,15 +595,15 @@ export function MoreFromCollectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    let category = "";
-    if (data.categories) {
-      const index = data.categories.length - 1;
-      category = data.categories[index]
-        ? data.categories[index].replace(/\s/g, "")
-        : "";
-      category = category.replace(/>/g, "/");
-    }
     product = data.map((prod: any, i: number) => {
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
           {},
@@ -778,13 +778,20 @@ export const headerClickGTM = (
   }
 };
 
-export const menuNavigationGTM = (
-  l1: string,
-  l2: string,
-  l3: string,
-  mobile: boolean,
-  isLoggedIn: boolean
-) => {
+export const menuNavigationGTM = ({
+  l1,
+  l2,
+  l3,
+  clickUrl1,
+  clickUrl2,
+  clickUrl3,
+  mobile,
+  isLoggedIn
+}: {
+  [x: string]: string | boolean;
+  mobile: boolean;
+  isLoggedIn: boolean;
+}) => {
   try {
     dataLayer.push({
       event: "Menu Navigation",
@@ -792,6 +799,52 @@ export const menuNavigationGTM = (
       l1,
       l2,
       l3,
+      clickUrl1,
+      clickUrl2,
+      clickUrl3,
+      device: mobile ? "mobile" : "desktop",
+      userStatus: isLoggedIn ? "logged in" : "logged out",
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Menu Navigation GTM error!");
+  }
+};
+
+export const megaMenuNavigationGTM = ({
+  l1,
+  l2,
+  l3,
+  clickUrl1,
+  clickUrl2,
+  clickUrl3,
+  template,
+  img2,
+  img3,
+  cta,
+  subHeading,
+  mobile,
+  isLoggedIn
+}: {
+  [x: string]: string | boolean;
+  mobile: boolean;
+  isLoggedIn: boolean;
+}) => {
+  try {
+    dataLayer.push({
+      event: "Menu Navigation",
+      clickType: "Category",
+      l1,
+      l2,
+      l3,
+      clickUrl1,
+      clickUrl2,
+      clickUrl3,
+      template,
+      img2,
+      img3,
+      cta,
+      subHeading,
       device: mobile ? "mobile" : "desktop",
       userStatus: isLoggedIn ? "logged in" : "logged out",
       url: `${location.pathname}${location.search}`
@@ -828,5 +881,53 @@ export const moveChatDown = () => {
   if (chatContainer) {
     chatContainer.classList.remove("chat-container");
     chatContainer.classList.add("chat-container-down");
+  }
+};
+
+export const viewSelectionGTM = (clickType: "list" | "grid") => {
+  try {
+    dataLayer.push({
+      event: "View Selection",
+      clickType
+    });
+  } catch (e) {
+    console.log("View Selection GTM error!");
+  }
+};
+
+export const sortGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Sort",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Sort GTM error!");
+  }
+};
+
+export const footerGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Footer Navigation",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Footer Navigation GTM error!");
+  }
+};
+
+export const announcementBarGTM = (clickText: string, clickUrl: string) => {
+  try {
+    dataLayer.push({
+      event: "Announcement Bar Click",
+      clickText,
+      clickUrl,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Announcement Bar click GTM error!");
   }
 };

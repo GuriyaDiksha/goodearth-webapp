@@ -5,11 +5,28 @@ import Title from "../menuComponents/Title";
 
 type Props = {
   data: MenuComponent;
+  templateType: string;
+  l1: string;
+  onHeaderMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
 };
-const Image: React.FC<Props> = ({ data }) => {
+const Image: React.FC<Props> = props => {
   return (
     <div className={styles.image}>
-      <Title data={data} />
+      <Title {...props} />
     </div>
   );
 };

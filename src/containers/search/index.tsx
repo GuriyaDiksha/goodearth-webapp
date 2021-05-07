@@ -95,7 +95,7 @@ class Search extends React.Component<
     };
   }
 
-  onchangeFilter = (data: any): void => {
+  onchangeFilter = (data: any, label?: string): void => {
     this.child.changeValue(null, data);
     const {
       device: { mobile }
@@ -103,6 +103,7 @@ class Search extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
+    util.sortGTM(label || data);
   };
 
   setFilterCount = (count: number) => {

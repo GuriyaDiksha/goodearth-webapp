@@ -10,6 +10,7 @@ import iconStyles from "styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
 import OtpReedem from "components/OtpComponent/otpReedem";
 import * as valid from "utils/validate";
+import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -20,7 +21,8 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
-  ReddemProps;
+  ReddemProps &
+  RouteComponentProps;
 
 class Reedem extends React.Component<Props, RedeemState> {
   constructor(props: Props) {
@@ -95,7 +97,7 @@ class Reedem extends React.Component<Props, RedeemState> {
   };
 
   removeRedeem = async () => {
-    this.props.removeRedeem();
+    this.props.removeRedeem(this.props.history, this.props.user.isLoggedIn);
   };
 
   render() {
@@ -201,6 +203,8 @@ class Reedem extends React.Component<Props, RedeemState> {
                   updateError={this.updateError}
                   toggleOtp={this.toggleOtp}
                   key={"reedem"}
+                  isLoggedIn={this.props.user.isLoggedIn}
+                  history={this.props.history}
                   sendOtp={this.props.sendOtpRedeem}
                   isCredit={true}
                   checkOtpRedeem={this.props.checkOtpRedeem}
@@ -218,4 +222,5 @@ class Reedem extends React.Component<Props, RedeemState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reedem);
+const ReedemRouter = withRouter(Reedem);
+export default connect(mapStateToProps, mapDispatchToProps)(ReedemRouter);
