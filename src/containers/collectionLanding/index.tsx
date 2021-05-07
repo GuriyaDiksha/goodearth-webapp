@@ -83,7 +83,7 @@ class CollectionLanding extends React.Component<
     landingMaker: false
   };
 
-  onChangeFilter = (data: any): void => {
+  onChangeFilter = (data: any, label?: string): void => {
     const {
       history,
       match: { params }
@@ -102,6 +102,7 @@ class CollectionLanding extends React.Component<
         },
         () => {
           window.scrollTo(0, 0);
+          // util.sortGTM(label || data);
         }
       );
     }

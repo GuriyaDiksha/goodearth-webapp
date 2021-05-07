@@ -114,6 +114,7 @@ export default {
     if (res.basket.updated || res.basket.publishRemove) {
       util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
+    await this.updateWishlist(dispatch);
     return res;
   },
 

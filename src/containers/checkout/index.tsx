@@ -95,10 +95,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(updateAddressList(addressList));
       return addressList;
     },
-    reloadPage: (cookies: Cookies) => {
+    reloadPage: (cookies: Cookies, history: any, isLoggedIn: boolean) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(dispatch, "checkout");
+      BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
       valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
       // HeaderService.fetchHomepageData(dispatch);
       HeaderService.fetchHeaderDetails(dispatch);
@@ -124,8 +124,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       dispatch(updateModal(true));
     },
-    fetchBasket: async () => {
-      return await BasketService.fetchBasket(dispatch, "checkout");
+    fetchBasket: async (history: any, isLoggedIn: boolean) => {
+      return await BasketService.fetchBasket(
+        dispatch,
+        "checkout",
+        history,
+        isLoggedIn
+      );
     },
     getBoDetail: async (id: string) => {
       return await CheckoutService.getBoDetail(dispatch, id);
@@ -294,19 +299,21 @@ class Checkout extends React.Component<Props, State> {
         });
       });
     }
-    this.props.fetchBasket().then(res => {
-      let basketBridalId = 0;
-      res.lineItems.map(item =>
-        item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
-      );
-      if (basketBridalId && basketBridalId == this.props.bridalId) {
-        this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
-      }
-      if (this.checkToMessage(res)) {
-        this.props.showNotify(REGISTRY_MIXED_SHIPPING);
-      }
-      valid.checkoutGTM(1, this.props.currency, res);
-    });
+    this.props
+      .fetchBasket(this.props.history, this.props.user.isLoggedIn)
+      .then(res => {
+        let basketBridalId = 0;
+        res.lineItems.map(item =>
+          item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+        );
+        if (basketBridalId && basketBridalId == this.props.bridalId) {
+          this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
+        }
+        if (this.checkToMessage(res)) {
+          this.props.showNotify(REGISTRY_MIXED_SHIPPING);
+        }
+        valid.checkoutGTM(1, this.props.currency, res);
+      });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -329,9 +336,6 @@ class Checkout extends React.Component<Props, State> {
         });
       }
 
-      if (nextProps.basket.redirectToCart) {
-        this.props.history.push("/cart", {});
-      }
       if (
         (this.state.activeStep == Steps.STEP_SHIPPING ||
           this.state.activeStep == Steps.STEP_LOGIN) &&
@@ -518,7 +522,11 @@ class Checkout extends React.Component<Props, State> {
                   loyaltyData: loyalty
                 });
               });
-              this.props.reloadPage(this.props.cookies);
+              this.props.reloadPage(
+                this.props.cookies,
+                this.props.history,
+                this.props.user.isLoggedIn
+              );
             }
           }
         })

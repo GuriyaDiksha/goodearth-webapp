@@ -6,6 +6,6 @@ export type MobileDropdownMenuProps = {
   open?: boolean;
   showCaret?: boolean;
   onStateChange: (state: boolean) => void;
-  onChange: (data: any) => void;
+  onChange: (data: any, label: string) => void;
   filterCount?: number;
 };
