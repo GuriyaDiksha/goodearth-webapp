@@ -8,7 +8,7 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import * as valid from "utils/validate";
 
 const mapStateToProps = (state: AppState) => {
@@ -21,7 +21,8 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> &
+  RouteComponentProps;
 
 class ApplyGiftcard extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -75,22 +76,24 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       cardId: this.state.txtvalue
     };
 
-    this.props.applyGiftCard(data).then((response: any) => {
-      if (response.status == false) {
-        this.updateError(response.message, response.isNotActivated);
-      } else {
-        dataLayer.push({
-          event: "eventsToSend",
-          eventAction: "giftCard",
-          eventCategory: "promoCoupons",
-          eventLabel: data.cardId
-        });
-        this.setState({
-          newCardBox: false,
-          txtvalue: ""
-        });
-      }
-    });
+    this.props
+      .applyGiftCard(data, this.props.history, this.props.user.isLoggedIn)
+      .then((response: any) => {
+        if (response.status == false) {
+          this.updateError(response.message, response.isNotActivated);
+        } else {
+          dataLayer.push({
+            event: "eventsToSend",
+            eventAction: "giftCard",
+            eventCategory: "promoCoupons",
+            eventLabel: data.cardId
+          });
+          this.setState({
+            newCardBox: false,
+            txtvalue: ""
+          });
+        }
+      });
   };
 
   gcBalanceOtp = (response: any) => {
@@ -120,11 +123,13 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     const data: any = {
       cardId: code
     };
-    this.props.removeGiftCard(data).then(response => {
-      this.setState({
-        newCardBox: true
+    this.props
+      .removeGiftCard(data, this.props.history, this.props.user.isLoggedIn)
+      .then(response => {
+        this.setState({
+          newCardBox: true
+        });
       });
-    });
   };
 
   updateError = (value?: string, activate?: boolean) => {
@@ -253,4 +258,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplyGiftcard);
+const ApplyGiftcardRouter = withRouter(ApplyGiftcard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ApplyGiftcardRouter);
