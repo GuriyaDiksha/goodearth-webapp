@@ -114,7 +114,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
         }
       }
 
-      const { states, isd, value } = countryOptions.filter(
+      const { states, isd } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
 
