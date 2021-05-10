@@ -43,6 +43,7 @@ const Bridal: React.FC<Props> = props => {
   // const [ registryCreateError, setRegistryCreateError ] = useState("");
   // const [ showPopup, setShowPopup ] = useState(false);
   const [shareLink, setShareLink] = useState("");
+  const [lastScreen, setLastScreen] = useState("");
   // const [ showpop, setShowpop ] = useState(false);
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
@@ -216,7 +217,8 @@ const Bridal: React.FC<Props> = props => {
         currency,
         actionType: "create"
       };
-
+      // setCurrentModule("created");
+      setLastScreen("start");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
           if (data) {
@@ -429,7 +431,11 @@ const Bridal: React.FC<Props> = props => {
       }}
     >
       <div className="bridal-registry">
-        {props.bridalId != 0 ? currentScreen() : setSelectedSection()}
+        {lastScreen == "start"
+          ? setSelectedSection()
+          : props.bridalId != 0
+          ? currentScreen()
+          : setSelectedSection()}
       </div>
     </BridalContext.Provider>
   );
