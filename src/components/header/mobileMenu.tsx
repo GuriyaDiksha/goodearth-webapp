@@ -163,6 +163,23 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
+          } else if (["TITLEHEADING"].includes(template.templateType)) {
+            const componentData = template.templateData
+              .componentData as MenuComponentTitleData;
+            const children = template.templateData.children;
+            const { title, link } = componentData;
+            l2MenuData.text = title;
+            l2MenuData.link = link;
+            children &&
+              children.length > 1 &&
+              children.map((child, index) => {
+                const childComponentData = child.componentData as MenuComponentImageData;
+                const l3MenuData: L2MenuData = {
+                  text: childComponentData.heading,
+                  link: childComponentData.link
+                };
+                l2MenuData.children && l2MenuData.children.push(l3MenuData);
+              });
           }
           innerMenuData.l2MenuData.push(l2MenuData);
         }
@@ -329,16 +346,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     });
     templates.map(template => {
       if (template.publishOnMobile) {
-        html.push(
-          <div onClick={() => this.props.clickToggle()}>
-            <ImageWithSideSubheadingMobile
-              data={template.templateData}
-              templateType={template.templateType}
-              l1={megaMenuData.text}
-              onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
-            />
-          </div>
-        );
         if (template.templateType == "TITLEHEADING") {
           html.push(
             <div onClick={() => this.props.clickToggle()}>
