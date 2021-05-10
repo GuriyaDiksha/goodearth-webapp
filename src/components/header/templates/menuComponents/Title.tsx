@@ -38,33 +38,68 @@ const Title: React.FC<Props> = ({
     <>
       <div className={styles.blockTitle}>
         {componentData.link ? (
-          <Link
-            className={styles.title}
-            to={componentData.link}
-            onClick={() =>
-              onHeaderMegaMenuClick({
-                l1,
-                l2: componentData.title,
-                clickUrl2: componentData.link,
-                template: templateType
-              })
-            }
-          >
-            {componentData.title}
-          </Link>
+          <>
+            <Link
+              className={styles.title}
+              to={componentData.link}
+              onClick={() =>
+                onHeaderMegaMenuClick({
+                  l1,
+                  l2: componentData.title,
+                  clickUrl2: componentData.link,
+                  template: templateType
+                })
+              }
+            >
+              {componentData.title}
+            </Link>
+            {componentData.src && (
+              <Link
+                to={componentData.link}
+                onClick={() =>
+                  onHeaderMegaMenuClick({
+                    l1,
+                    l2: componentData.title,
+                    template: templateType,
+                    clickUrl2: componentData.link,
+                    img2: componentData.src || ""
+                  })
+                }
+              >
+                <img className={styles.img} src={componentData.src} />
+              </Link>
+            )}
+          </>
         ) : (
-          <div
-            className={styles.title}
-            onClick={() =>
-              onHeaderMegaMenuClick({
-                l1,
-                l2: componentData.title,
-                template: templateType
-              })
-            }
-          >
-            {componentData.title}
-          </div>
+          <>
+            <div
+              className={styles.title}
+              onClick={() =>
+                onHeaderMegaMenuClick({
+                  l1,
+                  l2: componentData.title,
+                  template: templateType
+                })
+              }
+            >
+              {componentData.title}
+            </div>
+            {componentData.src && (
+              <div
+                className={styles.imgContainer}
+                onClick={() =>
+                  onHeaderMegaMenuClick({
+                    l1,
+                    l2: componentData.title,
+                    template: templateType,
+                    img2: componentData.src || ""
+                  })
+                }
+              >
+                <img className={styles.img} src={componentData.src} />
+              </div>
+            )}
+          </>
         )}
       </div>
       {data.children && data.children.length > 0 && (
