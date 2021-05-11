@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         dispatch,
         data
       );
-      return points;
+      dispatch(updateUser({ loyaltyData: points }));
     },
     showPopup: (setInfoPopupCookie: () => void) => {
       dispatch(
@@ -166,7 +166,6 @@ type State = {
   id: string;
   addressIdError: string;
   isGoodearthShipping: boolean;
-  loyaltyData: any;
   isSuspended: boolean;
   boEmail: string;
   boId: string;
@@ -207,8 +206,7 @@ class Checkout extends React.Component<Props, State> {
       isGoodearthShipping:
         props.user.shippingData && props.user.shippingData.isTulsi
           ? true
-          : false,
-      loyaltyData: {}
+          : false
     };
   }
   setInfoPopupCookie() {
@@ -287,18 +285,6 @@ class Checkout extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_checkout_view"
     });
-    // code for call loyalty point api only one time
-    if (email) {
-      const data: any = {
-        email: email
-      };
-
-      getLoyaltyPoints(data).then(loyalty => {
-        this.setState({
-          loyaltyData: loyalty
-        });
-      });
-    }
     this.props
       .fetchBasket(this.props.history, this.props.user.isLoggedIn)
       .then(res => {
@@ -313,28 +299,19 @@ class Checkout extends React.Component<Props, State> {
           this.props.showNotify(REGISTRY_MIXED_SHIPPING);
         }
         valid.checkoutGTM(1, this.props.currency, res);
+        // code for call loyalty point api only one time
+        if (email) {
+          const data: any = {
+            email: email
+          };
+          getLoyaltyPoints(data);
+        }
       });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.user.isLoggedIn) {
       const { shippingData } = nextProps.user;
-      const {
-        user: { email },
-        getLoyaltyPoints
-      } = this.props;
-
-      // code for call loyalty point api only one time
-      if (!email && nextProps.user.email) {
-        const data: any = {
-          email: nextProps.user.email
-        };
-        getLoyaltyPoints(data).then(loyalty => {
-          this.setState({
-            loyaltyData: loyalty
-          });
-        });
-      }
 
       if (
         (this.state.activeStep == Steps.STEP_SHIPPING ||
@@ -517,11 +494,7 @@ class Checkout extends React.Component<Props, State> {
               const data: any = {
                 email: this.props.user.email
               };
-              this.props.getLoyaltyPoints(data).then(loyalty => {
-                this.setState({
-                  loyaltyData: loyalty
-                });
-              });
+              this.props.getLoyaltyPoints(data);
               this.props.reloadPage(
                 this.props.cookies,
                 this.props.history,
@@ -668,7 +641,6 @@ class Checkout extends React.Component<Props, State> {
                 user={this.props.user}
                 checkout={this.finalOrder}
                 currency={this.props.currency}
-                loyaltyData={this.state.loyaltyData}
               />
             </div>
             <div className={cs(bootstrap.col12, bootstrap.colMd4)}>
