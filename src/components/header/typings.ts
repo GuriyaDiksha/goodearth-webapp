@@ -37,7 +37,7 @@ export type MenuComponentL2L3Data = {
   text: string;
   link: string;
   ctaName: string;
-  src: string;
+  src?: string;
   thumbnailSrc: string;
 };
 
@@ -45,6 +45,8 @@ export type MenuComponentTitleData = {
   title: string;
   link: string;
   ctaName: string;
+  src?: string;
+  thumbnailSrc: string;
 };
 
 export type MenuComponentImageData = {
