@@ -42,7 +42,7 @@ html(lang='en')
 
           function OpenBox() {
               // initialize freshchat if not already
-              if(!window.fcWidget || !window.fcWidget.isInitialized()) {
+              if(!window.fcWidget) {
                 initialize(document,"freshchat-js-sdk");
               }
               //- var rem2 = document.getElementById("lc_chat_layout");
@@ -171,7 +171,21 @@ html(lang='en')
                   }
               }
           })
+          const handleMouseMove = function () {
+            if(!window.fcWidget) {
+              initialize(document,"freshchat-js-sdk");
+            }
+            window.removeEventListener('mousemove', handleMouseMove);
+          }
+          window.addEventListener('mousemove', handleMouseMove)
 
+          const initializeFreshChat = function () {
+            if(!window.fcWidget) {
+              initialize(document,"freshchat-js-sdk");
+            }
+            window.removeEventListener('scroll', initializeFreshChat);
+          }
+          window.addEventListener('scroll', initializeFreshChat)
         
         script.
           window.dataLayer = window.dataLayer || [];
