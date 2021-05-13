@@ -21,7 +21,7 @@ import { AddressContext } from "components/Address/AddressMain/context";
 import { updateAddressList } from "actions/address";
 import { updateUser } from "actions/user";
 import { POPUP } from "constants/components";
-
+import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
 };
@@ -43,6 +43,7 @@ const Bridal: React.FC<Props> = props => {
   // const [ registryCreateError, setRegistryCreateError ] = useState("");
   // const [ showPopup, setShowPopup ] = useState(false);
   const [shareLink, setShareLink] = useState("");
+  const [lastScreen, setLastScreen] = useState("");
   // const [ showpop, setShowpop ] = useState(false);
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
@@ -167,7 +168,10 @@ const Bridal: React.FC<Props> = props => {
         registryName,
         userAddress
       } = obj;
-      const newBridalDetails: BridalDetailsType = bridalDetails;
+      const newBridalDetails: BridalDetailsType = Object.assign(
+        {},
+        bridalDetails
+      );
       switch (section) {
         case "create":
           newBridalDetails["occasion"] = occasion ? occasion : "";
@@ -191,7 +195,7 @@ const Bridal: React.FC<Props> = props => {
             if (isValid) {
               // this.props.onSelectAddress(address);
               newBridalDetails["userAddress"] = userAddress;
-              setCurrentModule("created");
+              // setCurrentModule("address");
             } else {
               // this.manageAddressPostcode("edit", address);
               openAddressForm(userAddress);
@@ -213,7 +217,8 @@ const Bridal: React.FC<Props> = props => {
         currency,
         actionType: "create"
       };
-
+      // setCurrentModule("created");
+      setLastScreen("start");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
           if (data) {
@@ -223,7 +228,7 @@ const Bridal: React.FC<Props> = props => {
               bridalCurrency: currency
             });
             dispatch(updateUser(updatedUser));
-            openBridalPop();
+            setCurrentModule("created");
           }
         })
         .catch(err => {
@@ -288,6 +293,7 @@ const Bridal: React.FC<Props> = props => {
             addressType="SHIPPING"
             error=""
             addresses={[]}
+            createRegistry={createRegistry}
           />
         );
       // return <ManageAddress isbridal={true}
@@ -297,7 +303,7 @@ const Bridal: React.FC<Props> = props => {
       //                       addressType="SHIPPING" case="create"/>
       case "created":
         return (
-          <RegistryCreated errorMessage="" createRegistry={createRegistry} />
+          <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
         );
       default:
     }
@@ -425,7 +431,11 @@ const Bridal: React.FC<Props> = props => {
       }}
     >
       <div className="bridal-registry">
-        {props.bridalId != 0 ? currentScreen() : setSelectedSection()}
+        {lastScreen == "start"
+          ? setSelectedSection()
+          : props.bridalId != 0
+          ? currentScreen()
+          : setSelectedSection()}
       </div>
     </BridalContext.Provider>
   );

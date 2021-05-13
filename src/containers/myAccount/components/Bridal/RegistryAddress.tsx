@@ -28,10 +28,12 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
   // editMode: false
 
   const { isBridal, setCurrentModule } = useContext(BridalContext);
-  const { mode, currentCallBackComponent, closeAddressForm } = useContext(
-    AddressContext
-  );
-
+  const {
+    mode,
+    currentCallBackComponent,
+    openAddressForm,
+    closeAddressForm
+  } = useContext(AddressContext);
   const dispatch = useDispatch();
   useEffect(() => {
     AddressService.fetchAddressList(dispatch).then(addressList => {
@@ -67,6 +69,37 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
   // setCurrentModule("address");
 
   // setAddressModeProfile({showAddresses: true, editMode: false, newAddressMode: false, addressesAvailable: false});
+  // };
+
+  // const renderActions = function() {
+  //   if (isActive && isLoggedIn) {
+  //     const clickAction =
+  //       mode == "list" ? openNewAddressForm : backToAddressList;
+  //     const fullText =
+  //       mode == "new" || mode == "edit"
+  //         ? "< BACK TO SAVED ADDRESSES"
+  //         : "[+] ADD NEW ADDRESS";
+  //     const mobileText =
+  //       mode == "new" || mode == "edit" ? "< BACK" : "[+] ADD ADDRESS";
+  //     if (isBridal && activeStep == Steps.STEP_SHIPPING) return "";
+  //     return (
+  //       <div
+  //         className={cs(
+  //           bootstrapStyles.col6,
+  //           bootstrapStyles.colMd6,
+  //           styles.small,
+  //           globalStyles.textRight
+  //         )}
+  //       >
+  //         <div
+  //           className={cs(styles.formSubheading, globalStyles.pointer)}
+  //           onClick={clickAction}
+  //         >
+  //           {mobile ? <span>{mobileText}</span> : <span>{fullText}</span>}
+  //         </div>
+  //       </div>
+  //     );
+  //   }
   // };
 
   return (
@@ -157,6 +190,25 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
         ) : (
           <div className={globalStyles.c10LR}>
             Add multiple billing and shipping addresses.
+          </div>
+        )}
+
+        {isBridal && mode == "list" && (
+          <div
+            className={cs(
+              styles.formSubheading,
+              styles.formHeading,
+              globalStyles.pointer
+            )}
+            onClick={() => {
+              openAddressForm();
+            }}
+          >
+            {mobile ? (
+              <span>[+] ADD ADDRESS</span>
+            ) : (
+              <span>[+] ADD NEW ADDRESS</span>
+            )}
           </div>
         )}
 
