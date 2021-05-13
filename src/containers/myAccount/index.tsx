@@ -7,6 +7,7 @@ import {
   useLocation,
   useHistory
 } from "react-router-dom";
+import LoginService from "services/login";
 import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -255,7 +256,11 @@ const MyAccount: React.FC<Props> = props => {
       ).length > 0 &&
       !isLoggedIn
     ) {
-      history.push("/");
+      if (pathname == "/account/bridal") {
+        LoginService.showLogin(dispatch);
+      } else {
+        history.push("/");
+      }
     }
   }, [pathname, isLoggedIn]);
 
