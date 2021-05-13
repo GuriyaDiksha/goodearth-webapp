@@ -41,7 +41,10 @@ html(lang='en')
           }
 
           function OpenBox() {
-            
+              // initialize freshchat if not already
+              if(!window.fcWidget) {
+                initialize(document,"freshchat-js-sdk");
+              }
               //- var rem2 = document.getElementById("lc_chat_layout");
               //- rem2.classList.remove("lc-collapsed");
               //- rem2.classList.remove("lc-expanded");
@@ -142,7 +145,10 @@ html(lang='en')
                 }
               });
             }
-            function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+            //- default freshchat script
+            //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+
+            function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}
 
           function ScrollToTop() {
               window.scrollTo({
@@ -165,7 +171,21 @@ html(lang='en')
                   }
               }
           })
+          const handleMouseMove = function () {
+            if(!window.fcWidget) {
+              initialize(document,"freshchat-js-sdk");
+            }
+            window.removeEventListener('mousemove', handleMouseMove);
+          }
+          window.addEventListener('mousemove', handleMouseMove)
 
+          const initializeFreshChat = function () {
+            if(!window.fcWidget) {
+              initialize(document,"freshchat-js-sdk");
+            }
+            window.removeEventListener('scroll', initializeFreshChat);
+          }
+          window.addEventListener('scroll', initializeFreshChat)
         
         script.
           window.dataLayer = window.dataLayer || [];

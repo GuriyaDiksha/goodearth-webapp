@@ -3,6 +3,7 @@ import { updateCookies } from "actions/cookies";
 import { updateCurrency } from "actions/currency";
 import { AppState } from "reducers/typings";
 import { updatePlpMobileView } from "actions/plp";
+import { updateShowCookie } from "actions/info";
 // import { updateComponent, updateModal } from "actions/modal";
 // import { POPUP } from "../../constants/components";
 // import API from "utils/api";
@@ -31,6 +32,10 @@ export default async function cookies(
 
   if (plpMobileView && (plpMobileView == "list" || plpMobileView == "grid")) {
     store.dispatch(updatePlpMobileView(plpMobileView));
+  }
+  const showCookie = ctx.cookies.get("goodearth");
+  if (showCookie != "show") {
+    store.dispatch(updateShowCookie(true));
   }
   if (
     !currency &&
