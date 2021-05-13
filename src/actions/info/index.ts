@@ -24,3 +24,6 @@ export const updateScrollDown = (scrollDown: boolean) =>
 
 export const updateMicroUrl = (url: string) =>
   actionCreator("UPDATE_MICRO_URL", url);
+
+export const updateShowCookie = (showCookie: boolean) =>
+  actionCreator("UPDATE_SHOW_COOKIE", showCookie);
