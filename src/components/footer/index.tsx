@@ -14,6 +14,7 @@ import fontStyles from "styles/iconFonts.scss";
 import * as valid from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
+import { updateShowCookie } from "actions/info";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -21,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     isLoggedIn: state.user.email ? true : false,
     saleStatus: false,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showCookie: state.info.showCookie
   };
 };
 
@@ -33,6 +35,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         email
       );
       return res;
+    },
+    hideCookies: () => {
+      dispatch(updateShowCookie(false));
     }
   };
 };
@@ -53,7 +58,6 @@ class Footer extends React.Component<Props, FooterState> {
       hideImage: false,
       newsletterEmail: "",
       newsletterMessage: "",
-      showCookie: false,
       isInViewport: false
     };
   }
@@ -98,13 +102,6 @@ class Footer extends React.Component<Props, FooterState> {
   }
 
   componentDidMount() {
-    const cookie = CookieService.getCookie("goodearth");
-    if (cookie != "show") {
-      this.setState({
-        showCookie: true
-      });
-    }
-
     if (!window.IntersectionObserver) {
       this.setState({
         isInViewport: true
@@ -222,10 +219,7 @@ class Footer extends React.Component<Props, FooterState> {
 
   acceptCookies = () => {
     CookieService.setCookie("goodearth", "show", 365);
-    // document.cookie = cookieString;
-    this.setState({
-      showCookie: false
-    });
+    this.props.hideCookies();
   };
 
   render() {
@@ -867,7 +861,7 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {this.state.showCookie && (
+        {this.props.showCookie && (
           <div className={styles.cookieclass}>
             <span
               className={cs(
@@ -876,7 +870,7 @@ class Footer extends React.Component<Props, FooterState> {
                 fontStyles.iconCross
               )}
               onClick={() => {
-                this.setState({ showCookie: false });
+                this.props.hideCookies();
               }}
             ></span>
             <h3>COOKIES & PRIVACY</h3>
