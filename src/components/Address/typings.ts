@@ -59,6 +59,7 @@ export type Props = {
   addressType: string;
   addresses: AddressData[];
   setCurrentSection?: () => void;
+  createRegistry?: () => void;
   // user:
   error: string;
 };

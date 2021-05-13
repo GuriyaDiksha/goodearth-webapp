@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
-
+import CustomerCareInfo from "components/CustomerCareInfo";
 class OtpComponent extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -932,6 +932,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   >
                     {this.state.showerrorOtp}
                   </p>
+                  <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
                 </div>
               </li>
               <li className={globalStyles.voffset2}>

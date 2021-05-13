@@ -29,7 +29,7 @@ const RegistryCreated: React.FC<Props> = props => {
   // }
 
   const saveBridalDate = () => {
-    props.createRegistry();
+    props.openBridalPop();
   };
 
   return (
