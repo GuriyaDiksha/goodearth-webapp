@@ -8,7 +8,8 @@ const initialState: State = {
   nextUrl: "",
   deliveryText: "",
   scrollDown: false,
-  microUrl: ""
+  microUrl: "",
+  showCookie: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -51,6 +52,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_MICRO_URL": {
       const newState = { ...state };
       newState.microUrl = action.payload;
+      return newState;
+    }
+    case "UPDATE_SHOW_COOKIE": {
+      const newState = { ...state };
+      newState.showCookie = action.payload;
       return newState;
     }
   }

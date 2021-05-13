@@ -2,6 +2,7 @@ import Koa from "koa";
 import { updateCookies } from "actions/cookies";
 import { updateCurrency } from "actions/currency";
 import { AppState } from "reducers/typings";
+import { updateShowCookie } from "actions/info";
 // import { updateComponent, updateModal } from "actions/modal";
 // import { POPUP } from "../../constants/components";
 // import API from "utils/api";
@@ -26,6 +27,10 @@ export default async function cookies(
   const queryString = search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
+  const showCookie = ctx.cookies.get("goodearth");
+  if (showCookie != "show") {
+    store.dispatch(updateShowCookie(true));
+  }
   if (
     !currency &&
     (!isBridalBasket || isBridalBasket == "no") &&

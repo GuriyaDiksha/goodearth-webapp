@@ -10,6 +10,7 @@ export type State = {
   deliveryText: string;
   scrollDown: boolean;
   microUrl: string;
+  showCookie: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;
