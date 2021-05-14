@@ -72,16 +72,12 @@ const FreeShipping: React.FC<PopupProps> = props => {
               </p>
             )} */}
             <p>
-              Due to the evolving Covid-19 situation and in the interest of the
-              health and safety of our teams, customers and partners, we are
-              halting dispatches of orders for this week, ending 16th May 2021.
-              While we try our best, please note that the delivery timelines
-              will also be impacted.
+              Due to Covid-19 and the evolving restrictions on movement, there
+              may be an impact on delivery timelines.
             </p>
             <p>
-              We will continue to monitor the situation and shall resume normal
-              operations, at the earliest opportunity. Thank you for your
-              understanding and support.
+              We thank you for your understanding and will do our best to
+              deliver to you at the earliest.
             </p>
           </div>
           <div
