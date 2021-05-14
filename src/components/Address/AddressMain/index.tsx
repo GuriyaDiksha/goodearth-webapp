@@ -246,7 +246,9 @@ const AddressMain: React.FC<Props> = props => {
                     <input
                       type="button"
                       className={cs(globalStyles.ceriseBtn, {
-                        [globalStyles.disabledBtn]: !userAddress?.id
+                        [globalStyles.disabledBtn]:
+                          currentCallBackComponent == "bridal" &&
+                          !userAddress?.id
                       })}
                       value={
                         currentCallBackComponent == "bridal"
