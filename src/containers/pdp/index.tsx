@@ -154,7 +154,7 @@ class PDPContainer extends React.Component<Props, State> {
     });
     const { data, currency } = this.props;
     valid.PDP(data, currency);
-    // valid.moveChatDown();
+    valid.moveChatDown();
     if (data && data.looksProducts && data.looksProducts.length >= 2) {
       valid.MoreFromCollectionProductImpression(
         data.looksProducts,
@@ -162,7 +162,6 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
-
     // if (this.props.device.mobile) {
     //   this.getProductImagesData();
     //   const elem = document.getElementById("pincode-bar");
@@ -206,7 +205,7 @@ class PDPContainer extends React.Component<Props, State> {
       //   chatButtonElem.style.bottom = "10px";
       // }
     }
-    // valid.moveChatUp();
+    valid.moveChatUp();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
