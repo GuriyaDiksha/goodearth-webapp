@@ -1,6 +1,7 @@
 import { Location } from "history";
 import { Currency } from "../../typings/currency";
 import { Basket } from "typings/basket";
+import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 
 export interface Childern {
   url: string;
@@ -222,6 +223,12 @@ export type MobileListProps = {
   }: {
     [x: string]: string;
   }) => void;
+  wishlistCount: number;
+  changeCurrency: (cur: any) => void;
+  showCurrency: () => void;
+  showC: boolean;
+  profileItems: DropdownItem[];
+  goLogin: (e?: React.MouseEvent) => void;
 };
 export interface State {
   show: boolean;

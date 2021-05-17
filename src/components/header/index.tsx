@@ -1,11 +1,6 @@
 import loadable from "@loadable/component";
 import React from "react";
-import {
-  Link,
-  NavLink,
-  RouteComponentProps,
-  withRouter
-} from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -393,7 +388,6 @@ class Header extends React.Component<Props, State> {
     } = this.props;
     const messageText = announcement.message?.split("|");
     const wishlistCount = wishlistData.length;
-    const wishlistIcon = wishlistCount > 0;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -868,201 +862,13 @@ class Header extends React.Component<Props, State> {
                           megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
                           clickToggle={this.clickToggle}
+                          wishlistCount={wishlistCount}
+                          changeCurrency={this.changeCurrency}
+                          showCurrency={this.showCurrency}
+                          showC={this.state.showC}
+                          profileItems={profileItems}
+                          goLogin={this.props.goLogin}
                         />
-                        <div className={styles.lowerMenu}>
-                          <ul>
-                            <li>
-                              {isLoggedIn ? (
-                                <Link
-                                  to="/wishlist"
-                                  className={styles.wishlistLink}
-                                  onClick={() => {
-                                    this.clickToggle();
-                                    util.headerClickGTM(
-                                      "Wishlist",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                  }}
-                                >
-                                  <i
-                                    className={cs(
-                                      styles.wishlistIcon,
-                                      { [globalStyles.cerise]: wishlistIcon },
-                                      {
-                                        [iconStyles.iconWishlistAdded]: wishlistIcon
-                                      },
-                                      {
-                                        [iconStyles.iconWishlist]: !wishlistIcon
-                                      },
-                                      iconStyles.icon
-                                    )}
-                                  />
-                                  <span>
-                                    {" "}
-                                    wishlist{" "}
-                                    {wishlistCount ? `(${wishlistCount})` : ""}
-                                  </span>
-                                </Link>
-                              ) : (
-                                <div
-                                  onClick={e => {
-                                    this.props.goLogin(e);
-                                    util.headerClickGTM(
-                                      "Wishlist",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                  className={styles.wishlistLink}
-                                >
-                                  <i
-                                    className={cs(
-                                      styles.wishlistIcon,
-                                      { [globalStyles.cerise]: wishlistIcon },
-                                      {
-                                        [iconStyles.iconWishlistAdded]: wishlistIcon
-                                      },
-                                      {
-                                        [iconStyles.iconWishlist]: !wishlistIcon
-                                      },
-                                      iconStyles.icon
-                                    )}
-                                  />
-                                  <span> wishlist</span>
-                                </div>
-                              )}
-                            </li>
-                            <li
-                              className={
-                                this.state.showC
-                                  ? cs(styles.currency, styles.before)
-                                  : this.props.location.pathname.indexOf(
-                                      "/bridal/"
-                                    ) > 0
-                                  ? cs(styles.currency, styles.op3)
-                                  : styles.currency
-                              }
-                              onClick={this.showCurrency}
-                            >
-                              {" "}
-                              change currency:
-                            </li>
-                            <li
-                              className={this.state.showC ? "" : styles.hidden}
-                            >
-                              <ul className={styles.noMargin}>
-                                <li
-                                  data-name="INR"
-                                  className={
-                                    this.props.currency == "INR"
-                                      ? styles.cerise
-                                      : ""
-                                  }
-                                  onClick={() => {
-                                    this.changeCurrency("INR");
-                                    util.headerClickGTM(
-                                      "Currency",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                >
-                                  India | INR(&#8377;)
-                                </li>
-                                <li
-                                  data-name="USD"
-                                  className={
-                                    this.props.currency == "USD"
-                                      ? styles.cerise
-                                      : ""
-                                  }
-                                  onClick={() => {
-                                    this.changeCurrency("USD");
-                                    util.headerClickGTM(
-                                      "Currency",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                >
-                                  Rest Of The World | USD (&#36;)
-                                </li>
-                                <li
-                                  data-name="GBP"
-                                  className={
-                                    this.props.currency == "GBP"
-                                      ? styles.cerise
-                                      : ""
-                                  }
-                                  onClick={() => {
-                                    this.changeCurrency("GBP");
-                                    util.headerClickGTM(
-                                      "Currency",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                >
-                                  United Kingdom | GBP (&#163;)
-                                </li>
-                              </ul>
-                            </li>
-
-                            <ul className={styles.adding}>
-                              {profileItems.map(item => {
-                                return (
-                                  <li
-                                    key={item.label}
-                                    onClick={e => {
-                                      item.onClick && item.onClick(e);
-                                      this.clickToggle();
-                                    }}
-                                  >
-                                    {item.type == "button" ? (
-                                      <span
-                                        onClick={() => {
-                                          util.headerClickGTM(
-                                            "Profile Item",
-                                            "Top",
-                                            true,
-                                            isLoggedIn
-                                          );
-                                        }}
-                                      >
-                                        {item.label}
-                                      </span>
-                                    ) : (
-                                      <NavLink
-                                        key={item.label}
-                                        to={item.href as string}
-                                        onClick={() => {
-                                          util.headerClickGTM(
-                                            "Profile Item",
-                                            "Top",
-                                            true,
-                                            isLoggedIn
-                                          );
-                                        }}
-                                      >
-                                        {item.label}
-                                      </NavLink>
-                                    )}
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </ul>
-                        </div>
                       </>
                     }
                   </div>
