@@ -373,7 +373,9 @@
   margin: 0;
 }
 .hidden{
-  display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in;
 }
 .inner-menu {
   padding: 0 20px 50px 20px;
@@ -418,8 +420,10 @@
   -webkit-transition: transform 1s ease;
   transition: transform 1s ease;
   height: calc(100vh - #{$header-height});
-  overflow: scroll;
+  overflow-y: scroll;
   background-color: tint(#000, 90%);
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 .menu-slider {
@@ -438,6 +442,8 @@
   background-color: tint(#000, 90%);
   padding: 25px 20px 20px 30px;
   position: relative;
+  float: left;
+  width: 50%;
   .no-Margin {
     margin: 0;
   }
@@ -509,12 +515,27 @@
   padding-left: 20px;
 }
 
+.active {
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  .lower-menu {
+    float: right;
+  }
+}
+.mobile-main-menu-container {
+  // display: inline-block;
+  width: 200%;
+  transition: transform 0.3s;
+}
 .mobile-main-menu {
   background-color: $white;
   box-shadow: none;
   border: none;
   margin-bottom: 0;
   padding: 0 15px;
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
   ul{
     padding: 0px;
   }
@@ -1485,4 +1506,10 @@ ul.inner-menu-mobile {
 
 .column-container {
   margin-top: 25px;
+}
+
+.l3-animation {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
 }
