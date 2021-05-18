@@ -197,6 +197,7 @@ class SideMenu extends React.Component<Props, State> {
               )}
             >
               <SelectableDropdownMenu
+                id="currency-dropdown"
                 align="right"
                 className={storyStyles.greyBG}
                 items={items}
@@ -230,6 +231,7 @@ class SideMenu extends React.Component<Props, State> {
             >
               <div className={styles.innerProfileContainer}>
                 <DropdownMenu
+                  id="profile-dropdown"
                   display={<i className={selectClass}></i>}
                   className={storyStyles.greyBG}
                   align="right"
