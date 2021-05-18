@@ -20,7 +20,7 @@ import ReactHtmlParser from "react-html-parser";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMobile";
-
+import TitleHeadingMobile from "./templates/TitleHeadingMobile";
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -159,6 +159,23 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const childComponentData = child.componentData as MenuComponentL2L3Data;
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.text,
+                  link: childComponentData.link
+                };
+                l2MenuData.children && l2MenuData.children.push(l3MenuData);
+              });
+          } else if (["TITLEHEADING"].includes(template.templateType)) {
+            const componentData = template.templateData
+              .componentData as MenuComponentTitleData;
+            const children = template.templateData.children;
+            const { title, link } = componentData;
+            l2MenuData.text = title;
+            l2MenuData.link = link;
+            children &&
+              children.length > 1 &&
+              children.map((child, index) => {
+                const childComponentData = child.componentData as MenuComponentImageData;
+                const l3MenuData: L2MenuData = {
+                  text: childComponentData.heading,
                   link: childComponentData.link
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
@@ -329,16 +346,29 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     });
     templates.map(template => {
       if (template.publishOnMobile) {
-        html.push(
-          <div onClick={() => this.props.clickToggle()}>
-            <ImageWithSideSubheadingMobile
-              data={template.templateData}
-              templateType={template.templateType}
-              l1={megaMenuData.text}
-              onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
-            />
-          </div>
-        );
+        if (template.templateType == "TITLEHEADING") {
+          html.push(
+            <div onClick={() => this.props.clickToggle()}>
+              <TitleHeadingMobile
+                data={template.templateData}
+                templateType={template.templateType}
+                l1={megaMenuData.text}
+                onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
+              />
+            </div>
+          );
+        } else {
+          html.push(
+            <div onClick={() => this.props.clickToggle()}>
+              <ImageWithSideSubheadingMobile
+                data={template.templateData}
+                templateType={template.templateType}
+                l1={megaMenuData.text}
+                onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
+              />
+            </div>
+          );
+        }
       }
     });
     return html;

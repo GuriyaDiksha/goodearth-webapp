@@ -70,7 +70,8 @@ export default {
     dispatch: Dispatch,
     email: string,
     password: string,
-    source?: string
+    source?: string,
+    history?: any
   ) {
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -97,7 +98,7 @@ export default {
       tkn: res.token
     });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch, source).then(res => {
+    BasketService.fetchBasket(dispatch, source, history, true).then(res => {
       if (source == "checkout") {
         util.checkoutGTM(1, metaResponse?.currency || "INR", res);
       }

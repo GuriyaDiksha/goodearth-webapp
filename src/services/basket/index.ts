@@ -10,7 +10,12 @@ import { PRODUCT_UNPUBLISHED } from "constants/messages";
 import * as util from "../../utils/validate";
 
 export default {
-  fetchBasket: async function(dispatch: Dispatch, source?: string) {
+  fetchBasket: async function(
+    dispatch: Dispatch,
+    source?: string,
+    history?: any,
+    isLoggedIn?: boolean
+  ) {
     let boId: any = "";
     if (typeof document != "undefined") {
       const queryString = location.search;
@@ -27,6 +32,9 @@ export default {
       util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
     }
     dispatch(updateBasket(res));
+    if (source == "checkout" && isLoggedIn && res.redirectToCart) {
+      history?.push("/cart", {});
+    }
     return res;
   },
 

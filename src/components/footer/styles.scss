@@ -20,6 +20,11 @@
   font-size: 35px;
 }
 
+.footer-connect-icon {
+  height: 16px;
+  margin-right: 10px;
+}
+
 .form-footer {
   position: relative;
   span {
@@ -452,8 +457,8 @@ input {
   border-left: 6px solid tint(#000, 30%);
 }
 .px5 {
-  padding-left: 8rem !important;
-  padding-right: 8rem !important;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 .ftrHeadingWhite2 {
   color: #fff;

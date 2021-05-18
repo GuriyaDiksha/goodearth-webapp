@@ -367,6 +367,7 @@ class Footer extends React.Component<Props, FooterState> {
                                           ? cs(styles.cerise)
                                           : ""
                                       }
+                                      onClick={() => valid.footerGTM(list.name)}
                                     >
                                       {list.name}
                                     </Link>
@@ -429,9 +430,36 @@ class Footer extends React.Component<Props, FooterState> {
                                               )}
                                               key={j}
                                             >
-                                              {" "}
+                                              {currentValue.iconImage && (
+                                                <img
+                                                  className={
+                                                    styles.footerConnectIcon
+                                                  }
+                                                  src={currentValue.iconImage}
+                                                />
+                                              )}
                                               {currentValue.link ? (
-                                                <a href={currentValue.link}>
+                                                <a
+                                                  href={currentValue.link}
+                                                  onClick={() =>
+                                                    valid.footerGTM(
+                                                      currentValue.text
+                                                    )
+                                                  }
+                                                >
+                                                  {currentValue.text}
+                                                </a>
+                                              ) : currentValue.newTabLink ? (
+                                                <a
+                                                  href={currentValue.newTabLink}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                  onClick={() =>
+                                                    valid.footerGTM(
+                                                      currentValue.text
+                                                    )
+                                                  }
+                                                >
                                                   {currentValue.text}
                                                 </a>
                                               ) : (
@@ -561,7 +589,12 @@ class Footer extends React.Component<Props, FooterState> {
                               <ul key="about-us">
                                 <li>
                                   {footerItems.link ? (
-                                    <Link to={footerItems.link || "#"}>
+                                    <Link
+                                      to={footerItems.link || "#"}
+                                      onClick={() =>
+                                        valid.footerGTM(footerItems.name)
+                                      }
+                                    >
                                       {footerItems.name}
                                     </Link>
                                   ) : (
@@ -571,7 +604,14 @@ class Footer extends React.Component<Props, FooterState> {
                                 {footerItems.value.map((Item, index) => (
                                   <li key={index}>
                                     {Item.link !== "" ? (
-                                      <Link to={Item.link}>{Item.text}</Link>
+                                      <Link
+                                        to={Item.link}
+                                        onClick={() =>
+                                          valid.footerGTM(Item.text)
+                                        }
+                                      >
+                                        {Item.text}
+                                      </Link>
                                     ) : (
                                       Item.text
                                     )}
@@ -605,6 +645,9 @@ class Footer extends React.Component<Props, FooterState> {
                                             ? "/account/bridal"
                                             : Item.link
                                         }
+                                        onClick={() =>
+                                          valid.footerGTM(Item.text)
+                                        }
                                       >
                                         {Item.text}
                                       </Link>
@@ -636,17 +679,45 @@ class Footer extends React.Component<Props, FooterState> {
                                         index == 2
                                     })}
                                   >
-                                    {Item.link !== "" ? (
+                                    {Item.iconImage && (
+                                      <img
+                                        className={styles.footerConnectIcon}
+                                        src={Item.iconImage}
+                                      />
+                                    )}
+                                    {Item.link ? (
                                       footerItems.name == "CONNECT" ? (
                                         <a
                                           className={globalStyles.txtNormal}
                                           href={Item.link}
+                                          onClick={() =>
+                                            valid.footerGTM(Item.text)
+                                          }
                                         >
                                           {Item.text}
                                         </a>
                                       ) : (
-                                        <Link to={Item.link}>{Item.text}</Link>
+                                        <Link
+                                          to={Item.link}
+                                          onClick={() =>
+                                            valid.footerGTM(Item.text)
+                                          }
+                                        >
+                                          {Item.text}
+                                        </Link>
                                       )
+                                    ) : Item.newTabLink ? (
+                                      <a
+                                        className={globalStyles.txtNormal}
+                                        href={Item.newTabLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={() =>
+                                          valid.footerGTM(Item.text)
+                                        }
+                                      >
+                                        {Item.text}
+                                      </a>
                                     ) : (
                                       Item.text
                                     )}

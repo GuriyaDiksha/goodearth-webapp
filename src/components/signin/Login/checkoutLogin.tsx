@@ -9,12 +9,13 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import * as valid from "utils/validate";
 import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
+import { RouteComponentProps, withRouter } from "react-router";
 // import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
@@ -27,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = loginProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class CheckoutLoginForm extends React.Component<Props, loginState> {
   constructor(props: Props) {
@@ -164,7 +166,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     const email = localStorage.getItem("tempEmail");
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
-      this.setState({ email });
+      this.setState({ email, isLoginDisabled: false }, () => {
+        this.myBlur();
+      });
     }
     // if (checkoutPopupCookie == "show") {
     //   this.firstEmailInput.current?.focus();
@@ -205,7 +209,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
-        .login(this.state.email || "", this.state.password || "", "checkout")
+        .login(
+          this.state.email || "",
+          this.state.password || "",
+          "checkout",
+          this.props.history
+        )
         .then(data => {
           this.gtmPushSignIn();
           // this.context.closeModal();
@@ -572,4 +581,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutLoginForm);
+const CheckoutLoginFormRouter = withRouter(CheckoutLoginForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CheckoutLoginFormRouter);
