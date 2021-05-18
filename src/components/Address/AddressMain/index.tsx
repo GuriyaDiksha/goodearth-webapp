@@ -252,7 +252,7 @@ const AddressMain: React.FC<Props> = props => {
                       })}
                       value={
                         currentCallBackComponent == "bridal"
-                          ? "create register"
+                          ? "create registry"
                           : "add a new address"
                       }
                       onClick={() => {

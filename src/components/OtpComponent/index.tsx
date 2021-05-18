@@ -451,6 +451,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               showerrorOtp: "Invalid Gift Card Code"
             },
             () => {
+              const errorElem = document.getElementById(
+                "customererror"
+              ) as HTMLParagraphElement;
+              errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
               valid.errorTracking([this.state.showerrorOtp], location.href);
             }
           );
@@ -511,6 +515,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   showerrorOtp: message
                 },
                 () => {
+                  const errorElem = document.getElementById(
+                    "customererror"
+                  ) as HTMLParagraphElement;
+                  errorElem.scrollIntoView({
+                    block: "center",
+                    behavior: "smooth"
+                  });
                   valid.errorTracking([this.state.showerrorOtp], location.href);
                 }
               );
@@ -924,6 +935,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     Please agree to the Terms and Conditions before proceeding
                   </p>
                   <p
+                    id="customererror"
                     className={
                       this.state.showerrorOtp
                         ? cs(globalStyles.errorMsg, globalStyles.wordCap)
