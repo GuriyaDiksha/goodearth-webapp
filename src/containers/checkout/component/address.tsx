@@ -850,11 +850,9 @@ const AddressSection: React.FC<AddressProps & {
             )}
             {props.activeStep == Steps.STEP_SHIPPING && !isActive && (
               <div
-                className={cs(
-                  globalStyles.errorMsg,
-                  globalStyles.marginT20,
-                  styles.margin50
-                )}
+                className={cs(globalStyles.errorMsg, globalStyles.marginT20, {
+                  [styles.margin50]: !mobile
+                })}
               >
                 <span>{errorNotification}</span>
               </div>
