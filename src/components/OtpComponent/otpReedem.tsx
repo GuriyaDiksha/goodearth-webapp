@@ -107,7 +107,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     });
     this.props.checkOtpRedeem &&
       this.props
-        .checkOtpRedeem(newData)
+        .checkOtpRedeem(newData, this.props.history, this.props.isLoggedIn)
         .then(data => {
           if (data.message) {
             this.setState(

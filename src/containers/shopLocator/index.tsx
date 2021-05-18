@@ -123,6 +123,7 @@ class ShopLocator extends React.Component<
       const {
         device: { mobile }
       } = this.props;
+      // util.sortGTM(data);
       if (mobile) {
         // this.child.clickCloseFilter();
       } else {

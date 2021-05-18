@@ -11,7 +11,7 @@ import "./slick.css";
 import { PairItWithSliderProps } from "./typings";
 import Slider from "react-slick";
 import ModalStyles from "components/Modal/styles.scss";
-// import * as valid from "utils/validate";
+import * as valid from "utils/validate";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import PDPLooksItem from "./PDPLooksItem";
 import { POPUP } from "constants/components";
@@ -29,6 +29,11 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
     //   "MoreFromCollection",
     //   currency || "INR"
     // );
+    valid.MoreFromCollectionProductImpression(
+      data,
+      "PairItWith",
+      currency || "INR"
+    );
   }, []);
   const dispatch = useDispatch();
   const { isSale } = useSelector((state: AppState) => state.info);
@@ -114,7 +119,7 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
                 return (
                   <div key={item.id} className={styles.slide}>
                     <PDPLooksItem
-                      page="PLP"
+                      page="PairItWith"
                       position={i}
                       product={item}
                       addedToWishlist={false}

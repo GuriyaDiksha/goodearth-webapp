@@ -25,8 +25,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkUserPassword: (email: string) => {
       return LoginService.checkUserPassword(dispatch, email);
     },
-    login: (email: string, password: string, source?: string) => {
-      return LoginService.login(dispatch, email, password, source);
+    login: (
+      email: string,
+      password: string,
+      source?: string,
+      history?: any
+    ) => {
+      return LoginService.login(dispatch, email, password, source, history);
     },
     resetNextUrl: () => {
       dispatch(updateNextUrl(""));

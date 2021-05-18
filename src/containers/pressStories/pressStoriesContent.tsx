@@ -126,6 +126,7 @@ class PressStoriesContent extends React.Component<
         defaultOption: { value: year, label: year }
       });
 
+      // valid.sortGTM(year);
       this.props.fetchPressStories(parseInt(year)).then(data => {
         this.props.updatePressStoriesData(data);
         const len = location.pathname.split("/").length;
