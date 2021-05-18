@@ -162,6 +162,7 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
+
     // if (this.props.device.mobile) {
     //   this.getProductImagesData();
     //   const elem = document.getElementById("pincode-bar");
