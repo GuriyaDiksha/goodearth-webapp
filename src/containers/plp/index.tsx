@@ -325,6 +325,7 @@ class PLP extends React.Component<
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort</p>
                 <SelectableDropdownMenu
+                  id="sort-dropdown-plp"
                   align="right"
                   className={styles.dropdownRoot}
                   items={items}
