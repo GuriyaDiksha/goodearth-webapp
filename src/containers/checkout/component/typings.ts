@@ -30,6 +30,7 @@ export type AddressProps = {
   addresses: AddressData[];
   // user:
   error: string;
+  errorNotification?: string;
 };
 
 export type OrderProps = {
