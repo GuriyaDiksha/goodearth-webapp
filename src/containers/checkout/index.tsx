@@ -132,6 +132,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     logout: async () => {
       return await LoginService.logout(dispatch);
+    },
+    checkPinCodeShippable: async (pinCode: string) => {
+      const res = await HeaderService.checkPinCodeShippable(dispatch, pinCode);
+      return res;
     }
   };
 };
@@ -165,6 +169,7 @@ type State = {
   isSuspended: boolean;
   boEmail: string;
   boId: string;
+  errorNotification: string;
 };
 
 class Checkout extends React.Component<Props, State> {
@@ -181,6 +186,7 @@ class Checkout extends React.Component<Props, State> {
         : undefined,
       billingAddress: undefined,
       shippingError: "",
+      errorNotification: "",
       billingError: "",
       paymentError: "",
       shippingCharge: 0,
@@ -382,6 +388,25 @@ class Checkout extends React.Component<Props, State> {
           activeStep: Steps.STEP_BILLING
         });
       }
+
+      if (
+        this.state.activeStep == Steps.STEP_BILLING &&
+        shippingData &&
+        !this.state.errorNotification
+      ) {
+        this.props
+          .checkPinCodeShippable(shippingData.postCode)
+          .then(response => {
+            this.setState({
+              errorNotification: response.status
+                ? ""
+                : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
       // things to reset on currency change
       if (!shippingData) {
         this.setState({
@@ -534,32 +559,40 @@ class Checkout extends React.Component<Props, State> {
       this.props
         .specifyShippingAddress(address.id, address, this.props.user, bridal)
         .then(data => {
-          if (data.status) {
-            const isGoodearthShipping = address.isTulsi
-              ? address.isTulsi
-              : false;
-            this.setState({ isGoodearthShipping });
-
-            this.setState({
-              shippingCharge: data.data.shippingCharge,
-              shippingAddress: address,
-              billingAddress: undefined,
-              activeStep: Steps.STEP_BILLING,
-              shippingError: ""
-            });
-            valid.checkoutGTM(2, this.props.currency, this.props.basket);
-            if (data.data.pageReload) {
-              const data: any = {
-                email: this.props.user.email
-              };
-              this.props.getLoyaltyPoints(data).then(loyalty => {
+          this.props
+            .checkPinCodeShippable(address.postCode)
+            .then(response => {
+              if (data.status) {
+                const isGoodearthShipping = address.isTulsi
+                  ? address.isTulsi
+                  : false;
+                this.setState({ isGoodearthShipping });
                 this.setState({
-                  loyaltyData: loyalty
+                  shippingCharge: data.data.shippingCharge,
+                  shippingAddress: address,
+                  billingAddress: undefined,
+                  activeStep: Steps.STEP_BILLING,
+                  errorNotification: response.status
+                    ? ""
+                    : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
                 });
-              });
-              this.props.reloadPage(this.props.cookies);
-            }
-          }
+                valid.checkoutGTM(2, this.props.currency, this.props.basket);
+                if (data.data.pageReload) {
+                  const data: any = {
+                    email: this.props.user.email
+                  };
+                  this.props.getLoyaltyPoints(data).then(loyalty => {
+                    this.setState({
+                      loyaltyData: loyalty
+                    });
+                  });
+                  this.props.reloadPage(this.props.cookies);
+                }
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
         })
         .catch(err => {
           if (err.response.status == 406) {
@@ -672,6 +705,7 @@ class Checkout extends React.Component<Props, State> {
                 addressType={Steps.STEP_SHIPPING}
                 addresses={this.props.addresses}
                 error={this.state.shippingError}
+                errorNotification={this.state.errorNotification}
               />
               <AddressMain
                 isActive={this.isActiveStep(Steps.STEP_BILLING)}

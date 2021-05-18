@@ -61,5 +61,6 @@ export type Props = {
   setCurrentSection?: () => void;
   // user:
   error: string;
+  errorNotification?: string;
 };
 export type AddressModes = "new" | "edit" | "list";

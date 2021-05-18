@@ -342,6 +342,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            errorNotification={props.errorNotification}
             isBridal={bridal}
           >
             {addressContent}
@@ -393,6 +394,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            errorNotification={props.errorNotification}
             isBridal={bridal}
           >
             {addressContent}

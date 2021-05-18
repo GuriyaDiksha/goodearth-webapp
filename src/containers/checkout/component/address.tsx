@@ -29,7 +29,8 @@ const AddressSection: React.FC<AddressProps & {
     selectedAddress,
     isGoodearthShipping,
     hidesameShipping,
-    next
+    next,
+    errorNotification
   } = props;
   const { isLoggedIn } = useContext(UserContext);
   const { openAddressForm, closeAddressForm, isAddressValid } = useContext(
@@ -826,29 +827,6 @@ const AddressSection: React.FC<AddressProps & {
                   props.hidesameShipping && (
                     <div>{renderBillingCheckbox()}</div>
                   )}
-                {/* {isLoggedIn && props.activeStep == Steps.STEP_BILLING
-                    ? props.isBridal
-                      ? true
-                      : false
-                    : false
-                ? <div>{children}</div> 
-                : ""
-                }
-                {
-                  (!props.hidesameShipping && props.activeStep == Steps.STEP_SHIPPING) && isLoggedIn &&
-                   <div>{children}</div> 
-                }
-
-                {props.isBridal && 
-                   isLoggedIn && (
-                      // !showAddressForm &&
-                      <div>{children}</div> 
-                    )
-                  // : 
-                    // isLoggedIn &&
-                    // // !showAddressForm &&
-                    // !sameAsShipping && <div>{children}</div>
-                } */}
 
                 {// logged in Shipping & billing
                 isLoggedIn &&
@@ -868,6 +846,17 @@ const AddressSection: React.FC<AddressProps & {
                 ) : (
                   ""
                 )}
+              </div>
+            )}
+            {props.activeStep == Steps.STEP_SHIPPING && !isActive && (
+              <div
+                className={cs(
+                  globalStyles.errorMsg,
+                  globalStyles.marginT20,
+                  styles.margin50
+                )}
+              >
+                <span>{errorNotification}</span>
               </div>
             )}
           </div>
