@@ -1072,49 +1072,48 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {this.props.currency.toString().toUpperCase() == "INR" &&
-            // ((this.props.location.pathname.includes("/catalogue/")
-            //   ? this.props.location.pathname.includes("/category/")
-            //     ? true
-            //     : false
-            //   : true)
-            !(
-              this.props.location.pathname.includes("/search") ||
-              this.props.location.pathname.includes("/catalogue")
-            ) && (
-              <div className={styles.fixedPincodeBar} id="pincode-bar">
-                <div>
-                  <span>
-                    Due to the current restrictions on movement, please enter
-                    your Pincode to check if your location is serviceable.
-                  </span>
-                  <a
-                    className={styles.pincodeBarBtn}
-                    onClick={() => this.showPincode()}
-                  >
-                    <span className={cs(styles.location)}>
-                      <i
-                        className={cs(
-                          // { [styles.iconClass]: menuOpen },
-                          iconStyles.icon,
-                          iconStyles.iconLocation,
-                          styles.iconStore
-                        )}
-                      ></i>
-                    </span>
-                    <span>
-                      {this.state.selectedPincode
-                        ? this.state.selectedPincode
-                        : "Pincode"}
-                    </span>
-                  </a>
-                </div>
-              </div>
-            )}
-          {this.state.showPincodePopup}
         </div>
         <GrowlMessage />
         <MakerUtils />
+        {this.props.currency.toString().toUpperCase() == "INR" &&
+          // ((this.props.location.pathname.includes("/catalogue/")
+          //   ? this.props.location.pathname.includes("/category/")
+          //     ? true
+          //     : false
+          //   : true)
+          !(
+            this.props.location.pathname.includes("/search") ||
+            this.props.location.pathname.includes("/catalogue")
+          ) && (
+            <div className={styles.fixedPincodeBar} id="pincode-bar">
+              <div>
+                <span>
+                  Due to the current restrictions on movement, please enter your
+                  Pincode to check if your location is serviceable.
+                </span>
+                <a
+                  className={styles.pincodeBarBtn}
+                  onClick={() => this.showPincode()}
+                >
+                  <span className={cs(styles.location)}>
+                    <i
+                      className={cs(
+                        // { [styles.iconClass]: menuOpen },
+                        iconStyles.icon,
+                        iconStyles.iconLocation,
+                        styles.iconStore
+                      )}
+                    ></i>
+                  </span>
+                  <span>
+                    {this.state.selectedPincode
+                      ? this.state.selectedPincode
+                      : "Pincode"}
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
         {mobile && !isBridalRegistryPage && (
           <BottomMenu
             onBottomMenuClick={this.onBottomMenuClick}
