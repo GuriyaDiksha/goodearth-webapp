@@ -38,7 +38,11 @@ export type otpProps = {
 export type otpRedeemProps = {
   sendOtp: (data: any) => any;
   toggleOtp: (data: boolean) => void;
-  checkOtpRedeem: (data: any) => Promise<any>;
+  checkOtpRedeem: (
+    data: any,
+    history: any,
+    isLoggedIn: boolean
+  ) => Promise<any>;
   updateList: (data: any) => void;
   isCredit?: boolean;
   updateError: (data: boolean) => void;
@@ -51,6 +55,8 @@ export type otpRedeemProps = {
   loyaltyData: any;
   points: number | string;
   number?: string;
+  isLoggedIn: boolean;
+  history: any;
 };
 
 export type otpBoxProps = {

@@ -47,7 +47,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
-    BasketService.fetchBasket(dispatch, "checkout");
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     return response;
   };
 
@@ -208,13 +208,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removeGiftCard = async (data: FormData) => {
     const response = await CheckoutService.removeGiftCard(dispatch, data);
-    BasketService.fetchBasket(dispatch, "checkout");
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     return response;
   };
 
   const removeRedeem = async () => {
     const response = await CheckoutService.removeRedeem(dispatch);
-    BasketService.fetchBasket(dispatch, "checkout");
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     return response;
   };
 
@@ -479,6 +479,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
+    dataLayer.push({
+      event: "Delivery Instruction",
+      message: data
+    });
   };
 
   const openDeliveryBox = () => {

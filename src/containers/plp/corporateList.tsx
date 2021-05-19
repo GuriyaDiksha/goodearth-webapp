@@ -133,7 +133,11 @@ class CorporateFilter extends React.Component<Props, State> {
               //   isViewAll = true;
               // }
 
-              if (cc[i] == "Corporate Gifting" || cc[i] == "Souk") {
+              if (
+                cc[i] == "Corporate Gifting" ||
+                cc[i] == "Souk" ||
+                cc[i] == "Pero"
+              ) {
                 this.haveCorporate = true;
               } else {
                 filter.categoryShop[csKey][cc[i]] = true;

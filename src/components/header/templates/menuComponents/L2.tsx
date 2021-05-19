@@ -62,7 +62,7 @@ const L2: React.FC<Props> = ({
                     l2: componentData.text,
                     clickUrl2: componentData.link,
                     template: templateType,
-                    img2: componentData.src
+                    img2: componentData.src || ""
                   })
                 }
               >
@@ -92,7 +92,7 @@ const L2: React.FC<Props> = ({
                     l1,
                     l2: componentData.text,
                     template: templateType,
-                    img2: componentData.src
+                    img2: componentData.src || ""
                   })
                 }
               >
