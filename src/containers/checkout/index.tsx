@@ -365,7 +365,9 @@ class Checkout extends React.Component<Props, State> {
           .then(response => {
             this.setState({
               errorNotification:
-                response.status && this.props.currency == "INR"
+                this.props.currency != "INR"
+                  ? ""
+                  : response.status
                   ? ""
                   : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
             });
@@ -540,7 +542,9 @@ class Checkout extends React.Component<Props, State> {
                   billingAddress: undefined,
                   activeStep: Steps.STEP_BILLING,
                   errorNotification:
-                    response.status && this.props.currency == "INR"
+                    this.props.currency != "INR"
+                      ? ""
+                      : response.status
                       ? ""
                       : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
                 });
