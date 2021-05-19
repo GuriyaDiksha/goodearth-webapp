@@ -37,6 +37,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { Basket } from "typings/basket";
+import { currency } from "reducers/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -363,9 +364,12 @@ class Checkout extends React.Component<Props, State> {
           .checkPinCodeShippable(shippingData.postCode)
           .then(response => {
             this.setState({
-              errorNotification: response.status
-                ? ""
-                : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+              errorNotification:
+                this.props.currency != "INR"
+                  ? ""
+                  : response.status
+                  ? ""
+                  : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
             });
           })
           .catch(err => {
@@ -537,9 +541,12 @@ class Checkout extends React.Component<Props, State> {
                   shippingAddress: address,
                   billingAddress: undefined,
                   activeStep: Steps.STEP_BILLING,
-                  errorNotification: response.status
-                    ? ""
-                    : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                  errorNotification:
+                    this.props.currency != "INR"
+                      ? ""
+                      : response.status
+                      ? ""
+                      : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
                 });
                 valid.checkoutGTM(2, this.props.currency, this.props.basket);
                 if (data.data.pageReload) {
