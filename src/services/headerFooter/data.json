@@ -1315,6 +1315,36 @@
                                 "children": [
                                 ]
                             }
+                        },
+                        {
+                            "publishOnMobile": true,
+                            "templateType": "TITLEHEADING",
+                            "templateData": {
+                                "componentType": "TITLE",
+                                "componentData": {
+                                    "title": "Decor",
+                                    "link": "/cart",
+                                    "ctaName": "Decor Cart",
+                                    "src": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg",
+                                    "thumbnailSrc": "https://d3qn6cjsz7zlnp.cloudfront.net/media/categories/menu-feature-gifting.jpg"
+                                },
+                                "children": [
+                                    {
+                                        "componentType": "IMAGE",
+                                        "componentData": {
+                                            "heading": "gifting favourites",
+                                            "link": ""
+                                        }
+                                    },
+                                    {
+                                        "componentType": "IMAGE",
+                                        "componentData": {
+                                            "heading": "gift card",
+                                            "link": "/giftcard"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     ]
                 },

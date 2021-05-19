@@ -22,7 +22,7 @@ const MobileDropdownMenu = ({
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.label);
     setOpenState(false);
-    onChange(data.value);
+    onChange(data.value, data.label);
   };
 
   return (
