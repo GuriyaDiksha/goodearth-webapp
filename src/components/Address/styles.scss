@@ -69,6 +69,10 @@
       border: 2px solid #8cb8aa;
       padding: 35px 25px 110px 25px;
     }
+    &.diabled-border {
+      border: 2px solid $cerise;
+      padding: 35px 25px 84px 25px;
+    }
     .ship-to-this-btn {
       position: absolute;
       bottom: 0;
@@ -83,7 +87,7 @@
       text-align: center;
       font-size: 12px;
       border: none;
-      color: white;
+      color: white !important;
       letter-spacing: 2px;
     }
     div.address-phone-number {

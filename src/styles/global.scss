@@ -233,7 +233,7 @@ font-weight: bold;
   }
   &.disabled-btn {
     background-color: tint(#000, 95%);
-    color: tint(#000, 50%);
+    color: tint(#000, 50%) !important;
     cursor: default;
   }
   a {
@@ -261,7 +261,7 @@ font-weight: bold;
 }
 .disabled-btn {
   background-color: tint(#000, 95%);
-  color: tint(#000, 50%);
+  color: tint(#000, 50%)  !important;
   cursor: default !important;
 }
 
