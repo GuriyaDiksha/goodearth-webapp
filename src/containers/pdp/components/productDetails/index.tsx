@@ -113,6 +113,7 @@ const ProductDetails: React.FC<Props> = ({
   //   item => item.product.childAttributes[0].id
   // );
   const [addedToBag, setAddedToBag] = useState(false);
+  const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
   //   setAddedToBag(
   //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
@@ -425,20 +426,39 @@ const ProductDetails: React.FC<Props> = ({
     }
   });
 
+  const sizeSelectClick = () => {
+    setSizeerror(true);
+    showError();
+  };
+
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
+    let selectSize = false;
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
+      setSizeerror(false);
     } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = notifyMeClick;
+      setSizeerror(false);
+    } else if (!selectedSize && childAttributes.length > 1) {
+      buttonText = "Select Size";
+      action = sizeSelectClick;
+      selectSize = true;
     } else {
       buttonText = addedToBag ? "Added!" : "Add to Bag";
       action = addedToBag ? () => null : addToBasket;
+      setSizeerror(false);
     }
 
-    return <Button label={buttonText} onClick={action} />;
+    return (
+      <Button
+        label={buttonText}
+        onClick={action}
+        className={selectSize ? globalStyles.disabledBtn : ""}
+      />
+    );
   }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
@@ -628,6 +648,11 @@ const ProductDetails: React.FC<Props> = ({
                 </span>
               </div>
             )}
+            {sizeerror && mobile ? (
+              <p className={styles.errorMsg}>Please select a size to proceed</p>
+            ) : (
+              ""
+            )}
             {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
               <div
                 className={cs(bootstrap.colSm4, styles.label, {
@@ -748,6 +773,13 @@ const ProductDetails: React.FC<Props> = ({
               [globalStyles.hidden]: mobile && !showAddToBagMobile
             })}
           >
+            {sizeerror && !mobile ? (
+              <p className={cs(styles.errorMsg, styles.notEligible)}>
+                Please select a size to proceed
+              </p>
+            ) : (
+              ""
+            )}
             {button}
             {!loyaltyDisabled && isQuickview ? (
               <p className={cs(styles.errorMsg, styles.notEligible)}>

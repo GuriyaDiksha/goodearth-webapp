@@ -2,6 +2,7 @@ import Koa from "koa";
 import { updateCookies } from "actions/cookies";
 import { updateCurrency } from "actions/currency";
 import { AppState } from "reducers/typings";
+import { updatePlpMobileView } from "actions/plp";
 import { updateShowCookie } from "actions/info";
 // import { updateComponent, updateModal } from "actions/modal";
 // import { POPUP } from "../../constants/components";
@@ -14,6 +15,7 @@ export default async function cookies(
   const token = ctx.cookies.get("atkn");
   const sessionId = ctx.cookies.get("sessionid");
   const currency: any = ctx.cookies.get("currency");
+  const plpMobileView = ctx.cookies.get("plpMobileView");
   const store = ctx.store;
   const agent = ctx.request.get("user-agent");
   const isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(agent);
@@ -27,6 +29,10 @@ export default async function cookies(
   const queryString = search;
   const urlParams = new URLSearchParams(queryString);
   const boId = urlParams.get("bo_id");
+
+  if (plpMobileView && (plpMobileView == "list" || plpMobileView == "grid")) {
+    store.dispatch(updatePlpMobileView(plpMobileView));
+  }
   const showCookie = ctx.cookies.get("goodearth");
   if (showCookie != "show") {
     store.dispatch(updateShowCookie(true));
