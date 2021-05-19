@@ -62,5 +62,6 @@ export type Props = {
   createRegistry?: () => void;
   // user:
   error: string;
+  errorNotification?: string;
 };
 export type AddressModes = "new" | "edit" | "list";
