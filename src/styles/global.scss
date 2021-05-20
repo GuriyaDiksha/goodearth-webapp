@@ -299,7 +299,9 @@ font-weight: bold;
 .relative {
   position: relative;
 }
-
+.static {
+  position: static !important;
+}
 .container-start {
   margin-top: $main-header;
 }

@@ -150,13 +150,29 @@ export type MenuProps = {
 };
 
 export type MegaMenuProps = {
+  activeIndex: number;
   show: boolean;
   ipad: boolean;
-  onMouseOver: (value: MouseParameter) => void;
+  mouseOver: (data: { show: boolean; activeIndex: number }) => void;
   data: MegaMenuData[];
   currency?: Currency;
   mobile?: boolean;
   location: Location;
+  onMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
 };
 
 export type MenuListProps = {
@@ -172,8 +188,9 @@ export type MenuListProps = {
 
 export type MegaMenuListProps = {
   activeIndex: number;
-  mouseOut: (value: MouseParameter) => void;
-  menudata: MegaMenuData[];
+  myIndex: number;
+  mouseOut: (data: { show: boolean }) => void;
+  menudata: MegaMenuData;
   show?: boolean;
   currency?: Currency;
   mobile?: boolean;
