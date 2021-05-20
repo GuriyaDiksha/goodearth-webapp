@@ -365,11 +365,11 @@ class Checkout extends React.Component<Props, State> {
           .then(response => {
             this.setState({
               errorNotification:
-                this.props.currency != "INR"
-                  ? ""
-                  : response.status
-                  ? ""
-                  : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                this.props.currency == "INR"
+                  ? response.status
+                    ? ""
+                    : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                  : ""
             });
           })
           .catch(err => {
@@ -542,11 +542,11 @@ class Checkout extends React.Component<Props, State> {
                   billingAddress: undefined,
                   activeStep: Steps.STEP_BILLING,
                   errorNotification:
-                    this.props.currency != "INR"
-                      ? ""
-                      : response.status
-                      ? ""
-                      : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                    this.props.currency == "INR"
+                      ? response.status
+                        ? ""
+                        : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                      : ""
                 });
                 valid.checkoutGTM(2, this.props.currency, this.props.basket);
                 if (data.data.pageReload) {
