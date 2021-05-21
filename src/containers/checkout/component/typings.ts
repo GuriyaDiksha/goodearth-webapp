@@ -55,7 +55,6 @@ export type PaymentProps = {
   user: any;
   currency: Currency;
   checkout: (data: any) => any;
-  loyaltyData: any;
 };
 
 export type PopupProps = {
@@ -112,6 +111,6 @@ export type RedeemState = {
   isActivated: boolean;
 };
 
-export type ReddemProps = {
-  loyaltyData: any;
-};
+// export type ReddemProps = {
+//   loyaltyData: any;
+// };
