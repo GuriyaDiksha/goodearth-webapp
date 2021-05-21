@@ -397,9 +397,12 @@ class PLP extends React.Component<
             id="filter_by"
             className={
               mobile
-                ? this.state.mobileFilter
-                  ? cs(bootstrap.col12, styles.mobileFilterMenu)
-                  : globalStyles.hidden
+                ? cs(
+                    { [globalStyles.active]: this.state.mobileFilter },
+                    bootstrap.col12,
+                    styles.mobileFilterMenu,
+                    globalStyles.hideLeft
+                  )
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >

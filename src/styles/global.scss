@@ -439,3 +439,18 @@ font-weight: bold;
 .disable-cursor {
   cursor: default !important;
 }
+.hide-left {
+  transition: transform 0.5s ease-in;
+  transform: translateX(-100%);
+  &.active {
+    transform: translateX(0);
+  }
+}
+
+.hide-bottom {
+  transition: transform 0.5s ease-in;
+  transform: translateY(100vh);
+  &.active {
+    transform: translateY(0);
+  }
+}
