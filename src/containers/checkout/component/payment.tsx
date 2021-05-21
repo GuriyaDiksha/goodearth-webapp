@@ -21,9 +21,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const {
     basket,
     device: { mobile },
-    info: { isSale }
+    info: { isSale },
+    user: { loyaltyData }
   } = useSelector((state: AppState) => state);
-  const { isActive, currency, checkout, loyaltyData } = props;
+  const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
   const [subscribegbp, setSubscribegbp] = useState(false);
@@ -348,7 +349,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
             )}
 
-            {loyaltyData.detail && currency == "INR" && (
+            {loyaltyData?.detail && currency == "INR" && (
               <Fragment>
                 <hr className={styles.hr} />
                 <div className={bootstrapStyles.row}>
@@ -388,7 +389,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     >
                       REDEEM CERISE POINTS
                     </div>
-                    {isactiveredeem ? <Reedem loyaltyData={loyaltyData} /> : ""}
+                    {isactiveredeem ? <Reedem /> : ""}
                   </div>
                 </div>
               </Fragment>

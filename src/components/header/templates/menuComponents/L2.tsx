@@ -2,6 +2,7 @@ import {
   MenuComponent,
   MenuComponentL2L3Data
 } from "components/header/typings";
+import LazyImage from "components/LazyImage";
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles.scss";
@@ -66,7 +67,13 @@ const L2: React.FC<Props> = ({
                   })
                 }
               >
-                <img className={styles.img} src={componentData.src} />
+                <LazyImage
+                  aspectRatio="1:1"
+                  shouldUpdateAspectRatio={true}
+                  isVisible={true}
+                  containerClassName={styles.img}
+                  src={componentData.src}
+                />
               </Link>
             )}
           </>
@@ -96,7 +103,13 @@ const L2: React.FC<Props> = ({
                   })
                 }
               >
-                <img className={styles.img} src={componentData.src} />
+                <LazyImage
+                  aspectRatio="1:1"
+                  shouldUpdateAspectRatio={true}
+                  isVisible={true}
+                  containerClassName={styles.img}
+                  src={componentData.src}
+                />
               </div>
             )}
           </>
