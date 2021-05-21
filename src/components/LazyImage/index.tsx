@@ -54,7 +54,7 @@ export default class LazyImage extends React.Component<Props, State> {
   };
 
   onLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    if (this.props.shouldUpdateAspectRatio) {
+    if (this.props.shouldUpdateAspectRatio && this.props.aspectRatio) {
       const img = e.currentTarget;
       const width = img.naturalWidth;
       const height = img.naturalHeight;

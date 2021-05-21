@@ -16,6 +16,7 @@ import * as valid from "utils/validate";
 import Loader from "components/Loader";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1622,7 +1623,7 @@ class FilterList extends React.Component<Props, State> {
           </li>
         </ul>
         {mobile ? (
-          <div className={styles.filterButton}>
+          <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
               <span>{this.state.totalItems} Search Results Found</span>
             </div>
