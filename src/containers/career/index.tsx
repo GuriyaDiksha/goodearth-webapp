@@ -277,6 +277,7 @@ const Career: React.FC<Props> = props => {
               >
                 <p className={styles.filterText}>LOCATION</p>
                 <SelectableDropdownMenu
+                  id="careers-dropdown"
                   align="right"
                   className={styles.dropdownRoot}
                   items={[

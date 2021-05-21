@@ -13,17 +13,30 @@ const BaseDropdownMenu = ({
   className,
   disabled,
   children,
-  showCaret
+  showCaret,
+  id
 }: BaseDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   false && setOpenState(false);
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
+    const elem = document.getElementById(id) as HTMLDivElement;
+    if (elem) {
+      if (!elem.style.maxHeight) {
+        elem.style.maxHeight = elem.scrollHeight + "px";
+      } else {
+        elem.style.removeProperty("max-height");
+      }
+    }
   };
 
   const onOutsideClick = (event: MouseEvent) => {
     setOpenState(false);
+    const elem = document.getElementById(id) as HTMLDivElement;
+    if (elem) {
+      elem.style.removeProperty("max-height");
+    }
   };
 
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
@@ -50,7 +63,7 @@ const BaseDropdownMenu = ({
           ""
         )}
       </div>
-      <div className={cl(styles.menu, styles[align])}>
+      <div id={id} className={cl(styles.menu, styles[align])}>
         <ul>{children}</ul>
       </div>
     </div>

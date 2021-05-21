@@ -61,7 +61,7 @@
       display: inline-block;
       padding: 0 15px;
       cursor: pointer;
-      a {
+      a.menu-item-link {
         @include hdr-cat();
         display: block;
         text-align: center;
@@ -260,6 +260,16 @@
     }
     
 }
+.main-menu-animation {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: $header-height;
+  max-height: 0;
+  transition: max-height 0.3s ease-in;
+  overflow: hidden;
+  background-color: #fff;
+}
 .main-menu {
   position: absolute;
   .img-header {
@@ -375,11 +385,17 @@
 .hidden{
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease-in;
+  transition: max-height 0.3s ease-in;
 }
 .inner-menu {
+  opacity: 0;
   padding: 0 20px 50px 20px;
   @include bottom-shadow();
+}
+.inner-menu-active {
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+  transition-delay: 0.2s;
 }
 .inner-logo {
   position: absolute;
