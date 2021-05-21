@@ -68,6 +68,20 @@ const SampleDisplay: React.FC<Props> = props => {
     return (
       <div>
         <div className={styles.imagebox}>
+          {data.salesBadgeImage && (
+            <div
+              className={cs(
+                {
+                  [styles.badgePositionPlpMobile]: mobile
+                },
+                {
+                  [styles.badgePositionPlp]: !mobile
+                }
+              )}
+            >
+              <img src={data.salesBadgeImage} />
+            </div>
+          )}
           {mobile ? (
             <i
               className={cs(
