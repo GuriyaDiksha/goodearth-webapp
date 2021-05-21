@@ -947,7 +947,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
                 </div>
               </li>
-              <li className={globalStyles.voffset2}>
+              <li className={this.state.showerrorOtp ? styles.margintop : ""}>
                 <input
                   type="submit"
                   disabled={this.state.disable}
