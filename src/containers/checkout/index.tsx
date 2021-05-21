@@ -37,7 +37,6 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { Basket } from "typings/basket";
-import { currency } from "reducers/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -176,6 +175,7 @@ type State = {
   boEmail: string;
   boId: string;
   errorNotification: string;
+  onlyOnetime: boolean;
 };
 
 class Checkout extends React.Component<Props, State> {
@@ -215,7 +215,8 @@ class Checkout extends React.Component<Props, State> {
         props.user.shippingData && props.user.shippingData.isTulsi
           ? true
           : false,
-      loyaltyData: {}
+      loyaltyData: {},
+      onlyOnetime: true
     };
   }
   setInfoPopupCookie() {
@@ -354,11 +355,10 @@ class Checkout extends React.Component<Props, State> {
           activeStep: Steps.STEP_BILLING
         });
       }
-
       if (
         this.state.activeStep == Steps.STEP_BILLING &&
         shippingData &&
-        !this.state.errorNotification
+        (nextProps.currency != this.props.currency || this.state.onlyOnetime)
       ) {
         this.props
           .checkPinCodeShippable(shippingData.postCode)
@@ -369,7 +369,8 @@ class Checkout extends React.Component<Props, State> {
                   ? response.status
                     ? ""
                     : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
-                  : ""
+                  : "",
+              onlyOnetime: false
             });
           })
           .catch(err => {
