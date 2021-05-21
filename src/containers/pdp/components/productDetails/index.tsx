@@ -529,7 +529,7 @@ const ProductDetails: React.FC<Props> = ({
             {productTitle}
             {subtitle && <p>({subtitle.split(")")[0]})</p>}
           </div>
-          {!(invisibleFields.indexOf("price") > -1) && (
+          {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
             <div
               className={cs(
                 bootstrap.col12,
