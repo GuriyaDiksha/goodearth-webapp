@@ -5,6 +5,8 @@ import CookieService from "../services/cookie";
 import { updateModal } from "actions/modal";
 import { AppState } from "reducers/typings";
 import * as util from "./validate";
+import LoginService from "services/login";
+
 const MakerUtils: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -40,6 +42,9 @@ const MakerUtils: React.FC = () => {
             }
             console.log(error);
           });
+      },
+      openLogin: () => {
+        LoginService.showLogin(dispatch);
       },
       closeMakerPopup: function() {
         setMakerPopupCookie();
