@@ -52,6 +52,7 @@ import CustomerCareInfo from "components/CustomerCareInfo";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
+import cushionFiller from "images/cushionFiller.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -748,6 +749,7 @@ const ProductDetails: React.FC<Props> = ({
               styles.errorMsg
             )}
           >
+            <img src={cushionFiller} className={styles.cushionFiller} />
             {ReactHtmlParser(fillerMessage)}
           </div>
         ) : (
