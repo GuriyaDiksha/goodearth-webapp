@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { MenuState, MegaMenuProps, MegaMenuData } from "./typings";
 import styles from "./styles.scss";
 import cs from "classnames";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "../../styles/global.scss";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
 import * as util from "../../utils/validate";
+import { MegaMenuList } from "./megaMenulist";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -26,11 +29,11 @@ class MegaMenu extends React.Component<Props, MenuState> {
   }
 
   mouseLeave = (index: number): void => {
-    this.props.onMouseOver({ show: false, activeIndex: index });
+    this.props.mouseOver({ show: false, activeIndex: index });
   };
 
   mouseOver = (index: number): void => {
-    this.props.onMouseOver({ show: true, activeIndex: index });
+    this.props.mouseOver({ show: true, activeIndex: index });
     this.setState({
       selectedCategory: index
     });
@@ -74,7 +77,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
         ? styles.iconStyleDisabled
         : "";
     return (
-      <ul className={styles.menuContainer}>
+      <ul className={cs(styles.menuContainer, globalStyles.static)}>
         {data?.map((data: MegaMenuData, i: number) => {
           const highlightStories =
             data.text.toLowerCase() == "stories" ? true : false;
@@ -83,7 +86,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
             <li
               key={i + "header"}
               className={cs(styles.menuItem, disbaleClass)}
-              onMouseOver={(): void => {
+              onMouseEnter={() => {
                 this.props.ipad ||
                 highlightStories ||
                 isGifting ||
@@ -91,7 +94,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
                   ? ""
                   : this.mouseOver(i);
               }}
-              onMouseLeave={(): void => {
+              onMouseLeave={() => {
                 this.props.ipad ||
                 highlightStories ||
                 isGifting ||
@@ -112,9 +115,14 @@ class MegaMenu extends React.Component<Props, MenuState> {
                   </span>
                 ) : (
                   <a
-                    className={cs(disbaleClass, styles.hoverStories, {
-                      [styles.cerise]: !this.props.isSale && !isGifting
-                    })}
+                    className={cs(
+                      styles.menuItemLink,
+                      disbaleClass,
+                      styles.hoverStories,
+                      {
+                        [styles.cerise]: !this.props.isSale && !isGifting
+                      }
+                    )}
                     href={isBridalRegistryPage ? "" : data.url}
                     onClick={() => this.onHeaderMenuClick(data.text, data.url)}
                     target="_blank"
@@ -127,18 +135,41 @@ class MegaMenu extends React.Component<Props, MenuState> {
                 <Link
                   to={isBridalRegistryPage ? "#" : data.url}
                   onClick={() => this.onHeaderMenuClick(data.text, data.url)}
-                  className={
+                  className={cs(
+                    styles.menuItemLink,
                     this.state.selectedCategory == i ||
-                    (highlightStories && this.props.ipad)
+                      (highlightStories && this.props.ipad)
                       ? cs(disbaleClass, styles.hoverA)
                       : cs(disbaleClass, styles.hoverB)
-                  }
+                  )}
                 >
                   {ReactHtmlParser(
                     this.props.isSale && data.text ? data.text : data.text
                   )}
                 </Link>
               )}
+              <div
+                id={`mega-menu-list-${i}`}
+                className={cs(
+                  styles.mainMenuAnimation,
+                  this.props.show
+                    ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
+                    : styles.hidden
+                )}
+              >
+                <MegaMenuList
+                  ipad={false}
+                  onHeaderMegaMenuClick={this.props.onMegaMenuClick}
+                  activeIndex={this.props.activeIndex}
+                  myIndex={i}
+                  mouseOut={(data): void => {
+                    this.props.mouseOver({ ...data, activeIndex: i });
+                  }}
+                  show={this.props.show}
+                  menudata={data}
+                  mobile={this.props.mobile}
+                />
+              </div>
             </li>
           );
         })}
@@ -156,7 +187,11 @@ class MegaMenu extends React.Component<Props, MenuState> {
             <Link
               to="/gifting"
               onClick={() => this.onHeaderMenuClick("gifting", "/gifting")}
-              className={cs(disbaleClass, styles.hoverStories)}
+              className={cs(
+                disbaleClass,
+                styles.menuItemLink,
+                styles.hoverStories
+              )}
             >
               {ReactHtmlParser("gifting")}
             </Link>
@@ -174,9 +209,14 @@ class MegaMenu extends React.Component<Props, MenuState> {
             </span>
           ) : (
             <a
-              className={cs(disbaleClass, styles.hoverStories, {
-                [styles.cerise]: !this.props.isSale
-              })}
+              className={cs(
+                styles.menuItemLink,
+                disbaleClass,
+                styles.hoverStories,
+                {
+                  [styles.cerise]: !this.props.isSale
+                }
+              )}
               href="/stories"
               target="_blank"
               rel="noopener noreferrer"

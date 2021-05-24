@@ -29,6 +29,7 @@ export type BaseDropdownMenuProps = {
   icon?: string;
   showCaret?: boolean;
   disabled?: boolean;
+  id: string;
 };
 
 export type DropdownMenuState = {
