@@ -43,9 +43,9 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
     });
   };
 
-  mouseEnter = () => {
-    this.props.mouseOut({ show: true });
-  };
+  // mouseEnter = () => {
+  //   this.props.mouseOut({ show: true });
+  // };
 
   templatesMap: { name: string; component: React.ComponentType<any> }[] = [
     {
@@ -292,12 +292,13 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
   }
 
   render() {
-    if (!this.props.menudata || this.props.menudata.length == 0) return false;
-    const data: MegaMenuData = this.props.menudata[
-      this.props.activeIndex < this.props.menudata.length
-        ? this.props.activeIndex
-        : 0
-    ];
+    // if (!this.props.menudata || this.props.menudata.length == 0) return false;
+    // const data: MegaMenuData = this.props.menudata[
+    //   this.props.activeIndex < this.props.menudata.length
+    //     ? this.props.activeIndex
+    //     : 0
+    // ];
+    const data: MegaMenuData = this.props.menudata;
     // const emptyMenuHide =
     //   data && data.rightMenu && data.leftMenu
     //     ? data.rightMenu.length == 0 && data.leftMenu.length == 0
@@ -306,18 +307,22 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
     //     : false;
     return (
       <div
+        id="mega-menu-list-inner"
         className={
           // emptyMenuHide
           //   ? styles.hidden
           // :
-          cs(bootstrap.colMd12, styles.innerMenu, bootstrap.row)
+          cs(bootstrap.colMd12, styles.innerMenu, bootstrap.row, {
+            [styles.innerMenuActive]:
+              this.props.activeIndex == this.props.myIndex
+          })
         }
-        onMouseLeave={(): void => {
-          this.mouseLeave();
-        }}
-        onMouseEnter={(): void => {
-          this.mouseEnter();
-        }}
+        // onMouseLeave={(): void => {
+        //   this.mouseLeave();
+        // }}
+        // onMouseEnter={(): void => {
+        //   this.mouseEnter();
+        // }}
       >
         {/* {this.createDataForHeader()} */}
         {this.createColumns(data)}

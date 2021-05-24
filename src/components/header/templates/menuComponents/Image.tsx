@@ -2,6 +2,7 @@ import {
   MenuComponent,
   MenuComponentImageData
 } from "components/header/typings";
+import LazyImage from "components/LazyImage";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -37,6 +38,16 @@ const Image: React.FC<Props> = ({
   onHeaderMegaMenuClick
 }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
+  const aspectRatioMapping = {
+    L2L3: "1:1",
+    IMAGE: "1:1",
+    CONTENT: "3:2.5",
+    // "VERTICALIMAGE": "3:3.7",
+    VERTICALIMAGE: "",
+    IMAGEWITHSIDESUBHEADING: "3:2.2",
+    TITLEHEADING: "3:2.5"
+  };
+  const aspectRatio = aspectRatioMapping[templateType];
   return (
     <>
       {data.map((menuComponent, index) => {
@@ -62,8 +73,11 @@ const Image: React.FC<Props> = ({
                       })
                     }
                   >
-                    <img
-                      className={styles.img}
+                    <LazyImage
+                      aspectRatio={mobile ? "1:1" : aspectRatio}
+                      shouldUpdateAspectRatio={true}
+                      containerClassName={styles.img}
+                      isVisible={true}
                       src={
                         mobile
                           ? componentData.thumbnailSrc || componentData.src
@@ -127,8 +141,11 @@ const Image: React.FC<Props> = ({
                       })
                     }
                   >
-                    <img
-                      className={styles.img}
+                    <LazyImage
+                      aspectRatio={mobile ? "1:1" : aspectRatio}
+                      shouldUpdateAspectRatio={true}
+                      containerClassName={styles.img}
+                      isVisible={true}
                       src={
                         mobile
                           ? componentData.thumbnailSrc || componentData.src

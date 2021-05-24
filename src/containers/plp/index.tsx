@@ -325,6 +325,7 @@ class PLP extends React.Component<
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort</p>
                 <SelectableDropdownMenu
+                  id="sort-dropdown-plp"
                   align="right"
                   className={styles.dropdownRoot}
                   items={items}
@@ -396,9 +397,12 @@ class PLP extends React.Component<
             id="filter_by"
             className={
               mobile
-                ? this.state.mobileFilter
-                  ? cs(bootstrap.col12, styles.mobileFilterMenu)
-                  : globalStyles.hidden
+                ? cs(
+                    { [globalStyles.active]: this.state.mobileFilter },
+                    bootstrap.col12,
+                    styles.mobileFilterMenu,
+                    globalStyles.hideLeft
+                  )
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >

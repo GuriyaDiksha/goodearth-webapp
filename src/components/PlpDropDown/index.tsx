@@ -74,14 +74,26 @@ const PlpDropdownMenu = ({
       })}
     >
       <div
-        className={cs({ [globalStyles.hidden]: menuOpen }, bootstrap.col12, {
-          [styles.productNumber]: !menuOpen
-        })}
+        className={cs(
+          {
+            // [globalStyles.hidden]: menuOpen
+          },
+          bootstrap.col12,
+          {
+            [styles.productNumber]: !menuOpen
+          }
+        )}
       >
         {" "}
         <div
           className={
-            mobileFilter ? styles.mobileFilterHeader : globalStyles.hidden
+            mobileFilter
+              ? cs(
+                  styles.mobileFilterHeader,
+                  globalStyles.active,
+                  globalStyles.hideLeft
+                )
+              : globalStyles.hideLeft
           }
         ></div>
         <Fragment>
@@ -111,23 +123,21 @@ const PlpDropdownMenu = ({
         </Fragment>
       </div>
       <div
-        className={cs({ [globalStyles.hidden]: !menuOpen }, bootstrap.col12, {
-          [styles.productNumber]: menuOpen
-        })}
+        className={cs(
+          {
+            // [globalStyles.hidden]: !menuOpen
+          },
+          bootstrap.col12,
+          styles.productNumber
+        )}
       >
         <div className={cs({ [styles.mobileFilterSortBg]: showmobileSort })}>
           <div
-            className={
-              showmobileFilterList
-                ? cs(styles.mobileFilterHeader, {
-                    [styles.mobileFilterHeaderSort]: showmobileSort
-                  })
-                : globalStyles.hidden
-            }
+            className={cs(styles.mobileFilterHeader, globalStyles.hideLeft, {
+              [globalStyles.active]: showmobileFilterList && !showmobileSort
+            })}
           >
-            {showmobileSort ? (
-              <span>{"Sort"}</span>
-            ) : filterCount ? (
+            {filterCount ? (
               <span>
                 <pre>
                   {[
@@ -144,12 +154,31 @@ const PlpDropdownMenu = ({
             )}
             <span onClick={onInsideClick}>X</span>
           </div>
+          <div
+            className={cs(
+              styles.mobileFilterHeader,
+              globalStyles.hideBottom,
+              styles.mobileFilterHeaderSort,
+              {
+                [globalStyles.active]: showmobileFilterList && showmobileSort
+              }
+            )}
+          >
+            <span>{"Sort"}</span>
+
+            <span onClick={onInsideClick}>X</span>
+          </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
-              className={cs(bootstrap.col12, styles.mobileFilterMenu, {
-                [globalStyles.hidden]: !showmobileSort,
-                [styles.mobileFilterMenuSort]: showmobileSort
-              })}
+              className={cs(
+                bootstrap.col12,
+                styles.mobileFilterMenu,
+                globalStyles.hideBottom,
+                styles.mobileFilterMenuSort,
+                {
+                  [globalStyles.active]: showmobileSort
+                }
+              )}
             >
               <ul className={styles.sort}>
                 {list.map((data: any) => {

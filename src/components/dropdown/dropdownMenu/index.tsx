@@ -15,6 +15,7 @@ const DropdownMenu = ({
   children,
   items,
   disabled,
+  id,
   onDropDownMenuClick
 }: DropdownMenuProps): JSX.Element => {
   const getMenuItems = (): JSX.Element[] => {
@@ -42,7 +43,8 @@ const DropdownMenu = ({
     display,
     open,
     className,
-    disabled
+    disabled,
+    id
   };
   return <BaseDropdownMenu {...menuProps}>{getMenuItems()}</BaseDropdownMenu>;
 };
