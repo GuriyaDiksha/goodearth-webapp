@@ -428,12 +428,12 @@ const ProductDetails: React.FC<Props> = ({
 
   const sizeSelectClick = () => {
     setSizeerror(true);
+    setSizeError("Please select a Size to proceed");
     showError();
   };
 
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
-    let selectSize = false;
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
@@ -445,20 +445,13 @@ const ProductDetails: React.FC<Props> = ({
     } else if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
       action = sizeSelectClick;
-      selectSize = true;
     } else {
       buttonText = addedToBag ? "Added!" : "Add to Bag";
       action = addedToBag ? () => null : addToBasket;
       setSizeerror(false);
     }
 
-    return (
-      <Button
-        label={buttonText}
-        onClick={action}
-        className={selectSize ? globalStyles.disabledBtn : ""}
-      />
-    );
+    return <Button label={buttonText} onClick={action} />;
   }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
@@ -773,13 +766,6 @@ const ProductDetails: React.FC<Props> = ({
               [globalStyles.hidden]: mobile && !showAddToBagMobile
             })}
           >
-            {sizeerror && !mobile ? (
-              <p className={cs(styles.errorMsg, styles.notEligible)}>
-                Please select a size to proceed
-              </p>
-            ) : (
-              ""
-            )}
             {button}
             {!loyaltyDisabled && isQuickview ? (
               <p className={cs(styles.errorMsg, styles.notEligible)}>

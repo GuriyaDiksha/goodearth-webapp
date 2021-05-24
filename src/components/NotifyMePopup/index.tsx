@@ -234,7 +234,6 @@ const NotifyMePopup: React.FC<Props> = ({
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     let allOutOfStock = true;
-    let selectSize = false;
     childAttributes.forEach(({ stock }) => {
       if (stock > 0) {
         allOutOfStock = false;
@@ -246,7 +245,6 @@ const NotifyMePopup: React.FC<Props> = ({
     } else if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
       action = sizeSelectClick;
-      selectSize = true;
     } else {
       buttonText = "Add to Bag";
       action = addToBasket;
@@ -256,9 +254,7 @@ const NotifyMePopup: React.FC<Props> = ({
       <Button
         label={buttonText}
         onClick={action}
-        className={cs(styles.button, {
-          [globalStyles.disabledBtn]: selectSize
-        })}
+        className={cs(styles.button)}
       />
     );
   }, [selectedSize, email, quantity]);
