@@ -12,6 +12,7 @@ import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import * as valid from "utils/validate";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1579,7 +1580,7 @@ class CorporateFilter extends React.Component<Props, State> {
           )}
         </ul>
         {mobile ? (
-          <div className={styles.filterButton}>
+          <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
               <span>{this.state.totalItems} Product found</span>
             </div>

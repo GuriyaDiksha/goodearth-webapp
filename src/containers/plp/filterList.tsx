@@ -15,6 +15,7 @@ import { RouteComponentProps } from "react-router-dom";
 import * as valid from "utils/validate";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1917,7 +1918,7 @@ class FilterList extends React.Component<Props, State> {
           </li>
         </ul>
         {mobile ? (
-          <div className={styles.filterButton}>
+          <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
               <span>{this.state.totalItems + 1} Product found</span>
             </div>

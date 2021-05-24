@@ -13,7 +13,8 @@ export const initialState: State = {
   refresh: true,
   shippingData: null,
   phoneNumber: "",
-  slab: ""
+  slab: "",
+  loyaltyData: null
 };
 
 export const user = (state = initialState, action: UserActions): State => {
