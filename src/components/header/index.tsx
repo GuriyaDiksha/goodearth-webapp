@@ -30,7 +30,6 @@ const Bag = loadable(() => import("../Bag/index"));
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 // import Mobilemenu from "./mobileMenu";
 import MegaMenu from "./megaMenu";
-import { MegaMenuList } from "./megaMenulist";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -63,7 +62,7 @@ class Header extends React.Component<Props, State> {
       showSearch: false,
       showC: false,
       showP: false,
-      activeIndex: 0,
+      activeIndex: -1,
       urlParams: new URLSearchParams(props.location.search.slice(1)),
       selectedPincode: "",
       showPincodePopup: false,
@@ -182,9 +181,9 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  mouseOut(data: { show: boolean }) {
-    this.setState({ show: data.show });
-  }
+  // mouseOut(data: { show: boolean }) {
+  //   this.setState({ show: data.show });
+  // }
 
   showCurrency = () => {
     this.setState({
@@ -204,7 +203,7 @@ class Header extends React.Component<Props, State> {
         //   history.push("/maintenance");
         // }
         this.setState({
-          activeIndex: 0
+          activeIndex: -1 // default value -1 not 0
         });
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
@@ -700,7 +699,8 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetLg1
+                    bootstrap.offsetLg1,
+                    globalStyles.static
                   )}
                 >
                   {/* <MainMenu
@@ -717,12 +717,33 @@ class Header extends React.Component<Props, State> {
                   /> */}
                   <MegaMenu
                     show={this.state.show}
+                    activeIndex={this.state.activeIndex}
                     ipad={false}
-                    onMouseOver={(data): void => {
-                      this.setState({
-                        show: data.show,
-                        activeIndex: data.activeIndex || 0
-                      });
+                    onMegaMenuClick={this.onMegaMenuClick}
+                    mouseOver={(data: {
+                      show: boolean;
+                      activeIndex: number;
+                    }): void => {
+                      this.setState(
+                        {
+                          show: data.show,
+                          activeIndex: data.show ? data.activeIndex : -1
+                        },
+                        () => {
+                          const elem = document.getElementById(
+                            `mega-menu-list-${data.activeIndex}`
+                          );
+                          if (data.show) {
+                            if (elem) {
+                              elem.style.maxHeight = elem.scrollHeight + "px";
+                            }
+                          } else {
+                            if (elem) {
+                              elem.style.removeProperty("max-height");
+                            }
+                          }
+                        }
+                      );
                     }}
                     data={this.props.megaMenuData}
                     location={this.props.location}
@@ -805,36 +826,6 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
           <div>
-            <div
-              className={
-                this.state.show
-                  ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
-                  : styles.hidden
-              }
-            >
-              <MegaMenuList
-                ipad={false}
-                onHeaderMegaMenuClick={this.onMegaMenuClick}
-                activeIndex={this.state.activeIndex}
-                mouseOut={(data): void => {
-                  this.mouseOut(data);
-                }}
-                show={this.state.show}
-                menudata={this.props.megaMenuData}
-                mobile={mobile}
-              />
-              {/* <MenuList
-                ipad={false}
-                onHeaderMenuClick={this.onMenuClick}
-                activeIndex={this.state.activeIndex}
-                mouseOut={(data): void => {
-                  this.mouseOut(data);
-                }}
-                show={this.state.show}
-                menudata={this.props.data}
-                mobile={mobile}
-              /> */}
-            </div>
             <div
               className={cs(bootstrap.row, bootstrap.col12, styles.mobileMenu)}
             >

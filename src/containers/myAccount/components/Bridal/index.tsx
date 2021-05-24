@@ -21,7 +21,7 @@ import { AddressContext } from "components/Address/AddressMain/context";
 import { updateAddressList } from "actions/address";
 import { updateUser } from "actions/user";
 import { POPUP } from "constants/components";
-import globalStyles from "styles/global.scss";
+// import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
 };

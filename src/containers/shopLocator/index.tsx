@@ -247,6 +247,7 @@ class ShopLocator extends React.Component<
                   </span>
 
                   <SelectableDropdownMenu
+                    id="filter-dropdown-shoplocator"
                     align="right"
                     className={styles.dropdownRoot}
                     items={items}
