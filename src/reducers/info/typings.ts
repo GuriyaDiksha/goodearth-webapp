@@ -11,6 +11,7 @@ export type State = {
   scrollDown: boolean;
   microUrl: string;
   showCookie: boolean;
+  showTimer: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;

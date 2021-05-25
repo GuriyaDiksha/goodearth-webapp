@@ -37,7 +37,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     currency: state.currency,
     device: state.device,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showTimer: state.info.showTimer
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -311,7 +312,13 @@ class PLP extends React.Component<
       }
     ];
     return (
-      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+      <div
+        className={cs(
+          styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
+          bootstrap.containerFluid
+        )}
+      >
         {!mobile && (
           <SecondaryHeader>
             <Fragment>

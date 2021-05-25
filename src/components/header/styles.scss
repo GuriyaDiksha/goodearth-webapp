@@ -270,6 +270,9 @@
   overflow: hidden;
   background-color: #fff;
 }
+.main-menu-animation-timer {
+  top: $header-height + $timer-height;
+}
 .main-menu {
   position: absolute;
   .img-header {
@@ -1528,4 +1531,42 @@ ul.inner-menu-mobile {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-out;
+}
+.countdown-timer {
+  height: 40px;
+  width: 100%;
+  background-color:#fff;
+  color: $cerise;
+  .timer-txt {
+    font-size: 14px;
+    line-height: 40px;
+    text-align: right;
+  }
+  .timer-cta-btn {
+    padding: 2px 8px;
+    width: fit-content;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .timer {
+    padding: 0 10px;
+    font-weight: bold;
+    .timer-label {
+      font-size: 10px;
+      color: #333;
+    }
+    .timer-value {
+      font-size: 14px;
+    }
+    table {
+      text-align: center;
+      margin: auto;
+      td {
+        padding: 0 2px;
+      }
+    }
+  }
+}
+.header-bg {
+  background-color: #f9f8f5;
 }

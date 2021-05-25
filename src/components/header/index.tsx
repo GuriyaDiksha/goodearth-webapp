@@ -30,6 +30,7 @@ const Bag = loadable(() => import("../Bag/index"));
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 // import Mobilemenu from "./mobileMenu";
 import MegaMenu from "./megaMenu";
+import CountdownTimer from "./CountdownTimer";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -45,7 +46,8 @@ const mapStateToProps = (state: AppState) => {
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
     slab: state.user.slab,
-    cookies: state.cookies
+    cookies: state.cookies,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -627,10 +629,11 @@ class Header extends React.Component<Props, State> {
               }
             })}
           </div>
+          {this.props.showTimer && <CountdownTimer />}
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
-          <div className={styles.minimumWidth}>
+          <div className={cs(styles.minimumWidth, styles.headerBg)}>
             <div className={bootstrap.row}>
               {mobile ? (
                 <div

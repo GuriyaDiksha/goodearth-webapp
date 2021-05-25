@@ -305,6 +305,9 @@ font-weight: bold;
 .container-start {
   margin-top: $main-header;
 }
+.container-start-timer {
+  margin-top: $main-header + $timer-height;
+}
 .img-responsive {
   display: block;
   max-width: 100%;

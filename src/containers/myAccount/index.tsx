@@ -45,6 +45,7 @@ const MyAccount: React.FC<Props> = props => {
   const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
   const [currentSection, setCurrentSection] = useState("Profile");
@@ -276,7 +277,11 @@ const MyAccount: React.FC<Props> = props => {
       : ""
   );
   return (
-    <div className={globalStyles.containerStart}>
+    <div
+      className={cs(globalStyles.containerStart, {
+        [globalStyles.containerStartTimer]: showTimer
+      })}
+    >
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
           <span className={cs(styles.heading, globalStyles.verticalMiddle)}>

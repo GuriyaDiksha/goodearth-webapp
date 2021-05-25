@@ -4,8 +4,10 @@ import Section1 from "./section1";
 import Section2 from "./section2";
 import Section3 from "./section3";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-// import cs from "classnames";
+import cs from "classnames";
 import * as util from "utils/validate";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 // import { Link } from "react-router-dom";
 // import INRBanner from "../../images/banner/INRBanner.jpg";
 // import USDGBPBanner from "../../images/banner/USDGBPBanner.jpg";
@@ -27,10 +29,13 @@ const Home: React.FC = () => {
       PageTitle: "virtual_homePage_view"
     });
   }, []);
+  const { showTimer } = useSelector((state: AppState) => state.info);
 
   return (
     <div className={styles.homePage}>
-      <div className={styles.makerTop}>
+      <div
+        className={cs(styles.makerTop, { [styles.makerTopTimer]: showTimer })}
+      >
         <div className={bootstrap.containerFluid}>
           <Section1 />
           <Section2 />

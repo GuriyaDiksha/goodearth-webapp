@@ -20,6 +20,7 @@ import FormInput from "components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 import iconStyles from "styles/iconFonts.scss";
 import * as valid from "utils/validate";
+import { AppState } from "reducers/typings";
 
 type Props = {
   year: number;
@@ -63,15 +64,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     }
   };
 };
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    showTimer: state.info
+  };
 };
 
 class PressStoriesContent extends React.Component<
-  Props & ReturnType<typeof mapDispatchToProps>,
+  Props &
+    ReturnType<typeof mapDispatchToProps> &
+    ReturnType<typeof mapStateToProps>,
   State
 > {
-  constructor(props: Props & ReturnType<typeof mapDispatchToProps>) {
+  constructor(
+    props: Props &
+      ReturnType<typeof mapDispatchToProps> &
+      ReturnType<typeof mapStateToProps>
+  ) {
     super(props);
     this.state = {
       storiesData: this.props.content || [],
@@ -251,6 +260,7 @@ class PressStoriesContent extends React.Component<
           { [styles.press]: !this.props.mobile },
           { [styles.pressMobile]: this.props.mobile },
           styles.containerStartPress,
+          { [styles.containerStartPressTimer]: this.props.showTimer },
           ""
         )}
       >

@@ -259,10 +259,16 @@
 .container-start-dj {
   margin-top: $header-height + $secondary-header-height;
 }
+.container-start-dj-timer {
+  margin-top: $header-height + $secondary-header-height + $timer-height;
+}
 
 @media screen and (max-width: 992px) {
   .container-start-dj {
     margin-top: $header-height;
+  }
+  .container-start-dj-timer {
+    margin-top: $header-height + $timer-height;
   }
   .terms {
     padding: 60px 0 80px 0;
