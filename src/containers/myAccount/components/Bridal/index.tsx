@@ -94,9 +94,23 @@ const Bridal: React.FC<Props> = props => {
   useEffect(() => {
     const url = new URLSearchParams(history.location.search);
     const id = url.get("bridalId") || "";
-    BridalService.checkBridalId(dispatch, id).then(data => {
-      util.showGrowlMessage(dispatch, "iohjoihoih", 7000);
-    });
+    if (id) {
+      BridalService.checkBridalId(dispatch, id)
+        .then((data: any) => {
+          // user.bridal.
+          if (data.isBridalActive == false) {
+            util.showGrowlMessage(
+              dispatch,
+              `Sorry, Your registry ${data.registryName} has expired`,
+              7000
+            );
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
     return () => {
       window.removeEventListener("beforeunload", confirmPopup);
     };
