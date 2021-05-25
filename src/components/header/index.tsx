@@ -295,7 +295,10 @@ class Header extends React.Component<Props, State> {
   };
 
   showSearch = () => {
-    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+    if (
+      this.props.history.location.pathname.indexOf("/bridal/") > 0 &&
+      !this.props.location.pathname.includes("/account/")
+    ) {
       return false;
     }
     this.setState({
