@@ -77,6 +77,7 @@ const DesignJournal: React.FC = () => {
     };
   }, []);
 
+  const { showTimer } = useSelector((state: AppState) => state.info);
   return (
     <div>
       {/* <div className="breadcrumbs-block hidden-xs hidden-sm">
@@ -101,7 +102,8 @@ const DesignJournal: React.FC = () => {
           bootstrapStyles.row,
           styles.subcHeader,
           styles.subcHeader3,
-          styles.containerStartDj
+          styles.containerStartDj,
+          { [styles.containerStartDjTimer]: showTimer }
         )}
       >
         <div

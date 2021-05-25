@@ -430,6 +430,9 @@
 .container-start-press {
   margin-top: $header-height + $secondary-header-height;
 }
+.container-start-press-timer {
+  margin-top: $header-height + $secondary-header-height + $timer-height;
+}
 .press-mobile {
   background-color: #f9f8f5;
   &:last-child {
