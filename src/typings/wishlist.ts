@@ -22,7 +22,7 @@ export type WishlistItem = {
     sku: string;
   }[];
   discountedPrice: PriceRecord;
-  badgeImage: string;
+  salesBadgeImage: string;
   discount: boolean;
   category: string[];
   gaVariant: string;
