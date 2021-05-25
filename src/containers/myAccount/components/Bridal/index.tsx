@@ -21,6 +21,8 @@ import { AddressContext } from "components/Address/AddressMain/context";
 import { updateAddressList } from "actions/address";
 import { updateUser } from "actions/user";
 import { POPUP } from "constants/components";
+import { useHistory } from "react-router";
+import * as util from "utils/validate";
 // import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
@@ -44,6 +46,7 @@ const Bridal: React.FC<Props> = props => {
   // const [ showPopup, setShowPopup ] = useState(false);
   const [shareLink, setShareLink] = useState("");
   const [lastScreen, setLastScreen] = useState("");
+  const history = useHistory();
   // const [ showpop, setShowpop ] = useState(false);
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
@@ -89,6 +92,11 @@ const Bridal: React.FC<Props> = props => {
   // }
 
   useEffect(() => {
+    const url = new URLSearchParams(history.location.search);
+    const id = url.get("bridalId") || "";
+    BridalService.checkBridalId(dispatch, id).then(data => {
+      util.showGrowlMessage(dispatch, "iohjoihoih", 7000);
+    });
     return () => {
       window.removeEventListener("beforeunload", confirmPopup);
     };
