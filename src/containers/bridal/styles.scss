@@ -727,6 +727,9 @@
   .page-body{
     margin-top: $header-height;
   }
+  .page-body-timer {
+    margin-top: $header-height + $timer-height;
+  }
 
   hr {
     margin-top: 15px;

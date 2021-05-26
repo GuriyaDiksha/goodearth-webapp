@@ -250,6 +250,9 @@ export default {
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sale status API error === " + err);
+    });
     BasketService.fetchBasket(dispatch);
   },
   getClientIpCurrency: async function() {

@@ -44,6 +44,7 @@ const StaticPage: React.FC<Props> = props => {
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const { path } = useRouteMatch();
 
   const [currentSection, setCurrentSection] = useState("");
@@ -127,7 +128,11 @@ const StaticPage: React.FC<Props> = props => {
         : cs(styles.ceriseSitaraClub, styles.ceriseLoyalty)
       : "";
   return (
-    <div className={globalStyles.containerStart}>
+    <div
+      className={cs(globalStyles.containerStart, {
+        [globalStyles.containerStartTimer]: showTimer
+      })}
+    >
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
           <span className={styles.heading}>CUSTOMER ASSISTANCE</span>
@@ -137,7 +142,11 @@ const StaticPage: React.FC<Props> = props => {
         {mobile ? (
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
-              <div className={styles.cSortHeader}>
+              <div
+                className={cs(styles.cSortHeader, {
+                  [styles.cSortHeaderTimer]: showTimer
+                })}
+              >
                 <div
                   className={
                     accountListing
@@ -164,7 +173,11 @@ const StaticPage: React.FC<Props> = props => {
                     : globalStyles.hidden
                 }
               >
-                <div className={styles.mobileFilterHeader}>
+                <div
+                  className={cs(styles.mobileFilterHeader, {
+                    [styles.mobileFilterHeaderTimer]: showTimer
+                  })}
+                >
                   <div className={styles.filterCross}>
                     <span>
                       {path == "/account/bridal"
@@ -193,7 +206,8 @@ const StaticPage: React.FC<Props> = props => {
                     className={cs(
                       bootstrapStyles.col12,
                       bootstrapStyles.col12,
-                      styles.mobileFilterMenu
+                      styles.mobileFilterMenu,
+                      { [styles.mobileFilterMenuTimer]: showTimer }
                     )}
                   >
                     <ul className={styles.sort}>
