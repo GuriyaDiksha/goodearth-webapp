@@ -433,6 +433,7 @@
   transition: transform 1s ease;
   height: calc(100vh - #{$header-height});
   overflow: scroll;
+  background-color: tint(#000, 90%);
 }
 .op3 {
   opacity: .4;
