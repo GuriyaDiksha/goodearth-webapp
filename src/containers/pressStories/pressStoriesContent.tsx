@@ -20,6 +20,7 @@ import FormInput from "components/Formsy/FormInput";
 import FormTextArea from "components/Formsy/FormTextArea";
 import iconStyles from "styles/iconFonts.scss";
 import * as valid from "utils/validate";
+import { AppState } from "reducers/typings";
 
 type Props = {
   year: number;
@@ -63,15 +64,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     }
   };
 };
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    showTimer: state.info
+  };
 };
 
 class PressStoriesContent extends React.Component<
-  Props & ReturnType<typeof mapDispatchToProps>,
+  Props &
+    ReturnType<typeof mapDispatchToProps> &
+    ReturnType<typeof mapStateToProps>,
   State
 > {
-  constructor(props: Props & ReturnType<typeof mapDispatchToProps>) {
+  constructor(
+    props: Props &
+      ReturnType<typeof mapDispatchToProps> &
+      ReturnType<typeof mapStateToProps>
+  ) {
     super(props);
     this.state = {
       storiesData: this.props.content || [],
@@ -251,6 +260,7 @@ class PressStoriesContent extends React.Component<
           { [styles.press]: !this.props.mobile },
           { [styles.pressMobile]: this.props.mobile },
           styles.containerStartPress,
+          { [styles.containerStartPressTimer]: this.props.showTimer },
           ""
         )}
       >
@@ -296,7 +306,11 @@ class PressStoriesContent extends React.Component<
                   : cs(bootstrapStyles.col12, styles.productNumber)
               }
             >
-              <div className={styles.cSortHeader}>
+              <div
+                className={cs(styles.cSortHeader, {
+                  [styles.cSortHeaderTimer]: this.props.showTimer
+                })}
+              >
                 {
                   <div
                     className={styles.collectionHeader}
@@ -320,7 +334,11 @@ class PressStoriesContent extends React.Component<
               }
             >
               <div>
-                <div className={styles.mobileFilterHeader}>
+                <div
+                  className={cs(styles.mobileFilterHeader, {
+                    [styles.mobileFilterHeaderTimer]: this.props.showTimer
+                  })}
+                >
                   <span>ARCHIVE</span>
                   <span onClick={this.onClickFilter.bind(this, true)}>
                     <i
@@ -338,7 +356,8 @@ class PressStoriesContent extends React.Component<
                     className={cs(
                       bootstrapStyles.col12,
                       bootstrapStyles.col12,
-                      styles.mobileFilterMenu
+                      styles.mobileFilterMenu,
+                      { [styles.mobileFilterMenuTimer]: this.props.showTimer }
                     )}
                   >
                     <ul className={styles.sort}>

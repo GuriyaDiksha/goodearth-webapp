@@ -22,9 +22,12 @@ import Loader from "components/Loader";
 import * as valid from "utils/validate";
 import ReactHtmlParser from "react-html-parser";
 import { updateCountryData } from "actions/address";
+import { AppState } from "reducers/typings";
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    showTimer: state.info.showTimer
+  };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -695,7 +698,11 @@ class JobForm extends React.Component<Props, State> {
     return (
       <div className={styles.jobForm}>
         {!job ? (
-          <div className={cs(styles.careersContent, styles.newcareersContent)}>
+          <div
+            className={cs(styles.careersContent, {
+              [styles.careersContentTimer]: this.props.showTimer
+            })}
+          >
             <div className={styles.careersImage}>
               <img
                 src={this.props.mobile ? newCareersMobile : newCareers}

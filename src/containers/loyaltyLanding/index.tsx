@@ -32,7 +32,8 @@ import { connect } from "react-redux";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -184,7 +185,11 @@ class LoyaltyLanding extends Component<Props, State> {
     return (
       <div>
         {this.props.mobile ? (
-          <div className={styles.loyalty}>
+          <div
+            className={cs(styles.loyalty, {
+              [styles.loyaltyTimer]: this.props.showTimer
+            })}
+          >
             <div className={styles.commonSubheader}>
               <div
                 className={cs(bootstrapStyles.col11, bootstrapStyles.offset1)}
@@ -784,7 +789,11 @@ class LoyaltyLanding extends Component<Props, State> {
             </div>
           </div>
         ) : (
-          <div className={styles.loyalty}>
+          <div
+            className={cs(styles.loyalty, {
+              [styles.loyaltyTimer]: this.props.showTimer
+            })}
+          >
             <div className="">
               <div
                 className={cs(

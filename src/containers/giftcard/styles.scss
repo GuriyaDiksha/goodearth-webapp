@@ -323,9 +323,15 @@ input[type="radio"]:checked+label:before {
     width: 100%;
   }
 }
+.gc-timer {
+  padding-top: ($header-height + $secondary-header-height + $timer-height);
+}
 .gc-mobile {
   padding-top: ($header-height);
   padding-bottom: 50px;
+}
+.gc-mobile-timer {
+  padding-top: ($header-height + $timer-height);
 }
 
 form {

@@ -15,7 +15,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
     mobile: state.device.mobile,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    showTimer: state.info.showTimer
   };
 };
 type Props = MegaMenuProps & ReturnType<typeof mapStateToProps>;
@@ -155,6 +156,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
                 id={`mega-menu-list-${i}`}
                 className={cs(
                   styles.mainMenuAnimation,
+                  { [styles.mainMenuAnimationTimer]: this.props.showTimer },
                   this.props.show
                     ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
                     : styles.hidden

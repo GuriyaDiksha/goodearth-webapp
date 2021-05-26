@@ -48,6 +48,9 @@
     height: 60px;
   }
 }
+.page-body-timer {
+  margin-top: $main-header + $timer-height;
+}
 
 @media screen and (min-width: 992px) {
   .sp-cat {
@@ -59,6 +62,9 @@
 @media screen and (max-width: 992px) {
   .page-body{
     margin-top: $header-height;
+  }
+  .page-body-timer {
+    margin-top: $header-height + $timer-height;
   }
   .image-container {
     margin-left: 20px;
@@ -174,7 +180,7 @@
 .mobile-filter-menu {
     position: fixed;
     bottom: 0;
-    top: ($header-height + 50);
+    top: $main-header;
     left: 0;
     z-index: 9;
     background-color: white;
@@ -221,6 +227,9 @@
         }
       }
     }
+  }
+  .mobile-filter-menu-timer {
+    top: $main-header + $timer-height;
   }
 
 .minimumWidth {
