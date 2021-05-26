@@ -94,9 +94,13 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           pathname.includes("/account/") ||
           pathname.includes("/customer-assistance/")
         ) {
-          this.closeInnerMenu();
+          setTimeout(() => {
+            this.closeInnerMenu();
+          }, 1000);
         } else if (collapseMenuPaths.indexOf(pathname) != -1) {
-          this.closeInnerMenu();
+          setTimeout(() => {
+            this.closeInnerMenu();
+          }, 1000);
         }
       }
     }
