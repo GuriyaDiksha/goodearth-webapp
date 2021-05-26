@@ -408,6 +408,7 @@ class PLP extends React.Component<
                     { [globalStyles.active]: this.state.mobileFilter },
                     bootstrap.col12,
                     styles.mobileFilterMenu,
+                    { [styles.mobileFilterMenuTimer]: this.props.showTimer },
                     globalStyles.hideLeft
                   )
                 : cs(bootstrap.colMd2, styles.filterSticky)

@@ -142,7 +142,11 @@ const StaticPage: React.FC<Props> = props => {
         {mobile ? (
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
-              <div className={styles.cSortHeader}>
+              <div
+                className={cs(styles.cSortHeader, {
+                  [styles.cSortHeaderTimer]: showTimer
+                })}
+              >
                 <div
                   className={
                     accountListing
@@ -169,7 +173,11 @@ const StaticPage: React.FC<Props> = props => {
                     : globalStyles.hidden
                 }
               >
-                <div className={styles.mobileFilterHeader}>
+                <div
+                  className={cs(styles.mobileFilterHeader, {
+                    [styles.mobileFilterHeaderTimer]: showTimer
+                  })}
+                >
                   <div className={styles.filterCross}>
                     <span>
                       {path == "/account/bridal"
@@ -198,7 +206,8 @@ const StaticPage: React.FC<Props> = props => {
                     className={cs(
                       bootstrapStyles.col12,
                       bootstrapStyles.col12,
-                      styles.mobileFilterMenu
+                      styles.mobileFilterMenu,
+                      { [styles.mobileFilterMenuTimer]: showTimer }
                     )}
                   >
                     <ul className={styles.sort}>

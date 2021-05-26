@@ -3,7 +3,7 @@
 
 .c-sort {
     .product-number {
-      padding: 10px;
+      // padding: 10px;
       border-bottom: 1px solid tint(#000, 80%);
       .c-sort-header {
         position: fixed;
@@ -16,6 +16,9 @@
         padding: 0 20px;
         border-bottom: 1px solid tint(#000, 80%);
       }
+      .c-sort-header-timer {
+        top: $header-height + $timer-height;
+      }
       .mobile-filter-header {
         left: 0;
         width: 100%;
@@ -23,6 +26,7 @@
         background-color: #fff;
         border-bottom: 1px solid #ccc;
         position: fixed;
+        height: 50px;
         padding: 10px 20px 4px 20px;
         .filter-cross {
             line-height: 30px;
@@ -69,6 +73,9 @@
             }
             }
         }
+      }
+      .mobile-filter-menu-timer {
+        top: ($header-height + 42 + $timer-height);
       }
       .no-arrow-header {
         span {

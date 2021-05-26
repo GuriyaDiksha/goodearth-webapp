@@ -42,6 +42,7 @@ const Career: React.FC<Props> = props => {
   const [selectedJob, setSelectedJob] = useState<Job>();
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const dispatch = useDispatch();
 
   // Fetch Jobs
@@ -155,6 +156,7 @@ const Career: React.FC<Props> = props => {
                   <div
                     className={cs(
                       styles.careersMobileHeader,
+                      { [styles.careersMobileHeaderTimer]: showTimer },
                       styles.customDropdown
                     )}
                   >
@@ -180,6 +182,7 @@ const Career: React.FC<Props> = props => {
                     <div
                       className={cs(
                         styles.careersMobileHeader,
+                        { [styles.careersMobileHeaderTimer]: showTimer },
                         styles.careerSortCross
                       )}
                     >
@@ -216,7 +219,8 @@ const Career: React.FC<Props> = props => {
                       className={cs(
                         bootstrapStyles.col12,
                         bootstrapStyles.colSm12,
-                        styles.mobileFilterMenu
+                        styles.mobileFilterMenu,
+                        { [styles.mobileFilterMenuTimer]: showTimer }
                       )}
                     >
                       <ul className={styles.sort}>
@@ -295,7 +299,11 @@ const Career: React.FC<Props> = props => {
           )}
 
           {/* Careers top banner */}
-          <div className={styles.careersContent}>
+          <div
+            className={cs(styles.careersContent, {
+              [styles.careersContentTimer]: showTimer
+            })}
+          >
             <div className={styles.careersImage}>
               <img
                 src={mobile ? careersMobile : careers}
@@ -323,7 +331,11 @@ const Career: React.FC<Props> = props => {
               </p>
             )}
           </div>
-          <div className={cs(styles.careersContent, styles.newcareersContent)}>
+          <div
+            className={cs(styles.careersContent, {
+              [styles.careersContentTimer]: showTimer
+            })}
+          >
             <div className={styles.careersImage}>
               <img
                 src={mobile ? newCareersMobile : newCareers}
