@@ -493,6 +493,9 @@
       padding: 0 20px;
       border-bottom: 1px solid tint(#000, 80%);
     }
+    .c-sort-header-timer {
+      top: $header-height + $timer-height;
+    }
     .mobile-filter-header {
       left: 0;
     }
@@ -583,10 +586,13 @@
     }
   }
 }
+.mobile-filter-header-timer {
+  top: $header-height + $timer-height;
+}
 .mobile-filter-menu {
   position: fixed;
   bottom: 0;
-  top: ($header-height + 50);
+  top: $main-header;
   left: 0;
   z-index: 9;
   background-color: white;
@@ -633,6 +639,9 @@
       }
     }
   }
+}
+.mobile-filter-menu-timer {
+  top: $main-header + $timer-height;
 }
     .order-summary {
     left: 0;

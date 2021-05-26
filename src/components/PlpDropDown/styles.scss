@@ -67,6 +67,9 @@
             }
           }
       }
+      .mobile-filter-header-timer {
+        top: $header-height + $timer-height;
+      }
       .mobile-filter-menu {
         left: 0;
         position: fixed;
@@ -96,6 +99,9 @@
             }
             }
         }
+      }
+      .mobile-filter-menu-timer {
+        top: ($header-height + 42 + $timer-height);
       }
       .no-arrow-header {
         span {
