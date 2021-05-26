@@ -44,6 +44,7 @@ const LineItems: React.FC<BasketItem> = memo(
       discount,
       discountedPriceRecords,
       badgeType,
+      salesBadgeImage,
       inWishlist,
       attributes
     } = product;
@@ -122,6 +123,11 @@ const LineItems: React.FC<BasketItem> = memo(
               )}
             </div>
             <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+              {salesBadgeImage && (
+                <div className={styles.badgePositionPlpMobile}>
+                  <img src={salesBadgeImage} />
+                </div>
+              )}
               <img
                 className={styles.productImage}
                 src={

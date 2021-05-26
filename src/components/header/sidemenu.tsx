@@ -76,7 +76,10 @@ class SideMenu extends React.Component<Props, State> {
   };
 
   toggleSearch = () => {
-    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+    if (
+      this.props.history.location.pathname.indexOf("/bridal/") > 0 &&
+      !this.props.location.pathname.includes("/account/")
+    ) {
       return false;
     }
     this.props.toggleSearch();
@@ -177,9 +180,12 @@ class SideMenu extends React.Component<Props, State> {
       bagCount = bagCount + item[i].quantity;
     }
     const { mobile, location } = this.props;
-    const isBridalRegistryPage = location.pathname.indexOf("/bridal/") > -1;
+    const isBridalRegistryPage =
+      location.pathname.indexOf("/bridal/") > -1 &&
+      !this.props.location.pathname.includes("/account/");
     const disableClass =
-      location.pathname.indexOf("/bridal/") > -1
+      location.pathname.indexOf("/bridal/") > -1 &&
+      !this.props.location.pathname.includes("/account/")
         ? styles.iconStyleDisabled
         : "";
     return (

@@ -52,6 +52,7 @@ import CustomerCareInfo from "components/CustomerCareInfo";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
+import cushionFiller from "images/cushionFiller.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -428,12 +429,12 @@ const ProductDetails: React.FC<Props> = ({
 
   const sizeSelectClick = () => {
     setSizeerror(true);
+    setSizeError("Please select a Size to proceed");
     showError();
   };
 
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
-    let selectSize = false;
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
@@ -445,20 +446,13 @@ const ProductDetails: React.FC<Props> = ({
     } else if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
       action = sizeSelectClick;
-      selectSize = true;
     } else {
       buttonText = addedToBag ? "Added!" : "Add to Bag";
       action = addedToBag ? () => null : addToBasket;
       setSizeerror(false);
     }
 
-    return (
-      <Button
-        label={buttonText}
-        onClick={action}
-        className={selectSize ? globalStyles.disabledBtn : ""}
-      />
-    );
+    return <Button label={buttonText} onClick={action} />;
   }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
 
   const showSize = useMemo(() => {
@@ -748,6 +742,7 @@ const ProductDetails: React.FC<Props> = ({
               styles.errorMsg
             )}
           >
+            <img src={cushionFiller} className={styles.cushionFiller} />
             {ReactHtmlParser(fillerMessage)}
           </div>
         ) : (
@@ -773,15 +768,8 @@ const ProductDetails: React.FC<Props> = ({
               [globalStyles.hidden]: mobile && !showAddToBagMobile
             })}
           >
-            {sizeerror && !mobile ? (
-              <p className={cs(styles.errorMsg, styles.notEligible)}>
-                Please select a size to proceed
-              </p>
-            ) : (
-              ""
-            )}
             {button}
-            {!loyaltyDisabled && isQuickview ? (
+            {!info.isSale && !loyaltyDisabled && isQuickview ? (
               <p className={cs(styles.errorMsg, styles.notEligible)}>
                 This product is not eligible for Cerise points accumulation.
               </p>
@@ -834,7 +822,7 @@ const ProductDetails: React.FC<Props> = ({
             [globalStyles.voffset3]: mobile
           })}
         >
-          {!loyaltyDisabled && !isQuickview ? (
+          {!info.isSale && !loyaltyDisabled && !isQuickview ? (
             <p className={styles.errorMsg}>
               This product is not eligible for Cerise points accumulation.
             </p>
