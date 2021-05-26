@@ -327,3 +327,14 @@
     border-radius: 50%;
   }
 }
+
+.badge-position-plp-mobile {
+    width: 40%;
+    top: 0;
+    left: 6px;
+    position: absolute;
+    z-index: 4;
+  img {
+    width: 100%;
+  }
+}
