@@ -101,6 +101,7 @@ const ProductDetails: React.FC<Props> = ({
   const location = useLocation();
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
+  const [onload, setOnload] = useState(false);
   const [
     selectedSize,
     setSelectedSize
@@ -122,6 +123,7 @@ const ProductDetails: React.FC<Props> = ({
   // }, [selectedSize]);
   useLayoutEffect(() => {
     setGtmListType("PDP");
+    setOnload(true);
   });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
@@ -769,7 +771,7 @@ const ProductDetails: React.FC<Props> = ({
             })}
           >
             {button}
-            {!info.isSale && !loyaltyDisabled && isQuickview ? (
+            {onload && !info.isSale && !loyaltyDisabled && isQuickview ? (
               <p className={cs(styles.errorMsg, styles.notEligible)}>
                 This product is not eligible for Cerise points accumulation.
               </p>
@@ -822,7 +824,7 @@ const ProductDetails: React.FC<Props> = ({
             [globalStyles.voffset3]: mobile
           })}
         >
-          {!info.isSale && !loyaltyDisabled && !isQuickview ? (
+          {onload && !info.isSale && !loyaltyDisabled && !isQuickview ? (
             <p className={styles.errorMsg}>
               This product is not eligible for Cerise points accumulation.
             </p>
