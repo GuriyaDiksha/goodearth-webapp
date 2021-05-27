@@ -85,7 +85,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
         {data?.map((data: MegaMenuData, i: number) => {
           const highlightStories =
             data.text.toLowerCase() == "stories" ? true : false;
-          const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
+          // const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
           return (
             <li
               key={i + "header"}
@@ -93,7 +93,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               onMouseEnter={() => {
                 this.props.ipad ||
                 highlightStories ||
-                isGifting ||
+                // isGifting ||
                 isBridalRegistryPage
                   ? ""
                   : this.mouseOver(i);
@@ -101,13 +101,14 @@ class MegaMenu extends React.Component<Props, MenuState> {
               onMouseLeave={() => {
                 this.props.ipad ||
                 highlightStories ||
-                isGifting ||
+                // isGifting ||
                 isBridalRegistryPage
                   ? ""
                   : this.mouseLeave(i);
               }}
             >
-              {highlightStories || isGifting ? (
+              {highlightStories ? (
+                // || isGifting
                 isBridalRegistryPage ? (
                   <span
                     className={cs(
@@ -124,7 +125,8 @@ class MegaMenu extends React.Component<Props, MenuState> {
                       disbaleClass,
                       styles.hoverStories,
                       {
-                        [styles.cerise]: !this.props.isSale && !isGifting
+                        [styles.cerise]: !this.props.isSale
+                        //  && !isGifting
                       }
                     )}
                     href={isBridalRegistryPage ? "" : data.url}
@@ -178,7 +180,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
             </li>
           );
         })}
-        <li key="gifting" className={cs(styles.menuItem, disbaleClass)}>
+        {/* <li key="gifting" className={cs(styles.menuItem, disbaleClass)}>
           {isBridalRegistryPage ? (
             <span
               className={cs(
@@ -201,7 +203,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               {ReactHtmlParser("gifting")}
             </Link>
           )}
-        </li>
+        </li> */}
         <li key="stories" className={cs(styles.menuItem, disbaleClass)}>
           {isBridalRegistryPage ? (
             <span

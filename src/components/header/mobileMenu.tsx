@@ -943,7 +943,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             </li>
           );
         })}
-        <li
+        {/* <li
           key="gifting"
           className={cs(
             this.props.location.pathname.indexOf("/bridal/") > 0 &&
@@ -968,7 +968,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               {ReactHtmlParser("gifting")}
             </Link>
           </>
-        </li>
+        </li> */}
         <li
           key="stories"
           className={cs(
