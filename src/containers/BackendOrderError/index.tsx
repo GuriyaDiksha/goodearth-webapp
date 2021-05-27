@@ -31,7 +31,7 @@ class ErrorPage extends React.Component<{}, {}> {
           </div>
           <div className={cs(globalStyles.voffset3, globalStyles.c10LR)}>
             {" "}
-            Please contact customer care to renue your order link{" "}
+            Please contact customer care to renew your order link{" "}
           </div>
           <div className={globalStyles.voffset5}>
             {" "}
