@@ -73,17 +73,19 @@ const Image: React.FC<Props> = ({
                       })
                     }
                   >
-                    <LazyImage
-                      aspectRatio={mobile ? "1:1" : aspectRatio}
-                      shouldUpdateAspectRatio={true}
-                      containerClassName={styles.img}
-                      isVisible={true}
-                      src={
-                        mobile
-                          ? componentData.thumbnailSrc || componentData.src
-                          : componentData.src
-                      }
-                    />
+                    <div className={styles.img}>
+                      <LazyImage
+                        aspectRatio={mobile ? "1:1" : aspectRatio}
+                        shouldUpdateAspectRatio={true}
+                        // containerClassName={styles.img}
+                        isVisible={true}
+                        src={
+                          mobile
+                            ? componentData.thumbnailSrc || componentData.src
+                            : componentData.src
+                        }
+                      />
+                    </div>
                   </Link>
                 )}
                 <div className={styles.container}>
