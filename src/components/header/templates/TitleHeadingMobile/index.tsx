@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import styles from "../styles.scss";
+import ReactHtmlParser from "react-html-parser";
 
 type Props = {
   data: MenuComponent;
@@ -75,7 +76,7 @@ const TitleHeadingMobile: React.FC<Props> = ({
                 })
               }
             >
-              {componentData.title}
+              {ReactHtmlParser(componentData.title)}
             </Link>
           </div>
         </div>
