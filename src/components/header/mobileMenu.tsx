@@ -279,7 +279,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     this.props.clickToggle();
                   }}
                 >
-                  {innerMenuData.text}
+                  {ReactHtmlParser(innerMenuData.text)}
                 </Link>
               </span>
               <span className={cs(bootstrap.col3, globalStyles.textRight)}>
@@ -365,7 +365,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           });
                         }}
                       >
-                        {data.ctaName || "View All"}
+                        {ReactHtmlParser(data.ctaName) || "View All"}
                       </Link>
                     </li>
                   ) : (
