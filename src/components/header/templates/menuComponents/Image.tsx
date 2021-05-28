@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import styles from "../styles.scss";
+import ReactHtmlParser from "react-html-parser";
 
 type Props = {
   data: MenuComponent[];
@@ -103,7 +104,7 @@ const Image: React.FC<Props> = ({
                         })
                       }
                     >
-                      {componentData.heading}
+                      {ReactHtmlParser(componentData.heading)}
                     </Link>
                   </div>
                   {componentData.subHeading && (
@@ -121,7 +122,7 @@ const Image: React.FC<Props> = ({
                         })
                       }
                     >
-                      {componentData.subHeading}
+                      {ReactHtmlParser(componentData.subHeading)}
                     </Link>
                   )}
                 </div>
@@ -169,7 +170,7 @@ const Image: React.FC<Props> = ({
                         })
                       }
                     >
-                      {componentData.heading}
+                      {ReactHtmlParser(componentData.heading)}
                     </div>
                   </div>
                   {componentData.subHeading && (
@@ -185,7 +186,7 @@ const Image: React.FC<Props> = ({
                         })
                       }
                     >
-                      {componentData.subHeading}
+                      {ReactHtmlParser(componentData.subHeading)}
                     </div>
                   )}
                 </div>
