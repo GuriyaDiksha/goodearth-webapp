@@ -76,7 +76,7 @@ const PlpDropdownMenu = ({
       <div
         className={cs(
           {
-            // [globalStyles.hidden]: menuOpen
+            [globalStyles.hidden]: menuOpen
           },
           bootstrap.col12,
           {
@@ -128,9 +128,11 @@ const PlpDropdownMenu = ({
             // [globalStyles.hidden]: !menuOpen
           },
           bootstrap.col12,
-          styles.productNumber
+          styles.productNumber,
+          { [styles.noPadding]: !menuOpen }
         )}
       >
+        {/* headers when menu is open */}
         <div className={cs({ [styles.mobileFilterSortBg]: showmobileSort })}>
           <div
             className={cs(styles.mobileFilterHeader, globalStyles.hideLeft, {
