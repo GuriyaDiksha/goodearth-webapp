@@ -6,6 +6,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles.scss";
 import Image from "./Image";
+import ReactHtmlParser from "react-html-parser";
 
 type Props = {
   data: MenuComponent;
@@ -51,7 +52,7 @@ const Title: React.FC<Props> = ({
                 })
               }
             >
-              {componentData.title}
+              {ReactHtmlParser(componentData.title)}
             </Link>
             {componentData.src && (
               <Link
@@ -82,7 +83,7 @@ const Title: React.FC<Props> = ({
                 })
               }
             >
-              {componentData.title}
+              {ReactHtmlParser(componentData.title)}
             </div>
             {componentData.src && (
               <div
@@ -126,7 +127,7 @@ const Title: React.FC<Props> = ({
               })
             }
           >
-            {componentData.ctaName}
+            {ReactHtmlParser(componentData.ctaName)}
           </Link>
         ) : (
           <div
@@ -140,7 +141,7 @@ const Title: React.FC<Props> = ({
               })
             }
           >
-            {componentData.ctaName}
+            {ReactHtmlParser(componentData.ctaName)}
           </div>
         )}
       </div>
