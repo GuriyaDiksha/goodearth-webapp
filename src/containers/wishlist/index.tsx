@@ -819,6 +819,7 @@ class Wishlist extends React.Component<Props, State> {
             >
               <p className={styles.filterText}>SORT</p>
               <SelectableDropdownMenu
+                id="sort-dropdown-wishlist"
                 align="right"
                 className={styles.dropdownRoot}
                 items={this.state.options}

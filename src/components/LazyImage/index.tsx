@@ -7,6 +7,7 @@ import styles from "./styles.scss";
 export default class LazyImage extends React.Component<Props, State> {
   observer?: IntersectionObserver;
   container: HTMLDivElement | null = null;
+  myRef: React.RefObject<HTMLImageElement>;
   constructor(props: Props) {
     super(props);
     let imgHeight: number,
@@ -23,9 +24,13 @@ export default class LazyImage extends React.Component<Props, State> {
       isVisible: props.isVisible === undefined ? false : props.isVisible,
       style
     };
+    this.myRef = React.createRef();
   }
 
   componentDidMount() {
+    if (this.myRef.current?.complete) {
+      this.onLoad();
+    }
     if (this.props.isVisible) {
       return;
     }
@@ -53,19 +58,21 @@ export default class LazyImage extends React.Component<Props, State> {
     }
   };
 
-  onLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    if (this.props.shouldUpdateAspectRatio) {
-      const img = e.currentTarget;
-      const width = img.naturalWidth;
-      const height = img.naturalHeight;
-      const imgHeight = (Number(height) * 100) / Number(width);
-      this.setState({
-        style: {
-          paddingTop: `${imgHeight}%`
-        }
-      });
+  onLoad = (e?: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    if (this.props.shouldUpdateAspectRatio && this.props.aspectRatio) {
+      const img = e ? e.currentTarget : this.myRef.current;
+      if (img) {
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
+        const imgHeight = (Number(height) * 100) / Number(width);
+        this.setState({
+          style: {
+            paddingTop: `${imgHeight}%`
+          }
+        });
+      }
     }
-    this.props.onLoad?.(e);
+    e && this.props.onLoad?.(e);
   };
 
   render() {
@@ -82,6 +89,7 @@ export default class LazyImage extends React.Component<Props, State> {
         {isVisible && (
           <img
             src={src}
+            ref={this.myRef}
             alt={alt || "image"}
             className={cs(styles.lazyImage, className)}
             onClick={this.props.onClick}

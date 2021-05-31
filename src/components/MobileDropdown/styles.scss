@@ -49,13 +49,13 @@
         bottom: 0;
         top: ($header-height + 42);
         left: 0;
-        z-index: 10;
+        z-index: 9;
         background-color: white;
         border-top: 1px solid #ccc;
-        -webkit-transition: all 0.5s linear;
-        -moz-transition: all 0.5s linear;
-        -o-transition: all 0.5s linear;
-        transition: all 0.5s linear;
+        // -webkit-transition: all 0.5s linear;
+        // -moz-transition: all 0.5s linear;
+        // -o-transition: all 0.5s linear;
+        // transition: all 0.5s linear;
         .sort {
             height: 100%;
             overflow: scroll;

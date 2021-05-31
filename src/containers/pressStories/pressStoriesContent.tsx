@@ -277,6 +277,7 @@ class PressStoriesContent extends React.Component<
             >
               <p className={styles.filterText}>ARCHIVE</p>
               <SelectableDropdownMenu
+                id="filter-dropdown-pressstories"
                 align="right"
                 className={styles.dropdownRoot}
                 items={this.props.options}

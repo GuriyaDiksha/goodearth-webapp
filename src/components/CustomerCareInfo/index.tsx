@@ -6,7 +6,7 @@ import iconStyles from "../../styles/iconFonts.scss";
 
 const CustomerCareInfo: React.FC = () => {
   return (
-    <div className={cs(globalStyles.voffset4, styles.customercare)}>
+    <div className={cs(globalStyles.voffset3, styles.customercare)}>
       <h3>FOR ANY QUERIES OR ASSISTANCE</h3>
       <p>Write to us at:</p>
       <p>

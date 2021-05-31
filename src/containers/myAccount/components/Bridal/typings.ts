@@ -13,7 +13,7 @@ export type BridalDetailsType = {
 };
 
 export type Props = {
-  createRegistry: () => void;
+  openBridalPop: () => void;
   errorMessage: string;
   // currentCallBackComponent?: string;
   // isBridal?: boolean;

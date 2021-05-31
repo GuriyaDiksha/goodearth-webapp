@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./gift.scss";
-import { RedeemState, ReddemProps } from "./typings";
+import { RedeemState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import iconStyles from "styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
@@ -21,7 +21,6 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
   ReturnType<typeof mapStateToProps> &
-  ReddemProps &
   RouteComponentProps;
 
 class Reedem extends React.Component<Props, RedeemState> {
@@ -38,7 +37,7 @@ class Reedem extends React.Component<Props, RedeemState> {
   // ProfileFormRef: RefObject<Formsy> = React.createRef();
 
   changeValue = (event: any) => {
-    const { loyaltyData } = this.props;
+    const { loyaltyData } = this.props.user;
     const value = event.target.value;
     if (value == "" || +value < 0) {
       this.setState({
@@ -46,7 +45,7 @@ class Reedem extends React.Component<Props, RedeemState> {
         txtvalue: ""
       });
     } else if (
-      +value <= loyaltyData.eligiblePoints
+      +value <= loyaltyData?.eligiblePoints
       //  && value >= 0
     ) {
       this.setState({
@@ -55,7 +54,7 @@ class Reedem extends React.Component<Props, RedeemState> {
       });
     } else {
       this.setState({
-        error: "You can redeem points upto " + loyaltyData.eligiblePoints
+        error: "You can redeem points upto " + loyaltyData?.eligiblePoints
       });
     }
   };
@@ -103,6 +102,7 @@ class Reedem extends React.Component<Props, RedeemState> {
   render() {
     const { newCardBox, txtvalue } = this.state;
     const { loyalty } = this.props;
+    const { loyaltyData } = this.props.user;
     const points = loyalty?.[0]?.points;
     return (
       <Fragment>
@@ -143,7 +143,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   CERISE POINTS BALANCE:
                 </p>
                 <p className={styles.textMuted}>
-                  {this.props.loyaltyData?.customerPoints}
+                  {loyaltyData?.customerPoints}
                 </p>
               </div>
               <div className={cs(styles.textLeft, globalStyles.voffset4)}>
@@ -151,7 +151,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   ELIGIBLE FOR REDEMPTION:
                 </p>
                 <p className={styles.textMuted}>
-                  {this.props.loyaltyData?.eligiblePoints}
+                  {loyaltyData?.eligiblePoints}
                 </p>
               </div>
               <div
@@ -209,7 +209,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                   isCredit={true}
                   checkOtpRedeem={this.props.checkOtpRedeem}
                   updateList={this.updateList}
-                  loyaltyData={this.props.loyaltyData}
+                  loyaltyData={loyaltyData}
                   points={this.state.txtvalue}
                   number={this.props.user.phoneNumber}
                 />

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   MobileListProps,
   MobileState,
@@ -15,16 +15,20 @@ import styles from "./styles.scss";
 import fontStyles from "styles/iconFonts.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
+import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
 import ImageWithSideSubheadingMobile from "./templates/ImageWithSideSubheadingMobile";
 import TitleHeadingMobile from "./templates/TitleHeadingMobile";
+import * as util from "../../utils/validate";
+
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
-    currency: state.currency
+    currency: state.currency,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = MobileListProps & ReturnType<typeof mapStateToProps>;
@@ -60,26 +64,89 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         });
   }
 
+  closeInnerMenu = () => {
+    this.setState({
+      activeindex: -1,
+      showInnerMenu: false,
+      showmenulevel2: false,
+      showmenulevel3: false
+    });
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.currency != this.props.currency) {
       this.closeInnerMenu();
     }
+    const { pathname } = nextProps.location;
+    if (pathname != this.props.location.pathname) {
+      if (this.state.showInnerMenu) {
+        const collapseMenuPaths = [
+          "/",
+          "/gifting",
+          "/corporate-gifts-catalogue",
+          "/cerise",
+          "/careers",
+          "/about-us",
+          "/search"
+        ];
+        if (
+          pathname.includes("/category_landing/") ||
+          pathname.includes("/account/") ||
+          pathname.includes("/customer-assistance/")
+        ) {
+          setTimeout(() => {
+            this.closeInnerMenu();
+          }, 1000);
+        } else if (collapseMenuPaths.indexOf(pathname) != -1) {
+          setTimeout(() => {
+            this.closeInnerMenu();
+          }, 1000);
+        }
+      }
+    }
   }
 
   Clickmenulevel2(index: number) {
-    index == this.state.activeindex2
-      ? this.setState({
-          activeindex2: index,
-          activeindex3: -1,
-          showmenulevel3: false,
-          showmenulevel2: !this.state.showmenulevel2
-        })
-      : this.setState({
-          activeindex2: index,
-          showmenulevel2: true,
-          activeindex3: -1,
-          showmenulevel3: false
-        });
+    if (index == this.state.activeindex2) {
+      this.setState({
+        activeindex2: index,
+        activeindex3: -1,
+        showmenulevel3: false,
+        showmenulevel2: !this.state.showmenulevel2
+      });
+    } else {
+      // close previous opened element if any
+      const oldElem = document.getElementById(
+        `menulevel2-${this.state.activeindex2}`
+      ) as HTMLParagraphElement;
+      if (oldElem) {
+        if (oldElem.style.maxHeight) {
+          oldElem.style.removeProperty("max-height");
+        }
+      }
+      this.setState({
+        activeindex2: index,
+        showmenulevel2: true,
+        activeindex3: -1,
+        showmenulevel3: false
+      });
+    }
+    // toggle clicked element
+    const elem = document.getElementById(
+      `menulevel2-${index}`
+    ) as HTMLParagraphElement;
+    if (elem) {
+      if (elem.style.maxHeight) {
+        elem.style.removeProperty("max-height");
+      } else {
+        elem.style.maxHeight = elem.scrollHeight + "px";
+        // elem.scrollBy(0, 180 - elem.getBoundingClientRect().top);
+        const scrollY = 180 - elem.getBoundingClientRect().top;
+        const parent = elem.parentElement as HTMLLIElement;
+        parent.scrollTop += scrollY;
+        // console.log(`scrolled by ${180 - elem.getBoundingClientRect().top}`);
+      }
+    }
   }
 
   ClickmenuLeft(index: number) {
@@ -97,14 +164,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           showmenulevel3: true
         });
   }
-
-  closeInnerMenu = () => {
-    this.setState({
-      showInnerMenu: false,
-      showmenulevel2: false,
-      showmenulevel3: false
-    });
-  };
 
   createInnerMenuData(megaMenuData: MegaMenuData) {
     const innerMenuData: InnerMenuData = {
@@ -217,7 +276,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     this.props.clickToggle();
                   }}
                 >
-                  {innerMenuData.text}
+                  {ReactHtmlParser(innerMenuData.text)}
                 </Link>
               </span>
               <span className={cs(bootstrap.col3, globalStyles.textRight)}>
@@ -281,10 +340,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               <span>{ReactHtmlParser(data.text)}</span>
             </span>
             <p
+              id={`menulevel2-${k}`}
               className={
-                this.state.showmenulevel2 && this.state.activeindex2 == k
-                  ? styles.showheader2
-                  : styles.hidden
+                styles.l3Animation
+                // this.state.showmenulevel2 && this.state.activeindex2 == k
+                //   ? styles.expanded
+                //   : styles.hidden
               }
             >
               {data.children ? (
@@ -301,7 +362,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           });
                         }}
                       >
-                        {data.ctaName || "View All"}
+                        {ReactHtmlParser(data.ctaName) || "View All"}
                       </Link>
                     </li>
                   ) : (
@@ -659,6 +720,170 @@ class Mobilemenu extends React.Component<Props, MobileState> {
   }
 
   render() {
+    const {
+      isLoggedIn,
+      clickToggle,
+      wishlistCount,
+      showCurrency,
+      changeCurrency,
+      showC,
+      profileItems
+    } = this.props;
+    const wishlistIcon = wishlistCount > 0;
+    const lowerMenu = (
+      <div className={styles.lowerMenu}>
+        <ul>
+          <li>
+            {isLoggedIn ? (
+              <Link
+                to="/wishlist"
+                className={styles.wishlistLink}
+                onClick={() => {
+                  clickToggle();
+                  util.headerClickGTM("Wishlist", "Top", true, isLoggedIn);
+                }}
+              >
+                <i
+                  className={cs(
+                    styles.wishlistIcon,
+                    { [globalStyles.cerise]: wishlistIcon },
+                    {
+                      [iconStyles.iconWishlistAdded]: wishlistIcon
+                    },
+                    {
+                      [iconStyles.iconWishlist]: !wishlistIcon
+                    },
+                    iconStyles.icon
+                  )}
+                />
+                <span>
+                  {" "}
+                  wishlist {wishlistCount ? `(${wishlistCount})` : ""}
+                </span>
+              </Link>
+            ) : (
+              <div
+                onClick={e => {
+                  this.props.goLogin(e);
+                  util.headerClickGTM("Wishlist", "Top", true, isLoggedIn);
+                  clickToggle();
+                }}
+                className={styles.wishlistLink}
+              >
+                <i
+                  className={cs(
+                    styles.wishlistIcon,
+                    { [globalStyles.cerise]: wishlistIcon },
+                    {
+                      [iconStyles.iconWishlistAdded]: wishlistIcon
+                    },
+                    {
+                      [iconStyles.iconWishlist]: !wishlistIcon
+                    },
+                    iconStyles.icon
+                  )}
+                />
+                <span> wishlist</span>
+              </div>
+            )}
+          </li>
+          <li
+            className={
+              showC
+                ? cs(styles.currency, styles.before)
+                : this.props.location.pathname.indexOf("/bridal/") > 0
+                ? cs(styles.currency, styles.op3)
+                : styles.currency
+            }
+            onClick={showCurrency}
+          >
+            {" "}
+            change currency:
+          </li>
+          <li className={showC ? "" : styles.hidden}>
+            <ul className={styles.noMargin}>
+              <li
+                data-name="INR"
+                className={this.props.currency == "INR" ? styles.cerise : ""}
+                onClick={() => {
+                  changeCurrency("INR");
+                  util.headerClickGTM("Currency", "Top", true, isLoggedIn);
+                  clickToggle();
+                }}
+              >
+                India | INR(&#8377;)
+              </li>
+              <li
+                data-name="USD"
+                className={this.props.currency == "USD" ? styles.cerise : ""}
+                onClick={() => {
+                  changeCurrency("USD");
+                  util.headerClickGTM("Currency", "Top", true, isLoggedIn);
+                  clickToggle();
+                }}
+              >
+                Rest Of The World | USD (&#36;)
+              </li>
+              <li
+                data-name="GBP"
+                className={this.props.currency == "GBP" ? styles.cerise : ""}
+                onClick={() => {
+                  changeCurrency("GBP");
+                  util.headerClickGTM("Currency", "Top", true, isLoggedIn);
+                  clickToggle();
+                }}
+              >
+                United Kingdom | GBP (&#163;)
+              </li>
+            </ul>
+          </li>
+
+          <ul className={styles.adding}>
+            {profileItems.map(item => {
+              return (
+                <li
+                  key={item.label}
+                  onClick={e => {
+                    item.onClick && item.onClick(e);
+                    clickToggle();
+                  }}
+                >
+                  {item.type == "button" ? (
+                    <span
+                      onClick={() => {
+                        util.headerClickGTM(
+                          "Profile Item",
+                          "Top",
+                          true,
+                          isLoggedIn
+                        );
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  ) : (
+                    <NavLink
+                      key={item.label}
+                      to={item.href as string}
+                      onClick={() => {
+                        util.headerClickGTM(
+                          "Profile Item",
+                          "Top",
+                          true,
+                          isLoggedIn
+                        );
+                      }}
+                    >
+                      {item.label}
+                    </NavLink>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </ul>
+      </div>
+    );
     const outerMenu = (
       <ul className={styles.mobileMainMenu}>
         {this.props.megaMenuData.map((data, i) => {
@@ -782,7 +1007,17 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         </ul>
       </div>
     );
-    return this.state.showInnerMenu ? innerMenu : outerMenu;
+    return (
+      <div
+        className={cs(styles.mobileMainMenuContainer, {
+          [styles.active]: this.state.showInnerMenu
+        })}
+      >
+        {outerMenu}
+        {innerMenu}
+        {lowerMenu}
+      </div>
+    );
   }
 }
 export default connect(mapStateToProps)(Mobilemenu);
