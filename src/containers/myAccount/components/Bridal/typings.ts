@@ -66,4 +66,5 @@ export type BridalPublicProfileData = {
   registryName: string;
   currency: Currency;
   items: BridalItemData[];
+  message?: string;
 };
