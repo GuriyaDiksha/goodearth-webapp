@@ -630,7 +630,9 @@ class Header extends React.Component<Props, State> {
               }
             })}
           </div>
-          {this.props.showTimer && this.props.timerData && <CountdownTimer />}
+          {!isBridalRegistryPage &&
+            this.props.showTimer &&
+            this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
