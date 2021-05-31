@@ -450,7 +450,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           POPUP.FREESHIPPING,
           {
             remainingAmount:
-              freeShippingApplicable - parseInt(basket.total.toString()),
+              freeShippingApplicable -
+              parseInt((basket.total - basket.shippingCharge).toString()),
             freeShippingApplicable
           },
           true
