@@ -469,8 +469,9 @@ class BridalCheckout extends React.Component<Props, State> {
                     globalStyles.bold
                   )}
                 >
-                  Sorry, Your registry{" "}
-                  {this.state.bridalProfile.coRegistrantName} has expired.
+                  Sorry, {this.state.bridalProfile.registryName} and{" "}
+                  {this.state.bridalProfile.coRegistrantName}{" "}
+                  {this.state.bridalProfile.registryName} has been concluded.
                 </div>
               </>
             )}
