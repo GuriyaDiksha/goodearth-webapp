@@ -271,6 +271,9 @@
   background-color: #fff;
   text-align: initial;
 }
+.main-menu-animation-timer {
+  top: $header-height + $timer-height;
+}
 .main-menu {
   position: absolute;
   .img-header {
@@ -405,13 +408,13 @@
   width: 10%;
 }
 
-.mobile-menu {
-  position: absolute;
-  z-index: 10;
-  width: 100%;
-  left: 0;
-  top:$header-height;
-}
+// .mobile-menu {
+//   position: absolute;
+//   z-index: 10;
+//   width: 100%;
+//   left: 0;
+//   top:$header-height;
+// }
 
 .mobile-list {
   position: fixed;
@@ -1061,6 +1064,9 @@ p {
   @include transition(all, 1s, ease-in-out);
   top: $header-height;
 }
+  .search-timer {
+    top: $header-height + $timer-height;
+  }
 }
 
 .search-block-page {
@@ -1144,7 +1150,6 @@ visibility: visible !important;
   width: 30%;
   top: 0px;
   z-index: 4;
-  left: 10px;
   position: absolute;
   z-index: 1;
   img {
@@ -1155,7 +1160,6 @@ visibility: visible !important;
 .badge-position-plp-mobile {
     width: 40%;
     top: 0;
-    left: 6px;
     position: absolute;
     z-index: 4;
   img {
@@ -1254,14 +1258,14 @@ visibility: visible !important;
   }
   .discountprice {
     color: $cerise;
-    font-family: $font-Serif;
-    font-size: 16px;
+    font-family: $font-Lato;
+    font-size: 14px;
   }
   .strikeprice {
     font-size: 14px;
     text-decoration: line-through;
     color: tint(#000, 50%) !important;
-    font-family: $font-Serif;
+    font-family: $font-Lato;
   }
 }
 .image-content {
@@ -1530,4 +1534,42 @@ ul.inner-menu-mobile {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-out;
+}
+.countdown-timer {
+  height: 40px;
+  width: 100%;
+  background-color:#f3f3f3;
+  color: $cerise;
+  .timer-txt {
+    font-size: 12px;
+    line-height: 40px;
+    text-align: right;
+  }
+  .timer-cta-btn {
+    padding: 2px 8px;
+    width: fit-content;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .timer {
+    padding: 0 10px;
+    font-weight: bold;
+    .timer-label {
+      font-size: 10px;
+      color: #333;
+    }
+    .timer-value {
+      font-size: 14px;
+    }
+    table {
+      text-align: center;
+      margin: auto;
+      td {
+        padding: 0 2px;
+      }
+    }
+  }
+}
+.header-bg {
+  background-color: #f9f8f5;
 }

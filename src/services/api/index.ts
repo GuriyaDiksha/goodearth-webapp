@@ -3,9 +3,10 @@ import API from "utils/api";
 import { ApiResponse } from "typings/api";
 import { updateShopData } from "actions/shop";
 import { updateCurrency } from "actions/currency";
-import { updateSales, updatePopupBgUrl } from "actions/info";
+import { updateSales, updatePopupBgUrl, updateShowTimer } from "actions/info";
 import { updateAnnouncement } from "actions/header";
 import CacheService from "services/cache";
+import HeaderService from "services/headerFooter";
 
 export default {
   fetchShopLocator: async function(dispatch: Dispatch) {
@@ -33,6 +34,10 @@ export default {
     dispatch(updateSales(data.sale));
     if (bridalKey) {
       dispatch(updateCurrency(data.currency));
+    }
+    dispatch(updateShowTimer(data.showTimer));
+    if (data.showTimer) {
+      await HeaderService.getSaleTimerData(dispatch);
     }
   },
   getPopupBgUrl: async function(dispatch: Dispatch) {

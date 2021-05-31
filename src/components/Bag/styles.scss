@@ -306,7 +306,7 @@
 .discountprice {
   color: #ab1e56;
   font-family:  $font-Lato;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .strikeprice {
@@ -325,5 +325,15 @@
     background-color: $cerise;
     fill: $white;
     border-radius: 50%;
+  }
+}
+
+.badge-position-plp-mobile {
+    width: 40%;
+    top: 0;
+    position: absolute;
+    z-index: 4;
+  img {
+    width: 100%;
   }
 }

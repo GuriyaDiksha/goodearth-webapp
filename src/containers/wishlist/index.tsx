@@ -37,7 +37,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     wishlistData: state.wishlist.items,
     isLoggedIn: state.user.isLoggedIn,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showTimer: state.info.showTimer
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -716,7 +717,11 @@ class Wishlist extends React.Component<Props, State> {
     return (
       <div className={bootstrapStyles.containerFluid}>
         {mobile ? (
-          <div className={cs(bootstrapStyles.row, globalStyles.voffset7)}>
+          <div
+            className={cs(bootstrapStyles.row, styles.pageBody, {
+              [styles.pageBodyTimer]: this.props.showTimer
+            })}
+          >
             <div className={cs(styles.cSort, styles.subheaderAccount)}>
               <div
                 className={cs(bootstrapStyles.col12, styles.productNumber)}
@@ -749,7 +754,11 @@ class Wishlist extends React.Component<Props, State> {
                       : globalStyles.hidden
                   }
                 >
-                  <div className={styles.mobileFilterHeader}>
+                  <div
+                    className={cs(styles.mobileFilterHeader, {
+                      [styles.mobileFilterHeaderTimer]: this.props.showTimer
+                    })}
+                  >
                     <div className={styles.filterCross}>
                       <span>Wishlist</span>
                       <span
@@ -769,7 +778,8 @@ class Wishlist extends React.Component<Props, State> {
                     <div
                       className={cs(
                         bootstrapStyles.col12,
-                        styles.mobileFilterMenu
+                        styles.mobileFilterMenu,
+                        { [styles.mobileFilterMenuTimer]: this.props.showTimer }
                       )}
                     >
                       <ul className={styles.sort}>

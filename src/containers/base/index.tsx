@@ -263,34 +263,26 @@ const BaseLayout: React.FC = () => {
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
-  if (confirmation || backOrder || maintenance) {
-    return (
-      <div>
+  const minimalPage = confirmation || backOrder || maintenance;
+  return (
+    <Fragment>
+      {/* <Whatsapp /> */}
+      {!minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      <div
+        className={
+          minimalPage
+            ? ""
+            : cs(globalStyles.contentContainer, bootstrap.containerFluid)
+        }
+        id="no-content"
+      >
         {/* <MusicPlayer /> */}
         <Switch>{routes}</Switch>
-        <Modal />
       </div>
-    );
-  } else {
-    return (
-      <Fragment>
-        {/* <Whatsapp /> */}
-        {isCheckout ? <CheckoutHeader /> : <Header />}
-        <div
-          className={cs(
-            globalStyles.contentContainer,
-            bootstrap.containerFluid
-          )}
-          id="no-content"
-        >
-          {/* <MusicPlayer /> */}
-          <Switch>{routes}</Switch>
-        </div>
-        {isCheckout ? "" : <Footer />}
-        <Modal />
-      </Fragment>
-    );
-  }
+      {(!minimalPage || !isCheckout) && <Footer />}
+      <Modal />
+    </Fragment>
+  );
 };
 
 export default BaseLayout;

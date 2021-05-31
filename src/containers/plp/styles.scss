@@ -45,6 +45,9 @@
 .page-body{
   margin-top: $main-header;
 }
+.page-body-timer {
+  margin-top: $main-header + $timer-height;
+}
 @media screen and (min-width: 992px) {
   .sp-cat {
     padding-left: 20px;
@@ -205,7 +208,7 @@
 .mobile-filter-menu {
     position: fixed;
     bottom: 0;
-    top: ($header-height + 50);
+    top: $main-header;
     left: 0;
     z-index: 7;
     background-color: white;
@@ -252,6 +255,9 @@
         }
       }
     }
+  }
+  .mobile-filter-menu-timer {
+    top: $main-header + $timer-height;
   }
 
 .minimumWidth {
