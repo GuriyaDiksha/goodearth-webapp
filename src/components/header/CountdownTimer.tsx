@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { SaleTimerData } from "./typings";
 
 const CountdownTimer: React.FC = () => {
   const { timerData } = useSelector((state: AppState) => state.header);
-  if (!timerData) return null;
   const {
     themeColorHexCode,
     ctaText,
@@ -17,13 +17,11 @@ const CountdownTimer: React.FC = () => {
     text,
     saleEndDate,
     saleStartDate
-  } = timerData;
+  } = timerData as SaleTimerData;
   const timerColor = themeColorHexCode || "#ab1e56";
   const timerStartDate = new Date(saleStartDate);
   const timerEndDate = new Date(saleEndDate);
   const currentDate = new Date();
-  if (timerStartDate > currentDate) return null;
-  if (timerEndDate < currentDate) return null;
 
   const timeLeft = Math.floor(
     (timerEndDate.getTime() - currentDate.getTime()) / 1000
@@ -33,6 +31,8 @@ const CountdownTimer: React.FC = () => {
   const [min, setMin] = useState(Math.floor((timeLeft % 3600) / 60));
   const [sec, setSec] = useState(Math.floor(timeLeft % 60));
 
+  if (timerStartDate > currentDate) return null;
+  if (timerEndDate < currentDate) return null;
   useEffect(() => {
     const timer = setInterval(() => {
       const timeLeft = Math.floor(
@@ -107,14 +107,16 @@ const CountdownTimer: React.FC = () => {
           </table>
         </div>
         <div className={cs(bootstrap.col, bootstrap.colLg2)}>
-          <Link to={ctaUrl}>
-            <div
-              className={styles.timerCtaBtn}
-              style={{ color: timerColor, border: `1px solid ${timerColor}` }}
-            >
-              {ReactHtmlParser(ctaText)}
-            </div>
-          </Link>
+          {ctaText && (
+            <Link to={ctaUrl}>
+              <div
+                className={styles.timerCtaBtn}
+                style={{ color: timerColor, border: `1px solid ${timerColor}` }}
+              >
+                {ReactHtmlParser(ctaText)}
+              </div>
+            </Link>
+          )}
         </div>
       </div>
     </div>
