@@ -439,7 +439,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      slab.toLowerCase() != "sitara" &&
+      slab.toLowerCase() != "cerise sitara" &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       currency == "INR" &&
