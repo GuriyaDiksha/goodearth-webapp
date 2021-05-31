@@ -24,7 +24,10 @@ export default {
     currency?: Currency
   ): Promise<HeaderData[]> => {
     let menu: Menu | null = null;
-    if (typeof document == "undefined") {
+    if (
+      typeof document == "undefined" &&
+      __API_HOST__ == "https://pb.goodearth.in"
+    ) {
       menu = CacheService.get(`menu-${currency}`) as Menu;
     }
     if (menu) {
@@ -49,7 +52,10 @@ export default {
     );
     // headerData = res.results as HeaderData[];
     // CacheService.set("headerData", headerData);
-    if (typeof document == "undefined") {
+    if (
+      typeof document == "undefined" &&
+      __API_HOST__ == "https://pb.goodearth.in"
+    ) {
       CacheService.set(`menu-${res.currency}`, {
         results: res.results as HeaderData[],
         megaMenuResults: res.megaMenuResults as MegaMenuData[]
