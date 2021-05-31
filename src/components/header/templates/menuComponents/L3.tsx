@@ -5,6 +5,7 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles.scss";
+import ReactHtmlParser from "react-html-parser";
 
 type Props = {
   data: MenuComponent[];
@@ -55,7 +56,7 @@ const L3: React.FC<Props> = ({
                   })
                 }
               >
-                {componentData.text}
+                {ReactHtmlParser(componentData.text)}
               </Link>
             ) : (
               <div
@@ -69,7 +70,7 @@ const L3: React.FC<Props> = ({
                   })
                 }
               >
-                {componentData.text}
+                {ReactHtmlParser(componentData.text)}
               </div>
             )}
           </div>

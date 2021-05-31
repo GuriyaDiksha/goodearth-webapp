@@ -18,6 +18,7 @@ import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import CacheService from "services/cache";
 import HeaderService from "services/headerFooter";
+import CheckoutService from "services/checkout";
 import Api from "services/api";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
@@ -98,29 +99,38 @@ export default {
       tkn: res.token
     });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch, source, history, true).then(res => {
-      if (source == "checkout") {
-        util.checkoutGTM(1, metaResponse?.currency || "INR", res);
-      }
-      if (metaResponse) {
-        let basketBridalId = 0;
-        res.lineItems.map(item =>
-          item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
-        );
-        if (basketBridalId && basketBridalId == metaResponse.bridalId) {
-          util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT, 6000);
+    BasketService.fetchBasket(dispatch, source, history, true).then(
+      basketRes => {
+        if (source == "checkout") {
+          util.checkoutGTM(1, metaResponse?.currency || "INR", basketRes);
+          // call loyalty point api only one time after login
+          const data: any = {
+            email: res.email
+          };
+          CheckoutService.getLoyaltyPoints(dispatch, data).then(loyalty => {
+            dispatch(updateUser({ loyaltyData: loyalty }));
+          });
         }
-        let item1 = false,
-          item2 = false;
-        res.lineItems.map(data => {
-          if (!data.bridalProfile) item1 = true;
-          if (data.bridalProfile) item2 = true;
-        });
-        if (item1 && item2) {
-          util.showGrowlMessage(dispatch, REGISTRY_MIXED_SHIPPING, 6000);
+        if (metaResponse) {
+          let basketBridalId = 0;
+          basketRes.lineItems.map(item =>
+            item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+          );
+          if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+            util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT, 6000);
+          }
+          let item1 = false,
+            item2 = false;
+          basketRes.lineItems.map(data => {
+            if (!data.bridalProfile) item1 = true;
+            if (data.bridalProfile) item2 = true;
+          });
+          if (item1 && item2) {
+            util.showGrowlMessage(dispatch, REGISTRY_MIXED_SHIPPING, 6000);
+          }
         }
       }
-    });
+    );
     return res;
   },
   loginSocial: async function(dispatch: Dispatch, formdata: any) {

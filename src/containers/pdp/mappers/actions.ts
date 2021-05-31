@@ -7,7 +7,7 @@ import { updateCollectionProducts } from "actions/product";
 import { updateComponent, updateModal } from "../../../actions/modal";
 
 import { updateProduct } from "actions/product";
-import { getProductIdFromSlug } from "utils/url.ts";
+import { getProductIdFromSlug } from "utils/url";
 import { Product, PartialProductItem } from "typings/product.js";
 import { updatePlpMobileView } from "actions/plp";
 

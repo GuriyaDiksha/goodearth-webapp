@@ -233,7 +233,7 @@ font-weight: bold;
   }
   &.disabled-btn {
     background-color: tint(#000, 95%);
-    color: tint(#000, 50%);
+    color: tint(#000, 50%) !important;
     cursor: default;
   }
   a {
@@ -261,7 +261,7 @@ font-weight: bold;
 }
 .disabled-btn {
   background-color: tint(#000, 95%);
-  color: tint(#000, 50%);
+  color: tint(#000, 50%)  !important;
   cursor: default !important;
 }
 
@@ -299,7 +299,9 @@ font-weight: bold;
 .relative {
   position: relative;
 }
-
+.static {
+  position: static !important;
+}
 .container-start {
   margin-top: $main-header;
 }
@@ -436,4 +438,19 @@ font-weight: bold;
 }
 .disable-cursor {
   cursor: default !important;
+}
+.hide-left {
+  transition: transform 0.5s ease-in;
+  transform: translateX(-100%);
+  &.active {
+    transform: translateX(0);
+  }
+}
+
+.hide-bottom {
+  transition: transform 0.5s ease-in;
+  transform: translateY(100vh);
+  &.active {
+    transform: translateY(0);
+  }
 }

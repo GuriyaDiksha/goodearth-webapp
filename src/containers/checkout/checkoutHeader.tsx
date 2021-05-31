@@ -327,6 +327,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               )}
             >
               <SelectableDropdownMenu
+                id="currency-dropdown-checkout"
                 align={"left"}
                 items={items}
                 value={currency}

@@ -83,7 +83,7 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const minQuantity = 1;
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
-
+  const [sizeerror, setSizeerror] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
 
   const onQuantityChange = useCallback(
@@ -227,10 +227,13 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   };
 
+  const sizeSelectClick = () => {
+    setSizeerror(true);
+  };
+
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     let allOutOfStock = true;
-
     childAttributes.forEach(({ stock }) => {
       if (stock > 0) {
         allOutOfStock = false;
@@ -239,13 +242,20 @@ const NotifyMePopup: React.FC<Props> = ({
     if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = onNotifyClick;
+    } else if (!selectedSize && childAttributes.length > 1) {
+      buttonText = "Select Size";
+      action = sizeSelectClick;
     } else {
       buttonText = "Add to Bag";
       action = addToBasket;
     }
 
     return (
-      <Button label={buttonText} onClick={action} className={styles.button} />
+      <Button
+        label={buttonText}
+        onClick={action}
+        className={cs(styles.button)}
+      />
     );
   }, [selectedSize, email, quantity]);
 
@@ -346,6 +356,9 @@ const NotifyMePopup: React.FC<Props> = ({
               disabled={userExists}
             />
           </div>
+        )}
+        {sizeerror && (
+          <p className={styles.sizeError}>Please select a size to proceed</p>
         )}
         {button}
       </div>
