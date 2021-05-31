@@ -45,6 +45,7 @@ const MyAccount: React.FC<Props> = props => {
   const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
   const [currentSection, setCurrentSection] = useState("Profile");
@@ -276,7 +277,11 @@ const MyAccount: React.FC<Props> = props => {
       : ""
   );
   return (
-    <div className={globalStyles.containerStart}>
+    <div
+      className={cs(globalStyles.containerStart, {
+        [globalStyles.containerStartTimer]: showTimer
+      })}
+    >
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
           <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
@@ -295,7 +300,11 @@ const MyAccount: React.FC<Props> = props => {
         {mobile ? (
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
-              <div className={styles.cSortHeader}>
+              <div
+                className={cs(styles.cSortHeader, {
+                  [styles.cSortHeaderTimer]: showTimer
+                })}
+              >
                 <div
                   className={
                     accountListing
@@ -322,7 +331,11 @@ const MyAccount: React.FC<Props> = props => {
                     : globalStyles.hidden
                 }
               >
-                <div className={styles.mobileFilterHeader}>
+                <div
+                  className={cs(styles.mobileFilterHeader, {
+                    [styles.mobileFilterHeaderTimer]: showTimer
+                  })}
+                >
                   <div className={styles.filterCross}>
                     <span>
                       {pathname == "/account/bridal"
@@ -351,7 +364,8 @@ const MyAccount: React.FC<Props> = props => {
                     className={cs(
                       bootstrapStyles.col12,
                       bootstrapStyles.col12,
-                      styles.mobileFilterMenu
+                      styles.mobileFilterMenu,
+                      { [styles.mobileFilterMenuTimer]: showTimer }
                     )}
                   >
                     <ul className={styles.sort}>

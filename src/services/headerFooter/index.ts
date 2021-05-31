@@ -2,11 +2,12 @@ import {
   HeaderData,
   MegaMenuData,
   Menu,
+  SaleTimerData,
   SearchFeaturedData
 } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
-import { updateheader } from "actions/header";
+import { updateheader, updateTimerData } from "actions/header";
 import HomeService from "services/home";
 import { HomeProps } from "typings/home";
 import { addHomeData } from "actions/home";
@@ -163,5 +164,16 @@ export default {
       errors: string[] | { [x: string]: string }[];
     }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
     return res;
+  },
+  getSaleTimerData: async function(dispatch: Dispatch) {
+    try {
+      const data: SaleTimerData = await API.get<SaleTimerData>(
+        dispatch,
+        `${__API_HOST__}/myapi/common/sale_countdown_timer/`
+      );
+      dispatch(updateTimerData(data));
+    } catch (error) {
+      console.log("Timer API error!");
+    }
   }
 };

@@ -12,6 +12,7 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import weddingFloral from "../../images/bridal/wedding-floral.png";
+import bridalRing from "../../images/bridal/rings.svg";
 import iconStyles from "styles/iconFonts.scss";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
@@ -39,7 +40,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
 const mapStateToProps = (state: AppState) => {
   return {
     cart: state.basket,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -133,13 +135,22 @@ class BridalCheckout extends React.Component<Props, State> {
       "intro=" + true + "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
     document.cookie = cookieString;
     // var key = window.location.href.replace(Config.hostname + 'bridal/', '');
-    this.props.getBridalPublicProfile().then(res => {
-      if (res) {
-        this.setState({
-          bridalProfile: res[0]
-        });
-      }
-    });
+    this.props
+      .getBridalPublicProfile()
+      .then((res: any) => {
+        if (res) {
+          this.setState({
+            bridalProfile: res
+          });
+        }
+      })
+      .catch(res => {
+        if (res.response.data?.message == "Invalid bridal") {
+          this.setState({
+            bridalProfile: res.response.data
+          });
+        }
+      });
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
@@ -190,7 +201,13 @@ class BridalCheckout extends React.Component<Props, State> {
     } = this.state.bridalProfile;
     const { mobile } = this.props;
     return (
-      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+      <div
+        className={cs(
+          styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
+          bootstrap.containerFluid
+        )}
+      >
         <div className={cs(bootstrap.row, styles.bridalPublic)}>
           <div
             className={cs(
@@ -424,6 +441,40 @@ class BridalCheckout extends React.Component<Props, State> {
                   );
                 })
               : ""}
+            {this.state.bridalProfile?.message == "Invalid bridal" && (
+              <>
+                <div
+                  className={cs(
+                    globalStyles.marginT20,
+                    globalStyles.textCenter
+                  )}
+                >
+                  <svg
+                    viewBox="-3 -3 46 46"
+                    width="100"
+                    height="100"
+                    preserveAspectRatio="xMidYMid meet"
+                    x="0"
+                    y="0"
+                    className={styles.bridalRing}
+                  >
+                    <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                  </svg>
+                </div>
+                <div
+                  className={cs(
+                    globalStyles.voffset4,
+                    styles.textCoupon,
+                    globalStyles.textCenter,
+                    globalStyles.bold
+                  )}
+                >
+                  Sorry, {this.state.bridalProfile.registrantName} and{" "}
+                  {this.state.bridalProfile.coRegistrantName}{" "}
+                  {this.state.bridalProfile.registryName} has been concluded.
+                </div>
+              </>
+            )}
             {!mobile && (
               <div
                 className={cs(

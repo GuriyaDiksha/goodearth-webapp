@@ -2,7 +2,8 @@ import { actionCreator } from "utils/actionCreator";
 import {
   HeaderData,
   AnnouncementBar,
-  MegaMenuData
+  MegaMenuData,
+  SaleTimerData
 } from "components/header/typings";
 
 export const updateheader = (data: {
@@ -12,3 +13,6 @@ export const updateheader = (data: {
 
 export const updateAnnouncement = (data: AnnouncementBar) =>
   actionCreator("UPDATE_ANNOUNCEMENT_BAR", data);
+
+export const updateTimerData = (data: SaleTimerData) =>
+  actionCreator("UPDATE_TIMER_DATA", data);

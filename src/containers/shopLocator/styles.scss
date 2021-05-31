@@ -48,9 +48,15 @@
 .page-body{
 margin-top: $main-header;
 }
+.page-body-timer {
+  margin-top: $main-header + $timer-height;
+}
 @media screen and (max-width: 992px) {
-  .page-body{
+  .page-body {
     margin-top: $header-height;
+  }
+  .page-body-timer {
+    margin-top: $header-height + $timer-height;
   }
   .white-block{
        background-color: #f9f8f5;

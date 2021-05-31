@@ -48,7 +48,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
   }
 
   Clickmenulevel1(index: number) {
-    if (this.props.location.pathname.indexOf("/bridal/") > 0) {
+    if (
+      this.props.location.pathname.indexOf("/bridal/") > 0 &&
+      !this.props.location.pathname.includes("/account/")
+    ) {
       return false;
     }
     index == this.state.activeindex
@@ -791,7 +794,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             className={
               showC
                 ? cs(styles.currency, styles.before)
-                : this.props.location.pathname.indexOf("/bridal/") > 0
+                : this.props.location.pathname.indexOf("/bridal/") > 0 &&
+                  !this.props.location.pathname.includes("/account/")
                 ? cs(styles.currency, styles.op3)
                 : styles.currency
             }
@@ -891,7 +895,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             <li
               key={i}
               className={cs(
-                this.props.location.pathname.indexOf("/bridal/") > 0
+                this.props.location.pathname.indexOf("/bridal/") > 0 &&
+                  !this.props.location.pathname.includes("/account/")
                   ? styles.iconStyleDisabled
                   : "",
                 styles.outerMenuItem
@@ -938,10 +943,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             </li>
           );
         })}
-        <li
+        {/* <li
           key="gifting"
           className={cs(
-            this.props.location.pathname.indexOf("/bridal/") > 0
+            this.props.location.pathname.indexOf("/bridal/") > 0 &&
+              !this.props.location.pathname.includes("/account/")
               ? styles.iconStyleDisabled
               : "",
             styles.outerMenuItem
@@ -962,11 +968,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               {ReactHtmlParser("gifting")}
             </Link>
           </>
-        </li>
+        </li> */}
         <li
           key="stories"
           className={cs(
-            this.props.location.pathname.indexOf("/bridal/") > 0
+            this.props.location.pathname.indexOf("/bridal/") > 0 &&
+              !this.props.location.pathname.includes("/account/")
               ? styles.iconStyleDisabled
               : "",
             styles.outerMenuItem

@@ -34,7 +34,8 @@ const mapStateToProps = (state: AppState) => {
     data: state.searchList.data,
     location: state.router.location,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    showTimer: state.info.showTimer
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -276,7 +277,13 @@ class Search extends React.Component<
       }
     ];
     return (
-      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+      <div
+        className={cs(
+          styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
+          bootstrap.containerFluid
+        )}
+      >
         {!mobile && (
           <SecondaryHeader classname={styles.subHeader}>
             <Fragment>
@@ -328,6 +335,7 @@ class Search extends React.Component<
                     { [globalStyles.active]: this.state.mobileFilter },
                     bootstrap.col12,
                     styles.mobileFilterMenu,
+                    { [styles.mobileFilterMenuTimer]: this.props.showTimer },
                     globalStyles.hideLeft
                   )
                 : cs(bootstrap.colMd2, styles.filterSticky)

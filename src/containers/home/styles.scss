@@ -5,6 +5,9 @@ $home-top: $header-height;
     .maker-top{
         margin-top: $home-top;
     }
+    .maker-top-timer {
+        margin-top: $header-height + $timer-height;
+    }
     .title {
         font-family: $font-Serif;
         font-size: 32px;

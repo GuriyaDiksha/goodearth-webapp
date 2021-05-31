@@ -30,6 +30,7 @@ const Bag = loadable(() => import("../Bag/index"));
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 // import Mobilemenu from "./mobileMenu";
 import MegaMenu from "./megaMenu";
+import CountdownTimer from "./CountdownTimer";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -45,7 +46,9 @@ const mapStateToProps = (state: AppState) => {
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
     slab: state.user.slab,
-    cookies: state.cookies
+    cookies: state.cookies,
+    showTimer: state.info.showTimer,
+    timerData: state.header.timerData
   };
 };
 
@@ -295,7 +298,10 @@ class Header extends React.Component<Props, State> {
   };
 
   showSearch = () => {
-    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+    if (
+      this.props.history.location.pathname.indexOf("/bridal/") > 0 &&
+      !this.props.location.pathname.includes("/account/")
+    ) {
       return false;
     }
     this.setState({
@@ -627,10 +633,13 @@ class Header extends React.Component<Props, State> {
               }
             })}
           </div>
+          {!isBridalRegistryPage &&
+            this.props.showTimer &&
+            this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
-          <div className={styles.minimumWidth}>
+          <div className={cs(styles.minimumWidth, styles.headerBg)}>
             <div className={bootstrap.row}>
               {mobile ? (
                 <div
@@ -826,9 +835,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
           <div>
-            <div
-              className={cs(bootstrap.row, bootstrap.col12, styles.mobileMenu)}
-            >
+            <div className={cs(bootstrap.row, bootstrap.col12)}>
               <div
                 className={
                   this.state.showMenu
