@@ -2,6 +2,7 @@ import loadable from "@loadable/component";
 import React from "react";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import goodearth from "fonts/goodearth.woff2";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SideMenu from "./sidemenu";
@@ -541,6 +542,12 @@ class Header extends React.Component<Props, State> {
             <meta name="twitter:site" content={meta.twitterSite} />
           )}
           <meta httpEquiv="X-Frame-Options" content="deny" />
+          <link
+            rel="preload"
+            href={goodearth}
+            as="font"
+            crossOrigin="crossorigin"
+          />
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
