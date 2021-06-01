@@ -5,6 +5,11 @@ html(lang='en')
         meta(name="viewport",content="width=device-width, initial-scale=1")
         meta(name="theme-color",content="#ffffff")
         link(rel="apple-touch-icon", href="/static/icon_512x512.png")
+        link(rel="preload", href=`${cdn}/media/fonts/Franklin%20Gothic%20Medium.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20regular.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20300.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20700italic.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20300italic.ttf`, as="font", crossorigin)
         each stylesheet in styles
           style !{stylesheet}
         if (typeof(state) !== 'undefined')

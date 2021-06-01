@@ -35,8 +35,8 @@ export default {
     if (bridalKey) {
       dispatch(updateCurrency(data.currency));
     }
+    dispatch(updateShowTimer(data.showTimer));
     if (data.showTimer) {
-      dispatch(updateShowTimer(true));
       await HeaderService.getSaleTimerData(dispatch);
     }
   },

@@ -439,7 +439,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      slab.toLowerCase() != "sitara" &&
+      slab.toLowerCase() != "cerise sitara" &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       currency == "INR" &&
@@ -450,7 +450,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           POPUP.FREESHIPPING,
           {
             remainingAmount:
-              freeShippingApplicable - parseInt(basket.total.toString()),
+              freeShippingApplicable -
+              parseInt((basket.total - basket.shippingCharge).toString()),
             freeShippingApplicable
           },
           true

@@ -123,6 +123,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       styleSheets: linkTags,
       head: meta,
       gtmdata: JSON.stringify(__GTM_ID__),
+      cdn: __CDN_HOST__,
       manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });
   }

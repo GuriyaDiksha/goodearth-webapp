@@ -279,7 +279,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                     this.props.clickToggle();
                   }}
                 >
-                  {innerMenuData.text}
+                  {ReactHtmlParser(innerMenuData.text)}
                 </Link>
               </span>
               <span className={cs(bootstrap.col3, globalStyles.textRight)}>
@@ -365,7 +365,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           });
                         }}
                       >
-                        {data.ctaName || "View All"}
+                        {ReactHtmlParser(data.ctaName) || "View All"}
                       </Link>
                     </li>
                   ) : (
@@ -943,7 +943,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             </li>
           );
         })}
-        <li
+        {/* <li
           key="gifting"
           className={cs(
             this.props.location.pathname.indexOf("/bridal/") > 0 &&
@@ -968,7 +968,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               {ReactHtmlParser("gifting")}
             </Link>
           </>
-        </li>
+        </li> */}
         <li
           key="stories"
           className={cs(
