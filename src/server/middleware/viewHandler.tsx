@@ -19,6 +19,7 @@ import config from "../../config";
 import { getPushHeader } from "../utils/response";
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
+import jsesc from "jsesc";
 
 const statsFile = path.resolve("dist/static/loadable-stats.json");
 
@@ -116,7 +117,10 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     }
 
     await ctx.render("index", {
-      state: JSON.stringify(store.getState()),
+      state: jsesc(JSON.stringify(store.getState()), {
+        json: true,
+        isScriptContext: true
+      }),
       content: html,
       scripts: scriptTags,
       styles: styleSheets,
