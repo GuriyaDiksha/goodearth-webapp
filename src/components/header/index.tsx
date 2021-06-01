@@ -46,7 +46,8 @@ const mapStateToProps = (state: AppState) => {
     isLoggedIn: state.user.isLoggedIn,
     slab: state.user.slab,
     cookies: state.cookies,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    timerData: state.header.timerData
   };
 };
 
@@ -544,7 +545,9 @@ class Header extends React.Component<Props, State> {
             clearBridalSession={this.clearBridalSession}
             isBridalRegistryPage={isBridalRegistryPage}
           />
-          {this.props.showTimer && <CountdownTimer />}
+          {!isBridalRegistryPage &&
+            this.props.showTimer &&
+            this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
