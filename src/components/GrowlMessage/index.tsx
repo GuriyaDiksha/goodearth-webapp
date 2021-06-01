@@ -12,23 +12,26 @@ type Props = {
   timeout: number;
 };
 
-const Growl: React.FC<Props> = props => {
+const Growl: React.FC<Props> = ({ text, id, timeout }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(hideMessage(props.id));
-    }, props.timeout);
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
+    // if timeout == 0 don't close the growl
+    if (timeout) {
+      const timeoutId = setTimeout(() => {
+        dispatch(hideMessage(id));
+      }, timeout);
+      return () => {
+        window.clearTimeout(timeoutId);
+      };
+    }
   }, []);
   const closeMessage = (id: string) => {
     dispatch(hideMessage(id));
   };
   return (
-    <div className={styles.growl} key={props.id}>
+    <div className={styles.growl} key={id}>
       <div className={styles.innerContainer}>
-        <div>{props.text}</div>
+        <div>{text}</div>
         <span>
           <i
             className={cs(
@@ -36,7 +39,7 @@ const Growl: React.FC<Props> = props => {
               iconStyles.iconCrossNarrowBig,
               styles.closeButton
             )}
-            onClick={() => closeMessage(props.id)}
+            onClick={() => closeMessage(id)}
           />
         </span>
       </div>

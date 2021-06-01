@@ -27,7 +27,8 @@ import {
   LOGOUT_SUCCESS,
   LOGIN_SUCCESS,
   REGISTRY_OWNER_CHECKOUT,
-  REGISTRY_MIXED_SHIPPING
+  REGISTRY_MIXED_SHIPPING,
+  PREVIOUS_BASKET
 } from "constants/messages";
 // import Axios from "axios";
 import { POPUP } from "constants/components";
@@ -91,6 +92,9 @@ export default {
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    if (res.oldBasketHasItems) {
+      util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
+    }
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     dispatch(updateModal(false));
@@ -143,6 +147,9 @@ export default {
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    if (res.oldBasketHasItems) {
+      util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
+    }
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
     dispatch(updateModal(false));
