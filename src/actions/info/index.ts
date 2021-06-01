@@ -27,3 +27,6 @@ export const updateMicroUrl = (url: string) =>
 
 export const updateShowCookie = (showCookie: boolean) =>
   actionCreator("UPDATE_SHOW_COOKIE", showCookie);
+
+export const updateShowTimer = (showTimer: boolean) =>
+  actionCreator("UPDATE_SHOW_TIMER", showTimer);

@@ -39,7 +39,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
 const mapStateToProps = (state: AppState) => {
   return {
     cart: state.basket,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -190,7 +191,13 @@ class BridalCheckout extends React.Component<Props, State> {
     } = this.state.bridalProfile;
     const { mobile } = this.props;
     return (
-      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+      <div
+        className={cs(
+          styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
+          bootstrap.containerFluid
+        )}
+      >
         <div className={cs(bootstrap.row, styles.bridalPublic)}>
           <div
             className={cs(

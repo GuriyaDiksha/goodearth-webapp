@@ -19,17 +19,17 @@ import UserContext from "contexts/user";
 import mapDispatchToProps from "./mapper/actions";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import Search from "./search";
-import ReactHtmlParser from "react-html-parser";
 import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
-import bridalRing from "../../images/bridal/rings.svg";
 import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 // import Mobilemenu from "./mobileMenu";
 import MegaMenu from "./megaMenu";
+import CountdownTimer from "./CountdownTimer";
+import AnnouncementBar from "./AnnouncementBar";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -45,7 +45,8 @@ const mapStateToProps = (state: AppState) => {
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
     slab: state.user.slab,
-    cookies: state.cookies
+    cookies: state.cookies,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -384,11 +385,9 @@ class Header extends React.Component<Props, State> {
       meta,
       goLogin,
       handleLogOut,
-      announcement,
       location,
       mobile
     } = this.props;
-    const messageText = announcement.message?.split("|");
     const wishlistCount = wishlistData.length;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
@@ -541,99 +540,15 @@ class Header extends React.Component<Props, State> {
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
-          <div
-            className={styles.announcement}
-            style={{
-              backgroundColor:
-                announcement.isBridalActive || isBridalRegistryPage
-                  ? announcement.bridalBgColorcode
-                  : announcement.bgColorcode
-            }}
-          >
-            {messageText?.map((data, i) => {
-              if (announcement.url) {
-                return (
-                  <div
-                    key={i + "msgtext"}
-                    className={
-                      messageText.length > 1
-                        ? i == 0
-                          ? styles.boxx1
-                          : styles.boxx2
-                        : styles.width100
-                    }
-                  >
-                    <Link to={announcement.url ? "" + announcement.url : "/"}>
-                      <div id="announcement-bar-container">
-                        {ReactHtmlParser(data)}
-                      </div>
-                    </Link>
-                  </div>
-                );
-              } else {
-                return (
-                  <div
-                    key={i + "msgtext"}
-                    className={
-                      messageText.length > 1
-                        ? i == 0
-                          ? styles.boxx1
-                          : styles.boxx2
-                        : styles.width100
-                    }
-                  >
-                    {isBridalRegistryPage || announcement.isBridalActive ? (
-                      <div>
-                        <>
-                          <svg
-                            style={{ verticalAlign: "bottom" }}
-                            viewBox="-5 -5 50 50"
-                            width="30"
-                            height="30"
-                            preserveAspectRatio="xMidYMid meet"
-                            x="0"
-                            y="0"
-                            className={styles.bridalRing}
-                          >
-                            <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                          </svg>{" "}
-                          {announcement.registrantName} &{" "}
-                          {announcement.coRegistrantName}&#39;s Bridal Registry
-                          (Public Link){" "}
-                          <b
-                            style={{
-                              textDecoration: "underline",
-                              cursor: "pointer"
-                            }}
-                          >
-                            <span
-                              onClick={() =>
-                                this.clearBridalSession(
-                                  location.pathname.includes("checkout")
-                                    ? "checkout"
-                                    : location.pathname.includes("cart")
-                                    ? "cart"
-                                    : ""
-                                )
-                              }
-                            >
-                              Close
-                            </span>
-                          </b>
-                        </>
-                      </div>
-                    ) : (
-                      ReactHtmlParser(data)
-                    )}
-                  </div>
-                );
-              }
-            })}
-          </div>
+          <AnnouncementBar
+            clearBridalSession={this.clearBridalSession}
+            isBridalRegistryPage={isBridalRegistryPage}
+          />
+          {this.props.showTimer && <CountdownTimer />}
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
-          <div className={styles.minimumWidth}>
+          <div className={cs(styles.minimumWidth, styles.headerBg)}>
             <div className={bootstrap.row}>
               {mobile ? (
                 <div
@@ -829,9 +744,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
           <div>
-            <div
-              className={cs(bootstrap.row, bootstrap.col12, styles.mobileMenu)}
-            >
+            <div className={cs(bootstrap.row, bootstrap.col12)}>
               <div
                 className={
                   this.state.showMenu
