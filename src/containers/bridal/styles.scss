@@ -372,7 +372,7 @@
   .discountprice {
     color: $cerise;
     font-family: $font-Serif;
-    font-size: 16px;
+    font-size: 14px;
   }
   .strikeprice {
     font-size: 14px;
@@ -726,6 +726,9 @@
 
   .page-body{
     margin-top: $header-height;
+  }
+  .page-body-timer {
+    margin-top: $header-height + $timer-height;
   }
 
   hr {

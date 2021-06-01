@@ -9,7 +9,8 @@ const initialState: State = {
   deliveryText: "",
   scrollDown: false,
   microUrl: "",
-  showCookie: false
+  showCookie: false,
+  showTimer: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -57,6 +58,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_SHOW_COOKIE": {
       const newState = { ...state };
       newState.showCookie = action.payload;
+      return newState;
+    }
+    case "UPDATE_SHOW_TIMER": {
+      const newState = { ...state };
+      newState.showTimer = action.payload;
       return newState;
     }
   }

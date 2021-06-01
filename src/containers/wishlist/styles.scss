@@ -138,7 +138,7 @@
         text-transform: capitalize;
     }
     span {
-        font-size: 16px;
+        font-size: 14px;
         font-family: $font-Lato;
         color: #000;
         text-transform: capitalize;
@@ -321,7 +321,7 @@ span{
   z-index: 1;
   background-color: #fff;
   padding: 15px 20px 4px 20px;
-  top: 80px;
+  top: $header-height;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {
     line-height: 30px;
@@ -344,10 +344,13 @@ span{
     }
   }
 }
+.mobile-filter-header-timer {
+  top: $header-height + $timer-height;
+}
 .mobile-filter-menu {
   position: fixed;
   bottom: 0;
-  top: ($header-height + 50);
+  top: $main-header;
   left: 0;
   z-index: 9;
   background-color: white;
@@ -394,6 +397,9 @@ span{
       }
     }
   }
+}
+.mobile-filter-menu-timer {
+  top: $main-header + $timer-height;
 }
 icon-cross {
   font-weight: bold;
@@ -537,7 +543,6 @@ icon-cross {
      width: 100%;
   }
 }
-
 .badge-position-plp-mobile {
     width: 40%;
     top: 0;
@@ -547,4 +552,10 @@ icon-cross {
   img {
     width: 100%;
   }
+}
+.page-body {
+  margin-top: $header-height;
+}
+.page-body-timer {
+  margin-top: $header-height + $timer-height;
 }

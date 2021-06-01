@@ -270,6 +270,9 @@
   overflow: hidden;
   background-color: #fff;
 }
+.main-menu-animation-timer {
+  top: $header-height + $timer-height;
+}
 .main-menu {
   position: absolute;
   .img-header {
@@ -404,13 +407,13 @@
   width: 10%;
 }
 
-.mobile-menu {
-  position: absolute;
-  z-index: 10;
-  width: 100%;
-  left: 0;
-  top:$header-height;
-}
+// .mobile-menu {
+//   position: absolute;
+//   z-index: 10;
+//   width: 100%;
+//   left: 0;
+//   top:$header-height;
+// }
 
 .mobile-list {
   position: fixed;
@@ -449,6 +452,7 @@
   transition: transform 1s ease;
   height: calc(100vh - #{$header-height});
   overflow: scroll;
+  background-color: tint(#000, 90%);
 }
 .op3 {
   opacity: .4;
@@ -723,7 +727,7 @@ color: $white;
   position: absolute;
   left: 0;
   animation-name: animatetxt1;
-  animation-duration: 12s;
+  animation-duration: 4s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
 }
@@ -745,31 +749,31 @@ color: $white;
     -webkit-transform: translateY(-40px);
 
   }
-  5% {
-    opacity: 0.5;
-    -webkit-transform: translateY(0px);
-
-  }
   10% {
-    opacity: 1;
-    -webkit-transform: translateY(0px);
-
-  }
-  45% {
-    opacity: 1;
-    -webkit-transform: translateY(0px);
-
-  }
-  50% {
     opacity: 0.5;
     -webkit-transform: translateY(0px);
 
   }
-  55% {
-    opacity: 0;
-    -webkit-transform: translateY(-40px);
+  20% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
 
   }
+  80% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+
+  }
+  90% {
+    opacity: 0.5;
+    -webkit-transform: translateY(0px);
+
+  }
+  // 55% {
+  //   opacity: 0;
+  //   -webkit-transform: translateY(-40px);
+
+  // }
 
   100% {
     opacity: 0;
@@ -1059,6 +1063,9 @@ p {
   @include transition(all, 1s, ease-in-out);
   top: $header-height;
 }
+  .search-timer {
+    top: $header-height + $timer-height;
+  }
 }
 
 .search-block-page {
@@ -1252,14 +1259,14 @@ visibility: visible !important;
   }
   .discountprice {
     color: $cerise;
-    font-family: $font-Serif;
-    font-size: 16px;
+    font-family: $font-Lato;
+    font-size: 14px;
   }
   .strikeprice {
     font-size: 14px;
     text-decoration: line-through;
     color: tint(#000, 50%) !important;
-    font-family: $font-Serif;
+    font-family: $font-Lato;
   }
 }
 .image-content {
@@ -1528,4 +1535,42 @@ ul.inner-menu-mobile {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-out;
+}
+.countdown-timer {
+  height: 40px;
+  width: 100%;
+  background-color:#f3f3f3;
+  color: $cerise;
+  .timer-txt {
+    font-size: 12px;
+    line-height: 40px;
+    text-align: right;
+  }
+  .timer-cta-btn {
+    padding: 2px 8px;
+    width: fit-content;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .timer {
+    padding: 0 10px;
+    font-weight: bold;
+    .timer-label {
+      font-size: 10px;
+      color: #333;
+    }
+    .timer-value {
+      font-size: 14px;
+    }
+    table {
+      text-align: center;
+      margin: auto;
+      td {
+        padding: 0 2px;
+      }
+    }
+  }
+}
+.header-bg {
+  background-color: #f9f8f5;
 }

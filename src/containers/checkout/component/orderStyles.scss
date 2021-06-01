@@ -241,13 +241,13 @@
   font-size: 14px;
   text-decoration: line-through;
   color: tint(#000, 50%) !important;
-  font-family: $font-Serif;
+  font-family: $font-Lato;
 }
 
 .discountprice {
   color: $cerise;
-  font-family: $font-Serif;
-  font-size: 16px;
+  font-family: $font-Lato;
+  font-size: 14px;
 }
 .product-size {
   @include pdp_spec();
@@ -286,7 +286,7 @@
 .discountprice {
   color: #ab1e56;
   font-family:  $font-Lato;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .strikeprice {

@@ -30,7 +30,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
     mobile: state.device.mobile,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -284,9 +285,13 @@ class Search extends React.Component<Props, State> {
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
     const suggestionsExist = this.state.suggestions.length > 0;
     const productsExist = this.state.productData.length > 0;
-    const { mobile } = this.props;
+    const { mobile, showTimer } = this.props;
     return (
-      <div className={cs(globalStyles.minimumWidth, styles.search)}>
+      <div
+        className={cs(globalStyles.minimumWidth, styles.search, {
+          [styles.searchTimer]: showTimer
+        })}
+      >
         <div>
           <div className={bootstrapStyles.col12}>
             <div className={cs(bootstrapStyles.row, styles.searchShadow)}>
