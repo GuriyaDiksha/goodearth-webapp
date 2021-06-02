@@ -257,7 +257,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     isStories
       ? ""
       : html.push(
-          <li>
+          <li key={`l2-0`}>
             <div className={cs(styles.innerMenuHeading, bootstrap.row)}>
               <span
                 className={cs(styles.back, bootstrap.col3)}
@@ -332,14 +332,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             </Link>
           </li>
         ) : (
-          <li>
+          <li key={`l2-${data.text}`}>
             <span
               className={spanClass}
               onClick={this.Clickmenulevel2.bind(this, k)}
             >
               <span>{ReactHtmlParser(data.text)}</span>
             </span>
-            <p
+            <div
               id={`menulevel2-${k}`}
               className={
                 styles.l3Animation
@@ -351,7 +351,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               {data.children ? (
                 <ul key={data.link}>
                   {data.link && data.children.length > 0 ? (
-                    <li onClick={this.props.clickToggle}>
+                    <li onClick={this.props.clickToggle} key={"firstChild"}>
                       <Link
                         to={data.link}
                         onClick={() => {
@@ -362,7 +362,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           });
                         }}
                       >
-                        {ReactHtmlParser(data.ctaName) || "View All"}
+                        {ReactHtmlParser(data.ctaName || "View All")}
                       </Link>
                     </li>
                   ) : (
@@ -390,7 +390,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                               : ""
                           }
                         >
-                          <p>{ReactHtmlParser(innerdata.text.toLowerCase())}</p>
+                          {ReactHtmlParser(innerdata.text.toLowerCase())}
                         </Link>
                       </li>
                     );
@@ -399,7 +399,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               ) : (
                 ""
               )}
-            </p>
+            </div>
           </li>
         )
       );
@@ -994,7 +994,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
     const innerMenu = (
       <div className={styles.mobileMainMenu}>
-        <ul className={styles.innerMenuMobile}>
+        <ul className={styles.innerMenuMobile} key="innermenu">
           {this.state.activeindex > -1 &&
             // this.createListElement(this.props.menudata[this.state.activeindex])}
             this.createMegaListElement(
