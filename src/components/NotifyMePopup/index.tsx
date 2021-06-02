@@ -324,6 +324,13 @@ const NotifyMePopup: React.FC<Props> = ({
             {sizeErrorMsg && (
               <span className={styles.sizeError}>{sizeErrorMsg}</span>
             )}
+            <span className={cs(styles.sizeError)}>
+              {isSale &&
+                selectedSize &&
+                selectedSize.stock > 0 &&
+                selectedSize.showStockThreshold &&
+                `Only ${selectedSize.stock} Left!`}
+            </span>
           </>
         )}
         <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>

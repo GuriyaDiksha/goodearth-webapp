@@ -78,6 +78,8 @@ export interface ChildProductAttributes extends PartialChildProductAttributes {
   discountedPriceRecords: PriceRecord;
   id: ProductID;
   isBridalProduct: boolean;
+  othersBasketCount: number;
+  showStockThreshold: boolean;
 }
 
 export type ProductAttributes = {
