@@ -64,7 +64,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       isSale?: boolean
     ) => {
       const childAttributes = item.stockDetails.map(
-        ({ discountedPrice, productId, stock, size, price, sku }) => {
+        ({
+          discountedPrice,
+          productId,
+          stock,
+          size,
+          price,
+          sku,
+          showStockThreshold
+        }) => {
           return {
             discountedPriceRecords: discountedPrice,
             id: productId,
@@ -72,7 +80,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             sku: sku,
             priceRecords: price,
             size: size,
-            stock: stock
+            stock: stock,
+            showStockThreshold: showStockThreshold
           };
         }
       );
@@ -502,7 +511,7 @@ class Wishlist extends React.Component<Props, State> {
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
             itemWidth={150}
-            itemHeight={300}
+            itemHeight={340}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />,
@@ -517,7 +526,7 @@ class Wishlist extends React.Component<Props, State> {
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
             itemWidth={280}
-            itemHeight={480}
+            itemHeight={520}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />,
