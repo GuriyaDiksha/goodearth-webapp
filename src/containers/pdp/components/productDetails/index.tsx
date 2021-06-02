@@ -629,6 +629,16 @@ const ProductDetails: React.FC<Props> = ({
                   <span className={cs(styles.sizeErrorMessage, "show-error")}>
                     {sizeError}
                   </span>
+                  <span className={cs(styles.sizeErrorMessage)}>
+                    {info.isSale &&
+                      selectedSize &&
+                      selectedSize.showStockThreshold &&
+                      selectedSize.stock > 0 &&
+                      `Only ${
+                        selectedSize.stock
+                      } Left!${selectedSize.othersBasketCount > 0 &&
+                        ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+                  </span>
                 </div>
               </div>
             </div>
@@ -663,7 +673,16 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
         ) : (
-          ""
+          <span className={cs(styles.sizeErrorMessage)}>
+            {info.isSale &&
+              selectedSize &&
+              selectedSize.stock > 0 &&
+              selectedSize.showStockThreshold &&
+              `Only ${
+                selectedSize.stock
+              } Left!${selectedSize.othersBasketCount &&
+                ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+          </span>
         )}
         <div
           className={cs(bootstrap.row, styles.spacer, {

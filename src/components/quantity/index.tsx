@@ -108,7 +108,7 @@ class Quantity extends React.Component<QuantityItem, State> {
         </span>
         <p
           className={cs(styles.errorMsg, {
-            [styles.noBottom]: props.source == "cartpage"
+            // [styles.noBottom]: props.source == "cartpage"
           })}
         >
           {this.state.showError ? this.state.errorMsg : ""}

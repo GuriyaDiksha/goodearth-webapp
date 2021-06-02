@@ -68,8 +68,10 @@
 
 .size-error-message {
     @include error-msg();
-    position: absolute;
-    bottom: -10px;
+    // position: absolute;
+    // bottom: -10px;
+    
+    display: block;
     left: 5px;
 }
 
