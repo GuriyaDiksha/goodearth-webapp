@@ -45,15 +45,16 @@ const LineItems: React.FC<BasketItem> = memo(
       discountedPriceRecords,
       badgeType,
       inWishlist,
-      attributes
+      attributes,
+      childAttributes
     } = product;
     const size =
       attributes.find(attribute => attribute.name == "Size")?.value || "";
 
     const gtmPushDeleteCartItem = () => {
       const price = saleStatus
-        ? product.discountedPriceRecords[currency]
-        : product.priceRecords[currency];
+        ? childAttributes[0].discountedPriceRecords[currency]
+        : childAttributes[0].priceRecords[currency];
       const index = product.categories ? product.categories.length - 1 : 0;
       const category =
         product.categories && product.categories[index]
@@ -73,7 +74,6 @@ const LineItems: React.FC<BasketItem> = memo(
                 brand: "Goodearth",
                 category: category,
                 variant: size,
-                list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
                 quantity: quantity
               }
             ]

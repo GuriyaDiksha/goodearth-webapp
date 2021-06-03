@@ -385,10 +385,9 @@ export function PDP(data: any, currency: Currency) {
     CookieService.setCookie("listPath", "");
     dataLayer.push({
       event: "PDP",
-      // actionField: { list: `PDP ${location.pathname}`},
-      actionField: { list: listPath },
       ecommerce: {
         detail: {
+          actionField: { list: listPath },
           products
         }
       }
