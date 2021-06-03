@@ -1399,7 +1399,7 @@ visibility: visible !important;
 
 .mobile-search {
   text-align: right;
-  line-height: 50px;
+  line-height: 45px;
   padding-right: 10px;
   padding-top: 5px;
   i {
@@ -1414,7 +1414,7 @@ visibility: visible !important;
   }
   .badge {
     position: absolute;
-    top: 5px;
+    // top: 5px;
     right: -3px;
     left: 0;
     min-width: 10px;
