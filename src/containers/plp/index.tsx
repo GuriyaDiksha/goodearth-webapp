@@ -593,6 +593,7 @@ class PLP extends React.Component<
           {mobile && (
             <div
               className={cs(styles.listGridBar, {
+                [styles.listGridBarTimer]: this.props.showTimer,
                 [styles.hide]: this.props.scrollDown
               })}
             >

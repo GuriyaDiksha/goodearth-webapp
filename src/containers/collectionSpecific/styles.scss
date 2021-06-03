@@ -1,12 +1,18 @@
 @import "../../styles/partials/variables";
 
 .collection-container {
-    margin-top: $header-height + $secondary-header-height;
+    margin-top: $main-header;
+}
+.collection-container-timer {
+    margin-top: $main-header + $timer-height;
 }
 
 @media screen and (max-width: 992px) {
     .collection-container {
         margin-top: $header-height;
+    }
+    .collection-container-timer {
+        margin-top: $header-height + $timer-height;
     }
 }
 

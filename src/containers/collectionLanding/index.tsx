@@ -30,7 +30,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     data: state.collection.data,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -174,7 +175,8 @@ class CollectionLanding extends React.Component<
     const {
       collectionData,
       device: { mobile },
-      data: { level2Categories }
+      data: { level2Categories },
+      showTimer
     } = this.props;
 
     // Code for checking selected filter form collection list
@@ -239,7 +241,9 @@ class CollectionLanding extends React.Component<
         {!mobile && (
           <div
             className={cs(bootstrap.row, styles.subcHeader, {
-              [styles.subcHeaderNew]: !isLivingpage
+              [styles.subcHeaderTimer]: showTimer,
+              [styles.subcHeaderNew]: !isLivingpage,
+              [styles.subcHeaderNewTimer]: !isLivingpage && showTimer
             })}
           >
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>
