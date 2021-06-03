@@ -63,7 +63,14 @@ const BaseDropdownMenu = ({
           ""
         )}
       </div>
-      <div id={id} className={cl(styles.menu, styles[align])}>
+      <div
+        id={id}
+        className={cl(
+          styles.menu,
+          { [styles.checkout]: id == "currency-dropdown-checkout" },
+          styles[align]
+        )}
+      >
         <ul>{children}</ul>
       </div>
     </div>
