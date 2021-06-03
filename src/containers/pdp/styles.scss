@@ -151,6 +151,9 @@ $pdp-top: $header-height + $secondary-header-height;
       }
     }
   }
+  .list-grid-bar-timer {
+      top: $header-height -1px + $timer-height
+  }
 
 input[type="time"]::-webkit-calendar-picker-indicator{
     cursor: pointer;
