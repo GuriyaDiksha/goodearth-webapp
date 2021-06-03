@@ -676,15 +676,21 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       currency,
       device: { mobile },
-      data
+      data,
+      showTimer
     } = this.props;
     return data ? (
       <>
         {mobile && (
           <div
-            className={cs(styles.listGridBar, globalStyles.voffset5, {
-              [styles.hide]: this.props.scrollDown
-            })}
+            className={cs(
+              styles.listGridBar,
+              { [styles.listGridBarTimer]: showTimer },
+              globalStyles.voffset5,
+              {
+                [styles.hide]: this.props.scrollDown
+              }
+            )}
           >
             <i
               key="grid-icon"
