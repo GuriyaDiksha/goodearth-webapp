@@ -388,7 +388,8 @@ class Header extends React.Component<Props, State> {
       goLogin,
       handleLogOut,
       location,
-      mobile
+      mobile,
+      slab
     } = this.props;
     const wishlistCount = wishlistData.length;
     let bagCount = 0;
@@ -453,6 +454,9 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+    const isCeriseCustomer = slab
+      ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara"
+      : false;
     return (
       <div className="">
         <Helmet defer={false}>
@@ -553,6 +557,7 @@ class Header extends React.Component<Props, State> {
             isBridalRegistryPage={isBridalRegistryPage}
           />
           {!isBridalRegistryPage &&
+            !isCeriseCustomer &&
             this.props.showTimer &&
             this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
