@@ -114,38 +114,40 @@ const LineItems: React.FC<BasketItem> = memo(
       >
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
-            <div className={styles.cartRing}>
-              {bridalProfile && (
-                <svg
-                  viewBox="-5 -5 50 50"
-                  width="40"
-                  height="40"
-                  preserveAspectRatio="xMidYMid meet"
-                  x="0"
-                  y="0"
-                  className={styles.ceriseBridalRings}
-                >
-                  <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                </svg>
-              )}
-            </div>
-            <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
-              {salesBadgeImage && (
-                <div className={styles.badgePositionPlpMobile}>
-                  <img src={salesBadgeImage} />
+            <div className={globalStyles.relative}>
+              <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+                {salesBadgeImage && (
+                  <div className={styles.badgePositionPlpMobile}>
+                    <img src={salesBadgeImage} />
+                  </div>
+                )}
+                <div className={styles.cartRing}>
+                  {bridalProfile && (
+                    <svg
+                      viewBox="-5 -5 50 50"
+                      width="30"
+                      height="30"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.ceriseBridalRings}
+                    >
+                      <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                    </svg>
+                  )}
                 </div>
-              )}
-              <img
-                className={styles.productImage}
-                src={
-                  isGiftCard
-                    ? giftCardImage
-                    : images && images.length > 0
-                    ? images[0].productImage.replace("Medium", "Micro")
-                    : ""
-                }
-              />
-            </Link>
+                <img
+                  className={styles.productImage}
+                  src={
+                    isGiftCard
+                      ? giftCardImage
+                      : images && images.length > 0
+                      ? images[0].productImage.replace("Medium", "Micro")
+                      : ""
+                  }
+                />
+              </Link>
+            </div>
           </div>
           <div className={cs(bootstrap.col8, styles.cartPadding)}>
             <div className={styles.collectionName}>{collections[0]}</div>
