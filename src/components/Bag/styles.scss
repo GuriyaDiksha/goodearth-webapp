@@ -110,7 +110,7 @@
         }
   
         .product-image {
-          max-width: 100%;
+          width: 100%;
           margin-right: 10px;
         }
   
@@ -318,8 +318,8 @@
 
 .cart-ring {
   position: absolute !important;
-  left: 5px;
-  top: -10px;
+  bottom: -6px;
+  right: -8px;
   z-index: 1;
   .cerise-bridal-rings {
     background-color: $cerise;
@@ -329,7 +329,7 @@
 }
 
 .badge-position-plp-mobile {
-    width: 40%;
+    width: 50%;
     top: 0;
     position: absolute;
     z-index: 4;
