@@ -310,7 +310,7 @@ const NotifyMePopup: React.FC<Props> = ({
             )}
           </p>
         </div>
-        {sizeExists && (
+        {sizeExists ? (
           <>
             <div className={cs(styles.label, styles.sizeLabel)}>
               SELECT SIZE
@@ -332,6 +332,14 @@ const NotifyMePopup: React.FC<Props> = ({
                 `Only ${selectedSize.stock} Left!`}
             </span>
           </>
+        ) : (
+          <span className={cs(styles.sizeError)}>
+            {isSale &&
+              selectedSize &&
+              selectedSize.stock > 0 &&
+              selectedSize.showStockThreshold &&
+              `Only ${selectedSize.stock} Left!`}
+          </span>
         )}
         <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
 
