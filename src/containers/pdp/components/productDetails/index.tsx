@@ -634,10 +634,11 @@ const ProductDetails: React.FC<Props> = ({
                       selectedSize &&
                       selectedSize.showStockThreshold &&
                       selectedSize.stock > 0 &&
-                      `Only ${
-                        selectedSize.stock
-                      } Left!${selectedSize.othersBasketCount > 0 &&
-                        ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+                      `Only ${selectedSize.stock} Left!${
+                        selectedSize.othersBasketCount > 0
+                          ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                          : ""
+                      }`}
                   </span>
                 </div>
               </div>
