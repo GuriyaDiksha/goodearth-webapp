@@ -148,6 +148,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.APPOINTMENTS,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.LOYALTYLANDING,
     component: loadable(() => import("containers/loyaltyLanding")),
     action: async () => null,
