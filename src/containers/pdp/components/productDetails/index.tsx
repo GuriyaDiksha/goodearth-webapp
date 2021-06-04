@@ -115,7 +115,7 @@ const ProductDetails: React.FC<Props> = ({
   //   item => item.product.childAttributes[0].id
   // );
   const [addedToBag, setAddedToBag] = useState(false);
-  const [sizeerror, setSizeerror] = useState(false);
+  // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
   //   setAddedToBag(
   //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
@@ -165,7 +165,11 @@ const ProductDetails: React.FC<Props> = ({
       )[0] as HTMLDivElement;
       if (firstErrorField) {
         firstErrorField.focus();
-        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+        mobile &&
+          firstErrorField.scrollIntoView({
+            block: "center",
+            behavior: "smooth"
+          });
       }
     }, 0);
   };
@@ -430,7 +434,7 @@ const ProductDetails: React.FC<Props> = ({
   });
 
   const sizeSelectClick = () => {
-    setSizeerror(true);
+    // setSizeerror(true);
     setSizeError("Please select a Size to proceed");
     showError();
   };
@@ -440,18 +444,18 @@ const ProductDetails: React.FC<Props> = ({
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
-      setSizeerror(false);
+      // setSizeerror(false);
     } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = notifyMeClick;
-      setSizeerror(false);
+      // setSizeerror(false);
     } else if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
       action = sizeSelectClick;
     } else {
       buttonText = addedToBag ? "Added!" : "Add to Bag";
       action = addedToBag ? () => null : addToBasket;
-      setSizeerror(false);
+      // setSizeerror(false);
     }
 
     return <Button label={buttonText} onClick={action} />;
@@ -655,11 +659,11 @@ const ProductDetails: React.FC<Props> = ({
                 </span>
               </div>
             )}
-            {sizeerror && mobile ? (
+            {/* {sizeerror && mobile ? (
               <p className={styles.errorMsg}>Please select a size to proceed</p>
             ) : (
               ""
-            )}
+            )} */}
             {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
               <div
                 className={cs(bootstrap.colSm4, styles.label, {
