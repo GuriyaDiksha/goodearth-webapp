@@ -880,7 +880,8 @@ class Header extends React.Component<Props, State> {
           //   : true)
           !(
             this.props.location.pathname.includes("/search") ||
-            this.props.location.pathname.includes("/catalogue")
+            this.props.location.pathname.includes("/catalogue") ||
+            isBridalRegistryPage
           ) && (
             <div className={styles.fixedPincodeBar} id="pincode-bar">
               <div>
