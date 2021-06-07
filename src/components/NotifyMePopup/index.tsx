@@ -152,8 +152,7 @@ const NotifyMePopup: React.FC<Props> = ({
               brand: "Goodearth",
               category: category,
               variant: selectedSize?.size || childAttributes[0].size || "",
-              quantity: quantity,
-              list: list || ""
+              quantity: quantity
             }
           ]
         }

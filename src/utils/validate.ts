@@ -385,10 +385,9 @@ export function PDP(data: any, currency: Currency) {
     CookieService.setCookie("listPath", "");
     dataLayer.push({
       event: "PDP",
-      // actionField: { list: `PDP ${location.pathname}`},
-      actionField: { list: listPath },
       ecommerce: {
         detail: {
+          actionField: { list: listPath },
           products
         }
       }
@@ -776,6 +775,14 @@ export const headerClickGTM = (
   } catch (e) {
     console.log("Header click GTM error!");
   }
+};
+
+export const getInnerText = (input: string) => {
+  if (input) {
+    const elem = new DOMParser().parseFromString(input, "text/html").body;
+    return elem.innerText;
+  }
+  return input;
 };
 
 export const menuNavigationGTM = ({

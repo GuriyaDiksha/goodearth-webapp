@@ -60,7 +60,6 @@ class PincodePopup extends React.Component<Props, State> {
   }
 
   checkPincode(pinCode: string) {
-    // const pincode = this.refs.pincodeRef.state.value;
     this.props
       .checkPinCodeShippable(pinCode)
       .then(data => {
@@ -69,6 +68,11 @@ class PincodePopup extends React.Component<Props, State> {
         } else {
           this.setState({ status: "no" });
         }
+        dataLayer.push({
+          event: "Pincode Information",
+          clickType: pinCode,
+          message: data.status ? "Start shopping" : "Pincode Not Serviceable"
+        });
         localStorage.setItem("selectedPincode", pinCode);
         this.props.setPincode(pinCode);
       })
