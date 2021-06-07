@@ -19,7 +19,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     giftList: state.basket.giftCards,
     total: state.basket.total,
-    addnewGiftcard: state.basket.addnewGiftcard
+    addnewGiftcard: state.basket.addnewGiftcard,
+    mobile: state.device.mobile
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
@@ -123,9 +124,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       newCardBox: true
     });
   };
-  onClose = (code: string) => {
+  onClose = (code: string, type: string) => {
+    // debugger
     const data: any = {
-      cardId: code
+      cardId: code,
+      type: type
     };
     this.props
       .removeGiftCard(data, this.props.history, this.props.user.isLoggedIn)
@@ -154,7 +157,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   onchange = (event: any) => {
     // setModevalue(event.target.value);
     this.setState({
-      cardType: event.target.value
+      cardType: event.target.value,
+      error: ""
     });
   };
 
@@ -165,7 +169,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       currency,
       giftList,
       total,
-      addnewGiftcard
+      addnewGiftcard,
+      mobile
     } = this.props;
     const modeOptions = [
       {
@@ -216,7 +221,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         name="giftselect"
                         label=""
                         disable={false}
-                        className={styles.selectRelative}
+                        className={
+                          mobile
+                            ? styles.selectRelativemobile
+                            : styles.selectRelative
+                        }
                         options={modeOptions}
                         handleChange={this.onchange}
                         value={this.state.cardType}
