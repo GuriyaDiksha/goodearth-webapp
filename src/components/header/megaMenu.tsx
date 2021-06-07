@@ -53,7 +53,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
     const { mobile, isLoggedIn } = this.props;
     util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
     const obj = {
-      l1: name,
+      l1: util.getInnerText(name),
       l2: "",
       l3: "",
       clickUrl1: url,

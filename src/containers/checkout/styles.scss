@@ -836,12 +836,11 @@ input[type="radio"] {
 .checkout-header {
   ul{
     z-index: 10;
-    left: -15px;
     width: -webkit-max-content;
     width: -moz-max-content;
     width: max-content;
-    position: absolute;
     background-color: #fff;
+    margin-bottom: 0;
     li {
       cursor: pointer;
       padding: 15px 20px;
