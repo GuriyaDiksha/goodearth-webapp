@@ -250,9 +250,9 @@ class Header extends React.Component<Props, State> {
     [x: string]: string;
   }) => {
     util.menuNavigationGTM({
-      l1: l1 || "",
-      l2: l2 || "",
-      l3: l3 || "",
+      l1: util.getInnerText(l1) || "",
+      l2: util.getInnerText(l2) || "",
+      l3: util.getInnerText(l3) || "",
       clickUrl1: clickUrl1 || "",
       clickUrl2: clickUrl2 || "",
       clickUrl3: clickUrl3 || "",
@@ -277,16 +277,16 @@ class Header extends React.Component<Props, State> {
     [x: string]: string;
   }) => {
     const obj = {
-      l1: l1 || "",
-      l2: l2 || "",
-      l3: l3 || "",
+      l1: util.getInnerText(l1) || "",
+      l2: util.getInnerText(l2) || "",
+      l3: util.getInnerText(l3) || "",
       clickUrl1: clickUrl1 || "",
       clickUrl2: clickUrl2 || "",
       clickUrl3: clickUrl3 || "",
       template: template || "",
       img2: img2 || "",
       img3: img3 || "",
-      cta: cta || "",
+      cta: util.getInnerText(cta) || "",
       subHeading: subHeading || "",
       mobile: this.props.mobile || false,
       isLoggedIn: this.props.isLoggedIn || false
