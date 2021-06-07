@@ -469,9 +469,7 @@ class BridalCheckout extends React.Component<Props, State> {
                     globalStyles.bold
                   )}
                 >
-                  Sorry, {this.state.bridalProfile.registrantName} and{" "}
-                  {this.state.bridalProfile.coRegistrantName}{" "}
-                  {this.state.bridalProfile.registryName} has been concluded.
+                  Sorry, the event has ended.
                 </div>
               </>
             )}

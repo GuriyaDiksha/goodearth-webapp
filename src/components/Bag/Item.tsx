@@ -60,8 +60,8 @@ const LineItems: React.FC<BasketItem> = memo(
 
     const gtmPushDeleteCartItem = () => {
       const price = saleStatus
-        ? product.discountedPriceRecords[currency]
-        : product.priceRecords[currency];
+        ? childAttributes[0].discountedPriceRecords[currency]
+        : childAttributes[0].priceRecords[currency];
       const index = product.categories ? product.categories.length - 1 : 0;
       const category =
         product.categories && product.categories[index]
@@ -81,7 +81,6 @@ const LineItems: React.FC<BasketItem> = memo(
                 brand: "Goodearth",
                 category: category,
                 variant: size,
-                list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
                 quantity: quantity
               }
             ]
