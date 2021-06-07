@@ -778,6 +778,14 @@ export const headerClickGTM = (
   }
 };
 
+export const getInnerText = (input: string) => {
+  if (input) {
+    const elem = new DOMParser().parseFromString(input, "text/html").body;
+    return elem.innerText;
+  }
+  return input;
+};
+
 export const menuNavigationGTM = ({
   l1,
   l2,
