@@ -14,7 +14,8 @@ export const initialState: State = {
   shippingData: null,
   phoneNumber: "",
   slab: "",
-  loyaltyData: null
+  loyaltyData: null,
+  customerGroup: ""
 };
 
 export const user = (state = initialState, action: UserActions): State => {
