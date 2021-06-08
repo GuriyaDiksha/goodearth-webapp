@@ -18,4 +18,5 @@ export type User = {
   shippingData: AddressData | null;
   slab: string;
   loyaltyData: { [x: string]: any } | null;
+  customerGroup: string;
 };

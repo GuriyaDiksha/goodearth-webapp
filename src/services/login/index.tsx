@@ -91,6 +91,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
+    CookieService.setCookie("custGrp", res.customerGroup || "", 365);
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
@@ -146,6 +147,7 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
+    CookieService.setCookie("custGrp", res.customerGroup, 365);
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
@@ -169,6 +171,8 @@ export default {
       document.cookie =
         "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
@@ -190,6 +194,7 @@ export default {
     document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
     WishlistService.resetWishlist(dispatch);
