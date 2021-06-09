@@ -24,6 +24,7 @@ export enum ROUTES {
   CARTPAGE = "/cart/",
   PressStories = "/press-stories",
   ABOUTUS = "/about-us",
+  APPOINTMENTS = "/virtual-appointments",
   SAFETYMEASURES = "/customer-assistance/safety-measures",
   CORPORATEGIFTING = "/corporate-gifts-catalogue",
   GIFTINGLANDING = "/gifting",

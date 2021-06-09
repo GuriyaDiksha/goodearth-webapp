@@ -9,7 +9,8 @@ const initialState: HeaderState = {
     isBridalActive: false,
     message: "",
     url: null
-  }
+  },
+  timerData: null
 };
 
 export const header = (
@@ -31,6 +32,11 @@ export const header = (
       {
         return { ...newState };
       }
+    }
+    case "UPDATE_TIMER_DATA": {
+      const newState = { ...state };
+      newState.timerData = action.payload;
+      return newState;
     }
   }
   return state;

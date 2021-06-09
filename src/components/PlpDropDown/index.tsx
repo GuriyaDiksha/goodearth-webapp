@@ -22,7 +22,9 @@ const PlpDropdownMenu = ({
   const [showmobileSort, setShowmobileSort] = useState(false);
   const [showmobileFilterList, setShowmobileFilterList] = useState(false);
   const [mobileFilter, setMobileFilter] = useState(false);
-  const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
+  const { scrollDown, showTimer } = useSelector(
+    (state: AppState) => state.info
+  );
   const clickMobilefilter = (value: string) => {
     if (value == "Refine") {
       setShowmobileFilterList(true);
@@ -90,6 +92,7 @@ const PlpDropdownMenu = ({
             mobileFilter
               ? cs(
                   styles.mobileFilterHeader,
+                  { [styles.mobileFilterHeaderTimer]: showTimer },
                   globalStyles.active,
                   globalStyles.hideLeft
                 )
@@ -135,9 +138,14 @@ const PlpDropdownMenu = ({
         {/* headers when menu is open */}
         <div className={cs({ [styles.mobileFilterSortBg]: showmobileSort })}>
           <div
-            className={cs(styles.mobileFilterHeader, globalStyles.hideLeft, {
-              [globalStyles.active]: showmobileFilterList && !showmobileSort
-            })}
+            className={cs(
+              styles.mobileFilterHeader,
+              { [styles.mobileFilterHeaderTimer]: showTimer },
+              globalStyles.hideLeft,
+              {
+                [globalStyles.active]: showmobileFilterList && !showmobileSort
+              }
+            )}
           >
             {filterCount ? (
               <span>
@@ -159,6 +167,7 @@ const PlpDropdownMenu = ({
           <div
             className={cs(
               styles.mobileFilterHeader,
+              { [styles.mobileFilterHeaderTimer]: showTimer },
               globalStyles.hideBottom,
               styles.mobileFilterHeaderSort,
               {
@@ -175,6 +184,7 @@ const PlpDropdownMenu = ({
               className={cs(
                 bootstrap.col12,
                 styles.mobileFilterMenu,
+                { [styles.mobileFilterMenuTimer]: showTimer },
                 globalStyles.hideBottom,
                 styles.mobileFilterMenuSort,
                 {

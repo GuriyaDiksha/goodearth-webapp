@@ -74,7 +74,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     corporatePDP: state.meta.templateType === "corporate_pdp",
     isSale: state.info.isSale,
     plpMobileView: state.plplist.plpMobileView,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -675,15 +676,21 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       currency,
       device: { mobile },
-      data
+      data,
+      showTimer
     } = this.props;
     return data ? (
       <>
         {mobile && (
           <div
-            className={cs(styles.listGridBar, globalStyles.voffset5, {
-              [styles.hide]: this.props.scrollDown
-            })}
+            className={cs(
+              styles.listGridBar,
+              { [styles.listGridBarTimer]: showTimer },
+              globalStyles.voffset5,
+              {
+                [styles.hide]: this.props.scrollDown
+              }
+            )}
           >
             <i
               key="grid-icon"
@@ -912,9 +919,14 @@ class PDPContainer extends React.Component<Props, State> {
 
     return (
       <div
-        className={cs(styles.pdpContainer, bootstrap.containerFluid, {
-          [styles.mobile]: mobile
-        })}
+        className={cs(
+          styles.pdpContainer,
+          { [styles.pdpContainerTimer]: this.props.showTimer },
+          bootstrap.containerFluid,
+          {
+            [styles.mobile]: mobile
+          }
+        )}
       >
         {!mobile && (
           <SecondaryHeader>

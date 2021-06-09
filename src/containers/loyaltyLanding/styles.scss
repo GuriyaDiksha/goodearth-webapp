@@ -132,7 +132,9 @@
     }
   
   }
-  
+  .loyalty-timer {
+    margin-top: $main-header + $timer-height;
+  }
   @media screen and (min-width: 991px) {
     .loyalty {
       .img-loyalty {

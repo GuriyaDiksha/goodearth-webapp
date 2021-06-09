@@ -17,6 +17,7 @@ import HeaderService from "services/headerFooter";
 
 const NotificationForm: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const currency = useSelector((state: AppState) => state.currency);
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -257,7 +258,11 @@ const NotificationForm: React.FC = () => {
     <div className={secondaryHeaderStyles.careers}>
       <div className={styles.jobForm}>
         {
-          <div className={cs(styles.careersContent, styles.newcareersContent)}>
+          <div
+            className={cs(styles.careersContent, {
+              [styles.careersContentTimer]: showTimer
+            })}
+          >
             <div className={styles.careersImage}>
               <LazyImage
                 src={mobile ? mubaarakMobile : mubaarakDesktop}

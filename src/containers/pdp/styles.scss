@@ -9,6 +9,12 @@ $pdp-top: $header-height + $secondary-header-height;
         margin-top: $pdp-top;
     }
 }
+.pdp-container-timer {
+    margin-top: $header-height + $timer-height;
+    &:not(.mobile) {
+        margin-top: $pdp-top + $timer-height;
+    }
+}
 
 .sticky-container {
     top: $header-height + $secondary-header-height + 23px;
@@ -144,6 +150,9 @@ $pdp-top: $header-height + $secondary-header-height;
         color: $cerise;
       }
     }
+  }
+  .list-grid-bar-timer {
+      top: $header-height -1px + $timer-height
   }
 
 input[type="time"]::-webkit-calendar-picker-indicator{

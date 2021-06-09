@@ -26,7 +26,8 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn }
+    user: { isLoggedIn },
+    info: { showTimer }
   } = useSelector((state: AppState) => state);
   const ResetPasswordFormRef = React.createRef<Formsy>();
   const [showPassword, setShowPassword] = useState(false);
@@ -241,7 +242,11 @@ const ResetPassword: React.FC<Props> = props => {
 
   const bgClass = cs(globalStyles.col12, myAccountStyles.bgProfile);
   return (
-    <div className={globalStyles.containerStart}>
+    <div
+      className={cs(globalStyles.containerStart, {
+        [globalStyles.containerStartTimer]: showTimer
+      })}
+    >
       {!mobile && (
         <SecondaryHeader>
           <div

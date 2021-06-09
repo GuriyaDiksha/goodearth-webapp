@@ -187,7 +187,8 @@ const CartItems: React.FC<BasketItem> = memo(
       discount,
       discountedPriceRecords,
       badgeType,
-      inWishlist
+      inWishlist,
+      salesBadgeImage
     } = product;
 
     const price = priceRecords[currency];
@@ -205,24 +206,31 @@ const CartItems: React.FC<BasketItem> = memo(
           <div
             className={cs(bootstrap.col5, bootstrap.colMd2, styles.cartPadding)}
           >
-            <div className={styles.cartRing}>
-              {bridalProfile && (
-                <svg
-                  viewBox="-5 -5 50 50"
-                  width="40"
-                  height="40"
-                  preserveAspectRatio="xMidYMid meet"
-                  x="0"
-                  y="0"
-                  className={styles.ceriseBridalRings}
-                >
-                  <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                </svg>
-              )}
+            <div className={globalStyles.relative}>
+              <Link to={isGiftCard ? "#" : url}>
+                {salesBadgeImage && (
+                  <div className={styles.badgePositionPlpMobile}>
+                    <img src={salesBadgeImage} />
+                  </div>
+                )}
+                <div className={styles.cartRing}>
+                  {bridalProfile && (
+                    <svg
+                      viewBox="-5 -5 50 50"
+                      width="30"
+                      height="30"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.ceriseBridalRings}
+                    >
+                      <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                    </svg>
+                  )}
+                </div>
+                <img className={styles.productImage} src={imageUrl} />
+              </Link>
             </div>
-            <Link to={isGiftCard ? "#" : url}>
-              <img className={styles.productImage} src={imageUrl} />
-            </Link>
           </div>
           <div
             className={cs(bootstrap.colMd8, bootstrap.col5, styles.cartPadding)}

@@ -3,7 +3,7 @@ import MakerEnhance from "maker-enhance";
 import styles from "./styles.scss";
 // import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
-// import cs from "classnames";
+import cs from "classnames";
 import { useLocation } from "react-router";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
@@ -17,7 +17,8 @@ const MakerPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const location = useLocation();
   const {
-    currency
+    currency,
+    info: { showTimer }
     // device: { mobile }
   } = useSelector((state: AppState) => state);
   const { makerReloadToggle } = useSelector((state: AppState) => state.info);
@@ -65,7 +66,7 @@ const MakerPage: React.FC = () => {
   //     ? "/collection/women_ruh-fiza_457/"
   //     : "/catalogue/category/women/sale-int_271/?source=plp&category_shop=Apparel+%3E+Sale+%3E+50%25";
   return (
-    <div className={styles.makerTop}>
+    <div className={cs(styles.makerTop, { [styles.makerTopTimer]: showTimer })}>
       {/* <section>
         <div className={cs(bootstrap.row, styles.firstBlock)}>
           <div className={bootstrap.col12}>
