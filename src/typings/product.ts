@@ -27,6 +27,7 @@ export interface PLPProductItem {
   lookImageUrl?: string;
   images?: ProductImage[];
   invisibleFields: string[];
+  partner?: string;
 }
 
 export interface PartialProductItem extends PLPProductItem {
@@ -77,6 +78,8 @@ export interface ChildProductAttributes extends PartialChildProductAttributes {
   discountedPriceRecords: PriceRecord;
   id: ProductID;
   isBridalProduct: boolean;
+  othersBasketCount: number;
+  showStockThreshold: boolean;
 }
 
 export type ProductAttributes = {

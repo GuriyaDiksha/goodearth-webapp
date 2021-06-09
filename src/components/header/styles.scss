@@ -728,7 +728,7 @@ color: $white;
   position: absolute;
   left: 0;
   animation-name: animatetxt1;
-  animation-duration: 12s;
+  animation-duration: 4s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
 }
@@ -750,31 +750,31 @@ color: $white;
     -webkit-transform: translateY(-40px);
 
   }
-  5% {
-    opacity: 0.5;
-    -webkit-transform: translateY(0px);
-
-  }
   10% {
-    opacity: 1;
-    -webkit-transform: translateY(0px);
-
-  }
-  45% {
-    opacity: 1;
-    -webkit-transform: translateY(0px);
-
-  }
-  50% {
     opacity: 0.5;
     -webkit-transform: translateY(0px);
 
   }
-  55% {
-    opacity: 0;
-    -webkit-transform: translateY(-40px);
+  20% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
 
   }
+  80% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+
+  }
+  90% {
+    opacity: 0.5;
+    -webkit-transform: translateY(0px);
+
+  }
+  // 55% {
+  //   opacity: 0;
+  //   -webkit-transform: translateY(-40px);
+
+  // }
 
   100% {
     opacity: 0;

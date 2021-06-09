@@ -73,7 +73,7 @@ export type BalanceProps = {
 };
 
 export interface GiftListProps extends BalanceProps {
-  onClose: (data: string) => void;
+  onClose: (data: string, type: string) => void;
   currStatus: string;
   currency: Currency;
   type?: string;
@@ -101,6 +101,7 @@ export type GiftState = {
   newCardBox: boolean;
   toggleOtp: boolean;
   isActivated: boolean;
+  cardType?: string;
 };
 
 export type RedeemState = {
