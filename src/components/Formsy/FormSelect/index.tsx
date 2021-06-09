@@ -81,7 +81,8 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
       <span
         className={cs(
           { [styles.arrow]: true },
-          { [styles.disabledArrow]: props.disable }
+          { [styles.disabledArrow]: props.disable },
+          { [globalStyles.pointer]: !props.disable }
         )}
       ></span>
     </div>

@@ -218,9 +218,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return response;
   };
 
-  const onGiftCardRemove = (id: string) => {
+  const onGiftCardRemove = (id: string, type: string) => {
     const data: any = {
-      cardId: id
+      cardId: id,
+      type: type
     };
     removeGiftCard(data);
   };
@@ -305,7 +306,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span
                   className={styles.cross}
                   onClick={() => {
-                    onGiftCardRemove(gift.cardId);
+                    onGiftCardRemove(gift.cardId, gift.cardType);
                   }}
                 >
                   <i
