@@ -52,6 +52,9 @@ hr {
    -webkit-box-pack: justify;
    justify-content: space-between;
   }
+  .section-mobile {
+    height: 80%;
+  }
   .row-main {
     height: 100%;
     display: flex;
@@ -59,6 +62,7 @@ hr {
   }
   .widget-qty {
     margin-top: 10px;
+    position: relative;
     min-width: 120px;
     display: inline-flex;
     background-color: #f1f1f1;
@@ -543,4 +547,13 @@ display: inline-table;
   img {
     width: 100%;
   }
+}
+.stock-left {
+  position: relative;
+  text-align: center;
+  top: 10px;
+  display: block;
+}
+.stock-left-with-error {
+  top: 30px;
 }

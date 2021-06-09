@@ -311,7 +311,7 @@
   display: flex;
 }
 .color-primary{
-  margin: 2px 10px 0 0;
+  margin: 2px 10px 0 5px;
   color: $cerise;
   font-size: 12px;
   font-family: $font-Lato;
@@ -448,4 +448,18 @@
 .promo-icon {
   font-size: 9px;
   cursor: pointer;
+}
+
+.select-relative {
+  position: relative;
+  width: 35%;
+}
+
+.select-relativemobile {
+  position: relative;
+  width: 50%;
+}
+
+.gift-input {
+  width: 50%;
 }
