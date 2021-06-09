@@ -110,7 +110,7 @@
         }
   
         .product-image {
-          max-width: 100%;
+          width: 100%;
           margin-right: 10px;
         }
   
@@ -306,7 +306,7 @@
 .discountprice {
   color: #ab1e56;
   font-family:  $font-Lato;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .strikeprice {
@@ -318,12 +318,22 @@
 
 .cart-ring {
   position: absolute !important;
-  left: 5px;
-  top: -10px;
+  bottom: -6px;
+  right: -8px;
   z-index: 1;
   .cerise-bridal-rings {
     background-color: $cerise;
     fill: $white;
     border-radius: 50%;
+  }
+}
+
+.badge-position-plp-mobile {
+    width: 50%;
+    top: 0;
+    position: absolute;
+    z-index: 4;
+  img {
+    width: 100%;
   }
 }

@@ -37,7 +37,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     currency: state.currency,
     device: state.device,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showTimer: state.info.showTimer
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -311,7 +312,13 @@ class PLP extends React.Component<
       }
     ];
     return (
-      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+      <div
+        className={cs(
+          styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
+          bootstrap.containerFluid
+        )}
+      >
         {!mobile && (
           <SecondaryHeader>
             <Fragment>
@@ -401,6 +408,7 @@ class PLP extends React.Component<
                     { [globalStyles.active]: this.state.mobileFilter },
                     bootstrap.col12,
                     styles.mobileFilterMenu,
+                    { [styles.mobileFilterMenuTimer]: this.props.showTimer },
                     globalStyles.hideLeft
                   )
                 : cs(bootstrap.colMd2, styles.filterSticky)
@@ -585,6 +593,7 @@ class PLP extends React.Component<
           {mobile && (
             <div
               className={cs(styles.listGridBar, {
+                [styles.listGridBarTimer]: this.props.showTimer,
                 [styles.hide]: this.props.scrollDown
               })}
             >

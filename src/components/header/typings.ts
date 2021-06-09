@@ -307,3 +307,13 @@ export type Menu = {
   results: HeaderData[];
   megaMenuResults: MegaMenuData[];
 };
+
+export type SaleTimerData = {
+  currency: Currency;
+  saleStartDate: string;
+  saleEndDate: string;
+  text: string;
+  ctaText: string;
+  ctaUrl: string;
+  themeColorHexCode: string | null;
+};

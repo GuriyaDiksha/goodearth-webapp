@@ -52,6 +52,7 @@ import CustomerCareInfo from "components/CustomerCareInfo";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
+import cushionFiller from "images/cushionFiller.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -744,6 +745,7 @@ const ProductDetails: React.FC<Props> = ({
               styles.errorMsg
             )}
           >
+            <img src={cushionFiller} className={styles.cushionFiller} />
             {ReactHtmlParser(fillerMessage)}
           </div>
         ) : (
@@ -770,7 +772,7 @@ const ProductDetails: React.FC<Props> = ({
             })}
           >
             {button}
-            {!loyaltyDisabled && isQuickview ? (
+            {!info.isSale && !loyaltyDisabled && isQuickview ? (
               <p className={cs(styles.errorMsg, styles.notEligible)}>
                 This product is not eligible for Cerise points accumulation.
               </p>
@@ -823,7 +825,7 @@ const ProductDetails: React.FC<Props> = ({
             [globalStyles.voffset3]: mobile
           })}
         >
-          {!loyaltyDisabled && !isQuickview ? (
+          {!info.isSale && !loyaltyDisabled && !isQuickview ? (
             <p className={styles.errorMsg}>
               This product is not eligible for Cerise points accumulation.
             </p>

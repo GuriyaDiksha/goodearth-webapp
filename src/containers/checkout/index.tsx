@@ -17,6 +17,7 @@ import AddressService from "services/address";
 import CheckoutService from "services/checkout";
 import LoginService from "services/login";
 import HeaderService from "services/headerFooter";
+import Api from "services/api";
 import { Dispatch } from "redux";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateAddressList } from "actions/address";
@@ -102,6 +103,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
       // HeaderService.fetchHomepageData(dispatch);
       HeaderService.fetchHeaderDetails(dispatch);
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sale status API error === " + err);
+      });
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -337,22 +341,26 @@ class Checkout extends React.Component<Props, State> {
         shippingData &&
         (nextProps.currency != this.props.currency || this.state.onlyOnetime)
       ) {
-        this.props
-          .checkPinCodeShippable(shippingData.postCode)
-          .then(response => {
-            this.setState({
-              errorNotification:
-                this.props.currency == "INR"
-                  ? response.status
-                    ? ""
-                    : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
-                  : "",
-              onlyOnetime: false
+        this.setState({
+          onlyOnetime: false
+        });
+        if (shippingData.country == "IN") {
+          this.props
+            .checkPinCodeShippable(shippingData.postCode)
+            .then(response => {
+              this.setState({
+                errorNotification:
+                  this.props.currency == "INR"
+                    ? response.status
+                      ? ""
+                      : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                    : ""
+              });
+            })
+            .catch(err => {
+              console.log(err);
             });
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        }
       }
       // things to reset on currency change
       if (!shippingData) {
@@ -506,19 +514,11 @@ class Checkout extends React.Component<Props, State> {
       this.props
         .specifyShippingAddress(address.id, address, this.props.user, bridal)
         .then(data => {
-          this.props
-            .checkPinCodeShippable(address.postCode)
-            .then(response => {
-              if (data.status) {
-                const isGoodearthShipping = address.isTulsi
-                  ? address.isTulsi
-                  : false;
-                this.setState({ isGoodearthShipping });
+          if (address.country == "IN") {
+            this.props
+              .checkPinCodeShippable(address.postCode)
+              .then(response => {
                 this.setState({
-                  shippingCharge: data.data.shippingCharge,
-                  shippingAddress: address,
-                  billingAddress: undefined,
-                  activeStep: Steps.STEP_BILLING,
                   errorNotification:
                     this.props.currency == "INR"
                       ? response.status
@@ -526,23 +526,65 @@ class Checkout extends React.Component<Props, State> {
                         : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
                       : ""
                 });
-                valid.checkoutGTM(2, this.props.currency, this.props.basket);
-                if (data.data.pageReload) {
-                  const data: any = {
-                    email: this.props.user.email
-                  };
-                  this.props.getLoyaltyPoints(data);
-                  this.props.reloadPage(
-                    this.props.cookies,
-                    this.props.history,
-                    this.props.user.isLoggedIn
-                  );
+              })
+              .catch(err => {
+                console.log(err);
+              })
+              .finally(() => {
+                if (data.status) {
+                  const isGoodearthShipping = address.isTulsi
+                    ? address.isTulsi
+                    : false;
+                  this.setState({ isGoodearthShipping });
+                  this.setState({
+                    shippingCharge: data.data.shippingCharge,
+                    shippingAddress: address,
+                    billingAddress: undefined,
+                    activeStep: Steps.STEP_BILLING
+                  });
+                  valid.checkoutGTM(2, this.props.currency, this.props.basket);
+                  if (data.data.pageReload) {
+                    const data: any = {
+                      email: this.props.user.email
+                    };
+                    this.props.getLoyaltyPoints(data);
+                    this.props.reloadPage(
+                      this.props.cookies,
+                      this.props.history,
+                      this.props.user.isLoggedIn
+                    );
+                  }
                 }
-              }
-            })
-            .catch(err => {
-              console.log(err);
+              });
+          } else {
+            this.setState({
+              errorNotification: ""
             });
+            if (data.status) {
+              const isGoodearthShipping = address.isTulsi
+                ? address.isTulsi
+                : false;
+              this.setState({ isGoodearthShipping });
+              this.setState({
+                shippingCharge: data.data.shippingCharge,
+                shippingAddress: address,
+                billingAddress: undefined,
+                activeStep: Steps.STEP_BILLING
+              });
+              valid.checkoutGTM(2, this.props.currency, this.props.basket);
+              if (data.data.pageReload) {
+                const data: any = {
+                  email: this.props.user.email
+                };
+                this.props.getLoyaltyPoints(data);
+                this.props.reloadPage(
+                  this.props.cookies,
+                  this.props.history,
+                  this.props.user.isLoggedIn
+                );
+              }
+            }
+          }
         })
         .catch(err => {
           if (err.response.status == 406) {
