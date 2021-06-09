@@ -95,7 +95,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           });
           this.setState({
             newCardBox: false,
-            txtvalue: ""
+            txtvalue: "",
+            error: ""
           });
         }
       });
@@ -134,7 +135,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       .removeGiftCard(data, this.props.history, this.props.user.isLoggedIn)
       .then(response => {
         this.setState({
-          newCardBox: true
+          newCardBox: true,
+          error: ""
         });
       });
   };
