@@ -97,7 +97,9 @@ export default {
       util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
     }
     dispatch(updateCookies({ tkn: res.token }));
-    dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(
+      updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
+    );
     dispatch(updateModal(false));
     // HeaderService.fetchHomepageData(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
@@ -153,7 +155,9 @@ export default {
       util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
     }
     dispatch(updateCookies({ tkn: res.token }));
-    dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(
+      updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
+    );
     dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
     WishlistService.updateWishlist(dispatch);
