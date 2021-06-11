@@ -112,7 +112,11 @@ export default {
       null
     );
     if (res.basket.updated || res.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        PRODUCT_UNPUBLISHED(res.basket.updatedRemovedItems),
+        0
+      );
     }
     await this.updateWishlist(dispatch);
     return res;

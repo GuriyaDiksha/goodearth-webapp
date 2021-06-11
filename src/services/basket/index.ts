@@ -29,7 +29,11 @@ export default {
         : "") + (boId ? "&boId=" + boId : "")}`
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        PRODUCT_UNPUBLISHED(res.updatedRemovedItems),
+        0
+      );
     }
     dispatch(updateBasket(res));
     if (source == "checkout" && isLoggedIn && res.redirectToCart) {
@@ -76,7 +80,11 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        PRODUCT_UNPUBLISHED(res.updatedRemovedItems),
+        0
+      );
     }
     dispatch(updateBasket(res));
     return res;
@@ -96,7 +104,11 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        PRODUCT_UNPUBLISHED(res.updatedRemovedItems),
+        0
+      );
     }
     dispatch(updateBasket(res));
   },
@@ -109,7 +121,11 @@ export default {
       null
     );
     if (res.basket.updated || res.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        PRODUCT_UNPUBLISHED(res.basket.updatedRemovedItems),
+        0
+      );
     }
     dispatch(updateBasket(res.basket));
     return res;
