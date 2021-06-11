@@ -114,7 +114,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           )}
         >
           <Link to="/">
-            <img className={styles.logo} src={logoImage} />
+            <img
+              src={logoImage}
+              style={{
+                width: "111px",
+                cursor: "pointer"
+              }}
+            />
           </Link>
         </div>
       </div>
