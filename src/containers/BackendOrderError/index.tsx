@@ -66,7 +66,13 @@ class ErrorPage extends React.Component<{}, {}> {
               )}
             >
               <Link to="/">
-                <img className={styles.logo} src={gelogoCerise} />
+                <img
+                  src={gelogoCerise}
+                  style={{
+                    width: "111px",
+                    cursor: "pointer"
+                  }}
+                />
               </Link>
             </div>
           </div>

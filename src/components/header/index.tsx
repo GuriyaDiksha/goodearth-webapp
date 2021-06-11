@@ -617,7 +617,13 @@ class Header extends React.Component<Props, State> {
                 )}
               >
                 <Link to="/" onClick={this.handleLogoClick}>
-                  <img className={styles.logo} src={gelogoCerise} />
+                  <img
+                    src={gelogoCerise}
+                    style={{
+                      width: "111px",
+                      cursor: "pointer"
+                    }}
+                  />
                 </Link>
               </div>
               {mobile ? (
