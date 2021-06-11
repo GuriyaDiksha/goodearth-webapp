@@ -82,7 +82,11 @@ export default {
       { shippingAddressId: id }
     );
     if (data.data.basket.updated || data.data.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        PRODUCT_UNPUBLISHED(data.data.basket.updatedRemovedItems),
+        0
+      );
     }
     dispatch(updateBasket(data.data.basket));
     return data;

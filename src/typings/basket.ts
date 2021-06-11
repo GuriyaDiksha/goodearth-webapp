@@ -65,6 +65,7 @@ export type Basket = {
   bridalAddressId?: number;
   freeShippingThreshold: number;
   freeShippingApplicable: number;
+  updatedRemovedItems: string[];
 };
 
 export interface BasketItem extends BasketLineItem {
