@@ -10,9 +10,7 @@ import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import * as valid from "utils/validate";
-import FormSelect from "components/Formsy/FormSelect";
-import Formsy from "formsy-react";
-
+import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
@@ -156,10 +154,10 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     window.scrollBy(0, -200);
   };
 
-  onchange = (event: any) => {
+  onchange = (value: any) => {
     // setModevalue(event.target.value);
     this.setState({
-      cardType: event.target.value,
+      cardType: value,
       error: ""
     });
   };
@@ -212,13 +210,19 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 {toggleOtp ? (
                   ""
                 ) : (
-                  <Formsy
-                  // ref={EnquiryFormRef}
-                  // onValidSubmit={handleSubmit}
-                  // onInvalidSubmit={handleInvalidSubmit}
-                  >
+                  <Fragment>
                     <div className={cs(styles.flex, styles.vCenter)}>
-                      <FormSelect
+                      <SelectableDropdownMenu
+                        id="giftcard_dropdown"
+                        align="right"
+                        className={styles.selectRelative}
+                        items={modeOptions}
+                        onChange={this.onchange}
+                        showCaret={true}
+                        value={this.state.cardType}
+                        key={"plpPage"}
+                      ></SelectableDropdownMenu>
+                      {/* <FormSelect
                         required
                         name="giftselect"
                         label=""
@@ -234,7 +238,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         validations={{
                           isExisty: true
                         }}
-                      />
+                      /> */}
                       <div className={styles.giftInput}>
                         <input
                           type="text"
@@ -263,7 +267,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                       </span>
                     </div>
                     <label>Gift Card Code / Credit Note</label>
-                  </Formsy>
+                  </Fragment>
                 )}
                 {this.state.error ? (
                   <span className={cs(globalStyles.errorMsg)}>
