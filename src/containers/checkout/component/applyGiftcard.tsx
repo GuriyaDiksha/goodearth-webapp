@@ -215,7 +215,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                       <SelectableDropdownMenu
                         id="giftcard_dropdown"
                         align="right"
-                        className={styles.selectRelative}
+                        className={
+                          mobile
+                            ? styles.selectRelativemobile
+                            : styles.selectRelative
+                        }
                         items={modeOptions}
                         onChange={this.onchange}
                         showCaret={true}
@@ -227,11 +231,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         name="giftselect"
                         label=""
                         disable={false}
-                        className={
-                          mobile
-                            ? styles.selectRelativemobile
-                            : styles.selectRelative
-                        }
+                        
                         options={modeOptions}
                         handleChange={this.onchange}
                         value={this.state.cardType}
@@ -266,7 +266,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         ></span>
                       </span>
                     </div>
-                    <label>Gift Card Code / Credit Note</label>
+                    {mobile ? "" : <label>Gift Card Code / Credit Note</label>}
                   </Fragment>
                 )}
                 {this.state.error ? (
