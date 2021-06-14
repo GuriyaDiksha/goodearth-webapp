@@ -43,7 +43,7 @@ class Quantity extends React.Component<QuantityItem, State> {
   render() {
     const value = this.props.currentValue;
     const props = this.props;
-    const { disabled } = this.props;
+    const { disabled, source } = this.props;
     // const error = props.errorMsg ? props.errorMsg + " " + props.maxValue : "";
     // const error
 
@@ -56,7 +56,7 @@ class Quantity extends React.Component<QuantityItem, State> {
               return;
             }
             if (value > props.minValue) {
-              if (props.source == "bag" || props.source == "cartpage") {
+              if (source == "bag" || source == "cartpage") {
                 this.onUpdate(value - 1);
               } else {
                 props.onChange(value - 1);
@@ -71,8 +71,8 @@ class Quantity extends React.Component<QuantityItem, State> {
           className={cs(
             styles.input,
             props.inputClass,
-            { [styles.inputPdp]: props.source == "pdp" },
-            { [styles.inputCart]: props.source == "cartPage" },
+            { [styles.inputPdp]: source == "pdp" },
+            { [styles.inputCart]: source == "cartPage" },
             {}
           )}
         >
@@ -85,7 +85,7 @@ class Quantity extends React.Component<QuantityItem, State> {
               return;
             }
             if (value < props.maxValue) {
-              if (props.source == "bag" || props.source == "cartpage") {
+              if (source == "bag" || source == "cartpage") {
                 this.onUpdate(value + 1);
               } else {
                 props.onChange(value + 1);
@@ -107,9 +107,13 @@ class Quantity extends React.Component<QuantityItem, State> {
           +
         </span>
         <p
-          className={cs(styles.errorMsg, {
-            [styles.noBottom]: props.source == "cartpage"
-          })}
+          className={cs(
+            styles.errorMsg,
+            { [styles.left]: source == "pdp" },
+            {
+              // [styles.noBottom]: props.source == "cartpage"
+            }
+          )}
         >
           {this.state.showError ? this.state.errorMsg : ""}
         </p>

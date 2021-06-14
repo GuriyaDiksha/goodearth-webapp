@@ -20,6 +20,7 @@ export type WishlistItem = {
     price: PriceRecord;
     discountedPrice: PriceRecord;
     sku: string;
+    showStockThreshold: boolean;
   }[];
   discountedPrice: PriceRecord;
   salesBadgeImage: string;

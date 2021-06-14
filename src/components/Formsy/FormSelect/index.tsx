@@ -61,7 +61,8 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         value={props.value}
         className={cs(
           { [globalStyles.errorBorder]: errorMessage },
-          { [styles.disabledInput]: props.disable }
+          { [styles.disabledInput]: props.disable },
+          { [globalStyles.pointer]: !props.disable }
         )}
         disabled={props.disable}
         onFocus={() => setLabelClass(true)}
@@ -80,7 +81,8 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
       <span
         className={cs(
           { [styles.arrow]: true },
-          { [styles.disabledArrow]: props.disable }
+          { [styles.disabledArrow]: props.disable },
+          { [globalStyles.pointer]: !props.disable }
         )}
       ></span>
     </div>

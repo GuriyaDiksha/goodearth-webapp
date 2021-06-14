@@ -23,6 +23,8 @@ export type loginResponse = {
   userId: string;
   email: string;
   firstName: string;
+  oldBasketHasItems: boolean;
+  customerGroup: string;
 };
 
 export type registerResponse = {

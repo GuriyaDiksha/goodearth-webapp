@@ -27,12 +27,18 @@ const LineItems: React.FC<BasketItem> = memo(
     GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
+    const [qtyError, setQtyError] = useState(false);
     const { dispatch } = useStore();
 
     const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value).then(res => {
-        setValue(value);
-      });
+      await BasketService.updateToBasket(dispatch, id, value)
+        .then(res => {
+          setValue(value);
+        })
+        .catch(err => {
+          setQtyError(true);
+          throw err;
+        });
     };
 
     const {
@@ -268,6 +274,24 @@ const LineItems: React.FC<BasketItem> = memo(
                   />
                 </div>
               )}
+              <span
+                className={cs(globalStyles.errorMsg, styles.stockLeft, {
+                  [styles.stockLeftWithError]: qtyError
+                })}
+              >
+                {saleStatus &&
+                  childAttributes[0].showStockThreshold &&
+                  childAttributes[0].stock > 0 &&
+                  `Only ${childAttributes[0].stock} Left!`}
+                <br />
+                {saleStatus &&
+                  childAttributes[0].showStockThreshold &&
+                  childAttributes[0].stock > 0 &&
+                  childAttributes[0].othersBasketCount > 0 &&
+                  ` *${childAttributes[0].othersBasketCount} other${
+                    childAttributes[0].othersBasketCount > 1 ? "s" : ""
+                  } have this item in their bag`}
+              </span>
             </div>
           </div>
         </div>

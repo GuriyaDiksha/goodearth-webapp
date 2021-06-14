@@ -337,3 +337,12 @@
     width: 100%;
   }
 }
+
+.stock-left {
+  position: relative;
+  top: 10px;
+  text-align: center;
+}
+.stock-left-with-error {
+  top: 25px;
+}
