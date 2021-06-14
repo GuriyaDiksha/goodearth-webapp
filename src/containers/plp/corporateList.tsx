@@ -26,7 +26,8 @@ const mapStateToProps = (state: AppState) => {
     listdata: state.plplist.data.results.data,
     salestatus: state.info.isSale,
     location: state.router.location,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    customerGroup: state.user.customerGroup
   };
 };
 
@@ -606,7 +607,10 @@ class CorporateFilter extends React.Component<Props, State> {
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
     }
-    if (this.props.currency != nextProps.currency) {
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.customerGroup != nextProps.customerGroup
+    ) {
       nextProps.mobile
         ? this.updateDataFromAPI("load")
         : this.updateDataFromAPI();

@@ -75,7 +75,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     isSale: state.info.isSale,
     plpMobileView: state.plplist.plpMobileView,
     scrollDown: state.info.scrollDown,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    customerGroup: state.user.customerGroup
   };
 };
 
@@ -251,7 +252,10 @@ class PDPContainer extends React.Component<Props, State> {
         );
       }
     }
-    if (this.props.currency != nextProps.currency) {
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.customerGroup != nextProps.customerGroup
+    ) {
       this.fetchMoreProductsFromCollection(nextProps.id);
       this.props.fetchProduct(this.props.slug);
       this.setState({
