@@ -64,6 +64,22 @@ const SampleDisplay: React.FC<Props> = props => {
 
   const renderWishlist = (data: WishListGridItem) => {
     const { mobile, currency } = props;
+    let showStockMessage = false;
+    if (data.size) {
+      const selectedSize = data.stockDetails.filter(
+        item => item.size == data.size
+      )[0];
+      showStockMessage =
+        selectedSize.stock > 0 && selectedSize.showStockThreshold;
+    } else {
+      showStockMessage =
+        !data.stockDetails[0].size &&
+        data.stockDetails[0].stock > 0 &&
+        data.stockDetails[0].showStockThreshold;
+    }
+    const stock = data.size
+      ? data.stockDetails.filter(item => item.size == data.size)[0].stock
+      : data.stockDetails[0].stock;
     if (Object.keys(data).length === 0) return false;
     return (
       <div>
@@ -157,7 +173,9 @@ const SampleDisplay: React.FC<Props> = props => {
         </div>
         <div className={styles.imageContent}>
           {/*<p className="product-h">{data.collection ? data.collection : ''}</p>*/}
-
+          <span className={cs(globalStyles.errorMsg)}>
+            {isSale && showStockMessage && `Only ${stock} Left!`}
+          </span>
           <p className={styles.productN}>
             <a href={data.productUrl}>
               {data.productName ? data.productName : ""}{" "}

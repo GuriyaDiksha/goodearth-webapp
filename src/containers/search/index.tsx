@@ -116,9 +116,23 @@ class Search extends React.Component<
 
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
+    const {
+      data: {
+        results: { data }
+      }
+    } = this.props;
+    const selectItem: any = data.filter(item => {
+      return item.id == id;
+    });
     updateComponentModal(
       POPUP.QUICKVIEW,
-      { id: id, productListId: plpProductId, source: "Search" },
+      {
+        id: id,
+        productListId: plpProductId,
+        source: "Search",
+        corporatePDP:
+          ["Pero", "Souk"].indexOf(selectItem[0]?.partner) > -1 ? true : false
+      },
       true
     );
     changeModalState(true);
@@ -430,7 +444,11 @@ class Search extends React.Component<
                         key={item.id}
                         mobile={mobile}
                         onClickQuickView={this.onClickQuickView}
-                        isCorporate={false}
+                        isCorporate={
+                          ["Pero", "Souk"].indexOf(item.partner || "") > -1
+                            ? true
+                            : false
+                        }
                       />
                     ) : (
                       <GiftcardItem />

@@ -101,6 +101,7 @@ const ProductDetails: React.FC<Props> = ({
   const location = useLocation();
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
+  const [onload, setOnload] = useState(false);
   const [
     selectedSize,
     setSelectedSize
@@ -122,6 +123,7 @@ const ProductDetails: React.FC<Props> = ({
   // }, [selectedSize]);
   useLayoutEffect(() => {
     setGtmListType("PDP");
+    setOnload(true);
   });
   useEffect(() => {
     if (childAttributes.length === 1 && !selectedSize) {
@@ -602,7 +604,7 @@ const ProductDetails: React.FC<Props> = ({
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
-            <div className={bootstrap.col8}>
+            <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
                   className={cs(
@@ -629,6 +631,17 @@ const ProductDetails: React.FC<Props> = ({
                   />
                   <span className={cs(styles.sizeErrorMessage, "show-error")}>
                     {sizeError}
+                  </span>
+                  <span className={cs(styles.sizeErrorMessage)}>
+                    {info.isSale &&
+                      selectedSize &&
+                      selectedSize.showStockThreshold &&
+                      selectedSize.stock > 0 &&
+                      `Only ${selectedSize.stock} Left!${
+                        selectedSize.othersBasketCount > 0
+                          ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                          : ""
+                      }`}
                   </span>
                 </div>
               </div>
@@ -664,10 +677,19 @@ const ProductDetails: React.FC<Props> = ({
             )}
           </div>
         ) : (
-          ""
+          <span className={cs(styles.sizeErrorMessage)}>
+            {info.isSale &&
+              selectedSize &&
+              selectedSize.stock > 0 &&
+              selectedSize.showStockThreshold &&
+              `Only ${
+                selectedSize.stock
+              } Left!${selectedSize.othersBasketCount &&
+                ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+          </span>
         )}
         <div
-          className={cs(bootstrap.row, styles.spacer, {
+          className={cs(bootstrap.row, globalStyles.marginT30, {
             [styles.spacerQuickview]: isQuickview && withBadge
           })}
         >
@@ -772,7 +794,7 @@ const ProductDetails: React.FC<Props> = ({
             })}
           >
             {button}
-            {!info.isSale && !loyaltyDisabled && isQuickview ? (
+            {onload && !info.isSale && !loyaltyDisabled && isQuickview ? (
               <p className={cs(styles.errorMsg, styles.notEligible)}>
                 This product is not eligible for Cerise points accumulation.
               </p>
@@ -825,7 +847,7 @@ const ProductDetails: React.FC<Props> = ({
             [globalStyles.voffset3]: mobile
           })}
         >
-          {!info.isSale && !loyaltyDisabled && !isQuickview ? (
+          {onload && !info.isSale && !loyaltyDisabled && !isQuickview ? (
             <p className={styles.errorMsg}>
               This product is not eligible for Cerise points accumulation.
             </p>

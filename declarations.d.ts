@@ -4,6 +4,7 @@ declare module "*.scss" {
 }
 
 declare module "*.svg";
+declare module "*.woff2";
 declare module "*.png";
 declare module "*.ico";
 declare module "*.jpg";
