@@ -139,6 +139,11 @@ const ProductDetails: React.FC<Props> = ({
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
+    if (childAttributes.length === 1) {
+      setSelectedSize(childAttributes[0]);
+    }
+  }, [discountedPriceRecords]);
+  useEffect(() => {
     if (priceRecords[currency] == 0) {
       history.push("/error-page", {});
     }
