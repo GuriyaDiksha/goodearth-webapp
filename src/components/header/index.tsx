@@ -31,6 +31,7 @@ const Mobilemenu = loadable(() => import("./mobileMenu"));
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
+import { CUST } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -48,7 +49,8 @@ const mapStateToProps = (state: AppState) => {
     slab: state.user.slab,
     cookies: state.cookies,
     showTimer: state.info.showTimer,
-    timerData: state.header.timerData
+    timerData: state.header.timerData,
+    customerGroup: state.user.customerGroup
   };
 };
 
@@ -455,7 +457,10 @@ class Header extends React.Component<Props, State> {
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
     const isCeriseCustomer = slab
-      ? slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara"
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        customerGroup == CUST.CERISE ||
+        customerGroup == CUST.CERISE_SITARA
       : false;
     return (
       <div className="">
