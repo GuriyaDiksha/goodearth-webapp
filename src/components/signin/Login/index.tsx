@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
-import { withRouter } from "react-router";
+import { useLocation, withRouter } from "react-router";
 import React, { useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
@@ -29,6 +29,9 @@ const LoginForm: React.FC<{}> = props => {
   const nextStep = () => {
     // code for after login
   };
+  const { search } = useLocation();
+  const urlParams = new URLSearchParams(search);
+  const id = urlParams.get("loginpopup");
   return (
     <Popup>
       <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
@@ -36,6 +39,8 @@ const LoginForm: React.FC<{}> = props => {
         <div className={styles.formSubheading}>
           {isRegister
             ? "Please Enter Your Email To Register"
+            : id == "cerise"
+            ? "Please enter your registered e-mail address to login to your Cerise account."
             : "Enter your email address to register or sign in."}
         </div>
 

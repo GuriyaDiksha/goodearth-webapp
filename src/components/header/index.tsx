@@ -133,6 +133,13 @@ class Header extends React.Component<Props, State> {
       }
       this.props.history.push("/cart");
     }
+    if (id == "cerise") {
+      if (!this.props.isLoggedIn) {
+        this.props.goLogin();
+      } else {
+        this.props.history.push("/");
+      }
+    }
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
     });
