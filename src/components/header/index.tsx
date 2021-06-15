@@ -391,7 +391,8 @@ class Header extends React.Component<Props, State> {
       handleLogOut,
       location,
       mobile,
-      slab
+      slab,
+      customerGroup
     } = this.props;
     const wishlistCount = wishlistData.length;
     let bagCount = 0;
