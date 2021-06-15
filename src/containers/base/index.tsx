@@ -177,7 +177,9 @@ const BaseLayout: React.FC = () => {
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
+    const loginPopup = urlParams.get("loginpopup");
     if (
+      !loginPopup &&
       isHomePage &&
       isSuspended &&
       checkoutInfoPopupCookie != "show"
