@@ -91,7 +91,11 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    CookieService.setCookie("custGrp", res.customerGroup || "", 365);
+    CookieService.setCookie(
+      "custGrp",
+      res.customerGroup ? res.customerGroup.toLowerCase() : "",
+      365
+    );
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
@@ -149,7 +153,11 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
-    CookieService.setCookie("custGrp", res.customerGroup, 365);
+    CookieService.setCookie(
+      "custGrp",
+      res.customerGroup ? res.customerGroup.toLowerCase() : "",
+      365
+    );
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
