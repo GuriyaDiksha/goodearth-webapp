@@ -141,17 +141,20 @@ class CollectionSpecific extends React.Component<
       pdpProductScroll = hasPdpScrollableProduct.pdpProductDetails;
       if (pdpProductScroll) {
         const pdpTimeStamp = new Date(pdpProductScroll.timestamp).getTime();
-        shouldScroll = currentTimeStamp - pdpTimeStamp < 8000;
-        this.setState(
-          {
-            shouldScroll: shouldScroll
-          },
-          () => {
-            if (this.state.shouldScroll) {
-              this.handleProductSearch();
+        const source = pdpProductScroll.source;
+        if (source.toLowerCase() == "collectionspecific") {
+          shouldScroll = currentTimeStamp - pdpTimeStamp < 8000;
+          this.setState(
+            {
+              shouldScroll: shouldScroll
+            },
+            () => {
+              if (this.state.shouldScroll) {
+                this.handleProductSearch();
+              }
             }
-          }
-        );
+          );
+        }
       }
     }
   }
