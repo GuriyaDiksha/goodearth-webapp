@@ -6,7 +6,7 @@ import { updateBasket } from "actions/basket";
 // utils
 import API from "utils/api";
 import { ProductID } from "typings/id";
-import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import * as util from "../../utils/validate";
 
 export default {
@@ -29,7 +29,13 @@ export default {
         : "") + (boId ? "&boId=" + boId : "")}`
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
     }
     dispatch(updateBasket(res));
     if (source == "checkout" && isLoggedIn && res.redirectToCart) {
@@ -76,7 +82,13 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
     }
     dispatch(updateBasket(res));
     return res;
@@ -96,7 +108,13 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
     }
     dispatch(updateBasket(res));
   },
@@ -109,7 +127,13 @@ export default {
       null
     );
     if (res.basket.updated || res.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.basket.updatedRemovedItems
+      );
     }
     dispatch(updateBasket(res.basket));
     return res;

@@ -21,8 +21,35 @@ export const INVALID_SESSION_LOGOUT =
   "You have been logged out of all sessions. Please login again";
 export const LOGOUT_SUCCESS = "You have successfully been logged out!";
 export const LOGIN_SUCCESS = "Welcome to Good Earth!";
-export const PRODUCT_UNPUBLISHED =
-  "Due to unavailability of some products your cart has been updated.";
+const growlItemsList = (items: string[]) => {
+  const html: any = [];
+  if (items) {
+    items.map(item => {
+      html.push(
+        item.length > 50 ? (
+          <>
+            {item.slice(0, 46) + "..."}
+            <br />
+          </>
+        ) : (
+          <>
+            {item}
+            <br />
+          </>
+        )
+      );
+    });
+  }
+  return html;
+};
+export const PRODUCT_UNPUBLISHED = (items: string[]) => (
+  <div style={{ textAlign: "left" }}>
+    Due to unavailability of some products your cart has been updated.
+    <br />
+    <br />
+    {growlItemsList(items)}
+  </div>
+);
 export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
 export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
 export const ADD_TO_REGISTRY_AGAIN = [
@@ -47,3 +74,36 @@ export const PREVIOUS_BASKET = (
     Please review your bag before checking out.
   </>
 );
+
+export const Messages = {
+  ADD_TO_BAG_SUCCESS: ADD_TO_BAG_SUCCESS,
+  ADD_TO_BAG_GIFTCARD_SUCCESS: ADD_TO_BAG_GIFTCARD_SUCCESS,
+  CURRENCY_CHANGED_SUCCESS: CURRENCY_CHANGED_SUCCESS,
+  ALL_SESSION_LOGOUT: ALL_SESSION_LOGOUT,
+  INVALID_SESSION_LOGOUT: INVALID_SESSION_LOGOUT,
+  LOGOUT_SUCCESS: LOGOUT_SUCCESS,
+  LOGIN_SUCCESS: LOGIN_SUCCESS,
+  PRODUCT_UNPUBLISHED: PRODUCT_UNPUBLISHED,
+  ADD_TO_REGISTRY_SUCCESS: ADD_TO_REGISTRY_SUCCESS,
+  ADD_TO_REGISTRY_FAIL: ADD_TO_REGISTRY_FAIL,
+  ADD_TO_REGISTRY_AGAIN: ADD_TO_REGISTRY_AGAIN,
+  REGISTRY_OWNER_CHECKOUT: REGISTRY_OWNER_CHECKOUT,
+  REGISTRY_MIXED_SHIPPING: REGISTRY_MIXED_SHIPPING,
+  PREVIOUS_BASKET: PREVIOUS_BASKET
+};
+export enum MESSAGE {
+  ADD_TO_BAG_SUCCESS = "ADD_TO_BAG_SUCCESS",
+  ADD_TO_BAG_GIFTCARD_SUCCESS = "ADD_TO_BAG_GIFTCARD_SUCCESS",
+  CURRENCY_CHANGED_SUCCESS = "CURRENCY_CHANGED_SUCCESS",
+  ALL_SESSION_LOGOUT = "ALL_SESSION_LOGOUT",
+  INVALID_SESSION_LOGOUT = "INVALID_SESSION_LOGOUT",
+  LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  PRODUCT_UNPUBLISHED = "PRODUCT_UNPUBLISHED",
+  ADD_TO_REGISTRY_SUCCESS = "ADD_TO_REGISTRY_SUCCESS",
+  ADD_TO_REGISTRY_FAIL = "ADD_TO_REGISTRY_FAIL",
+  ADD_TO_REGISTRY_AGAIN = "ADD_TO_REGISTRY_AGAIN",
+  REGISTRY_OWNER_CHECKOUT = "REGISTRY_OWNER_CHECKOUT",
+  REGISTRY_MIXED_SHIPPING = "REGISTRY_MIXED_SHIPPING",
+  PREVIOUS_BASKET = "PREVIOUS_BASKET"
+}
