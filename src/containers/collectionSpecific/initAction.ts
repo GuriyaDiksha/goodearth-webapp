@@ -5,7 +5,7 @@ import {
   updateCollectionSpecificBanner
 } from "actions/collection";
 import { updatePartialProducts } from "actions/product";
-import { getProductIdFromSlug } from "utils/url.ts";
+import { getProductIdFromSlug } from "utils/url";
 import * as valid from "utils/validate";
 
 const initActionSpecific: InitAction = async (
