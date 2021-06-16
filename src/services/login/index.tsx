@@ -22,14 +22,7 @@ import CheckoutService from "services/checkout";
 import Api from "services/api";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
-import {
-  INVALID_SESSION_LOGOUT,
-  LOGOUT_SUCCESS,
-  LOGIN_SUCCESS,
-  REGISTRY_OWNER_CHECKOUT,
-  REGISTRY_MIXED_SHIPPING,
-  PREVIOUS_BASKET
-} from "constants/messages";
+import { LOGIN_SUCCESS, MESSAGE } from "constants/messages";
 // import Axios from "axios";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
@@ -94,7 +87,7 @@ export default {
     CookieService.setCookie("custGrp", res.customerGroup || "", 365);
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (res.oldBasketHasItems) {
-      util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
+      util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(
@@ -124,7 +117,11 @@ export default {
             item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
           );
           if (basketBridalId && basketBridalId == metaResponse.bridalId) {
-            util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT, 6000);
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_OWNER_CHECKOUT,
+              6000
+            );
           }
           let item1 = false,
             item2 = false;
@@ -133,7 +130,11 @@ export default {
             if (data.bridalProfile) item2 = true;
           });
           if (item1 && item2) {
-            util.showGrowlMessage(dispatch, REGISTRY_MIXED_SHIPPING, 6000);
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_MIXED_SHIPPING,
+              6000
+            );
           }
         }
       }
@@ -152,7 +153,7 @@ export default {
     CookieService.setCookie("custGrp", res.customerGroup, 365);
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (res.oldBasketHasItems) {
-      util.showGrowlMessage(dispatch, PREVIOUS_BASKET, 0);
+      util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(
@@ -190,7 +191,7 @@ export default {
       });
       // HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
-      util.showGrowlMessage(dispatch, LOGOUT_SUCCESS, 5000);
+      util.showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
       return res;
     }
   },
@@ -206,7 +207,7 @@ export default {
     dispatch(resetMeta(undefined));
     util.showGrowlMessage(
       dispatch,
-      INVALID_SESSION_LOGOUT,
+      MESSAGE.INVALID_SESSION_LOGOUT,
       5000,
       "INVALID_SESSION_LOGOUT"
     );
