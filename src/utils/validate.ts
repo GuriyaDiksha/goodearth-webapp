@@ -382,7 +382,6 @@ export function PDP(data: any, currency: Currency) {
       })
     );
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
-    CookieService.setCookie("listPath", "");
     dataLayer.push({
       event: "PDP",
       ecommerce: {
