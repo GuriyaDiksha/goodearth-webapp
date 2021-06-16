@@ -268,24 +268,6 @@ const Bridal: React.FC<Props> = props => {
     }
   };
 
-  // const changeScreen = () => {
-  // setState({
-  //     showPopup: true
-  // })
-  // }
-
-  // closePopup() {
-  //     setState({
-  //         showPopup: false
-  //     })
-  // }
-
-  // closeInsPopup() {
-  //     setState({
-  //         showpop: false
-  //     })
-  // }
-
   const showManageRegistry = () => {
     getBridalProfileData();
     setCurrentScreenValue("manage");
@@ -294,10 +276,6 @@ const Bridal: React.FC<Props> = props => {
   const showManageAddressComponent = () => {
     setCurrentScreenValue("editRegistryAddress");
   };
-
-  // const setManageRegistryFull = () => {
-  //   setCurrentScreenValue("manageregistryfull");
-  // };
 
   const setSelectedSection = () => {
     switch (currentSection) {
@@ -318,11 +296,6 @@ const Bridal: React.FC<Props> = props => {
             createRegistry={createRegistry}
           />
         );
-      // return <ManageAddress isbridal={true}
-      //                       setCurrentModule={setCurrentModule}
-      //                       setCurrentModuleData={setCurrentModuleData}
-      //                       currentCallBackComponent="bridal"
-      //                       addressType="SHIPPING" case="create"/>
       case "created":
         return (
           <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
@@ -344,20 +317,6 @@ const Bridal: React.FC<Props> = props => {
     });
   };
 
-  // onEditAddress(data) {
-  //     // console.log(data)
-  // }
-
-  // setMode(value) {
-  //     setState({
-  //         editMode: value
-  //     })
-  // }
-
-  // setAddressModeProfile(modes) {
-  //     setState(modes)
-  // }
-
   const currentScreen = () => {
     switch (currentScreenValue) {
       case "manage": {
@@ -370,8 +329,6 @@ const Bridal: React.FC<Props> = props => {
           ) {
             return (
               <ManageRegistry
-                // bridalAddress={bridalAddress}
-                // bridalProfile={bridalProfile}
                 openShareLinkPopup={openShareLinkPopup}
                 showRegistryFull={() =>
                   setCurrentScreenValue("manageregistryfull")
@@ -392,15 +349,9 @@ const Bridal: React.FC<Props> = props => {
           ) {
             return (
               <ManageRegistryFull
-                // bridalAddress={bridalAddress}
                 openShareLinkPopup={openShareLinkPopup}
-                // bridalProfile={bridalProfile}
-                // bid={props.bridalId}
-                // changeAddress={changeAddress}
                 key={1}
-                // getBridalProfileData={getBridalProfileData}
                 showManageRegistry={showManageRegistry}
-                // mobile={mobile}
                 showManageAddressComponent={showManageAddressComponent}
               />
             );
@@ -415,20 +366,7 @@ const Bridal: React.FC<Props> = props => {
             addressType={"SHIPPING"}
             error=""
             addresses={[]}
-            // changeBridalAddress={changeBridalAddress}
-            // setAddressModeProfile={setAddressModeProfile}
-            // editMode={editMode}
-            // setMode={setMode}
-            // addressData={addressData}
-            // newAddressMode={newAddressMode}
-            // addressesAvailable={addressesAvailable}
-            // showAddresses={showAddresses}
-            // toggleAddressForm={onEditAddress} showAddressInBridalUse={true}
             currentCallBackComponent="bridal-edit"
-            // step="manage"
-            // shouldShowBackButton={true}
-            // showAllAddresses="true"
-            key="k123"
           />
         );
       // break;
