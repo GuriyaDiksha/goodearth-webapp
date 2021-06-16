@@ -599,7 +599,7 @@ const ProductDetails: React.FC<Props> = ({
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
-            <div className={bootstrap.col8}>
+            <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
                   className={cs(
@@ -684,7 +684,7 @@ const ProductDetails: React.FC<Props> = ({
           </span>
         )}
         <div
-          className={cs(bootstrap.row, styles.spacer, {
+          className={cs(bootstrap.row, globalStyles.marginT30, {
             [styles.spacerQuickview]: isQuickview && withBadge
           })}
         >
