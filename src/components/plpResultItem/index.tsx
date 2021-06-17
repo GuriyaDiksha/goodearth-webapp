@@ -114,6 +114,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <LazyImage
             aspectRatio="62:93"
             src={image}
+            alt={product.altText || product.title}
             className={styles.imageResultnew}
             isVisible={isVisible}
             onError={(e: any) => {
