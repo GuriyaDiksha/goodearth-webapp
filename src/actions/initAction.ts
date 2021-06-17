@@ -22,6 +22,11 @@ const initAction: any = async (
     history.location.pathname.includes("/bridal/") &&
     !history.location.pathname.includes("/account/");
   let bridalKey = "";
+  const basketPage = history.location.pathname.includes("checkout")
+    ? "checkout"
+    : history.location.pathname.includes("cart")
+    ? "cart"
+    : undefined;
   if (isBridalPublicPage) {
     const pathArray = history.location.pathname.split("/");
     bridalKey = pathArray[pathArray.length - 1];
@@ -71,7 +76,7 @@ const initAction: any = async (
           console.log("META API ERROR ==== " + err);
         }
       ),
-      BasketService.fetchBasket(store.dispatch).then(res => {
+      BasketService.fetchBasket(store.dispatch, basketPage).then(res => {
         console.log(res);
       })
     ]);
