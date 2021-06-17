@@ -266,7 +266,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         ></span>
                       </span>
                     </div>
-                    {mobile ? "" : <label>Gift Card Code / Credit Note</label>}
+                    {this.state.cardType == "GIFTCARD" ? (
+                      <label>Gift Card Code</label>
+                    ) : (
+                      <label>Credit Note</label>
+                    )}
                   </Fragment>
                 )}
                 {this.state.error ? (

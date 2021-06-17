@@ -389,6 +389,7 @@
     letter-spacing: 1px;
     background-color: #fff;
     padding: 3px 0px;
+    z-index: 1;
   }
   .rtcinfo {
     font-size: 11px;
@@ -457,17 +458,17 @@
     min-height: 47px;
     z-index: 1;
     cursor: pointer;
-    border: 1px solid #ccc;
+    border: 1px solid #eee;
     
     span{
         right: 12px;
         color: rgba(51,51,51,.8);
-        line-height: 48px;
+        line-height: 44px;  
     }
     ul{
         width: 100%;
         margin-bottom: 0px;
-        border: 1px solid #ccc;
+        border: 1px solid #eee;
         background-color: #fff;
         li{
             background-color: #fff;
@@ -488,7 +489,7 @@
     }
     div:nth-child(2) {
       top: 48px;
-      left:0px
+      padding-left: 13px;
     }
 }
 
@@ -501,8 +502,7 @@
   min-height: 47px;
   z-index: 10;
   cursor: pointer;
-  border: 1px solid #ccc;
-  border-width: 0px 1px 1px 1px;
+  border: 1px solid #eee;
   
   span{
       right: 12px;
@@ -512,7 +512,7 @@
   ul{
       width: 100%;
       margin-bottom: 0px;
-      border: 1px solid #ccc;
+      border: 1px solid #eee;
       li{
           background-color: #fff;
           box-sizing: border-box;
