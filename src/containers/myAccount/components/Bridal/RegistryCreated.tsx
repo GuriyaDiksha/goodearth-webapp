@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 // import moment from 'moment';
 import BridalContext from "./context";
@@ -17,16 +17,16 @@ const RegistryCreated: React.FC<Props> = props => {
   // const [subscribe, setSubscribe ] = useState(false);
 
   // const [date, setDate ] = useState(moment());
-  const {
-    setCurrentModule,
-    // setCurrentModuleData,
-    data
-  } = useContext(BridalContext);
+  const { data } = useContext(BridalContext);
 
   // const onChange = (date: Date) => {
   //         setDate(moment(date));
   //         setUpdateDate(true);
   // }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const saveBridalDate = () => {
     props.openBridalPop();
@@ -41,18 +41,7 @@ const RegistryCreated: React.FC<Props> = props => {
             bootstrapStyles.offset1,
             globalStyles.textCenter
           )}
-        >
-          <i
-            className={cs(styles.arrowUp, globalStyles.pointer)}
-            onClick={() => setCurrentModule("address")}
-          ></i>
-          <p
-            className={styles.backGc}
-            onClick={() => setCurrentModule("address")}
-          >
-            Back To Shipping Address
-          </p>
-        </div>
+        ></div>
       </div>
       <div className={cs(bootstrapStyles.row, globalStyles.voffset6)}>
         <div

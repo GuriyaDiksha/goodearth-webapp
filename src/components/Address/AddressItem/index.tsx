@@ -429,8 +429,19 @@ const AddressItem: React.FC<Props> = props => {
                 )}
                 // onClick={() => props.selectAddress(address)}
                 onClick={() => {
-                  if (address.id != userAddress?.id)
+                  if (address.id != userAddress?.id) {
                     onSelectBridalAddress(address);
+                    const firstErrorField = document.getElementById(
+                      "address_button"
+                    ) as HTMLDivElement;
+                    if (firstErrorField) {
+                      firstErrorField.focus();
+                      firstErrorField.scrollIntoView({
+                        block: "center",
+                        behavior: "smooth"
+                      });
+                    }
+                  }
                 }}
               >
                 USE THIS ADDRESS

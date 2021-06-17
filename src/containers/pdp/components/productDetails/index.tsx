@@ -40,12 +40,7 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
-import {
-  ADD_TO_BAG_SUCCESS,
-  ADD_TO_REGISTRY_AGAIN,
-  ADD_TO_REGISTRY_FAIL,
-  ADD_TO_REGISTRY_SUCCESS
-} from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
@@ -296,7 +291,7 @@ const ProductDetails: React.FC<Props> = ({
           setTimeout(() => {
             setAddedToBag(false);
           }, 3000);
-          valid.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
+          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
         })
         .catch(err => {
@@ -324,7 +319,7 @@ const ProductDetails: React.FC<Props> = ({
       element.classList.contains(styles.active) ||
       (selectedSize && isRegistry[selectedSize.size])
     ) {
-      valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_AGAIN);
+      valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
       return false;
     }
     if (childAttributes[0].size) {
@@ -347,7 +342,7 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
-        valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_SUCCESS);
+        valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         if (selectedSize) {
           registry[selectedSize.size] = true;
@@ -370,7 +365,7 @@ const ProductDetails: React.FC<Props> = ({
         if (message) {
           valid.showGrowlMessage(dispatch, message);
         } else {
-          valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_FAIL);
+          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_FAIL);
         }
       });
     event.stopPropagation();
@@ -604,7 +599,7 @@ const ProductDetails: React.FC<Props> = ({
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
-            <div className={bootstrap.col8}>
+            <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
                   className={cs(
@@ -689,7 +684,7 @@ const ProductDetails: React.FC<Props> = ({
           </span>
         )}
         <div
-          className={cs(bootstrap.row, styles.spacer, {
+          className={cs(bootstrap.row, globalStyles.marginT30, {
             [styles.spacerQuickview]: isQuickview && withBadge
           })}
         >

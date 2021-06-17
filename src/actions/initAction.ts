@@ -9,6 +9,7 @@ import { AppState } from "reducers/typings";
 import Api from "services/api";
 import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
+import BasketService from "services/basket";
 
 const initAction: any = async (
   ctx: Koa.ParameterizedContext<Koa.DefaultContext>,
@@ -69,7 +70,10 @@ const initAction: any = async (
         err => {
           console.log("META API ERROR ==== " + err);
         }
-      )
+      ),
+      BasketService.fetchBasket(store.dispatch).then(res => {
+        console.log(res);
+      })
     ]);
   }
   return Promise.all(apiCalls);
