@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 // import { PopupProps } from "./typings";
 import iconStyles from "styles/iconFonts.scss";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import { NavLink } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
