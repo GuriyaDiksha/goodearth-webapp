@@ -9,7 +9,7 @@ import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
 import { Basket } from "typings/basket";
-import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import * as util from "../../utils/validate";
 
 export default {
@@ -112,7 +112,13 @@ export default {
       null
     );
     if (res.basket.updated || res.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.basket.updatedRemovedItems
+      );
     }
     await this.updateWishlist(dispatch);
     return res;

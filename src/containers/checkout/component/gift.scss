@@ -388,7 +388,7 @@
     color: #999;
     letter-spacing: 1px;
     background-color: #fff;
-    padding: 3px;
+    padding: 3px 0px;
   }
   .rtcinfo {
     font-size: 11px;
@@ -450,16 +450,88 @@
   cursor: pointer;
 }
 
-.select-relative {
-  position: relative;
-  width: 35%;
-}
+
 
 .select-relativemobile {
-  position: relative;
-  width: 50%;
+    width: 150px;
+    min-height: 47px;
+    z-index: 1;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    
+    span{
+        right: 12px;
+        color: rgba(51,51,51,.8);
+        line-height: 48px;
+    }
+    ul{
+        width: 90%;
+        margin-bottom: 0px;
+        border: 1px solid #ccc;
+        li{
+            background-color: #fff;
+            box-sizing: border-box;
+            color: rgba(51,51,51,.8);
+            cursor: pointer;
+            display: block;
+            padding: 0px 13px;
+            text-align: left;
+            line-height: 31px;
+            font-size: 12px;
+            font-weight: 400;
+        }      
+    }
+    li:hover{
+        background-color: #f2f2f2;
+        color: rgba(51,51,51,.8);
+    }
+    div:nth-child(2) {
+      top: 48px;
+      left:0px
+    }
 }
 
 .gift-input {
-  width: 50%;
+  width: 60%;
 }
+
+.select-relative {
+  width: 168px;
+  min-height: 47px;
+  z-index: 10;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-width: 0px 1px 1px 1px;
+  
+  span{
+      right: 12px;
+      color: rgba(51,51,51,.8);
+      line-height: 48px;
+  }
+  ul{
+      width: 100%;
+      margin-bottom: 0px;
+      border: 1px solid #ccc;
+      li{
+          background-color: #fff;
+          box-sizing: border-box;
+          color: rgba(51,51,51,.8);
+          cursor: pointer;
+          display: block;
+          padding: 0px 13px;
+          text-align: left;
+          line-height: 31px;
+          font-size: 12px;
+          font-weight: 400;
+      }      
+  }
+  li:hover{
+      background-color: #f2f2f2;
+      color: rgba(51,51,51,.8);
+  }
+  div:nth-child(2) {
+    top: 48px;
+    left:0px
+  }
+}
+
