@@ -85,7 +85,8 @@ class MegaMenu extends React.Component<Props, MenuState> {
         {data?.map((data: MegaMenuData, i: number) => {
           const highlightStories =
             data.text.toLowerCase() == "stories" ? true : false;
-          const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
+          // const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
+          const isEmpty = data.columns[0].templates.length == 0;
           return (
             <li
               key={i + "header"}
@@ -93,7 +94,8 @@ class MegaMenu extends React.Component<Props, MenuState> {
               onMouseEnter={() => {
                 this.props.ipad ||
                 highlightStories ||
-                isGifting ||
+                // isGifting ||
+                isEmpty ||
                 isBridalRegistryPage
                   ? ""
                   : this.mouseOver(i);
@@ -101,13 +103,16 @@ class MegaMenu extends React.Component<Props, MenuState> {
               onMouseLeave={() => {
                 this.props.ipad ||
                 highlightStories ||
-                isGifting ||
+                // isGifting ||
+                isEmpty ||
                 isBridalRegistryPage
                   ? ""
                   : this.mouseLeave(i);
               }}
             >
-              {highlightStories || isGifting ? (
+              {highlightStories ||
+              // || isGifting
+              isEmpty ? (
                 isBridalRegistryPage ? (
                   <span
                     className={cs(
@@ -118,22 +123,22 @@ class MegaMenu extends React.Component<Props, MenuState> {
                     {ReactHtmlParser(data.text)}
                   </span>
                 ) : (
-                  <a
+                  <Link
                     className={cs(
                       styles.menuItemLink,
                       disbaleClass,
-                      styles.hoverStories,
-                      {
-                        [styles.cerise]: !this.props.isSale && !isGifting
-                      }
+                      styles.hoverStories
+                      // {
+                      //   [styles.cerise]: !this.props.isSale && !isGifting
+                      // }
                     )}
-                    href={isBridalRegistryPage ? "" : data.url}
+                    to={isBridalRegistryPage ? "" : data.url}
                     onClick={() => this.onHeaderMenuClick(data.text, data.url)}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    // target="_blank"
+                    // rel="noopener noreferrer"
                   >
                     {ReactHtmlParser(data.text)}
-                  </a>
+                  </Link>
                 )
               ) : (
                 <Link
@@ -178,7 +183,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
             </li>
           );
         })}
-        <li key="gifting" className={cs(styles.menuItem, disbaleClass)}>
+        {/* <li key="gifting" className={cs(styles.menuItem, disbaleClass)}>
           {isBridalRegistryPage ? (
             <span
               className={cs(
@@ -201,7 +206,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               {ReactHtmlParser("gifting")}
             </Link>
           )}
-        </li>
+        </li> */}
         <li key="stories" className={cs(styles.menuItem, disbaleClass)}>
           {isBridalRegistryPage ? (
             <span
