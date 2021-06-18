@@ -102,6 +102,7 @@ class PDPContainer extends React.Component<Props, State> {
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
   containerRef: RefObject<HTMLDivElement> = React.createRef();
   pdpURL = "";
+  listPath = "";
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -130,7 +131,8 @@ class PDPContainer extends React.Component<Props, State> {
           .split("_")
           .pop() as string).split("/")[0]
       ),
-      timestamp: new Date()
+      timestamp: new Date(),
+      source: this.listPath
     });
     localStorage.setItem("pdpProductScroll", pdpProductScroll);
   };
@@ -155,6 +157,9 @@ class PDPContainer extends React.Component<Props, State> {
     });
     const { data, currency } = this.props;
     valid.PDP(data, currency);
+    const list = CookieService.getCookie("listPath");
+    this.listPath = list || "";
+    CookieService.setCookie("listPath", "");
     valid.moveChatDown();
     if (data && data.looksProducts && data.looksProducts.length >= 2) {
       valid.MoreFromCollectionProductImpression(
@@ -602,7 +607,13 @@ class PDPContainer extends React.Component<Props, State> {
       data: { categories }
     } = this.props;
 
-    if (categories.indexOf("Home > Wallcoverings") === -1) {
+    const isWallcovering =
+      categories &&
+      categories.map(category =>
+        category.toLowerCase().includes("wallcovering")
+      ).length > 0;
+    categories;
+    if (!isWallcovering) {
       return null;
     }
     return <WallpaperFAQ mobile={mobile} />;
