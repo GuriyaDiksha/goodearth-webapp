@@ -172,6 +172,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         key: "payu",
         value: "NET BANKING",
         mode: "NB"
+      },
+      {
+        key: "payu",
+        value: "WALLETS",
+        mode: "CASH"
+      },
+      {
+        key: "payu",
+        value: "UPI",
+        mode: "UPI"
       }
     ];
 
