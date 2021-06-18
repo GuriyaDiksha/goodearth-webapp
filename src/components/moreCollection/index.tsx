@@ -32,7 +32,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
       })}
     >
       <div className={bootstrapStyles.row}>
-        <h2 className={cs(styles.header, globalStyles.voffset5)}>
+        <h2 className={cs(styles.header, { [globalStyles.voffset5]: !mobile })}>
           more from this collection
         </h2>
 
