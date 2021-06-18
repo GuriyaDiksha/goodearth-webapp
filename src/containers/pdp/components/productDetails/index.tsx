@@ -663,18 +663,21 @@ const ProductDetails: React.FC<Props> = ({
             ) : (
               ""
             )} */}
-            {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
-              <div
-                className={cs(bootstrap.colSm4, styles.label, {
-                  [globalStyles.textCenter]: !mobile
-                })}
-              >
-                <span className={styles.sizeGuide} onClick={onWallpaperClick}>
-                  {" "}
-                  Wallpaper Calculator{" "}
-                </span>
-              </div>
-            )}
+            {categories &&
+              categories.map(category =>
+                category.toLowerCase().includes("wallcovering")
+              ).length > 0 && (
+                <div
+                  className={cs(bootstrap.colSm4, styles.label, {
+                    [globalStyles.textCenter]: !mobile
+                  })}
+                >
+                  <span className={styles.sizeGuide} onClick={onWallpaperClick}>
+                    {" "}
+                    Wallpaper Calculator{" "}
+                  </span>
+                </div>
+              )}
           </div>
         ) : (
           <span className={cs(styles.sizeErrorMessage)}>
