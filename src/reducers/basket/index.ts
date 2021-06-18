@@ -27,7 +27,8 @@ const initialState: State = {
   bridalProfileId: 0,
   bridalAddressId: 0,
   freeShippingApplicable: 1000000000,
-  freeShippingThreshold: 1000000000
+  freeShippingThreshold: 1000000000,
+  updatedRemovedItems: []
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

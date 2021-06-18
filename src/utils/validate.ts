@@ -3,7 +3,6 @@ import { Basket } from "typings/basket";
 import CookieService from "../services/cookie";
 import { Dispatch } from "redux";
 import { showMessage } from "actions/growlMessage";
-import { ReactElement } from "react";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -731,12 +730,13 @@ const getUniqueId = () => {
 };
 export const showGrowlMessage = (
   dispatch: Dispatch,
-  text: string | (string | JSX.Element)[] | ReactElement,
+  text: string,
   timeout = 3000,
-  id?: string
+  id?: string,
+  params?: any
 ) => {
   const newId = id ? id : getUniqueId();
-  dispatch(showMessage(text, timeout, newId));
+  dispatch(showMessage(text, timeout, newId, params));
 };
 
 export const checkoutGTM = (

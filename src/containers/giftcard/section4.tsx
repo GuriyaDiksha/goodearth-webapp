@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import GiftcardService from "services/giftcard";
 import { updateBasket } from "actions/basket";
 import { Basket } from "typings/basket";
-import { ADD_TO_BAG_GIFTCARD_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
 import Button from "./button";
 import { AppState } from "reducers/typings";
@@ -39,7 +39,7 @@ const Section4: React.FC<Section4Props> = props => {
         .then((res: any) => {
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
-          valid.showGrowlMessage(dispatch, ADD_TO_BAG_GIFTCARD_SUCCESS);
+          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
           next({}, "card");
         })
         .catch(error => {

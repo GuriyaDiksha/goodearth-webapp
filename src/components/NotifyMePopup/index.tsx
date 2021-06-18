@@ -26,7 +26,7 @@ import { Context as ModalContext } from "components/Modal/context";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ChildProductAttributes } from "typings/product";
-import { ADD_TO_BAG_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
@@ -175,7 +175,7 @@ const NotifyMePopup: React.FC<Props> = ({
         .then(() => {
           util.showGrowlMessage(
             dispatch,
-            ADD_TO_BAG_SUCCESS,
+            MESSAGE.ADD_TO_BAG_SUCCESS,
             3000,
             "ADD_TO_BAG_SUCCESS"
           );
