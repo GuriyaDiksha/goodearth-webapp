@@ -247,8 +247,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                           id="gift"
                           className={
                             this.state.error
-                              ? cs(styles.marginR10, styles.err)
-                              : styles.marginR10
+                              ? cs(styles.marginR10, styles.ht50, styles.err)
+                              : cs(styles.marginR10, styles.ht50)
                           }
                         />
                       </div>
