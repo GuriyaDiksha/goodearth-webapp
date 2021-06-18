@@ -12,7 +12,7 @@
     padding: 3px;
 }
 .share-label {
-    margin-top: 15px;
+    margin-top: 30px;
     font-size: 14px;
     letter-spacing: 1px;
     font-weight: bold;
@@ -26,11 +26,14 @@
 .share-inner-container {
     position: absolute;
     top: 20px;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, top 0.2s;
 }
 .show {
     opacity: 1;
 }
 .hide {
     opacity: 0;
+    top: 0;
+    cursor: default;
+    pointer-events: none;
 }
