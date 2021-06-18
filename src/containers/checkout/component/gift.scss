@@ -376,6 +376,9 @@
   .margin-r-10{
     margin-right: 10px;
   }
+  .ht-50 {
+    height: 50px;
+  }
   .err {
     border: 1px solid #ab1e56 !important;
   }
@@ -388,7 +391,7 @@
     color: #999;
     letter-spacing: 1px;
     background-color: #fff;
-    padding: 3px 0px;
+    padding: 3px 2px;
     z-index: 1;
   }
   .rtcinfo {
@@ -454,12 +457,12 @@
 
 
 .select-relativemobile {
-    width: 150px;
-    min-height: 47px;
+    width: 73%;
+    min-height: 50px;
     z-index: 1;
     cursor: pointer;
     border: 1px solid #eee;
-    
+    border-right: none;
     span{
         right: 12px;
         color: rgba(51,51,51,.8);
@@ -489,12 +492,8 @@
     }
     div:nth-child(2) {
       top: 48px;
-      padding-left: 13px;
+      left: -1px;
     }
-}
-
-.gift-input {
-  width: 60%;
 }
 
 .select-relative {
@@ -503,7 +502,7 @@
   z-index: 10;
   cursor: pointer;
   border: 1px solid #eee;
-  
+  border-right: none;
   span{
       right: 12px;
       color: rgba(51,51,51,.8);
@@ -532,7 +531,10 @@
   }
   div:nth-child(2) {
     top: 48px;
-    left:0px
+    left: -1px;
+  }
+  .gift-input {
+    width: 60%;
   }
 }
 
