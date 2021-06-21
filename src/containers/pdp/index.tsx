@@ -615,7 +615,7 @@ class PDPContainer extends React.Component<Props, State> {
 
     const isWallcovering =
       categories &&
-      categories.map(category =>
+      categories.filter(category =>
         category.toLowerCase().includes("wallcovering")
       ).length > 0;
     categories;
