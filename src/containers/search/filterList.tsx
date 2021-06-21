@@ -816,6 +816,7 @@ class FilterList extends React.Component<Props, State> {
     } else {
       filter.categoryShop[event.target.id] = true;
     }
+    this.clearFilter(undefined, "all", true);
     this.setState(
       {
         filter: filter

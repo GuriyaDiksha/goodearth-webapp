@@ -376,6 +376,9 @@
   .margin-r-10{
     margin-right: 10px;
   }
+  .ht-50 {
+    height: 50px;
+  }
   .err {
     border: 1px solid #ab1e56 !important;
   }
@@ -388,7 +391,8 @@
     color: #999;
     letter-spacing: 1px;
     background-color: #fff;
-    padding: 3px 0px;
+    padding: 3px 2px;
+    z-index: 1;
   }
   .rtcinfo {
     font-size: 11px;
@@ -453,21 +457,21 @@
 
 
 .select-relativemobile {
-    width: 150px;
-    min-height: 47px;
+    width: 73%;
+    min-height: 50px;
     z-index: 1;
     cursor: pointer;
-    border: 1px solid #ccc;
-    
+    border: 1px solid #eee;
+    border-right: none;
     span{
         right: 12px;
         color: rgba(51,51,51,.8);
-        line-height: 48px;
+        line-height: 44px;  
     }
     ul{
         width: 100%;
         margin-bottom: 0px;
-        border: 1px solid #ccc;
+        border: 1px solid #eee;
         background-color: #fff;
         li{
             background-color: #fff;
@@ -488,22 +492,17 @@
     }
     div:nth-child(2) {
       top: 48px;
-      left:0px
+      left: -1px;
     }
-}
-
-.gift-input {
-  width: 60%;
 }
 
 .select-relative {
   width: 168px;
   min-height: 47px;
-  z-index: 10;
+  z-index: 1;
   cursor: pointer;
-  border: 1px solid #ccc;
-  border-width: 0px 1px 1px 1px;
-  
+  border: 1px solid #eee;
+  border-right: none;
   span{
       right: 12px;
       color: rgba(51,51,51,.8);
@@ -512,7 +511,7 @@
   ul{
       width: 100%;
       margin-bottom: 0px;
-      border: 1px solid #ccc;
+      border: 1px solid #eee;
       li{
           background-color: #fff;
           box-sizing: border-box;
@@ -532,7 +531,10 @@
   }
   div:nth-child(2) {
     top: 48px;
-    left:0px
+    left: -1px;
   }
 }
 
+.gift-input {
+  width: 60%;
+}
