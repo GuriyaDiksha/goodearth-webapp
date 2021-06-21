@@ -659,7 +659,7 @@ const ProductDetails: React.FC<Props> = ({
               ""
             )} */}
             {categories &&
-              categories.map(category =>
+              categories.filter(category =>
                 category.toLowerCase().includes("wallcovering")
               ).length > 0 && (
                 <div
