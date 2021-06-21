@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useStore } from "react-redux";
 import cs from "classnames";
 import { Props } from "./typings";
@@ -28,10 +28,22 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
     );
   };
 
+  const [show, setShow] = useState(false);
   return (
-    <>
-      <div className={productDertailsStyles.label}>share</div>
-      <div className={globalStyles.voffset1}>
+    <div className={styles.shareContainer}>
+      <div
+        className={cs(productDertailsStyles.label, styles.shareLabel)}
+        onClick={() => setShow(show => !show)}
+      >
+        share
+      </div>
+      <div
+        className={cs(
+          globalStyles.voffset1,
+          styles.shareInnerContainer,
+          show ? styles.show : styles.hide
+        )}
+      >
         <Whatsapp link={whatsappLink} className={styles.socialIcon} />
         <Mail link={mailContent} className={styles.socialIcon} />
         <CopyLink
@@ -41,7 +53,7 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
           onClick={copyText}
         />
       </div>
-    </>
+    </div>
   );
 };
 

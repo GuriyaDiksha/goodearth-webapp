@@ -490,7 +490,7 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
 
-          {mobile && (
+          {/* {mobile && (
             <div className={cs(bootstrap.col12)}>
               <Share
                 mobile={mobile}
@@ -503,7 +503,7 @@ const ProductDetails: React.FC<Props> = ({
                 } ${__DOMAIN__}${location.pathname}`}
               />
             </div>
-          )}
+          )} */}
           <div
             className={cs(bootstrap.col12, styles.collectionHeader, {
               [globalStyles.voffset3]: !withBadge
@@ -658,18 +658,21 @@ const ProductDetails: React.FC<Props> = ({
             ) : (
               ""
             )} */}
-            {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
-              <div
-                className={cs(bootstrap.colSm4, styles.label, {
-                  [globalStyles.textCenter]: !mobile
-                })}
-              >
-                <span className={styles.sizeGuide} onClick={onWallpaperClick}>
-                  {" "}
-                  Wallpaper Calculator{" "}
-                </span>
-              </div>
-            )}
+            {categories &&
+              categories.map(category =>
+                category.toLowerCase().includes("wallcovering")
+              ).length > 0 && (
+                <div
+                  className={cs(bootstrap.colSm4, styles.label, {
+                    [globalStyles.textCenter]: !mobile
+                  })}
+                >
+                  <span className={styles.sizeGuide} onClick={onWallpaperClick}>
+                    {" "}
+                    Wallpaper Calculator{" "}
+                  </span>
+                </div>
+              )}
           </div>
         ) : (
           <span className={cs(styles.sizeErrorMessage)}>
@@ -857,19 +860,6 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
-          {!mobile && !isQuickview && (
-            <Share
-              mobile={mobile}
-              link={`${__DOMAIN__}${location.pathname}`}
-              mailSubject="Gifting Ideas"
-              mailText={`${
-                corporatePDP
-                  ? `Here's what I found, check it out on Good Earth's web boutique`
-                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-              } ${__DOMAIN__}${location.pathname}`}
-            />
-          )}
-
           <div>
             {!isQuickview && (
               <Accordion
@@ -886,6 +876,18 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
           {!isQuickview && <CustomerCareInfo />}
+          {!isQuickview && (
+            <Share
+              mobile={mobile}
+              link={`${__DOMAIN__}${location.pathname}`}
+              mailSubject="Gifting Ideas"
+              mailText={`${
+                corporatePDP
+                  ? `Here's what I found, check it out on Good Earth's web boutique`
+                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+              } ${__DOMAIN__}${location.pathname}`}
+            />
+          )}
         </div>
       </div>
     </div>
