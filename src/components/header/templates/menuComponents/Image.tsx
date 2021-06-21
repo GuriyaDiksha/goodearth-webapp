@@ -80,6 +80,7 @@ const Image: React.FC<Props> = ({
                         shouldUpdateAspectRatio={true}
                         // containerClassName={styles.img}
                         isVisible={true}
+                        alt={componentData.heading}
                         src={
                           mobile
                             ? componentData.thumbnailSrc || componentData.src
@@ -149,6 +150,7 @@ const Image: React.FC<Props> = ({
                       shouldUpdateAspectRatio={true}
                       containerClassName={styles.img}
                       isVisible={true}
+                      alt={componentData.heading}
                       src={
                         mobile
                           ? componentData.thumbnailSrc || componentData.src

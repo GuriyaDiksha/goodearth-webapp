@@ -122,7 +122,12 @@ class Quickview extends React.Component<Props, State> {
           key={image.id}
           id={`img-${image.id}`}
         >
-          <PdpImage {...image} index={index} onClick={this.onImageClick} />
+          <PdpImage
+            alt={this.props.data.altText || this.props.data.title}
+            {...image}
+            index={index}
+            onClick={this.onImageClick}
+          />
         </div>
       );
   };
@@ -216,6 +221,7 @@ class Quickview extends React.Component<Props, State> {
             >
               <div className={bootstrap.row}>
                 <VerticalImageSelector
+                  alt={data.altText || data.title}
                   images={images}
                   className={cs(
                     bootstrap.colSm10,
