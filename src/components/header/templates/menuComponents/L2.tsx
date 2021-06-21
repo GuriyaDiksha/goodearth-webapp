@@ -72,6 +72,7 @@ const L2: React.FC<Props> = ({
                   aspectRatio="1:1"
                   shouldUpdateAspectRatio={true}
                   isVisible={true}
+                  alt={componentData.text}
                   containerClassName={styles.img}
                   src={componentData.src}
                 />
@@ -108,6 +109,7 @@ const L2: React.FC<Props> = ({
                   aspectRatio="1:1"
                   shouldUpdateAspectRatio={true}
                   isVisible={true}
+                  alt={componentData.text}
                   containerClassName={styles.img}
                   src={componentData.src}
                 />
