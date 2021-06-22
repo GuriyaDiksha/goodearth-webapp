@@ -31,4 +31,29 @@
 .bridal-pop .slick-dots {
   padding-bottom: 20px;
   background-color: #fff;
+  position: relative;
+}
+.bridal-pop .slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: #000;
+  opacity: .2;
+}
+
+.bridal-pop .slick-dots li button::before {
+  content: unset;
+}
+
+.bridal-pop .slick-dots li.slick-active button {
+    opacity: 1;
+    background-color: #ab1e56;
 }
