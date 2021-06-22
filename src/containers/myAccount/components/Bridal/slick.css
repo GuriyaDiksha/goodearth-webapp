@@ -4,7 +4,14 @@
 }
 .bridal-pop .slick-arrow.slick-prev:before {
   font-size: 60px;
-  left: -5px;
+  left: 0;
+  color: #fff;
+  font-family: "goodearth";
+  content: "\f101";
+  position: absolute;
+  top: 2px;
+  font-weight: 600;
+  opacity: 1;
 }
 .bridal-pop .slick-arrow.slick-next {
   right: -100px;
@@ -12,8 +19,16 @@
 }
 .bridal-pop .slick-arrow.slick-next:before {
   font-size: 60px;
-  right: -5px;
+  right: 0;
+  color: #fff;
+  font-family: "goodearth";
+  content: "\f102";
+  position: absolute;
+  top: 2px;
+  font-weight: 600;
+  opacity: 1;
 }
 .bridal-pop .slick-dots {
   padding-bottom: 20px;
+  background-color: #fff;
 }
