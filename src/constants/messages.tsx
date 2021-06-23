@@ -26,16 +26,16 @@ const growlItemsList = (items: string[]) => {
   if (items) {
     items.map(item => {
       html.push(
-        item.length > 50 ? (
-          <>
-            {item.slice(0, 46) + "..."}
+        item.length > 35 ? (
+          <li>
+            {item.slice(0, 32) + "..."}
             <br />
-          </>
+          </li>
         ) : (
-          <>
+          <li>
             {item}
             <br />
-          </>
+          </li>
         )
       );
     });
@@ -44,10 +44,11 @@ const growlItemsList = (items: string[]) => {
 };
 export const PRODUCT_UNPUBLISHED = (items: string[]) => (
   <div style={{ textAlign: "left" }}>
-    Due to unavailability of some products your cart has been updated.
+    Unfortunately, the below products are unavailable - your cart has been
+    updated.
     <br />
     <br />
-    {growlItemsList(items)}
+    <ul>{growlItemsList(items)}</ul>
   </div>
 );
 export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
