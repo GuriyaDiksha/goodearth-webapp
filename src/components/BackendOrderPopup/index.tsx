@@ -45,7 +45,7 @@ const BackendPopup: React.FC<Props> = () => {
           <div className={globalStyles.c22AI}>Cart Modification</div>
           <div className={globalStyles.c10LR}>
             <p>
-              {`By modifying the contents of this cart, all special promos and
+              {`By modifying the contents of this Bag, all special promos and
               discounts will be removed.`}
             </p>
             <p>Are you sure want to proceed ? </p>
