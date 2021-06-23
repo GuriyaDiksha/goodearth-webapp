@@ -8,13 +8,9 @@
 }
 
 .footer-top-background {
-  // background-image: url('../../images/footerBgTopSavannah.jpg');
   background-repeat: repeat-x;
 }
 
-.footer-background {
-  // background-image: url('../../images/footerSavannah20.jpg');
-}
 
 .footer-icon{
   font-size: 35px;
@@ -373,7 +369,9 @@ input {
       position: absolute;
       top: 100px;
     }
-
+    ul {
+      margin-bottom: 0;
+    }
     li {
       width: 100%;
       font-size: 12px;
