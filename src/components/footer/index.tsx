@@ -619,12 +619,38 @@ class Footer extends React.Component<Props, FooterState> {
                                   </li>
                                 ))}
                               </ul>
+                              <ul key="press-stories">
+                                <li>
+                                  {this.props.data.footerList[index + 1]
+                                    .link ? (
+                                    <Link
+                                      to={
+                                        this.props.data.footerList[index + 1]
+                                          .link || "#"
+                                      }
+                                      onClick={() =>
+                                        valid.footerGTM(
+                                          this.props.data.footerList[index + 1]
+                                            .name
+                                        )
+                                      }
+                                    >
+                                      {
+                                        this.props.data.footerList[index + 1]
+                                          .name
+                                      }
+                                    </Link>
+                                  ) : (
+                                    this.props.data.footerList[index + 1].name
+                                  )}
+                                </li>
+                              </ul>
                               <ul key="services">
                                 <li>
-                                  {this.props.data.footerList[index + 1]?.name}
+                                  {this.props.data.footerList[index + 2]?.name}
                                 </li>
                                 {this.props.data.footerList[
-                                  index + 1
+                                  index + 2
                                 ]?.value?.map((Item, index) => (
                                   <li key={index}>
                                     {Item.link !== "" ? (
@@ -661,7 +687,7 @@ class Footer extends React.Component<Props, FooterState> {
                               </ul>
                             </div>
                           );
-                        } else if (index == 1) {
+                        } else if (index == 1 || index == 2) {
                           // do nothing
                         } else {
                           res = (
@@ -677,7 +703,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     className={cs({
                                       [globalStyles.voffset2]:
                                         footerItems.name == "CONNECT" &&
-                                        index == 2
+                                        index == 3
                                     })}
                                   >
                                     {Item.iconImage && (
