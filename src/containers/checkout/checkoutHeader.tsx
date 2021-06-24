@@ -143,10 +143,10 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   componentDidMount() {
     // hide chat container
-    const chatContainer = document.getElementById("chat-container");
-    if (chatContainer) {
-      chatContainer.style.display = "none";
-    }
+    // const chatContainer = document.getElementById("chat-container");
+    // if (chatContainer) {
+    //   chatContainer.style.display = "none";
+    // }
     this.props.updateMeta(
       this.props.cookies,
       this.props.location.pathname,
