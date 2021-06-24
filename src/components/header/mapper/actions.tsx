@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
       basketcall && WishlistService.updateWishlist(dispatch);
-      // BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch);
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
