@@ -1,7 +1,7 @@
+import newrelic from "newrelic";
 import path from "path";
 import Koa from "koa";
 import React from "react";
-import newrelic from "newrelic";
 import { Helmet } from "react-helmet";
 import { matchPath } from "react-router";
 import { ChunkExtractor } from "@loadable/server";
