@@ -141,6 +141,11 @@ const ProductDetails: React.FC<Props> = ({
   useEffect(() => {
     if (childAttributes.length === 1) {
       setSelectedSize(childAttributes[0]);
+    } else if (selectedSize) {
+      const newSize = childAttributes.filter(
+        child => child.id == selectedSize.id
+      )[0];
+      setSelectedSize(newSize);
     }
   }, [discountedPriceRecords]);
   useEffect(() => {
