@@ -6,7 +6,10 @@ import Footer from "components/footer";
 import Modal from "components/Modal";
 import LoginService from "services/login";
 import CookieService from "services/cookie";
-import CheckoutHeader from "containers/checkout/checkoutHeader";
+import loadable from "@loadable/component";
+const CheckoutHeader = loadable(() =>
+  import("containers/checkout/checkoutHeader")
+);
 import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
