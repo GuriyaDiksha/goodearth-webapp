@@ -12,7 +12,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 
 const VerticalImageSelector: React.FC<Props> = memo(
-  ({ images = [], activeIndex = 0, className, onImageClick }) => {
+  ({ images = [], activeIndex = 0, className, onImageClick, alt }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(activeIndex);
 
     const getClickHandler = useCallback((index: number) => {
@@ -39,6 +39,7 @@ const VerticalImageSelector: React.FC<Props> = memo(
             onClick={onImageClick ? getClickHandler(index) : undefined}
           >
             <img
+              alt={alt}
               className={globalStyles.imgResponsive}
               src={productImage}
             ></img>

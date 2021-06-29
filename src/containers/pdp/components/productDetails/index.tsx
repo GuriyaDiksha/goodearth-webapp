@@ -765,7 +765,11 @@ const ProductDetails: React.FC<Props> = ({
               styles.errorMsg
             )}
           >
-            <img src={cushionFiller} className={styles.cushionFiller} />
+            <img
+              src={cushionFiller}
+              className={styles.cushionFiller}
+              alt="cushion-filler-icon"
+            />
             {ReactHtmlParser(fillerMessage)}
           </div>
         ) : (

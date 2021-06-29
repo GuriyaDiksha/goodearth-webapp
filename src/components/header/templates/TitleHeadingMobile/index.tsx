@@ -59,6 +59,7 @@ const TitleHeadingMobile: React.FC<Props> = ({
             <img
               className={styles.img}
               src={componentData.thumbnailSrc || componentData.src}
+              alt={componentData.title}
             />
           </Link>
         )}
