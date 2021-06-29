@@ -687,7 +687,7 @@ class Wishlist extends React.Component<Props, State> {
                                     : data.ctaImage
                                 }
                                 // onError={this.addDefaultSrc}
-                                alt=""
+                                alt={data.ctaText}
                                 className={styles.imageResultNew}
                               />
                             </Link>

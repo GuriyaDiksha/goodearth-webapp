@@ -110,6 +110,7 @@ const Section1: React.FC<Section1Props> = props => {
                       >
                         <div className={cs({ [styles.marginX15]: !mobile })}>
                           <img
+                            alt="giftcard-image"
                             src={data}
                             className={
                               selected == "image" + i

@@ -206,7 +206,6 @@ class Bag extends React.Component<Props, State> {
     }
     if (
       !this.state.freeShipping &&
-      this.props.slab.toLowerCase() != "cerise sitara" &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       this.props.currency == "INR" &&
@@ -262,6 +261,11 @@ class Bag extends React.Component<Props, State> {
   };
 
   render() {
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable
+    } = this.props.cart;
     return (
       <div>
         <div
@@ -305,7 +309,10 @@ class Bag extends React.Component<Props, State> {
             </div>
           </div>
           {this.state.shipping &&
-          this.props.slab.toLowerCase() != "cerise sitara" ? (
+          total >= freeShippingThreshold &&
+          total < freeShippingApplicable &&
+          this.props.currency == "INR" &&
+          this.props.cart.shippable ? (
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>
                 You&apos; re a step away from{" "}
