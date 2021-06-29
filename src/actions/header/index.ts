@@ -16,3 +16,9 @@ export const updateAnnouncement = (data: AnnouncementBar) =>
 
 export const updateTimerData = (data: SaleTimerData) =>
   actionCreator("UPDATE_TIMER_DATA", data);
+
+export const updateStore = (data: any) =>
+  actionCreator("UPDATE_STORE_DATA", data);
+
+export const updateStoreState = (data: boolean) =>
+  actionCreator("UPDATE_STORE_STATE", data);

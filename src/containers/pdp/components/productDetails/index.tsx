@@ -24,6 +24,7 @@ import ReactHtmlParser from "react-html-parser";
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
 import ProductService from "services/product";
+import HeaderService from "services/headerFooter";
 import CookieService from "../../../../services/cookie";
 // typings
 import { Props } from "./typings";
@@ -40,6 +41,7 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
+import { updateStoreState } from "actions/header";
 import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
@@ -293,6 +295,28 @@ const ProductDetails: React.FC<Props> = ({
           }, 3000);
           valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
+        })
+        .catch(err => {
+          if (typeof err.response.data != "object") {
+            valid.showGrowlMessage(dispatch, err.response.data);
+            valid.errorTracking([err.response.data], window.location.href);
+          }
+        });
+    }
+  };
+
+  const checkAvailability = () => {
+    if (!selectedSize) {
+      setSizeError("Please select a Size to proceed");
+      valid.errorTracking(
+        ["Please select a Size to proceed"],
+        window.location.href
+      );
+      showError();
+    } else {
+      HeaderService.checkShopAvailability(dispatch, selectedSize.sku)
+        .then(() => {
+          dispatch(updateStoreState(true));
         })
         .catch(err => {
           if (typeof err.response.data != "object") {
@@ -864,6 +888,30 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
+          <span className={styles.shopAvailability} onClick={checkAvailability}>
+            {" "}
+            Check-In-Shop-Availability{" "}
+          </span>
+        </div>
+        <div
+          className={cs(
+            bootstrap.col12,
+            bootstrap.colMd9,
+            globalStyles.voffset3
+          )}
+        >
+          {!mobile && !isQuickview && (
+            <Share
+              mobile={mobile}
+              link={`${__DOMAIN__}${location.pathname}`}
+              mailSubject="Gifting Ideas"
+              mailText={`${
+                corporatePDP
+                  ? `Here's what I found, check it out on Good Earth's web boutique`
+                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+              } ${__DOMAIN__}${location.pathname}`}
+            />
+          )}
           <div>
             {!isQuickview && (
               <Accordion
