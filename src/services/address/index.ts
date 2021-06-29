@@ -10,7 +10,7 @@ import { updateAddressList } from "actions/address";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateBasket } from "actions/basket";
 import CacheService from "services/cache";
-import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import * as util from "../../utils/validate";
 
 export default {
@@ -82,7 +82,13 @@ export default {
       { shippingAddressId: id }
     );
     if (data.data.basket.updated || data.data.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        data.data.basket.updatedRemovedItems
+      );
     }
     dispatch(updateBasket(data.data.basket));
     return data;

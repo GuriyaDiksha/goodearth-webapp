@@ -285,11 +285,11 @@
         width: 260px !important;
       }
       img {
-        height: 483px;
+        // height: 483px;
         border: 5px solid #fff;
       }
       width: 692px;
-      height: 650px;
+      // height: 650px;
       .txt {
         padding: 2em 5em;
       }
@@ -1433,4 +1433,16 @@ margin-bottom: 50px !important;
 .form-heading {
   text-align: right;
   margin-top: 20px;
+}
+
+.bridal-cross {
+      text-align: right;
+      font-size: 17px;
+      padding-right: 5px;
+      cursor: pointer;
+      position: fixed;
+      z-index: 10;
+      color: #fff !important;
+      width: 100%;
+      right: -40px;
 }

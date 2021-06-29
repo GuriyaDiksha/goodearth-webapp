@@ -1,11 +1,11 @@
 import * as Actions from "actions/growlMessage";
-import { ReactElement } from "react";
 import { ActionType } from "typings/actionCreator";
 
 export type GrowlMessageState = {
-  text: string | (string | JSX.Element)[] | ReactElement;
+  text: string;
   timeout: number;
   id: string;
+  params?: any;
 }[];
 
 export type GrowlMessageActions = ActionType<typeof Actions>;
