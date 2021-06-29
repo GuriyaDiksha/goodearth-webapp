@@ -188,7 +188,8 @@
           top: 0px;
           width: 18px;
           height: 18px;
-          background-color: $light-bg;
+          background-color: white;
+          border: 1px solid #666;
 
         }
         input[type="radio"]:not(:checked) + label,
