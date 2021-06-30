@@ -66,6 +66,8 @@ export type Basket = {
   freeShippingThreshold: number;
   freeShippingApplicable: number;
   updatedRemovedItems: string[];
+  unshippableRemove?: boolean;
+  unshippableProducts?: string[];
   store?: any[];
 };
 

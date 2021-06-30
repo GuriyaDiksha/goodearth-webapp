@@ -90,6 +90,15 @@ export default {
         data.data.basket.updatedRemovedItems
       );
     }
+    if (data.data.basket.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        data.data.basket.unshippableProducts
+      );
+    }
     dispatch(updateBasket(data.data.basket));
     return data;
   },
