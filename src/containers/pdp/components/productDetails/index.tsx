@@ -20,6 +20,7 @@ import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
+import Loader from "components/Loader";
 // services
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
@@ -107,7 +108,7 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
-
+  const [isLoading, setIsLoading] = useState(false);
   // const items = basket.lineItems?.map(
   //   item => item.product.childAttributes[0].id
   // );
@@ -314,11 +315,14 @@ const ProductDetails: React.FC<Props> = ({
       );
       showError();
     } else {
+      setIsLoading(true);
       HeaderService.checkShopAvailability(dispatch, selectedSize.sku)
         .then(() => {
+          setIsLoading(false);
           dispatch(updateStoreState(true));
         })
         .catch(err => {
+          setIsLoading(false);
           if (typeof err.response.data != "object") {
             valid.showGrowlMessage(dispatch, err.response.data);
             valid.errorTracking([err.response.data], window.location.href);
@@ -503,6 +507,7 @@ const ProductDetails: React.FC<Props> = ({
           { [styles.marginT0]: withBadge }
         )}
       >
+        {isLoading && <Loader />}
         <div className={cs(bootstrap.row)}>
           {images && images[0]?.badgeImagePdp && (
             <div className={bootstrap.col12}>
@@ -881,6 +886,23 @@ const ProductDetails: React.FC<Props> = ({
             ""
           )}
         </div>
+        {!isQuickview && (
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd9,
+              globalStyles.voffset3
+            )}
+          >
+            <span
+              className={styles.shopAvailability}
+              onClick={checkAvailability}
+            >
+              {" "}
+              Check-In-Shop-Availability{" "}
+            </span>
+          </div>
+        )}
         <div
           className={cs(
             bootstrap.col12,
@@ -888,19 +910,7 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
-          <span className={styles.shopAvailability} onClick={checkAvailability}>
-            {" "}
-            Check-In-Shop-Availability{" "}
-          </span>
-        </div>
-        <div
-          className={cs(
-            bootstrap.col12,
-            bootstrap.colMd9,
-            globalStyles.voffset3
-          )}
-        >
-          {!mobile && !isQuickview && (
+          {/* {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
               link={`${__DOMAIN__}${location.pathname}`}
@@ -911,7 +921,7 @@ const ProductDetails: React.FC<Props> = ({
                   : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
               } ${__DOMAIN__}${location.pathname}`}
             />
-          )}
+          )} */}
           <div>
             {!isQuickview && (
               <Accordion
