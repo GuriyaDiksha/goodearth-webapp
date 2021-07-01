@@ -7,7 +7,7 @@ import {
 } from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
-import { updateheader, updateTimerData } from "actions/header";
+import { updateheader, updateTimerData, updateStore } from "actions/header";
 import HomeService from "services/home";
 import { HomeProps } from "typings/home";
 import { addHomeData } from "actions/home";
@@ -175,5 +175,18 @@ export default {
     } catch (error) {
       console.log("Timer API error!");
     }
+  },
+  checkShopAvailability: async function(dispatch: Dispatch, sku: string) {
+    const payLoad = {
+      sku: sku
+    };
+    const res = await API.post<{
+      sku: string;
+    }>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/promotions/product_availability_in_store/"}`,
+      payLoad
+    );
+    dispatch(updateStore(res));
   }
 };
