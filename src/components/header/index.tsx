@@ -25,6 +25,7 @@ import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
 import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
+const StoreDetails = loadable(() => import("../StoreDetails/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 // import Mobilemenu from "./mobileMenu";
@@ -48,7 +49,8 @@ const mapStateToProps = (state: AppState) => {
     slab: state.user.slab,
     cookies: state.cookies,
     showTimer: state.info.showTimer,
-    timerData: state.header.timerData
+    timerData: state.header.timerData,
+    showStock: state.header.storeData.visible
   };
 };
 
@@ -871,6 +873,14 @@ class Header extends React.Component<Props, State> {
                 return { showBag: !prevState.showBag };
               });
             }}
+          />
+        )}
+        {this.props.showStock && (
+          <StoreDetails
+            showShipping={this.props.showShipping}
+            cart={this.props.cart}
+            currency={this.props.currency}
+            active={this.props.showStock}
           />
         )}
       </div>

@@ -10,7 +10,11 @@ const initialState: HeaderState = {
     message: "",
     url: null
   },
-  timerData: null
+  timerData: null,
+  storeData: {
+    data: [],
+    visible: false
+  }
 };
 
 export const header = (
@@ -36,6 +40,18 @@ export const header = (
     case "UPDATE_TIMER_DATA": {
       const newState = { ...state };
       newState.timerData = action.payload;
+      return newState;
+    }
+
+    case "UPDATE_STORE_DATA": {
+      const newState = { ...state };
+      newState.storeData.data = action.payload;
+      return newState;
+    }
+
+    case "UPDATE_STORE_STATE": {
+      const newState = { ...state };
+      newState.storeData.visible = action.payload;
       return newState;
     }
   }
