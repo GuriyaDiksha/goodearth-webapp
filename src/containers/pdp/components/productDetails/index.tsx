@@ -51,6 +51,7 @@ import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import cushionFiller from "images/cushionFiller.svg";
+import inshop from "../../../../images/inShop.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -894,6 +895,16 @@ const ProductDetails: React.FC<Props> = ({
               globalStyles.voffset3
             )}
           >
+            <img
+              alt="goodearth-logo"
+              src={inshop}
+              style={{
+                width: "17px",
+                height: "17px",
+                cursor: "pointer",
+                marginRight: "8px"
+              }}
+            />
             <span
               className={styles.shopAvailability}
               onClick={checkAvailability}
