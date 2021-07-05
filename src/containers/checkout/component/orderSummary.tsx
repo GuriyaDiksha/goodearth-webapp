@@ -687,7 +687,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ""
               ) : (
                 <Link className={styles.editCart} to={"/cart"}>
-                  EDIT CART
+                  EDIT BAG
                 </Link>
               )
             ) : (
