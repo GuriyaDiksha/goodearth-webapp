@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 const mapStateToProps = (state: AppState) => {
   return {
-    showTimer: state.info
+    showTimer: state.info.showTimer
   };
 };
 
