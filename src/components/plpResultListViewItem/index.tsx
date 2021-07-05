@@ -102,6 +102,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           return (
             <div key={i} className={globalStyles.relative}>
               <LazyImage
+                alt={product.altText || product.title}
                 aspectRatio="62:93"
                 src={productImage.replace("/Micro/", "/Medium/")}
                 isVisible={isVisible}
@@ -117,6 +118,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       : [
           <div key={"no-image"} className={globalStyles.relative}>
             <LazyImage
+              alt={product.altText || product.title}
               aspectRatio="62:93"
               src={noPlpImage}
               isVisible={isVisible}
@@ -240,23 +242,25 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           >
             <div className={styles.productSize}> size</div>
             <div className="">
-              <ul>
-                {(props.product
-                  .childAttributes as PartialChildProductAttributes[])?.map(
-                  (data: PartialChildProductAttributes, i: number) => {
-                    return (
-                      <li
-                        className={
-                          +data.stock || isCorporate ? "" : styles.disabled
-                        }
-                        key={i}
-                      >
-                        {data.size}
-                      </li>
-                    );
-                  }
-                )}
-              </ul>
+              {!(product.invisibleFields.indexOf("size") > -1) && (
+                <ul>
+                  {(props.product
+                    .childAttributes as PartialChildProductAttributes[])?.map(
+                    (data: PartialChildProductAttributes, i: number) => {
+                      return (
+                        <li
+                          className={
+                            +data.stock || isCorporate ? "" : styles.disabled
+                          }
+                          key={i}
+                        >
+                          {data.size}
+                        </li>
+                      );
+                    }
+                  )}
+                </ul>
+              )}
             </div>
           </div>
         )}

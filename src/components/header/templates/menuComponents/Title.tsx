@@ -67,7 +67,11 @@ const Title: React.FC<Props> = ({
                   })
                 }
               >
-                <img className={styles.img} src={componentData.src} />
+                <img
+                  className={styles.img}
+                  src={componentData.src}
+                  alt={componentData.title}
+                />
               </Link>
             )}
           </>
@@ -97,7 +101,11 @@ const Title: React.FC<Props> = ({
                   })
                 }
               >
-                <img className={styles.img} src={componentData.src} />
+                <img
+                  className={styles.img}
+                  src={componentData.src}
+                  alt={componentData.title}
+                />
               </div>
             )}
           </>

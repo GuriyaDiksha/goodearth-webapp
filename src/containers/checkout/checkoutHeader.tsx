@@ -313,6 +313,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                   className={
                     this.state.boId ? styles.logoWithoutcursor : styles.logo
                   }
+                  alt="goodearth-logo"
                   src={gelogoCerise}
                 />
               </Link>

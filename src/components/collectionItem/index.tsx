@@ -24,6 +24,7 @@ const CollectionImage: React.FC<CollectionDataProps> = (
               aspectRatio="62:93"
               src={image ? image : "/static/img/noimageplp.png"}
               className={styles.imgResponsiveImg}
+              alt={data.name}
             />
           </Link>
         </div>
