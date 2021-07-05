@@ -5,4 +5,5 @@ export type Props = {
   className?: string;
   activeIndex?: number;
   onImageClick?: (index: number) => void | number;
+  alt: string;
 };

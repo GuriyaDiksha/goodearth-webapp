@@ -75,6 +75,7 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
           <img
             src={item.image ? item.image : "/static/img/noimageplp.png"}
             className={cs(globalStyles.imgResponsive, styles.sliderImage)}
+            alt={item.title}
           />
         </Link>
         <div className={cs(styles.moreBlock, globalStyles.voffset3)}>

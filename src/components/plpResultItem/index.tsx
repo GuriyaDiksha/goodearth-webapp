@@ -114,6 +114,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <LazyImage
             aspectRatio="62:93"
             src={image}
+            alt={product.altText || product.title}
             className={styles.imageResultnew}
             isVisible={isVisible}
             onError={(e: any) => {
@@ -222,23 +223,25 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           >
             <div className={styles.productSize}> size</div>
             <div className="">
-              <ul>
-                {(props.product
-                  .childAttributes as PartialChildProductAttributes[])?.map(
-                  (data: PartialChildProductAttributes, i: number) => {
-                    return (
-                      <li
-                        className={
-                          +data.stock || isCorporate ? "" : styles.disabled
-                        }
-                        key={i}
-                      >
-                        {data.size}
-                      </li>
-                    );
-                  }
-                )}
-              </ul>
+              {!(product.invisibleFields.indexOf("size") > -1) && (
+                <ul>
+                  {(props.product
+                    .childAttributes as PartialChildProductAttributes[])?.map(
+                    (data: PartialChildProductAttributes, i: number) => {
+                      return (
+                        <li
+                          className={
+                            +data.stock || isCorporate ? "" : styles.disabled
+                          }
+                          key={i}
+                        >
+                          {data.size}
+                        </li>
+                      );
+                    }
+                  )}
+                </ul>
+              )}
             </div>
           </div>
         )}

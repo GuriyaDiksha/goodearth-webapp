@@ -210,7 +210,11 @@ class CategoryLanding extends React.Component<
                     valid.promotionClick(Object.assign({}, data, img))
                   }
                 >
-                  <img src={img.image} className={globalStyles.imgResponsive} />
+                  <img
+                    src={img.image}
+                    className={globalStyles.imgResponsive}
+                    alt={img.altText || img.ctaText}
+                  />
                 </Link>
               )}
               <div
@@ -261,7 +265,11 @@ class CategoryLanding extends React.Component<
         if (widget.imageType == 2) {
           html.push(
             <div>
-              <img src={widget.image} className={globalStyles.imgResponsive} />
+              <img
+                src={widget.image}
+                className={globalStyles.imgResponsive}
+                alt={widget.altText || widget.ctaText}
+              />
               {widget.ctaText ? (
                 <div
                   className={cs(
@@ -289,6 +297,7 @@ class CategoryLanding extends React.Component<
         html.push(
           <div>
             <img
+              alt={widget.altText || widget.ctaText}
               src={widget.image}
               className={cs(globalStyles.imgResponsive, styles.cursorPointer)}
             />

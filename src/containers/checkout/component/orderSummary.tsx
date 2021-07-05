@@ -31,7 +31,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const [freeShipping] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
-  const { isLoggedIn, slab } = useSelector((state: AppState) => state.user);
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { isSale } = useSelector((state: AppState) => state.info);
   const { deliveryText } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
@@ -440,7 +440,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      slab.toLowerCase() != "cerise sitara" &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       currency == "INR" &&
