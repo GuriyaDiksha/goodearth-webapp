@@ -44,7 +44,7 @@ const growlItemsList = (items: string[]) => {
 };
 export const PRODUCT_UNPUBLISHED = (items: string[]) => (
   <div style={{ textAlign: "left" }}>
-    Unfortunately, the below products are unavailable - your cart has been
+    Unfortunately, the below products are unavailable - your Bag has been
     updated.
     <br />
     <br />
