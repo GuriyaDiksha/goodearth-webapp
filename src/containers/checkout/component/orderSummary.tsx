@@ -14,7 +14,6 @@ import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
-import { CUST } from "constants/util";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -32,9 +31,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const [freeShipping] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
-  const { isLoggedIn, customerGroup } = useSelector(
-    (state: AppState) => state.user
-  );
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { isSale } = useSelector((state: AppState) => state.info);
   const { deliveryText } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
@@ -443,7 +440,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      customerGroup.toLowerCase() != CUST.CERISE_SITARA &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       currency == "INR" &&

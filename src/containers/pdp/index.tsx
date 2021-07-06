@@ -103,6 +103,7 @@ class PDPContainer extends React.Component<Props, State> {
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
   containerRef: RefObject<HTMLDivElement> = React.createRef();
   pdpURL = "";
+  listPath = "";
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -116,7 +117,8 @@ class PDPContainer extends React.Component<Props, State> {
         images: images,
         startIndex: index,
         mobile: mobile,
-        changeModalState: changeModalState
+        changeModalState: changeModalState,
+        alt: this.props.data.altText
       },
       true
     );
@@ -131,7 +133,8 @@ class PDPContainer extends React.Component<Props, State> {
           .split("_")
           .pop() as string).split("/")[0]
       ),
-      timestamp: new Date()
+      timestamp: new Date(),
+      source: this.listPath
     });
     localStorage.setItem("pdpProductScroll", pdpProductScroll);
   };
@@ -156,6 +159,9 @@ class PDPContainer extends React.Component<Props, State> {
     });
     const { data, currency } = this.props;
     valid.PDP(data, currency);
+    const list = CookieService.getCookie("listPath");
+    this.listPath = list || "";
+    CookieService.setCookie("listPath", "");
     valid.moveChatDown();
     if (data && data.looksProducts && data.looksProducts.length >= 2) {
       valid.MoreFromCollectionProductImpression(
@@ -448,6 +454,7 @@ class PDPContainer extends React.Component<Props, State> {
           id={`img-${image.id}`}
         >
           <PdpImage
+            alt={this.props.data.altText || this.props.data.title}
             {...image}
             index={index}
             onClick={this.onImageClick}
@@ -606,7 +613,13 @@ class PDPContainer extends React.Component<Props, State> {
       data: { categories }
     } = this.props;
 
-    if (categories.indexOf("Home > Wallcoverings") === -1) {
+    const isWallcovering =
+      categories &&
+      categories.filter(category =>
+        category.toLowerCase().includes("wallcovering")
+      ).length > 0;
+    categories;
+    if (!isWallcovering) {
       return null;
     }
     return <WallpaperFAQ mobile={mobile} />;
@@ -725,6 +738,7 @@ class PDPContainer extends React.Component<Props, State> {
                     // onClick={gtmProductClick}
                   > */}
                   <LazyImage
+                    alt={data.altText || data.title}
                     aspectRatio="62:93"
                     src={
                       data.lookImageUrl ||
@@ -903,6 +917,7 @@ class PDPContainer extends React.Component<Props, State> {
         return (
           <div key={id} className={globalStyles.relative}>
             <LazyImage
+              alt={data.altText || data.title}
               aspectRatio="62:93"
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
@@ -977,6 +992,7 @@ class PDPContainer extends React.Component<Props, State> {
             >
               <div className={bootstrap.row}>
                 <VerticalImageSelector
+                  alt={data.altText || data.title}
                   images={images}
                   className={cs(
                     bootstrap.colSm10,

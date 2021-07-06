@@ -127,6 +127,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           onClick={e => gtmPushWeRecommendClick(e, item, i)}
         >
           <LazyImage
+            alt={item.altText || item.productName}
             aspectRatio="62:93"
             src={
               item.productImage

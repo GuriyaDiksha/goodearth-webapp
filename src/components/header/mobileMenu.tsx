@@ -256,8 +256,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     // console.log(innerMenuData);
     const l2MenuData = innerMenuData.l2MenuData || [];
     const isStories = innerMenuData.text.toLowerCase() == "stories";
+    const isEmpty = innerMenuData.l2MenuData.length == 0;
     const templates = innerMenuData.templates || [];
-    isStories
+    isStories || isEmpty
       ? ""
       : html.push(
           <li key={`l2-0`}>
@@ -902,7 +903,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 styles.outerMenuItem
               )}
             >
-              {data.text.toLowerCase() != "stories" ? (
+              {data.columns[0].templates.length > 0 ? (
                 <>
                   <span
                     className={
@@ -923,22 +924,21 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   ></p>
                 </>
               ) : (
-                <a
-                  className={cs(styles.menulevel1Stories, {
-                    [styles.cerise]: !this.props.isSale
-                  })}
-                  href={data.url}
+                <Link
+                  className={styles.menulevel1Stories}
+                  to={data.url}
                   onClick={() => {
                     this.props.onMobileMenuClick({
                       l1: data.text,
                       clickUrl1: data.url
                     });
+                    this.props.clickToggle();
                   }}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  // target="_blank"
+                  // rel="noopener noreferrer"
                 >
                   {ReactHtmlParser(data.text)}
-                </a>
+                </Link>
               )}
             </li>
           );

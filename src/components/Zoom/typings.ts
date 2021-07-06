@@ -5,4 +5,5 @@ export type Props = {
   startIndex: number;
   mobile?: boolean;
   changeModalState?: any;
+  alt: string;
 };

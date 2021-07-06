@@ -5,7 +5,7 @@ import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import MetaService from "services/meta";
 import { Cookies } from "typings/cookies";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
 import Api from "services/api";
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
       basketcall && WishlistService.updateWishlist(dispatch);
-      // BasketService.fetchBasket(dispatch);
+      BasketService.fetchBasket(dispatch);
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       islogin ? WishlistService.updateWishlist(dispatch) : "";
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
-      util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+      util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number, freeShippingApplicable: number) => {
       dispatch(

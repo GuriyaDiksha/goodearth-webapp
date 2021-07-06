@@ -24,6 +24,7 @@ const LoginForm: React.FC<{}> = props => {
 
   const changeEmail = () => {
     setIsRegister(false);
+    localStorage.removeItem("tempEmail");
   };
 
   const nextStep = () => {

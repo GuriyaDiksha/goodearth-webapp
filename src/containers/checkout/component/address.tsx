@@ -33,9 +33,12 @@ const AddressSection: React.FC<AddressProps & {
     errorNotification
   } = props;
   const { isLoggedIn } = useContext(UserContext);
-  const { openAddressForm, closeAddressForm, isAddressValid } = useContext(
-    AddressContext
-  );
+  const {
+    openAddressForm,
+    closeAddressForm,
+    isAddressValid,
+    currentCallBackComponent
+  } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -79,7 +82,7 @@ const AddressSection: React.FC<AddressProps & {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });

@@ -31,7 +31,8 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   plpImages: [],
   productClass: "",
   plpSliderImages: [],
-  invisibleFields: []
+  invisibleFields: [],
+  altText: ""
 };
 
 export const product = (

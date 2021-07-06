@@ -20,10 +20,12 @@ import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
+import Loader from "components/Loader";
 // services
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
 import ProductService from "services/product";
+import HeaderService from "services/headerFooter";
 import CookieService from "../../../../services/cookie";
 // typings
 import { Props } from "./typings";
@@ -40,12 +42,8 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
-import {
-  ADD_TO_BAG_SUCCESS,
-  ADD_TO_REGISTRY_AGAIN,
-  ADD_TO_REGISTRY_FAIL,
-  ADD_TO_REGISTRY_SUCCESS
-} from "constants/messages";
+import { updateStoreState } from "actions/header";
+import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
@@ -53,6 +51,7 @@ import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import cushionFiller from "images/cushionFiller.svg";
+import inshop from "../../../../images/inShop.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -110,7 +109,7 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
-
+  const [isLoading, setIsLoading] = useState(false);
   // const items = basket.lineItems?.map(
   //   item => item.product.childAttributes[0].id
   // );
@@ -174,12 +173,12 @@ const ProductDetails: React.FC<Props> = ({
         "show-error"
       )[0] as HTMLDivElement;
       if (firstErrorField) {
-        firstErrorField.focus();
-        mobile &&
-          firstErrorField.scrollIntoView({
-            block: "center",
-            behavior: "smooth"
-          });
+        // firstErrorField.focus();
+        // mobile &&
+        firstErrorField.scrollIntoView({
+          block: "center",
+          behavior: "smooth"
+        });
       }
     }, 0);
   };
@@ -306,10 +305,35 @@ const ProductDetails: React.FC<Props> = ({
           setTimeout(() => {
             setAddedToBag(false);
           }, 3000);
-          valid.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
+          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
         })
         .catch(err => {
+          if (typeof err.response.data != "object") {
+            valid.showGrowlMessage(dispatch, err.response.data);
+            valid.errorTracking([err.response.data], window.location.href);
+          }
+        });
+    }
+  };
+
+  const checkAvailability = () => {
+    if (!selectedSize) {
+      setSizeError("Please select a Size to proceed");
+      valid.errorTracking(
+        ["Please select a Size to proceed"],
+        window.location.href
+      );
+      showError();
+    } else {
+      setIsLoading(true);
+      HeaderService.checkShopAvailability(dispatch, selectedSize.sku)
+        .then(() => {
+          setIsLoading(false);
+          dispatch(updateStoreState(true));
+        })
+        .catch(err => {
+          setIsLoading(false);
           if (typeof err.response.data != "object") {
             valid.showGrowlMessage(dispatch, err.response.data);
             valid.errorTracking([err.response.data], window.location.href);
@@ -334,7 +358,7 @@ const ProductDetails: React.FC<Props> = ({
       element.classList.contains(styles.active) ||
       (selectedSize && isRegistry[selectedSize.size])
     ) {
-      valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_AGAIN);
+      valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
       return false;
     }
     if (childAttributes[0].size) {
@@ -357,7 +381,7 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
-        valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_SUCCESS);
+        valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         if (selectedSize) {
           registry[selectedSize.size] = true;
@@ -380,7 +404,7 @@ const ProductDetails: React.FC<Props> = ({
         if (message) {
           valid.showGrowlMessage(dispatch, message);
         } else {
-          valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_FAIL);
+          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_FAIL);
         }
       });
     event.stopPropagation();
@@ -494,6 +518,7 @@ const ProductDetails: React.FC<Props> = ({
           { [styles.marginT0]: withBadge }
         )}
       >
+        {isLoading && <Loader />}
         <div className={cs(bootstrap.row)}>
           {images && images[0]?.badgeImagePdp && (
             <div className={bootstrap.col12}>
@@ -505,7 +530,7 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
 
-          {mobile && (
+          {/* {mobile && (
             <div className={cs(bootstrap.col12)}>
               <Share
                 mobile={mobile}
@@ -518,7 +543,7 @@ const ProductDetails: React.FC<Props> = ({
                 } ${__DOMAIN__}${location.pathname}`}
               />
             </div>
-          )}
+          )} */}
           <div
             className={cs(bootstrap.col12, styles.collectionHeader, {
               [globalStyles.voffset3]: !withBadge
@@ -614,7 +639,7 @@ const ProductDetails: React.FC<Props> = ({
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
-            <div className={bootstrap.col8}>
+            <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
               <div className={bootstrap.row}>
                 <div
                   className={cs(
@@ -673,18 +698,21 @@ const ProductDetails: React.FC<Props> = ({
             ) : (
               ""
             )} */}
-            {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
-              <div
-                className={cs(bootstrap.colSm4, styles.label, {
-                  [globalStyles.textCenter]: !mobile
-                })}
-              >
-                <span className={styles.sizeGuide} onClick={onWallpaperClick}>
-                  {" "}
-                  Wallpaper Calculator{" "}
-                </span>
-              </div>
-            )}
+            {categories &&
+              categories.filter(category =>
+                category.toLowerCase().includes("wallcovering")
+              ).length > 0 && (
+                <div
+                  className={cs(bootstrap.colSm4, styles.label, {
+                    [globalStyles.textCenter]: !mobile
+                  })}
+                >
+                  <span className={styles.sizeGuide} onClick={onWallpaperClick}>
+                    {" "}
+                    Wallpaper Calculator{" "}
+                  </span>
+                </div>
+              )}
           </div>
         ) : (
           <span className={cs(styles.sizeErrorMessage)}>
@@ -699,7 +727,7 @@ const ProductDetails: React.FC<Props> = ({
           </span>
         )}
         <div
-          className={cs(bootstrap.row, styles.spacer, {
+          className={cs(bootstrap.row, globalStyles.marginT30, {
             [styles.spacerQuickview]: isQuickview && withBadge
           })}
         >
@@ -777,7 +805,11 @@ const ProductDetails: React.FC<Props> = ({
               styles.errorMsg
             )}
           >
-            <img src={cushionFiller} className={styles.cushionFiller} />
+            <img
+              src={cushionFiller}
+              className={styles.cushionFiller}
+              alt="cushion-filler-icon"
+            />
             {ReactHtmlParser(fillerMessage)}
           </div>
         ) : (
@@ -865,6 +897,33 @@ const ProductDetails: React.FC<Props> = ({
             ""
           )}
         </div>
+        {!isQuickview && (
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd9,
+              globalStyles.voffset3
+            )}
+          >
+            <img
+              alt="goodearth-logo"
+              src={inshop}
+              style={{
+                width: "17px",
+                height: "17px",
+                cursor: "pointer",
+                marginRight: "8px"
+              }}
+            />
+            <span
+              className={styles.shopAvailability}
+              onClick={checkAvailability}
+            >
+              {" "}
+              Check in-shop availability{" "}
+            </span>
+          </div>
+        )}
         <div
           className={cs(
             bootstrap.col12,
@@ -872,7 +931,7 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
-          {!mobile && !isQuickview && (
+          {/* {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
               link={`${__DOMAIN__}${location.pathname}`}
@@ -883,8 +942,7 @@ const ProductDetails: React.FC<Props> = ({
                   : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
               } ${__DOMAIN__}${location.pathname}`}
             />
-          )}
-
+          )} */}
           <div>
             {!isQuickview && (
               <Accordion
@@ -901,6 +959,18 @@ const ProductDetails: React.FC<Props> = ({
             </div>
           )}
           {!isQuickview && <CustomerCareInfo />}
+          {!isQuickview && (
+            <Share
+              mobile={mobile}
+              link={`${__DOMAIN__}${location.pathname}`}
+              mailSubject="Gifting Ideas"
+              mailText={`${
+                corporatePDP
+                  ? `Here's what I found, check it out on Good Earth's web boutique`
+                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+              } ${__DOMAIN__}${location.pathname}`}
+            />
+          )}
         </div>
       </div>
     </div>

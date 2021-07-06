@@ -592,7 +592,10 @@ class Search extends React.Component<Props, State> {
                                       }
                                     )}
                                   >
-                                    <img src={data.salesBadgeImage} />
+                                    <img
+                                      src={data.salesBadgeImage}
+                                      alt="sales-badge"
+                                    />
                                   </div>
                                 ) : (
                                   ""
@@ -617,7 +620,7 @@ class Search extends React.Component<Props, State> {
                                     <img
                                       src={imageSource}
                                       onError={this.addDefaultSrc}
-                                      alt=""
+                                      alt={data.altText || data.title}
                                       className={styles.imageResultNew}
                                     />
                                   </Link>
@@ -828,7 +831,7 @@ class Search extends React.Component<Props, State> {
                                         : data.ctaImage
                                     }
                                     onError={this.addDefaultSrc}
-                                    alt=""
+                                    alt={data.title}
                                     className={styles.imageResultNew}
                                   />
                                 </Link>

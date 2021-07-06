@@ -9,7 +9,7 @@ import { AppState } from "reducers/typings";
 import Api from "services/api";
 import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
-import BasketService from "services/basket";
+// import BasketService from "services/basket";
 
 const initAction: any = async (
   ctx: Koa.ParameterizedContext<Koa.DefaultContext>,
@@ -22,6 +22,11 @@ const initAction: any = async (
     history.location.pathname.includes("/bridal/") &&
     !history.location.pathname.includes("/account/");
   let bridalKey = "";
+  // const basketPage = history.location.pathname.includes("checkout")
+  //   ? "checkout"
+  //   : history.location.pathname.includes("cart")
+  //   ? "cart"
+  //   : undefined;
   if (isBridalPublicPage) {
     const pathArray = history.location.pathname.split("/");
     bridalKey = pathArray[pathArray.length - 1];
@@ -70,10 +75,10 @@ const initAction: any = async (
         err => {
           console.log("META API ERROR ==== " + err);
         }
-      ),
-      BasketService.fetchBasket(store.dispatch).then(res => {
-        console.log(res);
-      })
+      )
+      // BasketService.fetchBasket(store.dispatch, basketPage).then(res => {
+      //   console.log(res);
+      // })
     ]);
   }
   return Promise.all(apiCalls);
