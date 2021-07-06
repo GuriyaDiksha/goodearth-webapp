@@ -163,12 +163,12 @@ const ProductDetails: React.FC<Props> = ({
         "show-error"
       )[0] as HTMLDivElement;
       if (firstErrorField) {
-        firstErrorField.focus();
-        mobile &&
-          firstErrorField.scrollIntoView({
-            block: "center",
-            behavior: "smooth"
-          });
+        // firstErrorField.focus();
+        // mobile &&
+        firstErrorField.scrollIntoView({
+          block: "center",
+          behavior: "smooth"
+        });
       }
     }, 0);
   };
