@@ -103,6 +103,9 @@ export default {
       tkn: res.token
     });
     WishlistService.updateWishlist(dispatch);
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sales Api Status ==== " + err);
+    });
     BasketService.fetchBasket(dispatch, source, history, true).then(
       basketRes => {
         if (source == "checkout") {
@@ -169,6 +172,9 @@ export default {
     );
     dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sales Api Status ==== " + err);
+    });
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch);
     return res;
@@ -194,6 +200,9 @@ export default {
         console.log(err);
       });
       WishlistService.resetWishlist(dispatch);
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sales Api Status ==== " + err);
+      });
       BasketService.fetchBasket(dispatch).catch(err => {
         console.log(err);
       });
@@ -211,6 +220,9 @@ export default {
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
     WishlistService.resetWishlist(dispatch);
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sales Api Status ==== " + err);
+    });
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
     util.showGrowlMessage(
