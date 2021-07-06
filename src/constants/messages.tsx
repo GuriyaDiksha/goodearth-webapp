@@ -26,16 +26,16 @@ const growlItemsList = (items: string[]) => {
   if (items) {
     items.map(item => {
       html.push(
-        item.length > 50 ? (
-          <>
-            {item.slice(0, 46) + "..."}
+        item.length > 35 ? (
+          <li>
+            {item.slice(0, 32) + "..."}
             <br />
-          </>
+          </li>
         ) : (
-          <>
+          <li>
             {item}
             <br />
-          </>
+          </li>
         )
       );
     });
@@ -44,10 +44,11 @@ const growlItemsList = (items: string[]) => {
 };
 export const PRODUCT_UNPUBLISHED = (items: string[]) => (
   <div style={{ textAlign: "left" }}>
-    Due to unavailability of some products your cart has been updated.
+    Unfortunately, the below products are unavailable - your cart has been
+    updated.
     <br />
     <br />
-    {growlItemsList(items)}
+    <ul>{growlItemsList(items)}</ul>
   </div>
 );
 export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
@@ -68,10 +69,42 @@ export const REGISTRY_MIXED_SHIPPING =
   "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";
 export const PREVIOUS_BASKET = (
   <>
-    Some items already exist in your cart from your previously logged in
-    session.
+    Some items already exist in your bag from your previously logged in session.
     <br />
     <br />
-    Please review your cart before checking out.
+    Please review your bag before checking out.
   </>
 );
+
+export const Messages = {
+  ADD_TO_BAG_SUCCESS: ADD_TO_BAG_SUCCESS,
+  ADD_TO_BAG_GIFTCARD_SUCCESS: ADD_TO_BAG_GIFTCARD_SUCCESS,
+  CURRENCY_CHANGED_SUCCESS: CURRENCY_CHANGED_SUCCESS,
+  ALL_SESSION_LOGOUT: ALL_SESSION_LOGOUT,
+  INVALID_SESSION_LOGOUT: INVALID_SESSION_LOGOUT,
+  LOGOUT_SUCCESS: LOGOUT_SUCCESS,
+  LOGIN_SUCCESS: LOGIN_SUCCESS,
+  PRODUCT_UNPUBLISHED: PRODUCT_UNPUBLISHED,
+  ADD_TO_REGISTRY_SUCCESS: ADD_TO_REGISTRY_SUCCESS,
+  ADD_TO_REGISTRY_FAIL: ADD_TO_REGISTRY_FAIL,
+  ADD_TO_REGISTRY_AGAIN: ADD_TO_REGISTRY_AGAIN,
+  REGISTRY_OWNER_CHECKOUT: REGISTRY_OWNER_CHECKOUT,
+  REGISTRY_MIXED_SHIPPING: REGISTRY_MIXED_SHIPPING,
+  PREVIOUS_BASKET: PREVIOUS_BASKET
+};
+export enum MESSAGE {
+  ADD_TO_BAG_SUCCESS = "ADD_TO_BAG_SUCCESS",
+  ADD_TO_BAG_GIFTCARD_SUCCESS = "ADD_TO_BAG_GIFTCARD_SUCCESS",
+  CURRENCY_CHANGED_SUCCESS = "CURRENCY_CHANGED_SUCCESS",
+  ALL_SESSION_LOGOUT = "ALL_SESSION_LOGOUT",
+  INVALID_SESSION_LOGOUT = "INVALID_SESSION_LOGOUT",
+  LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  PRODUCT_UNPUBLISHED = "PRODUCT_UNPUBLISHED",
+  ADD_TO_REGISTRY_SUCCESS = "ADD_TO_REGISTRY_SUCCESS",
+  ADD_TO_REGISTRY_FAIL = "ADD_TO_REGISTRY_FAIL",
+  ADD_TO_REGISTRY_AGAIN = "ADD_TO_REGISTRY_AGAIN",
+  REGISTRY_OWNER_CHECKOUT = "REGISTRY_OWNER_CHECKOUT",
+  REGISTRY_MIXED_SHIPPING = "REGISTRY_MIXED_SHIPPING",
+  PREVIOUS_BASKET = "PREVIOUS_BASKET"
+}

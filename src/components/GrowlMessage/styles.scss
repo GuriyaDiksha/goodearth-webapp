@@ -14,7 +14,7 @@
 .inner-container {
     background-color: rgba(0, 0, 0, .7);
     color: $white;
-    padding: 30px 20px;
+    padding: 30px 20px 25px 20px;
     font-size: 12px;
     text-align: center;
     width: 200px;
@@ -30,6 +30,10 @@
     a {
         color: #fff;
         text-decoration: underline;
+    }
+    li {
+        list-style-type: disc;
+        margin-left: 15px;
     }
 }
 

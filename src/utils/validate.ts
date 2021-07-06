@@ -3,7 +3,7 @@ import { Basket } from "typings/basket";
 import CookieService from "../services/cookie";
 import { Dispatch } from "redux";
 import { showMessage } from "actions/growlMessage";
-import { ReactElement } from "react";
+import { DomUtils, parseDocument } from "htmlparser2";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -382,7 +382,6 @@ export function PDP(data: any, currency: Currency) {
       })
     );
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
-    CookieService.setCookie("listPath", "");
     dataLayer.push({
       event: "PDP",
       ecommerce: {
@@ -732,12 +731,13 @@ const getUniqueId = () => {
 };
 export const showGrowlMessage = (
   dispatch: Dispatch,
-  text: string | (string | JSX.Element)[] | ReactElement,
+  text: string,
   timeout = 3000,
-  id?: string
+  id?: string,
+  params?: any
 ) => {
   const newId = id ? id : getUniqueId();
-  dispatch(showMessage(text, timeout, newId));
+  dispatch(showMessage(text, timeout, newId, params));
 };
 
 export const checkoutGTM = (
@@ -779,6 +779,10 @@ export const headerClickGTM = (
 
 export const getInnerText = (input: string) => {
   if (input) {
+    if (typeof document == "undefined") {
+      const elem2 = parseDocument(input).children;
+      return DomUtils.innerText(elem2);
+    }
     const elem = new DOMParser().parseFromString(input, "text/html").body;
     return elem.innerText;
   }

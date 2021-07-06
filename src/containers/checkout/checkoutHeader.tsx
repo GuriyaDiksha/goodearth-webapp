@@ -21,7 +21,7 @@ import { currencyCode, Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
 import * as util from "../../utils/validate";
@@ -77,10 +77,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-        util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
         BasketService.fetchBasket(dispatch, "cart");
-        util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       }
     },
     updateMeta: (
@@ -313,6 +313,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                   className={
                     this.state.boId ? styles.logoWithoutcursor : styles.logo
                   }
+                  alt="goodearth-logo"
                   src={gelogoCerise}
                 />
               </Link>

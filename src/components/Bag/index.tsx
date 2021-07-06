@@ -11,7 +11,6 @@ import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
-import { CUST } from "constants/util";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -207,7 +206,6 @@ class Bag extends React.Component<Props, State> {
     }
     if (
       !this.state.freeShipping &&
-      this.props.customerGroup.toLowerCase() != CUST.CERISE_SITARA &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       this.props.currency == "INR" &&
@@ -263,6 +261,11 @@ class Bag extends React.Component<Props, State> {
   };
 
   render() {
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable
+    } = this.props.cart;
     return (
       <div>
         <div
@@ -306,7 +309,10 @@ class Bag extends React.Component<Props, State> {
             </div>
           </div>
           {this.state.shipping &&
-          this.props.customerGroup.toLowerCase() != CUST.CERISE_SITARA ? (
+          total >= freeShippingThreshold &&
+          total < freeShippingApplicable &&
+          this.props.currency == "INR" &&
+          this.props.cart.shippable ? (
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>
                 You&apos; re a step away from{" "}

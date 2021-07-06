@@ -239,7 +239,11 @@ const CartItems: React.FC<BasketItem> = memo(
                     </svg>
                   )}
                 </div>
-                <img className={styles.productImage} src={imageUrl} />
+                <img
+                  className={styles.productImage}
+                  src={imageUrl}
+                  alt={product.altText || product.title}
+                />
               </Link>
             </div>
           </div>

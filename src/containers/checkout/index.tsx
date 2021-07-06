@@ -30,7 +30,7 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { User } from "typings/user";
 import {
-  CURRENCY_CHANGED_SUCCESS,
+  MESSAGE,
   REGISTRY_MIXED_SHIPPING,
   REGISTRY_OWNER_CHECKOUT
 } from "constants/messages";
@@ -100,7 +100,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(refreshPage(undefined));
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-      valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+      valid.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       // HeaderService.fetchHomepageData(dispatch);
       HeaderService.fetchHeaderDetails(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
