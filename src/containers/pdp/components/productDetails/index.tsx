@@ -624,86 +624,91 @@ const ProductDetails: React.FC<Props> = ({
         )}
 
         {showSize ? (
-          <div
-            className={cs(bootstrap.row, styles.spacer, {
-              [styles.spacerQuickview]: isQuickview && withBadge
-            })}
-          >
-            <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
-              <div className={bootstrap.row}>
-                <div
-                  className={cs(
-                    bootstrap.col12,
-                    bootstrap.colSm3,
-                    styles.label,
-                    styles.size
-                  )}
-                >
-                  Size
-                </div>
-                <div
-                  className={cs(
-                    bootstrap.col12,
-                    bootstrap.colSm9,
-                    styles.sizeContainer
-                  )}
-                >
-                  <SizeSelector
-                    isCorporatePDP={corporatePDP}
-                    sizes={childAttributes}
-                    onChange={onSizeSelect}
-                    selected={selectedSize ? selectedSize.id : undefined}
-                  />
-                  <span className={cs(styles.sizeErrorMessage, "show-error")}>
-                    {sizeError}
-                  </span>
-                  <span className={cs(styles.sizeErrorMessage)}>
-                    {info.isSale &&
-                      selectedSize &&
-                      selectedSize.showStockThreshold &&
-                      selectedSize.stock > 0 &&
-                      `Only ${selectedSize.stock} Left!${
-                        selectedSize.othersBasketCount > 0
-                          ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
-                          : ""
-                      }`}
-                  </span>
+          !(invisibleFields.indexOf("size") > -1) && (
+            <div
+              className={cs(bootstrap.row, styles.spacer, {
+                [styles.spacerQuickview]: isQuickview && withBadge
+              })}
+            >
+              <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
+                <div className={bootstrap.row}>
+                  <div
+                    className={cs(
+                      bootstrap.col12,
+                      bootstrap.colSm3,
+                      styles.label,
+                      styles.size
+                    )}
+                  >
+                    Size
+                  </div>
+                  <div
+                    className={cs(
+                      bootstrap.col12,
+                      bootstrap.colSm9,
+                      styles.sizeContainer
+                    )}
+                  >
+                    <SizeSelector
+                      isCorporatePDP={corporatePDP}
+                      sizes={childAttributes}
+                      onChange={onSizeSelect}
+                      selected={selectedSize ? selectedSize.id : undefined}
+                    />
+                    <span className={cs(styles.sizeErrorMessage, "show-error")}>
+                      {sizeError}
+                    </span>
+                    <span className={cs(styles.sizeErrorMessage)}>
+                      {info.isSale &&
+                        selectedSize &&
+                        selectedSize.showStockThreshold &&
+                        selectedSize.stock > 0 &&
+                        `Only ${selectedSize.stock} Left!${
+                          selectedSize.othersBasketCount > 0
+                            ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                            : ""
+                        }`}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            {sizeChartHtml && !isQuickview && (
-              <div
-                className={cs(bootstrap.colSm4, styles.label, {
-                  [globalStyles.textCenter]: !mobile
-                })}
-              >
-                <span className={styles.sizeGuide} onClick={onSizeChartClick}>
-                  {" "}
-                  Size Guide{" "}
-                </span>
-              </div>
-            )}
-            {/* {sizeerror && mobile ? (
-              <p className={styles.errorMsg}>Please select a size to proceed</p>
-            ) : (
-              ""
-            )} */}
-            {categories &&
-              categories.filter(category =>
-                category.toLowerCase().includes("wallcovering")
-              ).length > 0 && (
+              {sizeChartHtml && !isQuickview && (
                 <div
                   className={cs(bootstrap.colSm4, styles.label, {
                     [globalStyles.textCenter]: !mobile
                   })}
                 >
-                  <span className={styles.sizeGuide} onClick={onWallpaperClick}>
+                  <span className={styles.sizeGuide} onClick={onSizeChartClick}>
                     {" "}
-                    Wallpaper Calculator{" "}
+                    Size Guide{" "}
                   </span>
                 </div>
               )}
-          </div>
+              {/* {sizeerror && mobile ? (
+              <p className={styles.errorMsg}>Please select a size to proceed</p>
+            ) : (
+              ""
+            )} */}
+              {categories &&
+                categories.filter(category =>
+                  category.toLowerCase().includes("wallcovering")
+                ).length > 0 && (
+                  <div
+                    className={cs(bootstrap.colSm4, styles.label, {
+                      [globalStyles.textCenter]: !mobile
+                    })}
+                  >
+                    <span
+                      className={styles.sizeGuide}
+                      onClick={onWallpaperClick}
+                    >
+                      {" "}
+                      Wallpaper Calculator{" "}
+                    </span>
+                  </div>
+                )}
+            </div>
+          )
         ) : (
           <span className={cs(styles.sizeErrorMessage)}>
             {info.isSale &&
@@ -722,36 +727,38 @@ const ProductDetails: React.FC<Props> = ({
           })}
         >
           <div className={bootstrap.col8}>
-            <div className={bootstrap.row}>
-              <div
-                className={cs(
-                  bootstrap.col12,
-                  bootstrap.colSm3,
-                  styles.label,
-                  styles.quantity
-                )}
-              >
-                Quantity
+            {!(invisibleFields.indexOf("quantity") > -1) && (
+              <div className={bootstrap.row}>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm3,
+                    styles.label,
+                    styles.quantity
+                  )}
+                >
+                  Quantity
+                </div>
+                <div
+                  className={cs(
+                    bootstrap.col12,
+                    bootstrap.colSm9,
+                    styles.widgetQty
+                  )}
+                >
+                  <Quantity
+                    source="pdp"
+                    key={selectedSize?.sku}
+                    id={selectedSize?.id || 0}
+                    minValue={minQuantity}
+                    maxValue={corporatePDP ? 1 : maxQuantity}
+                    currentValue={quantity}
+                    onChange={onQuantityChange}
+                    // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                  />
+                </div>
               </div>
-              <div
-                className={cs(
-                  bootstrap.col12,
-                  bootstrap.colSm9,
-                  styles.widgetQty
-                )}
-              >
-                <Quantity
-                  source="pdp"
-                  key={selectedSize?.sku}
-                  id={selectedSize?.id || 0}
-                  minValue={minQuantity}
-                  maxValue={corporatePDP ? 1 : maxQuantity}
-                  currentValue={quantity}
-                  onChange={onQuantityChange}
-                  // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-                />
-              </div>
-            </div>
+            )}
           </div>
           {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
             <div
