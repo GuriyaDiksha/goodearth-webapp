@@ -798,7 +798,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       ></i>
                     </span>
                     &nbsp;
-                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
+                    <span className={styles.wishlistAlign}>
+                      VIEW SAVED ITEMS
+                    </span>
                   </Link>
                 </div>
               </div>

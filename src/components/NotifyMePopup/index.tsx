@@ -162,14 +162,13 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
-      userExists &&
-        WishlistService.removeFromWishlist(
-          dispatch,
-          selectedSize.id,
-          undefined,
-          sortBy,
-          selectedSize.size
-        );
+      WishlistService.removeFromWishlist(
+        dispatch,
+        selectedSize.id,
+        undefined,
+        sortBy,
+        selectedSize.size
+      );
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
