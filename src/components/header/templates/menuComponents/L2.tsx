@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import styles from "../styles.scss";
 import L3 from "./L3";
 import ReactHtmlParser from "react-html-parser";
+import { getInnerText } from "utils/validate";
 
 type Props = {
   data: MenuComponent;
@@ -72,6 +73,7 @@ const L2: React.FC<Props> = ({
                   aspectRatio="1:1"
                   shouldUpdateAspectRatio={true}
                   isVisible={true}
+                  alt={getInnerText(componentData.text)}
                   containerClassName={styles.img}
                   src={componentData.src}
                 />
@@ -108,6 +110,7 @@ const L2: React.FC<Props> = ({
                   aspectRatio="1:1"
                   shouldUpdateAspectRatio={true}
                   isVisible={true}
+                  alt={getInnerText(componentData.text)}
                   containerClassName={styles.img}
                   src={componentData.src}
                 />

@@ -1,16 +1,15 @@
 // modules
 import loadable from "@loadable/component";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
-import { initAction, metaAction } from "containers/pdp";
-import { metaActionCareer } from "containers/career";
-import { initActionCollection } from "containers/collectionLanding";
-import { initActionSpecific } from "containers/collectionSpecific";
+import initAction from "containers/pdp/initAction";
+import metaAction from "containers/pdp/metaAction";
+import metaActionCareer from "containers/career/metaAction";
+import initActionCollection from "containers/collectionLanding/initAction";
+import initActionSpecific from "containers/collectionSpecific/initAction";
 import initActionPLP from "containers/plp/initAction";
 import initActionSearch from "containers/search/initAction";
-import {
-  initActionCategoryLanding,
-  metaActionCategoryLanding
-} from "containers/categoryLanding";
+import initActionCategoryLanding from "containers/categoryLanding/initAction";
+import metaActionCategoryLanding from "containers/categoryLanding/metaAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";

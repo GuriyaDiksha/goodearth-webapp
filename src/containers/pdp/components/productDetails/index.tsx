@@ -20,10 +20,12 @@ import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
+import Loader from "components/Loader";
 // services
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
 import ProductService from "services/product";
+import HeaderService from "services/headerFooter";
 import CookieService from "../../../../services/cookie";
 // typings
 import { Props } from "./typings";
@@ -40,6 +42,7 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
+import { updateStoreState } from "actions/header";
 import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
@@ -48,6 +51,7 @@ import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import cushionFiller from "images/cushionFiller.svg";
+import inshop from "../../../../images/inShop.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -105,7 +109,7 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
-
+  const [isLoading, setIsLoading] = useState(false);
   // const items = basket.lineItems?.map(
   //   item => item.product.childAttributes[0].id
   // );
@@ -159,12 +163,12 @@ const ProductDetails: React.FC<Props> = ({
         "show-error"
       )[0] as HTMLDivElement;
       if (firstErrorField) {
-        firstErrorField.focus();
-        mobile &&
-          firstErrorField.scrollIntoView({
-            block: "center",
-            behavior: "smooth"
-          });
+        // firstErrorField.focus();
+        // mobile &&
+        firstErrorField.scrollIntoView({
+          block: "center",
+          behavior: "smooth"
+        });
       }
     }, 0);
   };
@@ -295,6 +299,31 @@ const ProductDetails: React.FC<Props> = ({
           gtmPushAddToBag();
         })
         .catch(err => {
+          if (typeof err.response.data != "object") {
+            valid.showGrowlMessage(dispatch, err.response.data);
+            valid.errorTracking([err.response.data], window.location.href);
+          }
+        });
+    }
+  };
+
+  const checkAvailability = () => {
+    if (!selectedSize) {
+      setSizeError("Please select a Size to proceed");
+      valid.errorTracking(
+        ["Please select a Size to proceed"],
+        window.location.href
+      );
+      showError();
+    } else {
+      setIsLoading(true);
+      HeaderService.checkShopAvailability(dispatch, selectedSize.sku)
+        .then(() => {
+          setIsLoading(false);
+          dispatch(updateStoreState(true));
+        })
+        .catch(err => {
+          setIsLoading(false);
           if (typeof err.response.data != "object") {
             valid.showGrowlMessage(dispatch, err.response.data);
             valid.errorTracking([err.response.data], window.location.href);
@@ -479,6 +508,7 @@ const ProductDetails: React.FC<Props> = ({
           { [styles.marginT0]: withBadge }
         )}
       >
+        {isLoading && <Loader />}
         <div className={cs(bootstrap.row)}>
           {images && images[0]?.badgeImagePdp && (
             <div className={bootstrap.col12}>
@@ -765,7 +795,11 @@ const ProductDetails: React.FC<Props> = ({
               styles.errorMsg
             )}
           >
-            <img src={cushionFiller} className={styles.cushionFiller} />
+            <img
+              src={cushionFiller}
+              className={styles.cushionFiller}
+              alt="cushion-filler-icon"
+            />
             {ReactHtmlParser(fillerMessage)}
           </div>
         ) : (
@@ -853,6 +887,33 @@ const ProductDetails: React.FC<Props> = ({
             ""
           )}
         </div>
+        {!isQuickview && (
+          <div
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd9,
+              globalStyles.voffset3
+            )}
+          >
+            <img
+              alt="goodearth-logo"
+              src={inshop}
+              style={{
+                width: "17px",
+                height: "17px",
+                cursor: "pointer",
+                marginRight: "8px"
+              }}
+            />
+            <span
+              className={styles.shopAvailability}
+              onClick={checkAvailability}
+            >
+              {" "}
+              Check in-shop availability{" "}
+            </span>
+          </div>
+        )}
         <div
           className={cs(
             bootstrap.col12,
@@ -860,6 +921,18 @@ const ProductDetails: React.FC<Props> = ({
             globalStyles.voffset3
           )}
         >
+          {/* {!mobile && !isQuickview && (
+            <Share
+              mobile={mobile}
+              link={`${__DOMAIN__}${location.pathname}`}
+              mailSubject="Gifting Ideas"
+              mailText={`${
+                corporatePDP
+                  ? `Here's what I found, check it out on Good Earth's web boutique`
+                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+              } ${__DOMAIN__}${location.pathname}`}
+            />
+          )} */}
           <div>
             {!isQuickview && (
               <Accordion

@@ -102,6 +102,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           return (
             <div key={i} className={globalStyles.relative}>
               <LazyImage
+                alt={product.altText || product.title}
                 aspectRatio="62:93"
                 src={productImage.replace("/Micro/", "/Medium/")}
                 isVisible={isVisible}
@@ -117,6 +118,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       : [
           <div key={"no-image"} className={globalStyles.relative}>
             <LazyImage
+              alt={product.altText || product.title}
               aspectRatio="62:93"
               src={noPlpImage}
               isVisible={isVisible}

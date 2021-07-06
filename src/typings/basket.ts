@@ -66,6 +66,7 @@ export type Basket = {
   freeShippingThreshold: number;
   freeShippingApplicable: number;
   updatedRemovedItems: string[];
+  store?: any[];
 };
 
 export interface BasketItem extends BasketLineItem {

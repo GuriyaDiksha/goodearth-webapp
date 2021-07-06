@@ -61,6 +61,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
                 )}
               >
                 <img
+                  alt="goodearth-logo"
                   src={geLogo}
                   className={cs(globalStyles.logo)}
                   style={{
