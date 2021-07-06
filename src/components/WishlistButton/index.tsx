@@ -173,7 +173,7 @@ const WishlistButton: React.FC<Props> = ({
               [styles.addedToWishlist]: addedToWishlist
             })}
           >
-            {addedToWishlist ? "REMOVE FROM SAVED ITEMS" : "SAVE IT FOR LATER"}
+            {addedToWishlist ? "REMOVE FROM SAVED ITEMS" : "SAVE FOR LATER"}
           </div>
         )}
       </div>
