@@ -736,11 +736,12 @@
               }
               .checkmark {
                 position: absolute;
-                height: 15px;
-                width: 15px;
-                background-color: #fff;
-                border: 1px solid #888;
+                width: 23px;
+                height: 23px;
+                background: white;
+                display: inline-block;
                 border-radius: 50%;
+                border: 1px solid #666;
               }
               input ~ .checkmark {
                 background-color: #fff;
@@ -1086,11 +1087,13 @@
     position: absolute;
     top: 25px;
     left: 0;
-    height: 15px;
-    width: 15px;
-    background-color: #fff;
-    border: 1px solid #888;
+    width: 23px;
+    height: 23px;
+    background: white;
+    display: inline-block;
     border-radius: 50%;
+    border: 1px solid #666;
+    
   }
 
   /* On mouse-over, add a grey background color */
