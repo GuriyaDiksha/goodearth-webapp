@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
+import { RouteComponentProps, withRouter } from "react-router";
 // import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
@@ -27,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = loginProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class MainLogin extends React.Component<Props, loginState> {
   constructor(props: Props) {
@@ -207,6 +209,10 @@ class MainLogin extends React.Component<Props, loginState> {
         .login(this.state.email || "", this.state.password || "", "checkout")
         .then(data => {
           this.gtmPushSignIn();
+          const loginpopup = new URLSearchParams(
+            this.props.history.location.search
+          ).get("loginpopup");
+          loginpopup == "cerise" && this.props.history.push("/");
           dataLayer.push({
             event: "checkout",
             ecommerce: {
@@ -581,4 +587,5 @@ class MainLogin extends React.Component<Props, loginState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLogin);
+const MainLoginRoute = withRouter(MainLogin);
+export default connect(mapStateToProps, mapDispatchToProps)(MainLoginRoute);
