@@ -9,10 +9,12 @@ type Props = ProductImage & {
   onClick: (index: number, id: number) => void;
   index: number;
   onLoad?: EventHandler<SyntheticEvent<HTMLImageElement>>;
+  alt: string;
 };
 
 const PDPImage: React.FC<Props> = ({
   id,
+  alt,
   productImage,
   index,
   onClick,
@@ -27,6 +29,7 @@ const PDPImage: React.FC<Props> = ({
     <LazyImage
       className={globalStyles.imgResponsive}
       src={src}
+      alt={alt}
       aspectRatio="155:232"
       onClick={onImageClick}
       onLoad={onLoad}

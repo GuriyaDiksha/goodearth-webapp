@@ -565,6 +565,7 @@ class Footer extends React.Component<Props, FooterState> {
                               >
                                 {" "}
                                 <img
+                                  alt="goodearth-playlist-icon"
                                   src={
                                     this.state.isInViewport
                                       ? this.props.data.footerPlaylistData
