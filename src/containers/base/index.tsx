@@ -247,7 +247,7 @@ const BaseLayout: React.FC = () => {
       CookieService.setCookie("currency", currency, 365);
     }
     if (history.location.pathname == "/maintenance") {
-      history.push("/");
+      // history.push("/");
     }
   }, []);
 
@@ -279,7 +279,7 @@ const BaseLayout: React.FC = () => {
         {/* <MusicPlayer /> */}
         <Switch>{routes}</Switch>
       </div>
-      {(!minimalPage || !isCheckout) && <Footer />}
+      {!(minimalPage || isCheckout) && <Footer />}
       <Modal />
     </Fragment>
   );
