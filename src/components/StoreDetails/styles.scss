@@ -272,7 +272,7 @@
 }
 
 .address-line {
-  font-size: 12px;
+  font-size: 11px;
   font-family: $font-Lato;
   color: #000;
   letter-spacing: 1px;
@@ -289,6 +289,10 @@
   font-size: 12px;
     font-weight: bold;
     letter-spacing: .5px;
+    span {
+      font-size: 12px;
+      font-weight: bold;
+    }
 }
 
 .green-circle::before {
@@ -314,7 +318,6 @@
   color: #ab1e56;
   position: relative;
   margin-left: 15px;
-  font-style: italic;
 }
 
 .green-circle {
@@ -322,7 +325,6 @@
   color: green;
   position: relative;
   margin-left: 15px;
-  font-style: italic;
 }
 
 .block-margin {

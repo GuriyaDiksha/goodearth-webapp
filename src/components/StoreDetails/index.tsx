@@ -108,8 +108,8 @@ class StoreDetails extends React.Component<Props, State> {
                 <div className={styles.addressLine}>{item.address1}</div>
                 <div className={styles.addressLine}>{item.address2}</div>
               </div>
-              <div className={cs(globalStyles.voffset2, styles.secondHeading)}>
-                <strong>Personal Shopper:</strong>
+              <div className={cs(globalStyles.voffset3, styles.secondHeading)}>
+                <span>Personal Shopper:</span>
                 <div className={cs(styles.addressLine, globalStyles.voffset1)}>
                   {ReactHtmlParser(item.phoneNumber)}
                 </div>
