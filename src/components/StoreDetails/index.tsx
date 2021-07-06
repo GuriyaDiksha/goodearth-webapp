@@ -65,8 +65,32 @@ class StoreDetails extends React.Component<Props, State> {
     } = this.props;
 
     const filterdata = data.filter(item => {
+      const cityCheck = item.city
+        ?.toLowerCase()
+        ?.includes(this.state.searchText.toLowerCase());
+      const stateCheck = item.state
+        ?.toLowerCase()
+        ?.includes(this.state.searchText.toLowerCase());
+      const pincodeCheck = item.pincode
+        ?.toLowerCase()
+        ?.includes(this.state.searchText.toLowerCase());
+      const storeNameCheck = item.storeName
+        ?.toLowerCase()
+        ?.includes(this.state.searchText.toLowerCase());
+      const address1Check = item.address1
+        ?.toLowerCase()
+        ?.includes(this.state.searchText.toLowerCase());
+      const address2Check = item.address2
+        ?.toLowerCase()
+        ?.includes(this.state.searchText.toLowerCase());
       return (
-        item.city.includes(this.state.searchText) || this.state.searchText == ""
+        cityCheck ||
+        stateCheck ||
+        pincodeCheck ||
+        storeNameCheck ||
+        address1Check ||
+        address2Check ||
+        this.state.searchText == ""
       );
     });
     return (

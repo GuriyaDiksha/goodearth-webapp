@@ -917,7 +917,7 @@ const ProductDetails: React.FC<Props> = ({
               onClick={checkAvailability}
             >
               {" "}
-              Check-In-Shop-Availability{" "}
+              Check in-shop availability{" "}
             </span>
           </div>
         )}
