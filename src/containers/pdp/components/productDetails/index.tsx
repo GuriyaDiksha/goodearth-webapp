@@ -129,9 +129,14 @@ const ProductDetails: React.FC<Props> = ({
       setSelectedSize(childAttributes[0]);
     }
     if (childAttributes.length > 0) {
+      let isStockset = false;
       const registryMapping = {};
       childAttributes.map(child => {
         registryMapping[child.size] = child.isBridalProduct;
+        if (child.stock > 0 && !isStockset) {
+          setSelectedSize(child);
+          isStockset = true;
+        }
       });
       setIsRegistry(registryMapping);
     }
