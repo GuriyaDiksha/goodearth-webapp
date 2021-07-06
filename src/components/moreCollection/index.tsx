@@ -63,6 +63,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     >
                       <LazyImage
                         aspectRatio="62:93"
+                        alt={item.altText || item.title}
                         src={item.image || "/static/img/noimageplp.png"}
                         className={cs(globalStyles.imgResponsive)}
                       />

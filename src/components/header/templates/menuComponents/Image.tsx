@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import styles from "../styles.scss";
 import ReactHtmlParser from "react-html-parser";
+import { getInnerText } from "utils/validate";
 
 type Props = {
   data: MenuComponent[];
@@ -80,6 +81,7 @@ const Image: React.FC<Props> = ({
                         shouldUpdateAspectRatio={true}
                         // containerClassName={styles.img}
                         isVisible={true}
+                        alt={getInnerText(componentData.heading)}
                         src={
                           mobile
                             ? componentData.thumbnailSrc || componentData.src
@@ -149,6 +151,7 @@ const Image: React.FC<Props> = ({
                       shouldUpdateAspectRatio={true}
                       containerClassName={styles.img}
                       isVisible={true}
+                      alt={getInnerText(componentData.heading)}
                       src={
                         mobile
                           ? componentData.thumbnailSrc || componentData.src

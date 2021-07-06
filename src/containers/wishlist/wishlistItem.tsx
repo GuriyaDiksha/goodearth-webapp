@@ -122,7 +122,7 @@ const WishlistItem: React.FC<Props> = props => {
             <img
               src={data.productImage ? data.productImage : noPlpImage}
               // onError={this.addDefaultSrc}
-              alt="Others"
+              alt={data.productName}
               className={styles.imageResult}
             />
           </a>
