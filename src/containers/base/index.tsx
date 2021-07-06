@@ -6,7 +6,10 @@ import Footer from "components/footer";
 import Modal from "components/Modal";
 import LoginService from "services/login";
 import CookieService from "services/cookie";
-import CheckoutHeader from "containers/checkout/checkoutHeader";
+import loadable from "@loadable/component";
+const CheckoutHeader = loadable(() =>
+  import("containers/checkout/checkoutHeader")
+);
 import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
@@ -36,6 +39,25 @@ const BaseLayout: React.FC = () => {
   } = useSelector((state: AppState) => state);
   const isSuspended = true;
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
+  const getPWADisplayMode = () => {
+    const isStandalone = window.matchMedia("(display-mode: standalone)")
+      .matches;
+    const nav = window.navigator as any;
+    if (document.referrer.startsWith("android-app://")) {
+      return "twa";
+    } else if ((nav && nav.standalone) || isStandalone) {
+      return "standalone";
+    }
+    return "browser";
+  };
+  useEffect(() => {
+    if (getPWADisplayMode() == "standalone") {
+      dataLayer.push({
+        event: "App Icon Click",
+        page: location
+      });
+    }
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id

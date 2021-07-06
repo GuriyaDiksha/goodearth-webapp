@@ -409,7 +409,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         )}
                       >
                         <div className={styles.marginR10}>
-                          <span className={styles.checkbox}>
+                          <span className={styles.radio}>
                             <input
                               type="radio"
                               value={method.mode}
