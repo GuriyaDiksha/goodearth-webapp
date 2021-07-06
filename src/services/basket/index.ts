@@ -37,6 +37,15 @@ export default {
         res.updatedRemovedItems
       );
     }
+    if (res.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.unshippableProducts
+      );
+    }
     dispatch(updateBasket(res));
     if (source == "checkout" && isLoggedIn && res.redirectToCart) {
       history?.push("/cart", {});
@@ -90,6 +99,15 @@ export default {
         res.updatedRemovedItems
       );
     }
+    if (res.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.unshippableProducts
+      );
+    }
     dispatch(updateBasket(res));
     return res;
   },
@@ -116,6 +134,15 @@ export default {
         res.updatedRemovedItems
       );
     }
+    if (res.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.unshippableProducts
+      );
+    }
     dispatch(updateBasket(res));
   },
   removeOutOfStockItems: async function(dispatch: Dispatch, source?: string) {
@@ -133,6 +160,15 @@ export default {
         0,
         undefined,
         res.basket.updatedRemovedItems
+      );
+    }
+    if (res.basket.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.basket.unshippableProducts
       );
     }
     dispatch(updateBasket(res.basket));
