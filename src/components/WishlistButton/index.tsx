@@ -1,5 +1,11 @@
 // modules
-import React, { memo, useContext, useCallback, useState } from "react";
+import React, {
+  memo,
+  useContext,
+  useCallback,
+  useState,
+  useEffect
+} from "react";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // contexts
@@ -42,10 +48,10 @@ const WishlistButton: React.FC<Props> = ({
     currency,
     wishlist: { sortBy }
   } = useSelector((state: AppState) => state);
-  let addedToWishlist = wishlistItems.indexOf(id) !== -1;
-  if (!addedToWishlist && basketLineId) {
-    addedToWishlist = wishlistChildItems.indexOf(id) != -1;
-  }
+  const [addedToWishlist, setAddedToWishlist] = useState(
+    wishlistItems.indexOf(id) != -1 ||
+      (basketLineId && wishlistChildItems.indexOf(id) != -1)
+  );
   const gtmPushAddToWishlist = () => {
     try {
       if (gtmListType) {
@@ -134,6 +140,13 @@ const WishlistButton: React.FC<Props> = ({
       }
     }
   }, [addedToWishlist, id, isLoggedIn, basketLineId, size]);
+
+  useEffect(() => {
+    setAddedToWishlist(
+      wishlistItems.indexOf(id) != -1 ||
+        (basketLineId && wishlistChildItems.indexOf(id) != -1)
+    );
+  }, [wishlistChildItems, wishlistItems]);
 
   return (
     <>

@@ -19,6 +19,7 @@ import initActionShop from "containers/shopLocator/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
+import initActionCart from "containers/cartPage/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -126,7 +127,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CARTPAGE,
     component: loadable(() => import("containers/cartPage")),
-    action: async () => null,
+    action: initActionCart,
     exact: true
   },
   {
