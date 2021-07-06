@@ -853,7 +853,6 @@ class Header extends React.Component<Props, State> {
             isSearch={this.state.showSearch}
             setShowBag={this.setShowBag}
             wishlistCount={wishlistCount}
-            isLoggedIn={isLoggedIn}
             showMenu={this.state.showMenu}
             clickToggle={this.clickToggle}
             goLogin={this.props.goLogin}
