@@ -763,7 +763,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
           <div>
-            <div className={cs(bootstrap.row, bootstrap.col12)}>
+            <div className={cs(bootstrap.row)}>
               <div
                 className={
                   this.state.showMenu
