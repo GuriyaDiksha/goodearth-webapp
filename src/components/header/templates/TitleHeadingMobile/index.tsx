@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import styles from "../styles.scss";
 import ReactHtmlParser from "react-html-parser";
+import { getInnerText } from "utils/validate";
 
 type Props = {
   data: MenuComponent;
@@ -59,7 +60,7 @@ const TitleHeadingMobile: React.FC<Props> = ({
             <img
               className={styles.img}
               src={componentData.thumbnailSrc || componentData.src}
-              alt={componentData.title}
+              alt={getInnerText(componentData.title)}
             />
           </Link>
         )}
