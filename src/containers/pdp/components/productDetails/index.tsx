@@ -648,7 +648,7 @@ const ProductDetails: React.FC<Props> = ({
         )}
 
         {showSize ? (
-          !(invisibleFields.indexOf("size") > -1) && (
+          !(invisibleFields && invisibleFields.indexOf("size") > -1) && (
             <div
               className={cs(bootstrap.row, styles.spacer, {
                 [styles.spacerQuickview]: isQuickview && withBadge
@@ -751,7 +751,7 @@ const ProductDetails: React.FC<Props> = ({
           })}
         >
           <div className={bootstrap.col8}>
-            {!(invisibleFields.indexOf("quantity") > -1) && (
+            {!(invisibleFields && invisibleFields.indexOf("quantity") > -1) && (
               <div className={bootstrap.row}>
                 <div
                   className={cs(
