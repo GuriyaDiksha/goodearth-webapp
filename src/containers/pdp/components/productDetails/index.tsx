@@ -114,6 +114,7 @@ const ProductDetails: React.FC<Props> = ({
   //   item => item.product.childAttributes[0].id
   // );
   const [addedToBag, setAddedToBag] = useState(false);
+  const [isStockset, setIsStockset] = useState(false);
   // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
   //   setAddedToBag(
@@ -125,6 +126,9 @@ const ProductDetails: React.FC<Props> = ({
     setOnload(true);
   });
   useEffect(() => {
+    let count = 0;
+    let tempSize = null;
+
     if (childAttributes.length === 1 && !selectedSize) {
       setSelectedSize(childAttributes[0]);
     }
@@ -132,7 +136,17 @@ const ProductDetails: React.FC<Props> = ({
       const registryMapping = {};
       childAttributes.map(child => {
         registryMapping[child.size] = child.isBridalProduct;
+        if (child.stock > 0) {
+          count++;
+          tempSize = child;
+        }
       });
+
+      if (count == 1 && !isStockset) {
+        setSelectedSize(tempSize);
+        setIsStockset(true);
+      }
+
       setIsRegistry(registryMapping);
     }
   }, [childAttributes, selectedSize]);
@@ -634,7 +648,7 @@ const ProductDetails: React.FC<Props> = ({
         )}
 
         {showSize ? (
-          !(invisibleFields.indexOf("size") > -1) && (
+          !(invisibleFields && invisibleFields.indexOf("size") > -1) && (
             <div
               className={cs(bootstrap.row, styles.spacer, {
                 [styles.spacerQuickview]: isQuickview && withBadge
@@ -737,7 +751,7 @@ const ProductDetails: React.FC<Props> = ({
           })}
         >
           <div className={bootstrap.col8}>
-            {!(invisibleFields.indexOf("quantity") > -1) && (
+            {!(invisibleFields && invisibleFields.indexOf("quantity") > -1) && (
               <div className={bootstrap.row}>
                 <div
                   className={cs(

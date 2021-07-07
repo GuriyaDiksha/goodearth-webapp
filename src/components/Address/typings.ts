@@ -15,10 +15,6 @@ export type specifyShippingAddressResponse = {
   status: boolean;
   message: string;
   data: {
-    publishRemove: boolean;
-    redirectHomepage: boolean;
-    shippingCharge: number;
-    pageReload: boolean;
     basket: Basket;
   };
 };

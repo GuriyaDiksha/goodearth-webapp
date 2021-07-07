@@ -51,6 +51,15 @@ export const PRODUCT_UNPUBLISHED = (items: string[]) => (
     <ul>{growlItemsList(items)}</ul>
   </div>
 );
+export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
+  <div style={{ textAlign: "left" }}>
+    Unfortunately, the below products are not shippable to the selected address
+    - your bag has been updated.
+    <br />
+    <br />
+    <ul>{growlItemsList(items)}</ul>
+  </div>
+);
 export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
 export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
 export const ADD_TO_REGISTRY_AGAIN = [
@@ -85,6 +94,7 @@ export const Messages = {
   LOGOUT_SUCCESS: LOGOUT_SUCCESS,
   LOGIN_SUCCESS: LOGIN_SUCCESS,
   PRODUCT_UNPUBLISHED: PRODUCT_UNPUBLISHED,
+  PRODUCT_UNSHIPPABLE_REMOVED: PRODUCT_UNSHIPPABLE_REMOVED,
   ADD_TO_REGISTRY_SUCCESS: ADD_TO_REGISTRY_SUCCESS,
   ADD_TO_REGISTRY_FAIL: ADD_TO_REGISTRY_FAIL,
   ADD_TO_REGISTRY_AGAIN: ADD_TO_REGISTRY_AGAIN,
@@ -101,6 +111,7 @@ export enum MESSAGE {
   LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
   PRODUCT_UNPUBLISHED = "PRODUCT_UNPUBLISHED",
+  PRODUCT_UNSHIPPABLE_REMOVED = "PRODUCT_UNSHIPPABLE_REMOVED",
   ADD_TO_REGISTRY_SUCCESS = "ADD_TO_REGISTRY_SUCCESS",
   ADD_TO_REGISTRY_FAIL = "ADD_TO_REGISTRY_FAIL",
   ADD_TO_REGISTRY_AGAIN = "ADD_TO_REGISTRY_AGAIN",
