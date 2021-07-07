@@ -28,7 +28,8 @@ const initialState: State = {
   bridalAddressId: 0,
   freeShippingApplicable: 1000000000,
   freeShippingThreshold: 1000000000,
-  updatedRemovedItems: []
+  updatedRemovedItems: [],
+  redirectHomepage: false
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {
