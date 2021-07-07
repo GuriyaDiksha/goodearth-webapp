@@ -99,9 +99,16 @@ const NotifyMePopup: React.FC<Props> = ({
       setQuantity(1);
 
       changeSize?.(selected.size);
+      setSizeerror(false);
     },
     [childAttributes, selectedSize]
   );
+  useEffect(() => {
+    const inStockSizes = childAttributes.filter(child => child.stock > 0);
+    if (inStockSizes.length == 1 && !selectedSize) {
+      setSelectedSize(inStockSizes[0]);
+    }
+  }, [childAttributes, selectedSize]);
 
   const userExists = !!(user && user.email);
 
