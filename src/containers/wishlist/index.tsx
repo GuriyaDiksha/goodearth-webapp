@@ -638,7 +638,7 @@ class Wishlist extends React.Component<Props, State> {
             >
               {
                 <div className={styles.npfMsg}>
-                  Your wishlist is currently empty
+                  Mark your favorite pieces for later!
                 </div>
               }
             </div>
