@@ -54,7 +54,7 @@ export const PRODUCT_UNPUBLISHED = (items: string[]) => (
 export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
   <div style={{ textAlign: "left" }}>
     Unfortunately, the below products are not shippable to the selected address
-    - your cart has been updated.
+    - your bag has been updated.
     <br />
     <br />
     <ul>{growlItemsList(items)}</ul>
