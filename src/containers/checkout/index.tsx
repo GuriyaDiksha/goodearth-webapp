@@ -65,12 +65,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       shippingAddressId: number,
       shippingAddress: AddressData,
       user: User,
-      isBridal = false
+      isBridal = false,
+      history: any
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId,
-        isBridal
+        isBridal,
+        history
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
@@ -513,7 +515,13 @@ class Checkout extends React.Component<Props, State> {
 
       const { bridal } = this.props.basket;
       this.props
-        .specifyShippingAddress(address.id, address, this.props.user, bridal)
+        .specifyShippingAddress(
+          address.id,
+          address,
+          this.props.user,
+          bridal,
+          this.props.history
+        )
         .then(data => {
           if (address.country == "IN") {
             this.props
@@ -539,13 +547,13 @@ class Checkout extends React.Component<Props, State> {
                     : false;
                   this.setState({ isGoodearthShipping });
                   this.setState({
-                    shippingCharge: data.data.shippingCharge,
+                    shippingCharge: data.data.basket.shippingCharge,
                     shippingAddress: address,
                     billingAddress: undefined,
                     activeStep: Steps.STEP_BILLING
                   });
                   valid.checkoutGTM(2, this.props.currency, this.props.basket);
-                  if (data.data.pageReload) {
+                  if (data.data.basket.pageReload) {
                     const data: any = {
                       email: this.props.user.email
                     };
@@ -568,13 +576,13 @@ class Checkout extends React.Component<Props, State> {
                 : false;
               this.setState({ isGoodearthShipping });
               this.setState({
-                shippingCharge: data.data.shippingCharge,
+                shippingCharge: data.data.basket.shippingCharge,
                 shippingAddress: address,
                 billingAddress: undefined,
                 activeStep: Steps.STEP_BILLING
               });
               valid.checkoutGTM(2, this.props.currency, this.props.basket);
-              if (data.data.pageReload) {
+              if (data.data.basket.pageReload) {
                 const data: any = {
                   email: this.props.user.email
                 };
