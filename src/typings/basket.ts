@@ -69,6 +69,8 @@ export type Basket = {
   unshippableRemove?: boolean;
   unshippableProducts?: string[];
   store?: any[];
+  redirectHomepage?: boolean;
+  pageReload?: boolean;
 };
 
 export interface BasketItem extends BasketLineItem {
