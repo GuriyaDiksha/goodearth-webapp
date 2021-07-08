@@ -414,7 +414,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 </div>
                                 {item.fillerMessage ? (
                                   <div className={styles.filler}>
-                                    {item.fillerMessage}
+                                    {`*${item.fillerMessage}`}
                                   </div>
                                 ) : (
                                   ""
