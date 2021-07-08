@@ -412,6 +412,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 <div className={styles.smallSize}>
                                   Qty:&nbsp; {item.quantity}
                                 </div>
+                                {item.fillerMessage ? (
+                                  <div className={styles.filler}>
+                                    {item.fillerMessage}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </Fragment>
                             )}
                           </div>
