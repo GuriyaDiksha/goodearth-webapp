@@ -38,7 +38,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     device: state.device,
     isSale: state.info.isSale,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -304,7 +305,10 @@ class PLP extends React.Component<
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
       });
     }
-    if (this.props.currency != nextProps.currency) {
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.isLoggedIn != nextProps.isLoggedIn
+    ) {
       this.setState({
         plpMaker: false
       });

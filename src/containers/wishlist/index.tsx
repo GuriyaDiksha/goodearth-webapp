@@ -629,19 +629,31 @@ class Wishlist extends React.Component<Props, State> {
           )}
         >
           {isLoggedIn && (
-            <div
-              className={cs(
-                bootstrapStyles.colMd12,
-                bootstrapStyles.col12,
-                globalStyles.textCenter
-              )}
-            >
-              {
-                <div className={styles.npfMsg}>
-                  Your wishlist is currently empty
-                </div>
-              }
-            </div>
+            <>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  styles.wishlistHeading,
+                  { [styles.wishlistHeadingMobile]: mobile },
+                  globalStyles.textCenter
+                )}
+              >
+                <h2 className={globalStyles.voffset5}>Your Favorites</h2>
+              </div>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  bootstrapStyles.col12,
+                  globalStyles.textCenter
+                )}
+              >
+                {
+                  <div className={styles.npfMsg}>
+                    Mark your favorite pieces for later!
+                  </div>
+                }
+              </div>
+            </>
           )}
           <div
             className={cs(

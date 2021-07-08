@@ -5,7 +5,7 @@
 }​​​​​​​​
 img {
   width: 100%;
-  height: auto;
+  height: 100vh;
 }
 .container {
   position: relative;
@@ -28,7 +28,7 @@ img {
   display: flex;
   align-items: flex-end;
   h1 {
-    font-size: 45px;
+    font-size: 36px;
     font-family: $font-Serif;
     flex-basis: 100%;
   }
@@ -38,9 +38,8 @@ img {
   align-items: flex-start;
   height: 10%;
   h3 {
-    font-size: 12px;
     flex-basis: 100%;
-    font-size: 24px;
+    font-size: 20px;
     font-family: $font-Serif;
   }
 }
@@ -51,7 +50,7 @@ img {
   display: flex;
   padding-bottom: 2%;
   .footer-content {
-    font-size: 22px;
+    font-size: 16px;
     flex-basis: 100%;
   }
 }
@@ -72,12 +71,17 @@ img {
   .footer {
     align-items: flex-start;
     .footer-content {
-      font-size: 18px;
+      font-size: 14px;
     }
   }
   .heading {
     h1 {
-      font-size: 36px;
+      font-size: 30px;
+    }
+  }
+  .subheading {
+    h3 {
+      font-size: 18px;
     }
   }
   .logo-container {
