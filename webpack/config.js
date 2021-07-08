@@ -63,7 +63,14 @@ let config = [
             splitChunks: {
                 chunks: 'all',
                 automaticNameDelimiter: "-",
-                minChunks: 3
+                minChunks: 3,
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendor',
+                        chunks: 'all'
+                    }
+                }
             }
         },
         entry: {

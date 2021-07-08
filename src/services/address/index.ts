@@ -72,7 +72,8 @@ export default {
   specifyShippingAddress: async (
     dispatch: Dispatch,
     id: number,
-    isBridal: boolean
+    isBridal: boolean,
+    history: any
   ) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
@@ -81,16 +82,36 @@ export default {
       }`,
       { shippingAddressId: id }
     );
-    if (data.data.basket.updated || data.data.basket.publishRemove) {
+    const {
+      publishRemove,
+      updated,
+      updatedRemovedItems,
+      unshippableRemove,
+      unshippableProducts,
+      redirectToCart
+    } = data.data.basket;
+    if (updated || publishRemove) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
         0,
         undefined,
-        data.data.basket.updatedRemovedItems
+        updatedRemovedItems
+      );
+    }
+    if (unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        unshippableProducts
       );
     }
     dispatch(updateBasket(data.data.basket));
+    if (redirectToCart) {
+      history?.push("/cart", {});
+    }
     return data;
   },
   specifyBillingAddress: async (
