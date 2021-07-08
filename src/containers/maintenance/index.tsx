@@ -13,7 +13,7 @@ const Maintenance = () => {
         <img
           src={mobileImage}
           alt="Will be back shortly"
-          style={{ width: "100%", height: "auto" }}
+          style={{ width: "100%", height: "100vh" }}
         />
       </picture>
       <div className={styles.content}>
