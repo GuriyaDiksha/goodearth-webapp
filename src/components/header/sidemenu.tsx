@@ -265,45 +265,24 @@ class SideMenu extends React.Component<Props, State> {
                   disableClass
                 )}
               >
-                {isLoggedIn ? (
-                  <Link
-                    to={isBridalRegistryPage ? "#" : "/wishlist"}
-                    onClick={() => {
-                      gtmPushWishlistClick();
-                      this.props.onSideMenuClick("Wishlist");
-                    }}
-                  >
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconWishlist,
-                        styles.iconStyle
-                      )}
-                    ></i>
-                    <span className={styles.badge}>
-                      {wishlistCount > 0 ? wishlistCount : ""}
-                    </span>
-                  </Link>
-                ) : (
-                  <div
-                    onClick={
-                      isBridalRegistryPage
-                        ? () => null
-                        : () => {
-                            this.props.onSideMenuClick("Wishlist");
-                            this.props.goLogin();
-                          }
-                    }
-                  >
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconWishlist,
-                        styles.iconStyle
-                      )}
-                    ></i>
-                  </div>
-                )}
+                <Link
+                  to={isBridalRegistryPage ? "#" : "/wishlist"}
+                  onClick={() => {
+                    gtmPushWishlistClick();
+                    this.props.onSideMenuClick("Wishlist");
+                  }}
+                >
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconWishlist,
+                      styles.iconStyle
+                    )}
+                  ></i>
+                  <span className={styles.badge}>
+                    {wishlistCount > 0 ? wishlistCount : ""}
+                  </span>
+                </Link>
               </div>
             </li>
           )}

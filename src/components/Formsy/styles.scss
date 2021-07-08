@@ -6,3 +6,12 @@
         scroll-snap-margin-top: 150px;
     }
 }
+.arrow {
+    @include arrowbottom();
+    position: absolute;
+    top: 21px;
+    right: 20px;
+    &.mright {
+      right: 10px;
+    }
+  }

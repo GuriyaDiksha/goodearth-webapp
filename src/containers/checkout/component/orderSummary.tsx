@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
-import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
@@ -473,10 +472,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
       eventCategory: "Click",
       eventLabel: location.pathname
     });
-    if (!isLoggedIn) {
-      e.preventDefault();
-      LoginService.showLogin(dispatch);
-    }
   };
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
@@ -687,7 +682,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ""
               ) : (
                 <Link className={styles.editCart} to={"/cart"}>
-                  EDIT CART
+                  EDIT BAG
                 </Link>
               )
             ) : (
@@ -798,7 +793,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       ></i>
                     </span>
                     &nbsp;
-                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
+                    <span className={styles.wishlistAlign}>
+                      VIEW SAVED ITEMS
+                    </span>
                   </Link>
                 </div>
               </div>
