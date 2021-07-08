@@ -93,6 +93,15 @@ export default {
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
+    if (res.updated || res.publishRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
+    }
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(
       updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
@@ -165,6 +174,15 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
+    }
+    if (res.updated || res.publishRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
     }
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(
