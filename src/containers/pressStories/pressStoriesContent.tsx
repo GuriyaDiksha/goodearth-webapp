@@ -21,6 +21,7 @@ import FormTextArea from "components/Formsy/FormTextArea";
 import iconStyles from "styles/iconFonts.scss";
 import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
+import { removeFroala } from "utils/validate";
 
 type Props = {
   year: number;
@@ -66,7 +67,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 const mapStateToProps = (state: AppState) => {
   return {
-    showTimer: state.info
+    showTimer: state.info.showTimer
   };
 };
 
@@ -124,6 +125,7 @@ class PressStoriesContent extends React.Component<
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    removeFroala();
   }
 
   onSelect = (data: DropdownItem) => {
