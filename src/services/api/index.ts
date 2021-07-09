@@ -26,10 +26,10 @@ export default {
     dispatch(updateCurrency(curr));
   },
   getSalesStatus: async function(dispatch: Dispatch, bridalKey?: string) {
-    const bridalKeyParam = bridalKey ? `${`/?bridalKey=${bridalKey}`}` : "";
+    const bridalKeyParam = bridalKey ? `${`?bridalKey=${bridalKey}`}` : "";
     const data: any = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/common/sale_status${bridalKeyParam}`
+      `${__API_HOST__}/myapi/common/sale_status/${bridalKeyParam}`
     );
     dispatch(updateSales(data.sale));
     if (bridalKey) {
