@@ -823,7 +823,8 @@ const ProductDetails: React.FC<Props> = ({
               bootstrap.col12,
               bootstrap.colMd10,
               globalStyles.voffset3,
-              styles.errorMsg
+              styles.errorMsg,
+              styles.fillerContainer
             )}
           >
             <img
@@ -831,7 +832,7 @@ const ProductDetails: React.FC<Props> = ({
               className={styles.cushionFiller}
               alt="cushion-filler-icon"
             />
-            {ReactHtmlParser(fillerMessage)}
+            <div>{ReactHtmlParser(fillerMessage)}</div>
           </div>
         ) : (
           ""
