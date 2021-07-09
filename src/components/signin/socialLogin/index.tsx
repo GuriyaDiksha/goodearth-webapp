@@ -10,9 +10,13 @@ import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import { props } from "./typings";
 import * as util from "../../../utils/validate";
+import { useHistory } from "react-router";
 
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const source =
+    history.location.pathname.indexOf("checkout") != -1 ? "checkout" : "";
   const onLoginSuccess = (user: any) => {
     if (user?.email) {
       const data: any = {
@@ -24,7 +28,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         lname: user.name.split(" ")[1],
         requestParam: JSON.stringify(user)
       };
-      LoginService.loginSocial(dispatch, data)
+      LoginService.loginSocial(dispatch, data, source, history)
         .then(res => {
           // closeModel();
         })
@@ -50,7 +54,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         lname: user.profileObj.familyName,
         requestParam: JSON.stringify(user)
       };
-      LoginService.loginSocial(dispatch, data)
+      LoginService.loginSocial(dispatch, data, source, history)
         .then(res => {
           closeModel();
         })

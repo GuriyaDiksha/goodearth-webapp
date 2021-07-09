@@ -58,6 +58,10 @@ class MainLogin extends React.Component<Props, loginState> {
   emailInput: RefObject<HTMLInputElement> = React.createRef();
   passwordInput: RefObject<HTMLInputElement> = React.createRef();
   firstEmailInput: RefObject<HTMLInputElement> = React.createRef();
+  source =
+    this.props.history.location.pathname.indexOf("checkout") != -1
+      ? "checkout"
+      : "";
   async checkMailValidation() {
     if (this.state.email) {
       const data = await this.props.checkUserPassword(this.state.email);
@@ -206,7 +210,7 @@ class MainLogin extends React.Component<Props, loginState> {
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
-        .login(this.state.email || "", this.state.password || "", "checkout")
+        .login(this.state.email || "", this.state.password || "", this.source)
         .then(data => {
           this.gtmPushSignIn();
           const loginpopup = new URLSearchParams(
