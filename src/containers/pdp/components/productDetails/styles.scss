@@ -112,6 +112,10 @@
     @include error-msg();
 }
 
+.filler-container {
+    display: flex;
+    align-items: center
+}
 .accordion-header {
     @include pdp_copy_head();
     margin-top: 20px;
