@@ -74,7 +74,7 @@ export default {
 
     const res = await API.post<loginResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/auth/login/"}`,
+      `${__API_HOST__}/myapi/auth/login/${source ? "?source=" + source : ""}`,
       {
         email: email,
         password: password,
@@ -157,10 +157,17 @@ export default {
     );
     return res;
   },
-  loginSocial: async function(dispatch: Dispatch, formdata: any) {
+  loginSocial: async function(
+    dispatch: Dispatch,
+    formdata: any,
+    source: string,
+    history: any
+  ) {
     const res = await API.post<loginResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/auth/sociallogin/"}`,
+      `${__API_HOST__}/myapi/auth/sociallogin/${
+        source ? "?source=" + source : ""
+      }`,
       formdata
     );
     CookieService.setCookie("atkn", res.token, 365);
@@ -194,7 +201,49 @@ export default {
       console.log("Sales Api Status ==== " + err);
     });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch);
+    const metaResponse = await MetaService.updateMeta(dispatch, {
+      tkn: res.token
+    });
+    BasketService.fetchBasket(dispatch, source, history, true).then(
+      basketRes => {
+        if (source == "checkout") {
+          util.checkoutGTM(1, metaResponse?.currency || "INR", basketRes);
+          // call loyalty point api only one time after login
+          const data: any = {
+            email: res.email
+          };
+          CheckoutService.getLoyaltyPoints(dispatch, data).then(loyalty => {
+            dispatch(updateUser({ loyaltyData: loyalty }));
+          });
+        }
+        if (metaResponse) {
+          let basketBridalId = 0;
+          basketRes.lineItems.map(item =>
+            item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+          );
+          if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_OWNER_CHECKOUT,
+              6000
+            );
+          }
+          let item1 = false,
+            item2 = false;
+          basketRes.lineItems.map(data => {
+            if (!data.bridalProfile) item1 = true;
+            if (data.bridalProfile) item2 = true;
+          });
+          if (item1 && item2) {
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_MIXED_SHIPPING,
+              6000
+            );
+          }
+        }
+      }
+    );
     return res;
   },
   logout: async function(dispatch: Dispatch) {
