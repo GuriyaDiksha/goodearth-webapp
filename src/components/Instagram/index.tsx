@@ -34,7 +34,7 @@ const Instagram: React.FC<InstaProps> = Props => {
       .then(res => res.json())
       .then(json => {
         const imageData = json.data.filter((temp: any) => {
-          return temp.media_type == "IMAGE";
+          return ["IMAGE", "CAROUSEL_ALBUM", "VIDEO"].includes(temp.media_type);
         });
         setInstData(imageData);
       })
@@ -74,7 +74,14 @@ const Instagram: React.FC<InstaProps> = Props => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={data.media_url} className={styles.imgResponsive} />{" "}
+                <img
+                  src={
+                    data.media_type == "VIDEO"
+                      ? data.thumbnail_url
+                      : data.media_url
+                  }
+                  className={styles.imgResponsive}
+                />{" "}
               </a>
             </div>
           );
