@@ -1,5 +1,5 @@
 .my-quantity{
-    padding: 4px 7px;
+    padding: 4px 7px !important;
 }
 input {
     padding: 4px 0;
