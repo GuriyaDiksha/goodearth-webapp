@@ -50,6 +50,7 @@ export default {
       user.bridalCurrency = meta.bridalCurrency;
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
+      user.customerGroup = meta.customerGroup;
       if (typeof document != "undefined" && user.email && !user.gender) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));

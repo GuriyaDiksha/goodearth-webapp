@@ -23,4 +23,5 @@ export type RecommenedSliderProps = {
   currency: Currency;
   recommendedProducts: any;
   mobile?: boolean;
+  isSale: boolean;
 };
