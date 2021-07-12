@@ -7,8 +7,8 @@ import Koa from "koa";
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
 import Api from "services/api";
-import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
+import { updateCurrencyList } from "./info";
 // import BasketService from "services/basket";
 
 const initAction: any = async (
