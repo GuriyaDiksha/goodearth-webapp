@@ -70,7 +70,9 @@ const SampleDisplay: React.FC<Props> = props => {
         item => item.size == data.size
       )[0];
       showStockMessage =
-        selectedSize.stock > 0 && selectedSize.showStockThreshold;
+        selectedSize &&
+        selectedSize.stock > 0 &&
+        selectedSize.showStockThreshold;
     } else {
       showStockMessage =
         !data.stockDetails[0].size &&
