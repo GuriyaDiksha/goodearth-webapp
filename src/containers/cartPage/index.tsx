@@ -16,11 +16,11 @@ import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
 import BasketService from "services/basket";
 import { ProductID } from "typings/id";
-import { updateModal } from "actions/modal";
 import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
+import { updateComponent, updateModal } from "actions/modal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -58,6 +58,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchFeaturedContent: async () => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
+    },
+    changeModalState: () => {
+      dispatch(updateModal(false));
     }
   };
 };
@@ -91,6 +94,7 @@ class CartPage extends React.Component<Props, State> {
   componentDidMount() {
     util.pageViewGTM("Cart");
     this.props.fetchBasket();
+    this.props.changeModalState();
     this.props
       .fetchFeaturedContent()
       .then(data => {
