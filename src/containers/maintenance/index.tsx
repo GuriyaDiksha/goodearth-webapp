@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.scss";
-import desktopImage from "../../images/sale-maintanance-desktop.jpg";
-import mobileImage from "../../images/sale-maintanance-mob.jpg";
+import desktopImage from "../../images/sale-maintenance-desktop.png";
+import mobileImage from "../../images/sale-maintenance-mob.png";
 import gelogoCerise from "../../images/gelogoCerise.svg";
 
 const Maintenance = () => {
