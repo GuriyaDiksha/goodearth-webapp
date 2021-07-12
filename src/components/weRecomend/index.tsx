@@ -20,7 +20,14 @@ import CookieService from "../../services/cookie";
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
-  const { data, setting, currency, mobile, recommendedProducts } = props;
+  const {
+    data,
+    setting,
+    currency,
+    mobile,
+    recommendedProducts,
+    isSale
+  } = props;
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
@@ -143,7 +150,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
           <p className={styles.productN}>
-            {item.discount ? (
+            {isSale && item.discount ? (
               <span className={styles.discountprice}>
                 {String.fromCharCode(...code)}{" "}
                 {item.discountedPriceRecords[currency as Currency]}
@@ -151,7 +158,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             ) : (
               ""
             )}
-            {item.discount ? (
+            {isSale && item.discount ? (
               <span className={styles.strikeprice}>
                 {" "}
                 {String.fromCharCode(...code)}{" "}
