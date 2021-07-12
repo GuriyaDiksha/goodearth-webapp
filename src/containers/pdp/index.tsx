@@ -525,6 +525,7 @@ class PDPContainer extends React.Component<Props, State> {
         setting={config as Settings}
         currency={currency}
         mobile={mobile}
+        isSale={this.props.isSale}
       />
     );
   }
