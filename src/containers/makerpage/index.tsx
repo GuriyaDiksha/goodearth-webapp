@@ -18,7 +18,8 @@ const MakerPage: React.FC = () => {
   const location = useLocation();
   const {
     currency,
-    info: { showTimer }
+    info: { showTimer },
+    user: { isLoggedIn }
     // device: { mobile }
   } = useSelector((state: AppState) => state);
   const { makerReloadToggle } = useSelector((state: AppState) => state.info);
@@ -27,7 +28,7 @@ const MakerPage: React.FC = () => {
     setTimeout(() => {
       setMounted(true);
     }, 100);
-  }, [currency, makerReloadToggle]);
+  }, [currency, isLoggedIn, makerReloadToggle]);
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0);

@@ -9,6 +9,7 @@ import cs from "classnames";
 import SecondaryHeader from "components/SecondaryHeader";
 import iconPdf from "../../images/iconsPdf.svg";
 import ReactHtmlParser from "react-html-parser";
+import { removeFroala } from "utils/validate";
 
 type Props = {
   content: PressStory[];
@@ -20,6 +21,7 @@ type Props = {
 const Content: React.FC<Props> = props => {
   useEffect(() => {
     window.scrollTo(0, 0);
+    removeFroala();
   }, []);
 
   const publication = "/ " + props.content[props.readIndex].publication;

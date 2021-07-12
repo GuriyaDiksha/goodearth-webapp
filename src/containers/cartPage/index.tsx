@@ -269,6 +269,7 @@ class CartPage extends React.Component<Props, State> {
           mobile={this.props.mobile}
           key={item.id}
           {...item}
+          id={item.id}
           currency={currency}
           saleStatus={this.props.isSale}
           onMoveToWishlist={this.onMoveToWishlist}
@@ -304,7 +305,7 @@ class CartPage extends React.Component<Props, State> {
     if (this.state.showUndoWishlist) {
       return (
         <div className={styles.message}>
-          Your item has been moved to wishlist.{" "}
+          Your item has been moved to saved items.{" "}
           <span
             className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
             onClick={this.onUndoWishlistClick}

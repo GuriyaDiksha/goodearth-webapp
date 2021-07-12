@@ -32,6 +32,7 @@ const Mobilemenu = loadable(() => import("./mobileMenu"));
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
+import { CUST } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -50,6 +51,7 @@ const mapStateToProps = (state: AppState) => {
     cookies: state.cookies,
     showTimer: state.info.showTimer,
     timerData: state.header.timerData,
+    customerGroup: state.user.customerGroup,
     showStock: state.header.storeData.visible
   };
 };
@@ -134,6 +136,13 @@ class Header extends React.Component<Props, State> {
         this.props.goLogin();
       }
       this.props.history.push("/cart");
+    }
+    if (id == "cerise") {
+      if (!this.props.isLoggedIn) {
+        this.props.goLogin();
+      } else {
+        this.props.history.push("/");
+      }
     }
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
@@ -390,7 +399,9 @@ class Header extends React.Component<Props, State> {
       goLogin,
       handleLogOut,
       location,
-      mobile
+      mobile,
+      slab,
+      customerGroup
     } = this.props;
     const wishlistCount = wishlistData.length;
     let bagCount = 0;
@@ -455,6 +466,12 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+    const isCeriseCustomer = slab
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        customerGroup == CUST.CERISE ||
+        customerGroup == CUST.CERISE_SITARA
+      : false;
     return (
       <div className="">
         <Helmet defer={false}>
@@ -555,6 +572,7 @@ class Header extends React.Component<Props, State> {
             isBridalRegistryPage={isBridalRegistryPage}
           />
           {!isBridalRegistryPage &&
+            !isCeriseCustomer &&
             this.props.showTimer &&
             this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
@@ -763,7 +781,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
           <div>
-            <div className={cs(bootstrap.row, bootstrap.col12)}>
+            <div className={cs(bootstrap.row)}>
               <div
                 className={
                   this.state.showMenu
@@ -855,7 +873,6 @@ class Header extends React.Component<Props, State> {
             isSearch={this.state.showSearch}
             setShowBag={this.setShowBag}
             wishlistCount={wishlistCount}
-            isLoggedIn={isLoggedIn}
             showMenu={this.state.showMenu}
             clickToggle={this.clickToggle}
             goLogin={this.props.goLogin}

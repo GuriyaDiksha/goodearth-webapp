@@ -26,6 +26,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { WidgetImage } from "components/header/typings";
 // services
 import HeaderService from "services/headerFooter";
+import LoginService from "services/login";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 
@@ -57,6 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       await WishlistService.updateWishlist(dispatch, sortBy),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
+    openLogin: () => LoginService.showLogin(dispatch),
     openPopup: (
       item: WishListGridItem,
       currency: Currency,
@@ -285,9 +287,6 @@ class Wishlist extends React.Component<Props, State> {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
-    if (!this.props.isLoggedIn) {
-      this.props.history.push("/");
-    }
     this.updateGrid(this.props);
     this.props
       .fetchFeaturedContent()
@@ -321,9 +320,6 @@ class Wishlist extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
-    if (!nextProps.isLoggedIn) {
-      this.props.history.push("/");
-    }
     if (this.props.currency !== nextProps.currency) {
       this.getWishlist(this.state.defaultOption.value);
       AbsoluteGrid = createAbsoluteGrid(
@@ -622,7 +618,7 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   render() {
-    const { mobile } = this.props;
+    const { mobile, isLoggedIn } = this.props;
     const emptyWishlistContent = (
       <div>
         <div
@@ -632,19 +628,33 @@ class Wishlist extends React.Component<Props, State> {
             styles.minheight
           )}
         >
-          <div
-            className={cs(
-              bootstrapStyles.colMd12,
-              bootstrapStyles.col12,
-              globalStyles.textCenter
-            )}
-          >
-            {
-              <div className={styles.npfMsg}>
-                Your wishlist is currently empty
+          {isLoggedIn && (
+            <>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  styles.wishlistHeading,
+                  { [styles.wishlistHeadingMobile]: mobile },
+                  globalStyles.textCenter
+                )}
+              >
+                <h2 className={globalStyles.voffset5}>Your Favorites</h2>
               </div>
-            }
-          </div>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  bootstrapStyles.col12,
+                  globalStyles.textCenter
+                )}
+              >
+                {
+                  <div className={styles.npfMsg}>
+                    Mark your favorite pieces for later!
+                  </div>
+                }
+              </div>
+            </>
+          )}
           <div
             className={cs(
               bootstrapStyles.colMd12,
@@ -739,7 +749,7 @@ class Wishlist extends React.Component<Props, State> {
                 <div
                   className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
                 >
-                  Wishlist
+                  Saved Items
                 </div>
                 <div className={bootstrapStyles.col2}>
                   <i
@@ -769,7 +779,7 @@ class Wishlist extends React.Component<Props, State> {
                     })}
                   >
                     <div className={styles.filterCross}>
-                      <span>Wishlist</span>
+                      <span>Saved Items</span>
                       <span
                         onClick={() => this.setState({ filterListing: false })}
                       >
@@ -826,7 +836,7 @@ class Wishlist extends React.Component<Props, State> {
               )}
             >
               <div>
-                <span className={styles.heading}>Wishlist</span>
+                <span className={styles.heading}>SAVED ITEMS</span>
               </div>
             </div>
             <div
@@ -857,7 +867,41 @@ class Wishlist extends React.Component<Props, State> {
             { [styles.wishlistBlockOuterMobile]: mobile }
           )}
         >
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+          {!isLoggedIn && (
+            <div className={styles.topBlockContainer}>
+              <div className={styles.innerContainer}>
+                <h3 className={styles.heading}>Saved Items</h3>
+                <p className={styles.subheading}>
+                  {this.state.wishlistCount > 0 ? (
+                    <>
+                      Keep track of your favourite pieces all in one place!
+                      <br />
+                      Sign in to save this list!
+                    </>
+                  ) : (
+                    <>
+                      Looking for your saved items?
+                      <br />
+                      Sign in to pick up where you left off
+                    </>
+                  )}
+                </p>
+                <div
+                  className={cs(globalStyles.ceriseBtn, styles.btn)}
+                  onClick={this.props.openLogin}
+                >
+                  Sign in
+                </div>
+              </div>
+            </div>
+          )}
+          <div
+            className={cs(
+              bootstrapStyles.col10,
+              bootstrapStyles.offset1,
+              globalStyles.marginT20
+            )}
+          >
             {this.state.wishlistCount > 0 && (
               <div className={cs(styles.wishlistTop, styles.wishlistSubtotal)}>
                 {this.getWishlistSubtotal()}
