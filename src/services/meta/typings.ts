@@ -11,6 +11,7 @@ export type MetaResponse = {
   bridalCurrency: Currency;
   shippingData: AddressData | null;
   giftCard: any[];
+  customerGroup: string;
 };
 
 export type PageMetaResponse = PageMeta;
