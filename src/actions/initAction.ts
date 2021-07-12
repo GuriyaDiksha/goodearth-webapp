@@ -8,6 +8,7 @@ import { Store } from "redux";
 import { AppState } from "reducers/typings";
 import Api from "services/api";
 import { MetaResponse } from "services/meta/typings";
+import { updateCurrencyList } from "./info";
 // import BasketService from "services/basket";
 
 const initAction: any = async (
@@ -44,6 +45,13 @@ const initAction: any = async (
       })
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
+      }),
+    HeaderService.getCurrencyList(store.dispatch)
+      .then(data => {
+        store.dispatch(updateCurrencyList(data));
+      })
+      .catch(err => {
+        console.log("CURRENCY LIST API ERROR ==== " + err);
       }),
     Api.getAnnouncement(store.dispatch)
       .then(data => {
