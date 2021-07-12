@@ -38,7 +38,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     device: state.device,
     isSale: state.info.isSale,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -247,11 +248,45 @@ class PLP extends React.Component<
     }
   };
 
+  getVisibleProductID = () => {
+    const count = this.props.data.results.data.length;
+    let id = -1;
+    if (count) {
+      const isGrid = this.props.plpMobileView == "grid";
+      const elem = document.getElementById(
+        isGrid ? "first-grid-item" : "first-list-item"
+      );
+      const height = elem?.clientHeight;
+      const offsetY = window.scrollY;
+      if (height) {
+        let currentIndex = Math.floor(
+          (offsetY + window.innerHeight / 2) / height
+        );
+        currentIndex = isGrid ? currentIndex * 2 : currentIndex;
+        if (currentIndex >= count) {
+          currentIndex = count - 1;
+        }
+        id = this.props.data.results.data[currentIndex].id;
+      }
+    }
+    return id;
+  };
+
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
       this.props.updateMobileView(plpMobileView);
       CookieService.setCookie("plpMobileView", plpMobileView);
       util.viewSelectionGTM(plpMobileView);
+      const id = this.getVisibleProductID();
+      if (id != -1) {
+        window.setTimeout(() => {
+          const elem = document.getElementById(id.toString());
+          if (elem) {
+            const offsetPos = elem.getBoundingClientRect().top - 130;
+            window.scrollBy({ top: offsetPos, behavior: "smooth" });
+          }
+        }, 500);
+      }
     }
   };
 
@@ -270,7 +305,10 @@ class PLP extends React.Component<
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
       });
     }
-    if (this.props.currency != nextProps.currency) {
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.isLoggedIn != nextProps.isLoggedIn
+    ) {
       this.setState({
         plpMaker: false
       });
@@ -529,6 +567,7 @@ class PLP extends React.Component<
                           styles.setWidth
                         )}
                         key={item.id}
+                        id={index == 0 ? "first-grid-item" : ""}
                       >
                         <PlpResultItem
                           page="PLP"
@@ -555,6 +594,7 @@ class PLP extends React.Component<
                           styles.listViewContainer
                         )}
                         key={item.id}
+                        id={index == 0 ? "first-list-item" : ""}
                       >
                         <PlpResultListViewItem
                           page="PLP"

@@ -112,6 +112,10 @@
     @include error-msg();
 }
 
+.filler-container {
+    display: flex;
+    align-items: center
+}
 .accordion-header {
     @include pdp_copy_head();
     margin-top: 20px;
@@ -212,10 +216,6 @@
   margin-top: 0;
 }
 
-.quickview-loyalty-message {
-    // position: absolute;
-    // bottom: 75px;
-}
 
 .badge-img {
     padding: 15px 0;

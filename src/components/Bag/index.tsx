@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
-    slab: state.user.slab
+    customerGroup: state.user.customerGroup
   };
 };
 type Props = CartProps &

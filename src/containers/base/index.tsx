@@ -199,7 +199,9 @@ const BaseLayout: React.FC = () => {
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
+    const loginPopup = urlParams.get("loginpopup");
     if (
+      !loginPopup &&
       isHomePage &&
       isSuspended &&
       checkoutInfoPopupCookie != "show"
@@ -269,7 +271,7 @@ const BaseLayout: React.FC = () => {
       CookieService.setCookie("currency", currency, 365);
     }
     if (history.location.pathname == "/maintenance") {
-      history.push("/");
+      // history.push("/");
     }
   }, []);
 
@@ -301,7 +303,7 @@ const BaseLayout: React.FC = () => {
         {/* <MusicPlayer /> */}
         <Switch>{routes}</Switch>
       </div>
-      {(!minimalPage || !isCheckout) && <Footer />}
+      {!(minimalPage || isCheckout) && <Footer />}
       <Modal />
     </Fragment>
   );

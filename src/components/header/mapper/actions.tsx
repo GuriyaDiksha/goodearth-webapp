@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       bridalKey?: string
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      basketcall && WishlistService.updateWishlist(dispatch);
+      WishlistService.updateWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
     },
     changeCurrency: async (data: { currency: Currency }) => {
@@ -68,7 +68,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
 
-      islogin ? WishlistService.updateWishlist(dispatch) : "";
+      WishlistService.updateWishlist(dispatch);
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
@@ -99,8 +99,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
+      WishlistService.updateWishlist(dispatch);
       if (cookies.tkn) {
-        WishlistService.updateWishlist(dispatch);
         MetaService.updateMeta(dispatch, cookies);
       }
       BasketService.fetchBasket(dispatch, source);
