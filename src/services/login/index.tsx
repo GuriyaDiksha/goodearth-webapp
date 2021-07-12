@@ -26,6 +26,8 @@ import { LOGIN_SUCCESS, MESSAGE } from "constants/messages";
 // import Axios from "axios";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
+import { Basket } from "typings/basket";
+import { updateBasket } from "actions/basket";
 
 export default {
   showForgotPassword: function(
@@ -265,13 +267,38 @@ export default {
     dispatch: Dispatch,
     formData: { currency: Currency }
   ) {
-    const res: any = await API.post<registerResponse>(
+    const res: any = await API.post<Basket>(
       dispatch,
       `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
       formData
     );
     CookieService.setCookie("currency", formData.currency, 365);
     dispatch(updateCurrency(formData.currency));
+    const {
+      publishRemove,
+      updatedRemovedItems,
+      unshippableRemove,
+      unshippableProducts
+    } = res;
+    if (publishRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        updatedRemovedItems
+      );
+    }
+    if (unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        unshippableProducts
+      );
+    }
+    dispatch(updateBasket(res));
     return res;
   },
   reloadPage: (dispatch: Dispatch, currency: Currency) => {
