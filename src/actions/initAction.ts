@@ -46,13 +46,6 @@ const initAction: any = async (
       .catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       }),
-    HeaderService.getCurrencyList(store.dispatch)
-      .then(data => {
-        store.dispatch(updateCurrencyList(data));
-      })
-      .catch(err => {
-        console.log("CURRENCY LIST API ERROR ==== " + err);
-      }),
     Api.getAnnouncement(store.dispatch)
       .then(data => {
         console.log(data);
