@@ -37,7 +37,9 @@ const BaseLayout: React.FC = () => {
     basket: { bridal },
     header: { announcementData }
   } = useSelector((state: AppState) => state);
-  const isSuspended = true;
+  // don't show info popup
+  const isSuspended = false;
+
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   const getPWADisplayMode = () => {
     const isStandalone = window.matchMedia("(display-mode: standalone)")

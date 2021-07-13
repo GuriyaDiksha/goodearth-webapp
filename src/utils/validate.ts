@@ -383,7 +383,7 @@ export function PDP(data: any, currency: Currency) {
     );
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     dataLayer.push({
-      event: "PDP",
+      event: "productDetailImpression",
       ecommerce: {
         detail: {
           actionField: { list: listPath },
