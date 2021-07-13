@@ -17,7 +17,7 @@ import CategoryService from "services/category";
 import { CategoryProps } from "typings/category";
 import { addCategoryData } from "actions/category";
 import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url";
-import Instagram from "components/Instagram";
+// import Instagram from "components/Instagram";
 import "./slick.css";
 import initActionCategoryLanding from "./initAction";
 import metaActionCategoryLanding from "./metaAction";
@@ -835,10 +835,9 @@ class CategoryLanding extends React.Component<
         ) : (
           ""
         )}
-        <section>
+        {/* <section>
           <div id="inst" className={styles.instafeed1}>
             <Instagram />
-            {/* {this.getInstagram()} */}
           </div>
           <div className={cs(styles.iconInsta, globalStyles.textCenter)}>
             <a
@@ -857,7 +856,7 @@ class CategoryLanding extends React.Component<
               @goodearthindia
             </a>
           </div>
-        </section>
+        </section> */}
       </div>
     );
   }

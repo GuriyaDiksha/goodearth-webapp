@@ -85,6 +85,8 @@ class MegaMenu extends React.Component<Props, MenuState> {
         {data?.map((data: MegaMenuData, i: number) => {
           const highlightStories =
             data.text.toLowerCase() == "stories" ? true : false;
+          const highlightSale =
+            util.getInnerText(data.text.toLowerCase()) == "sale";
           // const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
           const isEmpty = data.columns[0].templates.length == 0;
           return (
@@ -127,10 +129,10 @@ class MegaMenu extends React.Component<Props, MenuState> {
                     className={cs(
                       styles.menuItemLink,
                       disbaleClass,
-                      styles.hoverStories
-                      // {
-                      //   [styles.cerise]: !this.props.isSale && !isGifting
-                      // }
+                      styles.hoverStories,
+                      {
+                        [styles.cerise]: highlightSale
+                      }
                     )}
                     to={isBridalRegistryPage ? "" : data.url}
                     onClick={() => this.onHeaderMenuClick(data.text, data.url)}
@@ -146,6 +148,9 @@ class MegaMenu extends React.Component<Props, MenuState> {
                   onClick={() => this.onHeaderMenuClick(data.text, data.url)}
                   className={cs(
                     styles.menuItemLink,
+                    {
+                      [styles.cerise]: highlightSale
+                    },
                     this.state.selectedCategory == i ||
                       (highlightStories && this.props.ipad)
                       ? cs(disbaleClass, styles.hoverA)
