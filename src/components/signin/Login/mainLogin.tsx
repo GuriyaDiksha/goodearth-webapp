@@ -93,7 +93,9 @@ class MainLogin extends React.Component<Props, loginState> {
             );
           } else {
             const error = [
-              "This account already exists. Please ",
+              "Looks like you are signing in for the first time. ",
+              <br key={2} />,
+              "Please ",
               <span
                 className={cs(
                   globalStyles.errorMsg,
@@ -103,7 +105,8 @@ class MainLogin extends React.Component<Props, loginState> {
                 onClick={this.handleResetPassword}
               >
                 set a new password
-              </span>
+              </span>,
+              " to sign in!"
             ];
             this.setState({
               msg: error,
