@@ -12,7 +12,7 @@ import bannerborder from "../../images/banner2-border.jpg";
 import closeShopthelook from "../../images/close-Shopthelook.svg";
 import Shopthelook from "../../images/Shopthelook.svg";
 import bird from "../../images/bird-motif.png";
-import WhatPeopleBuying from "components/PeopleBuying";
+// import WhatPeopleBuying from "components/PeopleBuying";
 import CategoryService from "services/category";
 import { CategoryProps } from "typings/category";
 import { addCategoryData } from "actions/category";
@@ -25,7 +25,8 @@ import metaActionCategoryLanding from "./metaAction";
 // import CollectionImage from "components/collectionItem";
 // import { CollectionItem } from "components/collectionItem/typings";
 // import MobileDropdownMenu from "components/MobileDropdown";
-import Slider, { Settings } from "react-slick";
+import Slider from // , { Settings }
+"react-slick";
 import LazyImage from "components/LazyImage";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
@@ -593,7 +594,7 @@ class CategoryLanding extends React.Component<
       shopthelook1,
       shopthelook2,
       editSection,
-      peoplebuying,
+      // peoplebuying,
       device: { mobile }
     } = this.props;
 
@@ -601,29 +602,29 @@ class CategoryLanding extends React.Component<
     //   return null;
     // } var settings = {
 
-    const config: Settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 4,
-      arrows: true,
-      slidesToScroll: 1,
-      initialSlide: 0,
-      responsive: [
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 3000,
-            centerMode: true,
-            centerPadding: "60px",
-            arrows: false
-          }
-        }
-      ]
-    };
+    // const config: Settings = {
+    //   dots: false,
+    //   infinite: true,
+    //   speed: 500,
+    //   slidesToShow: 4,
+    //   arrows: true,
+    //   slidesToScroll: 1,
+    //   initialSlide: 0,
+    //   responsive: [
+    //     {
+    //       breakpoint: 768,
+    //       settings: {
+    //         slidesToShow: 1,
+    //         slidesToScroll: 1,
+    //         autoplay: true,
+    //         autoplaySpeed: 3000,
+    //         centerMode: true,
+    //         centerPadding: "60px",
+    //         arrows: false
+    //       }
+    //     }
+    //   ]
+    // };
     return (
       <div
         className={cs(
@@ -765,7 +766,7 @@ class CategoryLanding extends React.Component<
           </section>
         )}
 
-        {peoplebuying && (
+        {/* {peoplebuying && (
           <section>
             {peoplebuying.results?.length >= 4 &&
               typeof document !== "undefined" && (
@@ -783,7 +784,7 @@ class CategoryLanding extends React.Component<
                 </div>
               )}
           </section>
-        )}
+        )} */}
         {shopthelook2.widgetImages ? (
           shopthelook2.widgetImages.length > 0 ? (
             <section>
