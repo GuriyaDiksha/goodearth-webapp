@@ -38,7 +38,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
   };
 
-  const showDeliveryTimelines = false;
+  const showDeliveryTimelines = true;
   const history = useHistory();
   const queryString = history.location.search;
   const urlParams = new URLSearchParams(queryString);
