@@ -55,7 +55,7 @@ const CartItems: React.FC<BasketItem> = memo(
       categories,
       sku
     } = product;
-    const showDeliveryTimelines = false;
+    const showDeliveryTimelines = true;
     useEffect(() => {
       setValue(quantity);
     }, [quantity]);
