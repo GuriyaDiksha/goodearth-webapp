@@ -272,8 +272,8 @@ const BaseLayout: React.FC = () => {
     if (cookieCurrency != currency) {
       CookieService.setCookie("currency", currency, 365);
     }
-    if (history.location.pathname != "/maintenance") {
-      history.push("/maintenance");
+    if (history.location.pathname == "/maintenance") {
+      history.push("/");
     }
   }, []);
 
