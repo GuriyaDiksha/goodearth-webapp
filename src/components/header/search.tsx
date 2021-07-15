@@ -707,7 +707,7 @@ class Search extends React.Component<Props, State> {
                                               )}
                                               &nbsp;{" "}
                                               {
-                                                data.discountedPriceRecords[
+                                                data.priceRecords[
                                                   this.props.currency
                                                 ]
                                               }
