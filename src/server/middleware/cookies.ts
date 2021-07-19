@@ -37,9 +37,9 @@ export default async function cookies(
   if (showCookie != "show") {
     store.dispatch(updateShowCookie(true));
   }
-  // if (pathname != "/maintenance") {
-  //   ctx.redirect("/maintenance");
-  // }
+  if (pathname != "/maintenance") {
+    ctx.redirect("/maintenance");
+  }
   if (
     !currency &&
     (!isBridalBasket || isBridalBasket == "no") &&
