@@ -13,7 +13,7 @@
     "storybook": "start-storybook -s ./src/img",
     "generateFonts": "grunt webfont",
     "generateImages": "node imagemin.js",
-    "devServer": "NODE_PORT=8000 nodemon --delay 0.5 dist/static/server/server.js",
+    "devServer": "NODE_PORT=8080 nodemon --delay 0.5 dist/static/server/server.js",
     "buildDev": "webpack --config webpack/config.js --watch",
     "buildClient": "APP=client NODE_ENV=production webpack --config webpack/config.js -a client",
     "buildServer": "APP=server NODE_ENV=production webpack --config webpack/config.js -a server",
