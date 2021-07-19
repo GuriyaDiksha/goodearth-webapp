@@ -20,7 +20,7 @@ import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
-import { updateComponent, updateModal } from "actions/modal";
+import { updateModal } from "actions/modal";
 
 const mapStateToProps = (state: AppState) => {
   return {
