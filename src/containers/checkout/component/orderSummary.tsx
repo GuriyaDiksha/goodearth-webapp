@@ -627,6 +627,15 @@ const OrderSummary: React.FC<OrderProps> = props => {
               )}
             </div>
           )}
+          <hr className={styles.hr} />
+          <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+            <span className={styles.subtotal}>TOTAL</span>
+            <span className={styles.subtotal}>
+              {String.fromCharCode(...code)}{" "}
+              {parseFloat("" + basket.total).toFixed(2)}
+            </span>
+          </div>
+          <hr className={styles.hr} />
           {getDiscount(basket.offerDiscounts)}
           {getCoupons()}
         </div>
@@ -702,11 +711,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
               )}
             >
               <span className={cs(styles.subtotal, globalStyles.voffset2)}>
-                TOTAL
+                AMOUNT PAYABLE
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
                 {String.fromCharCode(...code)}{" "}
-                {parseFloat("" + basket.total).toFixed(2)}
+                {parseFloat("" + basket.amountPayable).toFixed(2)}
               </span>
             </div>
             {!mobile && getDeliveryStatusMobile()}

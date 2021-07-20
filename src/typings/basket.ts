@@ -71,6 +71,7 @@ export type Basket = {
   store?: any[];
   redirectHomepage?: boolean;
   pageReload?: boolean;
+  amountPayable?: number;
 };
 
 export interface BasketItem extends BasketLineItem {
