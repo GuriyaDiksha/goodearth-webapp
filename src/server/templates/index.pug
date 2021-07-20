@@ -178,7 +178,7 @@ html(lang='en')
             }
             window.removeEventListener('mousemove', handleMouseMove);
           }
-          window.addEventListener('mousemove', handleMouseMove)
+          //- window.addEventListener('mousemove', handleMouseMove)
 
           const initializeFreshChat = function () {
             if(!window.fcWidget) {
@@ -186,7 +186,7 @@ html(lang='en')
             }
             window.removeEventListener('scroll', initializeFreshChat);
           }
-          window.addEventListener('scroll', initializeFreshChat)
+          //- window.addEventListener('scroll', initializeFreshChat)
         
         script.
           window.dataLayer = window.dataLayer || [];
@@ -230,10 +230,10 @@ html(lang='en')
         div(id="chat-container" class='chat-container')
           div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
             i(class='icon_uparrow-white')
-          a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
-            div(id='whatsapp' class='whatsapp-img whatsapp-active')
-              //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
-          div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
-            i(class='icon-chat')
-          div(id='chat-button', onclick='OpenBox()', class='chat-button active')
-            i(class='icon-question')
+          //- a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
+          //-   div(id='whatsapp' class='whatsapp-img whatsapp-active')
+          //-     //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
+          //- div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
+          //-   i(class='icon-chat')
+          //- div(id='chat-button', onclick='OpenBox()', class='chat-button active')
+          //-   i(class='icon-question')
