@@ -825,12 +825,7 @@ class Header extends React.Component<Props, State> {
         </div>
         <GrowlMessage />
         <MakerUtils />
-        {this.props.currency.toString().toUpperCase() == "INR" &&
-          // ((this.props.location.pathname.includes("/catalogue/")
-          //   ? this.props.location.pathname.includes("/category/")
-          //     ? true
-          //     : false
-          //   : true)
+        {/* {this.props.currency.toString().toUpperCase() == "INR" &&
           !(
             this.props.location.pathname.includes("/search") ||
             this.props.location.pathname.includes("/catalogue") ||
@@ -864,7 +859,7 @@ class Header extends React.Component<Props, State> {
                 </a>
               </div>
             </div>
-          )}
+          )} */}
         {mobile && !isBridalRegistryPage && (
           <BottomMenu
             onBottomMenuClick={this.onBottomMenuClick}
