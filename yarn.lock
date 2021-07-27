@@ -3046,6 +3046,11 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
+"@types/newrelic@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@types/newrelic/-/newrelic-7.0.2.tgz#232746fdaba0033e5b246727d5d836c64d5da9ad"
+  integrity sha512-+PPoS4y66YypF2tvTdJD2aXSGPpOWaDsJ5vPs/e3ejfrOB4bKSCrpH6nnxIeV12pv1upRsKfuXNFtaH1pGQ0MA==
+
 "@types/node-cache@^4.2.5":
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/@types/node-cache/-/node-cache-4.2.5.tgz#dac6be8bf8f486db4eef66f52f7bb9e90b65d2c1"
