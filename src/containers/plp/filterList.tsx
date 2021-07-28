@@ -469,7 +469,7 @@ class FilterList extends React.Component<Props, State> {
               "price" +
               currency[0].toUpperCase() +
               currency.substring(1).toLowerCase();
-          plpList.results.facets[currentCurrency].map(function(a: any) {
+          plpList.results.facets[currentCurrency]?.map(function(a: any) {
             pricearray.push(+a[0]);
           });
           if (pricearray.length > 0) {
