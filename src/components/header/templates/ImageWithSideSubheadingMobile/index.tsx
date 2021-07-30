@@ -33,7 +33,7 @@ const ImageWithSideSubheadingMobile: React.FC<Props> = ({
     <div className={styles.imageWithSideSubheadingMobile}>
       {data.children && data.children.length > 0 && (
         <Image
-          data={data.children}
+          data={data}
           templateType={templateType}
           l1={l1}
           onHeaderMegaMenuClick={onHeaderMegaMenuClick}

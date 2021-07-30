@@ -274,7 +274,7 @@ class LoyaltyLanding extends Component<Props, State> {
     const rewardsAndBenefitsSection = (
       <>
         <div className={cs(styles.heading1, globalStyles.voffset4)}>
-          Rewards and Benefits
+          Rewards & Benefits
         </div>
         <div
           className={cs(
@@ -345,7 +345,7 @@ class LoyaltyLanding extends Component<Props, State> {
               <div
                 className={cs(bootstrapStyles.col11, bootstrapStyles.offset1)}
               >
-                <span className={styles.heading}> cerise program</span>
+                <span className={styles.heading}> cerise club</span>
               </div>
             </div>
             <div
@@ -533,12 +533,13 @@ class LoyaltyLanding extends Component<Props, State> {
                   HOW TO BECOME A MEMBER
                 </div>
                 <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
-                  Once you are naturally selected as a member of the Cerise
-                  Program based on your purchase value in one year, you are
-                  entitled to various privileges listed below. As soon as the
-                  annual value of your purchase increases to touch the next
-                  milestone, you become a member of Cerise Sitara with access to
-                  unique Sitara privileges.
+                  Our customers enjoy automatic enrolment as{" "}
+                  <span className={globalStyles.cerise}>Cerise Club</span>{" "}
+                  members based on reaching an annual purchase value of ₹ 1
+                  lakh. As you cross a ₹ 5 lakh annual purchase value, you
+                  unlock exclusive privileges as an exclusive{" "}
+                  <span className={globalStyles.cerise}>Cerise Sitara</span>{" "}
+                  member.
                 </div>
               </div>
             </div>
@@ -696,7 +697,7 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <div>
-                  <span className={styles.heading}>Cerise Program</span>
+                  <span className={styles.heading}>Cerise Club</span>
                 </div>
               </div>
             </SecondaryHeader>
@@ -717,7 +718,13 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img src={ceriseMainlogo} className={styles.imgLoyalty} />
-                <div className={cs(styles.txtNormal, globalStyles.voffset4)}>
+                <div
+                  className={cs(
+                    styles.txtNormal,
+                    styles.txtLarge,
+                    globalStyles.voffset4
+                  )}
+                >
                   {" "}
                   A bespoke experience for our loyal customers who share our
                   vision of celebrating Indian craftsmanship and sustainability.
@@ -815,7 +822,13 @@ class LoyaltyLanding extends Component<Props, State> {
                 <div className={cs(styles.heading1, globalStyles.voffset6)}>
                   HOW TO BECOME A MEMBER
                 </div>
-                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
+                <div
+                  className={cs(
+                    styles.txtNormal,
+                    styles.txtLarge,
+                    globalStyles.voffset2
+                  )}
+                >
                   Our customers enjoy automatic enrolment as{" "}
                   <span className={globalStyles.cerise}>Cerise Club</span>{" "}
                   members based on reaching an annual purchase value of ₹ 1

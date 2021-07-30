@@ -284,8 +284,7 @@ const BaseLayout: React.FC = () => {
       CookieService.setCookie("isBridal", "no");
     }
   }, [bridal]);
-  const isCheckout =
-    pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
+  const isCheckout = pathname.indexOf("/checkout") > -1 || pathname == "/cart";
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
