@@ -190,6 +190,7 @@ class LoyaltyLanding extends Component<Props, State> {
       image: rewardPoints,
       heading: "Cerise Points",
       subHeading: "Earn 10% of the value of each of your purchases.",
+      subHeadingSitara: "Earn 15% of the value of each of your purchases.",
       isCeriseOnly: true
     },
     {
@@ -318,16 +319,22 @@ class LoyaltyLanding extends Component<Props, State> {
             <div className={styles.tabContent}>
               <ul>
                 {this.itemsData.map(item => {
-                  const { isCeriseOnly, ...rest } = item;
+                  const { isCeriseOnly, subHeadingSitara, ...rest } = item;
                   const isActive = isCeriseOnly || !tabs;
-                  const props = { ...rest, isActive };
+                  const subHeading =
+                    !tabs && subHeadingSitara
+                      ? subHeadingSitara
+                      : item.subHeading;
+                  const props = { ...rest, isActive, subHeading };
                   return <RewardItem {...props} key={item.heading} />;
                 })}
               </ul>
-              <p className={styles.txtFooter}>
-                *For Cerise Club members, this benefit is valid on all domestic
-                orders over ₹&nbsp;20,000.{" "}
-              </p>
+              {tabs && (
+                <p className={styles.txtFooter}>
+                  *For Cerise Club members, this benefit is valid on all
+                  domestic orders over ₹&nbsp;20,000.{" "}
+                </p>
+              )}
             </div>
           }
         </div>
@@ -400,14 +407,16 @@ class LoyaltyLanding extends Component<Props, State> {
                         <li>
                           <img src={list1} />
                           <div className={styles.txtNormal}>
-                            Valid on all purchases, in-store or online.
+                            Valid on all purchases,
+                            <br />
+                            in-store or online.
                           </div>
                         </li>
                         <li>
                           <img src={list2} />
                           <div className={styles.txtNormal}>
-                            Earn upto 15% of your purchase value as Cerise
-                            Points.
+                            Earn upto 15% of your purchase value as
+                            Cerise&nbsp;Points.
                           </div>
                           {/* <a
                         href="javascript:void(0);"
@@ -446,7 +455,8 @@ class LoyaltyLanding extends Component<Props, State> {
                           <img src={list3} />
                           <div className={styles.txtNormal}>
                             {" "}
-                            Redeem your accrued Cerise Points on all purchases.
+                            Redeem your accrued Cerise&nbsp;Points on all
+                            purchases.
                           </div>
                           {/* <a
                         href="javascript:void(0);"
@@ -741,13 +751,16 @@ class LoyaltyLanding extends Component<Props, State> {
                     <li>
                       <img src={list1} />
                       <div className={styles.txtNormal}>
-                        Valid on all purchases, in-store or online.
+                        Valid on all purchases,
+                        <br />
+                        in-store or online.
                       </div>
                     </li>
                     <li>
                       <img src={list2} />
                       <div className={styles.txtNormal}>
-                        Earn upto 15% of your purchase value as Cerise Points.
+                        Earn upto 15% of your purchase value as
+                        Cerise&nbsp;Points.
                       </div>
                       {/* <a
                         href="javascript:void(0);"
@@ -783,7 +796,7 @@ class LoyaltyLanding extends Component<Props, State> {
                       <img src={list3} />
                       <div className={styles.txtNormal}>
                         {" "}
-                        Redeem your accrued Cerise Points on all purchases.
+                        Redeem your accrued Cerise&nbsp;Points on all purchases.
                       </div>
                       {/* <a
                         href="javascript:void(0);"
