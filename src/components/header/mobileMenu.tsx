@@ -1006,4 +1006,4 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
   }
 }
-export default connect(mapStateToProps)(Mobilemenu);
+export default React.memo(connect(mapStateToProps)(Mobilemenu));
