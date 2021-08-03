@@ -14,7 +14,6 @@ import {
   Product
 } from "typings/product";
 import SecondaryHeader from "components/SecondaryHeader";
-import { Currency, currencyCode } from "../../typings/currency";
 import Breadcrumbs from "components/Breadcrumbs";
 import PdpImage from "./components/pdpImage";
 import WeRecommendSlider from "components/weRecomend";
@@ -96,7 +95,8 @@ class PDPContainer extends React.Component<Props, State> {
       this.props.data && this.props.data.looksProducts
         ? this.props.data.looksProducts.length >= 2
         : false,
-    showAddToBagMobile: true
+    showAddToBagMobile: true,
+    showSecondary: true
   };
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
@@ -478,6 +478,7 @@ class PDPContainer extends React.Component<Props, State> {
     return (
       <ProductDetails
         showAddToBagMobile={this.state.showAddToBagMobile}
+        toggelHeader={this.toggelHeader}
         corporatePDP={corporatePDP}
         data={data}
         key={data.sku}
@@ -900,6 +901,12 @@ class PDPContainer extends React.Component<Props, State> {
     };
   };
 
+  toggelHeader = (value: boolean) => {
+    this.setState({
+      showSecondary: value
+    });
+  };
+
   render() {
     const {
       data,
@@ -910,7 +917,7 @@ class PDPContainer extends React.Component<Props, State> {
       return null;
     }
 
-    // const { breadcrumbs } = data;
+    const { breadcrumbs } = data;
     const images = this.getProductImagesData();
 
     const mobileSlides =
@@ -936,12 +943,18 @@ class PDPContainer extends React.Component<Props, State> {
         );
       });
 
-    const { activeImage, detailStickyEnabled, mounted } = this.state;
+    const {
+      activeImage,
+      detailStickyEnabled,
+      mounted,
+      showSecondary
+    } = this.state;
 
     return (
       <div
         className={cs(
-          styles.pdpSecondcontainer,
+          { [styles.pdpContainer]: showSecondary },
+          { [styles.pdpSecondcontainer]: !showSecondary },
           { [styles.pdpContainerTimer]: this.props.showTimer },
           bootstrap.containerFluid,
           {
@@ -949,14 +962,13 @@ class PDPContainer extends React.Component<Props, State> {
           }
         )}
       >
-        {!mobile && (
-          // <SecondaryHeader>
-          //   <Breadcrumbs
-          //     levels={breadcrumbs}
-          //     className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
-          //   />
-          //  </SecondaryHeader>
-          <></>
+        {!mobile && showSecondary && (
+          <SecondaryHeader>
+            <Breadcrumbs
+              levels={breadcrumbs}
+              className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
+            />
+          </SecondaryHeader>
         )}
 
         <div

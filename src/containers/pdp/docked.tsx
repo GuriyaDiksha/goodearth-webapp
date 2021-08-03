@@ -26,17 +26,14 @@ const DockedPanel: React.FC<Props> = ({ data, buttoncall }) => {
         bootstrap.row
       )}
     >
-      <div className={bootstrap.col9}>
+      <div className={cs(bootstrap.col9, globalStyles.flex)}>
         <div className={styles.imgcontainer}>
           <img
             className={globalStyles.imgResponsive}
-            src={
-              "https://d3qn6cjsz7zlnp.cloudfront.net/media/images/product/Micro/I00201671-1571829149.jpg"
-            }
+            src={data.images?.[0].productImage.replace("/Medium/", "/Micro/")}
           />
         </div>
-
-        <span> </span>
+        <span className={styles.dockText}> {data.altText}</span>
       </div>
       <div className={cs(bootstrap.col1, styles.padding21)}>
         <Price

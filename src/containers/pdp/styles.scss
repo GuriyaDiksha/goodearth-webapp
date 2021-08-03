@@ -171,7 +171,12 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 .secondary-header-container {
     box-shadow: 0 8px 6px -6px tint(#000, 90%);
     height: $secondary-header-height + 30px;
-    @include sticky-top();
+    position: fixed;
+    width: 100%;
+    z-index: 12;
+    background-color: $white;
+    left: 0;
+    top: $header-height;
 }
 .secondary-header-container-timer {
     top: $header-height + $timer-height +30px;
@@ -180,4 +185,20 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 .imgcontainer {
     width: 50px;
     margin-left: 10px;
+}
+
+.padding21 {
+    padding-top: 20px;
+}
+.padding14 {
+    padding-top: 15px;
+}
+.dock-text {
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    line-height: 43px;
+    text-decoration: none;
+    font-size: 12px;
+    margin-top: 15px;
+    padding-left: 10px;
 }
