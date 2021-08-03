@@ -1,4 +1,5 @@
 @import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
 
 $pdp-top: $header-height + $secondary-header-height;
 
@@ -9,6 +10,14 @@ $pdp-top: $header-height + $secondary-header-height;
         margin-top: $pdp-top;
     }
 }
+.pdp-secondcontainer {
+    margin-top: $header-height;
+    
+    &:not(.mobile) {
+        margin-top: $pdp-top+100;
+    }
+}
+
 .pdp-container-timer {
     margin-top: $header-height + $timer-height;
     &:not(.mobile) {
@@ -157,4 +166,18 @@ $pdp-top: $header-height + $secondary-header-height;
 
 input[type="time"]::-webkit-calendar-picker-indicator{
     cursor: pointer;
+}
+
+.secondary-header-container {
+    box-shadow: 0 8px 6px -6px tint(#000, 90%);
+    height: $secondary-header-height + 30px;
+    @include sticky-top();
+}
+.secondary-header-container-timer {
+    top: $header-height + $timer-height +30px;
+}
+
+.imgcontainer {
+    width: 50px;
+    margin-left: 10px;
 }
