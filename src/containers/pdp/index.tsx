@@ -14,6 +14,7 @@ import {
   Product
 } from "typings/product";
 import SecondaryHeader from "components/SecondaryHeader";
+import { Currency, currencyCode } from "../../typings/currency";
 import Breadcrumbs from "components/Breadcrumbs";
 import PdpImage from "./components/pdpImage";
 import WeRecommendSlider from "components/weRecomend";
@@ -97,7 +98,7 @@ class PDPContainer extends React.Component<Props, State> {
         : false,
     showAddToBagMobile: true
   };
-
+  myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
@@ -170,7 +171,7 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
-
+    console.log(this.myref);
     // if (this.props.device.mobile) {
     //   this.getProductImagesData();
     //   const elem = document.getElementById("pincode-bar");
@@ -465,7 +466,7 @@ class PDPContainer extends React.Component<Props, State> {
     });
   }
 
-  getProductDetails() {
+  getProductDetails = () => {
     const {
       data,
       currency,
@@ -487,7 +488,7 @@ class PDPContainer extends React.Component<Props, State> {
         changeModalState={changeModalState}
       />
     );
-  }
+  };
 
   getRecommendedSection() {
     const {
@@ -909,7 +910,7 @@ class PDPContainer extends React.Component<Props, State> {
       return null;
     }
 
-    const { breadcrumbs } = data;
+    // const { breadcrumbs } = data;
     const images = this.getProductImagesData();
 
     const mobileSlides =
@@ -940,7 +941,7 @@ class PDPContainer extends React.Component<Props, State> {
     return (
       <div
         className={cs(
-          styles.pdpContainer,
+          styles.pdpSecondcontainer,
           { [styles.pdpContainerTimer]: this.props.showTimer },
           bootstrap.containerFluid,
           {
@@ -949,12 +950,13 @@ class PDPContainer extends React.Component<Props, State> {
         )}
       >
         {!mobile && (
-          <SecondaryHeader>
-            <Breadcrumbs
-              levels={breadcrumbs}
-              className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
-            />
-          </SecondaryHeader>
+          // <SecondaryHeader>
+          //   <Breadcrumbs
+          //     levels={breadcrumbs}
+          //     className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
+          //   />
+          //  </SecondaryHeader>
+          <></>
         )}
 
         <div

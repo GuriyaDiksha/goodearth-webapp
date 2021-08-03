@@ -52,6 +52,7 @@ import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import cushionFiller from "images/cushionFiller.svg";
 import inshop from "../../../../images/inShop.svg";
+import DockedPanel from "../../docked";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -80,6 +81,7 @@ const ProductDetails: React.FC<Props> = ({
     badgeType,
     invisibleFields
   },
+  data,
   corporatePDP,
   mobile,
   currency,
@@ -523,6 +525,7 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <div className={bootstrap.row}>
+      <DockedPanel data={data} buttoncall={button} />
       <div
         className={cs(
           bootstrap.col10,
