@@ -1,9 +1,8 @@
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import React, { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import React from "react";
 import Price from "components/Price";
-import { Currency } from "typings/currency";
 import { Product } from "typings/product";
 import { currencyCodes } from "constants/currency";
 import cs from "classnames";
