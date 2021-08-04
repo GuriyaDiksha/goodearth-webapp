@@ -508,12 +508,22 @@ class PLP extends React.Component<
               ""
             )}
 
-            {plpMaker && (!banner || !bannerMobile) && (
+            {/* {plpMaker && (!banner || !bannerMobile) && (
               <MakerEnhance
                 user="goodearth"
                 href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
               />
-            )}
+            )} */}
+
+            <div className={cs(bootstrap.row)}>
+              <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
+                <iframe
+                  width="100%"
+                  allow="fullscreen"
+                  src="https://viewer.helloar.io/?id=60882d14a166f5ffbd473a68"
+                ></iframe>
+              </div>
+            </div>
 
             {!mobile ? (
               <div
