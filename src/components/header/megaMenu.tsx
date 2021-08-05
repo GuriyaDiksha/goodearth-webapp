@@ -50,6 +50,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
   }
 
   onHeaderMenuClick = (name: string, url: string) => {
+    this.props.hideSearch();
     const { mobile, isLoggedIn } = this.props;
     util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
     const obj = {
