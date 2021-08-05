@@ -321,6 +321,13 @@ class Header extends React.Component<Props, State> {
     });
   };
 
+  hideSearch = () => {
+    if (this.state.showSearch) {
+      this.setState({
+        showSearch: false
+      });
+    }
+  };
   hideMenu = () => {
     this.state.showMenu &&
       this.setState({
@@ -674,6 +681,7 @@ class Header extends React.Component<Props, State> {
                     show={this.state.show}
                     activeIndex={this.state.activeIndex}
                     ipad={false}
+                    hideSearch={this.hideSearch}
                     onMegaMenuClick={this.onMegaMenuClick}
                     mouseOver={(data: {
                       show: boolean;
@@ -712,6 +720,7 @@ class Header extends React.Component<Props, State> {
                     showBag={this.state.showBag}
                     setShowBag={this.setShowBag}
                     showSearch={this.state.showSearch}
+                    hideSearch={this.hideSearch}
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
