@@ -87,6 +87,10 @@ button:hover, button:focus, button:active{
   outline: 0;
 }
 
+button {
+  outline-color: white;
+}
+
 .op1 {
   opacity: .8;
 }
