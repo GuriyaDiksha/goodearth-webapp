@@ -21,6 +21,7 @@ import WishlistButton from "components/WishlistButton";
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "components/Loader";
+import throttle from "lodash/throttle";
 // services
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
@@ -52,6 +53,7 @@ import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import cushionFiller from "images/cushionFiller.svg";
 import inshop from "../../../../images/inShop.svg";
+import DockedPanel from "../../docked";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -80,6 +82,7 @@ const ProductDetails: React.FC<Props> = ({
     badgeType,
     invisibleFields
   },
+  data,
   corporatePDP,
   mobile,
   currency,
@@ -87,6 +90,7 @@ const ProductDetails: React.FC<Props> = ({
   changeModalState,
   updateComponentModal,
   closeModal,
+  toggelHeader,
   source,
   showAddToBagMobile
 }) => {
@@ -101,6 +105,7 @@ const ProductDetails: React.FC<Props> = ({
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
   const [onload, setOnload] = useState(false);
+  const [showDock, setShowDock] = useState(true);
   const [
     selectedSize,
     setSelectedSize
@@ -508,6 +513,28 @@ const ProductDetails: React.FC<Props> = ({
     return <Button label={buttonText} onClick={action} />;
   }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
 
+  // const yourElement:React.RefObject<HTMLDivElement> = createRef();
+
+  const isInViewport = (offset = 0, yourElement: any) => {
+    if (!yourElement) return false;
+    const top = yourElement.getBoundingClientRect().top;
+    return top + offset >= 0 && top - offset <= window.innerHeight;
+  };
+
+  const onScroll = throttle(() => {
+    const ele = document.getElementById("yourElement") || "";
+    const value = isInViewport(0, ele) || false;
+    if (showDock != value) {
+      setShowDock(value);
+      toggelHeader(value);
+    }
+  }, 800);
+
+  useEffect(() => {
+    document.addEventListener("scroll", onScroll, true);
+    return () => document.removeEventListener("scroll", onScroll, true);
+  });
+
   const showSize = useMemo(() => {
     let show = false;
     childAttributes.every(attr => {
@@ -523,6 +550,9 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <div className={bootstrap.row}>
+      {!isQuickview && !showDock && (
+        <DockedPanel data={data} buttoncall={button} />
+      )}
       <div
         className={cs(
           bootstrap.col10,
@@ -849,6 +879,7 @@ const ProductDetails: React.FC<Props> = ({
           )}
         >
           <div
+            id="yourElement"
             className={cs(globalStyles.textCenter, globalStyles.voffset1, {
               [bootstrap.col8]: !corporatePDP,
               [styles.addToBagBtnContainer]: mobile,
