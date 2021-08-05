@@ -246,4 +246,4 @@ class MegaMenu extends React.Component<Props, MenuState> {
   }
 }
 
-export default connect(mapStateToProps)(MegaMenu);
+export default React.memo(connect(mapStateToProps)(MegaMenu));

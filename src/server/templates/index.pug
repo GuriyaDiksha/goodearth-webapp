@@ -10,7 +10,7 @@ html(lang='en')
         link(rel="preload", href=`${cdn}/media/fonts/Lato%20300.ttf`, as="font", crossorigin)
         link(rel="preload", href=`${cdn}/media/fonts/Lato%20700italic.ttf`, as="font", crossorigin)
         link(rel="preload", href=`${cdn}/media/fonts/Lato%20300italic.ttf`, as="font", crossorigin)
-        link(rel="preload", href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700", as="font", crossorigin)
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700|Bellefair|Amiri", crossorigin)
         each stylesheet in styles
           style !{stylesheet}
         if (typeof(state) !== 'undefined')

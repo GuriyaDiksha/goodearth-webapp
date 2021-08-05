@@ -380,9 +380,10 @@
 }
 
 .dropdown-menu-bar {
-  background-color: $white;
+  background-color: #FDFDFD;
   z-index: 10;
   position: absolute;
+  box-shadow: 0 7px 28px lightgray;
   width: 100%;
   margin: 0;
 }
@@ -1526,6 +1527,12 @@ ul.inner-menu-mobile {
   border-right: 1px solid #D8D8D8;
 }
 
+.hr {
+  margin: 20px 0 10px 0;
+  height: 1px;
+  border: none;
+  background: #D8D8D8;
+}
 .column-container {
   margin-top: 25px;
 }
