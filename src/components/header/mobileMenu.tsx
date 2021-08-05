@@ -409,6 +409,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       );
       k++;
     });
+    const isPublishOnMobile =
+      templates.filter(template => template.publishOnMobile).length > 0;
+    if (isPublishOnMobile) {
+      html.push(<div className={styles.hr} />);
+    }
     templates.map(template => {
       if (template.publishOnMobile) {
         if (template.templateType == "TITLEHEADING") {
@@ -1001,4 +1006,4 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
   }
 }
-export default connect(mapStateToProps)(Mobilemenu);
+export default React.memo(connect(mapStateToProps)(Mobilemenu));

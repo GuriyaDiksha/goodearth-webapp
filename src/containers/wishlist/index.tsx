@@ -413,6 +413,7 @@ class Wishlist extends React.Component<Props, State> {
     }
 
     const wishlistTotal = nextProps.wishlistData.map(item => {
+      const { isSale } = this.props;
       if (!item.size && item.stockDetails.length > 1) {
         const itemTotal = item.stockDetails.reduce((prev, curr) => {
           const prevprices = parseFloat(
@@ -423,18 +424,24 @@ class Wishlist extends React.Component<Props, State> {
           );
           return prevprices < currprices ? prev : curr;
         });
-        return +itemTotal.discountedPrice[currency];
+        return isSale
+          ? +itemTotal.discountedPrice[currency]
+          : +itemTotal.price[currency];
       } else if (item.size) {
         let vars = 0;
         item.stockDetails.forEach(function(items, key) {
           if (item.size == items.size) {
-            vars = +items.discountedPrice[currency];
+            vars = isSale
+              ? +items.discountedPrice[currency]
+              : +items.price[currency];
           }
         });
         return vars;
       } else {
         return item.stockDetails[0]
-          ? +item.stockDetails[0].discountedPrice[currency]
+          ? isSale
+            ? +item.stockDetails[0].discountedPrice[currency]
+            : +item.stockDetails[0].price[currency]
           : 0;
       }
     });

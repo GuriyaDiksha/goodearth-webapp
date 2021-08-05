@@ -240,6 +240,12 @@
         color: #000;
         font-size: 14px;
       }
+
+      .dis-price {
+        @include c10-L-R();
+        color: #000;
+        font-size: 12px;
+      }
   
       .subtext {
         color: tint(#000, 50%);
