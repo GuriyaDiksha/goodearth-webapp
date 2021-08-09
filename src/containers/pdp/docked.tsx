@@ -40,7 +40,7 @@ const DockedPanel: React.FC<Props> = ({ data, buttoncall }) => {
           product={data}
           code={currencyCodes[currency]}
           isSale={false}
-          currency={"INR"}
+          currency={currency}
         />
       </div>
       <div className={cs(bootstrap.col2, styles.padding14)}>{buttoncall}</div>
