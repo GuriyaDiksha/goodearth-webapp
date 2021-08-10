@@ -31,4 +31,4 @@ const Image: React.FC<Props> = props => {
   );
 };
 
-export default Image;
+export default React.memo(Image);
