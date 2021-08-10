@@ -114,7 +114,7 @@ const Title: React.FC<Props> = ({
       </div>
       {data.children && data.children.length > 0 && (
         <Image
-          data={data.children}
+          data={data}
           templateType={templateType}
           l1={l1}
           l2={componentData.title}

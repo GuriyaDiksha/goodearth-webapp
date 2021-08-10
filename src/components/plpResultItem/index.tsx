@@ -12,6 +12,7 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import Price from "components/Price";
 import * as valid from "utils/validate";
 import CookieService from "services/cookie";
 
@@ -179,32 +180,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <Link to={product.url}> {product.title} </Link>
         </p>
         {!(product.invisibleFields.indexOf("price") > -1) && (
-          <p className={styles.productN}>
-            {info.isSale && product.discount ? (
-              <span className={styles.discountprice}>
-                {String.fromCharCode(...code)}{" "}
-                {product.discountedPriceRecords[currency as Currency]}
-              </span>
-            ) : (
-              ""
-            )}
-            {info.isSale && product.discount ? (
-              <span className={styles.strikeprice}>
-                {" "}
-                {String.fromCharCode(...code)}{" "}
-                {product.priceRecords[currency as Currency]}{" "}
-              </span>
-            ) : (
-              <span
-                className={
-                  product.badgeType == "B_flat" ? globalStyles.cerise : ""
-                }
-              >
-                {String.fromCharCode(...code)}{" "}
-                {product.priceRecords[currency as Currency]}
-              </span>
-            )}
-          </p>
+          <Price
+            product={product}
+            code={code}
+            isSale={info.isSale}
+            currency={currency}
+          />
         )}
         {product.justAddedBadge && mobile && (
           <p className={styles.productN}>

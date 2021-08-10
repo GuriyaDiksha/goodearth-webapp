@@ -115,3 +115,6 @@ _goodearth.scss
 
 # newrelic config file
 newrelic.js
+
+#robots.txt
+robots.txt
