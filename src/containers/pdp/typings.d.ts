@@ -13,4 +13,5 @@ export type State = {
   mounted: boolean;
   showLooks: boolean;
   showAddToBagMobile: boolean;
+  showSecondary: boolean;
 };

@@ -18,6 +18,7 @@ import * as valid from "utils/validate";
 import Button from "components/Button";
 import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
+import Price from "components/Price";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -198,32 +199,12 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           <Link to={product.url}> {product.title} </Link>
         </p>
         {!(product.invisibleFields.indexOf("price") > -1) && (
-          <p className={styles.productN}>
-            {info.isSale && product.discount ? (
-              <span className={styles.discountprice}>
-                {String.fromCharCode(...code)}{" "}
-                {product.discountedPriceRecords[currency as Currency]}
-              </span>
-            ) : (
-              ""
-            )}
-            {info.isSale && product.discount ? (
-              <span className={styles.strikeprice}>
-                {" "}
-                {String.fromCharCode(...code)}{" "}
-                {product.priceRecords[currency as Currency]}{" "}
-              </span>
-            ) : (
-              <span
-                className={
-                  product.badgeType == "B_flat" ? globalStyles.cerise : ""
-                }
-              >
-                {String.fromCharCode(...code)}{" "}
-                {product.priceRecords[currency as Currency]}
-              </span>
-            )}
-          </p>
+          <Price
+            product={product}
+            code={code}
+            isSale={info.isSale}
+            currency={currency}
+          />
         )}
         {product.justAddedBadge && mobile && (
           <p className={styles.productN}>

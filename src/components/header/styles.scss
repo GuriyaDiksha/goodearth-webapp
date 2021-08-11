@@ -213,7 +213,7 @@
       }
     }
     .icon-style {
-      font-size: 22px;
+      font-size: 20px;
       margin: inherit;
       &:hover {
         color: $cerise;
@@ -380,9 +380,10 @@
 }
 
 .dropdown-menu-bar {
-  background-color: $white;
+  background-color: #FDFDFD;
   z-index: 10;
   position: absolute;
+  box-shadow: 0 7px 28px lightgray;
   width: 100%;
   margin: 0;
 }
@@ -515,7 +516,7 @@
 
     }
     i {
-      font-size: 20px;
+      font-size: 18px;
     }
 
   }
@@ -680,7 +681,7 @@
 .first-menu{
   float: left;
   .icon-style {
-    font-size: 22px;
+    font-size: 18px;
     margin-right: 10px;
   }
   .search-text{
@@ -903,7 +904,7 @@ a {
   }
   .icon-search-popup {
     cursor: pointer;
-    font-size: 30px;
+    font-size: 24px;
     color: $cerise;
     position: absolute;
     top: 35%;
@@ -1080,7 +1081,7 @@ input {
 }
 .icon-search-popup {
 
-  font-size: 30px;
+  font-size: 24px;
   color: $cerise;
   position: absolute;
   top: 30%;
@@ -1403,7 +1404,7 @@ visibility: visible !important;
   padding-right: 10px !important;
   padding-top: 5px;
   i {
-    font-size: 22px;
+    font-size: 18px;
   }
   .icon-style-cross {
     font-size: 14px;
@@ -1414,9 +1415,8 @@ visibility: visible !important;
   }
   .badge {
     position: absolute;
-    // top: 5px;
-    right: -3px;
-    left: 0;
+    top: 4px;
+    right: 12px;
     min-width: 10px;
     padding-top: 2px;
     font-size: 12px;
@@ -1458,14 +1458,24 @@ visibility: visible !important;
     }
   }
   .icon-style {
-    font-size: 26px;
-    color: tint(#000, 20%);
+    font-size: 21px;
+    color: #444444;
     margin: inherit;
+  }
+  .wishlist-icon-style {
+    position: relative;
+    bottom: 2px;
+  }
+  .menu-icon-style {
+    font-size: 28px;
+  }
+  .logo-icon-style {
+    font-size: 26px;
   }
 }
 
 .hamburger-bottom-menu {
-  top: 5px;
+  top: 8px;
 }
 
 .wishlist-link-bottom-menu {
@@ -1526,6 +1536,12 @@ ul.inner-menu-mobile {
   border-right: 1px solid #D8D8D8;
 }
 
+.hr {
+  margin: 20px 0 10px 0;
+  height: 1px;
+  border: none;
+  background: #D8D8D8;
+}
 .column-container {
   margin-top: 25px;
 }

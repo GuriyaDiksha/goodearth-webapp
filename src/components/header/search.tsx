@@ -25,6 +25,7 @@ import noImagePlp from "images/noimageplp.png";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
+import Price from "components/Price";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -654,66 +655,14 @@ class Search extends React.Component<Props, State> {
                                         data.invisibleFields.indexOf("price") >
                                         -1
                                       ) && (
-                                        <p className={styles.productN}>
-                                          {this.props.isSale &&
-                                          data.discount ? (
-                                            <span
-                                              className={styles.discountprice}
-                                            >
-                                              {String.fromCharCode(
-                                                ...currencyCodes[
-                                                  this.props.currency
-                                                ]
-                                              )}
-                                              &nbsp;{" "}
-                                              {
-                                                data.discountedPriceRecords[
-                                                  this.props.currency
-                                                ]
-                                              }{" "}
-                                              &nbsp;{" "}
-                                            </span>
-                                          ) : (
-                                            ""
-                                          )}
-                                          {this.props.isSale &&
-                                          data.discount ? (
-                                            <span
-                                              className={styles.strikeprice}
-                                            >
-                                              {String.fromCharCode(
-                                                ...currencyCodes[
-                                                  this.props.currency
-                                                ]
-                                              )}
-                                              &nbsp;{" "}
-                                              {
-                                                data.priceRecords[
-                                                  this.props.currency
-                                                ]
-                                              }
-                                            </span>
-                                          ) : (
-                                            <p
-                                              className={cs(styles.productN, {
-                                                [globalStyles.cerise]:
-                                                  data.badgeType == "B_flat"
-                                              })}
-                                            >
-                                              {String.fromCharCode(
-                                                ...currencyCodes[
-                                                  this.props.currency
-                                                ]
-                                              )}
-                                              &nbsp;{" "}
-                                              {
-                                                data.priceRecords[
-                                                  this.props.currency
-                                                ]
-                                              }
-                                            </p>
-                                          )}
-                                        </p>
+                                        <Price
+                                          product={data}
+                                          code={
+                                            currencyCodes[this.props.currency]
+                                          }
+                                          isSale={this.props.isSale}
+                                          currency={this.props.currency}
+                                        />
                                       )}
                                 </div>
                               </div>
