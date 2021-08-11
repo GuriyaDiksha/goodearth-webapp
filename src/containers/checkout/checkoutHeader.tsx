@@ -186,11 +186,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
         <span className={styles.vCenter}>
           <span>
             <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCartFilled,
-                styles.cart
-              )}
+              className={cs(iconStyles.icon, iconStyles.iconCart, styles.cart)}
             ></i>
           </span>
           {mobile ? (

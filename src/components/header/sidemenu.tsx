@@ -270,6 +270,7 @@ class SideMenu extends React.Component<Props, State> {
                   onClick={() => {
                     gtmPushWishlistClick();
                     this.props.onSideMenuClick("Wishlist");
+                    this.props.hideSearch();
                   }}
                 >
                   <i
