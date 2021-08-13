@@ -29,7 +29,6 @@ import Api from "services/api";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    data: state.header.data,
     currency: state.currency,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
