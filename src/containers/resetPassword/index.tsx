@@ -13,10 +13,10 @@ import show from "../../images/show.svg";
 import hide from "../../images/hide.svg";
 import { RouteComponentProps, withRouter, useHistory } from "react-router";
 import AccountService from "services/account";
-// import CookieService from "services/cookie";
 import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
 import LoginService from "services/login";
+import Login from "./login";
 
 type Props = {
   uid: string;
@@ -33,8 +33,10 @@ const ResetPassword: React.FC<Props> = props => {
   const [showPassword, setShowPassword] = useState(false);
   const [enableSubmit, setEnableSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showLogin, setShowLogin] = useState(false);
   const dispatch = useDispatch();
   const { uid, token } = props;
+  const [redirectTo, setRedirectTo] = useState("");
   const history = useHistory();
 
   useEffect(() => {
@@ -50,6 +52,8 @@ const ResetPassword: React.FC<Props> = props => {
       LoginService.logout(dispatch);
     }
     valid.pageViewGTM("ResetPassword");
+    const searchParams = new URLSearchParams(history.location.search);
+    setRedirectTo(searchParams.get("redirect_to") || "");
   }, []);
   const handleInvalidSubmit = () => {
     setTimeout(() => {
@@ -87,34 +91,28 @@ const ResetPassword: React.FC<Props> = props => {
     AccountService.confirmResetPassword(dispatch, formData)
       .then(data => {
         resetForm();
+        setShowLogin(true);
+        localStorage.setItem("tempEmail", data.email);
         // const { bridalCurrency, bridalId } = data;
         // bridalId && CookieService.setCookie("bridalId", bridalId);
         // bridalCurrency &&
         //   CookieService.setCookie("bridalCurrency", bridalCurrency);
         valid.showGrowlMessage(dispatch, MESSAGE.ALL_SESSION_LOGOUT);
-        let counter = 5;
-        const timer = setInterval(function() {
-          if (counter < 0) {
-            history.push(data.redirectTo || "/");
-            clearInterval(timer);
-            localStorage.setItem("tempEmail", data.email);
-            data.redirectTo != "/order/checkout" &&
-              LoginService.showLogin(dispatch);
-          } else {
-            setErrorMessage(
-              data.message + " This page will redirect in " + counter + " sec."
-            );
-          }
-          counter--;
-        }, 1000);
-        //  else {
-        // const msg = (typeof data.errorMessage) == "string" ? data.errorMessage : "Something went wrong Please try again later!";
-        // const { newPassword1, newPassword2 } = data.errorMessage;
-        // setErrorMessage(msg);
-        // if (newPassword1 || newPassword2) {
-        //   updateInputWithError({ newPassword1, newPassword2 });
-        // }
-        // }
+        // let counter = 5;
+        // const timer = setInterval(function() {
+        //   if (counter < 0) {
+        //     history.push(data.redirectTo || "/");
+        //     clearInterval(timer);
+        //     localStorage.setItem("tempEmail", data.email);
+        //     data.redirectTo != "/order/checkout" &&
+        //       LoginService.showLogin(dispatch);
+        //   } else {
+        //     setErrorMessage(
+        //       data.message + " This page will redirect in " + counter + " sec."
+        //     );
+        //   }
+        //   counter--;
+        // }, 1000);
       })
       .catch((err: any) => {
         setErrorMessage(err.response.data.errorMessage);
@@ -221,22 +219,26 @@ const ResetPassword: React.FC<Props> = props => {
   );
   const mainContent = (
     <div className={bootstrapStyles.row}>
-      <div
-        className={cs(
-          bootstrapStyles.col10,
-          bootstrapStyles.offset1,
-          bootstrapStyles.colMd8,
-          bootstrapStyles.offsetMd2
-        )}
-      >
-        <div className={myAccountComponentStyles.formHeading}>
-          Reset Password
+      {showLogin ? (
+        <Login redirectTo={redirectTo} />
+      ) : (
+        <div
+          className={cs(
+            bootstrapStyles.col10,
+            bootstrapStyles.offset1,
+            bootstrapStyles.colMd8,
+            bootstrapStyles.offsetMd2
+          )}
+        >
+          <div className={myAccountComponentStyles.formHeading}>
+            Reset Password
+          </div>
+          <div className={myAccountComponentStyles.formSubheading}>
+            Please fill in the fields below
+          </div>
+          {formContent}
         </div>
-        <div className={myAccountComponentStyles.formSubheading}>
-          Please fill in the fields below
-        </div>
-        {formContent}
-      </div>
+      )}
     </div>
   );
 
