@@ -4,6 +4,9 @@ import { actionCreator } from "utils/actionCreator";
 export const updateSales = (isSale: boolean) =>
   actionCreator("UPDATE_SALE", isSale);
 
+export const updateGiftWrap = (showGiftwrap: boolean) =>
+  actionCreator("UPDATE_GIFT_WRAP", showGiftwrap);
+
 export const updatePopupBgUrl = (popupBgUrl: string) =>
   actionCreator("UPDATE_POPUP_BG_URL", popupBgUrl);
 
