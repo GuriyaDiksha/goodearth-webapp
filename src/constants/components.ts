@@ -2,6 +2,7 @@ import loadable from "@loadable/component";
 import CurrencyPopup from "../components/Popups/CurrencyPopup";
 import BackendOrderPopup from "components/BackendOrderPopup/confirm";
 import PincodePopup from "components/Popups/pincodePopup";
+import CerisePopup from "components/Popups/CerisePopup";
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -46,7 +47,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   bridalMobileProductUpdate: BridalMobileProductUpdate,
   bridalPop: BridalPop,
   shareLink: ShareLink,
-  delivery: Delivery
+  delivery: Delivery,
+  cerise: CerisePopup
 };
 
 export enum POPUP {
@@ -71,5 +73,6 @@ export enum POPUP {
   BRIDALMOBILEPRODUCTUPDATE = "bridalMobileProductUpdate",
   BRIDALPOP = "bridalPop",
   SHARELINK = "shareLink",
-  DELIVERY = "delivery"
+  DELIVERY = "delivery",
+  CERISE = "cerise"
 }
