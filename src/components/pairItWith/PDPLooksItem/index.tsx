@@ -147,6 +147,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 ? product.images?.[0].productImage
                 : "/static/img/noimageplp.png")
             }
+            alt={product.altText || product.title}
             className={styles.imageResultnew}
             isVisible={isVisible}
             onError={(e: any) => {

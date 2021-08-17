@@ -16,11 +16,11 @@ import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
 import BasketService from "services/basket";
 import { ProductID } from "typings/id";
-import { updateModal } from "actions/modal";
 import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
+import { updateModal } from "actions/modal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -58,6 +58,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchFeaturedContent: async () => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
+    },
+    changeModalState: () => {
+      dispatch(updateModal(false));
     }
   };
 };
@@ -91,6 +94,7 @@ class CartPage extends React.Component<Props, State> {
   componentDidMount() {
     util.pageViewGTM("Cart");
     this.props.fetchBasket();
+    this.props.changeModalState();
     this.props
       .fetchFeaturedContent()
       .then(data => {
@@ -224,7 +228,7 @@ class CartPage extends React.Component<Props, State> {
                                     : data.ctaImage
                                 }
                                 // onError={this.addDefaultSrc}
-                                alt=""
+                                alt={data.ctaText}
                                 className={styles.imageResultNew}
                               />
                             </Link>
@@ -265,6 +269,7 @@ class CartPage extends React.Component<Props, State> {
           mobile={this.props.mobile}
           key={item.id}
           {...item}
+          id={item.id}
           currency={currency}
           saleStatus={this.props.isSale}
           onMoveToWishlist={this.onMoveToWishlist}
@@ -300,7 +305,7 @@ class CartPage extends React.Component<Props, State> {
     if (this.state.showUndoWishlist) {
       return (
         <div className={styles.message}>
-          Your item has been moved to wishlist.{" "}
+          Your item has been moved to saved items.{" "}
           <span
             className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
             onClick={this.onUndoWishlistClick}

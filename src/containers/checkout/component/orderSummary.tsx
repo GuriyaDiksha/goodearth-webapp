@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
-import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
@@ -31,7 +30,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const [freeShipping] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
-  const { isLoggedIn, slab } = useSelector((state: AppState) => state.user);
+  const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { isSale } = useSelector((state: AppState) => state.info);
   const { deliveryText } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
@@ -39,7 +38,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     setIsSuspended(true);
   };
 
-  const showDeliveryTimelines = false;
+  const showDeliveryTimelines = true;
   const history = useHistory();
   const queryString = history.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -440,7 +439,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      slab.toLowerCase() != "cerise sitara" &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       currency == "INR" &&
@@ -474,10 +472,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
       eventCategory: "Click",
       eventLabel: location.pathname
     });
-    if (!isLoggedIn) {
-      e.preventDefault();
-      LoginService.showLogin(dispatch);
-    }
   };
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
@@ -633,6 +627,15 @@ const OrderSummary: React.FC<OrderProps> = props => {
               )}
             </div>
           )}
+          {/* <hr className={styles.hr} />
+          <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+            <span className={styles.subtotal}>TOTAL</span>
+            <span className={styles.subtotal}>
+              {String.fromCharCode(...code)}{" "}
+              {parseFloat("" + basket.total).toFixed(2)}
+            </span>
+          </div>
+          <hr className={styles.hr} /> */}
           {getDiscount(basket.offerDiscounts)}
           {getCoupons()}
         </div>
@@ -688,7 +691,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ""
               ) : (
                 <Link className={styles.editCart} to={"/cart"}>
-                  EDIT CART
+                  EDIT BAG
                 </Link>
               )
             ) : (
@@ -799,7 +802,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       ></i>
                     </span>
                     &nbsp;
-                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
+                    <span className={styles.wishlistAlign}>
+                      VIEW SAVED ITEMS
+                    </span>
                   </Link>
                 </div>
               </div>

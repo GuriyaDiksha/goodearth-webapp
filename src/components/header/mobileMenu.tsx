@@ -409,6 +409,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       );
       k++;
     });
+    const isPublishOnMobile =
+      templates.filter(template => template.publishOnMobile).length > 0;
+    if (isPublishOnMobile) {
+      html.push(<div className={styles.hr} />);
+    }
     templates.map(template => {
       if (template.publishOnMobile) {
         if (template.templateType == "TITLEHEADING") {
@@ -738,58 +743,32 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       <div className={styles.lowerMenu}>
         <ul>
           <li>
-            {isLoggedIn ? (
-              <Link
-                to="/wishlist"
-                className={styles.wishlistLink}
-                onClick={() => {
-                  clickToggle();
-                  util.headerClickGTM("Wishlist", "Top", true, isLoggedIn);
-                }}
-              >
-                <i
-                  className={cs(
-                    styles.wishlistIcon,
-                    { [globalStyles.cerise]: wishlistIcon },
-                    {
-                      [iconStyles.iconWishlistAdded]: wishlistIcon
-                    },
-                    {
-                      [iconStyles.iconWishlist]: !wishlistIcon
-                    },
-                    iconStyles.icon
-                  )}
-                />
-                <span>
-                  {" "}
-                  wishlist {wishlistCount ? `(${wishlistCount})` : ""}
-                </span>
-              </Link>
-            ) : (
-              <div
-                onClick={e => {
-                  this.props.goLogin(e);
-                  util.headerClickGTM("Wishlist", "Top", true, isLoggedIn);
-                  clickToggle();
-                }}
-                className={styles.wishlistLink}
-              >
-                <i
-                  className={cs(
-                    styles.wishlistIcon,
-                    { [globalStyles.cerise]: wishlistIcon },
-                    {
-                      [iconStyles.iconWishlistAdded]: wishlistIcon
-                    },
-                    {
-                      [iconStyles.iconWishlist]: !wishlistIcon
-                    },
-                    iconStyles.icon
-                  )}
-                />
-                <span> wishlist</span>
-              </div>
-            )}
+            <Link
+              to="/wishlist"
+              className={styles.wishlistLink}
+              onClick={() => {
+                clickToggle();
+                util.headerClickGTM("Wishlist", "Top", true, isLoggedIn);
+              }}
+            >
+              <i
+                className={cs(
+                  styles.wishlistIcon,
+                  { [globalStyles.cerise]: wishlistIcon },
+                  {
+                    [iconStyles.iconWishlistAdded]: wishlistIcon
+                  },
+                  {
+                    [iconStyles.iconWishlist]: !wishlistIcon
+                  },
+                  iconStyles.icon
+                )}
+              />
+              <span>
+                {" "}
+                saved items {wishlistCount ? `(${wishlistCount})` : ""}
+              </span>
+            </Link>
           </li>
           <li
             className={
@@ -1027,4 +1006,4 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
   }
 }
-export default connect(mapStateToProps)(Mobilemenu);
+export default React.memo(connect(mapStateToProps)(Mobilemenu));

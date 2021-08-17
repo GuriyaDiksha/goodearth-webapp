@@ -8,6 +8,7 @@ const GiftcardItem: React.FC<{}> = memo(() => {
       <div className={styles.imageBoxnew} id="1">
         <Link to="/giftcard">
           <img
+            alt="giftcard-tile"
             src="https://djhiy8e1dslha.cloudfront.net/static/email/giftcard/gift-card-plp-tile.jpg"
             className={styles.imageResultnew}
           />

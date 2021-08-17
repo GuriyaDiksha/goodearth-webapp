@@ -18,6 +18,7 @@ import * as valid from "utils/validate";
 import Button from "components/Button";
 import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
+import Price from "components/Price";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -102,6 +103,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           return (
             <div key={i} className={globalStyles.relative}>
               <LazyImage
+                alt={product.altText || product.title}
                 aspectRatio="62:93"
                 src={productImage.replace("/Micro/", "/Medium/")}
                 isVisible={isVisible}
@@ -117,6 +119,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       : [
           <div key={"no-image"} className={globalStyles.relative}>
             <LazyImage
+              alt={product.altText || product.title}
               aspectRatio="62:93"
               src={noPlpImage}
               isVisible={isVisible}
@@ -196,32 +199,12 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           <Link to={product.url}> {product.title} </Link>
         </p>
         {!(product.invisibleFields.indexOf("price") > -1) && (
-          <p className={styles.productN}>
-            {info.isSale && product.discount ? (
-              <span className={styles.discountprice}>
-                {String.fromCharCode(...code)}{" "}
-                {product.discountedPriceRecords[currency as Currency]}
-              </span>
-            ) : (
-              ""
-            )}
-            {info.isSale && product.discount ? (
-              <span className={styles.strikeprice}>
-                {" "}
-                {String.fromCharCode(...code)}{" "}
-                {product.priceRecords[currency as Currency]}{" "}
-              </span>
-            ) : (
-              <span
-                className={
-                  product.badgeType == "B_flat" ? globalStyles.cerise : ""
-                }
-              >
-                {String.fromCharCode(...code)}{" "}
-                {product.priceRecords[currency as Currency]}
-              </span>
-            )}
-          </p>
+          <Price
+            product={product}
+            code={code}
+            isSale={info.isSale}
+            currency={currency}
+          />
         )}
         {product.justAddedBadge && mobile && (
           <p className={styles.productN}>
@@ -240,23 +223,25 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           >
             <div className={styles.productSize}> size</div>
             <div className="">
-              <ul>
-                {(props.product
-                  .childAttributes as PartialChildProductAttributes[])?.map(
-                  (data: PartialChildProductAttributes, i: number) => {
-                    return (
-                      <li
-                        className={
-                          +data.stock || isCorporate ? "" : styles.disabled
-                        }
-                        key={i}
-                      >
-                        {data.size}
-                      </li>
-                    );
-                  }
-                )}
-              </ul>
+              {!(product.invisibleFields.indexOf("size") > -1) && (
+                <ul>
+                  {(props.product
+                    .childAttributes as PartialChildProductAttributes[])?.map(
+                    (data: PartialChildProductAttributes, i: number) => {
+                      return (
+                        <li
+                          className={
+                            +data.stock || isCorporate ? "" : styles.disabled
+                          }
+                          key={i}
+                        >
+                          {data.size}
+                        </li>
+                      );
+                    }
+                  )}
+                </ul>
+              )}
             </div>
           </div>
         )}

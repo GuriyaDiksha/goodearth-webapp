@@ -135,6 +135,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
         <Link to={product.url} onClick={gtmProductClick}>
           <LazyImage
+            alt={product.altText || product.title}
             aspectRatio="62:93"
             src={image}
             className={styles.imageResultnew}

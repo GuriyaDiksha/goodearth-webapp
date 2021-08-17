@@ -25,12 +25,14 @@ import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
 import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
+const StoreDetails = loadable(() => import("../StoreDetails/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 // import Mobilemenu from "./mobileMenu";
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
+import { CUST } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -48,7 +50,9 @@ const mapStateToProps = (state: AppState) => {
     slab: state.user.slab,
     cookies: state.cookies,
     showTimer: state.info.showTimer,
-    timerData: state.header.timerData
+    timerData: state.header.timerData,
+    customerGroup: state.user.customerGroup,
+    showStock: state.header.storeData.visible
   };
 };
 
@@ -132,6 +136,13 @@ class Header extends React.Component<Props, State> {
         this.props.goLogin();
       }
       this.props.history.push("/cart");
+    }
+    if (id == "cerise") {
+      if (!this.props.isLoggedIn) {
+        this.props.goLogin();
+      } else {
+        this.props.history.push("/");
+      }
     }
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
@@ -388,7 +399,9 @@ class Header extends React.Component<Props, State> {
       goLogin,
       handleLogOut,
       location,
-      mobile
+      mobile,
+      slab,
+      customerGroup
     } = this.props;
     const wishlistCount = wishlistData.length;
     let bagCount = 0;
@@ -453,6 +466,12 @@ class Header extends React.Component<Props, State> {
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+    const isCeriseCustomer = slab
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        customerGroup == CUST.CERISE ||
+        customerGroup == CUST.CERISE_SITARA
+      : false;
     return (
       <div className="">
         <Helmet defer={false}>
@@ -461,16 +480,17 @@ class Header extends React.Component<Props, State> {
               ? meta.title
               : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
-          {
-            <meta
-              name="description"
-              content={
-                meta.description
-                  ? meta.description
-                  : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
-              }
-            />
-          }
+          <meta
+            name="description"
+            content={
+              meta.description
+                ? meta.description
+                : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+            }
+          />
+          {__DOMAIN__ != "https://www.goodearth.in" && (
+            <meta name="robots" content="noindex" />
+          )}
           <link
             rel="canonical"
             href={`${__DOMAIN__}${location.pathname}${
@@ -553,6 +573,7 @@ class Header extends React.Component<Props, State> {
             isBridalRegistryPage={isBridalRegistryPage}
           />
           {!isBridalRegistryPage &&
+            !isCeriseCustomer &&
             this.props.showTimer &&
             this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
@@ -618,6 +639,7 @@ class Header extends React.Component<Props, State> {
               >
                 <Link to="/" onClick={this.handleLogoClick}>
                   <img
+                    alt="goodearth-logo"
                     src={gelogoCerise}
                     style={{
                       width: "111px",
@@ -760,7 +782,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
           <div>
-            <div className={cs(bootstrap.row, bootstrap.col12)}>
+            <div className={cs(bootstrap.row)}>
               <div
                 className={
                   this.state.showMenu
@@ -804,12 +826,7 @@ class Header extends React.Component<Props, State> {
         </div>
         <GrowlMessage />
         <MakerUtils />
-        {this.props.currency.toString().toUpperCase() == "INR" &&
-          // ((this.props.location.pathname.includes("/catalogue/")
-          //   ? this.props.location.pathname.includes("/category/")
-          //     ? true
-          //     : false
-          //   : true)
+        {/* {this.props.currency.toString().toUpperCase() == "INR" &&
           !(
             this.props.location.pathname.includes("/search") ||
             this.props.location.pathname.includes("/catalogue") ||
@@ -843,7 +860,7 @@ class Header extends React.Component<Props, State> {
                 </a>
               </div>
             </div>
-          )}
+          )} */}
         {mobile && !isBridalRegistryPage && (
           <BottomMenu
             onBottomMenuClick={this.onBottomMenuClick}
@@ -852,7 +869,6 @@ class Header extends React.Component<Props, State> {
             isSearch={this.state.showSearch}
             setShowBag={this.setShowBag}
             wishlistCount={wishlistCount}
-            isLoggedIn={isLoggedIn}
             showMenu={this.state.showMenu}
             clickToggle={this.clickToggle}
             goLogin={this.props.goLogin}
@@ -870,6 +886,14 @@ class Header extends React.Component<Props, State> {
                 return { showBag: !prevState.showBag };
               });
             }}
+          />
+        )}
+        {this.props.showStock && (
+          <StoreDetails
+            showShipping={this.props.showShipping}
+            cart={this.props.cart}
+            currency={this.props.currency}
+            active={this.props.showStock}
           />
         )}
       </div>

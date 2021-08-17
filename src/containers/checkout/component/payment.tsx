@@ -172,6 +172,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         key: "payu",
         value: "NET BANKING",
         mode: "NB"
+      },
+      {
+        key: "payu",
+        value: "WALLETS",
+        mode: "CASH"
+      },
+      {
+        key: "payu",
+        value: "UPI",
+        mode: "UPI"
       }
     ];
 
@@ -409,7 +419,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         )}
                       >
                         <div className={styles.marginR10}>
-                          <span className={styles.checkbox}>
+                          <span className={styles.radio}>
                             <input
                               type="radio"
                               value={method.mode}

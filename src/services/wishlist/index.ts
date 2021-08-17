@@ -120,6 +120,15 @@ export default {
         res.basket.updatedRemovedItems
       );
     }
+    if (res.basket.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.basket.unshippableProducts
+      );
+    }
     await this.updateWishlist(dispatch);
     return res;
   },

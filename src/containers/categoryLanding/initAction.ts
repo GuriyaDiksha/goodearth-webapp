@@ -2,7 +2,7 @@ import { InitAction } from "typings/actions";
 import CategoryService from "services/category";
 import { CategoryProps } from "typings/category";
 import { addCategoryData } from "actions/category";
-import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
+import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url";
 
 const initActionCategory: InitAction = async (store, { slug }) => {
   const dispatch = store.dispatch;

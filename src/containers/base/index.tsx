@@ -6,7 +6,10 @@ import Footer from "components/footer";
 import Modal from "components/Modal";
 import LoginService from "services/login";
 import CookieService from "services/cookie";
-import CheckoutHeader from "containers/checkout/checkoutHeader";
+import loadable from "@loadable/component";
+const CheckoutHeader = loadable(() =>
+  import("containers/checkout/checkoutHeader")
+);
 import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
@@ -34,8 +37,29 @@ const BaseLayout: React.FC = () => {
     basket: { bridal },
     header: { announcementData }
   } = useSelector((state: AppState) => state);
-  const isSuspended = true;
+  // don't show info popup
+  const isSuspended = false;
+
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
+  const getPWADisplayMode = () => {
+    const isStandalone = window.matchMedia("(display-mode: standalone)")
+      .matches;
+    const nav = window.navigator as any;
+    if (document.referrer.startsWith("android-app://")) {
+      return "twa";
+    } else if ((nav && nav.standalone) || isStandalone) {
+      return "standalone";
+    }
+    return "browser";
+  };
+  useEffect(() => {
+    if (getPWADisplayMode() == "standalone") {
+      dataLayer.push({
+        event: "App Icon Click",
+        page: location
+      });
+    }
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
@@ -178,10 +202,12 @@ const BaseLayout: React.FC = () => {
     const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
 
-    dispatch(updateComponent(POPUP.CERISE, true));
-    dispatch(updateModal(true));
+    // dispatch(updateComponent(POPUP.CERISE, true));
+    // dispatch(updateModal(true));
 
+    const loginPopup = urlParams.get("loginpopup");
     if (
+      !loginPopup &&
       isHomePage &&
       isSuspended &&
       checkoutInfoPopupCookie != "show"
@@ -263,7 +289,9 @@ const BaseLayout: React.FC = () => {
     }
   }, [bridal]);
   const isCheckout =
-    pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
+    pathname.indexOf("/checkout") > -1 ||
+    pathname == "/cart" ||
+    pathname == "/cart/";
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
@@ -283,7 +311,7 @@ const BaseLayout: React.FC = () => {
         {/* <MusicPlayer /> */}
         <Switch>{routes}</Switch>
       </div>
-      {(!minimalPage || !isCheckout) && <Footer />}
+      {!(minimalPage || isCheckout) && <Footer />}
       <Modal />
     </Fragment>
   );
