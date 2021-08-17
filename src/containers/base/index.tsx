@@ -177,6 +177,10 @@ const BaseLayout: React.FC = () => {
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
+
+    dispatch(updateComponent(POPUP.CERISE, true));
+    dispatch(updateModal(true));
+
     if (
       isHomePage &&
       isSuspended &&
