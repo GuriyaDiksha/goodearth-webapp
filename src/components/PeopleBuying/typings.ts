@@ -15,6 +15,7 @@ export interface PeopleRecommend {
   gaVariant: string;
   discount: boolean;
   country: string;
+  altText: string;
 }
 
 export type RecommenedSliderProps = {

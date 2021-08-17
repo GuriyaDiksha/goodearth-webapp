@@ -291,7 +291,6 @@ const Section2: React.FC<Section2Props> = ({
                     isEmptyString: "This field is required"
                   }}
                 />
-                <span className={styles.arrow}></span>
               </div>
               <p className={cs(globalStyles.voffset2, styles.clrP)}>
                 Please note: Gift cards can only be redeemed in the currency

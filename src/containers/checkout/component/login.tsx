@@ -28,6 +28,7 @@ const LoginSection: React.FC<LoginProps> = props => {
 
   const changeEmail = () => {
     setIsRegister(false);
+    localStorage.removeItem("tempEmail");
   };
 
   const nextStep = () => {

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import styles from "../styles.scss";
 import Image from "./Image";
 import ReactHtmlParser from "react-html-parser";
+import { getInnerText } from "utils/validate";
 
 type Props = {
   data: MenuComponent;
@@ -67,7 +68,11 @@ const Title: React.FC<Props> = ({
                   })
                 }
               >
-                <img className={styles.img} src={componentData.src} />
+                <img
+                  className={styles.img}
+                  src={componentData.src}
+                  alt={getInnerText(componentData.title)}
+                />
               </Link>
             )}
           </>
@@ -97,7 +102,11 @@ const Title: React.FC<Props> = ({
                   })
                 }
               >
-                <img className={styles.img} src={componentData.src} />
+                <img
+                  className={styles.img}
+                  src={componentData.src}
+                  alt={getInnerText(componentData.title)}
+                />
               </div>
             )}
           </>
@@ -105,7 +114,7 @@ const Title: React.FC<Props> = ({
       </div>
       {data.children && data.children.length > 0 && (
         <Image
-          data={data.children}
+          data={data}
           templateType={templateType}
           l1={l1}
           l2={componentData.title}

@@ -28,6 +28,7 @@ export interface PLPProductItem {
   images?: ProductImage[];
   invisibleFields: string[];
   partner?: string;
+  altText: string;
 }
 
 export interface PartialProductItem extends PLPProductItem {
@@ -97,6 +98,7 @@ export type CollectionProductItem = {
   collectionUrl: string;
   priceRecords: PriceRecord;
   gaVariant?: string;
+  altText: string;
 };
 
 export interface BasketProduct extends PartialProductItem {

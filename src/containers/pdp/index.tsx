@@ -117,7 +117,8 @@ class PDPContainer extends React.Component<Props, State> {
         images: images,
         startIndex: index,
         mobile: mobile,
-        changeModalState: changeModalState
+        changeModalState: changeModalState,
+        alt: this.props.data.altText
       },
       true
     );
@@ -453,6 +454,7 @@ class PDPContainer extends React.Component<Props, State> {
           id={`img-${image.id}`}
         >
           <PdpImage
+            alt={this.props.data.altText || this.props.data.title}
             {...image}
             index={index}
             onClick={this.onImageClick}
@@ -523,6 +525,7 @@ class PDPContainer extends React.Component<Props, State> {
         setting={config as Settings}
         currency={currency}
         mobile={mobile}
+        isSale={this.props.isSale}
       />
     );
   }
@@ -736,6 +739,7 @@ class PDPContainer extends React.Component<Props, State> {
                     // onClick={gtmProductClick}
                   > */}
                   <LazyImage
+                    alt={data.altText || data.title}
                     aspectRatio="62:93"
                     src={
                       data.lookImageUrl ||
@@ -914,6 +918,7 @@ class PDPContainer extends React.Component<Props, State> {
         return (
           <div key={id} className={globalStyles.relative}>
             <LazyImage
+              alt={data.altText || data.title}
               aspectRatio="62:93"
               src={productImage.replace("/Micro/", "/Medium/")}
               className={globalStyles.imgResponsive}
@@ -988,6 +993,7 @@ class PDPContainer extends React.Component<Props, State> {
             >
               <div className={bootstrap.row}>
                 <VerticalImageSelector
+                  alt={data.altText || data.title}
                   images={images}
                   className={cs(
                     bootstrap.colSm10,

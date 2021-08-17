@@ -1,16 +1,15 @@
 // modules
 import loadable from "@loadable/component";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
-import { initAction, metaAction } from "containers/pdp";
-import { metaActionCareer } from "containers/career";
-import { initActionCollection } from "containers/collectionLanding";
-import { initActionSpecific } from "containers/collectionSpecific";
+import initAction from "containers/pdp/initAction";
+import metaAction from "containers/pdp/metaAction";
+import metaActionCareer from "containers/career/metaAction";
+import initActionCollection from "containers/collectionLanding/initAction";
+import initActionSpecific from "containers/collectionSpecific/initAction";
 import initActionPLP from "containers/plp/initAction";
 import initActionSearch from "containers/search/initAction";
-import {
-  initActionCategoryLanding,
-  metaActionCategoryLanding
-} from "containers/categoryLanding";
+import initActionCategoryLanding from "containers/categoryLanding/initAction";
+import metaActionCategoryLanding from "containers/categoryLanding/metaAction";
 import initActionAccount from "containers/myAccount/initAction";
 import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
@@ -19,6 +18,7 @@ import initActionShop from "containers/shopLocator/initAction";
 import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
+import initActionCart from "containers/cartPage/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -126,7 +126,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CARTPAGE,
     component: loadable(() => import("containers/cartPage")),
-    action: async () => null,
+    action: initActionCart,
     exact: true
   },
   {
@@ -240,6 +240,18 @@ const routes: RouteConfig = [
   {
     path: ROUTES.MICROSITE,
     component: loadable(() => import("containers/microsite")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.VIRTUAL,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.THANKYOU,
+    component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
   }

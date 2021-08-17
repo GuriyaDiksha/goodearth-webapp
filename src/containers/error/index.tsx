@@ -21,6 +21,7 @@ const ErrorPage: React.FC = () => {
   return (
     <div className={globalStyles.col12}>
       <img
+        alt="404-page"
         src={mobile ? mobileImg : desktopMobile}
         className={globalStyles.imgResponsive}
       ></img>

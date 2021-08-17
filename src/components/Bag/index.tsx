@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
-    slab: state.user.slab
+    customerGroup: state.user.customerGroup
   };
 };
 type Props = CartProps &
@@ -101,6 +101,10 @@ class Bag extends React.Component<Props, State> {
 
   getFooter() {
     if (this.props.cart) {
+      // const amount =
+      //   this.props.cart.offerDiscounts.filter(discount => {
+      //     return discount.name == "EMP Discount";
+      //   })[0] || {};
       return (
         <div className={styles.bagFooter}>
           {this.hasOutOfStockItems() && (
@@ -138,6 +142,25 @@ class Bag extends React.Component<Props, State> {
               </p>
             </div>
           </div>
+          {/* {amount.name && (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                styles.containerCost
+              )}
+            >
+              <div className={cs(styles.disPrice)}>EMP Discount</div>
+              <div className={globalStyles.textRight}>
+                <h5 className={cs(styles.disPrice, globalStyles.bold)}>
+                  (-)
+                  {String.fromCharCode(...currencyCodes[this.props.currency])}
+                  &nbsp;
+                  {parseFloat(amount.amount?.toString()).toFixed(2)}
+                </h5>
+              </div>
+            </div>
+          )} */}
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={cs(styles.iconCart, globalStyles.pointer)}>
               <Link to="/cart">
@@ -206,7 +229,6 @@ class Bag extends React.Component<Props, State> {
     }
     if (
       !this.state.freeShipping &&
-      this.props.slab.toLowerCase() != "cerise sitara" &&
       total >= freeShippingThreshold &&
       total < freeShippingApplicable &&
       this.props.currency == "INR" &&
@@ -262,6 +284,11 @@ class Bag extends React.Component<Props, State> {
   };
 
   render() {
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable
+    } = this.props.cart;
     return (
       <div>
         <div
@@ -305,7 +332,10 @@ class Bag extends React.Component<Props, State> {
             </div>
           </div>
           {this.state.shipping &&
-          this.props.slab.toLowerCase() != "cerise sitara" ? (
+          total >= freeShippingThreshold &&
+          total < freeShippingApplicable &&
+          this.props.currency == "INR" &&
+          this.props.cart.shippable ? (
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>
                 You&apos; re a step away from{" "}

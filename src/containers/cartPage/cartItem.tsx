@@ -55,7 +55,7 @@ const CartItems: React.FC<BasketItem> = memo(
       categories,
       sku
     } = product;
-    const showDeliveryTimelines = false;
+    const showDeliveryTimelines = true;
     useEffect(() => {
       setValue(quantity);
     }, [quantity]);
@@ -239,7 +239,11 @@ const CartItems: React.FC<BasketItem> = memo(
                     </svg>
                   )}
                 </div>
-                <img className={styles.productImage} src={imageUrl} />
+                <img
+                  className={styles.productImage}
+                  src={imageUrl}
+                  alt={product.altText || product.title}
+                />
               </Link>
             </div>
           </div>
@@ -395,7 +399,8 @@ const CartItems: React.FC<BasketItem> = memo(
                   discountedPriceRecords={discountedPriceRecords}
                   categories={categories}
                   basketLineId={id}
-                  id={id}
+                  id={product.id}
+                  size={childAttributes[0].size || ""}
                   showText={false}
                   onMoveToWishlist={onMoveToWishlist}
                   className="wishlist-font"

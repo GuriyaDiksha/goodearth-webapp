@@ -424,13 +424,26 @@
   display: none;
 }
 
+.radio {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.radio input {
+  display: none;
+}
+
+
 .checkbox .indicator {
   top: 0;
   left: 0;
   width: 20px;
   height: 20px;
-  background: tint(#000, 90%);
+  background: white;
   display: inline-block;
+  border: 1px solid #666;
 }
 
 .checkbox .indicator::after {
@@ -445,6 +458,34 @@
   transform: rotate(45deg);
   border: solid #ab1e56;
   border-width: 0 2px 2px 0;
+}
+
+ .radio .indicator {
+  top: 0px;
+  left: 0px;
+  width: 23px;
+  height: 23px;
+  background: white;
+  display: inline-block;
+  border-radius: 50%;
+  border: 1px solid #666;
+}
+
+.radio .indicator::after {
+  bottom: 10px;
+  left: 9px;
+  width: 5px;
+  height: 10px;
+  content: '';
+  display: none;
+  position: absolute;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border: solid #ab1e56;
+  border-width: 0 2px 2px 0;
+}
+.radio input:checked ~ .indicator::after {
+  display: block;
 }
 
 .checkbox input:checked ~ .indicator::after {

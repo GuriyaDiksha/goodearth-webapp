@@ -20,7 +20,8 @@ const Zoom: React.FC<Props> = ({
   images = [],
   startIndex = 0,
   mobile = false,
-  changeModalState = null
+  changeModalState = null,
+  alt
 }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [style, setStyle] = useState({
@@ -149,6 +150,7 @@ const Zoom: React.FC<Props> = ({
                 key={v.id}
               >
                 <img
+                  alt={alt}
                   className={globalStyles.imgResponsive}
                   src={v.productImage}
                 />
@@ -179,6 +181,7 @@ const Zoom: React.FC<Props> = ({
           onClick={closeModal}
         >
           <img
+            alt={alt}
             src={src}
             onLoad={onImageLoad}
             className={globalStyles.imgResponsive}
