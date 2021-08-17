@@ -7,11 +7,12 @@ import styles from "../styles.scss";
 // import { PopupProps } from "./typings";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
-import cerisereward from "../../../images/cerisereward.svg";
+import cerisereward from "../../../images/cerisereward.png";
 import ceriserewardmobile from "../../../images/ceriserewardMobile.png";
 import cerisestar from "../../../images/cerisestar.png";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { useHistory } from "react-router";
 
 type PopupProps = {
   acceptCondition: (data?: any) => any;
@@ -21,7 +22,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const { mobile } = useSelector((state: AppState) => state.device);
-
+  const history = useHistory();
   useEffect(() => {
     const btn = document.getElementById("info-popup-accept-button");
     btn?.focus();
@@ -94,7 +95,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
             </p>
             <button
               onClick={() => {
-                props.acceptCondition();
+                history.push("/cerise");
                 closeModal();
               }}
               className={cs(styles.button)}
