@@ -26,6 +26,7 @@ import cs from "classnames";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
 import { POPUP } from "constants/components";
+import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
@@ -35,7 +36,8 @@ const BaseLayout: React.FC = () => {
     currency,
     // device: { mobile }
     basket: { bridal },
-    header: { announcementData }
+    header: { announcementData },
+    user: { customerGroup }
   } = useSelector((state: AppState) => state);
   // don't show info popup
   const isSuspended = false;
@@ -135,6 +137,21 @@ const BaseLayout: React.FC = () => {
   // }
 
   useEffect(() => {
+    const isHomePage = location.pathname == "/";
+    // const checkceriseCookie = CookieService.getCookie(
+    //   "cerisepopup"
+    // );
+    if (
+      (customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA) &&
+      currency == "INR" &&
+      isHomePage
+    ) {
+      dispatch(updateComponent(POPUP.CERISE, true));
+      dispatch(updateModal(true));
+    }
+  }, [customerGroup]);
+
+  useEffect(() => {
     // let isDragging = false;
     document.addEventListener("wheel", (e: WheelEvent) => {
       const elem = e.target as HTMLInputElement;
@@ -201,6 +218,7 @@ const BaseLayout: React.FC = () => {
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
     const isHomePage = location.pathname == "/";
+
     const loginPopup = urlParams.get("loginpopup");
     if (
       !loginPopup &&
