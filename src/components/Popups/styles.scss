@@ -691,16 +691,18 @@
     .cross{
       float: right;
       padding: 15px;
+      cursor: pointer;
     }
 }
 
 .cerisemobile {
-  width: 100%;
+    width: 100%;
     min-height: 500px;
     background-color: #FFFAF6;
     bottom: 0;
-    padding-bottom: 55px;
-    position: relative;
+    padding-bottom: 20px;
+    position: fixed;
+    z-index: 5;
     .cross{
       padding: 15px;
       position: absolute;
@@ -727,12 +729,12 @@
   }
   .subheading {
     font-family: $font-Serif;
-    font-size: 18px;
+    font-size: 20px;
     margin: 10px;
   }
   .subheading1 {
     font-family: $font-Serif;
-    font-size: 18px;
+    font-size: 20px;
     font-style: italic;
   }
   .date {
@@ -757,7 +759,7 @@
     border: none;
     border-radius: 0;
     cursor: pointer;
-    margin: 15px 0;
+    margin: 20px 0;
   }
   .bottom {
     color: #143348;
@@ -810,15 +812,26 @@
     border: none;
     border-radius: 0;
     cursor: pointer;
-    margin: 10px 0;
+    margin: 15px 0;
   }
   .bottom {
     color: #143348;
-    font-size: 10px;
+    font-size: 12px;
     font-family: $font-Lato;
     margin-bottom: 10px;
   }
 }
 .left-img {
   margin-left: -3px;
+}
+.imgpadding {
+  padding: 0px;
+}
+
+.desktopimage {
+  display: block;
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
+  min-width: 100%;
 }

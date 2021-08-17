@@ -42,6 +42,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
           className={cs(
             bootstrapStyles.colMd6,
             { [styles.leftImg]: !mobile },
+            { [styles.imgpadding]: mobile },
             bootstrapStyles.colSm12
           )}
         >
@@ -59,7 +60,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
           )}
           <img
             src={mobile ? ceriserewardmobile : cerisereward}
-            className={globalStyles.imgResponsive}
+            className={styles.desktopimage}
           />
         </div>
         <div className={cs(bootstrapStyles.colMd6, bootstrapStyles.colSm12)}>
@@ -84,7 +85,8 @@ const CerisePopup: React.FC<PopupProps> = props => {
               It&apos;s the Cerise Anniversary Weekend.
             </p>
             <p className={styles.subheading1}>
-              Celebrate with us by earning Double Rewards Points.
+              Celebrate with us <br />
+              by earning Double Rewards Points.
             </p>
             <p>
               <img src={cerisestar} className={styles.star} />
@@ -109,7 +111,8 @@ const CerisePopup: React.FC<PopupProps> = props => {
               purchases made online or in-store.
             </p>
             <p className={styles.bottom}>
-              *1 point = 1 INR | *Promo ends at 4 pm 22nd August.
+              *1 point = 1 INR I *Promo ends at midnight, 22nd August I *T&C
+              Apply
             </p>
           </div>
         </div>
