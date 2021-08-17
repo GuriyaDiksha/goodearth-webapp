@@ -37,7 +37,13 @@ const CerisePopup: React.FC<PopupProps> = props => {
           { [bootstrapStyles.row]: !mobile }
         )}
       >
-        <div className={cs(bootstrapStyles.colMd6, bootstrapStyles.colSm12)}>
+        <div
+          className={cs(
+            bootstrapStyles.colMd6,
+            { [styles.leftImg]: !mobile },
+            bootstrapStyles.colSm12
+          )}
+        >
           {mobile && (
             <div className={styles.cross} onClick={closeModal}>
               <i
