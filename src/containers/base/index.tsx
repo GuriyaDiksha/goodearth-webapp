@@ -138,14 +138,14 @@ const BaseLayout: React.FC = () => {
 
   useEffect(() => {
     const isHomePage = location.pathname == "/";
-    // const checkceriseCookie = CookieService.getCookie(
-    //   "cerisepopup"
-    // );
+    const checkceriseCookie = CookieService.getCookie("cerisepopup");
     if (
       (customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA) &&
       currency == "INR" &&
-      isHomePage
+      isHomePage &&
+      !checkceriseCookie
     ) {
+      CookieService.setCookie("cerisepopup", "true", 365);
       dispatch(updateComponent(POPUP.CERISE, true));
       dispatch(updateModal(true));
     }

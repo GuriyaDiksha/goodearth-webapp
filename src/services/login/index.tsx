@@ -262,6 +262,8 @@ export default {
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie =
         "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
@@ -287,6 +289,8 @@ export default {
     document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie =
+      "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
     WishlistService.resetWishlist(dispatch);
