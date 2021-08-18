@@ -66,6 +66,9 @@ const initAction: any = async (
 
     ApiService.getPopupBgUrl(store.dispatch).catch(err => {
       console.log("Popup Bg Api Status ==== " + err);
+    }),
+    ApiService.getPopups(store.dispatch).catch(err => {
+      console.log("Popup Api Error ==== " + err);
     })
   ];
 

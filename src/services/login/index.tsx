@@ -117,6 +117,9 @@ export default {
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
     BasketService.fetchBasket(dispatch, source, history, true).then(
       basketRes => {
         if (source == "checkout") {
@@ -202,6 +205,9 @@ export default {
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
     WishlistService.updateWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
@@ -272,6 +278,9 @@ export default {
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
       });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
       BasketService.fetchBasket(dispatch).catch(err => {
         console.log(err);
       });
@@ -291,6 +300,9 @@ export default {
     WishlistService.resetWishlist(dispatch);
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
@@ -383,6 +395,9 @@ export default {
     });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sale status API error === " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch);
   },
