@@ -108,6 +108,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sale status API error === " + err);
       });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
