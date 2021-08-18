@@ -7,6 +7,9 @@ export const updateSales = (isSale: boolean) =>
 export const updateGiftWrap = (showGiftwrap: boolean) =>
   actionCreator("UPDATE_GIFT_WRAP", showGiftwrap);
 
+export const updateDeliveryInstruction = (showDeliveryInstruction: boolean) =>
+  actionCreator("UPDATE_DELIVERY_INSTRUCTION", showDeliveryInstruction);
+
 export const updatePopupBgUrl = (popupBgUrl: string) =>
   actionCreator("UPDATE_POPUP_BG_URL", popupBgUrl);
 
