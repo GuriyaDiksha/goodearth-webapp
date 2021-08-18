@@ -104,11 +104,12 @@ export default {
         res.updatedRemovedItems
       );
     }
+    dispatch(updateModal(false));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(
       updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
     );
-    dispatch(updateModal(false));
+
     // HeaderService.fetchHomepageData(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
