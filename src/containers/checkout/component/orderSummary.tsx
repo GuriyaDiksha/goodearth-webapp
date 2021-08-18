@@ -31,7 +31,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
-  const { isSale } = useSelector((state: AppState) => state.info);
+  const { isSale, showDeliveryInstruction } = useSelector(
+    (state: AppState) => state.info
+  );
   const { deliveryText } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
@@ -577,7 +579,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
               to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
-          {page == "cart" || basket.isOnlyGiftCart || salestatus ? (
+          {page == "cart" ||
+          basket.isOnlyGiftCart ||
+          !showDeliveryInstruction ? (
             ""
           ) : (
             <div

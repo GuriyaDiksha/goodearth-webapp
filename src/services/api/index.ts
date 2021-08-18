@@ -7,7 +7,8 @@ import {
   updateSales,
   updatePopupBgUrl,
   updateShowTimer,
-  updateGiftWrap
+  updateGiftWrap,
+  updateDeliveryInstruction
 } from "actions/info";
 import { updateAnnouncement } from "actions/header";
 import CacheService from "services/cache";
@@ -45,6 +46,7 @@ export default {
       await HeaderService.getSaleTimerData(dispatch);
     }
     dispatch(updateGiftWrap(data.showGiftwrap));
+    dispatch(updateDeliveryInstruction(data.showDeliveryInstruction));
   },
   getPopupBgUrl: async function(dispatch: Dispatch) {
     let data: any = CacheService.get("popupBgUrl");
