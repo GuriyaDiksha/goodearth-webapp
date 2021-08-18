@@ -1,4 +1,6 @@
 import loadable from "@loadable/component";
+import CerisePopup from "components/Popups/CerisePopup";
+
 const CurrencyPopup = loadable(() =>
   import("../components/Popups/CurrencyPopup")
 );
@@ -70,7 +72,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   bridalMobileProductUpdate: BridalMobileProductUpdate,
   bridalPop: BridalPop,
   shareLink: ShareLink,
-  delivery: Delivery
+  delivery: Delivery,
+  cerise: CerisePopup
 };
 
 export enum POPUP {
@@ -95,5 +98,6 @@ export enum POPUP {
   BRIDALMOBILEPRODUCTUPDATE = "bridalMobileProductUpdate",
   BRIDALPOP = "bridalPop",
   SHARELINK = "shareLink",
-  DELIVERY = "delivery"
+  DELIVERY = "delivery",
+  CERISE = "cerise"
 }
