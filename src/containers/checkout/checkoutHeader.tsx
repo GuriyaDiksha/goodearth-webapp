@@ -66,6 +66,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sale status API error === " + err);
       });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
       // }
       // if (page?.includes("/category_landing/")) {
       //   // L
