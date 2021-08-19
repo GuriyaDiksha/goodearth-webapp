@@ -391,7 +391,8 @@ class Checkout extends React.Component<Props, State> {
     } else {
       this.setState({
         activeStep: Steps.STEP_LOGIN,
-        shippingAddress: nextProps.user.shippingData || undefined
+        shippingAddress: nextProps.user.shippingData || undefined,
+        errorNotification: ""
       });
     }
   }
