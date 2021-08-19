@@ -1,7 +1,6 @@
 import { HeaderState, HeaderActions } from "./typings";
 
 const initialState: HeaderState = {
-  data: [],
   megaMenuData: [],
   announcementData: {
     bgColorcode: "",
@@ -24,8 +23,7 @@ export const header = (
   switch (action.type) {
     case "UPDATE_HEADER": {
       const newState = { ...state };
-      newState.data = action.payload.results;
-      newState.megaMenuData = action.payload.megaMenuResults;
+      newState.megaMenuData = action.payload;
       {
         return { ...newState };
       }

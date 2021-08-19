@@ -36,7 +36,6 @@ import { CUST } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    data: state.header.data,
     megaMenuData: state.header.megaMenuData,
     announcement: state.header.announcementData,
     currency: state.currency,
@@ -812,7 +811,6 @@ class Header extends React.Component<Props, State> {
                         <Mobilemenu
                           onMobileMenuClick={this.onMenuClick}
                           onHeaderMegaMenuClick={this.onMegaMenuClick}
-                          menudata={this.props.data}
                           megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
                           clickToggle={this.clickToggle}
