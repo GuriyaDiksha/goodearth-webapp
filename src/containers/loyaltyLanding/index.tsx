@@ -284,7 +284,7 @@ class LoyaltyLanding extends Component<Props, State> {
             globalStyles.voffset3
           )}
         >
-          <ul className={styles.tabs}>
+          <ul className={cs(styles.tabs, styles.tabsticky)}>
             <li
               className={
                 this.state.tabsClassFirst ? styles.active : styles.inactive
