@@ -10,9 +10,9 @@ export type PopupData = {
   pageUrl: string;
   ctaLabel: string;
   ctaColor: string;
-  session: string;
-}[];
+  session: boolean;
+};
 
 export type PopupResponse = {
-  data: PopupData;
+  data: PopupData[];
 };
