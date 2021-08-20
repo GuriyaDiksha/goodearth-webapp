@@ -952,8 +952,9 @@ class PDPContainer extends React.Component<Props, State> {
     return (
       <div
         className={cs(
-          { [styles.pdpContainer]: showSecondary },
-          { [styles.pdpSecondcontainer]: !showSecondary },
+          styles.pdpContainer,
+          // { [styles.pdpContainer]: showSecondary },
+          // { [styles.pdpSecondcontainer]: !showSecondary },
           { [styles.pdpContainerTimer]: this.props.showTimer },
           bootstrap.containerFluid,
           {
