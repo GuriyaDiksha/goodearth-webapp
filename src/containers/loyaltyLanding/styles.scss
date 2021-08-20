@@ -35,6 +35,9 @@
       &.txt-bold {
         font-weight: bold;
       }
+      &.txt-large {
+        font-size: 16px;
+      }
     }
     .heading-1 {
       color: $cerise;
@@ -48,8 +51,8 @@
     .subheading-1 {
       color: $cerise;
       font-family: $font-Lato;
-      font-size: 16px;
-      letter-spacing: 2px;
+      font-size: 14px;
+      letter-spacing: 1px;
       line-height: 150%;
       font-weight: 400;
     }

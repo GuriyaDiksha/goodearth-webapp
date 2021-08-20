@@ -190,6 +190,7 @@ class LoyaltyLanding extends Component<Props, State> {
       image: rewardPoints,
       heading: "Cerise Points",
       subHeading: "Earn 10% of the value of each of your purchases.",
+      subHeadingSitara: "Earn 15% of the value of each of your purchases.",
       isCeriseOnly: true
     },
     {
@@ -216,14 +217,14 @@ class LoyaltyLanding extends Component<Props, State> {
       image: specialPreviews,
       heading: "Special Previews",
       subHeading:
-        "Be the first to enjoy our newly launched collections in store and online.",
+        "Be the first to enjoy our newly launched collections in-store and online.",
       isCeriseOnly: true
     },
     {
       image: customerCare,
       heading: "Dedicated Customer Care",
       subHeading:
-        "Seamless shopping experiences via exclusive Cerise customer assistance.",
+        "A seamless shopping experience via exclusive Cerise customer assistance.",
       isCeriseOnly: true
     },
     {
@@ -274,7 +275,7 @@ class LoyaltyLanding extends Component<Props, State> {
     const rewardsAndBenefitsSection = (
       <>
         <div className={cs(styles.heading1, globalStyles.voffset4)}>
-          Rewards and Benefits
+          Rewards & Benefits
         </div>
         <div
           className={cs(
@@ -318,16 +319,22 @@ class LoyaltyLanding extends Component<Props, State> {
             <div className={styles.tabContent}>
               <ul>
                 {this.itemsData.map(item => {
-                  const { isCeriseOnly, ...rest } = item;
+                  const { isCeriseOnly, subHeadingSitara, ...rest } = item;
                   const isActive = isCeriseOnly || !tabs;
-                  const props = { ...rest, isActive };
+                  const subHeading =
+                    !tabs && subHeadingSitara
+                      ? subHeadingSitara
+                      : item.subHeading;
+                  const props = { ...rest, isActive, subHeading };
                   return <RewardItem {...props} key={item.heading} />;
                 })}
               </ul>
-              <p className={styles.txtFooter}>
-                *For Cerise Club members, this benefit is valid on all domestic
-                orders over ₹ 20,000.{" "}
-              </p>
+              {tabs && (
+                <p className={styles.txtFooter}>
+                  *For Cerise Club members, this benefit is valid on all
+                  domestic orders over ₹&nbsp;20,000.{" "}
+                </p>
+              )}
             </div>
           }
         </div>
@@ -345,7 +352,7 @@ class LoyaltyLanding extends Component<Props, State> {
               <div
                 className={cs(bootstrapStyles.col11, bootstrapStyles.offset1)}
               >
-                <span className={styles.heading}> cerise program</span>
+                <span className={styles.heading}> cerise club</span>
               </div>
             </div>
             <div
@@ -400,14 +407,16 @@ class LoyaltyLanding extends Component<Props, State> {
                         <li>
                           <img src={list1} />
                           <div className={styles.txtNormal}>
-                            Shop in-store or online.
+                            Valid on all purchases,
+                            <br />
+                            in-store or online.
                           </div>
                         </li>
                         <li>
                           <img src={list2} />
                           <div className={styles.txtNormal}>
-                            Earn upto 15% of your purchase value as Cerise
-                            Points.
+                            Earn upto 15% of your purchase value as
+                            Cerise&nbsp;Points.
                           </div>
                           {/* <a
                         href="javascript:void(0);"
@@ -446,8 +455,8 @@ class LoyaltyLanding extends Component<Props, State> {
                           <img src={list3} />
                           <div className={styles.txtNormal}>
                             {" "}
-                            Redeem accrued Cerise Points during future online or
-                            in-store purchases.
+                            Redeem your accrued Cerise&nbsp;Points on all
+                            purchases.
                           </div>
                           {/* <a
                         href="javascript:void(0);"
@@ -489,7 +498,7 @@ class LoyaltyLanding extends Component<Props, State> {
                     <div
                       className={cs(styles.subheading1, globalStyles.voffset1)}
                     >
-                      Each Cerise Point is equivalent to ₹ 1.
+                      Each Cerise Point is equivalent to ₹&nbsp;1.
                     </div>
                   </div>
                 </div>
@@ -533,12 +542,17 @@ class LoyaltyLanding extends Component<Props, State> {
                   HOW TO BECOME A MEMBER
                 </div>
                 <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
-                  Once you are naturally selected as a member of the Cerise
-                  Program based on your purchase value in one year, you are
-                  entitled to various privileges listed below. As soon as the
-                  annual value of your purchase increases to touch the next
-                  milestone, you become a member of Cerise Sitara with access to
-                  unique Sitara privileges.
+                  Enjoy automatic enrolment as{" "}
+                  <span className={globalStyles.cerise}>Cerise Club</span>{" "}
+                  members based on reaching an annual purchase value of ₹&nbsp;1
+                  lakh.
+                  <br />
+                  As you cross a ₹&nbsp;5 lakh annual purchase value, unlock
+                  exclusive privileges as a{" "}
+                  <span className={globalStyles.cerise}>
+                    Cerise Sitara
+                  </span>{" "}
+                  member.
                 </div>
               </div>
             </div>
@@ -696,7 +710,7 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <div>
-                  <span className={styles.heading}>Cerise Program</span>
+                  <span className={styles.heading}>Cerise Club</span>
                 </div>
               </div>
             </SecondaryHeader>
@@ -717,13 +731,19 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img src={ceriseMainlogo} className={styles.imgLoyalty} />
-                <div className={cs(styles.txtNormal, globalStyles.voffset4)}>
+                <div
+                  className={cs(
+                    styles.txtNormal,
+                    styles.txtLarge,
+                    globalStyles.voffset4
+                  )}
+                >
                   {" "}
                   A bespoke experience for our loyal customers who share our
                   vision of celebrating Indian craftsmanship and sustainability.
                 </div>
 
-                <div className={cs(styles.heading1, globalStyles.voffset5)}>
+                <div className={cs(styles.heading1, globalStyles.voffset6)}>
                   How it works
                 </div>
                 <div className={cs(styles.list, globalStyles.voffset3)}>
@@ -731,13 +751,16 @@ class LoyaltyLanding extends Component<Props, State> {
                     <li>
                       <img src={list1} />
                       <div className={styles.txtNormal}>
-                        Shop in-store or online.
+                        Valid on all purchases,
+                        <br />
+                        in-store or online.
                       </div>
                     </li>
                     <li>
                       <img src={list2} />
                       <div className={styles.txtNormal}>
-                        Earn upto 15% of your purchase value as Cerise Points.
+                        Earn upto 15% of your purchase value as
+                        Cerise&nbsp;Points.
                       </div>
                       {/* <a
                         href="javascript:void(0);"
@@ -773,8 +796,7 @@ class LoyaltyLanding extends Component<Props, State> {
                       <img src={list3} />
                       <div className={styles.txtNormal}>
                         {" "}
-                        Redeem accrued Cerise Points during future online or
-                        in-store purchases.
+                        Redeem your accrued Cerise&nbsp;Points on all purchases.
                       </div>
                       {/* <a
                         href="javascript:void(0);"
@@ -810,18 +832,28 @@ class LoyaltyLanding extends Component<Props, State> {
                   </ul>
                 </div>
                 <div className={cs(styles.subheading1, globalStyles.voffset1)}>
-                  Each Cerise Point is equivalent to ₹ 1.
+                  Each Cerise Point is equivalent to ₹&nbsp;1.
                 </div>
                 <div className={cs(styles.heading1, globalStyles.voffset6)}>
                   HOW TO BECOME A MEMBER
                 </div>
-                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
-                  Our customers enjoy automatic enrolment as{" "}
+                <div
+                  className={cs(
+                    styles.txtNormal,
+                    styles.txtLarge,
+                    globalStyles.voffset2
+                  )}
+                >
+                  Enjoy automatic enrolment as{" "}
                   <span className={globalStyles.cerise}>Cerise Club</span>{" "}
-                  members based on reaching an annual purchase value of ₹ 1
-                  lakh. As you cross a ₹ 5 lakh annual purchase value, you
-                  unlock exclusive privileges as an exclusive{" "}
-                  <span className={globalStyles.cerise}>Cerise Sitara</span>{" "}
+                  members based on reaching an annual purchase value of ₹&nbsp;1
+                  lakh.
+                  <br />
+                  As you cross a ₹&nbsp;5 lakh annual purchase value, unlock
+                  exclusive privileges as a{" "}
+                  <span className={globalStyles.cerise}>
+                    Cerise Sitara
+                  </span>{" "}
                   member.
                 </div>
               </div>

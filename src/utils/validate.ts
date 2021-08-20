@@ -4,6 +4,7 @@ import CookieService from "../services/cookie";
 import { Dispatch } from "redux";
 import { showMessage } from "actions/growlMessage";
 import { DomUtils, parseDocument } from "htmlparser2";
+import { useEffect, useState } from "react";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -942,3 +943,21 @@ export const announcementBarGTM = (clickText: string, clickUrl: string) => {
     console.log("Announcement Bar click GTM error!");
   }
 };
+
+export function useOnScreen(ref: any) {
+  const [isIntersecting, setIntersecting] = useState(false);
+
+  const observer = new IntersectionObserver(([entry]) =>
+    setIntersecting(entry.isIntersecting)
+  );
+
+  useEffect(() => {
+    observer.observe(ref.current);
+    // Remove the observer as soon as the component is unmounted
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return isIntersecting;
+}
