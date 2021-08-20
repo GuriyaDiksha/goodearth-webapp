@@ -557,7 +557,11 @@ const ProductDetails: React.FC<Props> = ({
   return (
     <Fragment>
       {!isQuickview && showDock && (
-        <DockedPanel data={data} buttoncall={button} />
+        <DockedPanel
+          data={data}
+          buttoncall={button}
+          showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
+        />
       )}
       <div className={bootstrap.row}>
         <div
