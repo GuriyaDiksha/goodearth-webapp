@@ -3,7 +3,13 @@ import API from "utils/api";
 import { ApiResponse } from "typings/api";
 import { updateShopData } from "actions/shop";
 import { updateCurrency } from "actions/currency";
-import { updateSales, updatePopupBgUrl, updateShowTimer } from "actions/info";
+import {
+  updateSales,
+  updatePopupBgUrl,
+  updateShowTimer,
+  updateGiftWrap,
+  updateDeliveryInstruction
+} from "actions/info";
 import { updateAnnouncement } from "actions/header";
 import CacheService from "services/cache";
 import HeaderService from "services/headerFooter";
@@ -39,6 +45,8 @@ export default {
     if (data.showTimer) {
       await HeaderService.getSaleTimerData(dispatch);
     }
+    dispatch(updateGiftWrap(data.showGiftwrap));
+    dispatch(updateDeliveryInstruction(data.showDeliveryInstruction));
   },
   getPopupBgUrl: async function(dispatch: Dispatch) {
     let data: any = CacheService.get("popupBgUrl");
