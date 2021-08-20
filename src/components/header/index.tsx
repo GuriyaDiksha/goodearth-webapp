@@ -321,6 +321,13 @@ class Header extends React.Component<Props, State> {
     });
   };
 
+  hideSearch = () => {
+    if (this.state.showSearch) {
+      this.setState({
+        showSearch: false
+      });
+    }
+  };
   hideMenu = () => {
     this.state.showMenu &&
       this.setState({
@@ -480,16 +487,17 @@ class Header extends React.Component<Props, State> {
               ? meta.title
               : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
-          {
-            <meta
-              name="description"
-              content={
-                meta.description
-                  ? meta.description
-                  : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
-              }
-            />
-          }
+          <meta
+            name="description"
+            content={
+              meta.description
+                ? meta.description
+                : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+            }
+          />
+          {__DOMAIN__ != "https://www.goodearth.in" && (
+            <meta name="robots" content="noindex" />
+          )}
           <link
             rel="canonical"
             href={`${__DOMAIN__}${location.pathname}${
@@ -673,6 +681,7 @@ class Header extends React.Component<Props, State> {
                     show={this.state.show}
                     activeIndex={this.state.activeIndex}
                     ipad={false}
+                    hideSearch={this.hideSearch}
                     onMegaMenuClick={this.onMegaMenuClick}
                     mouseOver={(data: {
                       show: boolean;
@@ -711,6 +720,7 @@ class Header extends React.Component<Props, State> {
                     showBag={this.state.showBag}
                     setShowBag={this.setShowBag}
                     showSearch={this.state.showSearch}
+                    hideSearch={this.hideSearch}
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
