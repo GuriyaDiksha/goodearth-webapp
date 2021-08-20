@@ -215,7 +215,6 @@ export type MegaMenuListProps = {
 };
 
 export type MobileListProps = {
-  menudata: HeaderData[];
   megaMenuData: MegaMenuData[];
   location: Location;
   clickToggle: () => void;
@@ -303,11 +302,6 @@ export type WidgetImage = {
   videoUrl: string;
   urlDisplayName: string;
   order: number;
-};
-
-export type Menu = {
-  results: HeaderData[];
-  megaMenuResults: MegaMenuData[];
 };
 
 export type SaleTimerData = {

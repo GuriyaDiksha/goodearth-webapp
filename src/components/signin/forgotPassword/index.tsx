@@ -13,13 +13,15 @@ import { Context } from "components/Modal/context";
 import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
 import { mapDispatchToProps } from "./mapper/actions";
+import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = () => {
   return {};
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   constructor(props: Props) {
@@ -56,6 +58,10 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     } else {
       const formData = new FormData();
       formData.append("email", this.state.email || "");
+      formData.append(
+        "redirectTo",
+        this.props.history.location.pathname || "/"
+      );
       this.setState({ disableSelectedbox: true });
       this.props
         .resetPassword(formData)
@@ -273,4 +279,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordForm);
+const ForgotPasswordFormRouter = withRouter(ForgotPasswordForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ForgotPasswordFormRouter);
