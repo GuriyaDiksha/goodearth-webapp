@@ -321,6 +321,13 @@ class Header extends React.Component<Props, State> {
     });
   };
 
+  hideSearch = () => {
+    if (this.state.showSearch) {
+      this.setState({
+        showSearch: false
+      });
+    }
+  };
   hideMenu = () => {
     this.state.showMenu &&
       this.setState({
@@ -586,8 +593,7 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.col3,
                     bootstrap.colLg2,
-                    styles.hamburger,
-                    { [globalStyles.cerise]: mobile }
+                    styles.hamburger
                   )}
                 >
                   <i
@@ -675,6 +681,7 @@ class Header extends React.Component<Props, State> {
                     show={this.state.show}
                     activeIndex={this.state.activeIndex}
                     ipad={false}
+                    hideSearch={this.hideSearch}
                     onMegaMenuClick={this.onMegaMenuClick}
                     mouseOver={(data: {
                       show: boolean;
@@ -713,6 +720,7 @@ class Header extends React.Component<Props, State> {
                     showBag={this.state.showBag}
                     setShowBag={this.setShowBag}
                     showSearch={this.state.showSearch}
+                    hideSearch={this.hideSearch}
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
@@ -737,13 +745,13 @@ class Header extends React.Component<Props, State> {
                                   iconStyles.icon,
                                   iconStyles.iconCrossNarrowBig,
                                   styles.iconStyleCross,
-                                  { [globalStyles.cerise]: mobile }
+                                  styles.iconDefaultColor
                                 )
                               : cs(
                                   iconStyles.icon,
                                   iconStyles.iconSearch,
                                   styles.iconStyle,
-                                  { [globalStyles.cerise]: mobile }
+                                  styles.iconDefaultColor
                                 )
                           }
                         ></i>
@@ -763,16 +771,10 @@ class Header extends React.Component<Props, State> {
                               iconStyles.icon,
                               iconStyles.iconCart,
                               styles.iconStyle,
-                              { [globalStyles.cerise]: mobile }
+                              styles.iconDefaultColor
                             )}
                           ></i>
-                          <span
-                            className={cs(styles.badge, {
-                              [globalStyles.cerise]: mobile
-                            })}
-                          >
-                            {bagCount}
-                          </span>
+                          <span className={styles.badge}>{bagCount}</span>
                         </div>
                       </li>
                     )}

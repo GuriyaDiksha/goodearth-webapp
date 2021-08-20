@@ -132,6 +132,7 @@ export type SideMenuProps = {
   showSearch: boolean;
   showBag: boolean;
   setShowBag: (showBag: boolean) => void;
+  hideSearch: () => void;
 };
 
 export interface MouseParameter {
@@ -158,6 +159,7 @@ export type MegaMenuProps = {
   currency?: Currency;
   mobile?: boolean;
   location: Location;
+  hideSearch: () => void;
   onMegaMenuClick: ({
     l1,
     l2,

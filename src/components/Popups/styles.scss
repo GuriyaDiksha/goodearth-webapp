@@ -677,3 +677,161 @@
   letter-spacing: .5px;
   font-size: 10px;
 }
+
+.cerisepop {
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    height: auto !important;
+    width: 680px;
+    min-height: 500px;
+    background-color: #FFFAF6;
+    .cross{
+      float: right;
+      padding: 15px;
+      cursor: pointer;
+    }
+}
+
+.cerisemobile {
+    width: 100%;
+    min-height: 500px;
+    background-color: #FFFAF6;
+    bottom: 0;
+    padding-bottom: 20px;
+    position: fixed;
+    z-index: 5;
+    .cross{
+      padding: 15px;
+      position: absolute;
+      z-index: 10;
+      color: white;
+      right: 0px;
+    }
+}
+
+.text {
+  color:#B28F64;
+}
+
+.content {
+  color:#B28F64;
+  margin: 20% 5% 0 5%;
+  .heading{
+    font-size: 40px;
+    font-style: italic;
+    font-family: $font-Serif;
+    span{
+      font-style: normal;
+    }
+  }
+  .subheading {
+    font-family: $font-Serif;
+    font-size: 20px;
+    margin: 10px;
+  }
+  .subheading1 {
+    font-family: $font-Serif;
+    font-size: 20px;
+    font-style: italic;
+  }
+  .date {
+    font-size: 25px;
+    font-family: $font-Serif;
+  }
+  .star {
+    width: 19px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  .button {
+    background-color: #ab1e56;
+    color: #fff;
+    letter-spacing: 2px;
+    font-family: $font-Lato;
+    text-transform: uppercase;
+    line-height: 44px;
+    width: 60%;
+    text-align: center;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    margin: 20px 0;
+  }
+  .bottom {
+    color: #143348;
+    font-size: 12px;
+    font-family: $font-Lato;
+    margin-bottom: 10px;
+  }
+}
+
+.contentmobile {
+  color:#B28F64;
+  margin: 5% 5% 0 5%;
+  .heading{
+    font-size: 30px;
+    font-style: italic;
+    font-family: $font-Serif;
+    span{
+      font-style: normal;
+    }
+  }
+  .subheading {
+    font-family: $font-Serif;
+    font-size: 18px;
+    margin: 10px;
+  }
+  .subheading1 {
+    font-family: $font-Serif;
+    font-size: 18px;
+    font-style: italic;
+  }
+  .date {
+    font-size: 20px;
+    font-family: $font-Serif;
+  }
+  .star {
+    width: 19px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  .button {
+    background-color: #ab1e56;
+    color: #fff;
+    letter-spacing: 2px;
+    font-family: $font-Lato;
+    text-transform: uppercase;
+    line-height: 35px;
+    width: 40%;
+    text-align: center;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    margin: 15px 0;
+  }
+  .bottom {
+    color: #143348;
+    font-size: 12px;
+    font-family: $font-Lato;
+    margin-bottom: 10px;
+  }
+}
+.left-img {
+  margin-left: -3px;
+}
+.imgpadding {
+  padding: 0px !important;
+}
+
+.desktopimage {
+  display: block;
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
+  min-width: 100%;
+}
