@@ -2,16 +2,18 @@
 @import "../../styles/partials/mixins";
 
 .wishlist-icon {
-    font-size: 36px;
+    font-size: 28px;
     color: gray;
     cursor: pointer;
 }
 
 @media screen and (min-width:992px) {
     .wishlist-icon {
-        font-size: 36px;
+        font-size: 28px;
         color: gray;
         cursor: pointer;
+        margin-top: 5px;
+        margin-bottom: 5px;
         &:hover {
             color: $cerise;
         }
@@ -31,6 +33,6 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    font-size: 22px;
+    font-size: 18px;
     line-height: 30px;
 }
