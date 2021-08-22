@@ -58,6 +58,7 @@ const BottomMenu: React.FC<Props> = ({
                   iconStyles.iconBottomNavHome,
                   iconStyles.icon,
                   styles.iconStyle,
+                  styles.logoIconStyle,
                   { [globalStyles.cerise]: location.pathname == "/" }
                 )}
               ></i>
@@ -100,7 +101,8 @@ const BottomMenu: React.FC<Props> = ({
                       iconStyles.icon,
                       iconStyles.iconLibraryMenu,
                       styles.iconStyle,
-                      styles.iconFont
+                      styles.iconFont,
+                      styles.menuIconStyle
                     )
               }
               onClick={() => {
@@ -149,6 +151,7 @@ const BottomMenu: React.FC<Props> = ({
                     )
                   },
                   styles.iconStyle,
+                  styles.wishlistIconStyle,
                   {
                     [globalStyles.cerise]: location.pathname.includes(
                       "/wishlist"
