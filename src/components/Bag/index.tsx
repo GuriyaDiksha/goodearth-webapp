@@ -101,10 +101,10 @@ class Bag extends React.Component<Props, State> {
 
   getFooter() {
     if (this.props.cart) {
-      const amount =
-        this.props.cart.offerDiscounts.filter(discount => {
-          return discount.name == "EMP Discount";
-        })[0] || {};
+      // const amount =
+      //   this.props.cart.offerDiscounts.filter(discount => {
+      //     return discount.name == "EMP Discount";
+      //   })[0] || {};
       return (
         <div className={styles.bagFooter}>
           {this.hasOutOfStockItems() && (
@@ -142,7 +142,7 @@ class Bag extends React.Component<Props, State> {
               </p>
             </div>
           </div>
-          {amount.name && (
+          {/* {amount.name && (
             <div
               className={cs(
                 globalStyles.flex,
@@ -161,7 +161,7 @@ class Bag extends React.Component<Props, State> {
               </div>
             </div>
           )}
-          <div
+          {amount.name && <div
             className={cs(
               globalStyles.flex,
               globalStyles.gutterBetween,
@@ -181,6 +181,7 @@ class Bag extends React.Component<Props, State> {
               </h5>
             </div>
           </div>
+          } */}
 
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={cs(styles.iconCart, globalStyles.pointer)}>
