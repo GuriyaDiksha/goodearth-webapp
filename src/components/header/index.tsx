@@ -592,8 +592,7 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.col3,
                     bootstrap.colLg2,
-                    styles.hamburger,
-                    { [globalStyles.cerise]: mobile }
+                    styles.hamburger
                   )}
                 >
                   <i
@@ -745,13 +744,13 @@ class Header extends React.Component<Props, State> {
                                   iconStyles.icon,
                                   iconStyles.iconCrossNarrowBig,
                                   styles.iconStyleCross,
-                                  { [globalStyles.cerise]: mobile }
+                                  styles.iconDefaultColor
                                 )
                               : cs(
                                   iconStyles.icon,
                                   iconStyles.iconSearch,
                                   styles.iconStyle,
-                                  { [globalStyles.cerise]: mobile }
+                                  styles.iconDefaultColor
                                 )
                           }
                         ></i>
@@ -771,16 +770,10 @@ class Header extends React.Component<Props, State> {
                               iconStyles.icon,
                               iconStyles.iconCart,
                               styles.iconStyle,
-                              { [globalStyles.cerise]: mobile }
+                              styles.iconDefaultColor
                             )}
                           ></i>
-                          <span
-                            className={cs(styles.badge, {
-                              [globalStyles.cerise]: mobile
-                            })}
-                          >
-                            {bagCount}
-                          </span>
+                          <span className={styles.badge}>{bagCount}</span>
                         </div>
                       </li>
                     )}

@@ -519,13 +519,13 @@ const ProductDetails: React.FC<Props> = ({
   const isInViewport = (offset = 0, yourElement: any) => {
     if (!yourElement) return false;
     const top = yourElement.getBoundingClientRect().top;
-    return top + offset >= 0 && top - offset <= window.innerHeight;
+    return top + offset >= 0 && top - offset - 100 <= window.innerHeight;
   };
 
   const onScroll = throttle(() => {
     const ele = document.getElementById("yourElement") || "";
     const ele1 = document.getElementById("footer-start") || "";
-    const value = isInViewport(0, ele) || false;
+    const value = isInViewport(-80, ele) || false;
     const value1 = isInViewport(0, ele1) || false;
     if (value == false && value1 == false && showDock == false) {
       setShowDock(true);
@@ -557,7 +557,11 @@ const ProductDetails: React.FC<Props> = ({
   return (
     <Fragment>
       {!isQuickview && showDock && (
-        <DockedPanel data={data} buttoncall={button} />
+        <DockedPanel
+          data={data}
+          buttoncall={button}
+          showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
+        />
       )}
       <div className={bootstrap.row}>
         <div

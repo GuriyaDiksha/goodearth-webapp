@@ -13,9 +13,10 @@ type Props = {
   data: Product;
   showAddToBagMobile?: boolean;
   buttoncall: any;
+  showPrice: boolean;
 };
 
-const DockedPanel: React.FC<Props> = ({ data, buttoncall }) => {
+const DockedPanel: React.FC<Props> = ({ data, buttoncall, showPrice }) => {
   const { showTimer } = useSelector((state: AppState) => state.info);
   const { currency } = useSelector((state: AppState) => state);
   return (
@@ -36,12 +37,14 @@ const DockedPanel: React.FC<Props> = ({ data, buttoncall }) => {
         <span className={styles.dockText}> {data.altText}</span>
       </div>
       <div className={cs(bootstrap.col1, styles.padding21)}>
-        <Price
-          product={data}
-          code={currencyCodes[currency]}
-          isSale={false}
-          currency={currency}
-        />
+        {!showPrice && (
+          <Price
+            product={data}
+            code={currencyCodes[currency]}
+            isSale={false}
+            currency={currency}
+          />
+        )}
       </div>
       <div className={cs(bootstrap.col2, styles.padding14)}>{buttoncall}</div>
     </div>
