@@ -94,7 +94,7 @@ class CartPage extends React.Component<Props, State> {
   componentDidMount() {
     util.pageViewGTM("Cart");
     this.props.fetchBasket();
-    this.props.changeModalState();
+    // this.props.changeModalState();
     this.props
       .fetchFeaturedContent()
       .then(data => {
