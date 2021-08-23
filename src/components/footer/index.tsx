@@ -545,11 +545,15 @@ class Footer extends React.Component<Props, FooterState> {
                         res = (
                           <div
                             key={index}
-                            className={cs(bootstrap.colMd3, bootstrap.px2)}
+                            className={cs(
+                              bootstrap.colMd3,
+                              bootstrap.px2,
+                              styles.footerColumn
+                            )}
                           >
-                            {footerItems.map(item => {
+                            {footerItems.map((item, i) => {
                               return (
-                                <ul key={index}>
+                                <ul key={i}>
                                   <li>
                                     {item.link ? (
                                       <Link
@@ -619,6 +623,14 @@ class Footer extends React.Component<Props, FooterState> {
                                 </ul>
                               );
                             })}
+                            {index == 2 && (
+                              <ShopLocator
+                                goToShopLocator={this.goToShopLocator}
+                                saleStatus={this.props.saleStatus}
+                                onChangeText={this.onChangeText}
+                                shopLocations={this.props.data.shopLocations}
+                              />
+                            )}
                           </div>
                         );
                         return res;
@@ -627,92 +639,97 @@ class Footer extends React.Component<Props, FooterState> {
                   </div>
                 )}
               </div>
-
-              <div className={cs(bootstrap.row)} key={1}>
-                <div className={cs(bootstrap.col1)} key={2}></div>
-                <div className={cs(bootstrap.col10)} key={3}>
-                  <ShopLocator
-                    goToShopLocator={this.goToShopLocator}
-                    saleStatus={this.props.saleStatus}
-                    onChangeText={this.onChangeText}
-                    shopLocations={this.props.data.shopLocations}
-                  />
-                  {this.props.mobile ? (
-                    <div
-                      className={cs(
-                        {
-                          [styles.footerSocialiconsSale]: this.props.saleStatus
-                        },
-                        { [styles.footerSocialicons]: !this.props.saleStatus }
-                      )}
-                    >
+              {this.props.mobile && (
+                <div className={cs(bootstrap.row)} key={1}>
+                  <div className={cs(bootstrap.col1)} key={2}></div>
+                  <div className={cs(bootstrap.col10)} key={3}>
+                    <ShopLocator
+                      goToShopLocator={this.goToShopLocator}
+                      saleStatus={this.props.saleStatus}
+                      onChangeText={this.onChangeText}
+                      shopLocations={this.props.data.shopLocations}
+                    />
+                    {this.props.mobile ? (
                       <div
                         className={cs(
                           {
-                            [styles.ftrHeadingWhiteSale]: this.props.saleStatus
+                            [styles.footerSocialiconsSale]: this.props
+                              .saleStatus
                           },
-                          { [styles.ftrHeadingWhite]: !this.props.saleStatus }
+                          { [styles.footerSocialicons]: !this.props.saleStatus }
                         )}
                       >
-                        find us on
-                      </div>
-                      <div className={cs(styles.ftrHeadingWhite)}>
-                        {findUsOnData &&
-                          findUsOnData.map(({ link, iconImage }, index) => {
-                            return (
-                              <a
-                                href={link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                key={index}
-                              >
-                                <img
-                                  src={iconImage}
-                                  className={styles.findUsOnIcon}
-                                />
-                              </a>
-                            );
-                          })}
-                      </div>
-                      {this.props.isSale ? (
-                        ""
-                      ) : (
-                        <div>
-                          <div
-                            className={
-                              this.props.saleStatus
-                                ? cs(styles.ftrHeading80blkSale)
-                                : cs(styles.ftrHeadingWhite)
-                            }
-                          >
-                            {" "}
-                            {this.props.data.footerPlaylistData?.ctaText}
-                          </div>
-                          <div className={cs(styles.textCenter)}>
-                            <a
-                              href={this.props.data.footerPlaylistData?.ctaUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                        <div
+                          className={cs(
+                            {
+                              [styles.ftrHeadingWhiteSale]: this.props
+                                .saleStatus
+                            },
+                            { [styles.ftrHeadingWhite]: !this.props.saleStatus }
+                          )}
+                        >
+                          find us on
+                        </div>
+                        <div className={cs(styles.ftrHeadingWhite)}>
+                          {findUsOnData &&
+                            findUsOnData.map(({ link, iconImage }, index) => {
+                              return (
+                                <a
+                                  href={link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  key={index}
+                                >
+                                  <img
+                                    src={iconImage}
+                                    className={styles.findUsOnIcon}
+                                  />
+                                </a>
+                              );
+                            })}
+                        </div>
+                        {this.props.isSale ? (
+                          ""
+                        ) : (
+                          <div>
+                            <div
+                              className={
+                                this.props.saleStatus
+                                  ? cs(styles.ftrHeading80blkSale)
+                                  : cs(styles.ftrHeadingWhite)
+                              }
                             >
                               {" "}
-                              <img
-                                src={
-                                  this.props.data.footerPlaylistData?.ctaImage
+                              {this.props.data.footerPlaylistData?.ctaText}
+                            </div>
+                            <div className={cs(styles.textCenter)}>
+                              <a
+                                href={
+                                  this.props.data.footerPlaylistData?.ctaUrl
                                 }
-                                className={cs(globalStyles.width250)}
-                              />{" "}
-                            </a>
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {" "}
+                                <img
+                                  src={
+                                    this.props.data.footerPlaylistData?.ctaImage
+                                  }
+                                  className={cs(globalStyles.width250)}
+                                />{" "}
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                        )}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
 
-                <div className={cs(bootstrap.col1)} key={4}></div>
-              </div>
+                  <div className={cs(bootstrap.col1)} key={4}></div>
+                </div>
+              )}
             </div>
           </div>
 
