@@ -118,6 +118,18 @@ export default {
     );
     return data;
   },
+  checkGiftCard: async (dispatch: Dispatch, code: string) => {
+    const data = await API.post<{
+      currStatus: string;
+      type: string;
+      curr: string;
+      message?: string;
+      status?: boolean;
+    }>(dispatch, `${__API_HOST__}/myapi/giftcard/check_gift_card_status/`, {
+      code
+    });
+    return data;
+  },
   getLoyaltyTransactions: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post(
       dispatch,
