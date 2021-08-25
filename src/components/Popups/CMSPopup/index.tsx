@@ -25,7 +25,7 @@ const CMSPopup: React.FC<PopupData> = ({
   }, []);
   const close = () => {
     if (session) {
-      CookieService.setCookie(pageUrl.replaceAll("/", "_"), "show", 0);
+      CookieService.setCookie(pageUrl.split("/").join("_"), "show", 0);
     }
     closeModal();
   };
