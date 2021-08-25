@@ -127,6 +127,7 @@ class Giftcard extends React.Component<Props, GiftState> {
     this.setState(prevState => {
       return {
         toggleResetOtpComponent: !prevState.toggleResetOtpComponent,
+        showOTPValidationScreen: false,
         newCardBox: true,
         disable: true,
         isSuccess: false,
