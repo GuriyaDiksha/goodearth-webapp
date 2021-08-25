@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import API from "utils/api";
-import { ApiResponse } from "typings/api";
+import { ApiResponse, PopupResponse } from "typings/api";
 import { updateShopData } from "actions/shop";
 import { updateCurrency } from "actions/currency";
 import {
@@ -13,6 +13,7 @@ import {
 import { updateAnnouncement } from "actions/header";
 import CacheService from "services/cache";
 import HeaderService from "services/headerFooter";
+import { updatePopup } from "actions/popup";
 
 export default {
   fetchShopLocator: async function(dispatch: Dispatch) {
@@ -47,6 +48,13 @@ export default {
     }
     dispatch(updateGiftWrap(data.showGiftwrap));
     dispatch(updateDeliveryInstruction(data.showDeliveryInstruction));
+  },
+  getPopups: async function(dispatch: Dispatch) {
+    const res = await API.get<PopupResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/static/fetch_pop_up`
+    );
+    dispatch(updatePopup(res.data));
   },
   getPopupBgUrl: async function(dispatch: Dispatch) {
     let data: any = CacheService.get("popupBgUrl");
