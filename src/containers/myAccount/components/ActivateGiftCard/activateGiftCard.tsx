@@ -131,7 +131,8 @@ class Giftcard extends React.Component<Props, GiftState> {
         disable: true,
         isSuccess: false,
         giftList: [],
-        txtvalue: ""
+        txtvalue: "",
+        showSendOtp: false
       };
     });
     // this.props.history.push(this.props.history.location.pathname, {});
