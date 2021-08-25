@@ -26,7 +26,6 @@ import cs from "classnames";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
 import { POPUP } from "constants/components";
-import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
@@ -36,8 +35,8 @@ const BaseLayout: React.FC = () => {
     currency,
     // device: { mobile }
     basket: { bridal },
-    header: { announcementData },
-    user: { customerGroup }
+    header: { announcementData }
+    // user: { customerGroup }
   } = useSelector((state: AppState) => state);
   // don't show info popup
   const isSuspended = false;
@@ -89,7 +88,7 @@ const BaseLayout: React.FC = () => {
         let show = currentPopup[0].session == false;
         if (!show) {
           if (
-            CookieService.getCookie(pathname.replaceAll("/", "_")) != "show"
+            CookieService.getCookie(pathname.split("/").join("_")) != "show"
           ) {
             show = true;
           }
