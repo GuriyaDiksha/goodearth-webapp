@@ -118,6 +118,9 @@ export default {
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
     BasketService.fetchBasket(dispatch, source, history, true).then(
       basketRes => {
         if (source == "checkout") {
@@ -203,6 +206,9 @@ export default {
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
     WishlistService.updateWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
@@ -262,8 +268,8 @@ export default {
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie =
         "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+      // document.cookie =
+      //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
@@ -274,6 +280,9 @@ export default {
       WishlistService.resetWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
       });
       BasketService.fetchBasket(dispatch).catch(err => {
         console.log(err);
@@ -289,13 +298,16 @@ export default {
     document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
-    document.cookie =
-      "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+    // document.cookie =
+    //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
     WishlistService.resetWishlist(dispatch);
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
@@ -388,6 +400,9 @@ export default {
     });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sale status API error === " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch);
   },

@@ -41,7 +41,7 @@ const BaseLayout: React.FC = () => {
   } = useSelector((state: AppState) => state);
   // don't show info popup
   const isSuspended = false;
-
+  const popup = useSelector((state: AppState) => state.popup);
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   const getPWADisplayMode = () => {
     const isStandalone = window.matchMedia("(display-mode: standalone)")
@@ -79,6 +79,25 @@ const BaseLayout: React.FC = () => {
           0,
           -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
         );
+      }
+    }
+
+    // show popup, if any
+    if (popup && popup.length > 0) {
+      const currentPopup = popup.filter(pop => pop.pageUrl == pathname);
+      if (currentPopup && currentPopup.length > 0) {
+        let show = currentPopup[0].session == false;
+        if (!show) {
+          if (
+            CookieService.getCookie(pathname.replaceAll("/", "_")) != "show"
+          ) {
+            show = true;
+          }
+        }
+        if (show) {
+          dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
+          dispatch(updateModal(true));
+        }
       }
     }
   }, [pathname]);
@@ -136,20 +155,20 @@ const BaseLayout: React.FC = () => {
   //   history.push("/maintenance");
   // }
 
-  useEffect(() => {
-    const isHomePage = location.pathname == "/";
-    const checkceriseCookie = CookieService.getCookie("cerisepopup");
-    if (
-      (customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA) &&
-      currency == "INR" &&
-      isHomePage &&
-      !checkceriseCookie
-    ) {
-      CookieService.setCookie("cerisepopup", "true", 365);
-      dispatch(updateComponent(POPUP.CERISE, true));
-      dispatch(updateModal(true));
-    }
-  }, [customerGroup]);
+  // useEffect(() => {
+  //   const isHomePage = location.pathname == "/";
+  //   const checkceriseCookie = CookieService.getCookie("cerisepopup");
+  //   if (
+  //     (customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA) &&
+  //     currency == "INR" &&
+  //     isHomePage &&
+  //     !checkceriseCookie
+  //   ) {
+  //     CookieService.setCookie("cerisepopup", "true", 365);
+  //     dispatch(updateComponent(POPUP.CERISE, true));
+  //     dispatch(updateModal(true));
+  //   }
+  // }, [customerGroup]);
 
   useEffect(() => {
     // let isDragging = false;

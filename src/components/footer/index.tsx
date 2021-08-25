@@ -5,7 +5,6 @@ import cs from "classnames";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-import iconStyles from "../../styles/iconFonts.scss";
 import { ShopLocator } from "./ShopLocator";
 import { AppState } from "reducers/typings";
 import { connect } from "react-redux";
@@ -224,12 +223,20 @@ class Footer extends React.Component<Props, FooterState> {
 
   render() {
     const {
-      footerImageDeskTop,
-      footerImageMobile,
-      footerImageSubsDeskTop,
-      footerImageSubsMobile,
-      footerBgColorMobile
-    } = this.props.data.footerImages;
+      footerImages: {
+        footerImageDeskTop,
+        footerImageMobile,
+        footerImageSubsDeskTop,
+        footerImageSubsMobile,
+        footerBgColorMobile
+      },
+      findUsOnData
+    } = this.props.data;
+    const mobileFooterList: FooterList = [];
+    this.props.data.footerList.map(item => {
+      mobileFooterList.push(...item);
+    });
+
     return (
       <div
         className={cs(bootstrap.containerFluid, globalStyles.minimumWidth)}
@@ -336,145 +343,119 @@ class Footer extends React.Component<Props, FooterState> {
                               : cs(styles.mainMenuFooter)
                           }
                         >
-                          {this.props.data.footerList?.map(
-                            (list: FooterList, i: number) => {
-                              return (
-                                <li key={i}>
-                                  {list.value.length > 0 ? (
-                                    <span
-                                      className={`${
-                                        this.state.isOpened &&
-                                        this.state.currentIndex == i
-                                          ? cs(styles.detailShow)
-                                          : cs(styles.detail)
-                                      } ${
-                                        this.props.saleStatus
-                                          ? cs(styles.cerise)
-                                          : ""
-                                      }`}
-                                      onClick={() => {
-                                        this.subMenu(i);
-                                      }}
-                                    >
-                                      {" "}
-                                      {list.name}{" "}
-                                    </span>
-                                  ) : (
-                                    <Link
-                                      to={list.link || "#"}
-                                      className={
-                                        this.props.saleStatus
-                                          ? cs(styles.cerise)
-                                          : ""
-                                      }
-                                      onClick={() => valid.footerGTM(list.name)}
-                                    >
-                                      {list.name}
-                                    </Link>
-                                  )}
-                                  <ul
-                                    className={
+                          {mobileFooterList?.map((list, i: number) => {
+                            return (
+                              <li key={i}>
+                                {list.value.length > 0 ? (
+                                  <span
+                                    className={`${
                                       this.state.isOpened &&
                                       this.state.currentIndex == i
-                                        ? ""
-                                        : cs(globalStyles.hidden)
-                                    }
+                                        ? cs(styles.detailShow)
+                                        : cs(styles.detail)
+                                    } ${
+                                      this.props.saleStatus
+                                        ? cs(styles.cerise)
+                                        : ""
+                                    }`}
+                                    onClick={() => {
+                                      this.subMenu(i);
+                                    }}
                                   >
-                                    {list.value.map(
-                                      (currentValue: List, j: number) => {
-                                        if (this.props.saleStatus == true) {
-                                          return false;
-                                        }
-                                        if (
-                                          list.name == "HELP" ||
-                                          list.name == "SERVICES"
-                                        ) {
-                                          return (
-                                            <li key={j}>
-                                              {/* {currentValue.text.toLowerCase() ==
-                                            "good earth registry" ? (
-                                              <a
-                                                href={currentValue.link}
-                                                target="_blank"
-                                                rel="noreferrer noopener"
-                                              >
-                                                {currentValue.text}
-                                              </a>
-                                            ) : ( */}
-                                              <Link
-                                                to={
-                                                  currentValue.text.toLowerCase() ==
-                                                    "good earth registry" &&
-                                                  this.props.isLoggedIn
-                                                    ? "/account/bridal"
-                                                    : currentValue.link
-                                                }
-                                                onClick={() => {
-                                                  this.subMenu(i);
-                                                }}
-                                              >
-                                                {currentValue.text}
-                                              </Link>
-                                              {/* )} */}
-                                            </li>
-                                          );
-                                        } else {
-                                          return (
-                                            <li
-                                              className={cs(
-                                                globalStyles.txtNormal,
-                                                {
-                                                  [globalStyles.voffset2]:
-                                                    j == 2
-                                                }
-                                              )}
+                                    {" "}
+                                    {list.name}{" "}
+                                  </span>
+                                ) : (
+                                  <Link
+                                    to={list.link || "#"}
+                                    className={
+                                      this.props.saleStatus
+                                        ? cs(styles.cerise)
+                                        : ""
+                                    }
+                                    onClick={() => valid.footerGTM(list.name)}
+                                  >
+                                    {list.name}
+                                  </Link>
+                                )}
+                                <ul
+                                  className={
+                                    this.state.isOpened &&
+                                    this.state.currentIndex == i
+                                      ? ""
+                                      : cs(globalStyles.hidden)
+                                  }
+                                  key={i}
+                                >
+                                  {list.value.map(
+                                    (currentValue: List, j: number) => {
+                                      if (this.props.saleStatus == true) {
+                                        return false;
+                                      }
+                                      return (
+                                        <li
+                                          className={cs(
+                                            globalStyles.txtNormal,
+                                            {
+                                              [globalStyles.voffset2]:
+                                                j == 2 &&
+                                                list.name.toLowerCase() ==
+                                                  "connect"
+                                            }
+                                          )}
+                                          key={j}
+                                        >
+                                          {currentValue.iconImage && (
+                                            <img
+                                              className={
+                                                styles.footerConnectIcon
+                                              }
+                                              src={currentValue.iconImage}
+                                            />
+                                          )}
+                                          {currentValue.link ? (
+                                            <Link
+                                              to={
+                                                currentValue.text.toLowerCase() ==
+                                                  "good earth registry" &&
+                                                this.props.isLoggedIn
+                                                  ? "/account/bridal"
+                                                  : currentValue.link
+                                              }
+                                              onClick={() =>
+                                                valid.footerGTM(
+                                                  currentValue.text
+                                                )
+                                              }
                                               key={j}
                                             >
-                                              {currentValue.iconImage && (
-                                                <img
-                                                  className={
-                                                    styles.footerConnectIcon
-                                                  }
-                                                  src={currentValue.iconImage}
-                                                />
-                                              )}
-                                              {currentValue.link ? (
-                                                <a
-                                                  href={currentValue.link}
-                                                  onClick={() =>
-                                                    valid.footerGTM(
-                                                      currentValue.text
-                                                    )
-                                                  }
-                                                >
-                                                  {currentValue.text}
-                                                </a>
-                                              ) : currentValue.newTabLink ? (
-                                                <a
-                                                  href={currentValue.newTabLink}
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                                  onClick={() =>
-                                                    valid.footerGTM(
-                                                      currentValue.text
-                                                    )
-                                                  }
-                                                >
-                                                  {currentValue.text}
-                                                </a>
-                                              ) : (
-                                                currentValue.text
-                                              )}{" "}
-                                            </li>
-                                          );
-                                        }
-                                      }
-                                    )}{" "}
-                                  </ul>
-                                </li>
-                              );
-                            }
-                          )}
+                                              {currentValue.text}
+                                            </Link>
+                                          ) : currentValue.newTabLink ? (
+                                            <a
+                                              href={currentValue.newTabLink}
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                              onClick={() =>
+                                                valid.footerGTM(
+                                                  currentValue.text
+                                                )
+                                              }
+                                              key={j}
+                                            >
+                                              {currentValue.text}
+                                            </a>
+                                          ) : (
+                                            currentValue.text
+                                          )}{" "}
+                                        </li>
+                                      );
+                                    }
+                                  )}
+                                </ul>
+                              </li>
+                            );
+                          })}
                         </ul>
                       </div>
                     </div>
@@ -502,55 +483,35 @@ class Footer extends React.Component<Props, FooterState> {
                     }
                   >
                     <div className={cs(bootstrap.row, styles.px5)}>
-                      <div className={cs(bootstrap.colMd3, bootstrap.px2)}>
-                        <ul>
-                          <li>find us on</li>
-                          <li className={cs(styles.footerSocialicons)}>
-                            <a
-                              href="https://www.facebook.com/goodearthindia"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <i
-                                className={cs(
-                                  iconStyles.icon,
-                                  iconStyles.iconFooterFb,
-                                  styles.footerIcon
-                                )}
-                              ></i>
-                            </a>
-                            <a
-                              href="https://www.instagram.com/goodearthindia"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <i
-                                className={cs(
-                                  iconStyles.icon,
-                                  iconStyles.iconFooterInstagram,
-                                  styles.footerIcon
-                                )}
-                              ></i>
-                            </a>
-                            <a
-                              href="https://www.pinterest.com/goodearthindia/"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <i
-                                className={cs(
-                                  iconStyles.icon,
-                                  iconStyles.iconFooterPinterest,
-                                  styles.footerIcon
-                                )}
-                              ></i>
-                            </a>
+                      <div
+                        className={cs(bootstrap.colMd3, bootstrap.px2)}
+                        key={"first-column"}
+                      >
+                        <ul key={0}>
+                          <li key={0}>find us on</li>
+                          <li className={cs(styles.footerSocialicons)} key={1}>
+                            {findUsOnData &&
+                              findUsOnData.map(({ link, iconImage }, index) => {
+                                return (
+                                  <a
+                                    href={link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    key={index}
+                                  >
+                                    <img
+                                      src={iconImage}
+                                      className={styles.findUsOnIcon}
+                                    />
+                                  </a>
+                                );
+                              })}
                           </li>
                         </ul>
                         {this.props.isSale ? (
                           ""
                         ) : (
-                          <ul className={cs(styles.footerPlaylist)}>
+                          <ul className={cs(styles.footerPlaylist)} key={1}>
                             <li>
                               {" "}
                               {this.props.data.footerPlaylistData?.ctaText}
@@ -581,294 +542,194 @@ class Footer extends React.Component<Props, FooterState> {
                       </div>
                       {this.props.data.footerList?.map((footerItems, index) => {
                         let res: any = "";
-                        if (index == 0) {
-                          res = (
-                            <div
-                              key={index}
-                              className={cs(bootstrap.colMd3, bootstrap.px2)}
-                            >
-                              <ul key="about-us">
-                                <li>
-                                  {footerItems.link ? (
-                                    <Link
-                                      to={footerItems.link || "#"}
-                                      onClick={() =>
-                                        valid.footerGTM(footerItems.name)
-                                      }
-                                    >
-                                      {footerItems.name}
-                                    </Link>
-                                  ) : (
-                                    footerItems.name
-                                  )}
-                                </li>
-                                {footerItems.value.map((Item, index) => (
-                                  <li key={index}>
-                                    {Item.link !== "" ? (
+                        res = (
+                          <div
+                            key={index}
+                            className={cs(
+                              bootstrap.colMd3,
+                              bootstrap.px2,
+                              styles.footerColumn
+                            )}
+                          >
+                            {footerItems.map((item, i) => {
+                              return (
+                                <ul key={i}>
+                                  <li>
+                                    {item.link ? (
                                       <Link
-                                        to={Item.link}
+                                        to={item.link || "#"}
                                         onClick={() =>
-                                          valid.footerGTM(Item.text)
+                                          valid.footerGTM(item.name)
                                         }
                                       >
-                                        {Item.text}
+                                        {item.name}
                                       </Link>
                                     ) : (
-                                      Item.text
+                                      item.name
                                     )}
                                   </li>
-                                ))}
-                              </ul>
-                              <ul key="press-stories">
-                                <li>
-                                  {this.props.data.footerList[index + 1]
-                                    .link ? (
-                                    <Link
-                                      to={
-                                        this.props.data.footerList[index + 1]
-                                          .link || "#"
-                                      }
-                                      onClick={() =>
-                                        valid.footerGTM(
-                                          this.props.data.footerList[index + 1]
-                                            .name
+                                  {item.value.map((child, index) => (
+                                    <li key={index}>
+                                      {child.iconImage && (
+                                        <img
+                                          className={styles.footerConnectIcon}
+                                          src={child.iconImage}
+                                        />
+                                      )}
+                                      {child.link ? (
+                                        item.name == "CONNECT" ? (
+                                          <a
+                                            className={globalStyles.txtNormal}
+                                            href={child.link}
+                                            onClick={() =>
+                                              valid.footerGTM(child.text)
+                                            }
+                                          >
+                                            {child.text}
+                                          </a>
+                                        ) : (
+                                          <Link
+                                            to={
+                                              child.text.toLowerCase() ==
+                                                "good earth registry" &&
+                                              this.props.isLoggedIn
+                                                ? "/account/bridal"
+                                                : child.link
+                                            }
+                                            onClick={() =>
+                                              valid.footerGTM(child.text)
+                                            }
+                                          >
+                                            {child.text}
+                                          </Link>
                                         )
-                                      }
-                                    >
-                                      {
-                                        this.props.data.footerList[index + 1]
-                                          .name
-                                      }
-                                    </Link>
-                                  ) : (
-                                    this.props.data.footerList[index + 1].name
-                                  )}
-                                </li>
-                              </ul>
-                              <ul key="services">
-                                <li>
-                                  {this.props.data.footerList[index + 2]?.name}
-                                </li>
-                                {this.props.data.footerList[
-                                  index + 2
-                                ]?.value?.map((Item, index) => (
-                                  <li key={index}>
-                                    {Item.link !== "" ? (
-                                      // Item.text.toLowerCase() ==
-                                      // "good earth registry" ? (
-                                      //   <a
-                                      //     href={Item.link}
-                                      //     target="_blank"
-                                      //     rel="noopener noreferrer"
-                                      //   >
-                                      //     {Item.text}
-                                      //   </a>
-                                      // ) : (
-                                      <Link
-                                        to={
-                                          Item.text.toLowerCase() ==
-                                            "good earth registry" &&
-                                          this.props.isLoggedIn
-                                            ? "/account/bridal"
-                                            : Item.link
-                                        }
-                                        onClick={() =>
-                                          valid.footerGTM(Item.text)
-                                        }
-                                      >
-                                        {Item.text}
-                                      </Link>
-                                    ) : (
-                                      //  )
-                                      Item.text
-                                    )}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          );
-                        } else if (index == 1 || index == 2) {
-                          // do nothing
-                        } else {
-                          res = (
-                            <div
-                              key={index}
-                              className={cs(bootstrap.colMd3, bootstrap.px2)}
-                            >
-                              <ul>
-                                <li>{footerItems.name}</li>
-                                {footerItems.value.map((Item, index) => (
-                                  <li
-                                    key={index}
-                                    className={cs({
-                                      [globalStyles.voffset2]:
-                                        footerItems.name == "CONNECT" &&
-                                        index == 3
-                                    })}
-                                  >
-                                    {Item.iconImage && (
-                                      <img
-                                        className={styles.footerConnectIcon}
-                                        src={Item.iconImage}
-                                      />
-                                    )}
-                                    {Item.link ? (
-                                      footerItems.name == "CONNECT" ? (
+                                      ) : child.newTabLink ? (
                                         <a
                                           className={globalStyles.txtNormal}
-                                          href={Item.link}
+                                          href={child.newTabLink}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
                                           onClick={() =>
-                                            valid.footerGTM(Item.text)
+                                            valid.footerGTM(child.text)
                                           }
                                         >
-                                          {Item.text}
+                                          {child.text}
                                         </a>
                                       ) : (
-                                        <Link
-                                          to={Item.link}
-                                          onClick={() =>
-                                            valid.footerGTM(Item.text)
-                                          }
-                                        >
-                                          {Item.text}
-                                        </Link>
-                                      )
-                                    ) : Item.newTabLink ? (
-                                      <a
-                                        className={globalStyles.txtNormal}
-                                        href={Item.newTabLink}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={() =>
-                                          valid.footerGTM(Item.text)
-                                        }
-                                      >
-                                        {Item.text}
-                                      </a>
-                                    ) : (
-                                      Item.text
-                                    )}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          );
-                        }
+                                        child.text
+                                      )}
+                                    </li>
+                                  ))}
+                                </ul>
+                              );
+                            })}
+                            {index == 2 && (
+                              <ShopLocator
+                                goToShopLocator={this.goToShopLocator}
+                                saleStatus={this.props.saleStatus}
+                                onChangeText={this.onChangeText}
+                                shopLocations={this.props.data.shopLocations}
+                              />
+                            )}
+                          </div>
+                        );
                         return res;
                       })}
                     </div>
                   </div>
                 )}
               </div>
-
-              <div className={cs(bootstrap.row)}>
-                <div className={cs(bootstrap.col1)}></div>
-                <div className={cs(bootstrap.col10)}>
-                  <ShopLocator
-                    goToShopLocator={this.goToShopLocator}
-                    saleStatus={this.props.saleStatus}
-                    onChangeText={this.onChangeText}
-                    shopLocations={this.props.data.shopLocations}
-                  />
-                  {this.props.mobile ? (
-                    <div
-                      className={cs(
-                        {
-                          [styles.footerSocialiconsSale]: this.props.saleStatus
-                        },
-                        { [styles.footerSocialicons]: !this.props.saleStatus }
-                      )}
-                    >
+              {this.props.mobile && (
+                <div className={cs(bootstrap.row)} key={1}>
+                  <div className={cs(bootstrap.col1)} key={2}></div>
+                  <div className={cs(bootstrap.col10)} key={3}>
+                    <ShopLocator
+                      goToShopLocator={this.goToShopLocator}
+                      saleStatus={this.props.saleStatus}
+                      onChangeText={this.onChangeText}
+                      shopLocations={this.props.data.shopLocations}
+                    />
+                    {this.props.mobile ? (
                       <div
                         className={cs(
                           {
-                            [styles.ftrHeadingWhiteSale]: this.props.saleStatus
+                            [styles.footerSocialiconsSale]: this.props
+                              .saleStatus
                           },
-                          { [styles.ftrHeadingWhite]: !this.props.saleStatus }
+                          { [styles.footerSocialicons]: !this.props.saleStatus }
                         )}
                       >
-                        find us on
-                      </div>
-                      <div className={cs(styles.ftrHeadingWhite)}>
-                        <a
-                          href="https://www.facebook.com/goodearthindia"
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <div
+                          className={cs(
+                            {
+                              [styles.ftrHeadingWhiteSale]: this.props
+                                .saleStatus
+                            },
+                            { [styles.ftrHeadingWhite]: !this.props.saleStatus }
+                          )}
                         >
-                          <i
-                            className={cs(
-                              iconStyles.icon,
-                              iconStyles.iconFooterFb,
-                              styles.footerIcon
-                            )}
-                          ></i>
-                        </a>
-                        <a
-                          href="https://www.instagram.com/goodearthindia"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <i
-                            className={cs(
-                              iconStyles.icon,
-                              iconStyles.iconFooterInstagram,
-                              styles.footerIcon
-                            )}
-                          ></i>
-                        </a>
-                        <a
-                          href="https://www.pinterest.com/goodearthindia/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <i
-                            className={cs(
-                              iconStyles.icon,
-                              iconStyles.iconFooterPinterest,
-                              styles.footerIcon
-                            )}
-                          ></i>
-                        </a>
-                      </div>
-                      {this.props.isSale ? (
-                        ""
-                      ) : (
-                        <div>
-                          <div
-                            className={
-                              this.props.saleStatus
-                                ? cs(styles.ftrHeading80blkSale)
-                                : cs(styles.ftrHeadingWhite)
-                            }
-                          >
-                            {" "}
-                            {this.props.data.footerPlaylistData?.ctaText}
-                          </div>
-                          <div className={cs(styles.textCenter)}>
-                            <a
-                              href={this.props.data.footerPlaylistData?.ctaUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                          find us on
+                        </div>
+                        <div className={cs(styles.ftrHeadingWhite)}>
+                          {findUsOnData &&
+                            findUsOnData.map(({ link, iconImage }, index) => {
+                              return (
+                                <a
+                                  href={link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  key={index}
+                                >
+                                  <img
+                                    src={iconImage}
+                                    className={styles.findUsOnIcon}
+                                  />
+                                </a>
+                              );
+                            })}
+                        </div>
+                        {this.props.isSale ? (
+                          ""
+                        ) : (
+                          <div>
+                            <div
+                              className={
+                                this.props.saleStatus
+                                  ? cs(styles.ftrHeading80blkSale)
+                                  : cs(styles.ftrHeadingWhite)
+                              }
                             >
                               {" "}
-                              <img
-                                src={
-                                  this.props.data.footerPlaylistData?.ctaImage
+                              {this.props.data.footerPlaylistData?.ctaText}
+                            </div>
+                            <div className={cs(styles.textCenter)}>
+                              <a
+                                href={
+                                  this.props.data.footerPlaylistData?.ctaUrl
                                 }
-                                className={cs(globalStyles.width250)}
-                              />{" "}
-                            </a>
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {" "}
+                                <img
+                                  src={
+                                    this.props.data.footerPlaylistData?.ctaImage
+                                  }
+                                  className={cs(globalStyles.width250)}
+                                />{" "}
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                        )}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
 
-                <div className={cs(bootstrap.col1)}></div>
-              </div>
+                  <div className={cs(bootstrap.col1)} key={4}></div>
+                </div>
+              )}
             </div>
           </div>
 

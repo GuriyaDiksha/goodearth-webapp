@@ -108,6 +108,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sale status API error === " + err);
       });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -391,7 +394,8 @@ class Checkout extends React.Component<Props, State> {
     } else {
       this.setState({
         activeStep: Steps.STEP_LOGIN,
-        shippingAddress: nextProps.user.shippingData || undefined
+        shippingAddress: nextProps.user.shippingData || undefined,
+        errorNotification: ""
       });
     }
   }

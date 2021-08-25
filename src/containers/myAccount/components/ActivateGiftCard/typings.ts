@@ -38,4 +38,7 @@ export type GiftState = {
   showLocked: boolean;
   showExpired: boolean;
   conditionalRefresh: boolean;
+  showSendOtp: boolean;
+  isIndiaGC: boolean;
+  isProceedBtnDisabled: boolean;
 };
