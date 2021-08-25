@@ -629,29 +629,18 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             : false
           : true) && (
           <>
-            {radioType == "number" ? (
-              <div
-                className={cs(
-                  styles.loginForm,
-                  globalStyles.voffset4,
-                  styles.otpLabel
-                )}
-              >
-                OTP HAS BEEN SENT TO YOU VIA YOUR MOBILE NUMBER. PLEASE ENTER IT
-                BELOW
-              </div>
-            ) : (
-              <div
-                className={cs(
-                  styles.loginForm,
-                  globalStyles.voffset4,
-                  styles.otpLabel
-                )}
-              >
-                OTP HAS BEEN SENT TO YOU VIA YOUR EMAIL ADDRESS. PLEASE ENTER IT
-                BELOW
-              </div>
-            )}
+            <div
+              className={cs(
+                styles.loginForm,
+                globalStyles.voffset4,
+                styles.otpLabel
+              )}
+            >
+              {`OTP HAS BEEN SENT TO YOU VIA YOUR ${
+                this.props.isIndiaGC ? "MOBILE NUMBER" : "EMAIL ADDRESS"
+              }. PLEASE ENTER IT
+                BELOW`}
+            </div>
             <OtpBox otpValue={this.getOtpValue} />
 
             <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
