@@ -556,7 +556,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    const { radioType, otpTimer, otpData } = this.state;
+    const { otpTimer, otpData } = this.state;
     return (
       <div>
         <div
@@ -603,7 +603,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               : "GIFT CARD CODE"}
           </p>
           <p>{this.props.txtvalue}</p>
-          {radioType == "email" ? (
+          {!this.props.isIndiaGC ? (
             <p className={globalStyles.voffset2}>
               <strong className={cs(globalStyles.op2, globalStyles.bold)}>
                 {" "}

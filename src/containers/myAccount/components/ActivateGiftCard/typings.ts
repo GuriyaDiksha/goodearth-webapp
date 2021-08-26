@@ -41,4 +41,5 @@ export type GiftState = {
   showSendOtp: boolean;
   isIndiaGC: boolean;
   isProceedBtnDisabled: boolean;
+  isLoading: boolean;
 };
