@@ -95,7 +95,7 @@ class MegaMenuList extends React.Component<MegaMenuListProps> {
                 : undefined;
               return (
                 TemplateComp && (
-                  <div onClick={this.mouseLeave}>
+                  <div onClick={this.mouseLeave} key={index}>
                     <TemplateComp
                       key={index}
                       data={template.templateData}
