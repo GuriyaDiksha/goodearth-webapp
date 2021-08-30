@@ -15,6 +15,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         setLabelClass(true);
         setPlaceholder("");
       }
+      props.onFocus && props.onFocus(event as React.FocusEvent);
     },
     []
   );
