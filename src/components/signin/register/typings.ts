@@ -9,6 +9,11 @@ export type registerState = {
   minDate: string;
   maxDate: string;
   showDOBLabel: boolean;
+  passValidLength: boolean;
+  passValidUpper: boolean;
+  passValidLower: boolean;
+  passValidNum: boolean;
+  showPassRules: boolean;
 };
 
 export type RegisterProps = {
