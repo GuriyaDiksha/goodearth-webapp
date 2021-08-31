@@ -67,7 +67,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     : product.plpImages
     ? product.plpImages[1]
     : "";
-  console.log(loader);
   const isStockAvailable = isCorporate || product.inStock;
   return loader ? (
     <div className={styles.plpMain}>
