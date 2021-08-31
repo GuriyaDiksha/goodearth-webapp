@@ -60,7 +60,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
       formData.append("email", this.state.email || "");
       formData.append(
         "redirectTo",
-        this.props.history.location.pathname || "/"
+        this.props.history.location.pathname +
+          this.props.history.location.search || "/"
       );
       this.setState({ disableSelectedbox: true });
       this.props
