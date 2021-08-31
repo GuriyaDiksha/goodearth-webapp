@@ -13,6 +13,7 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import Price from "components/Price";
+import SkeletonImage from "./skeleton";
 import * as valid from "utils/validate";
 import CookieService from "services/cookie";
 
@@ -28,7 +29,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     isCollection,
     isCorporate,
     position,
-    page
+    page,
+    loader
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -65,8 +67,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     : product.plpImages
     ? product.plpImages[1]
     : "";
+  console.log(loader);
   const isStockAvailable = isCorporate || product.inStock;
-  return (
+  return loader ? (
+    <div className={styles.plpMain}>
+      <SkeletonImage />
+    </div>
+  ) : (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
         <div className={styles.badgeImage}>
