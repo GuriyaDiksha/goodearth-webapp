@@ -14,6 +14,7 @@ export type registerState = {
   passValidLower: boolean;
   passValidNum: boolean;
   showPassRules: boolean;
+  shouldValidatePass: boolean;
 };
 
 export type RegisterProps = {
