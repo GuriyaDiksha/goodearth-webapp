@@ -60,7 +60,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       passValidUpper: false,
       passValidLower: false,
       passValidNum: false,
-      showPassRules: false
+      showPassRules: false,
+      shouldValidatePass: false
     };
   }
   static contextType = Context;
@@ -615,6 +616,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     });
                   }
                 }
+                this.setState({
+                  shouldValidatePass: true
+                });
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
@@ -625,7 +629,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                     passValidLength,
                     passValidLower,
                     passValidUpper,
-                    passValidNum
+                    passValidNum,
+                    shouldValidatePass
                   } = this.state;
                   if (value) {
                     const validLength = passValidLength;
@@ -680,8 +685,19 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                       passValidNum: false
                     });
                   }
-                  return true;
+                  return shouldValidatePass
+                    ? value &&
+                        value.length >= 6 &&
+                        value.length <= 20 &&
+                        /[a-z]/.test(value) &&
+                        /[0-9]/.test(value) &&
+                        /[A-Z]/.test(value)
+                    : true;
                 }
+              }}
+              validationErrors={{
+                isValid:
+                  "Please verify that your password follows all rules displayed"
               }}
               required
             />
