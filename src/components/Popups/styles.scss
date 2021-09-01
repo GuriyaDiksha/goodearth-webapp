@@ -19,6 +19,11 @@
       text-align: center;
       font-size: 12px;
       }
+      .cms-content {
+        p {
+          padding: 0;
+        }
+      }
       .cerise-btn-width {
         width: 60%;
         margin: 0 auto;
@@ -727,7 +732,7 @@
   color:#B28F64;
 }
 
-.content {
+.cerise-content {
   color:#B28F64;
   margin: 20% 5% 0 5%;
   .heading{
