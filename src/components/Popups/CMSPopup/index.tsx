@@ -62,7 +62,13 @@ const CMSPopup: React.FC<PopupData> = ({
           >
             {heading}
           </div>
-          <div className={cs(globalStyles.c10LR, styles.content)}>
+          <div
+            className={cs(
+              globalStyles.c10LR,
+              styles.content,
+              styles.cmsContent
+            )}
+          >
             {ReactHtmlParser(finalContent)}
           </div>
           <div
@@ -71,7 +77,7 @@ const CMSPopup: React.FC<PopupData> = ({
               styles.ceriseBtn30,
               globalStyles.marginT20
             )}
-            style={{ color: `${ctaColor} !important` }}
+            style={{ backgroundColor: ctaColor }}
           >
             <a id="info-popup-accept-button" tabIndex={-1} onClick={close}>
               {ctaLabel}
