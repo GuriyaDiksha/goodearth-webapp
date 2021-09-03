@@ -12,6 +12,8 @@ export type State = {
   microUrl: string;
   showCookie: boolean;
   showTimer: boolean;
+  showGiftWrap: boolean;
+  showDeliveryInstruction: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;

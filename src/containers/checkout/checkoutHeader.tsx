@@ -29,7 +29,6 @@ import Api from "services/api";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    data: state.header.data,
     currency: state.currency,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
@@ -66,6 +65,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sale status API error === " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
       });
       // }
       // if (page?.includes("/category_landing/")) {

@@ -1,7 +1,6 @@
 import * as Actions from "actions/header";
 import { ActionType } from "typings/actionCreator";
 import {
-  HeaderData,
   AnnouncementBar,
   MegaMenuData,
   SaleTimerData
@@ -13,7 +12,6 @@ export type StoreData = {
 };
 
 export type HeaderState = {
-  data: HeaderData[];
   megaMenuData: MegaMenuData[];
   announcementData: AnnouncementBar;
   timerData: null | SaleTimerData;

@@ -33,6 +33,7 @@ export type otpProps = {
   email?: string;
   phoneNo?: string;
   disableSendOtpButton: boolean;
+  isIndiaGC?: boolean;
 };
 
 export type otpRedeemProps = {
