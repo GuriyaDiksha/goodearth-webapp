@@ -2,7 +2,6 @@ import React, { RefObject, Fragment } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import { otpProps, otpState } from "./typings";
-// import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import OtpBox from "./otpBox";
 import Formsy from "formsy-react";
@@ -11,7 +10,7 @@ import FormCheckbox from "components/Formsy/FormCheckbox";
 import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
-class OtpComponent extends React.Component<otpProps, otpState> {
+class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
     this.state = {
@@ -58,12 +57,15 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     if (this.props.toggleReset !== nextProps.toggleReset) {
       this.clickHereOtpInvalid();
     }
-    // if (this.state.disable && !nextProps.disableSendOtpButton) {
-    //   this.setState({ disable: false });
-    // }
     if (nextProps.disableSendOtpButton != this.props.disableSendOtpButton) {
       this.setState({ disable: nextProps.disableSendOtpButton });
     }
+  };
+
+  componentDidMount = () => {
+    this.props.isIndiaGC
+      ? this.phoneInput.current && this.phoneInput.current.focus()
+      : this.phoneInput.current && this.phoneInput.current.focus();
   };
 
   handleSubmit2 = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -134,9 +136,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         return false;
       }
     }
-    const radioElement: any = this.props.isCredit
-      ? document.getElementsByName("cca")
-      : document.getElementsByName("gca");
+    // const radioElement: any = this.props.isCredit
+    //   ? document.getElementsByName("cca")
+    //   : document.getElementsByName("gca");
     const elem = this.subscribeRef.current;
     const { email, phoneNo } = model;
     const data: any = {};
@@ -162,32 +164,32 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       return false;
     }
 
-    if (!radioElement[0].checked && !radioElement[1].checked) {
-      this.setState(
-        {
-          msgt:
-            "Please select at least one mode of communication for OTP verification of your gift card"
-        },
-        () => {
-          valid.errorTracking([this.state.msgt], location.href);
-        }
-      );
-      const errorElem = document.getElementById(
-        "selectError"
-      ) as HTMLParagraphElement;
-      errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
-      if (elem && elem.checked == false) {
-        this.setState(
-          {
-            subscribeError: "Please accept the terms & conditions"
-          },
-          () => {
-            valid.errorTracking([this.state.subscribeError], location.href);
-          }
-        );
-      }
-      return false;
-    }
+    // if (!radioElement[0].checked && !radioElement[1].checked) {
+    //   this.setState(
+    //     {
+    //       msgt:
+    //         "Please select at least one mode of communication for OTP verification of your gift card"
+    //     },
+    //     () => {
+    //       valid.errorTracking([this.state.msgt], location.href);
+    //     }
+    //   );
+    //   const errorElem = document.getElementById(
+    //     "selectError"
+    //   ) as HTMLParagraphElement;
+    //   errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
+    //   if (elem && elem.checked == false) {
+    //     this.setState(
+    //       {
+    //         subscribeError: "Please accept the terms & conditions"
+    //       },
+    //       () => {
+    //         valid.errorTracking([this.state.subscribeError], location.href);
+    //       }
+    //     );
+    //   }
+    //   return false;
+    // }
     if (elem && elem.checked == false) {
       this.setState(
         {
@@ -200,11 +202,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       return false;
     }
 
-    if (this.state.radioType == "email" || this.props.otpFor == "balanceCN") {
-      data["email"] = email;
-    }
-    if (this.state.radioType == "number") {
+    if (this.props.isIndiaGC) {
       data["phoneNo"] = "+91" + phoneNo;
+    } else {
+      data["email"] = email;
     }
     data["inputType"] = "GIFT";
     data["code"] = this.props.txtvalue;
@@ -213,17 +214,16 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       data["lastName"] = this.props.lastName;
       // this.sendOtpApiCall(data);
     }
-    data["otpTo"] =
-      this.state.radioType == "number" ? "phoneno" : this.state.radioType;
+    data["otpTo"] = this.props.isIndiaGC ? "phoneno" : "email";
     this.sendOtpApiCall(data);
   };
 
-  onClickRadio = (event: any) => {
-    this.setState({
-      radioType: event.target.value,
-      msgt: ""
-    });
-  };
+  // onClickRadio = (event: any) => {
+  //   this.setState({
+  //     radioType: event.target.value,
+  //     msgt: ""
+  //   });
+  // };
 
   chkTermsandC = (event: React.ChangeEvent) => {
     const elem = this.subscribeRef.current;
@@ -364,7 +364,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   timer = () => {
     this.setState({
-      otpTimer: 300
+      otpTimer: 60
     });
     this.timerId = setInterval(() => {
       this.decrementTimeRemaining();
@@ -555,7 +555,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   getValidationForOtp = () => {
-    const { radioType, otpTimer, otpData } = this.state;
+    const { otpTimer, otpData } = this.state;
     return (
       <div>
         <div
@@ -602,7 +602,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               : "GIFT CARD CODE"}
           </p>
           <p>{this.props.txtvalue}</p>
-          {radioType == "email" ? (
+          {!this.props.isIndiaGC ? (
             <p className={globalStyles.voffset2}>
               <strong className={cs(globalStyles.op2, globalStyles.bold)}>
                 {" "}
@@ -628,29 +628,18 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             : false
           : true) && (
           <>
-            {radioType == "number" ? (
-              <div
-                className={cs(
-                  styles.loginForm,
-                  globalStyles.voffset4,
-                  styles.otpLabel
-                )}
-              >
-                OTP HAS BEEN SENT TO YOU VIA YOUR MOBILE NUMBER. PLEASE ENTER IT
-                BELOW
-              </div>
-            ) : (
-              <div
-                className={cs(
-                  styles.loginForm,
-                  globalStyles.voffset4,
-                  styles.otpLabel
-                )}
-              >
-                OTP HAS BEEN SENT TO YOU VIA YOUR EMAIL ADDRESS. PLEASE ENTER IT
-                BELOW
-              </div>
-            )}
+            <div
+              className={cs(
+                styles.loginForm,
+                globalStyles.voffset4,
+                styles.otpLabel
+              )}
+            >
+              {`OTP HAS BEEN SENT TO YOU VIA YOUR ${
+                this.props.isIndiaGC ? "MOBILE NUMBER" : "EMAIL ADDRESS"
+              }. PLEASE ENTER IT
+                BELOW`}
+            </div>
             <OtpBox otpValue={this.getOtpValue} />
 
             <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
@@ -742,7 +731,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   render() {
-    const { radioType, toggleOtp } = this.state;
+    const { toggleOtp } = this.state;
     return (
       <Fragment>
         {toggleOtp || this.props.newCardBox == false ? (
@@ -807,104 +796,83 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               onValidSubmit={this.handleSubmit}
               onInvalidSubmit={this.handleInvalidSubmit}
             >
-              <li className={cs(styles.radiobtn1, styles.xradio)}>
-                <label className={styles.radio1}>
-                  <input
-                    type="radio"
-                    name={this.props.isCredit ? "cca" : "gca"}
-                    value="email"
-                    onClick={e => {
-                      this.onClickRadio(e);
+              {!this.props.isIndiaGC && (
+                <li className={cs(styles.radiobtn1, styles.xradio)}>
+                  <FormInput
+                    name="email"
+                    placeholder={"Email*"}
+                    label={"Email*"}
+                    className={styles.relative}
+                    disable={this.props.isCredit}
+                    inputRef={this.emailInput}
+                    value={this.props.email ? this.props.email : ""}
+                    validations={
+                      !this.props.isIndiaGC
+                        ? {
+                            isEmail: true,
+                            maxLength: 75
+                          }
+                        : {}
+                    }
+                    validationErrors={{
+                      isEmail: "Please enter a valid Email ID",
+                      maxLength:
+                        "You are allowed to enter upto 75 characters only"
                     }}
+                    required={
+                      this.props.isIndiaGC || this.props.isCredit
+                        ? "isFalse"
+                        : true
+                    }
                   />
-                  <span className={styles.checkmark}></span>
-                </label>
-                <FormInput
-                  name="email"
-                  placeholder={"Email*"}
-                  label={"Email*"}
-                  className={styles.relative}
-                  disable={this.props.isCredit}
-                  inputRef={this.emailInput}
-                  value={this.props.email ? this.props.email : ""}
-                  validations={
-                    radioType == "email"
-                      ? {
-                          isEmail: true,
-                          maxLength: 75
+                </li>
+              )}
+              {this.props.isIndiaGC && (
+                <li
+                  className={cs(
+                    styles.countryCode,
+                    styles.countryCodeGc,
+                    styles.xradio
+                  )}
+                >
+                  <div className={styles.flex}>
+                    <div className={styles.contactCode}>
+                      <input
+                        type="text"
+                        value="+91"
+                        placeholder="Code"
+                        disabled={true}
+                        className={styles.codeInput}
+                      />
+                    </div>
+                    <div className={styles.contactNumber}>
+                      <FormInput
+                        name="phoneNo"
+                        value={this.props.phoneNo ? this.props.phoneNo : ""}
+                        inputRef={this.phoneInput}
+                        placeholder={"Contact Number"}
+                        type="number"
+                        label={"Contact Number"}
+                        validations={
+                          this.props.isIndiaGC
+                            ? {
+                                isLength: 10
+                              }
+                            : {}
                         }
-                      : {}
-                  }
-                  validationErrors={{
-                    isEmail: "Please enter a valid Email ID",
-                    maxLength:
-                      "You are allowed to enter upto 75 characters only"
-                  }}
-                  required={
-                    radioType != "email" || this.props.isCredit
-                      ? "isFalse"
-                      : true
-                  }
-                />
-              </li>
-              <li
-                className={cs(
-                  styles.countryCode,
-                  // styles.countryCodeGc,
-                  styles.xradio
-                )}
-              >
-                <label className={styles.radio1}>
-                  <input
-                    type="radio"
-                    name={this.props.isCredit ? "cca" : "gca"}
-                    value="number"
-                    onClick={e => {
-                      this.onClickRadio(e);
-                    }}
-                  />
-                  <span className={styles.checkmark}></span>
-                </label>
-                <p className={cs(styles.msg, styles.wordCap)}>
-                  For Domestic (Pan-India) phone number only
-                </p>
-                <div className={styles.flex}>
-                  <div className={styles.contactCode}>
-                    <input
-                      type="text"
-                      value="+91"
-                      placeholder="Code"
-                      disabled={true}
-                      className={styles.codeInput}
-                    />
+                        validationErrors={{
+                          isLength: "Phone number should be 10 digit"
+                        }}
+                        required={!this.props.isIndiaGC ? "isFalse" : true}
+                      />
+                    </div>
+                    <p id="selectError" className={cs(styles.errorMsg)}>
+                      {this.state.msgt}
+                    </p>
                   </div>
-                  <div className={styles.contactNumber}>
-                    <FormInput
-                      name="phoneNo"
-                      value={this.props.phoneNo ? this.props.phoneNo : ""}
-                      inputRef={this.phoneInput}
-                      placeholder={"Contact Number"}
-                      type="number"
-                      label={"Contact Number"}
-                      validations={
-                        radioType == "number"
-                          ? {
-                              isLength: 10
-                            }
-                          : {}
-                      }
-                      validationErrors={{
-                        isLength: "Phone number should be 10 digit"
-                      }}
-                      required={radioType != "number" ? "isFalse" : true}
-                    />
-                  </div>
-                  <p id="selectError" className={cs(styles.errorMsg)}>
-                    {this.state.msgt}
-                  </p>
-                </div>
-              </li>
-              <li className={styles.subscribe}>
+                </li>
+              )}
+              <li className={cs(styles.subscribe, styles.subscribeGc)}>
                 <FormCheckbox
                   value={false}
                   id={"subscrib" + this.props.isCredit}
@@ -966,4 +934,4 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   }
 }
 
-export default OtpComponent;
+export default OtpCompActivateGC;
