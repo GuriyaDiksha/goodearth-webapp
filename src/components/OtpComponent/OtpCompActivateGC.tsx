@@ -451,10 +451,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               showerrorOtp: "Invalid Gift Card Code"
             },
             () => {
-              const errorElem = document.getElementById(
-                "customererror"
-              ) as HTMLParagraphElement;
-              errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
+              const errorElem = document.getElementById("customererror");
+              errorElem?.scrollIntoView({
+                block: "center",
+                behavior: "smooth"
+              });
               valid.errorTracking([this.state.showerrorOtp], location.href);
             }
           );
@@ -515,10 +516,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   showerrorOtp: message
                 },
                 () => {
-                  const errorElem = document.getElementById(
-                    "customererror"
-                  ) as HTMLParagraphElement;
-                  errorElem.scrollIntoView({
+                  const errorElem = document.getElementById("customererror");
+                  errorElem?.scrollIntoView({
                     block: "center",
                     behavior: "smooth"
                   });
