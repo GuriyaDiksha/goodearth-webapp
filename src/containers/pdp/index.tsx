@@ -494,7 +494,8 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       recommendedSliderItems,
       device: { mobile },
-      currency
+      currency,
+      corporatePDP
     } = this.props;
 
     if (recommendedSliderItems.length < 4 || typeof document == "undefined") {
@@ -527,6 +528,7 @@ class PDPContainer extends React.Component<Props, State> {
         currency={currency}
         mobile={mobile}
         isSale={this.props.isSale}
+        corporatePDP={corporatePDP}
       />
     );
   }

@@ -82,10 +82,7 @@ class ActivateGiftCard extends React.Component<Props, State> {
                       bootstrapStyles.offsetMd2
                     )}
                   >
-                    {/* <hr className={globalStyles.voffset5} /> */}
-                    <div>
-                      <Giftcard />
-                    </div>
+                    <Giftcard />
                   </div>
                 </div>
               </div>

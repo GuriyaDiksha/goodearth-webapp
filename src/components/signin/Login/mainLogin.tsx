@@ -88,6 +88,7 @@ class MainLogin extends React.Component<Props, loginState> {
                 this.passwordInput.current &&
                   this.passwordInput.current.focus();
                 this.passwordInput.current &&
+                  !this.props.isBo &&
                   this.passwordInput.current.scrollIntoView(true);
               }
             );
@@ -231,7 +232,7 @@ class MainLogin extends React.Component<Props, loginState> {
             }
           });
           // this.context.closeModal();
-          // this.props.nextStep?.();
+          this.props.nextStep?.();
         })
         .catch(err => {
           if (

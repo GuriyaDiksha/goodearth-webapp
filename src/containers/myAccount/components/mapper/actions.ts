@@ -25,6 +25,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkOtpBalance: async (data: FormData) => {
       const balance = await AccountService.checkOtpBalance(dispatch, data);
       return balance;
+    },
+    checkGiftCard: async (code: string) => {
+      const res = await AccountService.checkGiftCard(dispatch, code);
+      return res;
     }
   };
 };
