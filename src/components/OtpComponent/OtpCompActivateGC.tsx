@@ -364,7 +364,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
   timer = () => {
     this.setState({
-      otpTimer: 300
+      otpTimer: 60
     });
     this.timerId = setInterval(() => {
       this.decrementTimeRemaining();
@@ -873,7 +873,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   </div>
                 </li>
               )}
-              <li className={styles.subscribe}>
+              <li className={cs(styles.subscribe, styles.subscribeGc)}>
                 <FormCheckbox
                   value={false}
                   id={"subscrib" + this.props.isCredit}
