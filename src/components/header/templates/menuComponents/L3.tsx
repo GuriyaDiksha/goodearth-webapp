@@ -39,6 +39,7 @@ const L3: React.FC<Props> = ({
     <>
       {data.map((menuComponent, index) => {
         const componentData = menuComponent.componentData as MenuComponentL2L3Data;
+        const text = componentData.ctaName || componentData.text;
         return (
           <div key={index} className={styles.block}>
             {" "}
@@ -50,13 +51,13 @@ const L3: React.FC<Props> = ({
                   onHeaderMegaMenuClick({
                     l1,
                     l2,
-                    l3: componentData.text,
+                    l3: text,
                     clickUrl3: componentData.link,
                     template: templateType
                   })
                 }
               >
-                {ReactHtmlParser(componentData.text)}
+                {ReactHtmlParser(text)}
               </Link>
             ) : (
               <div
@@ -65,12 +66,12 @@ const L3: React.FC<Props> = ({
                   onHeaderMegaMenuClick({
                     l1,
                     l2,
-                    l3: componentData.text,
+                    l3: text,
                     template: templateType
                   })
                 }
               >
-                {ReactHtmlParser(componentData.text)}
+                {ReactHtmlParser(text)}
               </div>
             )}
           </div>
