@@ -487,7 +487,7 @@ class Footer extends React.Component<Props, FooterState> {
                         className={cs(bootstrap.colMd3, bootstrap.px2)}
                         key={"first-column"}
                       >
-                        <ul key={0}>
+                        <ul key={0} className={styles.column}>
                           <li key={0}>find us on</li>
                           <li className={cs(styles.footerSocialicons)} key={1}>
                             {findUsOnData &&
@@ -511,7 +511,10 @@ class Footer extends React.Component<Props, FooterState> {
                         {this.props.isSale ? (
                           ""
                         ) : (
-                          <ul className={cs(styles.footerPlaylist)} key={1}>
+                          <ul
+                            className={cs(styles.footerPlaylist, styles.column)}
+                            key={1}
+                          >
                             <li>
                               {" "}
                               {this.props.data.footerPlaylistData?.ctaText}
@@ -553,7 +556,7 @@ class Footer extends React.Component<Props, FooterState> {
                           >
                             {footerItems.map((item, i) => {
                               return (
-                                <ul key={i}>
+                                <ul key={i} className={styles.column}>
                                   <li>
                                     {item.link ? (
                                       <Link
