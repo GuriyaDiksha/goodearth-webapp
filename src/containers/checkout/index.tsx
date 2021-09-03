@@ -285,7 +285,7 @@ class Checkout extends React.Component<Props, State> {
         });
     }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {
-      this.props.showPopup(this.setInfoPopupCookie);
+      // this.props.showPopup(this.setInfoPopupCookie);
     }
     const {
       user: { email },
