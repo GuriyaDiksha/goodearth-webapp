@@ -58,7 +58,7 @@ const CMSPopup: React.FC<PopupData> = ({
           {icon && <img src={icon} className={styles.icon} />}
           <div
             className={cs(globalStyles.c22AI, styles.heading)}
-            style={{ marginTop: icon ? "0" : "40px" }}
+            style={{ marginTop: icon ? "0" : "30px" }}
           >
             {heading}
           </div>
