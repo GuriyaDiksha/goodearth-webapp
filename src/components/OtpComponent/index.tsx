@@ -851,7 +851,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               <li
                 className={cs(
                   styles.countryCode,
-                  styles.countryCodeGc,
+                  // styles.countryCodeGc,
                   styles.xradio
                 )}
               >
