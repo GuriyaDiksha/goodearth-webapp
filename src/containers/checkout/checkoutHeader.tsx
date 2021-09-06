@@ -30,6 +30,7 @@ import Api from "services/api";
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
+    customerGroup: state.user.customerGroup,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
     cart: state.basket,
@@ -51,12 +52,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       cookies: Cookies,
       pathname: string,
       currency: Currency,
+      customerGroup: string,
       history: any,
       isLoggedIn: boolean
     ) => {
-      HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
-      });
+      HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+        err => {
+          console.log("FOOTER API ERROR ==== " + err);
+        }
+      );
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
@@ -132,6 +136,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
           this.props.cookies,
           this.props.location.pathname,
           data.currency,
+          this.props.customerGroup,
           this.props.history,
           this.props.isLoggedIn
         );
