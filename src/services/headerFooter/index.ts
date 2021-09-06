@@ -26,7 +26,8 @@ export default {
     let menu: MegaMenuData[] | null = null;
     if (
       typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
+      (__API_HOST__ == "https://db.goodearth.in" ||
+        __API_HOST__ == "https://pb.goodearth.in")
     ) {
       menu = CacheService.get(
         `menu-${currency || ""}-${customerGroup || ""}`
@@ -51,7 +52,8 @@ export default {
     // CacheService.set("headerData", headerData);
     if (
       typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
+      (__API_HOST__ == "https://db.goodearth.in" ||
+        __API_HOST__ == "https://pb.goodearth.in")
     ) {
       CacheService.set(
         `menu-${res.currency}-${res.customerGroup}`,
