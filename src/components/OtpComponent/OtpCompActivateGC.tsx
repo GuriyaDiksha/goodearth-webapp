@@ -121,7 +121,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     data["code"] = this.props.txtvalue;
     data["otpTo"] =
       this.state.radioType == "number" ? "phoneno" : this.state.radioType;
-    this.sendOtpApiCall(data);
+    this.sendOtpApiCall(data, false);
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -215,7 +215,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       // this.sendOtpApiCall(data);
     }
     data["otpTo"] = this.props.isIndiaGC ? "phoneno" : "email";
-    this.sendOtpApiCall(data);
+    this.sendOtpApiCall(data, false);
   };
 
   // onClickRadio = (event: any) => {
@@ -438,7 +438,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     );
   };
 
-  sendOtpApiCall = (formData: any) => {
+  sendOtpApiCall = (formData: any, isResendOtp: boolean) => {
     this.setState({
       disable: true
     });
@@ -511,19 +511,40 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             elem.focus();
           } else {
             if (message) {
-              this.setState(
-                {
-                  showerrorOtp: message
-                },
-                () => {
-                  const errorElem = document.getElementById("customererror");
-                  errorElem?.scrollIntoView({
-                    block: "center",
-                    behavior: "smooth"
-                  });
-                  valid.errorTracking([this.state.showerrorOtp], location.href);
-                }
-              );
+              if (isResendOtp) {
+                this.setState(
+                  {
+                    showerror: message
+                  },
+                  () => {
+                    const errorElem = document.getElementById(
+                      "resend-otp-error"
+                    );
+                    errorElem?.scrollIntoView({
+                      block: "center",
+                      behavior: "smooth"
+                    });
+                    valid.errorTracking([this.state.showerror], location.href);
+                  }
+                );
+              } else {
+                this.setState(
+                  {
+                    showerrorOtp: message
+                  },
+                  () => {
+                    const errorElem = document.getElementById("customererror");
+                    errorElem?.scrollIntoView({
+                      block: "center",
+                      behavior: "smooth"
+                    });
+                    valid.errorTracking(
+                      [this.state.showerrorOtp],
+                      location.href
+                    );
+                  }
+                );
+              }
             }
           }
         }
@@ -540,7 +561,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
   resendOtp = () => {
     this.clearTimer();
-    this.sendOtpApiCall(this.state.otpData);
+    this.sendOtpApiCall(this.state.otpData, true);
   };
 
   secondsToMints = (seconds: number) => {
@@ -675,12 +696,14 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               {this.state.showerror ? (
                 <p
                   className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
+                  id="resend-otp-error"
                 >
                   {this.state.showerror}
                 </p>
               ) : (
                 <p className={globalStyles.errorMsg}></p>
               )}
+              {this.state.showerror && <CustomerCareInfo />}
             </div>
             <div className={globalStyles.voffset2}>
               <input
