@@ -1,6 +1,7 @@
 import { updateNextUrl } from "actions/info";
 import { Dispatch } from "redux";
 import LoginService from "services/login";
+import { Currency } from "typings/currency";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -28,10 +29,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     login: (
       email: string,
       password: string,
+      currency: Currency,
       source?: string,
       history?: any
     ) => {
-      return LoginService.login(dispatch, email, password, source, history);
+      return LoginService.login(
+        dispatch,
+        email,
+        password,
+        currency,
+        source,
+        history
+      );
     },
     resetNextUrl: () => {
       dispatch(updateNextUrl(""));

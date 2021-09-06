@@ -215,6 +215,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         .login(
           this.state.email || "",
           this.state.password || "",
+          this.props.currency,
           "checkout",
           this.props.history
         )

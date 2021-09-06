@@ -38,6 +38,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { Basket } from "typings/basket";
+import { Currency } from "typings/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -144,8 +145,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     getBoDetail: async (id: string) => {
       return await CheckoutService.getBoDetail(dispatch, id);
     },
-    logout: async () => {
-      return await LoginService.logout(dispatch);
+    logout: async (currency: Currency, customerGroup: string) => {
+      return await LoginService.logout(dispatch, currency, customerGroup);
     },
     checkPinCodeShippable: async (pinCode: string) => {
       const res = await HeaderService.checkPinCodeShippable(dispatch, pinCode);
@@ -262,13 +263,15 @@ class Checkout extends React.Component<Props, State> {
           if (this.props.user.email && data.isLogin) {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);
-            this.props.logout().then(res => {
-              localStorage.setItem("tempEmail", data.email);
-              this.setState({
-                boEmail: data.email,
-                boId: boId
+            this.props
+              .logout(this.props.currency, this.props.user.customerGroup)
+              .then(res => {
+                localStorage.setItem("tempEmail", data.email);
+                this.setState({
+                  boEmail: data.email,
+                  boId: boId
+                });
               });
-            });
           } else if (data.email) {
             CookieService.setCookie("currency", data.currency, 365);
             CookieService.setCookie("currencypopup", "true", 365);

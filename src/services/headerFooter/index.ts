@@ -20,14 +20,17 @@ import { Currency } from "typings/currency";
 export default {
   fetchHeaderDetails: async (
     dispatch: Dispatch,
-    currency?: Currency
+    currency?: Currency,
+    customerGroup?: string
   ): Promise<MegaMenuData[]> => {
     let menu: MegaMenuData[] | null = null;
     if (
       typeof document == "undefined" &&
       __API_HOST__ == "https://pb.goodearth.in"
     ) {
-      menu = CacheService.get(`menu-${currency}`) as MegaMenuData[];
+      menu = CacheService.get(
+        `menu-${currency || ""}-${customerGroup || ""}`
+      ) as MegaMenuData[];
     }
     if (menu) {
       dispatch(updateheader(menu));
@@ -50,7 +53,10 @@ export default {
       typeof document == "undefined" &&
       __API_HOST__ == "https://pb.goodearth.in"
     ) {
-      CacheService.set(`menu-${res.currency}`, res.data as MegaMenuData[]);
+      CacheService.set(
+        `menu-${res.currency}-${res.customerGroup}`,
+        res.data as MegaMenuData[]
+      );
     }
     return res.data;
   },
