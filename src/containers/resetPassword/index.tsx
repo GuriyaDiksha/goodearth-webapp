@@ -26,7 +26,8 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn },
+    user: { isLoggedIn, customerGroup },
+    currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);
   const ResetPasswordFormRef = useRef<Formsy>(null);
@@ -54,7 +55,7 @@ const ResetPassword: React.FC<Props> = props => {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
     if (isLoggedIn) {
-      LoginService.logout(dispatch);
+      LoginService.logout(dispatch, currency, customerGroup);
     }
     valid.pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
