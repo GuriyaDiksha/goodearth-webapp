@@ -180,7 +180,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         if (template.publishOnMobile) {
           innerMenuData.templates.push(template);
         } else {
-          const l2MenuData: L2MenuData = { text: "", link: "", children: [] };
+          const l2MenuData: L2MenuData = {
+            text: "",
+            link: "",
+            children: [],
+            templateType: template.templateType
+          };
           if (
             [
               "IMAGE",
@@ -212,9 +217,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               .componentData as MenuComponentL2L3Data;
             const children = template.templateData.children;
 
-            const { text, link } = componentData;
+            const { text, link, ctaMobile, viewAllLink } = componentData;
             l2MenuData.text = text;
             l2MenuData.link = link;
+            l2MenuData.ctaMobile = ctaMobile;
+            l2MenuData.viewAllLink = viewAllLink;
+            l2MenuData.hideViewAllOnMobile = template.hideViewAllOnMobile;
             children &&
               children.length > 1 &&
               children.map((child, index) => {
@@ -355,20 +363,63 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               {data.children ? (
                 <ul key={data.link}>
                   {data.link && data.children.length > 0 ? (
-                    <li onClick={this.props.clickToggle} key={"firstChild"}>
-                      <Link
-                        to={data.link}
-                        onClick={() => {
-                          this.props.onMobileMenuClick({
-                            l1: innerMenuData.text,
-                            l2: data.text,
-                            clickUrl2: data.link
-                          });
-                        }}
-                      >
-                        {ReactHtmlParser(data.ctaName || "View All")}
-                      </Link>
-                    </li>
+                    data.templateType == "L2L3" ? (
+                      <>
+                        {!data.hideViewAllOnMobile && (
+                          <li
+                            onClick={this.props.clickToggle}
+                            key={"firstChild"}
+                          >
+                            <Link
+                              to={data.viewAllLink || ""}
+                              onClick={() => {
+                                this.props.onMobileMenuClick({
+                                  l1: innerMenuData.text,
+                                  l2: data.text,
+                                  clickUrl2: data.viewAllLink || ""
+                                });
+                              }}
+                            >
+                              View All
+                            </Link>
+                          </li>
+                        )}
+                        {data.ctaMobile && (
+                          <li
+                            onClick={this.props.clickToggle}
+                            key={"secondChild"}
+                          >
+                            <Link
+                              to={data.link || ""}
+                              onClick={() => {
+                                this.props.onMobileMenuClick({
+                                  l1: innerMenuData.text,
+                                  l2: data.text,
+                                  clickUrl2: data.link || ""
+                                });
+                              }}
+                            >
+                              {ReactHtmlParser(data.ctaMobile)}
+                            </Link>
+                          </li>
+                        )}
+                      </>
+                    ) : (
+                      <li onClick={this.props.clickToggle} key={"firstchild"}>
+                        <Link
+                          to={data.link}
+                          onClick={() => {
+                            this.props.onMobileMenuClick({
+                              l1: innerMenuData.text,
+                              l2: data.text,
+                              clickUrl2: data.link
+                            });
+                          }}
+                        >
+                          {ReactHtmlParser(data.ctaName || "View All")}
+                        </Link>
+                      </li>
+                    )
                   ) : (
                     ""
                   )}

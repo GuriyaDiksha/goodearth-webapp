@@ -19,6 +19,7 @@ import Button from "components/Button";
 import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
 import Price from "components/Price";
+import SkeletonImage from "components/plpResultItem/skeleton";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -34,7 +35,8 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     position,
     page,
     onEnquireClick,
-    notifyMeClick
+    notifyMeClick,
+    loader
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -127,7 +129,11 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         ];
-  return (
+  return loader ? (
+    <div className={styles.plpMain}>
+      <SkeletonImage />
+    </div>
+  ) : (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
         <div className={styles.badgeImage}>

@@ -40,6 +40,8 @@ export type MenuComponentL2L3Data = {
   ctaName: string;
   src?: string;
   thumbnailSrc: string;
+  ctaMobile?: string;
+  viewAllLink?: string;
 };
 
 export type MenuComponentTitleData = {
@@ -69,6 +71,7 @@ export interface MenuTemplates {
   publishOnMobile: boolean;
   templateType: string;
   templateData: MenuComponent;
+  hideViewAllOnMobile?: boolean;
 }
 export interface MenuColumn {
   separator: boolean;
@@ -91,7 +94,11 @@ export interface L2MenuData {
   text: string;
   link: string;
   ctaName?: string;
+  ctaMobile?: string;
+  viewAllLink?: string;
+  hideViewAllOnMobile?: boolean;
   children?: L2MenuData[];
+  templateType?: string;
 }
 
 export type AnnouncementBar = {
