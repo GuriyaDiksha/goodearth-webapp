@@ -14,6 +14,7 @@ import { updateAnnouncement } from "actions/header";
 import CacheService from "services/cache";
 import HeaderService from "services/headerFooter";
 import { updatePopup } from "actions/popup";
+import { updateUser } from "actions/user";
 
 export default {
   fetchShopLocator: async function(dispatch: Dispatch) {
@@ -26,7 +27,7 @@ export default {
   getCurrency: async function(dispatch: Dispatch, bridalKey?: string) {
     const curr: any = await API.get<ApiResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/common/current_currency${
+      `${__API_HOST__}/myapi/common/current_currency/${
         bridalKey ? "?bridal_key=" + bridalKey : ""
       }`
     );
@@ -39,6 +40,7 @@ export default {
       `${__API_HOST__}/myapi/common/sale_status/${bridalKeyParam}`
     );
     dispatch(updateSales(data.sale));
+    dispatch(updateUser({ customerGroup: data.customerGroup || "" }));
     if (bridalKey) {
       dispatch(updateCurrency(data.currency));
     }

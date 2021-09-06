@@ -214,7 +214,12 @@ class MainLogin extends React.Component<Props, loginState> {
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
-        .login(this.state.email || "", this.state.password || "", this.source)
+        .login(
+          this.state.email || "",
+          this.state.password || "",
+          this.props.currency,
+          this.source
+        )
         .then(data => {
           this.gtmPushSignIn();
           const loginpopup = new URLSearchParams(
