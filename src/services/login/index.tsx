@@ -266,7 +266,8 @@ export default {
   logout: async function(
     dispatch: Dispatch,
     currency: Currency,
-    customerGroup: string
+    customerGroup: string,
+    source?: string
   ) {
     const res = await API.post<logoutResponse>(
       dispatch,
@@ -301,7 +302,7 @@ export default {
       Api.getPopups(dispatch).catch(err => {
         console.log("Popups Api ERROR === " + err);
       });
-      BasketService.fetchBasket(dispatch).catch(err => {
+      BasketService.fetchBasket(dispatch, source).catch(err => {
         console.log(err);
       });
       // HeaderService.fetchHomepageData(dispatch);
