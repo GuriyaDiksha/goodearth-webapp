@@ -10,6 +10,7 @@ import FormCheckbox from "components/Formsy/FormCheckbox";
 import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
+import Loader from "components/Loader";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -440,7 +441,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
   sendOtpApiCall = (formData: any, isResendOtp: boolean) => {
     this.setState({
-      disable: true
+      disable: true,
+      isLoading: true
     });
     this.props
       .sendOtp(formData)
@@ -554,7 +556,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       })
       .finally(() => {
         this.setState({
-          disable: false
+          disable: false,
+          isLoading: false
         });
       });
   };
@@ -950,6 +953,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 />
               </li>
             </Formsy>
+            {this.state.isLoading && <Loader />}
           </div>
         )}
       </Fragment>
