@@ -953,9 +953,9 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 />
               </li>
             </Formsy>
-            {this.state.isLoading && <Loader />}
           </div>
         )}
+        {this.state.isLoading && <Loader />}
       </Fragment>
     );
   }
