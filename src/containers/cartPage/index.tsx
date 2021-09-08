@@ -20,7 +20,8 @@ import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
-import { updateModal } from "actions/modal";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -61,6 +62,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeModalState: () => {
       dispatch(updateModal(false));
+    },
+    openPopup: () => {
+      dispatch(updateComponent(POPUP.MAKER, null));
+      dispatch(updateModal(true));
     }
   };
 };
@@ -95,6 +100,7 @@ class CartPage extends React.Component<Props, State> {
     util.pageViewGTM("Cart");
     this.props.fetchBasket();
     // this.props.changeModalState();
+    this.props.openPopup();
     this.props
       .fetchFeaturedContent()
       .then(data => {
