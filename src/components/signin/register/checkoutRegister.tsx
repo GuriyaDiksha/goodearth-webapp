@@ -22,6 +22,7 @@ import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
+import EmailVerification from "../EmailVerification";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -61,7 +62,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       passValidLower: false,
       passValidNum: false,
       showPassRules: false,
-      shouldValidatePass: false
+      shouldValidatePass: false,
+      showEmailVerification: true,
+      email: ""
     };
   }
   static contextType = Context;
@@ -130,6 +133,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         this.gtmPushRegister();
         this.props.nextStep?.();
+        this.setState({
+          showEmailVerification: true,
+          email
+        });
       })
       .catch(err => {
         this.setState(
@@ -850,22 +857,33 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       </>
     );
 
-    return (
-      <Fragment>
-        {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-            <div className={globalStyles.successMsg}>
-              {this.state.successMsg}
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
-        <div className={cs(bootstrapStyles.col12)}>
-          <div className={styles.loginForm}>{formContent}</div>
-          {footer}
+    return this.state.showEmailVerification ? (
+      <EmailVerification
+        email={this.state.email}
+        changeEmail={this.changeEmail}
+      />
+    ) : (
+      <>
+        <div className={styles.formHeading}>Welcome</div>
+        <div className={styles.formSubheading}>
+          Please Enter Your Email To Register
         </div>
-      </Fragment>
+        <Fragment>
+          {this.state.successMsg ? (
+            <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+              <div className={globalStyles.successMsg}>
+                {this.state.successMsg}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+          <div className={cs(bootstrapStyles.col12)}>
+            <div className={styles.loginForm}>{formContent}</div>
+            {footer}
+          </div>
+        </Fragment>
+      </>
     );
   }
 }

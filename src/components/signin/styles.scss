@@ -191,3 +191,32 @@ input[type="checkbox"]:checked + label {
     }
   }
 }
+
+.para {
+  font-size: 15px;
+  margin-top: 20px;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  strong {
+    font-weight: 700;
+  }
+}
+.btn {
+  margin: 30px auto 0 auto;
+  width: 180px;
+}
+.small-txt {
+  font-size: 13px;
+  margin-top: 10px;
+}
+.mini-txt {
+  font-size: 11px;
+}
+.big-txt {
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -36,14 +36,16 @@ const LoginForm: React.FC<{}> = props => {
   return (
     <Popup>
       <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-        <div className={styles.formHeading}>Welcome</div>
-        <div className={styles.formSubheading}>
-          {isRegister
-            ? "Please Enter Your Email To Register"
-            : id == "cerise"
-            ? "Please enter your registered e-mail address to login to your Cerise account."
-            : "Enter your email address to register or sign in."}
-        </div>
+        {!isRegister && (
+          <>
+            <div className={styles.formHeading}>Welcome</div>
+            <div className={styles.formSubheading}>
+              {id == "cerise"
+                ? "Please enter your registered e-mail address to login to your Cerise account."
+                : "Enter your email address to register or sign in."}
+            </div>
+          </>
+        )}
 
         <div>
           {isRegister ? (
