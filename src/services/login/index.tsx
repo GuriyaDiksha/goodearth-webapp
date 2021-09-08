@@ -7,7 +7,8 @@ import {
   resetPasswordResponse,
   loginResponse,
   registerResponse,
-  countryDataResponse
+  countryDataResponse,
+  sendVerificationEmailResponse
 } from "./typings";
 import { updateCookies } from "actions/cookies";
 import { updateComponent, updateModal } from "../../actions/modal";
@@ -355,11 +356,10 @@ export default {
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(updateUser({ isLoggedIn: true }));
-    dispatch(updateModal(false));
+    // dispatch(updateModal(false));
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
-    // HeaderService.fetchHomepageData(dispatch);
     WishlistService.updateWishlist(dispatch);
     BasketService.fetchBasket(dispatch).then(res => {
       if (source == "checkout") {
@@ -469,6 +469,14 @@ export default {
     if (typeof document == "undefined") {
       CacheService.set("countryData", res);
     }
+    return res;
+  },
+  sendVerificationEmail: async (dispatch: Dispatch, email: string) => {
+    const res = await API.post<sendVerificationEmailResponse>(
+      dispatch,
+      email,
+      `${__API_HOST__}/myapi/auth/send_verification_email/`
+    );
     return res;
   }
 };

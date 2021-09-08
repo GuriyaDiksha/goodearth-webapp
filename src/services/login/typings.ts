@@ -41,3 +41,10 @@ export type registerResponse = {
 };
 
 export type countryDataResponse = Country[];
+
+export type sendVerificationEmailResponse = {
+  success: boolean;
+  alreadyVerified: boolean;
+  email: string;
+  msg: string;
+};
