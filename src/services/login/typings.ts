@@ -56,6 +56,5 @@ export type verifyEmailResponse = {
   alreadyActive: boolean;
   expired: boolean;
   invalidLink: boolean;
-  firstName?: string;
   message?: string;
-};
+} & registerResponse;
