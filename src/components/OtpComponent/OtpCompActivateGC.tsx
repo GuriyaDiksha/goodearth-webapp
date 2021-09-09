@@ -695,7 +695,13 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 ""
               )}
             </div>
-            <div className={cs(globalStyles.voffset3, globalStyles.relative)}>
+            <div
+              className={cs(
+                globalStyles.voffset3,
+                globalStyles.relative,
+                globalStyles.textLeft
+              )}
+            >
               {this.state.showerror ? (
                 <p
                   className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
