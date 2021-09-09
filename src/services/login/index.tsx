@@ -476,7 +476,7 @@ export default {
     const res = await API.post<sendVerificationEmailResponse>(
       dispatch,
       `${__API_HOST__}/myapi/auth/send_verification_email/`,
-      email
+      { email }
     );
     return res;
   },

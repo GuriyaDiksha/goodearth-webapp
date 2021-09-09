@@ -63,7 +63,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       passValidNum: false,
       showPassRules: false,
       shouldValidatePass: false,
-      showEmailVerification: true,
+      showEmailVerification: false,
       email: ""
     };
   }
