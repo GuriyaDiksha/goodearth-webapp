@@ -195,7 +195,7 @@ input[type="checkbox"]:checked + label {
 .para {
   font-size: 15px;
   margin-top: 20px;
-  font-family: $font-Lato;
+  font-family: $font-Serif;
   letter-spacing: 1px;
   strong {
     font-weight: 700;
@@ -204,6 +204,10 @@ input[type="checkbox"]:checked + label {
 .btn {
   margin: 30px auto 0 auto;
   width: 180px;
+}
+.big-btn {
+  margin: 50px auto 0 auto;
+  width: 240px;
 }
 .small-txt {
   font-size: 13px;

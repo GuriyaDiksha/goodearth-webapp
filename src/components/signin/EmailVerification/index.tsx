@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import cs from "classnames";
 // styles
 import styles from "../styles.scss";
@@ -6,6 +6,8 @@ import globalStyles from "styles/global.scss";
 // services
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { Context } from "components/Modal/context";
 
 type Props = {
   email: string;
@@ -16,6 +18,7 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [showCustCare, setShowCustCare] = useState(false);
   const [timerId, setTimerId] = useState<any>();
+  const [alreadyVerified, setAlreadyVerified] = useState(false);
 
   const dispatch = useDispatch();
   const timer = () => {
@@ -33,7 +36,7 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
       if (res.success) {
         // handle success
       } else if (res.alreadyVerified) {
-        // handle alreadyverified
+        setAlreadyVerified(true);
       }
       timer();
     } catch (err) {
@@ -62,12 +65,24 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
     };
   }, []);
 
+  const { closeModal } = useContext(Context);
   const secondsToMinutes = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     seconds -= minutes * 60;
     return minutes + ":" + seconds;
   };
-  return (
+  return alreadyVerified ? (
+    <>
+      <div className={cs(styles.para, globalStyles.marginT50)}>
+        <p>Seems like you have already verified your email.</p>
+      </div>
+      <div className={cs(globalStyles.ceriseBtn, styles.bigBtn)}>
+        <NavLink to="/" onClick={closeModal}>
+          continue shopping
+        </NavLink>
+      </div>
+    </>
+  ) : (
     <>
       <div className={styles.formHeading}>Welcome</div>
       <div className={styles.para}>

@@ -16,6 +16,7 @@ import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
 import { RouteComponentProps, withRouter } from "react-router";
+import EmailVerification from "../EmailVerification";
 // import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
@@ -51,7 +52,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       shouldFocusOnPassword: false,
       successMsg: "",
       showPassword: false,
-      showCurrentSection: "email"
+      showCurrentSection: "email",
+      showEmailVerification: false
     };
   }
   static contextType = Context;
@@ -73,23 +75,29 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       } else {
         if (data.emailExist) {
           if (data.passwordExist) {
-            this.setState(
-              {
-                showCurrentSection: "login",
-                msg: "",
-                highlight: false
-              },
-              () => {
-                // const checkoutPopupCookie = CookieService.getCookie(
-                //   "checkoutinfopopup"
-                // );
-                // checkoutPopupCookie == "show" &&
-                this.passwordInput.current &&
-                  this.passwordInput.current.focus();
-                this.passwordInput.current &&
-                  this.passwordInput.current.scrollIntoView(true);
-              }
-            );
+            if (data.verificationEmailSent) {
+              this.setState({
+                showEmailVerification: true
+              });
+            } else {
+              this.setState(
+                {
+                  showCurrentSection: "login",
+                  msg: "",
+                  highlight: false
+                },
+                () => {
+                  // const checkoutPopupCookie = CookieService.getCookie(
+                  //   "checkoutinfopopup"
+                  // );
+                  // checkoutPopupCookie == "show" &&
+                  this.passwordInput.current &&
+                    this.passwordInput.current.focus();
+                  this.passwordInput.current &&
+                    this.passwordInput.current.scrollIntoView(true);
+                }
+              );
+            }
           } else {
             const error = [
               "Looks like you are signing in for the first time. ",
@@ -398,7 +406,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         email: "",
         isLoginDisabled: true,
         showerror: "",
-        password: ""
+        password: "",
+        showEmailVerification: false
       },
       () => {
         this.firstEmailInput.current?.focus();
@@ -562,7 +571,12 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       }
     };
 
-    return (
+    return this.state.showEmailVerification ? (
+      <EmailVerification
+        email={this.state.email || ""}
+        changeEmail={this.changeEmail}
+      />
+    ) : (
       <Fragment>
         {this.state.successMsg ? (
           <div className={cs(bootstrapStyles.col12)}>

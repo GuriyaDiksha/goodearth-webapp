@@ -7,6 +7,7 @@ export type checkUserPasswordResponse = {
   emailExist: boolean;
   passwordExist: boolean;
   invalidDomain: boolean;
+  verificationEmailSent: boolean;
 };
 
 export type logoutResponse = {
@@ -47,4 +48,14 @@ export type sendVerificationEmailResponse = {
   alreadyVerified: boolean;
   email: string;
   msg: string;
+};
+
+export type verifyEmailResponse = {
+  status: boolean;
+  alreadyLoggedIn: boolean;
+  alreadyActive: boolean;
+  expired: boolean;
+  invalidLink: boolean;
+  firstName?: string;
+  message?: string;
 };

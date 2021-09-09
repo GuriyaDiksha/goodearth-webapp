@@ -8,7 +8,8 @@ import {
   loginResponse,
   registerResponse,
   countryDataResponse,
-  sendVerificationEmailResponse
+  sendVerificationEmailResponse,
+  verifyEmailResponse
 } from "./typings";
 import { updateCookies } from "actions/cookies";
 import { updateComponent, updateModal } from "../../actions/modal";
@@ -474,8 +475,19 @@ export default {
   sendVerificationEmail: async (dispatch: Dispatch, email: string) => {
     const res = await API.post<sendVerificationEmailResponse>(
       dispatch,
-      email,
-      `${__API_HOST__}/myapi/auth/send_verification_email/`
+      `${__API_HOST__}/myapi/auth/send_verification_email/`,
+      email
+    );
+    return res;
+  },
+  verifyEmail: async (dispatch: Dispatch, email: string, token: string) => {
+    const res = await API.post<verifyEmailResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/auth/verify_email/${email}/${token}/`,
+      {
+        email,
+        token
+      }
     );
     return res;
   }
