@@ -1,21 +1,23 @@
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
-import { useLocation, withRouter } from "react-router";
+import { RouteComponentProps, useLocation, withRouter } from "react-router";
 import React, { useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 // import { LoginProps } from "./typings";
 // import * as Steps from "../constants";
-import styles from "../styles.scss";
+// import styles from "../styles.scss";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
 
 const MainLogin = loadable(() => import("components/signin/Login/mainLogin"));
+import { verifyEmailResponse } from "services/login/typings";
 const CheckoutRegisterForm = loadable(() =>
   import("components/signin/register/checkoutRegister")
 );
-const LoginForm: React.FC<{}> = props => {
+type Props = (verifyEmailResponse | undefined) & RouteComponentProps;
+const LoginForm: React.FC<Props> = props => {
   const [isRegister, setIsRegister] = useState(false);
 
   const goToRegister = () => {
@@ -33,20 +35,16 @@ const LoginForm: React.FC<{}> = props => {
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);
   const id = urlParams.get("loginpopup");
+  // if(res.alreadyActive || res.expired) {
+  //   if(res.alreadyLoggedIn) {
+  //     // handle
+  //   } else {
+  //     // handle
+  //   }
+  // }
   return (
     <Popup>
       <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-        {!isRegister && (
-          <>
-            <div className={styles.formHeading}>Welcome</div>
-            <div className={styles.formSubheading}>
-              {id == "cerise"
-                ? "Please enter your registered e-mail address to login to your Cerise account."
-                : "Enter your email address to register or sign in."}
-            </div>
-          </>
-        )}
-
         <div>
           {isRegister ? (
             <CheckoutRegisterForm
@@ -58,6 +56,11 @@ const LoginForm: React.FC<{}> = props => {
               showRegister={goToRegister}
               nextStep={nextStep}
               isBo={""}
+              subHeading={
+                id == "cerise"
+                  ? "Please enter your registered e-mail address to login to your Cerise account."
+                  : "Enter your email address to register or sign in."
+              }
             />
           )}
         </div>
