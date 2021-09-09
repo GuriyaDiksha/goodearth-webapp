@@ -1061,13 +1061,6 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         </div>
         {this.getWallpaperFAQ()}
-        <iframe
-          src="https://viewer.helloar.io?id=611369966722ec004d7f4375"
-          height="100%"
-          width="100%"
-          allow="xr-spatial-tracking;fullscreen;"
-          frameBorder="0"
-        ></iframe>
         {mounted && (
           <MakerEnhance
             user="goodearth"
