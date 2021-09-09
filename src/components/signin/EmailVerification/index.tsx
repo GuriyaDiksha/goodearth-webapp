@@ -112,7 +112,8 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
           <p className={styles.miniTxt}>
             Still not received? Please connect us at:
             <br />
-            +91 95829 99555 / +91 95829 99888
+            <a href="tel:+919582999555">+91 95829 99555</a> /{" "}
+            <a href="tel:+919582999888">+91 95829 99888</a>
           </p>
           <br />
         </>
