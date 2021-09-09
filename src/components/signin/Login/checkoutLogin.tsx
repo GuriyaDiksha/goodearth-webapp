@@ -577,24 +577,36 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         changeEmail={this.changeEmail}
       />
     ) : (
-      <Fragment>
-        {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col12)}>
-            <div
-              className={cs(globalStyles.successMsg, globalStyles.textCenter)}
-            >
-              {this.state.successMsg}
-            </div>
-          </div>
-        ) : (
-          ""
+      <>
+        {this.props.heading && (
+          <div className={styles.formHeading}>{this.props.heading}</div>
         )}
-        <div className={cs(bootstrapStyles.col12)}>
-          <div className={styles.loginForm}>{currentForm()}</div>
-          {this.props.isBo ? "" : footer}
-        </div>
-        {this.state.disableSelectedbox && <Loader />}
-      </Fragment>
+        {this.props.heading2 && (
+          <>
+            <div className={styles.para}>{this.props.heading2}</div>
+            <br />
+          </>
+        )}
+        <div className={styles.formSubheading}>{this.props.subHeading}</div>
+        <Fragment>
+          {this.state.successMsg ? (
+            <div className={cs(bootstrapStyles.col12)}>
+              <div
+                className={cs(globalStyles.successMsg, globalStyles.textCenter)}
+              >
+                {this.state.successMsg}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+          <div className={cs(bootstrapStyles.col12)}>
+            <div className={styles.loginForm}>{currentForm()}</div>
+            {this.props.isBo ? "" : footer}
+          </div>
+          {this.state.disableSelectedbox && <Loader />}
+        </Fragment>
+      </>
     );
   }
 }

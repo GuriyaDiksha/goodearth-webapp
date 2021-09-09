@@ -4,6 +4,8 @@ export type loginProps = {
   nextStep?: () => void;
   isBo?: string;
   subHeading: string;
+  heading: string;
+  heading2?: string;
 };
 
 export type loginState = {

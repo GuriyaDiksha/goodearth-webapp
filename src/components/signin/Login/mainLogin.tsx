@@ -596,7 +596,15 @@ class MainLogin extends React.Component<Props, loginState> {
       />
     ) : (
       <>
-        <div className={styles.formHeading}>Welcome</div>
+        {this.props.heading && (
+          <div className={styles.formHeading}>{this.props.heading}</div>
+        )}
+        {this.props.heading2 && (
+          <>
+            <div className={styles.para}>{this.props.heading2}</div>
+            <br />
+          </>
+        )}
         <div className={styles.formSubheading}>{this.props.subHeading}</div>
         <Fragment>
           {this.state.successMsg ? (

@@ -351,22 +351,22 @@ export default {
       `${__API_HOST__ + "/myapi/auth/register/"}`,
       formData
     );
-    CookieService.setCookie("atkn", res.token, 365);
-    CookieService.setCookie("userId", res.userId, 365);
-    CookieService.setCookie("email", res.email, 365);
-    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
-    dispatch(updateCookies({ tkn: res.token }));
-    dispatch(updateUser({ isLoggedIn: true }));
+    // CookieService.setCookie("atkn", res.token, 365);
+    // CookieService.setCookie("userId", res.userId, 365);
+    // CookieService.setCookie("email", res.email, 365);
+    // util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    // dispatch(updateCookies({ tkn: res.token }));
+    // dispatch(updateUser({ isLoggedIn: true }));
     // dispatch(updateModal(false));
-    const metaResponse = await MetaService.updateMeta(dispatch, {
-      tkn: res.token
-    });
-    WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch).then(res => {
-      if (source == "checkout") {
-        util.checkoutGTM(1, metaResponse?.currency || "INR", res);
-      }
-    });
+    // const metaResponse = await MetaService.updateMeta(dispatch, {
+    //   tkn: res.token
+    // });
+    // WishlistService.updateWishlist(dispatch);
+    // BasketService.fetchBasket(dispatch).then(res => {
+    //   if (source == "checkout") {
+    //     util.checkoutGTM(1, metaResponse?.currency || "INR", res);
+    //   }
+    // });
     return res;
   },
   changeCurrency: async function(
@@ -489,6 +489,28 @@ export default {
         token
       }
     );
+    if (res.status) {
+      CookieService.setCookie("atkn", res.token, 365);
+      CookieService.setCookie("userId", res.userId, 365);
+      CookieService.setCookie("email", res.email, 365);
+      util.showGrowlMessage(
+        dispatch,
+        `${res.firstName}, ${LOGIN_SUCCESS}`,
+        5000
+      );
+      dispatch(updateCookies({ tkn: res.token }));
+      dispatch(updateUser({ isLoggedIn: true }));
+      dispatch(updateModal(false));
+      // const metaResponse = await MetaService.updateMeta(dispatch, {
+      //   tkn: res.token
+      // });
+      WishlistService.updateWishlist(dispatch);
+      BasketService.fetchBasket(dispatch).then(res => {
+        // if (source == "checkout") {
+        //   util.checkoutGTM(1, metaResponse?.currency || "INR", res);
+        // }
+      });
+    }
     return res;
   }
 };
