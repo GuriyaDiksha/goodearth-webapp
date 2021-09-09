@@ -41,7 +41,7 @@ export enum ROUTES {
   MICROSITE = "/microsite/:id?",
   VIRTUAL = "/virtualappointment",
   THANKYOU = "/thankyou",
-  EMAILVERIFICATION = "verification/verify-email/:email/:token/"
+  EMAILVERIFICATION = "/verification/verify-email/:email/:token/"
 }
 
 export type RouteConfig = RouteObject[];

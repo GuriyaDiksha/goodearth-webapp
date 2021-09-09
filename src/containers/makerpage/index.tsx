@@ -15,8 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
-import { showGrowlMessage } from "utils/validate";
-import { LOGIN_SUCCESS } from "constants/messages";
 // import { Link } from "react-router-dom";
 // import INRBanner from "../../images/banner/INRBanner.jpg";
 // import USDGBPBanner from "../../images/banner/USDGBPBanner.jpg";
@@ -83,11 +81,7 @@ const MakerPage: React.FC<Props> = ({ email, token }) => {
       LoginService.verifyEmail(dispatch, email, token)
         .then(res => {
           if (res.status) {
-            showGrowlMessage(
-              dispatch,
-              `${res.firstName}, ${LOGIN_SUCCESS}`,
-              5000
-            );
+            // do nothing
           } else {
             dispatch(updateComponent(POPUP.LOGINFORM, res));
             dispatch(updateModal(true));
