@@ -18,7 +18,6 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url";
-import Loader from "components/Loader";
 import ReactHtmlParser from "react-html-parser";
 import * as valid from "utils/validate";
 import { Currency } from "typings/currency";
@@ -405,12 +404,14 @@ class CollectionSpecific extends React.Component<
                     mobile={mobile}
                     onClickQuickView={this.onClickQuickView}
                     isCollection={true}
+                    loader={
+                      !this.scrollload && results.length > 0 ? true : false
+                    }
                   />
                 </div>
               );
             })}
           </div>
-          {!this.scrollload && results.length > 0 ? <Loader /> : ""}
         </div>
         {specificMaker && (
           <MakerEnhance

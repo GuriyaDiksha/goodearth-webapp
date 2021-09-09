@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
+import { Currency } from "typings/currency";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -11,8 +12,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     checkUserPassword: (email: string) => {
       return LoginService.checkUserPassword(dispatch, email);
     },
-    login: (email: string, password: string) => {
-      return LoginService.login(dispatch, email, password);
+    login: (email: string, password: string, currency: Currency) => {
+      return LoginService.login(dispatch, email, password, currency);
     },
     register: (formData: FormData, source?: string) => {
       return LoginService.register(dispatch, formData, source);

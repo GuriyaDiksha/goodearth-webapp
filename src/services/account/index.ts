@@ -45,7 +45,7 @@ export default {
   fetchInShopOrders: async (dispatch: Dispatch, email: string) => {
     const data = await API.post<any>(
       dispatch,
-      `${__OMNI_HOST__}/customer_offline_orders_web/?email=${email}`,
+      `${__OMNI_HOST__}/omni/customer_offline_orders_web/?email=${email}`,
       {}
     );
     return data;
@@ -68,7 +68,7 @@ export default {
   fetchCourierData: async (dispatch: Dispatch, order: string) => {
     const courier = await new Promise((resolve, reject) => {
       fetch(
-        `https://web.goodearth.in/common_app/courier_tracking_api/?order_number=${order}`,
+        `${__OMNI_HOST__}/common_app/courier_tracking_api/?order_number=${order}`,
         { method: "GET" }
       )
         .then(resp => resp.json())
@@ -207,7 +207,7 @@ export default {
   fetchInshopOrder: async (dispatch: Dispatch, email: string) => {
     const courier = await new Promise((resolve, reject) => {
       fetch(
-        `https://web.goodearth.in/omni/customer_offline_orders_web/?email=${email}`,
+        `${__OMNI_HOST__}/omni/customer_offline_orders_web/?email=${email}`,
         { method: "GET" }
       )
         .then(resp => resp.json())
@@ -223,10 +223,9 @@ export default {
   },
   fetchshopOrderDetails: async (dispatch: Dispatch, number: string) => {
     const courier = await new Promise((resolve, reject) => {
-      fetch(
-        `https://web.goodearth.in/omni/order_detail_api_web/?number=${number}`,
-        { method: "GET" }
-      )
+      fetch(`${__OMNI_HOST__}/omni/order_detail_api_web/?number=${number}`, {
+        method: "GET"
+      })
         .then(resp => resp.json())
         .then(data => {
           if (data.data) {
