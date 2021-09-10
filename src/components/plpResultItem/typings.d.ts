@@ -12,4 +12,5 @@ export type PLPResultItemProps = {
   onClickQuickView?: (id: number) => void;
   position: number;
   page: string;
+  loader?: boolean;
 };
