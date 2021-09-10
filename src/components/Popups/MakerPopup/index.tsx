@@ -43,7 +43,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
         <div
           className={styles.cross}
           onClick={() => {
-            props.acceptCondition();
+            // props.acceptCondition();
             closeModal();
           }}
         >
