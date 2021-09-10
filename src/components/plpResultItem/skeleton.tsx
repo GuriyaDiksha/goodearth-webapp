@@ -11,11 +11,9 @@ const SkeletonImage: React.FC<{}> = () => {
     <div>
       <Skeleton duration={1} height={mobile ? 260 : 546} />
       <Skeleton style={{ marginTop: 20 }} />
-      {!mobile && (
-        <div className={styles.secondheading}>
-          <Skeleton />
-        </div>
-      )}
+      <div className={styles.secondheading}>
+        <Skeleton />
+      </div>
     </div>
   );
 };
