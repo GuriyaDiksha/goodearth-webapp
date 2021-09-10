@@ -22,6 +22,7 @@ import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -100,7 +101,10 @@ class CartPage extends React.Component<Props, State> {
     util.pageViewGTM("Cart");
     this.props.fetchBasket();
     // this.props.changeModalState();
-    this.props.openPopup();
+    const popupCookie = CookieService.getCookie("showCartPagePopup");
+    if (popupCookie) {
+      this.props.openPopup();
+    }
     this.props
       .fetchFeaturedContent()
       .then(data => {
