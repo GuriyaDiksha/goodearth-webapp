@@ -227,6 +227,7 @@ class Header extends React.Component<Props, State> {
         reloadPage(
           this.props.cookies,
           response.currency,
+          this.props.customerGroup,
           history.location.pathname,
           this.props.isLoggedIn
         );
@@ -464,7 +465,14 @@ class Header extends React.Component<Props, State> {
       },
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
-        onClick: isLoggedIn ? () => handleLogOut(this.props.history) : goLogin,
+        onClick: isLoggedIn
+          ? () =>
+              handleLogOut(
+                this.props.history,
+                this.props.currency,
+                this.props.customerGroup
+              )
+          : goLogin,
         type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
       }

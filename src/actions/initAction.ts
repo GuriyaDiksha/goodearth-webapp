@@ -18,6 +18,7 @@ const initAction: any = async (
   const store: Store = ctx.store;
   const state: AppState = ctx.store.getState();
   const currency = state.currency || "INR";
+  const customerGroup = state.user.customerGroup || "";
   const isBridalPublicPage =
     history.location.pathname.includes("/bridal/") &&
     !history.location.pathname.includes("/account/");
@@ -32,7 +33,7 @@ const initAction: any = async (
     bridalKey = pathArray[pathArray.length - 1];
   }
   let apiCalls: Promise<void | MetaResponse | undefined>[] = [
-    HeaderService.fetchHeaderDetails(store.dispatch, currency)
+    HeaderService.fetchHeaderDetails(store.dispatch, currency, customerGroup)
       .then(data => {
         console.log(data);
       })
