@@ -308,6 +308,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
               options={countryOptions}
               handleChange={onCountrySelect}
               placeholder="Select Country"
+              disable={true}
               name="country"
               validations={{
                 isExisty: true

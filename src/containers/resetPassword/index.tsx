@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import myAccountComponentStyles from "../myAccount/components/styles.scss";
 import myAccountStyles from "../myAccount/styles.scss";
+import styles from "./styles.scss";
 import cs from "classnames";
 import SecondaryHeader from "components/SecondaryHeader";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,14 +26,20 @@ type Props = {
 const ResetPassword: React.FC<Props> = props => {
   const {
     device: { mobile },
-    user: { isLoggedIn },
+    user: { isLoggedIn, customerGroup },
+    currency,
     info: { showTimer }
   } = useSelector((state: AppState) => state);
-  const ResetPasswordFormRef = React.createRef<Formsy>();
+  const ResetPasswordFormRef = useRef<Formsy>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [enableSubmit, setEnableSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showLogin, setShowLogin] = useState(false);
+  const [passValidLength, setPassValidLength] = useState(false);
+  const [passValidUpper, setPassValidUpper] = useState(false);
+  const [passValidLower, setPassValidLower] = useState(false);
+  const [passValidNum, setPassValidNum] = useState(false);
+  const [showPassRules, setShowPassRules] = useState(false);
   const dispatch = useDispatch();
   const { uid, token } = props;
   const [redirectTo, setRedirectTo] = useState("");
@@ -48,7 +55,7 @@ const ResetPassword: React.FC<Props> = props => {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }
     if (isLoggedIn) {
-      LoginService.logout(dispatch);
+      LoginService.logout(dispatch, currency, customerGroup);
     }
     valid.pageViewGTM("ResetPassword");
     const searchParams = new URLSearchParams(history.location.search);
@@ -72,6 +79,52 @@ const ResetPassword: React.FC<Props> = props => {
         valid.errorTracking(errorList, location.href);
       }
     }, 0);
+  };
+
+  const handleBlur = useCallback(() => {
+    const value = ResetPasswordFormRef.current?.getModel().password1;
+    if (value) {
+      const res =
+        value.length >= 6 &&
+        value.length <= 20 &&
+        /[a-z]/.test(value) &&
+        /[0-9]/.test(value) &&
+        /[A-Z]/.test(value);
+      if (res) {
+        setShowPassRules(false);
+      } else {
+        ResetPasswordFormRef.current?.updateInputsWithError({
+          password1:
+            "Please verify that your password follows all rules displayed"
+        });
+      }
+    }
+  }, [ResetPasswordFormRef]);
+
+  const handlePassValidation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (value) {
+      value.length >= 6 && value.length <= 20
+        ? !passValidLength && setPassValidLength(true)
+        : passValidLength && setPassValidLength(false);
+
+      /[a-z]/.test(value)
+        ? !passValidLower && setPassValidLower(true)
+        : passValidLower && setPassValidLower(false);
+
+      /[0-9]/.test(value)
+        ? !passValidNum && setPassValidNum(true)
+        : passValidNum && setPassValidNum(false);
+
+      /[A-Z]/.test(value)
+        ? !passValidUpper && setPassValidUpper(true)
+        : passValidUpper && setPassValidUpper(false);
+    } else {
+      setPassValidLength(false);
+      setPassValidLower(false);
+      setPassValidUpper(false);
+      setPassValidNum(false);
+    }
   };
 
   const handleSubmit = (
@@ -139,21 +192,13 @@ const ResetPassword: React.FC<Props> = props => {
               label={"New Password"}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={showPassword ? "text" : "password"}
-              validations={{
-                isValid: (values, value) => {
-                  return (
-                    values.password1 &&
-                    value &&
-                    value.length >= 6 &&
-                    /[a-z]/.test(value) &&
-                    /[0-9]/.test(value) &&
-                    /[A-Z]/.test(value)
-                  );
-                }
+              onFocus={() => {
+                setShowPassRules(true);
               }}
-              validationErrors={{
-                isValid:
-                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
+              blur={handleBlur}
+              handleChange={handlePassValidation}
+              validations={{
+                isValid: () => true
               }}
               required
             />
@@ -163,6 +208,28 @@ const ResetPassword: React.FC<Props> = props => {
             >
               <img src={showPassword ? show : hide} />
             </span>
+          </div>
+          <div
+            className={cs(
+              { [styles.show]: showPassRules },
+              styles.passwordValidation
+            )}
+          >
+            <p>Your password must contain</p>
+            <ul>
+              <li className={cs({ [styles.correct]: passValidLength })}>
+                6 to 20 characters
+              </li>
+              <li className={cs({ [styles.correct]: passValidUpper })}>
+                1 uppercase
+              </li>
+              <li className={cs({ [styles.correct]: passValidNum })}>
+                1 numeric digit
+              </li>
+              <li className={cs({ [styles.correct]: passValidLower })}>
+                1 lowercase
+              </li>
+            </ul>
           </div>
           <div>
             <FormInput
@@ -186,9 +253,7 @@ const ResetPassword: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                equalsField: "The password entered doesn't match",
-                isValid:
-                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
+                equalsField: "The password entered doesn't match"
               }}
               required
             />

@@ -252,13 +252,13 @@ class Footer extends React.Component<Props, FooterState> {
                   })
             } ${this.props.saleStatus ? cs(styles.footerTopSale20) : ""}`}
             style={{
-              backgroundImage: `url(${
-                this.state.isInViewport
-                  ? this.props.mobile
-                    ? footerImageSubsMobile
-                    : footerImageSubsDeskTop
-                  : ""
-              })`
+              backgroundImage: this.state.isInViewport
+                ? `url(${
+                    this.props.mobile
+                      ? footerImageSubsMobile
+                      : footerImageSubsDeskTop
+                  })`
+                : "none"
             }}
           >
             <div className={bootstrap.row}>
@@ -320,13 +320,11 @@ class Footer extends React.Component<Props, FooterState> {
                   })
             } ${this.props.saleStatus ? cs(styles.footerSale20) : ""}`}
             style={{
-              backgroundImage: `url(${
-                this.state.isInViewport
-                  ? this.props.mobile
-                    ? footerImageMobile
-                    : footerImageDeskTop
-                  : ""
-              })`,
+              backgroundImage: this.state.isInViewport
+                ? `url(${
+                    this.props.mobile ? footerImageMobile : footerImageDeskTop
+                  })`
+                : "none",
               backgroundColor: `${footerBgColorMobile}`
             }}
           >
