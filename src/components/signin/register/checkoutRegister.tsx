@@ -11,7 +11,7 @@ import Formsy from "formsy-react";
 import FormInput from "../../Formsy/FormInput";
 import FormSelect from "../../Formsy/FormSelect";
 import FormCheckbox from "../../Formsy/FormCheckbox";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import CountryCode from "../../Formsy/CountryCode";
 import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
@@ -37,7 +37,8 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  RegisterProps;
+  RegisterProps &
+  RouteComponentProps;
 
 class CheckoutRegisterForm extends React.Component<Props, registerState> {
   constructor(props: Props) {
@@ -125,6 +126,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       formData["phoneCountryCode"] = code;
     }
     formData["subscribe"] = terms;
+    formData["redirectTo"] =
+      this.props.history.location.pathname +
+        this.props.history.location.search || "/";
     this.setState({
       disableButton: true
     });
@@ -864,10 +868,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       />
     ) : (
       <>
-        <div className={styles.formHeading}>Welcome</div>
-        <div className={styles.formSubheading}>
-          Please Enter Your Email To Register
-        </div>
+        {!this.props.history.location.pathname.includes("/order/checkout") && (
+          <>
+            <div className={styles.formHeading}>Welcome</div>
+            <div className={styles.formSubheading}>
+              Please Enter Your Email To Register
+            </div>
+          </>
+        )}
         <Fragment>
           {this.state.successMsg ? (
             <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
@@ -888,7 +896,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   }
 }
 
+const CheckoutRegisterFormRoute = withRouter(CheckoutRegisterForm);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CheckoutRegisterForm);
+)(CheckoutRegisterFormRoute);

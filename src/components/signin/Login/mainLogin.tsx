@@ -69,7 +69,13 @@ class MainLogin extends React.Component<Props, loginState> {
       // this.setState({
       //   showEmailVerification: true
       // });
-      const data = await this.props.checkUserPassword(this.state.email);
+      const redirectTo =
+        this.props.history.location.pathname +
+          this.props.history.location.search || "/";
+      const data = await this.props.checkUserPassword(
+        this.state.email,
+        redirectTo
+      );
       if (data.invalidDomain) {
         this.setState(
           {
