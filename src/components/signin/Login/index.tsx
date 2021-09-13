@@ -1,6 +1,11 @@
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
-import { RouteComponentProps, useLocation, withRouter } from "react-router";
+import {
+  RouteComponentProps,
+  useHistory,
+  useLocation,
+  withRouter
+} from "react-router";
 import React, { useContext, useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
@@ -19,9 +24,11 @@ import { Context } from "components/Modal/context";
 const CheckoutRegisterForm = loadable(() =>
   import("components/signin/register/checkoutRegister")
 );
-type Props = (verifyEmailResponse | undefined) & RouteComponentProps;
+type Props = ((verifyEmailResponse & { redirectTo: string }) | undefined) &
+  RouteComponentProps;
 const LoginForm: React.FC<Props> = props => {
   const [isRegister, setIsRegister] = useState(false);
+  const history = useHistory();
 
   const goToRegister = () => {
     setIsRegister(true);
@@ -34,6 +41,9 @@ const LoginForm: React.FC<Props> = props => {
 
   const nextStep = () => {
     // code for after login
+    if (props.redirectTo) {
+      history.push(props.redirectTo || "/");
+    }
   };
   const { search } = useLocation();
   const urlParams = new URLSearchParams(search);
@@ -51,7 +61,7 @@ const LoginForm: React.FC<Props> = props => {
     <>
       <div className={cs(styles.para, globalStyles.marginT50)}>
         <p>
-          Sorry, the link is expired. It looks like you are already logged in!
+          Sorry, the link has expired. It looks like you are already logged in!
         </p>
       </div>
       <div className={cs(globalStyles.ceriseBtn, styles.bigBtn)}>
@@ -80,7 +90,11 @@ const LoginForm: React.FC<Props> = props => {
                 nextStep={nextStep}
                 isBo={""}
                 heading={""}
-                heading2={"Sorry, the link is expired."}
+                heading2={
+                  props.expired
+                    ? "Sorry, the link has expired."
+                    : "Sorry the link has already been used and cannot be used again for the safety of your account."
+                }
                 subHeading="Enter your email address to register or sign in."
               />
             )

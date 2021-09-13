@@ -6,7 +6,7 @@ import globalStyles from "styles/global.scss";
 // services
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Context } from "components/Modal/context";
 
 type Props = {
@@ -21,6 +21,7 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
   const [alreadyVerified, setAlreadyVerified] = useState(false);
 
   const dispatch = useDispatch();
+  const location = useLocation();
   const timer = () => {
     setTimeRemaining(60);
     setEnableBtn(false);
@@ -32,7 +33,12 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
 
   const sendEmail = async () => {
     try {
-      const res = await LoginService.sendVerificationEmail(dispatch, email);
+      const redirectTo = location.pathname + location.search || "/";
+      const res = await LoginService.sendVerificationEmail(
+        dispatch,
+        email,
+        redirectTo
+      );
       if (res.success) {
         // handle success
       } else if (res.alreadyVerified) {
@@ -60,6 +66,8 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
 
   useEffect(() => {
     timer();
+    const elem = document.getElementById("first-heading");
+    elem?.scrollIntoView({ block: "end", inline: "nearest" });
     return () => {
       clearTimer();
     };
@@ -73,7 +81,10 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
   };
   return alreadyVerified ? (
     <>
-      <div className={cs(styles.para, globalStyles.marginT50)}>
+      <div
+        className={cs(styles.para, globalStyles.marginT50)}
+        id="first-heading"
+      >
         <p>Seems like you have already verified your email.</p>
       </div>
       <div className={cs(globalStyles.ceriseBtn, styles.bigBtn)}>
@@ -84,7 +95,9 @@ const EmailVerification: React.FC<Props> = ({ email, changeEmail }) => {
     </>
   ) : (
     <>
-      <div className={styles.formHeading}>Welcome</div>
+      <div className={styles.formHeading} id="first-heading">
+        Welcome
+      </div>
       <div className={styles.para}>
         <p>
           We&apos;ve emailed you a verification link to <strong>{email}</strong>

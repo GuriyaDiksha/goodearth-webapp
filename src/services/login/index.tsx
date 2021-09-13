@@ -47,12 +47,17 @@ export default {
     dispatch(updateComponent(POPUP.REGISTERFORM, null, true));
     dispatch(updateModal(true));
   },
-  checkUserPassword: async function(dispatch: Dispatch, email: string) {
+  checkUserPassword: async function(
+    dispatch: Dispatch,
+    email: string,
+    redirectTo: string
+  ) {
     const res = await API.post<checkUserPasswordResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/check_user_password/"}`,
       {
-        email: email
+        email,
+        redirectTo
       }
     );
     return res;
@@ -472,11 +477,18 @@ export default {
     }
     return res;
   },
-  sendVerificationEmail: async (dispatch: Dispatch, email: string) => {
+  sendVerificationEmail: async (
+    dispatch: Dispatch,
+    email: string,
+    redirectTo: string
+  ) => {
     const res = await API.post<sendVerificationEmailResponse>(
       dispatch,
       `${__API_HOST__}/myapi/auth/send_verification_email/`,
-      { email }
+      {
+        email,
+        redirectTo
+      }
     );
     return res;
   },
@@ -489,28 +501,6 @@ export default {
         token
       }
     );
-    if (res.status) {
-      CookieService.setCookie("atkn", res.token, 365);
-      CookieService.setCookie("userId", res.userId, 365);
-      CookieService.setCookie("email", res.email, 365);
-      util.showGrowlMessage(
-        dispatch,
-        `${res.firstName}, ${LOGIN_SUCCESS}`,
-        5000
-      );
-      dispatch(updateCookies({ tkn: res.token }));
-      dispatch(updateUser({ isLoggedIn: true }));
-      dispatch(updateModal(false));
-      // const metaResponse = await MetaService.updateMeta(dispatch, {
-      //   tkn: res.token
-      // });
-      WishlistService.updateWishlist(dispatch);
-      BasketService.fetchBasket(dispatch).then(res => {
-        // if (source == "checkout") {
-        //   util.checkoutGTM(1, metaResponse?.currency || "INR", res);
-        // }
-      });
-    }
     return res;
   }
 };

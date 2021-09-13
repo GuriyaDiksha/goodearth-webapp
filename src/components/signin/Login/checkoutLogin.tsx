@@ -62,7 +62,13 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
   firstEmailInput: RefObject<HTMLInputElement> = React.createRef();
   async checkMailValidation() {
     if (this.state.email) {
-      const data = await this.props.checkUserPassword(this.state.email);
+      const redirectTo =
+        this.props.history.location.pathname +
+          this.props.history.location.search || "/";
+      const data = await this.props.checkUserPassword(
+        this.state.email,
+        redirectTo
+      );
       if (data.invalidDomain) {
         this.setState(
           {
