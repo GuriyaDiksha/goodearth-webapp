@@ -253,6 +253,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         this.RegisterFormRef.current.getModel().email) ||
         ""
     );
+    formData.append(
+      "redirectTo",
+      this.props.history.location.pathname +
+        this.props.history.location.search || "/"
+    );
 
     this.props
       .resetPassword(formData)
@@ -868,6 +873,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       />
     ) : (
       <>
+        {this.state.successMsg ? (
+          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+            <div className={globalStyles.successMsg}>
+              {this.state.successMsg}
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         {!this.props.history.location.pathname.includes("/order/checkout") && (
           <>
             <div className={styles.formHeading}>Welcome</div>
@@ -877,15 +891,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </>
         )}
         <Fragment>
-          {this.state.successMsg ? (
-            <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-              <div className={globalStyles.successMsg}>
-                {this.state.successMsg}
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
           <div className={cs(bootstrapStyles.col12)}>
             <div className={styles.loginForm}>{formContent}</div>
             {footer}

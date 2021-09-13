@@ -144,6 +144,11 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
     event.preventDefault();
     const formData = new FormData();
     formData.append("email", this.state.email || "");
+    formData.append(
+      "redirectTo",
+      this.props.history.location.pathname +
+        this.props.history.location.search || "/"
+    );
     this.props
       .resetPassword(formData)
       .then(data => {
@@ -584,6 +589,17 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
       />
     ) : (
       <>
+        {this.state.successMsg ? (
+          <div className={cs(bootstrapStyles.col12)}>
+            <div
+              className={cs(globalStyles.successMsg, globalStyles.textCenter)}
+            >
+              {this.state.successMsg}
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         {this.props.heading && (
           <div className={styles.formHeading}>{this.props.heading}</div>
         )}
@@ -595,17 +611,6 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
         )}
         <div className={styles.formSubheading}>{this.props.subHeading}</div>
         <Fragment>
-          {this.state.successMsg ? (
-            <div className={cs(bootstrapStyles.col12)}>
-              <div
-                className={cs(globalStyles.successMsg, globalStyles.textCenter)}
-              >
-                {this.state.successMsg}
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
           <div className={cs(bootstrapStyles.col12)}>
             <div className={styles.loginForm}>{currentForm()}</div>
             {this.props.isBo ? "" : footer}
