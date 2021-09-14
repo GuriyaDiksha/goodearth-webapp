@@ -10,7 +10,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return res;
     },
     checkUserPassword: (email: string) => {
-      return LoginService.checkUserPassword(dispatch, email);
+      return LoginService.checkUserPassword(dispatch, email, "");
     },
     login: (email: string, password: string, currency: Currency) => {
       return LoginService.login(dispatch, email, password, currency);

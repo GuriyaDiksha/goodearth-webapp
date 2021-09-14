@@ -40,7 +40,8 @@ export enum ROUTES {
   WITHOUTMAKER = "/withoutmaker",
   MICROSITE = "/microsite/:id?",
   VIRTUAL = "/virtualappointment",
-  THANKYOU = "/thankyou"
+  THANKYOU = "/thankyou",
+  EMAILVERIFICATION = "/verification/verify-email/:email/:token/"
 }
 
 export type RouteConfig = RouteObject[];
