@@ -898,6 +898,16 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   </div>
                 </li>
               )}
+              <li className={styles.note}>
+                <div>Please Note</div>
+                <ul>
+                  <li>All digital Gift Cards can be activated here.</li>
+                  <li>
+                    For physical cards issued prior to 01.08.21, please contact
+                    Customer care or visit store.
+                  </li>
+                </ul>
+              </li>
               <li className={cs(styles.subscribe, styles.subscribeGc)}>
                 <FormCheckbox
                   value={false}
