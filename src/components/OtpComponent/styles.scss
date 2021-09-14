@@ -385,3 +385,18 @@
 .margintop {
   margin-top: 40px !important;
 }
+.note {
+  text-align: left;
+  font-size: 12px;
+    ul {
+      margin-left:15px;
+      li {
+        margin: 8px 0px;
+        font-size: 12px;
+        font-family: $font-Lato;
+        color: #666666;
+        letter-spacing: 1px;
+        list-style-type: disc;
+      }
+    }
+}
