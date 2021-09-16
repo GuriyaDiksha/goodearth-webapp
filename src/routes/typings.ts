@@ -40,7 +40,8 @@ export enum ROUTES {
   WITHOUTMAKER = "/withoutmaker",
   MICROSITE = "/microsite/:id?",
   VIRTUAL = "/virtualappointment",
-  THANKYOU = "/thankyou"
+  THANKYOU = "/thankyou",
+  SHOPPER = "/personal-shopper-form"
 }
 
 export type RouteConfig = RouteObject[];
