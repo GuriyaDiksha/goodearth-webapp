@@ -136,9 +136,13 @@ const Section4: React.FC<Section4Props> = props => {
             </p>
             <br />
             <li className={styles.note}>
-              <div>Please Note</div>
+              <div>Please Note:</div>
               <ul>
-                <li>All digital Gift Cards can be activated here.</li>
+                <li>
+                  {" "}
+                  All our gift cards are valid for a period of 11 months from
+                  date of purchase.
+                </li>
               </ul>
             </li>
             <div
