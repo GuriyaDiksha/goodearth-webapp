@@ -326,7 +326,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                 </a>
               }
               {otpTimer > 0 ? (
-                <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
+                <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
               ) : (
                 ""
               )}
