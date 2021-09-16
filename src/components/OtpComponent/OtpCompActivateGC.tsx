@@ -899,7 +899,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 </li>
               )}
               <li className={styles.note}>
-                <div>Please Note</div>
+                <div>Please Note:</div>
                 <ul>
                   <li>All digital Gift Cards can be activated here.</li>
                   <li>
