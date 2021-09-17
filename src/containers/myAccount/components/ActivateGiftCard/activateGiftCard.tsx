@@ -286,7 +286,9 @@ class Giftcard extends React.Component<Props, GiftState> {
         ) {
           this.ActivateGCForm.current &&
             this.ActivateGCForm.current.updateInputsWithError({
-              giftCardCode: "Please enter a valid Gift Card code"
+              giftCardCode:
+                err.response.data.message ||
+                "Please enter a valid Gift Card code"
             });
         }
       });
