@@ -254,6 +254,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.SHOPPER,
+    component: loadable(() => import("containers/ShopperForm")),
+    action: async () => null,
+    exact: true
   }
 ];
 
