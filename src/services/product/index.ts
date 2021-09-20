@@ -76,6 +76,14 @@ export default {
     );
     return res;
   },
+  savePersonalShopper: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<{ message: string }>(
+      dispatch,
+      `${__API_HOST__}/myapi/common/send_personal_shopper_enquiry/`,
+      formData
+    );
+    return res;
+  },
   enquire: async function(
     dispatch: Dispatch,
     params: {
