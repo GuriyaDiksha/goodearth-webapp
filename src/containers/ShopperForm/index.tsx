@@ -119,14 +119,10 @@ const ShopperForm: React.FC = () => {
     // setModevalue(event.target.value);
   };
 
-  const onchangeContact = (event:any) => {
+  const onchangeContact = (event: any) => {};
 
-  }
+  const onchangeDepatment = (event: any) => {};
 
-  const onchangeDepatment = (event:any) =>{
-
-  }
-  
   const modeOptionsDepartment = [
     {
       value: "Apparel",
@@ -139,8 +135,8 @@ const ShopperForm: React.FC = () => {
     {
       value: "Gifting",
       label: "Gifting"
-    },
-  ]
+    }
+  ];
 
   const modeOptionsContact = [
     {
@@ -159,7 +155,7 @@ const ShopperForm: React.FC = () => {
       value: "Email",
       label: "Email"
     }
-  ]
+  ];
 
   const modeOptions = [
     {
