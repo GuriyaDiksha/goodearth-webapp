@@ -119,14 +119,72 @@ const ShopperForm: React.FC = () => {
     // setModevalue(event.target.value);
   };
 
-  const modeOptions = [
+  const onchangeContact = (event:any) => {
+
+  }
+
+  const onchangeDepatment = (event:any) =>{
+
+  }
+  
+  const modeOptionsDepartment = [
+    {
+      value: "Apparel",
+      label: "Apparel"
+    },
+    {
+      value: "Home",
+      label: "Home"
+    },
+    {
+      value: "Gifting",
+      label: "Gifting"
+    },
+  ]
+
+  const modeOptionsContact = [
+    {
+      value: "Callback",
+      label: "Call back"
+    },
+    {
+      value: "SMS",
+      label: "SMS"
+    },
+    {
+      value: "Whatsapp",
+      label: "Whatsapp"
+    },
     {
       value: "Email",
       label: "Email"
+    }
+  ]
+
+  const modeOptions = [
+    {
+      value: "Mumbai",
+      label: "Mumbai"
     },
     {
-      value: "Phone",
-      label: "Phone"
+      value: "Delhi",
+      label: "Delhi"
+    },
+    {
+      value: "Bengaluru",
+      label: "Bengaluru"
+    },
+    {
+      value: "Chennai",
+      label: "Chennai"
+    },
+    {
+      value: "Jaipur",
+      label: "Jaipur"
+    },
+    {
+      value: "Jodhpur",
+      label: "Jodhpur"
     }
   ];
 
@@ -225,11 +283,41 @@ const ShopperForm: React.FC = () => {
             <FormSelect
               required
               name="preferredContact"
-              label="Preferred mode"
-              placeholder="Select Mode"
+              label="Preferred Store Location"
+              placeholder=""
               disable={false}
               options={modeOptions}
               handleChange={onchange}
+              value=""
+              validations={{
+                isExisty: true
+              }}
+            />
+          </div>
+          <div className="select-group text-left">
+            <FormSelect
+              required
+              name="optioncontact"
+              label="Preferred Contact Method"
+              placeholder=""
+              disable={false}
+              options={modeOptionsContact}
+              handleChange={onchangeContact}
+              value=""
+              validations={{
+                isExisty: true
+              }}
+            />
+          </div>
+          <div className="select-group text-left">
+            <FormSelect
+              required
+              name="department"
+              label="Department of interest"
+              placeholder=""
+              disable={false}
+              options={modeOptionsDepartment}
+              handleChange={onchangeDepatment}
               value=""
               validations={{
                 isExisty: true
@@ -248,9 +336,9 @@ const ShopperForm: React.FC = () => {
               </Link>
             ]}
           </div>
-          <div className={styles.subText}>
+          {/* <div className={styles.subText}>
             {"*Please note that this notification is for India users only."}
-          </div>
+          </div> */}
           <p className={cs(styles.successMessage, globalStyles.errorMsg)}>
             {successMsg}
           </p>
@@ -263,7 +351,7 @@ const ShopperForm: React.FC = () => {
               styles.jobApplicationSubmit,
               { [globalStyles.disabledBtn]: !enableSubmit }
             )}
-            value="Remind me"
+            value="Submit"
           />
         </div>
       </Formsy>
