@@ -62,4 +62,3 @@ export type RouteObject = {
   meta?: MetaAction;
   exact?: boolean;
 };
-
