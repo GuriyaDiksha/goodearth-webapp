@@ -16,7 +16,6 @@ import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
-import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
 import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
@@ -565,8 +564,6 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
-              {this.state.flag ? <Loader /> : ""}
-
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (
@@ -590,6 +587,7 @@ class PLP extends React.Component<
                           isVisible={index < 3 ? true : undefined}
                           onClickQuickView={this.onClickQuickView}
                           isCorporate={this.state.corporoateGifting}
+                          loader={this.state.flag}
                         />
                       </div>
                     );
@@ -619,6 +617,7 @@ class PLP extends React.Component<
                           isCorporate={this.state.corporoateGifting}
                           notifyMeClick={this.notifyMeClick}
                           onEnquireClick={this.onEnquireClick}
+                          loader={this.state.flag}
                         />
                       </div>
                     );

@@ -1,7 +1,5 @@
 import {
-  HeaderData,
   MegaMenuData,
-  Menu,
   SaleTimerData,
   SearchFeaturedData
 } from "components/header/typings";
@@ -22,18 +20,22 @@ import { Currency } from "typings/currency";
 export default {
   fetchHeaderDetails: async (
     dispatch: Dispatch,
-    currency?: Currency
-  ): Promise<HeaderData[]> => {
-    let menu: Menu | null = null;
+    currency?: Currency,
+    customerGroup?: string
+  ): Promise<MegaMenuData[]> => {
+    let menu: MegaMenuData[] | null = null;
     if (
       typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
+      (__API_HOST__ == "https://db.goodearth.in" ||
+        __API_HOST__ == "https://pb.goodearth.in")
     ) {
-      menu = CacheService.get(`menu-${currency}`) as Menu;
+      menu = CacheService.get(
+        `menu-${currency || ""}-${customerGroup || ""}`
+      ) as MegaMenuData[];
     }
     if (menu) {
       dispatch(updateheader(menu));
-      return menu.results;
+      return menu;
     }
     // let headerData = CacheService.get("headerData") as HeaderData[];
 
@@ -43,26 +45,22 @@ export default {
     const res = await API.get<any>(
       dispatch,
       // `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
-      `${__API_HOST__ + "/myapi/category/top_menu_data-v1/"}`
+      `${__API_HOST__ + "/myapi/category/megamenu"}`
     );
-    dispatch(
-      updateheader({
-        results: res.results as HeaderData[],
-        megaMenuResults: res.megaMenuResults as MegaMenuData[]
-      })
-    );
+    dispatch(updateheader(res.data as MegaMenuData[]));
     // headerData = res.results as HeaderData[];
     // CacheService.set("headerData", headerData);
     if (
       typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
+      (__API_HOST__ == "https://db.goodearth.in" ||
+        __API_HOST__ == "https://pb.goodearth.in")
     ) {
-      CacheService.set(`menu-${res.currency}`, {
-        results: res.results as HeaderData[],
-        megaMenuResults: res.megaMenuResults as MegaMenuData[]
-      });
+      CacheService.set(
+        `menu-${res.currency}-${res.customerGroup}`,
+        res.data as MegaMenuData[]
+      );
     }
-    return res.results;
+    return res.data;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
     let footerData: FooterDataProps | null = null;

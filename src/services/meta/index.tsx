@@ -55,6 +55,7 @@ export default {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
       }
+      dispatch(updateUser(user));
       if (user.email) {
         const res: { slab: string } = await HeaderService.getCustomerSlab(
           dispatch,
@@ -66,7 +67,6 @@ export default {
         CookieService.setCookie("currency", meta.currency, 365);
       }
       dispatch(updateCurrency(meta.currency));
-      dispatch(updateUser(user));
       return meta;
     }
   },

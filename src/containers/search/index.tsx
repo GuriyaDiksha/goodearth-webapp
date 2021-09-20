@@ -75,6 +75,7 @@ class Search extends React.Component<
     sortValue: string;
     searchMaker: boolean;
     featureData: WidgetImage[];
+    flag: boolean;
   }
 > {
   private child: any = FilterListSearch;
@@ -92,6 +93,7 @@ class Search extends React.Component<
       searchText: searchValue ? searchValue : "",
       sortValue: param ? param : "hc",
       searchMaker: false,
+      flag: false,
       featureData: []
     };
   }
@@ -262,6 +264,12 @@ class Search extends React.Component<
     }
   }
 
+  changeLoader = (value: boolean) => {
+    this.setState({
+      flag: value
+    });
+  };
+
   render() {
     const {
       device: { mobile },
@@ -359,6 +367,7 @@ class Search extends React.Component<
               key={"search"}
               onRef={(el: any) => (this.child = el)}
               setFilterCount={this.setFilterCount}
+              changeLoader={this.changeLoader}
               onChangeFilterState={this.onChangeFilterState}
             />
           </div>
@@ -444,6 +453,7 @@ class Search extends React.Component<
                         key={item.id}
                         mobile={mobile}
                         onClickQuickView={this.onClickQuickView}
+                        loader={this.state.flag}
                         isCorporate={
                           ["Pero", "Souk"].indexOf(item.partner || "") > -1
                             ? true

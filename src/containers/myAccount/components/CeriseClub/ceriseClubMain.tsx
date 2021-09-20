@@ -118,15 +118,15 @@ class CeriseClubMain extends Component<Props, State> {
       .then((data: any) => {
         if (data.is_success) {
           this.setState({
-            customerDetails: data.message.CUSTOMER_DETAILS[0],
-            slab: data.message.CUSTOMER_DETAILS[0].Slab,
+            customerDetails: data.message,
+            slab: data.message.Slab,
             expiryDate: moment(
-              data.message.CUSTOMER_DETAILS[0].Expiry_Date,
+              data.message.Expiry_Date,
               "DD-MM-YYYY"
             ).toString(),
-            points: data.message.CUSTOMER_DETAILS[0].Expiry_Points,
+            points: data.message.Expiry_Points,
             memberExpiryDate: moment(
-              data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
+              data.message["Member Expiry Date"],
               "DD-MM-YYYY"
             ).toString(),
             customerUniqueID: data.uniqueId
