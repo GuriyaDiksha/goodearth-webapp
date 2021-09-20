@@ -67,6 +67,7 @@ export default {
     dispatch: Dispatch,
     email: string,
     password: string,
+    currency: Currency,
     source?: string,
     history?: any
   ) {
@@ -111,12 +112,22 @@ export default {
     );
 
     // HeaderService.fetchHomepageData(dispatch);
+    HeaderService.fetchHeaderDetails(
+      dispatch,
+      currency,
+      res.customerGroup
+    ).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
     WishlistService.updateWishlist(dispatch);
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch, source, history, true).then(
       basketRes => {
@@ -203,6 +214,9 @@ export default {
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
     WishlistService.updateWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
@@ -249,7 +263,11 @@ export default {
     );
     return res;
   },
-  logout: async function(dispatch: Dispatch) {
+  logout: async function(
+    dispatch: Dispatch,
+    currency: Currency,
+    customerGroup: string
+  ) {
     const res = await API.post<logoutResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/logout/"}`,
@@ -275,6 +293,14 @@ export default {
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
       });
+      HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+        err => {
+          console.log("FOOTER API ERROR ==== " + err);
+        }
+      );
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
       BasketService.fetchBasket(dispatch).catch(err => {
         console.log(err);
       });
@@ -296,6 +322,12 @@ export default {
     WishlistService.resetWishlist(dispatch);
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
+    });
+    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
@@ -373,10 +405,16 @@ export default {
     dispatch(updateBasket(res));
     return res;
   },
-  reloadPage: (dispatch: Dispatch, currency: Currency) => {
-    HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
-    });
+  reloadPage: (
+    dispatch: Dispatch,
+    currency: Currency,
+    customerGroup: string
+  ) => {
+    HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+      err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      }
+    );
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
@@ -388,6 +426,9 @@ export default {
     });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sale status API error === " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch);
   },

@@ -76,7 +76,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
               ></i>
             </div>
           )}
-          <div className={mobile ? styles.contentmobile : styles.content}>
+          <div className={mobile ? styles.contentmobile : styles.ceriseContent}>
             <p className={styles.heading}>
               when <br />
               <span>STARS</span> align
