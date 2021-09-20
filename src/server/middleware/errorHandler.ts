@@ -7,7 +7,6 @@ export default async function device(
   try {
     await next();
   } catch (err) {
-    console.log(err)
     if (err?.response?.status == 500) {
       ctx.redirect("/error-page");
       return;
