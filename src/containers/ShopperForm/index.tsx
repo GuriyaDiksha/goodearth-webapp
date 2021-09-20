@@ -9,7 +9,7 @@ import * as valid from "utils/validate";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import ProductService from "services/product";
 import FormSelect from "components/Formsy/FormSelect";
 import MakerEnhance from "components/maker";
@@ -22,21 +22,22 @@ const ShopperForm: React.FC = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [enableSubmit, setEnableSubmit] = useState(false);
   const location = useLocation();
+  const history = useHistory();
   useEffect(() => {
     if (currency != "INR") {
-      // history.push("/");
+      history.push("/");
     }
   }, []);
 
   useEffect(() => {
     if (currency != "INR") {
-      // history.push("/");
+      history.push("/");
     }
   }, [currency]);
 
   const handleInvalidSubmit = () => {
     if (!enableSubmit) {
-      return;
+      return false;
     }
     setSuccessMsg("");
     setTimeout(() => {
@@ -200,12 +201,12 @@ const ShopperForm: React.FC = () => {
           <div>
             <FormInput
               required
-              label="Name*"
-              placeholder="Name*"
+              label="Name *"
+              placeholder="Name *"
               name="name"
               validations={{
                 maxLength: 30,
-                isAlpha: true
+                isWords: true
               }}
               handleChange={event => {
                 event.target.value
@@ -214,7 +215,7 @@ const ShopperForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isWords: "Only alphabets are allowed."
               }}
             />
           </div>
@@ -222,9 +223,9 @@ const ShopperForm: React.FC = () => {
             <FormInput
               required
               name="email"
-              label="Email Address"
+              label="Email Address *"
               className="input-field"
-              placeholder="Email Address"
+              placeholder="Email Address *"
               validations={{
                 isExisty: true,
                 isEmail: true
@@ -252,15 +253,17 @@ const ShopperForm: React.FC = () => {
             <FormInput
               required
               name="phone"
-              label="Contact Number"
-              placeholder="Contact Number"
+              label="Contact Number *"
+              placeholder="Contact Number *"
               validations={{
                 matchRegexp: /^[0-9\-/]+$/,
                 isNumeric: true,
-                isExisty: true
+                isExisty: true,
+                maxLength: 10
               }}
               validationErrors={{
                 matchRegexp: "Please enter valid a phone number",
+                maxLength: "Please enter valid phone number",
                 isNumeric: "Phone should contain numbers",
                 isExisty: "Please enter your Contact Number"
               }}
@@ -344,6 +347,7 @@ const ShopperForm: React.FC = () => {
               styles.jobApplicationSubmit,
               { [globalStyles.disabledBtn]: !enableSubmit }
             )}
+            disabled={!enableSubmit}
             value="Submit"
           />
         </div>
