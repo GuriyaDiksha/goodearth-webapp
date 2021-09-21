@@ -42,7 +42,7 @@ export enum ROUTES {
   VIRTUAL = "/virtualappointment",
   INSTORE = "/instoreservices",
   THANKYOU = "/thankyou",
-  MUMTAZ = "/mumtaz-virtual"
+  MUMTAZ = "/mumtaz-virtual-appointment"
 }
 
 export type RouteConfig = RouteObject[];
