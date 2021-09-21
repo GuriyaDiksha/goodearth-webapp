@@ -16,6 +16,7 @@ import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
 import { RouteComponentProps, withRouter } from "react-router";
+import EmailVerification from "../EmailVerification";
 // import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
@@ -51,7 +52,8 @@ class MainLogin extends React.Component<Props, loginState> {
       shouldFocusOnPassword: false,
       successMsg: "",
       showPassword: false,
-      showCurrentSection: "email"
+      showCurrentSection: "email",
+      showEmailVerification: false
     };
   }
   static contextType = Context;
@@ -64,7 +66,16 @@ class MainLogin extends React.Component<Props, loginState> {
       : "";
   async checkMailValidation() {
     if (this.state.email) {
-      const data = await this.props.checkUserPassword(this.state.email);
+      // this.setState({
+      //   showEmailVerification: true
+      // });
+      const redirectTo =
+        this.props.history.location.pathname +
+          this.props.history.location.search || "/";
+      const data = await this.props.checkUserPassword(
+        this.state.email,
+        redirectTo
+      );
       if (data.invalidDomain) {
         this.setState(
           {
@@ -77,21 +88,27 @@ class MainLogin extends React.Component<Props, loginState> {
       } else {
         if (data.emailExist) {
           if (data.passwordExist) {
-            this.setState(
-              {
-                showCurrentSection: "login",
-                msg: "",
-                highlight: false,
-                successMsg: ""
-              },
-              () => {
-                this.passwordInput.current &&
-                  this.passwordInput.current.focus();
-                this.passwordInput.current &&
-                  !this.props.isBo &&
-                  this.passwordInput.current.scrollIntoView(true);
-              }
-            );
+            if (data.verificationEmailSent) {
+              this.setState({
+                showEmailVerification: true
+              });
+            } else {
+              this.setState(
+                {
+                  showCurrentSection: "login",
+                  msg: "",
+                  highlight: false,
+                  successMsg: ""
+                },
+                () => {
+                  this.passwordInput.current &&
+                    this.passwordInput.current.focus();
+                  this.passwordInput.current &&
+                    !this.props.isBo &&
+                    this.passwordInput.current.scrollIntoView(true);
+                }
+              );
+            }
           } else {
             const error = [
               "Looks like you are signing in for the first time. ",
@@ -132,6 +149,11 @@ class MainLogin extends React.Component<Props, loginState> {
     event.preventDefault();
     const formData = new FormData();
     formData.append("email", this.state.email || "");
+    formData.append(
+      "redirectTo",
+      this.props.history.location.pathname +
+        this.props.history.location.search || "/"
+    );
     this.props
       .resetPassword(formData)
       .then(data => {
@@ -413,7 +435,8 @@ class MainLogin extends React.Component<Props, loginState> {
         email: "",
         isLoginDisabled: true,
         showerror: "",
-        password: ""
+        password: "",
+        showEmailVerification: false
       },
       () => {
         this.firstEmailInput.current?.focus();
@@ -577,8 +600,13 @@ class MainLogin extends React.Component<Props, loginState> {
       }
     };
 
-    return (
-      <Fragment>
+    return this.state.showEmailVerification ? (
+      <EmailVerification
+        email={this.state.email || ""}
+        changeEmail={this.changeEmail}
+      />
+    ) : (
+      <>
         {this.state.successMsg ? (
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
             <div
@@ -590,12 +618,24 @@ class MainLogin extends React.Component<Props, loginState> {
         ) : (
           ""
         )}
-        <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-          <div className={styles.loginForm}>{currentForm()}</div>
-          {this.props.isBo ? "" : footer}
-        </div>
-        {this.state.disableSelectedbox && <Loader />}
-      </Fragment>
+        {this.props.heading && (
+          <div className={styles.formHeading}>{this.props.heading}</div>
+        )}
+        {this.props.heading2 && (
+          <>
+            <div className={styles.para}>{this.props.heading2}</div>
+            <br />
+          </>
+        )}
+        <div className={styles.formSubheading}>{this.props.subHeading}</div>
+        <Fragment>
+          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+            <div className={styles.loginForm}>{currentForm()}</div>
+            {this.props.isBo ? "" : footer}
+          </div>
+          {this.state.disableSelectedbox && <Loader />}
+        </Fragment>
+      </>
     );
   }
 }

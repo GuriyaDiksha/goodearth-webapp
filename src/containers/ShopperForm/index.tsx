@@ -8,13 +8,11 @@ import Loader from "components/Loader";
 import * as valid from "utils/validate";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import mubaarakDesktop from "../../images/mubaarakDesktop.jpg";
-import mubaarakMobile from "../../images/mubaarakMobile.jpg";
 import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
-import { Link, useHistory } from "react-router-dom";
-import LazyImage from "components/LazyImage";
-import HeaderService from "services/headerFooter";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import ProductService from "services/product";
 import FormSelect from "components/Formsy/FormSelect";
+import MakerEnhance from "components/maker";
 
 const ShopperForm: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -23,22 +21,23 @@ const ShopperForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [enableSubmit, setEnableSubmit] = useState(false);
+  const location = useLocation();
   const history = useHistory();
   useEffect(() => {
     if (currency != "INR") {
-      // history.push("/");
+      history.push("/");
     }
   }, []);
 
   useEffect(() => {
     if (currency != "INR") {
-      // history.push("/");
+      history.push("/");
     }
   }, [currency]);
 
   const handleInvalidSubmit = () => {
     if (!enableSubmit) {
-      return;
+      return false;
     }
     setSuccessMsg("");
     setTimeout(() => {
@@ -52,7 +51,7 @@ const ShopperForm: React.FC = () => {
       // for error Tracking
       const errorList = valid.getErrorList(globalStyles.errorMsg, "job-form");
       if (errorList && errorList.length) {
-        valid.errorTracking(errorList, location.href);
+        valid.errorTracking(errorList, location.pathname);
       }
     }, 0);
   };
@@ -64,7 +63,7 @@ const ShopperForm: React.FC = () => {
   ) => {
     setIsLoading(true);
     setSuccessMsg("");
-    HeaderService.saveMubaarak(dispatch, formData)
+    ProductService.savePersonalShopper(dispatch, formData)
       .then(data => {
         setSuccessMsg(data.message);
         resetForm();
@@ -89,11 +88,13 @@ const ShopperForm: React.FC = () => {
   };
   const prepareFormData = (model: any) => {
     const formData = new FormData();
-    const { email, firstName, lastName, phone } = model;
-    formData.append("email", email ? email.toString().toLowerCase() : "");
-    formData.append("firstName", firstName || "");
-    formData.append("lastName", lastName || "");
-    phone ? formData.append("phone", `+91${phone}`) : "";
+    const { email, name, store, phone, optioncontact, department } = model;
+    formData.append("name", name);
+    formData.append("email_id", email || "");
+    phone ? formData.append("phone_no", `+91${phone}`) : "";
+    formData.append("store", store || "");
+    formData.append("contact_method", optioncontact || "");
+    formData.append("category", department || "");
 
     return formData;
   };
@@ -104,24 +105,11 @@ const ShopperForm: React.FC = () => {
     updateInputsWithError: any
   ) => {
     if (!enableSubmit) {
-      return;
-    }
-    const { email, phone } = model;
-    if (!email && !phone) {
-      setSuccessMsg("Please provide at least one mode of communication.");
-      return;
+      return false;
     }
     const formData = prepareFormData(model);
     saveData(formData, resetForm, updateInputsWithError);
   };
-
-  const onchange = (event: any) => {
-    // setModevalue(event.target.value);
-  };
-
-  const onchangeContact = (event: any) => {};
-
-  const onchangeDepatment = (event: any) => {};
 
   const modeOptionsDepartment = [
     {
@@ -213,12 +201,12 @@ const ShopperForm: React.FC = () => {
           <div>
             <FormInput
               required
-              label="Name*"
-              placeholder="Name*"
-              name="firstName"
+              label="Name *"
+              placeholder="Name *"
+              name="name"
               validations={{
                 maxLength: 30,
-                isAlpha: true
+                isWords: true
               }}
               handleChange={event => {
                 event.target.value
@@ -227,21 +215,23 @@ const ShopperForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isWords: "Only alphabets are allowed."
               }}
             />
           </div>
           <div>
             <FormInput
-              // required
+              required
               name="email"
-              label="Email Address"
+              label="Email Address *"
               className="input-field"
-              placeholder="Email Address"
+              placeholder="Email Address *"
               validations={{
+                isExisty: true,
                 isEmail: true
               }}
               validationErrors={{
+                isExisty: "Please enter the correct email",
                 isEmail: "Please enter a valid email"
               }}
             />
@@ -261,32 +251,38 @@ const ShopperForm: React.FC = () => {
               />
             </div>
             <FormInput
-              // required
+              required
               name="phone"
-              label="Contact Number"
-              placeholder="Contact Number"
+              label="Contact Number *"
+              placeholder="Contact Number *"
               validations={{
                 matchRegexp: /^[0-9\-/]+$/,
-                isNumeric: true
+                isNumeric: true,
+                isExisty: true,
+                maxLength: 10
               }}
               validationErrors={{
                 matchRegexp: "Please enter valid a phone number",
-                isNumeric: "Phone should contain numbers"
+                maxLength: "Please enter valid phone number",
+                isNumeric: "Phone should contain numbers",
+                isExisty: "Please enter your Contact Number"
               }}
             />
           </div>
           <div className="select-group text-left">
             <FormSelect
               required
-              name="preferredContact"
+              name="store"
               label="Preferred Store Location"
               placeholder=""
               disable={false}
               options={modeOptions}
-              handleChange={onchange}
-              value=""
+              value="Mumbai"
               validations={{
                 isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please enter Store Location"
               }}
             />
           </div>
@@ -298,10 +294,12 @@ const ShopperForm: React.FC = () => {
               placeholder=""
               disable={false}
               options={modeOptionsContact}
-              handleChange={onchangeContact}
-              value=""
+              value="Call Back"
               validations={{
                 isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please enter Contact Method"
               }}
             />
           </div>
@@ -313,10 +311,12 @@ const ShopperForm: React.FC = () => {
               placeholder=""
               disable={false}
               options={modeOptionsDepartment}
-              handleChange={onchangeDepatment}
-              value=""
+              value="Apparel"
               validations={{
                 isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please enter Department of interest"
               }}
             />
           </div>
@@ -347,6 +347,7 @@ const ShopperForm: React.FC = () => {
               styles.jobApplicationSubmit,
               { [globalStyles.disabledBtn]: !enableSubmit }
             )}
+            disabled={!enableSubmit}
             value="Submit"
           />
         </div>
@@ -364,10 +365,10 @@ const ShopperForm: React.FC = () => {
             })}
           >
             <div className={styles.careersImage}>
-              <LazyImage
-                src={mobile ? mubaarakMobile : mubaarakDesktop}
-                className={globalStyles.imgResponsive}
-                aspectRatio={mobile ? "0.96:1" : "3.77:1"}
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                href={`${location.pathname}?${location.search}`}
               />
             </div>
           </div>
