@@ -52,6 +52,8 @@ const Delivery = loadable(() => import("components/Popups/DeliveryPopup"));
 
 const CMSPopup = loadable(() => import("components/Popups/CMSPopup"));
 
+const MakerPopup = loadable(() => import("components/Popups/MakerPopup"));
+
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
   backendOrder: BackendOrderPopup,
@@ -76,7 +78,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   shareLink: ShareLink,
   delivery: Delivery,
   cmsPopup: CMSPopup,
-  cerise: CerisePopup
+  cerise: CerisePopup,
+  maker: MakerPopup
 };
 
 export enum POPUP {
@@ -103,5 +106,6 @@ export enum POPUP {
   SHARELINK = "shareLink",
   DELIVERY = "delivery",
   CMSPOPUP = "cmsPopup",
-  CERISE = "cerise"
+  CERISE = "cerise",
+  MAKER = "maker"
 }

@@ -250,7 +250,19 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.INSTORE,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.THANKYOU,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.EMAILVERIFICATION,
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
