@@ -16,7 +16,9 @@
   font-size: 35px;
 }
 .find-us-on-icon {
-  width: 35px;
+  // width: 35px;
+  height: 20px;
+  margin-right: 20px;
 }
 
 .footer-connect-icon {
@@ -219,7 +221,10 @@ position: fixed;
 
   .footer-socialicons {
     margin: 20px auto 0 auto;
-    
+    .neg-margin {
+      margin-top: -15px;
+      margin-bottom: 10px;
+    }    
   }
   .main-menu-footer {
     box-shadow: none;
@@ -297,7 +302,7 @@ input {
     position: absolute;
     // left: 76%;
     width: 84%;
-    margin-top: 20px;
+    margin-top: 50px;
     .cursor-pointer {
       &:hover {
         color: $cerise;
@@ -400,9 +405,9 @@ input {
           @include ftr-copy-white-desktop();
           font-weight: normal;
           text-transform: capitalize;
-          &:nth-child(2) {
-            margin-right: 8px;
-          }
+          // &:nth-child(2) {
+          //   margin-right: 8px;
+          // }
           &.email {
             text-transform: lowercase;
           }
