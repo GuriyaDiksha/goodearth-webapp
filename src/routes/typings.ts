@@ -41,7 +41,8 @@ export enum ROUTES {
   MICROSITE = "/microsite/:id?",
   VIRTUAL = "/virtualappointment",
   INSTORE = "/instoreservices",
-  THANKYOU = "/thankyou"
+  THANKYOU = "/thankyou",
+  MUMTAZ = "/mumtaz-virtual"
 }
 
 export type RouteConfig = RouteObject[];

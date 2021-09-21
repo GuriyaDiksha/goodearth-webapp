@@ -260,6 +260,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.MUMTAZ,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
   }
 ];
 
