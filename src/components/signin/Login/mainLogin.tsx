@@ -359,7 +359,7 @@ class MainLogin extends React.Component<Props, loginState> {
     }
     if (type === "email") {
       if (event.key == "Enter") {
-        this.myBlur(event);
+        // do nothing, handleSubmitEmail will run
       } else {
         if (valid.checkBlank(this.state.email)) {
           if (this.state.msg !== "Please enter your Email ID") {
