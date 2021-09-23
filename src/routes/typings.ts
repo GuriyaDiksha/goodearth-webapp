@@ -40,6 +40,7 @@ export enum ROUTES {
   WITHOUTMAKER = "/withoutmaker",
   MICROSITE = "/microsite/:id?",
   VIRTUAL = "/virtualappointment",
+  SHOPPER = "/personal-shopper-form",
   INSTORE = "/instoreservices",
   THANKYOU = "/thankyou",
   MUMTAZ = "/mumtaz-virtual-appointment"
