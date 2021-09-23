@@ -106,6 +106,9 @@ const MakerPage: React.FC<Props> = ({ email, token }) => {
                 "Your email has been verified successfully!"
               );
             }
+            if (!res.status && res.alreadyActive) {
+              localStorage.setItem("tempEmail", res.email);
+            }
             if (!res.status || !res.alreadyLoggedIn) {
               // expired or consumed link, or user not logged in
               dispatch(updateComponent(POPUP.LOGINFORM, data, true));
