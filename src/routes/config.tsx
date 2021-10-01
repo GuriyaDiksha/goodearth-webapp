@@ -262,6 +262,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.EMAILVERIFICATION,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.SHOPPER,
     component: loadable(() => import("containers/ShopperForm")),
     action: async () => null,
