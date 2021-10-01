@@ -44,7 +44,6 @@ const LoginForm: React.FC<{}> = props => {
             ? "Please enter your registered e-mail address to login to your Cerise account."
             : "Enter your email address to register or sign in."}
         </div>
-
         <div>
           {isRegister ? (
             <CheckoutRegisterForm

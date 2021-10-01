@@ -104,9 +104,9 @@ const MyAccount: React.FC<Props> = props => {
   //     axios.post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
   //     .then(res => {
   //         if (res.data.is_success) {
-  //             let isCeriseClubMember = res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
+  //             let isCeriseClubMember = res.data.message.Slab == "CERISE" || res.data.message.Slab == "CERISE SITARA" || res.data.message.Slab == "FF10" || res.data.message.Slab == "FF15"
   //             this.setState({
-  //                 slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
+  //                 slab: res.data.message.Slab,
   //                 isCeriseClubMember: isCeriseClubMember
   //             }, () => {
   //                 const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
@@ -144,8 +144,8 @@ const MyAccount: React.FC<Props> = props => {
     AccountServices.getLoyaltyTransactions(dispatch, formData)
       .then((data: any) => {
         if (data.is_success) {
-          // const isCeriseClubMember = data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
-          const responseSlab = data.message.CUSTOMER_DETAILS[0].Slab;
+          // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
+          const responseSlab = data.message.Slab;
           setSlab(responseSlab);
           // setIsCeriseClubMember(isCeriseClubMember);
           // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
