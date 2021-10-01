@@ -3,9 +3,6 @@ export type loginProps = {
   showRegister?: () => void;
   nextStep?: () => void;
   isBo?: string;
-  subHeading: string;
-  heading: string;
-  heading2?: string;
 };
 
 export type loginState = {
@@ -25,5 +22,4 @@ export type loginState = {
   showPassword: boolean;
   showCurrentSection?: string;
   isSecondStepLoginDisabled: boolean;
-  showEmailVerification: boolean;
 };

@@ -15,8 +15,6 @@ export type registerState = {
   passValidNum: boolean;
   showPassRules: boolean;
   shouldValidatePass: boolean;
-  showEmailVerification: boolean;
-  email: string;
 };
 
 export type RegisterProps = {
