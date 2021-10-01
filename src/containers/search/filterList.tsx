@@ -24,6 +24,7 @@ const mapStateToProps = (state: AppState) => {
     onload: state.searchList.onload,
     mobile: state.device.mobile,
     currency: state.currency,
+    salestatus: state.info.isSale,
     facets: state.searchList.data.results.facets,
     facetObject: state.searchList.facetObject,
     nextUrl: state.searchList.data.next,
@@ -47,7 +48,6 @@ class FilterList extends React.Component<Props, State> {
       showmobileFilterList: false,
       show: false,
       showDifferentImage: false,
-      salestatus: false,
       flag: true,
       showmenulevel2: false,
       banner: "",
@@ -1423,7 +1423,7 @@ class FilterList extends React.Component<Props, State> {
               {this.createCatagoryFromFacets(this.props.data.results.facets)}
             </div>
           </li>
-          {this.state.salestatus && (
+          {this.props.salestatus && (
             <li
               className={
                 this.props.facets &&
