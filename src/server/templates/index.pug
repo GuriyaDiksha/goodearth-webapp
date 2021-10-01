@@ -187,7 +187,15 @@ html(lang='en')
             window.removeEventListener('scroll', initializeFreshChat);
           }
           //- window.addEventListener('scroll', initializeFreshChat)
-        
+        script.
+          (function(i,s,o,g,r,a,m,n){
+          ...
+          })(window,document,'script','https://cdn.moengage.com/webpush/moe_webSdk.min.latest.js','Moengage'); 
+
+          Moengage = moe({
+              app_id:"4KK0OEEQLWKYGNZXJQJ5UO5B_DEBUG",
+              debug_logs: 1
+          });
         script.
           window.dataLayer = window.dataLayer || [];
           var isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(window.navigator.userAgent);
