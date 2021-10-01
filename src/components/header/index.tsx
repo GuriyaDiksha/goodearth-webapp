@@ -464,7 +464,7 @@ class Header extends React.Component<Props, State> {
         value: "Check Balance"
       },
       {
-        label: isLoggedIn ? "Sign Out" : "Sign In",
+        label: isLoggedIn ? "Logout" : "Login",
         onClick: isLoggedIn
           ? () =>
               handleLogOut(
@@ -474,7 +474,7 @@ class Header extends React.Component<Props, State> {
               )
           : goLogin,
         type: "button",
-        value: isLoggedIn ? "Sign Out" : "Sign In"
+        value: isLoggedIn ? "Logout" : "Login"
       }
     );
     const isBridalRegistryPage =
