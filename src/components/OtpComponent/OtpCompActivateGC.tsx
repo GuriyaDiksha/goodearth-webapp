@@ -690,7 +690,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 </a>
               )}
               {otpTimer > 0 ? (
-                <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
+                <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
               ) : (
                 ""
               )}
@@ -704,7 +704,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             >
               {this.state.showerror ? (
                 <p
-                  className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
+                  className={cs(
+                    globalStyles.errorMsg,
+                    globalStyles.txtnormal,
+                    globalStyles.textCenter
+                  )}
                   id="resend-otp-error"
                 >
                   {this.state.showerror}
@@ -904,6 +908,16 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   </div>
                 </li>
               )}
+              <li className={styles.note}>
+                <div>Please Note:</div>
+                <ul>
+                  <li>All digital Gift Cards can be activated here.</li>
+                  <li>
+                    For physical cards issued prior to 01.08.21, please contact
+                    Customer care or visit store.
+                  </li>
+                </ul>
+              </li>
               <li className={cs(styles.subscribe, styles.subscribeGc)}>
                 <FormCheckbox
                   value={false}
