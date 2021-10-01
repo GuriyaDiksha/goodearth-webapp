@@ -6,8 +6,9 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 // import { PopupProps } from "./typings";
 import iconStyles from "styles/iconFonts.scss";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import MakerEnhance from "components/maker";
+import { useLocation } from "react-router";
 // import { currencyCodes } from "constants/currency";
 // import { useSelector } from "react-redux";
 // import { AppState } from "reducers/typings";
@@ -25,7 +26,7 @@ const FreeShipping: React.FC<PopupProps> = props => {
   }, []);
   const { closeModal } = useContext(Context);
   //   const currency = useSelector((state: AppState) => state.currency);
-
+  const location = useLocation();
   return (
     <div>
       <div
@@ -34,15 +35,15 @@ const FreeShipping: React.FC<PopupProps> = props => {
           styles.sizeBlockNotFixed,
           styles.centerpageDesktop,
           styles.centerpageMobile,
-          styles.makerPopupDesktop,
-          styles.makerPopupMobile,
+          // styles.makerPopupDesktop,
+          // styles.makerPopupMobile,
           globalStyles.textCenter
         )}
       >
         <div
           className={styles.cross}
           onClick={() => {
-            props.acceptCondition();
+            // props.acceptCondition();
             closeModal();
           }}
         >
@@ -57,7 +58,11 @@ const FreeShipping: React.FC<PopupProps> = props => {
         </div>
         {showMaker && (
           <div className={styles.makerMargin}>
-            <MakerEnhance index="2" user="goodearth" href={__DOMAIN__} />
+            <MakerEnhance
+              user="goodearth"
+              index="2"
+              href={`${window.location.origin}${location.pathname}?${location.search}`}
+            />
           </div>
         )}
       </div>
