@@ -146,12 +146,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return await CheckoutService.getBoDetail(dispatch, id);
     },
     logout: async (currency: Currency, customerGroup: string) => {
-      return await LoginService.logout(
-        dispatch,
-        currency,
-        customerGroup,
-        "checkout"
-      );
+      return await LoginService.logout(dispatch, currency, customerGroup);
     },
     checkPinCodeShippable: async (pinCode: string) => {
       const res = await HeaderService.checkPinCodeShippable(dispatch, pinCode);
