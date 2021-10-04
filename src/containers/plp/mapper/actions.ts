@@ -32,6 +32,13 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       const data = await PlpService.fetchPlpProducts(dispatch, filterUrl);
       return data;
     },
+    fetchPlpTemplates: async (categoryShop: string) => {
+      try {
+        await PlpService.fetchPlpTemplates(dispatch, categoryShop);
+      } catch (err) {
+        console.log("fetch Plp Templates error!! ", err);
+      }
+    },
     updateOnload: (data: boolean) => {
       dispatch(updateOnload(data));
     },
