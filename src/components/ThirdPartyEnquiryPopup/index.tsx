@@ -275,7 +275,6 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   };
 
   const inputClass = submitted ? styles.disabledInput : "";
-  console.log(modevalue);
   const formContent = (
     <Formsy
       ref={EnquiryFormRef}
