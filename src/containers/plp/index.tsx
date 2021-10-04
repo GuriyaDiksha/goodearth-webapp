@@ -25,6 +25,7 @@ import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 import { Link } from "react-router-dom";
 import CookieService from "services/cookie";
+import Banner from "./components/Banner";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -38,7 +39,8 @@ const mapStateToProps = (state: AppState) => {
     device: state.device,
     isSale: state.info.isSale,
     showTimer: state.info.showTimer,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    plpTemplates: state.plplist.plpTemplates
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -348,6 +350,19 @@ class PLP extends React.Component<
         value: "price_desc"
       }
     ];
+
+    const showTemplates: any = {
+      Banner: null,
+      Product: null,
+      ProductBanner: null
+    };
+
+    if (this.props.plpTemplates.templates.length > 0) {
+      this.props.plpTemplates.templates.map(template => {
+        showTemplates[template.template] = template;
+      });
+    }
+
     return (
       <div
         className={cs(
@@ -564,6 +579,9 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
+              {showTemplates.Banner && (
+                <Banner data={showTemplates.Banner} mobile={mobile} />
+              )}
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (

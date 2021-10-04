@@ -7,7 +7,7 @@ export type PlpResponse = {
 type PlpTemplateType = "ProductBanner" | "Product" | "Banner";
 type mediaType = "image" | "video";
 
-type PlpTemplate = {
+export type PlpTemplate = {
   template: PlpTemplateType;
   desktopMediaUrl?: string;
   mediaUrl?: string;

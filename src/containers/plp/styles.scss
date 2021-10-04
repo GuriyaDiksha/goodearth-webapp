@@ -763,3 +763,31 @@ p.corporate-sub-heading {
   padding-right: 30px;
   padding-bottom: 30px;
 }
+
+.bt-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+.bt-heading {
+  vertical-align: middle;
+  text-align: center;
+  font-size: 38px;
+  font-family: "Baskerville","Amiri","Serif";
+  color: #151515;
+  font-style: italic;
+}
+.bt-body {
+  font-size: 14px;
+  font-family: $font-Lato;
+  line-height: 26px;
+  color: #151515;
+  text-align: center;
+  padding: 0 40px;
+}
+
+.template-padding {
+  padding-bottom: 12px !important;
+}
