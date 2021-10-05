@@ -52,12 +52,9 @@ export default {
     return res;
   },
   fetchPlpTemplates: async function(dispatch: Dispatch, categoryShop: string) {
-    const res = await API.post<PlpTemplatesData>(
+    const res = await API.get<PlpTemplatesData>(
       dispatch,
-      `${__API_HOST__}/myapi/category/fetch_plp_templates/`,
-      {
-        categoryShop
-      }
+      `${__API_HOST__}/myapi/category/fetch_plp_templates/?category_shop=${categoryShop}`
     );
     dispatch(updatePlpTemplates(res));
     return res;
