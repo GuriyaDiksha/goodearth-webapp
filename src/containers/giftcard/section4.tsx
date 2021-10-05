@@ -134,7 +134,7 @@ const Section4: React.FC<Section4Props> = props => {
             <p className={cs(styles.giftFont)}>
               Apply this coupon code during checkout
             </p>
-            <br />
+            <hr />
             <li className={styles.note}>
               <div>Please Note:</div>
               <ul>
