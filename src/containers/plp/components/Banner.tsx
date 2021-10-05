@@ -3,6 +3,7 @@ import { PlpTemplate } from "services/plp/typings";
 import cs from "classnames";
 import bootstrap from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
+import itemStyles from "components/plpResultItem/styles.scss";
 
 type Props = {
   data: PlpTemplate;
@@ -20,9 +21,13 @@ const Banner: React.FC<Props> = ({ data, mobile }) => {
         )}
       >
         {data.mediaType == "image" ? (
-          <img src={mobile ? data.mobileMediaUrl : data.desktopMediaUrl} />
+          <img
+            className={itemStyles.imageResultnew}
+            src={mobile ? data.mobileMediaUrl : data.desktopMediaUrl}
+          />
         ) : (
           <video
+            className={itemStyles.imageResultnew}
             src={mobile ? data.mobileMediaUrl : data.desktopMediaUrl}
             autoPlay
             loop
