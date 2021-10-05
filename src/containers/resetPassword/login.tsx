@@ -2,7 +2,7 @@ import { useHistory } from "react-router";
 import React, { useState } from "react";
 import cs from "classnames";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
-// import styles from "../../components/signin/styles.scss";
+import styles from "../../components/signin/styles.scss";
 import loadable from "@loadable/component";
 import { useEffect } from "react";
 
@@ -36,6 +36,14 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
   }, []);
   return (
     <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+      <div className={styles.formHeading}>Welcome</div>
+      <div className={styles.formSubheading}>
+        {isRegister
+          ? "Please Enter Your Email To Register"
+          : id == "cerise"
+          ? "Please enter your registered e-mail address to login to your Cerise account."
+          : "Please enter the New Password to Sign in!"}
+      </div>
       <div>
         {isRegister ? (
           <CheckoutRegisterForm nextStep={nextStep} changeEmail={changeEmail} />
@@ -44,12 +52,6 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
             showRegister={goToRegister}
             nextStep={nextStep}
             isBo={true}
-            heading={"Welcome"}
-            subHeading={
-              id == "cerise"
-                ? "Please enter your registered e-mail address to login to your Cerise account."
-                : "Please enter the New Password to Login!"
-            }
           />
         )}
       </div>
