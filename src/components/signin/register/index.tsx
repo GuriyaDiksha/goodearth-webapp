@@ -53,9 +53,7 @@ class RegisterForm extends React.Component<Props, registerState> {
       passValidNum: false,
       passValidUpper: false,
       showPassRules: false,
-      shouldValidatePass: false,
-      showEmailVerification: false,
-      email: ""
+      shouldValidatePass: false
     };
   }
   static contextType = Context;

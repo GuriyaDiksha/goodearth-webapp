@@ -11,7 +11,7 @@ import Formsy from "formsy-react";
 import FormInput from "../../Formsy/FormInput";
 import FormSelect from "../../Formsy/FormSelect";
 import FormCheckbox from "../../Formsy/FormCheckbox";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CountryCode from "../../Formsy/CountryCode";
 import { registerState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
@@ -22,7 +22,6 @@ import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
-import EmailVerification from "../EmailVerification";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -37,8 +36,7 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  RegisterProps &
-  RouteComponentProps;
+  RegisterProps;
 
 class CheckoutRegisterForm extends React.Component<Props, registerState> {
   constructor(props: Props) {
@@ -63,9 +61,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       passValidLower: false,
       passValidNum: false,
       showPassRules: false,
-      shouldValidatePass: false,
-      showEmailVerification: false,
-      email: ""
+      shouldValidatePass: false
     };
   }
   static contextType = Context;
@@ -126,9 +122,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       formData["phoneCountryCode"] = code;
     }
     formData["subscribe"] = terms;
-    formData["redirectTo"] =
-      this.props.history.location.pathname +
-        this.props.history.location.search || "/";
     this.setState({
       disableButton: true
     });
@@ -137,10 +130,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .then(data => {
         this.gtmPushRegister();
         this.props.nextStep?.();
-        this.setState({
-          showEmailVerification: true,
-          email
-        });
       })
       .catch(err => {
         this.setState(
@@ -252,11 +241,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       (this.RegisterFormRef.current &&
         this.RegisterFormRef.current.getModel().email) ||
         ""
-    );
-    formData.append(
-      "redirectTo",
-      this.props.history.location.pathname +
-        this.props.history.location.search || "/"
     );
 
     this.props
@@ -866,13 +850,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       </>
     );
 
-    return this.state.showEmailVerification ? (
-      <EmailVerification
-        email={this.state.email}
-        changeEmail={this.changeEmail}
-      />
-    ) : (
-      <>
+    return (
+      <Fragment>
         {this.state.successMsg ? (
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
             <div className={globalStyles.successMsg}>
@@ -882,28 +861,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         ) : (
           ""
         )}
-        {!this.props.history.location.pathname.includes("/order/checkout") && (
-          <>
-            <div className={styles.formHeading}>Welcome</div>
-            <div className={styles.formSubheading}>
-              Please Enter Your Email To Register
-            </div>
-          </>
-        )}
-        <Fragment>
-          <div className={cs(bootstrapStyles.col12)}>
-            <div className={styles.loginForm}>{formContent}</div>
-            {footer}
-          </div>
-        </Fragment>
-      </>
+        <div className={cs(bootstrapStyles.col12)}>
+          <div className={styles.loginForm}>{formContent}</div>
+          {footer}
+        </div>
+      </Fragment>
     );
   }
 }
 
-const CheckoutRegisterFormRoute = withRouter(CheckoutRegisterForm);
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CheckoutRegisterFormRoute);
+)(CheckoutRegisterForm);

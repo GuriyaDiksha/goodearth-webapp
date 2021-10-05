@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import cs from "classnames";
 // import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
-import globalStyles from "../../../styles/global.scss";
 import styles from "../styles.scss";
 import { LoginProps } from "./typings";
 import * as Steps from "../constants";
@@ -52,7 +51,7 @@ const LoginSection: React.FC<LoginProps> = props => {
           )}
         >
           <p className={isActive ? "" : styles.closed}>LOGIN / REGISTER</p>
-          <div className={globalStyles.textCenter}>
+          <div>
             {!isLoggedIn ? (
               isRegister ? (
                 <CheckoutRegisterForm

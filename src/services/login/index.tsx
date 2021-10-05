@@ -7,9 +7,7 @@ import {
   resetPasswordResponse,
   loginResponse,
   registerResponse,
-  countryDataResponse,
-  sendVerificationEmailResponse,
-  verifyEmailResponse
+  countryDataResponse
 } from "./typings";
 import { updateCookies } from "actions/cookies";
 import { updateComponent, updateModal } from "../../actions/modal";
@@ -47,17 +45,12 @@ export default {
     dispatch(updateComponent(POPUP.REGISTERFORM, null, true));
     dispatch(updateModal(true));
   },
-  checkUserPassword: async function(
-    dispatch: Dispatch,
-    email: string,
-    redirectTo: string
-  ) {
+  checkUserPassword: async function(dispatch: Dispatch, email: string) {
     const res = await API.post<checkUserPasswordResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/check_user_password/"}`,
       {
-        email,
-        redirectTo
+        email
       }
     );
     return res;
@@ -356,22 +349,23 @@ export default {
       `${__API_HOST__ + "/myapi/auth/register/"}`,
       formData
     );
-    // CookieService.setCookie("atkn", res.token, 365);
-    // CookieService.setCookie("userId", res.userId, 365);
-    // CookieService.setCookie("email", res.email, 365);
-    // util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
-    // dispatch(updateCookies({ tkn: res.token }));
-    // dispatch(updateUser({ isLoggedIn: true }));
-    // dispatch(updateModal(false));
-    // const metaResponse = await MetaService.updateMeta(dispatch, {
-    //   tkn: res.token
-    // });
-    // WishlistService.updateWishlist(dispatch);
-    // BasketService.fetchBasket(dispatch).then(res => {
-    //   if (source == "checkout") {
-    //     util.checkoutGTM(1, metaResponse?.currency || "INR", res);
-    //   }
-    // });
+    CookieService.setCookie("atkn", res.token, 365);
+    CookieService.setCookie("userId", res.userId, 365);
+    CookieService.setCookie("email", res.email, 365);
+    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    dispatch(updateCookies({ tkn: res.token }));
+    dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(updateModal(false));
+    const metaResponse = await MetaService.updateMeta(dispatch, {
+      tkn: res.token
+    });
+    // HeaderService.fetchHomepageData(dispatch);
+    WishlistService.updateWishlist(dispatch);
+    BasketService.fetchBasket(dispatch).then(res => {
+      if (source == "checkout") {
+        util.checkoutGTM(1, metaResponse?.currency || "INR", res);
+      }
+    });
     return res;
   },
   changeCurrency: async function(
@@ -475,32 +469,6 @@ export default {
     if (typeof document == "undefined") {
       CacheService.set("countryData", res);
     }
-    return res;
-  },
-  sendVerificationEmail: async (
-    dispatch: Dispatch,
-    email: string,
-    redirectTo: string
-  ) => {
-    const res = await API.post<sendVerificationEmailResponse>(
-      dispatch,
-      `${__API_HOST__}/myapi/auth/send_verification_email/`,
-      {
-        email,
-        redirectTo
-      }
-    );
-    return res;
-  },
-  verifyEmail: async (dispatch: Dispatch, email: string, token: string) => {
-    const res = await API.post<verifyEmailResponse>(
-      dispatch,
-      `${__API_HOST__}/myapi/auth/verify_email/${email}/${token}/`,
-      {
-        email,
-        token
-      }
-    );
     return res;
   }
 };
