@@ -71,7 +71,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
   return (
     <>
       <div className={cs(styles.socialLoginText, globalStyles.voffset5)}>
-        {"- OR Login USING -"}
+        {"- OR LOGIN USING -"}
       </div>
       <div className={globalStyles.voffset3}>
         {/* <FacebookLogin
