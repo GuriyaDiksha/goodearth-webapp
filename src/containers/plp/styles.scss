@@ -774,10 +774,12 @@ p.corporate-sub-heading {
 .bt-heading {
   vertical-align: middle;
   text-align: center;
-  font-size: 38px;
+  font-size: 30px;
   font-family: "Baskerville","Amiri","Serif";
   color: #151515;
   font-style: italic;
+  word-break: break-word;
+  padding: 0 40px;
 }
 .bt-body {
   font-size: 14px;
