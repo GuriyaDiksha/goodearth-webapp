@@ -95,7 +95,7 @@ const LoginForm: React.FC<Props> = props => {
                     ? "Sorry, the link has expired."
                     : "Sorry the link has already been used and cannot be used again for the safety of your account."
                 }
-                subHeading="Enter your email address to register or Login."
+                subHeading="Enter your email address to register or login."
               />
             )
           ) : (
@@ -107,7 +107,7 @@ const LoginForm: React.FC<Props> = props => {
               subHeading={
                 id == "cerise"
                   ? "Please enter your registered e-mail address to login to your Cerise account."
-                  : "Enter your email address to register or Login."
+                  : "Enter your email address to register or login."
               }
             />
           )}
