@@ -13,6 +13,8 @@ import Formsy from "formsy-react";
 import * as valid from "utils/validate";
 import OtpCompActivateGC from "components/OtpComponent/OtpCompActivateGC";
 import Loader from "components/Loader";
+import { Link } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -236,17 +238,42 @@ class Giftcard extends React.Component<Props, GiftState> {
         this.setState({
           isLoading: false
         });
-        if (res.type == "GIFT") {
-          if (res.curr == "INR") {
-            this.setState({
-              isIndiaGC: true,
-              showSendOtp: true
-            });
-          } else {
-            this.setState({
-              isIndiaGC: false,
-              showSendOtp: true
-            });
+        if (res.currStatus == "Active" || res.currStatus == "Applied") {
+          this.ActivateGCForm.current &&
+            this.ActivateGCForm.current.updateInputsWithError(
+              {
+                giftCardCode: [
+                  <>
+                    This gift card is already activated.{" "}
+                    <Link
+                      to="/account/check-balance"
+                      key="check-balance-click-here"
+                      style={{
+                        textDecoration: "underline",
+                        pointerEvents: "all"
+                      }}
+                    >
+                      Click here
+                    </Link>{" "}
+                    to check balance.
+                  </>
+                ]
+              },
+              true
+            );
+        } else {
+          if (res.type == "GIFT") {
+            if (res.curr == "INR") {
+              this.setState({
+                isIndiaGC: true,
+                showSendOtp: true
+              });
+            } else {
+              this.setState({
+                isIndiaGC: false,
+                showSendOtp: true
+              });
+            }
           }
         }
       })
@@ -260,7 +287,9 @@ class Giftcard extends React.Component<Props, GiftState> {
         ) {
           this.ActivateGCForm.current &&
             this.ActivateGCForm.current.updateInputsWithError({
-              giftCardCode: "Please enter a valid Gift Card code"
+              giftCardCode: err.response.data.message
+                ? [ReactHtmlParser(err.response.data.message)]
+                : "Please enter a valid Gift Card code"
             });
         }
       });

@@ -677,7 +677,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 </a>
               )}
               {otpTimer > 0 ? (
-                <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
+                <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
               ) : (
                 ""
               )}
