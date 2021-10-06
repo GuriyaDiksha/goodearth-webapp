@@ -11,6 +11,7 @@ import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
+import ReactHtmlParser from "react-html-parser";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -690,7 +691,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 </a>
               )}
               {otpTimer > 0 ? (
-                <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
+                <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
               ) : (
                 ""
               )}
@@ -704,10 +705,14 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             >
               {this.state.showerror ? (
                 <p
-                  className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}
+                  className={cs(
+                    globalStyles.errorMsg,
+                    globalStyles.txtnormal,
+                    globalStyles.textCenter
+                  )}
                   id="resend-otp-error"
                 >
-                  {this.state.showerror}
+                  {ReactHtmlParser(this.state.showerror)}
                 </p>
               ) : (
                 <p className={globalStyles.errorMsg}></p>
@@ -904,6 +909,17 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   </div>
                 </li>
               )}
+              <hr />
+              <li className={styles.note}>
+                <div>Please Note:</div>
+                <ul>
+                  <li>All digital Gift Cards can be activated here.</li>
+                  <li>
+                    For physical cards issued prior to 01.08.21, please contact
+                    Customer care or visit store.
+                  </li>
+                </ul>
+              </li>
               <li className={cs(styles.subscribe, styles.subscribeGc)}>
                 <FormCheckbox
                   value={false}
