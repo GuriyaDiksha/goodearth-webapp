@@ -909,6 +909,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   </div>
                 </li>
               )}
+              <hr />
               <li className={styles.note}>
                 <div>Please Note:</div>
                 <ul>
