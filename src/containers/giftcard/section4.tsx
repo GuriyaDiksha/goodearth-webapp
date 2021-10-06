@@ -134,6 +134,17 @@ const Section4: React.FC<Section4Props> = props => {
             <p className={cs(styles.giftFont)}>
               Apply this coupon code during checkout
             </p>
+            <hr />
+            <li className={styles.note}>
+              <div>Please Note:</div>
+              <ul>
+                <li>
+                  {" "}
+                  All our gift cards are valid for a period of 11 months from
+                  date of purchase.
+                </li>
+              </ul>
+            </li>
             <div
               className={cs(
                 globalStyles.voffset5,
