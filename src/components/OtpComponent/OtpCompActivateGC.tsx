@@ -11,6 +11,7 @@ import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
+import ReactHtmlParser from "react-html-parser";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -711,7 +712,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   )}
                   id="resend-otp-error"
                 >
-                  {this.state.showerror}
+                  {ReactHtmlParser(this.state.showerror)}
                 </p>
               ) : (
                 <p className={globalStyles.errorMsg}></p>
@@ -908,6 +909,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   </div>
                 </li>
               )}
+              <hr />
               <li className={styles.note}>
                 <div>Please Note:</div>
                 <ul>
