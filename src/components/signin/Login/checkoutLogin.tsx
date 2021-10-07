@@ -105,7 +105,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
               >
                 set a new password
               </span>,
-              " to sign in!"
+              " to Login!"
             ];
             this.setState({
               msg: error,
