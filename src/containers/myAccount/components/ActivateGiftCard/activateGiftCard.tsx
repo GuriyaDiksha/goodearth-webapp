@@ -428,6 +428,7 @@ class Giftcard extends React.Component<Props, GiftState> {
             activateGiftCard={this.props.activateGiftCard}
             updateList={this.updateList}
             newCardBox={this.state.newCardBox}
+            newGiftCard={this.newGiftcard}
           />
         )}
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
