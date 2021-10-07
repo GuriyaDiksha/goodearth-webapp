@@ -100,7 +100,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         key={item.id}
         className={cs(styles.slide, {
           [bootstrapStyles.col6]: mobile,
-          [bootstrapStyles.colMd4]: mobile,
           [bootstrapStyles.col12]: !mobile
         })}
       >
