@@ -493,7 +493,7 @@ class PDPContainer extends React.Component<Props, State> {
   getRecommendedSection() {
     const {
       recommendedSliderItems,
-      device: { mobile },
+      device: { mobile, tablet },
       currency,
       corporatePDP
     } = this.props;
@@ -526,7 +526,7 @@ class PDPContainer extends React.Component<Props, State> {
         recommendedProducts={this.props.recommendedProducts}
         setting={config as Settings}
         currency={currency}
-        mobile={mobile}
+        mobile={mobile || tablet}
         isSale={this.props.isSale}
         corporatePDP={corporatePDP}
       />
@@ -1049,7 +1049,7 @@ class PDPContainer extends React.Component<Props, State> {
           <div
             className={cs(
               styles.detailsContainer,
-              bootstrap.colMd5,
+              bootstrap.colLg5,
               bootstrap.col12,
               {
                 [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled

@@ -139,15 +139,16 @@ input[type="checkbox"]:checked + label {
 }
 
 .password-validation {
-  transition: opacity 0.2s, height 0.2s;
+  transition: opacity 0.2s, height 0.2s, margin 0.2s;
   opacity: 0;
   height: 0;
   cursor: default;
   pointer-events: none;
-  margin-top: -10px !important;
+  margin-top: -20px !important;
   &.show {
     opacity: 1;
     height: 78px;
+    margin-top: -10px !important;
   }
   p {
     text-align: left;
@@ -188,42 +189,6 @@ input[type="checkbox"]:checked + label {
 
         }
       }
-    }
-  }
-}
-
-.para {
-  font-size: 15px;
-  margin-top: 20px;
-  font-family: $font-Serif;
-  letter-spacing: 1px;
-  strong {
-    font-weight: 700;
-  }
-}
-.btn {
-  margin: 30px auto 0 auto;
-  width: 180px;
-}
-.big-btn {
-  margin: 50px auto 0 auto;
-  width: 240px;
-}
-.small-txt {
-  font-size: 13px;
-  margin-top: 10px;
-}
-.mini-txt {
-  font-size: 11px;
-  a {
-    color: #000;
-  }
-}
-.big-txt {
-  a {
-    text-decoration: underline;
-    &:hover {
-      text-decoration: underline;
     }
   }
 }

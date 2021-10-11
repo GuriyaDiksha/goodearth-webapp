@@ -2,13 +2,14 @@ import { Dispatch } from "redux";
 // typings
 // import { Basket } from "typings/basket";
 // actions
-import { updateProduct, newPlpList } from "actions/plp";
+import { updateProduct, newPlpList, updatePlpTemplates } from "actions/plp";
 import { updatePlpProduct } from "actions/product";
 import { PlpProps } from "containers/plp/typings";
 // utils
 import API from "utils/api";
 import * as valid from "utils/validate";
 import { Currency } from "typings/currency";
+import { PlpTemplatesData } from "./typings";
 
 export default {
   fetchPlpProducts: async function(dispatch: Dispatch, url: string) {
@@ -48,6 +49,14 @@ export default {
     dispatch(updatePlpProduct(res.results.data));
     res.results.data = listdata.concat(res.results.data);
     dispatch(updateProduct({ ...res }));
+    return res;
+  },
+  fetchPlpTemplates: async function(dispatch: Dispatch, categoryShop: string) {
+    const res = await API.get<PlpTemplatesData>(
+      dispatch,
+      `${__API_HOST__}/myapi/category/fetch_plp_templates/?category_shop=${categoryShop}`
+    );
+    dispatch(updatePlpTemplates(res));
     return res;
   }
 };

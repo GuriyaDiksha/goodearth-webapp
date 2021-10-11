@@ -14,6 +14,7 @@ import * as valid from "utils/validate";
 import OtpCompActivateGC from "components/OtpComponent/OtpCompActivateGC";
 import Loader from "components/Loader";
 import { Link } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -286,7 +287,9 @@ class Giftcard extends React.Component<Props, GiftState> {
         ) {
           this.ActivateGCForm.current &&
             this.ActivateGCForm.current.updateInputsWithError({
-              giftCardCode: "Please enter a valid Gift Card code"
+              giftCardCode: err.response.data.message
+                ? [ReactHtmlParser(err.response.data.message)]
+                : "Please enter a valid Gift Card code"
             });
         }
       });
