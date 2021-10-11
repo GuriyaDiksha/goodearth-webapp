@@ -46,9 +46,9 @@ class GiftCard extends React.Component<
       countryData: [],
       finalData: {},
       giftimages: [
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.jpg",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.jpg",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc3.jpg"
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc3.png"
       ]
     };
   }
