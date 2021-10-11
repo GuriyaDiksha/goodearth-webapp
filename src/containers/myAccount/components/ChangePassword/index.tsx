@@ -21,7 +21,13 @@ class ChangePassword extends React.Component<Props, State> {
     props.setCurrentSection();
     this.state = {
       showerror: "",
-      updatePassword: false
+      updatePassword: false,
+      passValidLength: false,
+      passValidUpper: false,
+      passValidLower: false,
+      passValidNum: false,
+      showPassRules: false,
+      shouldValidatePass: false
     };
   }
   ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -136,24 +142,153 @@ class ChangePassword extends React.Component<Props, State> {
                         e.key == "Enter" ? e.preventDefault() : ""
                       }
                       type={"password"}
-                      validations={{
-                        isValid: (values, value) => {
-                          return (
-                            values.newPassword &&
-                            value &&
+                      onFocus={() => {
+                        this.setState({
+                          showPassRules: true
+                        });
+                      }}
+                      blur={() => {
+                        const value =
+                          this.ProfileFormRef.current &&
+                          this.ProfileFormRef.current.getModel().newPassword;
+                        if (value) {
+                          const res =
                             value.length >= 6 &&
+                            value.length <= 20 &&
                             /[a-z]/.test(value) &&
                             /[0-9]/.test(value) &&
+                            /[A-Z]/.test(value);
+                          if (res) {
+                            this.setState({
+                              showPassRules: false
+                            });
+                          } else {
+                            this.ProfileFormRef.current?.updateInputsWithError({
+                              newPassword:
+                                "Please verify that your password follows all rules displayed"
+                            });
+                          }
+                        }
+                        this.setState({
+                          shouldValidatePass: true
+                        });
+                      }}
+                      validations={{
+                        isValid: (values, value) => {
+                          const {
+                            passValidLength,
+                            passValidLower,
+                            passValidUpper,
+                            passValidNum,
+                            shouldValidatePass
+                          } = this.state;
+                          if (value) {
+                            const validLength = passValidLength;
+                            const validLower = passValidLower;
+                            const validUpper = passValidUpper;
+                            const validNum = passValidNum;
+
+                            value.length >= 6 && value.length <= 20
+                              ? !validLength &&
+                                this.setState({
+                                  passValidLength: true
+                                })
+                              : validLength &&
+                                this.setState({
+                                  passValidLength: false
+                                });
+
+                            /[a-z]/.test(value)
+                              ? !validLower &&
+                                this.setState({
+                                  passValidLower: true
+                                })
+                              : validLower &&
+                                this.setState({
+                                  passValidLower: false
+                                });
+
+                            /[0-9]/.test(value)
+                              ? !validNum &&
+                                this.setState({
+                                  passValidNum: true
+                                })
+                              : validNum &&
+                                this.setState({
+                                  passValidNum: false
+                                });
+
                             /[A-Z]/.test(value)
-                          );
+                              ? !validUpper &&
+                                this.setState({
+                                  passValidUpper: true
+                                })
+                              : validUpper &&
+                                this.setState({
+                                  passValidUpper: false
+                                });
+                          } else {
+                            this.setState({
+                              passValidLength: false,
+                              passValidLower: false,
+                              passValidUpper: false,
+                              passValidNum: false
+                            });
+                          }
+                          return shouldValidatePass
+                            ? value &&
+                                value.length >= 6 &&
+                                value.length <= 20 &&
+                                /[a-z]/.test(value) &&
+                                /[0-9]/.test(value) &&
+                                /[A-Z]/.test(value)
+                            : true;
                         }
                       }}
                       validationErrors={{
                         isValid:
-                          "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
+                          "Please verify that your password follows all rules displayed"
                       }}
                       required
                     />
+                  </div>
+                  <div
+                    className={cs(
+                      { [styles.show]: this.state.showPassRules },
+                      styles.passwordValidation
+                    )}
+                  >
+                    <p>Your password must contain</p>
+                    <ul>
+                      <li
+                        className={cs({
+                          [styles.correct]: this.state.passValidLength
+                        })}
+                      >
+                        6 to 20 characters
+                      </li>
+                      <li
+                        className={cs({
+                          [styles.correct]: this.state.passValidUpper
+                        })}
+                      >
+                        1 uppercase
+                      </li>
+                      <li
+                        className={cs({
+                          [styles.correct]: this.state.passValidNum
+                        })}
+                      >
+                        1 numeric digit
+                      </li>
+                      <li
+                        className={cs({
+                          [styles.correct]: this.state.passValidLower
+                        })}
+                      >
+                        1 lowercase
+                      </li>
+                    </ul>
                   </div>
                   <div>
                     <FormInput
@@ -180,8 +315,6 @@ class ChangePassword extends React.Component<Props, State> {
                         }
                       }}
                       validationErrors={{
-                        isValid:
-                          "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter.",
                         equalsField: "The password entered doesn't match"
                       }}
                       required
