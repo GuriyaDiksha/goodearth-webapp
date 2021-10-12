@@ -114,7 +114,10 @@
 
 .filler-container {
     display: flex;
-    align-items: center
+    align-items: center;
+    a {
+        text-decoration: underline;
+    }
 }
 .accordion-header {
     @include pdp_copy_head();
