@@ -869,7 +869,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
           </div>
-          {showFillerMessage ? (
+          {showFillerMessage && !isQuickview ? (
             <div
               className={cs(
                 bootstrap.col12,
