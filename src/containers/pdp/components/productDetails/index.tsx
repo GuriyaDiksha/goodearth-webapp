@@ -885,9 +885,8 @@ const ProductDetails: React.FC<Props> = ({
                 alt="cushion-filler-icon"
               />
               <div>
-                Filler not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here</Link> to purchase
-                filler.
+                Insert not included.{" "}
+                <Link to={fillerUrl || "#"}>Click here</Link> to purchase.
               </div>
             </div>
           ) : (
