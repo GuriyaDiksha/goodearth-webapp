@@ -9,6 +9,8 @@ import Formsy from "formsy-react";
 import { PasswordProps, State } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import * as valid from "utils/validate";
+import show from "../../../../images/show.svg";
+import hide from "../../../../images/hide.svg";
 
 const mapStateToProps = () => {
   return {};
@@ -27,7 +29,8 @@ class ChangePassword extends React.Component<Props, State> {
       passValidLower: false,
       passValidNum: false,
       showPassRules: false,
-      shouldValidatePass: false
+      shouldValidatePass: false,
+      showPassword: false
     };
   }
   ProfileFormRef: RefObject<Formsy> = React.createRef();
@@ -89,6 +92,14 @@ class ChangePassword extends React.Component<Props, State> {
     }
   };
 
+  togglePassword = () => {
+    this.setState(prevState => {
+      return {
+        showPassword: !prevState.showPassword
+      };
+    });
+  };
+
   render() {
     const { updatePassword } = this.state;
     return (
@@ -141,7 +152,7 @@ class ChangePassword extends React.Component<Props, State> {
                       keyPress={e =>
                         e.key == "Enter" ? e.preventDefault() : ""
                       }
-                      type={"password"}
+                      type={this.state.showPassword ? "text" : "password"}
                       onFocus={() => {
                         this.setState({
                           showPassRules: true
@@ -251,6 +262,12 @@ class ChangePassword extends React.Component<Props, State> {
                       }}
                       required
                     />
+                    <span
+                      className={styles.togglePasswordBtn}
+                      onClick={this.togglePassword}
+                    >
+                      <img src={this.state.showPassword ? show : hide} />
+                    </span>
                   </div>
                   <div
                     className={cs(
@@ -300,7 +317,7 @@ class ChangePassword extends React.Component<Props, State> {
                       keyPress={e =>
                         e.key == "Enter" ? e.preventDefault() : ""
                       }
-                      type={"password"}
+                      type={this.state.showPassword ? "text" : "password"}
                       validations={{
                         equalsField: "newPassword",
                         isValid: (values, value) => {
