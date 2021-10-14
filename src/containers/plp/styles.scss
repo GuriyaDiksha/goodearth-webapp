@@ -791,9 +791,13 @@ p.corporate-sub-heading {
 }
 
 .template-padding {
+  padding-bottom: 50px !important;
+}
+
+.template-padding-upperMobile {
   padding-bottom: 12px !important;
 }
 
 .template-padding-mobile {
-  padding-bottom: 30px !important;
+  padding-bottom: 50px !important;
 }
