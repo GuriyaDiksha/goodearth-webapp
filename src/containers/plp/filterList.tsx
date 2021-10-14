@@ -517,7 +517,7 @@ class FilterList extends React.Component<Props, State> {
       const urlParams = new URLSearchParams(this.props.history.location.search);
       const categoryShop = urlParams.get("category_shop");
       if (categoryShop) {
-        fetchPlpTemplates(categoryShop);
+        fetchPlpTemplates(encodeURIComponent(decodeURI(categoryShop)));
       }
     }
   };
