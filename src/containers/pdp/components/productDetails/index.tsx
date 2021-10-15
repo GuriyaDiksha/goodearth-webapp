@@ -79,6 +79,8 @@ const ProductDetails: React.FC<Props> = ({
     groupedProducts,
     salesBadgeImage,
     fillerMessage,
+    showFillerMessage,
+    fillerUrl,
     justAddedBadge,
     badgeType,
     invisibleFields
@@ -875,7 +877,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
           </div>
-          {info.isSale && fillerMessage ? (
+          {showFillerMessage && !isQuickview ? (
             <div
               className={cs(
                 bootstrap.col12,
@@ -890,7 +892,10 @@ const ProductDetails: React.FC<Props> = ({
                 className={styles.cushionFiller}
                 alt="cushion-filler-icon"
               />
-              <div>{ReactHtmlParser(fillerMessage)}</div>
+              <div>
+                Insert not included.{" "}
+                <Link to={fillerUrl || "#"}>Click here</Link> to purchase.
+              </div>
             </div>
           ) : (
             ""
