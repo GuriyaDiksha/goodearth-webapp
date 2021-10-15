@@ -883,13 +883,13 @@ class Wishlist extends React.Component<Props, State> {
                     <>
                       Keep track of your favourite pieces all in one place!
                       <br />
-                      Sign in to save this list!
+                      Login to save this list!
                     </>
                   ) : (
                     <>
                       Looking for your saved items?
                       <br />
-                      Sign in to pick up where you left off
+                      Login to pick up where you left off
                     </>
                   )}
                 </p>
@@ -897,7 +897,7 @@ class Wishlist extends React.Component<Props, State> {
                   className={cs(globalStyles.ceriseBtn, styles.btn)}
                   onClick={this.props.openLogin}
                 >
-                  Sign in
+                  Login
                 </div>
               </div>
             </div>

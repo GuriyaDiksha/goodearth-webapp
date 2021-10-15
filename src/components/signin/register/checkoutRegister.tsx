@@ -308,7 +308,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 )
               }
             >
-              Sign In
+              Login
             </span>
           </span>
         ];

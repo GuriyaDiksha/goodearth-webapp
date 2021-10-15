@@ -44,7 +44,7 @@ const StaticPage: React.FC<Props> = props => {
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
-  const { showTimer } = useSelector((state: AppState) => state.info);
+  const { showTimer, isSale } = useSelector((state: AppState) => state.info);
   const { path } = useRouteMatch();
 
   const [currentSection, setCurrentSection] = useState("");
