@@ -291,7 +291,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 )
               }
             >
-              Sign In
+              Login
             </span>
           </span>
         ];
@@ -711,7 +711,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             }
           >
             {" "}
-            SIGN IN{" "}
+            Login{" "}
           </span>
         </div>
       </>
