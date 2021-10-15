@@ -266,19 +266,16 @@ const StaticPage: React.FC<Props> = props => {
                   .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
                   .map(item => {
                     return (
-                      ((item.title == "Sale Terms of Use" && isSale) ||
-                        item.title != "Sale Terms of Use") && (
-                        <li key={item.label}>
-                          {" "}
-                          <NavLink
-                            key={item.label}
-                            to={item.href}
-                            activeClassName={globalStyles.cerise}
-                          >
-                            {item.label}
-                          </NavLink>
-                        </li>
-                      )
+                      <li key={item.label}>
+                        {" "}
+                        <NavLink
+                          key={item.label}
+                          to={item.href}
+                          activeClassName={globalStyles.cerise}
+                        >
+                          {item.label}
+                        </NavLink>
+                      </li>
                     );
                   })}
               </ul>
