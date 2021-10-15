@@ -48,7 +48,11 @@ const initialState: State = {
   plpProductId: [],
   filterState: false,
   onload: false,
-  plpMobileView: "grid"
+  plpMobileView: "grid",
+  plpTemplates: {
+    categoryShop: "",
+    templates: []
+  }
 };
 
 export const plplist = (state = initialState, action: PlpActions): State => {
@@ -59,6 +63,12 @@ export const plplist = (state = initialState, action: PlpActions): State => {
       newState.onload = false;
       const list = action.payload.results.data.map(({ id }) => id);
       newState.plpProductId = list;
+      return newState;
+    }
+
+    case "UPDATE_PLP_TEMPLATES": {
+      const newState = { ...state };
+      newState.plpTemplates = action.payload;
       return newState;
     }
 
