@@ -42,7 +42,7 @@ const LoginForm: React.FC<{}> = props => {
             ? "Please Enter Your Email To Register"
             : id == "cerise"
             ? "Please enter your registered e-mail address to login to your Cerise account."
-            : "Enter your email address to register or sign in."}
+            : "Enter your email address to register or login."}
         </div>
         <div>
           {isRegister ? (
