@@ -135,5 +135,12 @@ export default {
       `${__API_HOST__}/myapi/customer/clear_bridal_session/`
     );
     return res;
+  },
+  checkBridalId: async (dispatch: Dispatch, id: string) => {
+    const res = await API.get(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/check_bridal_expiry/?bridalId=${id}`
+    );
+    return res;
   }
 };

@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
-
+import CustomerCareInfo from "components/CustomerCareInfo";
 class OtpComponent extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -274,16 +274,37 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             // }
           })
           .catch(err => {
-            this.setState(
-              {
-                showerror: err.response.data.message,
-                updateStatus: false,
-                disable: true
-              },
-              () => {
-                valid.errorTracking([this.state.showerror], location.href);
+            if (err.response.data.error_message) {
+              let errorMsg = err.response.data.error_message[0];
+              if (errorMsg == "MaxRetries") {
+                errorMsg =
+                  "You have exceeded max attempts, please try after some time.";
               }
-            );
+              this.setState(
+                {
+                  showerror: errorMsg,
+                  updateStatus: false,
+                  disable: true
+                },
+                () => {
+                  valid.errorTracking(
+                    [this.state.showerror as string],
+                    location.href
+                  );
+                }
+              );
+            } else {
+              this.setState(
+                {
+                  showerror: err.response.data.message,
+                  updateStatus: false,
+                  disable: true
+                },
+                () => {
+                  valid.errorTracking([this.state.showerror], location.href);
+                }
+              );
+            }
           })
           .finally(() => {
             this.clearTimer();
@@ -303,16 +324,37 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
-          this.setState(
-            {
-              showerror: error.response.data.message,
-              updateStatus: false,
-              disable: true
-            },
-            () => {
-              valid.errorTracking([this.state.showerror], location.href);
+          if (error.response.data.error_message) {
+            let errorMsg = error.response.data.error_message[0];
+            if (errorMsg == "MaxRetries") {
+              errorMsg =
+                "You have exceeded max attempts, please try after some time.";
             }
-          );
+            this.setState(
+              {
+                showerror: errorMsg,
+                updateStatus: false,
+                disable: true
+              },
+              () => {
+                valid.errorTracking(
+                  [this.state.showerror as string],
+                  location.href
+                );
+              }
+            );
+          } else {
+            this.setState(
+              {
+                showerror: error.response.data.message,
+                updateStatus: false,
+                disable: true
+              },
+              () => {
+                valid.errorTracking([this.state.showerror], location.href);
+              }
+            );
+          }
         })
         .finally(() => {
           this.clearTimer();
@@ -409,6 +451,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               showerrorOtp: "Invalid Gift Card Code"
             },
             () => {
+              const errorElem = document.getElementById("customererror");
+              errorElem?.scrollIntoView({
+                block: "center",
+                behavior: "smooth"
+              });
               valid.errorTracking([this.state.showerrorOtp], location.href);
             }
           );
@@ -469,6 +516,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   showerrorOtp: message
                 },
                 () => {
+                  const errorElem = document.getElementById("customererror");
+                  errorElem?.scrollIntoView({
+                    block: "center",
+                    behavior: "smooth"
+                  });
                   valid.errorTracking([this.state.showerrorOtp], location.href);
                 }
               );
@@ -625,7 +677,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 </a>
               )}
               {otpTimer > 0 ? (
-                <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
+                <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
               ) : (
                 ""
               )}
@@ -798,7 +850,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               <li
                 className={cs(
                   styles.countryCode,
-                  styles.countryCodeGc,
+                  // styles.countryCodeGc,
                   styles.xradio
                 )}
               >
@@ -882,6 +934,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     Please agree to the Terms and Conditions before proceeding
                   </p>
                   <p
+                    id="customererror"
                     className={
                       this.state.showerrorOtp
                         ? cs(globalStyles.errorMsg, globalStyles.wordCap)
@@ -890,9 +943,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   >
                     {this.state.showerrorOtp}
                   </p>
+                  <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
                 </div>
               </li>
-              <li className={globalStyles.voffset2}>
+              <li className={this.state.showerrorOtp ? styles.margintop : ""}>
                 <input
                   type="submit"
                   disabled={this.state.disable}

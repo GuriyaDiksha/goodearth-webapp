@@ -15,6 +15,7 @@ import { RouteComponentProps } from "react-router-dom";
 import * as valid from "utils/validate";
 import iconStyles from "../../styles/iconFonts.scss";
 import multiColour from "../../images/multiColour.svg";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -27,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
     nextUrl: state.plplist.data.next,
     listdata: state.plplist.data.results.data,
     salestatus: state.info.isSale,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    customerGroup: state.user.customerGroup
   };
 };
 
@@ -382,10 +384,12 @@ class FilterList extends React.Component<Props, State> {
     const minMaxvalue: any = [];
     let currentRange: any = [];
     this.createFilterfromUrl();
-    let pricearray: any = [];
+    const pricearray: any = [];
     const currentCurrency =
       "price" + currency[0].toUpperCase() + currency.substring(1).toLowerCase();
-    pricearray = plpList.results.facets[currentCurrency];
+    plpList.results.facets[currentCurrency]?.map(function(a: any) {
+      pricearray.push(+a[0]);
+    });
     if (pricearray.length > 0) {
       minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
       minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
@@ -454,17 +458,26 @@ class FilterList extends React.Component<Props, State> {
           plpList.results.data.length
         );
         this.createFilterfromUrl();
-        let pricearray: any = [];
+        const pricearray: any = [];
         const currentCurrency =
           "price" +
           currency[0].toUpperCase() +
           currency.substring(1).toLowerCase();
-        pricearray = plpList.results.facets[currentCurrency];
+        plpList.results.facets[currentCurrency]?.map(function(a: any) {
+          pricearray.push(+a[0]);
+        });
         if (pricearray.length > 0) {
-          minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
-          minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.min(a, b);
+            })
+          );
+          minMaxvalue.push(
+            pricearray.reduce(function(a: number, b: number) {
+              return Math.max(a, b);
+            })
+          );
         }
-
         if (filter.price.min_price) {
           currentRange.push(filter.price.min_price);
           currentRange.push(filter.price.max_price);
@@ -559,7 +572,10 @@ class FilterList extends React.Component<Props, State> {
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
     }
-    if (this.props.currency != nextProps.currency) {
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.customerGroup != nextProps.customerGroup
+    ) {
       nextProps.mobile
         ? this.updateDataFromAPI("load")
         : this.updateDataFromAPI();
@@ -1839,7 +1855,7 @@ class FilterList extends React.Component<Props, State> {
           </li>
         </ul>
         {mobile ? (
-          <div className={styles.filterButton}>
+          <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
               <span>{this.state.totalItems + 1} Product found</span>
             </div>

@@ -110,7 +110,7 @@
         }
   
         .product-image {
-          max-width: 100%;
+          width: 100%;
           margin-right: 10px;
         }
   
@@ -240,6 +240,12 @@
         color: #000;
         font-size: 14px;
       }
+
+      .dis-price {
+        @include c10-L-R();
+        color: #000;
+        font-size: 12px;
+      }
   
       .subtext {
         color: tint(#000, 50%);
@@ -250,7 +256,7 @@
       .icon-cart {
         color: tint(#000, 20%);
         padding: 10px;
-        font-size: 32px;
+        font-size: 24px;
         background-color: #e4e4e4;
   
       }
@@ -306,7 +312,7 @@
 .discountprice {
   color: #ab1e56;
   font-family:  $font-Lato;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .strikeprice {
@@ -318,12 +324,31 @@
 
 .cart-ring {
   position: absolute !important;
-  left: 5px;
-  top: -10px;
+  bottom: -6px;
+  right: -8px;
   z-index: 1;
   .cerise-bridal-rings {
     background-color: $cerise;
     fill: $white;
     border-radius: 50%;
   }
+}
+
+.badge-position-plp-mobile {
+    width: 50%;
+    top: 0;
+    position: absolute;
+    z-index: 4;
+  img {
+    width: 100%;
+  }
+}
+
+.stock-left {
+  position: relative;
+  top: 10px;
+  text-align: center;
+}
+.stock-left-with-error {
+  top: 25px;
 }

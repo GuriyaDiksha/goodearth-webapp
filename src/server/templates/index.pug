@@ -1,15 +1,21 @@
 doctype html  
 html(lang='en')
-    head !{head.title.toString()} !{head.meta.toString()}
+    head !{head.title.toString()} !{head.meta.toString()} !{head.link.toString()}
         link(rel="manifest", href=`${manifest}`)
         meta(name="viewport",content="width=device-width, initial-scale=1")
         meta(name="theme-color",content="#ffffff")
         link(rel="apple-touch-icon", href="/static/icon_512x512.png")
+        link(rel="preload", href=`${cdn}/media/fonts/Franklin%20Gothic%20Medium.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20regular.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20300.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20700italic.ttf`, as="font", crossorigin)
+        link(rel="preload", href=`${cdn}/media/fonts/Lato%20300italic.ttf`, as="font", crossorigin)
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700|Bellefair|Amiri", crossorigin)
         each stylesheet in styles
           style !{stylesheet}
         if (typeof(state) !== 'undefined')
           script.
-            window.state = !{state}
+            window.state = JSON.parse(!{state})
         script.
           if ('serviceWorker' in navigator) {
             // Use the window load event to keep the page load performant
@@ -41,12 +47,10 @@ html(lang='en')
           }
 
           function OpenBox() {
-            
-              //- var rem2 = document.getElementById("lc_chat_layout");
-              //- rem2.classList.remove("lc-collapsed");
-              //- rem2.classList.remove("lc-expanded");
-              //- rem2.classList.add("lc-expanded");
-              //- rem2.style.height = null;
+              // initialize freshchat if not already
+              if(!window.fcWidget) {
+                initialize(document,"freshchat-js-sdk");
+              }
               if(document.getElementById('chat-button').className == "chat-close") {
                 document.getElementById('chat-button').className = "chat-button active";
                 document.getElementById('whatsapp').className = 'whatsapp-img whatsapp-active';
@@ -142,7 +146,10 @@ html(lang='en')
                 }
               });
             }
-            function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+            //- default freshchat script
+            //- function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+
+            function initialize(i,t){var e;i.getElementById(t)?initFreshChat():setTimeout(function() {((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}, 100)}
 
           function ScrollToTop() {
               window.scrollTo({
@@ -152,7 +159,7 @@ html(lang='en')
           }
           window.addEventListener('scroll', function () {
               if (window.innerHeight - window.pageYOffset < 0) {
-                  const isMenuOpen = document.getElementById("chat-button").classList.contains("chat-close");
+                  const isMenuOpen = document.getElementById("chat-button") && document.getElementById("chat-button").classList.contains("chat-close");
                   const scrollToTopButton = document.getElementById("scrollToTop-btn");
                   if (!isMenuOpen && scrollToTopButton && scrollToTopButton.classList.contains("scrollToTop-btn-hidden")) {
                       scrollToTopButton.classList.replace("scrollToTop-btn-hidden", "scrollToTop-btn");
@@ -165,7 +172,21 @@ html(lang='en')
                   }
               }
           })
+          const handleMouseMove = function () {
+            if(!window.fcWidget) {
+              initialize(document,"freshchat-js-sdk");
+            }
+            window.removeEventListener('mousemove', handleMouseMove);
+          }
+          //- window.addEventListener('mousemove', handleMouseMove)
 
+          const initializeFreshChat = function () {
+            if(!window.fcWidget) {
+              initialize(document,"freshchat-js-sdk");
+            }
+            window.removeEventListener('scroll', initializeFreshChat);
+          }
+          //- window.addEventListener('scroll', initializeFreshChat)
         
         script.
           window.dataLayer = window.dataLayer || [];
@@ -204,13 +225,15 @@ html(lang='en')
 
     body
         div(id='main', class='main') !{content}
+        div !{newrelicScript}
         div !{scripts}
-        div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
-          i(class='icon_uparrow-white')
-        a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
-          div(id='whatsapp' class='whatsapp-img whatsapp-active')
-            //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
-        div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
-          i(class='icon-chat')
-        div(id='chat-button', onclick='OpenBox()', class='chat-button active')
-          i(class='icon-question')
+        div(id="chat-container" class='chat-container')
+          div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
+            i(class='icon_uparrow-white')
+          //- a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
+          //-   div(id='whatsapp' class='whatsapp-img whatsapp-active')
+          //-     //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
+          //- div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
+          //-   i(class='icon-chat')
+          //- div(id='chat-button', onclick='OpenBox()', class='chat-button active')
+          //-   i(class='icon-question')

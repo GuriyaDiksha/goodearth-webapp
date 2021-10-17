@@ -18,19 +18,16 @@ import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import CacheService from "services/cache";
 import HeaderService from "services/headerFooter";
+import CheckoutService from "services/checkout";
 import Api from "services/api";
 import { Currency } from "typings/currency";
 import { updateCurrency } from "actions/currency";
-import {
-  INVALID_SESSION_LOGOUT,
-  LOGOUT_SUCCESS,
-  LOGIN_SUCCESS,
-  REGISTRY_OWNER_CHECKOUT,
-  REGISTRY_MIXED_SHIPPING
-} from "constants/messages";
+import { LOGIN_SUCCESS, MESSAGE } from "constants/messages";
 // import Axios from "axios";
 import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
+import { Basket } from "typings/basket";
+import { updateBasket } from "actions/basket";
 
 export default {
   showForgotPassword: function(
@@ -53,7 +50,7 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/auth/check_user_password/"}`,
       {
-        email: email
+        email
       }
     );
     return res;
@@ -70,7 +67,9 @@ export default {
     dispatch: Dispatch,
     email: string,
     password: string,
-    source?: string
+    currency: Currency,
+    source?: string,
+    history?: any
   ) {
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -78,7 +77,7 @@ export default {
 
     const res = await API.post<loginResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/auth/login/"}`,
+      `${__API_HOST__}/myapi/auth/login/${source ? "?source=" + source : ""}`,
       {
         email: email,
         password: password,
@@ -88,59 +87,188 @@ export default {
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
+    CookieService.setCookie(
+      "custGrp",
+      res.customerGroup ? res.customerGroup.toLowerCase() : "",
+      365
+    );
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
-    dispatch(updateCookies({ tkn: res.token }));
-    dispatch(updateUser({ isLoggedIn: true }));
+    if (res.oldBasketHasItems) {
+      util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
+    }
+    if (res.updated || res.publishRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
+    }
     dispatch(updateModal(false));
+    dispatch(updateCookies({ tkn: res.token }));
+    dispatch(
+      updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
+    );
+
     // HeaderService.fetchHomepageData(dispatch);
+    HeaderService.fetchHeaderDetails(
+      dispatch,
+      currency,
+      res.customerGroup
+    ).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch, source).then(res => {
-      if (source == "checkout") {
-        util.checkoutGTM(1, metaResponse?.currency || "INR", res);
-      }
-      if (metaResponse) {
-        let basketBridalId = 0;
-        res.lineItems.map(item =>
-          item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
-        );
-        if (basketBridalId && basketBridalId == metaResponse.bridalId) {
-          util.showGrowlMessage(dispatch, REGISTRY_OWNER_CHECKOUT, 6000);
-        }
-        let item1 = false,
-          item2 = false;
-        res.lineItems.map(data => {
-          if (!data.bridalProfile) item1 = true;
-          if (data.bridalProfile) item2 = true;
-        });
-        if (item1 && item2) {
-          util.showGrowlMessage(dispatch, REGISTRY_MIXED_SHIPPING, 6000);
-        }
-      }
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sales Api Status ==== " + err);
     });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
+    BasketService.fetchBasket(dispatch, source, history, true).then(
+      basketRes => {
+        if (source == "checkout") {
+          util.checkoutGTM(1, metaResponse?.currency || "INR", basketRes);
+          // call loyalty point api only one time after login
+          const data: any = {
+            email: res.email
+          };
+          CheckoutService.getLoyaltyPoints(dispatch, data).then(loyalty => {
+            dispatch(updateUser({ loyaltyData: loyalty }));
+          });
+        }
+        if (metaResponse) {
+          let basketBridalId = 0;
+          basketRes.lineItems.map(item =>
+            item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+          );
+          if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_OWNER_CHECKOUT,
+              6000
+            );
+          }
+          let item1 = false,
+            item2 = false;
+          basketRes.lineItems.map(data => {
+            if (!data.bridalProfile) item1 = true;
+            if (data.bridalProfile) item2 = true;
+          });
+          if (item1 && item2) {
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_MIXED_SHIPPING,
+              6000
+            );
+          }
+        }
+      }
+    );
     return res;
   },
-  loginSocial: async function(dispatch: Dispatch, formdata: any) {
+  loginSocial: async function(
+    dispatch: Dispatch,
+    formdata: any,
+    source: string,
+    history: any
+  ) {
     const res = await API.post<loginResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/auth/sociallogin/"}`,
+      `${__API_HOST__}/myapi/auth/sociallogin/${
+        source ? "?source=" + source : ""
+      }`,
       formdata
     );
     CookieService.setCookie("atkn", res.token, 365);
     CookieService.setCookie("userId", res.userId, 365);
     CookieService.setCookie("email", res.email, 365);
+    CookieService.setCookie(
+      "custGrp",
+      res.customerGroup ? res.customerGroup.toLowerCase() : "",
+      365
+    );
     util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    if (res.oldBasketHasItems) {
+      util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
+    }
+    if (res.updated || res.publishRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
+    }
     dispatch(updateCookies({ tkn: res.token }));
-    dispatch(updateUser({ isLoggedIn: true }));
+    dispatch(
+      updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
+    );
     dispatch(updateModal(false));
     MetaService.updateMeta(dispatch, { tkn: res.token });
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sales Api Status ==== " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
     WishlistService.updateWishlist(dispatch);
-    BasketService.fetchBasket(dispatch);
+    const metaResponse = await MetaService.updateMeta(dispatch, {
+      tkn: res.token
+    });
+    BasketService.fetchBasket(dispatch, source, history, true).then(
+      basketRes => {
+        if (source == "checkout") {
+          util.checkoutGTM(1, metaResponse?.currency || "INR", basketRes);
+          // call loyalty point api only one time after login
+          const data: any = {
+            email: res.email
+          };
+          CheckoutService.getLoyaltyPoints(dispatch, data).then(loyalty => {
+            dispatch(updateUser({ loyaltyData: loyalty }));
+          });
+        }
+        if (metaResponse) {
+          let basketBridalId = 0;
+          basketRes.lineItems.map(item =>
+            item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+          );
+          if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_OWNER_CHECKOUT,
+              6000
+            );
+          }
+          let item1 = false,
+            item2 = false;
+          basketRes.lineItems.map(data => {
+            if (!data.bridalProfile) item1 = true;
+            if (data.bridalProfile) item2 = true;
+          });
+          if (item1 && item2) {
+            util.showGrowlMessage(
+              dispatch,
+              MESSAGE.REGISTRY_MIXED_SHIPPING,
+              6000
+            );
+          }
+        }
+      }
+    );
     return res;
   },
-  logout: async function(dispatch: Dispatch) {
+  logout: async function(
+    dispatch: Dispatch,
+    currency: Currency,
+    customerGroup: string,
+    source?: string
+  ) {
     const res = await API.post<logoutResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/logout/"}`,
@@ -151,6 +279,10 @@ export default {
       document.cookie =
         "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+      // document.cookie =
+      //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
@@ -159,12 +291,23 @@ export default {
         console.log(err);
       });
       WishlistService.resetWishlist(dispatch);
-      BasketService.fetchBasket(dispatch).catch(err => {
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sales Api Status ==== " + err);
+      });
+      HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+        err => {
+          console.log("FOOTER API ERROR ==== " + err);
+        }
+      );
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
+      BasketService.fetchBasket(dispatch, source).catch(err => {
         console.log(err);
       });
       // HeaderService.fetchHomepageData(dispatch);
       dispatch(resetMeta(undefined));
-      util.showGrowlMessage(dispatch, LOGOUT_SUCCESS, 5000);
+      util.showGrowlMessage(dispatch, MESSAGE.LOGOUT_SUCCESS, 5000);
       return res;
     }
   },
@@ -172,14 +315,26 @@ export default {
     document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+    // document.cookie =
+    //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
     WishlistService.resetWishlist(dispatch);
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sales Api Status ==== " + err);
+    });
+    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
     BasketService.fetchBasket(dispatch);
     dispatch(resetMeta(undefined));
     util.showGrowlMessage(
       dispatch,
-      INVALID_SESSION_LOGOUT,
+      MESSAGE.INVALID_SESSION_LOGOUT,
       5000,
       "INVALID_SESSION_LOGOUT"
     );
@@ -217,19 +372,50 @@ export default {
     dispatch: Dispatch,
     formData: { currency: Currency }
   ) {
-    const res: any = await API.post<registerResponse>(
+    const res: any = await API.post<Basket>(
       dispatch,
       `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
       formData
     );
     CookieService.setCookie("currency", formData.currency, 365);
     dispatch(updateCurrency(formData.currency));
+    const {
+      publishRemove,
+      updatedRemovedItems,
+      unshippableRemove,
+      unshippableProducts
+    } = res;
+    if (publishRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        updatedRemovedItems
+      );
+    }
+    if (unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        unshippableProducts
+      );
+    }
+    dispatch(updateBasket(res));
     return res;
   },
-  reloadPage: (dispatch: Dispatch, currency: Currency) => {
-    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
-    });
+  reloadPage: (
+    dispatch: Dispatch,
+    currency: Currency,
+    customerGroup: string
+  ) => {
+    HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+      err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      }
+    );
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
     });
@@ -238,6 +424,12 @@ export default {
     // });
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
+    });
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sale status API error === " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
     });
     BasketService.fetchBasket(dispatch);
   },

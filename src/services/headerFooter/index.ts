@@ -1,7 +1,11 @@
-import { HeaderData, SearchFeaturedData } from "components/header/typings";
+import {
+  MegaMenuData,
+  SaleTimerData,
+  SearchFeaturedData
+} from "components/header/typings";
 import { FooterDataProps } from "components/footer/typings";
 import { updatefooter } from "actions/footer";
-import { updateheader } from "actions/header";
+import { updateheader, updateTimerData, updateStore } from "actions/header";
 import HomeService from "services/home";
 import { HomeProps } from "typings/home";
 import { addHomeData } from "actions/home";
@@ -10,9 +14,28 @@ import CacheService from "services/cache";
 import { Dispatch } from "redux";
 import API from "utils/api";
 import { PlpProps } from "containers/search/typings";
+import { Currency } from "typings/currency";
+// import * as data from "./data.json";
 
 export default {
-  fetchHeaderDetails: async (dispatch: Dispatch): Promise<HeaderData[]> => {
+  fetchHeaderDetails: async (
+    dispatch: Dispatch,
+    currency?: Currency,
+    customerGroup?: string
+  ): Promise<MegaMenuData[]> => {
+    let menu: MegaMenuData[] | null = null;
+    if (
+      typeof document == "undefined" &&
+      __API_HOST__ == "https://pb.goodearth.in"
+    ) {
+      menu = CacheService.get(
+        `menu-${currency || ""}-${customerGroup || ""}`
+      ) as MegaMenuData[];
+    }
+    if (menu) {
+      dispatch(updateheader(menu));
+      return menu;
+    }
     // let headerData = CacheService.get("headerData") as HeaderData[];
 
     // if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
@@ -20,13 +43,22 @@ export default {
     // }
     const res = await API.get<any>(
       dispatch,
-      `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
+      // `${__API_HOST__ + "/myapi/category/top_menu_data/"}`
+      `${__API_HOST__ + "/myapi/category/megamenu"}`
     );
-    dispatch(updateheader(res.results));
+    dispatch(updateheader(res.data as MegaMenuData[]));
     // headerData = res.results as HeaderData[];
     // CacheService.set("headerData", headerData);
-
-    return res.results;
+    if (
+      typeof document == "undefined" &&
+      __API_HOST__ == "https://pb.goodearth.in"
+    ) {
+      CacheService.set(
+        `menu-${res.currency}-${res.customerGroup}`,
+        res.data as MegaMenuData[]
+      );
+    }
+    return res.data;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
     let footerData: FooterDataProps | null = null;
@@ -128,5 +160,29 @@ export default {
       errors: string[] | { [x: string]: string }[];
     }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
     return res;
+  },
+  getSaleTimerData: async function(dispatch: Dispatch) {
+    try {
+      const data: SaleTimerData = await API.get<SaleTimerData>(
+        dispatch,
+        `${__API_HOST__}/myapi/common/sale_countdown_timer/`
+      );
+      dispatch(updateTimerData(data));
+    } catch (error) {
+      console.log("Timer API error!");
+    }
+  },
+  checkShopAvailability: async function(dispatch: Dispatch, sku: string) {
+    const payLoad = {
+      sku: sku
+    };
+    const res = await API.post<{
+      sku: string;
+    }>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/promotions/product_availability_in_store/"}`,
+      payLoad
+    );
+    dispatch(updateStore(res));
   }
 };

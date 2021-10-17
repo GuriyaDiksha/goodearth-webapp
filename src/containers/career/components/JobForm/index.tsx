@@ -22,9 +22,12 @@ import Loader from "components/Loader";
 import * as valid from "utils/validate";
 import ReactHtmlParser from "react-html-parser";
 import { updateCountryData } from "actions/address";
+import { AppState } from "reducers/typings";
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    showTimer: state.info.showTimer
+  };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -287,7 +290,8 @@ class JobForm extends React.Component<Props, State> {
           this.setState(
             {
               successMessage: data.message,
-              isLoading: false
+              isLoading: false,
+              fileSizeErrorMessage: ""
             },
             () => {
               this.resetFormData();
@@ -303,6 +307,19 @@ class JobForm extends React.Component<Props, State> {
               valid.errorTracking([this.state.successMessage], location.href);
             }
           );
+        }
+      })
+      .catch(err => {
+        if (typeof err.response.data == "object") {
+          const key = Object.keys(err.response.data)[0];
+          let errorMsg = err.response.data[key];
+          if (errorMsg == "MaxRetries") {
+            errorMsg =
+              "You have exceeded max attempts, please try after some time.";
+          }
+          this.setState({
+            successMessage: errorMsg
+          });
         }
       })
       .finally(() => {
@@ -545,7 +562,7 @@ class JobForm extends React.Component<Props, State> {
             >
               <FormInput
                 name="isd"
-                label="Code"
+                label="Country Code"
                 placeholder="Code"
                 validations={{
                   isExisty: true
@@ -563,11 +580,13 @@ class JobForm extends React.Component<Props, State> {
                 validations={{
                   isExisty: true,
                   matchRegexp: /^[0-9\-/]+$/,
+                  maxLength: 10,
                   isNumeric: true
                 }}
                 validationErrors={{
                   isExisty: isExistyError,
                   matchRegexp: "Please enter valid a phone number",
+                  maxLength: "Please enter valid a phone number",
                   isNumeric: "Phone should contain numbers"
                 }}
               />
@@ -621,6 +640,14 @@ class JobForm extends React.Component<Props, State> {
               </div>
             </div>
             {this.state.fileSizeErrorMessage ? (
+              ""
+            ) : (
+              <div className={styles.fileUploadMsg}>
+                <span>Max File size allowed: 10 MB</span>
+                <span>File format supported .pdf and .docx</span>
+              </div>
+            )}
+            {this.state.fileSizeErrorMessage ? (
               <p
                 className={cs(
                   styles.reCaptchaErrorMessage,
@@ -673,7 +700,11 @@ class JobForm extends React.Component<Props, State> {
     return (
       <div className={styles.jobForm}>
         {!job ? (
-          <div className={cs(styles.careersContent, styles.newcareersContent)}>
+          <div
+            className={cs(styles.careersContent, {
+              [styles.careersContentTimer]: this.props.showTimer
+            })}
+          >
             <div className={styles.careersImage}>
               <img
                 src={this.props.mobile ? newCareersMobile : newCareers}

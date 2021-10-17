@@ -26,8 +26,8 @@ const GiftCardItem = ({
     console.log(showLocked);
   };
 
-  const closeResult = (code: string) => {
-    onClose(code);
+  const closeResult = (code: string, type: string) => {
+    onClose(code, type);
   };
 
   if (currStatus == "Locked" && type == "CNI") {
@@ -45,7 +45,7 @@ const GiftCardItem = ({
               <span
                 className={styles.cross}
                 onClick={() => {
-                  closeResult(cardId);
+                  closeResult(cardId, cardType);
                 }}
               >
                 <i
@@ -98,7 +98,7 @@ const GiftCardItem = ({
           <span
             className={styles.cross}
             onClick={() => {
-              closeResult(cardId);
+              closeResult(cardId, cardType);
             }}
           >
             <i

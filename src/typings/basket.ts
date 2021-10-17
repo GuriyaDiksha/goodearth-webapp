@@ -50,8 +50,8 @@ export type Basket = {
   currency: Currency;
   loyaltyUpdated?: boolean;
   totalWithOutGCItems?: number;
-  shippingCharge: string | number;
-  total: string | number;
+  shippingCharge: number;
+  total: number;
   subTotal: string | number;
   giftCards: BalanceProps[];
   loyalty: Points[];
@@ -65,6 +65,13 @@ export type Basket = {
   bridalAddressId?: number;
   freeShippingThreshold: number;
   freeShippingApplicable: number;
+  updatedRemovedItems: string[];
+  unshippableRemove?: boolean;
+  unshippableProducts?: string[];
+  store?: any[];
+  redirectHomepage?: boolean;
+  pageReload?: boolean;
+  amountPayable?: number;
 };
 
 export interface BasketItem extends BasketLineItem {

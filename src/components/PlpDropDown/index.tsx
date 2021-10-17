@@ -22,7 +22,9 @@ const PlpDropdownMenu = ({
   const [showmobileSort, setShowmobileSort] = useState(false);
   const [showmobileFilterList, setShowmobileFilterList] = useState(false);
   const [mobileFilter, setMobileFilter] = useState(false);
-  const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
+  const { scrollDown, showTimer } = useSelector(
+    (state: AppState) => state.info
+  );
   const clickMobilefilter = (value: string) => {
     if (value == "Refine") {
       setShowmobileFilterList(true);
@@ -57,7 +59,7 @@ const PlpDropdownMenu = ({
     setOpenState(false);
     setShowmobileSort(false);
     setShowmobileFilterList(false);
-    onChange(data.value);
+    onChange(data.value, data.label);
   };
   useEffect(() => {
     if (showmobileSort || menuOpen) {
@@ -74,14 +76,27 @@ const PlpDropdownMenu = ({
       })}
     >
       <div
-        className={cs({ [globalStyles.hidden]: menuOpen }, bootstrap.col12, {
-          [styles.productNumber]: !menuOpen
-        })}
+        className={cs(
+          {
+            [globalStyles.hidden]: menuOpen
+          },
+          bootstrap.col12,
+          {
+            [styles.productNumber]: !menuOpen
+          }
+        )}
       >
         {" "}
         <div
           className={
-            mobileFilter ? styles.mobileFilterHeader : globalStyles.hidden
+            mobileFilter
+              ? cs(
+                  styles.mobileFilterHeader,
+                  { [styles.mobileFilterHeaderTimer]: showTimer },
+                  globalStyles.active,
+                  globalStyles.hideLeft
+                )
+              : globalStyles.hideLeft
           }
         ></div>
         <Fragment>
@@ -111,23 +126,28 @@ const PlpDropdownMenu = ({
         </Fragment>
       </div>
       <div
-        className={cs({ [globalStyles.hidden]: !menuOpen }, bootstrap.col12, {
-          [styles.productNumber]: menuOpen
-        })}
+        className={cs(
+          {
+            // [globalStyles.hidden]: !menuOpen
+          },
+          bootstrap.col12,
+          styles.productNumber,
+          { [styles.noPadding]: !menuOpen }
+        )}
       >
+        {/* headers when menu is open */}
         <div className={cs({ [styles.mobileFilterSortBg]: showmobileSort })}>
           <div
-            className={
-              showmobileFilterList
-                ? cs(styles.mobileFilterHeader, {
-                    [styles.mobileFilterHeaderSort]: showmobileSort
-                  })
-                : globalStyles.hidden
-            }
+            className={cs(
+              styles.mobileFilterHeader,
+              { [styles.mobileFilterHeaderTimer]: showTimer },
+              globalStyles.hideLeft,
+              {
+                [globalStyles.active]: showmobileFilterList && !showmobileSort
+              }
+            )}
           >
-            {showmobileSort ? (
-              <span>{"Sort"}</span>
-            ) : filterCount ? (
+            {filterCount ? (
               <span>
                 <pre>
                   {[
@@ -144,12 +164,33 @@ const PlpDropdownMenu = ({
             )}
             <span onClick={onInsideClick}>X</span>
           </div>
+          <div
+            className={cs(
+              styles.mobileFilterHeader,
+              { [styles.mobileFilterHeaderTimer]: showTimer },
+              globalStyles.hideBottom,
+              styles.mobileFilterHeaderSort,
+              {
+                [globalStyles.active]: showmobileFilterList && showmobileSort
+              }
+            )}
+          >
+            <span>{"Sort"}</span>
+
+            <span onClick={onInsideClick}>X</span>
+          </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
-              className={cs(bootstrap.col12, styles.mobileFilterMenu, {
-                [globalStyles.hidden]: !showmobileSort,
-                [styles.mobileFilterMenuSort]: showmobileSort
-              })}
+              className={cs(
+                bootstrap.col12,
+                styles.mobileFilterMenu,
+                { [styles.mobileFilterMenuTimer]: showTimer },
+                globalStyles.hideBottom,
+                styles.mobileFilterMenuSort,
+                {
+                  [globalStyles.active]: showmobileSort
+                }
+              )}
             >
               <ul className={styles.sort}>
                 {list.map((data: any) => {

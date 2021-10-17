@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 // import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 // import styles from "../styles.scss";
-// import cs from "classnames";
+import cs from "classnames";
 import { AddressData, AddressFormData } from "../typings";
 import AddressList from "components/Address/AddressList";
 import AddressForm from "../AddressForm";
@@ -18,6 +18,7 @@ import AddressSection from "containers/checkout/component/address";
 import * as Steps from "../../../containers/checkout/constants";
 import RegistryAddress from "containers/myAccount/components/Bridal/RegistryAddress";
 import EditRegistryAddress from "../../../containers/myAccount/components/Bridal/EditRegistryAddress";
+import BridalContext from "containers/myAccount/components/Bridal/context";
 
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
@@ -36,6 +37,10 @@ const AddressMain: React.FC<Props> = props => {
   const { bridal } = useSelector((state: AppState) => state.basket);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
+  const {
+    data: { userAddress }
+  } = useContext(BridalContext);
+
   const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -240,9 +245,27 @@ const AddressMain: React.FC<Props> = props => {
                   <li>
                     <input
                       type="button"
-                      className={globalStyles.ceriseBtn}
-                      value="add a new address"
-                      onClick={() => openAddressForm()}
+                      id="address_button"
+                      className={cs(globalStyles.ceriseBtn, {
+                        [globalStyles.disabledBtn]:
+                          currentCallBackComponent == "bridal" &&
+                          !userAddress?.id
+                      })}
+                      value={
+                        currentCallBackComponent == "bridal"
+                          ? "create registry"
+                          : "add a new address"
+                      }
+                      onClick={() => {
+                        if (
+                          currentCallBackComponent == "bridal" &&
+                          props.createRegistry
+                        ) {
+                          props.createRegistry();
+                        } else {
+                          openAddressForm();
+                        }
+                      }}
                     />
                   </li>
                 </ul>
@@ -342,6 +365,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            errorNotification={props.errorNotification}
             isBridal={bridal}
           >
             {addressContent}
@@ -393,6 +417,7 @@ const AddressMain: React.FC<Props> = props => {
             addresses={addressList}
             // user={this.props.user}
             error={props.error}
+            errorNotification={props.errorNotification}
             isBridal={bridal}
           >
             {addressContent}
@@ -486,7 +511,6 @@ const AddressMain: React.FC<Props> = props => {
             setMode: setMode,
             mode: mode,
             activeStep: props.activeStep || "",
-            // editAddressData: editAddressData,
             setEditAddressData: setEditAddressData,
             currentCallBackComponent: currentCallBackComponent,
             checkPinCode: checkPinCode,

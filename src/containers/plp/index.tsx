@@ -16,7 +16,6 @@ import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
-import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
 import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
@@ -25,6 +24,7 @@ import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 import { Link } from "react-router-dom";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -36,7 +36,9 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     currency: state.currency,
     device: state.device,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showTimer: state.info.showTimer,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -81,7 +83,7 @@ class PLP extends React.Component<
   }
   private child: any = FilterList;
 
-  onchangeFilter = (data: any): void => {
+  onchangeFilter = (data: any, label?: string): void => {
     this.child.changeValue(null, data);
     const {
       device: { mobile }
@@ -90,6 +92,7 @@ class PLP extends React.Component<
       this.child.clickCloseFilter();
     }
     this.setState({ sortValue: data });
+    util.sortGTM(label || data);
   };
 
   componentDidMount() {
@@ -117,6 +120,11 @@ class PLP extends React.Component<
     this.setState({
       plpMaker: true
     });
+    util.moveChatDown();
+  }
+
+  componentWillUnmount() {
+    util.moveChatUp();
   }
 
   componentDidUpdate(nextProps: Props) {
@@ -239,9 +247,45 @@ class PLP extends React.Component<
     }
   };
 
+  getVisibleProductID = () => {
+    const count = this.props.data.results.data.length;
+    let id = -1;
+    if (count) {
+      const isGrid = this.props.plpMobileView == "grid";
+      const elem = document.getElementById(
+        isGrid ? "first-grid-item" : "first-list-item"
+      );
+      const height = elem?.clientHeight;
+      const offsetY = window.scrollY;
+      if (height) {
+        let currentIndex = Math.floor(
+          (offsetY + window.innerHeight / 2) / height
+        );
+        currentIndex = isGrid ? currentIndex * 2 : currentIndex;
+        if (currentIndex >= count) {
+          currentIndex = count - 1;
+        }
+        id = this.props.data.results.data[currentIndex].id;
+      }
+    }
+    return id;
+  };
+
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
       this.props.updateMobileView(plpMobileView);
+      CookieService.setCookie("plpMobileView", plpMobileView);
+      util.viewSelectionGTM(plpMobileView);
+      const id = this.getVisibleProductID();
+      if (id != -1) {
+        window.setTimeout(() => {
+          const elem = document.getElementById(id.toString());
+          if (elem) {
+            const offsetPos = elem.getBoundingClientRect().top - 130;
+            window.scrollBy({ top: offsetPos, behavior: "smooth" });
+          }
+        }, 500);
+      }
     }
   };
 
@@ -260,7 +304,10 @@ class PLP extends React.Component<
         isThirdParty: nextProps.location.search.includes("&src_type=cp")
       });
     }
-    if (this.props.currency != nextProps.currency) {
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.isLoggedIn != nextProps.isLoggedIn
+    ) {
       this.setState({
         plpMaker: false
       });
@@ -302,7 +349,13 @@ class PLP extends React.Component<
       }
     ];
     return (
-      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+      <div
+        className={cs(
+          styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
+          bootstrap.containerFluid
+        )}
+      >
         {!mobile && (
           <SecondaryHeader>
             <Fragment>
@@ -316,6 +369,7 @@ class PLP extends React.Component<
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort</p>
                 <SelectableDropdownMenu
+                  id="sort-dropdown-plp"
                   align="right"
                   className={styles.dropdownRoot}
                   items={items}
@@ -328,7 +382,7 @@ class PLP extends React.Component<
             </Fragment>
           </SecondaryHeader>
         )}
-        {corporoateGifting &&
+        {/* {corporoateGifting &&
           (mobile ? (
             <div
               className={cs(
@@ -381,15 +435,19 @@ class PLP extends React.Component<
                 </p>
               </div>
             </div>
-          ))}
+          ))} */}
         <div className={cs(bootstrap.row, globalStyles.minimumWidth)}>
           <div
             id="filter_by"
             className={
               mobile
-                ? this.state.mobileFilter
-                  ? cs(bootstrap.col12, styles.mobileFilterMenu)
-                  : globalStyles.hidden
+                ? cs(
+                    { [globalStyles.active]: this.state.mobileFilter },
+                    bootstrap.col12,
+                    styles.mobileFilterMenu,
+                    { [styles.mobileFilterMenuTimer]: this.props.showTimer },
+                    globalStyles.hideLeft
+                  )
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
@@ -456,6 +514,16 @@ class PLP extends React.Component<
               />
             )}
 
+            {/* <div className={cs(bootstrap.row)}>
+              <div className={cs(globalStyles.textCenter, bootstrap.col12)}>
+                <iframe
+                  width="100%"
+                  allow="fullscreen"
+                  src="https://viewer.helloar.io/?id=611369966722ec004d7f4375"
+                ></iframe>
+              </div>
+            </div> */}
+
             {!mobile ? (
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {
@@ -496,8 +564,6 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
-              {this.state.flag ? <Loader /> : ""}
-
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (
@@ -508,6 +574,7 @@ class PLP extends React.Component<
                           styles.setWidth
                         )}
                         key={item.id}
+                        id={index == 0 ? "first-grid-item" : ""}
                       >
                         <PlpResultItem
                           page="PLP"
@@ -520,6 +587,7 @@ class PLP extends React.Component<
                           isVisible={index < 3 ? true : undefined}
                           onClickQuickView={this.onClickQuickView}
                           isCorporate={this.state.corporoateGifting}
+                          loader={this.state.flag}
                         />
                       </div>
                     );
@@ -534,6 +602,7 @@ class PLP extends React.Component<
                           styles.listViewContainer
                         )}
                         key={item.id}
+                        id={index == 0 ? "first-list-item" : ""}
                       >
                         <PlpResultListViewItem
                           page="PLP"
@@ -548,6 +617,7 @@ class PLP extends React.Component<
                           isCorporate={this.state.corporoateGifting}
                           notifyMeClick={this.notifyMeClick}
                           onEnquireClick={this.onEnquireClick}
+                          loader={this.state.flag}
                         />
                       </div>
                     );
@@ -572,6 +642,7 @@ class PLP extends React.Component<
           {mobile && (
             <div
               className={cs(styles.listGridBar, {
+                [styles.listGridBarTimer]: this.props.showTimer,
                 [styles.hide]: this.props.scrollDown
               })}
             >

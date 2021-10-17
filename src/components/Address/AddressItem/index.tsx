@@ -24,6 +24,7 @@ type Props = {
   shippingErrorMsg?: string;
   billingErrorMsg?: string;
   addressDataIdError?: number;
+  userAddress?: any;
 };
 
 const AddressItem: React.FC<Props> = props => {
@@ -33,7 +34,8 @@ const AddressItem: React.FC<Props> = props => {
     markAsDefault,
     setIsLoading,
     currentCallBackComponent,
-    activeStep
+    activeStep,
+    isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
   // const isDefaultAddress = () => {
@@ -43,10 +45,12 @@ const AddressItem: React.FC<Props> = props => {
     step,
     changeBridalAddress,
     setCurrentModule,
-    setCurrentModuleData
+    setCurrentModuleData,
+    data: { userAddress }
   } = useContext(BridalContext);
   const [deleteError, setDeleteError] = useState("");
   const address = props.addressData;
+  // const [selectId, setSelectId ] = useState(data.userAddress?.id || '');
   const deleteAddress = () => {
     setIsLoading(true);
     AddressService.deleteAddress(dispatch, address.id)
@@ -96,7 +100,8 @@ const AddressItem: React.FC<Props> = props => {
           setCurrentModuleData("address", {
             userAddress: address
           });
-          setCurrentModule("created");
+          // setCurrentModule("created");
+          // setCurrentModule("address");
         }
         break;
       case "bridal-edit":
@@ -106,6 +111,7 @@ const AddressItem: React.FC<Props> = props => {
           setCurrentModuleData("address", {
             userAddress: address
           });
+          // setSelectId(address.id);
           setCurrentModule("created");
         }
         break;
@@ -136,6 +142,19 @@ const AddressItem: React.FC<Props> = props => {
       //     }
       //     props.onSelectAddress(props.address);
       // break;
+    }
+  };
+
+  const onSelectBridalAddress = (address: AddressData) => {
+    if (address) {
+      const isValid = isAddressValid(address);
+      if (isValid) {
+        // this.props.onSelectAddress(address);
+        handleSelect(address);
+      } else {
+        // this.manageAddressPostcode("edit", address);
+        openAddressForm(address);
+      }
     }
   };
   // const openAddressForm = (address: AddressData) => {
@@ -248,6 +267,7 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal-edit"
             },
             { [styles.shippingBorder]: address.isTulsi },
+            { [styles.diabledBorder]: address.id == userAddress?.id },
             {
               [styles.addressInUse]:
                 props.showAddressInBridalUse && address.isBridal
@@ -404,10 +424,25 @@ const AddressItem: React.FC<Props> = props => {
                 className={cs(
                   globalStyles.ceriseBtn,
                   globalStyles.cursorPointer,
+                  { [globalStyles.disabledBtn]: address.id == userAddress?.id },
                   styles.shipToThisBtn
                 )}
                 // onClick={() => props.selectAddress(address)}
-                onClick={() => handleSelect(address)}
+                onClick={() => {
+                  if (address.id != userAddress?.id) {
+                    onSelectBridalAddress(address);
+                    const firstErrorField = document.getElementById(
+                      "address_button"
+                    ) as HTMLDivElement;
+                    if (firstErrorField) {
+                      firstErrorField.focus();
+                      firstErrorField.scrollIntoView({
+                        block: "center",
+                        behavior: "smooth"
+                      });
+                    }
+                  }
+                }}
               >
                 USE THIS ADDRESS
               </div>

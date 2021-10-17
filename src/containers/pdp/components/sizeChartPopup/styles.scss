@@ -10,10 +10,13 @@
 }
 
 .closeButton {
+    position: absolute;
     top: 0;
     right: 0;
     font-size: 40px;
     line-height: 1;
+    background: none;
+    border: none;
 }
 
 .size-chart-apparel {

@@ -17,4 +17,6 @@ export type User = {
   refresh: boolean;
   shippingData: AddressData | null;
   slab: string;
+  loyaltyData: { [x: string]: any } | null;
+  customerGroup: string;
 };

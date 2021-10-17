@@ -1,17 +1,13 @@
 import loadable from "@loadable/component";
 import React from "react";
-import {
-  Link,
-  NavLink,
-  RouteComponentProps,
-  withRouter
-} from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import goodearth from "fonts/goodearth.woff2";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SideMenu from "./sidemenu";
-import MainMenu from "./menu";
-import { MenuList } from "./menulist";
+// import MainMenu from "./menu";
+// import { MenuList } from "./menulist";
 import GrowlMessage from "../GrowlMessage";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
@@ -24,19 +20,23 @@ import UserContext from "contexts/user";
 import mapDispatchToProps from "./mapper/actions";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import Search from "./search";
-import ReactHtmlParser from "react-html-parser";
 import fabicon from "images/favicon.ico";
 import MakerUtils from "../../utils/maker";
 import BottomMenu from "./bottomMenu";
-import bridalRing from "../../images/bridal/rings.svg";
 import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
+const StoreDetails = loadable(() => import("../StoreDetails/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
+// import Mobilemenu from "./mobileMenu";
+import MegaMenu from "./megaMenu";
+import CountdownTimer from "./CountdownTimer";
+import AnnouncementBar from "./AnnouncementBar";
+import { CUST } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    data: state.header.data,
+    megaMenuData: state.header.megaMenuData,
     announcement: state.header.announcementData,
     currency: state.currency,
     mobile: state.device.mobile,
@@ -47,7 +47,11 @@ const mapStateToProps = (state: AppState) => {
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
     slab: state.user.slab,
-    cookies: state.cookies
+    cookies: state.cookies,
+    showTimer: state.info.showTimer,
+    timerData: state.header.timerData,
+    customerGroup: state.user.customerGroup,
+    showStock: state.header.storeData.visible
   };
 };
 
@@ -64,7 +68,7 @@ class Header extends React.Component<Props, State> {
       showSearch: false,
       showC: false,
       showP: false,
-      activeIndex: 0,
+      activeIndex: -1,
       urlParams: new URLSearchParams(props.location.search.slice(1)),
       selectedPincode: "",
       showPincodePopup: false,
@@ -96,6 +100,19 @@ class Header extends React.Component<Props, State> {
     // }
   };
 
+  listenAnnouncementBarClick = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.addEventListener("click", event => {
+        const elem = event.target as HTMLAnchorElement;
+        util.announcementBarGTM(
+          elem.dataset.text || "",
+          elem.getAttribute("href") || ""
+        );
+      });
+    }
+  };
+
   componentDidMount() {
     const isBridalPublicPage =
       this.props.location.pathname.includes("/bridal/") &&
@@ -119,6 +136,13 @@ class Header extends React.Component<Props, State> {
       }
       this.props.history.push("/cart");
     }
+    if (id == "cerise") {
+      if (!this.props.isLoggedIn) {
+        this.props.goLogin();
+      } else {
+        this.props.history.push("/");
+      }
+    }
     this.setState({
       selectedPincode: localStorage.getItem("selectedPincode")
     });
@@ -131,6 +155,10 @@ class Header extends React.Component<Props, State> {
     ) {
       this.props.fetchAnnouncement();
     }
+
+    // add click listener for announcement bar
+    this.listenAnnouncementBarClick("bar1");
+    this.listenAnnouncementBarClick("bar2");
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -166,9 +194,9 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  mouseOut(data: { show: boolean }) {
-    this.setState({ show: data.show });
-  }
+  // mouseOut(data: { show: boolean }) {
+  //   this.setState({ show: data.show });
+  // }
 
   showCurrency = () => {
     this.setState({
@@ -187,6 +215,9 @@ class Header extends React.Component<Props, State> {
         // if (data.currency == "INR") {
         //   history.push("/maintenance");
         // }
+        this.setState({
+          activeIndex: -1 // default value -1 not 0
+        });
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
             history.location.pathname +
@@ -196,6 +227,7 @@ class Header extends React.Component<Props, State> {
         reloadPage(
           this.props.cookies,
           response.currency,
+          this.props.customerGroup,
           history.location.pathname,
           this.props.isLoggedIn
         );
@@ -221,18 +253,66 @@ class Header extends React.Component<Props, State> {
     );
   };
 
-  onMenuClick = (l1: string, l2: string, l3: string) => {
-    util.menuNavigationGTM(
-      l1,
-      l2,
-      l3,
-      this.props.mobile,
-      this.props.isLoggedIn
-    );
+  onMenuClick = ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3
+  }: {
+    [x: string]: string;
+  }) => {
+    util.menuNavigationGTM({
+      l1: util.getInnerText(l1) || "",
+      l2: util.getInnerText(l2) || "",
+      l3: util.getInnerText(l3) || "",
+      clickUrl1: clickUrl1 || "",
+      clickUrl2: clickUrl2 || "",
+      clickUrl3: clickUrl3 || "",
+      mobile: this.props.mobile,
+      isLoggedIn: this.props.isLoggedIn
+    });
+  };
+
+  onMegaMenuClick = ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => {
+    const obj = {
+      l1: util.getInnerText(l1) || "",
+      l2: util.getInnerText(l2) || "",
+      l3: util.getInnerText(l3) || "",
+      clickUrl1: clickUrl1 || "",
+      clickUrl2: clickUrl2 || "",
+      clickUrl3: clickUrl3 || "",
+      template: template || "",
+      img2: img2 || "",
+      img3: img3 || "",
+      cta: util.getInnerText(cta) || "",
+      subHeading: subHeading || "",
+      mobile: this.props.mobile || false,
+      isLoggedIn: this.props.isLoggedIn || false
+    };
+    util.megaMenuNavigationGTM(obj);
   };
 
   showSearch = () => {
-    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+    if (
+      this.props.history.location.pathname.indexOf("/bridal/") > 0 &&
+      !this.props.location.pathname.includes("/account/")
+    ) {
       return false;
     }
     this.setState({
@@ -241,6 +321,13 @@ class Header extends React.Component<Props, State> {
     });
   };
 
+  hideSearch = () => {
+    if (this.state.showSearch) {
+      this.setState({
+        showSearch: false
+      });
+    }
+  };
   hideMenu = () => {
     this.state.showMenu &&
       this.setState({
@@ -318,13 +405,12 @@ class Header extends React.Component<Props, State> {
       meta,
       goLogin,
       handleLogOut,
-      announcement,
       location,
-      mobile
+      mobile,
+      slab,
+      customerGroup
     } = this.props;
-    const messageText = announcement.message?.split("|");
     const wishlistCount = wishlistData.length;
-    const wishlistIcon = wishlistCount > 0;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -378,15 +464,28 @@ class Header extends React.Component<Props, State> {
         value: "Check Balance"
       },
       {
-        label: isLoggedIn ? "Sign Out" : "Sign In",
-        onClick: isLoggedIn ? () => handleLogOut(this.props.history) : goLogin,
+        label: isLoggedIn ? "Logout" : "Login",
+        onClick: isLoggedIn
+          ? () =>
+              handleLogOut(
+                this.props.history,
+                this.props.currency,
+                this.props.customerGroup
+              )
+          : goLogin,
         type: "button",
-        value: isLoggedIn ? "Sign Out" : "Sign In"
+        value: isLoggedIn ? "Logout" : "Login"
       }
     );
     const isBridalRegistryPage =
       this.props.location.pathname.indexOf("/bridal/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
+    const isCeriseCustomer = slab
+      ? slab.toLowerCase() == "cerise" ||
+        slab.toLowerCase() == "cerise sitara" ||
+        customerGroup == CUST.CERISE ||
+        customerGroup == CUST.CERISE_SITARA
+      : false;
     return (
       <div className="">
         <Helmet defer={false}>
@@ -395,16 +494,17 @@ class Header extends React.Component<Props, State> {
               ? meta.title
               : "Good Earth – Stylish Sustainable Luxury Retail | Goodearth.in"}
           </title>
-          {
-            <meta
-              name="description"
-              content={
-                meta.description
-                  ? meta.description
-                  : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
-              }
-            />
-          }
+          <meta
+            name="description"
+            content={
+              meta.description
+                ? meta.description
+                : "Good Earth India's official website. Explore unique product stories and craft traditions that celebrate the heritage of the Indian subcontinent."
+            }
+          />
+          {__DOMAIN__ != "https://www.goodearth.in" && (
+            <meta name="robots" content="noindex" />
+          )}
           <link
             rel="canonical"
             href={`${__DOMAIN__}${location.pathname}${
@@ -473,108 +573,34 @@ class Header extends React.Component<Props, State> {
             <meta name="twitter:site" content={meta.twitterSite} />
           )}
           <meta httpEquiv="X-Frame-Options" content="deny" />
+          <link
+            rel="preload"
+            href={goodearth}
+            as="font"
+            crossOrigin="crossorigin"
+          />
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
-          <div
-            className={styles.announcement}
-            style={{
-              backgroundColor:
-                announcement.isBridalActive || isBridalRegistryPage
-                  ? announcement.bridalBgColorcode
-                  : announcement.bgColorcode
-            }}
-          >
-            {messageText?.map((data, i) => {
-              if (announcement.url) {
-                return (
-                  <div
-                    key={i + "msgtext"}
-                    className={
-                      messageText.length > 1
-                        ? i == 0
-                          ? styles.boxx1
-                          : styles.boxx2
-                        : styles.width100
-                    }
-                  >
-                    <Link to={announcement.url ? "" + announcement.url : "/"}>
-                      <div>{ReactHtmlParser(data)}</div>
-                    </Link>
-                  </div>
-                );
-              } else {
-                return (
-                  <div
-                    key={i + "msgtext"}
-                    className={
-                      messageText.length > 1
-                        ? i == 0
-                          ? styles.boxx1
-                          : styles.boxx2
-                        : styles.width100
-                    }
-                  >
-                    {isBridalRegistryPage || announcement.isBridalActive ? (
-                      <div>
-                        <>
-                          <svg
-                            style={{ verticalAlign: "bottom" }}
-                            viewBox="-5 -5 50 50"
-                            width="30"
-                            height="30"
-                            preserveAspectRatio="xMidYMid meet"
-                            x="0"
-                            y="0"
-                            className={styles.bridalRing}
-                          >
-                            <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                          </svg>{" "}
-                          {announcement.registrantName} &{" "}
-                          {announcement.coRegistrantName}&#39;s Bridal Registry
-                          (Public Link){" "}
-                          <b
-                            style={{
-                              textDecoration: "underline",
-                              cursor: "pointer"
-                            }}
-                          >
-                            <span
-                              onClick={() =>
-                                this.clearBridalSession(
-                                  location.pathname.includes("checkout")
-                                    ? "checkout"
-                                    : location.pathname.includes("cart")
-                                    ? "cart"
-                                    : ""
-                                )
-                              }
-                            >
-                              Close
-                            </span>
-                          </b>
-                        </>
-                      </div>
-                    ) : (
-                      ReactHtmlParser(data)
-                    )}
-                  </div>
-                );
-              }
-            })}
-          </div>
+          <AnnouncementBar
+            clearBridalSession={this.clearBridalSession}
+            isBridalRegistryPage={isBridalRegistryPage}
+          />
+          {!isBridalRegistryPage &&
+            !isCeriseCustomer &&
+            this.props.showTimer &&
+            this.props.timerData && <CountdownTimer />}
           {this.state.showSearch && (
             <Search ipad={false} toggle={this.showSearch} />
           )}
-          <div className={styles.minimumWidth}>
+          <div className={cs(styles.minimumWidth, styles.headerBg)}>
             <div className={bootstrap.row}>
               {mobile ? (
                 <div
                   className={cs(
                     bootstrap.col3,
                     bootstrap.colLg2,
-                    styles.hamburger,
-                    { [globalStyles.cerise]: mobile }
+                    styles.hamburger
                   )}
                 >
                   <i
@@ -625,7 +651,14 @@ class Header extends React.Component<Props, State> {
                 )}
               >
                 <Link to="/" onClick={this.handleLogoClick}>
-                  <img className={styles.logo} src={gelogoCerise} />
+                  <img
+                    alt="goodearth-logo"
+                    src={gelogoCerise}
+                    style={{
+                      width: "111px",
+                      cursor: "pointer"
+                    }}
+                  />
                 </Link>
               </div>
               {mobile ? (
@@ -635,10 +668,11 @@ class Header extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.colLg6,
                     bootstrap.col3,
-                    bootstrap.offsetLg1
+                    bootstrap.offsetLg1,
+                    globalStyles.static
                   )}
                 >
-                  <MainMenu
+                  {/* <MainMenu
                     show={this.state.show}
                     ipad={false}
                     onMouseOver={(data): void => {
@@ -648,6 +682,40 @@ class Header extends React.Component<Props, State> {
                       });
                     }}
                     data={this.props.data}
+                    location={this.props.location}
+                  /> */}
+                  <MegaMenu
+                    show={this.state.show}
+                    activeIndex={this.state.activeIndex}
+                    ipad={false}
+                    hideSearch={this.hideSearch}
+                    onMegaMenuClick={this.onMegaMenuClick}
+                    mouseOver={(data: {
+                      show: boolean;
+                      activeIndex: number;
+                    }): void => {
+                      this.setState(
+                        {
+                          show: data.show,
+                          activeIndex: data.show ? data.activeIndex : -1
+                        },
+                        () => {
+                          const elem = document.getElementById(
+                            `mega-menu-list-${data.activeIndex}`
+                          );
+                          if (data.show) {
+                            if (elem) {
+                              elem.style.maxHeight = elem.scrollHeight + "px";
+                            }
+                          } else {
+                            if (elem) {
+                              elem.style.removeProperty("max-height");
+                            }
+                          }
+                        }
+                      );
+                    }}
+                    data={this.props.megaMenuData}
                     location={this.props.location}
                   />
                 </div>
@@ -659,6 +727,7 @@ class Header extends React.Component<Props, State> {
                     showBag={this.state.showBag}
                     setShowBag={this.setShowBag}
                     showSearch={this.state.showSearch}
+                    hideSearch={this.hideSearch}
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
@@ -683,13 +752,13 @@ class Header extends React.Component<Props, State> {
                                   iconStyles.icon,
                                   iconStyles.iconCrossNarrowBig,
                                   styles.iconStyleCross,
-                                  { [globalStyles.cerise]: mobile }
+                                  styles.iconDefaultColor
                                 )
                               : cs(
                                   iconStyles.icon,
                                   iconStyles.iconSearch,
                                   styles.iconStyle,
-                                  { [globalStyles.cerise]: mobile }
+                                  styles.iconDefaultColor
                                 )
                           }
                         ></i>
@@ -709,16 +778,10 @@ class Header extends React.Component<Props, State> {
                               iconStyles.icon,
                               iconStyles.iconCart,
                               styles.iconStyle,
-                              { [globalStyles.cerise]: mobile }
+                              styles.iconDefaultColor
                             )}
                           ></i>
-                          <span
-                            className={cs(styles.badge, {
-                              [globalStyles.cerise]: mobile
-                            })}
-                          >
-                            {bagCount}
-                          </span>
+                          <span className={styles.badge}>{bagCount}</span>
                         </div>
                       </li>
                     )}
@@ -728,28 +791,7 @@ class Header extends React.Component<Props, State> {
             </div>
           </div>
           <div>
-            <div
-              className={
-                this.state.show
-                  ? cs(styles.dropdownMenuBar, styles.mainMenu, bootstrap.row)
-                  : styles.hidden
-              }
-            >
-              <MenuList
-                ipad={false}
-                onHeaderMenuClick={this.onMenuClick}
-                activeIndex={this.state.activeIndex}
-                mouseOut={(data): void => {
-                  this.mouseOut(data);
-                }}
-                show={this.state.show}
-                menudata={this.props.data}
-                mobile={mobile}
-              />
-            </div>
-            <div
-              className={cs(bootstrap.row, bootstrap.col12, styles.mobileMenu)}
-            >
+            <div className={cs(bootstrap.row)}>
               <div
                 className={
                   this.state.showMenu
@@ -769,204 +811,17 @@ class Header extends React.Component<Props, State> {
                       <>
                         <Mobilemenu
                           onMobileMenuClick={this.onMenuClick}
-                          menudata={this.props.data}
+                          onHeaderMegaMenuClick={this.onMegaMenuClick}
+                          megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
                           clickToggle={this.clickToggle}
+                          wishlistCount={wishlistCount}
+                          changeCurrency={this.changeCurrency}
+                          showCurrency={this.showCurrency}
+                          showC={this.state.showC}
+                          profileItems={profileItems}
+                          goLogin={this.props.goLogin}
                         />
-                        <div className={styles.lowerMenu}>
-                          <ul>
-                            <li>
-                              {isLoggedIn ? (
-                                <Link
-                                  to="/wishlist"
-                                  className={styles.wishlistLink}
-                                  onClick={() => {
-                                    this.clickToggle();
-                                    util.headerClickGTM(
-                                      "Wishlist",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                  }}
-                                >
-                                  <i
-                                    className={cs(
-                                      styles.wishlistIcon,
-                                      { [globalStyles.cerise]: wishlistIcon },
-                                      {
-                                        [iconStyles.iconWishlistAdded]: wishlistIcon
-                                      },
-                                      {
-                                        [iconStyles.iconWishlist]: !wishlistIcon
-                                      },
-                                      iconStyles.icon
-                                    )}
-                                  />
-                                  <span>
-                                    {" "}
-                                    wishlist{" "}
-                                    {wishlistCount ? `(${wishlistCount})` : ""}
-                                  </span>
-                                </Link>
-                              ) : (
-                                <div
-                                  onClick={e => {
-                                    this.props.goLogin(e);
-                                    util.headerClickGTM(
-                                      "Wishlist",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                  className={styles.wishlistLink}
-                                >
-                                  <i
-                                    className={cs(
-                                      styles.wishlistIcon,
-                                      { [globalStyles.cerise]: wishlistIcon },
-                                      {
-                                        [iconStyles.iconWishlistAdded]: wishlistIcon
-                                      },
-                                      {
-                                        [iconStyles.iconWishlist]: !wishlistIcon
-                                      },
-                                      iconStyles.icon
-                                    )}
-                                  />
-                                  <span> wishlist</span>
-                                </div>
-                              )}
-                            </li>
-                            <li
-                              className={
-                                this.state.showC
-                                  ? cs(styles.currency, styles.before)
-                                  : this.props.location.pathname.indexOf(
-                                      "/bridal/"
-                                    ) > 0
-                                  ? cs(styles.currency, styles.op3)
-                                  : styles.currency
-                              }
-                              onClick={this.showCurrency}
-                            >
-                              {" "}
-                              change currency:
-                            </li>
-                            <li
-                              className={this.state.showC ? "" : styles.hidden}
-                            >
-                              <ul className={styles.noMargin}>
-                                <li
-                                  data-name="INR"
-                                  className={
-                                    this.props.currency == "INR"
-                                      ? styles.cerise
-                                      : ""
-                                  }
-                                  onClick={() => {
-                                    this.changeCurrency("INR");
-                                    util.headerClickGTM(
-                                      "Currency",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                >
-                                  India | INR(&#8377;)
-                                </li>
-                                <li
-                                  data-name="USD"
-                                  className={
-                                    this.props.currency == "USD"
-                                      ? styles.cerise
-                                      : ""
-                                  }
-                                  onClick={() => {
-                                    this.changeCurrency("USD");
-                                    util.headerClickGTM(
-                                      "Currency",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                >
-                                  Rest Of The World | USD (&#36;)
-                                </li>
-                                <li
-                                  data-name="GBP"
-                                  className={
-                                    this.props.currency == "GBP"
-                                      ? styles.cerise
-                                      : ""
-                                  }
-                                  onClick={() => {
-                                    this.changeCurrency("GBP");
-                                    util.headerClickGTM(
-                                      "Currency",
-                                      "Top",
-                                      true,
-                                      isLoggedIn
-                                    );
-                                    this.clickToggle();
-                                  }}
-                                >
-                                  United Kingdom | GBP (&#163;)
-                                </li>
-                              </ul>
-                            </li>
-
-                            <ul className={styles.adding}>
-                              {profileItems.map(item => {
-                                return (
-                                  <li
-                                    key={item.label}
-                                    onClick={e => {
-                                      item.onClick && item.onClick(e);
-                                      this.clickToggle();
-                                    }}
-                                  >
-                                    {item.type == "button" ? (
-                                      <span
-                                        onClick={() => {
-                                          util.headerClickGTM(
-                                            "Profile Item",
-                                            "Top",
-                                            true,
-                                            isLoggedIn
-                                          );
-                                        }}
-                                      >
-                                        {item.label}
-                                      </span>
-                                    ) : (
-                                      <NavLink
-                                        key={item.label}
-                                        to={item.href as string}
-                                        onClick={() => {
-                                          util.headerClickGTM(
-                                            "Profile Item",
-                                            "Top",
-                                            true,
-                                            isLoggedIn
-                                          );
-                                        }}
-                                      >
-                                        {item.label}
-                                      </NavLink>
-                                    )}
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </ul>
-                        </div>
                       </>
                     }
                   </div>
@@ -976,46 +831,44 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {false &&
-            this.props.currency.toString().toUpperCase() == "INR" &&
-            (this.props.location.pathname.includes("/catalogue/")
-              ? this.props.location.pathname.includes("/category/")
-                ? true
-                : false
-              : true) && (
-              <div className={styles.fixedPincodeBar} id="pincode-bar">
-                <div>
-                  <span>
-                    We have resumed deliveries Pan India. Enter your Pincode to
-                    check if your location is serviceable.
-                  </span>
-                  <a
-                    className={styles.pincodeBarBtn}
-                    onClick={() => this.showPincode()}
-                  >
-                    <span className={cs(styles.location)}>
-                      <i
-                        className={cs(
-                          // { [styles.iconClass]: menuOpen },
-                          iconStyles.icon,
-                          iconStyles.iconLocation,
-                          styles.iconStore
-                        )}
-                      ></i>
-                    </span>
-                    <span>
-                      {this.state.selectedPincode
-                        ? this.state.selectedPincode
-                        : "Pincode"}
-                    </span>
-                  </a>
-                </div>
-              </div>
-            )}
-          {this.state.showPincodePopup}
         </div>
         <GrowlMessage />
         <MakerUtils />
+        {/* {this.props.currency.toString().toUpperCase() == "INR" &&
+          !(
+            this.props.location.pathname.includes("/search") ||
+            this.props.location.pathname.includes("/catalogue") ||
+            isBridalRegistryPage
+          ) && (
+            <div className={styles.fixedPincodeBar} id="pincode-bar">
+              <div>
+                <span>
+                  Due to the current restrictions on movement, please enter your
+                  Pincode to check if your location is serviceable.
+                </span>
+                <a
+                  className={styles.pincodeBarBtn}
+                  onClick={() => this.showPincode()}
+                >
+                  <span className={cs(styles.location)}>
+                    <i
+                      className={cs(
+                        // { [styles.iconClass]: menuOpen },
+                        iconStyles.icon,
+                        iconStyles.iconLocation,
+                        styles.iconStore
+                      )}
+                    ></i>
+                  </span>
+                  <span>
+                    {this.state.selectedPincode
+                      ? this.state.selectedPincode
+                      : "Pincode"}
+                  </span>
+                </a>
+              </div>
+            </div>
+          )} */}
         {mobile && !isBridalRegistryPage && (
           <BottomMenu
             onBottomMenuClick={this.onBottomMenuClick}
@@ -1024,7 +877,6 @@ class Header extends React.Component<Props, State> {
             isSearch={this.state.showSearch}
             setShowBag={this.setShowBag}
             wishlistCount={wishlistCount}
-            isLoggedIn={isLoggedIn}
             showMenu={this.state.showMenu}
             clickToggle={this.clickToggle}
             goLogin={this.props.goLogin}
@@ -1042,6 +894,14 @@ class Header extends React.Component<Props, State> {
                 return { showBag: !prevState.showBag };
               });
             }}
+          />
+        )}
+        {this.props.showStock && (
+          <StoreDetails
+            showShipping={this.props.showShipping}
+            cart={this.props.cart}
+            currency={this.props.currency}
+            active={this.props.showStock}
           />
         )}
       </div>

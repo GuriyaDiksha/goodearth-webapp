@@ -4,6 +4,12 @@ import { actionCreator } from "utils/actionCreator";
 export const updateSales = (isSale: boolean) =>
   actionCreator("UPDATE_SALE", isSale);
 
+export const updateGiftWrap = (showGiftwrap: boolean) =>
+  actionCreator("UPDATE_GIFT_WRAP", showGiftwrap);
+
+export const updateDeliveryInstruction = (showDeliveryInstruction: boolean) =>
+  actionCreator("UPDATE_DELIVERY_INSTRUCTION", showDeliveryInstruction);
+
 export const updatePopupBgUrl = (popupBgUrl: string) =>
   actionCreator("UPDATE_POPUP_BG_URL", popupBgUrl);
 
@@ -21,3 +27,12 @@ export const updateDeliveryText = (text: string) =>
 
 export const updateScrollDown = (scrollDown: boolean) =>
   actionCreator("UPDATE_SCROLL_DOWN", scrollDown);
+
+export const updateMicroUrl = (url: string) =>
+  actionCreator("UPDATE_MICRO_URL", url);
+
+export const updateShowCookie = (showCookie: boolean) =>
+  actionCreator("UPDATE_SHOW_COOKIE", showCookie);
+
+export const updateShowTimer = (showTimer: boolean) =>
+  actionCreator("UPDATE_SHOW_TIMER", showTimer);

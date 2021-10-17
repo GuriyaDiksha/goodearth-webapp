@@ -41,14 +41,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       const index = line.product.categories
         ? line.product.categories.length - 1
         : 0;
-      const category =
+      let category =
         line.product.categories && line.product.categories[index]
           ? line.product.categories[index].replace(/\s/g, "")
           : "";
+      category = category.replace(/>/g, "/");
       return {
         name: line.title,
         id: line.product.sku,
-        price: line.priceInclTax,
+        price: line.product.pricerecords[result.currency],
         brand: "Goodearth",
         category: category,
         variant: line.product.size || "",
@@ -113,7 +114,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           )}
         >
           <Link to="/">
-            <img className={styles.logo} src={logoImage} />
+            <img
+              src={logoImage}
+              style={{
+                width: "111px",
+                cursor: "pointer"
+              }}
+            />
           </Link>
         </div>
       </div>
@@ -405,6 +412,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 <div className={styles.smallSize}>
                                   Qty:&nbsp; {item.quantity}
                                 </div>
+                                {item.fillerMessage ? (
+                                  <div className={styles.filler}>
+                                    {`*${item.fillerMessage}`}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </Fragment>
                             )}
                           </div>

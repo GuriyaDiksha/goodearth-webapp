@@ -21,7 +21,7 @@ import { currencyCode, Currency } from "typings/currency";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 import SelectableDropdownMenu from "../../components/dropdown/selectableDropdownMenu";
 import { Cookies } from "typings/cookies";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import fabicon from "images/favicon.ico";
 import { Basket } from "typings/basket";
 import * as util from "../../utils/validate";
@@ -29,8 +29,8 @@ import Api from "services/api";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    data: state.header.data,
     currency: state.currency,
+    customerGroup: state.user.customerGroup,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
     cart: state.basket,
@@ -48,15 +48,30 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const response = await LoginService.changeCurrency(dispatch, data);
       return response;
     },
-    reloadPage: (cookies: Cookies, pathname: string, currency: Currency) => {
-      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
-      });
+    reloadPage: (
+      cookies: Cookies,
+      pathname: string,
+      currency: Currency,
+      customerGroup: string,
+      history: any,
+      isLoggedIn: boolean
+    ) => {
+      HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+        err => {
+          console.log("FOOTER API ERROR ==== " + err);
+        }
+      );
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("Announcement API ERROR ==== " + err);
+      });
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sale status API error === " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
       });
       // }
       // if (page?.includes("/category_landing/")) {
@@ -67,11 +82,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // });
       MetaService.updateMeta(dispatch, cookies);
       if (pathname.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch, "checkout");
-        util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+        BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
         BasketService.fetchBasket(dispatch, "cart");
-        util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+        util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       }
     },
     updateMeta: (
@@ -120,7 +135,10 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
         reloadPage(
           this.props.cookies,
           this.props.location.pathname,
-          data.currency
+          data.currency,
+          this.props.customerGroup,
+          this.props.history,
+          this.props.isLoggedIn
         );
       });
     }
@@ -131,12 +149,25 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
   };
 
   componentDidMount() {
+    // hide chat container
+    // const chatContainer = document.getElementById("chat-container");
+    // if (chatContainer) {
+    //   chatContainer.style.display = "none";
+    // }
     this.props.updateMeta(
       this.props.cookies,
       this.props.location.pathname,
       this.props.currency,
       this.props.cart
     );
+  }
+
+  componentWillUnmount() {
+    // show chat container
+    const chatContainer = document.getElementById("chat-container");
+    if (chatContainer) {
+      chatContainer.style.removeProperty("display");
+    }
   }
 
   render() {
@@ -162,11 +193,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
         <span className={styles.vCenter}>
           <span>
             <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCartFilled,
-                styles.cart
-              )}
+              className={cs(iconStyles.icon, iconStyles.iconCart, styles.cart)}
             ></i>
           </span>
           {mobile ? (
@@ -289,6 +316,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
                   className={
                     this.state.boId ? styles.logoWithoutcursor : styles.logo
                   }
+                  alt="goodearth-logo"
                   src={gelogoCerise}
                 />
               </Link>
@@ -306,6 +334,7 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               )}
             >
               <SelectableDropdownMenu
+                id="currency-dropdown-checkout"
                 align={"left"}
                 items={items}
                 value={currency}

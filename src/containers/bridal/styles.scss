@@ -372,7 +372,7 @@
   .discountprice {
     color: $cerise;
     font-family: $font-Serif;
-    font-size: 16px;
+    font-size: 14px;
   }
   .strikeprice {
     font-size: 14px;
@@ -727,6 +727,9 @@
   .page-body{
     margin-top: $header-height;
   }
+  .page-body-timer {
+    margin-top: $header-height + $timer-height;
+  }
 
   hr {
     margin-top: 15px;
@@ -944,4 +947,15 @@
 
 .h15 {
   height: 15px;
+}
+
+.bridal-ring {
+  background-color: #fff;
+  border-radius: 50%;
+  fill:#ab1e56;
+  height: 45px;
+  width: 45px;
+  padding: 2px;
+  position: relative;
+  top: -10px;
 }

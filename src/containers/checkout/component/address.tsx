@@ -29,12 +29,16 @@ const AddressSection: React.FC<AddressProps & {
     selectedAddress,
     isGoodearthShipping,
     hidesameShipping,
-    next
+    next,
+    errorNotification
   } = props;
   const { isLoggedIn } = useContext(UserContext);
-  const { openAddressForm, closeAddressForm, isAddressValid } = useContext(
-    AddressContext
-  );
+  const {
+    openAddressForm,
+    closeAddressForm,
+    isAddressValid,
+    currentCallBackComponent
+  } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -78,7 +82,7 @@ const AddressSection: React.FC<AddressProps & {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && currentCallBackComponent == "checkout-shipping") {
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
@@ -826,29 +830,6 @@ const AddressSection: React.FC<AddressProps & {
                   props.hidesameShipping && (
                     <div>{renderBillingCheckbox()}</div>
                   )}
-                {/* {isLoggedIn && props.activeStep == Steps.STEP_BILLING
-                    ? props.isBridal
-                      ? true
-                      : false
-                    : false
-                ? <div>{children}</div> 
-                : ""
-                }
-                {
-                  (!props.hidesameShipping && props.activeStep == Steps.STEP_SHIPPING) && isLoggedIn &&
-                   <div>{children}</div> 
-                }
-
-                {props.isBridal && 
-                   isLoggedIn && (
-                      // !showAddressForm &&
-                      <div>{children}</div> 
-                    )
-                  // : 
-                    // isLoggedIn &&
-                    // // !showAddressForm &&
-                    // !sameAsShipping && <div>{children}</div>
-                } */}
 
                 {// logged in Shipping & billing
                 isLoggedIn &&
@@ -868,6 +849,15 @@ const AddressSection: React.FC<AddressProps & {
                 ) : (
                   ""
                 )}
+              </div>
+            )}
+            {props.activeStep == Steps.STEP_SHIPPING && !isActive && (
+              <div
+                className={cs(globalStyles.errorMsg, globalStyles.marginT20, {
+                  [styles.margin50]: !mobile
+                })}
+              >
+                <span>{errorNotification}</span>
               </div>
             )}
           </div>

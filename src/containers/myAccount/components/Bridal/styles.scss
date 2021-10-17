@@ -285,11 +285,11 @@
         width: 260px !important;
       }
       img {
-        height: 483px;
+        // height: 483px;
         border: 5px solid #fff;
       }
       width: 692px;
-      height: 650px;
+      // height: 650px;
       .txt {
         padding: 2em 5em;
       }
@@ -736,11 +736,12 @@
               }
               .checkmark {
                 position: absolute;
-                height: 15px;
-                width: 15px;
-                background-color: #fff;
-                border: 1px solid #888;
+                width: 23px;
+                height: 23px;
+                background: white;
+                display: inline-block;
                 border-radius: 50%;
+                border: 1px solid #666;
               }
               input ~ .checkmark {
                 background-color: #fff;
@@ -1023,6 +1024,7 @@
 }
 
 .close-btn {
+  position: absolute;
   background: none;
   border: 0;
   padding: 0;
@@ -1085,11 +1087,13 @@
     position: absolute;
     top: 25px;
     left: 0;
-    height: 15px;
-    width: 15px;
-    background-color: #fff;
-    border: 1px solid #888;
+    width: 23px;
+    height: 23px;
+    background: white;
+    display: inline-block;
     border-radius: 50%;
+    border: 1px solid #666;
+    
   }
 
   /* On mouse-over, add a grey background color */
@@ -1407,7 +1411,7 @@ margin-bottom: 50px !important;
 .discountprice {
   color: $cerise;
   font-family: $font-Serif;
-  font-size: 16px;
+  font-size: 14px;
 }
 .strikeprice {
   font-size: 14px;
@@ -1428,4 +1432,20 @@ margin-bottom: 50px !important;
   position: absolute;
   right: 0;
   top: 0;
+}
+.form-heading {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.bridal-cross {
+      text-align: right;
+      font-size: 17px;
+      padding-right: 5px;
+      cursor: pointer;
+      position: fixed;
+      z-index: 10;
+      color: #fff !important;
+      width: 100%;
+      right: -40px;
 }

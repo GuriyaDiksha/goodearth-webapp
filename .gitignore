@@ -112,3 +112,9 @@ ecosystem.config.js
 # generate font related files
 src/fonts/goodearth.*
 _goodearth.scss
+
+# newrelic config file
+newrelic.js
+
+#robots.txt
+robots.txt

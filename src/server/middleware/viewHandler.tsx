@@ -1,3 +1,4 @@
+import newrelic from "newrelic";
 import path from "path";
 import Koa from "koa";
 import React from "react";
@@ -17,6 +18,9 @@ import { cssChunks } from "../staticAssets/cssChunks";
 import { LinkTag, Chunks } from "../typings";
 import config from "../../config";
 import { getPushHeader } from "../utils/response";
+import { Store } from "redux";
+import { AppState } from "reducers/typings";
+import jsesc from "jsesc";
 
 const statsFile = path.resolve("dist/static/loadable-stats.json");
 
@@ -37,10 +41,23 @@ const matchRoute = (url: string, routes: string[]) => {
 };
 
 const viewHandler: Koa.Middleware = async function(ctx, next) {
-  const store = ctx.store;
+  const store: Store = ctx.store;
   const history = ctx.history;
   const matchedRoute = matchRoute(ctx.URL.pathname, paths);
+  const state: AppState = ctx.store.getState();
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ["client"] });
+  if (ctx.cookies.get("sessionid") != state.cookies.sessionid) {
+    const expires = new Date(new Date().setMonth(new Date().getMonth() + 12));
+    ctx.cookies.set("sessionid", state.cookies.sessionid, {
+      httpOnly: false,
+      expires: expires
+    });
+  }
+
+  ctx.set("Strict-Transport-Security", "max-age=60");
+  if (ctx.url.includes("/account")) {
+    ctx.set("Cache-Control", "no-cache");
+  }
 
   if (matchedRoute && matchedRoute.route) {
     const { route, params } = matchedRoute;
@@ -69,6 +86,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     const html = renderToString(jsx);
     const meta = Helmet.renderStatic();
     const scriptTags = extractor.getScriptTags();
+    const newrelicScript = (newrelic as any).getBrowserTimingHeader();
     const styleElements = extractor.getStyleElements();
 
     let styleSheets: string[] = [];
@@ -101,13 +119,18 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     }
 
     await ctx.render("index", {
-      state: JSON.stringify(store.getState()),
+      state: jsesc(JSON.stringify(store.getState()), {
+        json: true,
+        isScriptContext: true
+      }),
       content: html,
       scripts: scriptTags,
+      newrelicScript: newrelicScript,
       styles: styleSheets,
       styleSheets: linkTags,
       head: meta,
       gtmdata: JSON.stringify(__GTM_ID__),
+      cdn: __CDN_HOST__,
       manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });
   }

@@ -138,7 +138,7 @@
         text-transform: capitalize;
     }
     span {
-        font-size: 16px;
+        font-size: 14px;
         font-family: $font-Lato;
         color: #000;
         text-transform: capitalize;
@@ -179,23 +179,23 @@
 span{
   &.discountprice {
       color: $cerise;
-      font-family: $font-Serif;
-      font-size: 16px;
+      font-family: $font-Lato;
+      font-size: 14px;
       color:$cerise;
     }
     &.strikeprice {
       font-size: 14px;
       text-decoration: line-through;
       color: tint(#000, 50%) !important;
-      font-family: $font-Serif;
+      font-family: $font-Lato;
     }
 }
   
 .wishlist-block-outer {
-    margin: 150px 0 100px 0;
+    margin: 130px 0 100px 0;
 }
 .wishlist-block-outer-mobile {
-  padding-top: 30px;
+  // padding-top: 30px;
   padding-bottom: 30px;
 }
 .wishlist_bottom {
@@ -321,7 +321,7 @@ span{
   z-index: 1;
   background-color: #fff;
   padding: 15px 20px 4px 20px;
-  top: 80px;
+  top: $header-height;
   border-bottom: 1px solid tint(#000, 80%);
   .filter-cross {
     line-height: 30px;
@@ -344,12 +344,15 @@ span{
     }
   }
 }
+.mobile-filter-header-timer {
+  top: $header-height + $timer-height;
+}
 .mobile-filter-menu {
   position: fixed;
   bottom: 0;
-  top: ($header-height + 50);
+  top: $main-header;
   left: 0;
-  z-index: 10;
+  z-index: 9;
   background-color: white;
   -webkit-transition: all 0.5s linear;
   -moz-transition: all 0.5s linear;
@@ -394,6 +397,9 @@ span{
       }
     }
   }
+}
+.mobile-filter-menu-timer {
+  top: $main-header + $timer-height;
 }
 icon-cross {
   font-weight: bold;
@@ -451,8 +457,8 @@ icon-cross {
       font-size: 25px;
       font-family: "Baskerville","Amiri","Serif";
       color: #333;
-      line-height: 60px;
-      margin-top: 10px;
+      line-height: 40px;
+      margin-top: 40px;
     }
     }
     .search-heading-mobile {
@@ -460,6 +466,22 @@ icon-cross {
         line-height: 30px;
       }
     }
+    .wishlist-heading {
+      h2 {
+        font-family: "Baskerville","Amiri","Serif";
+        color: #333;
+        margin-top: 10px;
+        text-transform: uppercase;
+        font-family: $font-Lato;
+        font-size: 20px;
+        line-height: 40px;
+      }
+      }
+      .wishlist-heading-mobile {
+        h2 {
+          line-height: 30px;
+        }
+      }
     
     .search-image-title {
     font-size: 16px;
@@ -525,4 +547,56 @@ icon-cross {
   }
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+.badge-position-plp {
+  width: 30%;
+  top: 0px;
+  z-index: 4;
+  position: absolute;
+  z-index: 1;
+  img {
+     width: 100%;
+  }
+}
+.badge-position-plp-mobile {
+    width: 40%;
+    top: 0;
+    position: absolute;
+    z-index: 4;
+  img {
+    width: 100%;
+  }
+}
+.page-body {
+  margin-top: $header-height;
+}
+.page-body-timer {
+  margin-top: $header-height + $timer-height;
+}
+
+.top-block-container {
+  padding: 30px 0;
+  text-align: center;
+  width: 100%;
+  background-color: #F7F7F7;
+  .inner-container {
+    .heading {
+      text-transform: uppercase;
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+    .subheading {
+      margin-bottom: 20px;
+      font-size: 12px;
+      font-family: $font-Lato;
+      color: #666;
+      letter-spacing: 1px;
+    }
+    .btn {
+      margin: auto;
+      width: 100px;
+      font-size: 12px;
+      line-height: 40px;
+    }
+  }
 }

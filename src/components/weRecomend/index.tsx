@@ -20,11 +20,20 @@ import CookieService from "../../services/cookie";
 const WeRecommend: React.FC<RecommenedSliderProps> = (
   props: RecommenedSliderProps
 ) => {
-  const { data, setting, currency, mobile, recommendedProducts } = props;
+  const {
+    data,
+    setting,
+    currency,
+    mobile,
+    recommendedProducts,
+    isSale,
+    corporatePDP
+  } = props;
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
     try {
+      const products = [];
       const index = recommendedProducts[i].categories
         ? recommendedProducts[i].categories.length - 1
         : 0;
@@ -36,6 +45,24 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
       category = category.replace(/>/g, "/");
       const listPath = `WeRecommend`;
       CookieService.setCookie("listPath", listPath);
+      products.push(
+        recommendedProducts[i].childAttributes.map((child: any) => {
+          return Object.assign(
+            {},
+            {
+              name: recommendedProducts[i].title,
+              id: child.sku,
+              price:
+                child.discountedPriceRecords[currency] ||
+                child.priceRecords[currency],
+              brand: "Goodearth",
+              category: category,
+              variant: child.size || "",
+              position: i
+            }
+          );
+        })
+      );
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -43,19 +70,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           click: {
             // actionField: { list: "We Recommend" },
             actionField: { list: listPath },
-            products: [
-              {
-                name: recommendedProducts[i].title,
-                id: recommendedProducts[i].sku,
-                price:
-                  recommendedProducts[i].discountedPriceRecords[currency] ||
-                  recommendedProducts[i].priceRecords[currency],
-                brand: "Goodearth",
-                category: category,
-                variant: recommendedProducts[i].childAttributes[0].size || "",
-                position: i
-              }
-            ]
+            products: products
           }
         }
       });
@@ -96,7 +111,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         ) : (
           ""
         )}
-        {(mobile || currentId == item.id) && (
+        {(mobile || currentId == item.id) && !corporatePDP && (
           <div
             className={cs(
               globalStyles.textCenter,
@@ -120,6 +135,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           onClick={e => gtmPushWeRecommendClick(e, item, i)}
         >
           <LazyImage
+            alt={item.altText || item.productName}
             aspectRatio="62:93"
             src={
               item.productImage
@@ -134,33 +150,35 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           <p className={styles.productN}>
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
-          <p className={styles.productN}>
-            {item.discount ? (
-              <span className={styles.discountprice}>
-                {String.fromCharCode(...code)}{" "}
-                {item.discountedPriceRecords[currency as Currency]}
-              </span>
-            ) : (
-              ""
-            )}
-            {item.discount ? (
-              <span className={styles.strikeprice}>
-                {" "}
-                {String.fromCharCode(...code)}{" "}
-                {item.pricerecords[currency as Currency]}{" "}
-              </span>
-            ) : (
-              <span
-                className={
-                  item.badgeType == "B_flat" ? globalStyles.cerise : ""
-                }
-              >
-                {" "}
-                {String.fromCharCode(...code)}{" "}
-                {item.pricerecords[currency as Currency]}{" "}
-              </span>
-            )}
-          </p>
+          {!corporatePDP && (
+            <p className={styles.productN}>
+              {isSale && item.discount ? (
+                <span className={styles.discountprice}>
+                  {String.fromCharCode(...code)}{" "}
+                  {item.discountedPriceRecords[currency as Currency]}
+                </span>
+              ) : (
+                ""
+              )}
+              {isSale && item.discount ? (
+                <span className={styles.strikeprice}>
+                  {" "}
+                  {String.fromCharCode(...code)}{" "}
+                  {item.pricerecords[currency as Currency]}{" "}
+                </span>
+              ) : (
+                <span
+                  className={
+                    item.badgeType == "B_flat" ? globalStyles.cerise : ""
+                  }
+                >
+                  {" "}
+                  {String.fromCharCode(...code)}{" "}
+                  {item.pricerecords[currency as Currency]}{" "}
+                </span>
+              )}
+            </p>
+          )}
         </div>
       </div>
     );

@@ -45,6 +45,9 @@
 .page-body{
   margin-top: $main-header;
 }
+.page-body-timer {
+  margin-top: $main-header + $timer-height;
+}
 @media screen and (min-width: 992px) {
   .sp-cat {
     padding-left: 20px;
@@ -60,6 +63,9 @@
 @media screen and (max-width: 992px) {
   .page-body{
     margin-top: $header-height + $grid-view-bar;
+  }
+  .page-body-timer {
+    margin-top: $header-height + $grid-view-bar + $timer-height;
   }
   .imageContainerMobile {
     margin-left: 0;
@@ -205,14 +211,14 @@
 .mobile-filter-menu {
     position: fixed;
     bottom: 0;
-    top: ($header-height + 50);
+    top: $main-header;
     left: 0;
     z-index: 7;
     background-color: white;
-    -webkit-transition: all 0.5s linear;
-    -moz-transition: all 0.5s linear;
-    -o-transition: all 0.5s linear;
-    transition: all 0.5s linear;
+    // -webkit-transition: all 0.5s linear;
+    // -moz-transition: all 0.5s linear;
+    // -o-transition: all 0.5s linear;
+    // transition: all 0.5s linear;
     .number-div {
       width: 50%;
       text-align: center;
@@ -252,6 +258,9 @@
         }
       }
     }
+  }
+  .mobile-filter-menu-timer {
+    top: $main-header + $timer-height;
   }
 
 .minimumWidth {
@@ -745,6 +754,9 @@ p.corporate-sub-heading {
       color: $cerise;
     }
   }
+}
+.list-grid-bar-timer {
+  top: $header-height + $timer-height;
 }
 .list-view-container {
   padding-left: 30px;

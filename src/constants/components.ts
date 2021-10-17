@@ -1,7 +1,13 @@
 import loadable from "@loadable/component";
-import CurrencyPopup from "../components/Popups/CurrencyPopup";
-import BackendOrderPopup from "components/BackendOrderPopup/confirm";
-import PincodePopup from "components/Popups/pincodePopup";
+import CerisePopup from "components/Popups/CerisePopup";
+
+const CurrencyPopup = loadable(() =>
+  import("../components/Popups/CurrencyPopup")
+);
+const BackendOrderPopup = loadable(() =>
+  import("components/BackendOrderPopup/confirm")
+);
+const PincodePopup = loadable(() => import("components/Popups/pincodePopup"));
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
@@ -9,20 +15,44 @@ const ForgotPasswordForm = loadable(() =>
   import("components/signin/forgotPassword")
 );
 const Quickview = loadable(() => import("components/Quickview"));
-import ProfileUpdater from "components/signin/profileUpdater";
-import NotifyMePopup from "components/NotifyMePopup";
-import InfoPopup from "components/Popups/InfoPopup";
-import ShippingPopup from "../containers/checkout/component/shippingPopup";
-import Zoom from "components/Zoom";
-import SizeChartPopup from "containers/pdp/components/sizeChartPopup";
-import WallpaperPopup from "containers/pdp/components/wallpaperPopup";
-import ThirdPartyEnquiryPopup from "components/ThirdPartyEnquiryPopup";
-import BridalMobile from "containers/bridal/bridalItemMobile";
-import EditRegistry from "containers/myAccount/components/Bridal/EditRegistry";
-import BridalMobileProductUpdate from "containers/myAccount/components/Bridal/BridalMobileProductUpdate";
-import BridalPop from "containers/myAccount/components/Bridal/BridalPop";
-import ShareLink from "containers/myAccount/components/Bridal/ShareLink";
+const ProfileUpdater = loadable(() =>
+  import("components/signin/profileUpdater")
+);
+const NotifyMePopup = loadable(() => import("components/NotifyMePopup"));
+const InfoPopup = loadable(() => import("components/Popups/InfoPopup"));
+const ShippingPopup = loadable(() =>
+  import("../containers/checkout/component/shippingPopup")
+);
+const Zoom = loadable(() => import("components/Zoom"));
+const SizeChartPopup = loadable(() =>
+  import("containers/pdp/components/sizeChartPopup")
+);
+const WallpaperPopup = loadable(() =>
+  import("containers/pdp/components/wallpaperPopup")
+);
+const ThirdPartyEnquiryPopup = loadable(() =>
+  import("components/ThirdPartyEnquiryPopup")
+);
+const BridalMobile = loadable(() =>
+  import("containers/bridal/bridalItemMobile")
+);
+const EditRegistry = loadable(() =>
+  import("containers/myAccount/components/Bridal/EditRegistry")
+);
+const BridalMobileProductUpdate = loadable(() =>
+  import("containers/myAccount/components/Bridal/BridalMobileProductUpdate")
+);
+const BridalPop = loadable(() =>
+  import("containers/myAccount/components/Bridal/BridalPop")
+);
+const ShareLink = loadable(() =>
+  import("containers/myAccount/components/Bridal/ShareLink")
+);
 const Delivery = loadable(() => import("components/Popups/DeliveryPopup"));
+
+const CMSPopup = loadable(() => import("components/Popups/CMSPopup"));
+
+const MakerPopup = loadable(() => import("components/Popups/MakerPopup"));
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
@@ -46,7 +76,10 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   bridalMobileProductUpdate: BridalMobileProductUpdate,
   bridalPop: BridalPop,
   shareLink: ShareLink,
-  delivery: Delivery
+  delivery: Delivery,
+  cmsPopup: CMSPopup,
+  cerise: CerisePopup,
+  maker: MakerPopup
 };
 
 export enum POPUP {
@@ -71,5 +104,8 @@ export enum POPUP {
   BRIDALMOBILEPRODUCTUPDATE = "bridalMobileProductUpdate",
   BRIDALPOP = "bridalPop",
   SHARELINK = "shareLink",
-  DELIVERY = "delivery"
+  DELIVERY = "delivery",
+  CMSPOPUP = "cmsPopup",
+  CERISE = "cerise",
+  MAKER = "maker"
 }

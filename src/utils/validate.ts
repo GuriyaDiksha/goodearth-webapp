@@ -3,7 +3,8 @@ import { Basket } from "typings/basket";
 import CookieService from "../services/cookie";
 import { Dispatch } from "redux";
 import { showMessage } from "actions/growlMessage";
-import { ReactElement } from "react";
+import { DomUtils, parseDocument } from "htmlparser2";
+import { useEffect, useState } from "react";
 
 export function checkMail(email: any) {
   // original regex with escape characters "\["
@@ -273,6 +274,58 @@ export function sliderProductImpression(
   }
 }
 
+export function sliderProductClick(
+  prod: any,
+  list: any,
+  currency: Currency,
+  position?: any
+) {
+  try {
+    let product = [];
+    position = position || 0;
+    if (!prod) return false;
+    // if (data.length < 1) return false;
+    const listPath = `${list}`;
+    let category = "";
+    if (prod.categories) {
+      const index = prod.categories.length - 1;
+      category = prod.categories[index]
+        ? prod.categories[index].replace(/\s/g, "")
+        : "";
+      category = category.replace(/>/g, "/");
+    }
+    product = [
+      Object.assign(
+        {},
+        {
+          name: prod.title,
+          id: prod.sku,
+          category: category,
+          // list: listPath,
+          // price: child.priceRecords[currency],
+          brand: "Goodearth",
+          position: position + 1,
+          variant: prod.size || ""
+        }
+      )
+    ];
+    dataLayer.push({
+      event: "productClick",
+      ecommerce: {
+        currencyCode: currency,
+        click: {
+          actionField: { list: listPath },
+          products: product
+        }
+      }
+    });
+    CookieService.setCookie("listPath", listPath);
+  } catch (e) {
+    console.log("Impression error");
+    console.log(e);
+  }
+}
+
 export function promotionImpression(data: any) {
   try {
     const promotions = data.widgetImages.map((image: any) => {
@@ -330,13 +383,11 @@ export function PDP(data: any, currency: Currency) {
       })
     );
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
-    CookieService.setCookie("listPath", "");
     dataLayer.push({
-      event: "PDP",
-      // actionField: { list: `PDP ${location.pathname}`},
-      actionField: { list: listPath },
+      event: "productDetailImpression",
       ecommerce: {
         detail: {
+          actionField: { list: listPath },
           products
         }
       }
@@ -544,17 +595,25 @@ export function MoreFromCollectionProductImpression(
     if (data.length < 1) return false;
     const listPath = `${list}`;
     product = data.map((prod: any, i: number) => {
+      let category = "";
+      if (prod.categories) {
+        const index = prod.categories.length - 1;
+        category = prod.categories[index]
+          ? prod.categories[index].replace(/\s/g, "")
+          : "";
+        category = category.replace(/>/g, "/");
+      }
       return prod.childAttributes.map((child: any) => {
         return Object.assign(
           {},
           {
             name: prod.title,
             id: child.sku,
-            category: "",
+            category: category,
             list: listPath,
-            price: prod.discountedPriceRecords
-              ? prod.discountedPriceRecords[currency]
-              : prod.priceRecords[currency],
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
             brand: "Goodearth",
             position: position + i + 1,
             variant: child.size || ""
@@ -584,6 +643,14 @@ export function MoreFromCollectionProductClick(
   const products = [];
   if (!data) return false;
   if (data.length < 1) return false;
+  let category = "";
+  if (data.categories) {
+    const index = data.categories.length - 1;
+    category = data.categories[index]
+      ? data.categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+  }
   products.push(
     data.childAttributes.map((child: any) => {
       return Object.assign(
@@ -591,11 +658,11 @@ export function MoreFromCollectionProductClick(
         {
           name: data.title,
           id: child.sku,
-          price: data.discountedPriceRecords
-            ? data.discountedPriceRecords[currency]
-            : data.priceRecords[currency],
+          price: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency],
           brand: "Goodearth",
-          category: "",
+          category: category,
           variant: child.size || "",
           position: position
         }
@@ -665,12 +732,13 @@ const getUniqueId = () => {
 };
 export const showGrowlMessage = (
   dispatch: Dispatch,
-  text: string | (string | JSX.Element)[] | ReactElement,
+  text: string,
   timeout = 3000,
-  id?: string
+  id?: string,
+  params?: any
 ) => {
   const newId = id ? id : getUniqueId();
-  dispatch(showMessage(text, timeout, newId));
+  dispatch(showMessage(text, timeout, newId, params));
 };
 
 export const checkoutGTM = (
@@ -710,13 +778,32 @@ export const headerClickGTM = (
   }
 };
 
-export const menuNavigationGTM = (
-  l1: string,
-  l2: string,
-  l3: string,
-  mobile: boolean,
-  isLoggedIn: boolean
-) => {
+export const getInnerText = (input: string) => {
+  if (input) {
+    if (typeof document == "undefined") {
+      const elem2 = parseDocument(input).children;
+      return DomUtils.innerText(elem2);
+    }
+    const elem = new DOMParser().parseFromString(input, "text/html").body;
+    return elem.innerText;
+  }
+  return input;
+};
+
+export const menuNavigationGTM = ({
+  l1,
+  l2,
+  l3,
+  clickUrl1,
+  clickUrl2,
+  clickUrl3,
+  mobile,
+  isLoggedIn
+}: {
+  [x: string]: string | boolean;
+  mobile: boolean;
+  isLoggedIn: boolean;
+}) => {
   try {
     dataLayer.push({
       event: "Menu Navigation",
@@ -724,6 +811,52 @@ export const menuNavigationGTM = (
       l1,
       l2,
       l3,
+      clickUrl1,
+      clickUrl2,
+      clickUrl3,
+      device: mobile ? "mobile" : "desktop",
+      userStatus: isLoggedIn ? "logged in" : "logged out",
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Menu Navigation GTM error!");
+  }
+};
+
+export const megaMenuNavigationGTM = ({
+  l1,
+  l2,
+  l3,
+  clickUrl1,
+  clickUrl2,
+  clickUrl3,
+  template,
+  img2,
+  img3,
+  cta,
+  subHeading,
+  mobile,
+  isLoggedIn
+}: {
+  [x: string]: string | boolean;
+  mobile: boolean;
+  isLoggedIn: boolean;
+}) => {
+  try {
+    dataLayer.push({
+      event: "Menu Navigation",
+      clickType: "Category",
+      l1,
+      l2,
+      l3,
+      clickUrl1,
+      clickUrl2,
+      clickUrl3,
+      template,
+      img2,
+      img3,
+      cta,
+      subHeading,
       device: mobile ? "mobile" : "desktop",
       userStatus: isLoggedIn ? "logged in" : "logged out",
       url: `${location.pathname}${location.search}`
@@ -746,3 +879,85 @@ export const pageViewGTM = (title: string) => {
     console.log("Page VIew GTM error!");
   }
 };
+
+export const moveChatUp = () => {
+  const chatContainer = document.getElementById("chat-container");
+  if (chatContainer) {
+    chatContainer.classList.remove("chat-container-down");
+    chatContainer.classList.add("chat-container");
+  }
+};
+
+export const moveChatDown = () => {
+  const chatContainer = document.getElementById("chat-container");
+  if (chatContainer) {
+    chatContainer.classList.remove("chat-container");
+    chatContainer.classList.add("chat-container-down");
+  }
+};
+
+export const viewSelectionGTM = (clickType: "list" | "grid") => {
+  try {
+    dataLayer.push({
+      event: "View Selection",
+      clickType
+    });
+  } catch (e) {
+    console.log("View Selection GTM error!");
+  }
+};
+
+export const sortGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Sort",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Sort GTM error!");
+  }
+};
+
+export const footerGTM = (clickType: string) => {
+  try {
+    dataLayer.push({
+      event: "Footer Navigation",
+      clickType,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Footer Navigation GTM error!");
+  }
+};
+
+export const announcementBarGTM = (clickText: string, clickUrl: string) => {
+  try {
+    dataLayer.push({
+      event: "Announcement Bar Click",
+      clickText,
+      clickUrl,
+      url: `${location.pathname}${location.search}`
+    });
+  } catch (e) {
+    console.log("Announcement Bar click GTM error!");
+  }
+};
+
+export function useOnScreen(ref: any) {
+  const [isIntersecting, setIntersecting] = useState(false);
+
+  const observer = new IntersectionObserver(([entry]) =>
+    setIntersecting(entry.isIntersecting)
+  );
+
+  useEffect(() => {
+    observer.observe(ref.current);
+    // Remove the observer as soon as the component is unmounted
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return isIntersecting;
+}

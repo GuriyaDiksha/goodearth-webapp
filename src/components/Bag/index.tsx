@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 const mapStateToProps = (state: AppState) => {
   return {
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    customerGroup: state.user.customerGroup
   };
 };
 type Props = CartProps &
@@ -100,6 +101,10 @@ class Bag extends React.Component<Props, State> {
 
   getFooter() {
     if (this.props.cart) {
+      // const amount =
+      //   this.props.cart.offerDiscounts.filter(discount => {
+      //     return discount.name == "EMP Discount";
+      //   })[0] || {};
       return (
         <div className={styles.bagFooter}>
           {this.hasOutOfStockItems() && (
@@ -137,6 +142,47 @@ class Bag extends React.Component<Props, State> {
               </p>
             </div>
           </div>
+          {/* {amount.name && (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                styles.containerCost
+              )}
+            >
+              <div className={cs(styles.disPrice)}>EMP Discount</div>
+              <div className={globalStyles.textRight}>
+                <h5 className={cs(styles.disPrice, globalStyles.bold)}>
+                  (-)
+                  {String.fromCharCode(...currencyCodes[this.props.currency])}
+                  &nbsp;
+                  {parseFloat(amount.amount?.toString()).toFixed(2)}
+                </h5>
+              </div>
+            </div>
+          )}
+          {amount.name && <div
+            className={cs(
+              globalStyles.flex,
+              globalStyles.gutterBetween,
+              styles.containerCost
+            )}
+          >
+            <div className={cs(styles.totalPrice, globalStyles.bold)}>
+              TOTAL
+            </div>
+            <div className={globalStyles.textRight}>
+              <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
+                {String.fromCharCode(...currencyCodes[this.props.currency])}
+                &nbsp;
+                {parseFloat(
+                  this.props.cart.amountPayable?.toString() || ""
+                ).toFixed(2)}
+              </h5>
+            </div>
+          </div>
+          } */}
+
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={cs(styles.iconCart, globalStyles.pointer)}>
               <Link to="/cart">
@@ -184,11 +230,11 @@ class Bag extends React.Component<Props, State> {
     }
   }
 
-  // resetInfoPopupCookie() {
-  //   const cookieString =
-  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-  //   document.cookie = cookieString;
-  // }
+  resetInfoPopupCookie() {
+    const cookieString =
+      "checkoutinfopopup3=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  }
 
   chkshipping = (event: React.MouseEvent) => {
     // if (window.ischeckout) {
@@ -200,9 +246,9 @@ class Bag extends React.Component<Props, State> {
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
-    // if (this.state.isSuspended) {
-    //   this.resetInfoPopupCookie();
-    // }
+    if (this.state.isSuspended) {
+      this.resetInfoPopupCookie();
+    }
     if (
       !this.state.freeShipping &&
       total >= freeShippingThreshold &&
@@ -260,6 +306,11 @@ class Bag extends React.Component<Props, State> {
   };
 
   render() {
+    const {
+      total,
+      freeShippingThreshold,
+      freeShippingApplicable
+    } = this.props.cart;
     return (
       <div>
         <div
@@ -302,7 +353,11 @@ class Bag extends React.Component<Props, State> {
               ></i>
             </div>
           </div>
-          {this.state.shipping ? (
+          {this.state.shipping &&
+          total >= freeShippingThreshold &&
+          total < freeShippingApplicable &&
+          this.props.currency == "INR" &&
+          this.props.cart.shippable ? (
             <div className={styles.cart}>
               <div className={cs(styles.message, styles.noMargin)}>
                 You&apos; re a step away from{" "}

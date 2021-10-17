@@ -7,7 +7,12 @@ const initialState: State = {
   makerReloadToggle: false,
   nextUrl: "",
   deliveryText: "",
-  scrollDown: false
+  scrollDown: false,
+  microUrl: "",
+  showCookie: false,
+  showTimer: false,
+  showGiftWrap: false,
+  showDeliveryInstruction: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -15,6 +20,16 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_SALE": {
       const newState = { ...state };
       newState.isSale = action.payload;
+      return newState;
+    }
+    case "UPDATE_GIFT_WRAP": {
+      const newState = { ...state };
+      newState.showGiftWrap = action.payload;
+      return newState;
+    }
+    case "UPDATE_DELIVERY_INSTRUCTION": {
+      const newState = { ...state };
+      newState.showDeliveryInstruction = action.payload;
       return newState;
     }
     case "UPDATE_POPUP_BG_URL": {
@@ -45,6 +60,21 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_SCROLL_DOWN": {
       const newState = { ...state };
       newState.scrollDown = action.payload;
+      return newState;
+    }
+    case "UPDATE_MICRO_URL": {
+      const newState = { ...state };
+      newState.microUrl = action.payload;
+      return newState;
+    }
+    case "UPDATE_SHOW_COOKIE": {
+      const newState = { ...state };
+      newState.showCookie = action.payload;
+      return newState;
+    }
+    case "UPDATE_SHOW_TIMER": {
+      const newState = { ...state };
+      newState.showTimer = action.payload;
       return newState;
     }
   }

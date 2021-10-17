@@ -21,7 +21,9 @@ import { AddressContext } from "components/Address/AddressMain/context";
 import { updateAddressList } from "actions/address";
 import { updateUser } from "actions/user";
 import { POPUP } from "constants/components";
-
+import { useHistory } from "react-router";
+import * as util from "utils/validate";
+// import globalStyles from "styles/global.scss";
 type Props = {
   bridalId: number;
 };
@@ -40,8 +42,11 @@ const Bridal: React.FC<Props> = props => {
   const [currentScreenValue, setCurrentScreenValue] = useState("manage");
   const [bridalAddress, setBridalAddress] = useState<AddressData>();
   const [bridalProfile, setBridalProfile] = useState<BridalProfileData>();
+  // const [ registryCreateError, setRegistryCreateError ] = useState("");
   // const [ showPopup, setShowPopup ] = useState(false);
   const [shareLink, setShareLink] = useState("");
+  const [lastScreen, setLastScreen] = useState("");
+  const history = useHistory();
   // const [ showpop, setShowpop ] = useState(false);
   // const { mobile } = useSelector((state: AppState) => state.device);
   const { currency, user } = useSelector((state: AppState) => state);
@@ -87,6 +92,25 @@ const Bridal: React.FC<Props> = props => {
   // }
 
   useEffect(() => {
+    const url = new URLSearchParams(history.location.search);
+    const id = url.get("bridalId") || "";
+    if (id) {
+      BridalService.checkBridalId(dispatch, id)
+        .then((data: any) => {
+          // user.bridal.
+          if (data.isBridalActive == false) {
+            util.showGrowlMessage(
+              dispatch,
+              `Sorry, Your registry ${data.registryName} has expired`,
+              7000
+            );
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
     return () => {
       window.removeEventListener("beforeunload", confirmPopup);
     };
@@ -166,7 +190,10 @@ const Bridal: React.FC<Props> = props => {
         registryName,
         userAddress
       } = obj;
-      const newBridalDetails: BridalDetailsType = bridalDetails;
+      const newBridalDetails: BridalDetailsType = Object.assign(
+        {},
+        bridalDetails
+      );
       switch (section) {
         case "create":
           newBridalDetails["occasion"] = occasion ? occasion : "";
@@ -190,7 +217,7 @@ const Bridal: React.FC<Props> = props => {
             if (isValid) {
               // this.props.onSelectAddress(address);
               newBridalDetails["userAddress"] = userAddress;
-              setCurrentModule("created");
+              // setCurrentModule("address");
             } else {
               // this.manageAddressPostcode("edit", address);
               openAddressForm(userAddress);
@@ -212,7 +239,8 @@ const Bridal: React.FC<Props> = props => {
         currency,
         actionType: "create"
       };
-
+      // setCurrentModule("created");
+      setLastScreen("start");
       BridalService.saveBridalProfile(dispatch, formData)
         .then(data => {
           if (data) {
@@ -222,34 +250,23 @@ const Bridal: React.FC<Props> = props => {
               bridalCurrency: currency
             });
             dispatch(updateUser(updatedUser));
-            openBridalPop();
+            setCurrentModule("created");
           }
         })
         .catch(err => {
           // setState({
           //     showerror: "Something went Wrong"
           // })
+          // if(err.response.data.error_message) {
+          //   let errorMsg = err.response.data.error_message[0];
+          //   if(errorMsg == "MaxRetries") {
+          //     errorMsg = "You have exceeded max attempts, please try after some time."
+          //   }
+          //   setRegistryCreateError(errorMsg);
+          // }
         });
     }
   };
-
-  // const changeScreen = () => {
-  // setState({
-  //     showPopup: true
-  // })
-  // }
-
-  // closePopup() {
-  //     setState({
-  //         showPopup: false
-  //     })
-  // }
-
-  // closeInsPopup() {
-  //     setState({
-  //         showpop: false
-  //     })
-  // }
 
   const showManageRegistry = () => {
     getBridalProfileData();
@@ -259,10 +276,6 @@ const Bridal: React.FC<Props> = props => {
   const showManageAddressComponent = () => {
     setCurrentScreenValue("editRegistryAddress");
   };
-
-  // const setManageRegistryFull = () => {
-  //   setCurrentScreenValue("manageregistryfull");
-  // };
 
   const setSelectedSection = () => {
     switch (currentSection) {
@@ -280,15 +293,13 @@ const Bridal: React.FC<Props> = props => {
             addressType="SHIPPING"
             error=""
             addresses={[]}
+            createRegistry={createRegistry}
           />
         );
-      // return <ManageAddress isbridal={true}
-      //                       setCurrentModule={setCurrentModule}
-      //                       setCurrentModuleData={setCurrentModuleData}
-      //                       currentCallBackComponent="bridal"
-      //                       addressType="SHIPPING" case="create"/>
       case "created":
-        return <RegistryCreated createRegistry={createRegistry} />;
+        return (
+          <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
+        );
       default:
     }
   };
@@ -306,20 +317,6 @@ const Bridal: React.FC<Props> = props => {
     });
   };
 
-  // onEditAddress(data) {
-  //     // console.log(data)
-  // }
-
-  // setMode(value) {
-  //     setState({
-  //         editMode: value
-  //     })
-  // }
-
-  // setAddressModeProfile(modes) {
-  //     setState(modes)
-  // }
-
   const currentScreen = () => {
     switch (currentScreenValue) {
       case "manage": {
@@ -332,8 +329,6 @@ const Bridal: React.FC<Props> = props => {
           ) {
             return (
               <ManageRegistry
-                // bridalAddress={bridalAddress}
-                // bridalProfile={bridalProfile}
                 openShareLinkPopup={openShareLinkPopup}
                 showRegistryFull={() =>
                   setCurrentScreenValue("manageregistryfull")
@@ -354,15 +349,9 @@ const Bridal: React.FC<Props> = props => {
           ) {
             return (
               <ManageRegistryFull
-                // bridalAddress={bridalAddress}
                 openShareLinkPopup={openShareLinkPopup}
-                // bridalProfile={bridalProfile}
-                // bid={props.bridalId}
-                // changeAddress={changeAddress}
                 key={1}
-                // getBridalProfileData={getBridalProfileData}
                 showManageRegistry={showManageRegistry}
-                // mobile={mobile}
                 showManageAddressComponent={showManageAddressComponent}
               />
             );
@@ -377,20 +366,7 @@ const Bridal: React.FC<Props> = props => {
             addressType={"SHIPPING"}
             error=""
             addresses={[]}
-            // changeBridalAddress={changeBridalAddress}
-            // setAddressModeProfile={setAddressModeProfile}
-            // editMode={editMode}
-            // setMode={setMode}
-            // addressData={addressData}
-            // newAddressMode={newAddressMode}
-            // addressesAvailable={addressesAvailable}
-            // showAddresses={showAddresses}
-            // toggleAddressForm={onEditAddress} showAddressInBridalUse={true}
             currentCallBackComponent="bridal-edit"
-            // step="manage"
-            // shouldShowBackButton={true}
-            // showAllAddresses="true"
-            key="k123"
           />
         );
       // break;
@@ -415,7 +391,11 @@ const Bridal: React.FC<Props> = props => {
       }}
     >
       <div className="bridal-registry">
-        {props.bridalId != 0 ? currentScreen() : setSelectedSection()}
+        {lastScreen == "start"
+          ? setSelectedSection()
+          : props.bridalId != 0
+          ? currentScreen()
+          : setSelectedSection()}
       </div>
     </BridalContext.Provider>
   );

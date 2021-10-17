@@ -23,6 +23,11 @@ export type loginResponse = {
   userId: string;
   email: string;
   firstName: string;
+  oldBasketHasItems: boolean;
+  publishRemove: boolean;
+  updated: boolean;
+  updatedRemovedItems: string[];
+  customerGroup: string;
 };
 
 export type registerResponse = {

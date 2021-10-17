@@ -8,20 +8,22 @@ import { GiftState } from "./typings";
 import mapDispatchToProps from "../mapper/action";
 import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import * as valid from "utils/validate";
-
+import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 const mapStateToProps = (state: AppState) => {
   return {
     user: state.user,
     currency: state.currency,
     giftList: state.basket.giftCards,
     total: state.basket.total,
-    addnewGiftcard: state.basket.addnewGiftcard
+    addnewGiftcard: state.basket.addnewGiftcard,
+    mobile: state.device.mobile
   };
 };
 type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> &
+  RouteComponentProps;
 
 class ApplyGiftcard extends React.Component<Props, GiftState> {
   constructor(props: Props) {
@@ -31,7 +33,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       error: "",
       newCardBox: props.giftList.length > 0 ? false : true,
       toggleOtp: false,
-      isActivated: false
+      isActivated: false,
+      cardType: "GIFTCARD"
     };
   }
   private firstLoad = true;
@@ -72,25 +75,29 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       return false;
     }
     const data: any = {
-      cardId: this.state.txtvalue
+      cardId: this.state.txtvalue,
+      type: this.state.cardType
     };
 
-    this.props.applyGiftCard(data).then((response: any) => {
-      if (response.status == false) {
-        this.updateError(response.message, response.isNotActivated);
-      } else {
-        dataLayer.push({
-          event: "eventsToSend",
-          eventAction: "giftCard",
-          eventCategory: "promoCoupons",
-          eventLabel: data.cardId
-        });
-        this.setState({
-          newCardBox: false,
-          txtvalue: ""
-        });
-      }
-    });
+    this.props
+      .applyGiftCard(data, this.props.history, this.props.user.isLoggedIn)
+      .then((response: any) => {
+        if (response.status == false) {
+          this.updateError(response.message, response.isNotActivated);
+        } else {
+          dataLayer.push({
+            event: "eventsToSend",
+            eventAction: "giftCard",
+            eventCategory: "promoCoupons",
+            eventLabel: data.cardId
+          });
+          this.setState({
+            newCardBox: false,
+            txtvalue: "",
+            error: ""
+          });
+        }
+      });
   };
 
   gcBalanceOtp = (response: any) => {
@@ -116,15 +123,20 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       newCardBox: true
     });
   };
-  onClose = (code: string) => {
+  onClose = (code: string, type: string) => {
+    // debugger
     const data: any = {
-      cardId: code
+      cardId: code,
+      type: type
     };
-    this.props.removeGiftCard(data).then(response => {
-      this.setState({
-        newCardBox: true
+    this.props
+      .removeGiftCard(data, this.props.history, this.props.user.isLoggedIn)
+      .then(response => {
+        this.setState({
+          newCardBox: true,
+          error: ""
+        });
       });
-    });
   };
 
   updateError = (value?: string, activate?: boolean) => {
@@ -142,6 +154,14 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     window.scrollBy(0, -200);
   };
 
+  onchange = (value: any) => {
+    // setModevalue(event.target.value);
+    this.setState({
+      cardType: value,
+      error: ""
+    });
+  };
+
   render() {
     const { newCardBox, txtvalue, toggleOtp } = this.state;
     const {
@@ -149,8 +169,19 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       currency,
       giftList,
       total,
-      addnewGiftcard
+      addnewGiftcard,
+      mobile
     } = this.props;
+    const modeOptions = [
+      {
+        value: "GIFTCARD",
+        label: "Gift Card"
+      },
+      {
+        value: "CREDITNOTE",
+        label: "Credit Note"
+      }
+    ];
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
@@ -181,17 +212,47 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 ) : (
                   <Fragment>
                     <div className={cs(styles.flex, styles.vCenter)}>
-                      <input
-                        type="text"
-                        value={txtvalue}
-                        onChange={this.changeValue}
-                        id="gift"
+                      <SelectableDropdownMenu
+                        id="giftcard_dropdown"
+                        align="right"
                         className={
-                          this.state.error
-                            ? cs(styles.marginR10, styles.err)
-                            : styles.marginR10
+                          mobile
+                            ? styles.selectRelativemobile
+                            : styles.selectRelative
                         }
-                      />
+                        items={modeOptions}
+                        onChange={this.onchange}
+                        showCaret={true}
+                        value={this.state.cardType}
+                        key={"plpPage"}
+                      ></SelectableDropdownMenu>
+                      {/* <FormSelect
+                        required
+                        name="giftselect"
+                        label=""
+                        disable={false}
+                        
+                        options={modeOptions}
+                        handleChange={this.onchange}
+                        value={this.state.cardType}
+                        validations={{
+                          isExisty: true
+                        }}
+                      /> */}
+                      <div className={cs({ [styles.giftInput]: !mobile })}>
+                        <input
+                          type="text"
+                          value={txtvalue}
+                          onChange={this.changeValue}
+                          id="gift"
+                          className={
+                            this.state.error
+                              ? cs(styles.marginR10, styles.ht50, styles.err)
+                              : cs(styles.marginR10, styles.ht50)
+                          }
+                        />
+                      </div>
+
                       <span
                         className={cs(
                           styles.colorPrimary,
@@ -205,7 +266,11 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                         ></span>
                       </span>
                     </div>
-                    <label>Gift Card Code / Credit Note</label>
+                    {this.state.cardType == "GIFTCARD" ? (
+                      <label>Gift Card Code</label>
+                    ) : (
+                      <label>Credit Note</label>
+                    )}
                   </Fragment>
                 )}
                 {this.state.error ? (
@@ -215,7 +280,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 ) : (
                   ""
                 )}
-                {this.state.isActivated ? (
+                {this.state.isActivated && this.state.error ? (
                   <p
                     className={cs(
                       styles.activeUrl,
@@ -253,4 +318,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplyGiftcard);
+const ApplyGiftcardRouter = withRouter(ApplyGiftcard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ApplyGiftcardRouter);

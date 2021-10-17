@@ -33,31 +33,56 @@ const CartItems: React.FC<BasketItem> = memo(
     onNotifyCart
   }) => {
     const [value, setValue] = useState(quantity | 0);
+    const [qtyError, setQtyError] = useState(false);
     const { dispatch } = useStore();
 
+    const {
+      images,
+      collections,
+      title,
+      url,
+      priceRecords,
+      discount,
+      discountedPriceRecords,
+      badgeType,
+      inWishlist,
+      salesBadgeImage,
+      childAttributes,
+      stockRecords,
+      structure,
+      productDeliveryDate,
+      attributes,
+      categories,
+      sku
+    } = product;
+    const showDeliveryTimelines = true;
     useEffect(() => {
       setValue(quantity);
     }, [quantity]);
 
     const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value, "cart").then(
-        res => {
+      await BasketService.updateToBasket(dispatch, id, value, "cart")
+        .then(res => {
           setValue(value);
-        }
-      );
+        })
+        .catch(err => {
+          setQtyError(true);
+          throw err;
+        });
     };
 
     const gtmPushDeleteCartItem = () => {
       try {
         const price = saleStatus
-          ? product.discountedPriceRecords[currency]
-          : product.priceRecords[currency];
+          ? product.childAttributes[0].discountedPriceRecords[currency]
+          : product.childAttributes[0].priceRecords[currency];
         let category = "";
-        if (product.categories) {
-          const index = product.categories.length - 1;
-          category = product.categories[index]
-            ? product.categories[index].replace(/\s/g, "")
+        if (categories) {
+          const index = categories.length - 1;
+          category = categories[index]
+            ? categories[index].replace(/\s/g, "")
             : "";
+          category = category.replace(/>/g, "/");
         }
 
         dataLayer.push({
@@ -67,17 +92,12 @@ const CartItems: React.FC<BasketItem> = memo(
             remove: {
               products: [
                 {
-                  name: product.title,
-                  id: product.sku || product.childAttributes[0].sku,
+                  name: title,
+                  id: sku || childAttributes[0].sku,
                   price: price,
                   brand: "Goodearth",
                   category: category,
-                  // 'variant': product.ga_variant,
                   variant: product.childAttributes?.[0].size || "",
-                  list:
-                    location.href.indexOf("cart") != -1
-                      ? `Cart ${location.pathname}`
-                      : `Checkout ${location.pathname}`,
                   quantity: quantity
                 }
               ]
@@ -122,10 +142,10 @@ const CartItems: React.FC<BasketItem> = memo(
           POPUP.NOTIFYMEPOPUP,
           {
             basketLineId: id,
-            price: product.priceRecords[currency],
+            price: priceRecords[currency],
             currency: currency,
-            title: product.title,
-            childAttributes: product.childAttributes as ChildProductAttributes[],
+            title: title,
+            childAttributes: childAttributes as ChildProductAttributes[],
             selectedIndex: 0,
             discount: false,
             onNotifyCart: onNotifyCart,
@@ -140,7 +160,7 @@ const CartItems: React.FC<BasketItem> = memo(
     };
 
     const renderNotifyTrigger = (section: string) => {
-      const isOutOfStock = product.stockRecords[0].numInStock < 1;
+      const isOutOfStock = stockRecords[0].numInStock < 1;
       if (isOutOfStock) {
         if (section == "info") {
           return (
@@ -181,26 +201,15 @@ const CartItems: React.FC<BasketItem> = memo(
 
       return null;
     };
-    const {
-      images,
-      collections,
-      title,
-      url,
-      priceRecords,
-      discount,
-      discountedPriceRecords,
-      badgeType,
-      inWishlist
-    } = product;
 
     const price = priceRecords[currency];
     const imageUrl =
-      product.structure == "GiftCard"
+      structure == "GiftCard"
         ? giftCardImage
         : images && images.length > 0
         ? images[0].productImage
         : "";
-    const isGiftCard = product.structure.toLowerCase() == "giftcard";
+    const isGiftCard = structure.toLowerCase() == "giftcard";
 
     return (
       <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
@@ -208,24 +217,35 @@ const CartItems: React.FC<BasketItem> = memo(
           <div
             className={cs(bootstrap.col5, bootstrap.colMd2, styles.cartPadding)}
           >
-            <div className={styles.cartRing}>
-              {bridalProfile && (
-                <svg
-                  viewBox="-5 -5 50 50"
-                  width="40"
-                  height="40"
-                  preserveAspectRatio="xMidYMid meet"
-                  x="0"
-                  y="0"
-                  className={styles.ceriseBridalRings}
-                >
-                  <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                </svg>
-              )}
+            <div className={globalStyles.relative}>
+              <Link to={isGiftCard ? "#" : url}>
+                {salesBadgeImage && (
+                  <div className={styles.badgePositionPlpMobile}>
+                    <img src={salesBadgeImage} />
+                  </div>
+                )}
+                <div className={styles.cartRing}>
+                  {bridalProfile && (
+                    <svg
+                      viewBox="-5 -5 50 50"
+                      width="30"
+                      height="30"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.ceriseBridalRings}
+                    >
+                      <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                    </svg>
+                  )}
+                </div>
+                <img
+                  className={styles.productImage}
+                  src={imageUrl}
+                  alt={product.altText || product.title}
+                />
+              </Link>
             </div>
-            <Link to={isGiftCard ? "#" : url}>
-              <img className={styles.productImage} src={imageUrl} />
-            </Link>
           </div>
           <div
             className={cs(bootstrap.colMd8, bootstrap.col5, styles.cartPadding)}
@@ -240,7 +260,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     <div className={styles.productName}>
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>
-                    {product.productDeliveryDate && (
+                    {productDeliveryDate && showDeliveryTimelines && (
                       <div
                         className={cs(
                           styles.deliveryDate,
@@ -250,7 +270,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       >
                         Estimated Delivery On or Before: <br />
                         <span className={styles.black}>
-                          {product.productDeliveryDate}
+                          {productDeliveryDate}
                         </span>
                       </div>
                     )}
@@ -285,7 +305,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         {" "}
                         {String.fromCharCode(...currencyCodes[currency])}
                         &nbsp;
-                        {product.structure == "GiftCard" ? GCValue : price}
+                        {structure == "GiftCard" ? GCValue : price}
                       </span>
                     )}
                   </div>
@@ -299,7 +319,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   })}
                 >
                   <div className={styles.productSize}>
-                    {getSize(product.attributes)}
+                    {getSize(attributes)}
                   </div>
                   <div>
                     <div className={styles.size}>QTY</div>
@@ -315,12 +335,29 @@ const CartItems: React.FC<BasketItem> = memo(
                         onUpdate={handleChange}
                         class="my-quantity"
                         disabled={
-                          product.stockRecords &&
-                          product.stockRecords[0].numInStock < 1
+                          stockRecords && stockRecords[0].numInStock < 1
                         }
                         // errorMsg="Available qty in stock is"
                       />
                     </div>
+                    <span
+                      className={cs(globalStyles.errorMsg, styles.stockLeft, {
+                        [styles.stockLeftWithError]: qtyError
+                      })}
+                    >
+                      {saleStatus &&
+                        childAttributes[0].showStockThreshold &&
+                        childAttributes[0].stock > 0 &&
+                        `Only ${childAttributes[0].stock} Left!`}
+                      <br />
+                      {saleStatus &&
+                        childAttributes[0].showStockThreshold &&
+                        childAttributes[0].stock > 0 &&
+                        childAttributes[0].othersBasketCount > 0 &&
+                        ` *${childAttributes[0].othersBasketCount} other${
+                          childAttributes[0].othersBasketCount > 1 ? "s" : ""
+                        } have this item in their bag.`}
+                    </span>
                     {renderNotifyTrigger("info")}
                   </div>
                 </div>
@@ -335,7 +372,9 @@ const CartItems: React.FC<BasketItem> = memo(
               styles.cartPadding
             )}
           >
-            <div className={styles.section}>
+            <div
+              className={cs(styles.section, { [styles.sectionMobile]: mobile })}
+            >
               <div className={cs(styles.pointer, styles.remove)}>
                 <i
                   className={cs(
@@ -355,14 +394,13 @@ const CartItems: React.FC<BasketItem> = memo(
                   source="cart"
                   gtmListType="cart"
                   title={title}
-                  childAttributes={
-                    product.childAttributes ? product.childAttributes : []
-                  }
+                  childAttributes={childAttributes ? childAttributes : []}
                   priceRecords={priceRecords}
                   discountedPriceRecords={discountedPriceRecords}
-                  categories={product.categories}
+                  categories={categories}
                   basketLineId={id}
                   id={product.id}
+                  size={childAttributes[0].size || ""}
                   showText={false}
                   onMoveToWishlist={onMoveToWishlist}
                   className="wishlist-font"

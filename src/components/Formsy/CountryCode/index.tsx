@@ -124,6 +124,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
         inputProps={inputProps}
         id={props.id}
       />
+      <span className={styles.arrow}></span>
       <label
         className={cs({
           [globalStyles.hidden]: !(labelClass && !props.disable)
@@ -135,6 +136,17 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
         <p className={cs(globalStyles.errorMsg, globalStyles.txtnormal)}>
           {props.errorMessage}
         </p>
+      )}
+      {props.value?.length > 0 ? (
+        <span
+          className={
+            props.disable
+              ? cs(styles.arrow, styles.disabledArrow)
+              : styles.arrow
+          }
+        ></span>
+      ) : (
+        ""
       )}
     </div>
   );

@@ -27,12 +27,18 @@ const LineItems: React.FC<BasketItem> = memo(
     GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
+    const [qtyError, setQtyError] = useState(false);
     const { dispatch } = useStore();
 
     const handleChange = async (value: number) => {
-      await BasketService.updateToBasket(dispatch, id, value).then(res => {
-        setValue(value);
-      });
+      await BasketService.updateToBasket(dispatch, id, value)
+        .then(res => {
+          setValue(value);
+        })
+        .catch(err => {
+          setQtyError(true);
+          throw err;
+        });
     };
 
     const {
@@ -44,16 +50,18 @@ const LineItems: React.FC<BasketItem> = memo(
       discount,
       discountedPriceRecords,
       badgeType,
+      salesBadgeImage,
       inWishlist,
-      attributes
+      attributes,
+      childAttributes
     } = product;
     const size =
       attributes.find(attribute => attribute.name == "Size")?.value || "";
 
     const gtmPushDeleteCartItem = () => {
       const price = saleStatus
-        ? product.discountedPriceRecords[currency]
-        : product.priceRecords[currency];
+        ? childAttributes[0].discountedPriceRecords[currency]
+        : childAttributes[0].priceRecords[currency];
       const index = product.categories ? product.categories.length - 1 : 0;
       const category =
         product.categories && product.categories[index]
@@ -73,7 +81,6 @@ const LineItems: React.FC<BasketItem> = memo(
                 brand: "Goodearth",
                 category: category,
                 variant: size,
-                list: location.href.indexOf("cart") != -1 ? "Cart" : "Checkout",
                 quantity: quantity
               }
             ]
@@ -106,33 +113,41 @@ const LineItems: React.FC<BasketItem> = memo(
       >
         <div className={bootstrap.row}>
           <div className={cs(bootstrap.col4, styles.cartPadding)}>
-            <div className={styles.cartRing}>
-              {bridalProfile && (
-                <svg
-                  viewBox="-5 -5 50 50"
-                  width="40"
-                  height="40"
-                  preserveAspectRatio="xMidYMid meet"
-                  x="0"
-                  y="0"
-                  className={styles.ceriseBridalRings}
-                >
-                  <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                </svg>
-              )}
+            <div className={globalStyles.relative}>
+              <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+                {salesBadgeImage && (
+                  <div className={styles.badgePositionPlpMobile}>
+                    <img src={salesBadgeImage} alt="sales-badge" />
+                  </div>
+                )}
+                <div className={styles.cartRing}>
+                  {bridalProfile && (
+                    <svg
+                      viewBox="-5 -5 50 50"
+                      width="30"
+                      height="30"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.ceriseBridalRings}
+                    >
+                      <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                    </svg>
+                  )}
+                </div>
+                <img
+                  className={styles.productImage}
+                  alt={product.altText || product.title}
+                  src={
+                    isGiftCard
+                      ? giftCardImage
+                      : images && images.length > 0
+                      ? images[0].productImage.replace("Medium", "Micro")
+                      : ""
+                  }
+                />
+              </Link>
             </div>
-            <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
-              <img
-                className={styles.productImage}
-                src={
-                  isGiftCard
-                    ? giftCardImage
-                    : images && images.length > 0
-                    ? images[0].productImage.replace("Medium", "Micro")
-                    : ""
-                }
-              />
-            </Link>
           </div>
           <div className={cs(bootstrap.col8, styles.cartPadding)}>
             <div className={styles.collectionName}>{collections[0]}</div>
@@ -260,6 +275,24 @@ const LineItems: React.FC<BasketItem> = memo(
                   />
                 </div>
               )}
+              <span
+                className={cs(globalStyles.errorMsg, styles.stockLeft, {
+                  [styles.stockLeftWithError]: qtyError
+                })}
+              >
+                {saleStatus &&
+                  childAttributes[0].showStockThreshold &&
+                  childAttributes[0].stock > 0 &&
+                  `Only ${childAttributes[0].stock} Left!`}
+                <br />
+                {saleStatus &&
+                  childAttributes[0].showStockThreshold &&
+                  childAttributes[0].stock > 0 &&
+                  childAttributes[0].othersBasketCount > 0 &&
+                  ` *${childAttributes[0].othersBasketCount} other${
+                    childAttributes[0].othersBasketCount > 1 ? "s" : ""
+                  } have this item in their bag`}
+              </span>
             </div>
           </div>
         </div>

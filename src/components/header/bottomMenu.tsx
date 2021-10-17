@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 
 type Props = {
   wishlistCount: number;
-  isLoggedIn: boolean;
   showMenu: boolean;
   clickToggle: () => void;
   goLogin: (e?: React.MouseEvent) => void;
@@ -24,7 +23,6 @@ type Props = {
 const BottomMenu: React.FC<Props> = ({
   bagCount,
   wishlistCount,
-  isLoggedIn,
   showMenu,
   clickToggle,
   goLogin,
@@ -60,6 +58,7 @@ const BottomMenu: React.FC<Props> = ({
                   iconStyles.iconBottomNavHome,
                   iconStyles.icon,
                   styles.iconStyle,
+                  styles.logoIconStyle,
                   { [globalStyles.cerise]: location.pathname == "/" }
                 )}
               ></i>
@@ -102,7 +101,8 @@ const BottomMenu: React.FC<Props> = ({
                       iconStyles.icon,
                       iconStyles.iconLibraryMenu,
                       styles.iconStyle,
-                      styles.iconFont
+                      styles.iconFont,
+                      styles.menuIconStyle
                     )
               }
               onClick={() => {
@@ -130,61 +130,43 @@ const BottomMenu: React.FC<Props> = ({
         </div>
         <div className={cs(bootstrap.col, styles.mobileWishlist)}>
           <div className={styles.bottomMenuItem}>
-            {isLoggedIn ? (
-              <Link
-                to="/wishlist"
-                onClick={() => {
-                  gtmPushWishlistClick();
-                  onBottomMenuClick?.("Wishlist");
-                }}
-              >
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    {
-                      [iconStyles.iconWishlist]: !location.pathname.includes(
-                        "/wishlist"
-                      )
-                    },
-                    {
-                      [iconStyles.iconWishlistAdded]: location.pathname.includes(
-                        "/wishlist"
-                      )
-                    },
-                    styles.iconStyle,
-                    {
-                      [globalStyles.cerise]: location.pathname.includes(
-                        "/wishlist"
-                      )
-                    }
-                  )}
-                ></i>
-                <span
-                  className={cs(styles.badge, {
+            <Link
+              to="/wishlist"
+              onClick={() => {
+                gtmPushWishlistClick();
+                onBottomMenuClick?.("Wishlist");
+              }}
+            >
+              <i
+                className={cs(
+                  iconStyles.icon,
+                  {
+                    [iconStyles.iconWishlist]: !location.pathname.includes(
+                      "/wishlist"
+                    )
+                  },
+                  {
+                    [iconStyles.iconWishlistAdded]: location.pathname.includes(
+                      "/wishlist"
+                    )
+                  },
+                  styles.iconStyle,
+                  styles.wishlistIconStyle,
+                  {
                     [globalStyles.cerise]: location.pathname.includes(
                       "/wishlist"
                     )
-                  })}
-                >
-                  {wishlistCount > 0 ? wishlistCount : ""}
-                </span>
-              </Link>
-            ) : (
-              <div
-                onClick={() => {
-                  goLogin();
-                  onBottomMenuClick?.("Wishlist");
-                }}
+                  }
+                )}
+              ></i>
+              <span
+                className={cs(styles.badge, {
+                  [globalStyles.cerise]: location.pathname.includes("/wishlist")
+                })}
               >
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconWishlist,
-                    styles.iconStyle
-                  )}
-                ></i>
-              </div>
-            )}
+                {wishlistCount > 0 ? wishlistCount : ""}
+              </span>
+            </Link>
           </div>
         </div>
         <div className={cs(bootstrap.col, globalStyles.cerise)}>

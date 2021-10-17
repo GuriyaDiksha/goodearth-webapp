@@ -37,6 +37,9 @@
         display: flex;
     }
 }
+.plpMain {
+    position: relative;
+}
 
 .hidden{
     display: none !important;
@@ -121,7 +124,7 @@
     .discountprice {
         color: #ab1e56;
         font-family:  $font-Lato;
-        font-size: 16px;
+        font-size: 14px;
     }
     
     .strikeprice {
@@ -195,7 +198,7 @@
     position: absolute;
     top: 0;
     z-index: 3;
-    left: 6px;
+    left: 0;
     img {
         width: 100%;
     }
@@ -218,3 +221,6 @@
     }
 }
 
+.secondheading{
+    padding: 0px 30px 0px 30px;
+}

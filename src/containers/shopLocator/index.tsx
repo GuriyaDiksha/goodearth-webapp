@@ -23,7 +23,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
     device: state.device,
-    shopData: state.shop.shopData
+    shopData: state.shop.shopData,
+    showTimer: state.info.showTimer
   };
 };
 type Props = ShopProps &
@@ -123,6 +124,7 @@ class ShopLocator extends React.Component<
       const {
         device: { mobile }
       } = this.props;
+      // util.sortGTM(data);
       if (mobile) {
         // this.child.clickCloseFilter();
       } else {
@@ -195,7 +197,8 @@ class ShopLocator extends React.Component<
       device: { mobile },
       city,
       shopData,
-      shopname
+      shopname,
+      showTimer
     } = this.props;
     const items: DropdownItem[] = Object.keys(shopData).map(data => {
       return {
@@ -205,7 +208,9 @@ class ShopLocator extends React.Component<
     });
 
     return (
-      <div className={styles.pageBody}>
+      <div
+        className={cs(styles.pageBody, { [styles.pageBodyTimer]: showTimer })}
+      >
         {mobile ? (
           shopname ? (
             this.backLink()
@@ -246,6 +251,7 @@ class ShopLocator extends React.Component<
                   </span>
 
                   <SelectableDropdownMenu
+                    id="filter-dropdown-shoplocator"
                     align="right"
                     className={styles.dropdownRoot}
                     items={items}

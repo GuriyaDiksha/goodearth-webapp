@@ -13,7 +13,8 @@ export type BridalDetailsType = {
 };
 
 export type Props = {
-  createRegistry: () => void;
+  openBridalPop: () => void;
+  errorMessage: string;
   // currentCallBackComponent?: string;
   // isBridal?: boolean;
   // data: BridalDetailsType;
@@ -65,4 +66,5 @@ export type BridalPublicProfileData = {
   registryName: string;
   currency: Currency;
   items: BridalItemData[];
+  message?: string;
 };

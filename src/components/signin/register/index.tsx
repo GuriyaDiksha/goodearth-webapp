@@ -8,7 +8,7 @@ import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import moment from "moment";
 import Formsy from "formsy-react";
 import FormInput from "../../Formsy/FormInput";
@@ -47,7 +47,13 @@ class RegisterForm extends React.Component<Props, registerState> {
       maxDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 15)
       ).format("YYYY-MM-DD"),
-      showDOBLabel: false
+      showDOBLabel: false,
+      passValidLength: false,
+      passValidLower: false,
+      passValidNum: false,
+      passValidUpper: false,
+      showPassRules: false,
+      shouldValidatePass: false
     };
   }
   static contextType = Context;
@@ -163,6 +169,17 @@ class RegisterForm extends React.Component<Props, registerState> {
                 );
               }
               break;
+            default:
+              if (typeof err.response.data == "object") {
+                let errorMsg = err.response.data[data][0];
+                if (errorMsg == "MaxRetries") {
+                  errorMsg =
+                    "You have exceeded max registration attempts, please try after some time.";
+                }
+                this.setState({
+                  showerror: errorMsg
+                });
+              }
           }
         });
       });
@@ -506,7 +523,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             <CountryCode
               name="code"
               placeholder="Code"
-              label="Code"
+              label="Country Code"
               disable={!this.state.showFields}
               id="isdcode"
               value=""
@@ -548,11 +565,12 @@ class RegisterForm extends React.Component<Props, registerState> {
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
-                minLength: 6,
+                // minLength: 6,
                 isValid: (values, value) => {
                   return (
                     values.password1 &&
                     value &&
+                    value.length >= 6 &&
                     /[a-z]/.test(value) &&
                     /[0-9]/.test(value) &&
                     /[A-Z]/.test(value)
@@ -560,8 +578,6 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                minLength:
-                  "Please enter at least 6 characters for the password",
                 isValid:
                   "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}

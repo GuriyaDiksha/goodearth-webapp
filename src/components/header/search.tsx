@@ -13,7 +13,8 @@ import CookieService from "../../services/cookie";
 import { WidgetImage } from "./typings";
 import {
   PartialProductItem,
-  PartialChildProductAttributes
+  PartialChildProductAttributes,
+  ChildProductAttributes
 } from "typings/product";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
@@ -24,12 +25,14 @@ import noImagePlp from "images/noimageplp.png";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { updateModal } from "actions/modal";
+import Price from "components/Price";
 
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
     mobile: state.device.mobile,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -151,17 +154,36 @@ class Search extends React.Component<Props, State> {
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
+    const products = [];
+    if (!data) return false;
     let category = "";
     if (itemData.categories) {
       const index = itemData.categories.length - 1;
       category = itemData.categories[index].replace(/\s/g, "");
       category = category.replace(/>/g, "/");
     }
-    const cur = this.props.isSale
-      ? itemData.discountedPriceRecords[this.props.currency]
-      : itemData.priceRecords[this.props.currency];
     const listPath = `SearchResults`;
     CookieService.setCookie("listPath", listPath);
+    products.push(
+      (itemData.childAttributes as ChildProductAttributes[])?.map(
+        (child: any) => {
+          return Object.assign(
+            {},
+            {
+              name: data.title,
+              id: itemData.childAttributes?.[0].sku,
+              price: child.discountedPriceRecords
+                ? child.discountedPriceRecords[this.props.currency]
+                : child.priceRecords[this.props.currency],
+              brand: "Goodearth",
+              category: category,
+              variant: itemData.childAttributes?.[0].size || "",
+              position: indices
+            }
+          );
+        }
+      )
+    );
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -169,17 +191,7 @@ class Search extends React.Component<Props, State> {
         click: {
           // actionField: { list: "Search Popup" },
           actionField: { list: listPath },
-          products: [
-            {
-              name: data.title,
-              id: itemData.childAttributes?.[0].sku,
-              price: cur,
-              brand: "Goodearth",
-              category: category,
-              variant: itemData.childAttributes?.[0].size || "",
-              position: indices
-            }
-          ]
+          products: products
         }
       }
     });
@@ -274,9 +286,13 @@ class Search extends React.Component<Props, State> {
     // const originalCur = "original_price_" + this.props.currency.toLowerCase();
     const suggestionsExist = this.state.suggestions.length > 0;
     const productsExist = this.state.productData.length > 0;
-    const { mobile } = this.props;
+    const { mobile, showTimer } = this.props;
     return (
-      <div className={cs(globalStyles.minimumWidth, styles.search)}>
+      <div
+        className={cs(globalStyles.minimumWidth, styles.search, {
+          [styles.searchTimer]: showTimer
+        })}
+      >
         <div>
           <div className={bootstrapStyles.col12}>
             <div className={cs(bootstrapStyles.row, styles.searchShadow)}>
@@ -577,7 +593,10 @@ class Search extends React.Component<Props, State> {
                                       }
                                     )}
                                   >
-                                    <img src={data.salesBadgeImage} />
+                                    <img
+                                      src={data.salesBadgeImage}
+                                      alt="sales-badge"
+                                    />
                                   </div>
                                 ) : (
                                   ""
@@ -602,7 +621,7 @@ class Search extends React.Component<Props, State> {
                                     <img
                                       src={imageSource}
                                       onError={this.addDefaultSrc}
-                                      alt=""
+                                      alt={data.altText || data.title}
                                       className={styles.imageResultNew}
                                     />
                                   </Link>
@@ -630,64 +649,21 @@ class Search extends React.Component<Props, State> {
                                         : data.title}
                                     </Link>
                                   </p>
-                                  {data.productClass == "GiftCard" ? (
-                                    ""
-                                  ) : (
-                                    <p className={styles.productN}>
-                                      {this.props.isSale && data.discount ? (
-                                        <span className={styles.discountprice}>
-                                          {String.fromCharCode(
-                                            ...currencyCodes[
-                                              this.props.currency
-                                            ]
-                                          )}
-                                          &nbsp;{" "}
-                                          {
-                                            data.discountedPriceRecords[
-                                              this.props.currency
-                                            ]
-                                          }{" "}
-                                          &nbsp;{" "}
-                                        </span>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {this.props.isSale && data.discount ? (
-                                        <span className={styles.strikeprice}>
-                                          {String.fromCharCode(
-                                            ...currencyCodes[
-                                              this.props.currency
-                                            ]
-                                          )}
-                                          &nbsp;{" "}
-                                          {
-                                            data.priceRecords[
-                                              this.props.currency
-                                            ]
+                                  {data.productClass == "GiftCard"
+                                    ? ""
+                                    : !(
+                                        data.invisibleFields.indexOf("price") >
+                                        -1
+                                      ) && (
+                                        <Price
+                                          product={data}
+                                          code={
+                                            currencyCodes[this.props.currency]
                                           }
-                                        </span>
-                                      ) : (
-                                        <p
-                                          className={cs(styles.productN, {
-                                            [globalStyles.cerise]:
-                                              data.badgeType == "B_flat"
-                                          })}
-                                        >
-                                          {String.fromCharCode(
-                                            ...currencyCodes[
-                                              this.props.currency
-                                            ]
-                                          )}
-                                          &nbsp;{" "}
-                                          {
-                                            data.discountedPriceRecords[
-                                              this.props.currency
-                                            ]
-                                          }
-                                        </p>
+                                          isSale={this.props.isSale}
+                                          currency={this.props.currency}
+                                        />
                                       )}
-                                    </p>
-                                  )}
                                 </div>
                               </div>
                             );
@@ -748,7 +724,7 @@ class Search extends React.Component<Props, State> {
               >
                 {this.state.searchValue.length > 1 ? (
                   <div className={styles.npfMsg}>
-                    No products were found matcing &nbsp;
+                    No products were found matching &nbsp;
                     <span>{this.state.searchValue}</span>
                   </div>
                 ) : (
@@ -804,7 +780,7 @@ class Search extends React.Component<Props, State> {
                                         : data.ctaImage
                                     }
                                     onError={this.addDefaultSrc}
-                                    alt=""
+                                    alt={data.title}
                                     className={styles.imageResultNew}
                                   />
                                 </Link>

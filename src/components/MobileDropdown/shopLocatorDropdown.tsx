@@ -5,6 +5,8 @@ import styles from "./styles.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 // import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 import globalStyles from "styles/global.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const ShopDropdownMenu = ({
   open,
@@ -15,7 +17,7 @@ const ShopDropdownMenu = ({
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
-
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const onInsideClick = () => {
     setOpenState(!menuOpen);
   };
@@ -34,7 +36,11 @@ const ShopDropdownMenu = ({
           styles.productNumber
         )}
       >
-        <div className={styles.cSortHeader}>
+        <div
+          className={cs(styles.cSortHeader, {
+            [styles.cSortHeaderTimer]: showTimer
+          })}
+        >
           {showCaret ? (
             <div className={styles.collectionHeader} onClick={onInsideClick}>
               <span>shop locator</span>
@@ -61,7 +67,11 @@ const ShopDropdownMenu = ({
             <span onClick={onInsideClick}>X</span>
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
-            <div className={cs(bootstrap.col12, styles.mobileFilterMenu)}>
+            <div
+              className={cs(bootstrap.col12, styles.mobileFilterMenu, {
+                [styles.mobileFilterMenuTimer]: showTimer
+              })}
+            >
               <ul className={styles.sort}>
                 {list.map((data: any, i: number) => {
                   return (

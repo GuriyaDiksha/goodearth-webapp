@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
-import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
@@ -32,13 +31,16 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
-  const { isSale } = useSelector((state: AppState) => state.info);
+  const { isSale, showDeliveryInstruction } = useSelector(
+    (state: AppState) => state.info
+  );
   const { deliveryText } = useSelector((state: AppState) => state.info);
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
     setIsSuspended(true);
   };
 
+  const showDeliveryTimelines = true;
   const history = useHistory();
   const queryString = history.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -46,7 +48,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removePromo = async (data: FormData) => {
     const response = await CheckoutService.removePromo(dispatch, data);
-    BasketService.fetchBasket(dispatch, "checkout");
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     return response;
   };
 
@@ -207,19 +209,20 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removeGiftCard = async (data: FormData) => {
     const response = await CheckoutService.removeGiftCard(dispatch, data);
-    BasketService.fetchBasket(dispatch, "checkout");
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     return response;
   };
 
   const removeRedeem = async () => {
     const response = await CheckoutService.removeRedeem(dispatch);
-    BasketService.fetchBasket(dispatch, "checkout");
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
     return response;
   };
 
-  const onGiftCardRemove = (id: string) => {
+  const onGiftCardRemove = (id: string, type: string) => {
     const data: any = {
-      cardId: id
+      cardId: id,
+      type: type
     };
     removeGiftCard(data);
   };
@@ -304,7 +307,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span
                   className={styles.cross}
                   onClick={() => {
-                    onGiftCardRemove(gift.cardId);
+                    onGiftCardRemove(gift.cardId, gift.cardType);
                   }}
                 >
                   <i
@@ -418,11 +421,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return true;
   };
 
-  // const resetInfoPopupCookie = () => {
-  //   const cookieString =
-  //     "checkoutinfopopup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-  //   document.cookie = cookieString;
-  // };
+  const resetInfoPopupCookie = () => {
+    const cookieString =
+      "checkoutinfopopup3=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = cookieString;
+  };
   const chkshipping = (event: any) => {
     const {
       total,
@@ -433,9 +436,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (page != "cart") {
       return false;
     }
-    // if (isSuspended) {
-    //   resetInfoPopupCookie();
-    // }
+    if (isSuspended) {
+      resetInfoPopupCookie();
+    }
     if (
       !freeShipping &&
       total >= freeShippingThreshold &&
@@ -448,7 +451,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
           POPUP.FREESHIPPING,
           {
             remainingAmount:
-              freeShippingApplicable - parseInt(basket.total.toString()),
+              freeShippingApplicable -
+              parseInt((basket.total - basket.shippingCharge).toString()),
             freeShippingApplicable
           },
           true
@@ -470,13 +474,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
       eventCategory: "Click",
       eventLabel: location.pathname
     });
-    if (!isLoggedIn) {
-      e.preventDefault();
-      LoginService.showLogin(dispatch);
-    }
   };
   const saveInstruction = (data: string) => {
     dispatch(updateDeliveryText(data));
+    dataLayer.push({
+      event: "Delivery Instruction",
+      message: data
+    });
   };
 
   const openDeliveryBox = () => {
@@ -558,7 +562,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {parseFloat(shippingCharge).toFixed(2)}
             </span>
           </div>
-          {basket.finalDeliveryDate && (
+          {basket.finalDeliveryDate && showDeliveryTimelines && (
             <div className={styles.deliveryDate}>
               Estimated Delivery On or Before:{" "}
               <span className={styles.black}>{basket.finalDeliveryDate}</span>
@@ -575,7 +579,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
               to {shippingAddress.state} - {shippingAddress.postCode}
             </div>
           )}
-          {page == "cart" || basket.isOnlyGiftCart || salestatus ? (
+          {page == "cart" ||
+          basket.isOnlyGiftCart ||
+          !showDeliveryInstruction ? (
             ""
           ) : (
             <div
@@ -625,6 +631,15 @@ const OrderSummary: React.FC<OrderProps> = props => {
               )}
             </div>
           )}
+          {/* <hr className={styles.hr} />
+          <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
+            <span className={styles.subtotal}>TOTAL</span>
+            <span className={styles.subtotal}>
+              {String.fromCharCode(...code)}{" "}
+              {parseFloat("" + basket.total).toFixed(2)}
+            </span>
+          </div>
+          <hr className={styles.hr} /> */}
           {getDiscount(basket.offerDiscounts)}
           {getCoupons()}
         </div>
@@ -680,7 +695,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 ""
               ) : (
                 <Link className={styles.editCart} to={"/cart"}>
-                  EDIT CART
+                  EDIT BAG
                 </Link>
               )
             ) : (
@@ -791,7 +806,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       ></i>
                     </span>
                     &nbsp;
-                    <span className={styles.wishlistAlign}>VIEW WISHLIST</span>
+                    <span className={styles.wishlistAlign}>
+                      VIEW SAVED ITEMS
+                    </span>
                   </Link>
                 </div>
               </div>

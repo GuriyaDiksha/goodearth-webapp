@@ -35,6 +35,9 @@
       &.txt-bold {
         font-weight: bold;
       }
+      &.txt-large {
+        font-size: 16px;
+      }
     }
     .heading-1 {
       color: $cerise;
@@ -42,6 +45,14 @@
       font-size: 20px;
       text-transform: uppercase;
       letter-spacing: 2px;
+      line-height: 150%;
+      font-weight: 400;
+    }
+    .subheading-1 {
+      color: $cerise;
+      font-family: $font-Lato;
+      font-size: 14px;
+      letter-spacing: 1px;
       line-height: 150%;
       font-weight: 400;
     }
@@ -56,6 +67,12 @@
     .tabs-cerise {
       background-color: $white;
       margin-bottom: 50px;
+      .tabsticky {
+        position: sticky;
+        top: $main-header;
+        z-index: 4;
+        background-color: #fff;
+      }
       .tabs {
         .grayimg {
           filter: grayscale(100%);
@@ -63,21 +80,22 @@
         }
         li {
           display: inline-block;
-          padding: 20px 30px;
+          padding-top: 20px;
+          padding-bottom: 10px;
           width: 50%;
           cursor: pointer;
-          &.inactive {
-            background-color: tint(#000, 90%);
+          // &.inactive {
+          //   background-color: tint(#000, 90%);
+          // }
+          &.active {
+            border-bottom: 2px solid $cerise;
           }
   
-          &:first-child {
-            border-right: 1px solid tint(#000, 70%);
-          }
         }
       }
       .tab-content {
         text-align: left;
-        padding: 30px 0;
+        padding: 10px 0 60px 0;
         .disabled {
           color: tint(#000, 70%);
           span {
@@ -132,7 +150,21 @@
     }
   
   }
-  
+  .loyalty-timer {
+    margin-top: $main-header + $timer-height;
+  }
+  .txt-footer {
+    font-family: $font-Lato;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 170%;
+    color: tint(#000, 30%);
+    padding: 0 12%;
+    &.txt-bold {
+      font-weight: bold;
+    }
+  }
   @media screen and (min-width: 991px) {
     .loyalty {
       .img-loyalty {
@@ -141,7 +173,7 @@
       .list {
         li {
           display: inline-block;
-          width: 25%;
+          width: 30%;
           vertical-align: top;
           margin: 0 10px;
           a {

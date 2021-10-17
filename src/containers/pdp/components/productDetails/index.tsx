@@ -6,7 +6,8 @@ import React, {
   EventHandler,
   MouseEvent,
   useEffect,
-  useLayoutEffect
+  useLayoutEffect,
+  Fragment
 } from "react";
 import { Link } from "react-router-dom";
 import cs from "classnames";
@@ -20,10 +21,13 @@ import Accordion from "components/Accordion";
 import WishlistButton from "components/WishlistButton";
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
+import Loader from "components/Loader";
+import throttle from "lodash/throttle";
 // services
 import BasketService from "services/basket";
 import BridalService from "services/bridal";
 import ProductService from "services/product";
+import HeaderService from "services/headerFooter";
 import CookieService from "../../../../services/cookie";
 // typings
 import { Props } from "./typings";
@@ -40,18 +44,17 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
-import {
-  ADD_TO_BAG_SUCCESS,
-  ADD_TO_REGISTRY_AGAIN,
-  ADD_TO_REGISTRY_FAIL,
-  ADD_TO_REGISTRY_SUCCESS
-} from "constants/messages";
+import { updateStoreState } from "actions/header";
+import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
+import cushionFiller from "images/cushionFiller.svg";
+import inshop from "../../../../images/inShop.svg";
+import DockedPanel from "../../docked";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -77,8 +80,10 @@ const ProductDetails: React.FC<Props> = ({
     salesBadgeImage,
     fillerMessage,
     justAddedBadge,
-    badgeType
+    badgeType,
+    invisibleFields
   },
+  data,
   corporatePDP,
   mobile,
   currency,
@@ -86,7 +91,9 @@ const ProductDetails: React.FC<Props> = ({
   changeModalState,
   updateComponentModal,
   closeModal,
-  source
+  toggelHeader,
+  source,
+  showAddToBagMobile
 }) => {
   const [productTitle, subtitle] = title.split("(");
   const {
@@ -98,6 +105,8 @@ const ProductDetails: React.FC<Props> = ({
   const location = useLocation();
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
+  const [onload, setOnload] = useState(false);
+  const [showDock, setShowDock] = useState(false);
   const [
     selectedSize,
     setSelectedSize
@@ -106,11 +115,13 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
-
+  const [isLoading, setIsLoading] = useState(false);
   // const items = basket.lineItems?.map(
   //   item => item.product.childAttributes[0].id
   // );
   const [addedToBag, setAddedToBag] = useState(false);
+  const [isStockset, setIsStockset] = useState(false);
+  // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
   //   setAddedToBag(
   //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
@@ -118,8 +129,12 @@ const ProductDetails: React.FC<Props> = ({
   // }, [selectedSize]);
   useLayoutEffect(() => {
     setGtmListType("PDP");
+    setOnload(true);
   });
   useEffect(() => {
+    let count = 0;
+    let tempSize = null;
+
     if (childAttributes.length === 1 && !selectedSize) {
       setSelectedSize(childAttributes[0]);
     }
@@ -127,11 +142,31 @@ const ProductDetails: React.FC<Props> = ({
       const registryMapping = {};
       childAttributes.map(child => {
         registryMapping[child.size] = child.isBridalProduct;
+        if (child.stock > 0) {
+          count++;
+          tempSize = child;
+        }
       });
+
+      if (count == 1 && !isStockset) {
+        setSelectedSize(tempSize);
+        setIsStockset(true);
+      }
+
       setIsRegistry(registryMapping);
     }
   }, [childAttributes, selectedSize]);
 
+  useEffect(() => {
+    if (childAttributes.length === 1) {
+      setSelectedSize(childAttributes[0]);
+    } else if (selectedSize) {
+      const newSize = childAttributes.filter(
+        child => child.id == selectedSize.id
+      )[0];
+      setSelectedSize(newSize);
+    }
+  }, [discountedPriceRecords]);
   useEffect(() => {
     if (priceRecords[currency] == 0) {
       history.push("/error-page", {});
@@ -158,8 +193,12 @@ const ProductDetails: React.FC<Props> = ({
         "show-error"
       )[0] as HTMLDivElement;
       if (firstErrorField) {
-        firstErrorField.focus();
-        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+        // firstErrorField.focus();
+        // mobile &&
+        firstErrorField.scrollIntoView({
+          block: "center",
+          behavior: "smooth"
+        });
       }
     }, 0);
   };
@@ -220,7 +259,7 @@ const ProductDetails: React.FC<Props> = ({
   const accordionSections = useMemo(() => {
     return [
       {
-        header: "Details",
+        header: "PRODUCT DETAILS",
         body: <div>{ReactHtmlParser(details)}</div>,
         id: "details"
       },
@@ -245,6 +284,11 @@ const ProductDetails: React.FC<Props> = ({
     return currentSKU;
   };
   const gtmPushAddToBag = () => {
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -256,10 +300,9 @@ const ProductDetails: React.FC<Props> = ({
               id: setSelectedSKU(),
               price: discountPrices || price,
               brand: "Goodearth",
-              category: collection,
+              category: category,
               variant: selectedSize?.size || "",
-              quantity: quantity,
-              list: "PDP"
+              quantity: quantity
             }
           ]
         }
@@ -282,10 +325,35 @@ const ProductDetails: React.FC<Props> = ({
           setTimeout(() => {
             setAddedToBag(false);
           }, 3000);
-          valid.showGrowlMessage(dispatch, ADD_TO_BAG_SUCCESS);
+          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
           gtmPushAddToBag();
         })
         .catch(err => {
+          if (typeof err.response.data != "object") {
+            valid.showGrowlMessage(dispatch, err.response.data);
+            valid.errorTracking([err.response.data], window.location.href);
+          }
+        });
+    }
+  };
+
+  const checkAvailability = () => {
+    if (!selectedSize) {
+      setSizeError("Please select a Size to proceed");
+      valid.errorTracking(
+        ["Please select a Size to proceed"],
+        window.location.href
+      );
+      showError();
+    } else {
+      setIsLoading(true);
+      HeaderService.checkShopAvailability(dispatch, selectedSize.sku)
+        .then(() => {
+          setIsLoading(false);
+          dispatch(updateStoreState(true));
+        })
+        .catch(err => {
+          setIsLoading(false);
           if (typeof err.response.data != "object") {
             valid.showGrowlMessage(dispatch, err.response.data);
             valid.errorTracking([err.response.data], window.location.href);
@@ -310,7 +378,7 @@ const ProductDetails: React.FC<Props> = ({
       element.classList.contains(styles.active) ||
       (selectedSize && isRegistry[selectedSize.size])
     ) {
-      valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_AGAIN);
+      valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
       return false;
     }
     if (childAttributes[0].size) {
@@ -333,7 +401,7 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
-        valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_SUCCESS);
+        valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
         if (selectedSize) {
           registry[selectedSize.size] = true;
@@ -356,7 +424,7 @@ const ProductDetails: React.FC<Props> = ({
         if (message) {
           valid.showGrowlMessage(dispatch, message);
         } else {
-          valid.showGrowlMessage(dispatch, ADD_TO_REGISTRY_FAIL);
+          valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_FAIL);
         }
       });
     event.stopPropagation();
@@ -418,21 +486,60 @@ const ProductDetails: React.FC<Props> = ({
     }
   });
 
+  const sizeSelectClick = () => {
+    // setSizeerror(true);
+    setSizeError("Please select a Size to proceed");
+    showError();
+  };
+
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
       action = onEnquireClick;
+      // setSizeerror(false);
     } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = notifyMeClick;
+      // setSizeerror(false);
+    } else if (!selectedSize && childAttributes.length > 1) {
+      buttonText = "Select Size";
+      action = sizeSelectClick;
     } else {
       buttonText = addedToBag ? "Added!" : "Add to Bag";
       action = addedToBag ? () => null : addToBasket;
+      // setSizeerror(false);
     }
 
     return <Button label={buttonText} onClick={action} />;
   }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
+
+  // const yourElement:React.RefObject<HTMLDivElement> = createRef();
+
+  const isInViewport = (offset = 0, yourElement: any) => {
+    if (!yourElement) return false;
+    const top = yourElement.getBoundingClientRect().top;
+    return top + offset >= 0 && top - offset - 100 <= window.innerHeight;
+  };
+
+  const onScroll = throttle(() => {
+    const ele = document.getElementById("yourElement") || "";
+    const ele1 = document.getElementById("footer-start") || "";
+    const value = isInViewport(-80, ele) || false;
+    const value1 = isInViewport(0, ele1) || false;
+    if (value == false && value1 == false && showDock == false) {
+      setShowDock(true);
+      toggelHeader(false);
+    } else if ((value || value1) && showDock == true) {
+      setShowDock(false);
+      toggelHeader(true);
+    }
+  }, 800);
+
+  useEffect(() => {
+    document.addEventListener("scroll", onScroll, true);
+    return () => document.removeEventListener("scroll", onScroll, true);
+  });
 
   const showSize = useMemo(() => {
     let show = false;
@@ -448,28 +555,37 @@ const ProductDetails: React.FC<Props> = ({
   }, [childAttributes]);
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
-    <div className={bootstrap.row}>
-      <div
-        className={cs(
-          bootstrap.col10,
-          bootstrap.offset1,
-          bootstrap.colMd11,
-          styles.sideContainer,
-          { [styles.marginT0]: withBadge }
-        )}
-      >
-        <div className={cs(bootstrap.row)}>
-          {images && images[0]?.badgeImagePdp && (
-            <div className={bootstrap.col12}>
-              <img
-                src={images[0]?.badgeImagePdp}
-                width="100"
-                className={styles.badgeImg}
-              />
-            </div>
+    <Fragment>
+      {!isQuickview && showDock && (
+        <DockedPanel
+          data={data}
+          buttoncall={button}
+          showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
+        />
+      )}
+      <div className={bootstrap.row}>
+        <div
+          className={cs(
+            bootstrap.col10,
+            bootstrap.offset1,
+            bootstrap.colMd11,
+            styles.sideContainer,
+            { [styles.marginT0]: withBadge }
           )}
+        >
+          {isLoading && <Loader />}
+          <div className={cs(bootstrap.row)}>
+            {images && images[0]?.badgeImagePdp && (
+              <div className={bootstrap.col12}>
+                <img
+                  src={images[0]?.badgeImagePdp}
+                  width="100"
+                  className={styles.badgeImg}
+                />
+              </div>
+            )}
 
-          {mobile && (
+            {/* {mobile && (
             <div className={cs(bootstrap.col12)}>
               <Share
                 mobile={mobile}
@@ -482,332 +598,415 @@ const ProductDetails: React.FC<Props> = ({
                 } ${__DOMAIN__}${location.pathname}`}
               />
             </div>
-          )}
-          <div
-            className={cs(bootstrap.col12, styles.collectionHeader, {
-              [globalStyles.voffset3]: !withBadge
-            })}
-          >
-            {collection && (
-              <Link
-                to={collectionUrl || "#"}
-                onClick={closeModal ? closeModal : () => null}
+          )} */}
+            <div
+              className={cs(bootstrap.col12, styles.collectionHeader, {
+                [globalStyles.voffset3]: !withBadge
+              })}
+            >
+              {collection && (
+                <Link
+                  to={collectionUrl || "#"}
+                  onClick={closeModal ? closeModal : () => null}
+                >
+                  {" "}
+                  {collection}{" "}
+                </Link>
+              )}
+            </div>
+            <div
+              className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}
+            >
+              {productTitle}
+              {subtitle && <p>({subtitle.split(")")[0]})</p>}
+            </div>
+            {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
+              <div
+                className={cs(
+                  bootstrap.col12,
+                  bootstrap.colMd4,
+                  styles.priceContainer,
+                  { [globalStyles.textCenter]: !mobile }
+                )}
               >
-                {" "}
-                {collection}{" "}
-              </Link>
+                {info.isSale && discount && discountedPriceRecords ? (
+                  <span className={styles.discountedPrice}>
+                    {String.fromCharCode(...currencyCodes[currency])}
+                    &nbsp;
+                    {discountPrices}
+                    <br />
+                  </span>
+                ) : (
+                  ""
+                )}
+                {info.isSale && discount ? (
+                  <span className={styles.oldPrice}>
+                    {String.fromCharCode(...currencyCodes[currency])}
+                    &nbsp;
+                    {price}
+                  </span>
+                ) : (
+                  <span
+                    className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                  >
+                    {" "}
+                    {String.fromCharCode(...currencyCodes[currency])}
+                    &nbsp;
+                    {price}
+                  </span>
+                )}
+              </div>
             )}
           </div>
-          <div className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}>
-            {productTitle}
-            {subtitle && <p>({subtitle.split(")")[0]})</p>}
-          </div>
-          <div
-            className={cs(
-              bootstrap.col12,
-              bootstrap.colMd4,
-              styles.priceContainer,
-              { [globalStyles.textCenter]: !mobile }
-            )}
-          >
-            {info.isSale && discount && discountedPriceRecords ? (
-              <span className={styles.discountedPrice}>
-                {String.fromCharCode(...currencyCodes[currency])}
-                &nbsp;
-                {discountPrices}
-                <br />
-              </span>
+
+          {groupedProducts?.length ? (
+            <div
+              className={cs(bootstrap.row, styles.spacer, {
+                [styles.spacerQuickview]: isQuickview && withBadge
+              })}
+            >
+              <div className={bootstrap.col8}>
+                <div className={bootstrap.row}>
+                  <div
+                    className={cs(
+                      bootstrap.col12,
+                      bootstrap.colSm3,
+                      styles.label,
+                      styles.colour
+                    )}
+                  >
+                    Color
+                  </div>
+                  <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+                    <ColorSelector
+                      products={groupedProducts}
+                      onClick={closeModal ? closeModal : () => null}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {showSize ? (
+            !(invisibleFields && invisibleFields.indexOf("size") > -1) && (
+              <div
+                className={cs(bootstrap.row, styles.spacer, {
+                  [styles.spacerQuickview]: isQuickview && withBadge
+                })}
+              >
+                <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
+                  <div className={bootstrap.row}>
+                    <div
+                      className={cs(
+                        bootstrap.col12,
+                        bootstrap.colSm3,
+                        styles.label,
+                        styles.size
+                      )}
+                    >
+                      Size
+                    </div>
+                    <div
+                      className={cs(
+                        bootstrap.col12,
+                        bootstrap.colSm9,
+                        styles.sizeContainer
+                      )}
+                    >
+                      <SizeSelector
+                        isCorporatePDP={corporatePDP}
+                        sizes={childAttributes}
+                        onChange={onSizeSelect}
+                        selected={selectedSize ? selectedSize.id : undefined}
+                      />
+                      <span
+                        className={cs(styles.sizeErrorMessage, "show-error")}
+                      >
+                        {sizeError}
+                      </span>
+                      <span className={cs(styles.sizeErrorMessage)}>
+                        {info.isSale &&
+                          selectedSize &&
+                          selectedSize.showStockThreshold &&
+                          selectedSize.stock > 0 &&
+                          `Only ${selectedSize.stock} Left!${
+                            selectedSize.othersBasketCount > 0
+                              ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                              : ""
+                          }`}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {sizeChartHtml && !isQuickview && (
+                  <div
+                    className={cs(bootstrap.colSm4, styles.label, {
+                      [globalStyles.textCenter]: !mobile
+                    })}
+                  >
+                    <span
+                      className={styles.sizeGuide}
+                      onClick={onSizeChartClick}
+                    >
+                      {" "}
+                      Size Guide{" "}
+                    </span>
+                  </div>
+                )}
+                {/* {sizeerror && mobile ? (
+              <p className={styles.errorMsg}>Please select a size to proceed</p>
             ) : (
               ""
-            )}
-            {info.isSale && discount ? (
-              <span className={styles.oldPrice}>
-                {String.fromCharCode(...currencyCodes[currency])}
-                &nbsp;
-                {price}
-              </span>
-            ) : (
-              <span
-                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
-              >
-                {" "}
-                {String.fromCharCode(...currencyCodes[currency])}
-                &nbsp;
-                {price}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {groupedProducts?.length ? (
+            )} */}
+                {categories &&
+                  categories.filter(category =>
+                    category.toLowerCase().includes("wallcovering")
+                  ).length > 0 && (
+                    <div
+                      className={cs(bootstrap.colSm4, styles.label, {
+                        [globalStyles.textCenter]: !mobile
+                      })}
+                    >
+                      <span
+                        className={styles.sizeGuide}
+                        onClick={onWallpaperClick}
+                      >
+                        {" "}
+                        Wallpaper Calculator{" "}
+                      </span>
+                    </div>
+                  )}
+              </div>
+            )
+          ) : (
+            <span className={cs(styles.sizeErrorMessage)}>
+              {info.isSale &&
+                selectedSize &&
+                selectedSize.stock > 0 &&
+                selectedSize.showStockThreshold &&
+                `Only ${
+                  selectedSize.stock
+                } Left!${selectedSize.othersBasketCount &&
+                  ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+            </span>
+          )}
           <div
-            className={cs(bootstrap.row, styles.spacer, {
+            className={cs(bootstrap.row, globalStyles.marginT30, {
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
             <div className={bootstrap.col8}>
-              <div className={bootstrap.row}>
-                <div
-                  className={cs(
-                    bootstrap.col12,
-                    bootstrap.colSm3,
-                    styles.label,
-                    styles.colour
-                  )}
-                >
-                  Color
+              {!(
+                invisibleFields && invisibleFields.indexOf("quantity") > -1
+              ) && (
+                <div className={bootstrap.row}>
+                  <div
+                    className={cs(
+                      bootstrap.col12,
+                      bootstrap.colSm3,
+                      styles.label,
+                      styles.quantity
+                    )}
+                  >
+                    Quantity
+                  </div>
+                  <div
+                    className={cs(
+                      bootstrap.col12,
+                      bootstrap.colSm9,
+                      styles.widgetQty
+                    )}
+                  >
+                    <Quantity
+                      source="pdp"
+                      key={selectedSize?.sku}
+                      id={selectedSize?.id || 0}
+                      minValue={minQuantity}
+                      maxValue={corporatePDP ? 1 : maxQuantity}
+                      currentValue={quantity}
+                      onChange={onQuantityChange}
+                      // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                    />
+                  </div>
                 </div>
-                <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
-                  <ColorSelector
-                    products={groupedProducts}
-                    onClick={closeModal ? closeModal : () => null}
-                  />
-                </div>
-              </div>
+              )}
             </div>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {showSize ? (
-          <div
-            className={cs(bootstrap.row, styles.spacer, {
-              [styles.spacerQuickview]: isQuickview && withBadge
-            })}
-          >
-            <div className={bootstrap.col8}>
-              <div className={bootstrap.row}>
+            {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+              <div
+                className={cs(
+                  bootstrap.col4,
+                  globalStyles.textCenter,
+                  styles.bridalSection
+                )}
+                onClick={addToRegistry}
+              >
                 <div
                   className={cs(
-                    bootstrap.col12,
-                    bootstrap.colSm3,
-                    styles.label,
-                    styles.size
+                    iconStyles.icon,
+                    iconStyles.iconRings,
+                    styles.bridalRing,
+                    {
+                      [styles.active]:
+                        selectedSize && isRegistry[selectedSize.size]
+                    }
                   )}
+                ></div>
+                <p
+                  className={cs(styles.label, {
+                    [globalStyles.cerise]:
+                      selectedSize && isRegistry[selectedSize.size]
+                  })}
                 >
-                  Size
-                </div>
-                <div
-                  className={cs(
-                    bootstrap.col12,
-                    bootstrap.colSm9,
-                    styles.sizeContainer
-                  )}
-                >
-                  <SizeSelector
-                    isCorporatePDP={corporatePDP}
-                    sizes={childAttributes}
-                    onChange={onSizeSelect}
-                    selected={selectedSize ? selectedSize.id : undefined}
-                  />
-                  <span className={cs(styles.sizeErrorMessage, "show-error")}>
-                    {sizeError}
-                  </span>
-                </div>
-              </div>
-            </div>
-            {sizeChartHtml && !isQuickview && (
-              <div
-                className={cs(bootstrap.colSm4, styles.label, {
-                  [globalStyles.textCenter]: !mobile
-                })}
-              >
-                <span className={styles.sizeGuide} onClick={onSizeChartClick}>
-                  {" "}
-                  Size Guide{" "}
-                </span>
-              </div>
-            )}
-            {categories && categories.indexOf("Home > Wallcoverings") !== -1 && (
-              <div
-                className={cs(bootstrap.colSm4, styles.label, {
-                  [globalStyles.textCenter]: !mobile
-                })}
-              >
-                <span className={styles.sizeGuide} onClick={onWallpaperClick}>
-                  {" "}
-                  Wallpaper Calculator{" "}
-                </span>
+                  {selectedSize && isRegistry[selectedSize.size]
+                    ? "added"
+                    : "add to registry"}
+                </p>
               </div>
             )}
           </div>
-        ) : (
-          ""
-        )}
-        <div
-          className={cs(bootstrap.row, styles.spacer, {
-            [styles.spacerQuickview]: isQuickview && withBadge
-          })}
-        >
-          <div className={bootstrap.col8}>
-            <div className={bootstrap.row}>
-              <div
-                className={cs(
-                  bootstrap.col12,
-                  bootstrap.colSm3,
-                  styles.label,
-                  styles.quantity
-                )}
-              >
-                Quantity
-              </div>
-              <div
-                className={cs(
-                  bootstrap.col12,
-                  bootstrap.colSm9,
-                  styles.widgetQty
-                )}
-              >
-                <Quantity
-                  source="pdp"
-                  key={selectedSize?.sku}
-                  id={selectedSize?.id || 0}
-                  minValue={minQuantity}
-                  maxValue={corporatePDP ? 1 : maxQuantity}
-                  currentValue={quantity}
-                  onChange={onQuantityChange}
-                  // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-                />
-              </div>
-            </div>
-          </div>
-          {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+          {info.isSale && fillerMessage ? (
             <div
               className={cs(
-                bootstrap.col4,
-                globalStyles.textCenter,
-                styles.bridalSection
+                bootstrap.col12,
+                bootstrap.colMd10,
+                globalStyles.voffset3,
+                styles.errorMsg,
+                styles.fillerContainer
               )}
-              onClick={addToRegistry}
             >
-              <div
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconRings,
-                  styles.bridalRing,
-                  {
-                    [styles.active]:
-                      selectedSize && isRegistry[selectedSize.size]
-                  }
-                )}
-              ></div>
-              <p
-                className={cs(styles.label, {
-                  [globalStyles.cerise]:
-                    selectedSize && isRegistry[selectedSize.size]
-                })}
-              >
-                {selectedSize && isRegistry[selectedSize.size]
-                  ? "added"
-                  : "add to registry"}
-              </p>
+              <img
+                src={cushionFiller}
+                className={styles.cushionFiller}
+                alt="cushion-filler-icon"
+              />
+              <div>{ReactHtmlParser(fillerMessage)}</div>
             </div>
+          ) : (
+            ""
           )}
-        </div>
-        {info.isSale && fillerMessage ? (
           <div
             className={cs(
-              bootstrap.col12,
-              bootstrap.colMd10,
-              globalStyles.voffset3,
-              styles.errorMsg
+              bootstrap.row,
+              styles.spacer,
+              { [styles.spacerQuickview]: isQuickview && withBadge },
+              styles.actionButtonsContainer,
+              {
+                [globalStyles.voffset3]: mobile
+              }
             )}
           >
-            {ReactHtmlParser(fillerMessage)}
+            <div
+              id="yourElement"
+              className={cs(globalStyles.textCenter, globalStyles.voffset1, {
+                [bootstrap.col8]: !corporatePDP,
+                [styles.addToBagBtnContainer]: mobile,
+                [bootstrap.colSm8]: !mobile,
+                [bootstrap.colSm12]: corporatePDP && mobile,
+                [globalStyles.hidden]: mobile && !showAddToBagMobile
+              })}
+            >
+              {button}
+              {onload && !info.isSale && !loyaltyDisabled && isQuickview ? (
+                <p className={cs(styles.errorMsg, styles.notEligible)}>
+                  This product is not eligible for Cerise points accumulation.
+                </p>
+              ) : (
+                ""
+              )}
+              {isQuickview ? (
+                <Link
+                  to={url}
+                  className={cs(styles.moreDetails, {
+                    [styles.lh45]: withBadge
+                  })}
+                  onClick={() => {
+                    changeModalState(false);
+                    const listPath = `${source || "PLP"}`;
+                    CookieService.setCookie("listPath", listPath);
+                  }}
+                >
+                  view more details
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
+            <div
+              className={cs(bootstrap.col4, globalStyles.textCenter, {
+                [styles.wishlistBtnContainer]: mobile,
+                [globalStyles.voffset1]: mobile,
+                [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+              })}
+            >
+              <WishlistButton
+                gtmListType={gtmListType}
+                title={title}
+                childAttributes={childAttributes}
+                priceRecords={priceRecords}
+                discountedPriceRecords={discountedPriceRecords}
+                categories={categories}
+                id={id}
+                showText={!mobile}
+                size={selectedSize ? selectedSize.size : undefined}
+                iconClassName={cs({
+                  [styles.mobileWishlistIcon]: mobile
+                })}
+              />
+            </div>
           </div>
-        ) : (
-          ""
-        )}
-        <div
-          className={cs(
-            bootstrap.row,
-            styles.spacer,
-            { [styles.spacerQuickview]: isQuickview && withBadge },
-            styles.actionButtonsContainer,
-            {
-              [globalStyles.voffset3]: mobile
-            }
-          )}
-        >
           <div
-            className={cs(globalStyles.textCenter, globalStyles.voffset1, {
-              [bootstrap.col8]: !corporatePDP,
-              [styles.addToBagBtnContainer]: mobile,
-              [bootstrap.colSm8]: !mobile,
-              [bootstrap.colSm12]: corporatePDP && mobile
+            className={cs(bootstrap.col12, bootstrap.colMd9, {
+              [styles.quickviewLoyaltyMessage]: isQuickview,
+              [globalStyles.voffset1]: !mobile,
+              [globalStyles.voffset3]: mobile
             })}
           >
-            {button}
-            {!loyaltyDisabled && isQuickview ? (
+            {onload && !info.isSale && !loyaltyDisabled && !isQuickview ? (
               <p className={styles.errorMsg}>
                 This product is not eligible for Cerise points accumulation.
               </p>
             ) : (
               ""
             )}
-            {isQuickview ? (
-              <Link
-                to={url}
-                className={cs(styles.moreDetails, { [styles.lh45]: withBadge })}
-                onClick={() => {
-                  changeModalState(false);
-                  const listPath = `${source || "PLP"}`;
-                  CookieService.setCookie("listPath", listPath);
+          </div>
+          {!isQuickview && (
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd9,
+                globalStyles.voffset3
+              )}
+            >
+              <img
+                alt="goodearth-logo"
+                src={inshop}
+                style={{
+                  width: "17px",
+                  height: "17px",
+                  cursor: "pointer",
+                  marginRight: "8px"
                 }}
+              />
+              <span
+                className={styles.shopAvailability}
+                onClick={checkAvailability}
               >
-                view more details
-              </Link>
-            ) : (
-              ""
-            )}
-          </div>
+                {" "}
+                Check in-shop availability{" "}
+              </span>
+            </div>
+          )}
           <div
-            className={cs(bootstrap.col4, globalStyles.textCenter, {
-              [styles.wishlistBtnContainer]: mobile,
-              [globalStyles.voffset1]: mobile,
-              [globalStyles.hidden]: corporatePDP
-            })}
+            className={cs(
+              bootstrap.col12,
+              bootstrap.colMd9,
+              globalStyles.voffset3
+            )}
           >
-            <WishlistButton
-              gtmListType={gtmListType}
-              title={title}
-              childAttributes={childAttributes}
-              priceRecords={priceRecords}
-              discountedPriceRecords={discountedPriceRecords}
-              categories={categories}
-              id={id}
-              showText={!mobile}
-              size={selectedSize ? selectedSize.size : undefined}
-              iconClassName={cs({
-                [styles.mobileWishlistIcon]: mobile
-              })}
-            />
-          </div>
-        </div>
-        <div
-          className={cs(bootstrap.col12, bootstrap.colMd9, {
-            [styles.quickviewLoyaltyMessage]: isQuickview,
-            [globalStyles.voffset1]: !mobile,
-            [globalStyles.voffset3]: mobile
-          })}
-        >
-          {!loyaltyDisabled && !isQuickview ? (
-            <p className={styles.errorMsg}>
-              This product is not eligible for Cerise points accumulation.
-            </p>
-          ) : (
-            ""
-          )}
-        </div>
-        <div
-          className={cs(
-            bootstrap.col12,
-            bootstrap.colMd9,
-            globalStyles.voffset3
-          )}
-        >
-          {!mobile && !isQuickview && (
+            {/* {!mobile && !isQuickview && (
             <Share
               mobile={mobile}
               link={`${__DOMAIN__}${location.pathname}`}
@@ -818,27 +1017,39 @@ const ProductDetails: React.FC<Props> = ({
                   : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
               } ${__DOMAIN__}${location.pathname}`}
             />
-          )}
-
-          <div>
+          )} */}
+            <div>
+              {!isQuickview && (
+                <Accordion
+                  sections={accordionSections}
+                  headerClassName={styles.accordionHeader}
+                  bodyClassName={styles.accordionBody}
+                  defaultOpen="details"
+                />
+              )}
+            </div>
             {!isQuickview && (
-              <Accordion
-                sections={accordionSections}
-                headerClassName={styles.accordionHeader}
-                bodyClassName={styles.accordionBody}
-                defaultOpen="details"
+              <div className={cs(styles.sku, globalStyles.voffset4)}>
+                Vref. {setSelectedSKU()}
+              </div>
+            )}
+            {!isQuickview && <CustomerCareInfo />}
+            {!isQuickview && (
+              <Share
+                mobile={mobile}
+                link={`${__DOMAIN__}${location.pathname}`}
+                mailSubject="Gifting Ideas"
+                mailText={`${
+                  corporatePDP
+                    ? `Here's what I found, check it out on Good Earth's web boutique`
+                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
               />
             )}
           </div>
-          {!isQuickview && (
-            <div className={cs(styles.sku, globalStyles.voffset4)}>
-              Vref. {setSelectedSKU()}
-            </div>
-          )}
-          {!isQuickview && <CustomerCareInfo />}
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

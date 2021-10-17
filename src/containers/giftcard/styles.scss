@@ -323,9 +323,15 @@ input[type="radio"]:checked+label:before {
     width: 100%;
   }
 }
+.gc-timer {
+  padding-top: ($header-height + $secondary-header-height + $timer-height);
+}
 .gc-mobile {
   padding-top: ($header-height);
   padding-bottom: 50px;
+}
+.gc-mobile-timer {
+  padding-top: ($header-height + $timer-height);
 }
 
 form {
@@ -403,4 +409,26 @@ input[type="number"] {
   .input-button {
     width: 230px;
   }
+}
+
+.note {
+  text-align: left;
+  font-size: 12px;
+    ul {
+      margin-left:15px;
+      li {
+        margin: 8px 10px;
+        font-size: 12px;
+        font-family: $font-Lato;
+        color: #666666;
+        list-style-type: disc;
+      }
+    }
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eeeeee;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
