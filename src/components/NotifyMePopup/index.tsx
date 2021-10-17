@@ -26,7 +26,7 @@ import { Context as ModalContext } from "components/Modal/context";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ChildProductAttributes } from "typings/product";
-import { ADD_TO_BAG_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
@@ -83,7 +83,7 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const minQuantity = 1;
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
-
+  const [sizeerror, setSizeerror] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
 
   const onQuantityChange = useCallback(
@@ -99,9 +99,16 @@ const NotifyMePopup: React.FC<Props> = ({
       setQuantity(1);
 
       changeSize?.(selected.size);
+      setSizeerror(false);
     },
     [childAttributes, selectedSize]
   );
+  useEffect(() => {
+    const inStockSizes = childAttributes.filter(child => child.stock > 0);
+    if (inStockSizes.length == 1 && !selectedSize) {
+      setSelectedSize(inStockSizes[0]);
+    }
+  }, [childAttributes, selectedSize]);
 
   const userExists = !!(user && user.email);
 
@@ -152,8 +159,7 @@ const NotifyMePopup: React.FC<Props> = ({
               brand: "Goodearth",
               category: category,
               variant: selectedSize?.size || childAttributes[0].size || "",
-              quantity: quantity,
-              list: list || ""
+              quantity: quantity
             }
           ]
         }
@@ -163,20 +169,19 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
-      userExists &&
-        WishlistService.removeFromWishlist(
-          dispatch,
-          selectedSize.id,
-          undefined,
-          sortBy,
-          selectedSize.size
-        );
+      WishlistService.removeFromWishlist(
+        dispatch,
+        selectedSize.id,
+        undefined,
+        sortBy,
+        selectedSize.size
+      );
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
           util.showGrowlMessage(
             dispatch,
-            ADD_TO_BAG_SUCCESS,
+            MESSAGE.ADD_TO_BAG_SUCCESS,
             3000,
             "ADD_TO_BAG_SUCCESS"
           );
@@ -227,10 +232,13 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   };
 
+  const sizeSelectClick = () => {
+    setSizeerror(true);
+  };
+
   const button = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     let allOutOfStock = true;
-
     childAttributes.forEach(({ stock }) => {
       if (stock > 0) {
         allOutOfStock = false;
@@ -239,13 +247,20 @@ const NotifyMePopup: React.FC<Props> = ({
     if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
       action = onNotifyClick;
+    } else if (!selectedSize && childAttributes.length > 1) {
+      buttonText = "Select Size";
+      action = sizeSelectClick;
     } else {
       buttonText = "Add to Bag";
       action = addToBasket;
     }
 
     return (
-      <Button label={buttonText} onClick={action} className={styles.button} />
+      <Button
+        label={buttonText}
+        onClick={action}
+        className={cs(styles.button)}
+      />
     );
   }, [selectedSize, email, quantity]);
 
@@ -300,7 +315,7 @@ const NotifyMePopup: React.FC<Props> = ({
             )}
           </p>
         </div>
-        {sizeExists && (
+        {sizeExists ? (
           <>
             <div className={cs(styles.label, styles.sizeLabel)}>
               SELECT SIZE
@@ -314,7 +329,22 @@ const NotifyMePopup: React.FC<Props> = ({
             {sizeErrorMsg && (
               <span className={styles.sizeError}>{sizeErrorMsg}</span>
             )}
+            <span className={cs(styles.sizeError)}>
+              {isSale &&
+                selectedSize &&
+                selectedSize.stock > 0 &&
+                selectedSize.showStockThreshold &&
+                `Only ${selectedSize.stock} Left!`}
+            </span>
           </>
+        ) : (
+          <span className={cs(styles.sizeError)}>
+            {isSale &&
+              selectedSize &&
+              selectedSize.stock > 0 &&
+              selectedSize.showStockThreshold &&
+              `Only ${selectedSize.stock} Left!`}
+          </span>
         )}
         <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
 
@@ -346,6 +376,9 @@ const NotifyMePopup: React.FC<Props> = ({
               disabled={userExists}
             />
           </div>
+        )}
+        {sizeerror && (
+          <p className={styles.sizeError}>Please select a size to proceed</p>
         )}
         {button}
       </div>

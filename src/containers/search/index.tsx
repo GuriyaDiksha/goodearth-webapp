@@ -34,7 +34,8 @@ const mapStateToProps = (state: AppState) => {
     data: state.searchList.data,
     location: state.router.location,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    showTimer: state.info.showTimer
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -74,6 +75,7 @@ class Search extends React.Component<
     sortValue: string;
     searchMaker: boolean;
     featureData: WidgetImage[];
+    flag: boolean;
   }
 > {
   private child: any = FilterListSearch;
@@ -91,11 +93,12 @@ class Search extends React.Component<
       searchText: searchValue ? searchValue : "",
       sortValue: param ? param : "hc",
       searchMaker: false,
+      flag: false,
       featureData: []
     };
   }
 
-  onchangeFilter = (data: any): void => {
+  onchangeFilter = (data: any, label?: string): void => {
     this.child.changeValue(null, data);
     const {
       device: { mobile }
@@ -103,6 +106,7 @@ class Search extends React.Component<
     if (mobile) {
       this.child.clickCloseFilter();
     }
+    util.sortGTM(label || data);
   };
 
   setFilterCount = (count: number) => {
@@ -114,14 +118,29 @@ class Search extends React.Component<
 
   onClickQuickView = (id: number) => {
     const { updateComponentModal, changeModalState, plpProductId } = this.props;
+    const {
+      data: {
+        results: { data }
+      }
+    } = this.props;
+    const selectItem: any = data.filter(item => {
+      return item.id == id;
+    });
     updateComponentModal(
       POPUP.QUICKVIEW,
-      { id: id, productListId: plpProductId, source: "Search" },
+      {
+        id: id,
+        productListId: plpProductId,
+        source: "Search",
+        corporatePDP:
+          ["Pero", "Souk"].indexOf(selectItem[0]?.partner) > -1 ? true : false
+      },
       true
     );
     changeModalState(true);
   };
   componentDidMount() {
+    util.moveChatDown();
     this.setState({
       searchMaker: true
     });
@@ -144,6 +163,10 @@ class Search extends React.Component<
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  componentWillUnmount() {
+    util.moveChatUp();
   }
 
   onChangeFilterState = (state: boolean, cross?: boolean) => {
@@ -241,6 +264,12 @@ class Search extends React.Component<
     }
   }
 
+  changeLoader = (value: boolean) => {
+    this.setState({
+      flag: value
+    });
+  };
+
   render() {
     const {
       device: { mobile },
@@ -270,7 +299,13 @@ class Search extends React.Component<
       }
     ];
     return (
-      <div className={cs(styles.pageBody, bootstrap.containerFluid)}>
+      <div
+        className={cs(
+          styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
+          bootstrap.containerFluid
+        )}
+      >
         {!mobile && (
           <SecondaryHeader classname={styles.subHeader}>
             <Fragment>
@@ -300,6 +335,7 @@ class Search extends React.Component<
               <div className={cs(bootstrap.colMd3, styles.innerHeader)}>
                 <p className={styles.filterText}>Sort</p>
                 <SelectableDropdownMenu
+                  id="sort-dropdown-search"
                   align="right"
                   className={styles.dropdownRoot}
                   items={items}
@@ -317,9 +353,13 @@ class Search extends React.Component<
             id="filter_by"
             className={
               mobile
-                ? this.state.mobileFilter
-                  ? cs(bootstrap.col12, styles.mobileFilterMenu)
-                  : globalStyles.hidden
+                ? cs(
+                    { [globalStyles.active]: this.state.mobileFilter },
+                    bootstrap.col12,
+                    styles.mobileFilterMenu,
+                    { [styles.mobileFilterMenuTimer]: this.props.showTimer },
+                    globalStyles.hideLeft
+                  )
                 : cs(bootstrap.colMd2, styles.filterSticky)
             }
           >
@@ -327,6 +367,7 @@ class Search extends React.Component<
               key={"search"}
               onRef={(el: any) => (this.child = el)}
               setFilterCount={this.setFilterCount}
+              changeLoader={this.changeLoader}
               onChangeFilterState={this.onChangeFilterState}
             />
           </div>
@@ -398,13 +439,13 @@ class Search extends React.Component<
                       styles.setWidth
                     )}
                     key={item.id}
-                    onClick={e => {
-                      this.gtmPushSearchClick(e, item, i);
-                    }}
+                    // onClick={e => {
+                    //   this.gtmPushSearchClick(e, item, i);
+                    // }}
                   >
                     {item.productClass != "GiftCard" ? (
                       <PlpResultItem
-                        page="Search"
+                        page="SearchResults"
                         position={i}
                         product={item}
                         addedToWishlist={false}
@@ -412,7 +453,12 @@ class Search extends React.Component<
                         key={item.id}
                         mobile={mobile}
                         onClickQuickView={this.onClickQuickView}
-                        isCorporate={false}
+                        loader={this.state.flag}
+                        isCorporate={
+                          ["Pero", "Souk"].indexOf(item.partner || "") > -1
+                            ? true
+                            : false
+                        }
                       />
                     ) : (
                       <GiftcardItem />

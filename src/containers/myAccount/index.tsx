@@ -7,6 +7,7 @@ import {
   useLocation,
   useHistory
 } from "react-router-dom";
+import LoginService from "services/login";
 import globalStyles from "../../styles/global.scss";
 import styles from "./styles.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -44,6 +45,7 @@ const MyAccount: React.FC<Props> = props => {
   const [slab, setSlab] = useState("");
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   // const [ isCeriseClubMember, setIsCeriseClubMember ] = useState(false);
 
   const [currentSection, setCurrentSection] = useState("Profile");
@@ -102,9 +104,9 @@ const MyAccount: React.FC<Props> = props => {
   //     axios.post(`${Config.hostname}mobiquest/showloyaltytransactions/`, formData)
   //     .then(res => {
   //         if (res.data.is_success) {
-  //             let isCeriseClubMember = res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || res.data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || res.data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
+  //             let isCeriseClubMember = res.data.message.Slab == "CERISE" || res.data.message.Slab == "CERISE SITARA" || res.data.message.Slab == "FF10" || res.data.message.Slab == "FF15"
   //             this.setState({
-  //                 slab: res.data.message.CUSTOMER_DETAILS[0].Slab,
+  //                 slab: res.data.message.Slab,
   //                 isCeriseClubMember: isCeriseClubMember
   //             }, () => {
   //                 const slab = slab.toLowerCase() == "cerise" || slab.toLowerCase() == "cerise sitara";
@@ -142,8 +144,8 @@ const MyAccount: React.FC<Props> = props => {
     AccountServices.getLoyaltyTransactions(dispatch, formData)
       .then((data: any) => {
         if (data.is_success) {
-          // const isCeriseClubMember = data.message.CUSTOMER_DETAILS[0].Slab == "CERISE" || data.message.CUSTOMER_DETAILS[0].Slab == "CERISE SITARA" || data.message.CUSTOMER_DETAILS[0].Slab == "FF10" || data.message.CUSTOMER_DETAILS[0].Slab == "FF15"
-          const responseSlab = data.message.CUSTOMER_DETAILS[0].Slab;
+          // const isCeriseClubMember = data.message.Slab == "CERISE" || data.message.Slab == "CERISE SITARA" || data.message.Slab == "FF10" || data.message.Slab == "FF15"
+          const responseSlab = data.message.Slab;
           setSlab(responseSlab);
           // setIsCeriseClubMember(isCeriseClubMember);
           // const slab = responseSlab.toLowerCase() == "cerise" || responseSlab.toLowerCase() == "cerise sitara";
@@ -255,7 +257,11 @@ const MyAccount: React.FC<Props> = props => {
       ).length > 0 &&
       !isLoggedIn
     ) {
-      history.push("/");
+      if (pathname == "/account/bridal") {
+        LoginService.showLogin(dispatch);
+      } else {
+        history.push("/");
+      }
     }
   }, [pathname, isLoggedIn]);
 
@@ -271,7 +277,11 @@ const MyAccount: React.FC<Props> = props => {
       : ""
   );
   return (
-    <div className={globalStyles.containerStart}>
+    <div
+      className={cs(globalStyles.containerStart, {
+        [globalStyles.containerStartTimer]: showTimer
+      })}
+    >
       <SecondaryHeader>
         <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
           <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
@@ -290,7 +300,11 @@ const MyAccount: React.FC<Props> = props => {
         {mobile ? (
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
-              <div className={styles.cSortHeader}>
+              <div
+                className={cs(styles.cSortHeader, {
+                  [styles.cSortHeaderTimer]: showTimer
+                })}
+              >
                 <div
                   className={
                     accountListing
@@ -317,7 +331,11 @@ const MyAccount: React.FC<Props> = props => {
                     : globalStyles.hidden
                 }
               >
-                <div className={styles.mobileFilterHeader}>
+                <div
+                  className={cs(styles.mobileFilterHeader, {
+                    [styles.mobileFilterHeaderTimer]: showTimer
+                  })}
+                >
                   <div className={styles.filterCross}>
                     <span>
                       {pathname == "/account/bridal"
@@ -346,7 +364,8 @@ const MyAccount: React.FC<Props> = props => {
                     className={cs(
                       bootstrapStyles.col12,
                       bootstrapStyles.col12,
-                      styles.mobileFilterMenu
+                      styles.mobileFilterMenu,
+                      { [styles.mobileFilterMenuTimer]: showTimer }
                     )}
                   >
                     <ul className={styles.sort}>

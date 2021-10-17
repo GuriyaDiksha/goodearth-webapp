@@ -3,7 +3,7 @@ import { useStore } from "react-redux";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import iconStyles from "styles/iconFonts.scss";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
@@ -45,7 +45,7 @@ const BackendPopup: React.FC<Props> = () => {
           <div className={globalStyles.c22AI}>Cart Modification</div>
           <div className={globalStyles.c10LR}>
             <p>
-              {`By modifying the contents of this cart, all special promos and
+              {`By modifying the contents of this Bag, all special promos and
               discounts will be removed.`}
             </p>
             <p>Are you sure want to proceed ? </p>

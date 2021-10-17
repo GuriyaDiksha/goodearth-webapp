@@ -6,18 +6,19 @@ import Slider from "react-slick";
 import { AppState } from "reducers/typings";
 import { NavLink } from "react-router-dom";
 import styles from "./styles.scss";
+import iconStyles from "styles/iconFonts.scss";
 // import "../../../../styles/myslick.css";
 import "./slick.css";
 // import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import cs from "classnames";
 // import * as mapper from "pages/myaccount/mappers/accountm"
-import ipopM3 from "../../../../images/bridal/ipops/mobile/ipopM3.jpg";
-import ipopM2 from "../../../../images/bridal/ipops/mobile/ipopM2.jpg";
+import ipopM3 from "../../../../images/bridal/ipops/mobile/ipopM3.png";
+import ipopM2 from "../../../../images/bridal/ipops/mobile/ipopM2.png";
 import ipopM4 from "../../../../images/bridal/ipops/mobile/ipopM4.jpg";
 import ipopM1 from "../../../../images/bridal/ipops/mobile/ipopM1.jpg";
-import ipop3 from "../../../../images/bridal/ipops/ipop3.jpg";
-import ipop2 from "../../../../images/bridal/ipops/ipop2.jpg";
+import ipop3 from "../../../../images/bridal/ipops/ipop3.png";
+import ipop2 from "../../../../images/bridal/ipops/ipop2.png";
 import ipop1 from "../../../../images/bridal/ipops/ipop1.jpg";
 import { updateModal } from "actions/modal";
 
@@ -72,8 +73,16 @@ const BridalPop: React.FC = () => {
             "bridal-pop"
           )}
         >
-          {/* <div className="cross" onClick={() => {props.close()} }><i
-                        className="icon icon_cross"></i></div> */}
+          <div className={styles.bridalCross} onClick={closeBridalPop}>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.icon,
+                styles.iconCross
+              )}
+            ></i>
+          </div>
           <div className={styles.addBtn}>
             <NavLink to="/" onClick={closeBridalPop}>
               <button className={globalStyles.ceriseBtn}>
@@ -124,11 +133,19 @@ const BridalPop: React.FC = () => {
             "bridal-pop"
           )}
         >
-          {/* <div className="cross" onClick={() => {props.close()} }><i
-                        className="icon icon_cross"></i></div> */}
+          <div className={styles.bridalCross} onClick={closeBridalPop}>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.icon,
+                styles.iconCross
+              )}
+            ></i>
+          </div>
           <Slider {...settings} className="">
             <div className="">
-              <img src={ipop3} />
+              <img src={ipop3} className={globalStyles.imgResponsive} />
               <div className={cs(globalStyles.c10LR, styles.txt)}>
                 Thank you for registering with us! To add desired products to
                 your Bridal Registry, click the ‘Quick View’ tab under each
@@ -137,7 +154,7 @@ const BridalPop: React.FC = () => {
               <DesktopButton />
             </div>
             <div className="">
-              <img src={ipop2} />
+              <img src={ipop2} className={globalStyles.imgResponsive} />
               <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To add specific products while you browse, click on the ‘Add to
                 Register’ icon provided on the right of the product description.
@@ -145,7 +162,7 @@ const BridalPop: React.FC = () => {
               <DesktopButton />
             </div>
             <div className="">
-              <img src={ipop1} />
+              <img src={ipop1} className={globalStyles.imgResponsive} />
               <div className={cs(globalStyles.c10LR, styles.txt)}>
                 To manage your Bridal Registry, select ‘Your Profile’ &gt;
                 ‘Bridal Registry’ &gt; ‘Manage Registry’ from the menu provided

@@ -55,6 +55,7 @@
 .error-msg{
     @include error-msg();
     text-align: center;
+    width: 110%;
     height: 15px;
     line-height: 15px;
     position: absolute;
@@ -62,6 +63,9 @@
     // left: 5px;
 }
 
+.left {
+    text-align: left;
+}
 .no-bottom {
     bottom: 0;
 }

@@ -26,6 +26,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { WidgetImage } from "components/header/typings";
 // services
 import HeaderService from "services/headerFooter";
+import LoginService from "services/login";
 import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 
@@ -37,7 +38,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     wishlistData: state.wishlist.items,
     isLoggedIn: state.user.isLoggedIn,
-    isSale: state.info.isSale
+    isSale: state.info.isSale,
+    showTimer: state.info.showTimer
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -56,6 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       await WishlistService.updateWishlist(dispatch, sortBy),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
+    openLogin: () => LoginService.showLogin(dispatch),
     openPopup: (
       item: WishListGridItem,
       currency: Currency,
@@ -63,7 +66,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       isSale?: boolean
     ) => {
       const childAttributes = item.stockDetails.map(
-        ({ discountedPrice, productId, stock, size, price, sku }) => {
+        ({
+          discountedPrice,
+          productId,
+          stock,
+          size,
+          price,
+          sku,
+          showStockThreshold
+        }) => {
           return {
             discountedPriceRecords: discountedPrice,
             id: productId,
@@ -71,7 +82,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             sku: sku,
             priceRecords: price,
             size: size,
-            stock: stock
+            stock: stock,
+            showStockThreshold: showStockThreshold
           };
         }
       );
@@ -204,7 +216,7 @@ class Wishlist extends React.Component<Props, State> {
       });
   };
 
-  onChangeFilter = (data?: string) => {
+  onChangeFilter = (data?: string, label?: string) => {
     ReactDOM.unmountComponentAtNode(
       document.getElementById("wishlist") as HTMLDivElement
     );
@@ -253,6 +265,9 @@ class Wishlist extends React.Component<Props, State> {
       default:
         break;
     }
+    if (data) {
+      util.sortGTM(label || data);
+    }
     window.scrollTo(0, 0);
   };
 
@@ -272,9 +287,6 @@ class Wishlist extends React.Component<Props, State> {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
-    if (!this.props.isLoggedIn) {
-      this.props.history.push("/");
-    }
     this.updateGrid(this.props);
     this.props
       .fetchFeaturedContent()
@@ -308,9 +320,6 @@ class Wishlist extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
-    if (!nextProps.isLoggedIn) {
-      this.props.history.push("/");
-    }
     if (this.props.currency !== nextProps.currency) {
       this.getWishlist(this.state.defaultOption.value);
       AbsoluteGrid = createAbsoluteGrid(
@@ -404,6 +413,7 @@ class Wishlist extends React.Component<Props, State> {
     }
 
     const wishlistTotal = nextProps.wishlistData.map(item => {
+      const { isSale } = this.props;
       if (!item.size && item.stockDetails.length > 1) {
         const itemTotal = item.stockDetails.reduce((prev, curr) => {
           const prevprices = parseFloat(
@@ -414,18 +424,24 @@ class Wishlist extends React.Component<Props, State> {
           );
           return prevprices < currprices ? prev : curr;
         });
-        return +itemTotal.discountedPrice[currency];
+        return isSale
+          ? +itemTotal.discountedPrice[currency]
+          : +itemTotal.price[currency];
       } else if (item.size) {
         let vars = 0;
         item.stockDetails.forEach(function(items, key) {
           if (item.size == items.size) {
-            vars = +items.discountedPrice[currency];
+            vars = isSale
+              ? +items.discountedPrice[currency]
+              : +items.price[currency];
           }
         });
         return vars;
       } else {
         return item.stockDetails[0]
-          ? +item.stockDetails[0].discountedPrice[currency]
+          ? isSale
+            ? +item.stockDetails[0].discountedPrice[currency]
+            : +item.stockDetails[0].price[currency]
           : 0;
       }
     });
@@ -498,7 +514,7 @@ class Wishlist extends React.Component<Props, State> {
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
             itemWidth={150}
-            itemHeight={300}
+            itemHeight={340}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />,
@@ -513,7 +529,7 @@ class Wishlist extends React.Component<Props, State> {
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
             itemWidth={280}
-            itemHeight={480}
+            itemHeight={520}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />,
@@ -609,7 +625,7 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   render() {
-    const { mobile } = this.props;
+    const { mobile, isLoggedIn } = this.props;
     const emptyWishlistContent = (
       <div>
         <div
@@ -619,19 +635,33 @@ class Wishlist extends React.Component<Props, State> {
             styles.minheight
           )}
         >
-          <div
-            className={cs(
-              bootstrapStyles.colMd12,
-              bootstrapStyles.col12,
-              globalStyles.textCenter
-            )}
-          >
-            {
-              <div className={styles.npfMsg}>
-                Your wishlist is currently empty
+          {isLoggedIn && (
+            <>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  styles.wishlistHeading,
+                  { [styles.wishlistHeadingMobile]: mobile },
+                  globalStyles.textCenter
+                )}
+              >
+                <h2 className={globalStyles.voffset5}>Your Favorites</h2>
               </div>
-            }
-          </div>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd12,
+                  bootstrapStyles.col12,
+                  globalStyles.textCenter
+                )}
+              >
+                {
+                  <div className={styles.npfMsg}>
+                    Mark your favorite pieces for later!
+                  </div>
+                }
+              </div>
+            </>
+          )}
           <div
             className={cs(
               bootstrapStyles.colMd12,
@@ -674,7 +704,7 @@ class Wishlist extends React.Component<Props, State> {
                                     : data.ctaImage
                                 }
                                 // onError={this.addDefaultSrc}
-                                alt=""
+                                alt={data.ctaText}
                                 className={styles.imageResultNew}
                               />
                             </Link>
@@ -713,7 +743,11 @@ class Wishlist extends React.Component<Props, State> {
     return (
       <div className={bootstrapStyles.containerFluid}>
         {mobile ? (
-          <div className={cs(bootstrapStyles.row, globalStyles.voffset7)}>
+          <div
+            className={cs(bootstrapStyles.row, styles.pageBody, {
+              [styles.pageBodyTimer]: this.props.showTimer
+            })}
+          >
             <div className={cs(styles.cSort, styles.subheaderAccount)}>
               <div
                 className={cs(bootstrapStyles.col12, styles.productNumber)}
@@ -722,7 +756,7 @@ class Wishlist extends React.Component<Props, State> {
                 <div
                   className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
                 >
-                  Wishlist
+                  Saved Items
                 </div>
                 <div className={bootstrapStyles.col2}>
                   <i
@@ -746,9 +780,13 @@ class Wishlist extends React.Component<Props, State> {
                       : globalStyles.hidden
                   }
                 >
-                  <div className={styles.mobileFilterHeader}>
+                  <div
+                    className={cs(styles.mobileFilterHeader, {
+                      [styles.mobileFilterHeaderTimer]: this.props.showTimer
+                    })}
+                  >
                     <div className={styles.filterCross}>
-                      <span>Wishlist</span>
+                      <span>Saved Items</span>
                       <span
                         onClick={() => this.setState({ filterListing: false })}
                       >
@@ -766,7 +804,8 @@ class Wishlist extends React.Component<Props, State> {
                     <div
                       className={cs(
                         bootstrapStyles.col12,
-                        styles.mobileFilterMenu
+                        styles.mobileFilterMenu,
+                        { [styles.mobileFilterMenuTimer]: this.props.showTimer }
                       )}
                     >
                       <ul className={styles.sort}>
@@ -804,7 +843,7 @@ class Wishlist extends React.Component<Props, State> {
               )}
             >
               <div>
-                <span className={styles.heading}>Wishlist</span>
+                <span className={styles.heading}>SAVED ITEMS</span>
               </div>
             </div>
             <div
@@ -816,6 +855,7 @@ class Wishlist extends React.Component<Props, State> {
             >
               <p className={styles.filterText}>SORT</p>
               <SelectableDropdownMenu
+                id="sort-dropdown-wishlist"
                 align="right"
                 className={styles.dropdownRoot}
                 items={this.state.options}
@@ -834,7 +874,41 @@ class Wishlist extends React.Component<Props, State> {
             { [styles.wishlistBlockOuterMobile]: mobile }
           )}
         >
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
+          {!isLoggedIn && (
+            <div className={styles.topBlockContainer}>
+              <div className={styles.innerContainer}>
+                <h3 className={styles.heading}>Saved Items</h3>
+                <p className={styles.subheading}>
+                  {this.state.wishlistCount > 0 ? (
+                    <>
+                      Keep track of your favourite pieces all in one place!
+                      <br />
+                      Sign in to save this list!
+                    </>
+                  ) : (
+                    <>
+                      Looking for your saved items?
+                      <br />
+                      Sign in to pick up where you left off
+                    </>
+                  )}
+                </p>
+                <div
+                  className={cs(globalStyles.ceriseBtn, styles.btn)}
+                  onClick={this.props.openLogin}
+                >
+                  Sign in
+                </div>
+              </div>
+            </div>
+          )}
+          <div
+            className={cs(
+              bootstrapStyles.col10,
+              bootstrapStyles.offset1,
+              globalStyles.marginT20
+            )}
+          >
             {this.state.wishlistCount > 0 && (
               <div className={cs(styles.wishlistTop, styles.wishlistSubtotal)}>
                 {this.getWishlistSubtotal()}

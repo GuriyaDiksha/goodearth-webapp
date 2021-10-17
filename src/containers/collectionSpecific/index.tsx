@@ -17,8 +17,7 @@ import { updateQuickviewId } from "actions/quickview";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
-import { getProductIdFromSlug } from "utils/url.ts";
-import Loader from "components/Loader";
+import { getProductIdFromSlug } from "utils/url";
 import ReactHtmlParser from "react-html-parser";
 import * as valid from "utils/validate";
 import { Currency } from "typings/currency";
@@ -32,7 +31,8 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     mobile: state.device.mobile,
     location: state.router.location,
-    sale: state.info.isSale
+    sale: state.info.isSale,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -140,17 +140,20 @@ class CollectionSpecific extends React.Component<
       pdpProductScroll = hasPdpScrollableProduct.pdpProductDetails;
       if (pdpProductScroll) {
         const pdpTimeStamp = new Date(pdpProductScroll.timestamp).getTime();
-        shouldScroll = currentTimeStamp - pdpTimeStamp < 8000;
-        this.setState(
-          {
-            shouldScroll: shouldScroll
-          },
-          () => {
-            if (this.state.shouldScroll) {
-              this.handleProductSearch();
+        const source = pdpProductScroll.source;
+        if (source.toLowerCase() == "collectionspecific") {
+          shouldScroll = currentTimeStamp - pdpTimeStamp < 8000;
+          this.setState(
+            {
+              shouldScroll: shouldScroll
+            },
+            () => {
+              if (this.state.shouldScroll) {
+                this.handleProductSearch();
+              }
             }
-          }
-        );
+          );
+        }
       }
     }
   }
@@ -295,13 +298,18 @@ class CollectionSpecific extends React.Component<
     const {
       mobile,
       collectionSpecificData,
-      collectionSpecficBanner
+      collectionSpecficBanner,
+      showTimer
     } = this.props;
     const { breadcrumbs, longDescription, results } = collectionSpecificData;
     const { widgetImages, description } = collectionSpecficBanner;
     const { specificMaker } = this.state;
     return (
-      <div className={styles.collectionContainer}>
+      <div
+        className={cs(styles.collectionContainer, {
+          [styles.collectionContainerTimer]: showTimer
+        })}
+      >
         {!mobile && (
           <SecondaryHeader>
             <Breadcrumbs
@@ -396,12 +404,14 @@ class CollectionSpecific extends React.Component<
                     mobile={mobile}
                     onClickQuickView={this.onClickQuickView}
                     isCollection={true}
+                    loader={
+                      !this.scrollload && results.length > 0 ? true : false
+                    }
                   />
                 </div>
               );
             })}
           </div>
-          {!this.scrollload && results.length > 0 ? <Loader /> : ""}
         </div>
         {specificMaker && (
           <MakerEnhance

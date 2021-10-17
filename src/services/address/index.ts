@@ -10,7 +10,7 @@ import { updateAddressList } from "actions/address";
 import { specifyBillingAddressData } from "containers/checkout/typings";
 import { updateBasket } from "actions/basket";
 import CacheService from "services/cache";
-import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import * as util from "../../utils/validate";
 
 export default {
@@ -72,7 +72,8 @@ export default {
   specifyShippingAddress: async (
     dispatch: Dispatch,
     id: number,
-    isBridal: boolean
+    isBridal: boolean,
+    history: any
   ) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
@@ -81,10 +82,36 @@ export default {
       }`,
       { shippingAddressId: id }
     );
-    if (data.data.basket.updated || data.data.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+    const {
+      publishRemove,
+      updated,
+      updatedRemovedItems,
+      unshippableRemove,
+      unshippableProducts,
+      redirectToCart
+    } = data.data.basket;
+    if (updated || publishRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        updatedRemovedItems
+      );
+    }
+    if (unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        unshippableProducts
+      );
     }
     dispatch(updateBasket(data.data.basket));
+    if (redirectToCart) {
+      history?.push("/cart", {});
+    }
     return data;
   },
   specifyBillingAddress: async (

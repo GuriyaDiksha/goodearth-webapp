@@ -236,11 +236,10 @@
   }
 .heading {
   line-height: 48px;
-  text-transform: capitalize;
+  text-transform: uppercase;
   letter-spacing: 1px;
-  text-decoration: none;
-  font-size: 12px;
-  color: #999;
+  font-size: 14px;
+  color: #666;
   a {
     line-height: 48px;
     text-transform: capitalize;
@@ -260,10 +259,16 @@
 .container-start-dj {
   margin-top: $header-height + $secondary-header-height;
 }
+.container-start-dj-timer {
+  margin-top: $header-height + $secondary-header-height + $timer-height;
+}
 
 @media screen and (max-width: 992px) {
   .container-start-dj {
     margin-top: $header-height;
+  }
+  .container-start-dj-timer {
+    margin-top: $header-height + $timer-height;
   }
   .terms {
     padding: 60px 0 80px 0;
@@ -373,9 +378,9 @@
       padding-bottom: 20px;
     }
     .block {
-      .block-1 {
+      // .block-1 {
 
-      }
+      // }
       .block-2 {
         margin: 30px 30px 0 30px;
         font-family: $font-Lato;

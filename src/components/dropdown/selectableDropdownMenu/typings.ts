@@ -6,6 +6,7 @@ export type SelectableDropdownMenuProps = BaseDropdownMenuProps & {
   value?: string;
   icon?: string;
   showCaret?: boolean;
-  onChange?: (value?: string) => void;
+  onChange?: (value?: string, label?: string) => void;
   onChangeCurrency?: (value?: string) => Promise<void> | undefined;
+  id: string;
 };

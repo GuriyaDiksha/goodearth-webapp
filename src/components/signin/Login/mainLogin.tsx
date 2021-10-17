@@ -9,12 +9,13 @@ import Loader from "components/Loader";
 import SocialLogin from "../socialLogin";
 import show from "../../../images/show.svg";
 import hide from "../../../images/hide.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import * as valid from "utils/validate";
 import { connect } from "react-redux";
 import { loginProps, loginState } from "./typings";
 import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
+import { RouteComponentProps, withRouter } from "react-router";
 // import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
@@ -27,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
 
 type Props = loginProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class MainLogin extends React.Component<Props, loginState> {
   constructor(props: Props) {
@@ -45,6 +47,7 @@ class MainLogin extends React.Component<Props, loginState> {
         this.props.location.pathname + this.props.location.search,
       isPasswordDisabled: true,
       isLoginDisabled: true,
+      isSecondStepLoginDisabled: true,
       shouldFocusOnPassword: false,
       successMsg: "",
       showPassword: false,
@@ -55,6 +58,10 @@ class MainLogin extends React.Component<Props, loginState> {
   emailInput: RefObject<HTMLInputElement> = React.createRef();
   passwordInput: RefObject<HTMLInputElement> = React.createRef();
   firstEmailInput: RefObject<HTMLInputElement> = React.createRef();
+  source =
+    this.props.history.location.pathname.indexOf("checkout") != -1
+      ? "checkout"
+      : "";
   async checkMailValidation() {
     if (this.state.email) {
       const data = await this.props.checkUserPassword(this.state.email);
@@ -81,12 +88,15 @@ class MainLogin extends React.Component<Props, loginState> {
                 this.passwordInput.current &&
                   this.passwordInput.current.focus();
                 this.passwordInput.current &&
+                  !this.props.isBo &&
                   this.passwordInput.current.scrollIntoView(true);
               }
             );
           } else {
             const error = [
-              "This account already exists. Please ",
+              "Looks like you are signing in for the first time. ",
+              <br key={2} />,
+              "Please ",
               <span
                 className={cs(
                   globalStyles.errorMsg,
@@ -96,7 +106,8 @@ class MainLogin extends React.Component<Props, loginState> {
                 onClick={this.handleResetPassword}
               >
                 set a new password
-              </span>
+              </span>,
+              " to sign in!"
             ];
             this.setState({
               msg: error,
@@ -131,11 +142,28 @@ class MainLogin extends React.Component<Props, loginState> {
         });
       })
       .catch((err: any) => {
-        console.log("err: " + err.response.data.email[0]);
-        this.setState({
-          highlight: true,
-          msg: err.response.data.email[0]
-        });
+        if (err.response.data.email) {
+          console.log("err: " + err.response.data.email[0]);
+          this.setState({
+            highlight: true,
+            msg: err.response.data.email[0]
+          });
+        } else if (err.response.data.error_message) {
+          let errorMsg = err.response.data.error_message[0];
+          if (errorMsg == "MaxRetries") {
+            errorMsg =
+              "You have exceeded max attempts, please try after some time.";
+          }
+          this.setState(
+            {
+              msg: errorMsg,
+              highlight: true
+            },
+            () => {
+              valid.errorTracking([this.state.msg as string], location.href);
+            }
+          );
+        }
       });
   };
 
@@ -143,7 +171,9 @@ class MainLogin extends React.Component<Props, loginState> {
     const email = localStorage.getItem("tempEmail");
     // const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup");
     if (email) {
-      this.setState({ email });
+      this.setState({ email, isLoginDisabled: false }, () => {
+        this.myBlur();
+      });
     }
     // if (checkoutPopupCookie == "show") {
     //   this.firstEmailInput.current?.focus();
@@ -184,9 +214,18 @@ class MainLogin extends React.Component<Props, loginState> {
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
-        .login(this.state.email || "", this.state.password || "", "checkout")
+        .login(
+          this.state.email || "",
+          this.state.password || "",
+          this.props.currency,
+          this.source
+        )
         .then(data => {
           this.gtmPushSignIn();
+          const loginpopup = new URLSearchParams(
+            this.props.history.location.search
+          ).get("loginpopup");
+          loginpopup == "cerise" && this.props.history.push("/");
           dataLayer.push({
             event: "checkout",
             ecommerce: {
@@ -198,10 +237,13 @@ class MainLogin extends React.Component<Props, loginState> {
             }
           });
           // this.context.closeModal();
-          // this.props.nextStep?.();
+          this.props.nextStep?.();
         })
         .catch(err => {
-          if (err.response.data.non_field_errors[0] == "NotEmail") {
+          if (
+            err.response.data.error_message &&
+            err.response.data.error_message[0] == "NotEmail"
+          ) {
             this.setState(
               {
                 msg: ["No registered user found"],
@@ -211,11 +253,14 @@ class MainLogin extends React.Component<Props, loginState> {
                 valid.errorTracking(this.state.msg as string[], location.href);
               }
             );
-          } else if (err.response.data.non_field_errors[0] == "MaxRetries") {
+          } else if (
+            err.response.data.error_message &&
+            err.response.data.error_message[0] == "MaxRetries"
+          ) {
             this.setState(
               {
                 showerror:
-                  "You have exceeded max login attempts, please try after some time"
+                  "You have exceeded max login attempts, please try after some time."
                 // highlight: true
               },
               () => {
@@ -255,6 +300,11 @@ class MainLogin extends React.Component<Props, loginState> {
         msgp: "Please enter your password",
         highlightp: true
       });
+      if (!this.state.isSecondStepLoginDisabled) {
+        this.setState({
+          isSecondStepLoginDisabled: true
+        });
+      }
     }
     // else if (this.state.password && this.state.password.length < 6) {
     //   if (
@@ -271,6 +321,11 @@ class MainLogin extends React.Component<Props, loginState> {
         msgp: "",
         highlightp: false
       });
+      if (this.state.isSecondStepLoginDisabled) {
+        this.setState({
+          isSecondStepLoginDisabled: false
+        });
+      }
     }
   }
 
@@ -282,7 +337,7 @@ class MainLogin extends React.Component<Props, loginState> {
     }
     if (type === "email") {
       if (event.key == "Enter") {
-        this.myBlur(event);
+        // do nothing, handleSubmitEmail will run
       } else {
         if (valid.checkBlank(this.state.email)) {
           if (this.state.msg !== "Please enter your Email ID") {
@@ -477,12 +532,12 @@ class MainLogin extends React.Component<Props, loginState> {
             <input
               type="submit"
               className={
-                this.state.isLoginDisabled
+                this.state.isSecondStepLoginDisabled
                   ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
                   : globalStyles.ceriseBtn
               }
               value="continue"
-              disabled={this.state.isLoginDisabled}
+              disabled={this.state.isSecondStepLoginDisabled}
             />
           </div>
         </div>
@@ -545,4 +600,5 @@ class MainLogin extends React.Component<Props, loginState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLogin);
+const MainLoginRoute = withRouter(MainLogin);
+export default connect(mapStateToProps, mapDispatchToProps)(MainLoginRoute);

@@ -24,10 +24,14 @@ export interface PLPProductItem {
   inStock?: boolean;
   childAttributes?: PartialChildProductAttributes[] | ChildProductAttributes[];
   plpSliderImages: string[];
+  lookImageUrl?: string;
+  images?: ProductImage[];
+  invisibleFields: string[];
+  partner?: string;
+  altText: string;
 }
 
 export interface PartialProductItem extends PLPProductItem {
-  images?: ProductImage[];
   sku: string;
   gaVariant: string;
   recommendationFinalScore?: number;
@@ -57,6 +61,9 @@ export interface Product<T = ProductID> extends PartialProductItem {
   designJournalTagging?: DesignJournalTag[];
   fillerMessage: string;
   collectionProducts?: CollectionProductItem[];
+  pairItWithProducts?: PLPProductItem[];
+  looksProducts?: PLPProductItem[];
+  lookImageUrl?: string;
   groupedProducts?: GroupedProductItem[];
 }
 
@@ -72,6 +79,8 @@ export interface ChildProductAttributes extends PartialChildProductAttributes {
   discountedPriceRecords: PriceRecord;
   id: ProductID;
   isBridalProduct: boolean;
+  othersBasketCount: number;
+  showStockThreshold: boolean;
 }
 
 export type ProductAttributes = {
@@ -89,6 +98,7 @@ export type CollectionProductItem = {
   collectionUrl: string;
   priceRecords: PriceRecord;
   gaVariant?: string;
+  altText: string;
 };
 
 export interface BasketProduct extends PartialProductItem {

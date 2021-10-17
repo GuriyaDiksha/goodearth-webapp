@@ -12,6 +12,8 @@ import globalStyles from "styles/global.scss";
 import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import Price from "components/Price";
+import SkeletonImage from "./skeleton";
 import * as valid from "utils/validate";
 import CookieService from "services/cookie";
 
@@ -27,7 +29,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     isCollection,
     isCorporate,
     position,
-    page
+    page,
+    loader
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -65,7 +68,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     ? product.plpImages[1]
     : "";
   const isStockAvailable = isCorporate || product.inStock;
-  return (
+  return loader ? (
+    <div className={styles.plpMain}>
+      <SkeletonImage />
+    </div>
+  ) : (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
         <div className={styles.badgeImage}>
@@ -114,6 +121,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <LazyImage
             aspectRatio="62:93"
             src={image}
+            alt={product.altText || product.title}
             className={styles.imageResultnew}
             isVisible={isVisible}
             onError={(e: any) => {
@@ -140,7 +148,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 isCorporate ? styles.imageHoverCorporate : styles.imageHover
               }
             >
-              <p onClick={onClickQuickview}>quickview</p>
+              <p onClick={onClickQuickview}>
+                {isCorporate ? "quickview" : "add to bag"}
+              </p>
             </div>
             {!isCorporate && (
               <div className={styles.imageHover}>
@@ -175,32 +185,14 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>
-        <p className={styles.productN}>
-          {info.isSale && product.discount ? (
-            <span className={styles.discountprice}>
-              {String.fromCharCode(...code)}{" "}
-              {product.discountedPriceRecords[currency as Currency]}
-            </span>
-          ) : (
-            ""
-          )}
-          {info.isSale && product.discount ? (
-            <span className={styles.strikeprice}>
-              {" "}
-              {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}{" "}
-            </span>
-          ) : (
-            <span
-              className={
-                product.badgeType == "B_flat" ? globalStyles.cerise : ""
-              }
-            >
-              {String.fromCharCode(...code)}{" "}
-              {product.priceRecords[currency as Currency]}
-            </span>
-          )}
-        </p>
+        {!(product.invisibleFields.indexOf("price") > -1) && (
+          <Price
+            product={product}
+            code={code}
+            isSale={info.isSale}
+            currency={currency}
+          />
+        )}
         {product.justAddedBadge && mobile && (
           <p className={styles.productN}>
             <span className={styles.mobileBadge}>
@@ -218,23 +210,25 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           >
             <div className={styles.productSize}> size</div>
             <div className="">
-              <ul>
-                {(props.product
-                  .childAttributes as PartialChildProductAttributes[])?.map(
-                  (data: PartialChildProductAttributes, i: number) => {
-                    return (
-                      <li
-                        className={
-                          +data.stock || isCorporate ? "" : styles.disabled
-                        }
-                        key={i}
-                      >
-                        {data.size}
-                      </li>
-                    );
-                  }
-                )}
-              </ul>
+              {!(product.invisibleFields.indexOf("size") > -1) && (
+                <ul>
+                  {(props.product
+                    .childAttributes as PartialChildProductAttributes[])?.map(
+                    (data: PartialChildProductAttributes, i: number) => {
+                      return (
+                        <li
+                          className={
+                            +data.stock || isCorporate ? "" : styles.disabled
+                          }
+                          key={i}
+                        >
+                          {data.size}
+                        </li>
+                      );
+                    }
+                  )}
+                </ul>
+              )}
             </div>
           </div>
         )}

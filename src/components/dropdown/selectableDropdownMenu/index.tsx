@@ -18,7 +18,8 @@ const DropdownMenu = ({
   onChange,
   onChangeCurrency,
   disabled,
-  showCaret
+  showCaret,
+  id
 }: SelectableDropdownMenuProps): JSX.Element => {
   const [currentValue, setCurrentValue] = useState(value);
   const mounted = useRef(false);
@@ -26,9 +27,12 @@ const DropdownMenu = ({
     setCurrentValue(value);
   }, [value]);
 
-  const onChangeValue = (val: string | undefined) => {
+  const onChangeValue = (
+    val: string | undefined,
+    label: string | undefined
+  ) => {
     setCurrentValue(val);
-    onChange ? onChange(val) : "";
+    onChange ? onChange(val, label) : "";
     onChangeCurrency
       ? onChangeCurrency(val)?.catch(() => {
           setCurrentValue(value);
@@ -45,7 +49,7 @@ const DropdownMenu = ({
       const itemProps: DropdownMenuItemProps = {
         label: item.label,
         onClick: () => {
-          onChangeValue(item.value);
+          onChangeValue(item.value, item.label);
         },
         selected: item.value == currentValue,
         type: item.type || "button"
@@ -69,7 +73,8 @@ const DropdownMenu = ({
     open,
     className,
     showCaret,
-    disabled
+    disabled,
+    id
   };
   return (
     <BaseDropdownMenu {...menuProps}>

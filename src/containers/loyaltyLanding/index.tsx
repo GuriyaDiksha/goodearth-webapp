@@ -12,8 +12,11 @@ import flower2 from "../../images/loyalty/animate-img/flower2.png";
 import ceriseClub from "../../images/loyalty/ceriseClub.svg";
 import ceriseSitaraLogoActive from "../../images/loyalty/ceriseSitaraLogoActive.svg";
 import rewardPoints from "../../images/loyalty/points/rewardpoints.svg";
-import inShop from "../../images/loyalty/points/inshop.svg";
-import redeem from "../../images/loyalty/points/redeem.svg";
+import doublePointDays from "../../images/loyalty/points/doublePointDays.svg";
+import freeShipping from "../../images/loyalty/points/freeShipping.svg";
+import saleAccess from "../../images/loyalty/points/saleAccess.svg";
+import loungeAccess from "../../images/loyalty/points/loungeAccess.svg";
+import paro from "../../images/loyalty/points/paro.svg";
 import ps from "../../images/loyalty/points/ps.svg";
 import styling from "../../images/loyalty/points/styling.svg";
 import gifting from "../../images/loyalty/points/gifting.svg";
@@ -29,10 +32,12 @@ import flower5 from "../../images/loyalty/animate-img/flower5.png";
 import customerCare from "../../images/loyalty/points/customerCare.svg";
 import SecondaryHeader from "components/SecondaryHeader";
 import { connect } from "react-redux";
+import RewardItem from "./rewardItem";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -180,16 +185,174 @@ class LoyaltyLanding extends Component<Props, State> {
     }
   }
 
+  itemsData = [
+    {
+      image: rewardPoints,
+      heading: "Cerise Points",
+      subHeading: "Earn 10% of the value of each of your purchases.",
+      subHeadingSitara: "Earn 15% of the value of each of your purchases.",
+      isCeriseOnly: true
+    },
+    {
+      image: doublePointDays,
+      heading: "Double Point Days",
+      subHeading:
+        "Enjoy a more rewarding shopping experience with 2x reward points on special days.",
+      isCeriseOnly: true
+    },
+    {
+      image: freeShipping,
+      heading: "Free Shipping",
+      subHeading:
+        "Your online and in-store orders delivered at no additional charge.*",
+      isCeriseOnly: true
+    },
+    {
+      image: saleAccess,
+      heading: "Sale Access",
+      subHeading: "Exclusive first-day access to Good Earth’s Annual Sales.",
+      isCeriseOnly: true
+    },
+    {
+      image: specialPreviews,
+      heading: "Special Previews",
+      subHeading:
+        "Be the first to enjoy our newly launched collections in-store and online.",
+      isCeriseOnly: true
+    },
+    {
+      image: customerCare,
+      heading: "Dedicated Customer Care",
+      subHeading:
+        "A seamless shopping experience via exclusive Cerise customer assistance.",
+      isCeriseOnly: true
+    },
+    {
+      image: ps,
+      heading: "Dedicated Personal Shopper",
+      subHeading: "Tailor made retail experience, at your convenience.",
+      isCeriseOnly: false
+    },
+    {
+      image: styling,
+      heading: "Styling by Appointment",
+      subHeading:
+        "Personal apparel stylist on appointment, for your special occasions.",
+      isCeriseOnly: false
+    },
+    {
+      image: gifting,
+      heading: "Gifting Concierge",
+      subHeading:
+        "Our in-house experts help you personalize and deliver the perfect gift to your loved ones.",
+      isCeriseOnly: false
+    },
+    {
+      image: invites,
+      heading: "Curated Events",
+      subHeading:
+        "Exclusive access to Good Earth experiences celebrating design, fashion and art.",
+      isCeriseOnly: false
+    },
+    {
+      image: paro,
+      heading: "Discover PARO",
+      subHeading:
+        "Indulge in custom experiences from Paro, a luxury wellness brand by Good Earth.",
+      isCeriseOnly: false
+    },
+    {
+      image: loungeAccess,
+      heading: "Berouj Lounge Access",
+      subHeading:
+        "Enjoy unlimited access to our upcoming bespoke atelier, complete with exclusive collections, butler services, and private styling appointments.",
+      isCeriseOnly: false
+    }
+  ];
   render() {
+    const { tabs } = this.state;
+
+    const rewardsAndBenefitsSection = (
+      <>
+        <div className={cs(styles.heading1, globalStyles.voffset4)}>
+          Rewards & Benefits
+        </div>
+        <div
+          className={cs(
+            styles.tabsCerise,
+            styles.marginrl20,
+            globalStyles.voffset3
+          )}
+        >
+          <ul className={cs(styles.tabs, styles.tabsticky)}>
+            <li
+              className={
+                this.state.tabsClassFirst ? styles.active : styles.inactive
+              }
+              onClick={this.tabFirst.bind(this)}
+            >
+              {this.state.tabs ? (
+                <img src={ceriseClub} width="50%" />
+              ) : (
+                <img src={ceriseClub} width="50%" className={styles.grayimg} />
+              )}
+            </li>
+            <li
+              className={
+                this.state.tabsClassSec ? styles.active : styles.inactive
+              }
+              onClick={this.tabSec.bind(this)}
+            >
+              {this.state.tabs ? (
+                <img
+                  src={ceriseSitaraLogoActive}
+                  width="50%"
+                  className={styles.grayimg}
+                />
+              ) : (
+                <img src={ceriseSitaraLogoActive} width="50%" />
+              )}
+            </li>
+          </ul>
+
+          {
+            <div className={styles.tabContent}>
+              <ul>
+                {this.itemsData.map(item => {
+                  const { isCeriseOnly, subHeadingSitara, ...rest } = item;
+                  const isActive = isCeriseOnly || !tabs;
+                  const subHeading =
+                    !tabs && subHeadingSitara
+                      ? subHeadingSitara
+                      : item.subHeading;
+                  const props = { ...rest, isActive, subHeading };
+                  return <RewardItem {...props} key={item.heading} />;
+                })}
+              </ul>
+              {tabs && (
+                <p className={styles.txtFooter}>
+                  *For Cerise Club members, this benefit is valid on all
+                  domestic orders over ₹&nbsp;20,000.{" "}
+                </p>
+              )}
+            </div>
+          }
+        </div>
+      </>
+    );
     return (
       <div>
         {this.props.mobile ? (
-          <div className={styles.loyalty}>
+          <div
+            className={cs(styles.loyalty, {
+              [styles.loyaltyTimer]: this.props.showTimer
+            })}
+          >
             <div className={styles.commonSubheader}>
               <div
                 className={cs(bootstrapStyles.col11, bootstrapStyles.offset1)}
               >
-                <span className={styles.heading}> cerise program</span>
+                <span className={styles.heading}> cerise club</span>
               </div>
             </div>
             <div
@@ -207,7 +370,7 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <img src={ceriseMainlogo} className={styles.imgLoyalty} />
-                <div
+                {/* <div
                   className={cs(
                     styles.txtNormal,
                     styles.txtBold,
@@ -216,18 +379,128 @@ class LoyaltyLanding extends Component<Props, State> {
                 >
                   {" "}
                   FROM OUR HEARTS TO YOUR HOME
-                </div>
+                </div> */}
                 <div className={cs(styles.txtNormal, globalStyles.voffset4)}>
                   {" "}
-                  You have supported us on our journey of over two decades to
-                  bring joy in the everyday through design stories and craft
-                  traditions rooted in Asia.
+                  A bespoke experience for our loyal customers who share our
+                  vision of celebrating Indian craftsmanship and sustainability.
                 </div>
-                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
+                {/* <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
                   We are delighted to welcome you to Cerise Program as an
                   extended member of the Good Earth family to become a part of
                   our world and give us an opportunity to get to know you
                   better.
+                </div> */}
+                <div className={cs(bootstrapStyles.row, styles.basic)}>
+                  <div
+                    className={cs(
+                      bootstrapStyles.col10,
+                      bootstrapStyles.offset1,
+                      globalStyles.textCenter
+                    )}
+                  >
+                    <div className={cs(styles.heading1, globalStyles.voffset2)}>
+                      How it works
+                    </div>
+                    <div className={cs(styles.list, globalStyles.voffset3)}>
+                      <ul>
+                        <li>
+                          <img src={list1} />
+                          <div className={styles.txtNormal}>
+                            Valid on all purchases,
+                            <br />
+                            in-store or online.
+                          </div>
+                        </li>
+                        <li>
+                          <img src={list2} />
+                          <div className={styles.txtNormal}>
+                            Earn upto 15% of your purchase value as
+                            Cerise&nbsp;Points.
+                          </div>
+                          {/* <a
+                        href="javascript:void(0);"
+                        className={
+                          this.state.readMore1 ? "" : globalStyles.hidden
+                        }
+                        onClick={this.showBlockMore1.bind(this)}
+                      >
+                        Read More
+                      </a> */}
+                          <div
+                            className={
+                              this.state.showblock1
+                                ? styles.txtNormal
+                                : cs(styles.txtNormal, globalStyles.hidden)
+                            }
+                          >
+                            For Cerise Club members, 10% of the purchase value
+                            and for Cerise Sitara members, 15% of the purchase
+                            value will be automatically credited to the member’s
+                            name as reward points. Reward points are a credit in
+                            the member’s account with us and can be redeemed on
+                            any future purchase, online or in-store.
+                          </div>
+                          <a
+                            href="javascript:void(0);"
+                            className={
+                              this.state.readLess1 ? "" : globalStyles.hidden
+                            }
+                            onClick={this.showBlockLess1.bind(this)}
+                          >
+                            Read Less
+                          </a>
+                        </li>
+                        <li>
+                          <img src={list3} />
+                          <div className={styles.txtNormal}>
+                            {" "}
+                            Redeem your accrued Cerise&nbsp;Points on all
+                            purchases.
+                          </div>
+                          {/* <a
+                        href="javascript:void(0);"
+                        className={
+                          this.state.readMore2 ? "" : globalStyles.hidden
+                        }
+                        onClick={this.showBlockMore2.bind(this)}
+                      >
+                        Read More
+                      </a> */}
+                          <div
+                            className={
+                              this.state.showblock2
+                                ? styles.txtNormal
+                                : cs(styles.txtNormal, globalStyles.hidden)
+                            }
+                          >
+                            When a member redeems the reward points in the next
+                            purchase, the invoice value will automatically be
+                            reduced by the amount you have as reward points.
+                            Once this purchase is completed, 10% (for Cerise
+                            Club) or 15% (for Cerise Sitara) of that final paid
+                            amount will be credited again into the member’s
+                            account as reward points to be used in the next
+                            purchase.
+                          </div>
+                          <a
+                            href="javascript:void(0);"
+                            className={
+                              this.state.readLess2 ? "" : globalStyles.hidden
+                            }
+                            onClick={this.showBlockLess2.bind(this)}
+                          >
+                            Read Less
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div
+                      className={cs(styles.subheading1, globalStyles.voffset1)}
+                    >
+                      Each Cerise Point is equivalent to ₹&nbsp;1.
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -266,15 +539,20 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <div className={cs(styles.heading1, globalStyles.voffset6)}>
-                  PROGRAM INTRODUCTION
+                  HOW TO BECOME A MEMBER
                 </div>
                 <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
-                  Once you are naturally selected as a member of the Cerise
-                  Program based on your purchase value in one year, you are
-                  entitled to various privileges listed below. As soon as the
-                  annual value of your purchase increases to touch the next
-                  milestone, you become a member of Cerise Sitara with access to
-                  unique Sitara privileges.
+                  Enjoy automatic enrolment as{" "}
+                  <span className={globalStyles.cerise}>Cerise Club</span>{" "}
+                  members based on reaching an annual purchase value of ₹&nbsp;1
+                  lakh.
+                  <br />
+                  As you cross a ₹&nbsp;5 lakh annual purchase value, unlock
+                  exclusive privileges as a{" "}
+                  <span className={globalStyles.cerise}>
+                    Cerise Sitara
+                  </span>{" "}
+                  member.
                 </div>
               </div>
             </div>
@@ -301,447 +579,10 @@ class LoyaltyLanding extends Component<Props, State> {
                   globalStyles.textCenter
                 )}
               >
-                <div className={cs(styles.heading1, globalStyles.voffset4)}>
-                  Rewards and Benefits
-                </div>
-                <div
-                  className={cs(
-                    styles.tabsCerise,
-                    styles.marginrl20,
-                    globalStyles.voffset3
-                  )}
-                >
-                  <ul className={styles.tabs}>
-                    <li
-                      className={
-                        this.state.tabsClassFirst
-                          ? styles.active
-                          : styles.inactive
-                      }
-                      onClick={this.tabFirst.bind(this)}
-                    >
-                      {this.state.tabs ? (
-                        <img src={ceriseClub} width="80%" />
-                      ) : (
-                        <img
-                          src={ceriseClub}
-                          width="80%"
-                          className={styles.grayimg}
-                        />
-                      )}{" "}
-                    </li>
-                    <li
-                      className={
-                        this.state.tabsClassSec
-                          ? styles.active
-                          : styles.inactive
-                      }
-                      onClick={this.tabSec.bind(this)}
-                    >
-                      {this.state.tabs ? (
-                        <img
-                          src={ceriseSitaraLogoActive}
-                          width="80%"
-                          className={styles.grayimg}
-                        />
-                      ) : (
-                        <img src={ceriseSitaraLogoActive} width="80%" />
-                      )}{" "}
-                    </li>
-                  </ul>
-
-                  {this.state.tabs ? (
-                    <div className={styles.tabContent}>
-                      <ul>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={rewardPoints} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Earn Cerise Points
-                                </span>{" "}
-                                <br />
-                                Get 10% of your purchase value credited back in
-                                your Good Earth account as Reward Points.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={inShop} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  In-shop & Online
-                                </span>{" "}
-                                <br />
-                                Reward points are credited against your in-store
-                                and online purchases.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={redeem} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>Redeem</span>{" "}
-                                <br />
-                                Redeem reward points at any time, in all our
-                                shops and online.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src="/images/loyalty/points/specialPreviews.svg" />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>Special Previews</span> <br />
-                                Enjoy special previews of our new collections as
-                                they launch.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={ps} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>Dedicated Personal Shopper</span> <br />
-                                Get assistance by your Good Earth Personal
-                                Shopper for a faster and more convenient
-                                shopping experience.{" "}
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={styling} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>Styling by Appointment</span> <br />
-                                Enjoy personal styling services twice a year for
-                                our apparel brand Sustain.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={gifting} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>
-                                  Exclusive Access to the Good Earth Gifting
-                                  Concierge
-                                </span>
-                                <br />
-                                Let our Gifting Concierge assist you with
-                                choosing and sending the most perfect gifts.
-                                Also, personalize them if you wish so!
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={invites} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>Good Earth Events</span> <br />
-                                Get invited to Good Earth experiential events
-                                curated by our founder.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  ) : (
-                    <div className={styles.tabContent}>
-                      <ul>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={rewardPoints} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Earn Cerise Points
-                                </span>{" "}
-                                <br />
-                                Get 15% of your purchase value credited back in
-                                your Good Earth account as Reward Points.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={redeem} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>Redeem</span>{" "}
-                                <br />
-                                Redeem reward points at any time, in all our
-                                shops and online.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={specialPreviews} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Special Previews
-                                </span>{" "}
-                                <br />
-                                Enjoy special previews of our new collections as
-                                they launch.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={ps} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Dedicated Personal Shopper
-                                </span>
-                                <br />
-                                Get assistance by your Good Earth Personal
-                                Shopper for a faster and more convenient
-                                shopping experience.{" "}
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={styling} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Styling by Appointment
-                                </span>
-                                <br />
-                                Enjoy personal styling services twice a year for
-                                our apparel brand Sustain.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={gifting} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Exclusive Access to the Good Earth Gifting
-                                  Concierge
-                                </span>
-                                <br />
-                                Let our Gifting Concierge assist you with
-                                choosing and sending the most perfect gifts.
-                                Also, personalize them if you wish so!
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={invites} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Good Earth Events
-                                </span>
-                                <br />
-                                Get invited to Good Earth experiential events
-                                curated by our founder.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                {rewardsAndBenefitsSection}
               </div>
             </div>
 
-            <div className={cs(bootstrapStyles.row, styles.basic)}>
-              <div
-                className={cs(
-                  bootstrapStyles.col10,
-                  bootstrapStyles.offset1,
-                  globalStyles.textCenter
-                )}
-              >
-                <div className={cs(styles.heading1, globalStyles.voffset2)}>
-                  How it works
-                </div>
-                <div className={cs(styles.list, globalStyles.voffset3)}>
-                  <ul>
-                    <li>
-                      <img src={list1} />
-                      <div className={styles.txtNormal}>
-                        Shop in-store or online.
-                      </div>
-                    </li>
-                    <li>
-                      <img src={list2} />
-                      <div className={styles.txtNormal}>
-                        Earn upto 15% of your purchase value as Cerise Points.
-                      </div>
-                      <a
-                        href="javascript:void(0);"
-                        className={
-                          this.state.readMore1 ? "" : globalStyles.hidden
-                        }
-                        onClick={this.showBlockMore1.bind(this)}
-                      >
-                        Read More
-                      </a>
-                      <div
-                        className={
-                          this.state.showblock1
-                            ? styles.txtNormal
-                            : cs(styles.txtNormal, globalStyles.hidden)
-                        }
-                      >
-                        For Cerise Club members, 10% of the purchase value and
-                        for Cerise Sitara members, 15% of the purchase value
-                        will be automatically credited to the member’s name as
-                        reward points. Reward points are a credit in the
-                        member’s account with us and can be redeemed on any
-                        future purchase, online or in-store.
-                      </div>
-                      <a
-                        href="javascript:void(0);"
-                        className={
-                          this.state.readLess1 ? "" : globalStyles.hidden
-                        }
-                        onClick={this.showBlockLess1.bind(this)}
-                      >
-                        Read Less
-                      </a>
-                    </li>
-                    <li>
-                      <img src={list3} />
-                      <div className={styles.txtNormal}>
-                        {" "}
-                        Redeem earned reward points on future online or in-store
-                        purchases.
-                      </div>
-                      <a
-                        href="javascript:void(0);"
-                        className={
-                          this.state.readMore2 ? "" : globalStyles.hidden
-                        }
-                        onClick={this.showBlockMore2.bind(this)}
-                      >
-                        Read More
-                      </a>
-                      <div
-                        className={
-                          this.state.showblock2
-                            ? styles.txtNormal
-                            : cs(styles.txtNormal, globalStyles.hidden)
-                        }
-                      >
-                        When a member redeems the reward points in the next
-                        purchase, the invoice value will automatically be
-                        reduced by the amount you have as reward points. Once
-                        this purchase is completed, 10% (for Cerise Club) or 15%
-                        (for Cerise Sitara) of that final paid amount will be
-                        credited again into the member’s account as reward
-                        points to be used in the next purchase.
-                      </div>
-                      <a
-                        href="javascript:void(0);"
-                        className={
-                          this.state.readLess2 ? "" : globalStyles.hidden
-                        }
-                        onClick={this.showBlockLess2.bind(this)}
-                      >
-                        Read Less
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
             <div
               className={cs(bootstrapStyles.row, styles.basic, styles.center)}
             >
@@ -784,7 +625,11 @@ class LoyaltyLanding extends Component<Props, State> {
             </div>
           </div>
         ) : (
-          <div className={styles.loyalty}>
+          <div
+            className={cs(styles.loyalty, {
+              [styles.loyaltyTimer]: this.props.showTimer
+            })}
+          >
             <div className="">
               <div
                 className={cs(
@@ -865,7 +710,7 @@ class LoyaltyLanding extends Component<Props, State> {
                 )}
               >
                 <div>
-                  <span className={styles.heading}>Cerise Program</span>
+                  <span className={styles.heading}>Cerise Club</span>
                 </div>
               </div>
             </SecondaryHeader>
@@ -889,411 +734,13 @@ class LoyaltyLanding extends Component<Props, State> {
                 <div
                   className={cs(
                     styles.txtNormal,
-                    styles.txtBold,
+                    styles.txtLarge,
                     globalStyles.voffset4
                   )}
                 >
                   {" "}
-                  FROM OUR HEARTS TO YOUR HOME
-                </div>
-                <div className={cs(styles.txtNormal, globalStyles.voffset4)}>
-                  {" "}
-                  You have supported us on our journey of over two decades to
-                  bring joy in the everyday through design stories and craft
-                  traditions rooted in Asia.
-                </div>
-                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
-                  We are delighted to welcome you to Cerise Program as an
-                  extended member of the Good Earth family to become a part of
-                  our world and give us an opportunity to get to know you
-                  better.
-                </div>
-
-                <div className={cs(styles.heading1, globalStyles.voffset6)}>
-                  PROGRAM INTRODUCTION
-                </div>
-                <div className={cs(styles.txtNormal, globalStyles.voffset2)}>
-                  Once you are naturally selected as a member of the Cerise
-                  Program based on your purchase value in one year, you are
-                  entitled to various privileges listed below. As soon as the
-                  annual value of your purchase increases to touch the next
-                  milestone, you become a member of Cerise Sitara with access to
-                  unique Sitara privileges.
-                </div>
-              </div>
-            </div>
-            <div className={cs(bootstrapStyles.row, styles.basic)}>
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd8,
-                  bootstrapStyles.offsetMd2,
-                  globalStyles.textCenter
-                )}
-              >
-                <div className={globalStyles.voffset3}>
-                  <img src={midPoints} className={styles.points} />
-                </div>
-                <div className={cs(styles.heading1, globalStyles.voffset4)}>
-                  Rewards and Benefits
-                </div>
-
-                <div
-                  className={cs(
-                    styles.tabsCerise,
-                    styles.marginrl20,
-                    globalStyles.voffset3
-                  )}
-                >
-                  <ul className={styles.tabs}>
-                    <li
-                      className={
-                        this.state.tabsClassFirst
-                          ? styles.active
-                          : styles.inactive
-                      }
-                      onClick={this.tabFirst.bind(this)}
-                    >
-                      {this.state.tabs ? (
-                        <img src={ceriseClub} width="50%" />
-                      ) : (
-                        <img
-                          src={ceriseClub}
-                          width="50%"
-                          className={styles.grayimg}
-                        />
-                      )}
-                    </li>
-                    <li
-                      className={
-                        this.state.tabsClassSec
-                          ? styles.active
-                          : styles.inactive
-                      }
-                      onClick={this.tabSec.bind(this)}
-                    >
-                      {this.state.tabs ? (
-                        <img
-                          src={ceriseSitaraLogoActive}
-                          width="50%"
-                          className={styles.grayimg}
-                        />
-                      ) : (
-                        <img src={ceriseSitaraLogoActive} width="50%" />
-                      )}
-                    </li>
-                  </ul>
-
-                  {this.state.tabs ? (
-                    <div className={styles.tabContent}>
-                      <ul>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={rewardPoints} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Earn Cerise Points
-                                </span>{" "}
-                                <br />
-                                Get 10% of your purchase value credited into
-                                your account as Cerise Points.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={redeem} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>Redeem</span>{" "}
-                                <br />
-                                Redeem your Cerise Points any time in-store or
-                                online.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={specialPreviews} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Special Previews
-                                </span>{" "}
-                                <br />
-                                Enjoy special previews of our new collections as
-                                they launch.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={customerCare} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Dedicated Customer Care
-                                </span>{" "}
-                                <br />
-                                Reach out to us on an exclusive number and email
-                                id anytime you need assistance.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={ps} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>Dedicated Personal Shopper</span> <br />
-                                Get assistance by your Good Earth Personal
-                                Shopper for a faster and more convenient
-                                shopping experience.{" "}
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={styling} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>Styling by Appointment</span> <br />
-                                Enjoy personal styling services twice a year for
-                                our apparel brand Sustain.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src="/images/loyalty/points/gifting.svg" />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>
-                                  Exclusive Access to the Good Earth Gifting
-                                  Concierge
-                                </span>
-                                <br />
-                                Let our Gifting Concierge assist you with
-                                choosing and sending the most perfect gifts.
-                                Also, personalize them if you wish so!
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className={styles.disabled}>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={invites} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span>Good Earth Events</span> <br />
-                                Get exclusive access to curated Good Earth
-                                experiences celebrating the best in design,
-                                fashion, and the arts.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  ) : (
-                    <div className={styles.tabContent}>
-                      <ul>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={rewardPoints} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Earn Cerise Points
-                                </span>{" "}
-                                <br />
-                                Get 15% of your purchase value credited into
-                                your account as Cerise Points.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={redeem} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>Redeem</span>{" "}
-                                <br />
-                                Redeem your Cerise Points any time in-store or
-                                online.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={specialPreviews} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Special Previews
-                                </span>{" "}
-                                <br />
-                                Enjoy special previews of our new collections as
-                                they launch
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={customerCare} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Dedicated Customer Care
-                                </span>{" "}
-                                <br />
-                                Reach out to us on an exclusive number and email
-                                id anytime you need assistance.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={ps} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Dedicated Personal Shopper
-                                </span>
-                                <br />
-                                Get assistance by your Good Earth Personal
-                                Shopper for a faster and more convenient
-                                shopping experience.{" "}
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={styling} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Styling by Appointment
-                                </span>
-                                <br />
-                                Enjoy personal styling services twice a year for
-                                our apparel brand Sustain.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={gifting} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Exclusive Access to the Good Earth Gifting
-                                  Concierge
-                                </span>
-                                <br />
-                                Let our Gifting Concierge assist you with
-                                choosing and sending the most perfect gifts.
-                                Also, personalize them if you wish so!
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className={styles.tabs}>
-                            <div>
-                              <p className={styles.icon}>
-                                <img src={invites} />
-                              </p>
-                            </div>
-                            <div className={styles.tabsTxt}>
-                              <p>
-                                <span className={styles.heading2}>
-                                  Good Earth Events
-                                </span>
-                                <br />
-                                Get exclusive access to curated Good Earth
-                                experiences celebrating the best in design,
-                                fashion, and the arts.
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
+                  A bespoke experience for our loyal customers who share our
+                  vision of celebrating Indian craftsmanship and sustainability.
                 </div>
 
                 <div className={cs(styles.heading1, globalStyles.voffset6)}>
@@ -1304,15 +751,18 @@ class LoyaltyLanding extends Component<Props, State> {
                     <li>
                       <img src={list1} />
                       <div className={styles.txtNormal}>
-                        Shop in-store or online.
+                        Valid on all purchases,
+                        <br />
+                        in-store or online.
                       </div>
                     </li>
                     <li>
                       <img src={list2} />
                       <div className={styles.txtNormal}>
-                        Earn upto 15% of your purchase value as Cerise Points.
+                        Earn upto 15% of your purchase value as
+                        Cerise&nbsp;Points.
                       </div>
-                      <a
+                      {/* <a
                         href="javascript:void(0);"
                         className={
                           this.state.readMore1 ? "" : globalStyles.hidden
@@ -1320,7 +770,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         onClick={this.showBlockMore1.bind(this)}
                       >
                         Read More
-                      </a>
+                      </a> */}
                       <div
                         className={
                           this.state.showblock1
@@ -1346,9 +796,9 @@ class LoyaltyLanding extends Component<Props, State> {
                       <img src={list3} />
                       <div className={styles.txtNormal}>
                         {" "}
-                        Redeem accumulated Cerise Points online or in-store.
+                        Redeem your accrued Cerise&nbsp;Points on all purchases.
                       </div>
-                      <a
+                      {/* <a
                         href="javascript:void(0);"
                         className={
                           this.state.readMore2 ? "" : globalStyles.hidden
@@ -1356,7 +806,7 @@ class LoyaltyLanding extends Component<Props, State> {
                         onClick={this.showBlockMore2.bind(this)}
                       >
                         Read More
-                      </a>
+                      </a> */}
                       <div
                         className={
                           this.state.showblock2
@@ -1381,6 +831,46 @@ class LoyaltyLanding extends Component<Props, State> {
                     </li>
                   </ul>
                 </div>
+                <div className={cs(styles.subheading1, globalStyles.voffset1)}>
+                  Each Cerise Point is equivalent to ₹&nbsp;1.
+                </div>
+                <div className={cs(styles.heading1, globalStyles.voffset6)}>
+                  HOW TO BECOME A MEMBER
+                </div>
+                <div
+                  className={cs(
+                    styles.txtNormal,
+                    styles.txtLarge,
+                    globalStyles.voffset2
+                  )}
+                >
+                  Enjoy automatic enrolment as{" "}
+                  <span className={globalStyles.cerise}>Cerise Club</span>{" "}
+                  members based on reaching an annual purchase value of ₹&nbsp;1
+                  lakh.
+                  <br />
+                  As you cross a ₹&nbsp;5 lakh annual purchase value, unlock
+                  exclusive privileges as a{" "}
+                  <span className={globalStyles.cerise}>
+                    Cerise Sitara
+                  </span>{" "}
+                  member.
+                </div>
+              </div>
+            </div>
+            <div className={cs(bootstrapStyles.row, styles.basic)}>
+              <div
+                className={cs(
+                  bootstrapStyles.col12,
+                  bootstrapStyles.colMd8,
+                  bootstrapStyles.offsetMd2,
+                  globalStyles.textCenter
+                )}
+              >
+                <div className={globalStyles.voffset3}>
+                  <img src={midPoints} className={styles.points} />
+                </div>
+                {rewardsAndBenefitsSection}
                 <div className={cs(globalStyles.voffset5, styles.btm)}>
                   <div className={styles.txtNormal}>
                     For further information, please refer to{" "}

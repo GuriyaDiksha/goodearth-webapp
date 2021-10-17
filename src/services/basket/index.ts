@@ -6,11 +6,16 @@ import { updateBasket } from "actions/basket";
 // utils
 import API from "utils/api";
 import { ProductID } from "typings/id";
-import { PRODUCT_UNPUBLISHED } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import * as util from "../../utils/validate";
 
 export default {
-  fetchBasket: async function(dispatch: Dispatch, source?: string) {
+  fetchBasket: async function(
+    dispatch: Dispatch,
+    source?: string,
+    history?: any,
+    isLoggedIn?: boolean
+  ) {
     let boId: any = "";
     if (typeof document != "undefined") {
       const queryString = location.search;
@@ -24,9 +29,27 @@ export default {
         : "") + (boId ? "&boId=" + boId : "")}`
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
+    }
+    if (res.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.unshippableProducts
+      );
     }
     dispatch(updateBasket(res));
+    if (source == "checkout" && isLoggedIn && res.redirectToCart) {
+      history?.push("/cart", {});
+    }
     return res;
   },
 
@@ -68,7 +91,22 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
+    }
+    if (res.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.unshippableProducts
+      );
     }
     dispatch(updateBasket(res));
     return res;
@@ -88,7 +126,22 @@ export default {
       }
     );
     if (res.updated || res.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.updatedRemovedItems
+      );
+    }
+    if (res.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.unshippableProducts
+      );
     }
     dispatch(updateBasket(res));
   },
@@ -101,7 +154,22 @@ export default {
       null
     );
     if (res.basket.updated || res.basket.publishRemove) {
-      util.showGrowlMessage(dispatch, PRODUCT_UNPUBLISHED);
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNPUBLISHED,
+        0,
+        undefined,
+        res.basket.updatedRemovedItems
+      );
+    }
+    if (res.basket.unshippableRemove) {
+      util.showGrowlMessage(
+        dispatch,
+        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+        0,
+        undefined,
+        res.basket.unshippableProducts
+      );
     }
     dispatch(updateBasket(res.basket));
     return res;

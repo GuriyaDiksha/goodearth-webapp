@@ -66,10 +66,16 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
             />
           </div>
         )}
-        <Link to={item.url}>
+        <Link
+          to={item.url}
+          onClick={() =>
+            valid.sliderProductClick(item, "PeopleBuying", currency || "INR", i)
+          }
+        >
           <img
             src={item.image ? item.image : "/static/img/noimageplp.png"}
             className={cs(globalStyles.imgResponsive, styles.sliderImage)}
+            alt={item.title}
           />
         </Link>
         <div className={cs(styles.moreBlock, globalStyles.voffset3)}>

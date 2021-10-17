@@ -14,6 +14,7 @@ export interface RecommendData {
   badgeType?: string;
   discount: boolean;
   discountedPriceRecords: PriceRecord;
+  altText: string;
 }
 
 export type RecommenedSliderProps = {
@@ -22,4 +23,6 @@ export type RecommenedSliderProps = {
   currency: Currency;
   recommendedProducts: any;
   mobile?: boolean;
+  isSale: boolean;
+  corporatePDP?: boolean;
 };

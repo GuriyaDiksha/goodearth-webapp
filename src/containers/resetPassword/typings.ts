@@ -6,5 +6,5 @@ export type ConfirmResetPasswordResponse = {
   bridalCurrency?: string;
   bridalId?: string;
   redirectTo: string;
-  token: string;
+  email: string;
 };

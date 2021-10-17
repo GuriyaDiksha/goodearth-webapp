@@ -46,6 +46,10 @@ class Modal extends React.Component<ModalProps> {
         document.documentElement.scrollTop = this.prevScroll;
       }
     }
+    const elem = document.getElementById("modal-fullscreen") as HTMLDivElement;
+    if (elem && !elem.style.opacity) {
+      elem.style.opacity = "1";
+    }
   }
 
   render() {
@@ -67,6 +71,7 @@ class Modal extends React.Component<ModalProps> {
         <div className={cs(styles.container, className)}>
           <div className={styles.backdrop} onClick={this.closeModal}></div>
           <div
+            id="modal-fullscreen"
             className={cs(styles.body, bodyClass, {
               [styles.fullscreen]: fullscreen
             })}

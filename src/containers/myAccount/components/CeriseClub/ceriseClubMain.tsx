@@ -15,6 +15,7 @@ import AddressService from "services/address";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import AddressItem from "components/Address/AddressItem";
 import { updateAddressList } from "actions/address";
+import { updateMicroUrl } from "actions/info";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -37,6 +38,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       AddressService.fetchAddressList(dispatch).then(addressList => {
         dispatch(updateAddressList(addressList));
       });
+    },
+    updateMicroUrl: (url: string) => {
+      dispatch(updateMicroUrl(url));
     }
   };
 };
@@ -114,15 +118,15 @@ class CeriseClubMain extends Component<Props, State> {
       .then((data: any) => {
         if (data.is_success) {
           this.setState({
-            customerDetails: data.message.CUSTOMER_DETAILS[0],
-            slab: data.message.CUSTOMER_DETAILS[0].Slab,
+            customerDetails: data.message,
+            slab: data.message.Slab,
             expiryDate: moment(
-              data.message.CUSTOMER_DETAILS[0].Expiry_Date,
+              data.message.Expiry_Date,
               "DD-MM-YYYY"
             ).toString(),
-            points: data.message.CUSTOMER_DETAILS[0].Expiry_Points,
+            points: data.message.Expiry_Points,
             memberExpiryDate: moment(
-              data.message.CUSTOMER_DETAILS[0]["Member Expiry Date"],
+              data.message["Member Expiry Date"],
               "DD-MM-YYYY"
             ).toString(),
             customerUniqueID: data.uniqueId
@@ -135,7 +139,9 @@ class CeriseClubMain extends Component<Props, State> {
   };
 
   viewStatementMicrosite = () => {
-    location.href = `https://goodearthindia.mloyalretail.com/microsite/default.asp?cid=${this.state.customerUniqueID}`;
+    const { updateMicroUrl, history } = this.props;
+    updateMicroUrl(this.state.customerUniqueID);
+    history.push("/microsite");
   };
 
   getLoader() {

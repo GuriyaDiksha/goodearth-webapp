@@ -16,13 +16,16 @@
 
 .title {
     font-size: 14px;
+    text-align: center;
 }
 
 .closeButton {
+    position: absolute;
     top: 0;
     right: 0;
     font-size: 40px;
     line-height: 1;
+    border: none;
 }
 
 .text {

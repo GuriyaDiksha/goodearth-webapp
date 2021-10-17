@@ -5,7 +5,6 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import SecondaryHeader from "components/SecondaryHeader";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import * as util from "utils/validate";
@@ -78,6 +77,7 @@ const DesignJournal: React.FC = () => {
     };
   }, []);
 
+  const { showTimer } = useSelector((state: AppState) => state.info);
   return (
     <div>
       {/* <div className="breadcrumbs-block hidden-xs hidden-sm">
@@ -91,19 +91,9 @@ const DesignJournal: React.FC = () => {
       {!mobile && (
         <SecondaryHeader>
           <div
-            className={cs(
-              bootstrapStyles.colMd7,
-              bootstrapStyles.offsetMd1,
-              styles.header,
-              globalStyles.verticalMiddle,
-              styles.heading
-            )}
+            className={cs(bootstrapStyles.colMd12, bootstrapStyles.offsetMd1)}
           >
-            <span>
-              <Link to="#">Stories</Link>
-              &nbsp;&gt;&nbsp;
-            </span>
-            <span>Design Journals</span>
+            <span className={styles.heading}>DESIGN JOURNALS</span>
           </div>
         </SecondaryHeader>
       )}
@@ -112,7 +102,8 @@ const DesignJournal: React.FC = () => {
           bootstrapStyles.row,
           styles.subcHeader,
           styles.subcHeader3,
-          styles.containerStartDj
+          styles.containerStartDj,
+          { [styles.containerStartDjTimer]: showTimer }
         )}
       >
         <div

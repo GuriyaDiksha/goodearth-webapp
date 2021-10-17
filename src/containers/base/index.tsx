@@ -6,15 +6,19 @@ import Footer from "components/footer";
 import Modal from "components/Modal";
 import LoginService from "services/login";
 import CookieService from "services/cookie";
-import CheckoutHeader from "containers/checkout/checkoutHeader";
+import loadable from "@loadable/component";
+const CheckoutHeader = loadable(() =>
+  import("containers/checkout/checkoutHeader")
+);
 import globalStyles from "styles/global.scss";
 import "styles/chat.css";
 import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 // import styles from "./styles.scss";
 // import iconStyles from "../../styles/iconFonts.scss";
-// import cs from "classnames";
+import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
 // import whatsapp from "../../images/whatsapp.svg";
 // import flowerimg2 from "images/flower2.gif";
@@ -32,9 +36,31 @@ const BaseLayout: React.FC = () => {
     // device: { mobile }
     basket: { bridal },
     header: { announcementData }
+    // user: { customerGroup }
   } = useSelector((state: AppState) => state);
-  // const isSuspended = true;
+  // don't show info popup
+  const isSuspended = false;
+  const popup = useSelector((state: AppState) => state.popup);
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
+  const getPWADisplayMode = () => {
+    const isStandalone = window.matchMedia("(display-mode: standalone)")
+      .matches;
+    const nav = window.navigator as any;
+    if (document.referrer.startsWith("android-app://")) {
+      return "twa";
+    } else if ((nav && nav.standalone) || isStandalone) {
+      return "standalone";
+    }
+    return "browser";
+  };
+  useEffect(() => {
+    if (getPWADisplayMode() == "standalone") {
+      dataLayer.push({
+        event: "App Icon Click",
+        page: location
+      });
+    }
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
@@ -52,6 +78,25 @@ const BaseLayout: React.FC = () => {
           0,
           -(headerHeight + secondaryHeaderHeight + announcementBarHeight)
         );
+      }
+    }
+
+    // show popup, if any
+    if (popup && popup.length > 0) {
+      const currentPopup = popup.filter(pop => pop.pageUrl == pathname);
+      if (currentPopup && currentPopup.length > 0) {
+        let show = currentPopup[0].session == false;
+        if (!show) {
+          if (
+            CookieService.getCookie(pathname.split("/").join("_")) != "show"
+          ) {
+            show = true;
+          }
+        }
+        if (show) {
+          dispatch(updateComponent(POPUP.CMSPOPUP, currentPopup[0], true));
+          dispatch(updateModal(true));
+        }
       }
     }
   }, [pathname]);
@@ -109,6 +154,21 @@ const BaseLayout: React.FC = () => {
   //   history.push("/maintenance");
   // }
 
+  // useEffect(() => {
+  //   const isHomePage = location.pathname == "/";
+  //   const checkceriseCookie = CookieService.getCookie("cerisepopup");
+  //   if (
+  //     (customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA) &&
+  //     currency == "INR" &&
+  //     isHomePage &&
+  //     !checkceriseCookie
+  //   ) {
+  //     CookieService.setCookie("cerisepopup", "true", 365);
+  //     dispatch(updateComponent(POPUP.CERISE, true));
+  //     dispatch(updateModal(true));
+  //   }
+  // }, [customerGroup]);
+
   useEffect(() => {
     // let isDragging = false;
     document.addEventListener("wheel", (e: WheelEvent) => {
@@ -158,22 +218,42 @@ const BaseLayout: React.FC = () => {
     //     document.body.removeChild(img);
     //   }, 2000);
     // });
-    // const popupCookie = CookieService.getCookie("makerinfo");
+
+    const setInfoPopupCookie = () => {
+      const cookieString =
+        "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      document.cookie = cookieString;
+      // this.setState({
+      //     showInfoPopup: 'show'
+      // })
+    };
+    const checkoutInfoPopupCookie = CookieService.getCookie(
+      "checkoutinfopopup3"
+    );
     const currencyPopup = CookieService.getCookie("currencypopup");
     const isBridalBasket = CookieService.getCookie("isBridal");
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
     const boId = urlParams.get("bo_id");
-    // const isHomePage = location.pathname == "/";
-    // if (isHomePage && isSuspended && popupCookie != "show" && currencyPopup) {
-    //   dispatch(
-    //     updateComponent(
-    //       <MakerPopup acceptCondition={setMakerPopupCookie} />,
-    //       true
-    //     )
-    //   );
-    //   dispatch(updateModal(true));
-    // }
+    const isHomePage = location.pathname == "/";
+
+    const loginPopup = urlParams.get("loginpopup");
+    if (
+      !loginPopup &&
+      isHomePage &&
+      isSuspended &&
+      checkoutInfoPopupCookie != "show"
+      // && currencyPopup
+    ) {
+      dispatch(
+        updateComponent(
+          POPUP.INFOPOPUP,
+          { acceptCondition: setInfoPopupCookie },
+          true
+        )
+      );
+      dispatch(updateModal(true));
+    }
 
     if (
       !currencyPopup &&
@@ -183,8 +263,8 @@ const BaseLayout: React.FC = () => {
       !location.pathname.includes("/bridal/") &&
       !announcementData.isBridalActive
     ) {
-      dispatch(updateComponent(POPUP.CURRENCY, null, true));
-      dispatch(updateModal(true));
+      // dispatch(updateComponent(POPUP.CURRENCY, null, true));
+      // dispatch(updateModal(true));
     }
 
     const cookieCurrency = CookieService.getCookie("currency");
@@ -209,6 +289,12 @@ const BaseLayout: React.FC = () => {
                   currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data);
+              } else {
+                CookieService.setCookie(
+                  "currency",
+                  goCurrencyValue.toString().toUpperCase(),
+                  365
+                );
               }
             }
           } else {
@@ -218,6 +304,9 @@ const BaseLayout: React.FC = () => {
         .catch(error => {
           console.log(error);
         });
+    }
+    if (cookieCurrency != currency) {
+      CookieService.setCookie("currency", currency, 365);
     }
     if (history.location.pathname == "/maintenance") {
       history.push("/");
@@ -232,32 +321,32 @@ const BaseLayout: React.FC = () => {
     }
   }, [bridal]);
   const isCheckout =
-    pathname.indexOf("/checkout") > -1 || pathname.indexOf("/cart") > -1;
+    pathname.indexOf("/checkout") > -1 ||
+    pathname == "/cart" ||
+    pathname == "/cart/";
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
-  if (confirmation || backOrder || maintenance) {
-    return (
-      <div>
+  const minimalPage = confirmation || backOrder || maintenance;
+  return (
+    <Fragment>
+      {/* <Whatsapp /> */}
+      {!minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      <div
+        className={
+          minimalPage
+            ? ""
+            : cs(globalStyles.contentContainer, bootstrap.containerFluid)
+        }
+        id="no-content"
+      >
         {/* <MusicPlayer /> */}
         <Switch>{routes}</Switch>
-        <Modal />
       </div>
-    );
-  } else {
-    return (
-      <Fragment>
-        {/* <Whatsapp /> */}
-        {isCheckout ? <CheckoutHeader /> : <Header />}
-        <div className={globalStyles.contentContainer} id="no-content">
-          {/* <MusicPlayer /> */}
-          <Switch>{routes}</Switch>
-        </div>
-        {isCheckout ? "" : <Footer />}
-        <Modal />
-      </Fragment>
-    );
-  }
+      {!(minimalPage || isCheckout) && <Footer />}
+      <Modal />
+    </Fragment>
+  );
 };
 
 export default BaseLayout;

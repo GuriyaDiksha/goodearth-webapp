@@ -5,7 +5,7 @@ import WishlistService from "services/wishlist";
 import BasketService from "services/basket";
 import MetaService from "services/meta";
 import { Cookies } from "typings/cookies";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
 import { Currency } from "typings/currency";
 import Api from "services/api";
@@ -22,8 +22,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },
-    handleLogOut: (history: any) => {
-      LoginService.logout(dispatch);
+    handleLogOut: (history: any, currency: Currency, customerGroup: string) => {
+      LoginService.logout(dispatch, currency, customerGroup);
       history.push("/");
     },
     onLoadAPiCall: (
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       bridalKey?: string
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      basketcall && WishlistService.updateWishlist(dispatch);
+      WishlistService.updateWishlist(dispatch);
       BasketService.fetchBasket(dispatch);
     },
     changeCurrency: async (data: { currency: Currency }) => {
@@ -42,20 +42,29 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (
       cookies: Cookies,
       currency: Currency,
+      customerGroup: string,
       page?: string,
       islogin?: boolean
     ) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
-      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-        console.log("FOOTER API ERROR ==== " + err);
-      });
+      HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+        err => {
+          console.log("HEADER API ERROR ==== " + err);
+        }
+      );
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("Announcement API ERROR ==== " + err);
+      });
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sale status API error === " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
       });
       // }
       // if (page?.includes("/category_landing/")) {
@@ -65,10 +74,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
 
-      islogin ? WishlistService.updateWishlist(dispatch) : "";
+      WishlistService.updateWishlist(dispatch);
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
-      util.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+      util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
     },
     showShipping: (remainingAmount: number, freeShippingApplicable: number) => {
       dispatch(
@@ -96,8 +105,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
+      WishlistService.updateWishlist(dispatch);
       if (cookies.tkn) {
-        WishlistService.updateWishlist(dispatch);
         MetaService.updateMeta(dispatch, cookies);
       }
       BasketService.fetchBasket(dispatch, source);

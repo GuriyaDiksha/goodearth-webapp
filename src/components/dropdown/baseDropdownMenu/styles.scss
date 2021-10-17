@@ -3,7 +3,7 @@
 
 .dropdown-menu-container {
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
   display: inline-block;
   &.open {
     overflow: unset;
@@ -30,7 +30,10 @@
 }
 
 .menu {
-  display: none;
+  transition: max-height 0.3s ease-in;
+  max-height: 0;
+  overflow: hidden;
+  // display: none;
   min-width: 130px;
   background: $grey;
   position: absolute;
@@ -45,6 +48,12 @@
   }
 }
 
+.checkout.menu {
+  min-width: unset;
+  &.left {
+    left: -15px;
+  }
+}
 .open {
   .menu {
     display: block;

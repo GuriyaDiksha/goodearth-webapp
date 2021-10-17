@@ -15,7 +15,9 @@ module.exports = function (grunt) {
                     templateOptions: {
                         baseClass: "icon",
 	                    classPrefix: "icon_"
-                    }
+                    },
+                    types: 'eot,woff2,woff,ttf',
+                    order: 'woff2,woff,ttf,eot'
                 }
             }
         }

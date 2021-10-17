@@ -34,6 +34,7 @@ export type FilterProps = {
   setFilterCount?: (count: number) => void;
   onRef: any;
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
+  changeLoader?: (data: boolean) => void;
 };
 
 export type State = {
@@ -43,7 +44,6 @@ export type State = {
   show: false;
   showDifferentImage: boolean;
   showmenulevel2: boolean;
-  salestatus: boolean;
   flag: boolean;
   banner: string;
   initialrangevalue: any;

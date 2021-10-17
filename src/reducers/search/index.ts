@@ -25,7 +25,9 @@ export const PRODUCT_INIT_STATE: PLPProductItem = {
   childAttributes: [],
   plpImages: [],
   productClass: "",
-  plpSliderImages: []
+  plpSliderImages: [],
+  invisibleFields: [],
+  altText: ""
 };
 
 const initialState: State = {

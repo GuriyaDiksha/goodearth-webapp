@@ -430,6 +430,9 @@
 .container-start-press {
   margin-top: $header-height + $secondary-header-height;
 }
+.container-start-press-timer {
+  margin-top: $header-height + $secondary-header-height + $timer-height;
+}
 .press-mobile {
   background-color: #f9f8f5;
   &:last-child {
@@ -489,6 +492,9 @@
       z-index: 9;
       padding: 0 20px;
       border-bottom: 1px solid tint(#000, 80%);
+    }
+    .c-sort-header-timer {
+      top: $header-height + $timer-height;
     }
     .mobile-filter-header {
       left: 0;
@@ -580,12 +586,15 @@
     }
   }
 }
+.mobile-filter-header-timer {
+  top: $header-height + $timer-height;
+}
 .mobile-filter-menu {
   position: fixed;
   bottom: 0;
-  top: ($header-height + 50);
+  top: $main-header;
   left: 0;
-  z-index: 10;
+  z-index: 9;
   background-color: white;
   -webkit-transition: all 0.5s linear;
   -moz-transition: all 0.5s linear;
@@ -630,6 +639,9 @@
       }
     }
   }
+}
+.mobile-filter-menu-timer {
+  top: $main-header + $timer-height;
 }
     .order-summary {
     left: 0;

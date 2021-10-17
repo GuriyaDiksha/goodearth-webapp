@@ -41,6 +41,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     )}
                     <Link to={item.url}>
                       <img
+                        alt={item.altText || item.title}
                         src={item.image || "/static/img/noimageplp.png"}
                         className={cs(
                           globalStyles.imgResponsive,

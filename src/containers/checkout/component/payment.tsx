@@ -21,9 +21,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const {
     basket,
     device: { mobile },
-    info: { isSale }
+    info: { showGiftWrap },
+    user: { loyaltyData }
   } = useSelector((state: AppState) => state);
-  const { isActive, currency, checkout, loyaltyData } = props;
+  const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
   const [subscribegbp, setSubscribegbp] = useState(false);
@@ -171,6 +172,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         key: "payu",
         value: "NET BANKING",
         mode: "NB"
+      },
+      {
+        key: "payu",
+        value: "WALLETS",
+        mode: "CASH"
+      },
+      {
+        key: "payu",
+        value: "UPI",
+        mode: "UPI"
       }
     ];
 
@@ -284,36 +295,31 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
       {isActive && (
         <Fragment>
-          {!basket.isOnlyGiftCart &&
-            (isSale ? currency != "INR" : true) &&
-            giftWrapRender}
-          {giftwrap &&
-            !basket.isOnlyGiftCart &&
-            (isSale ? currency != "INR" : true) && (
-              <div>
-                <textarea
-                  rows={5}
-                  cols={45}
-                  className={styles.giftMessage}
-                  value={textarea}
-                  maxLength={250}
-                  placeholder={"add message (optional)"}
-                  autoComplete="new-password"
-                  onChange={(e: any) => {
-                    setTextarea(e.target.value);
-                  }}
-                />
-                <div className={cs(globalStyles.textLeft, styles.font14)}>
-                  Character Limit: {250 - textarea.length}
+          {showGiftWrap && (
+            <>
+              {!basket.isOnlyGiftCart && giftWrapRender}
+              {giftwrap && !basket.isOnlyGiftCart && (
+                <div>
+                  <textarea
+                    rows={5}
+                    cols={45}
+                    className={styles.giftMessage}
+                    value={textarea}
+                    maxLength={250}
+                    placeholder={"add message (optional)"}
+                    autoComplete="new-password"
+                    onChange={(e: any) => {
+                      setTextarea(e.target.value);
+                    }}
+                  />
+                  <div className={cs(globalStyles.textLeft, styles.font14)}>
+                    Character Limit: {250 - textarea.length}
+                  </div>
                 </div>
-              </div>
-            )}
-          {giftwrap &&
-            !basket.isOnlyGiftCart &&
-            (isSale ? currency != "INR" : true) &&
-            giftShowPrice}
-          {!basket.isOnlyGiftCart && (isSale ? currency != "INR" : true) && (
-            <hr className={styles.hr} />
+              )}
+              {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+              {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
+            </>
           )}
           <div className={globalStyles.marginT20}>
             {!basket.isOnlyGiftCart && (
@@ -348,7 +354,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </div>
             )}
 
-            {loyaltyData.detail && currency == "INR" && (
+            {loyaltyData?.detail && currency == "INR" && (
               <Fragment>
                 <hr className={styles.hr} />
                 <div className={bootstrapStyles.row}>
@@ -388,7 +394,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     >
                       REDEEM CERISE POINTS
                     </div>
-                    {isactiveredeem ? <Reedem loyaltyData={loyaltyData} /> : ""}
+                    {isactiveredeem ? <Reedem /> : ""}
                   </div>
                 </div>
               </Fragment>
@@ -408,7 +414,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         )}
                       >
                         <div className={styles.marginR10}>
-                          <span className={styles.checkbox}>
+                          <span className={styles.radio}>
                             <input
                               type="radio"
                               value={method.mode}

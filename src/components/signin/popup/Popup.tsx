@@ -5,7 +5,7 @@ import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import geLogo from "../../../images/gelogoCerise.svg";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { updateNextUrl } from "actions/info";
@@ -61,8 +61,13 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
                 )}
               >
                 <img
+                  alt="goodearth-logo"
                   src={geLogo}
-                  className={cs(globalStyles.logo, styles.logoPopup)}
+                  className={cs(globalStyles.logo)}
+                  style={{
+                    height: "70px",
+                    width: "111px"
+                  }}
                 />
               </div>
               {!disableClose && (

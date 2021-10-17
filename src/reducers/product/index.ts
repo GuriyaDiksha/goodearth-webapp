@@ -30,7 +30,9 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
   images: [],
   plpImages: [],
   productClass: "",
-  plpSliderImages: []
+  plpSliderImages: [],
+  invisibleFields: [],
+  altText: ""
 };
 
 export const product = (

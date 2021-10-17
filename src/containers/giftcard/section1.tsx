@@ -17,7 +17,7 @@ const Section1: React.FC<Section1Props> = props => {
   const [selected, setSelected] = useState(imageName);
   const [selectindex, setSelectindex] = useState(0);
   const { mobile } = useSelector((state: AppState) => state.device);
-
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const selectImage = (index: number) => {
     setSelected("image" + index);
     setSelectindex(index);
@@ -38,9 +38,11 @@ const Section1: React.FC<Section1Props> = props => {
         className={cs(
           globalStyles.paddTop60,
           styles.gc,
+          { [styles.gcTimer]: showTimer },
           bootstrapStyles.col12,
           {
-            [styles.gcMobile]: mobile
+            [styles.gcMobile]: mobile,
+            [styles.gcMobileTimer]: mobile && showTimer
           }
         )}
       >
@@ -108,6 +110,7 @@ const Section1: React.FC<Section1Props> = props => {
                       >
                         <div className={cs({ [styles.marginX15]: !mobile })}>
                           <img
+                            alt="giftcard-image"
                             src={data}
                             className={
                               selected == "image" + i

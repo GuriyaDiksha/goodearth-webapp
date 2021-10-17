@@ -118,7 +118,11 @@ const BridalItemsList: React.FC<Props> = props => {
         <div className={cs(bootstrapStyles.row, styles.nowrap)}>
           <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
             <a href={productUrl}>
-              <img className={styles.productImage} src={productImage} />
+              <img
+                className={styles.productImage}
+                src={productImage}
+                alt={productName}
+              />
             </a>
           </div>
           <div className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}>

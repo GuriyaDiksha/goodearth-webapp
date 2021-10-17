@@ -15,10 +15,6 @@ export type specifyShippingAddressResponse = {
   status: boolean;
   message: string;
   data: {
-    publishRemove: boolean;
-    redirectHomepage: boolean;
-    shippingCharge: number;
-    pageReload: boolean;
     basket: Basket;
   };
 };
@@ -59,7 +55,9 @@ export type Props = {
   addressType: string;
   addresses: AddressData[];
   setCurrentSection?: () => void;
+  createRegistry?: () => void;
   // user:
   error: string;
+  errorNotification?: string;
 };
 export type AddressModes = "new" | "edit" | "list";

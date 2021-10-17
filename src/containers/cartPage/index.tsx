@@ -16,11 +16,13 @@ import WishlistService from "services/wishlist";
 import { updateBasket } from "actions/basket";
 import BasketService from "services/basket";
 import { ProductID } from "typings/id";
-import { updateModal } from "actions/modal";
 import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -58,6 +60,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchFeaturedContent: async () => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
+    },
+    changeModalState: () => {
+      dispatch(updateModal(false));
+    },
+    openPopup: () => {
+      dispatch(updateComponent(POPUP.MAKER, null));
+      dispatch(updateModal(true));
     }
   };
 };
@@ -90,25 +99,12 @@ class CartPage extends React.Component<Props, State> {
 
   componentDidMount() {
     util.pageViewGTM("Cart");
-    const chatButtonElem = document.getElementById("chat-button");
-    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    const freshChatButtonElem = document.getElementById("fresh-chat");
-    const whatsappButtonElem = document.getElementById("whatsapp");
-    if (scrollToTopButtonElem) {
-      scrollToTopButtonElem.style.display = "none";
-      scrollToTopButtonElem.style.bottom = "65px";
-    }
-    if (chatButtonElem) {
-      chatButtonElem.style.display = "none";
-      chatButtonElem.style.bottom = "10px";
-    }
-    if (freshChatButtonElem) {
-      freshChatButtonElem.style.display = "none";
-    }
-    if (whatsappButtonElem) {
-      whatsappButtonElem.style.display = "none";
-    }
     this.props.fetchBasket();
+    // this.props.changeModalState();
+    const popupCookie = CookieService.getCookie("showCartPagePopup");
+    if (popupCookie) {
+      this.props.openPopup();
+    }
     this.props
       .fetchFeaturedContent()
       .then(data => {
@@ -127,27 +123,6 @@ class CartPage extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_cartPage_view"
     });
-  }
-
-  componentWillUnmount() {
-    const chatButtonElem = document.getElementById("chat-button");
-    const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    const freshChatButtonElem = document.getElementById("fresh-chat");
-    const whatsappButtonElem = document.getElementById("whatsapp");
-    if (scrollToTopButtonElem) {
-      scrollToTopButtonElem.style.removeProperty("display");
-      scrollToTopButtonElem.style.removeProperty("bottom");
-    }
-    if (chatButtonElem) {
-      chatButtonElem.style.removeProperty("display");
-      chatButtonElem.style.removeProperty("bottom");
-    }
-    if (freshChatButtonElem) {
-      freshChatButtonElem.style.removeProperty("display");
-    }
-    if (whatsappButtonElem) {
-      whatsappButtonElem.style.removeProperty("display");
-    }
   }
 
   onNotifyCart = (basketLineId: ProductID) => {
@@ -263,7 +238,7 @@ class CartPage extends React.Component<Props, State> {
                                     : data.ctaImage
                                 }
                                 // onError={this.addDefaultSrc}
-                                alt=""
+                                alt={data.ctaText}
                                 className={styles.imageResultNew}
                               />
                             </Link>
@@ -304,6 +279,7 @@ class CartPage extends React.Component<Props, State> {
           mobile={this.props.mobile}
           key={item.id}
           {...item}
+          id={item.id}
           currency={currency}
           saleStatus={this.props.isSale}
           onMoveToWishlist={this.onMoveToWishlist}
@@ -339,7 +315,7 @@ class CartPage extends React.Component<Props, State> {
     if (this.state.showUndoWishlist) {
       return (
         <div className={styles.message}>
-          Your item has been moved to wishlist.{" "}
+          Your item has been moved to saved items.{" "}
           <span
             className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
             onClick={this.onUndoWishlistClick}

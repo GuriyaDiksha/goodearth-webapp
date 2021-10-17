@@ -24,6 +24,7 @@ export enum ROUTES {
   CARTPAGE = "/cart/",
   PressStories = "/press-stories",
   ABOUTUS = "/about-us",
+  APPOINTMENTS = "/brand",
   SAFETYMEASURES = "/customer-assistance/safety-measures",
   CORPORATEGIFTING = "/corporate-gifts-catalogue",
   GIFTINGLANDING = "/gifting",
@@ -34,7 +35,15 @@ export enum ROUTES {
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
   BRIDALPUBLIC = "/bridal/:id",
-  MUBARAK = "/mubaarak-hour-notification"
+  MUBARAK = "/mubaarak-hour-notification",
+  WITHMAKER = "/withmaker",
+  WITHOUTMAKER = "/withoutmaker",
+  MICROSITE = "/microsite/:id?",
+  VIRTUAL = "/virtualappointment",
+  SHOPPER = "/personal-shopper-form",
+  INSTORE = "/instoreservices",
+  THANKYOU = "/thankyou",
+  MUMTAZ = "/mumtaz-virtual-appointment"
 }
 
 export type RouteConfig = RouteObject[];

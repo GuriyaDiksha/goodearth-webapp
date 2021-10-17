@@ -4,7 +4,7 @@ import cs from "classnames";
 import CheckoutService from "services/checkout";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import iconStyles from "styles/iconFonts.scss";
 
 type Props = {};
@@ -49,7 +49,7 @@ const BackendPopupConfirm: React.FC<Props> = () => {
           <div className={globalStyles.c22AI}>Remove Discount</div>
           <div className={globalStyles.c10LR}>
             <p>
-              {`Are you sure you want to remove the discount applied on your cart?`}
+              {`Are you sure you want to remove the discount applied on your Bag?`}
             </p>
           </div>
           <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtn70)}>

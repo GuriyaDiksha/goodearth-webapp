@@ -20,11 +20,11 @@ export default {
     cookies: Cookies,
     bridalKey?: string
   ): Promise<MetaResponse> {
-    const payload = !bridalKey ? {} : { bridalKey };
+    // const payload = !bridalKey ? {} : { bridalKey };
     const res: MetaResponse = await API.post(
       dispatch,
       `${__API_HOST__ + `/myapi/auth/meta/`}`,
-      payload
+      {}
       // {
       //     Authorization: `Token ${cookies.tkn || ""}`
       // }
@@ -50,10 +50,12 @@ export default {
       user.bridalCurrency = meta.bridalCurrency;
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
+      user.customerGroup = meta.customerGroup;
       if (typeof document != "undefined" && user.email && !user.gender) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
       }
+      dispatch(updateUser(user));
       if (user.email) {
         const res: { slab: string } = await HeaderService.getCustomerSlab(
           dispatch,
@@ -65,7 +67,6 @@ export default {
         CookieService.setCookie("currency", meta.currency, 365);
       }
       dispatch(updateCurrency(meta.currency));
-      dispatch(updateUser(user));
       return meta;
     }
   },

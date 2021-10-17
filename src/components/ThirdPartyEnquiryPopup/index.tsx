@@ -15,25 +15,43 @@ import styles from "./styles.scss";
 import { ProductID } from "typings/id";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
+import FormTime from "components/Formsy/FormTime";
 import FormTextArea from "components/Formsy/FormTextArea";
 import FormSelect from "components/Formsy/FormSelect";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import * as valid from "utils/validate";
 import { updateCountryData } from "actions/address";
+import { Country } from "components/Formsy/CountryCode/typings";
 
 type Props = {
   id: ProductID;
   quantity?: number;
+};
+type StateOptions = {
+  value: string;
+  label: string;
+  id: number;
+  nameAscii: string;
+};
+
+type CountryOptions = {
+  value: string;
+  label: string;
+  code2: string;
+  isd: string | undefined;
+  states: StateOptions[];
 };
 
 const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   const dispatch = useDispatch();
 
   const { closeModal } = useContext(ModalContext);
-
+  const [countrycode, setCountrycode] = useState("");
+  const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
+  const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const [submitted, setSubmitted] = useState(false);
-
+  const [modevalue, setModevalue] = useState("");
   const [enquiryMessage, setEnquiryMessage] = useState<
     string | (string | JSX.Element)[]
   >("");
@@ -41,6 +59,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   const countryData = useSelector(
     (state: AppState) => state.address.countryData
   );
+  const EnquiryFormRef = useRef<Formsy>(null);
+  const { currency } = useSelector((state: AppState) => state);
   useEffect(() => {
     if (!countryData || countryData.length == 0) {
       LoginService.fetchCountryData(dispatch).then(countryData => {
@@ -50,18 +70,109 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     }
   }, []);
 
-  const stateOptions = useSelector((state: AppState) =>
-    state.address.countryData.length > 0
-      ? state.address.countryData
-          .filter(country => country.code2 == "IN")[0]
-          .regionSet.map(state => {
-            return Object.assign({}, state, {
-              value: state.nameAscii,
-              label: state.nameAscii
-            });
-          })
-      : []
-  );
+  // const stateOptions = useSelector((state: AppState) =>
+  //   state.address.countryData.length > 0
+  //     ? state.address.countryData
+  //         .filter(country => country.code2 == "IN")[0]
+  //         .regionSet.map(state => {
+  //           return Object.assign({}, state, {
+  //             value: state.nameAscii,
+  //             label: state.nameAscii
+  //           });
+  //         })
+  //     : []
+  // );
+
+  const onCountrySelect = (
+    event: React.ChangeEvent<HTMLSelectElement> | null,
+    defaultCountry?: string
+  ) => {
+    if (countryOptions.length > 0) {
+      const form = EnquiryFormRef.current;
+      let selectedCountry = "";
+      if (event) {
+        selectedCountry = event.currentTarget.value;
+        // setIsAddressChanged(true);
+        // setIsCountryChanged(true);
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: ""
+            },
+            false
+          );
+
+        // StateRef.current && StateRef.current.props.resetValue();
+        // setPostCode("");
+      } else if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        setCountrycode(isd || "");
+      }
+      // setIsIndia(value == "India");
+      setStateOptions(states);
+    }
+  };
+
+  const setDefaultCountry = () => {
+    switch (currency) {
+      case "INR":
+        onCountrySelect(null, "India");
+        setCountrycode("+91");
+        break;
+      case "GBP":
+        onCountrySelect(null, "United Kingdom");
+        break;
+    }
+  };
+  useEffect(() => {
+    countryOptions.length > 0 && setDefaultCountry();
+  }, [countryOptions]);
+
+  const changeCountryData = (countryData: Country[]) => {
+    const countryOptions = countryData.map(country => {
+      const states = country.regionSet.map(state => {
+        return Object.assign({}, state, {
+          value: state.nameAscii,
+          label: state.nameAscii
+        });
+      });
+      return Object.assign(
+        {},
+        {
+          value: country.nameAscii,
+          label: country.nameAscii,
+          code2: country.code2,
+          isd: country.isdCode,
+          states: states
+        }
+      );
+    });
+    setCountryOptions(countryOptions);
+  };
+
+  useEffect(() => {
+    changeCountryData(countryData);
+  }, [countryData]);
 
   const modeOptions = [
     {
@@ -87,15 +198,29 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
       closeModal();
       return false;
     }
-    const { name, state, query, email, phoneNo, preferredContact } = model;
+    const {
+      name,
+      state,
+      query,
+      email,
+      phoneNo,
+      preferredContact,
+      time,
+      country
+    } = model;
     const formData: any = {};
     formData["productId"] = id;
     formData["name"] = name;
     formData["state"] = state;
+    formData["country"] = country;
     formData["query"] = query;
     formData["email"] = email;
     formData["contactNo"] = "+91" + phoneNo;
     formData["preferredContact"] = preferredContact;
+    if (time) {
+      formData["suitableTime"] = time;
+    }
+
     ProductService.thirdPartyEnquire(dispatch, formData).then(data => {
       setSubmitted(true);
       setEnquiryMessage([
@@ -145,9 +270,12 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     }, 0);
   };
 
-  const EnquiryFormRef = useRef<Formsy>(null);
+  const onchange = (event: any) => {
+    setModevalue(event.target.value);
+  };
 
   const inputClass = submitted ? styles.disabledInput : "";
+  console.log(modevalue);
   const formContent = (
     <Formsy
       ref={EnquiryFormRef}
@@ -171,6 +299,27 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             }}
             required
           />
+        </div>
+        <div>
+          <div className="select-group text-left">
+            <FormSelect
+              required
+              label="Country"
+              options={countryOptions}
+              handleChange={onCountrySelect}
+              placeholder="Select Country"
+              disable={true}
+              name="country"
+              validations={{
+                isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please select your Country",
+                isEmptyString: "This field is required"
+              }}
+            />
+            <span className="arrow"></span>
+          </div>
         </div>
         <div>
           <div className="select-group text-left">
@@ -218,12 +367,12 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             required
           />
         </div>
-        <div className={cs(styles.countryCode, styles.countryCodeGc)}>
+        <div className={cs(styles.countryCode)}>
           <div className={styles.flex}>
             <div>
               <input
                 type="text"
-                value="+91"
+                value={countrycode}
                 placeholder="Code"
                 disabled={true}
                 className={styles.codeInput}
@@ -259,6 +408,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
               placeholder="Select Mode"
               disable={submitted}
               options={modeOptions}
+              handleChange={onchange}
               value=""
               validations={{
                 isExisty: true
@@ -266,6 +416,33 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             />
           </div>
         </div>
+        {modevalue == "Phone" ? (
+          <>
+            <p className={cs(styles.msg)}>Suitable Time</p>
+            <div>
+              <div className={styles.time}>
+                <FormTime
+                  id="en_time"
+                  name="time"
+                  disable={false}
+                  label={""}
+                  validations={{
+                    isRequired: (values, value) => {
+                      return !(values.time && value == "");
+                    }
+                  }}
+                  validationErrors={{
+                    isRequired: "Required"
+                  }}
+                  value=""
+                  required
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
         <div className={styles.marginBottom50}>
           {enquiryMessage && (
             <p className={styles.enquireError}>{enquiryMessage}</p>

@@ -14,7 +14,7 @@ import MetaService from "services/meta";
 import BasketService from "services/basket";
 import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
-import { CURRENCY_CHANGED_SUCCESS } from "constants/messages";
+import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
 import Button from "./button";
 
@@ -65,6 +65,8 @@ const Section2: React.FC<Section2Props> = ({
       setCountry(newCountry);
       setSelectcurrency(currency);
       setCountrymsg("");
+      setNummsg("");
+      setErrorBorder(false);
     }
     window.scrollTo(0, 0);
   }, [currency]);
@@ -82,7 +84,7 @@ const Section2: React.FC<Section2Props> = ({
   const reloadPage = (cookies: Cookies) => {
     MetaService.updateMeta(dispatch, cookies);
     BasketService.fetchBasket(dispatch);
-    valid.showGrowlMessage(dispatch, CURRENCY_CHANGED_SUCCESS, 7000);
+    valid.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
   };
 
   const changeCurrency = (newCurrency: Currency) => {
@@ -289,7 +291,6 @@ const Section2: React.FC<Section2Props> = ({
                     isEmptyString: "This field is required"
                   }}
                 />
-                <span className={styles.arrow}></span>
               </div>
               <p className={cs(globalStyles.voffset2, styles.clrP)}>
                 Please note: Gift cards can only be redeemed in the currency

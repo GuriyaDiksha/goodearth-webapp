@@ -9,17 +9,19 @@ import SocialLogin from "../socialLogin";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
 import * as valid from "utils/validate";
-import { Context } from "components/Modal/context.ts";
+import { Context } from "components/Modal/context";
 import { ForgotPasswordState } from "./typings";
 import { connect } from "react-redux";
 import { mapDispatchToProps } from "./mapper/actions";
+import { RouteComponentProps, withRouter } from "react-router";
 
 const mapStateToProps = () => {
   return {};
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> &
+  RouteComponentProps;
 
 class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   constructor(props: Props) {
@@ -56,6 +58,11 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
     } else {
       const formData = new FormData();
       formData.append("email", this.state.email || "");
+      formData.append(
+        "redirectTo",
+        this.props.history.location.pathname +
+          this.props.history.location.search || "/"
+      );
       this.setState({ disableSelectedbox: true });
       this.props
         .resetPassword(formData)
@@ -93,11 +100,29 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
             this.setState({
               err: true,
               msg: error,
+              successMsg: "",
               disableSelectedbox: false
             });
             valid.errorTracking(
               ["This account does not exist. Please Sign Up"],
               location.href
+            );
+          } else if (err.response.data.error_message) {
+            let errorMsg = err.response.data.error_message[0];
+            if (errorMsg == "MaxRetries") {
+              errorMsg =
+                "You have exceeded max attempts, please try after some time.";
+            }
+            this.setState(
+              {
+                err: true,
+                msg: errorMsg,
+                successMsg: "",
+                disableSelectedbox: false
+              },
+              () => {
+                valid.errorTracking([this.state.msg as string], location.href);
+              }
             );
           } else {
             this.setState(
@@ -255,4 +280,8 @@ class ForgotPasswordForm extends React.Component<Props, ForgotPasswordState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordForm);
+const ForgotPasswordFormRouter = withRouter(ForgotPasswordForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ForgotPasswordFormRouter);

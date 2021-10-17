@@ -31,7 +31,7 @@ class ErrorPage extends React.Component<{}, {}> {
           </div>
           <div className={cs(globalStyles.voffset3, globalStyles.c10LR)}>
             {" "}
-            Please contact customer care to renue your order link{" "}
+            Please contact customer care to renew your order link{" "}
           </div>
           <div className={globalStyles.voffset5}>
             {" "}
@@ -66,7 +66,14 @@ class ErrorPage extends React.Component<{}, {}> {
               )}
             >
               <Link to="/">
-                <img className={styles.logo} src={gelogoCerise} />
+                <img
+                  alt="goodearth-logo"
+                  src={gelogoCerise}
+                  style={{
+                    width: "111px",
+                    cursor: "pointer"
+                  }}
+                />
               </Link>
             </div>
           </div>

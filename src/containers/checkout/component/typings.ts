@@ -30,6 +30,7 @@ export type AddressProps = {
   addresses: AddressData[];
   // user:
   error: string;
+  errorNotification?: string;
 };
 
 export type OrderProps = {
@@ -54,7 +55,6 @@ export type PaymentProps = {
   user: any;
   currency: Currency;
   checkout: (data: any) => any;
-  loyaltyData: any;
 };
 
 export type PopupProps = {
@@ -73,7 +73,7 @@ export type BalanceProps = {
 };
 
 export interface GiftListProps extends BalanceProps {
-  onClose: (data: string) => void;
+  onClose: (data: string, type: string) => void;
   currStatus: string;
   currency: Currency;
   type?: string;
@@ -101,6 +101,7 @@ export type GiftState = {
   newCardBox: boolean;
   toggleOtp: boolean;
   isActivated: boolean;
+  cardType?: string;
 };
 
 export type RedeemState = {
@@ -111,6 +112,6 @@ export type RedeemState = {
   isActivated: boolean;
 };
 
-export type ReddemProps = {
-  loyaltyData: any;
-};
+// export type ReddemProps = {
+//   loyaltyData: any;
+// };

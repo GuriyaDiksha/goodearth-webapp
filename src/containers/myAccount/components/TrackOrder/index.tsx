@@ -153,17 +153,37 @@ class TrackOrder extends React.Component<Props, State> {
         }
       })
       .catch(err => {
-        this.setState(
-          {
-            showerror:
-              "Please retry in some time, unable to fetch order details at this time.",
-            loader: false
-          },
-          () => {
-            valid.errorTracking([this.state.showerror], location.href);
+        if (err.response.data.error_message) {
+          let errorMsg = err.response.data.error_message[0];
+          if (errorMsg == "MaxRetries") {
+            errorMsg =
+              "You have exceeded max attempts, please try after some time.";
           }
-        );
-        console.log(err);
+          this.setState(
+            {
+              showerror: errorMsg,
+              loader: false
+            },
+            () => {
+              valid.errorTracking(
+                [this.state.showerror as string],
+                location.href
+              );
+            }
+          );
+        } else {
+          this.setState(
+            {
+              showerror:
+                "Please retry in some time, unable to fetch order details at this time.",
+              loader: false
+            },
+            () => {
+              valid.errorTracking([this.state.showerror], location.href);
+            }
+          );
+          console.log(err);
+        }
       });
   }
 

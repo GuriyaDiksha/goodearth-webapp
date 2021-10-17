@@ -1,6 +1,7 @@
 import { Location } from "history";
 import { Currency } from "../../typings/currency";
 import { Basket } from "typings/basket";
+import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
 
 export interface Childern {
   url: string;
@@ -30,6 +31,74 @@ export interface HeaderData {
   categoryLogoImage?: string | null;
   image?: string;
   categoryImageUrl: string;
+  templates?: MenuTemplates[];
+}
+
+export type MenuComponentL2L3Data = {
+  text: string;
+  link: string;
+  ctaName: string;
+  src?: string;
+  thumbnailSrc: string;
+  ctaMobile?: string;
+  viewAllLink?: string;
+};
+
+export type MenuComponentTitleData = {
+  title: string;
+  link: string;
+  ctaName: string;
+  src?: string;
+  thumbnailSrc: string;
+};
+
+export type MenuComponentImageData = {
+  src: string;
+  thumbnailSrc: string;
+  heading: string;
+  subHeading: string;
+  link: string;
+};
+export interface MenuComponent {
+  componentType: string;
+  componentData:
+    | MenuComponentL2L3Data
+    | MenuComponentTitleData
+    | MenuComponentImageData;
+  children?: MenuComponent[];
+}
+export interface MenuTemplates {
+  publishOnMobile: boolean;
+  templateType: string;
+  templateData: MenuComponent;
+  hideViewAllOnMobile?: boolean;
+}
+export interface MenuColumn {
+  separator: boolean;
+  templates: MenuTemplates[];
+}
+export interface MegaMenuData {
+  columns: MenuColumn[];
+  text: string;
+  url: string;
+}
+
+export interface InnerMenuData {
+  text: string;
+  url: string;
+  l2MenuData: L2MenuData[];
+  templates: MenuTemplates[];
+}
+
+export interface L2MenuData {
+  text: string;
+  link: string;
+  ctaName?: string;
+  ctaMobile?: string;
+  viewAllLink?: string;
+  hideViewAllOnMobile?: boolean;
+  children?: L2MenuData[];
+  templateType?: string;
 }
 
 export type AnnouncementBar = {
@@ -70,6 +139,7 @@ export type SideMenuProps = {
   showSearch: boolean;
   showBag: boolean;
   setShowBag: (showBag: boolean) => void;
+  hideSearch: () => void;
 };
 
 export interface MouseParameter {
@@ -87,6 +157,33 @@ export type MenuProps = {
   location: Location;
 };
 
+export type MegaMenuProps = {
+  activeIndex: number;
+  show: boolean;
+  ipad: boolean;
+  mouseOver: (data: { show: boolean; activeIndex: number }) => void;
+  data: MegaMenuData[];
+  currency?: Currency;
+  mobile?: boolean;
+  location: Location;
+  hideSearch: () => void;
+  onMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
+};
+
 export type MenuListProps = {
   activeIndex: number;
   mouseOut: (value: MouseParameter) => void;
@@ -98,11 +195,67 @@ export type MenuListProps = {
   onHeaderMenuClick: (l1: string, l2: string, l3: string) => void;
 };
 
+export type MegaMenuListProps = {
+  activeIndex: number;
+  myIndex: number;
+  mouseOut: (data: { show: boolean }) => void;
+  menudata: MegaMenuData;
+  show?: boolean;
+  currency?: Currency;
+  mobile?: boolean;
+  ipad: boolean;
+  onHeaderMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
+};
+
 export type MobileListProps = {
-  menudata: HeaderData[];
+  megaMenuData: MegaMenuData[];
   location: Location;
   clickToggle: () => void;
-  onMobileMenuClick: (l1: string, l2: string, l3: string) => void;
+  onMobileMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3
+  }: {
+    [x: string]: string;
+  }) => void;
+  onHeaderMegaMenuClick: ({
+    l1,
+    l2,
+    l3,
+    clickUrl1,
+    clickUrl2,
+    clickUrl3,
+    template,
+    img2,
+    img3,
+    cta,
+    subHeading
+  }: {
+    [x: string]: string;
+  }) => void;
+  wishlistCount: number;
+  changeCurrency: (cur: any) => void;
+  showCurrency: () => void;
+  showC: boolean;
+  profileItems: DropdownItem[];
+  goLogin: (e?: React.MouseEvent) => void;
 };
 export interface State {
   show: boolean;
@@ -156,4 +309,14 @@ export type WidgetImage = {
   videoUrl: string;
   urlDisplayName: string;
   order: number;
+};
+
+export type SaleTimerData = {
+  currency: Currency;
+  saleStartDate: string;
+  saleEndDate: string;
+  text: string;
+  ctaText: string;
+  ctaUrl: string;
+  themeColorHexCode: string | null;
 };

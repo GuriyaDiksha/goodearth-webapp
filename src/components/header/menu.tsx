@@ -45,7 +45,7 @@ class MainMenu extends React.Component<Props, MenuState> {
   onHeaderMenuClick = (name: string) => {
     const { mobile, isLoggedIn } = this.props;
     util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
-    util.menuNavigationGTM(name, "", "", mobile, isLoggedIn);
+    // util.menuNavigationGTM(name, "", "", mobile, isLoggedIn);
   };
 
   render() {
@@ -54,9 +54,11 @@ class MainMenu extends React.Component<Props, MenuState> {
       <ul className={styles.menuContainer}>
         {data?.map((data: HeaderData, i: number) => {
           const isBridalRegistryPage =
-            location.pathname.indexOf("/bridal/") > -1;
+            location.pathname.indexOf("/bridal/") > -1 &&
+            !location.pathname.includes("/account/");
           const disbaleClass =
-            location.pathname.indexOf("/bridal/") > -1
+            location.pathname.indexOf("/bridal/") > -1 &&
+            !location.pathname.includes("/account/")
               ? styles.iconStyleDisabled
               : "";
           const highlightStories =

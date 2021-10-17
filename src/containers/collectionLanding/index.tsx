@@ -20,7 +20,7 @@ import {
   updateCollectionData,
   updateCollectionFilter
 } from "actions/collection";
-import { getProductIdFromSlug } from "utils/url.ts";
+import { getProductIdFromSlug } from "utils/url";
 import { RouteComponentProps, withRouter } from "react-router";
 import * as util from "utils/validate";
 
@@ -30,7 +30,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     data: state.collection.data,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -83,7 +84,7 @@ class CollectionLanding extends React.Component<
     landingMaker: false
   };
 
-  onChangeFilter = (data: any): void => {
+  onChangeFilter = (data: any, label?: string): void => {
     const {
       history,
       match: { params }
@@ -102,6 +103,7 @@ class CollectionLanding extends React.Component<
         },
         () => {
           window.scrollTo(0, 0);
+          // util.sortGTM(label || data);
         }
       );
     }
@@ -173,7 +175,8 @@ class CollectionLanding extends React.Component<
     const {
       collectionData,
       device: { mobile },
-      data: { level2Categories }
+      data: { level2Categories },
+      showTimer
     } = this.props;
 
     // Code for checking selected filter form collection list
@@ -222,6 +225,7 @@ class CollectionLanding extends React.Component<
               <div className={styles.innerHeader}>
                 <p className={styles.filterText}>FILTER BY</p>
                 <SelectableDropdownMenu
+                  id="filter-dropdown-collectionlanding"
                   align="right"
                   className={styles.dropdownRoot}
                   items={level2Categories}
@@ -237,7 +241,9 @@ class CollectionLanding extends React.Component<
         {!mobile && (
           <div
             className={cs(bootstrap.row, styles.subcHeader, {
-              [styles.subcHeaderNew]: !isLivingpage
+              [styles.subcHeaderTimer]: showTimer,
+              [styles.subcHeaderNew]: !isLivingpage,
+              [styles.subcHeaderNewTimer]: !isLivingpage && showTimer
             })}
           >
             <div className={cs(bootstrap.colMd12, globalStyles.textCenter)}>

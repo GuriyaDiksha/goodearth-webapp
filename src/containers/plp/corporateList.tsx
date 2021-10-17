@@ -12,6 +12,7 @@ import { State, FilterProps } from "./typings";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router-dom";
 import * as valid from "utils/validate";
+import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -25,7 +26,8 @@ const mapStateToProps = (state: AppState) => {
     listdata: state.plplist.data.results.data,
     salestatus: state.info.isSale,
     location: state.router.location,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    customerGroup: state.user.customerGroup
   };
 };
 
@@ -133,7 +135,11 @@ class CorporateFilter extends React.Component<Props, State> {
               //   isViewAll = true;
               // }
 
-              if (cc[i] == "Corporate Gifting" || cc[i] == "Souk") {
+              if (
+                cc[i] == "Corporate Gifting" ||
+                cc[i] == "Souk" ||
+                cc[i] == "Pero"
+              ) {
                 this.haveCorporate = true;
               } else {
                 filter.categoryShop[csKey][cc[i]] = true;
@@ -585,6 +591,7 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    valid.moveChatDown();
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
@@ -600,7 +607,10 @@ class CorporateFilter extends React.Component<Props, State> {
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
     }
-    if (this.props.currency != nextProps.currency) {
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.customerGroup != nextProps.customerGroup
+    ) {
       nextProps.mobile
         ? this.updateDataFromAPI("load")
         : this.updateDataFromAPI();
@@ -662,6 +672,7 @@ class CorporateFilter extends React.Component<Props, State> {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
     this.unlisten();
+    valid.moveChatUp();
   }
 
   getSortedFacets = (facets: any): any => {
@@ -1533,7 +1544,7 @@ class CorporateFilter extends React.Component<Props, State> {
           )}
         </ul>
         {mobile ? (
-          <div className={styles.filterButton}>
+          <div className={cs(styles.filterButton, bootstrap.row)}>
             <div className={styles.numberDiv}>
               <span>{this.state.totalItems} Product found</span>
             </div>

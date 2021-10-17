@@ -16,8 +16,8 @@ import WhatPeopleBuying from "components/PeopleBuying";
 import CategoryService from "services/category";
 import { CategoryProps } from "typings/category";
 import { addCategoryData } from "actions/category";
-import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url.ts";
-import Instagram from "components/Instagram";
+import { getProductIdFromSlug, getProductNameFromSlug } from "utils/url";
+// import Instagram from "components/Instagram";
 import "./slick.css";
 import initActionCategoryLanding from "./initAction";
 import metaActionCategoryLanding from "./metaAction";
@@ -41,7 +41,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     data: state.collection.data,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    showTimer: state.info.showTimer
   };
 };
 
@@ -209,7 +210,11 @@ class CategoryLanding extends React.Component<
                     valid.promotionClick(Object.assign({}, data, img))
                   }
                 >
-                  <img src={img.image} className={globalStyles.imgResponsive} />
+                  <img
+                    src={img.image}
+                    className={globalStyles.imgResponsive}
+                    alt={img.altText || img.ctaText}
+                  />
                 </Link>
               )}
               <div
@@ -260,7 +265,11 @@ class CategoryLanding extends React.Component<
         if (widget.imageType == 2) {
           html.push(
             <div>
-              <img src={widget.image} className={globalStyles.imgResponsive} />
+              <img
+                src={widget.image}
+                className={globalStyles.imgResponsive}
+                alt={widget.altText || widget.ctaText}
+              />
               {widget.ctaText ? (
                 <div
                   className={cs(
@@ -288,6 +297,7 @@ class CategoryLanding extends React.Component<
         html.push(
           <div>
             <img
+              alt={widget.altText || widget.ctaText}
               src={widget.image}
               className={cs(globalStyles.imgResponsive, styles.cursorPointer)}
             />
@@ -619,6 +629,7 @@ class CategoryLanding extends React.Component<
         className={cs(
           "category-landing",
           styles.pageBody,
+          { [styles.pageBodyTimer]: this.props.showTimer },
           bootstrap.containerFluid
         )}
       >
@@ -824,10 +835,9 @@ class CategoryLanding extends React.Component<
         ) : (
           ""
         )}
-        <section>
+        {/* <section>
           <div id="inst" className={styles.instafeed1}>
             <Instagram />
-            {/* {this.getInstagram()} */}
           </div>
           <div className={cs(styles.iconInsta, globalStyles.textCenter)}>
             <a
@@ -846,7 +856,7 @@ class CategoryLanding extends React.Component<
               @goodearthindia
             </a>
           </div>
-        </section>
+        </section> */}
       </div>
     );
   }

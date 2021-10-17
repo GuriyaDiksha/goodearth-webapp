@@ -68,8 +68,9 @@
 
 .size-error-message {
     @include error-msg();
-    position: absolute;
-    bottom: -10px;
+    // position: absolute;
+    // top: 45px;
+    display: block;
     left: 5px;
 }
 
@@ -111,6 +112,10 @@
     @include error-msg();
 }
 
+.filler-container {
+    display: flex;
+    align-items: center
+}
 .accordion-header {
     @include pdp_copy_head();
     margin-top: 20px;
@@ -173,8 +178,9 @@
         padding: 0;
 
         .mobile-wishlist-icon {
-            font-size: 52px;
+            font-size: 36px;
             color: tint(#000,60%);
+            line-height: 50px;
         }
     }
 
@@ -211,11 +217,27 @@
   margin-top: 0;
 }
 
-.quickview-loyalty-message {
-    // position: absolute;
-    // bottom: 75px;
-}
 
 .badge-img {
     padding: 15px 0;
+}
+.not-eligible {
+    text-align: left;
+    margin-top: 5px;
+}
+.cushion-filler {
+    width: 40px;
+    height: 40px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.shop-availability{
+    line-height: 50px;
+    font-size: 12px;
+    color: #000;
+    text-decoration: underline;
+    text-transform: none;
+    letter-spacing: 1px;
+    cursor: pointer;
 }

@@ -68,6 +68,7 @@ class SideMenu extends React.Component<Props, State> {
         reloadPage(
           this.props.cookies,
           response.currency,
+          this.props.user.customerGroup,
           history.location.pathname,
           this.props.user.isLoggedIn
         );
@@ -76,7 +77,10 @@ class SideMenu extends React.Component<Props, State> {
   };
 
   toggleSearch = () => {
-    if (this.props.history.location.pathname.indexOf("/bridal/") > 0) {
+    if (
+      this.props.history.location.pathname.indexOf("/bridal/") > 0 &&
+      !this.props.location.pathname.includes("/account/")
+    ) {
       return false;
     }
     this.props.toggleSearch();
@@ -130,7 +134,10 @@ class SideMenu extends React.Component<Props, State> {
       },
       {
         label: "Cerise Program",
-        href: isLoggedIn && this.props.slab ? "/account/cerise" : "/cerise",
+        href:
+          isLoggedIn && this.props.slab && this.props.slab != "Fresh"
+            ? "/account/cerise"
+            : "/cerise",
         type: "link",
         value: "Cerise Program"
       },
@@ -143,7 +150,12 @@ class SideMenu extends React.Component<Props, State> {
       {
         label: isLoggedIn ? "Sign Out" : "Sign In",
         onClick: isLoggedIn
-          ? () => this.props.handleLogOut(this.props.history)
+          ? () =>
+              this.props.handleLogOut(
+                this.props.history,
+                this.props.currency,
+                this.props.user.customerGroup
+              )
           : this.props.goLogin,
         type: "button",
         value: isLoggedIn ? "Sign Out" : "Sign In"
@@ -174,9 +186,12 @@ class SideMenu extends React.Component<Props, State> {
       bagCount = bagCount + item[i].quantity;
     }
     const { mobile, location } = this.props;
-    const isBridalRegistryPage = location.pathname.indexOf("/bridal/") > -1;
+    const isBridalRegistryPage =
+      location.pathname.indexOf("/bridal/") > -1 &&
+      !this.props.location.pathname.includes("/account/");
     const disableClass =
-      location.pathname.indexOf("/bridal/") > -1
+      location.pathname.indexOf("/bridal/") > -1 &&
+      !this.props.location.pathname.includes("/account/")
         ? styles.iconStyleDisabled
         : "";
     return (
@@ -194,6 +209,7 @@ class SideMenu extends React.Component<Props, State> {
               )}
             >
               <SelectableDropdownMenu
+                id="currency-dropdown"
                 align="right"
                 className={storyStyles.greyBG}
                 items={items}
@@ -227,6 +243,7 @@ class SideMenu extends React.Component<Props, State> {
             >
               <div className={styles.innerProfileContainer}>
                 <DropdownMenu
+                  id="profile-dropdown"
                   display={<i className={selectClass}></i>}
                   className={storyStyles.greyBG}
                   align="right"
@@ -254,45 +271,25 @@ class SideMenu extends React.Component<Props, State> {
                   disableClass
                 )}
               >
-                {isLoggedIn ? (
-                  <Link
-                    to={isBridalRegistryPage ? "#" : "/wishlist"}
-                    onClick={() => {
-                      gtmPushWishlistClick();
-                      this.props.onSideMenuClick("Wishlist");
-                    }}
-                  >
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconWishlist,
-                        styles.iconStyle
-                      )}
-                    ></i>
-                    <span className={styles.badge}>
-                      {wishlistCount > 0 ? wishlistCount : ""}
-                    </span>
-                  </Link>
-                ) : (
-                  <div
-                    onClick={
-                      isBridalRegistryPage
-                        ? () => null
-                        : () => {
-                            this.props.onSideMenuClick("Wishlist");
-                            this.props.goLogin();
-                          }
-                    }
-                  >
-                    <i
-                      className={cs(
-                        iconStyles.icon,
-                        iconStyles.iconWishlist,
-                        styles.iconStyle
-                      )}
-                    ></i>
-                  </div>
-                )}
+                <Link
+                  to={isBridalRegistryPage ? "#" : "/wishlist"}
+                  onClick={() => {
+                    gtmPushWishlistClick();
+                    this.props.onSideMenuClick("Wishlist");
+                    this.props.hideSearch();
+                  }}
+                >
+                  <i
+                    className={cs(
+                      iconStyles.icon,
+                      iconStyles.iconWishlist,
+                      styles.iconStyle
+                    )}
+                  ></i>
+                  <span className={styles.badge}>
+                    {wishlistCount > 0 ? wishlistCount : ""}
+                  </span>
+                </Link>
               </div>
             </li>
           )}

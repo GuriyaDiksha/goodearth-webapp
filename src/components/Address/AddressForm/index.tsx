@@ -70,7 +70,9 @@ const AddressForm: React.FC<Props> = props => {
   const { countryData, pinCodeData, addressList } = useSelector(
     (state: AppState) => state.address
   );
-
+  const isdList = countryData.map(list => {
+    return list.isdCode;
+  });
   const { setBridalAddress, bridalProfile } = useContext(BridalContext);
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -475,8 +477,17 @@ const AddressForm: React.FC<Props> = props => {
           if (typeof errData == "string") {
             setErrorMessage(errData);
           } else if (typeof errData == "object") {
-            form && form.updateInputsWithError(errData, true);
-            handleInvalidSubmit();
+            if (err.response.data.error_message) {
+              let errorMsg = err.response.data.error_message[0];
+              if (errorMsg == "MaxRetries") {
+                errorMsg =
+                  "You have exceeded max attempts, please try after some time.";
+              }
+              setErrorMessage(errorMsg);
+            } else {
+              form && form.updateInputsWithError(errData, true);
+              handleInvalidSubmit();
+            }
           }
         })
         .finally(() => {
@@ -504,8 +515,17 @@ const AddressForm: React.FC<Props> = props => {
           if (typeof errData == "string") {
             setErrorMessage(errData);
           } else if (typeof errData == "object") {
-            form && form.updateInputsWithError(errData, true);
-            handleInvalidSubmit();
+            if (err.response.data.error_message) {
+              let errorMsg = err.response.data.error_message[0];
+              if (errorMsg == "MaxRetries") {
+                errorMsg =
+                  "You have exceeded max attempts, please try after some time.";
+              }
+              setErrorMessage(errorMsg);
+            } else {
+              form && form.updateInputsWithError(errData, true);
+              handleInvalidSubmit();
+            }
           }
         })
         .finally(() => {
@@ -1441,14 +1461,15 @@ const AddressForm: React.FC<Props> = props => {
               // onChange={handleKeypress}
               // value={state.line1}
               handleChange={() => setIsAddressChanged(true)}
+              maxlength={75}
               validations={{
-                maxLength: 70,
+                maxLength: 75,
                 isExisty: true
               }}
               validationErrors={{
                 isExisty: "Please enter your Address",
                 // isEmptyString: isExistyError,
-                maxLength: "You cannot type in more than 70 characters"
+                maxLength: "You cannot type in more than 75 characters"
               }}
             />
           </div>
@@ -1459,11 +1480,12 @@ const AddressForm: React.FC<Props> = props => {
               placeholder="Address Line 2"
               // onChange={handleKeypress}
               handleChange={() => setIsAddressChanged(true)}
+              maxlength={75}
               validations={{
-                maxLength: 35
+                maxLength: 75
               }}
               validationErrors={{
-                maxLength: "You cannot type in more than 35 characters"
+                maxLength: "You cannot type in more than 75 characters"
               }}
               // value={state.line2}
             />
@@ -1498,8 +1520,22 @@ const AddressForm: React.FC<Props> = props => {
               disable={!!props.currentCallBackComponent}
               placeholder="Code"
               name="phoneCountryCode"
-              // code={state.isdCode}
-              // highlightCode={state.highlightCode}
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                },
+                isValidCode: (values, value) => {
+                  if (value && isdList.length > 0) {
+                    return isdList.indexOf(value ? value : "") > -1;
+                  } else {
+                    return true;
+                  }
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required",
+                isValidCode: "Enter valid code"
+              }}
             />
 
             <FormInput

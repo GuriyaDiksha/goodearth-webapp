@@ -7,14 +7,9 @@ import Koa from "koa";
 import { Store } from "redux";
 import { AppState } from "reducers/typings";
 import Api from "services/api";
-// import AddressService from "services/address";
-// import LoginService from "services/login";
-// import {
-//   // updatePinCodeList,
-//   updateCountryData
-// } from "./address";
-import { updateCurrencyList } from "./info";
 import { MetaResponse } from "services/meta/typings";
+import { updateCurrencyList } from "./info";
+// import BasketService from "services/basket";
 
 const initAction: any = async (
   ctx: Koa.ParameterizedContext<Koa.DefaultContext>,
@@ -22,16 +17,23 @@ const initAction: any = async (
 ) => {
   const store: Store = ctx.store;
   const state: AppState = ctx.store.getState();
+  const currency = state.currency || "INR";
+  const customerGroup = state.user.customerGroup || "";
   const isBridalPublicPage =
     history.location.pathname.includes("/bridal/") &&
     !history.location.pathname.includes("/account/");
   let bridalKey = "";
+  // const basketPage = history.location.pathname.includes("checkout")
+  //   ? "checkout"
+  //   : history.location.pathname.includes("cart")
+  //   ? "cart"
+  //   : undefined;
   if (isBridalPublicPage) {
     const pathArray = history.location.pathname.split("/");
     bridalKey = pathArray[pathArray.length - 1];
   }
   let apiCalls: Promise<void | MetaResponse | undefined>[] = [
-    HeaderService.fetchHeaderDetails(store.dispatch)
+    HeaderService.fetchHeaderDetails(store.dispatch, currency, customerGroup)
       .then(data => {
         console.log(data);
       })
@@ -52,21 +54,6 @@ const initAction: any = async (
       .catch(err => {
         console.log("CURRENCY LIST API ERROR ==== " + err);
       }),
-    // AddressService.fetchPinCodeData(store.dispatch)
-    //   .then(data => {
-    //     const pinCodeList = Object.keys(data);
-    //     store.dispatch(updatePinCodeList(data, pinCodeList));
-    //   })
-    //   .catch(err => {
-    //     console.log("PINCODE API ERROR ====" + err);
-    //   }),
-    // LoginService.fetchCountryData(store.dispatch)
-    //   .then(data => {
-    //     store.dispatch(updateCountryData(data));
-    //   })
-    //   .catch(err => {
-    //     console.log("COUNTRYSTATE API ERROR ====" + err);
-    //   }),
     Api.getAnnouncement(store.dispatch)
       .then(data => {
         console.log(data);
@@ -77,11 +64,12 @@ const initAction: any = async (
     ApiService.getCurrency(store.dispatch, bridalKey).catch(err => {
       console.log("CURRENCY API ERROR ==== " + err);
     }),
-    ApiService.getSalesStatus(store.dispatch).catch(err => {
-      console.log("Sales Api Status ==== " + err);
-    }),
+
     ApiService.getPopupBgUrl(store.dispatch).catch(err => {
       console.log("Popup Bg Api Status ==== " + err);
+    }),
+    ApiService.getPopups(store.dispatch).catch(err => {
+      console.log("Popup Api Error ==== " + err);
     })
   ];
 
@@ -92,6 +80,9 @@ const initAction: any = async (
           console.log("META API ERROR ==== " + err);
         }
       )
+      // BasketService.fetchBasket(store.dispatch, basketPage).then(res => {
+      //   console.log(res);
+      // })
     ]);
   }
   return Promise.all(apiCalls);
