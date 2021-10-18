@@ -671,7 +671,12 @@ class Footer extends React.Component<Props, FooterState> {
                         >
                           find us on
                         </div>
-                        <div className={cs(styles.ftrHeadingWhite)}>
+                        <div
+                          className={cs(
+                            styles.ftrHeadingWhite,
+                            styles.negMargin
+                          )}
+                        >
                           {findUsOnData &&
                             findUsOnData.map(({ link, iconImage }, index) => {
                               return (

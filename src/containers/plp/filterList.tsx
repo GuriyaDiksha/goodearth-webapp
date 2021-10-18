@@ -440,6 +440,7 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
+      fetchPlpTemplates,
       changeLoader
     } = this.props;
     const { filter } = this.state;
@@ -513,11 +514,22 @@ class FilterList extends React.Component<Props, State> {
           this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
         }
       );
+      const urlParams = new URLSearchParams(this.props.history.location.search);
+      const categoryShop = urlParams.get("category_shop");
+      if (categoryShop) {
+        fetchPlpTemplates(categoryShop);
+      }
     }
   };
 
   updateDataFromAPI = (onload?: string) => {
-    const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
+    const {
+      mobile,
+      fetchPlpProducts,
+      fetchPlpTemplates,
+      history,
+      changeLoader
+    } = this.props;
     if (!onload && mobile) {
       return true;
     }
@@ -532,6 +544,11 @@ class FilterList extends React.Component<Props, State> {
       this.createList(plpList);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
     });
+    const urlParams = new URLSearchParams(history.location.search);
+    const categoryShop = urlParams.get("category_shop");
+    if (categoryShop) {
+      fetchPlpTemplates(categoryShop);
+    }
   };
 
   stateChange = (location: any, action: any) => {

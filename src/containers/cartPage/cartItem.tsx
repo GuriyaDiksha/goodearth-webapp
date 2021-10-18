@@ -215,7 +215,12 @@ const CartItems: React.FC<BasketItem> = memo(
       <div className={cs(styles.cartItem, styles.gutter15, styles.cart)}>
         <div className={bootstrap.row}>
           <div
-            className={cs(bootstrap.col5, bootstrap.colMd2, styles.cartPadding)}
+            className={cs(
+              bootstrap.col5,
+              bootstrap.colMd4,
+              bootstrap.colLg2,
+              styles.cartPadding
+            )}
           >
             <div className={globalStyles.relative}>
               <Link to={isGiftCard ? "#" : url}>
@@ -248,10 +253,15 @@ const CartItems: React.FC<BasketItem> = memo(
             </div>
           </div>
           <div
-            className={cs(bootstrap.colMd8, bootstrap.col5, styles.cartPadding)}
+            className={cs(
+              bootstrap.colLg8,
+              bootstrap.col5,
+              bootstrap.colMd6,
+              styles.cartPadding
+            )}
           >
             <div className={styles.rowMain}>
-              <div className={cs(bootstrap.colMd6, bootstrap.col12)}>
+              <div className={cs(bootstrap.colLg6, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
                     <div className={styles.collectionName}>
