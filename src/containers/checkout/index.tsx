@@ -694,7 +694,7 @@ class Checkout extends React.Component<Props, State> {
             <div
               className={cs(
                 bootstrap.col12,
-                bootstrap.colMd8,
+                bootstrap.colLg8,
                 globalStyles.voffset5,
                 styles.pB100
               )}

@@ -28,6 +28,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
     mobile: state.device.mobile,
+    tablet: state.device.tablet,
     cart: state.basket,
     isSale: state.info.isSale,
     location: state.router.location
@@ -179,7 +180,8 @@ class CartPage extends React.Component<Props, State> {
     const {
       cart: { lineItems },
       currency,
-      mobile
+      mobile,
+      tablet
     } = this.props;
 
     const emptyCartContent = (
@@ -257,7 +259,7 @@ class CartPage extends React.Component<Props, State> {
                   : ""}
               </div>
             </div>
-            {mobile ? (
+            {mobile || tablet ? (
               ""
             ) : (
               <div className={bootstrap.row}>
@@ -276,7 +278,7 @@ class CartPage extends React.Component<Props, State> {
       return (
         <CartItems
           onNotifyCart={this.onNotifyCart}
-          mobile={this.props.mobile}
+          mobile={this.props.mobile || this.props.tablet}
           key={item.id}
           {...item}
           id={item.id}
@@ -358,7 +360,7 @@ class CartPage extends React.Component<Props, State> {
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
-          className={cs(bootstrap.col12, bootstrap.colMd8, styles.bagContents)}
+          className={cs(bootstrap.col12, bootstrap.colLg8, styles.bagContents)}
         >
           {this.renderMessage()}
           {this.getItems()}
