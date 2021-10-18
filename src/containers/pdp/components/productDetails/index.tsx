@@ -524,15 +524,23 @@ const ProductDetails: React.FC<Props> = ({
     return top + offset >= 0 && top - offset - 100 <= window.innerHeight;
   };
 
+  const isBelowViewport = (yourElement: any) => {
+    if (!yourElement) return false;
+    const top = yourElement.getBoundingClientRect().top;
+    return top > window.innerHeight;
+  };
+
   const onScroll = throttle(() => {
-    const ele = document.getElementById("yourElement") || "";
-    const ele1 = document.getElementById("footer-start") || "";
-    const value = isInViewport(-80, ele) || false;
-    const value1 = isInViewport(0, ele1) || false;
-    if (value == false && value1 == false && showDock == false) {
-      setShowDock(true);
-      toggelHeader(false);
-    } else if ((value || value1) && showDock == true) {
+    const addToBagBtn = document.getElementById("yourElement") || "";
+    const footer = document.getElementById("footer-start") || "";
+    const isAddToBagBtnVisible = isInViewport(-80, addToBagBtn) || false;
+    const isFooterBelowViewPort = isBelowViewport(footer) || false;
+    if (!isAddToBagBtnVisible && isFooterBelowViewPort) {
+      if (!showDock) {
+        setShowDock(true);
+        toggelHeader(false);
+      }
+    } else if (showDock) {
       setShowDock(false);
       toggelHeader(true);
     }
