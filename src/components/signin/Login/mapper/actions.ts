@@ -23,8 +23,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     resetPassword: (formData: FormData) => {
       return LoginService.resetPassword(dispatch, formData);
     },
-    checkUserPassword: (email: string, redirectTo: string) => {
-      return LoginService.checkUserPassword(dispatch, email, redirectTo);
+    checkUserPassword: (email: string) => {
+      return LoginService.checkUserPassword(dispatch, email);
     },
     login: (
       email: string,

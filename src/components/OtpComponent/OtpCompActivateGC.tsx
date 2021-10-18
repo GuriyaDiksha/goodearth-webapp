@@ -11,6 +11,7 @@ import FormInput from "components/Formsy/FormInput";
 import * as valid from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
+import ReactHtmlParser from "react-html-parser";
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -27,7 +28,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       showerrorOtp: "",
       otp: "",
       toggleOtp: false,
-      isLoading: false
+      isLoading: false,
+      otpLimitError: false
     };
   }
   timerId: any = 0;
@@ -491,7 +493,13 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
         }
       })
       .catch((error: any) => {
-        const { status, currStatus, message, email } = error.response.data;
+        const {
+          status,
+          currStatus,
+          message,
+          email,
+          otpLimitExceeded
+        } = error.response.data;
         if (!status) {
           if (currStatus == "Invalid-CN") {
             let errorMessage = `Please enter a valid ${
@@ -513,6 +521,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             elem.focus();
           } else {
             if (message) {
+              if (otpLimitExceeded) {
+                this.setState({
+                  otpLimitError: true
+                });
+              }
               if (isResendOtp) {
                 this.setState(
                   {
@@ -652,50 +665,60 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             : false
           : true) && (
           <>
+            {!this.state.otpLimitError && (
+              <>
+                <div
+                  className={cs(
+                    styles.loginForm,
+                    globalStyles.voffset4,
+                    styles.otpLabel
+                  )}
+                >
+                  {`OTP HAS BEEN SENT TO YOU VIA YOUR ${
+                    this.props.isIndiaGC ? "MOBILE NUMBER" : "EMAIL ADDRESS"
+                  }. PLEASE ENTER IT
+                BELOW`}
+                </div>
+                <OtpBox otpValue={this.getOtpValue} />
+
+                <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
+                  DIDN’T RECEIVE OTP?{" "}
+                  {this.state.showerror ? (
+                    <a
+                      className={cs(globalStyles.cerise, styles.otpLabel)}
+                      onClick={this.clickHereOtpInvalid}
+                    >
+                      CLICK HERE
+                    </a>
+                  ) : (
+                    <a
+                      className={
+                        otpTimer > 0
+                          ? styles.iconStyleDisabled
+                          : cs(styles.otpLabel, globalStyles.cerise)
+                      }
+                      onClick={() => {
+                        otpTimer > 0 ? "" : this.resendOtp();
+                      }}
+                    >
+                      RESEND OTP
+                    </a>
+                  )}
+                  {otpTimer > 0 ? (
+                    <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </>
+            )}
             <div
               className={cs(
-                styles.loginForm,
-                globalStyles.voffset4,
-                styles.otpLabel
+                globalStyles.voffset3,
+                globalStyles.relative,
+                globalStyles.textLeft
               )}
             >
-              {`OTP HAS BEEN SENT TO YOU VIA YOUR ${
-                this.props.isIndiaGC ? "MOBILE NUMBER" : "EMAIL ADDRESS"
-              }. PLEASE ENTER IT
-                BELOW`}
-            </div>
-            <OtpBox otpValue={this.getOtpValue} />
-
-            <div className={cs(globalStyles.voffset4, styles.otpLabel)}>
-              DIDN’T RECEIVE OTP?{" "}
-              {this.state.showerror ? (
-                <a
-                  className={cs(globalStyles.cerise, styles.otpLabel)}
-                  onClick={this.clickHereOtpInvalid}
-                >
-                  CLICK HERE
-                </a>
-              ) : (
-                <a
-                  className={
-                    otpTimer > 0
-                      ? styles.iconStyleDisabled
-                      : cs(styles.otpLabel, globalStyles.cerise)
-                  }
-                  onClick={() => {
-                    otpTimer > 0 ? "" : this.resendOtp();
-                  }}
-                >
-                  RESEND OTP
-                </a>
-              )}
-              {otpTimer > 0 ? (
-                <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
-              ) : (
-                ""
-              )}
-            </div>
-            <div className={cs(globalStyles.voffset3, globalStyles.relative)}>
               {this.state.showerror ? (
                 <p
                   className={cs(
@@ -705,30 +728,44 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   )}
                   id="resend-otp-error"
                 >
-                  {this.state.showerror}
+                  {ReactHtmlParser(this.state.showerror)}
                 </p>
               ) : (
                 <p className={globalStyles.errorMsg}></p>
               )}
+              {this.state.otpLimitError && (
+                <div
+                  className={cs(globalStyles.voffset4, globalStyles.marginB30)}
+                >
+                  <input
+                    type="button"
+                    className={globalStyles.whiteBtn}
+                    value="< Activate Another Gift Card"
+                    onClick={this.props.newGiftCard}
+                  />
+                </div>
+              )}
               {this.state.showerror && <CustomerCareInfo />}
             </div>
-            <div className={globalStyles.voffset2}>
-              <input
-                type="button"
-                disabled={!this.state.updateStatus}
-                className={
-                  !this.state.updateStatus
-                    ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                    : globalStyles.ceriseBtn
-                }
-                value={
-                  this.props.otpFor == "activateGC"
-                    ? "Activate Gift Card"
-                    : "Check Balance"
-                }
-                onClick={this.checkOtpValidation}
-              />
-            </div>
+            {!this.state.otpLimitError && (
+              <div className={globalStyles.voffset2}>
+                <input
+                  type="button"
+                  disabled={!this.state.updateStatus}
+                  className={
+                    !this.state.updateStatus
+                      ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+                      : globalStyles.ceriseBtn
+                  }
+                  value={
+                    this.props.otpFor == "activateGC"
+                      ? "Activate Gift Card"
+                      : "Check Balance"
+                  }
+                  onClick={this.checkOtpValidation}
+                />
+              </div>
+            )}
           </>
         )}
       </div>
@@ -902,6 +939,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   </div>
                 </li>
               )}
+              <hr />
               <li className={styles.note}>
                 <div>Please Note:</div>
                 <ul>

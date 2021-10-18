@@ -580,11 +580,13 @@ class JobForm extends React.Component<Props, State> {
                 validations={{
                   isExisty: true,
                   matchRegexp: /^[0-9\-/]+$/,
+                  maxLength: 10,
                   isNumeric: true
                 }}
                 validationErrors={{
                   isExisty: isExistyError,
                   matchRegexp: "Please enter valid a phone number",
+                  maxLength: "Please enter valid a phone number",
                   isNumeric: "Phone should contain numbers"
                 }}
               />
