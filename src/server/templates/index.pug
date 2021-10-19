@@ -16,13 +16,15 @@ html(lang='en')
         if (typeof(state) !== 'undefined')
           script.
             window.state = JSON.parse(!{state})
-        script(type='text/javascript', src='https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js')
         script.
           if ('serviceWorker' in navigator) {
             // Use the window load event to keep the page load performant
             // Add this line to the top of the file
             window.addEventListener('load', () => {
               navigator.serviceWorker.register('/sw.js', {
+                scope: "/"
+              });
+              navigator.serviceWorker.register('https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js', {
                 scope: "/"
               });
             });
