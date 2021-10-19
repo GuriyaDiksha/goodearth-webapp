@@ -194,8 +194,10 @@ html(lang='en')
 
           Moengage = moe({
               app_id:"4KK0OEEQLWKYGNZXJQJ5UO5B_DEBUG",
-              debug_logs: 1
+              debug_logs: 1,
+              cluster: "DC_3"
           });
+          Moengage.call_web_push();
         script.
           window.dataLayer = window.dataLayer || [];
           var isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(window.navigator.userAgent);
