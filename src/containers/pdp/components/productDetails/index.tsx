@@ -73,6 +73,7 @@ const ProductDetails: React.FC<Props> = ({
     loyaltyDisabled,
     shipping,
     compAndCare,
+    manufactureInfo,
     sku,
     url,
     gaVariant,
@@ -274,9 +275,14 @@ const ProductDetails: React.FC<Props> = ({
         header: "Shipping & Handling",
         body: <div>{ReactHtmlParser(shipping)}</div>,
         id: "shippAndHandle"
+      },
+      {
+        header: "Manufacturing Info",
+        body: <div>{ReactHtmlParser(manufactureInfo)}</div>,
+        id: "manufactureInfo"
       }
     ];
-  }, [details, compAndCare, compAndCare]);
+  }, [details, compAndCare, shipping, manufactureInfo]);
 
   const setSelectedSKU = () => {
     let currentSKU = sku;
