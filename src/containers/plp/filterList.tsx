@@ -384,12 +384,9 @@ class FilterList extends React.Component<Props, State> {
     const minMaxvalue: any = [];
     let currentRange: any = [];
     this.createFilterfromUrl();
-    const pricearray: any = [];
     const currentCurrency =
       "price" + currency[0].toUpperCase() + currency.substring(1).toLowerCase();
-    plpList.results.facets[currentCurrency]?.map(function(a: any) {
-      pricearray.push(+a[0]);
-    });
+    const pricearray = plpList.results.facets[currentCurrency];
     if (pricearray.length > 0) {
       minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
       minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
@@ -458,25 +455,14 @@ class FilterList extends React.Component<Props, State> {
           plpList.results.data.length
         );
         this.createFilterfromUrl();
-        const pricearray: any = [];
         const currentCurrency =
           "price" +
           currency[0].toUpperCase() +
           currency.substring(1).toLowerCase();
-        plpList.results.facets[currentCurrency]?.map(function(a: any) {
-          pricearray.push(+a[0]);
-        });
+        const pricearray = plpList.results.facets[currentCurrency];
         if (pricearray.length > 0) {
-          minMaxvalue.push(
-            pricearray.reduce(function(a: number, b: number) {
-              return Math.min(a, b);
-            })
-          );
-          minMaxvalue.push(
-            pricearray.reduce(function(a: number, b: number) {
-              return Math.max(a, b);
-            })
-          );
+          minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
+          minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
         }
         if (filter.price.min_price) {
           currentRange.push(filter.price.min_price);
