@@ -272,6 +272,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.GCEMAIL,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: false
   }
 ];
 

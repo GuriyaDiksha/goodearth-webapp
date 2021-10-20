@@ -147,6 +147,20 @@ class Header extends React.Component<Props, State> {
       selectedPincode: localStorage.getItem("selectedPincode")
     });
 
+    if (this.props.location.pathname.includes("/send-giftcard")) {
+      const lineId = urlParams.get("line_id");
+      if (lineId) {
+        this.props
+          .resendGcEmail(lineId)
+          .catch(err => {
+            console.log("resend gc error!!");
+          })
+          .finally(() => {
+            this.props.history.push("/");
+          });
+      }
+    }
+
     // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
     if (
       this.props.announcement.isBridalActive &&

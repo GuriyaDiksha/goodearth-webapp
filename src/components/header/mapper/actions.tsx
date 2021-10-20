@@ -115,6 +115,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("ANNOUNCEMENT API ERROR ==== " + err);
       });
+    },
+    resendGcEmail: async (lineId: string) => {
+      const res = await HeaderService.resendGcEmail(dispatch, lineId).then(
+        res => {
+          dispatch(updateComponent(POPUP.RESENDGC, { email: res.email }, true));
+          dispatch(updateModal(true));
+        }
+      );
+      return res;
     }
   };
 };
