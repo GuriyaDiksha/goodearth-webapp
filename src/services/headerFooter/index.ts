@@ -184,5 +184,16 @@ export default {
       payLoad
     );
     dispatch(updateStore(res));
+  },
+  resendGcEmail: async function(dispatch: Dispatch, lineId: string) {
+    const res = await API.get<{
+      msg: string;
+      status: boolean;
+      email: string;
+    }>(
+      dispatch,
+      `${__API_HOST__}/myapi/giftcard/send_giftcard_again/?line_id=${lineId}`
+    );
+    return res;
   }
 };
