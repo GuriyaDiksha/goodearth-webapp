@@ -17,7 +17,7 @@ type Props = {
 };
 
 const DockedPanel: React.FC<Props> = ({ data, buttoncall, showPrice }) => {
-  const { showTimer } = useSelector((state: AppState) => state.info);
+  const { showTimer, isSale } = useSelector((state: AppState) => state.info);
   const { currency } = useSelector((state: AppState) => state);
   return (
     <div
@@ -27,7 +27,7 @@ const DockedPanel: React.FC<Props> = ({ data, buttoncall, showPrice }) => {
         bootstrap.row
       )}
     >
-      <div className={cs(bootstrap.col9, globalStyles.flex)}>
+      <div className={cs(bootstrap.col8, globalStyles.flex)}>
         <div className={styles.imgcontainer}>
           <img
             className={globalStyles.imgResponsive}
@@ -36,12 +36,12 @@ const DockedPanel: React.FC<Props> = ({ data, buttoncall, showPrice }) => {
         </div>
         <span className={styles.dockText}> {data.altText}</span>
       </div>
-      <div className={cs(bootstrap.col1, styles.padding21)}>
+      <div className={cs(bootstrap.col2, styles.padding21)}>
         {!showPrice && (
           <Price
             product={data}
             code={currencyCodes[currency]}
-            isSale={false}
+            isSale={isSale}
             currency={currency}
           />
         )}
