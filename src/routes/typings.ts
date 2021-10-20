@@ -44,7 +44,8 @@ export enum ROUTES {
   INSTORE = "/instoreservices",
   THANKYOU = "/thankyou",
   MUMTAZ = "/mumtaz-virtual-appointment",
-  GCEMAIL = "/send-giftcard"
+  GCEMAIL = "/send-giftcard",
+  HFH = "/home-for-holidays-reminders"
 }
 
 export type RouteConfig = RouteObject[];

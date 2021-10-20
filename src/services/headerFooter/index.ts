@@ -161,6 +161,10 @@ export default {
     }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
     return res;
   },
+  saveHFH: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<{}>(dispatch, ``, formData);
+    return res;
+  },
   getSaleTimerData: async function(dispatch: Dispatch) {
     try {
       const data: SaleTimerData = await API.get<SaleTimerData>(
