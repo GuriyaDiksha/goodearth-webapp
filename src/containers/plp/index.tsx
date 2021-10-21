@@ -508,7 +508,7 @@ class PLP extends React.Component<
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
-              bootstrap.colMd10,
+              bootstrap.colLg10,
               bootstrap.col12
             )}
           >
@@ -652,7 +652,7 @@ class PLP extends React.Component<
                         )}
                         <div
                           className={cs(
-                            bootstrap.colMd4,
+                            bootstrap.colLg4,
                             bootstrap.col6,
                             styles.setWidth
                           )}
@@ -733,7 +733,7 @@ class PLP extends React.Component<
               <div
                 className={
                   !mobile || this.props.plpMobileView == "grid"
-                    ? cs(bootstrap.colMd4, bootstrap.col6, styles.setWidth)
+                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth)
                     : cs(
                         bootstrap.colLg4,
                         bootstrap.col12,

@@ -131,6 +131,10 @@ a {
   margin-bottom: 10px;
 }
 
+.margin-b-30 {
+  margin-bottom: 30px;
+}
+
 .error-msg {
   &.error-radio {
     position: absolute;
@@ -251,6 +255,19 @@ font-weight: bold;
   border-left: 1px solid tint(#000, 96%);
 }
 
+.white-btn {
+  @include cerise-btn();
+  color: #ab1e56;
+  background-color: white;
+  border: 1px solid;
+  letter-spacing: 1px;
+  &:focus {
+    border: 1px solid;
+  }
+  &:active {
+    border: 1px solid;
+  }
+}
 .success-msg {
   @include success-msg();
 }

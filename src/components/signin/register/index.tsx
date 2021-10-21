@@ -53,9 +53,7 @@ class RegisterForm extends React.Component<Props, registerState> {
       passValidNum: false,
       passValidUpper: false,
       showPassRules: false,
-      shouldValidatePass: false,
-      showEmailVerification: false,
-      email: ""
+      shouldValidatePass: false
     };
   }
   static contextType = Context;
@@ -293,7 +291,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 )
               }
             >
-              Sign In
+              Login
             </span>
           </span>
         ];
@@ -713,7 +711,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             }
           >
             {" "}
-            SIGN IN{" "}
+            Login{" "}
           </span>
         </div>
       </>
