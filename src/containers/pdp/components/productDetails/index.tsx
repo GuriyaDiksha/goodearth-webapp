@@ -544,11 +544,11 @@ const ProductDetails: React.FC<Props> = ({
     if (!isAddToBagBtnVisible && isFooterBelowViewPort) {
       if (!showDock) {
         setShowDock(true);
-        toggelHeader(false);
+        toggelHeader && toggelHeader(false);
       }
     } else if (showDock) {
       setShowDock(false);
-      toggelHeader(true);
+      toggelHeader && toggelHeader(true);
     }
   }, 800);
 
