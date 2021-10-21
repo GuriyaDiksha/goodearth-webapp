@@ -17,7 +17,8 @@ const Banner: React.FC<Props> = ({ data, mobile }) => {
           bootstrap.colMd8,
           bootstrap.col12,
           styles.setWidth,
-          styles.templatePadding
+          { [styles.templatePadding]: !mobile },
+          { [styles.templatePaddingUpperMobile]: mobile }
         )}
       >
         {data.mediaType == "image" ? (

@@ -20,12 +20,15 @@ import * as util from "../../utils/validate";
 import { WidgetImage } from "components/header/typings";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
-import { updateModal } from "actions/modal";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
     mobile: state.device.mobile,
+    tablet: state.device.tablet,
     cart: state.basket,
     isSale: state.info.isSale,
     location: state.router.location
@@ -61,6 +64,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeModalState: () => {
       dispatch(updateModal(false));
+    },
+    openPopup: () => {
+      dispatch(updateComponent(POPUP.MAKER, null));
+      dispatch(updateModal(true));
     }
   };
 };
@@ -95,6 +102,10 @@ class CartPage extends React.Component<Props, State> {
     util.pageViewGTM("Cart");
     this.props.fetchBasket();
     // this.props.changeModalState();
+    const popupCookie = CookieService.getCookie("showCartPagePopup");
+    if (popupCookie) {
+      this.props.openPopup();
+    }
     this.props
       .fetchFeaturedContent()
       .then(data => {
@@ -169,7 +180,8 @@ class CartPage extends React.Component<Props, State> {
     const {
       cart: { lineItems },
       currency,
-      mobile
+      mobile,
+      tablet
     } = this.props;
 
     const emptyCartContent = (
@@ -247,7 +259,7 @@ class CartPage extends React.Component<Props, State> {
                   : ""}
               </div>
             </div>
-            {mobile ? (
+            {mobile || tablet ? (
               ""
             ) : (
               <div className={bootstrap.row}>
@@ -266,7 +278,7 @@ class CartPage extends React.Component<Props, State> {
       return (
         <CartItems
           onNotifyCart={this.onNotifyCart}
-          mobile={this.props.mobile}
+          mobile={this.props.mobile || this.props.tablet}
           key={item.id}
           {...item}
           id={item.id}
@@ -348,7 +360,7 @@ class CartPage extends React.Component<Props, State> {
     return (
       <div className={cs(bootstrap.row, styles.pageBody)}>
         <div
-          className={cs(bootstrap.col12, bootstrap.colMd8, styles.bagContents)}
+          className={cs(bootstrap.col12, bootstrap.colLg8, styles.bagContents)}
         >
           {this.renderMessage()}
           {this.getItems()}
