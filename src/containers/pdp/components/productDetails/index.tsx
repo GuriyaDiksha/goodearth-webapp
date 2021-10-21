@@ -529,10 +529,10 @@ const ProductDetails: React.FC<Props> = ({
     const value1 = isInViewport(0, ele1) || false;
     if (value == false && value1 == false && showDock == false) {
       setShowDock(true);
-      toggelHeader(false);
+      toggelHeader && toggelHeader(false);
     } else if ((value || value1) && showDock == true) {
       setShowDock(false);
-      toggelHeader(true);
+      toggelHeader && toggelHeader(true);
     }
   }, 800);
 
