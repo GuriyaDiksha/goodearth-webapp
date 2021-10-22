@@ -50,7 +50,7 @@ const LoginSection: React.FC<LoginProps> = props => {
             styles.title
           )}
         >
-          <p className={isActive ? "" : styles.closed}>LOGIN</p>
+          <p className={isActive ? "" : styles.closed}>LOGIN / REGISTER</p>
           <div>
             {!isLoggedIn ? (
               isRegister ? (

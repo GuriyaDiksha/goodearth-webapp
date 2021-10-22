@@ -40,6 +40,8 @@ export type MenuComponentL2L3Data = {
   ctaName: string;
   src?: string;
   thumbnailSrc: string;
+  ctaMobile?: string;
+  viewAllLink?: string;
 };
 
 export type MenuComponentTitleData = {
@@ -69,6 +71,7 @@ export interface MenuTemplates {
   publishOnMobile: boolean;
   templateType: string;
   templateData: MenuComponent;
+  hideViewAllOnMobile?: boolean;
 }
 export interface MenuColumn {
   separator: boolean;
@@ -91,7 +94,11 @@ export interface L2MenuData {
   text: string;
   link: string;
   ctaName?: string;
+  ctaMobile?: string;
+  viewAllLink?: string;
+  hideViewAllOnMobile?: boolean;
   children?: L2MenuData[];
+  templateType?: string;
 }
 
 export type AnnouncementBar = {
@@ -215,7 +222,6 @@ export type MegaMenuListProps = {
 };
 
 export type MobileListProps = {
-  menudata: HeaderData[];
   megaMenuData: MegaMenuData[];
   location: Location;
   clickToggle: () => void;
@@ -303,11 +309,6 @@ export type WidgetImage = {
   videoUrl: string;
   urlDisplayName: string;
   order: number;
-};
-
-export type Menu = {
-  results: HeaderData[];
-  megaMenuResults: MegaMenuData[];
 };
 
 export type SaleTimerData = {

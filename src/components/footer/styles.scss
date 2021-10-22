@@ -15,6 +15,11 @@
 .footer-icon{
   font-size: 35px;
 }
+.find-us-on-icon {
+  // width: 35px;
+  height: 20px;
+  margin-right: 20px;
+}
 
 .footer-connect-icon {
   height: 16px;
@@ -164,6 +169,9 @@ position: fixed;
 }
 @media screen and (max-width: 992px) {
   
+  .footer {
+    background-repeat: no-repeat;
+  }
   .shop-locator {
     position: relative;
     .cursor-pointer {
@@ -213,7 +221,10 @@ position: fixed;
 
   .footer-socialicons {
     margin: 20px auto 0 auto;
-    
+    .neg-margin {
+      margin-top: -15px;
+      margin-bottom: 10px;
+    }    
   }
   .main-menu-footer {
     box-shadow: none;
@@ -249,11 +260,6 @@ position: fixed;
     }
   }
 
-  .footer {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: bottom;
-  }
 
   .cookieclass {
     width: 300px;
@@ -277,8 +283,11 @@ input {
       border-bottom: none;
     }
   }
+  .footer-column {
+    padding-bottom: 100px;
+  }
   .footer {
-    height: 600px;
+    min-height: 600px;
     background-size: contain;
   }
   .footer-socialicons {
@@ -289,10 +298,11 @@ input {
     }
   }
   .shop-locator {
-    float: left;
+    // float: left;
     position: absolute;
-    left: 76%;
-    width: 21%;
+    // left: 76%;
+    width: 84%;
+    margin-top: 50px;
     .cursor-pointer {
       &:hover {
         color: $cerise;
@@ -369,42 +379,42 @@ input {
       position: absolute;
       top: 100px;
     }
-    ul {
+    ul.column {
       margin-bottom: 0;
-    }
-    li {
-      width: 100%;
-      font-size: 12px;
-      letter-spacing: 1px;
-      line-height: 30px;
-      font-weight: normal;
-      color: #000;
-
-      &:first-child {
-        text-transform: uppercase;
-        @include ftr-heading-white();
-        line-height: 44px;
+      li {
+        width: 100%;
+        font-size: 12px;
+        letter-spacing: 1px;
+        line-height: 30px;
         font-weight: normal;
-        a {
+        color: #000;
+  
+        &:first-child {
           text-transform: uppercase;
           @include ftr-heading-white();
           line-height: 44px;
           font-weight: normal;
+          a {
+            text-transform: uppercase;
+            @include ftr-heading-white();
+            line-height: 44px;
+            font-weight: normal;
+          }
         }
-      }
-      a {
-        @include ftr-copy-white-desktop();
-        font-weight: normal;
-        text-transform: capitalize;
-        &:nth-child(2) {
-          margin-right: 8px;
-        }
-        &.email {
-          text-transform: lowercase;
-        }
-        &:hover {
-          color: $cerise !important;
-          text-decoration: none !important;
+        a {
+          @include ftr-copy-white-desktop();
+          font-weight: normal;
+          text-transform: capitalize;
+          // &:nth-child(2) {
+          //   margin-right: 8px;
+          // }
+          &.email {
+            text-transform: lowercase;
+          }
+          &:hover {
+            color: $cerise !important;
+            text-decoration: none !important;
+          }
         }
       }
     }
@@ -460,4 +470,10 @@ input {
 }
 .ftrHeadingWhite2 {
   color: #fff;
+}
+
+.footer {
+  background-size: contain;
+  background-repeat: repeat no-repeat;
+  background-position: bottom;
 }

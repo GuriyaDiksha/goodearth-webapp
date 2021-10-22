@@ -24,4 +24,5 @@ export type RecommenedSliderProps = {
   recommendedProducts: any;
   mobile?: boolean;
   isSale: boolean;
+  corporatePDP?: boolean;
 };

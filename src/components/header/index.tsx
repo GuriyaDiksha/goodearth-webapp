@@ -36,7 +36,6 @@ import { CUST } from "constants/util";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    data: state.header.data,
     megaMenuData: state.header.megaMenuData,
     announcement: state.header.announcementData,
     currency: state.currency,
@@ -228,6 +227,7 @@ class Header extends React.Component<Props, State> {
         reloadPage(
           this.props.cookies,
           response.currency,
+          this.props.customerGroup,
           history.location.pathname,
           this.props.isLoggedIn
         );
@@ -464,10 +464,17 @@ class Header extends React.Component<Props, State> {
         value: "Check Balance"
       },
       {
-        label: isLoggedIn ? "Sign Out" : "Sign In",
-        onClick: isLoggedIn ? () => handleLogOut(this.props.history) : goLogin,
+        label: isLoggedIn ? "Logout" : "Login",
+        onClick: isLoggedIn
+          ? () =>
+              handleLogOut(
+                this.props.history,
+                this.props.currency,
+                this.props.customerGroup
+              )
+          : goLogin,
         type: "button",
-        value: isLoggedIn ? "Sign Out" : "Sign In"
+        value: isLoggedIn ? "Logout" : "Login"
       }
     );
     const isBridalRegistryPage =
@@ -805,7 +812,6 @@ class Header extends React.Component<Props, State> {
                         <Mobilemenu
                           onMobileMenuClick={this.onMenuClick}
                           onHeaderMegaMenuClick={this.onMegaMenuClick}
-                          menudata={this.props.data}
                           megaMenuData={this.props.megaMenuData}
                           location={this.props.location}
                           clickToggle={this.clickToggle}

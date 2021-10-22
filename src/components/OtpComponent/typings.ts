@@ -13,6 +13,7 @@ export type otpState = {
   toggleOtp: boolean;
   isLoading: boolean;
   isResendOtpDisabled?: boolean;
+  otpLimitError?: boolean;
 };
 
 export type otpProps = {
@@ -33,6 +34,8 @@ export type otpProps = {
   email?: string;
   phoneNo?: string;
   disableSendOtpButton: boolean;
+  isIndiaGC?: boolean;
+  newGiftCard?: () => void;
 };
 
 export type otpRedeemProps = {

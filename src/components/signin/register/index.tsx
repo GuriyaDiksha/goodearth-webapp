@@ -47,7 +47,13 @@ class RegisterForm extends React.Component<Props, registerState> {
       maxDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 15)
       ).format("YYYY-MM-DD"),
-      showDOBLabel: false
+      showDOBLabel: false,
+      passValidLength: false,
+      passValidLower: false,
+      passValidNum: false,
+      passValidUpper: false,
+      showPassRules: false,
+      shouldValidatePass: false
     };
   }
   static contextType = Context;
@@ -285,7 +291,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 )
               }
             >
-              Sign In
+              Login
             </span>
           </span>
         ];
@@ -705,7 +711,7 @@ class RegisterForm extends React.Component<Props, registerState> {
             }
           >
             {" "}
-            SIGN IN{" "}
+            Login{" "}
           </span>
         </div>
       </>

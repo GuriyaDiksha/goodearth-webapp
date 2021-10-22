@@ -275,7 +275,6 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   };
 
   const inputClass = submitted ? styles.disabledInput : "";
-  console.log(modevalue);
   const formContent = (
     <Formsy
       ref={EnquiryFormRef}
@@ -308,6 +307,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
               options={countryOptions}
               handleChange={onCountrySelect}
               placeholder="Select Country"
+              disable={true}
               name="country"
               validations={{
                 isExisty: true
@@ -366,7 +366,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             required
           />
         </div>
-        <div className={cs(styles.countryCode, styles.countryCodeGc)}>
+        <div className={cs(styles.countryCode)}>
           <div className={styles.flex}>
             <div>
               <input

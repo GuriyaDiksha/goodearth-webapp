@@ -451,10 +451,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               showerrorOtp: "Invalid Gift Card Code"
             },
             () => {
-              const errorElem = document.getElementById(
-                "customererror"
-              ) as HTMLParagraphElement;
-              errorElem.scrollIntoView({ block: "center", behavior: "smooth" });
+              const errorElem = document.getElementById("customererror");
+              errorElem?.scrollIntoView({
+                block: "center",
+                behavior: "smooth"
+              });
               valid.errorTracking([this.state.showerrorOtp], location.href);
             }
           );
@@ -515,10 +516,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   showerrorOtp: message
                 },
                 () => {
-                  const errorElem = document.getElementById(
-                    "customererror"
-                  ) as HTMLParagraphElement;
-                  errorElem.scrollIntoView({
+                  const errorElem = document.getElementById("customererror");
+                  errorElem?.scrollIntoView({
                     block: "center",
                     behavior: "smooth"
                   });
@@ -678,7 +677,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 </a>
               )}
               {otpTimer > 0 ? (
-                <p>OTP SENT:{this.secondsToMints(otpTimer)}s</p>
+                <p>OTP SENT: {this.secondsToMints(otpTimer)}s</p>
               ) : (
                 ""
               )}
@@ -851,7 +850,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               <li
                 className={cs(
                   styles.countryCode,
-                  styles.countryCodeGc,
+                  // styles.countryCodeGc,
                   styles.xradio
                 )}
               >

@@ -16,7 +16,8 @@ const initialState: FooterState = {
       footerImageSubsMobile: "",
       footerBgColorDeskTop: "",
       footerBgColorMobile: ""
-    }
+    },
+    findUsOnData: []
   }
 };
 
