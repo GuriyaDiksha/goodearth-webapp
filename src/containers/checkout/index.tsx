@@ -52,6 +52,7 @@ const mapStateToProps = (state: AppState) => {
     cookies: state.cookies,
     isSale: state.info.isSale,
     deliveryText: state.info.deliveryText,
+    showPromo: state.info.showPromo,
     bridalId: state.user.bridalId
   };
 };
@@ -644,7 +645,8 @@ class Checkout extends React.Component<Props, State> {
               billingAddress: billingAddress,
               activeStep:
                 localStorage.getItem("validBo") ||
-                localStorage.getItem("isSale")
+                localStorage.getItem("isSale") ||
+                !this.props.showPromo
                   ? // || this.props.isSale
                     Steps.STEP_PAYMENT
                   : Steps.STEP_PROMO,
@@ -736,12 +738,14 @@ class Checkout extends React.Component<Props, State> {
                 addresses={this.props.addresses}
                 error={this.state.billingError}
               />
-              <PromoSection
-                isActive={this.isActiveStep(Steps.STEP_PROMO)}
-                user={this.props.user}
-                next={this.nextStep}
-                selectedAddress={this.state.billingAddress}
-              />
+              {this.props.showPromo && (
+                <PromoSection
+                  isActive={this.isActiveStep(Steps.STEP_PROMO)}
+                  user={this.props.user}
+                  next={this.nextStep}
+                  selectedAddress={this.state.billingAddress}
+                />
+              )}
               <PaymentSection
                 isActive={this.isActiveStep(Steps.STEP_PAYMENT)}
                 user={this.props.user}
