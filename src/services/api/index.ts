@@ -8,7 +8,8 @@ import {
   updatePopupBgUrl,
   updateShowTimer,
   updateGiftWrap,
-  updateDeliveryInstruction
+  updateDeliveryInstruction,
+  updatePromo
 } from "actions/info";
 import { updateAnnouncement } from "actions/header";
 import CacheService from "services/cache";
@@ -50,6 +51,7 @@ export default {
     }
     dispatch(updateGiftWrap(data.showGiftwrap));
     dispatch(updateDeliveryInstruction(data.showDeliveryInstruction));
+    dispatch(updatePromo(data.showPromo));
   },
   getPopups: async function(dispatch: Dispatch) {
     const res = await API.get<PopupResponse>(
