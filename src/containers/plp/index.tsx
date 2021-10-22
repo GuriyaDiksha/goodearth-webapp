@@ -16,7 +16,6 @@ import PlpResultItem from "components/plpResultItem";
 import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
-import Loader from "components/Loader";
 import MakerEnhance from "maker-enhance";
 import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
@@ -26,6 +25,9 @@ import { POPUP } from "constants/components";
 import * as util from "utils/validate";
 import { Link } from "react-router-dom";
 import CookieService from "services/cookie";
+import Banner from "./components/Banner";
+import Product from "./components/Product";
+import ProductBanner from "./components/ProductBanner";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -39,7 +41,8 @@ const mapStateToProps = (state: AppState) => {
     device: state.device,
     isSale: state.info.isSale,
     showTimer: state.info.showTimer,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    plpTemplates: state.plplist.plpTemplates
   };
 };
 type Props = ReturnType<typeof mapStateToProps> &
@@ -349,6 +352,35 @@ class PLP extends React.Component<
         value: "price_desc"
       }
     ];
+
+    const showTemplates: any = {
+      Banner: null,
+      Product: null,
+      ProductBanner: null
+    };
+
+    let productTemplatePos = -1;
+    let productBannerTemplatePos = -1;
+    if (this.props.plpTemplates.templates.length > 0) {
+      this.props.plpTemplates.templates.map(template => {
+        showTemplates[template.template] = template;
+      });
+      if (showTemplates["Product"]) {
+        productTemplatePos = parseInt(showTemplates["Product"].placement);
+      }
+      if (showTemplates["ProductBanner"]) {
+        productBannerTemplatePos = parseInt(
+          showTemplates["ProductBanner"].placement.split("-")[0]
+        );
+        if (
+          productTemplatePos > -1 &&
+          productBannerTemplatePos > productTemplatePos
+        ) {
+          productBannerTemplatePos--;
+        }
+      }
+    }
+
     return (
       <div
         className={cs(
@@ -476,7 +508,7 @@ class PLP extends React.Component<
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
               { [styles.spCat]: !this.state.showmobileSort },
-              bootstrap.colMd10,
+              bootstrap.colLg10,
               bootstrap.col12
             )}
           >
@@ -524,6 +556,33 @@ class PLP extends React.Component<
                 ></iframe>
               </div>
             </div> */}
+            <div
+              className={
+                mobile
+                  ? banner
+                    ? cs(
+                        bootstrap.row,
+                        styles.imageContainerMobileBanner,
+                        globalStyles.paddTop20
+                      )
+                    : cs(
+                        bootstrap.row,
+                        styles.imageContainerMobile,
+                        globalStyles.paddTop20
+                      )
+                  : cs(
+                      bootstrap.row,
+                      styles.imageContainer,
+                      styles.minHeight,
+                      globalStyles.paddTop20
+                    )
+              }
+              id="product_images"
+            >
+              {showTemplates.Banner && (
+                <Banner data={showTemplates.Banner} mobile={mobile} />
+              )}
+            </div>
 
             {!mobile ? (
               <div
@@ -565,68 +624,116 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
-              {this.state.flag ? <Loader /> : ""}
-
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (
-                      <div
-                        className={cs(
-                          bootstrap.colMd4,
-                          bootstrap.col6,
-                          styles.setWidth
+                      <>
+                        {showTemplates["Product"] &&
+                        data.length >= productTemplatePos &&
+                        index == productTemplatePos - 1 ? (
+                          <Product
+                            key={`product-${index}`}
+                            data={showTemplates.Product}
+                            view={this.props.plpMobileView}
+                            mobile={mobile}
+                          />
+                        ) : (
+                          ""
                         )}
-                        key={item.id}
-                        id={index == 0 ? "first-grid-item" : ""}
-                      >
-                        <PlpResultItem
-                          page="PLP"
-                          position={index}
-                          product={item}
-                          addedToWishlist={false}
-                          currency={currency}
+                        {showTemplates["ProductBanner"] &&
+                        data.length >= productBannerTemplatePos &&
+                        index == productBannerTemplatePos - 1 ? (
+                          <ProductBanner
+                            data={showTemplates.ProductBanner}
+                            mobile={mobile}
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <div
+                          className={cs(
+                            bootstrap.colLg4,
+                            bootstrap.col6,
+                            styles.setWidth
+                          )}
                           key={item.id}
-                          mobile={mobile}
-                          isVisible={index < 3 ? true : undefined}
-                          onClickQuickView={this.onClickQuickView}
-                          isCorporate={this.state.corporoateGifting}
-                        />
-                      </div>
+                          id={index == 0 ? "first-grid-item" : ""}
+                        >
+                          <PlpResultItem
+                            page="PLP"
+                            position={index}
+                            product={item}
+                            addedToWishlist={false}
+                            currency={currency}
+                            key={item.id}
+                            mobile={mobile}
+                            isVisible={index < 3 ? true : undefined}
+                            onClickQuickView={this.onClickQuickView}
+                            isCorporate={this.state.corporoateGifting}
+                            loader={this.state.flag}
+                          />
+                        </div>
+                      </>
                     );
                   })
                 : data.map((item, index) => {
                     return (
-                      <div
-                        className={cs(
-                          bootstrap.colLg4,
-                          bootstrap.col12,
-                          styles.setWidth,
-                          styles.listViewContainer
+                      <>
+                        {showTemplates["Product"] &&
+                        data.length >= productTemplatePos &&
+                        index == productTemplatePos - 1 ? (
+                          <Product
+                            key={`product-${index}`}
+                            data={showTemplates.Product}
+                            view={this.props.plpMobileView}
+                            mobile={mobile}
+                          />
+                        ) : (
+                          ""
                         )}
-                        key={item.id}
-                        id={index == 0 ? "first-list-item" : ""}
-                      >
-                        <PlpResultListViewItem
-                          page="PLP"
-                          position={index}
-                          product={item}
-                          addedToWishlist={false}
-                          currency={currency}
+                        {showTemplates["ProductBanner"] &&
+                        data.length >= productBannerTemplatePos &&
+                        index == productBannerTemplatePos - 1 ? (
+                          <ProductBanner
+                            data={showTemplates.ProductBanner}
+                            mobile={mobile}
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <div
+                          className={cs(
+                            bootstrap.colLg4,
+                            bootstrap.col12,
+                            styles.setWidth,
+                            styles.listViewContainer
+                          )}
                           key={item.id}
-                          mobile={mobile}
-                          isVisible={index < 3 ? true : undefined}
-                          onClickQuickView={this.onClickQuickView}
-                          isCorporate={this.state.corporoateGifting}
-                          notifyMeClick={this.notifyMeClick}
-                          onEnquireClick={this.onEnquireClick}
-                        />
-                      </div>
+                          id={index == 0 ? "first-list-item" : ""}
+                        >
+                          <PlpResultListViewItem
+                            page="PLP"
+                            position={index}
+                            product={item}
+                            addedToWishlist={false}
+                            currency={currency}
+                            key={item.id}
+                            mobile={mobile}
+                            isVisible={index < 3 ? true : undefined}
+                            onClickQuickView={this.onClickQuickView}
+                            isCorporate={this.state.corporoateGifting}
+                            notifyMeClick={this.notifyMeClick}
+                            onEnquireClick={this.onEnquireClick}
+                            loader={this.state.flag}
+                          />
+                        </div>
+                      </>
                     );
                   })}
               <div
                 className={
                   !mobile || this.props.plpMobileView == "grid"
-                    ? cs(bootstrap.colMd4, bootstrap.col6, styles.setWidth)
+                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth)
                     : cs(
                         bootstrap.colLg4,
                         bootstrap.col12,

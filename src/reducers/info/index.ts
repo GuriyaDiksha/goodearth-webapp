@@ -10,7 +10,9 @@ const initialState: State = {
   scrollDown: false,
   microUrl: "",
   showCookie: false,
-  showTimer: false
+  showTimer: false,
+  showGiftWrap: false,
+  showDeliveryInstruction: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -18,6 +20,16 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_SALE": {
       const newState = { ...state };
       newState.isSale = action.payload;
+      return newState;
+    }
+    case "UPDATE_GIFT_WRAP": {
+      const newState = { ...state };
+      newState.showGiftWrap = action.payload;
+      return newState;
+    }
+    case "UPDATE_DELIVERY_INSTRUCTION": {
+      const newState = { ...state };
+      newState.showDeliveryInstruction = action.payload;
       return newState;
     }
     case "UPDATE_POPUP_BG_URL": {

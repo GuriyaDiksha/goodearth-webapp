@@ -67,6 +67,12 @@
     .tabs-cerise {
       background-color: $white;
       margin-bottom: 50px;
+      .tabsticky {
+        position: sticky;
+        top: $main-header;
+        z-index: 4;
+        background-color: #fff;
+      }
       .tabs {
         .grayimg {
           filter: grayscale(100%);

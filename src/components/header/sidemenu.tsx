@@ -68,6 +68,7 @@ class SideMenu extends React.Component<Props, State> {
         reloadPage(
           this.props.cookies,
           response.currency,
+          this.props.user.customerGroup,
           history.location.pathname,
           this.props.user.isLoggedIn
         );
@@ -147,12 +148,17 @@ class SideMenu extends React.Component<Props, State> {
         value: "Check Balance"
       },
       {
-        label: isLoggedIn ? "Sign Out" : "Sign In",
+        label: isLoggedIn ? "Logout" : "Login",
         onClick: isLoggedIn
-          ? () => this.props.handleLogOut(this.props.history)
+          ? () =>
+              this.props.handleLogOut(
+                this.props.history,
+                this.props.currency,
+                this.props.user.customerGroup
+              )
           : this.props.goLogin,
         type: "button",
-        value: isLoggedIn ? "Sign Out" : "Sign In"
+        value: isLoggedIn ? "Logout" : "Login"
       }
     );
     const gtmPushWishlistClick = () => {

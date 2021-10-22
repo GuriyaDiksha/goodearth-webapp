@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import React, { RefObject } from "react";
 
 export type Props = {
   name: string;
@@ -12,6 +12,7 @@ export type Props = {
   className?: string;
   id?: string;
   blur?: (event: React.FocusEvent) => void;
+  onFocus?: (event: React.FocusEvent) => void;
   isDrop?: boolean;
   isPaste?: boolean;
   inputClass?: string;

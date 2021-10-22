@@ -11,7 +11,7 @@ export type FooterList = {
   name: string;
   value: List[];
   link?: string;
-};
+}[];
 
 export type FooterState = {
   isOpened: boolean;
@@ -41,6 +41,10 @@ export type FooterDataProps = {
     footerBgColorDeskTop: string;
     footerBgColorMobile: string;
   };
+  findUsOnData: {
+    iconImage: string;
+    link: string;
+  }[];
 };
 export type FooterProps = {
   data: FooterDataProps;

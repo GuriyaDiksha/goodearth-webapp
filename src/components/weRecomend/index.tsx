@@ -26,7 +26,8 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     currency,
     mobile,
     recommendedProducts,
-    isSale
+    isSale,
+    corporatePDP
   } = props;
   const code = currencyCode[currency as Currency];
   const [currentId, setCurrentId] = useState(-1);
@@ -99,7 +100,6 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         key={item.id}
         className={cs(styles.slide, {
           [bootstrapStyles.col6]: mobile,
-          [bootstrapStyles.colMd4]: mobile,
           [bootstrapStyles.col12]: !mobile
         })}
       >
@@ -110,7 +110,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
         ) : (
           ""
         )}
-        {(mobile || currentId == item.id) && (
+        {(mobile || currentId == item.id) && !corporatePDP && (
           <div
             className={cs(
               globalStyles.textCenter,
@@ -149,33 +149,35 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           <p className={styles.productN}>
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
-          <p className={styles.productN}>
-            {isSale && item.discount ? (
-              <span className={styles.discountprice}>
-                {String.fromCharCode(...code)}{" "}
-                {item.discountedPriceRecords[currency as Currency]}
-              </span>
-            ) : (
-              ""
-            )}
-            {isSale && item.discount ? (
-              <span className={styles.strikeprice}>
-                {" "}
-                {String.fromCharCode(...code)}{" "}
-                {item.pricerecords[currency as Currency]}{" "}
-              </span>
-            ) : (
-              <span
-                className={
-                  item.badgeType == "B_flat" ? globalStyles.cerise : ""
-                }
-              >
-                {" "}
-                {String.fromCharCode(...code)}{" "}
-                {item.pricerecords[currency as Currency]}{" "}
-              </span>
-            )}
-          </p>
+          {!corporatePDP && (
+            <p className={styles.productN}>
+              {isSale && item.discount ? (
+                <span className={styles.discountprice}>
+                  {String.fromCharCode(...code)}{" "}
+                  {item.discountedPriceRecords[currency as Currency]}
+                </span>
+              ) : (
+                ""
+              )}
+              {isSale && item.discount ? (
+                <span className={styles.strikeprice}>
+                  {" "}
+                  {String.fromCharCode(...code)}{" "}
+                  {item.pricerecords[currency as Currency]}{" "}
+                </span>
+              ) : (
+                <span
+                  className={
+                    item.badgeType == "B_flat" ? globalStyles.cerise : ""
+                  }
+                >
+                  {" "}
+                  {String.fromCharCode(...code)}{" "}
+                  {item.pricerecords[currency as Currency]}{" "}
+                </span>
+              )}
+            </p>
+          )}
         </div>
       </div>
     );

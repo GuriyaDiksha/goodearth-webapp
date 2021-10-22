@@ -22,8 +22,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       nextUrl && dispatch(updateNextUrl(nextUrl));
       event?.preventDefault();
     },
-    handleLogOut: (history: any) => {
-      LoginService.logout(dispatch);
+    handleLogOut: (history: any, currency: Currency, customerGroup: string) => {
+      LoginService.logout(dispatch, currency, customerGroup);
       history.push("/");
     },
     onLoadAPiCall: (
@@ -42,15 +42,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     reloadPage: (
       cookies: Cookies,
       currency: Currency,
+      customerGroup: string,
       page?: string,
       islogin?: boolean
     ) => {
       // if (page == "/") {
       // }
       // if (page == "/") {
-      HeaderService.fetchHeaderDetails(dispatch, currency).catch(err => {
-        console.log("HEADER API ERROR ==== " + err);
-      });
+      HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+        err => {
+          console.log("HEADER API ERROR ==== " + err);
+        }
+      );
       HeaderService.fetchFooterDetails(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
@@ -59,6 +62,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sale status API error === " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
       });
       // }
       // if (page?.includes("/category_landing/")) {

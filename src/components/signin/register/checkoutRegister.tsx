@@ -55,7 +55,13 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       maxDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 15)
       ).format("YYYY-MM-DD"),
-      showDOBLabel: false
+      showDOBLabel: false,
+      passValidLength: false,
+      passValidUpper: false,
+      passValidLower: false,
+      passValidNum: false,
+      showPassRules: false,
+      shouldValidatePass: false
     };
   }
   static contextType = Context;
@@ -302,7 +308,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 )
               }
             >
-              Sign In
+              Login
             </span>
           </span>
         ];
@@ -583,24 +589,115 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               label={"Password*"}
               disable={!this.state.showFields}
               className={showFieldsClass}
+              onFocus={() => {
+                this.setState({
+                  showPassRules: true
+                });
+              }}
+              blur={() => {
+                const value =
+                  this.RegisterFormRef.current &&
+                  this.RegisterFormRef.current.getModel().password1;
+                if (value) {
+                  const res =
+                    value.length >= 6 &&
+                    value.length <= 20 &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[A-Z]/.test(value);
+                  if (res) {
+                    this.setState({
+                      showPassRules: false
+                    });
+                  } else {
+                    this.RegisterFormRef.current?.updateInputsWithError({
+                      password1:
+                        "Please verify that your password follows all rules displayed"
+                    });
+                  }
+                }
+                this.setState({
+                  shouldValidatePass: true
+                });
+              }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               type={this.state.showPassword ? "text" : "password"}
               validations={{
                 // minLength: 6,
                 isValid: (values, value) => {
-                  return (
-                    values.password1 &&
-                    value &&
-                    value.length >= 6 &&
-                    /[a-z]/.test(value) &&
-                    /[0-9]/.test(value) &&
+                  const {
+                    passValidLength,
+                    passValidLower,
+                    passValidUpper,
+                    passValidNum,
+                    shouldValidatePass
+                  } = this.state;
+                  if (value) {
+                    const validLength = passValidLength;
+                    const validLower = passValidLower;
+                    const validUpper = passValidUpper;
+                    const validNum = passValidNum;
+
+                    value.length >= 6 && value.length <= 20
+                      ? !validLength &&
+                        this.setState({
+                          passValidLength: true
+                        })
+                      : validLength &&
+                        this.setState({
+                          passValidLength: false
+                        });
+
+                    /[a-z]/.test(value)
+                      ? !validLower &&
+                        this.setState({
+                          passValidLower: true
+                        })
+                      : validLower &&
+                        this.setState({
+                          passValidLower: false
+                        });
+
+                    /[0-9]/.test(value)
+                      ? !validNum &&
+                        this.setState({
+                          passValidNum: true
+                        })
+                      : validNum &&
+                        this.setState({
+                          passValidNum: false
+                        });
+
                     /[A-Z]/.test(value)
-                  );
+                      ? !validUpper &&
+                        this.setState({
+                          passValidUpper: true
+                        })
+                      : validUpper &&
+                        this.setState({
+                          passValidUpper: false
+                        });
+                  } else {
+                    this.setState({
+                      passValidLength: false,
+                      passValidLower: false,
+                      passValidUpper: false,
+                      passValidNum: false
+                    });
+                  }
+                  return shouldValidatePass
+                    ? value &&
+                        value.length >= 6 &&
+                        value.length <= 20 &&
+                        /[a-z]/.test(value) &&
+                        /[0-9]/.test(value) &&
+                        /[A-Z]/.test(value)
+                    : true;
                 }
               }}
               validationErrors={{
                 isValid:
-                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
+                  "Please verify that your password follows all rules displayed"
               }}
               required
             />
@@ -610,6 +707,34 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             >
               <img src={this.state.showPassword ? show : hide} />
             </span>
+          </div>
+          <div
+            className={cs(
+              { [styles.show]: this.state.showPassRules },
+              styles.passwordValidation
+            )}
+          >
+            <p>Your password must contain</p>
+            <ul>
+              <li
+                className={cs({ [styles.correct]: this.state.passValidLength })}
+              >
+                6 to 20 characters
+              </li>
+              <li
+                className={cs({ [styles.correct]: this.state.passValidUpper })}
+              >
+                1 uppercase
+              </li>
+              <li className={cs({ [styles.correct]: this.state.passValidNum })}>
+                1 numeric digit
+              </li>
+              <li
+                className={cs({ [styles.correct]: this.state.passValidLower })}
+              >
+                1 lowercase
+              </li>
+            </ul>
           </div>
           <div>
             <FormInput
@@ -635,9 +760,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                equalsField: "The Password entered doesn't match",
-                isValid:
-                  "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
+                equalsField: "The Password entered doesn't match"
               }}
               required
             />

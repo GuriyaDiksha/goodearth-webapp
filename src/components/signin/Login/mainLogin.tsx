@@ -88,6 +88,7 @@ class MainLogin extends React.Component<Props, loginState> {
                 this.passwordInput.current &&
                   this.passwordInput.current.focus();
                 this.passwordInput.current &&
+                  !this.props.isBo &&
                   this.passwordInput.current.scrollIntoView(true);
               }
             );
@@ -106,7 +107,7 @@ class MainLogin extends React.Component<Props, loginState> {
               >
                 set a new password
               </span>,
-              " to sign in!"
+              " to Login!"
             ];
             this.setState({
               msg: error,
@@ -213,7 +214,12 @@ class MainLogin extends React.Component<Props, loginState> {
     this.myBlurP();
     if (!this.state.highlight && !this.state.highlightp) {
       this.props
-        .login(this.state.email || "", this.state.password || "", this.source)
+        .login(
+          this.state.email || "",
+          this.state.password || "",
+          this.props.currency,
+          this.source
+        )
         .then(data => {
           this.gtmPushSignIn();
           const loginpopup = new URLSearchParams(
@@ -231,7 +237,7 @@ class MainLogin extends React.Component<Props, loginState> {
             }
           });
           // this.context.closeModal();
-          // this.props.nextStep?.();
+          this.props.nextStep?.();
         })
         .catch(err => {
           if (
@@ -331,7 +337,7 @@ class MainLogin extends React.Component<Props, loginState> {
     }
     if (type === "email") {
       if (event.key == "Enter") {
-        this.myBlur(event);
+        // do nothing, handleSubmitEmail will run
       } else {
         if (valid.checkBlank(this.state.email)) {
           if (this.state.msg !== "Please enter your Email ID") {

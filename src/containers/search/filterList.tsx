@@ -24,6 +24,7 @@ const mapStateToProps = (state: AppState) => {
     onload: state.searchList.onload,
     mobile: state.device.mobile,
     currency: state.currency,
+    salestatus: state.info.isSale,
     facets: state.searchList.data.results.facets,
     facetObject: state.searchList.facetObject,
     nextUrl: state.searchList.data.next,
@@ -47,7 +48,6 @@ class FilterList extends React.Component<Props, State> {
       showmobileFilterList: false,
       show: false,
       showDifferentImage: false,
-      salestatus: false,
       flag: true,
       showmenulevel2: false,
       banner: "",
@@ -443,7 +443,13 @@ class FilterList extends React.Component<Props, State> {
   appendData = () => {
     const minMaxvalue: any = [];
     let currentRange: any = [];
-    const { nextUrl, listdata, currency, updateProduct } = this.props;
+    const {
+      nextUrl,
+      listdata,
+      currency,
+      updateProduct,
+      changeLoader
+    } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
       this.setState({
@@ -456,8 +462,10 @@ class FilterList extends React.Component<Props, State> {
       // const pageSize = mobile ? 10 : 20;
       const pageSize = 20;
       this.setState({ isLoading: true });
+      changeLoader?.(true);
       updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
         .then(searchList => {
+          changeLoader?.(false);
           valid.productImpression(
             searchList,
             "PLP",
@@ -514,12 +522,13 @@ class FilterList extends React.Component<Props, State> {
         })
         .finally(() => {
           this.setState({ isLoading: false });
+          changeLoader?.(false);
         });
     }
   };
 
   updateDataFromAPI = (onload?: string) => {
-    const { mobile, fetchSearchProducts, history } = this.props;
+    const { mobile, fetchSearchProducts, history, changeLoader } = this.props;
     if (!onload && mobile) {
       return true;
     }
@@ -532,12 +541,15 @@ class FilterList extends React.Component<Props, State> {
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
     this.setState({ isLoading: true });
+    changeLoader?.(true);
     fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
       .then(searchList => {
+        changeLoader?.(false);
         valid.productImpression(searchList, "PLP", this.props.currency);
         this.createList(searchList);
       })
       .finally(() => {
+        changeLoader?.(false);
         this.setState({ isLoading: false });
       });
   };
@@ -1411,7 +1423,7 @@ class FilterList extends React.Component<Props, State> {
               {this.createCatagoryFromFacets(this.props.data.results.facets)}
             </div>
           </li>
-          {this.state.salestatus && (
+          {this.props.salestatus && (
             <li
               className={
                 this.props.facets &&
