@@ -14,12 +14,14 @@ import UserContext from "contexts/user";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { AppState } from "reducers/typings";
 import mapDispatchToProps from "./mapper/actions";
+import Loader from "components/Loader";
 
 interface State {
   showc: boolean;
   showp: boolean;
   cartCount: number;
   openProfile: boolean;
+  isLoading: boolean;
 }
 
 const mapStateToProps = (state: AppState) => {
@@ -43,7 +45,8 @@ class SideMenu extends React.Component<Props, State> {
       showc: false,
       showp: false,
       cartCount: 0,
-      openProfile: false
+      openProfile: false,
+      isLoading: false
     };
   }
   static contextType = UserContext;
@@ -53,26 +56,35 @@ class SideMenu extends React.Component<Props, State> {
     const data: any = {
       currency: cur
     };
-    if (this.props.currency != data.currency) {
-      return changeCurrency(data).then((response: any) => {
-        // if (data.currency == "INR") {
-        //   history.push("/maintenance");
-        // }
-        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
-          const path =
-            history.location.pathname +
-            history.location.search.replace(currency, response.currency);
-          history.replace(path);
-        }
-        this.props.onSideMenuClick("Currency");
-        reloadPage(
-          this.props.cookies,
-          response.currency,
-          this.props.user.customerGroup,
-          history.location.pathname,
-          this.props.user.isLoggedIn
-        );
+    if (!this.state.isLoading && this.props.currency != data.currency) {
+      this.setState({
+        isLoading: true
       });
+      return changeCurrency(data)
+        .then((response: any) => {
+          // if (data.currency == "INR") {
+          //   history.push("/maintenance");
+          // }
+          if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+            const path =
+              history.location.pathname +
+              history.location.search.replace(currency, response.currency);
+            history.replace(path);
+          }
+          this.props.onSideMenuClick("Currency");
+          reloadPage(
+            this.props.cookies,
+            response.currency,
+            this.props.user.customerGroup,
+            history.location.pathname,
+            this.props.user.isLoggedIn
+          );
+        })
+        .finally(() => {
+          this.setState({
+            isLoading: false
+          });
+        });
     }
   };
 
@@ -365,6 +377,7 @@ class SideMenu extends React.Component<Props, State> {
             </li>
           )}
         </ul>
+        {this.state.isLoading && <Loader />}
       </Fragment>
     );
   }

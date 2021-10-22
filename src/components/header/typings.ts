@@ -269,6 +269,7 @@ export interface State {
   showPincodePopup: boolean;
   showBag: boolean;
   showCartMobile: boolean;
+  isLoading: boolean;
 }
 
 export interface MenuState {
