@@ -42,7 +42,7 @@ const AddressSection: React.FC<AddressProps & {
   const { currency, user } = useSelector((state: AppState) => state);
   const { basket } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
-
+  const { addressList } = useSelector((state: AppState) => state.address);
   const sameShipping =
     (props.activeStep == Steps.STEP_BILLING ? true : false) &&
     props.hidesameShipping &&
@@ -101,7 +101,7 @@ const AddressSection: React.FC<AddressProps & {
     setSameAsShipping(!isGoodearthShipping && hidesameShipping && !isBridal);
   }, [isGoodearthShipping, hidesameShipping, isBridal]);
 
-  const renderActions = function() {
+  const renderActions = function(isBottom?: boolean) {
     if (isActive && isLoggedIn) {
       const clickAction =
         mode == "list" ? openNewAddressForm : backToAddressList;
@@ -115,8 +115,13 @@ const AddressSection: React.FC<AddressProps & {
       return (
         <div
           className={cs(
-            bootstrapStyles.col6,
-            bootstrapStyles.colMd6,
+            {
+              [bootstrapStyles.col6]: !isBottom,
+              [bootstrapStyles.colMd6]: !isBottom,
+              [bootstrapStyles.col12]: isBottom,
+              [bootstrapStyles.colMd12]: isBottom,
+              [globalStyles.paddTop20]: isBottom
+            },
             styles.small,
             globalStyles.textRight
           )}
@@ -699,7 +704,7 @@ const AddressSection: React.FC<AddressProps & {
               </span>
             </div>
             <div className={styles.formSubheading}>
-              SAME AS SHIPPING ADDRESS
+              BILLING ADDRESS IS SAME AS SHIPPING ADDRESS
             </div>
           </label>
           {sameAsShipping && (
@@ -772,25 +777,30 @@ const AddressSection: React.FC<AddressProps & {
                     : "BILLING DETAILS"}
                 </span>
               </div>
-              {renderActions()}
+              {renderActions(false)}
               {renderSavedAddress()}
             </div>
             {isActive && (
-              <div>
-                {children}
-                {props.error ? (
-                  <div
-                    className={cs(
-                      globalStyles.errorMsg,
-                      globalStyles.marginT20
-                    )}
-                  >
-                    {props.error}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
+              <>
+                <div>
+                  {children}
+                  {props.error ? (
+                    <div
+                      className={cs(
+                        globalStyles.errorMsg,
+                        globalStyles.marginT20
+                      )}
+                    >
+                      {props.error}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                {addressList.length > 1 &&
+                  mode == "list" &&
+                  renderActions(true)}
+              </>
             )}
           </div>
         </div>
@@ -820,36 +830,44 @@ const AddressSection: React.FC<AddressProps & {
                     : "BILLING DETAILS"}
                 </span>
               </div>
-              {renderActions()}
+              {renderActions(false)}
               {renderSavedAddress()}
             </div>
             {isActive && (
-              <div>
-                <div>{renderPancard()}</div>
-                {props.activeStep == Steps.STEP_BILLING &&
-                  props.hidesameShipping && (
-                    <div>{renderBillingCheckbox()}</div>
-                  )}
+              <>
+                <div>
+                  <div>{renderPancard()}</div>
+                  {props.activeStep == Steps.STEP_BILLING &&
+                    props.hidesameShipping && (
+                      <div>{renderBillingCheckbox()}</div>
+                    )}
 
-                {// logged in Shipping & billing
-                isLoggedIn &&
+                  {// logged in Shipping & billing
+                  isLoggedIn &&
+                    (props.activeStep == Steps.STEP_SHIPPING ||
+                      (props.activeStep == Steps.STEP_BILLING &&
+                        !sameAsShipping)) && <div>{children}</div>}
+
+                  {props.error ? (
+                    <div
+                      className={cs(
+                        globalStyles.errorMsg,
+                        globalStyles.marginT20
+                      )}
+                    >
+                      {props.error}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                {addressList.length > 1 &&
+                  mode == "list" &&
                   (props.activeStep == Steps.STEP_SHIPPING ||
                     (props.activeStep == Steps.STEP_BILLING &&
-                      !sameAsShipping)) && <div>{children}</div>}
-
-                {props.error ? (
-                  <div
-                    className={cs(
-                      globalStyles.errorMsg,
-                      globalStyles.marginT20
-                    )}
-                  >
-                    {props.error}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
+                      !props.hidesameShipping)) &&
+                  renderActions(true)}
+              </>
             )}
             {props.activeStep == Steps.STEP_SHIPPING && !isActive && (
               <div
