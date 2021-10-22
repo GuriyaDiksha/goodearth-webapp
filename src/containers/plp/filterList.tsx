@@ -1485,8 +1485,8 @@ class FilterList extends React.Component<Props, State> {
             type="checkbox"
             id={data + i}
             checked={
-              filter.availableSize[data[0]]
-                ? filter.availableSize[data[0]].isChecked
+              filter.availableSize[data]
+                ? filter.availableSize[data].isChecked
                 : false
             }
             onClick={this.handleClickSize}
