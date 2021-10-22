@@ -65,7 +65,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     todayDate.setMonth(todayDate.getMonth() - 1);
     // now today date is one month less
     const isHide = orderData >= todayDate;
-
+    const shippingAddress = data.shippingAddress[0];
     html.push(
       <div className={bootstrapStyles.col12}>
         <div className={styles.add} id={data.number}>
@@ -109,7 +109,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               </div>
               <div className={bootstrapStyles.col4}>
                 <p className={styles.editTrack}>
-                  {isHide ? (
+                  {isHide && !shippingAddress?.isTulsi ? (
                     <a
                       className={globalStyles.cerise}
                       onClick={e => {
