@@ -278,7 +278,8 @@ class CartPage extends React.Component<Props, State> {
       return (
         <CartItems
           onNotifyCart={this.onNotifyCart}
-          mobile={this.props.mobile || this.props.tablet}
+          mobile={this.props.mobile}
+          tablet={this.props.tablet}
           key={item.id}
           {...item}
           id={item.id}
