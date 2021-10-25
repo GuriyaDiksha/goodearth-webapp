@@ -81,4 +81,5 @@ export interface BasketItem extends BasketLineItem {
   onMoveToWishlist?: () => void;
   mobile?: boolean;
   onNotifyCart?: (productId: ProductID) => void;
+  tablet?: boolean;
 }
