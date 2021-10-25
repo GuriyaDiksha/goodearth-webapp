@@ -724,7 +724,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   className={cs(
                     globalStyles.errorMsg,
                     globalStyles.txtnormal,
-                    globalStyles.textCenter
+                    globalStyles.textLeft
                   )}
                   id="resend-otp-error"
                 >
