@@ -630,7 +630,8 @@ class FilterList extends React.Component<Props, State> {
     const categoryObj: any = {};
     const { filter } = this.state;
 
-    let selectIndex: any = -1;
+    let selectIndex: any = -1,
+      check = "";
 
     if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
       facets.categories = facets.categoryShopDetail.map(
@@ -667,7 +668,29 @@ class FilterList extends React.Component<Props, State> {
       return +a[2] - +b[2];
     });
     let oldSelectedCategory: any = this.state.oldSelectedCategory;
-
+    // code for setting  all values of filter is false
+    Object.keys(categoryObj).map((data, i) => {
+      categoryObj[data].map((nestedList: any, j: number) => {
+        if (filter.categoryShop[data]) {
+          // check that view all is clicked or not by (arrow key >)
+          if (filter.categoryShop[data][nestedList[1]]) {
+            nestedList[1].split(">").length == 2 ? (check = data) : "";
+            selectIndex = data;
+            oldSelectedCategory = data;
+          } else {
+            if (check == data) {
+              filter.categoryShop[data][nestedList[1]] = true;
+              selectIndex = data;
+            } else {
+              filter.categoryShop[data][nestedList[1]] = false;
+            }
+          }
+        } else {
+          filter.categoryShop[data] = {};
+          filter.categoryShop[data][nestedList[1]] = false;
+        }
+      });
+    });
     // code for all product_by filter false
     if (facets.categoryProductTypeMapping) {
       Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
