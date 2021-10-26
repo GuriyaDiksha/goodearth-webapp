@@ -29,7 +29,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
   const getSuggestions = (value: any) => {
     const inputLength = value.length;
     const inputValue = isNaN(Number(value))
-      ? value.trim().toLowerCase()
+      ? value?.trim().toLowerCase()
       : value;
     if (isNaN(Number(value)) && value !== "+") {
       return inputLength === 0
@@ -99,7 +99,7 @@ const CountryCode: React.FC<Props & InjectedProps<string | null>> = props => {
   );
   const inputProps = {
     placeholder: placeholder,
-    value: props.value,
+    value: props.value || "",
     onChange: onChange,
     disabled: props.disable,
     autoComplete: "new-password",

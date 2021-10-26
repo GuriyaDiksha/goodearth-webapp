@@ -67,6 +67,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   groupedProducts?: GroupedProductItem[];
   showFillerMessage?: boolean;
   fillerUrl?: string;
+  manufactureInfo: string;
 }
 
 export interface PartialChildProductAttributes {
