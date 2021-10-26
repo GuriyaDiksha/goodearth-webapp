@@ -12,7 +12,8 @@ const initialState: State = {
   showCookie: false,
   showTimer: false,
   showGiftWrap: false,
-  showDeliveryInstruction: false
+  showDeliveryInstruction: false,
+  showPromo: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -25,6 +26,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_GIFT_WRAP": {
       const newState = { ...state };
       newState.showGiftWrap = action.payload;
+      return newState;
+    }
+    case "UPDATE_PROMO": {
+      const newState = { ...state };
+      newState.showPromo = action.payload;
       return newState;
     }
     case "UPDATE_DELIVERY_INSTRUCTION": {
