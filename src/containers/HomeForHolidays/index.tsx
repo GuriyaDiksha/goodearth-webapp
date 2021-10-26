@@ -176,11 +176,7 @@ const NotificationForm: React.FC = () => {
         styles.loginForm
       )}
     >
-      <h4>
-        Indulge in an extra hour of Sale celebrations from 8-9 PM. With new
-        products added everyday at FLAT 25% OFF. Sign up below to get a daily
-        reminder!
-      </h4>
+      <h4>Sign up to get a reminder for our Home For the Holidays Sale</h4>
       <Formsy
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
