@@ -861,3 +861,15 @@
   width: 100%;
   min-width: 100%;
 }
+
+.maker-popup-fixed {
+  height: 720px !important;
+  width: 1170px !important;
+}
+
+@media screen and (max-width: 992px) {
+  .maker-popup-fixed {
+    height: 550px !important;
+    width: 360px !important;
+  }
+}
