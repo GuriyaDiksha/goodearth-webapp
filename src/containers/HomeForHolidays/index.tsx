@@ -126,12 +126,13 @@ const NotificationForm: React.FC = () => {
         setEnableSubmit(false);
       })
       .catch(err => {
-        console.log(err.response.data);
         const errors = err.response.data.errors;
-        if (typeof errors[0] == "string") {
+        if (errors && typeof errors[0] == "string") {
           setSuccessMsg(errors[0]);
         } else {
-          updateInputsWithError(errors[0]);
+          setSuccessMsg(
+            "You have already signed up for reminder notifications for the Home For Holidays Sale."
+          );
         }
       })
       .finally(() => {
@@ -150,6 +151,7 @@ const NotificationForm: React.FC = () => {
     formData.append("lastName", lastName || "");
     formData.append("country", country || "");
     formData.append("city", city || "");
+    formData.append("status", "subscribed");
 
     return formData;
   };
@@ -294,6 +296,7 @@ const NotificationForm: React.FC = () => {
           <input
             type="submit"
             formNoValidate={true}
+            disabled={!enableSubmit}
             className={cs(
               globalStyles.ceriseBtn,
               globalStyles.marginT10,

@@ -162,7 +162,11 @@ export default {
     return res;
   },
   saveHFH: async function(dispatch: Dispatch, formData: any) {
-    const res = await API.post<{}>(dispatch, ``, formData);
+    const res = await API.post<{ status: boolean }>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/hfh_reminders/`,
+      formData
+    );
     return res;
   },
   getSaleTimerData: async function(dispatch: Dispatch) {
