@@ -20,7 +20,14 @@ import { AppState } from "reducers/typings";
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
   const {
-    data: { imageUrl, recipientName, message, senderName, customPrice },
+    data: {
+      imageUrl,
+      recipientName,
+      message,
+      senderName,
+      customPrice,
+      recipientEmail
+    },
     currency,
     goback,
     next
@@ -111,7 +118,9 @@ const Section4: React.FC<Section4Props> = props => {
             <div className={globalStyles.voffset2}>
               <img className={styles.width100} src={imageUrl} />
             </div>
-            <div className={cs(globalStyles.voffset3, styles.giftFont)}>
+            <div className={styles.giftHeading}>Recipient Email:</div>
+            <div className={styles.giftFont}>{recipientEmail}</div>
+            <div className={cs(globalStyles.voffset4, styles.giftFont)}>
               <p>Dear {recipientName}</p>
               <p className={globalStyles.voffset3}>
                 You have received a Good Earth eGift card <br /> worth{" "}
