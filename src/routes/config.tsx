@@ -278,6 +278,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.AUTH,
+    component: loadable(() => import("containers/base/Auth")),
+    action: async () => null,
+    exact: false
   }
 ];
 

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Switch, useHistory } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
@@ -16,8 +16,6 @@ import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-// import styles from "./styles.scss";
-// import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
 // import whatsapp from "../../images/whatsapp.svg";
@@ -33,7 +31,6 @@ const BaseLayout: React.FC = () => {
   const dispatch = useDispatch();
   const {
     currency,
-    // device: { mobile }
     basket: { bridal },
     header: { announcementData }
     // user: { customerGroup }
@@ -59,6 +56,12 @@ const BaseLayout: React.FC = () => {
         event: "App Icon Click",
         page: location
       });
+    }
+  }, []);
+  useEffect(() => {
+    const value = CookieService.getCookie("auth");
+    if (value != "true") {
+      history.push("/auth");
     }
   }, []);
   useEffect(() => {
@@ -101,74 +104,6 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  // history.listen((location, action) => {
-  //   if (action == "POP" && CookieService.getCookie("currency") == "INR") {
-  //     history.push("/maintenance");
-  //   }
-  // });
-  // const setMakerPopupCookie = () => {
-  //   const cookieString =
-  //     "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-  //   document.cookie = cookieString;
-  //   CookieService.setCookie("makerinfo", "show", 365);
-  // };
-  // const Whatsapp = () => {
-  //   return (
-  //     <div className={"whatsapp-active"} id={"whatsapp"}>
-  //       <a
-  //         href={"https://wa.me/+917669303665"}
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         {/* <i className={cs(iconStyles.icon,iconStyles.iconFooterWhatsapp)}></i> */}
-  //         <img src={whatsapp} width="40px" />
-  //       </a>
-  //     </div>
-  //   );
-  // };
-  // const throttle = _.throttle((e: any) => {
-  //   const x = e.clientX - 100;
-  //   const y = e.clientY - 50;
-  //   const img = document.createElement("img");
-  //   img.src = flower[Math.floor(Math.random() * Math.floor(4))];
-  //   img.style.position = "fixed";
-  //   img.classList.add("flower-img");
-  //   img.style.width = "150px";
-  //   img.style.height = "150px";
-  //   img.style.top = y + "px";
-  //   img.style.left = x + "px";
-  //   document.body.appendChild(img);
-  //   setTimeout(() => {
-  //     document.body.removeChild(img);
-  //   }, 2000);
-  // }, 100);
-  // }
-
-  // if (
-  //   typeof document == "object" &&
-  //   CookieService.getCookie("currency") == "INR" &&
-  //   CookieService.getCookie("currencypopup") &&
-  //   history.location.pathname != "/maintenance"
-  // ) {
-  //   // debugger
-  //   history.push("/maintenance");
-  // }
-
-  // useEffect(() => {
-  //   const isHomePage = location.pathname == "/";
-  //   const checkceriseCookie = CookieService.getCookie("cerisepopup");
-  //   if (
-  //     (customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA) &&
-  //     currency == "INR" &&
-  //     isHomePage &&
-  //     !checkceriseCookie
-  //   ) {
-  //     CookieService.setCookie("cerisepopup", "true", 365);
-  //     dispatch(updateComponent(POPUP.CERISE, true));
-  //     dispatch(updateModal(true));
-  //   }
-  // }, [customerGroup]);
-
   useEffect(() => {
     // let isDragging = false;
     document.addEventListener("wheel", (e: WheelEvent) => {
@@ -190,34 +125,6 @@ const BaseLayout: React.FC = () => {
         );
       }
     });
-
-    // document.addEventListener("mousedown", (e: any) => {
-    //   isDragging = true;
-    // });
-    // document.addEventListener("mousemove", (e: any) => {
-    //   if (isDragging && !mobile) {
-    //     throttle(e);
-    //   }
-    // });
-    // document.addEventListener("mouseup", (e: any) => {
-    //   isDragging = false;
-    // });
-    // document.addEventListener("click", (e: any) => {
-    //   const x = e.clientX - 100;
-    //   const y = e.clientY - 50;
-    //   const img = document.createElement("img");
-    //   img.src = flower[Math.floor(Math.random() * Math.floor(4))];
-    //   img.style.position = "fixed";
-    //   img.classList.add("flower-img");
-    //   img.style.width = "150px";
-    //   img.style.height = "150px";
-    //   img.style.top = y + "px";
-    //   img.style.left = x + "px";
-    //   document.body.appendChild(img);
-    //   setTimeout(() => {
-    //     document.body.removeChild(img);
-    //   }, 2000);
-    // });
 
     const setInfoPopupCookie = () => {
       const cookieString =
@@ -327,11 +234,17 @@ const BaseLayout: React.FC = () => {
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
+  const value =
+    pathname.indexOf("auth") > -1
+      ? false
+      : typeof document == "undefined"
+      ? true
+      : CookieService.getCookie("auth");
   const minimalPage = confirmation || backOrder || maintenance;
   return (
     <Fragment>
       {/* <Whatsapp /> */}
-      {!minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      {value && !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
       <div
         className={
           minimalPage
@@ -340,10 +253,10 @@ const BaseLayout: React.FC = () => {
         }
         id="no-content"
       >
-        {/* <MusicPlayer /> */}
+        {/* {!isauth && <FormPage/>} */}
         <Switch>{routes}</Switch>
       </div>
-      {!(minimalPage || isCheckout) && <Footer />}
+      {value && !(minimalPage || isCheckout) && <Footer />}
       <Modal />
     </Fragment>
   );

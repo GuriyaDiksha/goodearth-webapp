@@ -59,6 +59,10 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     ctx.set("Cache-Control", "no-cache");
   }
 
+  if (ctx.cookies.get("auth") != "true" && !ctx.url.includes("/auth")) {
+    ctx.redirect("/auth");
+  }
+
   if (matchedRoute && matchedRoute.route) {
     const { route, params } = matchedRoute;
     await route.action(store, params, history.location);
