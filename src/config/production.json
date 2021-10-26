@@ -1,7 +1,7 @@
 {
     "domain": "https://www.goodearth.in",
     "apidomain": "https://pb.goodearth.in",
-    "omniApiDomain": "https://web.goodearth.in/omni/",
+    "omniApiDomain": "https://web.goodearth.in",
     "manifestVersion": 3,
     "publicPath": "/static/",
     "fbAppID": "138371509833315",

@@ -11,8 +11,9 @@ import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
+import { AppState } from "reducers/typings";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -28,8 +29,8 @@ const LineItems: React.FC<BasketItem> = memo(
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
+    const { tablet } = useSelector((state: AppState) => state.device);
     const { dispatch } = useStore();
-
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value)
         .then(res => {
@@ -142,7 +143,9 @@ const LineItems: React.FC<BasketItem> = memo(
                     isGiftCard
                       ? giftCardImage
                       : images && images.length > 0
-                      ? images[0].productImage.replace("Medium", "Micro")
+                      ? tablet
+                        ? images[0].productImage
+                        : images[0].productImage.replace("Medium", "Micro")
                       : ""
                   }
                 />
@@ -270,7 +273,6 @@ const LineItems: React.FC<BasketItem> = memo(
                     size={size}
                     id={product.id}
                     showText={false}
-                    className="wishlist-font"
                     inWishlist={inWishlist}
                   />
                 </div>
