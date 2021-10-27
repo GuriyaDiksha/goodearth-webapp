@@ -249,6 +249,7 @@ const NotificationForm: React.FC = () => {
               // handleChange={onCountrySelect}
               placeholder="Select Country"
               name="country"
+              value=""
               // validations={{
               //   isExisty: true
               // }}
