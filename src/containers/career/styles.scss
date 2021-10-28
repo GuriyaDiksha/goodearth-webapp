@@ -242,6 +242,9 @@ p.job-description {
         max-width: 300px;
         line-height: 40px;
         bottom: 0;
+        a {
+            line-height: 40px;
+        }
     }
 }
 
@@ -250,7 +253,10 @@ p.job-description {
     margin: 0 10px 0 0;
 }
 .job-form{
-    
+    .apply-cta {
+        width: 280px;
+        margin: 50px auto 40px;
+    }
         .job-form-header {
             width: 80%;
             margin: 0 auto;
