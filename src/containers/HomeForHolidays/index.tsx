@@ -215,8 +215,8 @@ const NotificationForm: React.FC = () => {
             <FormInput
               required
               name="lastName"
-              label="Last Name"
-              placeholder="Last Name"
+              label="Last Name*"
+              placeholder="Last Name*"
               validations={{
                 maxLength: 30,
                 isAlpha: true
@@ -231,9 +231,9 @@ const NotificationForm: React.FC = () => {
             <FormInput
               required
               name="email"
-              label="Email Address"
+              label="Email Address*"
               className="input-field"
-              placeholder="Email Address"
+              placeholder="Email Address*"
               validations={{
                 isEmail: true
               }}
@@ -249,6 +249,7 @@ const NotificationForm: React.FC = () => {
               // handleChange={onCountrySelect}
               placeholder="Select Country"
               name="country"
+              value=""
               // validations={{
               //   isExisty: true
               // }}
