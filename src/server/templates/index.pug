@@ -21,7 +21,7 @@ html(lang='en')
             // Use the window load event to keep the page load performant
             // Add this line to the top of the file
             window.addEventListener('load', () => {
-              navigator.serviceWorker.register('/serviceworker.js', {
+              navigator.serviceWorker.register('/sw.js', {
                 scope: "/"
               });
             });
@@ -195,6 +195,7 @@ html(lang='en')
               app_id:"4KK0OEEQLWKYGNZXJQJ5UO5B_DEBUG",
               debug_logs: 1,
               cluster: "DC_3",
+              swPath: "/serviceworker.js"
           });
           Moengage.call_web_push();
         script.
