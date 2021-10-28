@@ -24,7 +24,7 @@ html(lang='en')
               navigator.serviceWorker.register('/sw.js', {
                 scope: "/"
               });
-              navigator.serviceWorker.register('https://cdn.moengage.com/webpush/releases/serviceworker_cdn.min.latest.js', {
+              navigator.serviceWorker.register('../serviceWorker.js', {
                 scope: "/"
               });
             });
