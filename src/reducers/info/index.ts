@@ -13,7 +13,8 @@ const initialState: State = {
   showTimer: false,
   showGiftWrap: false,
   showDeliveryInstruction: false,
-  showPromo: false
+  showPromo: false,
+  isLoading: false
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -81,6 +82,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_SHOW_TIMER": {
       const newState = { ...state };
       newState.showTimer = action.payload;
+      return newState;
+    }
+    case "UPDATE_LOADER": {
+      const newState = { ...state };
+      newState.isLoading = action.payload;
       return newState;
     }
   }
