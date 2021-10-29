@@ -733,9 +733,11 @@ class FilterList extends React.Component<Props, State> {
                             .isChecked
                         : false
                     }
-                    value={discount[1]}
+                    value={`${discount[0]}%`}
                   />
-                  <label htmlFor={"disc_" + discount[0]}>{discount[1]}</label>
+                  <label
+                    htmlFor={"disc_" + discount[0]}
+                  >{`${discount[0]}%`}</label>
                 </li>
               );
             })}
