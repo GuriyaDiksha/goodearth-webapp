@@ -800,7 +800,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         className={cs(
                           iconStyles.icon,
                           iconStyles.iconWishlist,
-                          styles.font30,
+                          styles.wishlistIconOrderSummary,
                           globalStyles.pointer
                         )}
                       ></i>
