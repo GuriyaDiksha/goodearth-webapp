@@ -80,7 +80,9 @@ const SampleDisplay: React.FC<Props> = props => {
         data.stockDetails[0].showStockThreshold;
     }
     const stock = data.size
-      ? data.stockDetails.filter(item => item.size == data.size)[0].stock
+      ? data.stockDetails.filter(item => item.size == data.size).length > 0
+        ? data.stockDetails.filter(item => item.size == data.size)[0].stock
+        : data.stockDetails[0].stock
       : data.stockDetails[0].stock;
     if (Object.keys(data).length === 0) return false;
     return (
