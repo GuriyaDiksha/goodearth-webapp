@@ -7,5 +7,6 @@
     "publicPath": "/static/",
     "fbAppID": "138371509833315",
     "googleClientID": "837034702464-rpli7v94ss5om0uf0139jtaqukuugqce.apps.googleusercontent.com",
-    "gtmID": "GTM-TQTZ8G7"
+    "gtmID": "GTM-TQTZ8G7",
+    "moengId":"4KK0OEEQLWKYGNZXJQJ5UO5B_DEBUG"
 }

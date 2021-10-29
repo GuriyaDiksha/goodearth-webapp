@@ -28,6 +28,7 @@ const fbAppID = JSON.stringify(envConfig.fbAppID);
 const googleClientID = JSON.stringify(envConfig.googleClientID);
 const gtmId = JSON.stringify(envConfig.gtmID);
 const ipDataKey = JSON.stringify(envConfig.ipDataKey);
+const moeng = JSON.stringify(envConfig.moengId)
 const alias = {
     components : context + "/src/components",
     constants : context + "/src/constants",
@@ -302,7 +303,8 @@ let config = [
                 __FB_APP_ID__: fbAppID,
                 __GOOGLE_CLIENT_ID__: googleClientID,
                 __GTM_ID__:gtmId,
-                __IP_DATA_KEY__: ipDataKey
+                __IP_DATA_KEY__: ipDataKey,
+                __MOENG__:moeng
 
             }),
             new MiniCssExtractPlugin({
