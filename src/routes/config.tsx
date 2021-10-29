@@ -272,6 +272,18 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/makerpage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.GCEMAIL,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: false
+  },
+  {
+    path: ROUTES.HFH,
+    component: loadable(() => import("containers/HomeForHolidays")),
+    action: async () => null,
+    exact: true
   }
 ];
 
