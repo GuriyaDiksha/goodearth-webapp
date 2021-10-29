@@ -61,9 +61,10 @@ $pdp-top: $header-height + $secondary-header-height;
     text-transform: uppercase;
 
     img {
-        width: 25px;
+        width: 34px;
         margin: 0 auto;
         padding-bottom: 3px;
+        filter: drop-shadow(1px 1px 10px #909090);
     }
 }
 
