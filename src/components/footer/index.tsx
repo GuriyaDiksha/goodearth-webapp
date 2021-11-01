@@ -506,7 +506,8 @@ class Footer extends React.Component<Props, FooterState> {
                               })}
                           </li>
                         </ul>
-                        {this.props.isSale ? (
+                        {this.props.isSale ||
+                        !this.props.data.footerPlaylistData?.ctaText ? (
                           ""
                         ) : (
                           <ul
@@ -694,7 +695,8 @@ class Footer extends React.Component<Props, FooterState> {
                               );
                             })}
                         </div>
-                        {this.props.isSale ? (
+                        {this.props.isSale ||
+                        !this.props.data.footerPlaylistData?.ctaText ? (
                           ""
                         ) : (
                           <div>
