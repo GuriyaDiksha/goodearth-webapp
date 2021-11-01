@@ -242,6 +242,12 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
 
     const loginPopup = urlParams.get("loginpopup");
+    const shownVideoPopup = sessionStorage.getItem("bosporus");
+    if (isHomePage && !shownVideoPopup) {
+      dispatch(updateComponent(POPUP.VIDEOPOPUP, undefined, true));
+      dispatch(updateModal(true));
+      sessionStorage.setItem("bosporus", "1");
+    }
     if (
       !loginPopup &&
       isHomePage &&
