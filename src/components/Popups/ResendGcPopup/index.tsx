@@ -4,6 +4,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
+import resendEmail from "images/resendEmail.svg";
 
 type PopupProps = {
   email: string;
@@ -39,13 +40,7 @@ const ResendGcPopup: React.FC<PopupProps> = props => {
           ></i>
         </div>
         <div className={cs(styles.gcTnc, styles.sideMargin)}>
-          <i
-            className={cs(
-              iconStyles.icon,
-              iconStyles.iconResendEmail,
-              styles.iconResend
-            )}
-          />
+          <img src={resendEmail} className={styles.iconResend} />
           <div className={globalStyles.c10LR}>
             <p>
               Your email is sent successfully to <b>{props.email}</b>
