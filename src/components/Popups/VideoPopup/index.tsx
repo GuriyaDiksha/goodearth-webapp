@@ -74,7 +74,7 @@ const VideoPopup: React.FC = () => {
         <iframe
           id="vimeo"
           onLoad={initialize}
-          src="https://player.vimeo.com/video/639043234?background=1&badge=0&autoplay=1&loop=1&controls=1"
+          src="https://player.vimeo.com/video/641118070?background=1&badge=0&autoplay=1&loop=1&controls=1"
           width="320"
           height="489"
           frameBorder="0"
@@ -84,7 +84,7 @@ const VideoPopup: React.FC = () => {
         <iframe
           id="vimeo"
           onLoad={initialize}
-          src="https://player.vimeo.com/video/639040610?background=1&badge=0&autoplay=1&loop=1&controls=1"
+          src="https://player.vimeo.com/video/641115172?background=1&badge=0&autoplay=1&loop=1&controls=1"
           width="850"
           height="523"
           frameBorder="0"
