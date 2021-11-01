@@ -60,7 +60,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
   }
 
   if (ctx.cookies.get("auth") != "true" && !ctx.url.includes("/auth")) {
-    ctx.redirect("/auth");
+    // ctx.redirect("/auth");
   }
 
   if (matchedRoute && matchedRoute.route) {

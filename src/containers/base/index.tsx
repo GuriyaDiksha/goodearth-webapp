@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Switch, useHistory } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
@@ -65,7 +65,7 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     const value = CookieService.getCookie("auth");
     if (value != "true") {
-      history.push("/auth");
+      // history.push("/auth");
     }
   }, []);
   useEffect(() => {
