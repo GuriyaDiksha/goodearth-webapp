@@ -171,6 +171,21 @@ export default {
     );
     return res;
   },
+  authLogin: async function(
+    dispatch: Dispatch,
+    email: string,
+    password: string
+  ) {
+    const res = await API.post<loginResponse>(
+      dispatch,
+      `${__API_HOST__}/myapi/auth/login_for_employee/`,
+      {
+        email: email,
+        password: password
+      }
+    );
+    return res;
+  },
   loginSocial: async function(
     dispatch: Dispatch,
     formdata: any,
