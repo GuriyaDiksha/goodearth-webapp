@@ -21,6 +21,7 @@ import bridalRing from "../../images/bridal/rings.svg";
 const CartItems: React.FC<BasketItem> = memo(
   ({
     mobile,
+    tablet,
     id,
     bridalProfile,
     giftCardImage,
@@ -123,11 +124,17 @@ const CartItems: React.FC<BasketItem> = memo(
       });
       return size ? (
         <div>
-          <div className={cs(styles.size, { [styles.inline]: mobile })}>
+          <div
+            className={cs(styles.size, { [styles.inline]: mobile || tablet })}
+          >
             Size:{" "}
           </div>
-          {mobile && " "}
-          <div className={cs(styles.productSize, { [styles.inline]: mobile })}>
+          {(mobile || tablet) && " "}
+          <div
+            className={cs(styles.productSize, {
+              [styles.inline]: mobile || tablet
+            })}
+          >
             {size.value}
           </div>
         </div>
@@ -178,7 +185,7 @@ const CartItems: React.FC<BasketItem> = memo(
               </div>
               <div
                 className={cs(globalStyles.marginT10, styles.triggerNotify, {
-                  [globalStyles.hidden]: !mobile
+                  [globalStyles.hidden]: !(mobile || tablet)
                 })}
                 onClick={showNotifyPopup}
               >
@@ -190,7 +197,7 @@ const CartItems: React.FC<BasketItem> = memo(
         return (
           <div
             className={cs(globalStyles.marginT10, styles.triggerNotify, {
-              [globalStyles.hidden]: mobile
+              [globalStyles.hidden]: mobile || tablet
             })}
             onClick={showNotifyPopup}
           >
@@ -275,7 +282,7 @@ const CartItems: React.FC<BasketItem> = memo(
                         className={cs(
                           styles.deliveryDate,
                           globalStyles.voffset3,
-                          { [styles.extraWidth]: mobile }
+                          { [styles.extraWidth]: mobile && !tablet }
                         )}
                       >
                         Estimated Delivery On or Before: <br />
@@ -287,7 +294,7 @@ const CartItems: React.FC<BasketItem> = memo(
                   </div>
                   <div
                     className={cs(styles.productPrice, {
-                      [styles.extraWidth]: mobile
+                      [styles.extraWidth]: mobile && !tablet
                     })}
                   >
                     {saleStatus && discount && discountedPriceRecords ? (
@@ -325,7 +332,7 @@ const CartItems: React.FC<BasketItem> = memo(
                 <div
                   className={cs(styles.section, styles.sectionMiddle, {
                     [globalStyles.hiddenEye]: isGiftCard,
-                    [styles.extraWidth]: mobile
+                    [styles.extraWidth]: mobile && !tablet
                   })}
                 >
                   <div className={styles.productSize}>
@@ -383,7 +390,9 @@ const CartItems: React.FC<BasketItem> = memo(
             )}
           >
             <div
-              className={cs(styles.section, { [styles.sectionMobile]: mobile })}
+              className={cs(styles.section, {
+                [styles.sectionMobile]: mobile || tablet
+              })}
             >
               <div className={cs(styles.pointer, styles.remove)}>
                 <i

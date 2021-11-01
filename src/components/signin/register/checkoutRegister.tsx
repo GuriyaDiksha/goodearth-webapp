@@ -760,7 +760,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                equalsField: "The Password entered doesn't match"
+                equalsField: "The Password entered doesn't match",
+                isValid:
+                  "Please verify that your password follows all rules displayed"
               }}
               required
             />

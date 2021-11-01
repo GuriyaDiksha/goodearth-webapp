@@ -24,6 +24,7 @@ import cs from "classnames";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
 import { POPUP } from "constants/components";
+import Loader from "components/Loader";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
@@ -34,6 +35,9 @@ const BaseLayout: React.FC = () => {
     basket: { bridal },
     header: { announcementData }
     // user: { customerGroup }
+  } = useSelector((state: AppState) => state);
+  const {
+    info: { isLoading }
   } = useSelector((state: AppState) => state);
   // don't show info popup
   const isSuspended = false;
@@ -145,6 +149,12 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
 
     const loginPopup = urlParams.get("loginpopup");
+    const shownVideoPopup = sessionStorage.getItem("bosporus");
+    if (isHomePage && !shownVideoPopup) {
+      dispatch(updateComponent(POPUP.VIDEOPOPUP, undefined, true));
+      dispatch(updateModal(true));
+      sessionStorage.setItem("bosporus", "1");
+    }
     if (
       !loginPopup &&
       isHomePage &&
@@ -244,7 +254,8 @@ const BaseLayout: React.FC = () => {
   return (
     <Fragment>
       {/* <Whatsapp /> */}
-      {value && !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      {!minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      {isLoading && <Loader />}
       <div
         className={
           minimalPage

@@ -284,6 +284,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/base/Auth")),
     action: async () => null,
     exact: false
+  },
+  {
+    path: ROUTES.HFH,
+    component: loadable(() => import("containers/HomeForHolidays")),
+    action: async () => null,
+    exact: true
   }
 ];
 

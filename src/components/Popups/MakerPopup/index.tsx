@@ -37,7 +37,8 @@ const FreeShipping: React.FC<PopupProps> = props => {
           styles.centerpageMobile,
           // styles.makerPopupDesktop,
           // styles.makerPopupMobile,
-          globalStyles.textCenter
+          globalStyles.textCenter,
+          styles.makerPopupFixed
         )}
       >
         <div
