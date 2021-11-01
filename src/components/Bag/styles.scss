@@ -208,16 +208,14 @@
           text-align: center;
         }
         .cart-icon-div{
-          flex:1;
+          padding-right: 30px;
         }
         .view-bag {
-          flex:3;
           color: $cerise;
           letter-spacing: 2px;
           font-family: $font-Lato;
           text-transform: uppercase;
           line-height: 50px;
-          width: 100%;
           text-align: left;
           font-size: 12px;
           cursor: pointer;

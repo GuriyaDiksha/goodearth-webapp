@@ -260,7 +260,7 @@ const ProductDetails: React.FC<Props> = ({
   }, [height, width, currency]);
 
   const accordionSections = useMemo(() => {
-    return [
+    const sections = [
       {
         header: "PRODUCT DETAILS",
         body: <div>{ReactHtmlParser(details)}</div>,
@@ -275,13 +275,16 @@ const ProductDetails: React.FC<Props> = ({
         header: "Shipping & Handling",
         body: <div>{ReactHtmlParser(shipping)}</div>,
         id: "shippAndHandle"
-      },
-      {
+      }
+    ];
+    if (manufactureInfo) {
+      sections.push({
         header: "Manufacturing Info",
         body: <div>{ReactHtmlParser(manufactureInfo)}</div>,
         id: "manufactureInfo"
-      }
-    ];
+      });
+    }
+    return sections;
   }, [details, compAndCare, shipping, manufactureInfo]);
 
   const setSelectedSKU = () => {
