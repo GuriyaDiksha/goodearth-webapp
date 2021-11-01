@@ -31,3 +31,5 @@ declare const __FB_APP_ID__: string;
 declare const __GOOGLE_CLIENT_ID__: string;
 declare const __GTM_ID__: string;
 declare const __IP_DATA_KEY__: string;
+declare const __MOENG__: string;
+declare const Vimeo: any;
