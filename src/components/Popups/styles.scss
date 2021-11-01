@@ -886,13 +886,24 @@
   }
   .cross {
     position: absolute;
-    right: 10px;
-    top: 10px;
-    font-weight: bold;
+    right: 30px;
+    top: 30px;
     cursor: pointer;
+    i {
+      font-weight: bold;
+    }
   }
 }
 
+
+.icon-mute {
+  position: absolute;
+  color: black;
+  font-size: 25px;
+  right: 22px;
+  top: 70px;
+  cursor: pointer;
+}
 @media screen and (max-width: 992px) {
   .maker-popup-fixed {
     height: 550px !important;
@@ -902,17 +913,27 @@
     width: 320px;
     height: 489px;
     .cta {
-      bottom: 1em;
-      height: 48px;
-      line-height: 48px;
-      position: absolute;
       width: 200px;
-      margin: 0 auto;
-      right: 10px;
-      left: auto;
-      transform: none;
+    }
+    .cross {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      cursor: pointer;
+      i {
+        font-weight: bold;
+      }
     }
   }
+
+.icon-mute {
+  position: absolute;
+  color: black;
+  font-size: 25px;
+  right: 12px;
+  top: 60px;
+  cursor: pointer;
+}
 }
 
 .btn {
