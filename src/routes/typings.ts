@@ -45,6 +45,7 @@ export enum ROUTES {
   THANKYOU = "/thankyou",
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
+  AUTH = "/auth",
   HFH = "/home-for-holidays-reminders"
 }
 
