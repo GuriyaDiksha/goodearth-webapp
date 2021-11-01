@@ -556,6 +556,33 @@ class PLP extends React.Component<
                 ></iframe>
               </div>
             </div> */}
+            <div
+              className={
+                mobile
+                  ? banner
+                    ? cs(
+                        bootstrap.row,
+                        styles.imageContainerMobileBanner,
+                        globalStyles.paddTop20
+                      )
+                    : cs(
+                        bootstrap.row,
+                        styles.imageContainerMobile,
+                        globalStyles.paddTop20
+                      )
+                  : cs(
+                      bootstrap.row,
+                      styles.imageContainer,
+                      styles.minHeight,
+                      globalStyles.paddTop20
+                    )
+              }
+              id="product_images"
+            >
+              {showTemplates.Banner && (
+                <Banner data={showTemplates.Banner} mobile={mobile} />
+              )}
+            </div>
 
             {!mobile ? (
               <div
@@ -597,9 +624,6 @@ class PLP extends React.Component<
               }
               id="product_images"
             >
-              {showTemplates.Banner && (
-                <Banner data={showTemplates.Banner} mobile={mobile} />
-              )}
               {!mobile || this.props.plpMobileView == "grid"
                 ? data.map((item, index) => {
                     return (

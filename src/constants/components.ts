@@ -56,6 +56,8 @@ const MakerPopup = loadable(() => import("components/Popups/MakerPopup"));
 
 const ResendGcPopup = loadable(() => import("components/Popups/ResendGcPopup"));
 
+const VideoPopup = loadable(() => import("components/Popups/VideoPopup"));
+
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
   backendOrder: BackendOrderPopup,
@@ -82,7 +84,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   cmsPopup: CMSPopup,
   cerise: CerisePopup,
   maker: MakerPopup,
-  resendGc: ResendGcPopup
+  resendGc: ResendGcPopup,
+  videoPopup: VideoPopup
 };
 
 export enum POPUP {
@@ -111,5 +114,6 @@ export enum POPUP {
   CMSPOPUP = "cmsPopup",
   CERISE = "cerise",
   MAKER = "maker",
-  RESENDGC = "resendGc"
+  RESENDGC = "resendGc",
+  VIDEOPOPUP = "videoPopup"
 }
