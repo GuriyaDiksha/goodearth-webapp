@@ -92,7 +92,7 @@ const VideoPopup: React.FC = () => {
         ></iframe>
       )}
       <div className={cs(globalStyles.ceriseBtn, styles.cta)}>
-        <Link to="/cart" onClick={closeModal}>
+        <Link to="/" onClick={closeModal}>
           Discover Bosporus
         </Link>
       </div>
