@@ -244,12 +244,12 @@ const BaseLayout: React.FC = () => {
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
-  const value =
-    pathname.indexOf("auth") > -1
-      ? false
-      : typeof document == "undefined"
-      ? true
-      : CookieService.getCookie("auth");
+  const value = true;
+  // pathname.indexOf("auth") > -1
+  //   ? false
+  //   : typeof document == "undefined"
+  //   ? true
+  //   : CookieService.getCookie("auth");
   const minimalPage = confirmation || backOrder || maintenance;
   return (
     <Fragment>
