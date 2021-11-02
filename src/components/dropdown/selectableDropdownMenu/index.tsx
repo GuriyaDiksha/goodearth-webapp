@@ -31,13 +31,18 @@ const DropdownMenu = ({
     val: string | undefined,
     label: string | undefined
   ) => {
-    setCurrentValue(val);
     onChange ? onChange(val, label) : "";
-    onChangeCurrency
-      ? onChangeCurrency(val)?.catch(() => {
-          setCurrentValue(value);
+    if (onChangeCurrency) {
+      onChangeCurrency(val)
+        ?.then(() => {
+          setCurrentValue(val);
         })
-      : "";
+        .catch(() => {
+          setCurrentValue(value);
+        });
+    } else {
+      setCurrentValue(val);
+    }
   };
   useLayoutEffect(() => {
     if (!mounted.current) {
