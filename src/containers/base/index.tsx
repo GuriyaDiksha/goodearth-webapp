@@ -42,6 +42,7 @@ const BaseLayout: React.FC = () => {
   // don't show info popup
   const isSuspended = false;
   const popup = useSelector((state: AppState) => state.popup);
+  const dominList = ["dv", "stg", "pprod", "test"];
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   const getPWADisplayMode = () => {
     const isStandalone = window.matchMedia("(display-mode: standalone)")
@@ -65,7 +66,7 @@ const BaseLayout: React.FC = () => {
   useEffect(() => {
     const value = CookieService.getCookie("auth");
     if (value != "true") {
-      // history.push("/auth");
+      history.push("/auth");
     }
   }, []);
   useEffect(() => {
@@ -244,17 +245,22 @@ const BaseLayout: React.FC = () => {
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
-  const value = true;
-  // pathname.indexOf("auth") > -1
-  //   ? false
-  //   : typeof document == "undefined"
-  //   ? true
-  //   : CookieService.getCookie("auth");
+  const value =
+    pathname.indexOf("auth") > -1
+      ? false
+      : typeof document == "undefined"
+      ? true
+      : dominList.some((v: any) => location.origin.includes(v))
+      ? CookieService.getCookie("auth")
+      : true;
+
   const minimalPage = confirmation || backOrder || maintenance;
   return (
     <Fragment>
       {/* <Whatsapp /> */}
-      {!minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      {!value
+        ? ""
+        : !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
       {isLoading && <Loader />}
       <div
         className={
