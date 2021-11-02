@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import CookieService from "services/cookie";
+import "./auth.css";
 
 const FormPage: React.FC = () => {
   const [password, setPassword] = useState("");
@@ -61,54 +62,41 @@ const FormPage: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="container">
-        <div className="row d-flex justify-content-center">
-          <div className="col-md-4">
-            <form id="loginform" onSubmit={loginSubmit}>
-              <div className="form-group">
-                <label>Email address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                  onChange={event => setEmail(event.target.value)}
-                />
-                <small id="emailHelp" className="text-danger form-text">
-                  {emailError}
-                </small>
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                  onChange={event => setPassword(event.target.value)}
-                />
-                <small id="passworderror" className="text-danger form-text">
-                  {passwordError}
-                </small>
-              </div>
-              <div className="form-group form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="exampleCheck1"
-                />
-              </div>
-              <small id="emailHelp" className="text-danger form-text">
-                {loginError}
-              </small>
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </form>
+      <div className="login-block">
+        <h1>Login</h1>
+        <form id="loginform" onSubmit={loginSubmit}>
+          <div>
+            <label>Email address</label>
+            <input
+              type="email"
+              id="EmailInput"
+              name="EmailInput"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              onChange={event => setEmail(event.target.value)}
+            />
+            <small id="emailHelp" className="text-danger form-text">
+              {emailError}
+            </small>
           </div>
-        </div>
+          <div className="margin-top">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="inputPassword1"
+              placeholder="Password"
+              onChange={event => setPassword(event.target.value)}
+            />
+            <small id="passworderror" className="text-danger">
+              {passwordError}
+            </small>
+          </div>
+          <small id="emailHelp" className="text-danger">
+            {loginError}
+          </small>
+          <button type="submit">Submit</button>
+        </form>
       </div>
     </div>
   );
