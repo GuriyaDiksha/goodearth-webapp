@@ -17,7 +17,11 @@ const FormPage: React.FC = () => {
   const handleValidation = (event: any) => {
     let formIsValid = true;
 
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+    if (
+      !email.match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+    ) {
       formIsValid = false;
       setemailError("Email Not Valid");
       return false;
@@ -26,16 +30,16 @@ const FormPage: React.FC = () => {
       formIsValid = true;
     }
 
-    if (!password.match(/^[a-zA-Z]{4,22}$/)) {
-      formIsValid = false;
-      setpasswordError(
-        "Only Letters and length must best min 4 Chracters and Max 22 Chracters"
-      );
-      return false;
-    } else {
-      setpasswordError("");
-      formIsValid = true;
-    }
+    // if (!password.match(/^[a-zA-Z]{4,22}$/)) {
+    //   formIsValid = false;
+    //   setpasswordError(
+    //     "Only Letters and length must best min 4 Chracters and Max 22 Chracters"
+    //   );
+    //   return false;
+    // } else {
+    //   setpasswordError("");
+    //   formIsValid = true;
+    // }
 
     return formIsValid;
   };
