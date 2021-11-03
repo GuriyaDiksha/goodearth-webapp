@@ -506,7 +506,8 @@ class Footer extends React.Component<Props, FooterState> {
                               })}
                           </li>
                         </ul>
-                        {this.props.isSale ? (
+                        {this.props.isSale ||
+                        !this.props.data.footerPlaylistData?.ctaText ? (
                           ""
                         ) : (
                           <ul
@@ -671,7 +672,12 @@ class Footer extends React.Component<Props, FooterState> {
                         >
                           find us on
                         </div>
-                        <div className={cs(styles.ftrHeadingWhite)}>
+                        <div
+                          className={cs(
+                            styles.ftrHeadingWhite,
+                            styles.negMargin
+                          )}
+                        >
                           {findUsOnData &&
                             findUsOnData.map(({ link, iconImage }, index) => {
                               return (
@@ -689,7 +695,8 @@ class Footer extends React.Component<Props, FooterState> {
                               );
                             })}
                         </div>
-                        {this.props.isSale ? (
+                        {this.props.isSale ||
+                        !this.props.data.footerPlaylistData?.ctaText ? (
                           ""
                         ) : (
                           <div>

@@ -42,7 +42,7 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
           ? "Please Enter Your Email To Register"
           : id == "cerise"
           ? "Please enter your registered e-mail address to login to your Cerise account."
-          : "Please enter the New Password to Sign in!"}
+          : "Please enter the New Password to Login!"}
       </div>
       <div>
         {isRegister ? (

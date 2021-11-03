@@ -28,7 +28,7 @@ import { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
-import zoom from "images/zoom.png";
+import zoom from "images/zoom.svg";
 import LazyImage from "components/LazyImage";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
@@ -493,7 +493,7 @@ class PDPContainer extends React.Component<Props, State> {
   getRecommendedSection() {
     const {
       recommendedSliderItems,
-      device: { mobile },
+      device: { mobile, tablet },
       currency,
       corporatePDP
     } = this.props;
@@ -526,7 +526,7 @@ class PDPContainer extends React.Component<Props, State> {
         recommendedProducts={this.props.recommendedProducts}
         setting={config as Settings}
         currency={currency}
-        mobile={mobile}
+        mobile={mobile || tablet}
         isSale={this.props.isSale}
         corporatePDP={corporatePDP}
       />
@@ -938,7 +938,6 @@ class PDPContainer extends React.Component<Props, State> {
               onClick={this.getMobileZoomListener(i)}
             >
               <img src={zoom}></img>
-              Zoom
             </div>
           </div>
         );
@@ -1049,7 +1048,7 @@ class PDPContainer extends React.Component<Props, State> {
           <div
             className={cs(
               styles.detailsContainer,
-              bootstrap.colMd5,
+              bootstrap.colLg5,
               bootstrap.col12,
               {
                 [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled

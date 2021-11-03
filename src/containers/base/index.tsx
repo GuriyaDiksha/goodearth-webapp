@@ -16,8 +16,6 @@ import { AppState } from "reducers/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
-// import styles from "./styles.scss";
-// import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
 // import MusicPlayer from "components/MusicBar";
 // import whatsapp from "../../images/whatsapp.svg";
@@ -26,6 +24,7 @@ import cs from "classnames";
 // import flowerimg4 from "images/flower4.gif";
 // import MakerPopup from "components/Popups/MakerPopup";
 import { POPUP } from "constants/components";
+import Loader from "components/Loader";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
@@ -33,14 +32,17 @@ const BaseLayout: React.FC = () => {
   const dispatch = useDispatch();
   const {
     currency,
-    // device: { mobile }
     basket: { bridal },
     header: { announcementData }
     // user: { customerGroup }
   } = useSelector((state: AppState) => state);
+  const {
+    info: { isLoading }
+  } = useSelector((state: AppState) => state);
   // don't show info popup
   const isSuspended = false;
   const popup = useSelector((state: AppState) => state.popup);
+  const dominList = ["dv", "stg", "pprod", "test"];
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   const getPWADisplayMode = () => {
     const isStandalone = window.matchMedia("(display-mode: standalone)")
@@ -59,6 +61,12 @@ const BaseLayout: React.FC = () => {
         event: "App Icon Click",
         page: location
       });
+    }
+  }, []);
+  useEffect(() => {
+    const value = CookieService.getCookie("auth");
+    if (value != "true") {
+      history.push("/auth");
     }
   }, []);
   useEffect(() => {
@@ -101,74 +109,6 @@ const BaseLayout: React.FC = () => {
     }
   }, [pathname]);
 
-  // history.listen((location, action) => {
-  //   if (action == "POP" && CookieService.getCookie("currency") == "INR") {
-  //     history.push("/maintenance");
-  //   }
-  // });
-  // const setMakerPopupCookie = () => {
-  //   const cookieString =
-  //     "makerinfo=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-  //   document.cookie = cookieString;
-  //   CookieService.setCookie("makerinfo", "show", 365);
-  // };
-  // const Whatsapp = () => {
-  //   return (
-  //     <div className={"whatsapp-active"} id={"whatsapp"}>
-  //       <a
-  //         href={"https://wa.me/+917669303665"}
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         {/* <i className={cs(iconStyles.icon,iconStyles.iconFooterWhatsapp)}></i> */}
-  //         <img src={whatsapp} width="40px" />
-  //       </a>
-  //     </div>
-  //   );
-  // };
-  // const throttle = _.throttle((e: any) => {
-  //   const x = e.clientX - 100;
-  //   const y = e.clientY - 50;
-  //   const img = document.createElement("img");
-  //   img.src = flower[Math.floor(Math.random() * Math.floor(4))];
-  //   img.style.position = "fixed";
-  //   img.classList.add("flower-img");
-  //   img.style.width = "150px";
-  //   img.style.height = "150px";
-  //   img.style.top = y + "px";
-  //   img.style.left = x + "px";
-  //   document.body.appendChild(img);
-  //   setTimeout(() => {
-  //     document.body.removeChild(img);
-  //   }, 2000);
-  // }, 100);
-  // }
-
-  // if (
-  //   typeof document == "object" &&
-  //   CookieService.getCookie("currency") == "INR" &&
-  //   CookieService.getCookie("currencypopup") &&
-  //   history.location.pathname != "/maintenance"
-  // ) {
-  //   // debugger
-  //   history.push("/maintenance");
-  // }
-
-  // useEffect(() => {
-  //   const isHomePage = location.pathname == "/";
-  //   const checkceriseCookie = CookieService.getCookie("cerisepopup");
-  //   if (
-  //     (customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA) &&
-  //     currency == "INR" &&
-  //     isHomePage &&
-  //     !checkceriseCookie
-  //   ) {
-  //     CookieService.setCookie("cerisepopup", "true", 365);
-  //     dispatch(updateComponent(POPUP.CERISE, true));
-  //     dispatch(updateModal(true));
-  //   }
-  // }, [customerGroup]);
-
   useEffect(() => {
     // let isDragging = false;
     document.addEventListener("wheel", (e: WheelEvent) => {
@@ -191,34 +131,6 @@ const BaseLayout: React.FC = () => {
       }
     });
 
-    // document.addEventListener("mousedown", (e: any) => {
-    //   isDragging = true;
-    // });
-    // document.addEventListener("mousemove", (e: any) => {
-    //   if (isDragging && !mobile) {
-    //     throttle(e);
-    //   }
-    // });
-    // document.addEventListener("mouseup", (e: any) => {
-    //   isDragging = false;
-    // });
-    // document.addEventListener("click", (e: any) => {
-    //   const x = e.clientX - 100;
-    //   const y = e.clientY - 50;
-    //   const img = document.createElement("img");
-    //   img.src = flower[Math.floor(Math.random() * Math.floor(4))];
-    //   img.style.position = "fixed";
-    //   img.classList.add("flower-img");
-    //   img.style.width = "150px";
-    //   img.style.height = "150px";
-    //   img.style.top = y + "px";
-    //   img.style.left = x + "px";
-    //   document.body.appendChild(img);
-    //   setTimeout(() => {
-    //     document.body.removeChild(img);
-    //   }, 2000);
-    // });
-
     const setInfoPopupCookie = () => {
       const cookieString =
         "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
@@ -238,6 +150,12 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
 
     const loginPopup = urlParams.get("loginpopup");
+    const shownVideoPopup = sessionStorage.getItem("bosporus");
+    if (isHomePage && !shownVideoPopup) {
+      dispatch(updateComponent(POPUP.VIDEOPOPUP, undefined, true));
+      dispatch(updateModal(true));
+      sessionStorage.setItem("bosporus", "1");
+    }
     if (
       !loginPopup &&
       isHomePage &&
@@ -327,11 +245,23 @@ const BaseLayout: React.FC = () => {
   const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
   const maintenance = pathname.indexOf("maintenance") > -1;
+  const value =
+    pathname.indexOf("auth") > -1
+      ? false
+      : typeof document == "undefined"
+      ? true
+      : dominList.some((v: any) => location.origin.includes(v))
+      ? CookieService.getCookie("auth")
+      : true;
+
   const minimalPage = confirmation || backOrder || maintenance;
   return (
     <Fragment>
       {/* <Whatsapp /> */}
-      {!minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      {!value
+        ? ""
+        : !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      {isLoading && <Loader />}
       <div
         className={
           minimalPage
@@ -340,10 +270,10 @@ const BaseLayout: React.FC = () => {
         }
         id="no-content"
       >
-        {/* <MusicPlayer /> */}
+        {/* {!isauth && <FormPage/>} */}
         <Switch>{routes}</Switch>
       </div>
-      {!(minimalPage || isCheckout) && <Footer />}
+      {value && !(minimalPage || isCheckout) && <Footer />}
       <Modal />
     </Fragment>
   );

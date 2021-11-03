@@ -43,7 +43,11 @@ export enum ROUTES {
   SHOPPER = "/personal-shopper-form",
   INSTORE = "/instoreservices",
   THANKYOU = "/thankyou",
-  MUMTAZ = "/mumtaz-virtual-appointment"
+  MUMTAZ = "/mumtaz-virtual-appointment",
+  GCEMAIL = "/send-giftcard",
+  AUTH = "/auth",
+  HFH = "/home-for-holidays-reminders",
+  SITEMAP = "/sitemap"
 }
 
 export type RouteConfig = RouteObject[];

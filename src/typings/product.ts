@@ -65,6 +65,9 @@ export interface Product<T = ProductID> extends PartialProductItem {
   looksProducts?: PLPProductItem[];
   lookImageUrl?: string;
   groupedProducts?: GroupedProductItem[];
+  showFillerMessage?: boolean;
+  fillerUrl?: string;
+  manufactureInfo: string;
 }
 
 export interface PartialChildProductAttributes {

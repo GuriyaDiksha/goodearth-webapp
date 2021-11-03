@@ -8,11 +8,22 @@ const initActionPLP: InitAction = async (
   currency
 ) => {
   const dispatch = store.dispatch;
-  await PlpService.onLoadPlpPage(dispatch, search, currency || "INR").catch(
-    error => {
-      console.log("PLP SERVER ", error);
-    }
-  );
+  const categoryShop = new URLSearchParams(search).get("category_shop");
+  const promises: any[] = [
+    PlpService.onLoadPlpPage(dispatch, search, currency || "INR").catch(
+      error => {
+        console.log("PLP SERVER ", error);
+      }
+    )
+  ];
+  if (categoryShop) {
+    promises.push(
+      PlpService.fetchPlpTemplates(dispatch, categoryShop).catch(error => {
+        console.log("Fetch PLP Templates error!! ", error);
+      })
+    );
+  }
+  await Promise.all(promises);
 };
 
 export default initActionPLP;

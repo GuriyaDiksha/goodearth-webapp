@@ -6,12 +6,16 @@ import { actionCreator } from "utils/actionCreator";
 // } from "typings/product";
 
 import { PlpProps } from "containers/plp/typings";
+import { PlpTemplatesData } from "services/plp/typings";
 
 export const updateProduct = (plpList: PlpProps) =>
   actionCreator("ADD_PLP_LIST", plpList);
 
 export const newPlpList = (plpList: PlpProps) =>
   actionCreator("NEW_PLP_LIST", plpList);
+
+export const updatePlpTemplates = (data: PlpTemplatesData) =>
+  actionCreator("UPDATE_PLP_TEMPLATES", data);
 
 export const updateFacets = (data: any) => actionCreator("UPDATE_FACET", data);
 

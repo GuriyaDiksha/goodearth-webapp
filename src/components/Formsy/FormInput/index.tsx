@@ -74,6 +74,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "phoneNumber":
         return "Please enter your Contact Number";
       case "password1":
+      case "newPassword":
+      case "newPassword1":
         return "Please enter at least 6 characters for the Password";
       case "password2":
         return "Please enter at least 6 characters for the Password";

@@ -397,7 +397,7 @@ class FilterList extends React.Component<Props, State> {
     const currentCurrency =
       "price" + currency[0].toUpperCase() + currency.substring(1).toLowerCase();
     pricearray = plpList.results.facets[currentCurrency];
-    if (pricearray.length > 0) {
+    if (pricearray && pricearray.length > 0) {
       minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
       minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
     }
@@ -472,7 +472,7 @@ class FilterList extends React.Component<Props, State> {
             currency[0].toUpperCase() +
             currency.substring(1).toLowerCase();
           pricearray = searchList.results.facets[currentCurrency];
-          if (pricearray.length > 0) {
+          if (pricearray && pricearray.length > 0) {
             minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
             minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
           }
