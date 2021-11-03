@@ -1,6 +1,5 @@
 import React, { useEffect, ReactElement, useContext, useState } from "react";
 import cs from "classnames";
-// import iconStyles from "../../styles/iconFonts.scss";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -48,21 +47,13 @@ const AddressSection: React.FC<AddressProps & {
     props.hidesameShipping &&
     !isGoodearthShipping &&
     !props.isBridal;
-  // state = {
-  // address: "",
-  // showAddressForm: isLoggedIn ? false : props.activeStep == Steps.STEP_BILLING ? (props.isBridal ? true : false) : true,
 
   const amountPrice = {
     INR: 200000,
     USD: 2500,
     GBP: 1800
   };
-  // editMode: false,
-  // newAddressMode: false,
-  // showAddresses: true,
 
-  // data: ""
-  // }
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
   const [gst, setGst] = useState(false);
   const [gstText, setGstText] = useState("");
@@ -72,13 +63,8 @@ const AddressSection: React.FC<AddressProps & {
   const [panCheck, setPanCheck] = useState("");
   const [gstPan, setGstPan] = useState(user.panPassport || "");
   const [gstPanError, setGstPanError] = useState("");
-  // const [shippingErrorMsg, setShippingErrorMsg] = useState("");
-  // const [billingErrorMsg, setBillingErrorMsg] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
-  // const [addressIdError, setAddressIdError] = useState("");
   const [error, setError] = useState("");
-
-  // console.log(shippingErrorMsg, billingErrorMsg, addressIdError); // temp code
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -200,27 +186,21 @@ const AddressSection: React.FC<AddressProps & {
               Edit
             </span>
           </div>
+          {currentCallBackComponent == "checkout-shipping" && (
+            <>
+              <hr />
+              <p className={styles.contactMsg}>
+                <b>Note: </b>
+                {`${address.phoneCountryCode} ${address.phoneNumber} will be used for sending OTP during delivery.`}
+                <br /> Please ensure it is a mobile number.
+              </p>
+            </>
+          )}
         </div>
       );
     } else if (props.addresses.length == 0) {
       // props.openAddressForm();
     }
-    // else if((props.addresses.length == 0 && showAddressForm == false) // in case of no address
-    //         || (!(Object.keys(props.addresses).length === 0 && props.addresses.constructor === Object) && (!bridal_user.user_id && props.addresses.filter(data => (!data.is_bridal && !data.is_edit)).length == 0) && props.activeStep == Steps.STEP_BILLING && showAddressForm == false)) {
-    //     // console.log('true');
-    //     setState({
-    //         showAddressForm: true,
-    //         newAddressMode: true,
-    //         editMode: false,
-    //     })
-    // }
-    // else if((props.addresses.length > 0 && showAddressForm && showAddresses && newAddressMode && props.activeStep === Steps.STEP_SHIPPING)
-    //         || (!(Object.keys(props.addresses).length === 0 && props.addresses.constructor === Object) && (bridal_user.user_id || props.addresses.filter(data => (!data.is_bridal && !data.is_edit)).length > 0) && showAddressForm && showAddresses && newAddressMode && props.activeStep === Steps.STEP_BILLING)) {
-    //     setState({
-    //         showAddressForm: false,
-    //         newAddressMode: false
-    //     })
-    // }
   };
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGstType(e.target.value);
@@ -228,42 +208,6 @@ const AddressSection: React.FC<AddressProps & {
     setPanError("");
     setError("");
   };
-
-  // const onSelectAddress = (address: AddressData) => {
-  //   onSubmit(address);
-  // }
-
-  // const onDeleteAddress = (id: number) => {
-  // let data = new FormData();
-  // data.append("id", id.toString());
-  // data.append("action_type", 'delete');
-  // CustomerAddressApi.touchAddress(data, props.dispatch).then(res => {
-  //     if (!res.data.Status) {
-  //         const errorMessage = res.data.error_message;
-  //         const addressIdError = Number(res.data.id);
-  //         const errrorInStep = props.addressType == "SHIPPING" ? "shippingErrorMsg" : "billingErrorMsg";
-  //         setState({
-  //             [errrorInStep]: errorMessage,
-  //             addressIdError: addressIdError
-  //         })
-  //     }
-
-  // });
-  // }
-
-  // const onSubmitAddress = (data: AddressData) => {
-  // if (isLoggedIn)
-  //     setAddressModes({
-  //         editMode: editMode,
-  //         newAddressMode: newAddressMode,
-  //         showAddresses: showAddresses
-  //     })
-  // else {
-  //     setAddressModes({editMode: false, newAddressMode: false, showAddresses: false})
-  //     setState({address: data});
-  //     onSelectAddress(data);
-  // }
-  // }
 
   const onPanKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
@@ -312,34 +256,8 @@ const AddressSection: React.FC<AddressProps & {
     setGst(!gst);
   };
 
-  // const setAddressModes = (modes: any) => {
-  // this.setState(modes);
-  // if (this.props.error || this.shippingErrorMsg || this.billingErrorMsg) {
-  //     this.removeErrorMessages();
-  // }
-  // }
-
   const toggleSameAsShipping = () => {
     setSameAsShipping(!sameAsShipping);
-    // }, () => {
-
-    //     if (!sameAsShipping && props.activeStep == "BILLING" && !isLoggedIn) {
-    //         setAddressModes({
-    //             newAddressMode: true,
-    //             editMode: false,
-    //             showAddresses: false
-    //         })
-    //         toggleAddressForm();
-    //     }
-    //     if (sameAsShipping && props.activeStep == "BILLING" && !isLoggedIn) {
-    //         setAddressModes({
-    //             newAddressMode: false,
-    //             editMode: false,
-    //             showAddresses: false
-    //         })
-    //         toggleAddressForm();
-    //     }
-    // })
   };
 
   const checkPancardValidation = () => {
@@ -406,9 +324,6 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const removeErrorMessages = () => {
-    // setShippingErrorMsg("");
-    // setBillingErrorMsg("");
-    // setAddressIdError("");
     setGstPanError("");
   };
 
@@ -477,17 +392,6 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const handleSaveAndReview = () => {
-    // let products = valid.productForGa(basket, currency);
-    // dataLayer.push({
-    //     'event': 'checkout',
-    //     'ecommerce': {
-    //         'currencyCode': currency,
-    //         'checkout': {
-    //             'actionField': {'step': 3},
-    //             'products': products
-    //         }
-    //     }
-    // })
     onSubmit();
   };
 
@@ -685,7 +589,6 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   const renderBillingCheckbox = function() {
-    // const show = (showAddressForm && isLoggedIn ? false : true) && !props.isBridal && !props.is_goodearth_Shipping;
     const show =
       !props.isBridal && !props.isGoodearthShipping && mode == "list";
 
@@ -742,10 +645,8 @@ const AddressSection: React.FC<AddressProps & {
     if (address) {
       const isValid = isAddressValid(address);
       if (isValid) {
-        // this.props.onSelectAddress(address);
         onSubmit(address);
       } else {
-        // this.manageAddressPostcode("edit", address);
         openAddressForm(address);
       }
     }
@@ -806,7 +707,6 @@ const AddressSection: React.FC<AddressProps & {
         </div>
       );
     } else {
-      // let selectAddress = (props.activeStep == Steps.STEP_BILLING && !isLoggedIn && props.isBridal) ? '' : selectedAddress;
       return (
         <div className={globalStyles.marginT20}>
           <div
@@ -879,7 +779,6 @@ const AddressSection: React.FC<AddressProps & {
               </div>
             )}
           </div>
-          {/* {(user.gender == "None" || user.gender == '') ? checkForGenderUpdate() : ""} */}
         </div>
       );
     }
