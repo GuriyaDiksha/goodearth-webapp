@@ -275,7 +275,7 @@ class Search extends React.Component<
       device: { mobile },
       currency,
       data: {
-        results: { banner, data },
+        results: { banner, data, facets },
         count
       }
     } = this.props;
@@ -286,7 +286,7 @@ class Search extends React.Component<
         value: "hc"
       },
       {
-        label: "Newest",
+        label: "Newest First",
         value: "is_new"
       },
       {
@@ -298,6 +298,13 @@ class Search extends React.Component<
         value: "price_desc"
       }
     ];
+
+    if (facets.sortedDiscount) {
+      items.splice(1, 0, {
+        label: "Discount",
+        value: "discount"
+      });
+    }
     return (
       <div
         className={cs(

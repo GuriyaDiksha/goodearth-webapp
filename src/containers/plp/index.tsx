@@ -325,7 +325,7 @@ class PLP extends React.Component<
       device: { mobile },
       currency,
       data: {
-        results: { breadcrumb, banner, bannerMobile, data, bannerUrl },
+        results: { breadcrumb, banner, bannerMobile, data, facets, bannerUrl },
         count
       }
     } = this.props;
@@ -336,7 +336,7 @@ class PLP extends React.Component<
         value: "hc"
       },
       {
-        label: "Newest",
+        label: "Newest First",
         value: "is_new"
       },
       {
@@ -348,6 +348,13 @@ class PLP extends React.Component<
         value: "price_desc"
       }
     ];
+
+    if (facets.sortedDiscount) {
+      items.splice(1, 0, {
+        label: "Discount",
+        value: "discount"
+      });
+    }
     return (
       <div
         className={cs(

@@ -1308,6 +1308,8 @@ class FilterList extends React.Component<Props, State> {
       filter.sortBy = { sortBy: "price_desc" };
     } else if (sort == "is_new") {
       filter.sortBy = { sortBy: "is_new" };
+    } else if (sort == "discount") {
+      filter.sortBy = { sortBy: "discount" };
     } else if (sort == "hc") {
       filter.sortBy = {};
     }
