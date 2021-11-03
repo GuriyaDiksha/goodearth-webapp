@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
