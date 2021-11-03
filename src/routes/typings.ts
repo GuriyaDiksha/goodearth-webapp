@@ -46,7 +46,8 @@ export enum ROUTES {
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
-  HFH = "/home-for-holidays-reminders"
+  HFH = "/home-for-holidays-reminders",
+  SITEMAP = "/sitemap"
 }
 
 export type RouteConfig = RouteObject[];

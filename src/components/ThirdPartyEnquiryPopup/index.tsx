@@ -27,6 +27,7 @@ import { Country } from "components/Formsy/CountryCode/typings";
 type Props = {
   id: ProductID;
   quantity?: number;
+  partner?: string;
 };
 type StateOptions = {
   value: string;
@@ -43,7 +44,7 @@ type CountryOptions = {
   states: StateOptions[];
 };
 
-const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
+const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
   const dispatch = useDispatch();
 
   const { closeModal } = useContext(ModalContext);
@@ -52,6 +53,14 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [modevalue, setModevalue] = useState("");
+  const [popupfield, setPopupfield] = useState({
+    name: true,
+    contactNo: true,
+    country: true,
+    preferredContact: ["Phone", "Email"],
+    query: true,
+    state: true
+  });
   const [enquiryMessage, setEnquiryMessage] = useState<
     string | (string | JSX.Element)[]
   >("");
@@ -68,6 +77,9 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
         dispatch(updateCountryData(countryData));
       });
     }
+    ProductService.fetchEnquireData(dispatch, partner || "").then(data => {
+      setPopupfield(data);
+    });
   }, []);
 
   // const stateOptions = useSelector((state: AppState) =>
@@ -174,16 +186,12 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
     changeCountryData(countryData);
   }, [countryData]);
 
-  const modeOptions = [
-    {
-      value: "Email",
-      label: "Email"
-    },
-    {
-      value: "Phone",
-      label: "Phone"
-    }
-  ];
+  const modeOptions = popupfield.preferredContact.map(item => {
+    return {
+      value: item,
+      label: item
+    };
+  });
 
   const { isLoggedIn, firstName, lastName, email, phoneNumber } = useSelector(
     (state: AppState) => state.user
@@ -282,70 +290,78 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
       onInvalidSubmit={handleInvalidSubmit}
     >
       <div className={styles.categorylabel} id="thirdparty-enquiry-form">
-        <div>
-          <FormInput
-            name="name"
-            placeholder={"Name*"}
-            label={"Name*"}
-            value={isLoggedIn ? firstName + " " + lastName : ""}
-            disable={submitted}
-            className={inputClass}
-            validations={{
-              isWords: true
-            }}
-            validationErrors={{
-              isWords: "Only alphabets are allowed"
-            }}
-            required
-          />
-        </div>
-        <div>
-          <div className="select-group text-left">
-            <FormSelect
-              required
-              label="Country"
-              options={countryOptions}
-              handleChange={onCountrySelect}
-              placeholder="Select Country"
-              disable={true}
-              name="country"
+        {popupfield?.name && (
+          <div>
+            <FormInput
+              name="name"
+              placeholder={"Name*"}
+              label={"Name*"}
+              value={isLoggedIn ? firstName + " " + lastName : ""}
+              disable={submitted}
+              className={inputClass}
               validations={{
-                isExisty: true
+                isWords: true
               }}
               validationErrors={{
-                isExisty: "Please select your Country",
-                isEmptyString: "This field is required"
+                isWords: "Only alphabets are allowed"
               }}
-            />
-            <span className="arrow"></span>
-          </div>
-        </div>
-        <div>
-          <div className="select-group text-left">
-            <FormSelect
               required
-              name="state"
-              label="State"
-              placeholder="Select State"
-              disable={submitted}
-              options={stateOptions}
-              value=""
-              validations={{
-                isExisty: true
-              }}
             />
           </div>
+        )}
+        <div>
+          {popupfield?.country && (
+            <div className="select-group text-left">
+              <FormSelect
+                required
+                label="Country"
+                options={countryOptions}
+                handleChange={onCountrySelect}
+                placeholder="Select Country"
+                disable={true}
+                name="country"
+                validations={{
+                  isExisty: true
+                }}
+                validationErrors={{
+                  isExisty: "Please select your Country",
+                  isEmptyString: "This field is required"
+                }}
+              />
+              <span className="arrow"></span>
+            </div>
+          )}
         </div>
         <div>
-          <FormTextArea
-            name="query"
-            placeholder={"Query*"}
-            label={"Query*"}
-            rows={3}
-            disable={submitted}
-            inputClass={inputClass}
-            required
-          />
+          {popupfield?.state && (
+            <div className="select-group text-left">
+              <FormSelect
+                required
+                name="state"
+                label="State"
+                placeholder="Select State"
+                disable={submitted}
+                options={stateOptions}
+                value=""
+                validations={{
+                  isExisty: true
+                }}
+              />
+            </div>
+          )}
+        </div>
+        <div>
+          {popupfield?.query && (
+            <FormTextArea
+              name="query"
+              placeholder={"Query*"}
+              label={"Query*"}
+              rows={3}
+              disable={submitted}
+              inputClass={inputClass}
+              required
+            />
+          )}
         </div>
         <div>
           <FormInput
@@ -366,37 +382,39 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity }) => {
             required
           />
         </div>
-        <div className={cs(styles.countryCode)}>
-          <div className={styles.flex}>
-            <div>
-              <input
-                type="text"
-                value={countrycode}
-                placeholder="Code"
-                disabled={true}
-                className={styles.codeInput}
-              />
-            </div>
-            <div className={styles.contactNumber}>
-              <FormInput
-                name="phoneNo"
-                value={isLoggedIn && phoneNumber ? phoneNumber : ""}
-                placeholder={"Contact No.*"}
-                type="number"
-                disable={submitted}
-                className={inputClass}
-                label={"Contact No.*"}
-                validations={{
-                  isLength: 10
-                }}
-                validationErrors={{
-                  isLength: "Phone number should be 10 digit"
-                }}
-                required
-              />
+        {popupfield?.contactNo && (
+          <div className={cs(styles.countryCode)}>
+            <div className={styles.flex}>
+              <div>
+                <input
+                  type="text"
+                  value={countrycode}
+                  placeholder="Code"
+                  disabled={true}
+                  className={styles.codeInput}
+                />
+              </div>
+              <div className={styles.contactNumber}>
+                <FormInput
+                  name="phoneNo"
+                  value={isLoggedIn && phoneNumber ? phoneNumber : ""}
+                  placeholder={"Contact No.*"}
+                  type="number"
+                  disable={submitted}
+                  className={inputClass}
+                  label={"Contact No.*"}
+                  validations={{
+                    isLength: 10
+                  }}
+                  validationErrors={{
+                    isLength: "Phone number should be 10 digit"
+                  }}
+                  required
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <p className={cs(styles.msg)}>Preferred mode of contact</p>
         <div>
           <div className="select-group text-left">
