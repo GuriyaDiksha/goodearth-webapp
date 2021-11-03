@@ -84,7 +84,8 @@ const ProductDetails: React.FC<Props> = ({
     fillerUrl,
     justAddedBadge,
     badgeType,
-    invisibleFields
+    invisibleFields,
+    partner
   },
   data,
   corporatePDP,
@@ -446,6 +447,7 @@ const ProductDetails: React.FC<Props> = ({
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
       POPUP.THIRDPARTYENQUIRYPOPUP,
       {
+        partner: partner,
         id: id,
         quantity: quantity
       },

@@ -32,6 +32,18 @@ export default {
     );
     return res.results as CollectionProductItem[];
   },
+  fetchEnquireData: async (
+    dispatch: Dispatch,
+    patner: string
+  ): Promise<any> => {
+    const res: any = await API.get(
+      dispatch,
+      `${__API_HOST__ +
+        `/myapi/promotions/show_corporate_enquiry_form_field/?partner=` +
+        patner}`
+    );
+    return res;
+  },
   notifyMe: async function(
     dispatch: Dispatch,
     productId: ProductID,
