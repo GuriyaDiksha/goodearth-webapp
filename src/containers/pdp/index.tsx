@@ -645,13 +645,17 @@ class PDPContainer extends React.Component<Props, State> {
     changeModalState(true);
   };
 
-    onClickMobile3d = (e:any,code:string) =>{
-      const { updateComponentModal, changeModalState } = this.props;
-      updateComponentModal(POPUP.HELLOARPOPUP, {
+  onClickMobile3d = (e: any, code: string) => {
+    const { updateComponentModal, changeModalState } = this.props;
+    updateComponentModal(
+      POPUP.HELLOARPOPUP,
+      {
         code
-      }, true);
-      changeModalState(true);
-    }
+      },
+      true
+    );
+    changeModalState(true);
+  };
 
   notifyMeClick = (product: PLPProductItem) => {
     const {
@@ -928,12 +932,12 @@ class PDPContainer extends React.Component<Props, State> {
     }
 
     const { breadcrumbs } = data;
-    const images:any[] = this.getProductImagesData();
+    const images: any[] = this.getProductImagesData();
 
     const mobileSlides =
       mobile &&
-      images?.map(({ id, productImage , icon, code }, i: number) => {
-        console.log(icon, code)
+      images?.map(({ id, productImage, icon, code }, i: number) => {
+        console.log(icon, code);
         return (
           <div key={id} className={globalStyles.relative}>
             <LazyImage
@@ -943,9 +947,14 @@ class PDPContainer extends React.Component<Props, State> {
               className={globalStyles.imgResponsive}
               onClick={this.getMobileZoomListener(i)}
             />
-            {icon && <div className={styles.mobile3d}>
-                <img src={mobile3d} onClick={(e:any)=>this.onClickMobile3d(e,code)}></img>
-            </div>}
+            {icon && (
+              <div className={styles.mobile3d}>
+                <img
+                  src={mobile3d}
+                  onClick={(e: any) => this.onClickMobile3d(e, code)}
+                ></img>
+              </div>
+            )}
             <div
               className={styles.mobileZoomIcon}
               onClick={this.getMobileZoomListener(i)}

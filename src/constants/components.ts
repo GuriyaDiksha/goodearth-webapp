@@ -88,7 +88,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   maker: MakerPopup,
   resendGc: ResendGcPopup,
   videoPopup: VideoPopup,
-  helloarPopup:HelloarPopup
+  helloarPopup: HelloarPopup
 };
 
 export enum POPUP {
@@ -119,5 +119,5 @@ export enum POPUP {
   MAKER = "maker",
   RESENDGC = "resendGc",
   VIDEOPOPUP = "videoPopup",
-  HELLOARPOPUP="helloarPopup"
+  HELLOARPOPUP = "helloarPopup"
 }

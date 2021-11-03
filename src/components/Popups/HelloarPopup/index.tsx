@@ -9,8 +9,7 @@ import cs from "classnames";
 // import { Link } from "react-router-dom";
 import { Context } from "components/Modal/context";
 
-const HelloarPopup: React.FC<{code:string}> = ({code}) => {
-
+const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
   // const [isLoading, setIsLoading] = useState(true);
   const { closeModal } = useContext(Context);
   // let player: any = null;
@@ -24,9 +23,7 @@ const HelloarPopup: React.FC<{code:string}> = ({code}) => {
   //   });
   // };
 
-  const initialize = () => {
-   
-  };
+  const initialize = () => {};
 
   useEffect(() => {
     initialize();
@@ -34,7 +31,7 @@ const HelloarPopup: React.FC<{code:string}> = ({code}) => {
 
   // const { mobile } = useSelector((state: AppState) => state.device);
   return (
-    <div className={styles.videoPopupContainer} >
+    <div className={styles.videoPopupContainer}>
       <div className={styles.crossHello} onClick={closeModal}>
         <i
           className={cs(
@@ -45,13 +42,13 @@ const HelloarPopup: React.FC<{code:string}> = ({code}) => {
           )}
         ></i>
       </div>
-      <iframe 
-          src={`https://viewer.helloar.io?id=${code}`}
-          height="100%"
-          width="100%"
-          allow="xr-spatial-tracking;fullscreen;" 
-          frameBorder="0"
-        ></iframe>
+      <iframe
+        src={`https://viewer.helloar.io?id=${code}`}
+        height="100%"
+        width="100%"
+        allow="xr-spatial-tracking;fullscreen;"
+        frameBorder="0"
+      ></iframe>
       {/* <div className={cs(globalStyles.ceriseBtn, styles.cta)}>
         <Link to="/cart" onClick={closeModal}>
           Discover Bosporus
