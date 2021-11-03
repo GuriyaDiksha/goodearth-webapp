@@ -97,6 +97,7 @@ let config = [
                 __GOOGLE_CLIENT_ID__: googleClientID,
                 __GTM_ID__:gtmId,
                 __IP_DATA_KEY__: ipDataKey,
+                __MOENG__:moeng,
                 __CAREERS_FORM__: careersForm
             }),
             env === "development" ? new ForkTsCheckerWebpackPlugin() : () => {},
