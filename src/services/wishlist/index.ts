@@ -19,7 +19,7 @@ export default {
       `${__API_HOST__}/myapi/wishlist/?sort_by=${sortBy}`
     );
 
-    dispatch(updateWishlist(res.data, sortBy));
+    dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
   },
 
   resetWishlist: function(dispatch: Dispatch) {
