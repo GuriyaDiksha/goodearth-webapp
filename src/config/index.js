@@ -2,13 +2,13 @@ const defaultConfig = require("./default.json");
 
 let conf = {...defaultConfig};
 
-try {
+// try {
     const envConfig = require("./environment.json");
     conf = {
         ...conf,
         ...envConfig
     }
-} catch (e){}
+// } catch (e){}
 
 
 module.exports = conf;
