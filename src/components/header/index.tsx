@@ -33,6 +33,7 @@ import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
 import { CUST } from "constants/util";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -73,6 +74,7 @@ class Header extends React.Component<Props, State> {
       selectedPincode: "",
       showPincodePopup: false,
       showBag: false,
+      isLoading: false,
       showCartMobile:
         (this.props.location.pathname.includes("/catalogue/") &&
           !this.props.location.pathname.includes("/catalogue/category")) ||
@@ -147,6 +149,20 @@ class Header extends React.Component<Props, State> {
       selectedPincode: localStorage.getItem("selectedPincode")
     });
 
+    if (this.props.location.pathname.includes("/send-giftcard")) {
+      const lineId = urlParams.get("line_id");
+      if (lineId) {
+        this.props
+          .resendGcEmail(lineId)
+          .catch(err => {
+            console.log("resend gc error!!");
+          })
+          .finally(() => {
+            this.props.history.push("/");
+          });
+      }
+    }
+
     // to fetch announcement bar in case user navigates away from bridal public link without adding bridal products to basket
     if (
       this.props.announcement.isBridalActive &&
@@ -210,28 +226,37 @@ class Header extends React.Component<Props, State> {
     const data: any = {
       currency: cur
     };
-    if (this.props.currency != data.currency) {
-      changeCurrency(data).then((response: any) => {
-        // if (data.currency == "INR") {
-        //   history.push("/maintenance");
-        // }
-        this.setState({
-          activeIndex: -1 // default value -1 not 0
-        });
-        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
-          const path =
-            history.location.pathname +
-            history.location.search.replace(currency, response.currency);
-          history.replace(path);
-        }
-        reloadPage(
-          this.props.cookies,
-          response.currency,
-          this.props.customerGroup,
-          history.location.pathname,
-          this.props.isLoggedIn
-        );
+    if (!this.state.isLoading && this.props.currency != data.currency) {
+      this.setState({
+        isLoading: true
       });
+      changeCurrency(data)
+        .then((response: any) => {
+          // if (data.currency == "INR") {
+          //   history.push("/maintenance");
+          // }
+          this.setState({
+            activeIndex: -1 // default value -1 not 0
+          });
+          if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+            const path =
+              history.location.pathname +
+              history.location.search.replace(currency, response.currency);
+            history.replace(path);
+          }
+          reloadPage(
+            this.props.cookies,
+            response.currency,
+            this.props.customerGroup,
+            history.location.pathname,
+            this.props.isLoggedIn
+          );
+        })
+        .finally(() => {
+          this.setState({
+            isLoading: false
+          });
+        });
     }
   };
 
@@ -904,6 +929,7 @@ class Header extends React.Component<Props, State> {
             active={this.props.showStock}
           />
         )}
+        {this.state.isLoading && <Loader />}
       </div>
     );
   }

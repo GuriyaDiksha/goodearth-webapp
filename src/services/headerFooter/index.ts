@@ -161,6 +161,14 @@ export default {
     }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
     return res;
   },
+  saveHFH: async function(dispatch: Dispatch, formData: any) {
+    const res = await API.post<{ status: boolean }>(
+      dispatch,
+      `${__API_HOST__}/myapi/customer/hfh_reminders/`,
+      formData
+    );
+    return res;
+  },
   getSaleTimerData: async function(dispatch: Dispatch) {
     try {
       const data: SaleTimerData = await API.get<SaleTimerData>(
@@ -184,5 +192,16 @@ export default {
       payLoad
     );
     dispatch(updateStore(res));
+  },
+  resendGcEmail: async function(dispatch: Dispatch, lineId: string) {
+    const res = await API.get<{
+      msg: string;
+      status: boolean;
+      email: string;
+    }>(
+      dispatch,
+      `${__API_HOST__}/myapi/giftcard/send_giftcard_again/?line_id=${lineId}`
+    );
+    return res;
   }
 };

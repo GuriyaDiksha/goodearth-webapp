@@ -7,6 +7,9 @@ export const updateSales = (isSale: boolean) =>
 export const updateGiftWrap = (showGiftwrap: boolean) =>
   actionCreator("UPDATE_GIFT_WRAP", showGiftwrap);
 
+export const updatePromo = (showPromo: boolean) =>
+  actionCreator("UPDATE_PROMO", showPromo);
+
 export const updateDeliveryInstruction = (showDeliveryInstruction: boolean) =>
   actionCreator("UPDATE_DELIVERY_INSTRUCTION", showDeliveryInstruction);
 
@@ -36,3 +39,6 @@ export const updateShowCookie = (showCookie: boolean) =>
 
 export const updateShowTimer = (showTimer: boolean) =>
   actionCreator("UPDATE_SHOW_TIMER", showTimer);
+
+export const updateLoader = (isLoading: boolean) =>
+  actionCreator("UPDATE_LOADER", isLoading);
