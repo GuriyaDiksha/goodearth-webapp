@@ -11,28 +11,36 @@ import { Context } from "components/Modal/context";
 
 const VideoPopup: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isMute, setIsMute] = useState(true);
   const { closeModal } = useContext(Context);
-  let player: any = null;
-  const togglePlay = (e: any) => {
-    player.getPaused().then((isPaused: boolean) => {
-      if (isPaused) {
-        player.play();
-      } else {
-        player.pause();
-      }
-    });
-  };
+  const [player, setPlayer] = useState<any>(null);
+  // const togglePlay = (e: any) => {
+  //   if(player) {
+  //     player.getPaused().then((isPaused: boolean) => {
+  //       if (isPaused) {
+  //         player.play();
+  //       } else {
+  //         player.pause();
+  //       }
+  //     });
+  //   }
+  // };
 
+  useEffect(() => {
+    if (player) {
+      console.log("loaded!!!");
+      setIsLoading(false);
+      // player.play();
+      player.setLoop(true);
+    }
+  }, [player]);
   const initialize = () => {
     if (Vimeo && !player) {
       //initialize player
       const iframe = document.querySelector("iframe");
-      player = new Vimeo.Player(iframe);
+      setPlayer(new Vimeo.Player(iframe));
       // hide default vimeo play button
-      console.log("loaded!!!");
-      setIsLoading(false);
-      player.play();
-      player.setLoop(true);
+
       // if(iframe) {
       //     const iframeDoc = iframe.contentWindow.document;
       //     const btn = iframeDoc.querySelectorAll('.vp-controls-wrapper')[0];
@@ -41,13 +49,17 @@ const VideoPopup: React.FC = () => {
     }
   };
 
+  const toggleMute = () => {
+    player.setVolume(isMute ? 1 : 0);
+    setIsMute(isMute => !isMute);
+  };
   useEffect(() => {
     initialize();
   }, [Vimeo]);
 
   const { mobile } = useSelector((state: AppState) => state.device);
   return (
-    <div className={styles.videoPopupContainer} onClick={togglePlay}>
+    <div className={styles.videoPopupContainer}>
       <div className={styles.cross} onClick={closeModal}>
         <i
           className={cs(
@@ -62,7 +74,7 @@ const VideoPopup: React.FC = () => {
         <iframe
           id="vimeo"
           onLoad={initialize}
-          src="https://player.vimeo.com/video/639043234?h=af1a85222a"
+          src="https://player.vimeo.com/video/641118070?background=1&badge=0&autoplay=1&loop=1&controls=1"
           width="320"
           height="489"
           frameBorder="0"
@@ -72,7 +84,7 @@ const VideoPopup: React.FC = () => {
         <iframe
           id="vimeo"
           onLoad={initialize}
-          src="https://player.vimeo.com/video/639040610?h=39a8b75668"
+          src="https://player.vimeo.com/video/641115172?background=1&badge=0&autoplay=1&loop=1&controls=1"
           width="850"
           height="523"
           frameBorder="0"
@@ -80,9 +92,18 @@ const VideoPopup: React.FC = () => {
         ></iframe>
       )}
       <div className={cs(globalStyles.ceriseBtn, styles.cta)}>
-        <Link to="/cart" onClick={closeModal}>
+        <Link to="/" onClick={closeModal}>
           Discover Bosporus
         </Link>
+      </div>
+      <div className={styles.icon} onClick={toggleMute}>
+        <i
+          className={cs(
+            iconStyles.icon,
+            { [iconStyles.iconMute]: !isMute, [iconStyles.iconMute2]: isMute },
+            styles.iconMute
+          )}
+        ></i>
       </div>
       {isLoading && <Loader />}
     </div>

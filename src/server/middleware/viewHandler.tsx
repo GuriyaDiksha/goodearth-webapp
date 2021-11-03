@@ -45,6 +45,8 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
   const history = ctx.history;
   const matchedRoute = matchRoute(ctx.URL.pathname, paths);
   const state: AppState = ctx.store.getState();
+  const domain = ctx.request.URL.origin;
+  const dominList = ["dv", "stg", "pprod", "test"];
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ["client"] });
   if (ctx.cookies.get("sessionid") != state.cookies.sessionid) {
     const expires = new Date(new Date().setMonth(new Date().getMonth() + 12));
@@ -59,8 +61,12 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     ctx.set("Cache-Control", "no-cache");
   }
 
-  if (ctx.cookies.get("auth") != "true" && !ctx.url.includes("/auth")) {
-    // ctx.redirect("/auth");
+  if (
+    ctx.cookies.get("auth") != "true" &&
+    !ctx.url.includes("/auth") &&
+    dominList.some((v: any) => domain.includes(v))
+  ) {
+    ctx.redirect("/auth");
   }
 
   if (matchedRoute && matchedRoute.route) {

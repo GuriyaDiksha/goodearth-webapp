@@ -3,6 +3,7 @@ import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import CookieService from "services/cookie";
+import "./auth.css";
 
 const FormPage: React.FC = () => {
   const [password, setPassword] = useState("");
@@ -15,7 +16,11 @@ const FormPage: React.FC = () => {
   const handleValidation = (event: any) => {
     let formIsValid = true;
 
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+    if (
+      !email.match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+    ) {
       formIsValid = false;
       setemailError("Email Not Valid");
       return false;
@@ -24,16 +29,16 @@ const FormPage: React.FC = () => {
       formIsValid = true;
     }
 
-    if (!password.match(/^[a-zA-Z]{4,22}$/)) {
-      formIsValid = false;
-      setpasswordError(
-        "Only Letters and length must best min 4 Chracters and Max 22 Chracters"
-      );
-      return false;
-    } else {
-      setpasswordError("");
-      formIsValid = true;
-    }
+    // if (!password.match(/^[a-zA-Z]{4,22}$/)) {
+    //   formIsValid = false;
+    //   setpasswordError(
+    //     "Only Letters and length must best min 4 Chracters and Max 22 Chracters"
+    //   );
+    //   return false;
+    // } else {
+    //   setpasswordError("");
+    //   formIsValid = true;
+    // }
 
     return formIsValid;
   };
@@ -60,54 +65,41 @@ const FormPage: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="container">
-        <div className="row d-flex justify-content-center">
-          <div className="col-md-4">
-            <form id="loginform" onSubmit={loginSubmit}>
-              <div className="form-group">
-                <label>Email address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                  onChange={event => setEmail(event.target.value)}
-                />
-                <small id="emailHelp" className="text-danger form-text">
-                  {emailError}
-                </small>
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                  onChange={event => setPassword(event.target.value)}
-                />
-                <small id="passworderror" className="text-danger form-text">
-                  {passwordError}
-                </small>
-              </div>
-              <div className="form-group form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="exampleCheck1"
-                />
-              </div>
-              <small id="emailHelp" className="text-danger form-text">
-                {loginError}
-              </small>
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </form>
+      <div className="login-block">
+        <h1>Login</h1>
+        <form id="loginform" onSubmit={loginSubmit}>
+          <div>
+            <label>Email address</label>
+            <input
+              type="email"
+              id="EmailInput"
+              name="EmailInput"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              onChange={event => setEmail(event.target.value)}
+            />
+            <small id="emailHelp" className="text-danger form-text">
+              {emailError}
+            </small>
           </div>
-        </div>
+          <div className="margin-top">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="inputPassword1"
+              placeholder="Password"
+              onChange={event => setPassword(event.target.value)}
+            />
+            <small id="passworderror" className="text-danger">
+              {passwordError}
+            </small>
+          </div>
+          <small id="emailHelp" className="text-danger">
+            {loginError}
+          </small>
+          <button type="submit">Submit</button>
+        </form>
       </div>
     </div>
   );
