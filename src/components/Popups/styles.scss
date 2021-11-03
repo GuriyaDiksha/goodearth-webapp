@@ -891,6 +891,14 @@
     font-weight: bold;
     cursor: pointer;
   }
+  .cross-hello {
+    position: absolute;
+    right: -25px;
+    top: -80px;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width: 992px) {
