@@ -159,7 +159,7 @@ class FilterList extends React.Component<Props, State> {
                 value:
                   (filter.availableDiscount["disc_" + cc[i]] &&
                     filter.availableDiscount["disc_" + cc[i]].value) ||
-                  cc[i]
+                  (cc[i] == "flat" ? "flat" : `${cc[i]}%`)
               };
             }
             break;
@@ -854,11 +854,13 @@ class FilterList extends React.Component<Props, State> {
                             .isChecked
                         : false
                     }
-                    value={`${discount[0]}%`}
+                    value={`${
+                      discount[0] == "flat" ? "flat" : discount[0] + "%"
+                    }`}
                   />
-                  <label
-                    htmlFor={"disc_" + discount[0]}
-                  >{`${discount[0]}%`}</label>
+                  <label htmlFor={"disc_" + discount[0]}>{`${
+                    discount[0] == "flat" ? "Flat Price" : discount[0] + "%"
+                  }`}</label>
                 </li>
               );
             })}
