@@ -42,6 +42,7 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     mobile: state.device.mobile,
     wishlistData: state.wishlist.items,
+    sortBy: state.wishlist.sortBy,
     cart: state.basket,
     message: state.message,
     location: state.router.location,
@@ -127,7 +128,8 @@ class Header extends React.Component<Props, State> {
     this.props.onLoadAPiCall(
       this.props.isLoggedIn,
       this.props.cookies,
-      bridalKey
+      bridalKey,
+      this.props.sortBy
     );
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -249,7 +251,8 @@ class Header extends React.Component<Props, State> {
             response.currency,
             this.props.customerGroup,
             history.location.pathname,
-            this.props.isLoggedIn
+            this.props.isLoggedIn,
+            this.props.sortBy
           );
         })
         .finally(() => {

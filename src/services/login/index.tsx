@@ -69,7 +69,8 @@ export default {
     password: string,
     currency: Currency,
     source?: string,
-    history?: any
+    history?: any,
+    sortBy?: string
   ) {
     const queryString = location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -122,7 +123,7 @@ export default {
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
-    WishlistService.updateWishlist(dispatch);
+    WishlistService.updateWishlist(dispatch, sortBy);
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
@@ -190,7 +191,8 @@ export default {
     dispatch: Dispatch,
     formdata: any,
     source: string,
-    history: any
+    history: any,
+    sortBy?: string
   ) {
     const res = await API.post<loginResponse>(
       dispatch,
@@ -232,7 +234,7 @@ export default {
     Api.getPopups(dispatch).catch(err => {
       console.log("Popups Api ERROR === " + err);
     });
-    WishlistService.updateWishlist(dispatch);
+    WishlistService.updateWishlist(dispatch, sortBy);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -357,7 +359,8 @@ export default {
   register: async function(
     dispatch: Dispatch,
     formData: FormData,
-    source?: string
+    source?: string,
+    sortBy?: string
   ) {
     const res = await API.post<registerResponse>(
       dispatch,
@@ -375,7 +378,7 @@ export default {
       tkn: res.token
     });
     // HeaderService.fetchHomepageData(dispatch);
-    WishlistService.updateWishlist(dispatch);
+    WishlistService.updateWishlist(dispatch, sortBy);
     BasketService.fetchBasket(dispatch).then(res => {
       if (source == "checkout") {
         util.checkoutGTM(1, metaResponse?.currency || "INR", res);

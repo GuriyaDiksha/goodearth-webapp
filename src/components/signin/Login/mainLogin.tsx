@@ -22,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     location: state.router.location,
     basket: state.basket,
-    currency: state.currency
+    currency: state.currency,
+    sortBy: state.wishlist.sortBy
   };
 };
 
@@ -218,7 +219,9 @@ class MainLogin extends React.Component<Props, loginState> {
           this.state.email || "",
           this.state.password || "",
           this.props.currency,
-          this.source
+          this.source,
+          undefined,
+          this.props.sortBy
         )
         .then(data => {
           this.gtmPushSignIn();
