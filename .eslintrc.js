@@ -38,6 +38,7 @@ module.exports = {
     __IP_DATA_KEY__: false,
     __MOENG__:false,
     Vimeo: false,
-    __CAREERS_FORM__: false
+    __CAREERS_FORM__: false,
+    Moengage: false
 }
 };
