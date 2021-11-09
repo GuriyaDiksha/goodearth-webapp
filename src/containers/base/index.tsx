@@ -42,7 +42,7 @@ const BaseLayout: React.FC = () => {
   // don't show info popup
   const isSuspended = false;
   const popup = useSelector((state: AppState) => state.popup);
-  const dominList = ["dv", "stg", "pprod", "test"];
+  const dominList = ["dv", "stg", "pprod"];
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   const getPWADisplayMode = () => {
     const isStandalone = window.matchMedia("(display-mode: standalone)")
@@ -65,7 +65,10 @@ const BaseLayout: React.FC = () => {
   }, []);
   useEffect(() => {
     const value = CookieService.getCookie("auth");
-    if (value != "true") {
+    if (
+      value != "true" &&
+      dominList.some((v: any) => location.origin.includes(v))
+    ) {
       history.push("/auth");
     }
   }, []);
