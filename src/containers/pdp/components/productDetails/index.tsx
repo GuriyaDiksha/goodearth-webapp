@@ -301,6 +301,9 @@ const ProductDetails: React.FC<Props> = ({
       ? categories[index].replace(/\s/g, "")
       : "";
     category = category.replace(/>/g, "/");
+    Moengage.track_event("add_to_cart", {
+      categoryName: category
+    });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
