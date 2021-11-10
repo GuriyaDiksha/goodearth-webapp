@@ -119,7 +119,7 @@ const PastOrders: React.FC<Props> = (props: Props) => {
         className={cs(
           bootstrapStyles.col10,
           bootstrapStyles.offset1,
-          bootstrapStyles.colMd12
+          bootstrapStyles.colLg12
         )}
       >
         <div className={bootstrapStyles.row}>
