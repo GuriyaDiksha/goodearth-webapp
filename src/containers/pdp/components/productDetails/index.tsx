@@ -301,6 +301,9 @@ const ProductDetails: React.FC<Props> = ({
       ? categories[index].replace(/\s/g, "")
       : "";
     category = category.replace(/>/g, "/");
+    Moengage.track_event("add_to_cart", {
+      categoryName: category
+    });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -933,7 +936,7 @@ const ProductDetails: React.FC<Props> = ({
               })}
             >
               {button}
-              {onload && !info.isSale && !loyaltyDisabled && isQuickview ? (
+              {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
                 <p className={cs(styles.errorMsg, styles.notEligible)}>
                   This product is not eligible for Cerise points accumulation.
                 </p>
@@ -988,7 +991,7 @@ const ProductDetails: React.FC<Props> = ({
               [globalStyles.voffset3]: mobile
             })}
           >
-            {onload && !info.isSale && !loyaltyDisabled && !isQuickview ? (
+            {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
               <p className={styles.errorMsg}>
                 This product is not eligible for Cerise points accumulation.
               </p>

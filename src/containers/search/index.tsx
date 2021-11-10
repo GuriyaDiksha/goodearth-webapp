@@ -235,6 +235,10 @@ class Search extends React.Component<
             }
           }
         });
+        Moengage.track_event("search", {
+          keyword: product.name,
+          searchClicked: true
+        });
       }
     } catch (err) {
       console.log("Search GTM error");
