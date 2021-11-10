@@ -15,6 +15,9 @@ import {
   MenuComponentL2L3Data,
   MenuComponentTitleData
 } from "components/header/typings";
+import SecondaryHeader from "components/SecondaryHeader";
+import sitemapBanner from "images/sitemap-banner.png";
+import sitemapBannerMobile from "images/sitemap-banner-mobile.png";
 
 const Sitemap: React.FC = () => {
   const { showTimer } = useSelector((state: AppState) => state.info);
@@ -119,8 +122,16 @@ const Sitemap: React.FC = () => {
         bootstrap.containerFluid
       )}
     >
+      <SecondaryHeader>
+        <div className={cs(bootstrap.col11, bootstrap.offset1)}>
+          <span className={styles.heading}>SITEMAP</span>
+        </div>
+      </SecondaryHeader>
       <div className={styles.careersContent}>
-        <img src={mobile ? "" : ""} className={globalStyles.imgResponsive} />
+        <img
+          src={mobile ? sitemapBannerMobile : sitemapBanner}
+          className={globalStyles.imgResponsive}
+        />
         <div className={styles.careersImageCaption}>
           <h4>Sitemap</h4>
         </div>
