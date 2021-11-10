@@ -46,7 +46,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
   const matchedRoute = matchRoute(ctx.URL.pathname, paths);
   const state: AppState = ctx.store.getState();
   const domain = ctx.request.URL.origin;
-  const dominList = ["dv", "stg", "pprod", "test"];
+  const dominList = ["dv", "stg", "pprod"];
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ["client"] });
   if (ctx.cookies.get("sessionid") != state.cookies.sessionid) {
     const expires = new Date(new Date().setMonth(new Date().getMonth() + 12));
@@ -140,6 +140,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       styleSheets: linkTags,
       head: meta,
       gtmdata: JSON.stringify(__GTM_ID__),
+      moengage: JSON.stringify(__MOENG__),
       cdn: __CDN_HOST__,
       manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });
