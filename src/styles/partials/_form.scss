@@ -263,6 +263,13 @@
       display: flex;
       position: relative;
       margin: 35px 0 20px 0;
+      flex-wrap: wrap;
+      .contact-msg {
+        font-style: italic;
+        font-size: 12px;
+        margin-top: 5px;
+        letter-spacing: 0.5px;
+      }
       select {
         cursor: pointer;
       }
