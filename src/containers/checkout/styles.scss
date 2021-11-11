@@ -272,7 +272,12 @@
   font-family: $font-Lato;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 40ch;
+  // max-width: 40ch;
+  hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-top: 1px solid lightgrey;
+  }
 }
 .margin-r10 {
   margin-right: 10px;
@@ -927,4 +932,21 @@ input[type="radio"] {
 
 .margin50 {
   margin-left: 50%;
+}
+
+.contact-msg {
+  font-size: 11px;
+  font-style: italic;
+  letter-spacing: 0.3px;
+  color: #333;
+  b {
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .contact-msg {
+    font-size: 10px;
+  }
 }
