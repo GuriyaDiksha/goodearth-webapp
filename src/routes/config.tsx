@@ -280,8 +280,20 @@ const routes: RouteConfig = [
     exact: false
   },
   {
+    path: ROUTES.AUTH,
+    component: loadable(() => import("containers/base/Auth")),
+    action: async () => null,
+    exact: false
+  },
+  {
     path: ROUTES.HFH,
     component: loadable(() => import("containers/HomeForHolidays")),
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SITEMAP,
+    component: loadable(() => import("containers/Sitemap")),
     action: async () => null,
     exact: true
   }

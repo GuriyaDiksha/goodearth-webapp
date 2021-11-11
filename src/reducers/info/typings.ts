@@ -15,6 +15,7 @@ export type State = {
   showGiftWrap: boolean;
   showDeliveryInstruction: boolean;
   showPromo: boolean;
+  isLoading: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;

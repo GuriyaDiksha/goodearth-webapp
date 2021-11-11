@@ -16,6 +16,7 @@ import { MESSAGE } from "constants/messages";
 import * as valid from "utils/validate";
 import Button from "./button";
 import { AppState } from "reducers/typings";
+import Loader from "components/Loader";
 
 const Section4: React.FC<Section4Props> = props => {
   const [nummsg, setNummsg] = useState("");
@@ -34,6 +35,7 @@ const Section4: React.FC<Section4Props> = props => {
   } = props;
 
   const [subscribe, setSubscribe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { tablet } = useSelector((state: AppState) => state.device);
@@ -42,6 +44,7 @@ const Section4: React.FC<Section4Props> = props => {
     if (subscribe) {
       const data = Object.assign({}, props.data);
       data["imageUrl"] = data["imageUrl"].replace("/gc", "/gc_");
+      setIsLoading(true);
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
           const basket: Basket = res.data;
@@ -56,6 +59,9 @@ const Section4: React.FC<Section4Props> = props => {
           const errorMsg = error.response.data[0] || "Internal Server Error";
           setNummsg(errorMsg);
           valid.errorTracking([errorMsg], location.href);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else {
       setNummsg("Please accept the Terms & Conditions");
@@ -224,7 +230,7 @@ const Section4: React.FC<Section4Props> = props => {
                 <Button
                   className={globalStyles.voffset4}
                   value="add to bag"
-                  onClick={gotoNext}
+                  onClick={!isLoading ? gotoNext : () => null}
                 />
               </div>
             </div>
@@ -243,6 +249,7 @@ const Section4: React.FC<Section4Props> = props => {
           </div>
         </div>
       </section>
+      {isLoading && <Loader />}
     </div>
   );
 };
