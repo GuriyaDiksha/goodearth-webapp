@@ -353,6 +353,7 @@ export function promotionImpression(data: any) {
 export function PDP(data: any, currency: Currency) {
   try {
     const products = [];
+    const pdpProduct = [];
     if (!data) return false;
     if (data.length < 1) return false;
     let category = "";
@@ -382,6 +383,26 @@ export function PDP(data: any, currency: Currency) {
         );
       })
     );
+    pdpProduct.push(
+      data.childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            productname: data.title,
+            productid: child.sku,
+            categoryname: category,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords
+              ? child.priceRecords[currency]
+              : data.priceRecords[currency]
+          }
+        );
+      })
+    );
+    Moengage.track_event("PdpView", {
+      products: pdpProduct
+    });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     dataLayer.push({
       event: "productDetailImpression",
@@ -843,6 +864,20 @@ export const megaMenuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
+    if (l3) {
+      Moengage.track_event("L1Clicked", {
+        categoryName: l3
+      });
+    } else if (l2) {
+      Moengage.track_event("L2Clicked", {
+        categoryName: l2
+      });
+    } else if (l1) {
+      Moengage.track_event("L1Clicked", {
+        categoryName: l1
+      });
+    }
+
     dataLayer.push({
       event: "Menu Navigation",
       clickType: "Category",
