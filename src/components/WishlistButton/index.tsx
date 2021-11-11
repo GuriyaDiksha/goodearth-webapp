@@ -7,7 +7,7 @@ import React, {
   useEffect
 } from "react";
 import cs from "classnames";
-import { useStore, useSelector } from "react-redux";
+import { useStore, useSelector, useDispatch } from "react-redux";
 // contexts
 import WishlistContext from "contexts/wishlist";
 import UserContext from "contexts/user";
@@ -19,8 +19,8 @@ import WishlistService from "services/wishlist";
 import iconStyles from "styles/iconFonts.scss";
 import styles from "./styles.scss";
 import { AppState } from "reducers/typings";
-import Loader from "components/Loader";
 import { ChildProductAttributes } from "typings/product";
+import { updateLoader } from "actions/info";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -42,7 +42,6 @@ const WishlistButton: React.FC<Props> = ({
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
-  const [showLoader, setShowLoader] = useState(false);
   const store = useStore();
   const {
     currency,
@@ -52,6 +51,7 @@ const WishlistButton: React.FC<Props> = ({
     wishlistItems.indexOf(id) != -1 ||
       (basketLineId && wishlistChildItems.indexOf(id) != -1)
   );
+  const dispatch = useDispatch();
   const gtmPushAddToWishlist = () => {
     try {
       if (gtmListType) {
@@ -97,7 +97,7 @@ const WishlistButton: React.FC<Props> = ({
   };
 
   const onClick = useCallback(async () => {
-    setShowLoader(true);
+    dispatch(updateLoader(true));
     if (basketLineId) {
       if (addedToWishlist) {
         WishlistService.removeFromWishlist(
@@ -107,7 +107,7 @@ const WishlistButton: React.FC<Props> = ({
           sortBy,
           size
         ).finally(() => {
-          setShowLoader(false);
+          dispatch(updateLoader(false));
         });
       } else {
         WishlistService.moveToWishlist(
@@ -121,13 +121,13 @@ const WishlistButton: React.FC<Props> = ({
             onMoveToWishlist?.();
           })
           .finally(() => {
-            setShowLoader(false);
+            dispatch(updateLoader(false));
           });
       }
     } else {
       if (addedToWishlist) {
         WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
-          setShowLoader(false);
+          dispatch(updateLoader(false));
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
@@ -135,7 +135,7 @@ const WishlistButton: React.FC<Props> = ({
             gtmPushAddToWishlist();
           })
           .finally(() => {
-            setShowLoader(false);
+            dispatch(updateLoader(false));
           });
       }
     }
@@ -177,7 +177,6 @@ const WishlistButton: React.FC<Props> = ({
           </div>
         )}
       </div>
-      {showLoader && <Loader />}
     </>
   );
 };
