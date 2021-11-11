@@ -28,7 +28,7 @@ import { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
-import zoom from "images/zoom.png";
+import zoom from "images/zoom.svg";
 import LazyImage from "components/LazyImage";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
@@ -938,7 +938,6 @@ class PDPContainer extends React.Component<Props, State> {
               onClick={this.getMobileZoomListener(i)}
             >
               <img src={zoom}></img>
-              Zoom
             </div>
           </div>
         );

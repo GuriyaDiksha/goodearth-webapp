@@ -45,6 +45,8 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
   const history = ctx.history;
   const matchedRoute = matchRoute(ctx.URL.pathname, paths);
   const state: AppState = ctx.store.getState();
+  const domain = ctx.request.URL.origin;
+  const dominList = ["dv", "stg", "pprod"];
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ["client"] });
   if (ctx.cookies.get("sessionid") != state.cookies.sessionid) {
     const expires = new Date(new Date().setMonth(new Date().getMonth() + 12));
@@ -57,6 +59,14 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
   ctx.set("Strict-Transport-Security", "max-age=60");
   if (ctx.url.includes("/account")) {
     ctx.set("Cache-Control", "no-cache");
+  }
+
+  if (
+    ctx.cookies.get("auth") != "true" &&
+    !ctx.url.includes("/auth") &&
+    dominList.some((v: any) => domain.includes(v))
+  ) {
+    ctx.redirect("/auth");
   }
 
   if (matchedRoute && matchedRoute.route) {
@@ -130,6 +140,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       styleSheets: linkTags,
       head: meta,
       gtmdata: JSON.stringify(__GTM_ID__),
+      moengage: JSON.stringify(__MOENG__),
       cdn: __CDN_HOST__,
       manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });

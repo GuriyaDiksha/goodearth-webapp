@@ -253,7 +253,9 @@ const ResetPassword: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                equalsField: "The password entered doesn't match"
+                equalsField: "The password entered doesn't match",
+                isValid:
+                  "Please verify that your password follows all rules displayed"
               }}
               required
             />
