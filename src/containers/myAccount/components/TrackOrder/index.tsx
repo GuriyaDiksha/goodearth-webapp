@@ -338,7 +338,7 @@ class TrackOrder extends React.Component<Props, State> {
           className={cs(
             bootstrapStyles.col10,
             bootstrapStyles.offset1,
-            bootstrapStyles.colMd12
+            bootstrapStyles.colLg12
           )}
         >
           {showTracking && (
