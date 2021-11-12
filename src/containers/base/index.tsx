@@ -33,7 +33,8 @@ const BaseLayout: React.FC = () => {
   const {
     currency,
     basket: { bridal },
-    header: { announcementData }
+    header: { announcementData },
+    device: { orientation, mobile, tablet }
     // user: { customerGroup }
   } = useSelector((state: AppState) => state);
   const {
@@ -69,6 +70,18 @@ const BaseLayout: React.FC = () => {
       history.push("/auth");
     }
   }, []);
+
+  useEffect(() => {
+    if (tablet) {
+      if (orientation == "landscape") {
+        dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
+        dispatch(updateModal(true));
+      } else {
+        dispatch(updateModal(false));
+      }
+    }
+  }, [orientation, tablet]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
