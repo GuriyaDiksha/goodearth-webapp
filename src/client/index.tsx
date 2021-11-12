@@ -39,21 +39,32 @@ window.onload = () => {
   hydrate(application, root);
   const updatedDevice = getDevice(window.navigator.userAgent);
   const mobile = updatedDevice.mobile || window.innerWidth < 992;
-  const device = store.getState().device;
-  if (device.mobile !== mobile || device.tablet !== updatedDevice.tablet) {
-    store.dispatch(updateDeviceInfo(mobile, updatedDevice.tablet));
-  }
+  const orientation: "landscape" | "portrait" =
+    window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+  store.dispatch(updateDeviceInfo(mobile, updatedDevice.tablet, orientation));
   window.addEventListener(
     "resize",
     debounce(() => {
       const updatedDevice = getDevice(window.navigator.userAgent);
       const mobile = updatedDevice.mobile || window.innerWidth < 992;
-      const device = store.getState().device;
-      if (device.mobile !== mobile || device.tablet !== updatedDevice.tablet) {
-        store.dispatch(updateDeviceInfo(mobile, updatedDevice.tablet));
-      }
+      const orientation: "landscape" | "portrait" =
+        window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+      store.dispatch(
+        updateDeviceInfo(mobile, updatedDevice.tablet, orientation)
+      );
     }, 100)
   );
+  window.addEventListener("orientationchange", () => {
+    setTimeout(() => {
+      const updatedDevice = getDevice(window.navigator.userAgent);
+      const mobile = updatedDevice.mobile || window.innerWidth < 992;
+      const orientation: "landscape" | "portrait" =
+        window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+      store.dispatch(
+        updateDeviceInfo(mobile, updatedDevice.tablet, orientation)
+      );
+    }, 100);
+  });
 };
 
 export default store;
