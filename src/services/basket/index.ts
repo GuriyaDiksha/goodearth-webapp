@@ -28,7 +28,11 @@ export default {
         ? "?source=" + source
         : "") + (boId ? "&boId=" + boId : "")}`
     );
-    if (res.updated || res.publishRemove) {
+    if (
+      (res.updated || res.publishRemove) &&
+      res.updatedRemovedItems &&
+      res.updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
@@ -90,7 +94,11 @@ export default {
         quantity
       }
     );
-    if (res.updated || res.publishRemove) {
+    if (
+      (res.updated || res.publishRemove) &&
+      res.updatedRemovedItems &&
+      res.updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
@@ -125,7 +133,11 @@ export default {
         basketLineId
       }
     );
-    if (res.updated || res.publishRemove) {
+    if (
+      (res.updated || res.publishRemove) &&
+      res.updatedRemovedItems &&
+      res.updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
@@ -153,7 +165,11 @@ export default {
       }`,
       null
     );
-    if (res.basket.updated || res.basket.publishRemove) {
+    if (
+      (res.basket.updated || res.basket.publishRemove) &&
+      res.basket.updatedRemovedItems &&
+      res.basket.updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
