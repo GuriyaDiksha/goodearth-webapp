@@ -11,7 +11,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import { updateCollectionSpecificData } from "actions/collection";
+import {
+  updateCollectionSpecificBanner,
+  updateCollectionSpecificData
+} from "actions/collection";
 import { updateComponent, updateModal } from "actions/modal";
 import { updateQuickviewId } from "actions/quickview";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
@@ -74,8 +77,28 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
     },
+    resetCollectionSpecificBanner: async () => {
+      dispatch(
+        updateCollectionSpecificBanner({
+          name: "",
+          description: "",
+          widgetImages: [],
+          backgroundImage: "",
+          enabled: false,
+          products: [],
+          id: 0
+        })
+      );
+    },
     reloadCollectioSpecificData: async (currency: Currency) => {
       const id: any = getProductIdFromSlug(params.slug);
+      CollectionService.fetchCollectioSpecificBanner(dispatch, id)
+        .then(bannerData => {
+          dispatch(updateCollectionSpecificBanner({ ...bannerData }));
+        })
+        .catch(error => {
+          console.log(`Collection Error id=${id}`, error);
+        });
       const filterData = await CollectionService.fetchCollectioSpecificData(
         dispatch,
         id
@@ -196,6 +219,7 @@ class CollectionSpecific extends React.Component<
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    this.props.resetCollectionSpecificBanner();
   }
 
   componentDidMount() {
