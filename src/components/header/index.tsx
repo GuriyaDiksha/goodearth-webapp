@@ -28,7 +28,6 @@ const Bag = loadable(() => import("../Bag/index"));
 const StoreDetails = loadable(() => import("../StoreDetails/index"));
 
 const Mobilemenu = loadable(() => import("./mobileMenu"));
-// import Mobilemenu from "./mobileMenu";
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
@@ -41,6 +40,7 @@ const mapStateToProps = (state: AppState) => {
     announcement: state.header.announcementData,
     currency: state.currency,
     mobile: state.device.mobile,
+    tablet: state.device.tablet,
     wishlistData: state.wishlist.items,
     cart: state.basket,
     message: state.message,
@@ -432,6 +432,7 @@ class Header extends React.Component<Props, State> {
       handleLogOut,
       location,
       mobile,
+      tablet,
       slab,
       customerGroup
     } = this.props;
@@ -620,7 +621,7 @@ class Header extends React.Component<Props, State> {
           )}
           <div className={cs(styles.minimumWidth, styles.headerBg)}>
             <div className={bootstrap.row}>
-              {mobile ? (
+              {mobile || tablet ? (
                 <div
                   className={cs(
                     bootstrap.col3,
@@ -686,7 +687,7 @@ class Header extends React.Component<Props, State> {
                   />
                 </Link>
               </div>
-              {mobile ? (
+              {mobile || tablet ? (
                 ""
               ) : (
                 <div
@@ -697,18 +698,6 @@ class Header extends React.Component<Props, State> {
                     globalStyles.static
                   )}
                 >
-                  {/* <MainMenu
-                    show={this.state.show}
-                    ipad={false}
-                    onMouseOver={(data): void => {
-                      this.setState({
-                        show: data.show,
-                        activeIndex: data.activeIndex || 0
-                      });
-                    }}
-                    data={this.props.data}
-                    location={this.props.location}
-                  /> */}
                   <MegaMenu
                     show={this.state.show}
                     activeIndex={this.state.activeIndex}
@@ -746,7 +735,7 @@ class Header extends React.Component<Props, State> {
                 </div>
               )}
               <div className={cs(bootstrap.colLg3, bootstrap.col3)}>
-                {!mobile && (
+                {!(mobile || tablet) && (
                   <SideMenu
                     onSideMenuClick={this.onSideMenuClick}
                     showBag={this.state.showBag}
@@ -760,7 +749,7 @@ class Header extends React.Component<Props, State> {
                     sidebagData={this.props.cart}
                   />
                 )}
-                {mobile && (
+                {(mobile || tablet) && (
                   <ul className={cs(bootstrap.row)}>
                     <li className={cs(styles.mobileSearch, bootstrap.col)}>
                       <div
@@ -787,7 +776,7 @@ class Header extends React.Component<Props, State> {
                                 )
                           }
                         ></i>
-                        {mobile ? "" : <span>Search</span>}
+                        {mobile || tablet ? "" : <span>Search</span>}
                       </div>
                     </li>
                     {this.state.showCartMobile && (
@@ -824,7 +813,7 @@ class Header extends React.Component<Props, State> {
                     : bootstrap.col12
                 }
               >
-                {mobile ? (
+                {mobile || tablet ? (
                   <div
                     className={
                       this.state.showMenu
@@ -894,7 +883,7 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           )} */}
-        {mobile && !isBridalRegistryPage && (
+        {(mobile || tablet) && !isBridalRegistryPage && (
           <BottomMenu
             onBottomMenuClick={this.onBottomMenuClick}
             showBag={this.state.showBag}

@@ -266,7 +266,7 @@ const MyAccount: React.FC<Props> = props => {
   }, [pathname, isLoggedIn]);
 
   const bgClass = cs(
-    globalStyles.colMd10,
+    globalStyles.colLg10,
     globalStyles.col12,
     styles.bgProfile,
 
@@ -362,7 +362,6 @@ const MyAccount: React.FC<Props> = props => {
                 >
                   <div
                     className={cs(
-                      bootstrapStyles.col12,
                       bootstrapStyles.col12,
                       styles.mobileFilterMenu,
                       { [styles.mobileFilterMenuTimer]: showTimer }
@@ -539,8 +538,8 @@ const MyAccount: React.FC<Props> = props => {
                         <div className={bootstrapStyles.row}>
                           <div
                             className={cs(
-                              bootstrapStyles.colMd6,
-                              bootstrapStyles.offsetMd3,
+                              bootstrapStyles.colLg6,
+                              bootstrapStyles.offsetLg3,
                               bootstrapStyles.col12,
                               globalStyles.textCenter,
                               { [styles.accountFormBg]: !mobile },
