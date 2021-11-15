@@ -329,8 +329,8 @@ const ResetPassword: React.FC<Props> = props => {
           <div className={bootstrapStyles.row}>
             <div
               className={cs(
-                bootstrapStyles.colMd4,
-                bootstrapStyles.offsetMd4,
+                bootstrapStyles.colLg4,
+                bootstrapStyles.offsetLg4,
                 bootstrapStyles.col12,
                 globalStyles.textCenter,
                 { [myAccountStyles.accountFormBg]: !mobile },
