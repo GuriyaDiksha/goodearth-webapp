@@ -18,6 +18,8 @@ export type ProfileResponse = {
   uniqueId: string;
   user: number;
   abandonedCartNotification: boolean;
+  country: string;
+  state: string;
 };
 export type State = {
   data: Partial<ProfileResponse>;

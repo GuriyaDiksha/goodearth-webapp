@@ -34,7 +34,7 @@ const BaseLayout: React.FC = () => {
     currency,
     basket: { bridal },
     header: { announcementData },
-    device: { orientation, mobile, tablet }
+    device: { orientation, tablet }
     // user: { customerGroup }
   } = useSelector((state: AppState) => state);
   const {
