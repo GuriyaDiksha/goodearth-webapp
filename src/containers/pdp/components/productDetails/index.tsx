@@ -585,6 +585,8 @@ const ProductDetails: React.FC<Props> = ({
           data={data}
           buttoncall={button}
           showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
+          price={price}
+          discountPrice={discountPrices}
         />
       )}
       <div className={bootstrap.row}>
