@@ -35,6 +35,7 @@ import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import PairItWithSlider from "components/pairItWith";
 import ModalStyles from "components/Modal/styles.scss";
+import overlay from "images/3d/HelloARIcon.svg";
 // import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
 import iconFonts from "../../styles/iconFonts.scss";
@@ -447,7 +448,7 @@ class PDPContainer extends React.Component<Props, State> {
         const height = (ele.width * naturalHeight) / naturalWidth;
         this.imageOffsets[index] = height;
       };
-
+      // console.log(image)
       return (
         <div
           className={styles.productImageContainer}
@@ -937,7 +938,6 @@ class PDPContainer extends React.Component<Props, State> {
     const mobileSlides =
       mobile &&
       images?.map(({ id, productImage, icon, code }, i: number) => {
-        console.log(icon, code);
         return (
           <div key={id} className={globalStyles.relative}>
             <LazyImage
@@ -955,6 +955,11 @@ class PDPContainer extends React.Component<Props, State> {
                 ></img>
               </div>
             )}
+            <div>
+              {!icon && (
+                <img src={overlay} className={styles.mobileHelloicon}></img>
+              )}
+            </div>
             <div
               className={styles.mobileZoomIcon}
               onClick={this.getMobileZoomListener(i)}

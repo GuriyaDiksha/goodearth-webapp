@@ -4,7 +4,7 @@
 .image-container {
     padding: 2px;
     border: 1px solid transparent;
-
+    position: relative;
     &:not(:last-child) {
         margin-bottom: 10px;
     }
@@ -19,8 +19,8 @@
 }
 
 .overlay {
-    width: 80px;
-    height: 30px;
+    width: 90px;
+    height: 40px;
     position: absolute;
-    bottom: 30%;
+    top: 50px;
 }

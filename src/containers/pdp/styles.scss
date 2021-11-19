@@ -213,3 +213,20 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     bottom: 50px;
     left: 30%;
 }
+
+.helloimage-button {
+    position: absolute;
+    width: 130px;
+    z-index: 1;
+    bottom: 10%;
+    left: 34%;
+    cursor:  pointer !important;
+}
+
+.mobile-helloicon {
+    position: absolute;
+    bottom: 0px;
+    left: 10px;
+    height: 100px;
+    width: 63px;
+}
