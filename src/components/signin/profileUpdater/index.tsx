@@ -108,18 +108,6 @@ class ProfileUpdater extends React.Component<Props, State> {
 
   handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
     if (!this.state.updateProfile) return false;
-    const elem = document.getElementById("subscribeemails") as HTMLInputElement;
-    if (elem.checked == false) {
-      this.setState(
-        {
-          showerror: "Please accept the terms & conditions"
-        },
-        () => {
-          valid.errorTracking([this.state.showerror], location.href);
-        }
-      );
-      return false;
-    }
     const { firstName, lastName, gender, subscribe } = model;
     const formData: any = {};
     formData["gender"] = gender || "";
@@ -168,6 +156,17 @@ class ProfileUpdater extends React.Component<Props, State> {
   };
 
   handleInvalidSubmit = () => {
+    const elem = document.getElementById("subscribeemails") as HTMLInputElement;
+    if (elem.checked == false) {
+      this.setState(
+        {
+          showerror: "Please accept the terms & conditions"
+        },
+        () => {
+          valid.errorTracking([this.state.showerror], location.href);
+        }
+      );
+    }
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(
         globalStyles.errorBorder
