@@ -2,7 +2,8 @@ import { State, DeviceActions } from "./typings.d";
 
 const initialState: State = {
   mobile: false,
-  tablet: false
+  tablet: false,
+  orientation: "portrait"
 };
 
 export const device = (state: State = initialState, action: DeviceActions) => {

@@ -302,9 +302,9 @@ const ProductDetails: React.FC<Props> = ({
       ? categories[index].replace(/\s/g, "")
       : "";
     category = category.replace(/>/g, "/");
-    Moengage.track_event("add_to_cart", {
-      categoryName: category
-    });
+    // Moengage.track_event("add_to_cart", {
+    //   categoryName: category
+    // });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -597,6 +597,8 @@ const ProductDetails: React.FC<Props> = ({
           data={data}
           buttoncall={button}
           showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
+          price={price}
+          discountPrice={discountPrices}
         />
       )}
       <div className={bootstrap.row}>

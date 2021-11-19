@@ -111,7 +111,11 @@ export default {
       `${__API_HOST__}/myapi/wishlist/wishlist_undo/?source=cart`,
       null
     );
-    if (res.basket.updated || res.basket.publishRemove) {
+    if (
+      (res.basket.updated || res.basket.publishRemove) &&
+      res.basket.updatedRemovedItems &&
+      res.basket.updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,

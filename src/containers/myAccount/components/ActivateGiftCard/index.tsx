@@ -49,7 +49,7 @@ class ActivateGiftCard extends React.Component<Props, State> {
   render() {
     return (
       <div className={bootstrapStyles.row}>
-        <div className={cs(bootstrapStyles.col12, bootstrapStyles.colMd12)}>
+        <div className={bootstrapStyles.col12}>
           <div className={styles.formHeading}>
             Activate Gift Card{" "}
             <Link
