@@ -178,8 +178,7 @@ const NotificationForm: React.FC = () => {
     >
       <h4>
         Indulge in a season of magic and merriment with your favourites from
-        Good Earth,
-        <br /> now at upto 50% OFF online. Sign up to get a reminder.
+        Good Earth, now at upto 50% OFF online. Sign up to get a reminder.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
