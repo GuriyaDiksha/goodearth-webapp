@@ -176,7 +176,11 @@ const NotificationForm: React.FC = () => {
         styles.loginForm
       )}
     >
-      <h4>Sign up to get a reminder for our Home For the Holidays Sale</h4>
+      <h4>
+        Indulge in a season of magic and merriment with your favourites from
+        Good Earth,
+        <br /> now at upto 50% OFF online. Sign up to get a reminder.
+      </h4>
       <Formsy
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
