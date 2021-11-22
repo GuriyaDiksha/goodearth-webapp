@@ -7,11 +7,19 @@ export default async function device(
   next: Koa.Next
 ) {
   const userAgent = ctx.headers["user-agent"];
-  const { mobile, tablet } = userAgent
+  const {
+    mobile,
+    tablet,
+    orientation
+  }: {
+    mobile: boolean;
+    tablet: boolean;
+    orientation: "portrait" | "landscape";
+  } = userAgent
     ? getDevice(userAgent)
-    : { mobile: false, tablet: false };
+    : { mobile: false, tablet: false, orientation: "portrait" };
   const store = ctx.store;
-  store.dispatch(updateDeviceInfo(mobile, tablet));
+  store.dispatch(updateDeviceInfo(mobile, tablet, orientation));
 
   await next();
 }

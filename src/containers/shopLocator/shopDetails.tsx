@@ -98,7 +98,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
         />
         <img src={borderImg} className={globalStyles.imgResponsive}></img>
       </div>
-      <div className={bootstrapStyles.row}>
+      {/* <div className={bootstrapStyles.row}>
         <div
           className={cs(
             bootstrapStyles.colMd12,
@@ -121,7 +121,7 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
             </span>
           )}
         </div>
-      </div>
+      </div> */}
       <div className={cs(styles.locationBg, styles.details)}>
         <div className={bootstrapStyles.container}>
           <div className={bootstrapStyles.row}>
