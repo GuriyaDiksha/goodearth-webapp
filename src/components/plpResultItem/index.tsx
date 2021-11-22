@@ -75,7 +75,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   ) : (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
-        <div className={styles.badgeImage}>
+        <div className={mobile ? styles.badgeImageMobile : styles.badgeImage}>
           <img src={product.salesBadgeImage} />
         </div>
       )}
