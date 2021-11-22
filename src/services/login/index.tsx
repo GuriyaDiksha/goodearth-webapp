@@ -96,7 +96,10 @@ export default {
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
-    if (res.updated || res.publishRemove) {
+    if (
+      (res.updated || res.publishRemove) &&
+      res.updatedRemovedItems && res.updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
@@ -211,7 +214,10 @@ export default {
     if (res.oldBasketHasItems) {
       util.showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
-    if (res.updated || res.publishRemove) {
+    if (
+      (res.updated || res.publishRemove) &&
+      res.updatedRemovedItems && res.updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
