@@ -193,7 +193,20 @@
     }
 }
 
-.badge-image{
+
+
+.badge-image {
+    width: 30%;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    left: 0;
+    img {
+        width: 70%;
+        margin: 10px 0 0 10px;
+    }
+}
+.badge-image-mobile{
     width: 30%;
     position: absolute;
     top: 0;
