@@ -1,0 +1,39 @@
+@import "../../styles/partials/variables";
+
+.product-n{
+  margin: 5px 0;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  a {
+      font-size: 14px;
+      font-family: $font-Lato;
+      color: #000;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+  }
+  span {
+      font-size: 14px;
+      font-family: $font-Lato;
+      color: #000;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+  }
+  .discountprice {
+      color: #ab1e56;
+      font-family:  $font-Lato;
+      font-size: 14px;
+  }
+  
+  .strikeprice {
+      font-size: 14px;
+      text-decoration: line-through;
+      color: gray;
+      font-family: $font-Lato;
+  }
+  a:hover {
+      color: #ab1e56;
+      text-decoration: none;
+  }
+}
