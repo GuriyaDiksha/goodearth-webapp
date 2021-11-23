@@ -54,18 +54,17 @@ window.onload = () => {
       );
     }, 100)
   );
-  window.onorientationchange = function(event) {
+  window.addEventListener("orientationchange", () => {
     setTimeout(() => {
       const updatedDevice = getDevice(window.navigator.userAgent);
       const mobile = updatedDevice.mobile || window.innerWidth < 992;
       const orientation: "landscape" | "portrait" =
         window.innerWidth > window.innerHeight ? "landscape" : "portrait";
-      console.log(orientation);
       store.dispatch(
         updateDeviceInfo(mobile, updatedDevice.tablet, orientation)
       );
     }, 100);
-  };
+  });
 };
 
 export default store;
