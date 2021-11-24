@@ -62,9 +62,9 @@ export default {
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
     let footerData: FooterDataProps | null = null;
-    if (typeof document == "undefined") {
-      footerData = CacheService.get("footerData") as FooterDataProps;
-    }
+    // if (typeof document == "undefined") {
+    //   footerData = CacheService.get("footerData") as FooterDataProps;
+    // }
     if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
       dispatch(updatefooter(footerData));
       return footerData;
@@ -76,9 +76,9 @@ export default {
     );
     footerData = res as FooterDataProps;
     dispatch(updatefooter(footerData));
-    if (typeof document == "undefined") {
-      CacheService.set("footerData", footerData);
-    }
+    // if (typeof document == "undefined") {
+    //   CacheService.set("footerData", footerData);
+    // }
     return res as FooterDataProps;
   },
   makeNewsletterSignupRequest: async (dispatch: Dispatch, email: string) => {
