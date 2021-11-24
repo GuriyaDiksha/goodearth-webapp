@@ -79,7 +79,7 @@ const BaseLayout: React.FC = () => {
       if (orientation == "landscape" && !mobile) {
         dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
         dispatch(updateModal(true));
-      } else {
+      } else if (orientation == "portrait" && !mobile) {
         dispatch(updateModal(false));
       }
     }
