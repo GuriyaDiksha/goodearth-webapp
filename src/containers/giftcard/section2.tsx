@@ -12,6 +12,9 @@ import { refreshPage } from "actions/user";
 import LoginService from "services/login";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
+import HeaderService from "services/headerFooter";
+import Api from "services/api";
+import WishlistService from "services/wishlist";
 import { AppState } from "reducers/typings";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
@@ -42,7 +45,7 @@ const Section2: React.FC<Section2Props> = ({
   const dispatch = useDispatch();
   const RegisterFormRef = React.useRef<Formsy>(null);
   const [country, setCountry] = useState(selectedCountry);
-
+  const { customerGroup } = useSelector((state: AppState) => state.user);
   useEffect(() => {
     const form = RegisterFormRef.current;
     if (form) {
@@ -81,7 +84,29 @@ const Section2: React.FC<Section2Props> = ({
   };
   const { cookies } = useSelector((state: AppState) => state);
 
-  const reloadPage = (cookies: Cookies) => {
+  const reloadPage = (
+    cookies: Cookies,
+    currency: Currency,
+    customerGroup: string
+  ) => {
+    HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
+      err => {
+        console.log("HEADER API ERROR ==== " + err);
+      }
+    );
+    HeaderService.fetchFooterDetails(dispatch).catch(err => {
+      console.log("FOOTER API ERROR ==== " + err);
+    });
+    Api.getAnnouncement(dispatch).catch(err => {
+      console.log("Announcement API ERROR ==== " + err);
+    });
+    Api.getSalesStatus(dispatch).catch(err => {
+      console.log("Sale status API error === " + err);
+    });
+    Api.getPopups(dispatch).catch(err => {
+      console.log("Popups Api ERROR === " + err);
+    });
+    WishlistService.updateWishlist(dispatch);
     MetaService.updateMeta(dispatch, cookies);
     BasketService.fetchBasket(dispatch);
     valid.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
@@ -91,7 +116,7 @@ const Section2: React.FC<Section2Props> = ({
     if (currency != newCurrency) {
       const data: any = { currency: newCurrency };
       LoginService.changeCurrency(dispatch, data).then(response => {
-        reloadPage(cookies);
+        reloadPage(cookies, currency, customerGroup);
       });
     }
   };
