@@ -29,7 +29,8 @@ const mapStateToProps = (state: AppState) => {
     cookies: state.cookies,
     slab: state.user.slab,
     currencyList: state.info.currencyList,
-    user: state.user
+    user: state.user,
+    sortBy: state.wishlist.sortBy
   };
 };
 
@@ -77,7 +78,8 @@ class SideMenu extends React.Component<Props, State> {
             response.currency,
             this.props.user.customerGroup,
             history.location.pathname,
-            this.props.user.isLoggedIn
+            this.props.user.isLoggedIn,
+            this.props.sortBy
           );
         })
         .finally(() => {
