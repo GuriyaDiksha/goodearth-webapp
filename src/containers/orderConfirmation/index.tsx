@@ -75,6 +75,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           }
         }
       });
+      // Moengage.track_event("Order", {
+      //   products: products,
+      //   cartAmount: result.totalInclTax,
+      //   couponCodeApplied: result.offerDiscounts?.[0]?.name ? true : false,
+      //   couponCodeName: result.offerDiscounts?.[0]?.name
+      // });
       AccountServices.setGaStatus(dispatch, formData);
     }
   };

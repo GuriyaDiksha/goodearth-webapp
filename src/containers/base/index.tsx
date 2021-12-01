@@ -33,7 +33,8 @@ const BaseLayout: React.FC = () => {
   const {
     currency,
     basket: { bridal },
-    header: { announcementData }
+    header: { announcementData },
+    device: { orientation, mobile, tablet }
     // user: { customerGroup }
   } = useSelector((state: AppState) => state);
   const {
@@ -72,6 +73,18 @@ const BaseLayout: React.FC = () => {
       history.push("/auth");
     }
   }, []);
+
+  useEffect(() => {
+    if (tablet) {
+      if (orientation == "landscape" && !mobile) {
+        dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
+        dispatch(updateModal(true));
+      } else if (orientation == "portrait" && !mobile) {
+        dispatch(updateModal(false));
+      }
+    }
+  }, [orientation, tablet]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // for handling scroll to particalar element with id
@@ -153,12 +166,13 @@ const BaseLayout: React.FC = () => {
     const isHomePage = location.pathname == "/";
 
     const loginPopup = urlParams.get("loginpopup");
-    const shownVideoPopup = sessionStorage.getItem("bosporus");
-    if (isHomePage && !shownVideoPopup) {
-      dispatch(updateComponent(POPUP.VIDEOPOPUP, undefined, true));
-      dispatch(updateModal(true));
-      sessionStorage.setItem("bosporus", "1");
-    }
+    // hide bosporus popup
+    // const shownVideoPopup = sessionStorage.getItem("bosporus");
+    // if (isHomePage && !shownVideoPopup) {
+    //   dispatch(updateComponent(POPUP.VIDEOPOPUP, undefined, true));
+    //   dispatch(updateModal(true));
+    //   sessionStorage.setItem("bosporus", "1");
+    // }
     if (
       !loginPopup &&
       isHomePage &&

@@ -345,12 +345,15 @@ const Career: React.FC<Props> = props => {
             <div className={styles.careersImageCaption}>
               <h3>{`Can't find a role you are looking for?`}</h3>
               <div className={styles.newcareersInput}>
-                <input
-                  type="button"
-                  className={cs(globalStyles.ceriseBtn, styles.ceriseBtn)}
-                  value="Get in touch"
-                  onClick={() => openJobForm()}
-                />
+                <div className={cs(globalStyles.ceriseBtn, styles.ceriseBtn)}>
+                  <a
+                    href={__CAREERS_FORM__}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Get in touch
+                  </a>
+                </div>
               </div>
             </div>
           </div>

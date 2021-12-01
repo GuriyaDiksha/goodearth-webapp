@@ -181,12 +181,12 @@ export function productImpression(
   position?: any
 ) {
   try {
-    let product = [];
+    const product: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    product = data.results.data.map((prod: any, i: number) => {
+    data.results.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
         const index = prod.categories.length - 1;
@@ -195,8 +195,8 @@ export function productImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      return prod.childAttributes.map((child: any) => {
-        return Object.assign(
+      prod.childAttributes.map((child: any) => {
+        const childProduct = Object.assign(
           {},
           {
             name: prod.title,
@@ -211,8 +211,10 @@ export function productImpression(
             variant: child.size || ""
           }
         );
+        product.push(childProduct);
       });
     });
+    dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productImpression",
       ecommerce: {
@@ -233,12 +235,12 @@ export function sliderProductImpression(
   position?: any
 ) {
   try {
-    let product = [];
+    const product: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    product = data.map((prod: any, i: number) => {
+    data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
         const index = prod.categories.length - 1;
@@ -247,7 +249,7 @@ export function sliderProductImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      return Object.assign(
+      const childProduct = Object.assign(
         {},
         {
           name: prod.title,
@@ -260,7 +262,9 @@ export function sliderProductImpression(
           variant: prod.size
         }
       );
+      product.push(childProduct);
     });
+    dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productImpression",
       ecommerce: {
@@ -352,7 +356,8 @@ export function promotionImpression(data: any) {
 
 export function PDP(data: any, currency: Currency) {
   try {
-    const products = [];
+    const products: any = [];
+    const pdpProduct = [];
     if (!data) return false;
     if (data.length < 1) return false;
     let category = "";
@@ -363,26 +368,46 @@ export function PDP(data: any, currency: Currency) {
         : "";
       category = category.replace(/>/g, "/");
     }
-    products.push(
+    data.childAttributes.map((child: any) => {
+      const childProduct = Object.assign(
+        {},
+        {
+          name: data.title,
+          id: child.sku,
+          category: category,
+          price: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords
+            ? child.priceRecords[currency]
+            : data.priceRecords[currency],
+          brand: "Goodearth",
+          variant: child.size || ""
+        }
+      );
+      products.push(childProduct);
+    });
+    pdpProduct.push(
       data.childAttributes.map((child: any) => {
         return Object.assign(
           {},
           {
-            name: data.title,
-            id: child.sku,
-            category: category,
+            productname: data.title,
+            productid: child.sku,
+            categoryname: category,
             price: child.discountedPriceRecords
               ? child.discountedPriceRecords[currency]
               : child.priceRecords
               ? child.priceRecords[currency]
-              : data.priceRecords[currency],
-            brand: "Goodearth",
-            variant: child.size || ""
+              : data.priceRecords[currency]
           }
         );
       })
     );
+    // Moengage.track_event("PdpView", {
+    //   products: pdpProduct
+    // });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
+    dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productDetailImpression",
       ecommerce: {
@@ -405,12 +430,12 @@ export function collectionProductImpression(
   position?: any
 ) {
   try {
-    let product = [];
+    const product: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    product = data.results.map((prod: any, i: number) => {
+    data.results.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
         const index = prod.categories.length - 1;
@@ -419,8 +444,8 @@ export function collectionProductImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      return prod.childAttributes.map((child: any) => {
-        return Object.assign(
+      prod.childAttributes.map((child: any) => {
+        const childProduct = Object.assign(
           {},
           {
             name: prod.title,
@@ -435,8 +460,10 @@ export function collectionProductImpression(
             variant: child.size || ""
           }
         );
+        product.push(childProduct);
       });
     });
+    dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productImpression",
       ecommerce: {
@@ -457,12 +484,12 @@ export function weRecommendProductImpression(
   position?: any
 ) {
   try {
-    let product = [];
+    const product: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    product = data.map((prod: any, i: number) => {
+    data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
         const index = prod.categories.length - 1;
@@ -471,8 +498,8 @@ export function weRecommendProductImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      return prod.childAttributes.map((child: any) => {
-        return Object.assign(
+      prod.childAttributes.map((child: any) => {
+        const childProduct = Object.assign(
           {},
           {
             name: prod.title,
@@ -487,8 +514,10 @@ export function weRecommendProductImpression(
             variant: child.size || ""
           }
         );
+        product.push(childProduct);
       });
     });
+    dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productImpression",
       ecommerce: {
@@ -589,7 +618,7 @@ export function MoreFromCollectionProductImpression(
   position?: any
 ) {
   try {
-    let product = [];
+    let product: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
@@ -603,8 +632,8 @@ export function MoreFromCollectionProductImpression(
           : "";
         category = category.replace(/>/g, "/");
       }
-      return prod.childAttributes.map((child: any) => {
-        return Object.assign(
+      prod.childAttributes.map((child: any) => {
+        const childProduct = Object.assign(
           {},
           {
             name: prod.title,
@@ -619,8 +648,10 @@ export function MoreFromCollectionProductImpression(
             variant: child.size || ""
           }
         );
+        product.push(childProduct);
       });
     });
+    dataLayer.push({ ecommerce: null });
     dataLayer.push({
       event: "productImpression",
       ecommerce: {
@@ -843,6 +874,20 @@ export const megaMenuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
+    if (l3) {
+      // Moengage.track_event("L1Clicked", {
+      //   categoryName: l3
+      // });
+    } else if (l2) {
+      // Moengage.track_event("L2Clicked", {
+      //   categoryName: l2
+      // });
+    } else if (l1) {
+      // Moengage.track_event("L1Clicked", {
+      //   categoryName: l1
+      // });
+    }
+
     dataLayer.push({
       event: "Menu Navigation",
       clickType: "Category",

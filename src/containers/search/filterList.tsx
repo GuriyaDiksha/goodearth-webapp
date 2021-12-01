@@ -1355,6 +1355,9 @@ class FilterList extends React.Component<Props, State> {
       availableSize: {},
       categoryShop: {},
       price: {},
+      availableDiscount: {},
+      productType: {},
+      currency: {},
       // currency: {
       //   currency: this.props.currency
       // },
