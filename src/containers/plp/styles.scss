@@ -374,6 +374,11 @@
     @include plp_filter_cat();
     cursor: pointer;
     display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 20px;
+    position: relative;
     &:after {
       content: '';
       float: right;
@@ -383,7 +388,7 @@
       height: 8px;
       transform: rotate(313deg);
       top: 15px;
-      position: relative;
+      position: absolute;
       right: 5px;
     }
   }

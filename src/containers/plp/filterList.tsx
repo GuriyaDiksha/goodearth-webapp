@@ -887,9 +887,7 @@ class FilterList extends React.Component<Props, State> {
             }
             onClick={this.Clickmenulevel2.bind(this, name + "l")}
           >
-            {data[0].split(">")[1].length > 15 && !this.props.mobile
-              ? data[0].split(">")[1].substring(0, 15) + "..."
-              : data[0].split(">")[1]}
+            {data[0].split(">")[1]}
           </span>
           <div
             className={
@@ -937,9 +935,7 @@ class FilterList extends React.Component<Props, State> {
             }
             onClick={this.Clickmenulevel2.bind(this, data + "l")}
           >
-            {data.length > 14 && !this.props.mobile
-              ? data.substring(0, 14) + "..."
-              : data}
+            {data}
           </span>
           <div
             className={

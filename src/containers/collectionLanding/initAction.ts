@@ -5,7 +5,7 @@ import {
   updateCollectionFilter,
   updateCollectionData
 } from "actions/collection";
-import { getProductIdFromSlug } from "utils/url.ts";
+import { getProductIdFromSlug } from "utils/url";
 
 const initActionCollection: InitAction = async (store, params) => {
   const id = getProductIdFromSlug(params.level1);

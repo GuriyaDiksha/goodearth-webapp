@@ -2,7 +2,7 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import React from "react";
-import Price from "components/Price";
+import SelectedPrice from "components/SelectedPrice";
 import { Product } from "typings/product";
 import { currencyCodes } from "constants/currency";
 import cs from "classnames";
@@ -14,9 +14,17 @@ type Props = {
   showAddToBagMobile?: boolean;
   buttoncall: any;
   showPrice: boolean;
+  price: string | number;
+  discountPrice: string | number;
 };
 
-const DockedPanel: React.FC<Props> = ({ data, buttoncall, showPrice }) => {
+const DockedPanel: React.FC<Props> = ({
+  data,
+  buttoncall,
+  showPrice,
+  price,
+  discountPrice
+}) => {
   const { showTimer, isSale } = useSelector((state: AppState) => state.info);
   const { currency } = useSelector((state: AppState) => state);
   return (
@@ -38,11 +46,14 @@ const DockedPanel: React.FC<Props> = ({ data, buttoncall, showPrice }) => {
       </div>
       <div className={cs(bootstrap.col2, styles.padding21)}>
         {!showPrice && (
-          <Price
-            product={data}
+          <SelectedPrice
             code={currencyCodes[currency]}
             isSale={isSale}
             currency={currency}
+            price={price}
+            discountPrice={discountPrice}
+            discount={data.discount}
+            badgeType={data.badgeType}
           />
         )}
       </div>

@@ -90,7 +90,11 @@ export default {
       unshippableProducts,
       redirectToCart
     } = data.data.basket;
-    if (updated || publishRemove) {
+    if (
+      (updated || publishRemove) &&
+      updatedRemovedItems &&
+      updatedRemovedItems.length > 0
+    ) {
       util.showGrowlMessage(
         dispatch,
         MESSAGE.PRODUCT_UNPUBLISHED,
