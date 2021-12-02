@@ -6,8 +6,10 @@ export const getDevice = (userAgent: string) => {
   const tablet =
     userAgent.match(/iPad|android|tablet|kindle|playbook|silk/i) !== null;
 
+  const orientation: "landscape" | "portrait" = "portrait";
   return {
     mobile,
-    tablet
+    tablet,
+    orientation
   };
 };
