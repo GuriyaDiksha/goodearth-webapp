@@ -124,6 +124,7 @@ const ProductDetails: React.FC<Props> = ({
   //   item => item.product.childAttributes[0].id
   // );
   const [addedToBag, setAddedToBag] = useState(false);
+  const [apiTrigger, setApiTrigger] = useState(false);
   const [isStockset, setIsStockset] = useState(false);
   // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
@@ -301,9 +302,9 @@ const ProductDetails: React.FC<Props> = ({
       ? categories[index].replace(/\s/g, "")
       : "";
     category = category.replace(/>/g, "/");
-    Moengage.track_event("add_to_cart", {
-      categoryName: category
-    });
+    // Moengage.track_event("add_to_cart", {
+    //   categoryName: category
+    // });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -334,8 +335,10 @@ const ProductDetails: React.FC<Props> = ({
       );
       showError();
     } else {
+      setApiTrigger(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
+          setApiTrigger(false);
           setAddedToBag(true);
           setTimeout(() => {
             setAddedToBag(false);
@@ -344,6 +347,7 @@ const ProductDetails: React.FC<Props> = ({
           gtmPushAddToBag();
         })
         .catch(err => {
+          setApiTrigger(false);
           if (typeof err.response.data != "object") {
             valid.showGrowlMessage(dispatch, err.response.data);
             valid.errorTracking([err.response.data], window.location.href);
@@ -512,23 +516,31 @@ const ProductDetails: React.FC<Props> = ({
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
-      action = onEnquireClick;
+      action = apiTrigger ? () => null : onEnquireClick;
       // setSizeerror(false);
     } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
-      action = notifyMeClick;
+      action = apiTrigger ? () => null : notifyMeClick;
       // setSizeerror(false);
     } else if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
-      action = sizeSelectClick;
+      action = apiTrigger ? () => null : sizeSelectClick;
     } else {
       buttonText = addedToBag ? "Added!" : "Add to Bag";
-      action = addedToBag ? () => null : addToBasket;
+      action = addedToBag ? () => null : apiTrigger ? () => null : addToBasket;
       // setSizeerror(false);
     }
 
     return <Button label={buttonText} onClick={action} />;
-  }, [corporatePDP, selectedSize, addedToBag, quantity, currency, discount]);
+  }, [
+    corporatePDP,
+    selectedSize,
+    addedToBag,
+    quantity,
+    currency,
+    discount,
+    apiTrigger
+  ]);
 
   // const yourElement:React.RefObject<HTMLDivElement> = createRef();
 
@@ -585,6 +597,8 @@ const ProductDetails: React.FC<Props> = ({
           data={data}
           buttoncall={button}
           showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
+          price={price}
+          discountPrice={discountPrices}
         />
       )}
       <div className={bootstrap.row}>
