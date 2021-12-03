@@ -1157,7 +1157,8 @@ visibility: visible !important;
   position: absolute;
   z-index: 1;
   img {
-     width: 100%;
+    width: 70%;
+    margin: 10px 0 0 10px;
   }
 }
 
@@ -1168,9 +1169,9 @@ visibility: visible !important;
     z-index: 4;
   img {
     width: 100%;
+    margin: 6px 0 0 6px;
   }
 }
-
 .imagebox-new {
   position: relative;
   display: block;
