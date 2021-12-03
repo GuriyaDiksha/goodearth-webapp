@@ -7,14 +7,16 @@ import loginGoogle from "../../../images/loginGoogle.svg";
 import GoogleLogin from "react-google-login";
 // import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import LoginService from "services/login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { props } from "./typings";
 import * as util from "../../../utils/validate";
 import { useHistory } from "react-router";
+import { AppState } from "reducers/typings";
 
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { sortBy } = useSelector((state: AppState) => state.wishlist);
   const source =
     history.location.pathname.indexOf("checkout") != -1 ? "checkout" : "";
   // const onLoginSuccess = (user: any) => {
@@ -54,7 +56,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         lname: user.profileObj.familyName,
         requestParam: JSON.stringify(user)
       };
-      LoginService.loginSocial(dispatch, data, source, history)
+      LoginService.loginSocial(dispatch, data, source, history, sortBy)
         .then(res => {
           closeModel();
         })

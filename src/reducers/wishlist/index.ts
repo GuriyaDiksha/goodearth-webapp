@@ -2,7 +2,8 @@ import { State, WishlistActions } from "./typings";
 
 const initialState: State = {
   items: [],
-  sortBy: "added_on"
+  sortBy: "added_on",
+  sortedDiscount: false
 };
 
 export const wishlist = (
