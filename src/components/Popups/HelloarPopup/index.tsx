@@ -8,10 +8,13 @@ import iconStyles from "styles/iconFonts.scss";
 import cs from "classnames";
 // import { Link } from "react-router-dom";
 import { Context } from "components/Modal/context";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
   // const [isLoading, setIsLoading] = useState(true);
   const { closeModal } = useContext(Context);
+  const { mobile } = useSelector((state: AppState) => state.device);
   // let player: any = null;
   // const togglePlay = (e: any) => {
   //   player.getPaused().then((isPaused: boolean) => {
@@ -23,16 +26,13 @@ const HelloarPopup: React.FC<{ code: string }> = ({ code }) => {
   //   });
   // };
 
-  const initialize = () => {};
-
-  useEffect(() => {
-    initialize();
-  }, []);
-
   // const { mobile } = useSelector((state: AppState) => state.device);
   return (
     <div className={styles.videoPopupContainer}>
-      <div className={styles.crossHello} onClick={closeModal}>
+      <div
+        className={mobile ? styles.crossHellomobile : styles.crossHello}
+        onClick={closeModal}
+      >
         <i
           className={cs(
             iconStyles.icon,
