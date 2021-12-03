@@ -220,9 +220,9 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           this.props.history
         )
         .then(data => {
-          // Moengage.track_event("Login", {
-          //   email: this.state.email
-          // });
+          Moengage.track_event("Login", {
+            email: this.state.email
+          });
           this.gtmPushSignIn();
           // this.context.closeModal();
           // this.props.nextStep?.();
