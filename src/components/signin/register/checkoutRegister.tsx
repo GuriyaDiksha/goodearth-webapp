@@ -30,7 +30,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     basket: state.basket,
     currency: state.currency,
-    countryData: isdList
+    countryData: isdList,
+    sortBy: state.wishlist.sortBy
   };
 };
 
@@ -126,7 +127,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       disableButton: true
     });
     this.props
-      .register(formData, "checkout")
+      .register(formData, "checkout", this.props.sortBy)
       .then(data => {
         this.gtmPushRegister();
         this.props.nextStep?.();

@@ -37,6 +37,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     wishlistData: state.wishlist.items,
+    sortedDiscount: state.wishlist.sortedDiscount,
     isLoggedIn: state.user.isLoggedIn,
     isSale: state.info.isSale,
     showTimer: state.info.showTimer
@@ -143,7 +144,6 @@ type State = {
   dragDrop: boolean;
   sampleItems: WishListGridItem[];
   filterListing: boolean;
-  options: { value: string; label: string }[];
   defaultOption: { value: string; label: string };
   currentFilter: string;
   wishlistCount: number;
@@ -163,15 +163,6 @@ class Wishlist extends React.Component<Props, State> {
       dragDrop: false,
       sampleItems: [],
       filterListing: false,
-      options: [
-        { value: "added_on", label: "Recently Added" },
-        {
-          value: "sequence",
-          label: "Drag and Drop"
-        },
-        { value: "price_asc", label: "Price Low To High" },
-        { value: "price_desc", label: "Price High To Low" }
-      ],
       defaultOption: { value: "added_on", label: "Recently Added" },
       currentFilter: "added_on",
       wishlistCount: 0,
@@ -261,6 +252,14 @@ class Wishlist extends React.Component<Props, State> {
           currentFilter: data
         });
         this.getWishlist("price_desc");
+        break;
+      case "discount":
+        this.setState({
+          dragDrop: false,
+          defaultOption: { value: data, label: data },
+          currentFilter: data
+        });
+        this.getWishlist("discount");
         break;
       default:
         break;
@@ -587,6 +586,19 @@ class Wishlist extends React.Component<Props, State> {
           }
         );
         break;
+      case "discount":
+        this.setState(
+          {
+            dragDrop: false,
+            defaultOption: data,
+            filterListing: false,
+            currentFilter: data.value
+          },
+          () => {
+            this.getWishlist("discount");
+          }
+        );
+        break;
       case "added_on":
         this.setState(
           {
@@ -625,7 +637,19 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   render() {
-    const { mobile, isLoggedIn } = this.props;
+    const { mobile, isLoggedIn, sortedDiscount } = this.props;
+    const options = [
+      { value: "added_on", label: "Recently Added" },
+      { value: "sequence", label: "Drag and Drop" },
+      { value: "price_asc", label: "Price Low To High" },
+      { value: "price_desc", label: "Price High To Low" }
+    ];
+    if (sortedDiscount) {
+      options.splice(1, 0, {
+        value: "discount",
+        label: "Discount"
+      });
+    }
     const emptyWishlistContent = (
       <div>
         <div
@@ -809,7 +833,7 @@ class Wishlist extends React.Component<Props, State> {
                       )}
                     >
                       <ul className={styles.sort}>
-                        {this.state.options.map((data, index) => {
+                        {options.map((data, index) => {
                           return (
                             <li key={index}>
                               <a
@@ -858,7 +882,7 @@ class Wishlist extends React.Component<Props, State> {
                 id="sort-dropdown-wishlist"
                 align="right"
                 className={styles.dropdownRoot}
-                items={this.state.options}
+                items={options}
                 value={this.state.defaultOption.value}
                 onChange={this.onChangeFilter}
                 disabled={this.state.wishlistCount == 0}
