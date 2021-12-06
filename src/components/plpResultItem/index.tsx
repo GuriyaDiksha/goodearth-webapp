@@ -185,7 +185,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>
-        {!(product.invisibleFields.indexOf("price") > -1) && (
+        {!(product.invisibleFields?.indexOf("price") > -1) && (
           <Price
             product={product}
             code={code}
@@ -210,7 +210,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           >
             <div className={styles.productSize}> size</div>
             <div className="">
-              {!(product.invisibleFields.indexOf("size") > -1) && (
+              {!(product.invisibleFields?.indexOf("size") > -1) && (
                 <ul>
                   {(props.product
                     .childAttributes as PartialChildProductAttributes[])?.map(

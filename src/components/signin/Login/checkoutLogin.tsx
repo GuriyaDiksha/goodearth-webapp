@@ -22,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
   return {
     location: state.router.location,
     basket: state.basket,
-    currency: state.currency
+    currency: state.currency,
+    sortBy: state.wishlist.sortBy
   };
 };
 
@@ -217,7 +218,8 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           this.state.password || "",
           this.props.currency,
           "checkout",
-          this.props.history
+          this.props.history,
+          this.props.sortBy
         )
         .then(data => {
           Moengage.track_event("Login", {
