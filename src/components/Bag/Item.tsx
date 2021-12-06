@@ -68,12 +68,12 @@ const LineItems: React.FC<BasketItem> = memo(
         product.categories && product.categories[index]
           ? product.categories[index].replace(/\s/g, "")
           : "";
-      // Moengage.track_event("remove_from_cart", {
-      //   productid: product.sku || product.childAttributes[0].sku,
-      //   productname: product.title,
-      //   quantity: quantity,
-      //   price: price
-      // });
+      Moengage.track_event("remove_from_cart", {
+        productid: product.sku || product.childAttributes[0].sku,
+        productname: product.title,
+        quantity: quantity,
+        price: price
+      });
       dataLayer.push({
         event: "removeFromCart",
         ecommerce: {
