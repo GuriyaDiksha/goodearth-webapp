@@ -29,10 +29,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     onLoadAPiCall: (
       basketcall: boolean,
       cookies: Cookies,
-      bridalKey?: string
+      bridalKey?: string,
+      sortBy = "added_on"
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      WishlistService.updateWishlist(dispatch);
+      WishlistService.updateWishlist(dispatch, sortBy);
       BasketService.fetchBasket(dispatch);
     },
     changeCurrency: async (data: { currency: Currency }) => {
@@ -44,7 +45,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       currency: Currency,
       customerGroup: string,
       page?: string,
-      islogin?: boolean
+      islogin?: boolean,
+      sortBy = "added_on"
     ) => {
       // if (page == "/") {
       // }
@@ -74,7 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
 
-      WishlistService.updateWishlist(dispatch);
+      WishlistService.updateWishlist(dispatch, sortBy);
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
