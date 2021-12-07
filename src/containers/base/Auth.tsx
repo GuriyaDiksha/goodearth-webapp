@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -9,7 +8,7 @@ import "./auth.css";
 const FormPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [passwordError, setpasswordError] = useState("");
+  // const [passwordError, setpasswordError] = useState("");
   const [emailError, setemailError] = useState("");
   const [loginError, setLoginError] = useState("");
   const dispatch = useDispatch();
@@ -92,9 +91,9 @@ const FormPage: React.FC = () => {
               placeholder="Password"
               onChange={event => setPassword(event.target.value)}
             />
-            <small id="passworderror" className="text-danger">
+            {/* <small id="passworderror" className="text-danger">
               {passwordError}
-            </small>
+            </small> */}
           </div>
           <small id="emailHelp" className="text-danger">
             {loginError}
