@@ -22,9 +22,12 @@ import { connect } from "react-redux";
 import { checkMail } from "utils/validate";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
+import { AppState } from "reducers/typings";
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state: AppState) => {
+  return {
+    sortBy: state.wishlist.sortBy
+  };
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -109,7 +112,7 @@ class RegisterForm extends React.Component<Props, registerState> {
       disableButton: true
     });
     this.props
-      .register(formData)
+      .register(formData, undefined, this.props.sortBy)
       .then(data => {
         this.setState({
           disableButton: false
