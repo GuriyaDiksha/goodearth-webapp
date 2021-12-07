@@ -1362,7 +1362,6 @@ class FilterList extends React.Component<Props, State> {
       //   currency: this.props.currency
       // },
       sortBy: {},
-      availableDiscount: {},
       q: {
         q: value
       }
