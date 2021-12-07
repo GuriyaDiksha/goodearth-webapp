@@ -934,7 +934,7 @@ class PDPContainer extends React.Component<Props, State> {
 
     const { breadcrumbs } = data;
     const images: any[] = this.getProductImagesData();
-
+    const isIcon = images?.some(({ icon }) => icon);
     const mobileSlides =
       mobile &&
       images?.map(({ id, productImage, icon, code }, i: number) => {
@@ -947,7 +947,7 @@ class PDPContainer extends React.Component<Props, State> {
               className={globalStyles.imgResponsive}
               onClick={this.getMobileZoomListener(i)}
             />
-            {icon && (
+            {isIcon && (
               <div className={styles.mobile3d}>
                 <img
                   src={mobile3d}
@@ -955,11 +955,11 @@ class PDPContainer extends React.Component<Props, State> {
                 ></img>
               </div>
             )}
-            <div>
+            {/* <div>
               {!icon && (
                 <img src={overlay} className={styles.mobileHelloicon}></img>
               )}
-            </div>
+            </div> */}
             <div
               className={styles.mobileZoomIcon}
               onClick={this.getMobileZoomListener(i)}
