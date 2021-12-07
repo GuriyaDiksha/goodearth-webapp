@@ -99,7 +99,8 @@ export default {
     }
     if (
       (res.updated || res.publishRemove) &&
-      res.updatedRemovedItems && res.updatedRemovedItems.length > 0
+      res.updatedRemovedItems &&
+      res.updatedRemovedItems.length > 0
     ) {
       util.showGrowlMessage(
         dispatch,
@@ -218,7 +219,8 @@ export default {
     }
     if (
       (res.updated || res.publishRemove) &&
-      res.updatedRemovedItems && res.updatedRemovedItems.length > 0
+      res.updatedRemovedItems &&
+      res.updatedRemovedItems.length > 0
     ) {
       util.showGrowlMessage(
         dispatch,
