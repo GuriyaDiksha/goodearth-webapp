@@ -3,6 +3,21 @@ export type ProfileProps = {
   currentCallBackComponent?: string;
 };
 
+type CountryOptions = {
+  value: string;
+  label: string;
+  code2: string;
+  isd: string | undefined;
+  states: StateOptions[];
+};
+
+type StateOptions = {
+  value: string;
+  label: string;
+  id: number;
+  nameAscii: string;
+};
+
 export type ProfileResponse = {
   phoneCountryCode: string;
   phoneNumber: string;
@@ -45,4 +60,7 @@ export type State = {
   maxDate: string;
   errorDob: string;
   hightlightDob: boolean;
+  countryOptions: CountryOptions[];
+  stateOptions: StateOptions[];
+  isIndia: boolean;
 };
