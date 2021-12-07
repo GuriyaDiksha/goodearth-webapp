@@ -139,7 +139,7 @@ class FilterList extends React.Component<Props, State> {
             filter.currency[key] = vars[key];
             break;
           case "sort_by":
-            filter.sortBy[key] = vars[key];
+            filter.sortBy["sortBy"] = vars[key];
             break;
           case "product_type":
             for (let i = 0; i < cc.length; i++) {
@@ -1349,8 +1349,9 @@ class FilterList extends React.Component<Props, State> {
 
   changeSearchValue = (value: string) => {
     if (value == "") return false;
-    let { filter } = this.state;
-    filter = {
+    const { filter } = this.state;
+    const newFilter = {
+      ...filter,
       currentColor: {},
       availableSize: {},
       categoryShop: {},
@@ -1358,17 +1359,13 @@ class FilterList extends React.Component<Props, State> {
       availableDiscount: {},
       productType: {},
       currency: {},
-      // currency: {
-      //   currency: this.props.currency
-      // },
-      sortBy: {},
       q: {
         q: value
       }
     };
     this.setState(
       {
-        filter: filter
+        filter: newFilter
       },
       () => {
         this.createUrlfromFilter();
