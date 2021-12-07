@@ -31,7 +31,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       password: string,
       currency: Currency,
       source?: string,
-      history?: any
+      history?: any,
+      sortBy?: string
     ) => {
       return LoginService.login(
         dispatch,
@@ -39,7 +40,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         password,
         currency,
         source,
-        history
+        history,
+        sortBy
       );
     },
     resetNextUrl: () => {
