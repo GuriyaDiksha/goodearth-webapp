@@ -935,6 +935,9 @@ class PDPContainer extends React.Component<Props, State> {
     const { breadcrumbs } = data;
     const images: any[] = this.getProductImagesData();
     const isIcon = images?.some(({ icon }) => icon);
+    const mycode = images?.filter(data => {
+      return data.code != "";
+    })[0].code;
     const mobileSlides =
       mobile &&
       images?.map(({ id, productImage, icon, code }, i: number) => {
@@ -951,7 +954,7 @@ class PDPContainer extends React.Component<Props, State> {
               <div className={styles.mobile3d}>
                 <img
                   src={mobile3d}
-                  onClick={(e: any) => this.onClickMobile3d(e, code)}
+                  onClick={(e: any) => this.onClickMobile3d(e, mycode)}
                 ></img>
               </div>
             )}
