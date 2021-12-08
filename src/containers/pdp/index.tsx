@@ -937,7 +937,7 @@ class PDPContainer extends React.Component<Props, State> {
     const isIcon = images?.some(({ icon }) => icon);
     const mycode = images?.filter(data => {
       return data.code != "";
-    })[0].code;
+    })[0]?.code;
     const mobileSlides =
       mobile &&
       images?.map(({ id, productImage, icon, code }, i: number) => {
