@@ -230,3 +230,6 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     height: 100px;
     width: 63px;
 }
+.details-container {
+    z-index: 1;
+}
