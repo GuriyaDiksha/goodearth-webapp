@@ -108,17 +108,21 @@ class MyProfile extends React.Component<Props, State> {
     formData.dateOfBirth = formData.dateOfBirth
       ? moment(formData.dateOfBirth).format("YYYY-MM-DD")
       : "";
-    this.setState({
-      user,
-      uniqueId,
-      abandonedCartNotification,
-      newsletter,
-      updateProfile: false,
-      data: data
-    });
-    this.changeCountryData(this.props.countryData);
-    this.ProfileFormRef.current &&
-      this.ProfileFormRef.current.updateInputsWithValue(formData);
+    this.setState(
+      {
+        user,
+        uniqueId,
+        abandonedCartNotification,
+        newsletter,
+        updateProfile: false,
+        data: data
+      },
+      () => {
+        this.changeCountryData(this.props.countryData);
+        this.ProfileFormRef.current &&
+          this.ProfileFormRef.current.updateInputsWithValue(formData);
+      }
+    );
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
@@ -131,7 +135,9 @@ class MyProfile extends React.Component<Props, State> {
       gender,
       panPassportNumber,
       dateOfBirth,
-      subscribe
+      subscribe,
+      country,
+      state
     } = model;
     const formData: any = {};
     formData["firstName"] = firstName || "";
@@ -146,6 +152,12 @@ class MyProfile extends React.Component<Props, State> {
       ? moment(dateOfBirth).format("YYYY-MM-DD")
       : null;
     formData["subscribe"] = subscribe;
+    const countryCode = this.state.countryOptions.filter(
+      countryOption => countryOption.value == country
+    )[0].code2;
+    formData["country"] = countryCode;
+    formData["state"] = state || "";
+
     this.setState({
       showerror: ""
     });
@@ -530,14 +542,14 @@ class MyProfile extends React.Component<Props, State> {
                   label={"Contact Number"}
                   disable={phoneNumber ? true : false}
                   className={cs({ [styles.disabledInput]: phoneNumber })}
-                  validations={{
-                    isPhoneValid: (values, value) => {
-                      return !(values.phoneCountryCode && value == "");
-                    }
-                  }}
-                  validationErrors={{
-                    isPhoneValid: "Please enter your Contact Number"
-                  }}
+                  // validations={{
+                  //   isPhoneValid: (values, value) => {
+                  //     return !(value == "");
+                  //   }
+                  // }}
+                  // validationErrors={{
+                  //   isPhoneValid: "Please enter your Contact Number"
+                  // }}
                   keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                 />
               </div>
