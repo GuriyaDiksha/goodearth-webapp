@@ -742,7 +742,8 @@ const ProductDetails: React.FC<Props> = ({
                         bootstrap.col12,
                         bootstrap.colSm3,
                         styles.label,
-                        styles.size
+                        styles.size,
+                        { [styles.mobileMargin]: mobile }
                       )}
                     >
                       Size
@@ -846,7 +847,8 @@ const ProductDetails: React.FC<Props> = ({
                       bootstrap.col12,
                       bootstrap.colSm3,
                       styles.label,
-                      styles.quantity
+                      styles.quantity,
+                      { [styles.mobileMargin]: mobile }
                     )}
                   >
                     Quantity
