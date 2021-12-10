@@ -5,7 +5,7 @@ import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { ShopLocatorProps } from "./typings";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import BannerSlider from "components/BannerSlider";
 import { Settings } from "react-slick";
 import borderImg from "images/category/bannerBottom.jpg";
@@ -249,10 +249,14 @@ const ShopDetail: React.FC<ShopLocatorProps> = props => {
                           styles.getDirections
                         )}
                       >
-                        <Link to={shopData.cafeDirection} target="_blank">
+                        <a
+                          href={shopData.cafeDirection}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           {" "}
                           get directions{" "}
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>
