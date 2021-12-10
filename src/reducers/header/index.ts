@@ -6,8 +6,7 @@ const initialState: HeaderState = {
     bgColorcode: "",
     bridalBgColorcode: "",
     isBridalActive: false,
-    message: "",
-    url: null
+    data: []
   },
   timerData: null,
   storeData: {
