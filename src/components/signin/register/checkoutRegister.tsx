@@ -142,6 +142,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       formData["phoneCountryCode"] = code;
     }
     formData["subscribe"] = terms;
+
     this.setState({
       disableButton: true
     });
@@ -679,7 +680,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               name="code"
               placeholder="Code"
               label="Country Code"
-              disable={true}
               id="isdcode"
               value=""
               validations={{
@@ -700,7 +700,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
             />
             <FormInput
-              required
               name="phone"
               value=""
               placeholder={"Contact Number"}
