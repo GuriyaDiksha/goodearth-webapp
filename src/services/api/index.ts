@@ -83,6 +83,7 @@ export default {
     );
     response.data.map(item => {
       item.content = util.sanitizeContent(item.content);
+      item.ctaLabel = util.sanitizeContent(item.ctaLabel);
     });
     dispatch(updateAnnouncement(response));
   },
