@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
+import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import bridalRing from "../../images/bridal/rings.svg";
 import { PopupData } from "typings/api";
@@ -101,7 +102,12 @@ const AnnouncementBar: React.FC<Props> = ({
             </>
           </div>
         ) : (
-          <div className={globalStyles.textCenter}>
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              styles.announcementContainer
+            )}
+          >
             {/* Announcement Bar Content */}
             <div className={styles.announcementContent}>
               {data[currentIndex].announcementRedirection ==
