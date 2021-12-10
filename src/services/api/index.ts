@@ -16,6 +16,8 @@ import CacheService from "services/cache";
 import HeaderService from "services/headerFooter";
 import { updatePopup } from "actions/popup";
 import { updateUser } from "actions/user";
+import { AnnouncementBar } from "components/header/typings";
+import * as util from "utils/validate";
 
 export default {
   fetchShopLocator: async function(dispatch: Dispatch) {
@@ -73,12 +75,15 @@ export default {
     dispatch(updatePopupBgUrl(data));
   },
   getAnnouncement: async function(dispatch: Dispatch, bridalKey?: string) {
-    const response: any = await API.get<ApiResponse>(
+    const response = await API.get<AnnouncementBar>(
       dispatch,
-      `${__API_HOST__}/myapi/promotions/announcement_bar/${
+      `${__API_HOST__}/myapi/promotions/announcement_bar_v1/${
         bridalKey ? "?bridal_key=" + bridalKey : ""
       }`
     );
+    response.data.map(item => {
+      item.content = util.sanitizeContent(item.content);
+    });
     dispatch(updateAnnouncement(response));
   },
   getMusicData: async function(dispatch: Dispatch) {
