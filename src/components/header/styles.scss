@@ -1593,3 +1593,19 @@ ul.inner-menu-mobile {
 .header-bg {
   background-color: #f9f8f5;
 }
+
+.announcement-cta {
+  display: inline;
+}
+.announcement-content {
+  display: inline-block;
+}
+.announcement-cta-btn {
+  padding: 2px 8px;
+  width: fit-content;
+  font-size: 12px;
+  margin-top: 8px;
+  margin-left: 90px;
+  display: inline;
+  cursor: pointer;
+}

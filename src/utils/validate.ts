@@ -144,13 +144,39 @@ export function productForBasketGa(data: Basket, currency: Currency) {
 
 export function removeFroala(timeout = 500) {
   setTimeout(() => {
-    const pbf = document.querySelector('[data-f-id="pbf"]');
-    if (pbf) {
-      let style = pbf.getAttribute("style") || "";
+    const pbf = document.querySelectorAll('[data-f-id="pbf"]');
+    pbf.forEach(entry => {
+      let style = entry.getAttribute("style") || "";
       style = style.concat("display: none;");
-      pbf.setAttribute("style", style);
-    }
+      entry.setAttribute("style", style);
+    });
   }, timeout);
+}
+
+export function sanitizeContent(content: string) {
+  if (content) {
+    if (typeof document == "undefined") {
+      const dom = parseDocument(content);
+      const elems = DomUtils.getElements(
+        { ["data-f-id"]: value => value == "pbf" },
+        dom,
+        true,
+        1
+      );
+      if (elems.length > 0) {
+        DomUtils.removeElement(elems[0]);
+      }
+      return DomUtils.getInnerHTML(dom);
+    } else {
+      const dom = new DOMParser().parseFromString(content, "text/html").body;
+      const elem = dom.querySelector('p[data-f-id="pbf"]');
+      if (elem) {
+        elem.remove();
+      }
+      return dom.innerHTML;
+    }
+  }
+  return content;
 }
 
 export function scrollToId() {
