@@ -76,6 +76,7 @@ class Header extends React.Component<Props, State> {
       showPincodePopup: false,
       showBag: false,
       isLoading: false,
+      reloadAnnouncementBar: true,
       showCartMobile:
         (this.props.location.pathname.includes("/catalogue/") &&
           !this.props.location.pathname.includes("/catalogue/category")) ||
@@ -179,7 +180,23 @@ class Header extends React.Component<Props, State> {
     this.listenAnnouncementBarClick("bar2");
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (
+      this.props.announcement.data.length != nextProps.announcement.data.length
+    ) {
+      this.setState({
+        reloadAnnouncementBar: false
+      });
+    }
+  }
   componentDidUpdate(prevProps: Props) {
+    if (
+      this.props.announcement.data.length != prevProps.announcement.data.length
+    ) {
+      this.setState({
+        reloadAnnouncementBar: true
+      });
+    }
     if (this.props.location.pathname != prevProps.location.pathname) {
       const isPDP =
         this.props.location.pathname.includes("/catalogue/") &&
@@ -611,10 +628,12 @@ class Header extends React.Component<Props, State> {
         </Helmet>
 
         <div className={cs(styles.headerContainer)}>
-          <AnnouncementBar
-            clearBridalSession={this.clearBridalSession}
-            isBridalRegistryPage={isBridalRegistryPage}
-          />
+          {this.state.reloadAnnouncementBar && (
+            <AnnouncementBar
+              clearBridalSession={this.clearBridalSession}
+              isBridalRegistryPage={isBridalRegistryPage}
+            />
+          )}
           {!isBridalRegistryPage &&
             !isCeriseCustomer &&
             this.props.showTimer &&

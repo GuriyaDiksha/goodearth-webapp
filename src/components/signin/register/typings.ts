@@ -1,3 +1,18 @@
+type CountryOptions = {
+  value: string;
+  label: string;
+  code2: string;
+  isd: string | undefined;
+  states: StateOptions[];
+};
+
+type StateOptions = {
+  value: string;
+  label: string;
+  id: number;
+  nameAscii: string;
+};
+
 export type registerState = {
   disableButton: boolean;
   msgt: string;
@@ -15,6 +30,9 @@ export type registerState = {
   passValidNum: boolean;
   showPassRules: boolean;
   shouldValidatePass: boolean;
+  countryOptions: CountryOptions[];
+  stateOptions: StateOptions[];
+  isIndia: boolean;
 };
 
 export type RegisterProps = {

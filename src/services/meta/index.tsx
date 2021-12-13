@@ -51,7 +51,11 @@ export default {
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       user.customerGroup = meta.customerGroup;
-      if (typeof document != "undefined" && user.email && !user.gender) {
+      if (
+        typeof document != "undefined" &&
+        user.email &&
+        (!user.gender || !user.country)
+      ) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
       }

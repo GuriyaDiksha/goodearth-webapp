@@ -266,6 +266,12 @@ class Search extends React.Component<
         searchText: searchValue ? searchValue : ""
       });
     }
+    const sort = urlParams.get("sort_by");
+    if (sort !== this.state.sortValue) {
+      this.setState({
+        sortValue: sort ? sort : "hc"
+      });
+    }
   }
 
   changeLoader = (value: boolean) => {
@@ -350,7 +356,7 @@ class Search extends React.Component<
                   align="right"
                   className={styles.dropdownRoot}
                   items={items}
-                  value="hc"
+                  value={this.state.sortValue}
                   onChange={this.onchangeFilter}
                   showCaret={true}
                   disabled={data.length == 0 ? true : false}
