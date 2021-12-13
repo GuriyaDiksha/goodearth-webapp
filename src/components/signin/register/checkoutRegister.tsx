@@ -22,6 +22,7 @@ import SocialLogin from "../socialLogin";
 import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
+import { Country } from "components/Formsy/CountryCode/typings";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -30,7 +31,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     basket: state.basket,
     currency: state.currency,
-    countryData: isdList,
+    isdList: isdList,
+    countryData: state.address.countryData,
     sortBy: state.wishlist.sortBy
   };
 };
@@ -62,7 +64,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       passValidLower: false,
       passValidNum: false,
       showPassRules: false,
-      shouldValidatePass: false
+      shouldValidatePass: false,
+      countryOptions: [],
+      stateOptions: [],
+      isIndia: false
     };
   }
   static contextType = Context;
@@ -84,6 +89,13 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     localStorage.removeItem("tempEmail");
     this.emailInput.current && this.emailInput.current.focus();
     this.props.fetchCountryData();
+    this.changeCountryData(this.props.countryData);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.countryData.length != this.props.countryData.length) {
+      this.changeCountryData(nextProps.countryData);
+    }
   }
   gtmPushRegister = () => {
     dataLayer.push({
@@ -103,6 +115,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       lastName,
       gender,
       dateOfBirth,
+      country,
+      state,
       phone,
       code,
       terms
@@ -118,11 +132,17 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     formData["dateOfBirth"] = dateOfBirth
       ? moment(dateOfBirth).format("YYYY-MM-DD")
       : null;
+    const countryCode = this.state.countryOptions.filter(
+      countryOption => countryOption.value == country
+    )[0].code2;
+    formData["country"] = countryCode;
+    formData["state"] = state || "";
     if (code && phone) {
       formData["phoneNo"] = phone;
       formData["phoneCountryCode"] = code;
     }
     formData["subscribe"] = terms;
+
     this.setState({
       disableButton: true
     });
@@ -198,6 +218,82 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           }
         });
       });
+  };
+
+  onCountrySelect = (
+    event: React.ChangeEvent<HTMLSelectElement> | null,
+    defaultCountry?: string
+  ) => {
+    const { countryOptions } = this.state;
+    if (countryOptions.length > 0) {
+      const form = this.RegisterFormRef.current;
+      let selectedCountry = "";
+      if (event) {
+        selectedCountry = event.currentTarget.value;
+        // setIsAddressChanged(true);
+        // setIsCountryChanged(true);
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: ""
+            },
+            false
+          );
+      } else if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd, value } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        form.updateInputsWithValue({
+          code: isd
+        });
+      }
+      this.setState({
+        isIndia: value == "India",
+        stateOptions: states
+      });
+    }
+  };
+
+  changeCountryData = (countryData: Country[]) => {
+    const countryOptions = countryData.map(country => {
+      const states = country.regionSet.map(state => {
+        return Object.assign({}, state, {
+          value: state.nameAscii,
+          label: state.nameAscii
+        });
+      });
+      return Object.assign(
+        {},
+        {
+          value: country.nameAscii,
+          label: country.nameAscii,
+          code2: country.code2,
+          isd: country.isdCode,
+          states: states
+        }
+      );
+    });
+    this.setState({
+      countryOptions
+    });
   };
 
   handleInvalidSubmit = () => {
@@ -412,7 +508,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     // const { goLogin } = this.props;
-
+    const { countryOptions } = this.state;
+    const isExistyError = "This field is required";
     const formContent = (
       <Formsy
         ref={this.RegisterFormRef}
@@ -537,12 +634,52 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
             />
           </div>
+          <div>
+            <div className="select-group text-left">
+              <FormSelect
+                required
+                label="Country"
+                options={countryOptions}
+                handleChange={this.onCountrySelect}
+                placeholder="Select Country"
+                name="country"
+                validations={{
+                  isExisty: true
+                }}
+                validationErrors={{
+                  isExisty: "Please select your Country",
+                  isEmptyString: isExistyError
+                }}
+              />
+              <span className="arrow"></span>
+            </div>
+          </div>
+          {this.state.isIndia && (
+            <div>
+              <div className="select-group text-left">
+                <FormSelect
+                  required
+                  name="state"
+                  label="State"
+                  placeholder="Select State"
+                  options={this.state.stateOptions}
+                  value=""
+                  validations={{
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    isExisty: isExistyError,
+                    isEmptyString: isExistyError
+                  }}
+                />
+              </div>
+            </div>
+          )}
           <div className={styles.countryCode}>
             <CountryCode
               name="code"
               placeholder="Code"
               label="Country Code"
-              disable={!this.state.showFields}
               id="isdcode"
               value=""
               validations={{
@@ -550,10 +687,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   return !(values.phone && value == "");
                 },
                 isValidCode: (values, value) => {
-                  if (value && this.props.countryData.length > 0) {
-                    return (
-                      this.props.countryData.indexOf(value ? value : "") > -1
-                    );
+                  if (value && this.props.isdList.length > 0) {
+                    return this.props.isdList.indexOf(value ? value : "") > -1;
                   } else {
                     return true;
                   }
@@ -573,12 +708,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={showFieldsClass}
               label={"Contact Number"}
               validations={{
-                isPhoneValid: (values, value) => {
-                  return !(values.code && value == "");
-                }
+                isExisty: true
               }}
               validationErrors={{
-                isPhoneValid: "Please enter your Contact Number"
+                isExisty: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
             />

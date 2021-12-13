@@ -19,4 +19,6 @@ export type User = {
   slab: string;
   loyaltyData: { [x: string]: any } | null;
   customerGroup: string;
+  country: string;
+  state: string;
 };

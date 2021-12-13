@@ -2,6 +2,7 @@ import { Location } from "history";
 import { Currency } from "../../typings/currency";
 import { Basket } from "typings/basket";
 import { DropdownItem } from "components/dropdown/baseDropdownMenu/typings";
+import { PopupData } from "typings/api";
 
 export interface Childern {
   url: string;
@@ -101,14 +102,26 @@ export interface L2MenuData {
   templateType?: string;
 }
 
+type Redirection = "OPEN_A_POP_UP" | "OPEN_A_NEW_PAGE" | null;
+
 export type AnnouncementBar = {
-  url: number | null;
-  message: string;
   bgColorcode: string;
   bridalBgColorcode: string;
   isBridalActive: boolean;
   registrantName?: string;
   coRegistrantName?: string;
+  data: {
+    label: string;
+    content: string;
+    announcementRedirection: Redirection;
+    announcementRedirectionUrl: string;
+    announcementRedirectionPopup: PopupData | "";
+    ctaRedirection: Redirection;
+    ctaRedirectionUrl: string;
+    ctaRedirectionPopup: PopupData | "";
+    ctaLabel: string;
+    ctaBorderColor: string;
+  }[];
 };
 
 export type WishListType = {
@@ -270,6 +283,7 @@ export interface State {
   showBag: boolean;
   showCartMobile: boolean;
   isLoading: boolean;
+  reloadAnnouncementBar: boolean;
 }
 
 export interface MenuState {
