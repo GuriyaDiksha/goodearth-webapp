@@ -283,6 +283,7 @@ export interface State {
   showBag: boolean;
   showCartMobile: boolean;
   isLoading: boolean;
+  reloadAnnouncementBar: boolean;
 }
 
 export interface MenuState {
