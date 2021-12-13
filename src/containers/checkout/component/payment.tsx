@@ -136,18 +136,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           setIsLoading(false);
         })
         .catch((error: any) => {
-          const msg = valid.showErrors(error.response?.data.msg);
+          let msg = valid.showErrors(error.response?.data.msg);
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
-            valid.showGrowlMessage(
-              dispatch,
-              "Some of the products in your cart have been updated/become unavailable. Please refresh before proceeding.",
-              6000
-            );
-          } else {
-            setPaymentError(msg);
-            valid.errorTracking([msg], location.href);
+            msg =
+              "Some of the products in your cart have been updated/become unavailable. Please refresh before proceeding.";
           }
+          setPaymentError(msg);
+          valid.errorTracking([msg], location.href);
           setIsLoading(false);
         });
     } else {
