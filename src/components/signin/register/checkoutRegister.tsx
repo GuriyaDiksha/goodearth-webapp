@@ -136,7 +136,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       countryOption => countryOption.value == country
     )[0].code2;
     formData["country"] = countryCode;
-    formData["state"] = state || "";
+    if (countryCode == "IN") {
+      formData["state"] = state || "";
+    }
+
     if (code && phone) {
       formData["phoneNo"] = phone;
       formData["phoneCountryCode"] = code;
