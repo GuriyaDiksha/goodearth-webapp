@@ -19,25 +19,34 @@ const AnnouncementBar: React.FC<Props> = ({
   clearBridalSession,
   isBridalRegistryPage
 }) => {
-  const announcement = useSelector(
-    (state: AppState) => state.header.announcementData
-  );
+  const {
+    data,
+    isBridalActive,
+    bgColorcode,
+    bridalBgColorcode,
+    registrantName,
+    coRegistrantName
+  } = useSelector((state: AppState) => state.header.announcementData);
   const dispatch = useDispatch();
-  const data = announcement.data;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [animation, setAnimation] = useState<null | NodeJS.Timeout>(null);
   useEffect(() => {
-    const animation = setInterval(() => {
+    if (animation) {
+      clearInterval(animation);
+    }
+    const newAnimation = setInterval(() => {
       setCurrentIndex(prevIndex =>
         prevIndex == data.length - 1 ? 0 : prevIndex + 1
       );
       removeFroala();
     }, 4000);
+    setAnimation(newAnimation);
     return () => {
       if (animation) {
         clearInterval(animation);
       }
     };
-  }, []);
+  }, [data.length]);
 
   const openPopup = (popupData: PopupData) => {
     dispatch(updateComponent(POPUP.CMSPOPUP, popupData, true));
@@ -49,9 +58,9 @@ const AnnouncementBar: React.FC<Props> = ({
       className={styles.announcement}
       style={{
         backgroundColor:
-          announcement.isBridalActive || isBridalRegistryPage
-            ? announcement.bridalBgColorcode
-            : announcement.bgColorcode
+          isBridalActive || isBridalRegistryPage
+            ? bridalBgColorcode
+            : bgColorcode
       }}
     >
       <div
@@ -62,7 +71,7 @@ const AnnouncementBar: React.FC<Props> = ({
             : styles.width100
         }
       >
-        {isBridalRegistryPage || announcement.isBridalActive ? (
+        {isBridalRegistryPage || isBridalActive ? (
           <div>
             <>
               <svg
@@ -77,7 +86,7 @@ const AnnouncementBar: React.FC<Props> = ({
               >
                 <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
               </svg>{" "}
-              {announcement.registrantName} & {announcement.coRegistrantName}
+              {registrantName} & {coRegistrantName}
               &#39;s Bridal Registry (Public Link){" "}
               <b
                 style={{
@@ -110,16 +119,16 @@ const AnnouncementBar: React.FC<Props> = ({
           >
             {/* Announcement Bar Content */}
             <div className={styles.announcementContent}>
-              {data[currentIndex].announcementRedirection ==
+              {data[currentIndex]?.announcementRedirection ==
               "OPEN_A_NEW_PAGE" ? (
                 <a
-                  href={data[currentIndex].announcementRedirectionUrl}
+                  href={data[currentIndex]?.announcementRedirectionUrl}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  {ReactHtmlParser(data[currentIndex].content)}
+                  {ReactHtmlParser(data[currentIndex]?.content)}
                 </a>
-              ) : data[currentIndex].announcementRedirection ==
+              ) : data[currentIndex]?.announcementRedirection ==
                 "OPEN_A_POP_UP" ? (
                 <div
                   className={globalStyles.pointer}
@@ -130,57 +139,57 @@ const AnnouncementBar: React.FC<Props> = ({
                     )
                   }
                 >
-                  {ReactHtmlParser(data[currentIndex].content)}
+                  {ReactHtmlParser(data[currentIndex]?.content)}
                 </div>
               ) : (
-                !data[currentIndex].announcementRedirection &&
-                ReactHtmlParser(data[currentIndex].announcementRedirection)
+                !data[currentIndex]?.announcementRedirection &&
+                ReactHtmlParser(data[currentIndex]?.announcementRedirection)
               )}
             </div>
             {/* CTA */}
             <div className={styles.announcementCta}>
-              {data[currentIndex].ctaLabel &&
-                (data[currentIndex].ctaRedirection == "OPEN_A_NEW_PAGE" ? (
+              {data[currentIndex]?.ctaLabel &&
+                (data[currentIndex]?.ctaRedirection == "OPEN_A_NEW_PAGE" ? (
                   <a
-                    href={data[currentIndex].ctaRedirectionUrl}
+                    href={data[currentIndex]?.ctaRedirectionUrl}
                     rel="noreferrer noopener"
                     target="_blank"
                   >
                     <div
                       className={styles.announcementCtaBtn}
                       style={{
-                        color: data[currentIndex].ctaBorderColor,
-                        border: `1px solid ${data[currentIndex].ctaBorderColor}`
+                        color: data[currentIndex]?.ctaBorderColor,
+                        border: `1px solid ${data[currentIndex]?.ctaBorderColor}`
                       }}
                     >
-                      {ReactHtmlParser(data[currentIndex].ctaLabel)}
+                      {ReactHtmlParser(data[currentIndex]?.ctaLabel)}
                     </div>
                   </a>
-                ) : data[currentIndex].ctaRedirection == "OPEN_A_POP_UP" ? (
+                ) : data[currentIndex]?.ctaRedirection == "OPEN_A_POP_UP" ? (
                   <div
                     className={styles.announcementCtaBtn}
                     style={{
-                      color: data[currentIndex].ctaBorderColor,
-                      border: `1px solid ${data[currentIndex].ctaBorderColor}`
+                      color: data[currentIndex]?.ctaBorderColor,
+                      border: `1px solid ${data[currentIndex]?.ctaBorderColor}`
                     }}
                     onClick={() =>
                       openPopup(
-                        data[currentIndex].ctaRedirectionPopup as PopupData
+                        data[currentIndex]?.ctaRedirectionPopup as PopupData
                       )
                     }
                   >
-                    {ReactHtmlParser(data[currentIndex].ctaLabel)}
+                    {ReactHtmlParser(data[currentIndex]?.ctaLabel)}
                   </div>
                 ) : (
-                  !data[currentIndex].ctaRedirection && (
+                  !data[currentIndex]?.ctaRedirection && (
                     <div
                       className={styles.announcementCtaBtn}
                       style={{
-                        color: data[currentIndex].ctaBorderColor,
-                        border: `1px solid ${data[currentIndex].ctaBorderColor}`
+                        color: data[currentIndex]?.ctaBorderColor,
+                        border: `1px solid ${data[currentIndex]?.ctaBorderColor}`
                       }}
                     >
-                      {ReactHtmlParser(data[currentIndex].ctaLabel)}
+                      {ReactHtmlParser(data[currentIndex]?.ctaLabel)}
                     </div>
                   )
                 ))}
