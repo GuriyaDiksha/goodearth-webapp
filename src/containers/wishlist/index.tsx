@@ -895,7 +895,7 @@ class Wishlist extends React.Component<Props, State> {
           className={cs(
             bootstrapStyles.row,
             { [styles.wishlistBlockOuter]: !mobile },
-            { [styles.wishlistBlockOuterMobile]: mobile }
+            { [styles.wishlistBlockOuterTimer]: this.props.showTimer }
           )}
         >
           {!isLoggedIn && (
