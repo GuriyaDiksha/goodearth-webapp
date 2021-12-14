@@ -662,12 +662,12 @@ export function MoreFromCollectionProductImpression(
   position?: any
 ) {
   try {
-    let product: any = [];
+    const product: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
-    product = data.map((prod: any, i: number) => {
+    data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
         const index = prod.categories.length - 1;
