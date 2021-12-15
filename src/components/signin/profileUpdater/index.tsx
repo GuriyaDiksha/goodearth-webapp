@@ -243,7 +243,10 @@ class ProfileUpdater extends React.Component<Props, State> {
       countryOption => countryOption.value == country
     )[0].code2;
     formData["country"] = countryCode;
-    formData["state"] = state || "";
+    if (countryCode == "IN") {
+      formData["state"] = state || "";
+    }
+
     formData["subscribe"] = subscribe;
     this.setState({
       showerror: ""
