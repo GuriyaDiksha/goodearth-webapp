@@ -429,9 +429,9 @@ export function PDP(data: any, currency: Currency) {
         );
       })
     );
-    Moengage.track_event("PdpView", {
-      products: pdpProduct
-    });
+    // Moengage.track_event("PdpView", {
+    //   products: pdpProduct
+    // });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
@@ -900,19 +900,19 @@ export const megaMenuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    if (l3) {
-      Moengage.track_event("L1Clicked", {
-        categoryName: l3
-      });
-    } else if (l2) {
-      Moengage.track_event("L2Clicked", {
-        categoryName: l2
-      });
-    } else if (l1) {
-      Moengage.track_event("L1Clicked", {
-        categoryName: l1
-      });
-    }
+    // if (l3) {
+    //   Moengage.track_event("L1Clicked", {
+    //     categoryName: l3
+    //   });
+    // } else if (l2) {
+    //   Moengage.track_event("L2Clicked", {
+    //     categoryName: l2
+    //   });
+    // } else if (l1) {
+    //   Moengage.track_event("L1Clicked", {
+    //     categoryName: l1
+    //   });
+    // }
 
     dataLayer.push({
       event: "Menu Navigation",
