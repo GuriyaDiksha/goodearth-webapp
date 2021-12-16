@@ -395,7 +395,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                 label="Country*"
                 options={this.state.countryOptions}
                 handleChange={this.onCountrySelect}
-                placeholder="Select Country"
+                placeholder="Select Country*"
                 name="country"
                 validations={{
                   isExisty: true
@@ -415,7 +415,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                   required
                   name="state"
                   label="State*"
-                  placeholder="Select State"
+                  placeholder="Select State*"
                   options={this.state.stateOptions}
                   handleChange={() => {
                     this.setState({ updateProfile: true });

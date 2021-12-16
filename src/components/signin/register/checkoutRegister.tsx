@@ -644,7 +644,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 label="Country*"
                 options={countryOptions}
                 handleChange={this.onCountrySelect}
-                placeholder="Select Country"
+                placeholder="Select Country*"
                 name="country"
                 validations={{
                   isExisty: true
@@ -664,7 +664,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   required
                   name="state"
                   label="State*"
-                  placeholder="Select State"
+                  placeholder="Select State*"
                   options={this.state.stateOptions}
                   value=""
                   validations={{
