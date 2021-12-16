@@ -392,7 +392,7 @@ class ProfileUpdater extends React.Component<Props, State> {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label="Country*"
                 options={this.state.countryOptions}
                 handleChange={this.onCountrySelect}
                 placeholder="Select Country"
@@ -414,7 +414,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                 <FormSelect
                   required
                   name="state"
-                  label="State"
+                  label="State*"
                   placeholder="Select State"
                   options={this.state.stateOptions}
                   handleChange={() => {
