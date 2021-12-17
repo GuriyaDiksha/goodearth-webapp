@@ -709,13 +709,18 @@ const ProductDetails: React.FC<Props> = ({
                     className={cs(
                       bootstrap.col12,
                       bootstrap.colSm3,
+                      { [bootstrap.colMd8]: mobile },
                       styles.label,
                       styles.colour
                     )}
                   >
                     Color
                   </div>
-                  <div className={cs(bootstrap.col12, bootstrap.colSm9)}>
+                  <div
+                    className={cs(bootstrap.col12, bootstrap.colSm9, {
+                      [bootstrap.colMd4]: mobile
+                    })}
+                  >
                     <ColorSelector
                       products={groupedProducts}
                       onClick={closeModal ? closeModal : () => null}
@@ -741,8 +746,10 @@ const ProductDetails: React.FC<Props> = ({
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm3,
+                        { [bootstrap.colMd8]: mobile },
                         styles.label,
-                        styles.size
+                        styles.size,
+                        { [styles.mobileMargin]: mobile }
                       )}
                     >
                       Size
@@ -750,6 +757,7 @@ const ProductDetails: React.FC<Props> = ({
                     <div
                       className={cs(
                         bootstrap.col12,
+                        { [bootstrap.colMd4]: mobile },
                         bootstrap.colSm9,
                         styles.sizeContainer
                       )}
@@ -836,7 +844,9 @@ const ProductDetails: React.FC<Props> = ({
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
-            <div className={bootstrap.col8}>
+            <div
+              className={cs(bootstrap.col8, { [bootstrap.colMd12]: mobile })}
+            >
               {!(
                 invisibleFields && invisibleFields.indexOf("quantity") > -1
               ) && (
@@ -845,8 +855,10 @@ const ProductDetails: React.FC<Props> = ({
                     className={cs(
                       bootstrap.col12,
                       bootstrap.colSm3,
+                      { [bootstrap.colMd8]: mobile },
                       styles.label,
-                      styles.quantity
+                      styles.quantity,
+                      { [styles.mobileMargin]: mobile }
                     )}
                   >
                     Quantity
@@ -855,6 +867,7 @@ const ProductDetails: React.FC<Props> = ({
                     className={cs(
                       bootstrap.col12,
                       bootstrap.colSm9,
+                      { [bootstrap.colMd4]: mobile },
                       styles.widgetQty
                     )}
                   >

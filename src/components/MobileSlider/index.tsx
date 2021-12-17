@@ -18,6 +18,13 @@ const MobileSlider: React.FC<Props> = ({ dots = true, children }) => {
     slidesToScroll: 1,
     arrows: false
   };
+
+  // const sliderRef:any = useRef();
+
+  // const handleOnClick = (index:number) => {
+  //   sliderRef.current.slickGoTo(3);
+  // };
+
   return (
     <div className="mobile-slider">
       {Object.keys(children || {}).length > 0 && (
