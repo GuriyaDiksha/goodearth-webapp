@@ -10,6 +10,7 @@ import cs from "classnames";
 import { Props } from "./typings";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
+import overlay from "images/3d/3Doverlay.svg";
 
 const VerticalImageSelector: React.FC<Props> = memo(
   ({ images = [], activeIndex = 0, className, onImageClick, alt }) => {
@@ -28,7 +29,7 @@ const VerticalImageSelector: React.FC<Props> = memo(
     }, [activeIndex]);
 
     const imageNodes: ReactNode[] = images.map(
-      ({ productImage, id }, index) => {
+      ({ productImage, id, icon }, index) => {
         return (
           <div
             key={id}
@@ -43,6 +44,7 @@ const VerticalImageSelector: React.FC<Props> = memo(
               className={globalStyles.imgResponsive}
               src={productImage}
             ></img>
+            {icon && <img src={overlay} className={styles.overlay}></img>}
           </div>
         );
       }

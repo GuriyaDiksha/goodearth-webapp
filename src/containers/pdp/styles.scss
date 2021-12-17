@@ -1,3 +1,4 @@
+
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
@@ -204,4 +205,31 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     font-size: 12px;
     margin-top: 15px;
     padding-left: 10px;
+}
+
+.mobile3d {
+    width: 150px;
+    position: absolute;
+    bottom: 50px;
+    left: 30%;
+}
+
+.helloimage-button {
+    position: absolute;
+    width: 130px;
+    z-index: 1;
+    bottom: 10%;
+    left: 34%;
+    cursor:  pointer !important;
+}
+
+.mobile-helloicon {
+    position: absolute;
+    bottom: 0px;
+    left: 10px;
+    height: 100px;
+    width: 63px;
+}
+.details-container {
+    z-index: 1;
 }
