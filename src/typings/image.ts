@@ -9,4 +9,6 @@ export interface ProductImage {
   social: boolean;
   badgeImage?: string;
   badgeImagePDP?: string;
+  code?: boolean;
+  icon?: boolean;
 }

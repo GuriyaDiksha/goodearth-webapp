@@ -99,7 +99,8 @@ export default {
     }
     if (
       (res.updated || res.publishRemove) &&
-      res.updatedRemovedItems && res.updatedRemovedItems.length > 0
+      res.updatedRemovedItems &&
+      res.updatedRemovedItems.length > 0
     ) {
       util.showGrowlMessage(
         dispatch,
@@ -127,6 +128,9 @@ export default {
       tkn: res.token
     });
     WishlistService.updateWishlist(dispatch, sortBy);
+    Api.getAnnouncement(dispatch).catch(err => {
+      console.log("Announcement API ERROR ==== " + err);
+    });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
@@ -218,7 +222,8 @@ export default {
     }
     if (
       (res.updated || res.publishRemove) &&
-      res.updatedRemovedItems && res.updatedRemovedItems.length > 0
+      res.updatedRemovedItems &&
+      res.updatedRemovedItems.length > 0
     ) {
       util.showGrowlMessage(
         dispatch,
@@ -322,6 +327,9 @@ export default {
           console.log("FOOTER API ERROR ==== " + err);
         }
       );
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Announcement API ERROR ==== " + err);
+      });
       Api.getPopups(dispatch).catch(err => {
         console.log("Popups Api ERROR === " + err);
       });
@@ -349,6 +357,9 @@ export default {
     });
     HeaderService.fetchHeaderDetails(dispatch).catch(err => {
       console.log("FOOTER API ERROR ==== " + err);
+    });
+    Api.getAnnouncement(dispatch).catch(err => {
+      console.log("Announcement API ERROR ==== " + err);
     });
     Api.getPopups(dispatch).catch(err => {
       console.log("Popups Api ERROR === " + err);

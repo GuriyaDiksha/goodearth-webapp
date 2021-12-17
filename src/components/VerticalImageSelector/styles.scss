@@ -4,7 +4,7 @@
 .image-container {
     padding: 2px;
     border: 1px solid transparent;
-
+    position: relative;
     &:not(:last-child) {
         margin-bottom: 10px;
     }
@@ -16,4 +16,11 @@
 
 .clickable {
     cursor: pointer;
+}
+
+.overlay {
+    width: 90px;
+    height: 40px;
+    position: absolute;
+    top: 50px;
 }
