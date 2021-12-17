@@ -18,6 +18,9 @@ import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
 import { Context } from "components/Modal/context";
 import * as valid from "utils/validate";
+import { Country } from "components/Formsy/CountryCode/typings";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -26,16 +29,37 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     updateProfileData: (formData: FormData) => {
       return AccountService.updateProfileData(dispatch, formData);
+    },
+    fetchCountryData: async () => {
+      const countryData = await LoginService.fetchCountryData(dispatch);
+      dispatch(updateCountryData(countryData));
     }
   };
 };
 
 const mapStateToProps = (state: AppState) => {
-  return {};
+  return {
+    countryData: state.address.countryData
+  };
 };
 
 type Props = {} & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
+
+type CountryOptions = {
+  value: string;
+  label: string;
+  code2: string;
+  isd: string | undefined;
+  states: StateOptions[];
+};
+
+type StateOptions = {
+  value: string;
+  label: string;
+  id: number;
+  nameAscii: string;
+};
 
 type State = {
   data: Partial<ProfileResponse>;
@@ -43,6 +67,9 @@ type State = {
   subscribe: boolean;
   showerror: string;
   loginVia: string;
+  countryOptions: CountryOptions[];
+  stateOptions: StateOptions[];
+  isIndia: boolean;
 };
 
 class ProfileUpdater extends React.Component<Props, State> {
@@ -53,13 +80,25 @@ class ProfileUpdater extends React.Component<Props, State> {
       updateProfile: false,
       subscribe: false,
       showerror: "",
-      loginVia: "email"
+      loginVia: "email",
+      countryOptions: [],
+      stateOptions: [],
+      isIndia: false
     };
   }
   ProfileUpdateFormRef: RefObject<Formsy> = React.createRef();
   static contextType = Context;
   setApiResponse = (data: ProfileResponse) => {
-    const { subscribe, emailId, loginVia, firstName, lastName, gender } = data;
+    const {
+      subscribe,
+      emailId,
+      loginVia,
+      firstName,
+      lastName,
+      gender,
+      country,
+      state
+    } = data;
     this.setState({
       loginVia,
       updateProfile: false,
@@ -71,7 +110,9 @@ class ProfileUpdater extends React.Component<Props, State> {
         firstName,
         lastName,
         gender,
-        subscribe
+        subscribe,
+        country,
+        state
       });
   };
 
@@ -91,6 +132,91 @@ class ProfileUpdater extends React.Component<Props, State> {
           }
         );
       });
+    this.props.fetchCountryData();
+    this.changeCountryData(this.props.countryData);
+  }
+
+  onCountrySelect = (
+    event: React.ChangeEvent<HTMLSelectElement> | null,
+    defaultCountry?: string
+  ) => {
+    const { countryOptions } = this.state;
+    if (countryOptions.length > 0) {
+      const form = this.ProfileUpdateFormRef.current;
+      let selectedCountry = "";
+      if (event) {
+        selectedCountry = event.currentTarget.value;
+        // setIsAddressChanged(true);
+        // setIsCountryChanged(true);
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: ""
+            },
+            false
+          );
+      } else if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, value } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        // form.updateInputsWithValue({
+        //   code: isd
+        // });
+      }
+      this.setState({
+        isIndia: value == "India",
+        stateOptions: states,
+        updateProfile: true
+      });
+    }
+  };
+
+  changeCountryData = (countryData: Country[]) => {
+    const countryOptions = countryData.map(country => {
+      const states = country.regionSet.map(state => {
+        return Object.assign({}, state, {
+          value: state.nameAscii,
+          label: state.nameAscii
+        });
+      });
+      return Object.assign(
+        {},
+        {
+          value: country.nameAscii,
+          label: country.nameAscii,
+          code2: country.code2,
+          isd: country.isdCode,
+          states: states
+        }
+      );
+    });
+    this.setState({
+      countryOptions
+    });
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.countryData.length != this.props.countryData.length) {
+      this.changeCountryData(nextProps.countryData);
+    }
   }
 
   chkTermsandC = (event: React.ChangeEvent): void => {
@@ -108,11 +234,19 @@ class ProfileUpdater extends React.Component<Props, State> {
 
   handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
     if (!this.state.updateProfile) return false;
-    const { firstName, lastName, gender, subscribe } = model;
+    const { firstName, lastName, gender, subscribe, country, state } = model;
     const formData: any = {};
     formData["gender"] = gender || "";
     formData["firstName"] = firstName;
     formData["lastName"] = lastName;
+    const countryCode = this.state.countryOptions.filter(
+      countryOption => countryOption.value == country
+    )[0].code2;
+    formData["country"] = countryCode;
+    if (countryCode == "IN") {
+      formData["state"] = state || "";
+    }
+
     formData["subscribe"] = subscribe;
     this.setState({
       showerror: ""
@@ -194,6 +328,7 @@ class ProfileUpdater extends React.Component<Props, State> {
       // subscribe,
       gender
     } = this.state.data;
+    const isExistyError = "This field is required";
     const formContent = (
       <Formsy
         ref={this.ProfileUpdateFormRef}
@@ -253,6 +388,50 @@ class ProfileUpdater extends React.Component<Props, State> {
               className={cs({ [styles.disabledInput]: gender })}
             />
           </div>
+          <div>
+            <div className="select-group text-left">
+              <FormSelect
+                required
+                label="Country*"
+                options={this.state.countryOptions}
+                handleChange={this.onCountrySelect}
+                placeholder="Select Country*"
+                name="country"
+                validations={{
+                  isExisty: true
+                }}
+                validationErrors={{
+                  isExisty: "Please select your Country",
+                  isEmptyString: isExistyError
+                }}
+              />
+              <span className="arrow"></span>
+            </div>
+          </div>
+          {this.state.isIndia && (
+            <div>
+              <div className="select-group text-left">
+                <FormSelect
+                  required
+                  name="state"
+                  label="State*"
+                  placeholder="Select State*"
+                  options={this.state.stateOptions}
+                  handleChange={() => {
+                    this.setState({ updateProfile: true });
+                  }}
+                  value=""
+                  validations={{
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    isExisty: isExistyError,
+                    isEmptyString: isExistyError
+                  }}
+                />
+              </div>
+            </div>
+          )}
           <div className={styles.subscribe}>
             <FormCheckbox
               value={false}
