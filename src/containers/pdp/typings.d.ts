@@ -14,4 +14,5 @@ export type State = {
   showLooks: boolean;
   showAddToBagMobile: boolean;
   showSecondary: boolean;
+  goToIndex: any;
 };
