@@ -14,7 +14,7 @@ const Product: React.FC<Props> = ({ data, view, mobile }) => {
   return (
     <div
       className={cs(
-        bootstrap.colMd4,
+        bootstrap.colLg4,
         {
           [bootstrap.col12]: view == "list",
           [bootstrap.col6]: view == "grid"
