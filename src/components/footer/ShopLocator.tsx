@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cs from "classnames";
 import styles from "./styles.scss";
 import { ShopLocatorProps } from "./typings";
@@ -16,8 +16,21 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   shopLocations
 }) => {
   const [menuOpen, setOpenState] = useState(dropdown || false);
+  const [locations, setLocations] = useState(shopLocations);
+
+  useEffect(() => {
+    setLocations(shopLocations);
+  }, [shopLocations.length]);
+
+  const onChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const text = event.currentTarget.value.toLowerCase();
+    const filteredLocations = locations?.filter(location => {
+      return location.label.toLowerCase().indexOf(text) > -1;
+    });
+    setLocations(text ? filteredLocations : shopLocations);
+    onChangeText(event);
+  };
   const history = useHistory();
-  // false && setOpenState(false);
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
@@ -74,9 +87,8 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             type="text"
             placeholder="city, country"
             id="drop"
-            autoComplete="new-password"
-            onKeyUp={onChangeText}
-            // onClick={showDropdown(true)}
+            autoComplete="off"
+            onKeyUp={onChange}
           />
           <div
             className={
@@ -92,7 +104,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
           }
         >
           <ul>
-            {shopLocations?.map(
+            {locations?.map(
               (data: { label: string; value: string }, index: number) => {
                 return (
                   <li key={index} onClick={e => redirectToShop(e, data)}>
