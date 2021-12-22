@@ -14,7 +14,7 @@ const Banner: React.FC<Props> = ({ data, mobile }) => {
     <>
       <div
         className={cs(
-          bootstrap.colMd8,
+          bootstrap.colLg8,
           bootstrap.col12,
           styles.setWidth,
           { [styles.templatePadding]: !mobile },

@@ -641,10 +641,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label="Country*"
                 options={countryOptions}
                 handleChange={this.onCountrySelect}
-                placeholder="Select Country"
+                placeholder="Select Country*"
                 name="country"
                 validations={{
                   isExisty: true
@@ -663,8 +663,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 <FormSelect
                   required
                   name="state"
-                  label="State"
-                  placeholder="Select State"
+                  label="State*"
+                  placeholder="Select State*"
                   options={this.state.stateOptions}
                   value=""
                   validations={{
