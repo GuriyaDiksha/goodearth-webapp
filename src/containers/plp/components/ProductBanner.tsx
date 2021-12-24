@@ -12,7 +12,7 @@ type Props = {
 const ProductBanner: React.FC<Props> = ({ data, mobile }) => {
   return (
     <div
-      className={cs(bootstrap.colMd8, bootstrap.col12, styles.setWidth, {
+      className={cs(bootstrap.colLg8, bootstrap.col12, styles.setWidth, {
         [styles.templatePadding]: !mobile,
         [styles.templatePaddingMobile]: mobile
       })}
