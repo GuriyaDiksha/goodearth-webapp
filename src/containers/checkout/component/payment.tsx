@@ -164,27 +164,27 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const getMethods = useMemo(() => {
     let methods = [
       {
-        key: "razorpay",
+        key: "payu",
         value: "CREDIT CARD",
         mode: "CC"
       },
       {
-        key: "razorpay",
+        key: "payu",
         value: "DEBIT CARD",
         mode: "DC"
       },
       {
-        key: "razorpay",
+        key: "payu",
         value: "NET BANKING",
         mode: "NB"
       },
       {
-        key: "razorpay",
+        key: "payu",
         value: "WALLETS",
         mode: "CASH"
       },
       {
-        key: "razorpay",
+        key: "payu",
         value: "UPI",
         mode: "UPI"
       }
@@ -193,12 +193,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (currency != "INR") {
       methods = [
         {
-          key: "razorpay",
+          key: "payu",
           value: "CREDIT CARD",
           mode: "CC"
         },
         {
-          key: "razorpay",
+          key: "payu",
           value: "DEBIT CARD",
           mode: "DC"
         },
