@@ -480,7 +480,7 @@ class Footer extends React.Component<Props, FooterState> {
                           )
                     }
                   >
-                    <div className={cs(bootstrap.row, styles.px5)}>
+                    <div className={cs(bootstrap.row, styles.px3)}>
                       <div
                         className={cs(bootstrap.colMd3, bootstrap.px2)}
                         key={"first-column"}
@@ -506,6 +506,12 @@ class Footer extends React.Component<Props, FooterState> {
                               })}
                           </li>
                         </ul>
+                        <ShopLocator
+                          goToShopLocator={this.goToShopLocator}
+                          saleStatus={this.props.saleStatus}
+                          onChangeText={this.onChangeText}
+                          shopLocations={this.props.data.shopLocations}
+                        />
                         {this.props.isSale ||
                         !this.props.data.footerPlaylistData?.ctaText ? (
                           ""
@@ -548,7 +554,7 @@ class Footer extends React.Component<Props, FooterState> {
                           <div
                             key={index}
                             className={cs(
-                              bootstrap.colMd3,
+                              index == 3 ? bootstrap.colMd3 : bootstrap.colMd2,
                               bootstrap.px2,
                               styles.footerColumn
                             )}
@@ -625,14 +631,6 @@ class Footer extends React.Component<Props, FooterState> {
                                 </ul>
                               );
                             })}
-                            {index == 2 && (
-                              <ShopLocator
-                                goToShopLocator={this.goToShopLocator}
-                                saleStatus={this.props.saleStatus}
-                                onChangeText={this.onChangeText}
-                                shopLocations={this.props.data.shopLocations}
-                              />
-                            )}
                           </div>
                         );
                         return res;
