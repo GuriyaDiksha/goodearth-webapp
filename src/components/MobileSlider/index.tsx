@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import "./styles.css";
 // import globalStyles from "styles/global.scss";
@@ -22,12 +22,12 @@ const MobileSlider: React.FC<Props> = ({ dots = true, children, val }) => {
 
   const sliderRef: any = useRef();
 
-  useMemo(() => {
+  useEffect(() => {
     // const handleOnClick = (index:number) => {
-    if (val.value > -1) {
+    if (val && val.value > -1) {
       sliderRef.current ? sliderRef.current.slickGoTo(val.value) : "";
     }
-  }, [val.index]);
+  }, [val?.index]);
 
   return (
     <div className="mobile-slider">
