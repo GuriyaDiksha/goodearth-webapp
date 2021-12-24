@@ -16,16 +16,10 @@ import { useStore, useSelector, useDispatch } from "react-redux";
 import CookieService from "services/cookie";
 import { AccountMenuItem } from "./typings";
 import { AppState } from "reducers/typings";
-import Returns from "./components/Static";
-import Shipping from "./components/Static/shipping";
-import Terms from "./components/Static/terms";
-import CeriseTerms from "./components/Static/ceriseterms";
-import Cookie from "./components/Static/cookie";
-import Privacy from "./components/Static/privacy";
-import SaleTnc from "./components/Static/saletnc";
 import SaleTncAug2020 from "./components/Static/saleTncAug2020";
 import StaticService from "services/static";
 import * as util from "utils/validate";
+import Cust from "./components/Static/cust";
 
 type Props = {
   isbridal: boolean;
@@ -43,8 +37,8 @@ const StaticPage: React.FC<Props> = props => {
   const [accountListing, setAccountListing] = useState(false);
   const [slab] = useState("");
   const { mobile } = useStore().getState().device;
-  const { isLoggedIn } = useSelector((state: AppState) => state.user);
   const { showTimer } = useSelector((state: AppState) => state.info);
+  const { footerList } = useSelector((state: AppState) => state.footer.data);
   const { path } = useRouteMatch();
 
   const [currentSection, setCurrentSection] = useState("");
@@ -58,68 +52,28 @@ const StaticPage: React.FC<Props> = props => {
   }, []);
 
   const dispatch = useDispatch();
-  const fetchTerms = async (pageTitle: string) => {
-    const res = await StaticService.fetchTerms(dispatch, pageTitle);
+  const fetchTerms = async (link: string) => {
+    const res = await StaticService.fetchTerms(dispatch, link);
     return res;
   };
-  const accountMenuItems: AccountMenuItem[] = [
-    {
-      label: "Shipping & Payment",
-      href: "/customer-assistance/shipping-payment",
-      component: Shipping,
-      title: "Shipping & Payment",
-      loggedInOnly: false,
-      pageTitle: "shipping-payment"
-    },
-    {
-      label: "Returns & Exchanges",
-      href: "/customer-assistance/returns-exchanges",
-      component: Returns,
-      title: "Returns & Exchanges",
-      loggedInOnly: false,
-      pageTitle: "return-exchange"
-    },
-    {
-      label: "Terms of Use",
-      href: "/customer-assistance/terms-conditions",
-      component: Terms,
-      title: "Terms of Use",
-      loggedInOnly: false,
-      pageTitle: "terms-condition"
-    },
-    {
-      label: "Cerise: Terms of Use",
-      href: "/customer-assistance/terms",
-      component: CeriseTerms,
-      title: "Cerise: Terms of Use",
-      loggedInOnly: false,
-      pageTitle: "cerise-terms"
-    },
-    {
-      label: "Sale Terms of Use",
-      href: "/customer-assistance/sales-conditions",
-      component: SaleTnc,
-      title: "Sale Terms of Use",
-      loggedInOnly: false,
-      pageTitle: "sales-condition"
-    },
-    {
-      label: "Privacy Policy",
-      href: "/customer-assistance/privacy-policy",
-      component: Privacy,
-      title: "Privacy Policy",
-      loggedInOnly: false,
-      pageTitle: "privacy-policy"
-    },
-    {
-      label: "Cookie Policy",
-      href: "/customer-assistance/cookie-policy",
-      component: Cookie,
-      title: "Cookie Policy",
-      loggedInOnly: false,
-      pageTitle: "cookie-policy"
-    }
-  ];
+  const accountMenuItems: AccountMenuItem[] = [];
+  footerList?.map(itemsList => {
+    itemsList?.map(items => {
+      items.value?.map(item => {
+        if (
+          item.link.includes("/customer-assistance") &&
+          !item.link.includes("safety-measures")
+        ) {
+          accountMenuItems.push({
+            label: item.text,
+            href: item.link,
+            title: item.text
+          });
+        }
+      });
+    });
+  });
+
   let bgClass = cs(globalStyles.colMd10, globalStyles.col12);
   bgClass +=
     slab && path == "/account/cerise"
@@ -262,22 +216,20 @@ const StaticPage: React.FC<Props> = props => {
           <div className={cs(styles.fixLeftPane, bootstrapStyles.colMd2)}>
             <div className={globalStyles.voffset5}>
               <ul>
-                {accountMenuItems
-                  .filter(item => (isLoggedIn ? true : !item.loggedInOnly))
-                  .map(item => {
-                    return (
-                      <li key={item.label}>
-                        {" "}
-                        <NavLink
-                          key={item.label}
-                          to={item.href}
-                          activeClassName={globalStyles.cerise}
-                        >
-                          {item.label}
-                        </NavLink>
-                      </li>
-                    );
-                  })}
+                {accountMenuItems.map(item => {
+                  return (
+                    <li key={item.label}>
+                      {" "}
+                      <NavLink
+                        key={item.label}
+                        to={item.href}
+                        activeClassName={globalStyles.cerise}
+                      >
+                        {item.label}
+                      </NavLink>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -297,21 +249,18 @@ const StaticPage: React.FC<Props> = props => {
               <Switch>
                 {accountMenuItems.map(
                   ({
-                    component,
                     href,
                     label,
                     title,
                     currentCallBackComponent,
                     pageTitle
                   }) => {
-                    const Component = component;
                     return (
                       <Route key={label} exact path={href}>
-                        <Component
+                        <Cust
                           setCurrentSection={() => setCurrentSection(title)}
                           mobile={mobile}
-                          currentCallBackComponent={currentCallBackComponent}
-                          fetchTerms={() => fetchTerms(pageTitle || "")}
+                          fetchTerms={() => fetchTerms(href || "")}
                         />
                       </Route>
                     );
