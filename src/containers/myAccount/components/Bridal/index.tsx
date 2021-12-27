@@ -161,16 +161,18 @@ const Bridal: React.FC<Props> = props => {
   const { isAddressValid, openAddressForm } = useContext(AddressContext);
 
   const changeAddress = (newAddressId: number) => {
-    AddressService.fetchAddressList(dispatch)
+    getBridalProfileData()
       .then(data => {
-        dispatch(updateAddressList(data));
-        const items = data;
-        for (let i = 0; i < items.length; i++) {
-          if (items[i].id == newAddressId) {
-            setBridalAddress(items[i]);
-            break;
+        AddressService.fetchAddressList(dispatch).then(data => {
+          dispatch(updateAddressList(data));
+          const items = data;
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].id == newAddressId) {
+              setBridalAddress(items[i]);
+              break;
+            }
           }
-        }
+        });
       })
       .catch(err => {
         console.error("Axios Error: ", err.response.data);
