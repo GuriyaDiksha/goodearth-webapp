@@ -1,4 +1,10 @@
-import React, { useEffect, ReactElement, useContext, useState } from "react";
+import React, {
+  useEffect,
+  ReactElement,
+  useContext,
+  useState,
+  useMemo
+} from "react";
 import cs from "classnames";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -243,7 +249,7 @@ const AddressSection: React.FC<AddressProps & {
           type="radio"
           name="editList"
           defaultChecked={gstType == props.gstType}
-          value="GSTIN"
+          value={props.gstType}
           onChange={onChangeGst}
         />
         <span className={styles.checkmark}> </span>{" "}
@@ -395,7 +401,7 @@ const AddressSection: React.FC<AddressProps & {
     onSubmit();
   };
 
-  const renderPancard = function() {
+  const renderPancard = useMemo(() => {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
         currency == "INR"
@@ -586,7 +592,17 @@ const AddressSection: React.FC<AddressProps & {
         </div>
       );
     }
-  };
+  }, [
+    gst,
+    gstText,
+    gstPan,
+    gstPanError,
+    panCheck,
+    pancardCheck,
+    panError,
+    error,
+    gstType
+  ]);
 
   const renderBillingCheckbox = function() {
     const show =
@@ -736,7 +752,7 @@ const AddressSection: React.FC<AddressProps & {
             {isActive && (
               <>
                 <div>
-                  <div>{renderPancard()}</div>
+                  <div>{renderPancard}</div>
                   {props.activeStep == Steps.STEP_BILLING &&
                     props.hidesameShipping && (
                       <div>{renderBillingCheckbox()}</div>
