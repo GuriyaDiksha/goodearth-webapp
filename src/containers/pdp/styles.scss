@@ -219,7 +219,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     width: 130px;
     z-index: 1;
     bottom: 10%;
-    left: 34%;
+    left: calc(50% - 65px);
     cursor:  pointer !important;
 }
 
