@@ -211,7 +211,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     width: 150px;
     position: absolute;
     bottom: 50px;
-    left: 30%;
+    left: calc(50% - 75px);
 }
 
 .helloimage-button {
@@ -225,10 +225,12 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 .mobile-helloicon {
     position: absolute;
-    bottom: 0px;
+    bottom: 10px;
     left: 10px;
-    height: 100px;
-    width: 63px;
+    width: 50px;
+}
+.tab-helloicon {
+    width: 70px;
 }
 .details-container {
     z-index: 1;
