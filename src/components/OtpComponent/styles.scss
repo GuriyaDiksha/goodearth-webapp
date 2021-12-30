@@ -338,6 +338,27 @@
     text-indent: 0.5em;
     line-height: 42px !important;
     color: black;
+    &::-webkit-input-placeholder {
+      font-family: "LatoFont", "Helvetica", "Arial";
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 1px;
+      font-style: normal;
+    }
+    &::-moz-placeholder {
+      font-family: "LatoFont", "Helvetica", "Arial";
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 1px;
+      font-style: normal;
+    }
+    &::-ms-input-placeholder {
+      font-family: "LatoFont", "Helvetica", "Arial";
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 1px;
+      font-style: normal;
+    }
   }
 }
 
