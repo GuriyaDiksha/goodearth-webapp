@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     goRegister: (event: React.MouseEvent, email: string) => {
       localStorage.setItem("tempEmail", email);
       LoginService.showRegister(dispatch);
-      event.preventDefault();
+      event?.preventDefault();
     },
     resetPassword: (formData: FormData) => {
       return LoginService.resetPassword(dispatch, formData);

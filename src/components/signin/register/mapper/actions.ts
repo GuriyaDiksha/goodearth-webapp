@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     goLogin: (event: React.MouseEvent, email: string) => {
       localStorage.setItem("tempEmail", email);
       LoginService.showLogin(dispatch);
-      event.preventDefault();
+      event?.preventDefault();
     },
     fetchCountryData: async () => {
       const countryData = await LoginService.fetchCountryData(dispatch);
