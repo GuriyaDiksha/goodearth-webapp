@@ -33,6 +33,8 @@ export type registerState = {
   countryOptions: CountryOptions[];
   stateOptions: StateOptions[];
   isIndia: boolean;
+  showEmailVerification: boolean;
+  email: string;
 };
 
 export type RegisterProps = {
