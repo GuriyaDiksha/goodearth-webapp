@@ -68,7 +68,7 @@ class MainLogin extends React.Component<Props, loginState> {
   async checkMailValidation() {
     if (this.state.email) {
       const data = await this.props.checkUserPassword(this.state.email);
-      if (data.optSent) {
+      if (data.otpSent) {
         this.setState({
           showEmailVerification: true
         });
@@ -424,7 +424,8 @@ class MainLogin extends React.Component<Props, loginState> {
         email: "",
         isLoginDisabled: true,
         showerror: "",
-        password: ""
+        password: "",
+        showEmailVerification: false
       },
       () => {
         this.firstEmailInput.current?.focus();

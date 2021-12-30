@@ -522,6 +522,7 @@ export default {
       success: boolean;
       expired: boolean;
       email: string;
+      message: string;
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email,
       Otp

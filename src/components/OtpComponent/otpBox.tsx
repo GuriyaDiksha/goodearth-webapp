@@ -40,6 +40,7 @@ export default class OtpBox extends Component<otpBoxProps, { otp: string }> {
           name="otp"
           autoComplete="off"
           ref={this.otpInput}
+          placeholder={this.props.placeholder || ""}
           value={this.state.otp}
           type="text"
           maxLength={6}

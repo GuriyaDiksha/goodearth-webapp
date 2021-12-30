@@ -9,7 +9,7 @@ export type checkUserPasswordResponse = {
   invalidDomain: boolean;
 } & {
   email: string;
-  optSent: boolean;
+  otpSent: boolean;
   message: string;
 };
 

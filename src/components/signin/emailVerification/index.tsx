@@ -22,14 +22,14 @@ const EmailVerification: React.FC<Props> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [enableBtn, setEnableBtn] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(60);
+  const [timeRemaining, setTimeRemaining] = useState(30);
   const [showCustCare, setShowCustCare] = useState(false);
   const [timerId, setTimerId] = useState<any>();
   const [otpValue, setOtpValue] = useState("");
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const dispatch = useDispatch();
   const timer = () => {
-    setTimeRemaining(60);
+    setTimeRemaining(30);
     setEnableBtn(false);
     const id = setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
@@ -65,6 +65,8 @@ const EmailVerification: React.FC<Props> = ({
             re-login
           </span>
         ]);
+      } else {
+        setError(res.message);
       }
     } catch (err) {
       // nothing
@@ -139,9 +141,15 @@ const EmailVerification: React.FC<Props> = ({
           </p>
           <br />
         </div>
-        <OtpBox otpValue={setOtpValue} />
+        <OtpBox otpValue={setOtpValue} placeholder="Enter OTP" />
         <div className={styles.timerContainer}>
-          <p className={styles.smallTxt}>{secondsToMinutes(timeRemaining)}</p>
+          <p
+            className={cs(styles.smallTxt, {
+              [globalStyles.hiddenEye]: timeRemaining == 0
+            })}
+          >
+            {secondsToMinutes(timeRemaining)}
+          </p>
           <div
             className={cs(styles.resendBtn, styles.smallTxt, {
               [styles.resendBtnDisabled]: !enableBtn
@@ -173,7 +181,9 @@ const EmailVerification: React.FC<Props> = ({
           </>
         )}
         <div className={styles.bigTxt}>
-          &lt; back <a onClick={changeEmail}></a>
+          <div className={globalStyles.pointer} onClick={changeEmail}>
+            &lt; Back{" "}
+          </div>
         </div>
       </>
       {isLoading && <Loader />}
