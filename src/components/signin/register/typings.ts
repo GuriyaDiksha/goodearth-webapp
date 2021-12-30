@@ -40,4 +40,5 @@ export type registerState = {
 export type RegisterProps = {
   nextStep?: () => void;
   changeEmail?: () => void;
+  goToLogin: () => void;
 };

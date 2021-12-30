@@ -22,6 +22,9 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
     localStorage.removeItem("tempEmail");
   };
 
+  const goLogin = () => {
+    setIsRegister(false);
+  };
   const history = useHistory();
   const nextStep = () => {
     // code for after login
@@ -37,7 +40,11 @@ const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
     <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
       <div>
         {isRegister ? (
-          <CheckoutRegisterForm nextStep={nextStep} changeEmail={changeEmail} />
+          <CheckoutRegisterForm
+            nextStep={nextStep}
+            changeEmail={changeEmail}
+            goToLogin={goLogin}
+          />
         ) : (
           <MainLogin
             showRegister={goToRegister}

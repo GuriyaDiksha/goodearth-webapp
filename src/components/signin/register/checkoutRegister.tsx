@@ -1003,6 +1003,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             email={this.state.email}
             successMsg=""
             changeEmail={this.changeEmail}
+            goLogin={this.props.goToLogin}
           />
         ) : (
           <>
