@@ -80,7 +80,23 @@ const EmailVerification: React.FC<Props> = ({
         setError("Invalid OTP");
       }
     } catch (err) {
-      // nothing
+      if (err.response.data.alreadyVerified) {
+        setError([
+          "Looks like you are aleady verified. ",
+          <span
+            className={cs(
+              globalStyles.errorMsg,
+              globalStyles.linkTextUnderline
+            )}
+            key={1}
+            onClick={showLogin}
+          >
+            Please re-login
+          </span>
+        ]);
+      } else {
+        setError("Invalid OTP");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -92,8 +108,8 @@ const EmailVerification: React.FC<Props> = ({
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
         // handle success
+        timer();
       }
-      timer();
     } catch (err) {
       console.log(err);
       setShowCustCare(true);
@@ -128,7 +144,7 @@ const EmailVerification: React.FC<Props> = ({
     return minutes + ":" + seconds;
   };
   return (
-    <>
+    <div className={globalStyles.textCenter}>
       {successMsg ? (
         <div className={cs(bootstrapStyles.col12)}>
           <div className={cs(globalStyles.successMsg, globalStyles.textCenter)}>
@@ -186,10 +202,14 @@ const EmailVerification: React.FC<Props> = ({
         {showCustCare && (
           <>
             <p className={styles.miniTxt}>
-              Still not received? Please connect us at:
+              OTP still not received? Contact us:
               <br />
               <a href="tel:+919582999555">+91 95829 99555</a> /{" "}
               <a href="tel:+919582999888">+91 95829 99888</a>
+              <br />
+              <a href="mailto:customercare@goodearth.in">
+                customercare@goodearth.in
+              </a>
             </p>
             <br />
           </>
@@ -201,7 +221,7 @@ const EmailVerification: React.FC<Props> = ({
         </div>
       </>
       {isLoading && <Loader />}
-    </>
+    </div>
   );
 };
 

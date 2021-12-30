@@ -26,4 +26,5 @@ export type loginState = {
   showCurrentSection?: string;
   isSecondStepLoginDisabled: boolean;
   showEmailVerification: boolean;
+  usrWithNoOrder: boolean;
 };

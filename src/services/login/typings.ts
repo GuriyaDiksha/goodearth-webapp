@@ -11,6 +11,7 @@ export type checkUserPasswordResponse = {
   email: string;
   otpSent: boolean;
   message: string;
+  usrWithNoOrder: boolean;
 };
 
 export type logoutResponse = {
