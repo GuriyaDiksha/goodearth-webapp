@@ -17,6 +17,7 @@ import mapDispatchToProps from "./mapper/actions";
 import { AppState } from "reducers/typings";
 import { RouteComponentProps, withRouter } from "react-router";
 import EmailVerification from "../emailVerification";
+import { USR_WITH_NO_ORDER } from "constants/messages";
 // import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
@@ -54,7 +55,8 @@ class MainLogin extends React.Component<Props, loginState> {
       successMsg: "",
       showPassword: false,
       showCurrentSection: "email",
-      showEmailVerification: false
+      showEmailVerification: false,
+      usrWithNoOrder: false
     };
   }
   static contextType = Context;
@@ -70,7 +72,8 @@ class MainLogin extends React.Component<Props, loginState> {
       const data = await this.props.checkUserPassword(this.state.email);
       if (data.otpSent) {
         this.setState({
-          showEmailVerification: true
+          showEmailVerification: true,
+          usrWithNoOrder: data.usrWithNoOrder
         });
       } else {
         if (data.invalidDomain) {
@@ -435,7 +438,8 @@ class MainLogin extends React.Component<Props, loginState> {
         isLoginDisabled: true,
         showerror: "",
         password: "",
-        showEmailVerification: false
+        showEmailVerification: false,
+        usrWithNoOrder: false
       },
       () => {
         this.firstEmailInput.current?.focus();
@@ -487,7 +491,8 @@ class MainLogin extends React.Component<Props, loginState> {
       showCurrentSection: "email",
       isLoginDisabled: true,
       showerror: "",
-      password: ""
+      password: "",
+      usrWithNoOrder: false
     });
   };
 
@@ -614,7 +619,7 @@ class MainLogin extends React.Component<Props, loginState> {
         {this.state.showEmailVerification ? (
           <EmailVerification
             email={this.state.email || ""}
-            successMsg=""
+            successMsg={this.state.usrWithNoOrder ? USR_WITH_NO_ORDER : ""}
             changeEmail={this.changeEmail}
             goLogin={this.goLogin}
           />

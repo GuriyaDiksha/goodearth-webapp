@@ -516,7 +516,7 @@ export default {
     });
     return res;
   },
-  verifyUserOTP: async (dispatch: Dispatch, email: string, Otp: number) => {
+  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: number) => {
     const res = await API.post<{
       alreadyVerified: boolean;
       success: boolean;
@@ -525,7 +525,7 @@ export default {
       message: string;
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email,
-      Otp
+      otp
     });
     return res;
   }
