@@ -9,16 +9,20 @@ import LoginService from "services/login";
 import { useDispatch } from "react-redux";
 import Loader from "components/Loader";
 import OtpBox from "components/OtpComponent/otpBox";
+import { showGrowlMessage } from "utils/validate";
+import { MESSAGE } from "constants/messages";
 
 type Props = {
   successMsg: string;
   email: string;
   changeEmail: (event: any) => void;
+  goLogin: () => void;
 };
 const EmailVerification: React.FC<Props> = ({
   successMsg,
   email,
-  changeEmail
+  changeEmail,
+  goLogin
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [enableBtn, setEnableBtn] = useState(false);
@@ -37,36 +41,43 @@ const EmailVerification: React.FC<Props> = ({
     setTimerId(id);
   };
 
-  const goLogin = () => {
+  const showLogin = () => {
     localStorage.setItem("tempEmail", email);
-    LoginService.showLogin(dispatch);
+    goLogin();
   };
   const verifyOtp = async () => {
     try {
       setIsLoading(true);
+      setError("");
       const res = await LoginService.verifyUserOTP(
         dispatch,
         email,
         parseInt(otpValue)
       );
       if (res.success) {
-        goLogin();
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.VERIFY_SUCCESS,
+          3000,
+          "VERIFY_SUCCESS"
+        );
+        changeEmail;
       } else if (res.alreadyVerified) {
         setError([
-          "Looks like you are aleady verified. Please",
+          "Looks like you are aleady verified. ",
           <span
             className={cs(
               globalStyles.errorMsg,
               globalStyles.linkTextUnderline
             )}
             key={1}
-            onClick={goLogin}
+            onClick={showLogin}
           >
-            re-login
+            Please re-login
           </span>
         ]);
       } else {
-        setError(res.message);
+        setError("Invalid OTP");
       }
     } catch (err) {
       // nothing
@@ -77,6 +88,7 @@ const EmailVerification: React.FC<Props> = ({
   const sendOtp = async () => {
     try {
       setIsLoading(true);
+      setError("");
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
         // handle success
@@ -159,7 +171,9 @@ const EmailVerification: React.FC<Props> = ({
             resend Otp
           </div>
         </div>
-        {error && <p className={styles.loginErrMsg}>{error}</p>}
+        {error && (
+          <p className={cs(styles.loginErrMsg, styles.verifyErrMsg)}>{error}</p>
+        )}
         <div
           className={cs(globalStyles.ceriseBtn, styles.btn, {
             [globalStyles.disabledBtn]: otpValue.length != 6

@@ -191,6 +191,16 @@ class MainLogin extends React.Component<Props, loginState> {
     this.firstEmailInput.current?.focus();
   }
 
+  componentDidUpdate() {
+    const email = localStorage.getItem("tempEmail");
+    if (email) {
+      this.setState({ email, isLoginDisabled: false }, () => {
+        this.myBlur();
+      });
+    }
+    localStorage.removeItem("tempEmail");
+  }
+
   UNSAFE_componentWillReceiveProps() {
     const email = localStorage.getItem("tempEmail");
     if (!this.state.email || email) {
@@ -471,6 +481,16 @@ class MainLogin extends React.Component<Props, loginState> {
     );
   };
 
+  goLogin = () => {
+    this.setState({
+      showEmailVerification: false,
+      showCurrentSection: "email",
+      isLoginDisabled: true,
+      showerror: "",
+      password: ""
+    });
+  };
+
   render() {
     const formContent = (
       <form onSubmit={this.handleSubmit.bind(this)}>
@@ -596,6 +616,7 @@ class MainLogin extends React.Component<Props, loginState> {
             email={this.state.email || ""}
             successMsg=""
             changeEmail={this.changeEmail}
+            goLogin={this.goLogin}
           />
         ) : (
           <>
