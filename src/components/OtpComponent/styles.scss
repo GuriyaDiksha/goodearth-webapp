@@ -357,6 +357,11 @@
       letter-spacing: 1px;
     }
   }
+  &.error {
+    input {
+      border: 1px solid $cerise !important;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {

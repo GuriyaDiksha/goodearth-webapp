@@ -169,7 +169,11 @@ const EmailVerification: React.FC<Props> = ({
           </p>
           <br />
         </div>
-        <OtpBox otpValue={setOtpValue} placeholder="Enter OTP" />
+        <OtpBox
+          error={!!error}
+          otpValue={setOtpValue}
+          placeholder="Enter OTP"
+        />
         <div className={styles.timerContainer}>
           <p
             className={cs(styles.smallTxt, {
