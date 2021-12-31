@@ -156,7 +156,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .register(formData, "checkout", this.props.sortBy)
       .then(data => {
         this.gtmPushRegister();
-        this.props.nextStep?.();
+        // this.props.nextStep?.();
         this.setState({
           showEmailVerification: true,
           email
