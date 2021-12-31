@@ -61,7 +61,7 @@ const EmailVerification: React.FC<Props> = ({
           3000,
           "VERIFY_SUCCESS"
         );
-        changeEmail;
+        showLogin();
       } else if (res.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
