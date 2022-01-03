@@ -253,3 +253,14 @@ input[type="checkbox"]:checked + label {
   justify-content: space-between;
   align-items: baseline;
 }
+
+span.error-msg {
+  font-size: 10px !important;
+  font-style: italic;
+  color: #ab1e56 !important;
+  font-weight: bold;
+  font-family: "LatoFont", "Helvetica", "Arial";
+  letter-spacing: 1px;
+  text-align: left;
+  line-height: 15px;
+}
