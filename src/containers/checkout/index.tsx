@@ -659,7 +659,10 @@ class Checkout extends React.Component<Props, State> {
           })
           .catch(err => {
             this.setState({
-              billingError: valid.showErrors(err.response.data)
+              billingError:
+                valid.showErrors(err.response.data)[0] ||
+                err.response.data.msg ||
+                ""
             });
             this.showErrorMsg();
             this.showErrorMsgs();
