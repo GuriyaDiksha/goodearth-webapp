@@ -7,6 +7,11 @@ export type checkUserPasswordResponse = {
   emailExist: boolean;
   passwordExist: boolean;
   invalidDomain: boolean;
+} & {
+  email: string;
+  otpSent: boolean;
+  message: string;
+  usrWithNoOrder: boolean;
 };
 
 export type logoutResponse = {

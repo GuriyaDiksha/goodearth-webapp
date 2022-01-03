@@ -14,6 +14,9 @@ export const ADD_TO_BAG_SUCCESS = (
   </p>
 );
 export const ADD_TO_BAG_GIFTCARD_SUCCESS = "Gift Card added to your bag";
+export const VERIFY_SUCCESS = "Email verified successfully";
+export const USR_WITH_NO_ORDER =
+  "We are implementing enhancements to better secure your account. Please verify your email address to continue.";
 export const CURRENCY_CHANGED_SUCCESS =
   "Standard conversion rate is not followed in case of currency change. You will be charged as per the currency specific catalog. Please note that some items like gift cards may get affected by the change of currency.";
 export const ALL_SESSION_LOGOUT = "You have been logged out of all sessions.";
@@ -100,7 +103,8 @@ export const Messages = {
   ADD_TO_REGISTRY_AGAIN: ADD_TO_REGISTRY_AGAIN,
   REGISTRY_OWNER_CHECKOUT: REGISTRY_OWNER_CHECKOUT,
   REGISTRY_MIXED_SHIPPING: REGISTRY_MIXED_SHIPPING,
-  PREVIOUS_BASKET: PREVIOUS_BASKET
+  PREVIOUS_BASKET: PREVIOUS_BASKET,
+  VERIFY_SUCCESS: VERIFY_SUCCESS
 };
 export enum MESSAGE {
   ADD_TO_BAG_SUCCESS = "ADD_TO_BAG_SUCCESS",
@@ -117,5 +121,6 @@ export enum MESSAGE {
   ADD_TO_REGISTRY_AGAIN = "ADD_TO_REGISTRY_AGAIN",
   REGISTRY_OWNER_CHECKOUT = "REGISTRY_OWNER_CHECKOUT",
   REGISTRY_MIXED_SHIPPING = "REGISTRY_MIXED_SHIPPING",
-  PREVIOUS_BASKET = "PREVIOUS_BASKET"
+  PREVIOUS_BASKET = "PREVIOUS_BASKET",
+  VERIFY_SUCCESS = "VERIFY_SUCCESS"
 }
