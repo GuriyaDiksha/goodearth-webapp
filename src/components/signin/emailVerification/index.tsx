@@ -62,20 +62,6 @@ const EmailVerification: React.FC<Props> = ({
           "VERIFY_SUCCESS"
         );
         showLogin();
-      } else if (res.alreadyVerified) {
-        setError([
-          "Looks like you are aleady verified. ",
-          <span
-            className={cs(
-              globalStyles.errorMsg,
-              globalStyles.linkTextUnderline
-            )}
-            key={1}
-            onClick={showLogin}
-          >
-            Please re-login
-          </span>
-        ]);
       } else {
         setError("Invalid OTP");
       }
@@ -109,12 +95,36 @@ const EmailVerification: React.FC<Props> = ({
       if (res.otpSent) {
         // handle success
         timer();
+      } else if (res.alreadyVerified) {
+        setError([
+          "Looks like you are aleady verified. ",
+          <span
+            className={cs(
+              globalStyles.errorMsg,
+              globalStyles.linkTextUnderline
+            )}
+            key={1}
+            onClick={showLogin}
+          >
+            Please re-login
+          </span>
+        ]);
       }
     } catch (err) {
-      console.log(err);
+      if (err.response.data.alreadyVerified) {
+        setError([
+          "Looks like you are aleady verified. ",
+          <span
+            className={cs(styles.errorMsg, globalStyles.linkTextUnderline)}
+            key={1}
+            onClick={showLogin}
+          >
+            Please re-login
+          </span>
+        ]);
+      }
       setShowCustCare(true);
     } finally {
-      setShowCustCare(true);
       setIsLoading(false);
     }
   };
@@ -124,6 +134,10 @@ const EmailVerification: React.FC<Props> = ({
     setEnableBtn(true);
   };
 
+  const changeOTP = (value: string) => {
+    setOtpValue(value);
+    setError("");
+  };
   useEffect(() => {
     if (timeRemaining <= 0) {
       clearTimer();
@@ -169,11 +183,7 @@ const EmailVerification: React.FC<Props> = ({
           </p>
           <br />
         </div>
-        <OtpBox
-          error={!!error}
-          otpValue={setOtpValue}
-          placeholder="Enter OTP"
-        />
+        <OtpBox error={!!error} otpValue={changeOTP} placeholder="Enter OTP" />
         <div className={styles.timerContainer}>
           <p
             className={cs(styles.smallTxt, {
