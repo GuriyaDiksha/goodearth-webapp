@@ -11,6 +11,7 @@ import Loader from "components/Loader";
 import OtpBox from "components/OtpComponent/otpBox";
 import { showGrowlMessage } from "utils/validate";
 import { MESSAGE } from "constants/messages";
+import { useLocation } from "react-router";
 
 type Props = {
   successMsg: string;
@@ -45,6 +46,10 @@ const EmailVerification: React.FC<Props> = ({
     localStorage.setItem("tempEmail", email);
     goLogin();
   };
+  const location = useLocation();
+  const queryString = location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const boId = urlParams.get("bo_id");
   const verifyOtp = async () => {
     try {
       setIsLoading(true);
@@ -228,11 +233,13 @@ const EmailVerification: React.FC<Props> = ({
             <br />
           </>
         )}
-        <div className={styles.bigTxt}>
-          <div className={globalStyles.pointer} onClick={changeEmail}>
-            &lt; Back{" "}
+        {!boId && (
+          <div className={styles.bigTxt}>
+            <div className={globalStyles.pointer} onClick={changeEmail}>
+              &lt; Back{" "}
+            </div>
           </div>
-        </div>
+        )}
       </>
       {isLoading && <Loader />}
     </div>
