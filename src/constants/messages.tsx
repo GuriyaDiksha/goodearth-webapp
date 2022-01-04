@@ -81,7 +81,7 @@ export const REGISTRY_MIXED_SHIPPING =
   "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";
 export const PREVIOUS_BASKET = (
   <>
-    Some items already exist in your bag from your previously logged in session.
+    Some items already exist in your bag.
     <br />
     <br />
     Please review your bag before checking out.
