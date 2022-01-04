@@ -957,16 +957,15 @@ class PDPContainer extends React.Component<Props, State> {
               className={globalStyles.imgResponsive}
               onClick={this.getMobileZoomListener(i)}
             />
-            {icon && (
-              <div className={styles.mobile3d}>
-                <img
-                  src={mobile3d}
-                  onClick={(e: any) => this.onClickMobile3d(e, code)}
-                ></img>
-              </div>
-            )}
-            <div>
-              {!icon && (
+            {iconIndex > -1 ? (
+              icon ? (
+                <div className={styles.mobile3d}>
+                  <img
+                    src={mobile3d}
+                    onClick={(e: any) => this.onClickMobile3d(e, code)}
+                  ></img>
+                </div>
+              ) : (
                 <img
                   src={overlay}
                   className={cs({
@@ -982,8 +981,10 @@ class PDPContainer extends React.Component<Props, State> {
                     });
                   }}
                 ></img>
-              )}
-            </div>
+              )
+            ) : (
+              ""
+            )}
             <div
               className={styles.mobileZoomIcon}
               onClick={this.getMobileZoomListener(i)}
