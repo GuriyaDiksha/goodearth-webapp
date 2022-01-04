@@ -1,0 +1,10 @@
+User-agent: AhrefsSiteAudit
+Allow: /
+User-agent: AhrefsBot
+Allow: /
+
+User-agent: *
+Disallow: /order/orderconfirmation
+Disallow: /account
+Disallow: /cart/
+Disallow: /checkout
