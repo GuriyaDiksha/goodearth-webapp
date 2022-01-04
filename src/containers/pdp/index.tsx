@@ -98,7 +98,11 @@ class PDPContainer extends React.Component<Props, State> {
         ? this.props.data.looksProducts.length >= 2
         : false,
     showAddToBagMobile: true,
-    showSecondary: true
+    showSecondary: true,
+    goToIndex: {
+      index: -1,
+      value: ""
+    }
   };
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
@@ -934,10 +938,13 @@ class PDPContainer extends React.Component<Props, State> {
 
     const { breadcrumbs } = data;
     const images: any[] = this.getProductImagesData();
-    const isIcon = images?.some(({ icon }) => icon);
-    const mycode = images?.filter(data => {
+    let iconIndex = -1;
+    images?.map((data, i) => {
+      if (data.code) {
+        iconIndex = i;
+      }
       return data.code != "";
-    })[0]?.code;
+    });
     const mobileSlides =
       mobile &&
       images?.map(({ id, productImage, icon, code }, i: number) => {
@@ -950,19 +957,31 @@ class PDPContainer extends React.Component<Props, State> {
               className={globalStyles.imgResponsive}
               onClick={this.getMobileZoomListener(i)}
             />
-            {isIcon && (
-              <div className={styles.mobile3d}>
+            {iconIndex > -1 ? (
+              icon ? (
+                <div className={styles.mobile3d}>
+                  <img
+                    src={mobile3d}
+                    onClick={(e: any) => this.onClickMobile3d(e, code)}
+                  ></img>
+                </div>
+              ) : (
                 <img
-                  src={mobile3d}
-                  onClick={(e: any) => this.onClickMobile3d(e, mycode)}
+                  src={overlay}
+                  className={styles.mobileHelloicon}
+                  onClick={() => {
+                    this.setState({
+                      goToIndex: {
+                        index: Math.random(),
+                        value: iconIndex
+                      }
+                    });
+                  }}
                 ></img>
-              </div>
+              )
+            ) : (
+              ""
             )}
-            {/* <div>
-              {!icon && (
-                <img src={overlay} className={styles.mobileHelloicon}></img>
-              )}
-            </div> */}
             <div
               className={styles.mobileZoomIcon}
               onClick={this.getMobileZoomListener(i)}
@@ -1014,7 +1033,9 @@ class PDPContainer extends React.Component<Props, State> {
                 globalStyles.mobileSliderContainer
               )}
             >
-              <MobileSlider>{mobileSlides}</MobileSlider>
+              <MobileSlider val={this.state.goToIndex}>
+                {mobileSlides}
+              </MobileSlider>
               {this.state.showLooks && mobile && (
                 <div
                   id="looks-btn-mobile"

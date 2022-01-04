@@ -384,23 +384,23 @@ export default {
       `${__API_HOST__ + "/myapi/auth/register/"}`,
       formData
     );
-    CookieService.setCookie("atkn", res.token, 365);
-    CookieService.setCookie("userId", res.userId, 365);
-    CookieService.setCookie("email", res.email, 365);
-    util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
-    dispatch(updateCookies({ tkn: res.token }));
-    dispatch(updateUser({ isLoggedIn: true }));
-    dispatch(updateModal(false));
-    const metaResponse = await MetaService.updateMeta(dispatch, {
-      tkn: res.token
-    });
+    // CookieService.setCookie("atkn", res.token, 365);
+    // CookieService.setCookie("userId", res.userId, 365);
+    // CookieService.setCookie("email", res.email, 365);
+    // util.showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    // dispatch(updateCookies({ tkn: res.token }));
+    // dispatch(updateUser({ isLoggedIn: true }));
+    // dispatch(updateModal(false));
+    // const metaResponse = await MetaService.updateMeta(dispatch, {
+    //   tkn: res.token
+    // });
     // HeaderService.fetchHomepageData(dispatch);
-    WishlistService.updateWishlist(dispatch, sortBy);
-    BasketService.fetchBasket(dispatch).then(res => {
-      if (source == "checkout") {
-        util.checkoutGTM(1, metaResponse?.currency || "INR", res);
-      }
-    });
+    // WishlistService.updateWishlist(dispatch, sortBy);
+    // BasketService.fetchBasket(dispatch).then(res => {
+    //   if (source == "checkout") {
+    //     util.checkoutGTM(1, metaResponse?.currency || "INR", res);
+    //   }
+    // });
     return res;
   },
   changeCurrency: async function(
@@ -504,6 +504,29 @@ export default {
     if (typeof document == "undefined") {
       CacheService.set("countryData", res);
     }
+    return res;
+  },
+  sendUserOTP: async (dispatch: Dispatch, email: string) => {
+    const res = await API.post<{
+      email: string;
+      otpSent: boolean;
+      message: string;
+      alreadyVerified: boolean;
+    }>(dispatch, `${__API_HOST__}/myapi/customer/send_user_otp/`, {
+      email
+    });
+    return res;
+  },
+  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: number) => {
+    const res = await API.post<{
+      success: boolean;
+      expired: boolean;
+      email: string;
+      message: string;
+    }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
+      email,
+      otp
+    });
     return res;
   }
 };

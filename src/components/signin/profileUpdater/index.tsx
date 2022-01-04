@@ -243,7 +243,10 @@ class ProfileUpdater extends React.Component<Props, State> {
       countryOption => countryOption.value == country
     )[0].code2;
     formData["country"] = countryCode;
-    formData["state"] = state || "";
+    if (countryCode == "IN") {
+      formData["state"] = state || "";
+    }
+
     formData["subscribe"] = subscribe;
     this.setState({
       showerror: ""
@@ -389,10 +392,10 @@ class ProfileUpdater extends React.Component<Props, State> {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label="Country*"
                 options={this.state.countryOptions}
                 handleChange={this.onCountrySelect}
-                placeholder="Select Country"
+                placeholder="Select Country*"
                 name="country"
                 validations={{
                   isExisty: true
@@ -411,8 +414,8 @@ class ProfileUpdater extends React.Component<Props, State> {
                 <FormSelect
                   required
                   name="state"
-                  label="State"
-                  placeholder="Select State"
+                  label="State*"
+                  placeholder="Select State*"
                   options={this.state.stateOptions}
                   handleChange={() => {
                     this.setState({ updateProfile: true });

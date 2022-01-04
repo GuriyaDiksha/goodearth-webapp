@@ -25,6 +25,10 @@
         cursor: pointer;
       }
   }
+  .verify-err-msg {
+    text-align: center;
+    margin-top: 20px;
+  }
 
   .social-login-footer {
     border-top: 1px solid #e6e6e6;
@@ -191,4 +195,72 @@ input[type="checkbox"]:checked + label {
       }
     }
   }
+}
+
+.para {
+  font-size: 15px;
+  margin-top: 20px;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
+  strong {
+    font-weight: 700;
+  }
+}
+.btn {
+  margin: 30px auto 0 auto;
+  width: 180px;
+}
+.big-btn {
+  margin: 50px auto 0 auto;
+  width: 240px;
+}
+.small-txt {
+  font-size: 13px;
+  margin-top: 10px;
+}
+.mini-txt {
+  font-size: 11px;
+  a {
+    color: #000;
+  }
+}
+.big-txt {
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+ }
+ .resend-btn {
+  text-decoration: underline;
+  text-transform: uppercase;
+  color: $cerise;
+  cursor: pointer;
+  display: inline-block;
+  text-align: right;
+ }
+ .resend-btn-disabled {
+  color: tint(#000, 50%) !important;
+  cursor: default;
+  text-decoration: none;
+ }
+
+.timer-container {
+  display: flex;
+  width: 220px;
+  margin: auto;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+span.error-msg {
+  font-size: 10px !important;
+  font-style: italic;
+  color: #ab1e56 !important;
+  font-weight: bold;
+  font-family: "LatoFont", "Helvetica", "Arial";
+  letter-spacing: 1px;
+  text-align: left;
+  line-height: 15px;
 }

@@ -194,6 +194,10 @@ span{
 .wishlist-block-outer {
     margin: 130px 0 100px 0;
 }
+.wishlist-block-outer-timer {
+  margin: 130px 0 100px 0;
+  margin-top: $header-height + $secondary-header-height + $timer-height;
+}
 .wishlist-block-outer-mobile {
   // padding-top: 30px;
   padding-bottom: 30px;
@@ -568,10 +572,10 @@ icon-cross {
   }
 }
 .page-body {
-  margin-top: $header-height;
+  margin-top: $header-height + $secondary-header-height;
 }
 .page-body-timer {
-  margin-top: $header-height + $timer-height;
+  margin-top: $header-height + $secondary-header-height + $timer-height;
 }
 
 .top-block-container {

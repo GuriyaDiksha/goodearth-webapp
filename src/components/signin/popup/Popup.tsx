@@ -27,8 +27,8 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
         className={cs(
           bootstrapStyles.colLg6,
           bootstrapStyles.offsetLg3,
-          bootstrapStyles.colMd8,
-          bootstrapStyles.offsetMd2,
+          // bootstrapStyles.colMd8,
+          // bootstrapStyles.offsetMd2,
           bootstrapStyles.col12,
           styles.col12,
           globalStyles.textCenter
@@ -40,8 +40,8 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
         >
           <div
             className={cs(
-              bootstrapStyles.colMd8,
-              bootstrapStyles.offsetMd2,
+              bootstrapStyles.colLg8,
+              bootstrapStyles.offsetLg2,
               bootstrapStyles.col12,
               styles.col12,
               globalStyles.textCenter,
