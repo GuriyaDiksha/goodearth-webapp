@@ -132,7 +132,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
-          location.href = `${__API_HOST__ + response.paymentUrl}`;
+          // location.href = `${__API_HOST__ + response.paymentUrl}`;
           setIsLoading(false);
         })
         .catch((error: any) => {
@@ -525,8 +525,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           {isLoading && <Loader />}
           <button
-            className={cs(globalStyles.marginT10, globalStyles.ceriseBtn)}
+            className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {
+              [globalStyles.disabledBtn]: isLoading
+            })}
             onClick={onsubmit}
+            disabled={isLoading}
           >
             {isPaymentNeeded
               ? mobile
