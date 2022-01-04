@@ -929,7 +929,7 @@ class PDPContainer extends React.Component<Props, State> {
   render() {
     const {
       data,
-      device: { mobile }
+      device: { mobile, tablet }
     } = this.props;
 
     if (!data) {
@@ -946,7 +946,7 @@ class PDPContainer extends React.Component<Props, State> {
       return data.code != "";
     });
     const mobileSlides =
-      mobile &&
+      (mobile || tablet) &&
       images?.map(({ id, productImage, icon, code }, i: number) => {
         return (
           <div key={id} className={globalStyles.relative}>
@@ -968,7 +968,10 @@ class PDPContainer extends React.Component<Props, State> {
               ) : (
                 <img
                   src={overlay}
-                  className={styles.mobileHelloicon}
+                  className={cs({
+                    [styles.mobileHelloicon]: mobile,
+                    [styles.tabHelloicon]: tablet
+                  })}
                   onClick={() => {
                     this.setState({
                       goToIndex: {
