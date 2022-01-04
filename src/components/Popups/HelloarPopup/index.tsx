@@ -1,5 +1,5 @@
 // import Loader from "components/Loader";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 // import { useSelector } from "react-redux";
 // import { AppState } from "reducers/typings";
 import styles from "../styles.scss";

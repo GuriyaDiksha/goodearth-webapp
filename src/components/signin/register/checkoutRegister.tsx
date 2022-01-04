@@ -23,6 +23,7 @@ import { RegisterProps } from "./typings";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
 import { Country } from "components/Formsy/CountryCode/typings";
+import EmailVerification from "../emailVerification";
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
     return list.isdCode;
@@ -67,7 +68,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       shouldValidatePass: false,
       countryOptions: [],
       stateOptions: [],
-      isIndia: false
+      isIndia: false,
+      showEmailVerification: false,
+      email: ""
     };
   }
   static contextType = Context;
@@ -136,7 +139,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       countryOption => countryOption.value == country
     )[0].code2;
     formData["country"] = countryCode;
-    formData["state"] = state || "";
+    if (countryCode == "IN") {
+      formData["state"] = state || "";
+    }
+
     if (code && phone) {
       formData["phoneNo"] = phone;
       formData["phoneCountryCode"] = code;
@@ -150,7 +156,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       .register(formData, "checkout", this.props.sortBy)
       .then(data => {
         this.gtmPushRegister();
-        this.props.nextStep?.();
+        // this.props.nextStep?.();
+        this.setState({
+          showEmailVerification: true,
+          email
+        });
       })
       .catch(err => {
         this.setState(
@@ -638,10 +648,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label="Country*"
                 options={countryOptions}
                 handleChange={this.onCountrySelect}
-                placeholder="Select Country"
+                placeholder="Select Country*"
                 name="country"
                 validations={{
                   isExisty: true
@@ -660,8 +670,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 <FormSelect
                   required
                   name="state"
-                  label="State"
-                  placeholder="Select State"
+                  label="State*"
+                  placeholder="Select State*"
                   options={this.state.stateOptions}
                   value=""
                   validations={{
@@ -988,19 +998,30 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
 
     return (
       <Fragment>
-        {this.state.successMsg ? (
-          <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-            <div className={globalStyles.successMsg}>
-              {this.state.successMsg}
-            </div>
-          </div>
+        {this.state.showEmailVerification ? (
+          <EmailVerification
+            email={this.state.email}
+            successMsg=""
+            changeEmail={this.changeEmail}
+            goLogin={this.props.goToLogin}
+          />
         ) : (
-          ""
+          <>
+            {this.state.successMsg && (
+              <div
+                className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}
+              >
+                <div className={globalStyles.successMsg}>
+                  {this.state.successMsg}
+                </div>
+              </div>
+            )}
+            <div className={cs(bootstrapStyles.col12)}>
+              <div className={styles.loginForm}>{formContent}</div>
+              {footer}
+            </div>
+          </>
         )}
-        <div className={cs(bootstrapStyles.col12)}>
-          <div className={styles.loginForm}>{formContent}</div>
-          {footer}
-        </div>
       </Fragment>
     );
   }

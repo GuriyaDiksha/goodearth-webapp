@@ -7,7 +7,7 @@ import cs from "classnames";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 // import { LoginProps } from "./typings";
 // import * as Steps from "../constants";
-import styles from "../styles.scss";
+// import styles from "../styles.scss";
 import loadable from "@loadable/component";
 import Popup from "../popup/Popup";
 
@@ -27,6 +27,9 @@ const LoginForm: React.FC<{}> = props => {
     localStorage.removeItem("tempEmail");
   };
 
+  const goLogin = () => {
+    setIsRegister(false);
+  };
   const nextStep = () => {
     // code for after login
   };
@@ -36,25 +39,24 @@ const LoginForm: React.FC<{}> = props => {
   return (
     <Popup>
       <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
-        <div className={styles.formHeading}>Welcome</div>
-        <div className={styles.formSubheading}>
-          {isRegister
-            ? "Please Enter Your Email To Register"
-            : id == "cerise"
-            ? "Please enter your registered e-mail address to login to your Cerise account."
-            : "Enter your email address to register or login."}
-        </div>
         <div>
           {isRegister ? (
             <CheckoutRegisterForm
               nextStep={nextStep}
               changeEmail={changeEmail}
+              goToLogin={goLogin}
             />
           ) : (
             <MainLogin
               showRegister={goToRegister}
               nextStep={nextStep}
               isBo={""}
+              heading={"Welcome"}
+              subHeading={
+                id == "cerise"
+                  ? "Please enter your registered e-mail address to login to your Cerise account."
+                  : "Enter your email address to register or sign in."
+              }
             />
           )}
         </div>
