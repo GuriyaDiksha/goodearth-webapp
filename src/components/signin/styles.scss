@@ -225,6 +225,7 @@ input[type="checkbox"]:checked + label {
   }
 }
 .big-txt {
+  font-size: 13px;
   a {
     text-decoration: underline;
     &:hover {
@@ -263,4 +264,17 @@ span.error-msg {
   letter-spacing: 1px;
   text-align: left;
   line-height: 15px;
+}
+
+.verify-heading {
+  font-family: $font-Lato;
+  font-size: 20px;
+}
+.verify-para {
+  font-size: 12px;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+}
+.verify-subheading {
+  letter-spacing: 0.3px;
 }
