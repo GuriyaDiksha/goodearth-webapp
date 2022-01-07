@@ -115,6 +115,7 @@ const EmailVerification: React.FC<Props> = ({
           </span>
         ]);
       }
+      setShowCustCare(true);
     } catch (err) {
       if (err.response.data.alreadyVerified) {
         setError([
@@ -127,8 +128,9 @@ const EmailVerification: React.FC<Props> = ({
             Please re-login
           </span>
         ]);
+      } else {
+        setShowCustCare(true);
       }
-      setShowCustCare(true);
     } finally {
       setIsLoading(false);
     }
@@ -166,7 +168,13 @@ const EmailVerification: React.FC<Props> = ({
     <div className={globalStyles.textCenter}>
       {successMsg ? (
         <div className={cs(bootstrapStyles.col12)}>
-          <div className={cs(globalStyles.successMsg, globalStyles.textCenter)}>
+          <div
+            className={cs(
+              globalStyles.successMsg,
+              globalStyles.textCenter,
+              globalStyles.marginT20
+            )}
+          >
             {successMsg}
           </div>
         </div>
@@ -174,10 +182,13 @@ const EmailVerification: React.FC<Props> = ({
         ""
       )}
       <>
-        <div className={styles.formHeading} id="first-heading">
+        <div
+          className={cs(styles.formHeading, styles.verifyHeading)}
+          id="first-heading"
+        >
           Verify Email
         </div>
-        <div className={styles.para}>
+        <div className={cs(styles.para, styles.verifyPara)}>
           <p>
             Please verify your email id by entering OTP sent to{" "}
             <strong>{email}</strong>
