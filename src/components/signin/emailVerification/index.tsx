@@ -220,14 +220,6 @@ const EmailVerification: React.FC<Props> = ({
         {error && (
           <p className={cs(styles.loginErrMsg, styles.verifyErrMsg)}>{error}</p>
         )}
-        <div
-          className={cs(globalStyles.ceriseBtn, styles.btn, {
-            [globalStyles.disabledBtn]: otpValue.length != 6
-          })}
-          onClick={otpValue.length == 6 ? verifyOtp : () => null}
-        >
-          Verify OTP
-        </div>
         <br />
         {showCustCare && (
           <>
@@ -241,9 +233,17 @@ const EmailVerification: React.FC<Props> = ({
                 customercare@goodearth.in
               </a>
             </p>
-            <br />
           </>
         )}
+        <div
+          className={cs(globalStyles.ceriseBtn, styles.btn, {
+            [globalStyles.disabledBtn]: otpValue.length != 6
+          })}
+          onClick={otpValue.length == 6 ? verifyOtp : () => null}
+        >
+          Verify OTP
+        </div>
+        <br />
         {!boId && (
           <div className={styles.bigTxt}>
             <div className={globalStyles.pointer} onClick={changeEmail}>
