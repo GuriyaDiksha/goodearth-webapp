@@ -12,6 +12,6 @@ export type PLPResultItemProps = {
   onClickQuickView?: (id: number) => void;
   position: number;
   page: string;
-  onEnquireClick: (id: number) => void;
+  onEnquireClick: (id: number, partner?: string) => void;
   notifyMeClick: (product: PLPProductItem) => void;
 };
