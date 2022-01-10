@@ -60,7 +60,7 @@ const AnnouncementBar: React.FC<Props> = ({
         backgroundColor:
           isBridalActive || isBridalRegistryPage
             ? bridalBgColorcode
-            : bgColorcode
+            : data[0]?.bgColorcode || bgColorcode
       }}
     >
       <div

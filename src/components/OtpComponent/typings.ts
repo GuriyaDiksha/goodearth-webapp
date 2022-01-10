@@ -65,4 +65,6 @@ export type otpRedeemProps = {
 export type otpBoxProps = {
   otpValue: (data: string) => void;
   notFocus?: boolean;
+  placeholder?: string;
+  error?: boolean;
 };

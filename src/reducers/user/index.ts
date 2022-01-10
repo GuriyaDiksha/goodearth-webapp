@@ -15,7 +15,9 @@ export const initialState: State = {
   phoneNumber: "",
   slab: "",
   loyaltyData: null,
-  customerGroup: ""
+  customerGroup: "",
+  country: "",
+  state: ""
 };
 
 export const user = (state = initialState, action: UserActions): State => {

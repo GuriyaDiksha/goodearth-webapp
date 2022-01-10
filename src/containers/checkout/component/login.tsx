@@ -31,6 +31,9 @@ const LoginSection: React.FC<LoginProps> = props => {
     localStorage.removeItem("tempEmail");
   };
 
+  const goLogin = () => {
+    setIsRegister(false);
+  };
   const nextStep = () => {
     if (next) next(Steps.STEP_SHIPPING);
   };
@@ -57,6 +60,7 @@ const LoginSection: React.FC<LoginProps> = props => {
                 <CheckoutRegisterForm
                   nextStep={nextStep}
                   changeEmail={changeEmail}
+                  goToLogin={goLogin}
                 />
               ) : (
                 <CheckoutLoginForm

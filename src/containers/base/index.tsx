@@ -38,6 +38,9 @@ const BaseLayout: React.FC = () => {
     // user: { customerGroup }
   } = useSelector((state: AppState) => state);
   const {
+    modal: { component }
+  } = useSelector((state: AppState) => state);
+  const {
     info: { isLoading }
   } = useSelector((state: AppState) => state);
   // don't show info popup
@@ -79,7 +82,10 @@ const BaseLayout: React.FC = () => {
       if (orientation == "landscape" && !mobile) {
         dispatch(updateComponent(POPUP.ORIENTATIONPOPUP, undefined, true));
         dispatch(updateModal(true));
-      } else if (orientation == "portrait" && !mobile) {
+      } else if (
+        orientation == "portrait" &&
+        component == POPUP.ORIENTATIONPOPUP
+      ) {
         dispatch(updateModal(false));
       }
     }
