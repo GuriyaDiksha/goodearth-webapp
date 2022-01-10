@@ -74,7 +74,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (isCorporate) {
       buttonText = "Enquire Now";
-      action = () => onEnquireClick(product.id);
+      action = () => onEnquireClick(product.id, product.partner);
     } else if (allOutOfStock) {
       buttonText = "Notify Me";
       action = () => notifyMeClick(product);
