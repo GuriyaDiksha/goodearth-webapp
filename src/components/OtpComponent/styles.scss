@@ -338,6 +338,29 @@
     text-indent: 0.5em;
     line-height: 42px !important;
     color: black;
+    &::-webkit-input-placeholder {
+      font-family: "LatoFont", "Helvetica", "Arial";
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+    &::-moz-placeholder {
+      font-family: "LatoFont", "Helvetica", "Arial";
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+    &::-ms-input-placeholder {
+      font-family: "LatoFont", "Helvetica", "Arial";
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+  }
+  &.error {
+    input {
+      border: 1px solid $cerise !important;
+    }
   }
 }
 
