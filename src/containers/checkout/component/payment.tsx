@@ -530,8 +530,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           {isLoading && <Loader />}
           <button
-            className={cs(globalStyles.marginT10, globalStyles.ceriseBtn)}
+            className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {
+              [globalStyles.disabledBtn]: isLoading
+            })}
             onClick={onsubmit}
+            disabled={isLoading}
           >
             {isPaymentNeeded
               ? mobile
