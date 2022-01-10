@@ -121,6 +121,7 @@ export type AnnouncementBar = {
     ctaRedirectionPopup: PopupData | "";
     ctaLabel: string;
     ctaBorderColor: string;
+    bgColorcode: string;
   }[];
 };
 
