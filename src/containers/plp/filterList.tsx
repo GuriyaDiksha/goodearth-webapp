@@ -159,7 +159,7 @@ class FilterList extends React.Component<Props, State> {
                 value:
                   (filter.availableDiscount["disc_" + cc[i]] &&
                     filter.availableDiscount["disc_" + cc[i]].value) ||
-                  (cc[i] == "flat" ? "flat" : `${cc[i]}%`)
+                  cc[i]
               };
             }
             break;
@@ -183,11 +183,11 @@ class FilterList extends React.Component<Props, State> {
     const { pathname } = this.props.history.location;
     let currentKey, mainUrl, urllist;
     if (this.props.facets) {
-      urllist = this.props.facets.categoryShopDetail;
+      urllist = this.props.facets.categoryShop;
       urllist.some((urlData: any) => {
-        currentKey = urlData.path;
+        currentKey = Object.keys(urlData)[0];
         if (matchkey.replace(/\+/g, " ") == currentKey) {
-          mainUrl = urlData.url;
+          mainUrl = urlData[currentKey];
           return true;
         }
       });
@@ -378,18 +378,31 @@ class FilterList extends React.Component<Props, State> {
     }
   };
   createList = (plpList: any) => {
-    if (!plpList.results.facets.categoryShopDetail) return false;
+    if (!plpList.results.facets.categoryShop) return false;
     const { currency } = this.props;
     const { filter } = this.state;
     const minMaxvalue: any = [];
     let currentRange: any = [];
     this.createFilterfromUrl();
-    const currentCurrency =
-      "price" + currency[0].toUpperCase() + currency.substring(1).toLowerCase();
-    const pricearray = plpList.results.facets[currentCurrency];
+    const pricearray: any = [],
+      currentCurrency =
+        "price" +
+        currency[0].toUpperCase() +
+        currency.substring(1).toLowerCase();
+    plpList.results.facets[currentCurrency]?.map(function(a: any) {
+      pricearray.push(+a[0]);
+    });
     if (pricearray.length > 0) {
-      minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
-      minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
+      minMaxvalue.push(
+        pricearray.reduce(function(a: any, b: any) {
+          return Math.min(a, b);
+        })
+      );
+      minMaxvalue.push(
+        pricearray.reduce(function(a: any, b: any) {
+          return Math.max(a, b);
+        })
+      );
     }
 
     if (filter.price.min_price) {
@@ -428,9 +441,8 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      changeLoader,
-      history,
-      fetchPlpTemplates
+      fetchPlpTemplates,
+      changeLoader
     } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
@@ -441,57 +453,68 @@ class FilterList extends React.Component<Props, State> {
     if (nextUrl && this.state.flag && this.state.scrollload) {
       this.setState({ flag: false });
       changeLoader?.(true);
-      const filterUrl = history.location.search;
+      const filterUrl = "?" + nextUrl.split("?")[1];
       // const pageSize = mobile ? 10 : 20;
       const pageSize = 20;
-      updateProduct(
-        filterUrl + `&page=${nextUrl}` + `&page_size=${pageSize}`,
-        listdata
-      ).then(plpList => {
-        changeLoader?.(false);
-        valid.productImpression(
-          plpList,
-          "PLP",
-          this.props.currency,
-          plpList.results.data.length
-        );
-        this.createFilterfromUrl();
-        const currentCurrency =
-          "price" +
-          currency[0].toUpperCase() +
-          currency.substring(1).toLowerCase();
-        const pricearray = plpList.results.facets[currentCurrency];
-        if (pricearray.length > 0) {
-          minMaxvalue.push(Math.min(+pricearray[0], +pricearray[1]));
-          minMaxvalue.push(Math.max(+pricearray[0], +pricearray[1]));
-        }
-        if (filter.price.min_price) {
-          currentRange.push(filter.price.min_price);
-          currentRange.push(filter.price.max_price);
-        } else {
-          currentRange = minMaxvalue;
-        }
-
-        this.setState(
-          {
-            rangevalue: currentRange,
-            initialrangevalue: {
-              min: minMaxvalue[0],
-              max: minMaxvalue[1]
-            },
-            disableSelectedbox: false,
-            scrollload: true,
-            flag: true,
-            totalItems: plpList.count
-          },
-          () => {
-            if (!this.state.scrollView && this.state.shouldScroll) {
-              this.handleProductSearch();
-            }
+      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
+        plpList => {
+          changeLoader?.(false);
+          valid.productImpression(
+            plpList,
+            "PLP",
+            this.props.currency,
+            plpList.results.data.length
+          );
+          this.createFilterfromUrl();
+          const pricearray: any = [],
+            currentCurrency =
+              "price" +
+              currency[0].toUpperCase() +
+              currency.substring(1).toLowerCase();
+          plpList.results.facets[currentCurrency]?.map(function(a: any) {
+            pricearray.push(+a[0]);
+          });
+          if (pricearray.length > 0) {
+            minMaxvalue.push(
+              pricearray.reduce(function(a: number, b: number) {
+                return Math.min(a, b);
+              })
+            );
+            minMaxvalue.push(
+              pricearray.reduce(function(a: number, b: number) {
+                return Math.max(a, b);
+              })
+            );
           }
-        );
-        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-      });
+
+          if (filter.price.min_price) {
+            currentRange.push(filter.price.min_price);
+            currentRange.push(filter.price.max_price);
+          } else {
+            currentRange = minMaxvalue;
+          }
+
+          this.setState(
+            {
+              rangevalue: currentRange,
+              initialrangevalue: {
+                min: minMaxvalue[0],
+                max: minMaxvalue[1]
+              },
+              disableSelectedbox: false,
+              scrollload: true,
+              flag: true,
+              totalItems: plpList.count
+            },
+            () => {
+              if (!this.state.scrollView && this.state.shouldScroll) {
+                this.handleProductSearch();
+              }
+            }
+          );
+          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+        }
+      );
       const urlParams = new URLSearchParams(this.props.history.location.search);
       const categoryShop = urlParams.get("category_shop");
       if (categoryShop) {
@@ -568,7 +591,7 @@ class FilterList extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     if (
       nextProps.onload &&
-      nextProps.facets.categoryShopDetail &&
+      nextProps.facets.categoryShop &&
       this.props.updateFacets
     ) {
       this.props.updateOnload(false);
@@ -644,45 +667,83 @@ class FilterList extends React.Component<Props, State> {
 
   getSortedFacets = (facets: any): any => {
     if (facets.length == 0) return false;
-    const categoryObj: any = {};
+    const categories: any = [],
+      subCategories: any = [],
+      categoryNames: any = [],
+      categoryObj: any = {};
     const { filter } = this.state;
 
     let selectIndex: any = -1,
       check = "";
 
-    if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
-      facets.categories = facets.categoryShopDetail.map(
-        (data: any, i: number) => {
-          categoryObj[data.name] = [];
-          categoryObj[data.name].push(["View all", data.path.trim()]);
-          if (!filter.categoryShop[data.name]) {
-            filter.categoryShop[data.name] = {};
-            // // code for setting  all values of filter is false
-            if (!filter.categoryShop[data.name][data.path.trim()]) {
-              filter.categoryShop[data.name][data.path.trim()] = false;
-            }
-          }
-          data.children = data.children.sort(function(a: any, b: any) {
-            return +a.sequence - +b.sequence;
-          });
-          data.children.map((child: any) => {
-            categoryObj[data.name].push([child.name.trim(), child.path.trim()]);
-            if (filter.categoryShop[data.name]) {
-              if (filter.categoryShop[data.name][data.path.trim()]) {
-                filter.categoryShop[data.name][child.path.trim()] = true;
-              } else if (!filter.categoryShop[data.name][child.path.trim()]) {
-                filter.categoryShop[data.name][child.path.trim()] = false;
-              }
-            }
-          });
-
-          return [data.path, data.name, data.sequence];
+    if (facets.categoryShop && facets.categoryShop.length > 0) {
+      facets.categoryShop.map((v: any, i: number) => {
+        const baseCategory = v[0];
+        let categoryUrl: any = "";
+        if (facets.categoryShopDetail && facets.categoryShopDetail.length > 0) {
+          categoryUrl = facets.categoryShopDetail.filter(function(
+            k: any,
+            i: any
+          ) {
+            return Object.prototype.hasOwnProperty.call(k, baseCategory);
+          })[0];
         }
-      );
+        if (categoryUrl) {
+          v.push(categoryUrl[baseCategory]);
+        }
+        const labelArr = baseCategory.split(">");
+        labelArr.shift();
+        if (labelArr.length > 1) {
+          //categories having child categories
+          categories.push(v);
+          if (categoryNames.indexOf(labelArr[0].trim()) == -1) {
+            categoryNames.push(labelArr[0].trim());
+          }
+        } else if (labelArr.length == 1) {
+          subCategories.push(v);
+        }
+      });
+
+      facets.categories = categories;
+      facets.subCategories = subCategories;
     }
 
-    facets.categories = facets.categories.sort((a: any, b: any) => {
-      return +a[2] - +b[2];
+    for (let i = 0; i < categoryNames.length; i++) {
+      facets.subCategories.map(function(v: any, k: any) {
+        if (v[0].indexOf(categoryNames[i]) != -1) {
+          facets.categories.push(v);
+          facets.subCategories.splice(k, 1);
+        }
+      });
+    }
+
+    facets.categories.map((data: any, i: number) => {
+      const tempKey = data[0].split(">")[1].trim(),
+        viewData = data[0].split(">");
+      viewData.length > 2 ? viewData.pop() : "";
+      categoryObj[tempKey]
+        ? false
+        : (categoryObj[tempKey] = [["View all", viewData.join(">").trim()]]);
+      if (data[0].split(">")[2]) {
+        categoryObj[tempKey].push([data[0].split(">")[2].trim()].concat(data));
+      }
+    });
+
+    // code for setting all values of filter false
+    facets.subCategories.map((data: any, i: number) => {
+      const key = data[0].split(">")[1].trim();
+      if (filter.categoryShop[key]) {
+        // check that view all is clicked or not by (arrow key >)
+        if (filter.categoryShop[key][data[0]]) {
+          // nestedList[1].split('>').length == 2 ? check = data : '';
+          selectIndex = key;
+          // this.state.old_selected_category = key;
+          // filter.categoryShop[key][data[0]] = false
+        }
+      } else {
+        filter.categoryShop[key] = {};
+        filter.categoryShop[key][data[0]] = false;
+      }
     });
     let oldSelectedCategory: any = this.state.oldSelectedCategory;
     // code for setting  all values of filter is false
@@ -725,13 +786,11 @@ class FilterList extends React.Component<Props, State> {
           (level3: any, j: number) => {
             if (filter.categoryShop[level2][level3]) {
               selectIndex = level2;
-              oldSelectedCategory = level2;
+              oldSelectedCategory = level2.split(">")[0];
             }
           }
         );
       });
-    } else {
-      selectIndex = oldSelectedCategory;
     }
 
     this.setState({
@@ -854,13 +913,9 @@ class FilterList extends React.Component<Props, State> {
                             .isChecked
                         : false
                     }
-                    value={`${
-                      discount[0] == "flat" ? "flat" : discount[0] + "%"
-                    }`}
+                    value={discount[1]}
                   />
-                  <label htmlFor={"disc_" + discount[0]}>{`${
-                    discount[0] == "flat" ? "Flat Price" : discount[0] + "%"
-                  }`}</label>
+                  <label htmlFor={"disc_" + discount[0]}>{discount[1]}</label>
                 </li>
               );
             })}
@@ -976,26 +1031,26 @@ class FilterList extends React.Component<Props, State> {
   createCatagoryFromFacets = (categoryObj: any, categorydata: any) => {
     let html: any = [];
     if (!categoryObj) return false;
-    // const cat = categorydata.categories
-    //   .concat(categorydata.subCategories)
-    //   .filter(function(a: any) {
-    //     return a[0].split(">").length == 2;
-    //   });
+    const cat = categorydata.categories
+      .concat(categorydata.subCategories)
+      .filter(function(a: any) {
+        return a[0].split(">").length == 2;
+      });
 
-    // const subcat = cat.sort(function(a: any, b: any) {
-    //   return +a[1] - +b[1];
-    // });
-    categorydata.categories.map((data: any) => {
-      // for (const key in categoryObj) {
-      //   if (data[0].endsWith(key)) {
-      html = this.generateCatagory(categoryObj, data[1], html);
-      //   }
-      // }
-      // categoryObj[data].map((sub: any) => {
-      //   // if (data[0].indexOf(sub[0]) > -1) {
-      //     html = this.generateCatagory(categoryObj, sub[0], html);
-      //   // }
-      // });
+    const subcat = cat.sort(function(a: any, b: any) {
+      return +a[1] - +b[1];
+    });
+    subcat.map((data: any) => {
+      for (const key in categoryObj) {
+        if (data[0].endsWith(key)) {
+          html = this.generateCatagory(categoryObj, key, html);
+        }
+      }
+      categorydata.subCategories.map((sub: any) => {
+        if (data[0].indexOf(sub[0]) > -1) {
+          html = this.generateSubCatagory(sub, html);
+        }
+      });
     });
     return html;
   };
@@ -1167,49 +1222,49 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     facets.currentColor.map((data: any, i: number) => {
       const color: any = {
-        "--my-color-var": "#" + data.split("-")[0]
+        "--my-color-var": "#" + data[0].split("-")[0]
       };
       const multicolorImage: any = {
         "--my-bg-image": `url(${multiColour})`
       };
-      if (data.toLowerCase() == "multicolor") {
+      if (data[0].toLowerCase() == "multicolor") {
         html.push(
           <li
             className={cs(styles.colorlabel, styles.multicolorlabel)}
-            key={data}
+            key={data[0]}
           >
             <input
               type="checkbox"
-              id={data}
+              id={data[0]}
               checked={
-                filter.currentColor[data]
-                  ? filter.currentColor[data].isChecked
+                filter.currentColor[data[0]]
+                  ? filter.currentColor[data[0]].isChecked
                   : false
               }
               onClick={this.handleClickColor}
-              value={data}
+              value={data[0]}
             />
-            <label htmlFor={data} style={multicolorImage}>
-              {data.split("-")[0]}
+            <label htmlFor={data[0]} style={multicolorImage}>
+              {data[0].split("-")[0]}
             </label>
           </li>
         );
       } else {
         html.push(
-          <li className={styles.colorlabel} key={data}>
+          <li className={styles.colorlabel} key={data[0]}>
             <input
               type="checkbox"
-              id={data}
+              id={data[0]}
               checked={
-                filter.currentColor[data]
-                  ? filter.currentColor[data].isChecked
+                filter.currentColor[data[0]]
+                  ? filter.currentColor[data[0]].isChecked
                   : false
               }
               onClick={this.handleClickColor}
-              value={data}
+              value={data[0]}
             />
-            <label htmlFor={data} style={color}>
-              {data.split("-")[1]}
+            <label htmlFor={data[0]} style={color}>
+              {data[0].split("-")[1]}
             </label>
           </li>
         );
@@ -1520,29 +1575,29 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     facets.availableSize.map((data: any, i: number) => {
       html.push(
-        <span key={data + i}>
+        <span key={data[0] + i}>
           <input
             type="checkbox"
-            id={data + i}
+            id={data[0] + i}
             checked={
-              filter.availableSize[data]
-                ? filter.availableSize[data].isChecked
+              filter.availableSize[data[0]]
+                ? filter.availableSize[data[0]].isChecked
                 : false
             }
             onClick={this.handleClickSize}
-            value={data}
+            value={data[0]}
           />
           <li>
             <label
-              htmlFor={data + i}
+              htmlFor={data[0] + i}
               className={
-                filter.availableSize[data] &&
-                filter.availableSize[data].isChecked
+                filter.availableSize[data[0]] &&
+                filter.availableSize[data[0]].isChecked
                   ? cs(styles.sizeCat, styles.select_size)
                   : styles.sizeCat
               }
             >
-              {data}
+              {data[0]}
             </label>
           </li>
         </span>
