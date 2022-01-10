@@ -38,7 +38,7 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
   const dispatch = useDispatch();
   const { isSale } = useSelector((state: AppState) => state.info);
 
-  const onEnquireClick = (id: number) => {
+  const onEnquireClick = (id: number, partner?: string) => {
     // const { updateComponentModal, changeModalState } = this.props;
     // const mobile = this.props.device.mobile;
     dispatch(
@@ -46,7 +46,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
         // <CorporateEnquiryPopup id={id} quantity={quantity} />,
         POPUP.THIRDPARTYENQUIRYPOPUP,
         {
-          id
+          id,
+          partner: partner || ""
         },
         mobile ? true : false,
         mobile ? ModalStyles.bottomAlign : undefined

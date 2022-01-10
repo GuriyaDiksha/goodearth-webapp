@@ -308,7 +308,6 @@ class Search extends React.Component<
         value: "price_desc"
       }
     ];
-
     if (facets.sortedDiscount) {
       items.splice(1, 0, {
         label: "Discount",
