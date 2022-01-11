@@ -768,9 +768,14 @@ class Wishlist extends React.Component<Props, State> {
       <div className={bootstrapStyles.containerFluid}>
         {mobile ? (
           <div
-            className={cs(bootstrapStyles.row, styles.pageBody, {
-              [styles.pageBodyTimer]: this.props.showTimer
-            })}
+            className={cs(
+              bootstrapStyles.row,
+              { [styles.pageBody]: !mobile },
+              { [styles.pageBodyMobile]: mobile },
+              {
+                [styles.pageBodyTimer]: this.props.showTimer
+              }
+            )}
           >
             <div className={cs(styles.cSort, styles.subheaderAccount)}>
               <div
