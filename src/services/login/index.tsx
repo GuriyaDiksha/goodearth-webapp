@@ -233,17 +233,19 @@ export default {
         res.updatedRemovedItems
       );
     }
+    dispatch(updateModal(false));
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(
       updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
     );
-    dispatch(updateModal(false));
-    MetaService.updateMeta(dispatch, { tkn: res.token });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
     });
     Api.getPopups(dispatch).catch(err => {
       console.log("Popups Api ERROR === " + err);
+    });
+    Api.getAnnouncement(dispatch).catch(err => {
+      console.log("Announcement API ERROR ==== " + err);
     });
     WishlistService.updateWishlist(dispatch, sortBy);
     const metaResponse = await MetaService.updateMeta(dispatch, {
