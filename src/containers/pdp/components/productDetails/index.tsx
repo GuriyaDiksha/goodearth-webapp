@@ -1055,7 +1055,7 @@ const ProductDetails: React.FC<Props> = ({
               </span>
             </div>
           )}
-          {complianceLine && (
+          {complianceLine && !isQuickview && (
             <div
               className={cs(
                 bootstrap.col12,
@@ -1063,19 +1063,19 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.voffset2
               )}
             >
-              <img
-                alt="goodearth-logo"
-                src={legal}
-                style={{
-                  width: "17px",
-                  height: "17px",
-                  cursor: "pointer",
-                  marginRight: "8px"
-                }}
-              />
-              <span className={globalStyles.pointer}>
+              <div className={globalStyles.pointer}>
+                <img
+                  alt="goodearth-logo"
+                  src={legal}
+                  style={{
+                    width: "17px",
+                    height: "17px",
+                    cursor: "pointer",
+                    marginRight: "8px"
+                  }}
+                />
                 {ReactHtmlParser(complianceLine)}
-              </span>
+              </div>
             </div>
           )}
           <div
