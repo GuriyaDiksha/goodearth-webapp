@@ -58,7 +58,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
       };
       LoginService.loginSocial(dispatch, data, source, history, sortBy)
         .then(res => {
-          closeModel();
+          // closeModel();
         })
         .catch(err => {
           const data = err.response?.data;
