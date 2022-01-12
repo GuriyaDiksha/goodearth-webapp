@@ -28,7 +28,8 @@ const mapStateToProps = (state: AppState) => {
     facets: state.searchList.data.results.facets,
     facetObject: state.searchList.facetObject,
     nextUrl: state.searchList.data.next,
-    listdata: state.searchList.data.results.data
+    listdata: state.searchList.data.results.data,
+    customerGroup: state.user.customerGroup
   };
 };
 
@@ -565,10 +566,22 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateOnload(false);
       this.createList(nextProps.data);
     }
-    if (this.props.currency != nextProps.currency) {
-      nextProps.mobile
-        ? this.updateDataFromAPI("load")
-        : this.updateDataFromAPI();
+    if (
+      this.props.currency != nextProps.currency ||
+      this.props.customerGroup != nextProps.customerGroup
+    ) {
+      const { filter } = this.state;
+      if (filter.sortBy && filter.sortBy["sortBy"] == "discount") {
+        filter.sortBy = {};
+      }
+      this.setState(
+        {
+          filter
+        },
+        () => {
+          this.createUrlfromFilter();
+        }
+      );
     }
   };
 
@@ -828,6 +841,9 @@ class FilterList extends React.Component<Props, State> {
       // do nothing
     } else {
       filter.categoryShop[event.target.id] = true;
+    }
+    if (filter.sortBy["sortBy"] == "discount") {
+      filter.sortBy = {};
     }
     this.clearFilter(undefined, "all", true);
     this.setState(
