@@ -320,7 +320,19 @@ class Wishlist extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
     if (this.props.currency !== nextProps.currency) {
-      this.getWishlist(this.state.defaultOption.value);
+      if (this.state.defaultOption.value == "discount") {
+        this.setState(
+          {
+            defaultOption: { value: "added_on", label: "Recently Added" },
+            currentFilter: "added_on"
+          },
+          () => {
+            this.getWishlist(this.state.defaultOption.value);
+          }
+        );
+      } else {
+        this.getWishlist(this.state.defaultOption.value);
+      }
       AbsoluteGrid = createAbsoluteGrid(
         SampleDisplay,
         {
