@@ -145,7 +145,7 @@ class FilterList extends React.Component<Props, State> {
             filter.currency[key] = vars[key];
             break;
           case "sort_by":
-            filter.sortBy[key] = vars[key];
+            filter.sortBy["sortBy"] = vars[key];
             break;
           case "product_type":
             for (let i = 0; i < cc.length; i++) {
@@ -602,9 +602,18 @@ class FilterList extends React.Component<Props, State> {
       this.props.currency != nextProps.currency ||
       this.props.customerGroup != nextProps.customerGroup
     ) {
-      nextProps.mobile
-        ? this.updateDataFromAPI("load")
-        : this.updateDataFromAPI();
+      const { filter } = this.state;
+      if (filter.sortBy && filter.sortBy["sortBy"] == "discount") {
+        filter.sortBy = {};
+      }
+      this.setState(
+        {
+          filter
+        },
+        () => {
+          this.createUrlfromFilter();
+        }
+      );
     }
   };
 
@@ -1081,6 +1090,9 @@ class FilterList extends React.Component<Props, State> {
       }
       for (const prop in filter.productType) {
         filter.productType[prop] = false;
+      }
+      if (filter.sortBy["sortBy"] == "discount") {
+        filter.sortBy = {};
       }
       // clear filters
       this.clearFilter(undefined, "all", true);
