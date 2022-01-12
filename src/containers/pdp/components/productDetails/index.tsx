@@ -1063,13 +1063,12 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.voffset2
               )}
             >
-              <div className={globalStyles.pointer}>
+              <div className={cs(globalStyles.pointer, globalStyles.flex)}>
                 <img
                   alt="goodearth-logo"
                   src={legal}
                   style={{
                     width: "17px",
-                    height: "17px",
                     cursor: "pointer",
                     marginRight: "8px"
                   }}
