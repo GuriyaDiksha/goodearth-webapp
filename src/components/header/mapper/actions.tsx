@@ -76,7 +76,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
 
-      WishlistService.updateWishlist(dispatch, sortBy);
+      WishlistService.updateWishlist(
+        dispatch,
+        sortBy == "discount" ? "added_on" : sortBy
+      );
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
