@@ -15,7 +15,8 @@ const PlpDropdownMenu = ({
   showCaret,
   value,
   onChange,
-  onStateChange
+  onStateChange,
+  sortedDiscount
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
@@ -169,7 +170,9 @@ const PlpDropdownMenu = ({
               styles.mobileFilterHeader,
               { [styles.mobileFilterHeaderTimer]: showTimer },
               globalStyles.hideBottom,
-              styles.mobileFilterHeaderSort,
+              sortedDiscount
+                ? styles.mobileFilterHeaderSortDiscount
+                : styles.mobileFilterHeaderSort,
               {
                 [globalStyles.active]: showmobileFilterList && showmobileSort
               }
