@@ -54,6 +54,7 @@ import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import cushionFiller from "images/cushionFiller.svg";
 import inshop from "../../../../images/inShop.svg";
+import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
 
 const ProductDetails: React.FC<Props> = ({
@@ -81,6 +82,7 @@ const ProductDetails: React.FC<Props> = ({
     salesBadgeImage,
     fillerMessage,
     showFillerMessage,
+    complianceLine,
     fillerUrl,
     justAddedBadge,
     badgeType,
@@ -1051,6 +1053,28 @@ const ProductDetails: React.FC<Props> = ({
                 {" "}
                 Check in-shop availability{" "}
               </span>
+            </div>
+          )}
+          {complianceLine && !isQuickview && (
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd9,
+                globalStyles.voffset2
+              )}
+            >
+              <div className={cs(globalStyles.pointer, globalStyles.flex)}>
+                <img
+                  alt="goodearth-logo"
+                  src={legal}
+                  style={{
+                    width: "17px",
+                    cursor: "pointer",
+                    marginRight: "8px"
+                  }}
+                />
+                {ReactHtmlParser(complianceLine)}
+              </div>
             </div>
           )}
           <div
