@@ -615,6 +615,7 @@ class Search extends React.Component<
             showCaret={this.state.showmobileSort}
             open={false}
             value="hc"
+            sortedDiscount={facets.sortedDiscount}
           />
         )}
       </div>

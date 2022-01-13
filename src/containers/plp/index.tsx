@@ -788,6 +788,7 @@ class PLP extends React.Component<
             open={false}
             value={this.state.sortValue}
             key={"plpPageMobile"}
+            sortedDiscount={facets.sortedDiscount}
           />
         )}
       </div>
