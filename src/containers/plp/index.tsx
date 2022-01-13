@@ -152,14 +152,15 @@ class PLP extends React.Component<
       });
   };
 
-  onEnquireClick = (id: number) => {
+  onEnquireClick = (id: number, partner?: string) => {
     const { updateComponentModal, changeModalState } = this.props;
     const mobile = this.props.device.mobile;
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
       POPUP.THIRDPARTYENQUIRYPOPUP,
       {
-        id
+        id,
+        partner: partner || ""
       },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
@@ -787,6 +788,7 @@ class PLP extends React.Component<
             open={false}
             value={this.state.sortValue}
             key={"plpPageMobile"}
+            sortedDiscount={facets.sortedDiscount}
           />
         )}
       </div>
