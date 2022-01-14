@@ -15,3 +15,26 @@
       right: 10px;
     }
   }
+select {
+  &.default {
+    color: $formLabel;
+    font-weight: 300;
+  }
+  &.black {
+    color: black;
+  }
+}
+  
+
+input[type="date"] {
+  &.default {
+    color: $formLabel;
+    font-weight: 300;
+  }
+  &.black {
+    color: black;
+  }
+  &::-webkit-date-and-time-value {
+    text-align: left;
+  }
+}
