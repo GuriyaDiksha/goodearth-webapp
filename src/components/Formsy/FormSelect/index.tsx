@@ -61,6 +61,8 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         value={props.value}
         className={cs(
           { [globalStyles.errorBorder]: errorMessage },
+          { [styles.default]: !props.value },
+          { [styles.black]: props.value },
           { [styles.disabledInput]: props.disable },
           { [globalStyles.pointer]: !props.disable }
         )}
