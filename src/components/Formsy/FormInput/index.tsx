@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { withFormsy } from "formsy-react";
 import { Props } from "./typings";
 import globalStyles from "styles/global.scss";
+import styles from "../styles.scss";
 import cs from "classnames";
 import { InjectedProps } from "formsy-react/dist/Wrapper";
 
@@ -119,11 +120,12 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         type={props.type || "text"}
         id={props.id}
         name={props.name}
-        className={
+        className={cs(
           errorMessage || false
             ? globalStyles.errorBorder
-            : props.inputClass || ""
-        }
+            : props.inputClass || "",
+          props.value ? styles.black : styles.default
+        )}
         value={props.value || ""}
         placeholder={placeholder}
         onChange={e => handleChange(e)}
