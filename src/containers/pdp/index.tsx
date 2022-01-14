@@ -46,7 +46,8 @@ import CookieService from "services/cookie";
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
 );
-const ProductDetails = loadable(() => import("./components/productDetails"));
+// const ProductDetails = loadable(() => import("./components/productDetails"));
+import ProductDetails from "./components/productDetails";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -492,6 +493,7 @@ class PDPContainer extends React.Component<Props, State> {
         wishlist={[]}
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
+        loading={false}
       />
     );
   };
