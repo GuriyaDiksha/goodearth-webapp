@@ -125,10 +125,10 @@ const CerisePopup: React.FC<PopupProps> = props => {
             <p className={styles.bottom}>
               On this special occasion, we&apos;re offering our Cerise Members
               an exclusive opportunity to earn Double Reward Points on all
-              purchases made online or in-store.T&C Apply*
+              purchases made online or in-store. T&C Apply*
             </p>
-            <p className={styles.bottom}>
-              *1 point = 1 INR | *Promo ends on 23rd January
+            <p className={cs(styles.bottom, styles.bottom2)}>
+              *1 point = 1 INR | *Promo ends on 23<sup>rd</sup> January
             </p>
           </div>
         </div>
