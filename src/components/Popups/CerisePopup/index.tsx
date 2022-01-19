@@ -7,8 +7,11 @@ import styles from "../styles.scss";
 // import { PopupProps } from "./typings";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
-import cerisereward from "../../../images/cerisereward.png";
-import ceriserewardmobile from "../../../images/ceriserewardMobile.png";
+import banner from "../../../images/ceriseRewards/banner.gif";
+import bannerMobile from "../../../images/ceriseRewards/bannerMobile.gif";
+// import logo from "../../../images/ceriseRewards/logo.svg";
+import baloonPink from "../../../images/ceriseRewards/baloonPink.png";
+import baloonYellow from "../../../images/ceriseRewards/baloonYellow.png";
 import cerisestar from "../../../images/cerisestar.png";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -59,11 +62,18 @@ const CerisePopup: React.FC<PopupProps> = props => {
             </div>
           )}
           <img
-            src={mobile ? ceriserewardmobile : cerisereward}
+            src={mobile ? bannerMobile : banner}
             className={styles.desktopimage}
           />
+          {/* <img src={logo} className={styles.logo}/> */}
         </div>
-        <div className={cs(bootstrapStyles.colMd6, bootstrapStyles.colSm12)}>
+        <div
+          className={cs(
+            bootstrapStyles.colMd6,
+            bootstrapStyles.colSm12,
+            styles.overflow
+          )}
+        >
           {!mobile && (
             <div className={styles.cross} onClick={closeModal}>
               <i
@@ -76,24 +86,31 @@ const CerisePopup: React.FC<PopupProps> = props => {
               ></i>
             </div>
           )}
+          <img src={baloonYellow} className={styles.baloon1} />
+          <img src={baloonPink} className={styles.baloon2} />
           <div className={mobile ? styles.contentmobile : styles.ceriseContent}>
             <p className={styles.heading}>
-              when <br />
-              <span>STARS</span> align
+              The Treat <br />
+              <span>is on us!</span>
             </p>
             <p className={styles.subheading}>
-              It&apos;s the Cerise Anniversary Weekend.
+              It&apos;s Good Earth&apos;s
+              <br />
+              birthday weekend
             </p>
             <p className={styles.subheading1}>
-              Celebrate with us <br />
-              by earning Double Rewards Points.
+              Earn Double Reward Points
+              <br />
+              on this special occasion
+              <br />
+              for extra cheer
             </p>
             <p>
               <img src={cerisestar} className={styles.star} />
             </p>
             <p className={styles.date}>
               {" "}
-              19<sup>th</sup> - 22<sup>nd</sup> August
+              20<sup>th</sup> - 23<sup>rd</sup> January
             </p>
             <button
               onClick={() => {
@@ -106,13 +123,12 @@ const CerisePopup: React.FC<PopupProps> = props => {
             </button>
 
             <p className={styles.bottom}>
-              On this special occasion, we’re offering our Cerise Members an
-              exclusive opportunity to earn Double Reward Points on all
-              purchases made online or in-store.
+              On this special occasion, we&apos;re offering our Cerise Members
+              an exclusive opportunity to earn Double Reward Points on all
+              purchases made online or in-store.T&C Apply*
             </p>
             <p className={styles.bottom}>
-              *1 point = 1 INR I *Promo ends at midnight, 22nd August I *T&C
-              Apply
+              *1 point = 1 INR | *Promo ends at midnight, 23rd January
             </p>
           </div>
         </div>
