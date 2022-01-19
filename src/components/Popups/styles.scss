@@ -743,7 +743,7 @@
     min-height: 500px;
     background-color: #FBFBEE;
     bottom: 0;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     position: fixed;
     z-index: 5;
     .cross{
@@ -785,7 +785,7 @@
     font-family: $font-Edwar;
     color: $cerise;
     letter-spacing: 5px;
-    line-height: 40px;
+    line-height: 35px;
     span{
       font-style: normal;
       font-family: $font-MrsEaves;
@@ -797,7 +797,7 @@
   .subheading {
     font-family: $font-Serif;
     font-size: 16px;
-    margin: 10px;
+    margin: 15px 0 10px 0;
     letter-spacing: 1px;
   }
   .subheading1 {
@@ -814,7 +814,7 @@
   }
   .star {
     width: 19px;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 10px;
   }
   .button {
@@ -833,7 +833,7 @@
     margin: 20px 0;
   }
   .bottom {
-    color: #143348;
+    color: #777;
     font-size: 11px;
     font-family: $font-Lato;
     margin-bottom: 10px;
@@ -844,6 +844,7 @@
 .contentmobile {
   // color:#B28F64;
   margin: 5% 5% 0 5%;
+  position: relative;
   .heading{
     font-size: 40px;
     font-style: italic;
@@ -863,7 +864,7 @@
   .subheading {
     font-family: $font-Serif;
     font-size: 16px;
-    margin: 10px;
+    margin: 15px 0 10px 0;
     letter-spacing: 1px;
   }
   .subheading1 {
@@ -880,7 +881,7 @@
   .star {
     width: 19px;
     margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
   .button {
     background-color: #ab1e56;
@@ -898,14 +899,17 @@
     margin: 15px 0;
   }
   .bottom {
-    color: #143348;
+    color: #777;
     font-size: 11px;
     font-family: $font-Lato;
-    margin: 10px 40px;
+    margin: 10px 30px;
+  }
+  .bottom2 {
+    margin: 10px 20px;
   }
 }
 .left-img {
-  padding: 0;
+  padding: 0 !important;
 }
 .imgpadding {
   padding: 0px !important;
