@@ -721,7 +721,9 @@
     }
   .logo {
     position: absolute;
-    left: 3px;
+    width: 67%;
+    left: 16%;
+    top: calc(50% - 113px);
   }
   .baloon1 {
     position: absolute;
@@ -753,7 +755,9 @@
     }
     .logo {
       position: absolute;
-      left: 3px;
+      width: 70px;
+      top: 23px;
+      left: calc(50% - 35px);
     }
     .baloon1 {
       position: absolute;

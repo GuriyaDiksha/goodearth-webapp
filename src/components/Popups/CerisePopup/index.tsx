@@ -9,13 +9,13 @@ import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import banner from "../../../images/ceriseRewards/banner.gif";
 import bannerMobile from "../../../images/ceriseRewards/bannerMobile.gif";
-// import logo from "../../../images/ceriseRewards/logo.svg";
+import logo from "../../../images/ceriseRewards/logo.svg";
 import baloonPink from "../../../images/ceriseRewards/baloonPink.png";
 import baloonYellow from "../../../images/ceriseRewards/baloonYellow.png";
 import cerisestar from "../../../images/cerisestar.png";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 
 type PopupProps = {
   acceptCondition: (data?: any) => any;
@@ -25,7 +25,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
   //   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useContext(Context);
   const { mobile } = useSelector((state: AppState) => state.device);
-  const history = useHistory();
+  // const history = useHistory();
   useEffect(() => {
     const btn = document.getElementById("info-popup-accept-button");
     btn?.focus();
@@ -65,7 +65,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
             src={mobile ? bannerMobile : banner}
             className={styles.desktopimage}
           />
-          {/* <img src={logo} className={styles.logo}/> */}
+          <img src={logo} className={styles.logo} />
         </div>
         <div
           className={cs(
@@ -114,7 +114,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
             </p>
             <button
               onClick={() => {
-                history.push("/cerise");
+                // history.push("/cerise");
                 closeModal();
               }}
               className={cs(styles.button)}
@@ -128,7 +128,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
               purchases made online or in-store.T&C Apply*
             </p>
             <p className={styles.bottom}>
-              *1 point = 1 INR | *Promo ends at midnight, 23rd January
+              *1 point = 1 INR | *Promo ends on 23rd January
             </p>
           </div>
         </div>

@@ -146,6 +146,7 @@ class Header extends React.Component<Props, State> {
         this.props.goLogin();
       } else {
         this.props.history.push("/");
+        this.props.showCerisePopup();
       }
     }
     this.setState({
