@@ -112,8 +112,9 @@ export default {
       );
     }
     if (
-      res.customerGroup == CUST.CERISE ||
-      res.customerGroup == CUST.CERISE_SITARA
+      (res.customerGroup == CUST.CERISE ||
+        res.customerGroup == CUST.CERISE_SITARA) &&
+      currency == "INR"
     ) {
       dispatch(updateComponent(POPUP.CERISE, undefined, true));
       dispatch(updateModal(true));
@@ -207,6 +208,7 @@ export default {
   loginSocial: async function(
     dispatch: Dispatch,
     formdata: any,
+    currency: Currency,
     source: string,
     history: any,
     sortBy?: string
@@ -249,8 +251,9 @@ export default {
       updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
     );
     if (
-      res.customerGroup == CUST.CERISE ||
-      res.customerGroup == CUST.CERISE_SITARA
+      (res.customerGroup == CUST.CERISE ||
+        res.customerGroup == CUST.CERISE_SITARA) &&
+      currency == "INR"
     ) {
       dispatch(updateComponent(POPUP.CERISE, undefined, true));
       dispatch(updateModal(true));
