@@ -43,7 +43,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
       >
         <div
           className={cs(
-            bootstrapStyles.colMd6,
+            bootstrapStyles.colLg6,
             { [styles.leftImg]: !mobile },
             { [styles.imgpadding]: mobile },
             bootstrapStyles.colSm12
@@ -69,7 +69,7 @@ const CerisePopup: React.FC<PopupProps> = props => {
         </div>
         <div
           className={cs(
-            bootstrapStyles.colMd6,
+            bootstrapStyles.colLg6,
             bootstrapStyles.colSm12,
             styles.overflow
           )}
