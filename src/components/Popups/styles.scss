@@ -713,18 +713,35 @@
     height: auto !important;
     width: 680px;
     min-height: 500px;
-    background-color: #FFFAF6;
+    background-color: #FBFBEE;
     .cross{
       float: right;
       padding: 15px;
       cursor: pointer;
     }
+  .logo {
+    position: absolute;
+    width: 67%;
+    left: 16%;
+    top: calc(50% - 113px);
+  }
+  .baloon1 {
+    position: absolute;
+    height: 240px;
+    left: -42px;
+  }
+  .baloon2 {
+    position: absolute;
+    height: 240px;
+    right: -50px;
+    bottom: 124px;
+  }
 }
 
 .cerisemobile {
     width: 100%;
     min-height: 500px;
-    background-color: #FFFAF6;
+    background-color: #FBFBEE;
     bottom: 0;
     padding-bottom: 20px;
     position: fixed;
@@ -736,6 +753,23 @@
       color: white;
       right: 0px;
     }
+    .logo {
+      position: absolute;
+      width: 70px;
+      top: 23px;
+      left: calc(50% - 35px);
+    }
+    .baloon1 {
+      position: absolute;
+      height: 350px;
+      left: -88px;
+    }
+    .baloon2 {
+      position: absolute;
+      height: 350px;
+      right: -98px;
+      bottom: 18px;
+    }
 }
 
 .text {
@@ -743,25 +777,36 @@
 }
 
 .cerise-content {
-  color:#B28F64;
+  // color:#B28F64;
   margin: 20% 5% 0 5%;
   .heading{
     font-size: 40px;
     font-style: italic;
-    font-family: $font-Serif;
+    font-family: $font-Edwar;
+    color: $cerise;
+    letter-spacing: 5px;
+    line-height: 40px;
     span{
       font-style: normal;
+      font-family: $font-MrsEaves;
+      text-transform: uppercase;
+      font-size: 20px;
+      line-height: 20px;
     }
   }
   .subheading {
     font-family: $font-Serif;
-    font-size: 20px;
+    font-size: 16px;
     margin: 10px;
+    letter-spacing: 1px;
   }
   .subheading1 {
     font-family: $font-Serif;
-    font-size: 20px;
-    font-style: italic;
+    font-size: 16px;
+    font-style: normal;
+    color: $cerise;
+    letter-spacing: 1px;
+    padding-top: 10px;
   }
   .date {
     font-size: 25px;
@@ -779,7 +824,7 @@
     font-family: $font-Lato;
     text-transform: uppercase;
     line-height: 44px;
-    width: 60%;
+    width: 50%;
     text-align: center;
     font-size: 12px;
     border: none;
@@ -789,32 +834,44 @@
   }
   .bottom {
     color: #143348;
-    font-size: 12px;
+    font-size: 11px;
     font-family: $font-Lato;
     margin-bottom: 10px;
+    margin-top: 10px;
   }
 }
 
 .contentmobile {
-  color:#B28F64;
+  // color:#B28F64;
   margin: 5% 5% 0 5%;
   .heading{
-    font-size: 30px;
+    font-size: 40px;
     font-style: italic;
-    font-family: $font-Serif;
+    font-family: $font-Edwar;
+    color: $cerise;
+    letter-spacing: 5px;
+    line-height: 30px;
     span{
       font-style: normal;
+      font-family: $font-MrsEaves;
+      text-transform: uppercase;
+      font-size: 18px;
+      line-height: 18px;
+      font-weight: bold;
     }
   }
   .subheading {
     font-family: $font-Serif;
-    font-size: 18px;
+    font-size: 16px;
     margin: 10px;
+    letter-spacing: 1px;
   }
   .subheading1 {
     font-family: $font-Serif;
-    font-size: 18px;
-    font-style: italic;
+    font-size: 16px;
+    color: $cerise;
+    letter-spacing: 0.5px;
+    padding-top: 10px;
   }
   .date {
     font-size: 20px;
@@ -842,13 +899,13 @@
   }
   .bottom {
     color: #143348;
-    font-size: 12px;
+    font-size: 11px;
     font-family: $font-Lato;
-    margin-bottom: 10px;
+    margin: 10px 40px;
   }
 }
 .left-img {
-  margin-left: -3px;
+  padding: 0;
 }
 .imgpadding {
   padding: 0px !important;
@@ -958,4 +1015,8 @@
   top: 50%;
   transform: translate(-50%, -50%);
   right: auto;
+}
+
+.overflow {
+  overflow: hidden;
 }
