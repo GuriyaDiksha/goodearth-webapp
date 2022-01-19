@@ -98,6 +98,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(updateComponent(POPUP.PINCODEPOPUP, { setPincode }, true));
       dispatch(updateModal(true));
     },
+    showCerisePopup: () => {
+      dispatch(updateComponent(POPUP.CERISE, undefined, true));
+      dispatch(updateModal(true));
+      sessionStorage.setItem("cerisedbl", "1");
+    },
     getCustomerSlab: async (formData: any) => {
       const res = await HeaderService.getCustomerSlab(dispatch, formData);
       return res;
