@@ -184,7 +184,12 @@ const BaseLayout: React.FC = () => {
     const shownCerisePopup = sessionStorage.getItem("cerisedbl");
     const isCeriseCustomer =
       customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA;
-    if (isHomePage && !shownCerisePopup && isCeriseCustomer) {
+    if (
+      isHomePage &&
+      !shownCerisePopup &&
+      isCeriseCustomer &&
+      currency == "INR"
+    ) {
       dispatch(updateComponent(POPUP.CERISE, undefined, true));
       dispatch(updateModal(true));
       sessionStorage.setItem("cerisedbl", "1");
