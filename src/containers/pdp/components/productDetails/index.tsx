@@ -1063,7 +1063,9 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.voffset2
               )}
             >
-              <div className={cs(globalStyles.flex)}>
+              <div
+                className={cs(globalStyles.flex, styles.complianceContainer)}
+              >
                 <img
                   alt="goodearth-logo"
                   src={legal}
