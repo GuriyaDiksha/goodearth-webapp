@@ -38,6 +38,12 @@
             background-color: #fff;
             width: 100%;
         }
+      .left-image-cross {
+        border-bottom: none;
+        background-color: transparent;
+        right: 0;
+        width: auto;
+      }
       .cancel-btn {
       position: absolute;
       bottom: 25px;
@@ -486,6 +492,16 @@
     position: relative;
     transform: translateX(-50%);
     left: 50%;
+    margin-bottom: 20px;
+  }
+  .cerise-btn80 {
+    width: 80%;
+    min-width: auto;
+  }
+}
+.gc-tnc {
+  .left-image-content {
+    padding: 7px 20px;
   }
 }
 .side-margin {
@@ -1041,8 +1057,7 @@
   color: #363636;
   font-size: 13px;
   font-family: $font-Lato;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin: 10px;
   font-weight: lighter;
 }
 
@@ -1061,4 +1076,8 @@
     position: relative;
     background-color: white;
   }
+}
+
+.left-image {
+  width: 100%;
 }
