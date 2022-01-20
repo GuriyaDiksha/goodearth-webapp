@@ -28,6 +28,7 @@ import { POPUP } from "constants/components";
 import * as util from "../../utils/validate";
 import { Basket } from "typings/basket";
 import { updateBasket } from "actions/basket";
+import { CUST } from "constants/util";
 
 export default {
   showForgotPassword: function(
@@ -110,7 +111,17 @@ export default {
         res.updatedRemovedItems
       );
     }
-    dispatch(updateModal(false));
+    if (
+      (res.customerGroup == CUST.CERISE ||
+        res.customerGroup == CUST.CERISE_SITARA) &&
+      currency == "INR"
+    ) {
+      dispatch(updateComponent(POPUP.CERISE, undefined, true));
+      dispatch(updateModal(true));
+      sessionStorage.setItem("cerisedbl", "1");
+    } else {
+      dispatch(updateModal(false));
+    }
     dispatch(updateCookies({ tkn: res.token }));
     dispatch(
       updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
@@ -197,6 +208,7 @@ export default {
   loginSocial: async function(
     dispatch: Dispatch,
     formdata: any,
+    currency: Currency,
     source: string,
     history: any,
     sortBy?: string
@@ -237,7 +249,17 @@ export default {
     dispatch(
       updateUser({ isLoggedIn: true, customerGroup: res.customerGroup || "" })
     );
-    dispatch(updateModal(false));
+    if (
+      (res.customerGroup == CUST.CERISE ||
+        res.customerGroup == CUST.CERISE_SITARA) &&
+      currency == "INR"
+    ) {
+      dispatch(updateComponent(POPUP.CERISE, undefined, true));
+      dispatch(updateModal(true));
+      sessionStorage.setItem("cerisedbl", "1");
+    } else {
+      dispatch(updateModal(false));
+    }
     MetaService.updateMeta(dispatch, { tkn: res.token });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sales Api Status ==== " + err);
