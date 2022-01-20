@@ -1073,7 +1073,9 @@ const ProductDetails: React.FC<Props> = ({
                     marginRight: "8px"
                   }}
                 />
-                {ReactHtmlParser(complianceLine)}
+                <div className={styles.compliance}>
+                  {ReactHtmlParser(complianceLine)}
+                </div>
               </div>
             </div>
           )}
