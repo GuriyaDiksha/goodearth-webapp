@@ -247,16 +247,24 @@
 .mobile-margin{
     margin-top: 5px;
 }
-.compliance {
-    font-family: 'LatoFont';
-    font-size: 13px;
-    color: #9C7D50;
-    letter-spacing: .5px;
-    p{
+.compliance-container {
+    align-items: flex-start;
+    .compliance {
         font-family: 'LatoFont';
         font-size: 13px;
         color: #9C7D50;
         letter-spacing: .5px;
+        p{
+            font-family: 'LatoFont';
+            font-size: 13px;
+            color: #9C7D50;
+            letter-spacing: .5px;
+            a{
+                color: #9C7D50;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
         a{
             color: #9C7D50;
             text-decoration: underline;
