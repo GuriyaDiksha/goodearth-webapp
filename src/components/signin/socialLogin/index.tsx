@@ -17,6 +17,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { sortBy } = useSelector((state: AppState) => state.wishlist);
+  const currency = useSelector((state: AppState) => state.currency);
   const source =
     history.location.pathname.indexOf("checkout") != -1 ? "checkout" : "";
   // const onLoginSuccess = (user: any) => {
@@ -56,7 +57,14 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         lname: user.profileObj.familyName,
         requestParam: JSON.stringify(user)
       };
-      LoginService.loginSocial(dispatch, data, source, history, sortBy)
+      LoginService.loginSocial(
+        dispatch,
+        data,
+        currency,
+        source,
+        history,
+        sortBy
+      )
         .then(res => {
           closeModel();
         })
