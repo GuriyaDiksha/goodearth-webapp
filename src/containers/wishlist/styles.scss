@@ -574,8 +574,14 @@ icon-cross {
 .page-body {
   margin-top: $header-height + $secondary-header-height;
 }
+.page-body-mobile {
+  margin-top: $header-height;
+}
 .page-body-timer {
   margin-top: $header-height + $secondary-header-height + $timer-height;
+}
+.page-body-mobile-timer {
+  margin-top: $header-height  + $timer-height;
 }
 
 .top-block-container {
