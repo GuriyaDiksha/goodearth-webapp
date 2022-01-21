@@ -120,7 +120,9 @@ const BaseLayout: React.FC = () => {
         let show = currentPopup[0].session == false;
         if (!show) {
           if (
-            CookieService.getCookie(pathname.split("/").join("_")) != "show"
+            CookieService.getCookie(
+              pathname.split("/").join("_") + "_" + currentPopup[0].heading
+            ) != "show"
           ) {
             show = true;
           }

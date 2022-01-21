@@ -38,6 +38,12 @@
             background-color: #fff;
             width: 100%;
         }
+      .left-image-cross {
+        border-bottom: none;
+        background-color: transparent;
+        right: 0;
+        width: auto;
+      }
       .cancel-btn {
       position: absolute;
       bottom: 25px;
@@ -177,7 +183,7 @@
     left: 10px;
     font-weight: 100;
     font-size: 10px;
-    color: tint(#000, 60%);
+    color: $formLabel;
     letter-spacing: 1px;
     background-color: #fff;
     padding: 3px;
@@ -398,13 +404,14 @@
   }
   .centerpage-mobile {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    // top: 50%;
+    // left: 50%;
+    // -webkit-transform: translate(-50%, -50%);
+    // transform: translate(-50%, -50%);
+    bottom: 0;
     height: auto !important;
     min-height: 400px;
-    width: 80vw;
+    width: 100%;
     p {
       padding: 7px 10%;
     }
@@ -485,6 +492,16 @@
     position: relative;
     transform: translateX(-50%);
     left: 50%;
+    margin-bottom: 20px;
+  }
+  .cerise-btn80 {
+    width: 80%;
+    min-width: auto;
+  }
+}
+.gc-tnc {
+  .left-image-content {
+    padding: 7px 20px;
   }
 }
 .side-margin {
@@ -492,12 +509,12 @@
   margin-right: 30px;
 }
 
-@media screen and (max-width: 320px) {
-.centerpage-mobile {
-    height: 75vh !important;
-    width: 80vw;
-  }
-}
+// @media screen and (max-width: 320px) {
+// .centerpage-mobile {
+//     height: 75vh !important;
+//     width: 80vw;
+//   }
+// }
 
 .maker-margin {
   margin-top: 55px;
@@ -1027,4 +1044,40 @@
 
 .overflow {
   overflow: hidden;
+}
+.bottom {
+  color: #777;
+  font-size: 11px;
+  font-family: $font-Lato;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.disclaimer {
+  color: #363636;
+  font-size: 13px;
+  font-family: $font-Lato;
+  margin: 10px;
+  font-weight: lighter;
+}
+
+.two-button {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  .button1 {
+    width: 40%;
+    max-width: 240px;
+    position: relative;
+  }
+  .button2 {
+    width: 40%;
+    max-width: 240px;
+    position: relative;
+    background-color: white;
+  }
+}
+
+.left-image {
+  width: 100%;
 }
