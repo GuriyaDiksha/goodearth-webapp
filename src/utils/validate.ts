@@ -212,6 +212,7 @@ export function productImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
+    let categoryName = "";
     data.results.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -219,6 +220,7 @@ export function productImpression(
         category = prod.categories[index]
           ? prod.categories[index].replace(/\s/g, "")
           : "";
+        categoryName = category.split(">")[0];
         category = category.replace(/>/g, "/");
       }
       let skus = "";
@@ -258,6 +260,9 @@ export function productImpression(
         currencyCode: currency,
         impressions: product
       }
+    });
+    Moengage.track_event("PLP views", {
+      "Category Name": categoryName.trim()
     });
   } catch (e) {
     console.log(e);
@@ -408,6 +413,7 @@ export function PDP(data: any, currency: Currency) {
     let skus = "";
     let variants = "";
     let prices = "";
+
     data.childAttributes.map((child: any) => {
       skus += "," + child.sku;
       variants += "," + child.size;
@@ -451,9 +457,6 @@ export function PDP(data: any, currency: Currency) {
         );
       })
     );
-    // Moengage.track_event("PdpView", {
-    //   products: pdpProduct
-    // });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
@@ -483,6 +486,7 @@ export function collectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
+
     data.results.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -955,19 +959,19 @@ export const megaMenuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    // if (l3) {
-    //   Moengage.track_event("L1Clicked", {
-    //     categoryName: l3
-    //   });
-    // } else if (l2) {
-    //   Moengage.track_event("L2Clicked", {
-    //     categoryName: l2
-    //   });
-    // } else if (l1) {
-    //   Moengage.track_event("L1Clicked", {
-    //     categoryName: l1
-    //   });
-    // }
+    if (l3) {
+      Moengage.track_event("L1Clicked", {
+        "Category Name": l3
+      });
+    } else if (l2) {
+      Moengage.track_event("L2Clicked", {
+        "Category Name": l2
+      });
+    } else if (l1) {
+      Moengage.track_event("L1Clicked", {
+        "Category Name": l1
+      });
+    }
 
     dataLayer.push({
       event: "Menu Navigation",

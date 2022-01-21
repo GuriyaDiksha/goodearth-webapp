@@ -304,9 +304,16 @@ const ProductDetails: React.FC<Props> = ({
       ? categories[index].replace(/\s/g, "")
       : "";
     category = category.replace(/>/g, "/");
-    // Moengage.track_event("add_to_cart", {
-    //   categoryName: category
-    // });
+
+    Moengage.track_event("add_to_cart", {
+      "Product id": sku || childAttributes[0].sku,
+      "Product name": title,
+      quantity: quantity,
+      price: price,
+      Currency: currency,
+      "Collection name": collection,
+      "Category name": categories[0]
+    });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
