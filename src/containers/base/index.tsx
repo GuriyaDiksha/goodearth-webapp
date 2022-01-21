@@ -25,6 +25,7 @@ import cs from "classnames";
 // import MakerPopup from "components/Popups/MakerPopup";
 import { POPUP } from "constants/components";
 import Loader from "components/Loader";
+import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
@@ -43,6 +44,7 @@ const BaseLayout: React.FC = () => {
   const {
     info: { isLoading }
   } = useSelector((state: AppState) => state);
+  const { customerGroup } = useSelector((state: AppState) => state.user);
   // don't show info popup
   const isSuspended = false;
   const popup = useSelector((state: AppState) => state.popup);
@@ -179,6 +181,19 @@ const BaseLayout: React.FC = () => {
     //   dispatch(updateModal(true));
     //   sessionStorage.setItem("bosporus", "1");
     // }
+    const shownCerisePopup = sessionStorage.getItem("cerisedbl");
+    const isCeriseCustomer =
+      customerGroup == CUST.CERISE || customerGroup == CUST.CERISE_SITARA;
+    if (
+      isHomePage &&
+      !shownCerisePopup &&
+      isCeriseCustomer &&
+      currency == "INR"
+    ) {
+      dispatch(updateComponent(POPUP.CERISE, undefined, true));
+      dispatch(updateModal(true));
+      sessionStorage.setItem("cerisedbl", "1");
+    }
     if (
       !loginPopup &&
       isHomePage &&
