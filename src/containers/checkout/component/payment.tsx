@@ -103,6 +103,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode
       };
+      Moengage.track_event("Mode of payment selected", {
+        "Payment Method": currentmethod.value,
+        Amount: "",
+        Currency: currency
+      });
       if (giftwrap) {
         data["isGift"] = giftwrap;
         data["giftRemovePrice"] = giftwrapprice;
