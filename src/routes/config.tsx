@@ -62,11 +62,17 @@ const routes: RouteConfig = [
     exact: false
   },
   {
-    path: ROUTES.CAREER,
+    path: ROUTES.CAREERDETAIL,
     component: loadable(() => import("containers/career")),
     action: async () => null,
     meta: metaActionCareer,
     exact: false
+  },
+  {
+    path: ROUTES.CAREER,
+    component: loadable(() => import("containers/makerpage")),
+    action: async () => null,
+    exact: true
   },
   {
     path: ROUTES.WISHLIST,
