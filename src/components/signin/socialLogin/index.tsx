@@ -66,7 +66,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         sortBy
       )
         .then(res => {
-          closeModel();
+          // closeModel();
         })
         .catch(err => {
           const data = err.response?.data;
