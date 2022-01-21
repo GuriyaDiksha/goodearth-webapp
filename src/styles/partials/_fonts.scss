@@ -40,6 +40,20 @@
     font-style: italic;
     font-display: swap;
   }
+  @font-face {
+    font-family: "Edwardian";
+    src: url("../fonts/Edwardian\ regular.ttf") format("truetype");
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "MrsEaves";
+    src: url("../fonts/MrsEavesOT-Roman.otf") format("opentype");
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
   
 //   @font-face {
 //     font-family: "AmiriFont";
