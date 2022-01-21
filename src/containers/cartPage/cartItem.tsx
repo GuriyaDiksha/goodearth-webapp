@@ -85,11 +85,15 @@ const CartItems: React.FC<BasketItem> = memo(
             : "";
           category = category.replace(/>/g, "/");
         }
+
         Moengage.track_event("remove_from_cart", {
-          productid: sku || childAttributes[0].sku,
-          productname: title,
+          "Product id": sku || childAttributes[0].sku,
+          "Product name": title,
           quantity: quantity,
-          price: price
+          price: price,
+          Currency: currency,
+          "Collection name": collections,
+          "Category name": categories[0]
         });
         dataLayer.push({
           event: "removeFromCart",

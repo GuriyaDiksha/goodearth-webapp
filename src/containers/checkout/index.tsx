@@ -311,6 +311,10 @@ class Checkout extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_checkout_view"
     });
+    Moengage.track_event("Page viewed", {
+      "Page URL": this.props.location.pathname,
+      "Page Name": "checkoutView"
+    });
     this.props
       .fetchBasket(this.props.history, this.props.user.isLoggedIn)
       .then(res => {
