@@ -42,7 +42,8 @@ class Quickview extends React.Component<Props, State> {
   state: State = {
     sidebarSticky: true,
     detailsSticky: true,
-    currentIndex: 0
+    currentIndex: 0,
+    isLoading: false
   };
 
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
@@ -99,10 +100,14 @@ class Quickview extends React.Component<Props, State> {
 
   componentDidMount() {
     const { fetchProductsDetails, id } = this.props;
-    fetchProductsDetails(id);
-    // .then(() => {
-    // this.gtmPushOpenQuickview();
-    // });
+    this.setState({
+      isLoading: true
+    });
+    fetchProductsDetails(id).then(() => {
+      this.setState({
+        isLoading: false
+      });
+    });
   }
 
   getProductImagesData = () => {
@@ -156,6 +161,7 @@ class Quickview extends React.Component<Props, State> {
         mobile={mobile}
         wishlist={[]}
         isQuickview={true}
+        loading={this.state.isLoading}
         corporatePDP={this.props.corporatePDP ? true : false}
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
