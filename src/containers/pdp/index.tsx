@@ -164,6 +164,10 @@ class PDPContainer extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_pdp_view"
     });
+    Moengage.track_event("Page viewed", {
+      "Page URL": this.props.location.pathname,
+      "Page Name": "PdpView"
+    });
     const { data, currency } = this.props;
     valid.PDP(data, currency);
     const list = CookieService.getCookie("listPath");

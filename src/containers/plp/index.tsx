@@ -109,6 +109,10 @@ class PLP extends React.Component<
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_plp_view"
     });
+    Moengage.track_event("Page viewed", {
+      "Page URL": this.props.location.pathname,
+      "Page Name": "PlpView"
+    });
     // if (this.props.device.mobile) {
     //   const elem = document.getElementById("pincode-bar");
     //   elem && elem.classList.add(globalStyles.hiddenEye);
