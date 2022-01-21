@@ -1069,17 +1069,20 @@ const ProductDetails: React.FC<Props> = ({
                 globalStyles.voffset2
               )}
             >
-              <div className={cs(globalStyles.pointer, globalStyles.flex)}>
+              <div
+                className={cs(globalStyles.flex, styles.complianceContainer)}
+              >
                 <img
                   alt="goodearth-logo"
                   src={legal}
                   style={{
                     width: "17px",
-                    cursor: "pointer",
                     marginRight: "8px"
                   }}
                 />
-                {ReactHtmlParser(complianceLine)}
+                <div className={styles.compliance}>
+                  {ReactHtmlParser(complianceLine)}
+                </div>
               </div>
             </div>
           )}
