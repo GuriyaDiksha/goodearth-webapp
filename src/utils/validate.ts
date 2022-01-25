@@ -399,22 +399,40 @@ export function promotionImpression(data: any) {
 export function PDP(data: any, currency: Currency) {
   try {
     const products: any = [];
-    const pdpProduct = [];
     if (!data) return false;
     if (data.length < 1) return false;
     let category = "";
+    let categoryname = "";
+    let subcategoryname = "";
+
     if (data.categories) {
       const index = data.categories.length - 1;
       category = data.categories[index]
         ? data.categories[index].replace(/\s/g, "")
         : "";
+      const arr = category.split(">");
+      categoryname = arr[arr.length - 2];
+      subcategoryname = arr[arr.length - 1];
       category = category.replace(/>/g, "/");
     }
     let skus = "";
     let variants = "";
     let prices = "";
 
+    const skusid: any = [];
+    const variantspdp: any = [];
+    const priceschild: any = [];
+    const discountPrice: any = [];
+    const quantitys: any = [];
+    const colors: any = [];
+
     data.childAttributes.map((child: any) => {
+      skusid.push(child.sku);
+      variantspdp.push(child.size);
+      priceschild.push(+child.priceRecords[currency]);
+      discountPrice.push(+child.discountedPriceRecords[currency]);
+      quantitys.push(child.stock);
+      colors.push(child.color?.split("-")?.[1]);
       skus += "," + child.sku;
       variants += "," + child.size;
       prices +=
@@ -440,23 +458,22 @@ export function PDP(data: any, currency: Currency) {
       }
     );
     products.push(childProduct);
-    pdpProduct.push(
-      data.childAttributes.map((child: any) => {
-        return Object.assign(
-          {},
-          {
-            productname: data.title,
-            productid: child.sku,
-            categoryname: category,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords
-              ? child.priceRecords[currency]
-              : data.priceRecords[currency]
-          }
-        );
-      })
-    );
+
+    Moengage.track_event("PDP View", {
+      "Product id": skusid,
+      "Product name": data.title,
+      Quantity: quantitys,
+      price: priceschild,
+      Currency: currency,
+      Color: colors,
+      Size: variantspdp,
+      "Original price": priceschild,
+      "Discounted price": discountPrice,
+      // "Percentage discount",
+      "Collection name": data.collection,
+      "Category name": categoryname,
+      "Sub Category Name": subcategoryname
+    });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
