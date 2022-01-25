@@ -301,9 +301,14 @@ const ProductDetails: React.FC<Props> = ({
   };
   const gtmPushAddToBag = () => {
     const index = categories.length - 1;
+    let categoryname = "";
+    let subcategoryname = "";
     let category = categories[index]
       ? categories[index].replace(/\s/g, "")
       : "";
+    const arr = category.split(">");
+    categoryname = arr[arr.length - 2];
+    subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
 
     Moengage.track_event("add_to_cart", {
@@ -313,7 +318,8 @@ const ProductDetails: React.FC<Props> = ({
       price: price,
       Currency: currency,
       "Collection name": collection,
-      "Category name": categories[0]
+      "Category name": categoryname,
+      "Sub Category Name": subcategoryname
     });
     dataLayer.push({
       event: "addToCart",
