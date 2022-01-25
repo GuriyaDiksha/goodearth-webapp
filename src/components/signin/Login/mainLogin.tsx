@@ -246,6 +246,9 @@ class MainLogin extends React.Component<Props, loginState> {
         )
         .then(data => {
           this.gtmPushSignIn();
+          Moengage.track_event("Login", {
+            email: this.state.email
+          });
           const loginpopup = new URLSearchParams(
             this.props.history.location.search
           ).get("loginpopup");
