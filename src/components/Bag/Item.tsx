@@ -75,7 +75,8 @@ const LineItems: React.FC<BasketItem> = memo(
         price: price,
         Currency: currency,
         "Collection name": product.collections,
-        "Category name": product.categories[0]
+        "Category name": product.categories[0],
+        "Sub Category Name": product.categories[1]
       });
       dataLayer.push({
         event: "removeFromCart",

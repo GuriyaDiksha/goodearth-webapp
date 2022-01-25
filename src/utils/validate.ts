@@ -967,8 +967,34 @@ export const megaMenuNavigationGTM = ({
       Moengage.track_event("L2Clicked", {
         "Category Name": l2
       });
-    } else if (l1) {
+    } else if (l1 && !template) {
       Moengage.track_event("L1Clicked", {
+        "Category Name": l1
+      });
+    }
+
+    if (template) {
+      let eventName = "";
+      switch (template) {
+        case "CONTENT":
+          eventName = "Content template";
+          break;
+        case "TITLEHEADING":
+          eventName = "Title Heading template";
+          break;
+        case "L2L3":
+          eventName = "L2L3 Template";
+          break;
+        case "IMAGE":
+          eventName = "Image Template";
+          break;
+        case "VERTICALIMAGE":
+          eventName = "Vertical image Template";
+          break;
+        default:
+          eventName = "";
+      }
+      Moengage.track_event(eventName, {
         "Category Name": l1
       });
     }
