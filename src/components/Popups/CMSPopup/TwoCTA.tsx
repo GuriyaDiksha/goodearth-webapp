@@ -5,6 +5,8 @@ import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import { PopupData } from "typings/api";
 import iconStyles from "styles/iconFonts.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type Props = {
   finalContent: string;
@@ -24,6 +26,7 @@ const TwoCTA: React.FC<Props> = ({
   disclaimer,
   close
 }) => {
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
   return (
     <>
       <div
@@ -33,7 +36,10 @@ const TwoCTA: React.FC<Props> = ({
             : {}
         }
       >
-        <div className={styles.cross} onClick={() => close()}>
+        <div
+          className={cs(styles.cross, styles.leftImageCross)}
+          onClick={() => close()}
+        >
           <i
             className={cs(
               iconStyles.icon,
@@ -60,7 +66,11 @@ const TwoCTA: React.FC<Props> = ({
           >
             {ReactHtmlParser(finalContent)}
           </div>
-          <div className={styles.twoButton}>
+          <div
+            className={cs(styles.twoButton, {
+              [styles.twoButtonMobile]: mobile || tablet
+            })}
+          >
             <div
               className={cs(
                 globalStyles.ceriseBtn,
