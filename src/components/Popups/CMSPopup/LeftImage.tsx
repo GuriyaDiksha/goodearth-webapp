@@ -6,6 +6,9 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import ReactHtmlParser from "react-html-parser";
 import { PopupData } from "typings/api";
 import iconStyles from "styles/iconFonts.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
+import TopImage from "./TopImage";
 
 type Props = {
   finalContent: string;
@@ -23,7 +26,23 @@ const LeftImage: React.FC<Props> = ({
   disclaimer,
   close
 }) => {
-  return (
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
+  return mobile || tablet ? (
+    <TopImage
+      {...{
+        finalContent,
+        heading,
+        icon,
+        ctaLabel,
+        ctaColor,
+        ctaLink,
+        image,
+        bgImage,
+        disclaimer,
+        close
+      }}
+    />
+  ) : (
     <>
       <div
         style={

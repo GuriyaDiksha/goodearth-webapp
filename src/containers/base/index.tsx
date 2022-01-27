@@ -117,7 +117,7 @@ const BaseLayout: React.FC = () => {
     if (popup && popup.length > 0) {
       const currentPopup = popup.filter(
         pop =>
-          decodeURI(pop.pageUrl) ==
+          decodeURI(pop.pageUrl || "") ==
           decodeURI(pathname + history.location.search)
       );
       if (currentPopup && currentPopup.length > 0) {

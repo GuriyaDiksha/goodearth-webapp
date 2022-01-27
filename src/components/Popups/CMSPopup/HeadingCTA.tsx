@@ -30,7 +30,10 @@ const HeadingCTA: React.FC<Props> = ({
             : {}
         }
       >
-        <div className={styles.cross} onClick={() => close()}>
+        <div
+          className={cs(styles.cross, styles.leftImageCross)}
+          onClick={() => close()}
+        >
           <i
             className={cs(
               iconStyles.icon,
