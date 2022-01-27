@@ -404,13 +404,12 @@
   }
   .centerpage-mobile {
     position: fixed;
-    // top: 50%;
+    top: 50%;
     // left: 50%;
-    // -webkit-transform: translate(-50%, -50%);
-    // transform: translate(-50%, -50%);
-    bottom: 0;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
     height: auto !important;
-    min-height: 400px;
+    min-height: 360px;
     width: 100%;
     p {
       padding: 7px 10%;
@@ -1055,9 +1054,10 @@
 
 .disclaimer {
   color: #363636;
-  font-size: 13px;
+  font-size: 10px;
   font-family: $font-Lato;
   margin: 10px;
+  letter-spacing: 0.5px;
   font-weight: lighter;
 }
 
