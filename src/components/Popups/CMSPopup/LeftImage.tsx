@@ -51,10 +51,7 @@ const LeftImage: React.FC<Props> = ({
           </div>
           <div className={cs(styles.gcTnc, bootstrapStyles.col6)}>
             {/* {icon && <img src={icon} className={styles.icon} />} */}
-            <div
-              className={cs(globalStyles.c22AI, styles.heading)}
-              style={{ marginTop: icon ? "0" : "30px" }}
-            >
+            <div className={cs(globalStyles.popupHeading, styles.heading)}>
               {heading}
             </div>
             <div

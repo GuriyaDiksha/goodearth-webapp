@@ -54,7 +54,7 @@ const TopImage: React.FC<Props> = ({
             <div className={bootstrapStyles.row}>
               <div className={bootstrapStyles.col6}>
                 <div
-                  className={cs(globalStyles.c22AI, styles.heading)}
+                  className={cs(globalStyles.popupHeading, styles.heading)}
                   style={{ marginTop: icon ? "0" : "30px" }}
                 >
                   {heading}

@@ -29,7 +29,7 @@ import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
   const history = useHistory();
-  const { pathname } = history.location;
+  const { pathname, search } = history.location;
   const dispatch = useDispatch();
   const {
     currency,
@@ -115,7 +115,11 @@ const BaseLayout: React.FC = () => {
 
     // show popup, if any
     if (popup && popup.length > 0) {
-      const currentPopup = popup.filter(pop => pop.pageUrl == pathname);
+      const currentPopup = popup.filter(
+        pop =>
+          decodeURI(pop.pageUrl) ==
+          decodeURI(pathname + history.location.search)
+      );
       if (currentPopup && currentPopup.length > 0) {
         let show = currentPopup[0].session == false;
         if (!show) {
@@ -133,7 +137,7 @@ const BaseLayout: React.FC = () => {
         }
       }
     }
-  }, [pathname]);
+  }, [pathname, search]);
 
   useEffect(() => {
     // let isDragging = false;
