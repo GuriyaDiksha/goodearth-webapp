@@ -111,7 +111,6 @@ const BridalItemsList: React.FC<Props> = props => {
     qtyRemaining,
     badgeType
   } = props.product;
-  console.log(discount);
   return (
     <div className={cs(styles.cart, styles.cartContainer)}>
       <div className={cs("cart-item", styles.bridalPublic)}>

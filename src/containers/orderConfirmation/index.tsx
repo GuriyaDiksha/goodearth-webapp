@@ -38,6 +38,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       gaPush: true
     };
     const categoryname: string[] = [];
+    const subcategoryname: string[] = [];
     const productid: string[] = [];
     const productname: string[] = [];
     const productprice: string[] = [];
@@ -51,7 +52,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           ? line.product.categories[index].replace(/\s/g, "")
           : "";
       const arr = category.split(">");
-      categoryname.push(arr[arr.length - 1]);
+      categoryname.push(arr[arr.length - 2]);
+      subcategoryname.push(arr[arr.length - 1]);
       category = category.replace(/>/g, "/");
       productid.push(line.product.sku);
       productname.push(line.title);
@@ -88,12 +90,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       });
       Moengage.track_event("PurchasedOnline", {
         "Category Name": categoryname,
+        "Sub category": subcategoryname,
         "Product name": productname,
         "Original price": productprice,
         Quantity: productquantity,
         "Cart Amount": +result.totalInclTax,
-        "Coupon Code Applied": result.offerDiscounts?.[0]?.name ? true : false,
-        "Coupon Code Applied Name": result.offerDiscounts?.[0]?.name,
+        "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
+          ? true
+          : false,
+        "Coupon Code Applied Name": result.voucherCodeAppliedName,
+        "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
+        "Gift voucher redeemed": result.giftVoucherRedeemed,
         Currency: currency
       });
       AccountServices.setGaStatus(dispatch, formData);
