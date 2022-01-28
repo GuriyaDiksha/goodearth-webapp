@@ -69,7 +69,7 @@ const WishlistButton: React.FC<Props> = ({
           "Product id": id,
           "Product name": title,
           quantity: 1,
-          price: priceRecords?.[currency],
+          price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
           Currency: currency,
           // "Collection name": collection,
           "Category name": category?.split("/")[0],

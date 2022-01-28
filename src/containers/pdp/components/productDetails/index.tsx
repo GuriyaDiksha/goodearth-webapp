@@ -315,7 +315,7 @@ const ProductDetails: React.FC<Props> = ({
       "Product id": sku || childAttributes[0].sku,
       "Product name": title,
       quantity: quantity,
-      price: price,
+      price: +price,
       Currency: currency,
       "Collection name": collection,
       "Category name": categoryname,
