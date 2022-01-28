@@ -70,7 +70,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0].name
       };
     });
-    if (result.pushToGA == true) {
+    if (result.pushToGA == false) {
       dataLayer.push({
         event: "purchase",
         ecommerce: {
@@ -88,7 +88,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           }
         }
       });
-      console.log(result);
       Moengage.track_event("PurchasedOnline", {
         "Category Name": categoryname,
         "Sub category": subcategoryname,

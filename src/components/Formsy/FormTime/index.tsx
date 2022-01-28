@@ -23,7 +23,6 @@ const FormTime: React.FC<Props &
       : !props.isPristine && !props.isValid && !props.disable
       ? "This field is required"
       : "";
-  console.log(props.errorMessage, props.isPristine, props.isRequired);
   return (
     <>
       <input
