@@ -120,22 +120,53 @@ export function categoryForGa(categories: string[]) {
 export function productForBasketGa(data: Basket, currency: Currency) {
   let product: any = [];
   if (data.lineItems) {
+    const quantitys: any = [];
+    const skusid: any = [];
+    const productname: any = [];
+    const priceschild: any = [];
+    const variantspdp: any = [];
+    const collectionname: any = [];
+    const categoryname: any = [];
+    const subcategoryname: any = [];
+
     product = data.lineItems.map(prod => {
       const category = categoryForGa(prod.product.categories);
+      const categorylist = category?.split("/");
+      const realPrice = prod.product.childAttributes[0].discountedPriceRecords
+        ? prod.product.childAttributes[0].discountedPriceRecords[currency]
+        : prod.product.childAttributes[0].priceRecords[currency];
+      quantitys.push(prod.quantity);
+      skusid.push(prod.product.childAttributes[0].sku);
+      productname.push(prod.product.title);
+      variantspdp.push();
+      collectionname.push(collectionname);
+      priceschild.push(+realPrice);
+      categoryname.push(categorylist[categorylist.length - 2]);
+      subcategoryname.push(categorylist[categorylist.length - 1]);
       return Object.assign(
         {},
         {
           name: prod.product.title,
           id: prod.product.childAttributes[0].sku,
-          price: prod.product.childAttributes[0].discountedPriceRecords
-            ? prod.product.childAttributes[0].discountedPriceRecords[currency]
-            : prod.product.childAttributes[0].priceRecords[currency],
+          price: realPrice,
           brand: "Goodearth",
           category: category,
           quantity: prod.quantity,
           variant: prod.product.childAttributes[0].size || ""
         }
       );
+    });
+    Moengage.track_event("Proceed to checkout", {
+      "Product id": skusid,
+      "Product name": productname,
+      Quantity: quantitys,
+      price: priceschild,
+      Currency: currency,
+      Size: variantspdp,
+      // "Percentage discount",
+      // "Collection name": data.collection,
+      "Category name": categoryname,
+      "Sub Category Name": subcategoryname
     });
   }
 
