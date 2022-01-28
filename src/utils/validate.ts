@@ -320,7 +320,7 @@ export function productImpression(
       "Category Name": categoryName.trim()
     });
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     console.log("Impression error");
   }
 }
