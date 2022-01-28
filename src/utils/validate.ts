@@ -120,6 +120,31 @@ export function categoryForGa(categories: string[]) {
 export function productForBasketGa(data: Basket, currency: Currency) {
   let product: any = [];
   if (data.lineItems) {
+    product = data.lineItems.map(prod => {
+      const category = categoryForGa(prod.product.categories);
+      const realPrice = prod.product.childAttributes[0].discountedPriceRecords
+        ? prod.product.childAttributes[0].discountedPriceRecords[currency]
+        : prod.product.childAttributes[0].priceRecords[currency];
+      return Object.assign(
+        {},
+        {
+          name: prod.product.title,
+          id: prod.product.childAttributes[0].sku,
+          price: realPrice,
+          brand: "Goodearth",
+          category: category,
+          quantity: prod.quantity,
+          variant: prod.product.childAttributes[0].size || ""
+        }
+      );
+    });
+  }
+
+  return product;
+}
+
+export function proceedTocheckout(data: Basket, currency: Currency) {
+  if (data.lineItems) {
     const quantitys: any = [];
     const skusid: any = [];
     const productname: any = [];
@@ -129,7 +154,7 @@ export function productForBasketGa(data: Basket, currency: Currency) {
     const categoryname: any = [];
     const subcategoryname: any = [];
 
-    product = data.lineItems.map(prod => {
+    data.lineItems.map(prod => {
       const category = categoryForGa(prod.product.categories);
       const categorylist = category?.split("/");
       const realPrice = prod.product.childAttributes[0].discountedPriceRecords
@@ -156,6 +181,7 @@ export function productForBasketGa(data: Basket, currency: Currency) {
         }
       );
     });
+
     Moengage.track_event("Proceed to checkout", {
       "Product id": skusid,
       "Product name": productname,
@@ -169,8 +195,6 @@ export function productForBasketGa(data: Basket, currency: Currency) {
       "Sub Category Name": subcategoryname
     });
   }
-
-  return product;
 }
 
 export function removeFroala(timeout = 500) {
