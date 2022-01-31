@@ -163,8 +163,8 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
       quantitys.push(prod.quantity);
       skusid.push(prod.product.childAttributes[0].sku);
       productname.push(prod.product.title);
-      variantspdp.push();
-      collectionname.push(collectionname);
+      variantspdp.push(prod.product.childAttributes[0].size);
+      collectionname.push(prod.product.collection);
       priceschild.push(+realPrice);
       categoryname.push(categorylist[categorylist.length - 2]);
       subcategoryname.push(categorylist[categorylist.length - 1]);

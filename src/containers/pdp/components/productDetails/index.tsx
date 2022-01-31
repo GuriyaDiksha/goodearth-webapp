@@ -319,7 +319,8 @@ const ProductDetails: React.FC<Props> = ({
       Currency: currency,
       "Collection name": collection,
       "Category name": categoryname,
-      "Sub Category Name": subcategoryname
+      "Sub Category Name": subcategoryname,
+      Size: selectedSize?.size
     });
     dataLayer.push({
       event: "addToCart",
