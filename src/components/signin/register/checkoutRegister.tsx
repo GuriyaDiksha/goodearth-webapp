@@ -155,6 +155,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     this.props
       .register(formData, "checkout", this.props.sortBy)
       .then(data => {
+        Moengage.track_event("Registered", {
+          "First Name": firstName,
+          "Last Name": lastName,
+          Country: country,
+          State: state,
+          Gender: gender,
+          "Date of birth": moment(dateOfBirth).format("YYYY-MM-DD"),
+          "Contact Number": code + phone
+        });
         this.gtmPushRegister();
         // this.props.nextStep?.();
         this.setState({

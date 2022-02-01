@@ -89,7 +89,6 @@ class CollectionLanding extends React.Component<
       history,
       match: { params }
     } = this.props;
-    console.log(this.props);
     const { id } = params;
     const newId = this.props.data.level2Categories
       .filter(item => item.value == data)[0]

@@ -99,7 +99,8 @@ const ProductDetails: React.FC<Props> = ({
   closeModal,
   toggelHeader,
   source,
-  showAddToBagMobile
+  showAddToBagMobile,
+  loading
 }) => {
   const [productTitle, subtitle] = title.split("(");
   const {
@@ -300,13 +301,27 @@ const ProductDetails: React.FC<Props> = ({
   };
   const gtmPushAddToBag = () => {
     const index = categories.length - 1;
+    let categoryname = "";
+    let subcategoryname = "";
     let category = categories[index]
       ? categories[index].replace(/\s/g, "")
       : "";
+    const arr = category.split(">");
+    categoryname = arr[arr.length - 2];
+    subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
-    // Moengage.track_event("add_to_cart", {
-    //   categoryName: category
-    // });
+
+    Moengage.track_event("add_to_cart", {
+      "Product id": sku || childAttributes[0].sku,
+      "Product name": title,
+      quantity: quantity,
+      price: +price,
+      Currency: currency,
+      "Collection name": collection,
+      "Category name": categoryname,
+      "Sub Category Name": subcategoryname,
+      Size: selectedSize?.size
+    });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -518,18 +533,22 @@ const ProductDetails: React.FC<Props> = ({
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
-      action = apiTrigger ? () => null : onEnquireClick;
+      action = apiTrigger || loading ? () => null : onEnquireClick;
       // setSizeerror(false);
     } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
       buttonText = "Notify Me";
-      action = apiTrigger ? () => null : notifyMeClick;
+      action = apiTrigger || loading ? () => null : notifyMeClick;
       // setSizeerror(false);
     } else if (!selectedSize && childAttributes.length > 1) {
       buttonText = "Select Size";
-      action = apiTrigger ? () => null : sizeSelectClick;
+      action = apiTrigger || loading ? () => null : sizeSelectClick;
     } else {
       buttonText = addedToBag ? "Added!" : "Add to Bag";
-      action = addedToBag ? () => null : apiTrigger ? () => null : addToBasket;
+      action = addedToBag
+        ? () => null
+        : apiTrigger || loading
+        ? () => null
+        : addToBasket;
       // setSizeerror(false);
     }
 
@@ -541,7 +560,8 @@ const ProductDetails: React.FC<Props> = ({
     quantity,
     currency,
     discount,
-    apiTrigger
+    apiTrigger,
+    loading
   ]);
 
   // const yourElement:React.RefObject<HTMLDivElement> = createRef();
@@ -613,7 +633,7 @@ const ProductDetails: React.FC<Props> = ({
             { [styles.marginT0]: withBadge }
           )}
         >
-          {isLoading && <Loader />}
+          {(isLoading || loading) && <Loader />}
           <div className={cs(bootstrap.row)}>
             {images && images[0]?.badgeImagePdp && (
               <div className={bootstrap.col12}>

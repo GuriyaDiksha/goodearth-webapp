@@ -82,7 +82,7 @@
 @mixin txt-field-default {
   font-style: italic;
   font-size: 15px;
-  color: tint(#000, 40%);
+  color: $formLabel;
 }
 
 @mixin menu-cat-mobile {

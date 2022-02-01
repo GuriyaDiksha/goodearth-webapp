@@ -41,6 +41,10 @@ const MakerPage: React.FC = () => {
       PageURL: location.pathname,
       PageTitle: "virtual_homePage_view"
     });
+    Moengage.track_event("Page viewed", {
+      "Page URL": location.pathname,
+      "Page Name": "HomePageView"
+    });
   }, []);
 
   useEffect(() => {
