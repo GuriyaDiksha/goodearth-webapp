@@ -331,6 +331,9 @@ const AddressSection: React.FC<AddressProps & {
 
   const removeErrorMessages = () => {
     setGstPanError("");
+    setError("");
+    setPanError("");
+    setPanCheck("");
   };
 
   const showErrorMsg = () => {
@@ -376,13 +379,13 @@ const AddressSection: React.FC<AddressProps & {
       if ((gstType == "GSTIN" || amountPriceCheck) && !gstPanValidation()) {
         validate = false;
       }
+      if (!gstPanValidation()) {
+        validate = false;
+      }
     }
     if (validate) {
       removeErrorMessages();
       props.finalizeAddress(addr, props.activeStep, numberObj);
-      setError("");
-      setPanError("");
-      setPanCheck("");
       return validate;
     } else {
       showErrorMsg();
@@ -787,9 +790,13 @@ const AddressSection: React.FC<AddressProps & {
             )}
             {props.activeStep == Steps.STEP_SHIPPING && !isActive && (
               <div
-                className={cs(globalStyles.errorMsg, globalStyles.marginT20, {
-                  [styles.margin50]: !mobile
-                })}
+                className={cs(
+                  { [globalStyles.errorMsg]: errorNotification },
+                  globalStyles.marginT20,
+                  {
+                    [styles.margin50]: !mobile
+                  }
+                )}
               >
                 <span>{errorNotification}</span>
               </div>
