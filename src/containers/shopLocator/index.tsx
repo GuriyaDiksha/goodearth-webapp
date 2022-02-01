@@ -18,6 +18,7 @@ import locIcon from "../../images/location-icon.svg";
 import iconStyles from "../../styles/iconFonts.scss";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import * as util from "utils/validate";
+import debounce from "lodash/debounce";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -39,6 +40,7 @@ class ShopLocator extends React.Component<
     showmobileSort: boolean;
     menuList: any;
     city: string;
+    highlight: string;
   }
 > {
   constructor(props: Props) {
@@ -48,7 +50,8 @@ class ShopLocator extends React.Component<
       currentSection: this.props.shopname ? "details" : "shop",
       showmobileSort: false,
       menuList: [],
-      city: this.props.city
+      city: this.props.city,
+      highlight: this.props.history.location.hash == "#cafe" ? "cafe" : "shop"
     };
   }
 
@@ -60,6 +63,7 @@ class ShopLocator extends React.Component<
 
   componentDidMount() {
     util.pageViewGTM("ShopLocator");
+    window.addEventListener("scroll", debounce(this.handleScroll, 100));
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
@@ -135,6 +139,24 @@ class ShopLocator extends React.Component<
     }
   };
 
+  handleScroll = () => {
+    const elem = document.getElementById("cafe");
+    if (elem) {
+      if (elem.getBoundingClientRect().top <= 135) {
+        if (this.state.highlight == "shop") {
+          this.setState({
+            highlight: "cafe"
+          });
+        }
+      } else {
+        if (this.state.highlight == "cafe") {
+          this.setState({
+            highlight: "shop"
+          });
+        }
+      }
+    }
+  };
   backLink = () => {
     const {
       device: { mobile }
@@ -169,15 +191,28 @@ class ShopLocator extends React.Component<
             )}
           >
             <span className={styles.shopLink}>
-              <Link to="#shop" id="shopname">
+              <Link
+                to="#shop"
+                id="shopname"
+                className={cs({
+                  [globalStyles.cerise]: this.state.highlight == "shop"
+                })}
+              >
                 SHOP{" "}
               </Link>
             </span>{" "}
             &nbsp;
             {isCafe && (
               <span className={styles.cafeLink}>
-                <Link to="#cafe" id="cafename">
-                  | &nbsp; CAFE{" "}
+                | &nbsp;
+                <Link
+                  to="#cafe"
+                  id="cafename"
+                  className={cs({
+                    [globalStyles.cerise]: this.state.highlight == "cafe"
+                  })}
+                >
+                  CAFE{" "}
                 </Link>
               </span>
             )}
