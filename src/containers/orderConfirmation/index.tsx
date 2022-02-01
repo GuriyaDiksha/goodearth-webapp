@@ -15,7 +15,8 @@ import * as util from "utils/validate";
 
 const orderConfirmation: React.FC<{ oid: string }> = props => {
   const {
-    user: { email }
+    user: { email },
+    currency
   } = useSelector((state: AppState) => state);
   const [confirmData, setConfirmData] = useState<any>({});
   const dispatch = useDispatch();
@@ -36,7 +37,12 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       email: email,
       gaPush: true
     };
-
+    const categoryname: string[] = [];
+    const subcategoryname: string[] = [];
+    const productid: string[] = [];
+    const productname: string[] = [];
+    const productprice: string[] = [];
+    const productquantity: number[] = [];
     const products = result.lines.map((line: any) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
@@ -45,7 +51,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         line.product.categories && line.product.categories[index]
           ? line.product.categories[index].replace(/\s/g, "")
           : "";
+      const arr = category.split(">");
+      categoryname.push(arr[arr.length - 2]);
+      subcategoryname.push(arr[arr.length - 1]);
       category = category.replace(/>/g, "/");
+      productid.push(line.product.sku);
+      productname.push(line.title);
+      productprice.push(line.product.pricerecords[result.currency]);
+      productquantity.push(+line.quantity);
       return {
         name: line.title,
         id: line.product.sku,
@@ -75,12 +88,21 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           }
         }
       });
-      // Moengage.track_event("Order", {
-      //   products: products,
-      //   cartAmount: result.totalInclTax,
-      //   couponCodeApplied: result.offerDiscounts?.[0]?.name ? true : false,
-      //   couponCodeName: result.offerDiscounts?.[0]?.name
-      // });
+      Moengage.track_event("PurchasedOnline", {
+        "Category Name": categoryname,
+        "Sub category": subcategoryname,
+        "Product name": productname,
+        "Original price": productprice,
+        Quantity: productquantity,
+        "Cart Amount": +result.totalInclTax,
+        "Coupon Code Applied": result.voucherCodeAppliedAmount[0]
+          ? true
+          : false,
+        "Coupon Code Applied Name": result.voucherCodeAppliedName,
+        "Loyalty Points Redeemed": result.loyalityPointsRedeemed,
+        "Gift voucher redeemed": result.giftVoucherRedeemed,
+        Currency: currency
+      });
       AccountServices.setGaStatus(dispatch, formData);
     }
   };
@@ -97,6 +119,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       event: "OrderConfirmationPageView",
       PageURL: location.pathname,
       PageTitle: "virtual_orderConfirmationPage_view"
+    });
+    Moengage.track_event("Page viewed", {
+      "Page URL": location.pathname,
+      "Page Name": "OrderConfirmationPageView"
     });
   }, []);
 

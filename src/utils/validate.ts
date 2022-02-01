@@ -122,14 +122,15 @@ export function productForBasketGa(data: Basket, currency: Currency) {
   if (data.lineItems) {
     product = data.lineItems.map(prod => {
       const category = categoryForGa(prod.product.categories);
+      const realPrice = prod.product.childAttributes[0].discountedPriceRecords
+        ? prod.product.childAttributes[0].discountedPriceRecords[currency]
+        : prod.product.childAttributes[0].priceRecords[currency];
       return Object.assign(
         {},
         {
           name: prod.product.title,
           id: prod.product.childAttributes[0].sku,
-          price: prod.product.childAttributes[0].discountedPriceRecords
-            ? prod.product.childAttributes[0].discountedPriceRecords[currency]
-            : prod.product.childAttributes[0].priceRecords[currency],
+          price: realPrice,
           brand: "Goodearth",
           category: category,
           quantity: prod.quantity,
@@ -140,6 +141,60 @@ export function productForBasketGa(data: Basket, currency: Currency) {
   }
 
   return product;
+}
+
+export function proceedTocheckout(data: Basket, currency: Currency) {
+  if (data.lineItems) {
+    const quantitys: any = [];
+    const skusid: any = [];
+    const productname: any = [];
+    const priceschild: any = [];
+    const variantspdp: any = [];
+    const collectionname: any = [];
+    const categoryname: any = [];
+    const subcategoryname: any = [];
+
+    data.lineItems.map(prod => {
+      const category = categoryForGa(prod.product.categories);
+      const categorylist = category?.split("/");
+      const realPrice = prod.product.childAttributes[0].discountedPriceRecords
+        ? prod.product.childAttributes[0].discountedPriceRecords[currency]
+        : prod.product.childAttributes[0].priceRecords[currency];
+      quantitys.push(prod.quantity);
+      skusid.push(prod.product.childAttributes[0].sku);
+      productname.push(prod.product.title);
+      variantspdp.push(prod.product.childAttributes[0].size);
+      collectionname.push(prod.product.collection);
+      priceschild.push(+realPrice);
+      categoryname.push(categorylist[categorylist.length - 2]);
+      subcategoryname.push(categorylist[categorylist.length - 1]);
+      return Object.assign(
+        {},
+        {
+          name: prod.product.title,
+          id: prod.product.childAttributes[0].sku,
+          price: realPrice,
+          brand: "Goodearth",
+          category: category,
+          quantity: prod.quantity,
+          variant: prod.product.childAttributes[0].size || ""
+        }
+      );
+    });
+
+    Moengage.track_event("Proceed to checkout", {
+      "Product id": skusid,
+      "Product name": productname,
+      Quantity: quantitys,
+      price: priceschild,
+      Currency: currency,
+      Size: variantspdp,
+      // "Percentage discount",
+      // "Collection name": data.collection,
+      "Category name": categoryname,
+      "Sub Category Name": subcategoryname
+    });
+  }
 }
 
 export function removeFroala(timeout = 500) {
@@ -212,6 +267,7 @@ export function productImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
+    let categoryName = "";
     data.results.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -219,6 +275,7 @@ export function productImpression(
         category = prod.categories[index]
           ? prod.categories[index].replace(/\s/g, "")
           : "";
+        categoryName = category.split(">")[0];
         category = category.replace(/>/g, "/");
       }
       let skus = "";
@@ -259,8 +316,11 @@ export function productImpression(
         impressions: product
       }
     });
+    Moengage.track_event("PLP views", {
+      "Category Name": categoryName.trim()
+    });
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     console.log("Impression error");
   }
 }
@@ -394,21 +454,40 @@ export function promotionImpression(data: any) {
 export function PDP(data: any, currency: Currency) {
   try {
     const products: any = [];
-    const pdpProduct = [];
     if (!data) return false;
     if (data.length < 1) return false;
     let category = "";
+    let categoryname = "";
+    let subcategoryname = "";
+
     if (data.categories) {
       const index = data.categories.length - 1;
       category = data.categories[index]
         ? data.categories[index].replace(/\s/g, "")
         : "";
+      const arr = category.split(">");
+      categoryname = arr[arr.length - 2];
+      subcategoryname = arr[arr.length - 1];
       category = category.replace(/>/g, "/");
     }
     let skus = "";
     let variants = "";
     let prices = "";
+
+    const skusid: any = [];
+    const variantspdp: any = [];
+    const priceschild: any = [];
+    const discountPrice: any = [];
+    const quantitys: any = [];
+    const colors: any = [];
+
     data.childAttributes.map((child: any) => {
+      skusid.push(child.sku);
+      variantspdp.push(child.size);
+      priceschild.push(+child.priceRecords[currency]);
+      discountPrice.push(+child.discountedPriceRecords[currency]);
+      quantitys.push(child.stock);
+      colors.push(child.color?.split("-")?.[1]);
       skus += "," + child.sku;
       variants += "," + child.size;
       prices +=
@@ -434,26 +513,22 @@ export function PDP(data: any, currency: Currency) {
       }
     );
     products.push(childProduct);
-    pdpProduct.push(
-      data.childAttributes.map((child: any) => {
-        return Object.assign(
-          {},
-          {
-            productname: data.title,
-            productid: child.sku,
-            categoryname: category,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords
-              ? child.priceRecords[currency]
-              : data.priceRecords[currency]
-          }
-        );
-      })
-    );
-    // Moengage.track_event("PdpView", {
-    //   products: pdpProduct
-    // });
+
+    Moengage.track_event("PDP View", {
+      "Product id": skusid,
+      "Product name": data.title,
+      Quantity: quantitys,
+      price: priceschild,
+      Currency: currency,
+      Color: colors,
+      Size: variantspdp,
+      "Original price": priceschild,
+      "Discounted price": discountPrice,
+      // "Percentage discount",
+      "Collection name": data.collection,
+      "Category name": categoryname,
+      "Sub Category Name": subcategoryname
+    });
     const listPath = CookieService.getCookie("listPath") || "DirectLandingView";
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
@@ -483,6 +558,7 @@ export function collectionProductImpression(
     if (!data) return false;
     if (data.length < 1) return false;
     const listPath = `${list}`;
+
     data.results.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -955,19 +1031,45 @@ export const megaMenuNavigationGTM = ({
   isLoggedIn: boolean;
 }) => {
   try {
-    // if (l3) {
-    //   Moengage.track_event("L1Clicked", {
-    //     categoryName: l3
-    //   });
-    // } else if (l2) {
-    //   Moengage.track_event("L2Clicked", {
-    //     categoryName: l2
-    //   });
-    // } else if (l1) {
-    //   Moengage.track_event("L1Clicked", {
-    //     categoryName: l1
-    //   });
-    // }
+    if (l3) {
+      Moengage.track_event("L1Clicked", {
+        "Category Name": l3
+      });
+    } else if (l2) {
+      Moengage.track_event("L2Clicked", {
+        "Category Name": l2
+      });
+    } else if (l1 && !template) {
+      Moengage.track_event("L1Clicked", {
+        "Category Name": l1
+      });
+    }
+
+    if (template) {
+      let eventName = "";
+      switch (template) {
+        case "CONTENT":
+          eventName = "Content template";
+          break;
+        case "TITLEHEADING":
+          eventName = "Title Heading template";
+          break;
+        case "L2L3":
+          eventName = "L2L3 Template";
+          break;
+        case "IMAGE":
+          eventName = "Image Template";
+          break;
+        case "VERTICALIMAGE":
+          eventName = "Vertical image Template";
+          break;
+        default:
+          eventName = "";
+      }
+      Moengage.track_event(eventName, {
+        "Category Name": l1
+      });
+    }
 
     dataLayer.push({
       event: "Menu Navigation",

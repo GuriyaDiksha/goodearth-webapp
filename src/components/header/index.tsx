@@ -483,20 +483,19 @@ class Header extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-      {
-        label: "Good Earth Registry",
-        href: isLoggedIn ? "/account/bridal" : "",
-        onClick: isLoggedIn
-          ? () => null
-          : () => this.props.goLogin(undefined, "/account/bridal"),
-        type: isLoggedIn ? "link" : "button",
-        value: "Good Earth Registry"
-      },
+
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
+      },
+
+      {
+        label: "Check gift card Balance",
+        href: "/account/check-balance",
+        type: "link",
+        value: "Check Balance"
       },
       {
         label: "Cerise Program",
@@ -505,10 +504,13 @@ class Header extends React.Component<Props, State> {
         value: "Cerise Program"
       },
       {
-        label: "Check Balance",
-        href: "/account/check-balance",
-        type: "link",
-        value: "Check Balance"
+        label: "Good Earth Registry",
+        href: isLoggedIn ? "/account/bridal" : "",
+        onClick: isLoggedIn
+          ? () => null
+          : () => this.props.goLogin(undefined, "/account/bridal"),
+        type: isLoggedIn ? "link" : "button",
+        value: "Good Earth Registry"
       },
       {
         label: isLoggedIn ? "Logout" : "Login",

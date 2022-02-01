@@ -1,5 +1,10 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  withRouter,
+  RouteComponentProps
+} from "react-router-dom";
 import {
   MobileListProps,
   MobileState,
@@ -31,7 +36,9 @@ const mapStateToProps = (state: AppState) => {
     isLoggedIn: state.user.isLoggedIn
   };
 };
-type Props = MobileListProps & ReturnType<typeof mapStateToProps>;
+type Props = MobileListProps &
+  ReturnType<typeof mapStateToProps> &
+  RouteComponentProps;
 
 class Mobilemenu extends React.Component<Props, MobileState> {
   constructor(props: Props) {
@@ -266,6 +273,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     const isStories = innerMenuData.text.toLowerCase() == "stories";
     const isEmpty = innerMenuData.l2MenuData.length == 0;
     const templates = innerMenuData.templates || [];
+    const currentUrl =
+      this.props.location.pathname + this.props.location.search;
     isStories || isEmpty
       ? ""
       : html.push(
@@ -338,7 +347,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   clickUrl1: innerMenuData.url
                 });
               }}
-              className={styles.menulevel2Link}
+              className={cs(styles.menulevel2Link, {
+                [styles.highlight]: currentUrl == data.link
+              })}
             >
               <span>{ReactHtmlParser(data.text)}</span>
             </Link>
@@ -372,6 +383,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           >
                             <Link
                               to={data.viewAllLink || ""}
+                              className={cs({
+                                [styles.highlight]:
+                                  currentUrl == data.viewAllLink
+                              })}
                               onClick={() => {
                                 this.props.onMobileMenuClick({
                                   l1: innerMenuData.text,
@@ -391,6 +406,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           >
                             <Link
                               to={data.link || ""}
+                              className={cs({
+                                [styles.highlight]: currentUrl == data.link
+                              })}
                               onClick={() => {
                                 this.props.onMobileMenuClick({
                                   l1: innerMenuData.text,
@@ -408,6 +426,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       <li onClick={this.props.clickToggle} key={"firstchild"}>
                         <Link
                           to={data.link}
+                          className={cs({
+                            [styles.highlight]: currentUrl == data.link
+                          })}
                           onClick={() => {
                             this.props.onMobileMenuClick({
                               l1: innerMenuData.text,
@@ -439,11 +460,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                               clickUrl3: innerdata.link
                             });
                           }}
-                          className={
+                          className={cs(
                             innerdata.text.toLowerCase().indexOf("sale") > -1
                               ? styles.menucolor
-                              : ""
-                          }
+                              : "",
+                            { [styles.highlight]: currentUrl == innerdata.link }
+                          )}
                         >
                           {ReactHtmlParser(innerdata.text.toLowerCase())}
                         </Link>
@@ -1057,4 +1079,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
   }
 }
-export default React.memo(connect(mapStateToProps)(Mobilemenu));
+
+const MobilemenuRouter = withRouter(Mobilemenu);
+export default React.memo(connect(mapStateToProps)(MobilemenuRouter));

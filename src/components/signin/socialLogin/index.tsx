@@ -78,6 +78,10 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
       console.log("Cant Login due not avalable number!!!!!!");
     }
   };
+
+  const responseGoogleFail = (err: any) => {
+    console.log(err);
+  };
   return (
     <>
       <div className={cs(styles.socialLoginText, globalStyles.voffset5)}>
@@ -111,6 +115,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           )}
           autoLoad={false}
           onSuccess={responseGoogle}
+          onFailure={responseGoogleFail}
           // cookiePolicy={"single_host_origin"}
         />
       </div>
