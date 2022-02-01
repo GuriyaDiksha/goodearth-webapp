@@ -36,6 +36,7 @@ const WishlistButton: React.FC<Props> = ({
   iconClassName,
   mobile,
   basketLineId,
+
   source,
   // inWishlist,
   onMoveToWishlist
@@ -56,13 +57,25 @@ const WishlistButton: React.FC<Props> = ({
     try {
       if (gtmListType) {
         const index = categories ? categories.length - 1 : 0;
-        let category =
+        let category: any =
           categories &&
           categories.length > 0 &&
           categories[index].replace(/\s/g, "");
         category = category && category.replace(/>/g, "/");
         const listPath = `${gtmListType}`;
         const child = childAttributes as ChildProductAttributes[];
+        console.log(category, id, title, priceRecords);
+        Moengage.track_event("add_to_wishlist", {
+          "Product id": id,
+          "Product name": title,
+          quantity: 1,
+          price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+          Currency: currency,
+          // "Collection name": collection,
+          "Category name": category?.split("/")[0],
+          "Sub Category Name": category?.split("/")[1] || ""
+        });
+
         dataLayer.push({
           event: "AddtoWishlist",
           ecommerce: {

@@ -78,6 +78,9 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
       });
     }
     ProductService.fetchEnquireData(dispatch, partner || "").then(data => {
+      if (data.preferredContact == null) {
+        data.preferredContact = ["Phone", "Email"];
+      }
       setPopupfield(data);
     });
   }, []);
