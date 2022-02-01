@@ -837,7 +837,7 @@ class FilterList extends React.Component<Props, State> {
     //code for checked view all true
     const { filter } = this.state;
     filter.categoryShop = {};
-    if (event.target.id.indexOf("all") > -1) {
+    if (event.target.id == "all") {
       // do nothing
     } else {
       filter.categoryShop[event.target.id] = true;

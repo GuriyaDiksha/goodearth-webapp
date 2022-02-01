@@ -20,4 +20,5 @@ export type Props = {
   source?: string;
   showAddToBagMobile?: boolean;
   toggelHeader?: (value: boolean) => void;
+  loading: boolean;
 };
