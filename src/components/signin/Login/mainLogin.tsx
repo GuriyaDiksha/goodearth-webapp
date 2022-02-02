@@ -249,6 +249,7 @@ class MainLogin extends React.Component<Props, loginState> {
           Moengage.track_event("Login", {
             email: this.state.email
           });
+          Moengage.add_unique_user_id(this.state.email);
           const loginpopup = new URLSearchParams(
             this.props.history.location.search
           ).get("loginpopup");
