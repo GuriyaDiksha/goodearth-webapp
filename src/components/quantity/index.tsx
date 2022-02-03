@@ -8,6 +8,7 @@ class Quantity extends React.Component<QuantityItem, State> {
     super(props);
     this.state = {
       showError: false,
+      disableButton: false,
       errorMsg: `Only ${props.currentValue} piece${
         props.currentValue > 1 ? "s" : ""
       } available in stock`
@@ -24,15 +25,19 @@ class Quantity extends React.Component<QuantityItem, State> {
 
   // for updating quantity of line item
   onUpdate = (value: number) => {
+    this.setState({
+      disableButton: true
+    });
     this.props.onUpdate &&
       this.props
         .onUpdate(value)
         .then(() => {
-          this.setState({ showError: false });
+          this.setState({ showError: false, disableButton: false });
         })
         .catch(err => {
           this.setState({
             showError: true,
+            disableButton: false,
             errorMsg: `Only ${this.props.currentValue} piece${
               this.props.currentValue > 1 ? "s" : ""
             } available in stock`
@@ -52,7 +57,7 @@ class Quantity extends React.Component<QuantityItem, State> {
         <span
           className={cs(styles.minusQuantity, styles.quantity, props.class)}
           onClick={(): void => {
-            if (disabled) {
+            if (disabled || this.state.disableButton) {
               return;
             }
             if (value > props.minValue) {
@@ -81,7 +86,7 @@ class Quantity extends React.Component<QuantityItem, State> {
         <span
           className={cs(styles.plusQuantity, styles.quantity, props.class)}
           onClick={(): void => {
-            if (disabled) {
+            if (disabled || this.state.disableButton) {
               return;
             }
             if (value < props.maxValue) {
