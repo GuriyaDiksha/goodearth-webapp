@@ -14,7 +14,10 @@ export type PopupData = {
   session?: boolean;
   template?: string;
   image: string;
+  imageMobile: string;
   bgImage: string;
+  bgImageMobile: string;
+  bgColor: string;
   ctaLink2?: string;
   ctaLabel2?: string;
   ctaColor2?: string;
