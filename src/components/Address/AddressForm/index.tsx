@@ -591,6 +591,7 @@ const AddressForm: React.FC<Props> = props => {
               name="city"
               label="City"
               placeholder="City"
+              maxlength={30}
               handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
