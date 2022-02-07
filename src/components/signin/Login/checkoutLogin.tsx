@@ -246,6 +246,7 @@ class CheckoutLoginForm extends React.Component<Props, loginState> {
           Moengage.track_event("Login", {
             email: this.state.email
           });
+          Moengage.add_unique_user_id(this.state.email);
           this.gtmPushSignIn();
           // this.context.closeModal();
           // this.props.nextStep?.();
