@@ -27,14 +27,14 @@ const EmailVerification: React.FC<Props> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [enableBtn, setEnableBtn] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(30);
+  const [timeRemaining, setTimeRemaining] = useState(60);
   const [showCustCare, setShowCustCare] = useState(false);
   const [timerId, setTimerId] = useState<any>();
   const [otpValue, setOtpValue] = useState("");
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const dispatch = useDispatch();
   const timer = () => {
-    setTimeRemaining(30);
+    setTimeRemaining(60);
     setEnableBtn(false);
     const id = setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
@@ -85,6 +85,8 @@ const EmailVerification: React.FC<Props> = ({
             Please re-login
           </span>
         ]);
+      } else if (err.response.data.expired) {
+        setError("OTP Expired");
       } else {
         setError("Invalid OTP");
       }
