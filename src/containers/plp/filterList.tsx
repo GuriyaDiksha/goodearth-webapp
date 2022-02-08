@@ -1385,6 +1385,14 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
+    if (key == "price" || key == "all") {
+      this.setState({
+        rangevalue: [
+          this.state.initialrangevalue.min,
+          this.state.initialrangevalue.max
+        ]
+      });
+    }
     if (event) {
       event.stopPropagation();
     }
