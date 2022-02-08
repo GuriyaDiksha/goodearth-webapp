@@ -42,6 +42,8 @@ import iconFonts from "../../styles/iconFonts.scss";
 import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
 import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 import CookieService from "services/cookie";
+// import PdpSkeleton from "./components/pdpSkeleton"
+import Skeleton from "react-loading-skeleton";
 
 const VerticalImageSelector = loadable(() =>
   import("components/VerticalImageSelector")
@@ -100,6 +102,7 @@ class PDPContainer extends React.Component<Props, State> {
         : false,
     showAddToBagMobile: true,
     showSecondary: true,
+    loaded: false,
     goToIndex: {
       index: -1,
       value: ""
@@ -205,6 +208,13 @@ class PDPContainer extends React.Component<Props, State> {
         }, 100);
       }
     );
+    window.setTimeout(() => {
+      if (this.state.loaded == false) {
+        this.setState({
+          loaded: true
+        });
+      }
+    }, 1000);
     this.fetchMoreProductsFromCollection(this.props.id);
   }
 
@@ -449,31 +459,44 @@ class PDPContainer extends React.Component<Props, State> {
 
   getProductImages() {
     const productImages = this.getProductImagesData();
+    if (productImages.length > 0) {
+      return productImages?.map((image, index) => {
+        const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
+          const ele = event.currentTarget;
+          const { naturalHeight, naturalWidth } = ele;
+          const height = (ele.width * naturalHeight) / naturalWidth;
+          this.imageOffsets[index] = height;
+        };
 
-    return productImages?.map((image, index) => {
-      const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
-        const ele = event.currentTarget;
-        const { naturalHeight, naturalWidth } = ele;
-        const height = (ele.width * naturalHeight) / naturalWidth;
-        this.imageOffsets[index] = height;
-      };
-      // console.log(image)
-      return (
-        <div
-          className={styles.productImageContainer}
-          key={image.id}
-          id={`img-${image.id}`}
-        >
-          <PdpImage
-            alt={this.props.data.altText || this.props.data.title}
-            {...image}
-            index={index}
-            onClick={this.onImageClick}
-            onLoad={onImageLoad}
-          />
-        </div>
-      );
-    });
+        return (
+          <div
+            className={styles.productImageContainer}
+            key={image.id}
+            id={`img-${image.id}`}
+          >
+            <PdpImage
+              alt={this.props.data.altText || this.props.data.title}
+              {...image}
+              index={index}
+              onClick={this.onImageClick}
+              onLoad={onImageLoad}
+            />
+          </div>
+        );
+      });
+    } else {
+      return [1, 2, 3].map((image, index) => {
+        return (
+          <div
+            className={styles.productImageContainer}
+            key={image}
+            id={`img-${image}`}
+          >
+            <Skeleton duration={1} height={540} />
+          </div>
+        );
+      });
+    }
   }
 
   getProductDetails = () => {
@@ -952,55 +975,68 @@ class PDPContainer extends React.Component<Props, State> {
       }
       return data.code != "";
     });
-    const mobileSlides =
-      (mobile || tablet) &&
-      images?.map(({ id, productImage, icon, code }, i: number) => {
-        return (
-          <div key={id} className={globalStyles.relative}>
-            <LazyImage
-              alt={data.altText || data.title}
-              aspectRatio="62:93"
-              src={productImage.replace("/Micro/", "/Medium/")}
-              className={globalStyles.imgResponsive}
-              onClick={this.getMobileZoomListener(i)}
-            />
-            {iconIndex > -1 ? (
-              icon ? (
-                <div className={styles.mobile3d}>
-                  <img
-                    src={mobile3d}
-                    onClick={(e: any) => this.onClickMobile3d(e, code)}
-                  ></img>
+    let mobileSlides: any[] = [];
+    if (mobile || tablet) {
+      if (images.length > 0) {
+        mobileSlides = images?.map(
+          ({ id, productImage, icon, code }, i: number) => {
+            return (
+              <div key={id} className={globalStyles.relative}>
+                <LazyImage
+                  alt={data.altText || data.title}
+                  aspectRatio="62:93"
+                  src={productImage.replace("/Micro/", "/Medium/")}
+                  className={globalStyles.imgResponsive}
+                  onClick={this.getMobileZoomListener(i)}
+                />
+                {iconIndex > -1 ? (
+                  icon ? (
+                    <div className={styles.mobile3d}>
+                      <img
+                        src={mobile3d}
+                        onClick={(e: any) => this.onClickMobile3d(e, code)}
+                      ></img>
+                    </div>
+                  ) : (
+                    <img
+                      src={overlay}
+                      className={cs({
+                        [styles.mobileHelloicon]: mobile,
+                        [styles.tabHelloicon]: tablet
+                      })}
+                      onClick={() => {
+                        this.setState({
+                          goToIndex: {
+                            index: Math.random(),
+                            value: iconIndex
+                          }
+                        });
+                      }}
+                    ></img>
+                  )
+                ) : (
+                  ""
+                )}
+                <div
+                  className={styles.mobileZoomIcon}
+                  onClick={this.getMobileZoomListener(i)}
+                >
+                  <img src={zoom}></img>
                 </div>
-              ) : (
-                <img
-                  src={overlay}
-                  className={cs({
-                    [styles.mobileHelloicon]: mobile,
-                    [styles.tabHelloicon]: tablet
-                  })}
-                  onClick={() => {
-                    this.setState({
-                      goToIndex: {
-                        index: Math.random(),
-                        value: iconIndex
-                      }
-                    });
-                  }}
-                ></img>
-              )
-            ) : (
-              ""
-            )}
-            <div
-              className={styles.mobileZoomIcon}
-              onClick={this.getMobileZoomListener(i)}
-            >
-              <img src={zoom}></img>
-            </div>
-          </div>
+              </div>
+            );
+          }
         );
-      });
+      } else {
+        mobileSlides = [1].map((id, i: number) => {
+          return (
+            <div key={id} className={globalStyles.relative}>
+              <Skeleton duration={1} height={560} />
+            </div>
+          );
+        });
+      }
+    }
 
     const {
       activeImage,
