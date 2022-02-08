@@ -1040,7 +1040,8 @@ class PDPContainer extends React.Component<Props, State> {
               key={this.props.id?.toString()}
               className={cs(
                 bootstrap.col12,
-                globalStyles.mobileSliderContainer
+                globalStyles.mobileSliderContainer,
+                { [styles.tabletSliderContainer]: tablet }
               )}
             >
               <MobileSlider val={this.state.goToIndex}>
