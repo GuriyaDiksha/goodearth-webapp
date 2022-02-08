@@ -299,6 +299,15 @@ class Header extends React.Component<Props, State> {
     );
   };
 
+  gtmPushWishlistClick = () => {
+    dataLayer.push({
+      event: "eventsToSend",
+      eventAction: "wishListClick",
+      eventCategory: "Click",
+      eventLabel: this.props.location.pathname
+    });
+  };
+
   onMenuClick = ({
     l1,
     l2,
@@ -805,24 +814,58 @@ class Header extends React.Component<Props, State> {
                       </div>
                     </li>
                     {this.state.showCartMobile && (
-                      <li className={cs(styles.mobileSearch, bootstrap.col)}>
-                        <div
-                          onClick={() => {
-                            this.setShowBag(true);
-                            this.onSideMenuClick("Cart");
-                          }}
-                        >
-                          <i
-                            className={cs(
-                              iconStyles.icon,
-                              iconStyles.iconCart,
-                              styles.iconStyle,
-                              styles.iconDefaultColor
-                            )}
-                          ></i>
-                          <span className={styles.badge}>{bagCount}</span>
-                        </div>
-                      </li>
+                      <>
+                        {tablet && (
+                          <li
+                            className={cs(styles.mobileSearch, bootstrap.col)}
+                          >
+                            <div
+                              className={cs(
+                                styles.iconStyle,
+                                styles.innerWishContainer
+                              )}
+                            >
+                              <Link
+                                to={isBridalRegistryPage ? "#" : "/wishlist"}
+                                onClick={() => {
+                                  this.gtmPushWishlistClick();
+                                  this.onSideMenuClick("Wishlist");
+                                  this.hideSearch();
+                                }}
+                              >
+                                <i
+                                  className={cs(
+                                    iconStyles.icon,
+                                    iconStyles.iconWishlist,
+                                    styles.iconStyle
+                                  )}
+                                ></i>
+                                <span className={styles.badge}>
+                                  {wishlistCount > 0 ? wishlistCount : ""}
+                                </span>
+                              </Link>
+                            </div>
+                          </li>
+                        )}
+                        <li className={cs(styles.mobileSearch, bootstrap.col)}>
+                          <div
+                            onClick={() => {
+                              this.setShowBag(true);
+                              this.onSideMenuClick("Cart");
+                            }}
+                          >
+                            <i
+                              className={cs(
+                                iconStyles.icon,
+                                iconStyles.iconCart,
+                                styles.iconStyle,
+                                styles.iconDefaultColor
+                              )}
+                            ></i>
+                            <span className={styles.badge}>{bagCount}</span>
+                          </div>
+                        </li>
+                      </>
                     )}
                   </ul>
                 )}
