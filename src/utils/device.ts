@@ -4,7 +4,9 @@ export const getDevice = (userAgent: string) => {
       userAgent.toLowerCase()
     ) || (typeof window != "undefined" ? window.innerWidth < 992 : false);
   const tablet =
-    userAgent.match(/iPad|android|tablet|kindle|playbook|silk/i) !== null;
+    userAgent.match(/iPad|tablet|kindle|playbook|silk/i) !== null ||
+    (userAgent.match(/android/i) !== null &&
+      userAgent.match(/Mobile/i) == null);
 
   const orientation: "landscape" | "portrait" = "portrait";
   return {
