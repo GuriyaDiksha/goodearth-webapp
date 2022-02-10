@@ -16,7 +16,6 @@ import FormCheckbox from "components/Formsy/FormCheckbox";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import mapDispatchToProps from "./mapper/actions";
-import SignedIn from "../SignedIn";
 import { genderOptions } from "constants/profile";
 import * as valid from "utils/validate";
 import { AppState } from "reducers/typings";
@@ -337,7 +336,6 @@ class MyProfile extends React.Component<Props, State> {
   };
 
   render() {
-    const { loginVia } = this.state;
     const { countryOptions } = this.state;
     const isExistyError = "This field is required";
     const {
@@ -609,7 +607,7 @@ class MyProfile extends React.Component<Props, State> {
             </div>
           </Formsy>
         </div>
-        <SignedIn loginVia={loginVia} />
+        {/* <SignedIn loginVia={loginVia} /> */}
       </div>
     );
     return (
