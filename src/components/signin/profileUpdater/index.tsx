@@ -8,7 +8,6 @@ import styles from "../styles.scss";
 import globalStyles from "styles/global.scss";
 import Popup from "../popup/Popup";
 import FormContainer from "../formContainer";
-import SignedIn from "../../../containers/myAccount/components/SignedIn";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import { ProfileResponse } from "containers/myAccount/components/MyProfile/typings";
@@ -321,7 +320,6 @@ class ProfileUpdater extends React.Component<Props, State> {
   };
 
   render() {
-    const { loginVia } = this.state;
     const {
       firstName,
       lastName,
@@ -489,7 +487,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               value={this.state.updateProfile ? "Update Details" : "Updated"}
             />
           </div>
-          <SignedIn loginVia={loginVia} />
+          {/* <SignedIn loginVia={loginVia} /> */}
         </div>
       </Formsy>
     );

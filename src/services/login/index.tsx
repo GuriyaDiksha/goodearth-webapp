@@ -346,6 +346,7 @@ export default {
       MetaService.updateMeta(dispatch, {}).catch(err => {
         console.log(err);
       });
+      Moengage.destroy_session();
       WishlistService.resetWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);

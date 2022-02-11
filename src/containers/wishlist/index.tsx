@@ -283,6 +283,7 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    window.addEventListener("resize", debounce(this.updateStyle, 100));
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1000);
@@ -298,6 +299,10 @@ class Wishlist extends React.Component<Props, State> {
         console.log(error);
       });
     util.pageViewGTM("Wishlist");
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", debounce(this.updateStyle, 100));
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -514,6 +519,19 @@ class Wishlist extends React.Component<Props, State> {
     );
   }
 
+  updateStyle = () => {
+    const elem = document.getElementsByClassName(
+      "absoluteGrid"
+    )?.[0] as HTMLElement;
+    if (elem) {
+      if (window.innerWidth <= 377) {
+        elem.style.display = "flex";
+        elem.style.justifyContent = "center";
+      } else {
+        elem.style.display = "block";
+      }
+    }
+  };
   myrender = (data: WishListGridItem[]) => {
     if (data.length > 0) {
       if (this.props.mobile) {
@@ -529,7 +547,8 @@ class Wishlist extends React.Component<Props, State> {
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />,
-          document.getElementById("wishlist")
+          document.getElementById("wishlist"),
+          this.updateStyle
         );
       } else {
         ReactDOM.render(
@@ -544,7 +563,8 @@ class Wishlist extends React.Component<Props, State> {
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />,
-          document.getElementById("wishlist")
+          document.getElementById("wishlist"),
+          this.updateStyle
         );
       }
     } else {

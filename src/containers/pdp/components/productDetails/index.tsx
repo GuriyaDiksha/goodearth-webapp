@@ -284,7 +284,7 @@ const ProductDetails: React.FC<Props> = ({
     ];
     if (manufactureInfo) {
       sections.push({
-        header: "Manufacturing Info",
+        header: "More Information",
         body: <div>{ReactHtmlParser(manufactureInfo)}</div>,
         id: "manufactureInfo"
       });
