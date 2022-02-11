@@ -88,9 +88,9 @@ const Delivery: React.FC<PopupProps> = props => {
             <div className={cs(globalStyles.voffset3, styles.freeInstruction)}>
               {" "}
               Your instructions help us provide you with a seamless online
-              shopping experience. Kindly note, our deliver teams reserve the
+              shopping experience. Kindly note, our delivery teams reserve the
               right to refuse certain instructions under special circumstances.
-              <a
+              {/* <a
                 href={"/customer-assistance/terms-conditions "}
                 className={styles.terms}
                 target="_blank"
@@ -99,7 +99,7 @@ const Delivery: React.FC<PopupProps> = props => {
                 {" "}
                 Read T&C{" "}
               </a>
-              to know more.
+              to know more. */}
             </div>
           </div>
         </div>
