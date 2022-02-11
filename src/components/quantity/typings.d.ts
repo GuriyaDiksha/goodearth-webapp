@@ -18,4 +18,5 @@ export type QuantityItem = {
 export interface State {
   showError: boolean;
   errorMsg: string;
+  disableButton: boolean;
 }
