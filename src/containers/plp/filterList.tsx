@@ -606,6 +606,7 @@ class FilterList extends React.Component<Props, State> {
       if (filter.sortBy && filter.sortBy["sortBy"] == "discount") {
         filter.sortBy = {};
       }
+      filter.price = {};
       this.setState(
         {
           filter
@@ -1925,7 +1926,7 @@ class FilterList extends React.Component<Props, State> {
                   max={this.state.initialrangevalue.max}
                   onAfterChange={this.afterChangeValue}
                   onChange={this.onchangeRange}
-                  step="100"
+                  step={this.props.currency == "INR" ? "100" : "10"}
                 />
               ) : (
                 ""
