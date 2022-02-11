@@ -11,6 +11,7 @@ import { Props } from "./typings";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import overlay from "images/3d/3Doverlay.svg";
+import Skeleton from "react-loading-skeleton";
 
 const VerticalImageSelector: React.FC<Props> = memo(
   ({ images = [], activeIndex = 0, className, onImageClick, alt }) => {
@@ -50,7 +51,24 @@ const VerticalImageSelector: React.FC<Props> = memo(
       }
     );
 
-    return <div className={cs(styles.container, className)}>{imageNodes}</div>;
+    const tempNode: ReactNode[] = [1, 2, 3].map((id, index) => {
+      return (
+        <div
+          key={id}
+          className={cs(styles.imageContainer, {
+            [styles.active]: currentIndex == index
+          })}
+        >
+          <Skeleton duration={1} height={160} />
+        </div>
+      );
+    });
+
+    return (
+      <div className={cs(styles.container, className)}>
+        {images.length > 0 ? imageNodes : tempNode}
+      </div>
+    );
   }
 );
 
