@@ -22,4 +22,5 @@ export type Props = {
   onMoveToWishlist?: () => void;
   source?: string;
   inWishlist?: boolean;
+  parentWidth?: boolean;
 };
