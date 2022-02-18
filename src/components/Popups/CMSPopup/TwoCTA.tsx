@@ -20,6 +20,8 @@ const TwoCTA: React.FC<Props> = ({
   ctaColor,
   ctaLink,
   bgImage,
+  bgImageMobile,
+  bgColor,
   ctaLink2,
   ctaLabel2,
   ctaColor2,
@@ -27,15 +29,19 @@ const TwoCTA: React.FC<Props> = ({
   close
 }) => {
   const { mobile, tablet } = useSelector((state: AppState) => state.device);
+  let bgStyle: React.CSSProperties = bgImage
+    ? {
+        backgroundImage: `url(${mobile ? bgImageMobile || bgImage : bgImage})`,
+        backgroundSize: "cover"
+      }
+    : {};
+
+  if (bgColor) {
+    bgStyle = { ...bgStyle, backgroundColor: bgColor };
+  }
   return (
     <>
-      <div
-        style={
-          bgImage
-            ? { backgroundImage: `url(${bgImage})`, backgroundSize: "cover" }
-            : {}
-        }
-      >
+      <div style={bgStyle}>
         <div
           className={cs(styles.cross, styles.leftImageCross)}
           onClick={() => close()}
