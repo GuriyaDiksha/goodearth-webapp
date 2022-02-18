@@ -22,11 +22,24 @@ const LeftImage: React.FC<Props> = ({
   ctaColor,
   ctaLink,
   image,
+  imageMobile,
   bgImage,
+  bgImageMobile,
+  bgColor,
   disclaimer,
   close
 }) => {
   const { mobile, tablet } = useSelector((state: AppState) => state.device);
+  let bgStyle: React.CSSProperties = bgImage
+    ? {
+        backgroundImage: `url(${mobile ? bgImageMobile || bgImage : bgImage})`,
+        backgroundSize: "cover"
+      }
+    : {};
+
+  if (bgColor) {
+    bgStyle = { ...bgStyle, backgroundColor: bgColor };
+  }
   return mobile || tablet ? (
     <TopImage
       {...{
@@ -37,20 +50,17 @@ const LeftImage: React.FC<Props> = ({
         ctaColor,
         ctaLink,
         image,
+        imageMobile,
         bgImage,
+        bgImageMobile,
+        bgColor,
         disclaimer,
         close
       }}
     />
   ) : (
     <>
-      <div
-        style={
-          bgImage
-            ? { backgroundImage: `url(${bgImage})`, backgroundSize: "cover" }
-            : {}
-        }
-      >
+      <div style={bgStyle}>
         <div
           className={cs(styles.cross, styles.leftImageCross)}
           onClick={() => close()}

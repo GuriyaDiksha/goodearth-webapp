@@ -39,8 +39,8 @@ pug.use(app);
 app.use(errorHandler);
 app.use(history);
 app.use(reduxStore);
-app.use(cookies);
 app.use(device);
+app.use(cookies);
 app.use(initAction);
 app.use(viewHandler);
 
