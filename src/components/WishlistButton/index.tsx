@@ -36,7 +36,7 @@ const WishlistButton: React.FC<Props> = ({
   iconClassName,
   mobile,
   basketLineId,
-
+  parentWidth,
   source,
   // inWishlist,
   onMoveToWishlist
@@ -165,6 +165,7 @@ const WishlistButton: React.FC<Props> = ({
     <>
       <div className={className}>
         <div
+          style={parentWidth ? { width: "100%" } : {}}
           className={cs(iconStyles.icon, styles.wishlistIcon, iconClassName, {
             [iconStyles.iconWishlistAdded]: addedToWishlist,
             [iconStyles.iconWishlist]: !addedToWishlist,
