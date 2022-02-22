@@ -11,4 +11,5 @@ export type State = {
   showPassRules: boolean;
   shouldValidatePass: boolean;
   showPassword: boolean;
+  showSuccess: boolean;
 };
