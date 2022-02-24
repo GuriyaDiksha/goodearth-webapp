@@ -36,9 +36,11 @@ class Modal extends React.Component<ModalProps> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.openModal) {
+      if (!document.body.classList.contains(globalStyles.noScroll)) {
+        document.body.classList.add(globalStyles.noScroll);
+      }
       if (!prevProps.openModal) {
         this.prevScroll = document.documentElement.scrollTop;
-        document.body.classList.add(globalStyles.noScroll);
       }
     } else {
       if (prevProps.openModal) {

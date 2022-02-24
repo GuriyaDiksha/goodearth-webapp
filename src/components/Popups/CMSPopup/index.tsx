@@ -18,20 +18,29 @@ const CMSPopup: React.FC<PopupData> = props => {
     const btn = document.getElementById("info-popup-accept-button");
     btn?.focus();
   }, []);
+  useEffect(() => {
+    if (!document.body.classList.contains(globalStyles.noScroll)) {
+      document.body.classList.add(globalStyles.noScroll);
+    }
+    return () => {
+      document.body.classList.remove(globalStyles.noScroll);
+    };
+  }, []);
   const close = (link?: string) => {
     if (link) {
       history.push(link);
     }
     if (props.session) {
       CookieService.setCookie(
-        props.pageUrl.split("/").join("_") + "_" + props.heading,
+        props.pageUrl?.split("/").join("_") + "_" + props.heading,
         "show",
         0
       );
     }
     closeModal();
   };
-  const elem = new DOMParser().parseFromString(props.content, "text/html").body;
+  const elem = new DOMParser().parseFromString(props.content || "", "text/html")
+    .body;
   const target = elem.querySelector('[data-f-id="pbf"]');
   target?.remove();
   const finalContent = elem.innerHTML.toString();

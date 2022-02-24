@@ -5,6 +5,8 @@ import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import { PopupData } from "typings/api";
 import iconStyles from "styles/iconFonts.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type Props = {
   finalContent: string;
@@ -18,22 +20,32 @@ const TwoCTA: React.FC<Props> = ({
   ctaColor,
   ctaLink,
   bgImage,
+  bgImageMobile,
+  bgColor,
   ctaLink2,
   ctaLabel2,
   ctaColor2,
   disclaimer,
   close
 }) => {
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
+  let bgStyle: React.CSSProperties = bgImage
+    ? {
+        backgroundImage: `url(${mobile ? bgImageMobile || bgImage : bgImage})`,
+        backgroundSize: "cover"
+      }
+    : {};
+
+  if (bgColor) {
+    bgStyle = { ...bgStyle, backgroundColor: bgColor };
+  }
   return (
     <>
-      <div
-        style={
-          bgImage
-            ? { backgroundImage: `url(${bgImage})`, backgroundSize: "cover" }
-            : {}
-        }
-      >
-        <div className={styles.cross} onClick={() => close()}>
+      <div style={bgStyle}>
+        <div
+          className={cs(styles.cross, styles.leftImageCross)}
+          onClick={() => close()}
+        >
           <i
             className={cs(
               iconStyles.icon,
@@ -60,7 +72,11 @@ const TwoCTA: React.FC<Props> = ({
           >
             {ReactHtmlParser(finalContent)}
           </div>
-          <div className={styles.twoButton}>
+          <div
+            className={cs(styles.twoButton, {
+              [styles.twoButtonMobile]: mobile || tablet
+            })}
+          >
             <div
               className={cs(
                 globalStyles.ceriseBtn,

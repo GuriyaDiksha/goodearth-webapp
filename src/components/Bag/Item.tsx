@@ -68,14 +68,19 @@ const LineItems: React.FC<BasketItem> = memo(
         product.categories && product.categories[index]
           ? product.categories[index].replace(/\s/g, "")
           : "";
+      const arr = category.split(">");
+      const categoryname = arr[arr.length - 2];
+      const subcategoryname = arr[arr.length - 1];
+      console.log(categoryname, subcategoryname);
       Moengage.track_event("remove_from_cart", {
         "Product id": product.sku || product.childAttributes[0].sku,
         "Product name": product.title,
         quantity: quantity,
-        price: price,
+        price: +price,
         Currency: currency,
         "Collection name": product.collections,
-        "Category name": product.categories[0]
+        "Category name": categoryname,
+        "Sub Category Name": subcategoryname
       });
       dataLayer.push({
         event: "removeFromCart",

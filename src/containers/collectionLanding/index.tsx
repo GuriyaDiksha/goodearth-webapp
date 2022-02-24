@@ -89,7 +89,6 @@ class CollectionLanding extends React.Component<
       history,
       match: { params }
     } = this.props;
-    console.log(this.props);
     const { id } = params;
     const newId = this.props.data.level2Categories
       .filter(item => item.value == data)[0]
@@ -268,7 +267,7 @@ class CollectionLanding extends React.Component<
             { [styles.collectionBlock]: isLivingpage }
           )}
         >
-          <div className={cs(bootstrap.colMd8, bootstrap.offsetMd2)}>
+          <div className={cs(bootstrap.colLg8, bootstrap.offsetLg2)}>
             <div className={bootstrap.row}>
               {filterData.map((data: CollectionItem, i: number) => {
                 return (

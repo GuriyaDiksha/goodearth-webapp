@@ -23,7 +23,6 @@ const GiftCardItem = ({
   const conditionalRefresh = false;
   const deleteCard = (code: string) => {
     // setOpenState(!menuOpen);
-    console.log(showLocked);
   };
 
   const closeResult = (code: string, type: string) => {

@@ -8,6 +8,7 @@ export interface PLPProductItem {
   url: string;
   id: ProductID;
   title: string;
+  collection?: string;
   collections: string[];
   plpImages?: string[];
   priceRecords: PriceRecord;

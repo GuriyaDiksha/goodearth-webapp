@@ -19,7 +19,7 @@ import * as Steps from "../../../containers/checkout/constants";
 import RegistryAddress from "containers/myAccount/components/Bridal/RegistryAddress";
 import EditRegistryAddress from "../../../containers/myAccount/components/Bridal/EditRegistryAddress";
 import BridalContext from "containers/myAccount/components/Bridal/context";
-
+import myAccountStyles from "containers/myAccount/styles.scss";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -35,6 +35,8 @@ const AddressMain: React.FC<Props> = props => {
   const [editAddressData, setEditAddressData] = useState<AddressData>();
   const { pinCodeData } = useSelector((state: AppState) => state.address);
   const { bridal } = useSelector((state: AppState) => state.basket);
+  const [scrollPos, setScrollPos] = useState<null | number>(null);
+  const [innerScrollPos, setInnerScrollPos] = useState<null | number>(null);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const {
@@ -98,7 +100,24 @@ const AddressMain: React.FC<Props> = props => {
   //     props.setCurrentModule('address');
   //     this.setAddressModeProfile({showAddresses: true, editMode: false, newAddressMode: false, addressesAvailable: false});
   // }
-
+  useEffect(() => {
+    if (mode == "list" && scrollPos != null) {
+      window.scrollTo({
+        top: scrollPos,
+        behavior: "smooth"
+      });
+      if (innerScrollPos != null) {
+        const elem = document.getElementsByClassName(
+          myAccountStyles.accountFormBgMobile
+        )?.[0];
+        if (elem) {
+          elem.scrollTop = innerScrollPos;
+        }
+      }
+      setInnerScrollPos(null);
+      setScrollPos(null);
+    }
+  }, [mode]);
   const getStateFromPinCode = useCallback(
     (pinCode: string): string | undefined => pinCodeData[pinCode],
     [pinCodeData]
@@ -112,6 +131,13 @@ const AddressMain: React.FC<Props> = props => {
     if (address) {
       setEditAddressData(address);
       setMode("edit");
+      setScrollPos(window.scrollY);
+      const elem = document.getElementsByClassName(
+        myAccountStyles.accountFormBgMobile
+      )?.[0];
+      if (elem) {
+        setInnerScrollPos(elem.scrollTop);
+      }
     } else {
       setMode("new");
       // setEditAddressData(null);
@@ -214,7 +240,7 @@ const AddressMain: React.FC<Props> = props => {
 
   const closeAddressForm = useCallback(() => {
     setMode("list");
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, []);
 
   const checkPinCode = useCallback(

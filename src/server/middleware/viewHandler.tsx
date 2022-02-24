@@ -128,6 +128,8 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       ctx.set("Link", pushHeaders.join(", "));
     }
 
+    const id = __MOENG__.indexOf("_DEBUG") > -1 ? 1 : 0;
+
     await ctx.render("index", {
       state: jsesc(JSON.stringify(store.getState()), {
         json: true,
@@ -141,6 +143,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
       head: meta,
       gtmdata: JSON.stringify(__GTM_ID__),
       moengage: JSON.stringify(__MOENG__),
+      moengageId: id,
       cdn: __CDN_HOST__,
       manifest: `${config.publicPath}manifest.v${config.manifestVersion}.json`
     });
