@@ -19,6 +19,7 @@ import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
 import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
+import PlpResultTabItem from "components/plpResultTabItem";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import { POPUP } from "constants/components";
@@ -331,7 +332,7 @@ class PLP extends React.Component<
 
   render() {
     const {
-      device: { mobile },
+      device: { mobile, tablet },
       currency,
       data: {
         results: { breadcrumb, banner, bannerMobile, data, facets, bannerUrl },
@@ -396,7 +397,11 @@ class PLP extends React.Component<
       <div
         className={cs(
           styles.pageBody,
-          { [styles.pageBodyTimer]: this.props.showTimer },
+          {
+            [styles.pageBodyTimer]: this.props.showTimer,
+            [styles.pageBodyTab]: tablet,
+            [styles.pageBodyTabTimer]: this.props.showTimer && tablet
+          },
           bootstrap.containerFluid
         )}
       >
@@ -670,19 +675,37 @@ class PLP extends React.Component<
                           key={item.id}
                           id={index == 0 ? "first-grid-item" : ""}
                         >
-                          <PlpResultItem
-                            page="PLP"
-                            position={index}
-                            product={item}
-                            addedToWishlist={false}
-                            currency={currency}
-                            key={item.id}
-                            mobile={mobile}
-                            isVisible={index < 3 ? true : undefined}
-                            onClickQuickView={this.onClickQuickView}
-                            isCorporate={this.state.corporoateGifting}
-                            loader={this.state.flag}
-                          />
+                          {tablet ? (
+                            <PlpResultTabItem
+                              page="PLP"
+                              position={index}
+                              product={item}
+                              addedToWishlist={false}
+                              currency={currency}
+                              key={item.id}
+                              mobile={mobile}
+                              isVisible={index < 3 ? true : undefined}
+                              onClickQuickView={this.onClickQuickView}
+                              isCorporate={this.state.corporoateGifting}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
+                              loader={this.state.flag}
+                            />
+                          ) : (
+                            <PlpResultItem
+                              page="PLP"
+                              position={index}
+                              product={item}
+                              addedToWishlist={false}
+                              currency={currency}
+                              key={item.id}
+                              mobile={mobile}
+                              isVisible={index < 3 ? true : undefined}
+                              onClickQuickView={this.onClickQuickView}
+                              isCorporate={this.state.corporoateGifting}
+                              loader={this.state.flag}
+                            />
+                          )}
                         </div>
                       </>
                     );
@@ -758,7 +781,7 @@ class PLP extends React.Component<
               </div>
             </div>
           </div>
-          {mobile && (
+          {mobile && !tablet && (
             <div
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,

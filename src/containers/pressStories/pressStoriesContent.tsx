@@ -376,6 +376,10 @@ class PressStoriesContent extends React.Component<
                               <li
                                 key={index}
                                 onClick={e => this.onSelect(items)}
+                                className={cs({
+                                  [globalStyles.cerise]:
+                                    this.props.year.toString() == items.value
+                                })}
                               >
                                 {items.value}
                               </li>

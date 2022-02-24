@@ -48,6 +48,12 @@
 .page-body-timer {
   margin-top: $main-header + $timer-height;
 }
+.page-body-tab {
+  margin-top: $header-height;
+}
+.page-body-tab-timer {
+  margin-top: $header-height + $timer-height;
+}
 @media screen and (min-width: 992px) {
   .sp-cat {
     padding-left: 20px;
@@ -66,6 +72,12 @@
   }
   .page-body-timer {
     margin-top: $header-height + $grid-view-bar + $timer-height;
+  }
+  .page-body-tab {
+    margin-top: $header-height;
+  }
+  .page-body-tab-timer {
+    margin-top: $header-height + $timer-height;
   }
   .imageContainerMobile {
     margin-left: 0;
@@ -213,7 +225,7 @@
     bottom: 0;
     top: $main-header;
     left: 0;
-    z-index: 10;
+    z-index: 11;
     background-color: white;
     // -webkit-transition: all 0.5s linear;
     // -moz-transition: all 0.5s linear;

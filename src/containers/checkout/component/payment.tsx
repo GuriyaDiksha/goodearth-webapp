@@ -105,7 +105,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       };
       Moengage.track_event("Mode of payment selected", {
         "Payment Method": currentmethod.value,
-        Amount: "",
+        Amount: +basket.total,
         Currency: currency
       });
       if (giftwrap) {

@@ -92,14 +92,9 @@ const Career: React.FC<Props> = props => {
   // parse url for job specific page
   useEffect(() => {
     // if (allJobList && allJobList.length > 0) {
-    const [city, jobUrl] = decodeURI(path.substring(8))
+    const jobUrl = decodeURI(path.substring(8))
       .split("/")
-      .filter(a => a);
-    if (city) {
-      if (city != locationFilter && locationList.includes(city)) {
-        setLocationFilter(city);
-      }
-    }
+      .filter(a => a)[1];
     if (jobUrl) {
       const job = allJobList && allJobList.find(job => jobUrl == job.url);
       if (job) {

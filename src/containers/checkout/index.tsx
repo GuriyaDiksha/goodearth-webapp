@@ -328,6 +328,7 @@ class Checkout extends React.Component<Props, State> {
         if (this.checkToMessage(res)) {
           this.props.showNotify(REGISTRY_MIXED_SHIPPING);
         }
+        valid.proceedTocheckout(res, this.props.currency);
         valid.checkoutGTM(1, this.props.currency, res);
         // code for call loyalty point api only one time
         if (email) {

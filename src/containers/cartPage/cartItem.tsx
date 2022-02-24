@@ -90,7 +90,7 @@ const CartItems: React.FC<BasketItem> = memo(
           "Product id": sku || childAttributes[0].sku,
           "Product name": title,
           quantity: quantity,
-          price: price,
+          price: +price,
           Currency: currency,
           "Collection name": collections,
           "Category name": categories[0]
