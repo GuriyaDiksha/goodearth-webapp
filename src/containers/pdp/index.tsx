@@ -316,6 +316,9 @@ class PDPContainer extends React.Component<Props, State> {
       window.scrollTo({
         top: 0
       });
+      this.setState({
+        showSecondary: true
+      });
 
       const state: any = {
         sidebarSticky: true,
