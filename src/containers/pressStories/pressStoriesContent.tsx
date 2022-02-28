@@ -221,7 +221,7 @@ class PressStoriesContent extends React.Component<
                   isExisty: true
                 }}
                 validationErrors={{
-                  isExisty: "publication can't be Empty"
+                  isExisty: "Please enter publication name"
                 }}
               />
             </div>
