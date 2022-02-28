@@ -85,10 +85,8 @@ const EmailVerification: React.FC<Props> = ({
             Please re-login
           </span>
         ]);
-      } else if (err.response.data.expired) {
-        setError("OTP Expired");
       } else {
-        setError("Invalid OTP");
+        setError("OTP Expired or Invalid OTP");
       }
     } finally {
       setIsLoading(false);
