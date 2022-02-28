@@ -17,7 +17,7 @@ const GiftCardItem = ({
   onClose,
   isLoggedIn
 }: GiftListProps): JSX.Element => {
-  let showLocked = false;
+  // let showLocked = false;
   let showExpired = false;
   const unicode = currencyCode[currency as Currency];
   const conditionalRefresh = false;
@@ -30,7 +30,7 @@ const GiftCardItem = ({
   };
 
   if (currStatus == "Locked" && type == "CNI") {
-    showLocked = true;
+    // showLocked = true;
   } else if (currStatus == "Expired" && type == "CNI") {
     showExpired = true;
   }
