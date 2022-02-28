@@ -614,7 +614,7 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <Fragment>
-      {!isQuickview && showDock && (
+      {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
           buttoncall={button}
