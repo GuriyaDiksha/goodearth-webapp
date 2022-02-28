@@ -95,7 +95,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   orientationPopup: OrientationPopup
 };
 
-export enum POPUP {
+export const enum POPUP {
   CURRENCY = "currency",
   BACKENDORDER = "backendOrder",
   FREESHIPPING = "freeShipping",
