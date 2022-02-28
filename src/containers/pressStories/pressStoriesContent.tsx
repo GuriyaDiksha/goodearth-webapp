@@ -223,7 +223,6 @@ class PressStoriesContent extends React.Component<
                 validationErrors={{
                   isExisty: "publication can't be Empty"
                 }}
-                required
               />
             </div>
             <div>
