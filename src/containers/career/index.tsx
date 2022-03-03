@@ -27,9 +27,9 @@ const Career: React.FC<Props> = props => {
   const path = props.pathname;
   const history = useHistory();
   const [mode, setMode] = useState<"list" | "applyAll" | "apply">(
-    path == "/careers"
+    path == "/careers-detail"
       ? "list"
-      : path == "/careers/apply/all"
+      : path == "/careers-detail/apply/all"
       ? "applyAll"
       : "apply"
   );
@@ -78,21 +78,22 @@ const Career: React.FC<Props> = props => {
   const openJobForm = (job?: Job) => {
     if (job) {
       const location = encodeURI(job.locationName);
-      if (encodeURI(path) != `/careers/${location}/${job.url}`) {
-        history.push(`/careers/${location}/${job.url}`);
+      if (encodeURI(path) != `/careers-detail/${location}/${job.url}`) {
+        history.push(`/careers-detail/${location}/${job.url}`);
       }
     } else {
-      if (path != "/careers/apply/all") {
-        history.push("/careers/apply/all");
+      if (path != "/careers-detail/apply/all") {
+        history.push("/careers-detail/apply/all");
       }
     }
     setSelectedJob(job);
+    setMode("apply");
   };
 
   // parse url for job specific page
   useEffect(() => {
     // if (allJobList && allJobList.length > 0) {
-    const jobUrl = decodeURI(path.substring(8))
+    const jobUrl = decodeURI(path.substring("/careers-detail".length))
       .split("/")
       .filter(a => a)[1];
     if (jobUrl) {

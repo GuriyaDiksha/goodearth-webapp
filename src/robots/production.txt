@@ -8,3 +8,4 @@ Disallow: /order/orderconfirmation
 Disallow: /account
 Disallow: /cart/
 Disallow: /checkout
+Sitemap: https://www.goodearth.in/sitemap.xml
