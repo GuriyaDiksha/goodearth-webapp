@@ -268,6 +268,8 @@ export function productImpression(
     if (data.length < 1) return false;
     const listPath = `${list}`;
     let categoryName = "";
+    let subcategoryname = "";
+    let collectionName = "";
     data.results.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
@@ -276,6 +278,14 @@ export function productImpression(
           ? prod.categories[index].replace(/\s/g, "")
           : "";
         categoryName = category.split(">")[0];
+        subcategoryname = category.split(">")[1];
+        if (
+          !collectionName &&
+          prod.collections &&
+          prod.collections.length > 0
+        ) {
+          collectionName = prod.collections[0];
+        }
         category = category.replace(/>/g, "/");
       }
       let skus = "";
@@ -317,7 +327,9 @@ export function productImpression(
       }
     });
     Moengage.track_event("PLP views", {
-      "Category Name": categoryName.trim()
+      "Category Name": categoryName.trim(),
+      "Sub Category Name": subcategoryname.trim(),
+      "Collection Name": collectionName
     });
   } catch (e) {
     // console.log(e);
