@@ -1,6 +1,6 @@
 import { InitAction, MetaAction } from "typings/actions";
 
-export enum ROUTES {
+export const enum ROUTES {
   HOME = "/",
   CollectionLanding = "/allcollection/:level1/:id",
   CollectionSpecific = "/collection/:slug",
@@ -11,7 +11,8 @@ export enum ROUTES {
   GOOGLE = "/account/google/login/?next=/",
   SEARCH = "/search",
   ACCOUNT = "/account",
-  CAREER = "/careers/:slug1?/:slug2?",
+  CAREERDETAIL = "/careers-detail/:slug1?/:slug2?",
+  CAREER = "/careers",
   WISHLIST = "/wishlist",
   GIFTCARD = "/giftcard",
   ResetPassword = "/password-reset/confirm/:uid/:token",
