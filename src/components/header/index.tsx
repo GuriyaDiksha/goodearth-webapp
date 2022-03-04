@@ -33,6 +33,7 @@ import CountdownTimer from "./CountdownTimer";
 import AnnouncementBar from "./AnnouncementBar";
 import { CUST } from "constants/util";
 import Loader from "components/Loader";
+import Sizechart from "components/Sizechart";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -53,7 +54,8 @@ const mapStateToProps = (state: AppState) => {
     showTimer: state.info.showTimer,
     timerData: state.header.timerData,
     customerGroup: state.user.customerGroup,
-    showStock: state.header.storeData.visible
+    showStock: state.header.storeData.visible,
+    showSizeChart: state.header.sizeChartData.show
   };
 };
 
@@ -986,6 +988,7 @@ class Header extends React.Component<Props, State> {
             active={this.props.showStock}
           />
         )}
+        <Sizechart active={this.props.showSizeChart} />
         {this.state.isLoading && <Loader />}
       </div>
     );
