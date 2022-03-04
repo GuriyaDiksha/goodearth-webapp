@@ -44,7 +44,11 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
-import { updateStoreState } from "actions/header";
+import {
+  updateSizeChartData,
+  updateSizeChartShow,
+  updateStoreState
+} from "actions/header";
 import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
@@ -69,7 +73,6 @@ const ProductDetails: React.FC<Props> = ({
     discountedPriceRecords,
     priceRecords,
     childAttributes,
-    sizeChartHtml,
     categories,
     loyaltyDisabled,
     shipping,
@@ -87,7 +90,8 @@ const ProductDetails: React.FC<Props> = ({
     justAddedBadge,
     badgeType,
     invisibleFields,
-    partner
+    partner,
+    sizeChart
   },
   data,
   corporatePDP,
@@ -244,13 +248,12 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const onSizeChartClick = useCallback(() => {
-    if (!sizeChartHtml) {
+    if (!sizeChart) {
       return;
     }
-    // renderModal(<SizeChartPopup html={sizeChartHtml} />);
-    updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
-    changeModalState(true);
-  }, [sizeChartHtml]);
+    dispatch(updateSizeChartData(sizeChart));
+    dispatch(updateSizeChartShow(true));
+  }, [sizeChart]);
 
   const [childAttr] = childAttributes;
   const { size = "" } = childAttr || {};
@@ -614,7 +617,7 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <Fragment>
-      {!isQuickview && showDock && (
+      {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
           buttoncall={button}
@@ -809,7 +812,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                   </div>
                 </div>
-                {sizeChartHtml && !isQuickview && (
+                {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
                       [globalStyles.textCenter]: !mobile

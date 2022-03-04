@@ -88,31 +88,17 @@ class ProfileUpdater extends React.Component<Props, State> {
   ProfileUpdateFormRef: RefObject<Formsy> = React.createRef();
   static contextType = Context;
   setApiResponse = (data: ProfileResponse) => {
-    const {
-      subscribe,
-      emailId,
-      loginVia,
-      firstName,
-      lastName,
-      gender,
-      country,
-      state
-    } = data;
-    this.setState({
-      loginVia,
-      updateProfile: false,
-      data: data
-    });
-    this.ProfileUpdateFormRef.current &&
-      this.ProfileUpdateFormRef.current.updateInputsWithValue({
-        emailId,
-        firstName,
-        lastName,
-        gender,
-        subscribe,
-        country,
-        state
-      });
+    const { loginVia } = data;
+    this.setState(
+      {
+        loginVia,
+        updateProfile: false,
+        data: data
+      },
+      () => {
+        this.changeCountryData(this.props.countryData);
+      }
+    );
   };
 
   componentDidMount() {
@@ -207,6 +193,34 @@ class ProfileUpdater extends React.Component<Props, State> {
         }
       );
     });
+
+    const formdata = this.state.data;
+    if (countryOptions.length > 0 && formdata.country) {
+      countryOptions.map(con => {
+        if (con.code2 == formdata.country) {
+          formdata.country = con.value;
+        }
+      });
+      const { states } = countryOptions.filter(
+        country => country.value == formdata.country
+      )[0];
+
+      this.setState(
+        {
+          countryOptions: countryOptions,
+          data: formdata,
+          isIndia: formdata.country == "India",
+          stateOptions: states
+        },
+        () => {
+          this.ProfileUpdateFormRef.current &&
+            this.ProfileUpdateFormRef.current.updateInputsWithValue(formdata);
+        }
+      );
+    } else {
+      this.ProfileUpdateFormRef.current &&
+        this.ProfileUpdateFormRef.current.updateInputsWithValue(formdata);
+    }
     this.setState({
       countryOptions
     });
