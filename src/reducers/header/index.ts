@@ -12,6 +12,20 @@ const initialState: HeaderState = {
   storeData: {
     data: [],
     visible: false
+  },
+  sizeChartData: {
+    data: {
+      fitGuide: {
+        image: "",
+        pointers: []
+      },
+      sizeGuide: {
+        data: [],
+        measurements: [],
+        sizes: []
+      }
+    },
+    show: false
   }
 };
 
@@ -49,6 +63,16 @@ export const header = (
     case "UPDATE_STORE_STATE": {
       const newState = { ...state };
       newState.storeData.visible = action.payload;
+      return newState;
+    }
+    case "UPDATE_SIZE_CHART_DATA": {
+      const newState = { ...state };
+      newState.sizeChartData.data = action.payload;
+      return newState;
+    }
+    case "UPDATE_SIZE_CHART_SHOW": {
+      const newState = { ...state };
+      newState.sizeChartData.show = action.payload;
       return newState;
     }
   }
