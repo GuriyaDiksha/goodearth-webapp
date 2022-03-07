@@ -84,16 +84,21 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return data;
     },
     specifyBillingAddress: async (
-      specifyBillingAddressData: specifyBillingAddressData
+      specifyBillingAddressData: specifyBillingAddressData,
+      stopBillingApi: boolean
     ) => {
-      const data = await AddressService.specifyBillingAddress(
-        dispatch,
-        specifyBillingAddressData
-      );
-      AddressService.fetchAddressList(dispatch).then(addressList => {
-        dispatch(updateAddressList(addressList));
-      });
-      return data;
+      if (stopBillingApi) {
+        return "";
+      } else {
+        const data = await AddressService.specifyBillingAddress(
+          dispatch,
+          specifyBillingAddressData
+        );
+        AddressService.fetchAddressList(dispatch).then(addressList => {
+          dispatch(updateAddressList(addressList));
+        });
+        return data;
+      }
     },
     fetchAddressBridal: async () => {
       const addressList = await AddressService.fetchAddressList(dispatch);
@@ -642,7 +647,12 @@ class Checkout extends React.Component<Props, State> {
         data = {
           billingAddressId: billingAddress.id
         };
+        let stopBillingApi = true;
+        if (this.state.shippingAddress?.id != billingAddress.id) {
+          stopBillingApi = false;
+        }
         if (obj.gstNo) {
+          stopBillingApi = false;
           data = Object.assign(
             {},
             {
@@ -654,7 +664,7 @@ class Checkout extends React.Component<Props, State> {
           );
         }
         this.props
-          .specifyBillingAddress(data)
+          .specifyBillingAddress(data, stopBillingApi)
           .then(() => {
             Moengage.track_event("Billing Address Added", {
               "First Name": billingAddress.firstName,
