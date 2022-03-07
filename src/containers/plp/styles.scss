@@ -487,6 +487,7 @@
     width: 18px;
     height: 18px;
     background-color: $light-bg;
+    border: 1px black solid;
 
   }
   input[type="radio"]:not(:checked) + label,
