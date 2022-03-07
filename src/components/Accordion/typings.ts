@@ -14,4 +14,5 @@ export type Props = {
   className?: string;
   headerClassName?: string;
   bodyClassName?: string;
+  headerClosedClassName?: string;
 };

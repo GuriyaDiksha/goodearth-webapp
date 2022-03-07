@@ -11,6 +11,7 @@ const Accordion: React.FC<Props> = memo(
     defaultOpen,
     className,
     headerClassName,
+    headerClosedClassName,
     bodyClassName,
     openIconClass = styles.iconClose,
     closedIconClass = styles.iconOpe
@@ -35,6 +36,7 @@ const Accordion: React.FC<Props> = memo(
             closedIconClass={closedIconClass}
             onClick={onHeaderClick}
             className={headerClassName}
+            headerClosedClassName={headerClosedClassName}
           >
             {header}
           </Header>

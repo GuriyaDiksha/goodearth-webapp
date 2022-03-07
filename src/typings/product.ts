@@ -3,6 +3,7 @@ import { ProductImage } from "./image";
 import { PriceRecord } from "./price";
 import { Breadcrumb } from "./navigation";
 import { BasketStockRecord } from "./basket";
+import { SizeChartResponse } from "reducers/header/typings";
 
 export interface PLPProductItem {
   url: string;
@@ -70,6 +71,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   fillerUrl?: string;
   complianceLine?: string;
   manufactureInfo: string;
+  sizeChart: SizeChartResponse;
 }
 
 export interface PartialChildProductAttributes {
