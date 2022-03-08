@@ -20,6 +20,8 @@ export type SizeChartResponse = {
     data: number[][];
     measurements: string[];
     sizes: string[];
+    note: string;
+    disclaimer: string;
   };
 };
 export type SizeChartData = {
