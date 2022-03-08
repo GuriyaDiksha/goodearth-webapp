@@ -22,7 +22,9 @@ const initialState: HeaderState = {
       sizeGuide: {
         data: [],
         measurements: [],
-        sizes: []
+        sizes: [],
+        note: "",
+        disclaimer: ""
       }
     },
     show: false
