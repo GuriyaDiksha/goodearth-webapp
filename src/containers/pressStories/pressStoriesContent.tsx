@@ -223,6 +223,7 @@ class PressStoriesContent extends React.Component<
                 validationErrors={{
                   isExisty: "Please enter publication name"
                 }}
+                required
               />
             </div>
             <div>
