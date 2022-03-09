@@ -95,6 +95,11 @@ const AddressSection: React.FC<AddressProps & {
     setSameAsShipping(!isGoodearthShipping && hidesameShipping && !isBridal);
   }, [isGoodearthShipping, hidesameShipping, isBridal]);
 
+  useEffect(() => {
+    if (currency != "INR") {
+      setGst(false);
+    }
+  }, [currency]);
   const renderActions = function(isBottom?: boolean) {
     if (isActive && isLoggedIn) {
       const clickAction =
@@ -577,7 +582,8 @@ const AddressSection: React.FC<AddressProps & {
     gstType,
     props.activeStep,
     basket.total,
-    pancardText
+    pancardText,
+    currency
   ]);
 
   const renderBillingCheckbox = function() {
