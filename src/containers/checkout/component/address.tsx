@@ -67,8 +67,6 @@ const AddressSection: React.FC<AddressProps & {
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
-  const [gstPan, setGstPan] = useState(user.panPassport || "");
-  const [gstPanError, setGstPanError] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
 
@@ -88,6 +86,10 @@ const AddressSection: React.FC<AddressProps & {
   const backToAddressList = () => {
     closeAddressForm();
   };
+
+  useEffect(() => {
+    setPancardText(user.panPassport || "");
+  }, [user.panPassport]);
 
   useEffect(() => {
     setSameAsShipping(!isGoodearthShipping && hidesameShipping && !isBridal);
@@ -210,7 +212,6 @@ const AddressSection: React.FC<AddressProps & {
   };
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGstType(e.target.value);
-    setGstPanError("");
     setPanError("");
     setError("");
   };
@@ -226,16 +227,8 @@ const AddressSection: React.FC<AddressProps & {
     setError("");
   };
 
-  const onGstPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGstPan(event.target.value);
-    setPancardText(event.target.value);
-    setGstPanError("");
-    setPanError("");
-  };
-
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
-    setGstPan(event.target.value);
   };
 
   const togglepancard = () => {
@@ -315,22 +308,7 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const gstPanValidation = () => {
-    if (gstPan.length == 10) {
-      setGstPanError("");
-      setPanError("");
-      return true;
-    } else if (valid.checkBlank(gstPan)) {
-      setGstPanError("Please enter your PAN Number");
-      return false;
-    } else {
-      setGstPanError("Please enter a valid PAN Number");
-      return false;
-    }
-  };
-
   const removeErrorMessages = () => {
-    setGstPanError("");
     setError("");
     setPanError("");
     setPanCheck("");
@@ -376,10 +354,7 @@ const AddressSection: React.FC<AddressProps & {
       if (!gstValidation()) {
         validate = false;
       }
-      if ((gstType == "GSTIN" || amountPriceCheck) && !gstPanValidation()) {
-        validate = false;
-      }
-      if (!gstPanValidation()) {
+      if (gstType == "GSTIN" || amountPriceCheck) {
         validate = false;
       }
     }
@@ -485,36 +460,6 @@ const AddressSection: React.FC<AddressProps & {
                       ""
                     )}
                   </div>
-                  <div className={styles.form}>
-                    <div
-                      className={cs(
-                        styles.flex,
-                        styles.vCenter,
-                        globalStyles.voffset3,
-                        styles.payment
-                      )}
-                    >
-                      <input
-                        type="text"
-                        className={cs(styles.input, styles.marginR10)}
-                        onChange={onGstPanChange}
-                        value={gstPan}
-                      />
-                    </div>
-                    <label className={styles.formLabel}>PAN Number</label>
-                    {gstPanError ? (
-                      <span
-                        className={cs(
-                          globalStyles.errorMsg,
-                          globalStyles.wordCap
-                        )}
-                      >
-                        {gstPanError}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
                 </div>
               )}
             </div>
@@ -543,12 +488,12 @@ const AddressSection: React.FC<AddressProps & {
                     <input
                       type="text"
                       className={cs(
-                        { [styles.disabledInput]: gst },
+                        { [styles.disabledInput]: !!user.panPassport },
                         styles.input,
                         styles.marginR10
                       )}
                       onChange={onPanChange}
-                      disabled={gst}
+                      disabled={!!user.panPassport}
                       onKeyPress={onPanKeyPress}
                       value={pancardText}
                     />
@@ -598,13 +543,13 @@ const AddressSection: React.FC<AddressProps & {
   }, [
     gst,
     gstText,
-    gstPan,
-    gstPanError,
     panCheck,
     pancardCheck,
     panError,
     error,
-    gstType
+    gstType,
+    props.activeStep,
+    basket.total
   ]);
 
   const renderBillingCheckbox = function() {
