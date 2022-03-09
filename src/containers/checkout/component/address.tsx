@@ -246,7 +246,9 @@ const AddressSection: React.FC<AddressProps & {
           onChange={onChangeGst}
         />
         <span className={styles.checkmark}> </span>{" "}
-        <span className={styles.txtGst}>{props.gstType}</span>
+        <span className={styles.txtGst}>
+          {props.gstType == "UID" ? "UIN" : props.gstType}
+        </span>
       </label>
     );
   };
@@ -290,18 +292,14 @@ const AddressSection: React.FC<AddressProps & {
         setError("Please enter a valid GST Number");
         return false;
       } else if (gstText.length != 15 && gstType == "UID") {
-        setError("Please enter a valid UID Number");
-        return false;
-      } else if (gstText.length != 15 && gstType == "GID") {
-        setError("Please enter a valid GID Number");
+        setError("Please enter a valid UIN Number");
         return false;
       } else {
         setError("");
         return true;
       }
     } else {
-      const text =
-        gstType == "GSTIN" ? "GST" : gstType == "UID" ? "UID" : "GID";
+      const text = gstType == "GSTIN" ? "GST" : "UIN";
 
       setError("Please enter a " + text + " number");
       return false;
@@ -379,6 +377,16 @@ const AddressSection: React.FC<AddressProps & {
     onSubmit();
   };
 
+  const desc = {
+    GSTIN:
+      "Goods and Services Tax Identification Number (GSTIN) is a tax registration number. Every taxpayers is assigned a state-wise PAN-based 15 digit GSTIN.",
+    UID:
+      "Unique Identificatin Number (UIN) is a special class of GST registration for foreign diplomatic missions and embassies."
+  };
+  const title = {
+    GSTIN: "Goods and Services Tax Identification Number (GSTIN)",
+    UID: "Unique Identificatin Number (UIN)"
+  };
   const renderPancard = useMemo(() => {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
@@ -425,7 +433,26 @@ const AddressSection: React.FC<AddressProps & {
                   <div className={styles.radioList}>
                     <RadioButton key="GSTIN" gstType="GSTIN" />
                     <RadioButton key="UID" gstType="UID" />
-                    <RadioButton key="GID" gstType="GID" />
+                  </div>
+                  <div className={bootstrapStyles.row}>
+                    <div
+                      className={cs(
+                        styles.gstTitle,
+                        bootstrapStyles.col12,
+                        bootstrapStyles.colMd7
+                      )}
+                    >
+                      {title[gstType]}
+                    </div>
+                    <div
+                      className={cs(
+                        styles.gstDesc,
+                        bootstrapStyles.col12,
+                        bootstrapStyles.colMd7
+                      )}
+                    >
+                      {desc[gstType]}
+                    </div>
                   </div>
                   <div className={styles.form}>
                     <div
@@ -445,7 +472,7 @@ const AddressSection: React.FC<AddressProps & {
                       />
                     </div>
                     <label className={styles.formLabel}>
-                      {gstType == "GSTIN" ? "GST NO." : gstType + " NO."}
+                      {gstType == "GSTIN" ? "GST No." : "UIN No."}
                     </label>
                     {error ? (
                       <span
@@ -549,7 +576,8 @@ const AddressSection: React.FC<AddressProps & {
     error,
     gstType,
     props.activeStep,
-    basket.total
+    basket.total,
+    pancardText
   ]);
 
   const renderBillingCheckbox = function() {
