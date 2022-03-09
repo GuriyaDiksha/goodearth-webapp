@@ -103,6 +103,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter a valid Pin/Zip code";
       case "line1":
         return "Please enter your Address";
+      case "publication":
+        return "Please enter publication name";
       default:
         return "This field is required";
     }
