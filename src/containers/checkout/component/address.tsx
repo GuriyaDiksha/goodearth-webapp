@@ -357,9 +357,6 @@ const AddressSection: React.FC<AddressProps & {
       if (!gstValidation()) {
         validate = false;
       }
-      if (gstType == "GSTIN" || amountPriceCheck) {
-        validate = false;
-      }
     }
     if (validate) {
       removeErrorMessages();
