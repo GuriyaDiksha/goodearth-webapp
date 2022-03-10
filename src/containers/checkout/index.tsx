@@ -662,6 +662,17 @@ class Checkout extends React.Component<Props, State> {
             },
             data
           );
+        } else if (obj.panPassportNo) {
+          stopBillingApi = false;
+          data = Object.assign(
+            {},
+            {
+              gstType: "",
+              gstNo: "",
+              panPassportNo: obj.panPassportNo
+            },
+            data
+          );
         }
         this.props
           .specifyBillingAddress(data, stopBillingApi)
