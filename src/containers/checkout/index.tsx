@@ -667,8 +667,6 @@ class Checkout extends React.Component<Props, State> {
           data = Object.assign(
             {},
             {
-              gstType: "",
-              gstNo: "",
               panPassportNo: obj.panPassportNo
             },
             data
