@@ -5,6 +5,7 @@ import {
   SaleTimerData
 } from "components/header/typings";
 import { SizeChartResponse } from "reducers/header/typings";
+import { ChildProductAttributes } from "typings/product";
 
 export const updateheader = (data: MegaMenuData[]) =>
   actionCreator("UPDATE_HEADER", data);
@@ -26,3 +27,11 @@ export const updateSizeChartData = (data: SizeChartResponse) =>
 
 export const updateSizeChartShow = (data: boolean) =>
   actionCreator("UPDATE_SIZE_CHART_SHOW", data);
+
+export const updateSizeChartSizes = (data: {
+  sizes: ChildProductAttributes[];
+  isCorporatePDP: boolean;
+}) => actionCreator("UPDATE_SIZE_CHART_SIZES", data);
+
+export const updateSizeChartSelected = (data: number | undefined) =>
+  actionCreator("UPDATE_SIZE_CHART_SELECTED", data);

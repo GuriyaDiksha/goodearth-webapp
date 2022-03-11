@@ -46,7 +46,9 @@ import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import {
   updateSizeChartData,
+  updateSizeChartSelected,
   updateSizeChartShow,
+  updateSizeChartSizes,
   updateStoreState
 } from "actions/header";
 import { MESSAGE } from "constants/messages";
@@ -139,10 +141,14 @@ const ProductDetails: React.FC<Props> = ({
   //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
   //   );
   // }, [selectedSize]);
+  const selectedId = useSelector(
+    (state: AppState) => state.header.sizeChartData.selected
+  );
   useLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
+  const { dispatch } = useStore();
   useEffect(() => {
     let count = 0;
     let tempSize = null;
@@ -167,8 +173,19 @@ const ProductDetails: React.FC<Props> = ({
 
       setIsRegistry(registryMapping);
     }
+    dispatch(
+      updateSizeChartSizes({
+        sizes: childAttributes,
+        isCorporatePDP: corporatePDP
+      })
+    );
+    dispatch(updateSizeChartSelected(selectedSize?.id));
   }, [childAttributes, selectedSize]);
 
+  useEffect(() => {
+    const size = childAttributes.filter(child => child.id == selectedId)[0];
+    setSelectedSize(size);
+  }, [selectedId]);
   useEffect(() => {
     if (childAttributes.length === 1) {
       setSelectedSize(childAttributes[0]);
@@ -185,7 +202,6 @@ const ProductDetails: React.FC<Props> = ({
     }
   }, [currency, priceRecords[currency]]);
 
-  const { dispatch } = useStore();
   const price = corporatePDP
     ? priceRecords[currency]
     : selectedSize && selectedSize.priceRecords
