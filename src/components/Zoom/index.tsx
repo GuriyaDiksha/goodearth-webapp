@@ -2,7 +2,7 @@ import React, {
   useMemo,
   useState,
   MouseEventHandler,
-  useEffect,
+  // useEffect,
   SyntheticEvent,
   MouseEvent,
   useRef,
@@ -42,15 +42,15 @@ const Zoom: React.FC<Props> = ({
     }
   });
 
-  useEffect(() => {
-    setStyle({
-      scale: 1.1,
-      translateX: 0,
-      translateY: 0,
-      left: 0,
-      top: 0
-    });
-  }, [currentIndex]);
+  // useEffect(() => {
+  //   setStyle({
+  //     scale: 1.1,
+  //     translateX: 0,
+  //     translateY: 0,
+  //     left: 0,
+  //     top: 0
+  //   });
+  // }, [currentIndex]);
 
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -162,6 +162,39 @@ const Zoom: React.FC<Props> = ({
     }
   }, [images, currentIndex]);
 
+  const updateIndex = useCallback((value: number) => {
+    setCurrentIndex(currentIndex => currentIndex + value);
+  }, []);
+  const navigation = useMemo(() => {
+    return (
+      <div className={styles.navigationContainer}>
+        <button
+          className={cs(fontStyles.iconArrowLeft, fontStyles.icon, styles.prev)}
+          style={{ visibility: currentIndex > 0 ? "visible" : "hidden" }}
+          onClick={() => updateIndex(-1)}
+        />
+        <button
+          className={cs(
+            fontStyles.iconCrossNarrowBig,
+            fontStyles.icon,
+            styles.close
+          )}
+          onClick={closeModal}
+        />
+        <button
+          className={cs(
+            fontStyles.iconArrowRight,
+            fontStyles.icon,
+            styles.next
+          )}
+          style={{
+            visibility: currentIndex < images.length - 1 ? "visible" : "hidden"
+          }}
+          onClick={() => updateIndex(1)}
+        />
+      </div>
+    );
+  }, [images, currentIndex]);
   return (
     <div
       className={styles.container}
@@ -201,6 +234,7 @@ const Zoom: React.FC<Props> = ({
           onClick={closeModal}
         />
       )}
+      {mobile && navigation}
     </div>
   );
 };
