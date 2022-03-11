@@ -22,10 +22,15 @@ const initialState: HeaderState = {
       sizeGuide: {
         data: [],
         measurements: [],
-        sizes: []
+        sizes: [],
+        note: "",
+        disclaimer: ""
       }
     },
-    show: false
+    show: false,
+    sizes: [],
+    selected: undefined,
+    isCorporatePDP: false
   }
 };
 
@@ -73,6 +78,17 @@ export const header = (
     case "UPDATE_SIZE_CHART_SHOW": {
       const newState = { ...state };
       newState.sizeChartData.show = action.payload;
+      return newState;
+    }
+    case "UPDATE_SIZE_CHART_SIZES": {
+      const newState = { ...state };
+      newState.sizeChartData.sizes = action.payload.sizes;
+      newState.sizeChartData.isCorporatePDP = action.payload.isCorporatePDP;
+      return newState;
+    }
+    case "UPDATE_SIZE_CHART_SELECTED": {
+      const newState = { ...state };
+      newState.sizeChartData.selected = action.payload;
       return newState;
     }
   }

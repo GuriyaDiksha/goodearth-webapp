@@ -45,8 +45,10 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import {
-  // updateSizeChartData,
-  // updateSizeChartShow,
+  updateSizeChartData,
+  updateSizeChartSelected,
+  updateSizeChartShow,
+  updateSizeChartSizes,
   updateStoreState
 } from "actions/header";
 import { MESSAGE } from "constants/messages";
@@ -73,7 +75,6 @@ const ProductDetails: React.FC<Props> = ({
     discountedPriceRecords,
     priceRecords,
     childAttributes,
-    sizeChartHtml,
     categories,
     loyaltyDisabled,
     shipping,
@@ -140,10 +141,14 @@ const ProductDetails: React.FC<Props> = ({
   //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
   //   );
   // }, [selectedSize]);
+  const selectedId = useSelector(
+    (state: AppState) => state.header.sizeChartData.selected
+  );
   useLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
+  const { dispatch } = useStore();
   useEffect(() => {
     let count = 0;
     let tempSize = null;
@@ -168,8 +173,19 @@ const ProductDetails: React.FC<Props> = ({
 
       setIsRegistry(registryMapping);
     }
+    dispatch(
+      updateSizeChartSizes({
+        sizes: childAttributes,
+        isCorporatePDP: corporatePDP
+      })
+    );
+    dispatch(updateSizeChartSelected(selectedSize?.id));
   }, [childAttributes, selectedSize]);
 
+  useEffect(() => {
+    const size = childAttributes.filter(child => child.id == selectedId)[0];
+    setSelectedSize(size);
+  }, [selectedId]);
   useEffect(() => {
     if (childAttributes.length === 1) {
       setSelectedSize(childAttributes[0]);
@@ -186,7 +202,6 @@ const ProductDetails: React.FC<Props> = ({
     }
   }, [currency, priceRecords[currency]]);
 
-  const { dispatch } = useStore();
   const price = corporatePDP
     ? priceRecords[currency]
     : selectedSize && selectedSize.priceRecords
@@ -249,14 +264,12 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const onSizeChartClick = useCallback(() => {
-    if (!sizeChartHtml) {
+    if (!sizeChart) {
       return;
     }
-    updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
-    changeModalState(true);
-    // dispatch(updateSizeChartData(sizeChart));
-    // dispatch(updateSizeChartShow(true));
-  }, [sizeChartHtml]);
+    dispatch(updateSizeChartData(sizeChart));
+    dispatch(updateSizeChartShow(true));
+  }, [sizeChart]);
 
   const [childAttr] = childAttributes;
   const { size = "" } = childAttr || {};
@@ -815,7 +828,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                   </div>
                 </div>
-                {sizeChartHtml && !isQuickview && (
+                {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
                       [globalStyles.textCenter]: !mobile

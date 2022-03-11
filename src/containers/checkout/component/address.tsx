@@ -67,8 +67,6 @@ const AddressSection: React.FC<AddressProps & {
   const [pancardCheck, setPancardCheck] = useState(false);
   const [panError, setPanError] = useState("");
   const [panCheck, setPanCheck] = useState("");
-  const [gstPan, setGstPan] = useState(user.panPassport || "");
-  const [gstPanError, setGstPanError] = useState("");
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
 
@@ -90,9 +88,18 @@ const AddressSection: React.FC<AddressProps & {
   };
 
   useEffect(() => {
+    setPancardText(user.panPassport || "");
+  }, [user.panPassport]);
+
+  useEffect(() => {
     setSameAsShipping(!isGoodearthShipping && hidesameShipping && !isBridal);
   }, [isGoodearthShipping, hidesameShipping, isBridal]);
 
+  useEffect(() => {
+    if (currency != "INR") {
+      setGst(false);
+    }
+  }, [currency]);
   const renderActions = function(isBottom?: boolean) {
     if (isActive && isLoggedIn) {
       const clickAction =
@@ -210,7 +217,6 @@ const AddressSection: React.FC<AddressProps & {
   };
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGstType(e.target.value);
-    setGstPanError("");
     setPanError("");
     setError("");
   };
@@ -226,16 +232,8 @@ const AddressSection: React.FC<AddressProps & {
     setError("");
   };
 
-  const onGstPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGstPan(event.target.value);
-    setPancardText(event.target.value);
-    setGstPanError("");
-    setPanError("");
-  };
-
   const onPanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPancardText(event.target.value);
-    setGstPan(event.target.value);
   };
 
   const togglepancard = () => {
@@ -253,7 +251,9 @@ const AddressSection: React.FC<AddressProps & {
           onChange={onChangeGst}
         />
         <span className={styles.checkmark}> </span>{" "}
-        <span className={styles.txtGst}>{props.gstType}</span>
+        <span className={styles.txtGst}>
+          {props.gstType == "UID" ? "UIN" : props.gstType}
+        </span>
       </label>
     );
   };
@@ -297,40 +297,21 @@ const AddressSection: React.FC<AddressProps & {
         setError("Please enter a valid GST Number");
         return false;
       } else if (gstText.length != 15 && gstType == "UID") {
-        setError("Please enter a valid UID Number");
-        return false;
-      } else if (gstText.length != 15 && gstType == "GID") {
-        setError("Please enter a valid GID Number");
+        setError("Please enter a valid UIN Number");
         return false;
       } else {
         setError("");
         return true;
       }
     } else {
-      const text =
-        gstType == "GSTIN" ? "GST" : gstType == "UID" ? "UID" : "GID";
+      const text = gstType == "GSTIN" ? "GST" : "UIN";
 
       setError("Please enter a " + text + " number");
       return false;
     }
   };
 
-  const gstPanValidation = () => {
-    if (gstPan.length == 10) {
-      setGstPanError("");
-      setPanError("");
-      return true;
-    } else if (valid.checkBlank(gstPan)) {
-      setGstPanError("Please enter your PAN Number");
-      return false;
-    } else {
-      setGstPanError("Please enter a valid PAN Number");
-      return false;
-    }
-  };
-
   const removeErrorMessages = () => {
-    setGstPanError("");
     setError("");
     setPanError("");
     setPanCheck("");
@@ -376,12 +357,6 @@ const AddressSection: React.FC<AddressProps & {
       if (!gstValidation()) {
         validate = false;
       }
-      if ((gstType == "GSTIN" || amountPriceCheck) && !gstPanValidation()) {
-        validate = false;
-      }
-      if (!gstPanValidation()) {
-        validate = false;
-      }
     }
     if (validate) {
       removeErrorMessages();
@@ -404,6 +379,16 @@ const AddressSection: React.FC<AddressProps & {
     onSubmit();
   };
 
+  const desc = {
+    GSTIN:
+      "Goods and Services Tax Identification Number (GSTIN) is a tax registration number. Every taxpayers is assigned a state-wise PAN-based 15 digit GSTIN.",
+    UID:
+      "Unique Identificatin Number (UIN) is a special class of GST registration for foreign diplomatic missions and embassies."
+  };
+  const title = {
+    GSTIN: "Goods and Services Tax Identification Number (GSTIN)",
+    UID: "Unique Identificatin Number (UIN)"
+  };
   const renderPancard = useMemo(() => {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
@@ -450,7 +435,26 @@ const AddressSection: React.FC<AddressProps & {
                   <div className={styles.radioList}>
                     <RadioButton key="GSTIN" gstType="GSTIN" />
                     <RadioButton key="UID" gstType="UID" />
-                    <RadioButton key="GID" gstType="GID" />
+                  </div>
+                  <div className={bootstrapStyles.row}>
+                    <div
+                      className={cs(
+                        styles.gstTitle,
+                        bootstrapStyles.col12,
+                        bootstrapStyles.colMd7
+                      )}
+                    >
+                      {title[gstType]}
+                    </div>
+                    <div
+                      className={cs(
+                        styles.gstDesc,
+                        bootstrapStyles.col12,
+                        bootstrapStyles.colMd7
+                      )}
+                    >
+                      {desc[gstType]}
+                    </div>
                   </div>
                   <div className={styles.form}>
                     <div
@@ -470,7 +474,7 @@ const AddressSection: React.FC<AddressProps & {
                       />
                     </div>
                     <label className={styles.formLabel}>
-                      {gstType == "GSTIN" ? "GST NO." : gstType + " NO."}
+                      {gstType == "GSTIN" ? "GST No." : "UIN No."}
                     </label>
                     {error ? (
                       <span
@@ -480,36 +484,6 @@ const AddressSection: React.FC<AddressProps & {
                         )}
                       >
                         {error}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div className={styles.form}>
-                    <div
-                      className={cs(
-                        styles.flex,
-                        styles.vCenter,
-                        globalStyles.voffset3,
-                        styles.payment
-                      )}
-                    >
-                      <input
-                        type="text"
-                        className={cs(styles.input, styles.marginR10)}
-                        onChange={onGstPanChange}
-                        value={gstPan}
-                      />
-                    </div>
-                    <label className={styles.formLabel}>PAN Number</label>
-                    {gstPanError ? (
-                      <span
-                        className={cs(
-                          globalStyles.errorMsg,
-                          globalStyles.wordCap
-                        )}
-                      >
-                        {gstPanError}
                       </span>
                     ) : (
                       ""
@@ -543,12 +517,12 @@ const AddressSection: React.FC<AddressProps & {
                     <input
                       type="text"
                       className={cs(
-                        { [styles.disabledInput]: gst },
+                        { [styles.disabledInput]: !!user.panPassport },
                         styles.input,
                         styles.marginR10
                       )}
                       onChange={onPanChange}
-                      disabled={gst}
+                      disabled={!!user.panPassport}
                       onKeyPress={onPanKeyPress}
                       value={pancardText}
                     />
@@ -598,13 +572,15 @@ const AddressSection: React.FC<AddressProps & {
   }, [
     gst,
     gstText,
-    gstPan,
-    gstPanError,
     panCheck,
     pancardCheck,
     panError,
     error,
-    gstType
+    gstType,
+    props.activeStep,
+    basket.total,
+    pancardText,
+    currency
   ]);
 
   const renderBillingCheckbox = function() {
