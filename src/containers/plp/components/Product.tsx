@@ -34,6 +34,8 @@ const Product: React.FC<Props> = ({ data, view, mobile }) => {
           src={data.mediaUrl}
           autoPlay
           loop
+          controls
+          muted
           preload="auto"
         />
       )}
