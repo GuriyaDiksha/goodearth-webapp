@@ -1,20 +1,33 @@
 import Toggle from "components/Toggle";
 import React, { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
+import sizeStyles from "../SizeSelector/styles.scss";
+import cs from "classnames";
+import { ChildProductAttributes } from "typings/product";
+import { updateSizeChartSelected } from "actions/header";
 
 const SizeGuide: React.FC = () => {
   const {
     data: {
-      sizeGuide: { data, measurements, sizes, note, disclaimer }
-    }
+      sizeGuide: { data, measurements, note, disclaimer }
+    },
+    sizes,
+    isCorporatePDP
   } = useSelector((state: AppState) => state.header.sizeChartData);
+  const selected = useSelector(
+    (state: AppState) => state.header.sizeChartData.selected
+  );
   const values = ["in", "cms"];
   const [unit, setUnit] = useState("in");
   const roundHalf = useCallback((num: number) => {
-    return Math.round((num - 0.25) / 0.5) * 0.5;
+    return Math.round(num / 0.5) * 0.5;
   }, []);
+  const dispatch = useDispatch();
+  const sizeClickHandler = (child: ChildProductAttributes) => {
+    dispatch(updateSizeChartSelected(child.id));
+  };
   return (
     <>
       <Toggle
@@ -37,11 +50,22 @@ const SizeGuide: React.FC = () => {
         <table className={styles.tableContent}>
           <thead>
             <tr>
-              {sizes.map((size, i) => (
-                <th key={i} scope="col">
-                  {size}
-                </th>
-              ))}
+              {sizes.map(child => {
+                const { id, size, stock, sku } = child;
+                return (
+                  <th scope="col" key={sku}>
+                    <div
+                      className={cs(sizeStyles.sizeButton, {
+                        [sizeStyles.selected]: id === selected,
+                        [sizeStyles.unavailable]: stock === 0 && !isCorporatePDP
+                      })}
+                      onClick={() => sizeClickHandler(child)}
+                    >
+                      {size}
+                    </div>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
@@ -49,7 +73,12 @@ const SizeGuide: React.FC = () => {
               return (
                 <tr key={i}>
                   {dataRow.map((dataItem, j) => (
-                    <td key={j}>
+                    <td
+                      key={j}
+                      className={cs({
+                        [styles.disabled]: sizes.length > j && !sizes[j]?.stock
+                      })}
+                    >
                       {unit == "in" ? dataItem : roundHalf(dataItem * 2.54)}
                     </td>
                   ))}

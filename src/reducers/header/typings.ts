@@ -5,6 +5,7 @@ import {
   MegaMenuData,
   SaleTimerData
 } from "components/header/typings";
+import { ChildProductAttributes } from "typings/product";
 
 export type StoreData = {
   data: any[];
@@ -27,6 +28,9 @@ export type SizeChartResponse = {
 export type SizeChartData = {
   data: SizeChartResponse;
   show: boolean;
+  sizes: ChildProductAttributes[];
+  selected: number | undefined;
+  isCorporatePDP: boolean;
 };
 
 export type HeaderState = {
