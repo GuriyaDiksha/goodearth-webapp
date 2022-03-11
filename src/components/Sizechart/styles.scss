@@ -429,11 +429,18 @@
         padding: 20px 15px;
         min-width: 75px;
         border-left: 1px solid #DDDDDD;
+        &.disabled {
+          color: #b3b3b3;
+        }
       }
     }
     thead {
       tr {
         background-color: $very-light-grey;
+        height: 56px;
+        th {
+          padding: 7px 15px 0;
+        }
       }
     }
   }
@@ -443,6 +450,6 @@
   p {
     margin: 20px 0;
     color: #535353;
-    font-size: 14px;
+    font-size: 12px;
   }
 }
