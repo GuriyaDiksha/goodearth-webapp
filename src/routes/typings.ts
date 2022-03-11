@@ -1,6 +1,6 @@
 import { InitAction, MetaAction } from "typings/actions";
 
-export enum ROUTES {
+export const enum ROUTES {
   HOME = "/",
   CollectionLanding = "/allcollection/:level1/:id",
   CollectionSpecific = "/collection/:slug",
