@@ -84,21 +84,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return data;
     },
     specifyBillingAddress: async (
-      specifyBillingAddressData: specifyBillingAddressData,
-      stopBillingApi: boolean
+      specifyBillingAddressData: specifyBillingAddressData
     ) => {
-      if (stopBillingApi) {
-        return "";
-      } else {
-        const data = await AddressService.specifyBillingAddress(
-          dispatch,
-          specifyBillingAddressData
-        );
-        AddressService.fetchAddressList(dispatch).then(addressList => {
-          dispatch(updateAddressList(addressList));
-        });
-        return data;
-      }
+      const data = await AddressService.specifyBillingAddress(
+        dispatch,
+        specifyBillingAddressData
+      );
+      AddressService.fetchAddressList(dispatch).then(addressList => {
+        dispatch(updateAddressList(addressList));
+      });
+      return data;
     },
     fetchAddressBridal: async () => {
       const addressList = await AddressService.fetchAddressList(dispatch);
@@ -647,12 +642,12 @@ class Checkout extends React.Component<Props, State> {
         data = {
           billingAddressId: billingAddress.id
         };
-        let stopBillingApi = true;
-        if (this.state.shippingAddress?.id != billingAddress.id) {
-          stopBillingApi = false;
-        }
+        // let stopBillingApi = false;
+        // if (this.state.shippingAddress?.id != billingAddress.id) {
+        //   stopBillingApi = false;
+        // }
         if (obj.gstNo) {
-          stopBillingApi = false;
+          // stopBillingApi = false;
           data = Object.assign(
             {},
             {
@@ -664,7 +659,7 @@ class Checkout extends React.Component<Props, State> {
           );
         }
         this.props
-          .specifyBillingAddress(data, stopBillingApi)
+          .specifyBillingAddress(data)
           .then(() => {
             Moengage.track_event("Billing Address Added", {
               "First Name": billingAddress.firstName,
