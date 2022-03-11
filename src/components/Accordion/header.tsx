@@ -7,6 +7,7 @@ import fontStyles from "styles/iconFonts.scss";
 type Props = {
   id: string;
   className?: string;
+  headerClosedClassName?: string;
   open: boolean;
   openIconClass: string;
   closedIconClass: string;
@@ -21,6 +22,7 @@ const Header: React.FC<Props> = memo(
     children,
     openIconClass = styles.iconOpen,
     closedIconClass = styles.iconClosed,
+    headerClosedClassName = "",
     onClick
   }) => {
     const onHeaderClick = () => {
@@ -28,7 +30,9 @@ const Header: React.FC<Props> = memo(
     };
     return (
       <div
-        className={cs(className, styles.accordionHeader)}
+        className={cs(className, styles.accordionHeader, {
+          [headerClosedClassName]: !open
+        })}
         onClick={onHeaderClick}
       >
         {children}

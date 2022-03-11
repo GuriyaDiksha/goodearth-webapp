@@ -44,7 +44,11 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
-import { updateStoreState } from "actions/header";
+import {
+  // updateSizeChartData,
+  // updateSizeChartShow,
+  updateStoreState
+} from "actions/header";
 import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
@@ -87,7 +91,8 @@ const ProductDetails: React.FC<Props> = ({
     justAddedBadge,
     badgeType,
     invisibleFields,
-    partner
+    partner,
+    sizeChart
   },
   data,
   corporatePDP,
@@ -247,9 +252,10 @@ const ProductDetails: React.FC<Props> = ({
     if (!sizeChartHtml) {
       return;
     }
-    // renderModal(<SizeChartPopup html={sizeChartHtml} />);
     updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
     changeModalState(true);
+    // dispatch(updateSizeChartData(sizeChart));
+    // dispatch(updateSizeChartShow(true));
   }, [sizeChartHtml]);
 
   const [childAttr] = childAttributes;
@@ -614,7 +620,7 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <Fragment>
-      {!isQuickview && showDock && (
+      {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
           buttoncall={button}

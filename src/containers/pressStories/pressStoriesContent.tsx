@@ -196,7 +196,7 @@ class PressStoriesContent extends React.Component<
               <FormInput
                 name="email"
                 placeholder={"Email"}
-                label={"Email"}
+                label={"Email*"}
                 keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                 validations={{
                   isEmail: true,
@@ -215,15 +215,22 @@ class PressStoriesContent extends React.Component<
               <FormInput
                 name="publication"
                 placeholder="Publication"
-                label="Publication"
+                label="Publication*"
                 keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+                validations={{
+                  isExisty: true
+                }}
+                validationErrors={{
+                  isExisty: "Please enter publication name"
+                }}
+                required
               />
             </div>
             <div>
               <FormTextArea
                 name="message"
                 placeholder="Insert your message here, along with your contact details..."
-                label="Message"
+                label="Message*"
                 keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
                 validations={{
                   isExisty: true
