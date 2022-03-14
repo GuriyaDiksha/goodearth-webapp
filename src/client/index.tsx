@@ -49,6 +49,9 @@ window.onload = () => {
       const mobile = updatedDevice.mobile || window.innerWidth < 992;
       const orientation: "landscape" | "portrait" =
         window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+      if (document.body.hasAttribute("style")) {
+        document.body.removeAttribute("style");
+      }
       store.dispatch(
         updateDeviceInfo(mobile, updatedDevice.tablet, orientation)
       );
