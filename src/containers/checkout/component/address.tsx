@@ -398,7 +398,7 @@ const AddressSection: React.FC<AddressProps & {
             amountPrice[currency] +
             ". PLEASE CONFIRM THE SAME BELOW";
       const panText =
-        currency == "INR" ? "PAN Card Number" : " Passport Number";
+        currency == "INR" ? "PAN Card Number*" : " Passport Number*";
       return (
         <div>
           {currency == "INR" ? (
@@ -474,7 +474,7 @@ const AddressSection: React.FC<AddressProps & {
                       />
                     </div>
                     <label className={styles.formLabel}>
-                      {gstType == "GSTIN" ? "GST No." : "UIN No."}
+                      {gstType == "GSTIN" ? "GST No.*" : "UIN No.*"}
                     </label>
                     {error ? (
                       <span
