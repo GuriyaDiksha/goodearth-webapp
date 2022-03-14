@@ -59,7 +59,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     country: true,
     preferredContact: ["Phone", "Email"],
     query: true,
-    state: true
+    state: true,
+    availableInternational: false
   });
   const [enquiryMessage, setEnquiryMessage] = useState<
     string | (string | JSX.Element)[]
@@ -321,7 +322,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 options={countryOptions}
                 handleChange={onCountrySelect}
                 placeholder="Select Country"
-                disable={true}
+                disable={!popupfield.availableInternational}
                 name="country"
                 validations={{
                   isExisty: true
@@ -438,7 +439,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
         </div>
         {modevalue == "Phone" ? (
           <>
-            <p className={cs(styles.msg)}>Suitable Time</p>
+            <p className={cs(styles.msg)}>Suitable Time (IST)</p>
             <div>
               <div className={styles.time}>
                 <FormTime
