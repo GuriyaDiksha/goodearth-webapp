@@ -101,10 +101,12 @@ class Bag extends React.Component<Props, State> {
 
   getFooter() {
     if (this.props.cart) {
-      // const amount =
-      //   this.props.cart.offerDiscounts.filter(discount => {
-      //     return discount.name == "EMP Discount";
-      //   })[0] || {};
+      const discountAmount = this.props.cart.offerDiscounts
+        .map(discount => {
+          return +discount.amount;
+        })
+        .reduce((partialSum, a) => partialSum + a, 0);
+
       return (
         <div className={styles.bagFooter}>
           {this.hasOutOfStockItems() && (
@@ -121,6 +123,27 @@ class Bag extends React.Component<Props, State> {
               Remove all Items out of stock
             </div>
           )}
+          {discountAmount > 0 && (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                styles.containerCost
+              )}
+            >
+              <div className={cs(styles.totalPrice, globalStyles.bold)}>
+                Discount
+              </div>
+              <div className={globalStyles.textRight}>
+                <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
+                  (-)
+                  {String.fromCharCode(...currencyCodes[this.props.currency])}
+                  &nbsp;
+                  {parseFloat(discountAmount.toString()).toFixed(2)}
+                </h5>
+              </div>
+            </div>
+          )}
           <div
             className={cs(
               globalStyles.flex,
@@ -129,7 +152,7 @@ class Bag extends React.Component<Props, State> {
             )}
           >
             <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              SUBTOTAL
+              AMOUNT PAYABLE*
             </div>
             <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
