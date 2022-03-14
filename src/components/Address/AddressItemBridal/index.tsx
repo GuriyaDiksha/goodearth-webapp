@@ -32,6 +32,7 @@ const AddressItemBridal: React.FC<Props> = ({
             )
           : ""
       }
+      id={`address-item-${addressData.id}`}
     >
       {addressData && (
         <div className={styles.addressWrap}>
