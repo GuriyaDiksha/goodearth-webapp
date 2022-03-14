@@ -53,6 +53,7 @@ export type Basket = {
   shippingCharge: number;
   total: number;
   subTotal: string | number;
+  subTotalWithShipping: string | number;
   giftCards: BalanceProps[];
   loyalty: Points[];
   redirectToCart: string;
