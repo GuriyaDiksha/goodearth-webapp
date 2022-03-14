@@ -102,20 +102,34 @@ const AddressMain: React.FC<Props> = props => {
   // }
   useEffect(() => {
     if (mode == "list" && scrollPos != null) {
-      window.scrollTo({
-        top: scrollPos,
-        behavior: "smooth"
-      });
-      if (innerScrollPos != null) {
-        const elem = document.getElementsByClassName(
-          myAccountStyles.accountFormBgMobile
-        )?.[0];
+      if (
+        editAddressData &&
+        (editAddressData.isDefaultForBilling ||
+          editAddressData.isDefaultForShipping)
+      ) {
+        // focus on address-item-id
+        const elem = document.getElementById(
+          `address-item-${editAddressData.id}`
+        );
         if (elem) {
-          elem.scrollTop = innerScrollPos;
+          elem.scrollIntoView({ behavior: "smooth", block: "center" });
         }
+      } else {
+        window.scrollTo({
+          top: scrollPos,
+          behavior: "smooth"
+        });
+        if (innerScrollPos != null) {
+          const elem = document.getElementsByClassName(
+            myAccountStyles.accountFormBgMobile
+          )?.[0];
+          if (elem) {
+            elem.scrollTop = innerScrollPos;
+          }
+        }
+        setInnerScrollPos(null);
+        setScrollPos(null);
       }
-      setInnerScrollPos(null);
-      setScrollPos(null);
     }
   }, [mode]);
   const getStateFromPinCode = useCallback(
