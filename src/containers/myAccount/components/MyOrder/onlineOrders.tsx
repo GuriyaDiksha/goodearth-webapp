@@ -43,8 +43,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     };
   }, []);
 
-  const showDetails = (index: number): any => {
+  const showDetails = (index: number, id: string): any => {
     setIsOpenAddressIndex(index);
+    setTimeout(() => {
+      const orderElem = id && document.getElementById(id);
+      if (orderElem) {
+        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 300);
   };
 
   const trackOrder = (e: React.MouseEvent) => {
@@ -100,7 +106,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 <p className={styles.editView}>
                   <a
                     className={globalStyles.cerise}
-                    onClick={() => showDetails(index)}
+                    onClick={() => showDetails(index, data.number)}
                   >
                     {" "}
                     view{" "}
