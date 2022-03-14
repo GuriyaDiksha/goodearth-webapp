@@ -9,7 +9,8 @@ const newLine = '\r\n';
 
 const Sitemaps = {
     header: "sitemap-header.xml",
-    footer: "sitemap-footer.xml"
+    footer: "sitemap-footer.xml",
+    products: "sitemap-products.xml"
 };
 function generateXML(urls, name, priority) {
     try {
@@ -24,7 +25,7 @@ function generateXML(urls, name, priority) {
         fs.writeFileSync('./dist/' + name, content);
         console.log("generated " + name);
     } catch(err) {
-        console.log("Error: " + error);
+        console.log("Error: " + err);
     }
 }
 function generateMain() {
@@ -49,46 +50,51 @@ function encodeStr(rawStr) {
      });
      return encodedStr;
 }
-async function generateHeader() {
-    const urls = [];
+
+async function fetchData() {
     try {
-        const res = await axios.get(apiDomain + '/myapi/category/megamenu')
-        res.data.data.forEach(l1 => {
-            l1.url && urls.push(domain + encodeStr(l1.url));
-            l1.columns.forEach(column => {
-                column.templates.forEach(template => {
-                    template.templateData.componentData.link && urls.push(domain + encodeStr(template.templateData.componentData.link));
-                    template.templateData.children.forEach(child => {
-                        child.componentData.link && urls.push(domain + encodeStr(child.componentData.link));
-                    });
-                });
-            });
-        });
-        generateXML(urls, Sitemaps.header, 1);
+        const [header, footer, products] = await Promise.all([axios.get(apiDomain + '/myapi/category/megamenu'),
+        axios.get(apiDomain + '/myapi/category/footer'),
+        axios.get(apiDomain + '/myapi/common/products_list')]);
+        generateHeader(header);
+        generateFooter(footer);
+        generateProducts(products);
     } catch(err) {
         console.log("Error: " + err);
-    };
+    }
 }
-async function generateFooter() {
+function generateHeader(header) {
     const urls = [];
-    try {
-        const res = await axios.get(apiDomain + '/myapi/category/footer');
-        res.data.footerList.forEach(column => {
-            column.forEach(item => {
-                item.link && urls.push(domain + encodeStr(item.link));
-                item.value.forEach(value => {
-                    value.link && urls.push(domain + encodeStr(value.link));
+    header.data.data.forEach(l1 => {
+        l1.url && urls.push(domain + encodeStr(l1.url));
+        l1.columns.forEach(column => {
+            column.templates.forEach(template => {
+                template.templateData.componentData.link && urls.push(domain + encodeStr(template.templateData.componentData.link));
+                template.templateData.children.forEach(child => {
+                    child.componentData.link && urls.push(domain + encodeStr(child.componentData.link));
                 });
             });
         });
-        generateXML(urls, Sitemaps.footer, 1);
-    }
-    catch(err) {
-        console.log("Error: " + err);
-    };
+    });
+    generateXML(urls, Sitemaps.header, 1);
+}
+function generateFooter(footer) {
+    const urls = [];
+    footer.data.footerList.forEach(column => {
+        column.forEach(item => {
+            item.link && urls.push(domain + encodeStr(item.link));
+            item.value.forEach(value => {
+                value.link && urls.push(domain + encodeStr(value.link));
+            });
+        });
+    });
+    generateXML(urls, Sitemaps.footer, 1);
+}
+
+function generateProducts(products) {
+    generateXML(products.data, Sitemaps.products, 1);
 }
 
 // generate sitemap files
 generateMain();
-generateHeader();
-generateFooter();
+fetchData();
