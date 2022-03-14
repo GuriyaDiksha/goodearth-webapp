@@ -1,7 +1,21 @@
 import React from "react";
-import { FitGuideProps } from "./typings";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
+import styles from "./styles.scss";
 
-const FitGuide: React.FC<FitGuideProps> = () => {
-  return <div></div>;
+const FitGuide: React.FC = () => {
+  const { image, pointers } = useSelector(
+    (state: AppState) => state.header.sizeChartData.data.fitGuide
+  );
+  return (
+    <div className={styles.fitGuide}>
+      <img src={image} />
+      <ol>
+        {pointers.map((point, index) => (
+          <li key={index}>{point}</li>
+        ))}
+      </ol>
+    </div>
+  );
 };
 export default FitGuide;

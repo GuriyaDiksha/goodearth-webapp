@@ -12,18 +12,20 @@ const Sitemaps = {
     footer: "sitemap-footer.xml"
 };
 function generateXML(urls, name, priority) {
-    const offset = new Date().getTimezoneOffset();
-    let lastMod = new Date(new Date().getTime() - offset*60*1000).toISOString().split('T')[0];
-    let content = '';
-    urls.forEach(url => {
-        content += '<url>' + newLine + '<loc>' + url + '</loc>' + newLine + '<lastmod>' + lastMod + '</lastmod>' + newLine + '<changefreq>weekly</changefreq>' + newLine + '<priority>' + priority + '</priority>' + newLine + '</url>' + newLine;
-    })
-    content = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + newLine + content + '</urlset>';
-    content = '<?xml version="1.0" encoding="UTF-8"?>' + newLine + content;
-    fs.writeFile('./dist/' + name, content, (err) => {
-        if(err) throw err;
-        console.log("generated " + name + "\n");
-    });
+    try {
+        const offset = new Date().getTimezoneOffset();
+        let lastMod = new Date(new Date().getTime() - offset*60*1000).toISOString().split('T')[0];
+        let content = '';
+        urls.forEach(url => {
+            content += '<url>' + newLine + '<loc>' + url + '</loc>' + newLine + '<lastmod>' + lastMod + '</lastmod>' + newLine + '<changefreq>weekly</changefreq>' + newLine + '<priority>' + priority + '</priority>' + newLine + '</url>' + newLine;
+        })
+        content = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + newLine + content + '</urlset>';
+        content = '<?xml version="1.0" encoding="UTF-8"?>' + newLine + content;
+        fs.writeFileSync('./dist/' + name, content);
+        console.log("generated " + name);
+    } catch(err) {
+        console.log("Error: " + error);
+    }
 }
 function generateMain() {
     let content = '';
@@ -34,10 +36,8 @@ function generateMain() {
             content += sitemap;
         })
         content = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + newLine + content + '</sitemapindex>';
-        fs.writeFile('./dist/sitemap.xml', content, (err) => {
-            if(err) throw err;
-            console.log("generated sitemap!");
-        });
+        fs.writeFileSync('./dist/sitemap.xml', content);
+        console.log("generated sitemap!");
     } catch(err) {
         console.log(err);
     }
@@ -49,10 +49,10 @@ function encodeStr(rawStr) {
      });
      return encodedStr;
 }
-function generateHeader() {
+async function generateHeader() {
     const urls = [];
-    axios.get(apiDomain + '/myapi/category/megamenu')
-    .then(res => {
+    try {
+        const res = await axios.get(apiDomain + '/myapi/category/megamenu')
         res.data.data.forEach(l1 => {
             l1.url && urls.push(domain + encodeStr(l1.url));
             l1.columns.forEach(column => {
@@ -65,15 +65,14 @@ function generateHeader() {
             });
         });
         generateXML(urls, Sitemaps.header, 1);
-    })
-    .catch(err => {
+    } catch(err) {
         console.log("Error: " + err);
-    });
+    };
 }
-function generateFooter() {
+async function generateFooter() {
     const urls = [];
-    axios.get(apiDomain + '/myapi/category/footer')
-    .then(res => {
+    try {
+        const res = await axios.get(apiDomain + '/myapi/category/footer');
         res.data.footerList.forEach(column => {
             column.forEach(item => {
                 item.link && urls.push(domain + encodeStr(item.link));
@@ -83,10 +82,10 @@ function generateFooter() {
             });
         });
         generateXML(urls, Sitemaps.footer, 1);
-    })
-    .catch(err => {
+    }
+    catch(err) {
         console.log("Error: " + err);
-    });
+    };
 }
 
 // generate sitemap files
