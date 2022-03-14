@@ -151,10 +151,11 @@ const ProductDetails: React.FC<Props> = ({
   const { dispatch } = useStore();
   useEffect(() => {
     let count = 0;
-    let tempSize = null;
+    let tempSize: ChildProductAttributes | undefined;
 
     if (childAttributes.length === 1 && !selectedSize) {
       setSelectedSize(childAttributes[0]);
+      dispatch(updateSizeChartSelected(childAttributes[0].id));
     }
     if (childAttributes.length > 0) {
       const registryMapping = {};
@@ -165,9 +166,9 @@ const ProductDetails: React.FC<Props> = ({
           tempSize = child;
         }
       });
-
-      if (count == 1 && !isStockset) {
+      if (tempSize && count == 1 && !isStockset) {
         setSelectedSize(tempSize);
+        dispatch(updateSizeChartSelected(tempSize.id));
         setIsStockset(true);
       }
 
@@ -179,21 +180,24 @@ const ProductDetails: React.FC<Props> = ({
         isCorporatePDP: corporatePDP
       })
     );
-    dispatch(updateSizeChartSelected(selectedSize?.id));
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
-    const size = childAttributes.filter(child => child.id == selectedId)[0];
-    setSelectedSize(size);
+    if (!selectedSize || selectedSize.id != selectedId) {
+      const size = childAttributes.filter(child => child.id == selectedId)[0];
+      setSelectedSize(size);
+    }
   }, [selectedId]);
   useEffect(() => {
     if (childAttributes.length === 1) {
       setSelectedSize(childAttributes[0]);
+      dispatch(updateSizeChartSelected(childAttributes[0].id));
     } else if (selectedSize) {
       const newSize = childAttributes.filter(
         child => child.id == selectedSize.id
       )[0];
       setSelectedSize(newSize);
+      dispatch(updateSizeChartSelected(newSize.id));
     }
   }, [discountedPriceRecords]);
   useEffect(() => {
@@ -244,6 +248,7 @@ const ProductDetails: React.FC<Props> = ({
       setSelectedSize(selected);
       setQuantity(1);
       setSizeError("");
+      dispatch(updateSizeChartSelected(selected.id));
     },
     [id, childAttributes, selectedSize]
   );
