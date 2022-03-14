@@ -48,7 +48,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     setTimeout(() => {
       const orderElem = id && document.getElementById(id);
       if (orderElem) {
-        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
+        orderElem.scrollIntoView({ block: "start", behavior: "smooth" });
       }
     }, 300);
   };
