@@ -1,5 +1,5 @@
 import Toggle from "components/Toggle";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
@@ -28,6 +28,17 @@ const SizeGuide: React.FC = () => {
   const sizeClickHandler = (child: ChildProductAttributes) => {
     dispatch(updateSizeChartSelected(child.id));
   };
+  useEffect(() => {
+    if (selected) {
+      const selectedSize = sizes.filter(size => size.id == selected)[0];
+      const sizeBtn = document.getElementById(
+        `size-guide-item-${selectedSize.size}`
+      );
+      if (sizeBtn) {
+        sizeBtn.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, []);
   return (
     <>
       <Toggle
@@ -47,7 +58,7 @@ const SizeGuide: React.FC = () => {
             </tr>
           ))}
         </table>
-        <table className={styles.tableContent}>
+        <table className={cs(styles.tableContent, styles.scrollable)}>
           <thead>
             <tr>
               {sizes.map(child => {
@@ -60,6 +71,7 @@ const SizeGuide: React.FC = () => {
                         [sizeStyles.unavailable]: stock === 0 && !isCorporatePDP
                       })}
                       onClick={() => sizeClickHandler(child)}
+                      id={`size-guide-item-${size}`}
                     >
                       {size}
                     </div>
