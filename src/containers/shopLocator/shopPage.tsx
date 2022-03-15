@@ -98,7 +98,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                 <div className={globalStyles.col6}>
                   <Link to={viewLink}> VIEW </Link>
                 </div>
-                <div className={cs(globalStyles.col6, globalStyles.textRight)}>
+                <div className={cs(globalStyles.col6, !globalStyles.textRight)}>
                   <a
                     href={item.direction}
                     target="_blank"
