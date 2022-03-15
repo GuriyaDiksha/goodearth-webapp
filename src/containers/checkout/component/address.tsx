@@ -219,6 +219,7 @@ const AddressSection: React.FC<AddressProps & {
     setGstType(e.target.value);
     setPanError("");
     setError("");
+    setGstText("");
   };
 
   const onPanKeyPress = (event: React.KeyboardEvent) => {
