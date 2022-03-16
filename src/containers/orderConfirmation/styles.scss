@@ -78,6 +78,19 @@
             line-height: 22px;
             font-weight: 400;
             padding: 3px 0;
+            &.email {
+                text-transform: none;
+                padding: 0;
+                font-family: 'LatoFont';
+                font-size: 12px;
+            }
+            &.label {
+                text-transform: none;
+                padding: 0;
+                font-family: 'LatoFont';
+                font-size: 12px;
+                color: $formLabel;
+            }
         }
     }
     .light {
@@ -184,4 +197,10 @@
     font-style: italic;
     color: #707070;
     margin-top: 15px;
+}
+
+.gc {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
