@@ -924,6 +924,15 @@ class PDPContainer extends React.Component<Props, State> {
             slidesToScroll: 1,
             arrows: false
           }
+        },
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+            arrows: true
+          }
         }
       ]
     };
