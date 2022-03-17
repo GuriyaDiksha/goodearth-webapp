@@ -31,7 +31,8 @@ const mapStateToProps = (state: AppState) => {
     tablet: state.device.tablet,
     cart: state.basket,
     isSale: state.info.isSale,
-    location: state.router.location
+    location: state.router.location,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
@@ -100,6 +101,16 @@ class CartPage extends React.Component<Props, State> {
 
   componentDidMount() {
     util.pageViewGTM("Cart");
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Cart Summary Page",
+      "Event Label": "",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Page Type": util.getPageType(),
+      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+      "Page referrer url": document.referrer || ""
+    });
     this.props.fetchBasket();
     // this.props.changeModalState();
     const popupCookie = CookieService.getCookie("showCartPagePopup");
