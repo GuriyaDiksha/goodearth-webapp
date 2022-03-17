@@ -231,10 +231,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
     let coupon = null;
     let giftCard = null;
     let loyalty = null;
+    let isline = false;
     // let voucherDiscount = props.voucher_discounts[0];
     if (basket.voucherDiscounts.length > 0) {
       const couponDetails = basket.voucherDiscounts?.[0];
       if (couponDetails) {
+        isline = true;
         coupon = basket.voucherDiscounts.map((gift, index: number) => {
           const voucher = gift.voucher;
           return (
@@ -284,6 +286,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
 
     if (basket.giftCards) {
+      isline = true;
       giftCard = basket.giftCards.map((gift, index: number) => {
         return (
           <div
@@ -329,6 +332,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     const redeemDetails = basket.loyalty?.[0];
     if (redeemDetails) {
+      isline = true;
       loyalty = (
         <div
           className={cs(
@@ -370,7 +374,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     return (
       <div>
-        <hr className={styles.hr} />
+        {isline && <hr className={styles.hr} />}
         {coupon}
         {giftCard}
         {loyalty}
