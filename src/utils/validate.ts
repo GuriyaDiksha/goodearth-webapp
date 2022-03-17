@@ -1201,3 +1201,17 @@ export function useOnScreen(ref: any) {
 
   return isIntersecting;
 }
+
+export function getPageType() {
+  let pageType = "Home";
+  const isPDP =
+    location.pathname.includes("/catalogue/") &&
+    !location.pathname.includes("/catalogue/category");
+  const isPLP = location.pathname.includes("/catalogue/category");
+  if (isPDP) {
+    pageType = "PDP";
+  } else if (isPLP) {
+    pageType = "PLP";
+  }
+  return pageType;
+}
