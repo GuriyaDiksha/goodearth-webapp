@@ -442,6 +442,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     this.setState({
       disable: true
     });
+    if (!this.props.isCredit) {
+      formData["inputType"] = "GIFT";
+    }
     this.props
       .sendOtp(formData)
       .then((data: any) => {
