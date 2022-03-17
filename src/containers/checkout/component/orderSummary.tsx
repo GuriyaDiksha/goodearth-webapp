@@ -236,9 +236,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (basket.voucherDiscounts.length > 0) {
       const couponDetails = basket.voucherDiscounts?.[0];
       if (couponDetails) {
-        isline = true;
         coupon = basket.voucherDiscounts.map((gift, index: number) => {
           const voucher = gift.voucher;
+          isline = true;
           return (
             <div
               className={cs(
@@ -286,8 +286,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
 
     if (basket.giftCards) {
-      isline = true;
       giftCard = basket.giftCards.map((gift, index: number) => {
+        isline = true;
         return (
           <div
             className={cs(
