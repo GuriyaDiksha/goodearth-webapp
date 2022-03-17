@@ -238,49 +238,46 @@ const OrderSummary: React.FC<OrderProps> = props => {
         coupon = basket.voucherDiscounts.map((gift, index: number) => {
           const voucher = gift.voucher;
           return (
-            <React.Fragment key={index}>
-              <hr className={styles.hr} />
-              <div
-                className={cs(
-                  globalStyles.flex,
-                  globalStyles.gutterBetween,
-                  globalStyles.marginT20,
-                  globalStyles.crossCenter
-                )}
-                key={"voucher" + index}
-              >
-                <span className={styles.subtotal}>
-                  <span className={cs(globalStyles.marginR10, styles.subtotal)}>
-                    {voucher.code}
-                  </span>
-                  <span className={styles.textMuted}>
-                    {" "}
-                    {"PROMO CODE APPLIED"}
-                    {boId ? (
-                      ""
-                    ) : (
-                      <span
-                        className={styles.cross}
-                        onClick={() => {
-                          onPromoRemove(voucher.code);
-                        }}
-                      >
-                        <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconCrossNarrowBig,
-                            styles.discountFont
-                          )}
-                        ></i>
-                      </span>
-                    )}
-                  </span>
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                globalStyles.marginT20,
+                globalStyles.crossCenter
+              )}
+              key={"voucher" + index}
+            >
+              <span className={styles.subtotal}>
+                <span className={cs(globalStyles.marginR10, styles.subtotal)}>
+                  {voucher.code}
                 </span>
-                <span className={styles.subtotal}>
-                  (-) {String.fromCharCode(...code)} {gift.amount}
+                <span className={styles.textMuted}>
+                  {" "}
+                  {"PROMO CODE APPLIED"}
+                  {boId ? (
+                    ""
+                  ) : (
+                    <span
+                      className={styles.cross}
+                      onClick={() => {
+                        onPromoRemove(voucher.code);
+                      }}
+                    >
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconCrossNarrowBig,
+                          styles.discountFont
+                        )}
+                      ></i>
+                    </span>
+                  )}
                 </span>
-              </div>
-            </React.Fragment>
+              </span>
+              <span className={styles.subtotal}>
+                (-) {String.fromCharCode(...code)} {gift.amount}
+              </span>
+            </div>
           );
         });
       }
@@ -373,7 +370,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     return (
       <div>
-        {/* {(coupon || giftCard.length > 0) && <hr className="hr"/>} */}
+        <hr className={styles.hr} />
         {coupon}
         {giftCard}
         {loyalty}
