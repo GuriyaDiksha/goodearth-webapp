@@ -549,6 +549,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {parseFloat("" + basket.subTotal).toFixed(2)}
             </span>
           </div>
+          <hr className={styles.hr} />
+          {getDiscount(basket.offerDiscounts)}
           <div
             className={cs(
               globalStyles.flex,
@@ -639,8 +641,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
             </span>
           </div>
-          <hr className={styles.hr} />
-          {getDiscount(basket.offerDiscounts)}
+
           {getCoupons()}
         </div>
       );
