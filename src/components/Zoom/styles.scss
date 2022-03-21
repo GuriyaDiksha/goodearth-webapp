@@ -50,17 +50,20 @@
 }
 
 .navigation-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    position: absolute;
-    top: calc(50% - 50px);
     button {
         border: none;
-        width: 50px;
+        width: 70px;
         height: 100px;
         background: none;
         cursor: pointer;
         font-size: 50px;
+        position: absolute;
+        top: calc(50% - 50px);
+        &.next {
+            right: 0;
+        }
+        &.prev {
+            left: 0;
+        }
     }
 }
