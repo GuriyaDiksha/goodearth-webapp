@@ -161,7 +161,7 @@ class Bag extends React.Component<Props, State> {
                 {parseFloat(this.props.cart.total.toString()).toFixed(2)}
               </h5>
               <p className={styles.subtext}>
-                Excluding estimated cost of shipping
+                *Excluding estimated cost of shipping
               </p>
             </div>
           </div>
