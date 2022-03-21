@@ -51,24 +51,16 @@
 
 .navigation-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     position: absolute;
-    bottom: 20px;
+    top: calc(50% - 50px);
     button {
         border: none;
-        width: 40px;
-        height: 40px;
-        background: white;
-        border-radius: 50%;
+        width: 50px;
+        height: 100px;
+        background: none;
         cursor: pointer;
-        margin: 0 10px;
-        &.prev, &.next {
-            font-size: 30px;
-        }
-        &.close {
-            font-size: 12px;
-            font-weight: bold;
-        }
+        font-size: 50px;
     }
 }
