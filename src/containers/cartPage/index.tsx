@@ -109,7 +109,7 @@ class CartPage extends React.Component<Props, State> {
       "Page Url": location.href,
       "Page Type": util.getPageType(),
       "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-      "Page referrer url": document.referrer || ""
+      "Page referrer url": CookieService.getCookie("prevUrl") || ""
     });
     this.props.fetchBasket();
     // this.props.changeModalState();
