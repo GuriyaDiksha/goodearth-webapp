@@ -175,14 +175,6 @@ const Zoom: React.FC<Props> = ({
         />
         <button
           className={cs(
-            fontStyles.iconCrossNarrowBig,
-            fontStyles.icon,
-            styles.close
-          )}
-          onClick={closeModal}
-        />
-        <button
-          className={cs(
             fontStyles.iconArrowRight,
             fontStyles.icon,
             styles.next
