@@ -11,12 +11,13 @@ import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import BasketService from "services/basket";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import { updateModal, updateComponent } from "actions/modal";
 import ModalStyles from "components/Modal/styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { POPUP } from "constants/components";
 import bridalRing from "../../images/bridal/rings.svg";
+import { AppState } from "reducers/typings";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -35,6 +36,7 @@ const CartItems: React.FC<BasketItem> = memo(
   }) => {
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
+    const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     const { dispatch } = useStore();
 
     const {
@@ -113,6 +115,34 @@ const CartItems: React.FC<BasketItem> = memo(
               ]
             }
           }
+        });
+        const categoryList = product.categories
+          ? product.categories.length > 0
+            ? product.categories[product.categories.length - 1].replaceAll(
+                " > ",
+                " - "
+              )
+            : ""
+          : "";
+
+        let subcategoryname = categoryList ? categoryList.split(" > ") : "";
+        if (subcategoryname) {
+          subcategoryname = subcategoryname[subcategoryname.length - 1];
+        }
+        const size =
+          attributes.find(attribute => attribute.name == "Size")?.value || "";
+
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Cart Removal",
+          "Event Label": subcategoryname,
+          "Time Stamp": new Date().toISOString(),
+          "Cart Source": location.href,
+          "Product Category": categoryList,
+          "Login Status": isLoggedIn ? "logged in" : "logged out",
+          "Product Name": product.title,
+          "Product ID": product.id,
+          Variant: size
         });
       } catch (err) {
         console.log("cartPage GTM error!");

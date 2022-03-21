@@ -46,7 +46,9 @@ import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import {
   // updateSizeChartData,
+  updateSizeChartSelected,
   // updateSizeChartShow,
+  updateSizeChartSizes,
   updateStoreState
 } from "actions/header";
 import { MESSAGE } from "constants/messages";
@@ -140,16 +142,21 @@ const ProductDetails: React.FC<Props> = ({
   //     (selectedSize?.id && items.indexOf(selectedSize?.id) !== -1) as boolean
   //   );
   // }, [selectedSize]);
+  const selectedId = useSelector(
+    (state: AppState) => state.header.sizeChartData.selected
+  );
   useLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
+  const { dispatch } = useStore();
   useEffect(() => {
     let count = 0;
-    let tempSize = null;
+    let tempSize: ChildProductAttributes | undefined;
 
     if (childAttributes.length === 1 && !selectedSize) {
       setSelectedSize(childAttributes[0]);
+      dispatch(updateSizeChartSelected(childAttributes[0].id));
     }
     if (childAttributes.length > 0) {
       const registryMapping = {};
@@ -160,24 +167,38 @@ const ProductDetails: React.FC<Props> = ({
           tempSize = child;
         }
       });
-
-      if (count == 1 && !isStockset) {
+      if (tempSize && count == 1 && !isStockset) {
         setSelectedSize(tempSize);
+        dispatch(updateSizeChartSelected(tempSize.id));
         setIsStockset(true);
       }
 
       setIsRegistry(registryMapping);
     }
+    dispatch(
+      updateSizeChartSizes({
+        sizes: childAttributes,
+        isCorporatePDP: corporatePDP
+      })
+    );
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
+    if (!selectedSize || selectedSize.id != selectedId) {
+      const size = childAttributes.filter(child => child.id == selectedId)[0];
+      setSelectedSize(size);
+    }
+  }, [selectedId]);
+  useEffect(() => {
     if (childAttributes.length === 1) {
       setSelectedSize(childAttributes[0]);
+      dispatch(updateSizeChartSelected(childAttributes[0].id));
     } else if (selectedSize) {
       const newSize = childAttributes.filter(
         child => child.id == selectedSize.id
       )[0];
       setSelectedSize(newSize);
+      dispatch(updateSizeChartSelected(newSize.id));
     }
   }, [discountedPriceRecords]);
   useEffect(() => {
@@ -186,7 +207,6 @@ const ProductDetails: React.FC<Props> = ({
     }
   }, [currency, priceRecords[currency]]);
 
-  const { dispatch } = useStore();
   const price = corporatePDP
     ? priceRecords[currency]
     : selectedSize && selectedSize.priceRecords
@@ -229,6 +249,7 @@ const ProductDetails: React.FC<Props> = ({
       setSelectedSize(selected);
       setQuantity(1);
       setSizeError("");
+      dispatch(updateSizeChartSelected(selected.id));
     },
     [id, childAttributes, selectedSize]
   );
@@ -256,7 +277,7 @@ const ProductDetails: React.FC<Props> = ({
     changeModalState(true);
     // dispatch(updateSizeChartData(sizeChart));
     // dispatch(updateSizeChartShow(true));
-  }, [sizeChartHtml]);
+  }, [sizeChart]);
 
   const [childAttr] = childAttributes;
   const { size = "" } = childAttr || {};
