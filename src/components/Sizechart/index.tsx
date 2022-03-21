@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
@@ -28,6 +28,12 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
       id: "sizeGuide"
     }
   ];
+  useEffect(() => {
+    document.body.classList.add(globalStyles.noScroll);
+    return () => {
+      document.body.classList.remove(globalStyles.noScroll);
+    };
+  }, []);
   return (
     <div>
       <div

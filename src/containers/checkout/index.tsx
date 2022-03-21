@@ -642,12 +642,26 @@ class Checkout extends React.Component<Props, State> {
         data = {
           billingAddressId: billingAddress.id
         };
+        // let stopBillingApi = false;
+        // if (this.state.shippingAddress?.id != billingAddress.id) {
+        //   stopBillingApi = false;
+        // }
         if (obj.gstNo) {
+          // stopBillingApi = false;
           data = Object.assign(
             {},
             {
               gstType: obj.gstType,
               gstNo: obj.gstNo,
+              panPassportNo: obj.panPassportNo
+            },
+            data
+          );
+        } else if (obj.panPassportNo) {
+          // stopBillingApi = false;
+          data = Object.assign(
+            {},
+            {
               panPassportNo: obj.panPassportNo
             },
             data
