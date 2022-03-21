@@ -101,16 +101,23 @@ class CartPage extends React.Component<Props, State> {
 
   componentDidMount() {
     util.pageViewGTM("Cart");
-    dataLayer.push({
-      "Event Category": "GA Ecommerce",
-      "Event Action": "Cart Summary Page",
-      "Event Label": "",
-      "Time Stamp": new Date().toISOString(),
-      "Page Url": location.href,
-      "Page Type": util.getPageType(),
-      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-      "Page referrer url": CookieService.getCookie("prevUrl") || ""
-    });
+    try {
+      const skuList = this.props.cart.lineItems.map(
+        item => item.product.childAttributes?.[0].sku
+      );
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Cart Summary Page",
+        "Event Label": skuList.length > 0 ? skuList.join(",") : "",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+        "Page referrer url": CookieService.getCookie("prevUrl") || ""
+      });
+    } catch (err) {
+      console.log(err);
+    }
     this.props.fetchBasket();
     // this.props.changeModalState();
     const popupCookie = CookieService.getCookie("showCartPagePopup");
