@@ -988,7 +988,9 @@ class Header extends React.Component<Props, State> {
             active={this.props.showStock}
           />
         )}
-        <Sizechart active={this.props.showSizeChart} />
+        {this.props.showSizeChart && (
+          <Sizechart active={this.props.showSizeChart} />
+        )}
         {this.state.isLoading && <Loader />}
       </div>
     );

@@ -239,6 +239,7 @@ const AddressItem: React.FC<Props> = props => {
               "address-container"
             )
       }
+      id={`address-item-${address.id}`}
     >
       <div
         className={cs(

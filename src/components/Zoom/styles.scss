@@ -48,3 +48,22 @@
     position: fixed;
     cursor: pointer;
 }
+
+.navigation-container {
+    button {
+        border: none;
+        width: 70px;
+        height: 100px;
+        background: none;
+        cursor: pointer;
+        font-size: 50px;
+        position: absolute;
+        top: calc(50% - 50px);
+        &.next {
+            right: 0;
+        }
+        &.prev {
+            left: 0;
+        }
+    }
+}
