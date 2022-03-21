@@ -45,9 +45,9 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import {
-  updateSizeChartData,
+  // updateSizeChartData,
   updateSizeChartSelected,
-  updateSizeChartShow,
+  // updateSizeChartShow,
   updateSizeChartSizes,
   updateStoreState
 } from "actions/header";
@@ -75,6 +75,7 @@ const ProductDetails: React.FC<Props> = ({
     discountedPriceRecords,
     priceRecords,
     childAttributes,
+    sizeChartHtml,
     categories,
     loyaltyDisabled,
     shipping,
@@ -269,11 +270,13 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const onSizeChartClick = useCallback(() => {
-    if (!sizeChart) {
+    if (!sizeChartHtml) {
       return;
     }
-    dispatch(updateSizeChartData(sizeChart));
-    dispatch(updateSizeChartShow(true));
+    updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
+    changeModalState(true);
+    // dispatch(updateSizeChartData(sizeChart));
+    // dispatch(updateSizeChartShow(true));
   }, [sizeChart]);
 
   const [childAttr] = childAttributes;
@@ -833,7 +836,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                   </div>
                 </div>
-                {sizeChart && !isQuickview && (
+                {sizeChartHtml && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
                       [globalStyles.textCenter]: !mobile
