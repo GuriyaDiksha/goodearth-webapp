@@ -241,7 +241,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   checkOtpValidation = () => {
     const { otpData } = this.state;
-    const newData = otpData;
+    const newData = JSON.parse(JSON.stringify(otpData));
     newData["otp"] = this.state.otp;
     delete newData["inputType"];
     if (this.props.otpFor == "activateGC") {
@@ -442,9 +442,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     this.setState({
       disable: true
     });
-    if (!this.props.isCredit) {
-      formData["inputType"] = "GIFT";
-    }
     this.props
       .sendOtp(formData)
       .then((data: any) => {
