@@ -241,7 +241,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   checkOtpValidation = () => {
     const { otpData } = this.state;
-    const newData = JSON.parse(JSON.stringify(otpData));
+    const newData = Object.assign({}, otpData);
     newData["otp"] = this.state.otp;
     delete newData["inputType"];
     if (this.props.otpFor == "activateGC") {
