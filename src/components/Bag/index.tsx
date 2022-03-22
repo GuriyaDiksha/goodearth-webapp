@@ -172,7 +172,7 @@ class Bag extends React.Component<Props, State> {
             )}
           >
             <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              AMOUNT PAYABLE*
+              TOTAL*
             </div>
             <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
