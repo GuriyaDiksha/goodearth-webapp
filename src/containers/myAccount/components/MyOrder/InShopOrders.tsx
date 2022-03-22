@@ -35,8 +35,14 @@ const InShopOrder: React.FC<OrdersProps> = props => {
     };
   }, []);
 
-  const showDetails = (index: number): any => {
+  const showDetails = (index: number, id: string): any => {
     setIsOpenAddressIndex(index);
+    setTimeout(() => {
+      const orderElem = id && document.getElementById(id);
+      if (orderElem) {
+        orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }, 300);
   };
 
   const closeAddress = (data: any, index: number) => {
@@ -86,7 +92,9 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                         ? cs(styles.op2, globalStyles.disableCursor)
                         : globalStyles.cerise
                     }
-                    onClick={() => (isHide ? "" : showDetails(index))}
+                    onClick={() =>
+                      isHide ? "" : showDetails(index, data.number)
+                    }
                   >
                     {" "}
                     view{" "}

@@ -173,18 +173,20 @@ class MegaMenu extends React.Component<Props, MenuState> {
                     : styles.hidden
                 )}
               >
-                <MegaMenuList
-                  ipad={false}
-                  onHeaderMegaMenuClick={this.props.onMegaMenuClick}
-                  activeIndex={this.props.activeIndex}
-                  myIndex={i}
-                  mouseOut={(data): void => {
-                    this.props.mouseOver({ ...data, activeIndex: i });
-                  }}
-                  show={this.props.show}
-                  menudata={data}
-                  mobile={this.props.mobile}
-                />
+                {this.props.show && (
+                  <MegaMenuList
+                    ipad={false}
+                    onHeaderMegaMenuClick={this.props.onMegaMenuClick}
+                    activeIndex={this.props.activeIndex}
+                    myIndex={i}
+                    mouseOut={(data): void => {
+                      this.props.mouseOver({ ...data, activeIndex: i });
+                    }}
+                    show={this.props.show}
+                    menudata={data}
+                    mobile={this.props.mobile}
+                  />
+                )}
               </div>
             </li>
           );
