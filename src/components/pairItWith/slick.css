@@ -161,5 +161,5 @@
 }
 
 .more-collection.mobile-slider .slick-arrow {
-  top: 30%;
+  top: calc(50% + 58px - 76px - 35px);
 }

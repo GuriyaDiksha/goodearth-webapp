@@ -30,6 +30,7 @@ const LineItems: React.FC<BasketItem> = memo(
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
     const { tablet } = useSelector((state: AppState) => state.device);
+    const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     const { dispatch } = useStore();
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value)
@@ -100,6 +101,31 @@ const LineItems: React.FC<BasketItem> = memo(
             ]
           }
         }
+      });
+      const categoryList = product.categories
+        ? product.categories.length > 0
+          ? product.categories[product.categories.length - 1].replaceAll(
+              " > ",
+              " - "
+            )
+          : ""
+        : "";
+
+      let subcategory = categoryList ? categoryList.split(" > ") : "";
+      if (subcategory) {
+        subcategory = subcategory[subcategory.length - 1];
+      }
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Cart Removal",
+        "Event Label": subcategory,
+        "Time Stamp": new Date().toISOString(),
+        "Cart Source": location.href,
+        "Product Category": categoryList,
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Product Name": product.title,
+        "Product ID": product.id,
+        Variant: size
       });
     };
 

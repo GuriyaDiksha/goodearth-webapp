@@ -81,7 +81,7 @@ const LeftImage: React.FC<Props> = ({
           <div className={cs(styles.gcTnc, bootstrapStyles.col6)}>
             {/* {icon && <img src={icon} className={styles.icon} />} */}
             <div className={cs(globalStyles.popupHeading, styles.heading)}>
-              {heading}
+              {ReactHtmlParser(heading)}
             </div>
             <div
               className={cs(
@@ -107,7 +107,7 @@ const LeftImage: React.FC<Props> = ({
                 tabIndex={-1}
                 onClick={() => close(ctaLink)}
               >
-                {ctaLabel}
+                {ReactHtmlParser(ctaLabel)}
               </a>
             </div>
             {disclaimer && (
