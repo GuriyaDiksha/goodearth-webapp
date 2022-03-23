@@ -9,8 +9,10 @@ import { NavLink, Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
+import CookieService from "services/cookie";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
+import * as util from "../../utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -23,7 +25,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 type Props = CartProps &
@@ -43,6 +46,23 @@ class Bag extends React.Component<Props, State> {
 
   componentDidMount = () => {
     document.body.classList.add(globalStyles.noScroll);
+    try {
+      const skuList = this.props.cart.lineItems.map(
+        item => item.product.childAttributes?.[0].sku
+      );
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Cart Summary Page",
+        "Event Label": skuList.length > 0 ? skuList.join(",") : "",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+        "Page referrer url": CookieService.getCookie("prevUrl") || ""
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   componentWillUnmount = () => {
     document.body.classList.remove(globalStyles.noScroll);
@@ -152,7 +172,7 @@ class Bag extends React.Component<Props, State> {
             )}
           >
             <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              AMOUNT PAYABLE*
+              TOTAL*
             </div>
             <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
