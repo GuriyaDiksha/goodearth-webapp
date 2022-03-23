@@ -16,6 +16,8 @@ import MobileDropdownMenu from "components/MobileDropdown";
 import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
 import ReactHtmlParser from "react-html-parser";
+import metaActionCollection from "./metaAction";
+
 import {
   updateCollectionData,
   updateCollectionFilter
@@ -300,3 +302,4 @@ export default connect(
   mapDispatchToProps
 )(CollectionLandingRoute);
 export { initActionCollection };
+export { metaActionCollection };
