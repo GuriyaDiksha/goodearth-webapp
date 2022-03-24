@@ -111,7 +111,9 @@ const LeftImage: React.FC<Props> = ({
               </a>
             </div>
             {disclaimer && (
-              <div className={styles.disclaimer}>{disclaimer}</div>
+              <div className={styles.disclaimer}>
+                {ReactHtmlParser(disclaimer)}
+              </div>
             )}
           </div>
         </div>
