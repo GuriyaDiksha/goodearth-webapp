@@ -9,7 +9,6 @@ import { NavLink, Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
-import CookieService from "services/cookie";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
 import * as util from "../../utils/validate";
@@ -58,7 +57,7 @@ class Bag extends React.Component<Props, State> {
         "Page Url": location.href,
         "Page Type": util.getPageType(),
         "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-        "Page referrer url": CookieService.getCookie("prevUrl") || ""
+        "Page referrer url": location.href
       });
     } catch (err) {
       console.log(err);
