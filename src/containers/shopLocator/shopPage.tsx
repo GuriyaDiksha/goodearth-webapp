@@ -26,7 +26,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
       <div
         className={cs(
           globalStyles.col12,
-          globalStyles.colMd3,
+          globalStyles.colLg3,
           styles.shopAddresses
         )}
       >
@@ -50,64 +50,67 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               >
                 {i + 1}
               </div>
+              {/* +++++++++++++++++++++ */}
+              <div className={cs(styles.shopInfoBlock)}>
+                <h3>
+                  {ReactHtmlParser(item.place)}
+                  {item.cafeAddress && (
+                    <Link to={`${viewLink}#cafe`}>
+                      <img src={cafeicon} className={styles.iconCafe} />
+                    </Link>
+                  )}
+                </h3>
 
-              <h3>
-                {ReactHtmlParser(item.place)}
-                {item.cafeAddress && (
-                  <Link to={`${viewLink}#cafe`}>
-                    <img src={cafeicon} className={styles.iconCafe} />
-                  </Link>
-                )}
-              </h3>
-
-              <div className={cs(styles.small, styles.city)}>
-                {ReactHtmlParser(item.city)}
-              </div>
-              <div className={cs(styles.small, globalStyles.voffset3)}>
-                <strong className={styles.black}>
-                  {" "}
-                  {ReactHtmlParser(item.opendays)}{" "}
-                </strong>{" "}
-                <br />
-                {ReactHtmlParser(item.time)}
-              </div>
-              <div className={cs(styles.small, globalStyles.voffset3)}>
-                {item.address?.split(";").map((line: string, i: number) => {
-                  return (
-                    <div key={i} className={styles.small}>
-                      {ReactHtmlParser(line)}
+                <div className={cs(styles.small, styles.city)}>
+                  {ReactHtmlParser(item.city)}
+                </div>
+                <div className={cs(styles.small, globalStyles.voffset3)}>
+                  <strong className={styles.black}>
+                    {" "}
+                    {ReactHtmlParser(item.opendays)}{" "}
+                  </strong>{" "}
+                  <br />
+                  {ReactHtmlParser(item.time)}
+                </div>
+                <div className={cs(styles.small, globalStyles.voffset3)}>
+                  {item.address?.split(";").map((line: string, i: number) => {
+                    return (
+                      <div key={i} className={styles.small}>
+                        {ReactHtmlParser(line)}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={cs(styles.small, globalStyles.voffset3)}>
+                  {item.tel1 && (
+                    <div>
+                      {ReactHtmlParser(item.tel1)}
+                      <br />
                     </div>
-                  );
-                })}
-              </div>
-              <div className={cs(styles.small, globalStyles.voffset3)}>
-                {item.tel1 && (
-                  <div>
-                    {ReactHtmlParser(item.tel1)}
-                    <br />
+                  )}
+                </div>
+                <div
+                  className={cs(
+                    styles.viewDirectionsBlock,
+                    globalStyles.row,
+                    globalStyles.voffset3
+                  )}
+                >
+                  <div className={globalStyles.col6}>
+                    <Link to={viewLink}> VIEW </Link>
                   </div>
-                )}
-              </div>
-              <div
-                className={cs(
-                  styles.viewDirectionsBlock,
-                  globalStyles.row,
-                  globalStyles.voffset3
-                )}
-              >
-                <div className={globalStyles.col6}>
-                  <Link to={viewLink}> VIEW </Link>
-                </div>
-                <div className={cs(globalStyles.col6)}>
-                  <a
-                    href={item.direction}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    directions{" "}
-                  </a>
+                  <div className={cs(globalStyles.col6)}>
+                    <a
+                      href={item.direction}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      directions{" "}
+                    </a>
+                  </div>
                 </div>
               </div>
+              {/* ++++++++++++ */}
             </div>
           );
         })}
