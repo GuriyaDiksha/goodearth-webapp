@@ -199,7 +199,7 @@ class Search extends React.Component<Props, State> {
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.searchValue.length > 2) {
+    if (this.state.searchValue.trim().length > 2) {
       // console.log(encodeURIComponent(this.state.url))
       this.props.history.push(this.state.url);
       this.closeSearch();
@@ -223,7 +223,7 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValueUp = (event: any) => {
-    if (event.target.value.length > 2) {
+    if (event.target.value.trim().length > 2) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
           "/search?q=" +
