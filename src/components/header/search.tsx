@@ -723,9 +723,9 @@ class Search extends React.Component<Props, State> {
                   globalStyles.textCenter
                 )}
               >
-                {this.state.searchValue.length > 1 ? (
+                {this.state.searchValue.length > 2 ? (
                   <div className={styles.npfMsg}>
-                    No products were found matching &nbsp;
+                    {"Sorry, we couldn't find any matching result for"} &nbsp;
                     <span>{this.state.searchValue}</span>
                   </div>
                 ) : (
