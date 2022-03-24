@@ -408,10 +408,15 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                   className={inputClass}
                   label={"Contact No.*"}
                   validations={{
-                    isLength: 10
+                    isINRPhone: (values, value) => {
+                      const { country } = values;
+                      return country == "India" ? value?.length == 10 : true;
+                    },
+                    isExisty: true
                   }}
                   validationErrors={{
-                    isLength: "Phone number should be 10 digit"
+                    isINRPhone: "Phone number should be 10 digit",
+                    isExisty: "Please enter a valid phone number"
                   }}
                   required
                 />
