@@ -50,7 +50,6 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               >
                 {i + 1}
               </div>
-              {/* +++++++++++++++++++++ */}
               <div className={cs(styles.shopInfoBlock)}>
                 <h3>
                   {ReactHtmlParser(item.place)}
@@ -110,7 +109,6 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                   </div>
                 </div>
               </div>
-              {/* ++++++++++++ */}
             </div>
           );
         })}
