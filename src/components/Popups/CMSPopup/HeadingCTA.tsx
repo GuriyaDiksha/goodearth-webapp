@@ -86,7 +86,11 @@ const HeadingCTA: React.FC<Props> = ({
               {ReactHtmlParser(ctaLabel)}
             </a>
           </div>
-          {disclaimer && <div className={styles.disclaimer}>{disclaimer}</div>}
+          {disclaimer && (
+            <div className={styles.disclaimer}>
+              {ReactHtmlParser(disclaimer)}
+            </div>
+          )}
         </div>
       </div>
     </>

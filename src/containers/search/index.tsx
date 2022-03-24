@@ -199,7 +199,7 @@ class Search extends React.Component<
   };
 
   onEnterSearch = (event: any) => {
-    if (event.target.value.length > 2) {
+    if (event.target.value.trim().length > 2) {
       if (event.keyCode == 13) {
         this.child.changeSearchValue(this.state.searchText);
       }
@@ -263,7 +263,7 @@ class Search extends React.Component<
   };
 
   onClickSearch = (event: any) => {
-    if (this.state.searchText.length > 2) {
+    if (this.state.searchText.trim().length > 2) {
       this.child.changeSearchValue(this.state.searchText);
     }
   };
