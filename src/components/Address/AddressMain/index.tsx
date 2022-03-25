@@ -102,11 +102,7 @@ const AddressMain: React.FC<Props> = props => {
   // }
   useEffect(() => {
     if (mode == "list" && scrollPos != null) {
-      if (
-        editAddressData &&
-        (editAddressData.isDefaultForBilling ||
-          editAddressData.isDefaultForShipping)
-      ) {
+      if (editAddressData) {
         // focus on address-item-id
         const elem = document.getElementById(
           `address-item-${editAddressData.id}`
