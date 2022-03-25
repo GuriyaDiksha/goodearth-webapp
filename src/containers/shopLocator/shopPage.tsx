@@ -43,6 +43,11 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
               }}
               key={i}
             >
+              {item.cafeAddress && (
+                <Link to={`${viewLink}#cafe`}>
+                  <img src={cafeicon} className={styles.iconCafe} />
+                </Link>
+              )}
               <div
                 className={cs(styles.serialNumber, styles.enabledSno, {
                   [styles.bgCerise]: selectIndex == i
@@ -51,14 +56,7 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                 {i + 1}
               </div>
               <div className={cs(styles.shopInfoBlock)}>
-                <h3>
-                  {ReactHtmlParser(item.place)}
-                  {item.cafeAddress && (
-                    <Link to={`${viewLink}#cafe`}>
-                      <img src={cafeicon} className={styles.iconCafe} />
-                    </Link>
-                  )}
-                </h3>
+                <h3>{ReactHtmlParser(item.place)}</h3>
 
                 <div className={cs(styles.small, styles.city)}>
                   {ReactHtmlParser(item.city)}
@@ -95,10 +93,12 @@ const ShopPage: React.FC<ShopLocatorProps> = props => {
                     globalStyles.voffset3
                   )}
                 >
-                  <div className={globalStyles.col6}>
+                  <div className={cs(globalStyles.col6, globalStyles.textLeft)}>
                     <Link to={viewLink}> VIEW </Link>
                   </div>
-                  <div className={cs(globalStyles.col6)}>
+                  <div
+                    className={cs(globalStyles.col6, globalStyles.textRight)}
+                  >
                     <a
                       href={item.direction}
                       target="_blank"
