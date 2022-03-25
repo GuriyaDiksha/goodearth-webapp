@@ -138,7 +138,8 @@ class CorporateFilter extends React.Component<Props, State> {
               if (
                 cc[i] == "Corporate Gifting" ||
                 cc[i] == "Souk" ||
-                cc[i] == "Pero"
+                cc[i] == "Pero" ||
+                cc[i] == "Eka"
               ) {
                 this.haveCorporate = true;
               } else {
