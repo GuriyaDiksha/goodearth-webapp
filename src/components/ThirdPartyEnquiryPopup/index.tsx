@@ -227,7 +227,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     formData["country"] = country;
     formData["query"] = query;
     formData["email"] = email;
-    formData["contactNo"] = "+91" + phoneNo;
+    formData["contactNo"] = countrycode + phoneNo;
     formData["preferredContact"] = preferredContact;
     if (time) {
       formData["suitableTime"] = time;
