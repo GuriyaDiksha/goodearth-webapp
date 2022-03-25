@@ -136,6 +136,7 @@ const ProductDetails: React.FC<Props> = ({
   const [addedToBag, setAddedToBag] = useState(false);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [isStockset, setIsStockset] = useState(false);
+  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
   // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
   //   setAddedToBag(
@@ -348,6 +349,29 @@ const ProductDetails: React.FC<Props> = ({
       "Category name": categoryname,
       "Sub Category Name": subcategoryname,
       Size: selectedSize?.size
+    });
+
+    const categoryList = categories
+      ? categories.length > 0
+        ? categories[categories.length - 1].replaceAll(" > ", " - ")
+        : ""
+      : "";
+    let subcategory = categoryList ? categoryList.split(" > ") : "";
+    if (subcategory) {
+      subcategory = subcategory[subcategory.length - 1];
+    }
+    const size = selectedSize?.size || "";
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Add to Cart",
+      "Event Label": subcategory,
+      "Time Stamp": new Date().toISOString(),
+      "Cart Source": window.location.href,
+      "Product Category": categoryList,
+      "Login Status": isLoggedIn ? "logged in" : "logged out",
+      "Product Name": title,
+      "Product ID": selectedSize?.id,
+      Variant: size
     });
     dataLayer.push({
       event: "addToCart",

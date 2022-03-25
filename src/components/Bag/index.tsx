@@ -9,7 +9,6 @@ import { NavLink, Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
-import CookieService from "services/cookie";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
 import * as util from "../../utils/validate";
@@ -58,7 +57,7 @@ class Bag extends React.Component<Props, State> {
         "Page Url": location.href,
         "Page Type": util.getPageType(),
         "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
-        "Page referrer url": CookieService.getCookie("prevUrl") || ""
+        "Page referrer url": location.href
       });
     } catch (err) {
       console.log(err);
@@ -121,10 +120,12 @@ class Bag extends React.Component<Props, State> {
 
   getFooter() {
     if (this.props.cart) {
-      // const amount =
-      //   this.props.cart.offerDiscounts.filter(discount => {
-      //     return discount.name == "EMP Discount";
-      //   })[0] || {};
+      const discountAmount = this.props.cart.offerDiscounts
+        .map(discount => {
+          return +discount.amount;
+        })
+        .reduce((partialSum, a) => partialSum + a, 0);
+
       return (
         <div className={styles.bagFooter}>
           {this.hasOutOfStockItems() && (
@@ -141,6 +142,27 @@ class Bag extends React.Component<Props, State> {
               Remove all Items out of stock
             </div>
           )}
+          {discountAmount > 0 && (
+            <div
+              className={cs(
+                globalStyles.flex,
+                globalStyles.gutterBetween,
+                styles.containerCost
+              )}
+            >
+              <div className={cs(styles.totalPrice, globalStyles.bold)}>
+                Discount
+              </div>
+              <div className={globalStyles.textRight}>
+                <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
+                  (-)
+                  {String.fromCharCode(...currencyCodes[this.props.currency])}
+                  &nbsp;
+                  {parseFloat(discountAmount.toString()).toFixed(2)}
+                </h5>
+              </div>
+            </div>
+          )}
           <div
             className={cs(
               globalStyles.flex,
@@ -149,7 +171,7 @@ class Bag extends React.Component<Props, State> {
             )}
           >
             <div className={cs(styles.totalPrice, globalStyles.bold)}>
-              SUBTOTAL
+              TOTAL*
             </div>
             <div className={globalStyles.textRight}>
               <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
@@ -158,7 +180,7 @@ class Bag extends React.Component<Props, State> {
                 {parseFloat(this.props.cart.total.toString()).toFixed(2)}
               </h5>
               <p className={styles.subtext}>
-                Excluding estimated cost of shipping
+                *Excluding estimated cost of shipping
               </p>
             </div>
           </div>

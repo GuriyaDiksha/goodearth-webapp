@@ -59,7 +59,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     country: true,
     preferredContact: ["Phone", "Email"],
     query: true,
-    state: true
+    state: true,
+    availableInternational: false
   });
   const [enquiryMessage, setEnquiryMessage] = useState<
     string | (string | JSX.Element)[]
@@ -321,7 +322,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 options={countryOptions}
                 handleChange={onCountrySelect}
                 placeholder="Select Country"
-                disable={true}
+                disable={!popupfield.availableInternational}
                 name="country"
                 validations={{
                   isExisty: true
@@ -407,10 +408,15 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                   className={inputClass}
                   label={"Contact No.*"}
                   validations={{
-                    isLength: 10
+                    isINRPhone: (values, value) => {
+                      const { country } = values;
+                      return country == "India" ? value?.length == 10 : true;
+                    },
+                    isExisty: true
                   }}
                   validationErrors={{
-                    isLength: "Phone number should be 10 digit"
+                    isINRPhone: "Phone number should be 10 digit",
+                    isExisty: "Please enter a valid phone number"
                   }}
                   required
                 />
@@ -438,7 +444,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
         </div>
         {modevalue == "Phone" ? (
           <>
-            <p className={cs(styles.msg)}>Suitable Time</p>
+            <p className={cs(styles.msg)}>Suitable Time (IST)</p>
             <div>
               <div className={styles.time}>
                 <FormTime

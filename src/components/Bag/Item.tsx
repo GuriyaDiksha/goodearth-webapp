@@ -111,10 +111,14 @@ const LineItems: React.FC<BasketItem> = memo(
           : ""
         : "";
 
+      let subcategory = categoryList ? categoryList.split(" > ") : "";
+      if (subcategory) {
+        subcategory = subcategory[subcategory.length - 1];
+      }
       dataLayer.push({
         "Event Category": "GA Ecommerce",
         "Event Action": "Cart Removal",
-        "Event Label": subcategoryname,
+        "Event Label": subcategory,
         "Time Stamp": new Date().toISOString(),
         "Cart Source": location.href,
         "Product Category": categoryList,
