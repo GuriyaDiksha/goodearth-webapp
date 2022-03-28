@@ -68,12 +68,12 @@ export default {
   fetchCourierData: async (dispatch: Dispatch, order: string) => {
     const courier = await new Promise((resolve, reject) => {
       fetch(
-        `${__OMNI_HOST__}/common_app/courier_tracking_api/?order_number=${order}`,
+        `${__API_HOST__}/myapi/order/courier_tracking_api/?order_number=${order}`,
         { method: "GET" }
       )
         .then(resp => resp.json())
         .then(data => {
-          if (data.transition_data) {
+          if (data.order_statuses) {
             resolve(data);
           } else {
             resolve("error");
