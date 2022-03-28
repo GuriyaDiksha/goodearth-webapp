@@ -29,6 +29,7 @@ import CookieService from "services/cookie";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
+import ProductCounter from "components/ProductCounter";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -818,6 +819,7 @@ class PLP extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
+        {mobile && <ProductCounter current={4} total={124} />}
       </div>
     );
   }

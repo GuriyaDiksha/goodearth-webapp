@@ -1,0 +1,39 @@
+.scroll-down-up
+{  
+background: #fff 0% 0% no-repeat padding-box;
+top: 130px;
+left: calc(50% - 40px);
+width: 80px;
+height: 32px;
+background-color: white;
+border-radius: 19px;
+box-shadow: 3px 3px 10px #00000029;
+opacity: 1;
+position:fixed;
+z-index: 10;
+}
+.counter
+{
+    top: 138px;
+    left: 200px;
+    width: 27px;
+    height: 100%;
+    color: #000000CC;
+    opacity: 1;
+    font-size: 14px;
+    display:flex;
+    border: none;
+    align-items: center;
+}
+.counter-number
+{
+    font-family: Arial, Helvetica, sans-serif;
+    display:flex;
+    text-align: left;
+    letter-spacing: 0px;
+    top: 138px;
+    border:none;
+    
+
+}
+
