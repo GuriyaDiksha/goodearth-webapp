@@ -220,8 +220,11 @@ input[type="checkbox"]:checked + label {
 }
 .mini-txt {
   font-size: 11px;
+  color: #666;
+  line-height: 20px;
   a {
-    color: #000;
+    color: #666;
+    
   }
 }
 .big-txt {
