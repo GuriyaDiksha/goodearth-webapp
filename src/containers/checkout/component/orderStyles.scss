@@ -110,9 +110,11 @@
       }
   
       .subtotal {
-        font-size: 14px;
+        font-size: 16px;
       }
-  
+      .font {
+        font-size: 16px !important;
+      }
       .btn-arrow {
         top: -15px;
         left: 50%;
@@ -157,6 +159,10 @@
       font-size: 9px;
       font-weight: bold;
     }
+
+    .font {
+      font-size: 16px !important;
+    }
   
     .summary-padding {
       padding: 0 40px;
@@ -166,7 +172,7 @@
       overflow-y: scroll;
       @include bottom-shadow();
     }
-  
+    
     .summary-title {
       color: tint(#000, 40%);
       font-size: 15px;
@@ -211,7 +217,7 @@
     .subtotal {
       color: #000;
       font-size: 14px;
-      font-weight: 600;
+      // font-weight: 600;
       font-family: $font-Lato;
     }
 
