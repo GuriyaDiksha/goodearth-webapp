@@ -25,6 +25,7 @@ import { info } from "./info";
 import { designJournal } from "./designJournal";
 import { home } from "./home";
 import { popup } from "./popup";
+import { career } from "./career";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -51,7 +52,8 @@ const createRootReducer = (history: History) => {
     info,
     designJournal,
     home,
-    popup
+    popup,
+    career
   });
 };
 

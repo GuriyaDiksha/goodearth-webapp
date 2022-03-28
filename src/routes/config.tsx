@@ -3,7 +3,7 @@ import loadable from "@loadable/component";
 import { RouteConfig, ROUTES, RouteMap } from "./typings";
 import initAction from "containers/pdp/initAction";
 import metaAction from "containers/pdp/metaAction";
-import metaActionCareer from "containers/career/metaAction";
+import metaActionCareer from "containers/careerDetail/metaAction";
 import initActionCollection from "containers/collectionLanding/initAction";
 import initActionSpecific from "containers/collectionSpecific/initAction";
 import initActionPLP from "containers/plp/initAction";
@@ -63,16 +63,16 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.CAREERDETAIL,
-    component: loadable(() => import("containers/career")),
+    component: loadable(() => import("containers/careerDetail")),
     action: async () => null,
     meta: metaActionCareer,
-    exact: false
+    exact: true
   },
   {
     path: ROUTES.CAREER,
-    component: loadable(() => import("containers/makerpage")),
+    component: loadable(() => import("containers/careerNew")),
     action: async () => null,
-    exact: true
+    exact: false
   },
   {
     path: ROUTES.WISHLIST,
