@@ -89,7 +89,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
           const highlightSale =
             util.getInnerText(data.text.toLowerCase()) == "sale";
           // const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
-          const isEmpty = data.columns[0].templates.length == 0;
+          const isEmpty = data.columns[0]?.templates.length == 0;
           return (
             <li
               key={i + "header"}
