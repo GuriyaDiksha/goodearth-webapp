@@ -309,7 +309,8 @@ const Section2: React.FC<Section2Props> = ({
                   placeholder="Select Country"
                   name="country"
                   validations={{
-                    isExisty: true
+                    isExisty: true,
+                    isEmptyString: true
                   }}
                   validationErrors={{
                     isExisty: "This field is required",

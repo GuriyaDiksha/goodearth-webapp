@@ -227,7 +227,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     formData["country"] = country;
     formData["query"] = query;
     formData["email"] = email;
-    formData["contactNo"] = "+91" + phoneNo;
+    formData["contactNo"] = countrycode + phoneNo;
     formData["preferredContact"] = preferredContact;
     if (time) {
       formData["suitableTime"] = time;
@@ -322,7 +322,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 options={countryOptions}
                 handleChange={onCountrySelect}
                 placeholder="Select Country"
-                disable={!popupfield.availableInternational}
+                disable={!popupfield.availableInternational || submitted}
                 name="country"
                 validations={{
                   isExisty: true
@@ -450,7 +450,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 <FormTime
                   id="en_time"
                   name="time"
-                  disable={false}
+                  disable={submitted}
                   label={""}
                   validations={{
                     isRequired: (values, value) => {
