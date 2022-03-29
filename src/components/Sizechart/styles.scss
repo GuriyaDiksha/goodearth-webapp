@@ -434,6 +434,10 @@
     tr {
       th {
         padding: 20px 15px;
+        font-size: 12px;
+        &.size-chart-legend{
+          font-weight: normal;
+        }
       }
       td {
         padding: 20px 15px;
@@ -450,6 +454,7 @@
         height: 56px;
         th {
           padding: 7px 15px 0;
+
         }
       }
     }

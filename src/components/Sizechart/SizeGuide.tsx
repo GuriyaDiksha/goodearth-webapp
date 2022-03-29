@@ -54,7 +54,9 @@ const SizeGuide: React.FC = () => {
           </tr>
           {measurements.map((measurement, i) => (
             <tr key={i}>
-              <th scope="row">{measurement}</th>
+              <th className={styles.sizeChartLegend} scope="row">
+                {measurement}
+              </th>
             </tr>
           ))}
         </table>
@@ -66,10 +68,15 @@ const SizeGuide: React.FC = () => {
                 return (
                   <th scope="col" key={sku}>
                     <div
-                      className={cs(sizeStyles.sizeButton, {
-                        [sizeStyles.selected]: id === selected,
-                        [sizeStyles.unavailable]: stock === 0 && !isCorporatePDP
-                      })}
+                      className={cs(
+                        styles.sizeGuideItem,
+                        sizeStyles.sizeButton,
+                        {
+                          [sizeStyles.selected]: id === selected,
+                          [sizeStyles.unavailable]:
+                            stock === 0 && !isCorporatePDP
+                        }
+                      )}
                       onClick={() => sizeClickHandler(child)}
                       id={`size-guide-item-${size}`}
                     >
