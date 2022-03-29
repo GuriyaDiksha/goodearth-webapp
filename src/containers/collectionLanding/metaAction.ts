@@ -6,7 +6,7 @@ const metaAction: MetaAction = ({ pathname }) => {
 
   return {
     page: "collection",
-    pathName: id ? id.toString() : undefined
+    collectionId: id ? id.toString() : undefined
   };
 };
 
