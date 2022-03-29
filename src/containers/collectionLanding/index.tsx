@@ -128,7 +128,9 @@ class CollectionLanding extends React.Component<
         onloadState: false
       });
     }
+
     if (this.props.currency != nextProps.currency) {
+      this.props.fetchCollectionMappingAndData();
       this.setState({
         landingMaker: false
       });
