@@ -45,9 +45,9 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import {
-  // updateSizeChartData,
+  updateSizeChartData,
   updateSizeChartSelected,
-  // updateSizeChartShow,
+  updateSizeChartShow,
   updateSizeChartSizes,
   updateStoreState
 } from "actions/header";
@@ -274,10 +274,13 @@ const ProductDetails: React.FC<Props> = ({
     if (!sizeChartHtml) {
       return;
     }
-    updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
-    changeModalState(true);
-    // dispatch(updateSizeChartData(sizeChart));
-    // dispatch(updateSizeChartShow(true));
+    if (!sizeChart) {
+      updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
+      changeModalState(true);
+    } else {
+      dispatch(updateSizeChartData(sizeChart));
+      dispatch(updateSizeChartShow(true));
+    }
   }, [sizeChart]);
 
   const [childAttr] = childAttributes;
