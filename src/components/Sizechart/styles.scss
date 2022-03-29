@@ -454,7 +454,11 @@
         height: 56px;
         th {
           padding: 7px 15px 0;
-
+          div{
+            width: max-content;
+            max-width: 100%;
+            min-width: 56px;
+          }
         }
       }
     }
