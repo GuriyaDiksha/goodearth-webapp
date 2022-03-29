@@ -25,6 +25,7 @@ import ReactHtmlParser from "react-html-parser";
 import * as valid from "utils/validate";
 import { Currency } from "typings/currency";
 import { POPUP } from "constants/components";
+import metaActionCollection from "./metaAction";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -451,3 +452,4 @@ class CollectionSpecific extends React.Component<
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionSpecific);
 export { initActionSpecific };
+export { metaActionCollection };
