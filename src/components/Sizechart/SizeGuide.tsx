@@ -1,14 +1,15 @@
 import Toggle from "components/Toggle";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import sizeStyles from "../SizeSelector/styles.scss";
 import cs from "classnames";
+import { SizeGuideProps } from "./typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateSizeChartSelected } from "actions/header";
 
-const SizeGuide: React.FC = () => {
+const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   const {
     data: {
       sizeGuide: { data, measurements, note, disclaimer }
@@ -47,18 +48,24 @@ const SizeGuide: React.FC = () => {
         handleClick={index => setUnit(values[index])}
       />
       <div className={styles.smallTxt}>*Tap on size to select</div>
-      <div className={styles.tableContainer}>
+      <div
+        className={cs(styles.tableContainer, {
+          [styles.styleGuideSingleSection]: isSingleSection
+        })}
+      >
         <table className={styles.tableContent}>
-          <tr>
-            <th scope="col">Measurements</th>
-          </tr>
-          {measurements.map((measurement, i) => (
-            <tr key={i}>
-              <th className={styles.sizeChartLegend} scope="row">
-                {measurement}
-              </th>
+          <tbody>
+            <tr>
+              <th scope="col">Measurements</th>
             </tr>
-          ))}
+            {measurements.map((measurement, i) => (
+              <tr key={i}>
+                <th className={styles.sizeChartLegend} scope="row">
+                  {measurement}
+                </th>
+              </tr>
+            ))}
+          </tbody>
         </table>
         <table className={cs(styles.tableContent, styles.scrollable)}>
           <thead>
@@ -110,7 +117,7 @@ const SizeGuide: React.FC = () => {
       <div className={styles.footer}>
         <p>
           Note:{" "}
-          {note ? (
+          {note !== "" ? (
             note
           ) : (
             <>
@@ -122,7 +129,8 @@ const SizeGuide: React.FC = () => {
           )}
         </p>
         <p>
-          {disclaimer ? (
+          Disclaimer:{" "}
+          {disclaimer != "" ? (
             disclaimer
           ) : (
             <>
@@ -135,5 +143,5 @@ const SizeGuide: React.FC = () => {
       </div>
     </>
   );
-};
+});
 export default SizeGuide;
