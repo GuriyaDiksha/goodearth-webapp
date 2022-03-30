@@ -271,12 +271,13 @@ const ProductDetails: React.FC<Props> = ({
   );
 
   const onSizeChartClick = useCallback(() => {
-    if (!sizeChartHtml) {
-      return;
-    }
-    if (!sizeChart) {
-      updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
-      changeModalState(true);
+    if (!sizeChart || sizeChart == "") {
+      if (!sizeChartHtml || sizeChartHtml == "") {
+        return;
+      } else {
+        updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
+        changeModalState(true);
+      }
     } else {
       dispatch(updateSizeChartData(sizeChart));
       dispatch(updateSizeChartShow(true));
@@ -863,7 +864,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                   </div>
                 </div>
-                {sizeChartHtml && !isQuickview && (
+                {(sizeChart || sizeChartHtml) && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
                       [globalStyles.textCenter]: !mobile
