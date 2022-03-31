@@ -469,14 +469,23 @@
   display: inline-flex;
   font-size: 14px;
   width: 100%;
-  margin: 0;
+  margin: 20px 0;
   justify-content: center;
 }
 
 .footer {
+  &.single-section-footer {
+    margin: 20px 20px;
+  }
   p {
     margin: 20px 0;
     color: #535353;
     font-size: 12px;
   }
+}
+
+.single-section-title {
+  text-align: center;
+  margin: 0 22px;
+  padding: 20px 0;
 }
