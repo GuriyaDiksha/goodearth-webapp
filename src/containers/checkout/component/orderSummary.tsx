@@ -718,7 +718,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.total
               )}
             >
-              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
+              <span
+                className={cs(
+                  styles.subtotal,
+                  globalStyles.voffset2,
+                  styles.font
+                )}
+              >
                 AMOUNT PAYABLE
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>
