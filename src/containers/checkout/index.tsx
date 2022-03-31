@@ -28,6 +28,7 @@ import PromoSection from "./component/promo";
 import { Cookies } from "typings/cookies";
 import MetaService from "services/meta";
 import BasketService from "services/basket";
+import * as util from "../../utils/validate";
 import { User } from "typings/user";
 import {
   MESSAGE,
@@ -311,6 +312,14 @@ class Checkout extends React.Component<Props, State> {
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_checkout_view"
     });
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Login Screen ",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Page Type": util.getPageType(),
+      "Page referrer url": CookieService.getCookie("prevUrl")
+    });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "checkoutView"
@@ -420,6 +429,18 @@ class Checkout extends React.Component<Props, State> {
 
   nextStep = (step: string) => {
     this.setState({ activeStep: step });
+    if (step == Steps.STEP_SHIPPING) {
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Checkout Step 2",
+        "Event Label": "Address Detail Page",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.href,
+        "Page Type": util.getPageType(),
+        "Login Status": this.props.user.isLoggedIn ? "logged in" : "logged out",
+        "Page referrer url": CookieService.getCookie("prevUrl")
+      });
+    }
   };
 
   appendObjectToFormData(data: any, obj: AddressData, rootKey: any) {
