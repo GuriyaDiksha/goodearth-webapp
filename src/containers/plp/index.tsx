@@ -861,7 +861,7 @@ class PLP extends React.Component<
         {mobile && this.state.count > 0 && (
           <ProductCounter
             current={this.state.count}
-            total={this.props.data.results.data.length}
+            total={this.props.data.results.data.length + 1}
           />
         )}
       </div>
