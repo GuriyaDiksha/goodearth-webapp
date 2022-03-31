@@ -42,6 +42,9 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   }, []);
   return (
     <>
+      {isSingleSection ? (
+        <div className={styles.singleSectionTitle}>SIZE GUIDE</div>
+      ) : null}
       <Toggle
         values={values as string[]}
         activeIndex={unit == "in" ? 0 : 1}
@@ -114,7 +117,11 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
           </tbody>
         </table>
       </div>
-      <div className={styles.footer}>
+      <div
+        className={cs(styles.footer, {
+          [styles.singleSectionFooter]: isSingleSection
+        })}
+      >
         <p>
           Note:{" "}
           {note !== "" ? (
