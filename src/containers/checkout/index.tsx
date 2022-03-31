@@ -192,6 +192,7 @@ type State = {
   boId: string;
   errorNotification: string;
   onlyOnetime: boolean;
+  isShipping: boolean;
 };
 
 class Checkout extends React.Component<Props, State> {
@@ -231,7 +232,8 @@ class Checkout extends React.Component<Props, State> {
         props.user.shippingData && props.user.shippingData.isTulsi
           ? true
           : false,
-      onlyOnetime: true
+      onlyOnetime: true,
+      isShipping: false
     };
   }
   setInfoPopupCookie() {
@@ -393,22 +395,25 @@ class Checkout extends React.Component<Props, State> {
       }
       // things to reset on currency change
       if (!shippingData) {
+        if (this.state.isShipping == false) {
+          dataLayer.push({
+            "Event Category": "GA Ecommerce",
+            "Event Action": "Checkout Step 2",
+            "Event Label": "Address Detail Page",
+            "Time Stamp": new Date().toISOString(),
+            "Page Url": location.href,
+            "Page Type": util.getPageType(),
+            "Login Status": this.props.user.isLoggedIn
+              ? "logged in"
+              : "logged out",
+            "Page referrer url": CookieService.getCookie("prevUrl")
+          });
+        }
         this.setState({
           activeStep: Steps.STEP_SHIPPING,
           billingAddress: undefined,
-          shippingAddress: undefined
-        });
-        dataLayer.push({
-          "Event Category": "GA Ecommerce",
-          "Event Action": "Checkout Step 2",
-          "Event Label": "Address Detail Page",
-          "Time Stamp": new Date().toISOString(),
-          "Page Url": location.href,
-          "Page Type": util.getPageType(),
-          "Login Status": this.props.user.isLoggedIn
-            ? "logged in"
-            : "logged out",
-          "Page referrer url": CookieService.getCookie("prevUrl")
+          shippingAddress: undefined,
+          isShipping: true
         });
       }
       if (shippingData !== this.state.shippingAddress) {
