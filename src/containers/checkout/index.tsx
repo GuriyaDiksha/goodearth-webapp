@@ -398,6 +398,18 @@ class Checkout extends React.Component<Props, State> {
           billingAddress: undefined,
           shippingAddress: undefined
         });
+        dataLayer.push({
+          "Event Category": "GA Ecommerce",
+          "Event Action": "Checkout Step 2",
+          "Event Label": "Address Detail Page",
+          "Time Stamp": new Date().toISOString(),
+          "Page Url": location.href,
+          "Page Type": util.getPageType(),
+          "Login Status": this.props.user.isLoggedIn
+            ? "logged in"
+            : "logged out",
+          "Page referrer url": CookieService.getCookie("prevUrl")
+        });
       }
       if (shippingData !== this.state.shippingAddress) {
         this.setState({
@@ -429,18 +441,6 @@ class Checkout extends React.Component<Props, State> {
 
   nextStep = (step: string) => {
     this.setState({ activeStep: step });
-    if (step == Steps.STEP_SHIPPING) {
-      dataLayer.push({
-        "Event Category": "GA Ecommerce",
-        "Event Action": "Checkout Step 2",
-        "Event Label": "Address Detail Page",
-        "Time Stamp": new Date().toISOString(),
-        "Page Url": location.href,
-        "Page Type": util.getPageType(),
-        "Login Status": this.props.user.isLoggedIn ? "logged in" : "logged out",
-        "Page referrer url": CookieService.getCookie("prevUrl")
-      });
-    }
   };
 
   appendObjectToFormData(data: any, obj: AddressData, rootKey: any) {
