@@ -227,7 +227,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     formData["country"] = country;
     formData["query"] = query;
     formData["email"] = email;
-    formData["contactNo"] = "+91" + phoneNo;
+    formData["contactNo"] = countrycode + phoneNo;
     formData["preferredContact"] = preferredContact;
     if (time) {
       formData["suitableTime"] = time;
@@ -318,11 +318,11 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
                 placeholder="Select Country"
-                disable={!popupfield.availableInternational}
+                disable={!popupfield.availableInternational || submitted}
                 name="country"
                 validations={{
                   isExisty: true
@@ -342,7 +342,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
               <FormSelect
                 required
                 name="state"
-                label="State"
+                label={"State*"}
                 placeholder="Select State"
                 disable={submitted}
                 options={stateOptions}
@@ -424,13 +424,13 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             </div>
           </div>
         )}
-        <p className={cs(styles.msg)}>Preferred mode of contact</p>
+        <p className={cs(styles.msg)}>Preferred mode of contact*</p>
         <div>
           <div className="select-group text-left">
             <FormSelect
               required
               name="preferredContact"
-              label="Preferred mode"
+              label={"Preferred mode*"}
               placeholder="Select Mode"
               disable={submitted}
               options={modeOptions}
@@ -450,7 +450,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 <FormTime
                   id="en_time"
                   name="time"
-                  disable={false}
+                  disable={submitted}
                   label={""}
                   validations={{
                     isRequired: (values, value) => {
