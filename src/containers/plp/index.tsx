@@ -114,6 +114,21 @@ class PLP extends React.Component<
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_plp_view"
     });
+    // dataLayer.push(
+    //   {
+    //   'Event Category':'GA Ecommerce',
+    //   'Event Action':'PLP ',
+    //   'Event Label':'Pass the L3 product category',
+    //   'Product Category':'Pass the product category L1 - L2 - L3',
+    //   "Login Status": this.props.isLoggedIn
+    //           ? "logged in"
+    //           : "logged out",
+    //   "Time Stamp": new Date().toISOString(),
+    //   "Page Url": location.href,
+    //   "Page Type": util.getPageType(),
+    //   "Page referrer url": CookieService.getCookie("prevUrl")
+    //   });
+
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PlpView"
