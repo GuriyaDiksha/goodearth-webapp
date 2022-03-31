@@ -645,7 +645,17 @@ class PLP extends React.Component<
                 </span>
               </div>
             ) : (
-              ""
+              <div
+                className={cs(styles.productNumber, styles.imageContainer, {})}
+              >
+                <span>
+                  {count > 1
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
+                </span>
+              </div>
             )}
             <div
               className={
@@ -851,7 +861,7 @@ class PLP extends React.Component<
         {mobile && this.state.count > 0 && (
           <ProductCounter
             current={this.state.count}
-            total={this.props.data.results.data.length}
+            total={this.props.data.results.data.length + 1}
           />
         )}
       </div>
