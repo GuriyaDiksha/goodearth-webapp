@@ -5,6 +5,8 @@ import initAction from "containers/pdp/initAction";
 import metaAction from "containers/pdp/metaAction";
 import metaActionCareer from "containers/career/metaAction";
 import initActionCollection from "containers/collectionLanding/initAction";
+// import metaActionCollectionLanding from "containers/collectionLanding/metaAction";
+import metaActionCollectionSpecific from "containers/collectionSpecific/metaAction";
 import initActionSpecific from "containers/collectionSpecific/initAction";
 import initActionPLP from "containers/plp/initAction";
 import initActionSearch from "containers/search/initAction";
@@ -28,12 +30,14 @@ const routes: RouteConfig = [
     path: ROUTES.CollectionLanding,
     component: loadable(() => import("containers/collectionLanding")),
     action: initActionCollection,
+    // meta: metaActionCollectionLanding,
     exact: true
   },
   {
     path: ROUTES.CollectionSpecific,
     component: loadable(() => import("containers/collectionSpecific")),
     action: initActionSpecific,
+    meta: metaActionCollectionSpecific,
     exact: true
   },
   {
