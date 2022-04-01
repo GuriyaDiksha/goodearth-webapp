@@ -16,6 +16,8 @@ import MobileDropdownMenu from "components/MobileDropdown";
 import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
 import ReactHtmlParser from "react-html-parser";
+import metaActionCollection from "./metaAction";
+
 import {
   updateCollectionData,
   updateCollectionFilter
@@ -126,7 +128,9 @@ class CollectionLanding extends React.Component<
         onloadState: false
       });
     }
+
     if (this.props.currency != nextProps.currency) {
+      this.props.fetchCollectionMappingAndData();
       this.setState({
         landingMaker: false
       });
@@ -300,3 +304,4 @@ export default connect(
   mapDispatchToProps
 )(CollectionLandingRoute);
 export { initActionCollection };
+export { metaActionCollection };

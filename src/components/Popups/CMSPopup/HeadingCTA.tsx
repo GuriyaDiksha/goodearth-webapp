@@ -59,7 +59,7 @@ const HeadingCTA: React.FC<Props> = ({
             className={cs(globalStyles.c22AI, styles.heading)}
             style={{ marginTop: icon ? "0" : "30px" }}
           >
-            {heading}
+            {ReactHtmlParser(heading)}
           </div>
           <div
             className={cs(
@@ -83,10 +83,14 @@ const HeadingCTA: React.FC<Props> = ({
               tabIndex={-1}
               onClick={() => close(ctaLink)}
             >
-              {ctaLabel}
+              {ReactHtmlParser(ctaLabel)}
             </a>
           </div>
-          {disclaimer && <div className={styles.disclaimer}>{disclaimer}</div>}
+          {disclaimer && (
+            <div className={styles.disclaimer}>
+              {ReactHtmlParser(disclaimer)}
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -1209,9 +1209,9 @@ export function getPageType() {
     !location.pathname.includes("/catalogue/category");
   const isPLP = location.pathname.includes("/catalogue/category");
   const isCart = location.pathname.includes("/cart");
-  const isCategoryLanding = location.pathname.includes("/category_landing/");
-  const isCollectionLanding = location.pathname.includes("/allcollection/");
-  const isCollectionListing = location.pathname.includes("/collection/");
+  const isCategoryLanding = location.pathname.includes("/category_landing");
+  const isCollectionLanding = location.pathname.includes("/allcollection");
+  const isCollectionListing = location.pathname.includes("/collection");
   if (isPDP) {
     pageType = "PDP";
   } else if (isPLP) {
@@ -1224,11 +1224,11 @@ export function getPageType() {
     pageType = "Collection Landing";
   } else if (isCollectionListing) {
     pageType = "Collection Listing";
-  } else if (location.pathname.includes("/order/checkout/")) {
+  } else if (location.pathname.includes("/order/checkout")) {
     pageType = "Checkout";
-  } else if (location.pathname.includes("/order/orderconfirmation/")) {
+  } else if (location.pathname.includes("/order/orderconfirmation")) {
     pageType = "Order Confirmation";
-  } else if (location.pathname.includes("/account/")) {
+  } else if (location.pathname.includes("/account")) {
     pageType = "Account";
   }
   return pageType;
