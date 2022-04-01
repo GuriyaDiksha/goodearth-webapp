@@ -26,7 +26,7 @@ h5 {
 }
 p {
   @include c10-L-R();
-     
+    word-break: break-all;
     line-height: 20px;
     letter-spacing: .5px;
     // span {
