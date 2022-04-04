@@ -8,6 +8,7 @@ import cs from "classnames";
 import { SizeGuideProps } from "./typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateSizeChartSelected } from "actions/header";
+import ReactHtmlParser from "react-html-parser";
 
 const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   const {
@@ -64,7 +65,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
             {measurements.map((measurement, i) => (
               <tr key={i}>
                 <th className={styles.sizeChartLegend} scope="row">
-                  {measurement}
+                  {ReactHtmlParser(measurement)}
                 </th>
               </tr>
             ))}
