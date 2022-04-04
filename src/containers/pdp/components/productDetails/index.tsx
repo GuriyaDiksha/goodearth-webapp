@@ -185,6 +185,12 @@ const ProductDetails: React.FC<Props> = ({
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
+    return () => {
+      dispatch(updateSizeChartSelected(undefined));
+    };
+  }, []);
+
+  useEffect(() => {
     if (!selectedSize || selectedSize.id != selectedId) {
       const size = childAttributes.filter(child => child.id == selectedId)[0];
       setSelectedSize(size);
