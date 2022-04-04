@@ -287,8 +287,11 @@ class BridalItem extends React.Component<Props, State> {
                           globalStyles.voffset2
                         )}
                       >
-                        For regular orders, the delivery time will be 6-8
-                        business days
+                        Estimated Delivery On or Before:{" "}
+                        <span className={styles.black}>
+                          {" "}
+                          {this.props.bridalItem.productDeliveryDate}
+                        </span>
                       </div>
                     </>
                   )}
