@@ -718,7 +718,11 @@ class Search extends React.Component<Props, State> {
                 {this.state.searchValue.length > 2 ? (
                   <div className={styles.npfMsg}>
                     {"No products were found matching"} &nbsp;
-                    <span>&quot;{this.state.searchValue}&quot;</span>
+                    <span>
+                      {`"`}
+                      {this.state.searchValue}
+                      {`"`}
+                    </span>
                   </div>
                 ) : (
                   ""
