@@ -900,8 +900,6 @@ a {
   line-height: 0;
   display: inline-block;
   line-height: 100px;
-  
-
   input {
     width: 100%;
     border: 1px solid tint(#000, 80%);
@@ -917,6 +915,7 @@ a {
     right: 7%;
     cursor: pointer;
     @include more-details();
+    font-size: 10px;
   }
   .icon-search-popup {
     cursor: pointer;
@@ -1118,7 +1117,7 @@ font-size: 20px;
 letter-spacing: 1px;
 color: tint(#000, 50%);
 span {
-  color: $cerise;
+  color: #9C7D50;
 }
 }
 
@@ -1644,11 +1643,13 @@ ul.inner-menu-mobile {
   text-align: center;
   line-height: 50px;
   position: relative;
+  padding-right:5px;
   .top-bag-icon-style {
     font-size: 21px;
     position: absolute;
-    bottom: 10px;
+    bottom: 12px;
     left: 10px;
+    color: #444444;
   }
   .top-badge{
     position: absolute;
