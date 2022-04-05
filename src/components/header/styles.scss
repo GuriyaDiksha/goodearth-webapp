@@ -1639,3 +1639,34 @@ ul.inner-menu-mobile {
 
   }
 }
+
+.top-bag-item {
+  text-align: center;
+  line-height: 50px;
+  position: relative;
+  .top-bag-icon-style {
+    font-size: 21px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  .top-badge{
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    left: 0;
+    min-width: 10px;
+    padding-top: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #969698;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10px;
+    &:hover {
+      color: $cerise;
+    }
+  }
+}
