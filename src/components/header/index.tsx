@@ -787,7 +787,13 @@ class Header extends React.Component<Props, State> {
                 )}
                 {(mobile || tablet) && (
                   <ul className={cs(bootstrap.row)}>
-                    <li className={cs(styles.mobileSearch, bootstrap.col)}>
+                    <li
+                      className={cs(
+                        styles.mobileSearch,
+                        bootstrap.col,
+                        globalStyles.textCenter
+                      )}
+                    >
                       <div
                         onClick={() => {
                           !this.state.showSearch &&
@@ -814,6 +820,28 @@ class Header extends React.Component<Props, State> {
                         ></i>
                         {mobile || tablet ? "" : <span>Search</span>}
                       </div>
+                    </li>
+                    <li className={cs(styles.topBagItem, bootstrap.col)}>
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconCart,
+                          styles.iconStyle,
+                          styles.topBagIconStyle
+                        )}
+                        onClick={(): void => {
+                          this.setShowBag(true);
+                          this.onBottomMenuClick("Cart");
+                        }}
+                      ></i>
+                      <span
+                        className={styles.topBadge}
+                        onClick={(): void => {
+                          this.setShowBag(true);
+                        }}
+                      >
+                        {bagCount}
+                      </span>
                     </li>
                     {this.state.showCartMobile && (
                       <>
