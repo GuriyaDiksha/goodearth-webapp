@@ -321,7 +321,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
-                placeholder="Select Country"
+                placeholder={"Select Country*"}
                 disable={!popupfield.availableInternational || submitted}
                 name="country"
                 validations={{
@@ -352,7 +352,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 required
                 name="state"
                 label={"State*"}
-                placeholder="Select State"
+                placeholder={"Select State*"}
                 disable={submitted}
                 options={stateOptions}
                 value=""
