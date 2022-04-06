@@ -52,13 +52,21 @@ const BaseDropdownMenu = ({
       onClick={!disabled ? onInsideClick : () => null}
       ref={ref}
     >
-      <div className={cs(styles.label, { [styles.disabled]: disabled })}>
+      <div
+        className={cs(
+          styles.label,
+          { [styles.disabled]: disabled },
+          { [styles.goldColor]: id == "currency-dropdown-sidemenu" }
+        )}
+      >
         {display}
         {showCaret ? (
           <span
-            className={cs(menuOpen ? styles.caretUp : styles.caret, {
-              [styles.disabled]: disabled
-            })}
+            className={cs(
+              menuOpen ? styles.caretUp : styles.caret,
+              { [styles.disabled]: disabled },
+              { [styles.goldColor]: id == "currency-dropdown-sidemenu" }
+            )}
           ></span>
         ) : (
           ""
