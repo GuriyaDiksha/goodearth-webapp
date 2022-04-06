@@ -58,9 +58,11 @@
   .menu {
     display: block;
   }
-
   .label {
     color: $cerise;
+    &.gold-color {
+      color: #987E56
+    }
   }
 }
 
@@ -90,11 +92,17 @@
     text-decoration: none;
     &:hover {
       color: $cerise;
+      &.gold-color{
+        color: #987E56
+      }
     }
   }
 
   &:hover {
     color: $cerise;
+    &.gold-color{
+      color: #987E56
+    }
   }
 }
 .caret{
@@ -107,6 +115,9 @@
   right: 0;
   &:hover{
     color: $cerise;
+    &.gold-color{
+      color: #987E56
+    }
   }
   &.disabled {
     span {
@@ -120,6 +131,9 @@
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
     color: $cerise;
+    &.gold-color{
+      color: #987E56
+    }
     position: absolute;
     top: 40%;
     right: 0;
@@ -135,4 +149,8 @@
   -moz-transition: 1s;
   z-index: -1;
   min-width: 0;
+}
+
+.gold-color {
+  color: #987E56
 }

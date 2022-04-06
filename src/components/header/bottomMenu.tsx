@@ -129,7 +129,7 @@ const BottomMenu: React.FC<Props> = ({
         <div className={cs(bootstrap.col)}>
           <div className={cs(styles.bottomMenuItem)}>
             <SelectableDropdownMenu
-              id="currency-dropdown"
+              id="currency-dropdown-sidemenu"
               align="left"
               direction="up"
               className={storyStyles.greyBG}
