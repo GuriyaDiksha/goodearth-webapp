@@ -124,8 +124,8 @@ class CollectionLanding extends React.Component<
     if (this.props.location.pathname != nextProps.location.pathname) {
       util.pageViewGTM("CollectionLanding");
       this.setState({
-        landingMaker: false,
-        onloadState: false
+        landingMaker: false
+        // onloadState: false
       });
     }
 
@@ -209,7 +209,6 @@ class CollectionLanding extends React.Component<
         }
       ]
     };
-
     return (
       <div>
         {isLivingpage && (
