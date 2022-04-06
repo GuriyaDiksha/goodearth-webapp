@@ -1,12 +1,16 @@
 import React from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
+import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
+import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
+import storyStyles from "../../styles/stories.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { Currency } from "typings/currency";
 
 type Props = {
   wishlistCount: number;
@@ -20,6 +24,8 @@ type Props = {
   setShowBag: (showBag: boolean) => void;
   bagCount: number;
   onBottomMenuClick?: (clickType: string) => void;
+  currencyList: any[];
+  currency: Currency;
 } & RouteComponentProps;
 const BottomMenu: React.FC<Props> = ({
   bagCount,
@@ -33,7 +39,9 @@ const BottomMenu: React.FC<Props> = ({
   showSearch,
   isSearch,
   onBottomMenuClick,
-  history
+  history,
+  currencyList,
+  currency
 }) => {
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const location = useSelector((state: AppState) => state.router.location);
@@ -46,6 +54,19 @@ const BottomMenu: React.FC<Props> = ({
       eventLabel: location.pathname
     });
   };
+
+  const curryList = currencyList.map(data => {
+    return {
+      label: data.currencyCode + " " + data.currencySymbol,
+      value: data.currencyCode
+    };
+  });
+  const items: DropdownItem[] = curryList;
+
+  const isBridalRegistryPage =
+    location.pathname.indexOf("/bridal/") > -1 &&
+    !location.pathname.includes("/account/");
+
   return (
     <div
       className={cs(styles.headerContainerMenu, {
@@ -53,7 +74,7 @@ const BottomMenu: React.FC<Props> = ({
       })}
     >
       <div className={bootstrap.row}>
-        <div className={cs(bootstrap.col)}>
+        {/* <div className={cs(bootstrap.col)}>
           <div className={cs(styles.bottomMenuItem, styles.homeBottomMenu)}>
             <Link to="/" onClick={() => onBottomMenuClick?.("Logo")}>
               <i
@@ -66,6 +87,20 @@ const BottomMenu: React.FC<Props> = ({
                 )}
               ></i>
             </Link>
+          </div>
+        </div> */}
+        <div className={cs(bootstrap.col)}>
+          <div className={cs(styles.bottomMenuItem)}>
+            <SelectableDropdownMenu
+              id="currency-dropdown"
+              align="left"
+              className={storyStyles.greyBG}
+              items={items}
+              value={currency}
+              // onChangeCurrency={currencyChange}
+              disabled={isBridalRegistryPage ? true : false}
+              showCaret={true}
+            />
           </div>
         </div>
         <div className={cs(bootstrap.col)}>

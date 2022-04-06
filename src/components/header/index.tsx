@@ -40,6 +40,7 @@ const mapStateToProps = (state: AppState) => {
     megaMenuData: state.header.megaMenuData,
     announcement: state.header.announcementData,
     currency: state.currency,
+    currencyList: state.info.currencyList,
     mobile: state.device.mobile,
     tablet: state.device.tablet,
     wishlistData: state.wishlist.items,
@@ -994,6 +995,8 @@ class Header extends React.Component<Props, State> {
             isLoggedIn={isLoggedIn}
             goLogin={this.props.goLogin}
             bagCount={bagCount}
+            currencyList={this.props.currencyList}
+            currency={this.props.currency}
           />
         )}
         {this.state.showBag && (
