@@ -405,8 +405,8 @@ const AddressForm: React.FC<Props> = props => {
                 [styles.disabledInput]:
                   (addressData && addressData.emailId) || email
               })}
-              label="Email Address"
-              placeholder="Email Address"
+              label={"Email Address*"}
+              placeholder={"Email Address*"}
               value={(addressData && addressData.emailId) || email}
               disable={!!((addressData && addressData.emailId) || email)}
               validations={{
@@ -424,8 +424,8 @@ const AddressForm: React.FC<Props> = props => {
               id="first-field"
               required
               name="firstName"
-              label="First Name"
-              placeholder="First Name"
+              label={"First Name*"}
+              placeholder={"First Name*"}
               handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
@@ -443,8 +443,8 @@ const AddressForm: React.FC<Props> = props => {
             <FormInput
               required
               name="lastName"
-              label="Last Name"
-              placeholder="Last Name"
+              label={"Last Name*"}
+              placeholder={"Last Name*"}
               handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,
@@ -469,7 +469,7 @@ const AddressForm: React.FC<Props> = props => {
                 handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   setIsAddressChanged(true);
                 }}
-                label="Pin/Zip Code"
+                label={"Pin/Zip Code*"}
                 validations={{
                   isExisty: true,
                   isValidPostcode: (values, value) => {
@@ -482,7 +482,7 @@ const AddressForm: React.FC<Props> = props => {
                   isValidPostcode: "Please enter a valid Pin/Zip code"
                 }}
                 changeState={changeState}
-                placeholder="Pin/Zip Code"
+                placeholder={"Pin/Zip Code*"}
                 name="postCode"
                 required
               />
@@ -492,8 +492,8 @@ const AddressForm: React.FC<Props> = props => {
               <FormInput
                 required
                 name="postCode"
-                label="Pin/Zip Code"
-                placeholder="Pin/Zip Code"
+                label={"Pin/Zip Code*"}
+                placeholder={"Pin/Zip Code*"}
                 value={
                   addressData && !isCountryChanged ? addressData.postCode : ""
                 }
@@ -515,7 +515,7 @@ const AddressForm: React.FC<Props> = props => {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
                 placeholder={"Select Country*"}
@@ -536,7 +536,7 @@ const AddressForm: React.FC<Props> = props => {
               <FormSelect
                 required
                 name="state"
-                label="State"
+                label={"State*"}
                 placeholder={"Select State*"}
                 disable={isIndia}
                 options={stateOptions}
@@ -556,8 +556,8 @@ const AddressForm: React.FC<Props> = props => {
             <FormInput
               required
               name="line1"
-              label="Address Line 1"
-              placeholder="Address Line 1"
+              label={"Address Line 1*"}
+              placeholder={"Address Line 1*"}
               handleChange={() => setIsAddressChanged(true)}
               maxlength={75}
               validations={{
@@ -589,8 +589,8 @@ const AddressForm: React.FC<Props> = props => {
             <FormInput
               required
               name="city"
-              label="City"
-              placeholder="City"
+              label={"City*"}
+              placeholder={"City*"}
               maxlength={30}
               handleChange={() => setIsAddressChanged(true)}
               validations={{
@@ -631,8 +631,8 @@ const AddressForm: React.FC<Props> = props => {
             <FormInput
               required
               name="phoneNumber"
-              label="Contact Number"
-              placeholder="Contact Number"
+              label={"Contact Number*"}
+              placeholder={"Contact Number*"}
               handleChange={() => setIsAddressChanged(true)}
               validations={{
                 isExisty: true,

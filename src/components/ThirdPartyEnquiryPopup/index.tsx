@@ -318,7 +318,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
                 placeholder={"Select Country*"}
@@ -342,7 +342,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
               <FormSelect
                 required
                 name="state"
-                label="State"
+                label={"State*"}
                 placeholder={"Select State*"}
                 disable={submitted}
                 options={stateOptions}
@@ -424,13 +424,13 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             </div>
           </div>
         )}
-        <p className={cs(styles.msg)}>Preferred mode of contact</p>
+        <p className={cs(styles.msg)}>Preferred mode of contact*</p>
         <div>
           <div className="select-group text-left">
             <FormSelect
               required
               name="preferredContact"
-              label="Preferred mode"
+              label={"Preferred mode*"}
               placeholder="Select Mode"
               disable={submitted}
               options={modeOptions}
