@@ -1,37 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
 import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import Loader from "components/Loader";
 import globalStyles from "../../styles/global.scss";
 import storyStyles from "../../styles/stories.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
-import { Currency } from "typings/currency";
+import mapDispatchToProps from "./mapper/actions";
+import { BottomMenuProps } from "./typings";
+import { connect } from "react-redux";
 
-type Props = {
-  wishlistCount: number;
-  showMenu: boolean;
-  clickToggle: () => void;
-  isLoggedIn: boolean;
-  goLogin: (e?: React.MouseEvent) => void;
-  showSearch: () => void;
-  isSearch: boolean;
-  showBag: boolean;
-  setShowBag: (showBag: boolean) => void;
-  bagCount: number;
-  onBottomMenuClick?: (clickType: string) => void;
-  currencyList: any[];
-  currency: Currency;
-} & RouteComponentProps;
+const mapStateToProps = (state: AppState) => {
+  return {
+    cookies: state.cookies,
+    slab: state.user.slab,
+    currencyList: state.info.currencyList,
+    user: state.user,
+    sortBy: state.wishlist.sortBy
+  };
+};
+
+type Props = BottomMenuProps &
+  RouteComponentProps &
+  ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>;
+
 const BottomMenu: React.FC<Props> = ({
   bagCount,
   wishlistCount,
-  showMenu,
-  clickToggle,
   isLoggedIn,
   goLogin,
   showBag,
@@ -41,8 +42,14 @@ const BottomMenu: React.FC<Props> = ({
   onBottomMenuClick,
   history,
   currencyList,
-  currency
+  currency,
+  changeCurrency,
+  reloadPage,
+  cookies,
+  user,
+  sortBy
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const location = useSelector((state: AppState) => state.router.location);
   const isPLP = location.pathname.includes("/catalogue/category");
@@ -66,6 +73,36 @@ const BottomMenu: React.FC<Props> = ({
   const isBridalRegistryPage =
     location.pathname.indexOf("/bridal/") > -1 &&
     !location.pathname.includes("/account/");
+
+  const currencyChange = (cur: any) => {
+    const data: any = {
+      currency: cur
+    };
+    if (!isLoading && currency != data.currency) {
+      setIsLoading(true);
+    }
+    return changeCurrency(data)
+      .then((response: any) => {
+        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+          const path =
+            history.location.pathname +
+            history.location.search.replace(currency, response.currency);
+          history.replace(path);
+        }
+        onBottomMenuClick?.("Currency");
+        reloadPage(
+          cookies,
+          response.currency,
+          user.customerGroup,
+          history.location.pathname,
+          user.isLoggedIn,
+          sortBy
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <div
@@ -94,10 +131,11 @@ const BottomMenu: React.FC<Props> = ({
             <SelectableDropdownMenu
               id="currency-dropdown"
               align="left"
+              direction="up"
               className={storyStyles.greyBG}
               items={items}
               value={currency}
-              // onChangeCurrency={currencyChange}
+              onChangeCurrency={currencyChange}
               disabled={isBridalRegistryPage ? true : false}
               showCaret={true}
             />
@@ -249,7 +287,12 @@ const BottomMenu: React.FC<Props> = ({
           </div>
         </div>
       </div>
+      {isLoading && <Loader />}
     </div>
   );
 };
-export default withRouter(BottomMenu);
+const BottomMenuWithRouter = withRouter(BottomMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BottomMenuWithRouter);

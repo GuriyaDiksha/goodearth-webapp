@@ -30,7 +30,7 @@
 }
 
 .menu {
-  transition: max-height 0.3s ease-in;
+  transition: max-height 0.3s ease-in-out;
   max-height: 0;
   overflow: hidden;
   // display: none;
@@ -123,4 +123,16 @@
     position: absolute;
     top: 40%;
     right: 0;
+}
+
+.open-up {
+  position: absolute;
+  transform: translateY(-129%);
+  -webkit-transform: translateY(-129%);
+  -moz-transform: translateY(-129%);
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  z-index: -1;
+  min-width: 0;
 }
