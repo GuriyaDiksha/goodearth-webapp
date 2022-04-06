@@ -993,9 +993,7 @@ class Header extends React.Component<Props, State> {
             showMenu={this.state.showMenu}
             clickToggle={this.clickToggle}
             isLoggedIn={isLoggedIn}
-            goLogin={this.props.goLogin}
             bagCount={bagCount}
-            currencyList={this.props.currencyList}
             currency={this.props.currency}
           />
         )}

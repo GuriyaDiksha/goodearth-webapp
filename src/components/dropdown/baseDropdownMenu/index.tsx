@@ -14,7 +14,8 @@ const BaseDropdownMenu = ({
   disabled,
   children,
   showCaret,
-  id
+  id,
+  direction
 }: BaseDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   false && setOpenState(false);
@@ -68,7 +69,8 @@ const BaseDropdownMenu = ({
         className={cl(
           styles.menu,
           { [styles.checkout]: id == "currency-dropdown-checkout" },
-          styles[align]
+          styles[align],
+          { [styles.openUp]: direction == "up" }
         )}
       >
         <ul>{children}</ul>

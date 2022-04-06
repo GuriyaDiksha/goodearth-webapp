@@ -19,7 +19,8 @@ const DropdownMenu = ({
   onChangeCurrency,
   disabled,
   showCaret,
-  id
+  id,
+  direction
 }: SelectableDropdownMenuProps): JSX.Element => {
   const [currentValue, setCurrentValue] = useState(value);
   const mounted = useRef(false);
@@ -79,7 +80,8 @@ const DropdownMenu = ({
     className,
     showCaret,
     disabled,
-    id
+    id,
+    direction
   };
   return (
     <BaseDropdownMenu {...menuProps}>
