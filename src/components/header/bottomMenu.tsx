@@ -6,12 +6,13 @@ import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 type Props = {
   wishlistCount: number;
   showMenu: boolean;
   clickToggle: () => void;
+  isLoggedIn: boolean;
   goLogin: (e?: React.MouseEvent) => void;
   showSearch: () => void;
   isSearch: boolean;
@@ -19,18 +20,20 @@ type Props = {
   setShowBag: (showBag: boolean) => void;
   bagCount: number;
   onBottomMenuClick?: (clickType: string) => void;
-};
+} & RouteComponentProps;
 const BottomMenu: React.FC<Props> = ({
   bagCount,
   wishlistCount,
   showMenu,
   clickToggle,
+  isLoggedIn,
   goLogin,
   showBag,
   setShowBag,
   showSearch,
   isSearch,
-  onBottomMenuClick
+  onBottomMenuClick,
+  history
 }) => {
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const location = useSelector((state: AppState) => state.router.location);
@@ -91,7 +94,7 @@ const BottomMenu: React.FC<Props> = ({
             </div>
           </li>
         </div>
-        <div className={cs(bootstrap.col, styles.hamburgerBottomMenu)}>
+        {/* <div className={cs(bootstrap.col, styles.hamburgerBottomMenu)}>
           <div className={styles.bottomMenuItem}>
             <i
               className={
@@ -127,7 +130,7 @@ const BottomMenu: React.FC<Props> = ({
               }}
             ></i>
           </div>
-        </div>
+        </div> */}
         <div className={cs(bootstrap.col, styles.mobileWishlist)}>
           <div className={styles.bottomMenuItem}>
             <Link
@@ -183,7 +186,7 @@ const BottomMenu: React.FC<Props> = ({
                     setShowBag(true);
                     onBottomMenuClick?.("Cart");
                   }}
-                ></i>
+                />
                 <span
                   className={styles.badge}
                   onClick={(): void => {
@@ -196,8 +199,22 @@ const BottomMenu: React.FC<Props> = ({
             </ul>
           </div>
         </div>
+        <div className={cs(bootstrap.col)}>
+          <div className={styles.bottomMenuItem}>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconProfile,
+                styles.iconStyle
+              )}
+              onClick={(): void => {
+                isLoggedIn ? history.push("/account/profile") : goLogin();
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
 };
-export default BottomMenu;
+export default withRouter(BottomMenu);
