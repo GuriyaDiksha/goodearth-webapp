@@ -991,6 +991,7 @@ class Header extends React.Component<Props, State> {
             wishlistCount={wishlistCount}
             showMenu={this.state.showMenu}
             clickToggle={this.clickToggle}
+            isLoggedIn={isLoggedIn}
             goLogin={this.props.goLogin}
             bagCount={bagCount}
           />
