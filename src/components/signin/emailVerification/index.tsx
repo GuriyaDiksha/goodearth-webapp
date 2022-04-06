@@ -34,7 +34,7 @@ const EmailVerification: React.FC<Props> = ({
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const dispatch = useDispatch();
   const timer = () => {
-    setTimeRemaining(60);
+    setTimeRemaining(90);
     setEnableBtn(false);
     const id = setInterval(() => {
       setTimeRemaining(timeRemaining => timeRemaining - 1);
