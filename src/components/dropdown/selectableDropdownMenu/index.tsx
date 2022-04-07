@@ -54,14 +54,18 @@ const DropdownMenu = ({
     return items.map((item: DropdownItem) => {
       const itemProps: DropdownMenuItemProps = {
         label: item.label,
-        onClick: () => {
+        onClick: e => {
           onChangeValue(item.value, item.label);
         },
         selected: item.value == currentValue,
         type: item.type || "button"
       };
       return (
-        <DropdownMenuItem key={item.value} {...itemProps}></DropdownMenuItem>
+        <DropdownMenuItem
+          id={id}
+          key={item.value}
+          {...itemProps}
+        ></DropdownMenuItem>
       );
     });
   };
