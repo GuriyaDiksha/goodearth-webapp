@@ -31,10 +31,10 @@ import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
 import ProductCounter from "components/ProductCounter";
 import throttle from "lodash/throttle";
-import activeGrid from "../../icons/active_grid.svg";
-import inactiveGrid from "../../icons/inactive_grid.svg";
-import activeList from "../../icons/active_list.svg";
-import inactiveList from "../../icons/inactive_list.svg";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {

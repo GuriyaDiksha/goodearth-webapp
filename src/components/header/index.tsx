@@ -878,24 +878,6 @@ class Header extends React.Component<Props, State> {
                             </div>
                           </li>
                         )}
-                        <li className={cs(styles.mobileSearch, bootstrap.col)}>
-                          <div
-                            onClick={() => {
-                              this.setShowBag(true);
-                              this.onSideMenuClick("Cart");
-                            }}
-                          >
-                            <i
-                              className={cs(
-                                iconStyles.icon,
-                                iconStyles.iconCart,
-                                styles.iconStyle,
-                                styles.iconDefaultColor
-                              )}
-                            ></i>
-                            <span className={styles.badge}>{bagCount}</span>
-                          </div>
-                        </li>
                       </>
                     )}
                   </ul>
