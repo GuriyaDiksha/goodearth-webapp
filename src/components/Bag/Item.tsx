@@ -72,7 +72,6 @@ const LineItems: React.FC<BasketItem> = memo(
       const arr = category.split(">");
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
-      console.log(categoryname, subcategoryname);
       Moengage.track_event("remove_from_cart", {
         "Product id": product.sku || product.childAttributes[0].sku,
         "Product name": product.title,

@@ -321,8 +321,13 @@ class PLP extends React.Component<
   setProductCount = () => {
     const { currentIndex } = this.getVisibleProductID();
     const isGrid = this.props.plpMobileView == "grid";
+    // console.log(currentIndex)
     this.setState({
-      count: isGrid ? (currentIndex > 0 ? currentIndex : 0) : currentIndex + 1
+      count: isGrid
+        ? currentIndex > 0
+          ? currentIndex + 1
+          : 0
+        : currentIndex + 1
     });
   };
 
@@ -663,13 +668,14 @@ class PLP extends React.Component<
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {})}
               >
-                <span>
-                  {count > 1
-                    ? (!this.state.corporoateGifting ? count + 1 : count) +
-                      " products found"
-                    : (!this.state.corporoateGifting ? count + 1 : count) +
-                      " product found"}{" "}
-                </span>
+                //{" "}
+                {/* <span>
+            //       {count > 1
+            //         ? (!this.state.corporoateGifting ? count + 1 : count) +
+            //           " products found"
+            //         : (!this.state.corporoateGifting ? count + 1 : count) +
+            //           " product found"}{" "}
+            //     </span> */}
               </div>
             )}
             <div
@@ -873,12 +879,12 @@ class PLP extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
-        {mobile && this.state.count > 0 && (
+        {/* {mobile && this.state.count > 0 && (
           <ProductCounter
-            current={this.state.count}
+            current={this.state.count + 1}
             total={this.props.data.results.data.length + 1}
           />
-        )}
+        )} */}
       </div>
     );
   }
