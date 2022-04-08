@@ -318,10 +318,10 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             <div className="select-group text-left">
               <FormSelect
                 required
-                label="Country"
+                label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
-                placeholder="Select Country"
+                placeholder={"Select Country*"}
                 disable={!popupfield.availableInternational || submitted}
                 name="country"
                 validations={{
@@ -337,13 +337,22 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
           )}
         </div>
         <div>
+          {popupfield?.query ? (
+            <div className="select-group text-left">
+              <p className={cs(styles.msg)}>Preferred mode of contact*</p>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
           {popupfield?.state && (
             <div className="select-group text-left">
               <FormSelect
                 required
                 name="state"
-                label="State"
-                placeholder="Select State"
+                label={"State*"}
+                placeholder={"Select State*"}
                 disable={submitted}
                 options={stateOptions}
                 value=""
@@ -424,13 +433,13 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             </div>
           </div>
         )}
-        <p className={cs(styles.msg)}>Preferred mode of contact</p>
+        <p className={cs(styles.msg)}>Preferred mode of contact*</p>
         <div>
           <div className="select-group text-left">
             <FormSelect
               required
               name="preferredContact"
-              label="Preferred mode"
+              label={"Preferred mode*"}
               placeholder="Select Mode"
               disable={submitted}
               options={modeOptions}

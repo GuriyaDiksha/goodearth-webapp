@@ -81,6 +81,7 @@ const CreateRegistry: React.FC = () => {
               onClick={e => {
                 setRegistry("wedding");
               }}
+              data-value="WeddingSpecial"
               className={cs({ [styles.active]: selectId == "wedding" })}
             >
               <svg
@@ -99,6 +100,7 @@ const CreateRegistry: React.FC = () => {
               onClick={e => {
                 setRegistry("special occasion");
               }}
+              data-value="special occasion"
               className={cs({
                 [styles.active]: selectId == "special occasion"
               })}
