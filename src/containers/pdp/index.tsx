@@ -365,6 +365,10 @@ class PDPContainer extends React.Component<Props, State> {
             });
           }
         }
+      } else if (!this.state.showAddToBagMobile) {
+        this.setState({
+          showAddToBagMobile: true
+        });
       }
     }
     if (
