@@ -284,7 +284,7 @@ class Bag extends React.Component<Props, State> {
     // }
     // const self = this;
     const {
-      subTotal,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
@@ -293,13 +293,14 @@ class Bag extends React.Component<Props, State> {
     }
     if (
       !this.state.freeShipping &&
-      +subTotal >= freeShippingThreshold &&
-      +subTotal < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
     ) {
       this.props.showShipping(
-        freeShippingApplicable - parseFloat(subTotal.toString()),
+        freeShippingApplicable - parseFloat(totalWithoutShipping.toString()),
         freeShippingApplicable
       );
       event.preventDefault();
@@ -312,7 +313,7 @@ class Bag extends React.Component<Props, State> {
     // }
     // this.amountLeft = 50000 - this.props.cart.subTotal;
     const {
-      subTotal,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
@@ -328,8 +329,9 @@ class Bag extends React.Component<Props, State> {
         shipping: false
       });
     } else if (
-      +subTotal >= freeShippingThreshold &&
-      +subTotal < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       this.state.shipping == false &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
@@ -338,8 +340,9 @@ class Bag extends React.Component<Props, State> {
         shipping: true
       });
     } else if (
-      (+subTotal < freeShippingThreshold ||
-        +subTotal >= freeShippingApplicable) &&
+      totalWithoutShipping &&
+      (totalWithoutShipping < freeShippingThreshold ||
+        totalWithoutShipping >= freeShippingApplicable) &&
       this.state.shipping
     ) {
       this.setState({
