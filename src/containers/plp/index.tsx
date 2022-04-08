@@ -17,7 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
 import PlpResultTabItem from "components/plpResultTabItem";
 import ModalStyles from "components/Modal/styles.scss";
@@ -31,6 +31,10 @@ import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
 import ProductCounter from "components/ProductCounter";
 import throttle from "lodash/throttle";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -849,20 +853,42 @@ class PLP extends React.Component<
                 [styles.hide]: this.props.scrollDown
               })}
             >
-              <i
-                key="grid-icon"
-                className={cs(iconFonts.icon, iconFonts.iconGridView, {
-                  [styles.active]: this.props.plpMobileView == "grid"
-                })}
-                onClick={() => this.updateMobileView("grid")}
-              />
-              <i
-                key="list-icon"
-                className={cs(iconFonts.icon, iconFonts.iconListView, {
-                  [styles.active]: this.props.plpMobileView == "list"
-                })}
-                onClick={() => this.updateMobileView("list")}
-              />
+              <div className={styles.gridContainer}>
+                <span
+                  className={cs(styles.gridSpan, {
+                    [styles.active]: this.props.plpMobileView == "grid"
+                  })}
+                >
+                  Grid
+                </span>
+                <img
+                  src={
+                    this.props.plpMobileView == "grid"
+                      ? activeGrid
+                      : inactiveGrid
+                  }
+                  className={cs(styles.gridIcon)}
+                  onClick={() => this.updateMobileView("grid")}
+                />
+              </div>
+              <div className={styles.listContainer}>
+                <img
+                  src={
+                    this.props.plpMobileView == "list"
+                      ? activeList
+                      : inactiveList
+                  }
+                  className={cs(styles.listIcon)}
+                  onClick={() => this.updateMobileView("list")}
+                />
+                <span
+                  className={cs(styles.listSpan, {
+                    [styles.active]: this.props.plpMobileView == "list"
+                  })}
+                >
+                  List
+                </span>
+              </div>
             </div>
           )}
         </div>
