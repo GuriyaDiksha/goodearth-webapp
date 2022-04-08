@@ -367,7 +367,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
   timer = () => {
     this.setState({
-      otpTimer: 60
+      otpTimer: 90
     });
     this.timerId = setInterval(() => {
       this.decrementTimeRemaining();
