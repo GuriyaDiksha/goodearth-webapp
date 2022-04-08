@@ -26,7 +26,6 @@ h5 {
 }
 p {
   @include c10-L-R();
-     
     line-height: 20px;
     letter-spacing: .5px;
     // span {
@@ -150,6 +149,9 @@ ol {
 @media screen and (max-width: 992px) {
 .terms {
     padding: 0 0 80px 0;
+    // p a {
+    //   word-break: break-all;
+    // }
 }
 }
 
