@@ -321,6 +321,7 @@ class PLP extends React.Component<
   setProductCount = () => {
     const { currentIndex } = this.getVisibleProductID();
     const isGrid = this.props.plpMobileView == "grid";
+    // console.log(currentIndex)
     this.setState({
       count: isGrid
         ? currentIndex > 0

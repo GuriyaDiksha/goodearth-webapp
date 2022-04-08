@@ -182,7 +182,10 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
           )}
         >
           <div className={globalStyles.c10LR}>
-            For regular orders, the delivery time will be 6-8 business days.
+            Estimated Delivery On or Before:{" "}
+            <span className={styles.black}>
+              {bridalItem.productDeliveryDate}{" "}
+            </span>
             <br />
             <br />
           </div>
