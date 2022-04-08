@@ -518,7 +518,7 @@ const AddressForm: React.FC<Props> = props => {
                 label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
-                placeholder="Select Country"
+                placeholder={"Select Country*"}
                 name="country"
                 validations={{
                   isExisty: true
@@ -537,7 +537,7 @@ const AddressForm: React.FC<Props> = props => {
                 required
                 name="state"
                 label={"State*"}
-                placeholder="Select State"
+                placeholder={"Select State*"}
                 disable={isIndia}
                 options={stateOptions}
                 value=""
