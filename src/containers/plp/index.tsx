@@ -668,14 +668,13 @@ class PLP extends React.Component<
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {})}
               >
-                //{" "}
                 {/* <span>
-            //       {count > 1
-            //         ? (!this.state.corporoateGifting ? count + 1 : count) +
-            //           " products found"
-            //         : (!this.state.corporoateGifting ? count + 1 : count) +
-            //           " product found"}{" "}
-            //     </span> */}
+                  {count > 1
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
+                  </span> */}
               </div>
             )}
             <div
