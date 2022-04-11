@@ -73,6 +73,7 @@ export type Basket = {
   redirectHomepage?: boolean;
   pageReload?: boolean;
   amountPayable?: number;
+  totalWithoutShipping?: number;
 };
 
 export interface BasketItem extends BasketLineItem {
