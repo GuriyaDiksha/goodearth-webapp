@@ -513,7 +513,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             if (message) {
               this.setState(
                 {
-                  showerrorOtp: message
+                  showerrorOtp: message,
+                  showerror: message
                 },
                 () => {
                   const errorElem = document.getElementById("customererror");

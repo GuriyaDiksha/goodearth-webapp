@@ -1,37 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
+import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
+import { DropdownItem } from "../dropdown/baseDropdownMenu/typings";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
+import Loader from "components/Loader";
 import globalStyles from "../../styles/global.scss";
+import storyStyles from "../../styles/stories.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import mapDispatchToProps from "./mapper/actions";
+import { BottomMenuProps } from "./typings";
+import { connect } from "react-redux";
 
-type Props = {
-  wishlistCount: number;
-  showMenu: boolean;
-  clickToggle: () => void;
-  goLogin: (e?: React.MouseEvent) => void;
-  showSearch: () => void;
-  isSearch: boolean;
-  showBag: boolean;
-  setShowBag: (showBag: boolean) => void;
-  bagCount: number;
-  onBottomMenuClick?: (clickType: string) => void;
+const mapStateToProps = (state: AppState) => {
+  return {
+    cookies: state.cookies,
+    slab: state.user.slab,
+    currencyList: state.info.currencyList,
+    user: state.user,
+    sortBy: state.wishlist.sortBy
+  };
 };
+
+type Props = BottomMenuProps &
+  RouteComponentProps &
+  ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>;
+
 const BottomMenu: React.FC<Props> = ({
   bagCount,
   wishlistCount,
-  showMenu,
-  clickToggle,
+  isLoggedIn,
   goLogin,
   showBag,
   setShowBag,
   showSearch,
   isSearch,
-  onBottomMenuClick
+  onBottomMenuClick,
+  history,
+  currencyList,
+  currency,
+  changeCurrency,
+  reloadPage,
+  cookies,
+  user,
+  sortBy
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const location = useSelector((state: AppState) => state.router.location);
   const isPLP = location.pathname.includes("/catalogue/category");
@@ -43,6 +61,49 @@ const BottomMenu: React.FC<Props> = ({
       eventLabel: location.pathname
     });
   };
+
+  const curryList = currencyList.map(data => {
+    return {
+      label: data.currencyCode + " " + data.currencySymbol,
+      value: data.currencyCode
+    };
+  });
+  const items: DropdownItem[] = curryList;
+
+  const isBridalRegistryPage =
+    location.pathname.indexOf("/bridal/") > -1 &&
+    !location.pathname.includes("/account/");
+
+  const currencyChange = (cur: any) => {
+    const data: any = {
+      currency: cur
+    };
+    if (!isLoading && currency != data.currency) {
+      setIsLoading(true);
+    }
+    return changeCurrency(data)
+      .then((response: any) => {
+        if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
+          const path =
+            history.location.pathname +
+            history.location.search.replace(currency, response.currency);
+          history.replace(path);
+        }
+        onBottomMenuClick?.("Currency");
+        reloadPage(
+          cookies,
+          response.currency,
+          user.customerGroup,
+          history.location.pathname,
+          user.isLoggedIn,
+          sortBy
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   return (
     <div
       className={cs(styles.headerContainerMenu, {
@@ -50,7 +111,7 @@ const BottomMenu: React.FC<Props> = ({
       })}
     >
       <div className={bootstrap.row}>
-        <div className={cs(bootstrap.col)}>
+        {/* <div className={cs(bootstrap.col)}>
           <div className={cs(styles.bottomMenuItem, styles.homeBottomMenu)}>
             <Link to="/" onClick={() => onBottomMenuClick?.("Logo")}>
               <i
@@ -63,6 +124,21 @@ const BottomMenu: React.FC<Props> = ({
                 )}
               ></i>
             </Link>
+          </div>
+        </div> */}
+        <div className={cs(bootstrap.col)}>
+          <div className={cs(styles.bottomMenuItem)}>
+            <SelectableDropdownMenu
+              id="currency-dropdown-sidemenu"
+              align="left"
+              direction="up"
+              className={storyStyles.greyBG}
+              items={items}
+              value={currency}
+              onChangeCurrency={currencyChange}
+              disabled={isBridalRegistryPage ? true : false}
+              showCaret={true}
+            />
           </div>
         </div>
         <div className={cs(bootstrap.col)}>
@@ -91,7 +167,7 @@ const BottomMenu: React.FC<Props> = ({
             </div>
           </li>
         </div>
-        <div className={cs(bootstrap.col, styles.hamburgerBottomMenu)}>
+        {/* <div className={cs(bootstrap.col, styles.hamburgerBottomMenu)}>
           <div className={styles.bottomMenuItem}>
             <i
               className={
@@ -127,7 +203,7 @@ const BottomMenu: React.FC<Props> = ({
               }}
             ></i>
           </div>
-        </div>
+        </div> */}
         <div className={cs(bootstrap.col, styles.mobileWishlist)}>
           <div className={styles.bottomMenuItem}>
             <Link
@@ -158,13 +234,13 @@ const BottomMenu: React.FC<Props> = ({
                     )
                   }
                 )}
-              ></i>
+              />
               <span
                 className={cs(styles.badge, {
                   [globalStyles.cerise]: location.pathname.includes("/wishlist")
                 })}
               >
-                {wishlistCount > 0 ? wishlistCount : ""}
+                {wishlistCount}
               </span>
             </Link>
           </div>
@@ -183,7 +259,7 @@ const BottomMenu: React.FC<Props> = ({
                     setShowBag(true);
                     onBottomMenuClick?.("Cart");
                   }}
-                ></i>
+                />
                 <span
                   className={styles.badge}
                   onClick={(): void => {
@@ -196,8 +272,27 @@ const BottomMenu: React.FC<Props> = ({
             </ul>
           </div>
         </div>
+        <div className={cs(bootstrap.col)}>
+          <div className={styles.bottomMenuItem}>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconProfile,
+                styles.iconStyle
+              )}
+              onClick={(): void => {
+                isLoggedIn ? history.push("/account/profile") : goLogin();
+              }}
+            />
+          </div>
+        </div>
       </div>
+      {isLoading && <Loader />}
     </div>
   );
 };
-export default BottomMenu;
+const BottomMenuWithRouter = withRouter(BottomMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BottomMenuWithRouter);
