@@ -14,7 +14,8 @@ const BaseDropdownMenu = ({
   disabled,
   children,
   showCaret,
-  id
+  id,
+  direction
 }: BaseDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   false && setOpenState(false);
@@ -51,13 +52,21 @@ const BaseDropdownMenu = ({
       onClick={!disabled ? onInsideClick : () => null}
       ref={ref}
     >
-      <div className={cs(styles.label, { [styles.disabled]: disabled })}>
+      <div
+        className={cs(
+          styles.label,
+          { [styles.disabled]: disabled },
+          { [styles.goldColor]: id == "currency-dropdown-sidemenu" }
+        )}
+      >
         {display}
         {showCaret ? (
           <span
-            className={cs(menuOpen ? styles.caretUp : styles.caret, {
-              [styles.disabled]: disabled
-            })}
+            className={cs(
+              menuOpen ? styles.caretUp : styles.caret,
+              { [styles.disabled]: disabled },
+              { [styles.goldColor]: id == "currency-dropdown-sidemenu" }
+            )}
           ></span>
         ) : (
           ""
@@ -68,7 +77,8 @@ const BaseDropdownMenu = ({
         className={cl(
           styles.menu,
           { [styles.checkout]: id == "currency-dropdown-checkout" },
-          styles[align]
+          styles[align],
+          { [styles.openUp]: direction == "up" }
         )}
       >
         <ul>{children}</ul>

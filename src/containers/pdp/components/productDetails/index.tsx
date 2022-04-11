@@ -525,7 +525,8 @@ const ProductDetails: React.FC<Props> = ({
       {
         partner: partner,
         id: id,
-        quantity: quantity
+        quantity: quantity,
+        size: selectedSize?.size
       },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
