@@ -71,7 +71,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   fillerUrl?: string;
   complianceLine?: string;
   manufactureInfo: string;
-  sizeChart: SizeChartResponse;
+  sizeChart: string | SizeChartResponse;
 }
 
 export interface PartialChildProductAttributes {
