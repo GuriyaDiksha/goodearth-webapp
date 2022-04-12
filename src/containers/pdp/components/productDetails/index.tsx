@@ -277,24 +277,16 @@ const ProductDetails: React.FC<Props> = ({
     [selectedSize]
   );
 
-  const onSizeChartClick = useCallback(() => {
-    if (!sizeChart || sizeChart == "") {
-      if (!sizeChartHtml || sizeChartHtml == "") {
-        return;
-      } else {
-        updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
-        changeModalState(true);
-      }
-    } else {
+  const onSizeChartClick = () => {
+    if (sizeChart || sizeChart != "") {
       dispatch(updateSizeChartData(sizeChart));
       dispatch(updateSizeChartShow(true));
     }
-  }, [sizeChart]);
+  };
 
   const [childAttr] = childAttributes;
   const { size = "" } = childAttr || {};
   const [height, width] = size.match(/[0-9.]+/gim) || [];
-
   const onWallpaperClick = useCallback(() => {
     updateComponentModal(POPUP.WALLPAPERPOPUP, {
       price: priceRecords[currency],
@@ -872,7 +864,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                   </div>
                 </div>
-                {(sizeChart || sizeChartHtml) && !isQuickview && (
+                {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
                       [globalStyles.textCenter]: !mobile
