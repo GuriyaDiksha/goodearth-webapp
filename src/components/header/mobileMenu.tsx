@@ -955,7 +955,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 styles.outerMenuItem
               )}
             >
-              {data.columns[0].templates.length > 0 ? (
+              {data.columns[0]?.templates.length > 0 ? (
                 <>
                   <span
                     className={

@@ -134,6 +134,7 @@ class BridalItem extends React.Component<Props, State> {
                 <img
                   className={styles.productImage}
                   src={this.props.bridalItem.productImage}
+                  style={{ cursor: "default" }}
                 />
               </a>
             </div>
@@ -146,7 +147,9 @@ class BridalItem extends React.Component<Props, State> {
                         {this.props.bridalItem.collection}
                       </div>
                       <div className={styles.productName}>
-                        <a>{this.props.bridalItem.productName}</a>
+                        <a style={{ cursor: "default" }}>
+                          {this.props.bridalItem.productName}
+                        </a>
                       </div>
                     </div>
                     <div className={styles.productPrice}>
@@ -287,8 +290,11 @@ class BridalItem extends React.Component<Props, State> {
                           globalStyles.voffset2
                         )}
                       >
-                        For regular orders, the delivery time will be 6-8
-                        business days
+                        Estimated Delivery On or Before:{" "}
+                        <span className={styles.black}>
+                          {" "}
+                          {this.props.bridalItem.productDeliveryDate}
+                        </span>
                       </div>
                     </>
                   )}

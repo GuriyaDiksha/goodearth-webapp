@@ -227,7 +227,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     formData["country"] = country;
     formData["query"] = query;
     formData["email"] = email;
-    formData["contactNo"] = "+91" + phoneNo;
+    formData["contactNo"] = countrycode + phoneNo;
     formData["preferredContact"] = preferredContact;
     if (time) {
       formData["suitableTime"] = time;
@@ -321,8 +321,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
-                placeholder="Select Country"
-                disable={!popupfield.availableInternational}
+                placeholder={"Select Country*"}
+                disable={!popupfield.availableInternational || submitted}
                 name="country"
                 validations={{
                   isExisty: true
@@ -336,6 +336,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             </div>
           )}
         </div>
+        <div></div>
         <div>
           {popupfield?.state && (
             <div className="select-group text-left">
@@ -343,7 +344,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 required
                 name="state"
                 label={"State*"}
-                placeholder="Select State"
+                placeholder={"Select State*"}
                 disable={submitted}
                 options={stateOptions}
                 value=""
@@ -450,7 +451,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 <FormTime
                   id="en_time"
                   name="time"
-                  disable={false}
+                  disable={submitted}
                   label={""}
                   validations={{
                     isRequired: (values, value) => {

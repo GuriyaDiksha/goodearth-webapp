@@ -62,6 +62,7 @@ import cushionFiller from "images/cushionFiller.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
+import { updateQuickviewId } from "../../../../actions/quickview";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -1063,6 +1064,7 @@ const ProductDetails: React.FC<Props> = ({
                     changeModalState(false);
                     const listPath = `${source || "PLP"}`;
                     CookieService.setCookie("listPath", listPath);
+                    dispatch(updateQuickviewId(0));
                   }}
                 >
                   view more details
