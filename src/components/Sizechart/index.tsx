@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
@@ -8,10 +9,13 @@ import { Section } from "components/Accordion/typings";
 import { SizeChartProps } from "./typings";
 import FitGuide from "./FitGuide";
 import SizeGuide from "./SizeGuide";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateSizeChartShow } from "actions/header";
 
 const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
+  const { pointers } = useSelector(
+    (state: AppState) => state.header.sizeChartData.data.fitGuide
+  );
   const dispatch = useDispatch();
   const closeSizeChart = () => {
     dispatch(updateSizeChartShow(false));
@@ -24,7 +28,7 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
     },
     {
       header: "SIZE GUIDE",
-      body: <SizeGuide />,
+      body: <SizeGuide isSingleSection={false} />,
       id: "sizeGuide"
     }
   ];
@@ -61,16 +65,20 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
         </div>
         <div className={styles.content}>
           <div className={styles.close}></div>
-          <Accordion
-            sections={sections}
-            defaultOpen="sizeGuide"
-            className=""
-            headerClassName={styles.header}
-            bodyClassName={styles.body}
-            headerClosedClassName={styles.headerClosed}
-            openIconClass={cs(styles.arrow, styles.open)}
-            closedIconClass={cs(styles.arrow, styles.close)}
-          />
+          {pointers && pointers.length === 0 ? (
+            <SizeGuide isSingleSection={true} />
+          ) : (
+            <Accordion
+              sections={sections}
+              defaultOpen="sizeGuide"
+              className=""
+              headerClassName={styles.header}
+              bodyClassName={styles.body}
+              headerClosedClassName={styles.headerClosed}
+              openIconClass={cs(styles.arrow, styles.open)}
+              closedIconClass={cs(styles.arrow, styles.close)}
+            />
+          )}
         </div>
       </div>
     </div>
