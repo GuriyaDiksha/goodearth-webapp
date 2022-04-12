@@ -321,6 +321,7 @@ class PLP extends React.Component<
   setProductCount = () => {
     const { currentIndex } = this.getVisibleProductID();
     const isGrid = this.props.plpMobileView == "grid";
+    // console.log(currentIndex)
     this.setState({
       count: isGrid
         ? currentIndex > 0
@@ -667,14 +668,13 @@ class PLP extends React.Component<
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {})}
               >
-                //{" "}
                 {/* <span>
-            //       {count > 1
-            //         ? (!this.state.corporoateGifting ? count + 1 : count) +
-            //           " products found"
-            //         : (!this.state.corporoateGifting ? count + 1 : count) +
-            //           " product found"}{" "}
-            //     </span> */}
+                  {count > 1
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
+                  </span> */}
               </div>
             )}
             <div
