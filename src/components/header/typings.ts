@@ -156,6 +156,21 @@ export type SideMenuProps = {
   hideSearch: () => void;
 };
 
+export type BottomMenuProps = {
+  wishlistCount: number;
+  showMenu: boolean;
+  clickToggle: () => void;
+  isLoggedIn: boolean;
+  showSearch: () => void;
+  isSearch: boolean;
+  showBag: boolean;
+  setShowBag: (showBag: boolean) => void;
+  bagCount: number;
+  onBottomMenuClick?: (clickType: string) => void;
+  currencyList: any[];
+  currency: Currency;
+};
+
 export interface MouseParameter {
   show: boolean;
   activeIndex?: number;
