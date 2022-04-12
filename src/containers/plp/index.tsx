@@ -114,6 +114,21 @@ class PLP extends React.Component<
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_plp_view"
     });
+    // dataLayer.push(
+    //   {
+    //   'Event Category':'GA Ecommerce',
+    //   'Event Action':'PLP ',
+    //   'Event Label':'Pass the L3 product category',
+    //   'Product Category':'Pass the product category L1 - L2 - L3',
+    //   "Login Status": this.props.isLoggedIn
+    //           ? "logged in"
+    //           : "logged out",
+    //   "Time Stamp": new Date().toISOString(),
+    //   "Page Url": location.href,
+    //   "Page Type": util.getPageType(),
+    //   "Page referrer url": CookieService.getCookie("prevUrl")
+    //   });
+
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PlpView"
@@ -306,8 +321,13 @@ class PLP extends React.Component<
   setProductCount = () => {
     const { currentIndex } = this.getVisibleProductID();
     const isGrid = this.props.plpMobileView == "grid";
+    // console.log(currentIndex)
     this.setState({
-      count: isGrid ? (currentIndex > 0 ? currentIndex : 0) : currentIndex + 1
+      count: isGrid
+        ? currentIndex > 0
+          ? currentIndex + 1
+          : 0
+        : currentIndex + 1
     });
   };
 
@@ -645,7 +665,17 @@ class PLP extends React.Component<
                 </span>
               </div>
             ) : (
-              ""
+              <div
+                className={cs(styles.productNumber, styles.imageContainer, {})}
+              >
+                {/* <span>
+                  {count > 1
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
+                  </span> */}
+              </div>
             )}
             <div
               className={
@@ -848,12 +878,12 @@ class PLP extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
-        {mobile && this.state.count > 0 && (
+        {/* {mobile && this.state.count > 0 && (
           <ProductCounter
-            current={this.state.count}
-            total={this.props.data.results.data.length}
+            current={this.state.count + 1}
+            total={this.props.data.results.data.length + 1}
           />
-        )}
+        )} */}
       </div>
     );
   }
