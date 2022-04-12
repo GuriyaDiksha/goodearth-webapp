@@ -336,15 +336,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
             </div>
           )}
         </div>
-        <div>
-          {popupfield?.query ? (
-            <div className="select-group text-left">
-              <p className={cs(styles.msg)}>Preferred mode of contact*</p>
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
+        <div></div>
         <div>
           {popupfield?.state && (
             <div className="select-group text-left">
