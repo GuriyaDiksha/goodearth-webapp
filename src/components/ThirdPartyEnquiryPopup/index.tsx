@@ -28,6 +28,7 @@ type Props = {
   id: ProductID;
   quantity?: number;
   partner?: string;
+  size?: string;
 };
 type StateOptions = {
   value: string;
@@ -44,9 +45,13 @@ type CountryOptions = {
   states: StateOptions[];
 };
 
-const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
+const CorporateEnquiryPopup: React.FC<Props> = ({
+  id,
+  quantity,
+  partner,
+  size
+}) => {
   const dispatch = useDispatch();
-
   const { closeModal } = useContext(ModalContext);
   const [countrycode, setCountrycode] = useState("");
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -60,7 +65,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     preferredContact: ["Phone", "Email"],
     query: true,
     state: true,
-    availableInternational: false
+    availableInternational: false,
+    size: true
   });
   const [enquiryMessage, setEnquiryMessage] = useState<
     string | (string | JSX.Element)[]
@@ -232,7 +238,9 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
     if (time) {
       formData["suitableTime"] = time;
     }
-
+    if (size) {
+      formData["size"] = size;
+    }
     ProductService.thirdPartyEnquire(dispatch, formData).then(data => {
       setSubmitted(true);
       setEnquiryMessage([
@@ -321,7 +329,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
                 label={"Country*"}
                 options={countryOptions}
                 handleChange={onCountrySelect}
-                placeholder="Select Country"
+                placeholder={"Select Country*"}
                 disable={!popupfield.availableInternational || submitted}
                 name="country"
                 validations={{
@@ -337,13 +345,22 @@ const CorporateEnquiryPopup: React.FC<Props> = ({ id, quantity, partner }) => {
           )}
         </div>
         <div>
+          {size ? (
+            <div className="select-group text-left">
+              <p className={cs(styles.selectSize)}>Selected Size : {size}</p>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
           {popupfield?.state && (
             <div className="select-group text-left">
               <FormSelect
                 required
                 name="state"
                 label={"State*"}
-                placeholder="Select State"
+                placeholder={"Select State*"}
                 disable={submitted}
                 options={stateOptions}
                 value=""

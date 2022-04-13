@@ -40,7 +40,7 @@
     right: 0;
     bottom: 0;
     z-index: 20;
-    width: 360px;
+    width: auto;
     font-size: 16px;
     line-height: 16px;
     display: none;
@@ -170,7 +170,7 @@
     display: flex;
     cursor: default;
     margin-top: 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -434,6 +434,10 @@
     tr {
       th {
         padding: 20px 15px;
+        font-size: 12px;
+        &.size-chart-legend{
+          font-weight: normal;
+        }
       }
       td {
         padding: 20px 15px;
@@ -450,16 +454,38 @@
         height: 56px;
         th {
           padding: 7px 15px 0;
+          div{
+            width: max-content;
+            max-width: 100%;
+            min-width: 56px;
+          }
         }
       }
     }
   }
 }
 
+.style-guide-single-section{
+  display: inline-flex;
+  font-size: 14px;
+  width: 100%;
+  margin: 20px 0;
+  justify-content: center;
+}
+
 .footer {
+  &.single-section-footer {
+    margin: 20px 20px;
+  }
   p {
     margin: 20px 0;
     color: #535353;
     font-size: 12px;
   }
+}
+
+.single-section-title {
+  text-align: center;
+  margin: 0 22px;
+  padding: 20px 0;
 }

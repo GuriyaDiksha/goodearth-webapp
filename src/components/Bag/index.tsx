@@ -284,7 +284,7 @@ class Bag extends React.Component<Props, State> {
     // }
     // const self = this;
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
@@ -293,25 +293,27 @@ class Bag extends React.Component<Props, State> {
     }
     if (
       !this.state.freeShipping &&
-      total >= freeShippingThreshold &&
-      total < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
     ) {
       this.props.showShipping(
-        freeShippingApplicable - parseInt(total.toString()),
+        freeShippingApplicable - parseFloat(totalWithoutShipping.toString()),
         freeShippingApplicable
       );
       event.preventDefault();
     }
   };
+
   canCheckout = () => {
     // if (pathname.indexOf("checkout") > -1) {
     //   return false;
     // }
     // this.amountLeft = 50000 - this.props.cart.subTotal;
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable
     } = this.props.cart;
@@ -327,8 +329,9 @@ class Bag extends React.Component<Props, State> {
         shipping: false
       });
     } else if (
-      total >= freeShippingThreshold &&
-      total < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       this.state.shipping == false &&
       this.props.currency == "INR" &&
       this.props.cart.shippable
@@ -337,7 +340,9 @@ class Bag extends React.Component<Props, State> {
         shipping: true
       });
     } else if (
-      (total < freeShippingThreshold || total >= freeShippingApplicable) &&
+      totalWithoutShipping &&
+      (totalWithoutShipping < freeShippingThreshold ||
+        totalWithoutShipping >= freeShippingApplicable) &&
       this.state.shipping
     ) {
       this.setState({
