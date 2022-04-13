@@ -45,9 +45,9 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import ModalStyles from "components/Modal/styles.scss";
 import {
-  // updateSizeChartData,
+  updateSizeChartData,
   updateSizeChartSelected,
-  // updateSizeChartShow,
+  updateSizeChartShow,
   updateSizeChartSizes,
   updateStoreState
 } from "actions/header";
@@ -186,6 +186,12 @@ const ProductDetails: React.FC<Props> = ({
   }, [childAttributes, selectedSize]);
 
   useEffect(() => {
+    return () => {
+      dispatch(updateSizeChartSelected(undefined));
+    };
+  }, []);
+
+  useEffect(() => {
     if (!selectedSize || selectedSize.id != selectedId) {
       const size = childAttributes.filter(child => child.id == selectedId)[0];
       setSelectedSize(size);
@@ -271,20 +277,16 @@ const ProductDetails: React.FC<Props> = ({
     [selectedSize]
   );
 
-  const onSizeChartClick = useCallback(() => {
-    if (!sizeChartHtml) {
-      return;
+  const onSizeChartClick = () => {
+    if (sizeChart || sizeChart != "") {
+      dispatch(updateSizeChartData(sizeChart));
+      dispatch(updateSizeChartShow(true));
     }
-    updateComponentModal(POPUP.SIZECHARTPOPUP, { html: sizeChartHtml });
-    changeModalState(true);
-    // dispatch(updateSizeChartData(sizeChart));
-    // dispatch(updateSizeChartShow(true));
-  }, [sizeChart]);
+  };
 
   const [childAttr] = childAttributes;
   const { size = "" } = childAttr || {};
   const [height, width] = size.match(/[0-9.]+/gim) || [];
-
   const onWallpaperClick = useCallback(() => {
     updateComponentModal(POPUP.WALLPAPERPOPUP, {
       price: priceRecords[currency],
@@ -525,7 +527,8 @@ const ProductDetails: React.FC<Props> = ({
       {
         partner: partner,
         id: id,
-        quantity: quantity
+        quantity: quantity,
+        size: selectedSize?.size
       },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
@@ -861,7 +864,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                   </div>
                 </div>
-                {sizeChartHtml && !isQuickview && (
+                {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
                       [globalStyles.textCenter]: !mobile
