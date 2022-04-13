@@ -44,7 +44,7 @@
   }
 
   &.left {
-    left: 0;
+    left: -7px;
   }
 }
 
@@ -124,6 +124,9 @@
       color: #bbb;
     }
   }
+  &.carret-vertical-mid-align{
+    top: 50%
+  }
 }
 
 .caret-up{
@@ -135,7 +138,7 @@
       color: #987E56
     }
     position: absolute;
-    top: 40%;
+    top: 50%;
     right: 0;
 }
 
@@ -147,7 +150,7 @@
   transition: 1s;
   -webkit-transition: 1s;
   -moz-transition: 1s;
-  min-width: 0;
+  min-width: 135%;
   z-index: -1;
 }
 
