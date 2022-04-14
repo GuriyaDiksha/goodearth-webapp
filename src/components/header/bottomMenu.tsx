@@ -216,31 +216,18 @@ const BottomMenu: React.FC<Props> = ({
               <i
                 className={cs(
                   iconStyles.icon,
-                  {
-                    [iconStyles.iconWishlist]: !location.pathname.includes(
-                      "/wishlist"
-                    )
-                  },
-                  {
-                    [iconStyles.iconWishlistAdded]: location.pathname.includes(
-                      "/wishlist"
-                    )
-                  },
-                  styles.iconStyle,
-                  styles.wishlistIconStyle,
+                  iconStyles.iconWishlist,
                   {
                     [globalStyles.cerise]: location.pathname.includes(
                       "/wishlist"
                     )
-                  }
+                  },
+                  styles.iconStyle,
+                  styles.wishlistIconStyle
                 )}
               />
-              <span
-                className={cs(styles.badge, {
-                  [globalStyles.cerise]: location.pathname.includes("/wishlist")
-                })}
-              >
-                {wishlistCount}
+              <span className={cs(styles.badge)}>
+                {wishlistCount > 0 ? wishlistCount : ""}
               </span>
             </Link>
           </div>
