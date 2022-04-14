@@ -1481,6 +1481,10 @@ visibility: visible !important;
   .wishlist-icon-style {
     position: relative;
     bottom: 2px;
+    color: #444444;
+    &.wishlist-active{
+      color: $cerise
+    }
   }
   .menu-icon-style {
     font-size: 28px;
