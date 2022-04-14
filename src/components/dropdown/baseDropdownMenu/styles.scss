@@ -61,7 +61,7 @@
   .label {
     color: $cerise;
     &.gold-color {
-      color: #987E56
+      color: #987E56 !important;
     }
   }
 }
@@ -93,7 +93,7 @@
     &:hover {
       color: $cerise;
       &.gold-color{
-        color: #987E56
+        color: #987E56 !important;
       }
     }
   }
@@ -101,7 +101,7 @@
   &:hover {
     color: $cerise;
     &.gold-color{
-      color: #987E56
+      color: #987E56 !important
     }
   }
 }
