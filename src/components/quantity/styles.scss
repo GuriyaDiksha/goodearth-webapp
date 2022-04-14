@@ -3,18 +3,18 @@
 
 
 .quantity{
-    color: #000;
+    color: $light-black;
     background-color: #f2f2f2;
     padding: 9px 12px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
 }
 
 .minus-quantity{
     border-top-left-radius: 45%;
     border-bottom-left-radius: 45%;
-    border-right: 1px solid #fff;
+    border-right: 1px solid transparent;
 }
 
 .input {
@@ -38,7 +38,9 @@
 .input-pdp {
     width: 120px;
     padding: 9px 10px;
-    font-size: 14px;
+    font-size: 12px;
+    font-family: $font-Montserrat;
+    color:$light-black
 }
 .input-cart {
     width: 80px;
@@ -49,7 +51,7 @@
 .plus-quantity{
     border-top-right-radius: 45%;
     border-bottom-right-radius: 45%;
-    border-left: 1px solid #fff;
+    border-left: 1px solid transparent;
 }
 
 .error-msg{
@@ -62,6 +64,11 @@
     position: absolute;
     bottom: -15px;
     // left: 5px;
+    color: $cerise;
+    font-family: $font-Lora;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    font-style: italic;
 }
 
 .left {
