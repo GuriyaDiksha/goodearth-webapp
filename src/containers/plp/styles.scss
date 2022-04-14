@@ -821,9 +821,13 @@ p.corporate-sub-heading {
   }
   .grid-span {
     padding-right: 8px;
+    position:relative;
+    top: -7%;
   }
   .list-span {
     padding-left: 8px;
+    position:relative;
+    top: -7%;
   }
   .active{
     color: #4C4C4C;
