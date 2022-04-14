@@ -907,7 +907,10 @@ class PLP extends React.Component<
                 [styles.hide]: this.props.scrollDown
               })}
             >
-              <div className={styles.gridContainer}>
+              <div
+                className={styles.gridContainer}
+                onClick={() => this.updateMobileView("grid")}
+              >
                 <span
                   className={cs(styles.gridSpan, {
                     [styles.active]: this.props.plpMobileView == "grid"
@@ -922,10 +925,12 @@ class PLP extends React.Component<
                       : inactiveGrid
                   }
                   className={cs(styles.gridIcon)}
-                  onClick={() => this.updateMobileView("grid")}
                 />
               </div>
-              <div className={styles.listContainer}>
+              <div
+                className={styles.listContainer}
+                onClick={() => this.updateMobileView("list")}
+              >
                 <img
                   src={
                     this.props.plpMobileView == "list"
@@ -933,7 +938,6 @@ class PLP extends React.Component<
                       : inactiveList
                   }
                   className={cs(styles.listIcon)}
-                  onClick={() => this.updateMobileView("list")}
                 />
                 <span
                   className={cs(styles.listSpan, {
