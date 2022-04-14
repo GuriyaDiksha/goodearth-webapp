@@ -981,7 +981,7 @@ const ProductDetails: React.FC<Props> = ({
               />
               <div>
                 Insert not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here</Link> to purchase.
+                <Link to={fillerUrl || "#"}>Click here to purchase.</Link>
               </div>
             </div>
           ) : (

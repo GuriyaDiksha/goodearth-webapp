@@ -23,19 +23,21 @@
 .price-container {
 
     @include pdp_prod_title();
+    font-family: $font-Montserrat;
+    font-size: 20px;
 }
 
 .discounted-price {
-    color: $cerise;
-    font-family: $font-Lato;
-    font-size: 22px;
+    color: $gold;
+    font-family: $font-Montserrat;
+    font-size: 20px;
 }
 
 .old-price {
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: line-through;
-    color: tint(#000, 50%) !important;
-    font-family: $font-Lato;
+    color: tint(#9f9f9f,50%)!important;
+    font-family: $font-Montserrat;
 }
 
 .label {
@@ -115,8 +117,10 @@
 .filler-container {
     display: flex;
     align-items: center;
+    color:$light-black;
     a {
         text-decoration: underline;
+        color: $light-black;
     }
 }
 .accordion-header {
@@ -132,7 +136,6 @@
 .sku {
     @include pdp_breadcrumbs();
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 @media screen and (max-width: 992px) {
@@ -243,6 +246,7 @@
     text-transform: none;
     letter-spacing: 1px;
     cursor: pointer;
+    font-family: $font-Montserrat;
 }
 .mobile-margin{
     margin-top: 5px;
@@ -250,23 +254,23 @@
 .compliance-container {
     align-items: flex-start;
     .compliance {
-        font-family: 'LatoFont';
-        font-size: 13px;
-        color: #9C7D50;
-        letter-spacing: .5px;
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        color:$gold;
+        letter-spacing: 0.36px;
         p{
-            font-family: 'LatoFont';
-            font-size: 13px;
-            color: #9C7D50;
-            letter-spacing: .5px;
+            font-family: $font-Montserrat;
+            font-size: 12px;
+            color:$gold;
+            letter-spacing: 0.36px;
             a{
-                color: #9C7D50;
+                color:$gold;
                 text-decoration: underline;
                 cursor: pointer;
             }
         }
         a{
-            color: #9C7D50;
+            color:$gold;
             text-decoration: underline;
             cursor: pointer;
         }
