@@ -1,1 +1,8 @@
 
+.slick-active .pageritem {
+    opacity: 1;
+    background-color: #ab1e56;
+    border-radius: 0;
+    height: 2px;
+    padding: 0px;
+}
