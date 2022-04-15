@@ -44,7 +44,7 @@
   }
 
   &.left {
-    left: -7px;
+    left: -10px;
   }
 }
 
@@ -61,7 +61,7 @@
   .label {
     color: $cerise;
     &.gold-color {
-      color: #987E56
+      color: #987E56 !important;
     }
   }
 }
@@ -93,7 +93,7 @@
     &:hover {
       color: $cerise;
       &.gold-color{
-        color: #987E56
+        color: #987E56 !important;
       }
     }
   }
@@ -101,7 +101,7 @@
   &:hover {
     color: $cerise;
     &.gold-color{
-      color: #987E56
+      color: #987E56 !important
     }
   }
 }
@@ -144,13 +144,13 @@
 
 .open-up {
   position: absolute;
-  transform: translateY(-129%);
-  -webkit-transform: translateY(-129%);
-  -moz-transform: translateY(-129%);
+  transform: translateY(-126%);
+  -webkit-transform: translateY(-126%);
+  -moz-transform: translateY(-126%);
   transition: 1s;
   -webkit-transition: 1s;
   -moz-transition: 1s;
-  min-width: 135%;
+  min-width: 170%;
   z-index: -1;
 }
 

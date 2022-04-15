@@ -29,7 +29,7 @@ const BaseDropdownMenu = ({
     const elem = document.getElementById(id) as HTMLDivElement;
     if (elem) {
       if (!elem.style.maxHeight) {
-        elem.style.maxHeight = elem.scrollHeight - 4 + "px";
+        elem.style.maxHeight = elem.scrollHeight + "px";
       } else {
         elem.style.removeProperty("max-height");
       }
@@ -78,7 +78,7 @@ const BaseDropdownMenu = ({
         {showCaret ? (
           <span
             className={cs(
-              menuOpen ? styles.caretUp : styles.caret,
+              menuOpen ? styles.caret : styles.caretUp,
               { [styles.disabled]: disabled },
               { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
               {
