@@ -17,13 +17,36 @@ const MobileSlider: React.FC<Props> = ({ dots = true, children, val }) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false
+    arrows: false,
+    customPaging: (slider: any, i: any) => {
+      let width = "0px";
+      if (typeof document == "object") {
+        const screenWidth =
+          window.innerWidth > 0 ? window.innerWidth : screen.width;
+        const total = Object.keys(children || {}).length;
+        width = screenWidth / total - total * 2 - 4 + "px";
+      }
+      return (
+        <div
+          className="pageritem"
+          style={{
+            width: width
+          }}
+          key={"item" + width}
+        >
+          {" "}
+        </div>
+      );
+    },
+    useTransform: true,
+    cssEase: "ease-in-out"
   };
 
   const sliderRef: any = useRef();
 
   useEffect(() => {
     // const handleOnClick = (index:number) => {
+    sliderRef.current?.props.customPaging();
     if (val && val.value > -1) {
       sliderRef.current ? sliderRef.current.slickGoTo(val.value) : "";
     }
