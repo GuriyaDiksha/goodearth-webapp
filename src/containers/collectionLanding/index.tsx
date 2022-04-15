@@ -120,12 +120,29 @@ class CollectionLanding extends React.Component<
       this.setState({
         filterData: "All"
       });
+    } else if (
+      nextProps.data.selectValue?.[0] &&
+      this.state.filterData == "All"
+    ) {
+      this.setState({
+        filterData: nextProps.data.selectValue?.[0]?.name
+      });
     }
     if (this.props.location.pathname != nextProps.location.pathname) {
+      const {
+        match: { params }
+      } = nextProps;
+      const { id } = params;
+      let newvalue: any = nextProps.data.selectValue?.[0];
+      if (+id != nextProps.data.selectValue?.[0]?.id) {
+        newvalue = nextProps.data.level2Categories?.filter(item => {
+          return item.id == +id;
+        });
+      }
       util.pageViewGTM("CollectionLanding");
       this.setState({
         landingMaker: false,
-        onloadState: false
+        filterData: newvalue[0]?.value
       });
     }
 
@@ -209,7 +226,6 @@ class CollectionLanding extends React.Component<
         }
       ]
     };
-
     return (
       <div>
         {isLivingpage && (
