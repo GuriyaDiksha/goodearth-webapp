@@ -16,9 +16,13 @@
 }
 
 .accordion-body {
-    display: none;
-
+    visibility: hidden;
+    height: 0px;
     &.open {
-        display: block;
+        visibility: visible;
+        height: auto;
+    }
+    &.closed {
+        margin: 0px;
     }
 }

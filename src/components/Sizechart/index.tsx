@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSizeChartShow } from "actions/header";
 
 const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
-  const { pointers, image } = useSelector(
+  const { image } = useSelector(
     (state: AppState) => state.header.sizeChartData.data.fitGuide
   );
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
             <Accordion
               sections={sections}
               defaultOpen="sizeGuide"
-              className=""
+              className="size-guide-accordion"
               headerClassName={styles.header}
               bodyClassName={styles.body}
               headerClosedClassName={styles.headerClosed}
