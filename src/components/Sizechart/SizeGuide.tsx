@@ -1,14 +1,16 @@
 import Toggle from "components/Toggle";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import sizeStyles from "../SizeSelector/styles.scss";
 import cs from "classnames";
+import { SizeGuideProps } from "./typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateSizeChartSelected } from "actions/header";
+import ReactHtmlParser from "react-html-parser";
 
-const SizeGuide: React.FC = () => {
+const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   const {
     data: {
       sizeGuide: { data, measurements, note, disclaimer }
@@ -41,22 +43,33 @@ const SizeGuide: React.FC = () => {
   }, []);
   return (
     <>
+      {isSingleSection ? (
+        <div className={styles.singleSectionTitle}>SIZE GUIDE</div>
+      ) : null}
       <Toggle
         values={values as string[]}
         activeIndex={unit == "in" ? 0 : 1}
         handleClick={index => setUnit(values[index])}
       />
       <div className={styles.smallTxt}>*Tap on size to select</div>
-      <div className={styles.tableContainer}>
+      <div
+        className={cs(styles.tableContainer, {
+          [styles.styleGuideSingleSection]: isSingleSection
+        })}
+      >
         <table className={styles.tableContent}>
-          <tr>
-            <th scope="col">Measurements</th>
-          </tr>
-          {measurements.map((measurement, i) => (
-            <tr key={i}>
-              <th scope="row">{measurement}</th>
+          <tbody>
+            <tr>
+              <th scope="col">Measurements</th>
             </tr>
-          ))}
+            {measurements.map((measurement, i) => (
+              <tr key={i}>
+                <th className={styles.sizeChartLegend} scope="row">
+                  {ReactHtmlParser(measurement)}
+                </th>
+              </tr>
+            ))}
+          </tbody>
         </table>
         <table className={cs(styles.tableContent, styles.scrollable)}>
           <thead>
@@ -66,10 +79,15 @@ const SizeGuide: React.FC = () => {
                 return (
                   <th scope="col" key={sku}>
                     <div
-                      className={cs(sizeStyles.sizeButton, {
-                        [sizeStyles.selected]: id === selected,
-                        [sizeStyles.unavailable]: stock === 0 && !isCorporatePDP
-                      })}
+                      className={cs(
+                        styles.sizeGuideItem,
+                        sizeStyles.sizeButton,
+                        {
+                          [sizeStyles.selected]: id === selected,
+                          [sizeStyles.unavailable]:
+                            stock === 0 && !isCorporatePDP
+                        }
+                      )}
                       onClick={() => sizeClickHandler(child)}
                       id={`size-guide-item-${size}`}
                     >
@@ -100,10 +118,14 @@ const SizeGuide: React.FC = () => {
           </tbody>
         </table>
       </div>
-      <div className={styles.footer}>
+      <div
+        className={cs(styles.footer, {
+          [styles.singleSectionFooter]: isSingleSection
+        })}
+      >
         <p>
           Note:{" "}
-          {note ? (
+          {note !== "" ? (
             note
           ) : (
             <>
@@ -115,7 +137,8 @@ const SizeGuide: React.FC = () => {
           )}
         </p>
         <p>
-          {disclaimer ? (
+          Disclaimer:{" "}
+          {disclaimer != "" ? (
             disclaimer
           ) : (
             <>
@@ -128,5 +151,5 @@ const SizeGuide: React.FC = () => {
       </div>
     </>
   );
-};
+});
 export default SizeGuide;
