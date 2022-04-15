@@ -35,7 +35,6 @@ import activeGrid from "../../images/plpIcons/active_grid.svg";
 import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
 import activeList from "../../images/plpIcons/active_list.svg";
 import inactiveList from "../../images/plpIcons/inactive_list.svg";
-import { updateScrollDown } from "actions/info";
 
 const mapStateToProps = (state: AppState) => {
   return {
