@@ -29,7 +29,7 @@ import CookieService from "services/cookie";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
-import ProductCounter from "components/ProductCounter";
+// import ProductCounter from "components/ProductCounter";
 import throttle from "lodash/throttle";
 import activeGrid from "../../images/plpIcons/active_grid.svg";
 import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
@@ -52,6 +52,7 @@ const mapStateToProps = (state: AppState) => {
     plpTemplates: state.plplist.plpTemplates
   };
 };
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   DispatchProp;
@@ -849,7 +850,7 @@ class PLP extends React.Component<
             <div
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,
-                [styles.hide]: this.props.scrollDown
+                [styles.hide]: !this.props.scrollDown
               })}
             >
               <div

@@ -239,3 +239,50 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 .tablet-slider-container {
     padding: 0 120px;
 }
+
+.grid-container {
+    height: 22px;
+    border-right: 1px solid #9F9F9F;
+}
+
+.list-grid-bar {
+  justify-content: center;
+  span{
+    font-size: 12px;
+    vertical-align: middle;
+    color: #9f9f9f
+  }
+  .grid-span {
+    padding-right: 8px;
+    position:relative;
+    top: -7%;
+  }
+  .list-span {
+    padding-left: 8px;
+    position:relative;
+    top: -7%;
+  }
+  .active{
+    color: #4C4C4C;
+  }
+}
+
+.grid-icon {
+    height: 21px;
+    padding-right: 20px;
+    position: relative;
+    top: 34%;
+    transform: translateY(-50%);
+  }
+  
+  .list-container {
+    height: 22px;
+  }
+  
+  .list-icon {
+    height: 21px;
+    padding-left: 20px;
+    position: relative;
+    top: 34%;
+    transform: translateY(-50%);
+  }
