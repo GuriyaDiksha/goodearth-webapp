@@ -1407,7 +1407,7 @@ visibility: visible !important;
 }
 .mobile-wishlist {
   font-size: 32px;
-  top: 2px;
+  // top: 2px;
   color: $cerise;
 }
 // .sidemenu-mobile {
@@ -1447,6 +1447,9 @@ visibility: visible !important;
       color: $cerise;
     }
   }
+  &.bottom-menu-item{
+    padding: 4px 0 0 0 !important;
+  }
 }
 
 .bottom-menu-item {
@@ -1481,6 +1484,10 @@ visibility: visible !important;
   .wishlist-icon-style {
     position: relative;
     bottom: 2px;
+    color: #444444;
+    &.wishlist-active{
+      color: $cerise
+    }
   }
   .menu-icon-style {
     font-size: 28px;

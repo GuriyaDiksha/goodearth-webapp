@@ -29,7 +29,7 @@ import CookieService from "services/cookie";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
-import ProductCounter from "components/ProductCounter";
+// import ProductCounter from "components/ProductCounter";
 import throttle from "lodash/throttle";
 import activeGrid from "../../images/plpIcons/active_grid.svg";
 import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
@@ -52,6 +52,7 @@ const mapStateToProps = (state: AppState) => {
     plpTemplates: state.plplist.plpTemplates
   };
 };
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   DispatchProp;
@@ -672,14 +673,13 @@ class PLP extends React.Component<
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {})}
               >
-                //{" "}
                 {/* <span>
-            //       {count > 1
-            //         ? (!this.state.corporoateGifting ? count + 1 : count) +
-            //           " products found"
-            //         : (!this.state.corporoateGifting ? count + 1 : count) +
-            //           " product found"}{" "}
-            //     </span> */}
+                  {count > 1
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
+                  </span> */}
               </div>
             )}
             <div
@@ -850,10 +850,13 @@ class PLP extends React.Component<
             <div
               className={cs(styles.listGridBar, {
                 [styles.listGridBarTimer]: this.props.showTimer,
-                [styles.hide]: this.props.scrollDown
+                [styles.hide]: !this.props.scrollDown
               })}
             >
-              <div className={styles.gridContainer}>
+              <div
+                className={styles.gridContainer}
+                onClick={() => this.updateMobileView("grid")}
+              >
                 <span
                   className={cs(styles.gridSpan, {
                     [styles.active]: this.props.plpMobileView == "grid"
@@ -868,10 +871,12 @@ class PLP extends React.Component<
                       : inactiveGrid
                   }
                   className={cs(styles.gridIcon)}
-                  onClick={() => this.updateMobileView("grid")}
                 />
               </div>
-              <div className={styles.listContainer}>
+              <div
+                className={styles.listContainer}
+                onClick={() => this.updateMobileView("list")}
+              >
                 <img
                   src={
                     this.props.plpMobileView == "list"
@@ -879,7 +884,6 @@ class PLP extends React.Component<
                       : inactiveList
                   }
                   className={cs(styles.listIcon)}
-                  onClick={() => this.updateMobileView("list")}
                 />
                 <span
                   className={cs(styles.listSpan, {
