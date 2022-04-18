@@ -242,7 +242,7 @@
 // }
 @mixin pdp_prod_title {
   font-size: 24px;
-  color:$black;
+  color:$charcoal19;
   font-family: $font-Lora;
   letter-spacing: 0.48px;
 }
@@ -258,7 +258,7 @@
   font-family: $font-Montserrat;
   font-size: 12px;
   text-transform: uppercase;
-  color: $light-black;
+  color: $charcoal19;
   letter-spacing: 0.36px;
 }
 
@@ -274,7 +274,7 @@
   font-size: 14px;
   text-transform: uppercase;
   font-family: $font-Montserrat;
-  letter-spacing: px;
+  // letter-spacing: px;
 }
 
 
@@ -290,7 +290,7 @@
   font-size: 14px;
   font-family: $font-Montserrat;
   text-transform: uppercase;
-  color: $black;
+  color: $charcoal19;
   letter-spacing: 0.36px;
 }
 
@@ -307,7 +307,7 @@
 @mixin pdp_copy_body {
   font-size: 12px;
   font-family: $font-Montserrat;
-  color:$light-black;
+  color:$charcoal19;
   text-transform: none;
   line-height: 20px;
   margin-top: 15px;
@@ -323,7 +323,7 @@
 @mixin pdp_prod_title_mobile {
   font-size: 24px;
   font-family: $font-Lora;
-  color: $black;
+  color:$charcoal19;
   text-transform: capitalize;
 }
 @mixin plp_prod_name_desktop {
@@ -425,7 +425,7 @@
 @mixin error-msg {
   font-size: 12px;
   font-style: italic;
-  color: $light-black;
+  color: $charcoal19;
   font-weight: bold;
   font-family: $font-Montserrat;
   letter-spacing: 0.36px;
