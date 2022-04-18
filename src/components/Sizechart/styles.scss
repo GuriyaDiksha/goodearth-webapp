@@ -170,6 +170,9 @@
     margin-top: 30px;
     overflow-y: auto;
     overflow-x: hidden;
+    &.hide-scroll {
+      overflow: hidden;
+    }
 }
 
 .message {
@@ -358,7 +361,6 @@
   margin-right: 22px; 
 }
 .body {
-  border-bottom: 1px solid lightgrey;
   margin: 22px;
 }
 
@@ -367,6 +369,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid lightgrey;
   img {
     width: 80%;
   }
@@ -473,6 +476,7 @@
 
 .footer {
   position: absolute;
+  border-bottom: 1px solid lightgrey;
   &.single-section-footer {
     margin: 20px 20px;
   }
