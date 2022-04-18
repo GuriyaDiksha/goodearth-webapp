@@ -51,6 +51,10 @@ import Skeleton from "react-loading-skeleton";
 // const ProductDetails = loadable(() => import("./components/productDetails"));
 import ProductDetails from "./components/productDetails";
 import PdpSlider from "components/PdpSlider";
+import activeGrid from "images/plpIcons/active_grid.svg";
+import inactiveGrid from "images/plpIcons/inactive_grid.svg";
+import activeList from "images/plpIcons/active_list.svg";
+import inactiveList from "images/plpIcons/inactive_list.svg";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -761,29 +765,47 @@ class PDPContainer extends React.Component<Props, State> {
       <>
         {mobile && (
           <div
-            className={cs(
-              styles.listGridBar,
-              { [styles.listGridBarTimer]: showTimer },
-              globalStyles.voffset5,
-              {
-                [styles.hide]: this.props.scrollDown
-              }
-            )}
+            className={cs(styles.listGridBar, {
+              [styles.listGridBarTimer]: this.props.showTimer,
+              [styles.hide]: this.props.scrollDown
+            })}
           >
-            <i
-              key="grid-icon"
-              className={cs(iconFonts.icon, iconFonts.iconGridView, {
-                [styles.active]: this.props.plpMobileView == "grid"
-              })}
+            <div
+              className={styles.gridContainer}
               onClick={() => this.updateMobileView("grid")}
-            />
-            <i
-              key="list-icon"
-              className={cs(iconFonts.icon, iconFonts.iconListView, {
-                [styles.active]: this.props.plpMobileView == "list"
-              })}
+            >
+              <span
+                className={cs(styles.gridSpan, {
+                  [styles.active]: this.props.plpMobileView == "grid"
+                })}
+              >
+                Grid
+              </span>
+              <img
+                src={
+                  this.props.plpMobileView == "grid" ? activeGrid : inactiveGrid
+                }
+                className={cs(styles.gridIcon)}
+              />
+            </div>
+            <div
+              className={styles.listContainer}
               onClick={() => this.updateMobileView("list")}
-            />
+            >
+              <img
+                src={
+                  this.props.plpMobileView == "list" ? activeList : inactiveList
+                }
+                className={cs(styles.listIcon)}
+              />
+              <span
+                className={cs(styles.listSpan, {
+                  [styles.active]: this.props.plpMobileView == "list"
+                })}
+              >
+                List
+              </span>
+            </div>
           </div>
         )}
         <div>

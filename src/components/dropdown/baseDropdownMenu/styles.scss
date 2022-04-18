@@ -44,7 +44,7 @@
   }
 
   &.left {
-    left: 0;
+    left: -10px;
   }
 }
 
@@ -61,7 +61,7 @@
   .label {
     color: $cerise;
     &.gold-color {
-      color: #987E56
+      color: #987E56 !important;
     }
   }
 }
@@ -93,7 +93,7 @@
     &:hover {
       color: $cerise;
       &.gold-color{
-        color: #987E56
+        color: #987E56 !important;
       }
     }
   }
@@ -101,7 +101,7 @@
   &:hover {
     color: $cerise;
     &.gold-color{
-      color: #987E56
+      color: #987E56 !important
     }
   }
 }
@@ -124,6 +124,9 @@
       color: #bbb;
     }
   }
+  &.carret-vertical-mid-align{
+    top: 50%
+  }
 }
 
 .caret-up{
@@ -135,19 +138,19 @@
       color: #987E56
     }
     position: absolute;
-    top: 40%;
+    top: 50%;
     right: 0;
 }
 
 .open-up {
   position: absolute;
-  transform: translateY(-129%);
-  -webkit-transform: translateY(-129%);
-  -moz-transform: translateY(-129%);
+  transform: translateY(-126%);
+  -webkit-transform: translateY(-126%);
+  -moz-transform: translateY(-126%);
   transition: 1s;
   -webkit-transition: 1s;
   -moz-transition: 1s;
-  min-width: 0;
+  min-width: 170%;
   z-index: -1;
 }
 

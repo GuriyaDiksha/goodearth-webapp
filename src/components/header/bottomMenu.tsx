@@ -142,30 +142,25 @@ const BottomMenu: React.FC<Props> = ({
           </div>
         </div>
         <div className={cs(bootstrap.col)}>
-          <li className={cs(styles.mobileSearch, styles.bottomMenuItem)}>
-            <div
-              onClick={() => {
-                showSearch();
-                onBottomMenuClick?.("Search");
-              }}
-            >
-              <i
-                className={
-                  isSearch
-                    ? cs(
-                        iconStyles.icon,
-                        iconStyles.iconCrossNarrowBig,
-                        styles.iconStyleCross
-                      )
-                    : cs(
-                        iconStyles.icon,
-                        iconStyles.iconSearch,
-                        styles.iconStyle
-                      )
-                }
-              ></i>
-            </div>
-          </li>
+          <div
+            className={cs(styles.mobileSearch, styles.bottomMenuItem)}
+            onClick={() => {
+              showSearch();
+              onBottomMenuClick?.("Search");
+            }}
+          >
+            <i
+              className={
+                isSearch
+                  ? cs(
+                      iconStyles.icon,
+                      iconStyles.iconCrossNarrowBig,
+                      styles.iconStyleCross
+                    )
+                  : cs(iconStyles.icon, iconStyles.iconSearch, styles.iconStyle)
+              }
+            ></i>
+          </div>
         </div>
         {/* <div className={cs(bootstrap.col, styles.hamburgerBottomMenu)}>
           <div className={styles.bottomMenuItem}>
@@ -216,23 +211,14 @@ const BottomMenu: React.FC<Props> = ({
               <i
                 className={cs(
                   iconStyles.icon,
-                  {
-                    [iconStyles.iconWishlist]: !location.pathname.includes(
-                      "/wishlist"
-                    )
-                  },
-                  {
-                    [iconStyles.iconWishlistAdded]: location.pathname.includes(
-                      "/wishlist"
-                    )
-                  },
-                  styles.iconStyle,
-                  styles.wishlistIconStyle,
+                  iconStyles.iconWishlist,
                   {
                     [globalStyles.cerise]: location.pathname.includes(
                       "/wishlist"
                     )
-                  }
+                  },
+                  styles.iconStyle,
+                  styles.wishlistIconStyle
                 )}
               />
               <span
@@ -240,7 +226,7 @@ const BottomMenu: React.FC<Props> = ({
                   [globalStyles.cerise]: location.pathname.includes("/wishlist")
                 })}
               >
-                {wishlistCount}
+                {wishlistCount > 0 ? wishlistCount : ""}
               </span>
             </Link>
           </div>

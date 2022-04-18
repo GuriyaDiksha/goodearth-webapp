@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cl from "classnames";
 import { BaseDropdownMenuProps } from "./typings";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 import cs from "classnames";
 
@@ -19,6 +21,8 @@ const BaseDropdownMenu = ({
 }: BaseDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   false && setOpenState(false);
+
+  const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
@@ -41,6 +45,17 @@ const BaseDropdownMenu = ({
   };
 
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
+
+  useEffect(() => {
+    if (scrollDown) {
+      setOpenState(false);
+      const elem = document.getElementById(id) as HTMLDivElement;
+      if (elem) {
+        elem.style.removeProperty("max-height");
+      }
+    }
+  }, [scrollDown]);
+
   return (
     <div
       className={cl(
@@ -63,9 +78,13 @@ const BaseDropdownMenu = ({
         {showCaret ? (
           <span
             className={cs(
-              menuOpen ? styles.caretUp : styles.caret,
+              menuOpen ? styles.caret : styles.caretUp,
               { [styles.disabled]: disabled },
-              { [styles.goldColor]: id == "currency-dropdown-sidemenu" }
+              { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
+              {
+                [styles.carretVerticalMidAlign]:
+                  id == "currency-dropdown-sidemenu"
+              }
             )}
           ></span>
         ) : (
