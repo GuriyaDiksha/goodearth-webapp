@@ -117,20 +117,27 @@
 .filler-container {
     display: flex;
     align-items: center;
-    color:$light-black;
+    color:$charcoal19;
     a {
         text-decoration: underline;
-        color: $light-black;
+        color: $charcoal19;
     }
 }
 .accordion-header {
     @include pdp_copy_head();
     margin-top: 20px;
 }
+.header-closed-class-name
+    {
+        border-bottom: lightgrey solid 1px;
+        padding: 10px;
+    }
 
 .accordion-body {
     @include pdp_copy_body();
     letter-spacing: .5px;
+    border-bottom: lightgrey solid 1px;
+    padding: 10px;
 }
 
 .sku {

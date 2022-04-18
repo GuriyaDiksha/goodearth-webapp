@@ -17,7 +17,7 @@ import Quantity from "components/quantity";
 import SizeSelector from "components/SizeSelector";
 import Button from "components/Button";
 import Share from "components/Share";
-import Accordion from "components/Accordion";
+import PdpAccordion from "components/Accordion/pdpAccordion";
 import WishlistButton from "components/WishlistButton";
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
@@ -1146,10 +1146,11 @@ const ProductDetails: React.FC<Props> = ({
           )} */}
             <div>
               {!isQuickview && (
-                <Accordion
+                <PdpAccordion
                   sections={accordionSections}
                   headerClassName={styles.accordionHeader}
                   bodyClassName={styles.accordionBody}
+                  headerClosedClassName={styles.headerClosedClassName}
                   defaultOpen="details"
                 />
               )}
