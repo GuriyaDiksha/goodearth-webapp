@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
@@ -13,7 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSizeChartShow } from "actions/header";
 
 const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
-  const { pointers, image } = useSelector(
+  const [hideScroll, setHideScroll] = useState(false);
+  const { image } = useSelector(
     (state: AppState) => state.header.sizeChartData.data.fitGuide
   );
   const dispatch = useDispatch();
@@ -49,7 +50,8 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
         className={cs(
           styles.bag,
           { [styles.active]: active },
-          { [styles.smoothOut]: !active }
+          { [styles.smoothOut]: !active },
+          { [styles.hideScroll]: hideScroll }
         )}
       >
         <div className={cs(styles.bagHeader, globalStyles.flex)}>
@@ -71,12 +73,13 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
             <Accordion
               sections={sections}
               defaultOpen="sizeGuide"
-              className=""
+              className="size-guide-accordion"
               headerClassName={styles.header}
               bodyClassName={styles.body}
               headerClosedClassName={styles.headerClosed}
               openIconClass={cs(styles.arrow, styles.open)}
               closedIconClass={cs(styles.arrow, styles.close)}
+              setHideScroll={setHideScroll}
             />
           )}
         </div>
