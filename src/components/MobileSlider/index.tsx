@@ -18,7 +18,7 @@ const MobileSlider: React.FC<Props> = ({ dots = true, children, val }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    customPaging: (slider: any, i: any) => {
+    customPaging: (index: number) => {
       let width = "0px";
       if (typeof document == "object") {
         const screenWidth =
@@ -32,7 +32,7 @@ const MobileSlider: React.FC<Props> = ({ dots = true, children, val }) => {
           style={{
             width: width
           }}
-          key={"item" + width}
+          key={"item" + index}
         >
           {" "}
         </div>
