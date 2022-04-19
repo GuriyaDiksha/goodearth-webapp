@@ -83,7 +83,7 @@ li {
 }
 
 a {
-  color: $cerise;
+  color: $gold;
   cursor: pointer;
   &:hover,
   &:active,
@@ -176,6 +176,9 @@ a {
 }
 .cerise {
   color: $cerise !important;
+}
+.gold{
+  color: $gold !important;
 }
 .bold {
 font-weight: bold;
