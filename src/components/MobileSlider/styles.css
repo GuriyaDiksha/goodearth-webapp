@@ -9,12 +9,17 @@
     margin-bottom: 15px;
 }
 
-.slick-dots {
+.pdp-slider .slick-dots {
     position: relative;
-    width: 100%;
+    width: 95%;
     display: block;
     bottom: 0;
     background-color: #D8D8D8;
     height: 2px;
     top: 4px;
+    left: 10px;
+}
+
+.pdp-slider .slick-next:hover {
+    background-color: #fff;
 }
