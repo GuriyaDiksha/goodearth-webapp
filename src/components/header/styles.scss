@@ -900,8 +900,6 @@ a {
   line-height: 0;
   display: inline-block;
   line-height: 100px;
-  
-
   input {
     width: 100%;
     border: 1px solid tint(#000, 80%);
@@ -917,6 +915,7 @@ a {
     right: 7%;
     cursor: pointer;
     @include more-details();
+    font-size: 10px;
   }
   .icon-search-popup {
     cursor: pointer;
@@ -1118,7 +1117,7 @@ font-size: 20px;
 letter-spacing: 1px;
 color: tint(#000, 50%);
 span {
-  color: $cerise;
+  color: #9C7D50;
 }
 }
 
@@ -1408,7 +1407,7 @@ visibility: visible !important;
 }
 .mobile-wishlist {
   font-size: 32px;
-  top: 2px;
+  // top: 2px;
   color: $cerise;
 }
 // .sidemenu-mobile {
@@ -1448,6 +1447,9 @@ visibility: visible !important;
       color: $cerise;
     }
   }
+  &.bottom-menu-item{
+    padding: 4px 0 0 0 !important;
+  }
 }
 
 .bottom-menu-item {
@@ -1482,6 +1484,10 @@ visibility: visible !important;
   .wishlist-icon-style {
     position: relative;
     bottom: 2px;
+    color: #444444;
+    &.wishlist-active{
+      color: $cerise
+    }
   }
   .menu-icon-style {
     font-size: 28px;
@@ -1637,5 +1643,35 @@ ul.inner-menu-mobile {
   .announcement-cta-btn {
     margin-left: 30px;
 
+  }
+}
+
+.top-bag-item {
+  text-align: center;
+  line-height: 50px;
+  padding-top:5px;
+  .top-bag-icon-style {
+    font-size: 21px;
+    color: #444444;
+    margin: inherit;
+  }
+  .top-badge{
+    position: absolute;
+    top: 3px;
+    right: 0;
+    left: 0;
+    min-width: 10px;
+    padding-top: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #969698;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10px;
+    &:hover {
+      color: $cerise;
+    }
   }
 }

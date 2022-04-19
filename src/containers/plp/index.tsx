@@ -17,7 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
 import PlpResultTabItem from "components/plpResultTabItem";
 import ModalStyles from "components/Modal/styles.scss";
@@ -29,8 +29,12 @@ import CookieService from "services/cookie";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
-import ProductCounter from "components/ProductCounter";
+// import ProductCounter from "components/ProductCounter";
 import throttle from "lodash/throttle";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -48,6 +52,7 @@ const mapStateToProps = (state: AppState) => {
     plpTemplates: state.plplist.plpTemplates
   };
 };
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   DispatchProp;
@@ -848,20 +853,46 @@ class PLP extends React.Component<
                 [styles.hide]: this.props.scrollDown
               })}
             >
-              <i
-                key="grid-icon"
-                className={cs(iconFonts.icon, iconFonts.iconGridView, {
-                  [styles.active]: this.props.plpMobileView == "grid"
-                })}
+              <div
+                className={styles.gridContainer}
                 onClick={() => this.updateMobileView("grid")}
-              />
-              <i
-                key="list-icon"
-                className={cs(iconFonts.icon, iconFonts.iconListView, {
-                  [styles.active]: this.props.plpMobileView == "list"
-                })}
+              >
+                <span
+                  className={cs(styles.gridSpan, {
+                    [styles.active]: this.props.plpMobileView == "grid"
+                  })}
+                >
+                  Grid
+                </span>
+                <img
+                  src={
+                    this.props.plpMobileView == "grid"
+                      ? activeGrid
+                      : inactiveGrid
+                  }
+                  className={cs(styles.gridIcon)}
+                />
+              </div>
+              <div
+                className={styles.listContainer}
                 onClick={() => this.updateMobileView("list")}
-              />
+              >
+                <img
+                  src={
+                    this.props.plpMobileView == "list"
+                      ? activeList
+                      : inactiveList
+                  }
+                  className={cs(styles.listIcon)}
+                />
+                <span
+                  className={cs(styles.listSpan, {
+                    [styles.active]: this.props.plpMobileView == "list"
+                  })}
+                >
+                  List
+                </span>
+              </div>
             </div>
           )}
         </div>
