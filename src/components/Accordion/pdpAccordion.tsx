@@ -4,8 +4,9 @@ import styles from "./styles.scss";
 import { Props } from "./typings";
 import Header from "./header";
 import Body from "./body";
+//import iconStyles from "styles/iconFonts.scss";
 
-const Accordion: React.FC<Props> = memo(
+const PdpAccordion: React.FC<Props> = memo(
   ({
     sections,
     defaultOpen,
@@ -13,9 +14,8 @@ const Accordion: React.FC<Props> = memo(
     headerClassName,
     headerClosedClassName,
     bodyClassName,
-    openIconClass = styles.iconClose,
-    closedIconClass = styles.iconOpen,
-    setHideScroll
+    openClass = styles.arrowUp,
+    closedClass = styles.arrowDown
   }) => {
     const [activeSection, setActiveSection] = useState(defaultOpen);
 
@@ -33,12 +33,11 @@ const Accordion: React.FC<Props> = memo(
           <Header
             id={id}
             open={activeSection === id}
-            openIconClass={openIconClass}
-            closedIconClass={closedIconClass}
+            openIconClass={openClass}
+            closedIconClass={closedClass}
             onClick={onHeaderClick}
             className={headerClassName}
             headerClosedClassName={headerClosedClassName}
-            setHideScroll={setHideScroll}
           >
             {header}
           </Header>
@@ -53,4 +52,4 @@ const Accordion: React.FC<Props> = memo(
   }
 );
 
-export default Accordion;
+export default PdpAccordion;
