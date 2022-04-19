@@ -880,18 +880,12 @@ class PLP extends React.Component<
               <div
                 className={
                   !mobile || this.props.plpMobileView == "grid"
-                    ? cs(
-                        bootstrap.colLg4,
-                        bootstrap.col6,
-                        styles.setWidth,
-                        "product-container"
-                      )
+                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth)
                     : cs(
                         bootstrap.colLg4,
                         bootstrap.col12,
                         styles.setWidth,
-                        styles.listViewContainer,
-                        "product-container"
+                        styles.listViewContainer
                       )
                 }
                 key={1}
@@ -963,12 +957,12 @@ class PLP extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
-        {/* {mobile && this.state.count > 0 && (
+        {mobile && this.state.count > 0 && (
           <ProductCounter
             current={this.state.count + 1}
             total={this.props.data.results.data.length + 1}
           />
-        )} */}
+        )}
       </div>
     );
   }
