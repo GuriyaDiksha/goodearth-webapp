@@ -365,7 +365,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         <div
                           className={cs(
                             bootstrapStyles.col7,
-                            bootstrapStyles.colMd9
+                            bootstrapStyles.colMd9,
+                            {
+                              [styles.gc]: item.product?.structure == "GiftCard"
+                            }
                           )}
                         >
                           <div
@@ -454,6 +457,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               </Fragment>
                             )}
                           </div>
+                          {item.product?.structure == "GiftCard" && (
+                            <div className={globalStyles.textLeft}>
+                              <p className={styles.label}>Sent via Email:</p>
+                              <p className={styles.email}>
+                                {item.egiftCardRecipient}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     );

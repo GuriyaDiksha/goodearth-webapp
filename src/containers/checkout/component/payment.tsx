@@ -15,6 +15,8 @@ import { updateComponent, updateModal } from "actions/modal";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
+import CookieService from "services/cookie";
+import * as util from "../../../utils/validate";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -22,7 +24,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket,
     device: { mobile },
     info: { showGiftWrap },
-    user: { loyaltyData }
+    user: { loyaltyData, isLoggedIn }
   } = useSelector((state: AppState) => state);
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
@@ -156,6 +158,19 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       valid.errorTracking(["Please select a payment method"], location.href);
     }
   };
+
+  useEffect(() => {
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Checkout Step 3",
+      "Event Label": "Payment Option Page",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Page Type": util.getPageType(),
+      "Login Status": isLoggedIn ? "logged in" : "logged out",
+      "Page referrer url": CookieService.getCookie("prevUrl")
+    });
+  }, []);
 
   useEffect(() => {
     if (basket.giftCards.length > 0) {
@@ -315,11 +330,14 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     cols={45}
                     className={styles.giftMessage}
                     value={textarea}
-                    maxLength={250}
                     placeholder={"add message (optional)"}
                     autoComplete="new-password"
                     onChange={(e: any) => {
-                      setTextarea(e.target.value);
+                      if (e.target.value.length <= 250) {
+                        setTextarea(e.target.value);
+                      } else if (e.target.value.length >= 250) {
+                        setTextarea(e.target.value.substring(0, 250));
+                      }
                     }}
                   />
                   <div className={cs(globalStyles.textLeft, styles.font14)}>

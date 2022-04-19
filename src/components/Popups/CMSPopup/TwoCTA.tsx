@@ -93,7 +93,7 @@ const TwoCTA: React.FC<Props> = ({
                 tabIndex={-1}
                 onClick={() => close(ctaLink2)}
               >
-                {ctaLabel2}
+                {ReactHtmlParser(ctaLabel2)}
               </a>
             </div>
             <div
@@ -109,7 +109,7 @@ const TwoCTA: React.FC<Props> = ({
                 tabIndex={-1}
                 onClick={() => close(ctaLink)}
               >
-                {ctaLabel}
+                {ReactHtmlParser(ctaLabel)}
               </a>
             </div>
           </div>

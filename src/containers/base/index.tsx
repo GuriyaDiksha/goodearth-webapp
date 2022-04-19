@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Switch, useHistory } from "react-router";
 import routes from "routes/index";
 import Header from "components/header";
@@ -48,6 +48,8 @@ const BaseLayout: React.FC = () => {
   // don't show info popup
   const isSuspended = false;
   const popup = useSelector((state: AppState) => state.popup);
+  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+  const [prevUrl, setPrevUrl] = useState("");
   const dominList = ["dv", "stg", "pprod"];
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
   const getPWADisplayMode = () => {
@@ -69,6 +71,22 @@ const BaseLayout: React.FC = () => {
       });
     }
   }, []);
+  useEffect(() => {
+    const isHomePage = location.pathname == "/";
+    if (isHomePage) {
+      dataLayer.push({
+        "Event Category": "General Pages",
+        "Event Action": "Home Page",
+        "Event Label": " web|home",
+        "Time Stamp": new Date().toISOString(),
+        "Page Url": location.hostname + location.pathname,
+        "Page Type": "Home",
+        "Login Status": isLoggedIn ? "logged in" : "logged out"
+      });
+    }
+    CookieService.setCookie("prevUrl", prevUrl);
+    setPrevUrl(location.href);
+  }, [history.location.pathname, history.location.search]);
   useEffect(() => {
     const value = CookieService.getCookie("auth");
     if (

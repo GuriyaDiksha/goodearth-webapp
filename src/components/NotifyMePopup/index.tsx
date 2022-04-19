@@ -7,7 +7,7 @@ import React, {
   MouseEvent,
   useEffect
 } from "react";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import cs from "classnames";
 // components
 import Quantity from "components/quantity";
@@ -32,6 +32,7 @@ import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
 import * as util from "utils/validate";
 import Loader from "components/Loader";
+import { AppState } from "reducers/typings";
 
 type Props = {
   basketLineId?: ProductID;
@@ -85,6 +86,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
   const [sizeerror, setSizeerror] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
+  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
 
   const onQuantityChange = useCallback(
     value => {
@@ -144,6 +146,25 @@ const NotifyMePopup: React.FC<Props> = ({
     };
   };
   const gtmPushAddToBag = () => {
+    const categoryList = category;
+
+    let subcategoryname = categoryList ? categoryList.split(" > ") : "";
+    if (subcategoryname) {
+      subcategoryname = subcategoryname[subcategoryname.length - 1];
+    }
+    const size = selectedSize?.size || "";
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Add to Cart",
+      "Event Label": subcategoryname,
+      "Time Stamp": new Date().toISOString(),
+      "Cart Source": location.href,
+      "Product Category": categoryList,
+      "Login Status": isLoggedIn ? "logged in" : "logged out",
+      "Product Name": title,
+      "Product ID": selectedSize?.id,
+      Variant: size
+    });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {

@@ -133,7 +133,9 @@ class Search extends React.Component<
         productListId: plpProductId,
         source: "Search",
         corporatePDP:
-          ["Pero", "Souk"].indexOf(selectItem[0]?.partner) > -1 ? true : false
+          ["Pero", "Souk", "Eka"].indexOf(selectItem[0]?.partner) > -1
+            ? true
+            : false
       },
       true
     );
@@ -197,8 +199,10 @@ class Search extends React.Component<
   };
 
   onEnterSearch = (event: any) => {
-    if (event.keyCode == 13) {
-      this.child.changeSearchValue(this.state.searchText);
+    if (event.target.value.trim().length > 2) {
+      if (event.keyCode == 13) {
+        this.child.changeSearchValue(this.state.searchText);
+      }
     }
   };
 
@@ -259,7 +263,9 @@ class Search extends React.Component<
   };
 
   onClickSearch = (event: any) => {
-    this.child.changeSearchValue(this.state.searchText);
+    if (this.state.searchText.trim().length > 2) {
+      this.child.changeSearchValue(this.state.searchText);
+    }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -476,7 +482,8 @@ class Search extends React.Component<
                         onClickQuickView={this.onClickQuickView}
                         loader={this.state.flag}
                         isCorporate={
-                          ["Pero", "Souk"].indexOf(item.partner || "") > -1
+                          ["Pero", "Souk", "Eka"].indexOf(item.partner || "") >
+                          -1
                             ? true
                             : false
                         }
@@ -517,7 +524,7 @@ class Search extends React.Component<
                     false
                   )) ? (
                     <div className={styles.npfMsg}>
-                      No products were found matching &nbsp;
+                      {"Sorry, we couldn't find any matching result for"} &nbsp;
                       <span>{this.state.searchText}</span>
                     </div>
                   ) : (

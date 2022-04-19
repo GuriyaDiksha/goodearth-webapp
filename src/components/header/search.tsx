@@ -199,7 +199,7 @@ class Search extends React.Component<Props, State> {
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.searchValue.length > 2) {
+    if (this.state.searchValue.trim().length > 2) {
       // console.log(encodeURIComponent(this.state.url))
       this.props.history.push(this.state.url);
       this.closeSearch();
@@ -223,7 +223,7 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValueUp = (event: any) => {
-    if (event.target.value.length > 2) {
+    if (event.target.value.trim().length > 2) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
           "/search?q=" +
@@ -321,14 +321,6 @@ class Search extends React.Component<Props, State> {
                     this.state.count ? `  (${this.state.count})` : ""
                   }`}
                 </span>
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconSearch,
-                    styles.iconSearchPopup
-                  )}
-                  onClick={this.onClickSearch}
-                ></i>
                 {!mobile && (
                   <i
                     className={cs(
@@ -384,9 +376,10 @@ class Search extends React.Component<Props, State> {
                       }
                     )}
                   >
-                    {this.state.searchValue.length > 1 ? (
+                    {this.state.searchValue.length > 2 ? (
                       <div className={styles.npfMsg}>
-                        No products were found matching &nbsp;
+                        {"Sorry, we couldn't find any matching result for"}{" "}
+                        &nbsp;
                         <span>{this.state.searchValue}</span>
                       </div>
                     ) : (
@@ -722,10 +715,14 @@ class Search extends React.Component<Props, State> {
                   globalStyles.textCenter
                 )}
               >
-                {this.state.searchValue.length > 1 ? (
+                {this.state.searchValue.length > 2 ? (
                   <div className={styles.npfMsg}>
-                    No products were found matching &nbsp;
-                    <span>{this.state.searchValue}</span>
+                    {"No products were found matching"} &nbsp;
+                    <span>
+                      {`"`}
+                      {this.state.searchValue}
+                      {`"`}
+                    </span>
                   </div>
                 ) : (
                   ""

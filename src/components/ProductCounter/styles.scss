@@ -1,0 +1,37 @@
+@import "../../styles/partials/variables";
+
+.scroll-down-up
+{  
+background: #fff 0% 0% no-repeat padding-box;
+top: 130px;
+left: calc(50% - 40px);
+width: 80px;
+height: 32px;
+background-color: white;
+border-radius: 19px;
+box-shadow: 3px 3px 10px #00000029;
+opacity: 1;
+position:fixed;
+z-index: 10;
+    .counter {
+        height: 100%;
+        color: #000000CC;
+        opacity: 1;
+        font-size: 14px;
+        display:flex;
+        border: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        .counter-number {
+            font-family: $font-Lato;
+            display:flex;
+            letter-spacing: 0px;
+            border:none;
+        }
+        .icon {
+            font-size: 20px;
+            transform: rotate(-90deg);
+        }
+    }
+}

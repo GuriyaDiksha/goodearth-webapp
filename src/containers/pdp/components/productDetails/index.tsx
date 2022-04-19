@@ -62,6 +62,7 @@ import cushionFiller from "images/cushionFiller.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
+import { updateQuickviewId } from "../../../../actions/quickview";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -75,6 +76,7 @@ const ProductDetails: React.FC<Props> = ({
     discountedPriceRecords,
     priceRecords,
     childAttributes,
+    sizeChartHtml,
     categories,
     loyaltyDisabled,
     shipping,
@@ -135,6 +137,7 @@ const ProductDetails: React.FC<Props> = ({
   const [addedToBag, setAddedToBag] = useState(false);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [isStockset, setIsStockset] = useState(false);
+  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
   // const [sizeerror, setSizeerror] = useState(false);
   // useEffect(() => {
   //   setAddedToBag(
@@ -181,6 +184,12 @@ const ProductDetails: React.FC<Props> = ({
       })
     );
   }, [childAttributes, selectedSize]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(updateSizeChartSelected(undefined));
+    };
+  }, []);
 
   useEffect(() => {
     if (!selectedSize || selectedSize.id != selectedId) {
@@ -268,18 +277,16 @@ const ProductDetails: React.FC<Props> = ({
     [selectedSize]
   );
 
-  const onSizeChartClick = useCallback(() => {
-    if (!sizeChart) {
-      return;
+  const onSizeChartClick = () => {
+    if (sizeChart || sizeChart != "") {
+      dispatch(updateSizeChartData(sizeChart));
+      dispatch(updateSizeChartShow(true));
     }
-    dispatch(updateSizeChartData(sizeChart));
-    dispatch(updateSizeChartShow(true));
-  }, [sizeChart]);
+  };
 
   const [childAttr] = childAttributes;
   const { size = "" } = childAttr || {};
   const [height, width] = size.match(/[0-9.]+/gim) || [];
-
   const onWallpaperClick = useCallback(() => {
     updateComponentModal(POPUP.WALLPAPERPOPUP, {
       price: priceRecords[currency],
@@ -345,6 +352,29 @@ const ProductDetails: React.FC<Props> = ({
       "Category name": categoryname,
       "Sub Category Name": subcategoryname,
       Size: selectedSize?.size
+    });
+
+    const categoryList = categories
+      ? categories.length > 0
+        ? categories[categories.length - 1].replaceAll(" > ", " - ")
+        : ""
+      : "";
+    let subcategory = categoryList ? categoryList.split(" > ") : "";
+    if (subcategory) {
+      subcategory = subcategory[subcategory.length - 1];
+    }
+    const size = selectedSize?.size || "";
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Add to Cart",
+      "Event Label": subcategory,
+      "Time Stamp": new Date().toISOString(),
+      "Cart Source": window.location.href,
+      "Product Category": categoryList,
+      "Login Status": isLoggedIn ? "logged in" : "logged out",
+      "Product Name": title,
+      "Product ID": selectedSize?.id,
+      Variant: size
     });
     dataLayer.push({
       event: "addToCart",
@@ -491,13 +521,17 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const onEnquireClick = () => {
+    const selectdata = childAttributes.filter(data => {
+      return data.size == selectedSize?.size;
+    })[0];
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
       POPUP.THIRDPARTYENQUIRYPOPUP,
       {
         partner: partner,
-        id: id,
-        quantity: quantity
+        id: selectdata ? selectdata.id : id,
+        quantity: quantity,
+        size: selectedSize?.size
       },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
@@ -1026,6 +1060,7 @@ const ProductDetails: React.FC<Props> = ({
                     changeModalState(false);
                     const listPath = `${source || "PLP"}`;
                     CookieService.setCookie("listPath", listPath);
+                    dispatch(updateQuickviewId(0));
                   }}
                 >
                   view more details
