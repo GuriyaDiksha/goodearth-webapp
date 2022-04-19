@@ -14,7 +14,8 @@ const Accordion: React.FC<Props> = memo(
     headerClosedClassName,
     bodyClassName,
     openIconClass = styles.iconClose,
-    closedIconClass = styles.iconOpe
+    closedIconClass = styles.iconOpen,
+    setHideScroll
   }) => {
     const [activeSection, setActiveSection] = useState(defaultOpen);
 
@@ -37,6 +38,7 @@ const Accordion: React.FC<Props> = memo(
             onClick={onHeaderClick}
             className={headerClassName}
             headerClosedClassName={headerClosedClassName}
+            setHideScroll={setHideScroll}
           >
             {header}
           </Header>
