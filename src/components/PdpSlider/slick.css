@@ -20,6 +20,9 @@
   }
   
   .pdp-slick .slick-arrow.slick-prev:hover, .pdp-slick .slick-arrow.slick-next:hover {
-    background-color: #ab1e56;
+    background-color: #fff;
+  }
+  .pdp-slick .slick-arrow.slick-prev:hover, .pdp-slick .slick-arrow.slick-prev:hover {
+    background-color: #fff;
   }
   
