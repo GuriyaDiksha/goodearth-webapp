@@ -7,6 +7,8 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { useDispatch } from "react-redux";
+import { updateScrollDown } from "actions/info";
 
 const PlpDropdownMenu = ({
   filterCount,
@@ -26,18 +28,21 @@ const PlpDropdownMenu = ({
   const { scrollDown, showTimer } = useSelector(
     (state: AppState) => state.info
   );
+  const dispatch = useDispatch();
   const clickMobilefilter = (value: string) => {
     if (value == "Refine") {
       setShowmobileFilterList(true);
       setOpenState(true);
       onStateChange(true);
     } else {
+      dispatch(updateScrollDown(true));
       setShowmobileSort(true);
       setShowmobileFilterList(true);
       setOpenState(true);
     }
   };
   const onInsideClick = () => {
+    dispatch(updateScrollDown(false));
     setOpenState(!menuOpen);
     setShowmobileSort(false);
     setShowmobileFilterList(false);

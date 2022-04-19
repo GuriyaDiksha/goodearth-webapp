@@ -338,9 +338,7 @@ const NotifyMePopup: React.FC<Props> = ({
         </div>
         {sizeExists ? (
           <>
-            <div className={cs(styles.label, styles.sizeLabel)}>
-              SELECT SIZE
-            </div>
+            <div className={cs(styles.label, styles.sizeLabel)}>SIZE</div>
             <SizeSelector
               sizes={childAttributes}
               onChange={onSizeSelect}
@@ -367,7 +365,7 @@ const NotifyMePopup: React.FC<Props> = ({
               `Only ${selectedSize.stock} Left!`}
           </span>
         )}
-        <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
+        <div className={cs(styles.label, styles.qtyLabel)}>QUANTITY</div>
 
         <div className={styles.qtyContainer}>
           <Quantity
