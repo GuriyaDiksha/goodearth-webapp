@@ -32,7 +32,11 @@ const DropdownMenuItem = ({
           [globalstyles.goldColor]:
             selected && id != "currency-dropdown-sidemenu"
         },
-        { [styles.goldColor]: selected && id == "currency-dropdown-sidemenu" }
+        { [styles.goldColor]: selected && id == "currency-dropdown-sidemenu" },
+        {
+          [styles.bottomDockMenuItem]:
+            !selected && id == "currency-dropdown-sidemenu"
+        }
       )}
       {...props}
     >
