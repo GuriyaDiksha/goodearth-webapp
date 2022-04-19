@@ -40,7 +40,7 @@
     right: 0;
     bottom: 0;
     z-index: 20;
-    width: 360px;
+    width: auto;
     font-size: 16px;
     line-height: 16px;
     display: none;
@@ -53,9 +53,7 @@
     background-color: white;
     animation-name :slideLeft;
     animation-duration:0.4s;
-  
-   
-    
+    min-width:200px;
     .remove {
       text-align: center;
     }
@@ -172,6 +170,9 @@
     margin-top: 30px;
     overflow-y: auto;
     overflow-x: hidden;
+    &.hide-scroll {
+      overflow: hidden;
+    }
 }
 
 .message {
@@ -360,7 +361,6 @@
   margin-right: 22px; 
 }
 .body {
-  border-bottom: 1px solid lightgrey;
   margin: 22px;
 }
 
@@ -369,8 +369,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid lightgrey;
   img {
-    width: 80%;
+    width: auto;
   }
   ol {
     width: 80%;
@@ -457,7 +458,7 @@
           div{
             width: max-content;
             max-width: 100%;
-            min-width: 56px;
+            min-width: 40px;
           }
         }
       }
@@ -474,6 +475,8 @@
 }
 
 .footer {
+  position: absolute;
+  border-bottom: 1px solid lightgrey;
   &.single-section-footer {
     margin: 20px 20px;
   }

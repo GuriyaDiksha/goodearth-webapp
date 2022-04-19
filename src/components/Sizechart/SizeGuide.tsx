@@ -21,6 +21,8 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   const selected = useSelector(
     (state: AppState) => state.header.sizeChartData.selected
   );
+
+  const { mobile } = useSelector((state: AppState) => state.device);
   const values = ["in", "cms"];
   const [unit, setUnit] = useState("in");
   const roundHalf = useCallback((num: number) => {
@@ -31,13 +33,13 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
     dispatch(updateSizeChartSelected(child.id));
   };
   useEffect(() => {
-    if (selected) {
+    if (selected && mobile) {
       const selectedSize = sizes.filter(size => size.id == selected)[0];
       const sizeBtn = document.getElementById(
         `size-guide-item-${selectedSize.size}`
       );
       if (sizeBtn) {
-        sizeBtn.scrollIntoView({ behavior: "smooth" });
+        sizeBtn.scrollIntoView(false);
       }
     }
   }, []);
