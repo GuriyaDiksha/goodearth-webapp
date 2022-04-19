@@ -22,7 +22,7 @@ export const updateStore = (data: any) =>
 export const updateStoreState = (data: boolean) =>
   actionCreator("UPDATE_STORE_STATE", data);
 
-export const updateSizeChartData = (data: SizeChartResponse) =>
+export const updateSizeChartData = (data: string | SizeChartResponse) =>
   actionCreator("UPDATE_SIZE_CHART_DATA", data);
 
 export const updateSizeChartShow = (data: boolean) =>
