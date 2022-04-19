@@ -38,7 +38,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     meta: state.meta,
     cookies: state.cookies,
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    currencyList: state.info.currencyList
   };
 };
 
@@ -172,20 +173,14 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   render() {
     const { meta, mobile, currency } = this.props;
-    const items: DropdownItem[] = [
-      {
-        label: "INR" + " " + String.fromCharCode(...currencyCode["INR"]),
-        value: "INR"
-      },
-      {
-        label: "USD" + " " + String.fromCharCode(...currencyCode["USD"]),
-        value: "USD"
-      },
-      {
-        label: "GBP" + " " + String.fromCharCode(...currencyCode["GBP"]),
-        value: "GBP"
-      }
-    ];
+    const curryList = this.props.currencyList.map(data => {
+      // return data.currencyCode
+      return {
+        label: data.currencyCode + " " + data.currencySymbol,
+        value: data.currencyCode
+      };
+    });
+    const items: DropdownItem[] = curryList;
 
     let heading = null;
     if (this.props.location.pathname.indexOf("cart") > -1) {

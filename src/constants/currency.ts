@@ -5,5 +5,5 @@ export const currencyCodes: { [key in Currency]: any } = {
   USD: [36],
   GBP: [163],
   AED: [1583, 46, 1573],
-  SGD: [702]
+  SGD: [83, 36]
 };
