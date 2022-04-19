@@ -10,6 +10,22 @@
     content: "[+]";
     margin: 0 5px;
 }
+.arrowUp::before{
+    content:url(../../icons/uparrowblack.svg);
+   // margin: 0 10px;
+   position:absolute;
+   height: 20px;
+   width: 20px;
+   right: 20px;
+  }
+.arrowDown::before{
+    content:url(../../icons/downarrowblack.svg);
+   // margin: 0 10px;
+    position:absolute;
+    height: 20px;
+     width: 20px;
+     right: 20px;
+}
 
 .accordion-header {
     cursor: pointer;
@@ -23,6 +39,11 @@
         height: auto;
     }
     &.closed {
-        margin: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 }
+// .header-closed-class-name
+// {
+//     border-bottom: lightgrey solid 1px;
+// }
