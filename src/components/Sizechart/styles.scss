@@ -371,7 +371,7 @@
   align-items: center;
   border-bottom: 1px solid lightgrey;
   img {
-    width: 80%;
+    width: auto;
   }
   ol {
     width: 80%;
@@ -458,7 +458,7 @@
           div{
             width: max-content;
             max-width: 100%;
-            min-width: 56px;
+            min-width: 40px;
           }
         }
       }

@@ -26,7 +26,10 @@
    span {
      color: #bbb;
    }
- } 
+ }
+ &.gold-color{
+  color: #987E56 !important;
+ }
 }
 
 .menu {
@@ -75,7 +78,6 @@
   text-align: center;
   border-bottom: 1px solid #fff;
   letter-spacing: 0.1em;
-
   &:last-child {
     border-bottom: none;
   }
@@ -84,25 +86,23 @@
     font-weight: normal;
     font-family: $font-Lato;
     letter-spacing: 0.1em;
-    color: #333;
     display: block;
     text-align: center;
     position: relative;
     width: 100%;
     text-decoration: none;
     &:hover {
-      color: $cerise;
-      &.gold-color{
-        color: #987E56 !important;
-      }
+      color: $cerise !important;
     }
   }
-
+  &.gold-color{
+    color: #987E56 !important;
+  }
   &:hover {
     color: $cerise;
-    &.gold-color{
-      color: #987E56 !important
-    }
+  }
+  &.bottom-dock-menu-item {
+    color: #333 !important;
   }
 }
 .caret{
@@ -113,6 +113,9 @@
   position: absolute;
   top: 42%;
   right: 0;
+  &.gold-color{
+    color: #987E56
+  }
   &:hover{
     color: $cerise;
     &.gold-color{
@@ -152,8 +155,4 @@
   -moz-transition: 1s;
   min-width: 170%;
   z-index: -1;
-}
-
-.gold-color {
-  color: #987E56
 }
