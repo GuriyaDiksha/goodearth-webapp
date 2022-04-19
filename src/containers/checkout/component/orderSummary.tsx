@@ -231,12 +231,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
     let coupon = null;
     let giftCard = null;
     let loyalty = null;
+    let isline = false;
     // let voucherDiscount = props.voucher_discounts[0];
     if (basket.voucherDiscounts.length > 0) {
       const couponDetails = basket.voucherDiscounts?.[0];
       if (couponDetails) {
         coupon = basket.voucherDiscounts.map((gift, index: number) => {
           const voucher = gift.voucher;
+          isline = true;
           return (
             <div
               className={cs(
@@ -285,6 +287,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
     if (basket.giftCards) {
       giftCard = basket.giftCards.map((gift, index: number) => {
+        isline = true;
         return (
           <div
             className={cs(
@@ -329,6 +332,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     const redeemDetails = basket.loyalty?.[0];
     if (redeemDetails) {
+      isline = true;
       loyalty = (
         <div
           className={cs(
@@ -370,7 +374,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     return (
       <div>
-        {/* {(coupon || giftCard.length > 0) && <hr className="hr"/>} */}
+        {isline && <hr className={styles.hr} />}
         {coupon}
         {giftCard}
         {loyalty}
@@ -428,7 +432,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
   const chkshipping = (event: any) => {
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable,
       shippable
@@ -441,8 +445,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      total >= freeShippingThreshold &&
-      total < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       currency == "INR" &&
       shippable
     ) {
@@ -452,7 +457,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {
             remainingAmount:
               freeShippingApplicable -
-              parseInt((basket.total - basket.shippingCharge).toString()),
+              parseInt((basket.totalWithoutShipping || 0).toString()),
             freeShippingApplicable
           },
           true
@@ -549,6 +554,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {parseFloat("" + basket.subTotal).toFixed(2)}
             </span>
           </div>
+          {getDiscount(basket.offerDiscounts)}
+          <hr className={styles.hr} />
           <div
             className={cs(
               globalStyles.flex,
@@ -639,8 +646,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {parseFloat("" + basket.subTotalWithShipping).toFixed(2)}
             </span>
           </div>
-          <hr className={styles.hr} />
-          {getDiscount(basket.offerDiscounts)}
           {getCoupons()}
         </div>
       );
@@ -714,7 +719,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.total
               )}
             >
-              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
+              <span
+                className={cs(
+                  styles.subtotal,
+                  globalStyles.voffset2,
+                  styles.font
+                )}
+              >
                 AMOUNT PAYABLE
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>

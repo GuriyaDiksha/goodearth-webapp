@@ -165,7 +165,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
   };
 
   const shippingTrack = () => {
-    if (!trackData.transition_data) return false;
+    if (!trackData.order_statuses) return false;
     const order = [
         "Order Recieved",
         "Ready to Pick",

@@ -297,7 +297,8 @@ class SideMenu extends React.Component<Props, State> {
                     className={cs(
                       iconStyles.icon,
                       iconStyles.iconWishlist,
-                      styles.iconStyle
+                      styles.iconStyle,
+                      disableClass
                     )}
                   ></i>
                   <span className={styles.badge}>
@@ -364,7 +365,7 @@ class SideMenu extends React.Component<Props, State> {
           ) : (
             <li className={cs(styles.firstMenu, disableClass)}>
               <p
-                className={styles.searchText}
+                className={cs(styles.searchText, disableClass)}
                 onClick={isBridalRegistryPage ? () => null : this.toggleSearch}
               >
                 <i

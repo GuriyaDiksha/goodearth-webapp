@@ -17,7 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
 import PlpResultTabItem from "components/plpResultTabItem";
 import ModalStyles from "components/Modal/styles.scss";
@@ -29,6 +29,12 @@ import CookieService from "services/cookie";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
+// import ProductCounter from "components/ProductCounter";
+import throttle from "lodash/throttle";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -46,6 +52,7 @@ const mapStateToProps = (state: AppState) => {
     plpTemplates: state.plplist.plpTemplates
   };
 };
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   DispatchProp;
@@ -63,6 +70,7 @@ class PLP extends React.Component<
     toggel: boolean;
     corporoateGifting: boolean;
     isThirdParty: boolean;
+    count: number;
   }
 > {
   constructor(props: Props) {
@@ -80,6 +88,7 @@ class PLP extends React.Component<
       flag: false,
       plpMaker: false,
       toggel: false,
+      count: 0,
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
@@ -110,10 +119,31 @@ class PLP extends React.Component<
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_plp_view"
     });
+    // dataLayer.push(
+    //   {
+    //   'Event Category':'GA Ecommerce',
+    //   'Event Action':'PLP ',
+    //   'Event Label':'Pass the L3 product category',
+    //   'Product Category':'Pass the product category L1 - L2 - L3',
+    //   "Login Status": this.props.isLoggedIn
+    //           ? "logged in"
+    //           : "logged out",
+    //   "Time Stamp": new Date().toISOString(),
+    //   "Page Url": location.href,
+    //   "Page Type": util.getPageType(),
+    //   "Page referrer url": CookieService.getCookie("prevUrl")
+    //   });
+
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PlpView"
     });
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 50)
+    );
     // if (this.props.device.mobile) {
     //   const elem = document.getElementById("pincode-bar");
     //   elem && elem.classList.add(globalStyles.hiddenEye);
@@ -134,6 +164,12 @@ class PLP extends React.Component<
 
   componentWillUnmount() {
     util.moveChatUp();
+    window.removeEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 100)
+    );
   }
 
   componentDidUpdate(nextProps: Props) {
@@ -260,17 +296,23 @@ class PLP extends React.Component<
   getVisibleProductID = () => {
     const count = this.props.data.results.data.length;
     let id = -1;
+    let currentIndex = -1;
+    const bannerElem = document.getElementById("product_images");
     if (count) {
       const isGrid = this.props.plpMobileView == "grid";
       const elem = document.getElementById(
         isGrid ? "first-grid-item" : "first-list-item"
       );
-      const height = elem?.clientHeight;
-      const offsetY = window.scrollY;
-      if (height) {
-        let currentIndex = Math.floor(
-          (offsetY + window.innerHeight / 2) / height
-        );
+      let height = elem?.clientHeight;
+      let offsetY = window.scrollY;
+      if (bannerElem) {
+        offsetY -= bannerElem.clientHeight;
+      }
+      if (height && offsetY > 0) {
+        if (elem) {
+          height = isGrid ? elem?.clientHeight : elem?.clientHeight + 30;
+        }
+        currentIndex = Math.floor((offsetY + window.innerHeight / 2) / height);
         currentIndex = isGrid ? currentIndex * 2 : currentIndex;
         if (currentIndex >= count) {
           currentIndex = count - 1;
@@ -278,7 +320,20 @@ class PLP extends React.Component<
         id = this.props.data.results.data[currentIndex].id;
       }
     }
-    return id;
+    return { id, currentIndex };
+  };
+
+  setProductCount = () => {
+    const { currentIndex } = this.getVisibleProductID();
+    const isGrid = this.props.plpMobileView == "grid";
+    // console.log(currentIndex)
+    this.setState({
+      count: isGrid
+        ? currentIndex > 0
+          ? currentIndex + 1
+          : 0
+        : currentIndex + 1
+    });
   };
 
   updateMobileView = (plpMobileView: "list" | "grid") => {
@@ -286,7 +341,7 @@ class PLP extends React.Component<
       this.props.updateMobileView(plpMobileView);
       CookieService.setCookie("plpMobileView", plpMobileView);
       util.viewSelectionGTM(plpMobileView);
-      const id = this.getVisibleProductID();
+      const { id } = this.getVisibleProductID();
       if (id != -1) {
         window.setTimeout(() => {
           const elem = document.getElementById(id.toString());
@@ -615,7 +670,17 @@ class PLP extends React.Component<
                 </span>
               </div>
             ) : (
-              ""
+              <div
+                className={cs(styles.productNumber, styles.imageContainer, {})}
+              >
+                {/* <span>
+                  {count > 1
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
+                  </span> */}
+              </div>
             )}
             <div
               className={
@@ -788,20 +853,46 @@ class PLP extends React.Component<
                 [styles.hide]: this.props.scrollDown
               })}
             >
-              <i
-                key="grid-icon"
-                className={cs(iconFonts.icon, iconFonts.iconGridView, {
-                  [styles.active]: this.props.plpMobileView == "grid"
-                })}
+              <div
+                className={styles.gridContainer}
                 onClick={() => this.updateMobileView("grid")}
-              />
-              <i
-                key="list-icon"
-                className={cs(iconFonts.icon, iconFonts.iconListView, {
-                  [styles.active]: this.props.plpMobileView == "list"
-                })}
+              >
+                <span
+                  className={cs(styles.gridSpan, {
+                    [styles.active]: this.props.plpMobileView == "grid"
+                  })}
+                >
+                  Grid
+                </span>
+                <img
+                  src={
+                    this.props.plpMobileView == "grid"
+                      ? activeGrid
+                      : inactiveGrid
+                  }
+                  className={cs(styles.gridIcon)}
+                />
+              </div>
+              <div
+                className={styles.listContainer}
                 onClick={() => this.updateMobileView("list")}
-              />
+              >
+                <img
+                  src={
+                    this.props.plpMobileView == "list"
+                      ? activeList
+                      : inactiveList
+                  }
+                  className={cs(styles.listIcon)}
+                />
+                <span
+                  className={cs(styles.listSpan, {
+                    [styles.active]: this.props.plpMobileView == "list"
+                  })}
+                >
+                  List
+                </span>
+              </div>
             </div>
           )}
         </div>
@@ -818,6 +909,12 @@ class PLP extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
+        {/* {mobile && this.state.count > 0 && (
+          <ProductCounter
+            current={this.state.count + 1}
+            total={this.props.data.results.data.length + 1}
+          />
+        )} */}
       </div>
     );
   }

@@ -34,6 +34,7 @@
   display: block;
   margin: auto;
   margin-bottom: 36px;
+  color: #454545;
 
   &.mobile {
     position: fixed;
@@ -50,25 +51,20 @@
 }
 
 .navigation-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    position: absolute;
-    bottom: 20px;
     button {
         border: none;
-        width: 40px;
-        height: 40px;
-        background: white;
-        border-radius: 50%;
+        width: 70px;
+        height: 100px;
+        background: none;
         cursor: pointer;
-        margin: 0 10px;
-        &.prev, &.next {
-            font-size: 30px;
+        font-size: 50px;
+        position: absolute;
+        top: calc(50% - 50px);
+        &.next {
+            right: 0;
         }
-        &.close {
-            font-size: 12px;
-            font-weight: bold;
+        &.prev {
+            left: 0;
         }
     }
 }
