@@ -78,7 +78,19 @@ const BaseDropdownMenu = ({
         {showCaret ? (
           <span
             className={cs(
-              menuOpen ? styles.caret : styles.caretUp,
+              {
+                [styles.caretUp]: menuOpen && id != "currency-dropdown-sidemenu"
+              },
+              {
+                [styles.caret]: !menuOpen && id != "currency-dropdown-sidemenu"
+              },
+              {
+                [styles.caretUp]:
+                  !menuOpen && id == "currency-dropdown-sidemenu"
+              },
+              {
+                [styles.caret]: menuOpen && id == "currency-dropdown-sidemenu"
+              },
               { [styles.disabled]: disabled },
               { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
               {
