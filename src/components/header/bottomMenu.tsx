@@ -52,7 +52,9 @@ const BottomMenu: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const location = useSelector((state: AppState) => state.router.location);
-  const isPLP = location.pathname.includes("/catalogue/category");
+  const isPLP =
+    location.pathname.includes("/catalogue/category") ||
+    location.pathname.includes("/search");
   const gtmPushWishlistClick = () => {
     dataLayer.push({
       event: "eventsToSend",
