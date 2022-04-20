@@ -2,14 +2,15 @@
 @import "../../styles/partials/mixins";
 
 .primary-button{
-    font-family: $font-Lato;
+    font-family: $font-Montserrat;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     border: none;
     border-radius: 0;
     width: 100%;
     line-height: 52px;
-    letter-spacing: 2px;
+    letter-spacing: 0.42px;
+    background-color: $aquablue;
     &:hover {
         color: #fff;
     }

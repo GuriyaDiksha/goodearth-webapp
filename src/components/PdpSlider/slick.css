@@ -1,0 +1,28 @@
+
+.pdp-slick .slick-arrow {
+    top: 40%;
+  }
+  .pdp-slick .slick-arrow.slick-prev {
+    left: -60px;
+  }
+  .pdp-slick .slick-arrow.slick-next {
+    right: -60px;
+  }
+  .pdp-slick .slick-arrow{
+    font-size: 30px;
+    border-radius: 50%;
+    padding: 5px;
+    /*top: 35%;*/
+  }
+  .pdp-slick .slick-arrow::before{
+      color: #a59e9e;
+      top:70%;
+  }
+  
+  .pdp-slick .slick-arrow.slick-prev:hover, .pdp-slick .slick-arrow.slick-next:hover {
+    background-color: #fff;
+  }
+  .pdp-slick .slick-arrow.slick-prev:hover, .pdp-slick .slick-arrow.slick-prev:hover {
+    background-color: #fff;
+  }
+  
