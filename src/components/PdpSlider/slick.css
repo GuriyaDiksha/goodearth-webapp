@@ -16,13 +16,15 @@
   }
   .pdp-slick .slick-arrow::before{
       color: #a59e9e;
-      top:70%;
+      top:100%;
+      font-weight: 100;
+      left: 10%;
   }
   
   .pdp-slick .slick-arrow.slick-prev:hover, .pdp-slick .slick-arrow.slick-next:hover {
     background-color: #fff;
   }
-  .pdp-slick .slick-arrow.slick-prev:hover, .pdp-slick .slick-arrow.slick-prev:hover {
+  .pdp-slick .slick-arrow.slick-prev:hover, .pdp-slick .slick-arrow.slick-next:hover {
     background-color: #fff;
   }
   
