@@ -29,7 +29,7 @@ const DropdownMenuItem = ({
         styles.menuItem,
         className,
         {
-          [globalstyles.cerise]: selected && id == "currency-dropdown"
+          [globalstyles.cerise]: selected && id != "currency-dropdown"
         },
         { [styles.goldColor]: selected && id == "currency-dropdown-sidemenu" },
         {
