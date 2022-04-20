@@ -2,12 +2,13 @@
 @import "../../styles/partials/mixins";
 
 .image-container {
-    padding: 2px;
-    border: 1px solid transparent;
+    padding: 1px;
+    // border: 1px solid transparent;
     position: relative;
     &:not(:last-child) {
         margin-bottom: 10px;
     }
+    width: 95%!important;
 }
 
 .active {
@@ -20,8 +21,8 @@
 
 .container{
     width: 90%;
-    padding-left: 82px;
-    margin-top: 10px;
+    padding-left: 80px;
+    margin-top: 30px;
 }
 
 .overlay {

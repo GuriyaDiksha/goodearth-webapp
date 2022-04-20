@@ -1162,7 +1162,7 @@ class PDPContainer extends React.Component<Props, State> {
           {!mobile && (
             <div
               className={cs(
-                bootstrap.colMd4,
+                bootstrap.colMd5,
                 bootstrap.dNone,
                 bootstrap.dMdBlock,
                 bootstrap.offsetMd1
