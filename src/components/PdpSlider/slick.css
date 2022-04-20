@@ -12,6 +12,7 @@
     font-size: 30px;
     border-radius: 50%;
     padding: 5px;
+    z-index: 1;
     /*top: 35%;*/
   }
   .pdp-slick .slick-arrow::before{
