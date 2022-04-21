@@ -38,7 +38,7 @@ import ModalStyles from "components/Modal/styles.scss";
 import overlay from "images/3d/HelloARIcon.svg";
 // import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
 import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 import CookieService from "services/cookie";
@@ -157,13 +157,13 @@ class PDPContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
-    if (
-      !this.props.device.mobile &&
-      this.imageOffsets.length < 1 &&
-      this.props.data
-    ) {
-      this.getImageOffset();
-    }
+    // if (
+    //   !this.props.device.mobile &&
+    //   this.imageOffsets.length < 1 &&
+    //   this.props.data
+    // ) {
+    //   this.getImageOffset();
+    // }
     dataLayer.push(function(this: any) {
       this.reset();
     });
@@ -460,14 +460,14 @@ class PDPContainer extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   };
 
-  getImageOffset = () => {
-    const productImages = this.getProductImagesData();
-    // productImages?.map((image, index) => {
-    //   const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
-    //   const { clientHeight } = ele;
-    //   this.imageOffsets[index] = clientHeight;
-    // });
-  };
+  // getImageOffset = () => {
+  // const productImages = this.getProductImagesData();
+  // productImages?.map((image, index) => {
+  //   const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
+  //   const { clientHeight } = ele;
+  //   this.imageOffsets[index] = clientHeight;
+  // });
+  // };
 
   getProductImages() {
     const productImages = this.getProductImagesData();
@@ -641,8 +641,8 @@ class PDPContainer extends React.Component<Props, State> {
     );
   }
   onSliderImageClick = (index: number) => {
-    const images = this.getProductImagesData();
-    const { id } = images[index];
+    // const images = this.getProductImagesData();
+    // const { id } = images[index];
     // const imageContainer = document.getElementById(`img-${id}`);
 
     // if (!imageContainer) {
@@ -758,8 +758,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       currency,
       device: { mobile },
-      data,
-      showTimer
+      data
     } = this.props;
     return data ? (
       <>
