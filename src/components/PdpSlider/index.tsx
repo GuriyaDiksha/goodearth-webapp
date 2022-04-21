@@ -11,8 +11,8 @@ import { Props } from "./typings";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import overlay from "images/3d/3Doverlay.svg";
-import Skeleton from "react-loading-skeleton";
-import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
+// import Skeleton from "react-loading-skeleton";
+// import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../styles/myslick.css";
@@ -53,8 +53,8 @@ const PdpSlider: React.FC<Props> = memo(
         setCurrentIndex(activeIndex);
       }
     }, [activeIndex]);
-
-    const imageNodes: ReactNode[] = images.map(
+    const imageslist = images.length > 1 ? images : images.concat(images[0]);
+    const imageNodes: ReactNode[] = imageslist.map(
       ({ productImage, id, icon }, index) => {
         return (
           <div
@@ -76,25 +76,25 @@ const PdpSlider: React.FC<Props> = memo(
       }
     );
 
-    const tempNode: ReactNode[] = [1, 2, 3].map((id, index) => {
+    const tempNode: ReactNode[] = imageNodes.map((data, index) => {
       return (
-        <div
-          key={id}
-          className={cs(styles.imageContainer, {
-            [styles.active]: currentIndex == index
-          })}
-        >
-          <Skeleton duration={1} height={160} />
+        <div key={index} className={cs(styles.imageContainer)}>
+          {data}
         </div>
       );
     });
-
+    const newclass =
+      imageslist.length <= 2 ? styles.newcontainer : styles.container;
     return (
-      <div className={cs(styles.container, "pdp-slick")}>
-        {images.length > 0 ? (
+      <div
+        className={cs(newclass, "pdp-slick", {
+          [globalStyles.flex]: imageslist.length <= 2
+        })}
+      >
+        {images.length > 2 ? (
           <Slider {...config}>{imageNodes}</Slider>
         ) : (
-          tempNode
+          imageNodes
         )}
       </div>
     );
