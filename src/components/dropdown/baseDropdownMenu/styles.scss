@@ -99,7 +99,7 @@
     color: #987E56 !important;
   }
   &:hover {
-    color: $cerise;
+    color: $cerise !important;
   }
   &.bottom-dock-menu-item {
     color: #333 !important;
@@ -155,4 +155,7 @@
   -moz-transition: 1s;
   min-width: 170%;
   z-index: -1;
+  ul{
+    margin-bottom: 0px;
+  }
 }
