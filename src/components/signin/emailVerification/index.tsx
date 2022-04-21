@@ -54,11 +54,7 @@ const EmailVerification: React.FC<Props> = ({
     try {
       setIsLoading(true);
       setError("");
-      const res = await LoginService.verifyUserOTP(
-        dispatch,
-        email,
-        parseInt(otpValue)
-      );
+      const res = await LoginService.verifyUserOTP(dispatch, email, otpValue);
       if (res.success) {
         showGrowlMessage(
           dispatch,
