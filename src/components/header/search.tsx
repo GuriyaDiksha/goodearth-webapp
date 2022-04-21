@@ -321,6 +321,14 @@ class Search extends React.Component<Props, State> {
                     this.state.count ? `  (${this.state.count})` : ""
                   }`}
                 </span>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconSearch,
+                    styles.iconSearchPopup
+                  )}
+                  onClick={this.onClickSearch}
+                ></i>
                 {!mobile && (
                   <i
                     className={cs(
