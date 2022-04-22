@@ -31,7 +31,8 @@ const initialState: HeaderState = {
     sizes: [],
     selected: undefined,
     isCorporatePDP: false
-  }
+  },
+  mobileMenuOpenState: false
 };
 
 export const header = (
@@ -89,6 +90,11 @@ export const header = (
     case "UPDATE_SIZE_CHART_SELECTED": {
       const newState = { ...state };
       newState.sizeChartData.selected = action.payload;
+      return newState;
+    }
+    case "UPDATE_MOBILE_MENU_OPEN_STATE": {
+      const newState = { ...state };
+      newState.mobileMenuOpenState = action.payload;
       return newState;
     }
   }
