@@ -13,6 +13,7 @@ const PdpAccordion: React.FC<Props> = memo(
     className,
     headerClassName,
     headerClosedClassName,
+    headerOpenClassName,
     bodyClassName,
     openClass = styles.arrowUp,
     closedClass = styles.arrowDown
@@ -38,6 +39,7 @@ const PdpAccordion: React.FC<Props> = memo(
             onClick={onHeaderClick}
             className={headerClassName}
             headerClosedClassName={headerClosedClassName}
+            headerOpenClassName={headerOpenClassName}
           >
             {header}
           </Header>

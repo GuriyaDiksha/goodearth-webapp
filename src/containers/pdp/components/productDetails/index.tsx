@@ -58,7 +58,7 @@ import CustomerCareInfo from "components/CustomerCareInfo";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
-import cushionFiller from "images/cushionFiller.svg";
+import asset from "images/asset.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
@@ -311,6 +311,11 @@ const ProductDetails: React.FC<Props> = ({
         header: "Shipping & Handling",
         body: <div>{ReactHtmlParser(shipping)}</div>,
         id: "shippAndHandle"
+      },
+      {
+        header: "For Any queries or Assistance",
+        body: <div> {!isQuickview && <CustomerCareInfo />} </div>,
+        id: "queries"
       }
     ];
     if (manufactureInfo) {
@@ -1009,7 +1014,7 @@ const ProductDetails: React.FC<Props> = ({
               )}
             >
               <img
-                src={cushionFiller}
+                src={asset}
                 className={styles.cushionFiller}
                 alt="cushion-filler-icon"
               />
@@ -1186,16 +1191,17 @@ const ProductDetails: React.FC<Props> = ({
                   headerClassName={styles.accordionHeader}
                   bodyClassName={styles.accordionBody}
                   headerClosedClassName={styles.headerClosedClassName}
+                  headerOpenClassName={styles.headerOpenClassName}
                   defaultOpen="details"
                 />
               )}
             </div>
-            {!isQuickview && (
+            {/* {!isQuickview && (
               <div className={cs(styles.sku, globalStyles.voffset4)}>
                 Vref. {setSelectedSKU()}
               </div>
-            )}
-            {!isQuickview && <CustomerCareInfo />}
+            )} */}
+            {/* {!isQuickview && <CustomerCareInfo />} */}
             {!isQuickview && (
               <Share
                 mobile={mobile}
@@ -1207,6 +1213,11 @@ const ProductDetails: React.FC<Props> = ({
                     : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
                 } ${__DOMAIN__}${location.pathname}`}
               />
+            )}
+            {!isQuickview && (
+              <div className={cs(styles.sku, globalStyles.voffset4)}>
+                Vref. {setSelectedSKU()}
+              </div>
             )}
           </div>
         </div>
