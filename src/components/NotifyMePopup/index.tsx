@@ -242,7 +242,7 @@ const NotifyMePopup: React.FC<Props> = ({
           setEmailError(message);
           util.errorTracking([message], location.href);
         } else {
-          setMsg(message);
+          setMsg("");
           // util.errorTracking([message], location.href);
           basketLineId && onNotifyCart?.(basketLineId);
         }
