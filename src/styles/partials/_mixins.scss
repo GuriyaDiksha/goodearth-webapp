@@ -309,7 +309,7 @@
   font-family: $font-Montserrat;
   color:$charcoal19;
   text-transform: none;
-  line-height: 20px;
+  //line-height: 20px;
   margin-top: 15px;
   letter-spacing: 0.36px;
 }
@@ -424,9 +424,9 @@
 // }
 @mixin error-msg {
   font-size: 12px;
-  font-style: italic;
+  //font-style: italic;
   color: $charcoal19;
-  font-weight: bold;
+  //font-weight: bold;
   font-family: $font-Montserrat;
   letter-spacing: 0.36px;
   // text-transform: lowercase;

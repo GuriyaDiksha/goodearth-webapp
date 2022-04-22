@@ -25,6 +25,7 @@
     @include pdp_prod_title();
     font-family: $font-Montserrat;
     font-size: 20px;
+    font-weight: bold;
 }
 
 .discounted-price {
@@ -125,19 +126,27 @@
 }
 .accordion-header {
     @include pdp_copy_head();
-    margin-top: 20px;
+    font-weight: bold;
+   // margin-top: 20px;
 }
 .header-closed-class-name
     {
         border-bottom: lightgrey solid 1px;
-        padding: 10px;
-    }
+        padding: 15px 0px;
+        display: flex;
+        justify-content: space-between;
 
+    }
+.header-open-class-name
+{
+    display: flex;
+    justify-content: space-between;
+}
 .accordion-body {
     @include pdp_copy_body();
     letter-spacing: .5px;
     border-bottom: lightgrey solid 1px;
-    padding: 10px;
+    //padding: 10px;
 }
 
 .sku {
