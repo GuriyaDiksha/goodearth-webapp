@@ -916,9 +916,6 @@ a {
     cursor: pointer;
     @include more-details();
     font-size: 10px;
-    &.gold-color{
-      color: #9C7D50
-    }
   }
   .icon-search-popup {
     cursor: pointer;
@@ -1142,10 +1139,6 @@ span {
     .link-results {
       right: 12%;
       top: 15%;
-      &.mobile-link-results{
-        right: 7%;
-        font-size: 9px;
-      }
     }
   }
 }
