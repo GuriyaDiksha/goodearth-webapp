@@ -7,6 +7,7 @@ import useOutsideDetection from "../../../hooks/useOutsideDetetion";
 import cs from "classnames";
 
 import styles from "./styles.scss";
+import globalStyles from "styles/global.scss";
 
 const BaseDropdownMenu = ({
   align,
@@ -70,8 +71,9 @@ const BaseDropdownMenu = ({
       <div
         className={cs(
           styles.label,
-          { [styles.disabled]: disabled },
-          { [styles.goldColor]: id == "currency-dropdown-sidemenu" }
+          { [styles.disabled]: disabled }
+          // { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
+          // { [globalStyles.cerise]: id == "currency-dropdown-sidemenu" }
         )}
       >
         {display}
@@ -80,6 +82,10 @@ const BaseDropdownMenu = ({
             className={cs(
               {
                 [styles.caretUp]: menuOpen && id != "currency-dropdown-sidemenu"
+              },
+              {
+                [globalStyles.cerise]:
+                  menuOpen && id != "currency-dropdown-sidemenu"
               },
               {
                 [styles.caret]: !menuOpen && id != "currency-dropdown-sidemenu"
@@ -91,8 +97,13 @@ const BaseDropdownMenu = ({
               {
                 [styles.caret]: menuOpen && id == "currency-dropdown-sidemenu"
               },
+              {
+                [globalStyles.cerise]:
+                  menuOpen && id == "currency-dropdown-sidemenu"
+              },
               { [styles.disabled]: disabled },
-              { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
+              // { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
+
               {
                 [styles.carretVerticalMidAlign]:
                   id == "currency-dropdown-sidemenu"
