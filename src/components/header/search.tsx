@@ -329,16 +329,6 @@ class Search extends React.Component<Props, State> {
                   <i
                     className={cs(
                       iconStyles.icon,
-                      iconStyles.iconSearch,
-                      styles.iconSearchPopup
-                    )}
-                    onClick={this.onClickSearch}
-                  ></i>
-                )}
-                {!mobile && (
-                  <i
-                    className={cs(
-                      iconStyles.icon,
                       iconStyles.iconCrossNarrowBig,
                       styles.iconStyle,
                       styles.iconSearchCross
