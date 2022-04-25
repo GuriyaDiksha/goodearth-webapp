@@ -8,11 +8,9 @@ const CustomerCareInfo: React.FC = () => {
   return (
     <div className={cs(globalStyles.voffset3, styles.customercare)}>
       <h3>FOR ANY QUERIES OR ASSISTANCE</h3>
+      <p>Write to us at:</p>
       <p>
-        <br />
-      </p>
-      <p>
-        <span className={globalStyles.gold}>
+        <span className={globalStyles.cerise}>
           <i
             className={cs(iconStyles.icon, iconStyles.iconEmail, styles.icon)}
           />
@@ -21,8 +19,9 @@ const CustomerCareInfo: React.FC = () => {
           </a>
         </span>
       </p>
+      <p>Call us at:</p>
       <p>
-        <span className={globalStyles.gold}>
+        <span className={globalStyles.cerise}>
           <i
             className={cs(iconStyles.icon, iconStyles.iconPhone, styles.icon)}
           />
@@ -30,7 +29,7 @@ const CustomerCareInfo: React.FC = () => {
           <a href="tel:+919582999888">+91 95829 99888</a>
         </span>
       </p>
-      <p className={globalStyles.gold}>Mon-Sat | 9am-5pm IST</p>
+      <p>Mon-Sat | 9am-5pm IST</p>
     </div>
   );
 };
