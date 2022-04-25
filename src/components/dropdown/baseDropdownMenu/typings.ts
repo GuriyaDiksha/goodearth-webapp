@@ -9,6 +9,7 @@ export type DropdownMenuItemProps = {
   value?: string;
   selected?: boolean;
   type: MenuItemType;
+  id?: string;
 };
 
 export type DropdownItem = {
@@ -24,6 +25,7 @@ export type BaseDropdownMenuProps = {
   children?: JSX.Element | JSX.Element[];
   display?: JSX.Element | string;
   align: "left" | "right";
+  direction?: "up" | "down" | undefined;
   open?: boolean;
   hideSelected?: boolean;
   icon?: string;

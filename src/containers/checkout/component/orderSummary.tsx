@@ -432,7 +432,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
   const chkshipping = (event: any) => {
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable,
       shippable
@@ -445,8 +445,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      total >= freeShippingThreshold &&
-      total < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       currency == "INR" &&
       shippable
     ) {
@@ -456,7 +457,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {
             remainingAmount:
               freeShippingApplicable -
-              parseInt((basket.total - basket.shippingCharge).toString()),
+              parseInt((basket.totalWithoutShipping || 0).toString()),
             freeShippingApplicable
           },
           true
