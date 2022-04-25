@@ -23,21 +23,19 @@
 .price-container {
 
     @include pdp_prod_title();
-    font-family: $font-Montserrat;
-    font-size: 20px;
 }
 
 .discounted-price {
-    color: $gold;
-    font-family: $font-Montserrat;
-    font-size: 20px;
+    color: $cerise;
+    font-family: $font-Lato;
+    font-size: 22px;
 }
 
 .old-price {
-    font-size: 16px;
+    font-size: 14px;
     text-decoration: line-through;
-    color: tint(#9f9f9f,50%)!important;
-    font-family: $font-Montserrat;
+    color: tint(#000, 50%) !important;
+    font-family: $font-Lato;
 }
 
 .label {
@@ -117,32 +115,24 @@
 .filler-container {
     display: flex;
     align-items: center;
-    color:$charcoal19;
     a {
         text-decoration: underline;
-        color: $charcoal19;
     }
 }
 .accordion-header {
     @include pdp_copy_head();
     margin-top: 20px;
 }
-.header-closed-class-name
-    {
-        border-bottom: lightgrey solid 1px;
-        padding: 10px;
-    }
 
 .accordion-body {
     @include pdp_copy_body();
     letter-spacing: .5px;
-    border-bottom: lightgrey solid 1px;
-    padding: 10px;
 }
 
 .sku {
     @include pdp_breadcrumbs();
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 @media screen and (max-width: 992px) {
@@ -253,7 +243,6 @@
     text-transform: none;
     letter-spacing: 1px;
     cursor: pointer;
-    font-family: $font-Montserrat;
 }
 .mobile-margin{
     margin-top: 5px;
@@ -261,23 +250,23 @@
 .compliance-container {
     align-items: flex-start;
     .compliance {
-        font-family: $font-Montserrat;
-        font-size: 12px;
-        color:$gold;
-        letter-spacing: 0.36px;
+        font-family: 'LatoFont';
+        font-size: 13px;
+        color: #9C7D50;
+        letter-spacing: .5px;
         p{
-            font-family: $font-Montserrat;
-            font-size: 12px;
-            color:$gold;
-            letter-spacing: 0.36px;
+            font-family: 'LatoFont';
+            font-size: 13px;
+            color: #9C7D50;
+            letter-spacing: .5px;
             a{
-                color:$gold;
+                color: #9C7D50;
                 text-decoration: underline;
                 cursor: pointer;
             }
         }
         a{
-            color:$gold;
+            color: #9C7D50;
             text-decoration: underline;
             cursor: pointer;
         }
