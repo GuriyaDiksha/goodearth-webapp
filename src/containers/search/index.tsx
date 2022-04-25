@@ -35,7 +35,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     currency: state.currency,
     device: state.device,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    scrollDown: state.info.scrollDown
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {

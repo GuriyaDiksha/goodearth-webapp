@@ -758,21 +758,14 @@ p.corporate-sub-heading {
   box-shadow: 0 8px 6px -6px #e6e6e6;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  transition: top 0.3s;
+  justify-content: center;
+  transition: top 0.5s;
   &.hide {
     top: 0px;
-  }
-  i {
-    display: inline-block;
-    font-size: 22px;
-    margin-left: 20px;
-    color: gray;
-    &.active {
-      color: $cerise;
-    }
+    transition: top 1.5s;
   }
 }
+
 .list-grid-bar-timer {
   top: $header-height + $timer-height;
 }
@@ -818,4 +811,50 @@ p.corporate-sub-heading {
 
 .template-padding-mobile {
   padding-bottom: 50px !important;
+}
+
+.list-grid-bar {
+  span{
+    font-size: 12px;
+    vertical-align: middle;
+    color: #9f9f9f
+  }
+  .grid-span {
+    padding-right: 8px;
+    position:relative;
+    top: -7%;
+  }
+  .list-span {
+    padding-left: 8px;
+    position:relative;
+    top: -7%;
+  }
+  .active{
+    color: #4C4C4C;
+  }
+}
+
+.grid-container {
+  height: 22px;
+  border-right: 1px solid #9F9F9F;
+}
+
+.grid-icon {
+  height: 21px;
+  padding-right: 20px;
+  position: relative;
+  top: 34%;
+  transform: translateY(-50%);
+}
+
+.list-container {
+  height: 22px;
+}
+
+.list-icon {
+  height: 21px;
+  padding-left: 20px;
+  position: relative;
+  top: 34%;
+  transform: translateY(-50%);
 }

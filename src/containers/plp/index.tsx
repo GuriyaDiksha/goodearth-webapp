@@ -17,7 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
 import PlpResultTabItem from "components/plpResultTabItem";
 import ModalStyles from "components/Modal/styles.scss";
@@ -29,8 +29,12 @@ import CookieService from "services/cookie";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
-import ProductCounter from "components/ProductCounter";
+// import ProductCounter from "components/ProductCounter";
 import throttle from "lodash/throttle";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -48,6 +52,7 @@ const mapStateToProps = (state: AppState) => {
     plpTemplates: state.plplist.plpTemplates
   };
 };
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   DispatchProp;
@@ -331,21 +336,66 @@ class PLP extends React.Component<
     });
   };
 
+  // updateMobileView = (plpMobileView: "list" | "grid") => {
+  //   if (this.props.plpMobileView != plpMobileView) {
+  //     this.props.updateMobileView(plpMobileView);
+  //     CookieService.setCookie("plpMobileView", plpMobileView);
+  //     util.viewSelectionGTM(plpMobileView);
+  //     const { id } = this.getVisibleProductID();
+  //     if (id != -1) {
+  //       window.setTimeout(() => {
+  //         const elem = document.getElementById(id.toString());
+  //         if (elem) {
+  //           const offsetPos = elem.getBoundingClientRect().top - 130;
+  //           window.scrollBy({ top: offsetPos, behavior: "smooth" });
+  //         }
+  //       }, 500);
+  //     }
+  //   }
+  // };
+
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
-      this.props.updateMobileView(plpMobileView);
       CookieService.setCookie("plpMobileView", plpMobileView);
       util.viewSelectionGTM(plpMobileView);
-      const { id } = this.getVisibleProductID();
-      if (id != -1) {
-        window.setTimeout(() => {
-          const elem = document.getElementById(id.toString());
-          if (elem) {
-            const offsetPos = elem.getBoundingClientRect().top - 130;
-            window.scrollBy({ top: offsetPos, behavior: "smooth" });
+      const cards = document.querySelectorAll(".product-container");
+
+      const observer = new IntersectionObserver(
+        entries => {
+          let topMostPos = Infinity;
+          let leftMostPos = Infinity;
+          let leftMostElement: any;
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+              const y: number = entry.target.getBoundingClientRect().y;
+              const x: number = entry.target.getBoundingClientRect().x;
+              if (y < topMostPos) {
+                topMostPos = y;
+              }
+              if (x < leftMostPos) {
+                leftMostPos = x;
+                leftMostElement = entry.target;
+              }
+            }
+          });
+          if (leftMostPos != Infinity) {
+            this.props.updateMobileView(plpMobileView);
+            const top: number =
+              leftMostElement.getBoundingClientRect().top - 135;
+            window.scrollBy({ top: top, behavior: "smooth" });
+          } else {
+            this.props.updateMobileView(plpMobileView);
           }
-        }, 500);
-      }
+          observer.disconnect();
+        },
+        {
+          rootMargin: "-130px 0px -90px 0px"
+        }
+      );
+
+      cards.forEach(card => {
+        observer.observe(card);
+      });
     }
   };
 
@@ -442,7 +492,6 @@ class PLP extends React.Component<
         }
       }
     }
-
     return (
       <div
         className={cs(
@@ -684,18 +733,21 @@ class PLP extends React.Component<
                     ? cs(
                         bootstrap.row,
                         styles.imageContainerMobileBanner,
-                        globalStyles.paddTop20
+                        globalStyles.paddTop20,
+                        "products_container"
                       )
                     : cs(
                         bootstrap.row,
                         styles.imageContainerMobile,
-                        globalStyles.paddTop20
+                        globalStyles.paddTop20,
+                        "products_container"
                       )
                   : cs(
                       bootstrap.row,
                       styles.imageContainer,
                       styles.minHeight,
-                      globalStyles.paddTop20
+                      globalStyles.paddTop20,
+                      "products_container"
                     )
               }
               id="product_images"
@@ -730,7 +782,8 @@ class PLP extends React.Component<
                           className={cs(
                             bootstrap.colLg4,
                             bootstrap.col6,
-                            styles.setWidth
+                            styles.setWidth,
+                            "product-container"
                           )}
                           key={item.id}
                           id={index == 0 ? "first-grid-item" : ""}
@@ -800,7 +853,8 @@ class PLP extends React.Component<
                             bootstrap.colLg4,
                             bootstrap.col12,
                             styles.setWidth,
-                            styles.listViewContainer
+                            styles.listViewContainer,
+                            "product-container"
                           )}
                           key={item.id}
                           id={index == 0 ? "first-list-item" : ""}
@@ -827,12 +881,18 @@ class PLP extends React.Component<
               <div
                 className={
                   !mobile || this.props.plpMobileView == "grid"
-                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth)
+                    ? cs(
+                        bootstrap.colLg4,
+                        bootstrap.col6,
+                        styles.setWidth,
+                        "product-container"
+                      )
                     : cs(
                         bootstrap.colLg4,
                         bootstrap.col12,
                         styles.setWidth,
-                        styles.listViewContainer
+                        styles.listViewContainer,
+                        "product-container"
                       )
                 }
                 key={1}
@@ -848,20 +908,46 @@ class PLP extends React.Component<
                 [styles.hide]: this.props.scrollDown
               })}
             >
-              <i
-                key="grid-icon"
-                className={cs(iconFonts.icon, iconFonts.iconGridView, {
-                  [styles.active]: this.props.plpMobileView == "grid"
-                })}
+              <div
+                className={styles.gridContainer}
                 onClick={() => this.updateMobileView("grid")}
-              />
-              <i
-                key="list-icon"
-                className={cs(iconFonts.icon, iconFonts.iconListView, {
-                  [styles.active]: this.props.plpMobileView == "list"
-                })}
+              >
+                <span
+                  className={cs(styles.gridSpan, {
+                    [styles.active]: this.props.plpMobileView == "grid"
+                  })}
+                >
+                  Grid
+                </span>
+                <img
+                  src={
+                    this.props.plpMobileView == "grid"
+                      ? activeGrid
+                      : inactiveGrid
+                  }
+                  className={cs(styles.gridIcon)}
+                />
+              </div>
+              <div
+                className={styles.listContainer}
                 onClick={() => this.updateMobileView("list")}
-              />
+              >
+                <img
+                  src={
+                    this.props.plpMobileView == "list"
+                      ? activeList
+                      : inactiveList
+                  }
+                  className={cs(styles.listIcon)}
+                />
+                <span
+                  className={cs(styles.listSpan, {
+                    [styles.active]: this.props.plpMobileView == "list"
+                  })}
+                >
+                  List
+                </span>
+              </div>
             </div>
           )}
         </div>
