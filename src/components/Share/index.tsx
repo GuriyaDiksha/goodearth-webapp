@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useStore } from "react-redux";
 import cs from "classnames";
 import { Props } from "./typings";
@@ -6,7 +6,7 @@ import Whatsapp from "./whatsapp";
 import Mail from "./mail";
 import CopyLink from "./copyLink";
 
-import productDertailsStyles from "containers/pdp/components/productDetails/styles.scss";
+//import productDertailsStyles from "containers/pdp/components/productDetails/styles.scss";
 // actions
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
@@ -28,30 +28,35 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
     );
   };
 
-  const [show, setShow] = useState(false);
+  //const [show, setShow] = useState(false);
   return (
     <div className={styles.shareContainer}>
-      <div
+      {/* <div
         className={cs(productDertailsStyles.label, styles.shareLabel)}
-        onClick={() => setShow(show => !show)}
       >
-        share
-      </div>
+     </div> */}
       <div
         className={cs(
           globalStyles.voffset1,
-          styles.shareInnerContainer,
-          show ? styles.show : styles.hide
+          styles.shareInnerContainer
+          // show ? styles.show : styles.hide
         )}
       >
-        <Whatsapp link={whatsappLink} className={styles.socialIcon} />
-        <Mail link={mailContent} className={styles.socialIcon} />
-        <CopyLink
-          link={link}
-          text={mailText}
-          className={cs(styles.socialIcon, styles.copyLink)}
-          onClick={copyText}
-        />
+        <div>
+          <Whatsapp link={whatsappLink} className={styles.socialIcon} />{" "}
+        </div>
+        <div>
+          <Mail link={mailContent} className={styles.socialIcon} />{" "}
+        </div>
+        <div>
+          {" "}
+          <CopyLink
+            link={link}
+            text={mailText}
+            className={cs(styles.socialIcon, styles.copyLink)}
+            onClick={copyText}
+          />{" "}
+        </div>
       </div>
     </div>
   );

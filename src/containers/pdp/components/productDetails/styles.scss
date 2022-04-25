@@ -75,6 +75,8 @@
     // top: 45px;
     display: block;
     left: 5px;
+    font-family: $font-Lora;
+    font-size: 14px;
 }
 
 .bridal-ring {
@@ -113,6 +115,8 @@
 
 .error-msg {
     @include error-msg();
+    font-family: $font-Lora;
+    font-size: 14px;
 }
 
 .filler-container {
@@ -123,6 +127,14 @@
         text-decoration: underline;
         color: $charcoal19;
     }
+}
+.cushion-error
+{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    letter-spacing: 0.36px;
+    font-style: normal;
+    
 }
 .accordion-header {
     @include pdp_copy_head();
@@ -141,6 +153,7 @@
 {
     display: flex;
     justify-content: space-between;
+    margin: 15px 0px;
 }
 .accordion-body {
     @include pdp_copy_body();
@@ -163,6 +176,11 @@
     .title, .price-container {
         @include pdp_prod_title_mobile();
         padding-bottom: 10px;
+    }
+    .price-container{
+        @include pdp_prod_title_mobile();
+        font-family: $font-Montserrat;
+        font-size: 20px;
     }
 
     .spacer {
