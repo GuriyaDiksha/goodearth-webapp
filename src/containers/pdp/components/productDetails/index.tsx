@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import Quantity from "components/quantity";
+import PdpQuantity from "components/quantity/pdpquantity";
 import SizeSelector from "components/SizeSelector";
 import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
@@ -321,7 +321,6 @@ const ProductDetails: React.FC<Props> = ({
         header: "Share",
         body: (
           <div>
-            {" "}
             {!isQuickview && (
               <Share
                 mobile={mobile}
@@ -977,7 +976,7 @@ const ProductDetails: React.FC<Props> = ({
                       styles.widgetQty
                     )}
                   >
-                    <Quantity
+                    <PdpQuantity
                       source="pdp"
                       key={selectedSize?.sku}
                       id={selectedSize?.id || 0}

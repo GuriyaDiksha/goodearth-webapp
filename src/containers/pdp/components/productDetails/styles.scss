@@ -77,6 +77,8 @@
     left: 5px;
     font-family: $font-Lora;
     font-size: 14px;
+    font-style: normal;
+    font-weight:normal;
 }
 
 .bridal-ring {
@@ -117,6 +119,8 @@
     @include error-msg();
     font-family: $font-Lora;
     font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
 }
 
 .filler-container {
