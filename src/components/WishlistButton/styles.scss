@@ -14,10 +14,11 @@
         margin-top: 5px;
         margin-bottom: 5px;
         &:hover {
-         color: $cerise; 
-      }   
+            color: $cerise;
+        }
     }
 }
+
 .label {
     @include pdp_label();
 }

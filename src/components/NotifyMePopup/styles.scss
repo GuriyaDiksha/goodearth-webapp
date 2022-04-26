@@ -30,10 +30,6 @@
 
 .title {
     @include plp_prod_name_desktop();
-    font-family: $font-Lora;
-    font-size: 24px;
-    color:$charcoal19;
-
 }
 
 .label {
@@ -50,9 +46,9 @@
 }
 
 .price {
-    font-size: 20px;
+    font-size: 12px;
     line-height: 30px;
-    font-family: $font-Montserrat;
+    font-family: $font-Lato;
     margin-top: 0;
 }
 .qty-container {
@@ -60,9 +56,6 @@
     margin-bottom: 20px;
     justify-content: center;
     position: relative;
-    font-family: $font-Montserrat;
-    font-size: 12px;
-    color:$charcoal19;
 }
 
 .quantity-wrapper {
