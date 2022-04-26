@@ -10,20 +10,37 @@
 @media screen and (min-width:992px) {
     .wishlist-icon {
         font-size: 22px;
+        border: $gold 1.25px;
+        color:$gold;
         cursor: pointer;
         margin-top: 5px;
         margin-bottom: 5px;
         &:hover {
-         color: $cerise; 
-      }   
+            color: $gold;           
+        }
     }
 }
+@media screen and (min-width:375px){
+    .wishlist-icon {
+        font-size: 22px;
+        border: $gold 1.25px;
+        color:$gold;
+        cursor: pointer;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        &:hover {
+            color: $gold;           
+        }
+    }
+}
+
 .label {
     @include pdp_label();
+    color:$gold;
 }
 
 .added-to-wishlist {
-  color: $gold !important;
+    color: $gold !important;
 }
 
 .mobile-wishlist {

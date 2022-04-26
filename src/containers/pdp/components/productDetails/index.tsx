@@ -15,10 +15,10 @@ import { useStore, useSelector } from "react-redux";
 // components
 import Quantity from "components/quantity";
 import SizeSelector from "components/SizeSelector";
-import Button from "components/Button";
+import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
 import PdpAccordion from "components/Accordion/pdpAccordion";
-import WishlistButton from "components/WishlistButton";
+import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "components/Loader";
@@ -54,7 +54,7 @@ import {
 import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
-import CustomerCareInfo from "components/CustomerCareInfo";
+import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
@@ -314,8 +314,29 @@ const ProductDetails: React.FC<Props> = ({
       },
       {
         header: "For Any queries or Assistance",
-        body: <div> {!isQuickview && <CustomerCareInfo />} </div>,
+        body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
+      },
+      {
+        header: "Share",
+        body: (
+          <div>
+            {" "}
+            {!isQuickview && (
+              <Share
+                mobile={mobile}
+                link={`${__DOMAIN__}${location.pathname}`}
+                mailSubject="Gifting Ideas"
+                mailText={`${
+                  corporatePDP
+                    ? `Here's what I found, check it out on Good Earth's web boutique`
+                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
+              />
+            )}
+          </div>
+        ),
+        id: "share"
       }
     ];
     if (manufactureInfo) {
@@ -592,7 +613,7 @@ const ProductDetails: React.FC<Props> = ({
     showError();
   };
 
-  const button = useMemo(() => {
+  const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
@@ -615,7 +636,7 @@ const ProductDetails: React.FC<Props> = ({
       // setSizeerror(false);
     }
 
-    return <Button label={buttonText} onClick={action} />;
+    return <PdpButton label={buttonText} onClick={action} />;
   }, [
     corporatePDP,
     selectedSize,
@@ -680,7 +701,7 @@ const ProductDetails: React.FC<Props> = ({
       {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
-          buttoncall={button}
+          buttoncall={Pdpbutton}
           showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
           price={price}
           discountPrice={discountPrices}
@@ -1009,7 +1030,7 @@ const ProductDetails: React.FC<Props> = ({
                 bootstrap.col12,
                 bootstrap.colMd10,
                 globalStyles.voffset3,
-                styles.errorMsg,
+                styles.cushionError,
                 styles.fillerContainer
               )}
             >
@@ -1047,7 +1068,7 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.hidden]: mobile && !showAddToBagMobile
               })}
             >
-              {button}
+              {Pdpbutton}
               {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
                 <p className={cs(styles.errorMsg, styles.notEligible)}>
                   This product is not eligible for Cerise points accumulation.
@@ -1081,7 +1102,7 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
               })}
             >
-              <WishlistButton
+              <WishlistButtonpdp
                 gtmListType={gtmListType}
                 title={title}
                 parentWidth={true}
@@ -1202,7 +1223,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )} */}
             {/* {!isQuickview && <CustomerCareInfo />} */}
-            {!isQuickview && (
+            {/* {!isQuickview && (
               <Share
                 mobile={mobile}
                 link={`${__DOMAIN__}${location.pathname}`}
@@ -1213,7 +1234,7 @@ const ProductDetails: React.FC<Props> = ({
                     : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
                 } ${__DOMAIN__}${location.pathname}`}
               />
-            )}
+            )} */}
             {!isQuickview && (
               <div className={cs(styles.sku, globalStyles.voffset4)}>
                 Vref. {setSelectedSKU()}
