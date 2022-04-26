@@ -521,13 +521,17 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const onEnquireClick = () => {
+    const selectdata = childAttributes.filter(data => {
+      return data.size == selectedSize?.size;
+    })[0];
     updateComponentModal(
       // <CorporateEnquiryPopup id={id} quantity={quantity} />,
       POPUP.THIRDPARTYENQUIRYPOPUP,
       {
         partner: partner,
-        id: id,
-        quantity: quantity
+        id: selectdata ? selectdata.id : id,
+        quantity: quantity,
+        size: selectedSize?.size
       },
       mobile ? true : false,
       mobile ? ModalStyles.bottomAlign : undefined
