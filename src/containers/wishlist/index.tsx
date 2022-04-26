@@ -526,7 +526,7 @@ class Wishlist extends React.Component<Props, State> {
     if (elem) {
       if (window.innerWidth <= 377) {
         elem.style.display = "flex";
-        elem.style.justifyContent = "center";
+        // elem.style.justifyContent = "center";
       } else {
         elem.style.display = "block";
       }
