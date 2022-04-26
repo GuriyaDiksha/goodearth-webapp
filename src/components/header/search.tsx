@@ -641,9 +641,9 @@ class Search extends React.Component<Props, State> {
                                   )}
                                 </div>
                                 <div className={styles.imageContent}>
-                                  <p className={styles.productH}>
-                                    {data.collection}
-                                  </p>
+                                  {/* <p className={styles.productH}>
+                                    {data.collections}
+                                  </p> */}
                                   <p className={styles.productN}>
                                     <Link
                                       to={data.url}
