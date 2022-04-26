@@ -316,7 +316,7 @@ class Search extends React.Component<Props, State> {
                 <span
                   className={cs(
                     styles.linkResults,
-                    { [styles.goldColor]: mobile },
+                    { [globalStyles.cerise]: mobile },
                     { [styles.mobileLinkResults]: mobile }
                   )}
                   onClick={this.onClickSearch}
