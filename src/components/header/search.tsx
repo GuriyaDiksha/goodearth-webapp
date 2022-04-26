@@ -314,7 +314,9 @@ class Search extends React.Component<Props, State> {
                   onChange={this.handleChange.bind(this)}
                 />
                 <span
-                  className={styles.linkResults}
+                  className={cs(styles.linkResults, {
+                    [styles.mobileLinkResults]: mobile
+                  })}
                   onClick={this.onClickSearch}
                 >
                   {`view all results${
@@ -725,8 +727,12 @@ class Search extends React.Component<Props, State> {
               >
                 {this.state.searchValue.length > 2 ? (
                   <div className={styles.npfMsg}>
-                    {"Sorry, we couldn't find any matching result for"} &nbsp;
-                    <span>{this.state.searchValue}</span>
+                    {"No products were found matching"} &nbsp;
+                    <span>
+                      {`"`}
+                      {this.state.searchValue}
+                      {`"`}
+                    </span>
                   </div>
                 ) : (
                   ""
