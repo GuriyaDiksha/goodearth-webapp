@@ -28,10 +28,16 @@ const DropdownMenuItem = ({
       className={cl(
         styles.menuItem,
         className,
+        // { [styles.goldColor]: selected && id == "currency-dropdown-sidemenu" },
         {
-          [globalstyles.cerise]: selected && id != "currency-dropdown-sidemenu"
+          [globalstyles.cerise]: selected && id == "currency-dropdown-sidemenu"
         },
-        { [styles.goldColor]: selected && id == "currency-dropdown-sidemenu" },
+        {
+          [globalstyles.cerise]: selected && id == "currency-dropdown"
+        },
+        {
+          [globalstyles.cerise]: selected && id == "currency-dropdown-checkout"
+        },
         {
           [styles.bottomDockMenuItem]:
             !selected && id == "currency-dropdown-sidemenu"
