@@ -36,6 +36,9 @@ const DropdownMenuItem = ({
           [globalstyles.cerise]: selected && id == "currency-dropdown"
         },
         {
+          [globalstyles.cerise]: selected && id == "currency-dropdown-checkout"
+        },
+        {
           [styles.bottomDockMenuItem]:
             !selected && id == "currency-dropdown-sidemenu"
         }
