@@ -19,6 +19,7 @@ import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
 import PdpAccordion from "components/Accordion/pdpAccordion";
 import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
+
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "components/Loader";
@@ -1041,7 +1042,7 @@ const ProductDetails: React.FC<Props> = ({
               />
               <div>
                 Insert not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here to purchase.</Link>
+                <Link to={fillerUrl || "#"}>Click here</Link> to purchase.
               </div>
             </div>
           ) : (
