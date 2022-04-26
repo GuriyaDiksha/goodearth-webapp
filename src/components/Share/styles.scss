@@ -1,3 +1,7 @@
+@import "../../styles/partials/mixins";
+@import "../../styles/partials/variables";
+
+
 .social-icon {
     width: 40px;
     display: inline-block;
@@ -36,4 +40,18 @@
     top: 0;
     cursor: default;
     pointer-events: none;
+}
+.mail
+{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    color: #9B7D50;
+}
+.link
+{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    color: #9B7D50;
 }
