@@ -73,7 +73,7 @@
   line-height: 40px;
   cursor: pointer;
   font-size: 10px;
-  font-weight: normal;
+  font-weight: 600;
   padding: 0 10px;
   text-align: center;
   border-bottom: 1px solid #fff;
@@ -91,6 +91,7 @@
     position: relative;
     width: 100%;
     text-decoration: none;
+    color: #000;
     &:hover {
       color: $cerise !important;
     }
@@ -136,7 +137,7 @@
     border-bottom: 4px dashed;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
-    color: $cerise;
+    color: #000;
     &.gold-color{
       color: #987E56
     }
