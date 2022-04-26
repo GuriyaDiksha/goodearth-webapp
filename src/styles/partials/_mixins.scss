@@ -406,29 +406,13 @@
   }
 }
 
-// @mixin error-msg {
-//   font-size: 10px;
-//   font-style: italic;
-//   color: $cerise;
-//   font-weight: bold;
-//   font-family: $font-Lato;
-//   letter-spacing: 1px;
-//   // text-transform: lowercase;
-//   &::first-letter {
-//     text-transform: uppercase;
-//   }
-//   &.cc-error-msg {
-//     line-height: 15px;
-//     margin-top: 5px;
-//   }
-// }
 @mixin error-msg {
-  font-size: 12px;
-  //font-style: italic;
-  color: $charcoal19;
-  //font-weight: bold;
-  font-family: $font-Montserrat;
-  letter-spacing: 0.36px;
+  font-size: 10px;
+  font-style: italic;
+  color: $cerise;
+  font-weight: bold;
+  font-family: $font-Lato;
+  letter-spacing: 1px;
   // text-transform: lowercase;
   &::first-letter {
     text-transform: uppercase;
@@ -438,6 +422,22 @@
     margin-top: 5px;
   }
 }
+// @mixin error-msg {
+//   font-size: 12px;
+//   //font-style: italic;
+//   color: $charcoal19;
+//   //font-weight: bold;
+//   font-family: $font-Montserrat;
+//   letter-spacing: 0.36px;
+//   // text-transform: lowercase;
+//   &::first-letter {
+//     text-transform: uppercase;
+//   }
+//   &.cc-error-msg {
+//     line-height: 15px;
+//     margin-top: 5px;
+//   }
+// }
 
 @mixin cerise-btn {
   background-color: $cerise;

@@ -20,14 +20,14 @@
     cursor: pointer;
 }
 .share-container {
-    height: 70px;
+    // height: 70px;
     position: relative;
 }
-.share-inner-container {
-    position: absolute;
-    top: 20px;
-    transition: opacity 0.2s, top 0.2s;
-}
+// .share-inner-container {
+//     position: absolute;
+//     top: 20px;
+//     transition: opacity 0.2s, top 0.2s;
+// }
 .show {
     opacity: 1;
 }
