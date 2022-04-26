@@ -12,7 +12,7 @@ import cs from "classnames";
 // components
 import Quantity from "components/quantity";
 import SizeSelector from "components/SizeSelector";
-import Button from "components/Button";
+import PdpButton from "components/Button/pdpButton";
 import CloseButton from "components/Modal/components/CloseButton";
 import InputField from "components/InputField";
 // services
@@ -257,7 +257,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setSizeerror(true);
   };
 
-  const button = useMemo(() => {
+  const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     let allOutOfStock = true;
     childAttributes.forEach(({ stock }) => {
@@ -277,7 +277,7 @@ const NotifyMePopup: React.FC<Props> = ({
     }
 
     return (
-      <Button
+      <PdpButton
         label={buttonText}
         onClick={action}
         className={cs(styles.button)}
@@ -399,7 +399,7 @@ const NotifyMePopup: React.FC<Props> = ({
         {sizeerror && (
           <p className={styles.sizeError}>Please select a size to proceed</p>
         )}
-        {button}
+        {Pdpbutton}
       </div>
       {showLoader && <Loader />}
     </div>
