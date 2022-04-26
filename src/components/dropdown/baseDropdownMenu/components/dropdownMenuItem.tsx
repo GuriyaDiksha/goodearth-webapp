@@ -12,7 +12,8 @@ const DropdownMenuItem = ({
   label,
   onClick,
   selected,
-  type = "button"
+  type = "button",
+  id
 }: DropdownMenuItemProps) => {
   const props: any = {};
   if (onClick) {
@@ -24,9 +25,24 @@ const DropdownMenuItem = ({
   }
   return (
     <li
-      className={cl(styles.menuItem, className, {
-        [globalstyles.cerise]: selected
-      })}
+      className={cl(
+        styles.menuItem,
+        className,
+        // { [styles.goldColor]: selected && id == "currency-dropdown-sidemenu" },
+        {
+          [globalstyles.cerise]: selected && id == "currency-dropdown-sidemenu"
+        },
+        {
+          [globalstyles.cerise]: selected && id == "currency-dropdown"
+        },
+        {
+          [globalstyles.cerise]: selected && id == "currency-dropdown-checkout"
+        },
+        {
+          [styles.bottomDockMenuItem]:
+            !selected && id == "currency-dropdown-sidemenu"
+        }
+      )}
       {...props}
     >
       {innerHTML}
