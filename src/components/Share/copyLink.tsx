@@ -1,8 +1,8 @@
 import React from "react";
 import { copyToClipboard } from "utils/clipboard";
 import globalStyles from "../../styles/global.scss";
-import iconStyles from "../../styles/iconFonts.scss";
-import cs from "classnames";
+import copyLink from "../../images/copyLink.svg";
+import styles from "./styles.scss";
 
 type Props = {
   text: string;
@@ -20,12 +20,14 @@ const CopyLink: React.FC<Props> = ({ text, link, className, onClick }) => {
 
   return (
     <p onClick={clickHandler}>
-      <span className={globalStyles.gold}>
-        <i className={cs(iconStyles.icon, iconStyles.iconLink)} />
-        <a target="_blank" className={globalStyles.gold}>
-          Copy Link
-        </a>
-      </span>
+      <img src={copyLink} className={styles.copyIcon} />
+      <a
+        target="_blank"
+        className={globalStyles.gold}
+        style={{ margin: "12px" }}
+      >
+        Copy Link
+      </a>
     </p>
     // <a target="_blank" className={className} onClick={clickHandler}>
 
