@@ -54,7 +54,35 @@
     font-style: italic;
     font-display: swap;
   }
-  
+  @font-face {
+    font-family: "Lora";
+    src: url("../fonts/Lora-italic.ttf") format("truetype");
+    font-weight: 300;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Lora";
+    src: url("../fonts/Lora-regular.ttf") format("truetype");
+    font-weight: bold;
+    font-display: swap;
+    font-style: normal;
+  }
+  // @font-face {
+  //   font-family: "Montserrat";
+  //   src: url("../fonts/Montserrat-italic.ttf") format("truetype");
+  //   font-weight: 300;
+  //   font-display: swap;
+  //   font-style: normal;
+  // }
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-regular.ttf") format("truetype");
+    font-display: swap;
+    font-style: normal;
+  }
+
+
 //   @font-face {
 //     font-family: "AmiriFont";
 //     src: url("../../fonts/Amiri\ regular.ttf") format('truetype');

@@ -22,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
     isLoggedIn: state.user.email ? true : false,
     saleStatus: false,
     isSale: state.info.isSale,
-    showCookie: state.info.showCookie
+    showCookie: state.info.showCookie,
+    mobileMenuOpenState: state.header.mobileMenuOpenState
   };
 };
 
@@ -755,7 +756,7 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {this.props.showCookie && (
+        {this.props.showCookie && !this.props.mobileMenuOpenState && (
           <div className={styles.cookieclass}>
             <span
               className={cs(

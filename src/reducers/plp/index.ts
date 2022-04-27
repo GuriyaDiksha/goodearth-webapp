@@ -11,13 +11,15 @@ export const PRODUCT_INIT_STATE: PLPProductItem = {
     INR: 0,
     GBP: 0,
     USD: 0,
-    AED: 0
+    AED: 0,
+    SGD: 0
   },
   discountedPriceRecords: {
     INR: 0,
     GBP: 0,
     USD: 0,
-    AED: 0
+    AED: 0,
+    SGD: 0
   },
   partial: true,
   title: "",
