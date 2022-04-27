@@ -32,11 +32,17 @@
     // }
 
     &.unavailable {
-      color: tint(#E5E5E5, 70%);
+      color: #E5E5E5;
       text-decoration: line-through;
+      border: #E5E5E5;
+      border-style: solid;
+      border-width: 1px;
 
       &:hover {
-        background-color: tint(#000,95%);
+        // background-color: tint(#000,95%);
+        border: #E5E5E5;
+        border-style: solid;
+        border-width: 1px;
       }
     }
 
