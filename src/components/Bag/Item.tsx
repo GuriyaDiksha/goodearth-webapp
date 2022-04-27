@@ -78,7 +78,7 @@ const LineItems: React.FC<BasketItem> = memo(
         quantity: quantity,
         price: +price,
         Currency: currency,
-        "Collection name": product.collections,
+        "Collection name": product.collection,
         "Category name": categoryname,
         "Sub Category Name": subcategoryname
       });
