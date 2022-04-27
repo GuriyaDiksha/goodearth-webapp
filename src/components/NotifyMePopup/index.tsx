@@ -10,7 +10,7 @@ import React, {
 import { useSelector, useStore } from "react-redux";
 import cs from "classnames";
 // components
-import Quantity from "components/quantity";
+import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
 import PdpButton from "components/Button/pdpButton";
 import CloseButton from "components/Modal/components/CloseButton";
@@ -338,9 +338,7 @@ const NotifyMePopup: React.FC<Props> = ({
         </div>
         {sizeExists ? (
           <>
-            <div className={cs(styles.label, styles.sizeLabel)}>
-              SELECT SIZE
-            </div>
+            <div className={cs(styles.label, styles.sizeLabel)}> SIZE</div>
             <SizeSelector
               sizes={childAttributes}
               onChange={onSizeSelect}
@@ -367,10 +365,10 @@ const NotifyMePopup: React.FC<Props> = ({
               `Only ${selectedSize.stock} Left!`}
           </span>
         )}
-        <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
+        <div className={cs(styles.label, styles.qtyLabel)}> QUANTITY</div>
 
         <div className={styles.qtyContainer}>
-          <Quantity
+          <PdpQuantity
             source="notifyme"
             id={selectedSize ? selectedSize.id : 0}
             minValue={minQuantity}

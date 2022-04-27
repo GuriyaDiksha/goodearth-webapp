@@ -2,25 +2,27 @@
 @import "../../styles/partials/mixins";
 
 .size-button {
-    background-color: $light-bg;
+    background-color: #f9f8f5;
     display: inline-block;
     text-align: center;
     min-width: 40px;
     border-radius: 12px;
-    color: $cerise;
+    color: #4c4c4c;
     font-weight: 400;
     font-size: 12px;
-    font-family: $font-Lato;
+    font-family: $font-Montserrat;
     margin: 0 5px 5px 0;
     padding: 0 5px;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 1px solid #E5E5E5;
     line-height: 40px;
     padding: 0 5px;
+    letter-spacing: 0.36px;
     
     &:hover {
-      border: 1px solid $cerise;
-      background-color: white;
+      border: 1px solid #799999;
+      background-color: #f9f8f5;
+      color: #799999;
     }
 
     // &.notavailable-select {
@@ -30,7 +32,7 @@
     // }
 
     &.unavailable {
-      color: tint(#000, 70%);
+      color: tint(#E5E5E5, 70%);
       text-decoration: line-through;
 
       &:hover {
@@ -39,8 +41,7 @@
     }
 
     &.selected {
-        border: 1px solid $cerise;
+        border: 1px solid #799999;
         background-color: white;
-        color: $cerise;
     }
 }
