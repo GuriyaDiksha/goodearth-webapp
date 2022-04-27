@@ -56,7 +56,8 @@ const mapStateToProps = (state: AppState) => {
     timerData: state.header.timerData,
     customerGroup: state.user.customerGroup,
     showStock: state.header.storeData.visible,
-    showSizeChart: state.header.sizeChartData.show
+    showSizeChart: state.header.sizeChartData.show,
+    mobileMenuOpenState: state.header.mobileMenuOpenState
   };
 };
 
@@ -401,6 +402,7 @@ class Header extends React.Component<Props, State> {
 
   clickToggle = () => {
     const isMobileMenuOpen = !this.state.showMenu;
+    this.props.updateMobileMenuOpenState(!this.props.mobileMenuOpenState);
 
     if (isMobileMenuOpen) {
       document.body.classList.add(globalStyles.noScroll);

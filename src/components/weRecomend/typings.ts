@@ -4,7 +4,7 @@ import { Settings } from "react-slick";
 import { ProductID } from "typings/id";
 
 export interface RecommendData {
-  collectionName: string;
+  collection: string;
   productUrl: string;
   productImage: string;
   productName: string;

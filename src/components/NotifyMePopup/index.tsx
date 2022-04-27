@@ -10,9 +10,9 @@ import React, {
 import { useSelector, useStore } from "react-redux";
 import cs from "classnames";
 // components
-import Quantity from "components/quantity";
+import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
-import Button from "components/Button";
+import PdpButton from "components/Button/pdpButton";
 import CloseButton from "components/Modal/components/CloseButton";
 import InputField from "components/InputField";
 // services
@@ -242,7 +242,7 @@ const NotifyMePopup: React.FC<Props> = ({
           setEmailError(message);
           util.errorTracking([message], location.href);
         } else {
-          setMsg(message);
+          setMsg("");
           // util.errorTracking([message], location.href);
           basketLineId && onNotifyCart?.(basketLineId);
         }
@@ -257,7 +257,7 @@ const NotifyMePopup: React.FC<Props> = ({
     setSizeerror(true);
   };
 
-  const button = useMemo(() => {
+  const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     let allOutOfStock = true;
     childAttributes.forEach(({ stock }) => {
@@ -277,7 +277,7 @@ const NotifyMePopup: React.FC<Props> = ({
     }
 
     return (
-      <Button
+      <PdpButton
         label={buttonText}
         onClick={action}
         className={cs(styles.button)}
@@ -338,9 +338,7 @@ const NotifyMePopup: React.FC<Props> = ({
         </div>
         {sizeExists ? (
           <>
-            <div className={cs(styles.label, styles.sizeLabel)}>
-              SELECT SIZE
-            </div>
+            <div className={cs(styles.label, styles.sizeLabel)}> SIZE</div>
             <SizeSelector
               sizes={childAttributes}
               onChange={onSizeSelect}
@@ -367,10 +365,10 @@ const NotifyMePopup: React.FC<Props> = ({
               `Only ${selectedSize.stock} Left!`}
           </span>
         )}
-        <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
+        <div className={cs(styles.label, styles.qtyLabel)}> QUANTITY</div>
 
         <div className={styles.qtyContainer}>
-          <Quantity
+          <PdpQuantity
             source="notifyme"
             id={selectedSize ? selectedSize.id : 0}
             minValue={minQuantity}
@@ -401,7 +399,7 @@ const NotifyMePopup: React.FC<Props> = ({
         {sizeerror && (
           <p className={styles.sizeError}>Please select a size to proceed</p>
         )}
-        {button}
+        {Pdpbutton}
       </div>
       {showLoader && <Loader />}
     </div>

@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         );
         return res;
       } catch (err) {
-        let errorMessage = err.response.data;
+        let errorMessage = err?.response.data;
         if (typeof errorMessage != "string") {
           errorMessage = "Can't add to bag";
         }
