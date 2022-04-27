@@ -1,4 +1,4 @@
-import loadable from "@loadable/component";
+// import loadable from "@loadable/component";
 import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
@@ -38,18 +38,19 @@ import ModalStyles from "components/Modal/styles.scss";
 import overlay from "images/3d/HelloARIcon.svg";
 // import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
 import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 import CookieService from "services/cookie";
 // import PdpSkeleton from "./components/pdpSkeleton"
 import Skeleton from "react-loading-skeleton";
 
-const VerticalImageSelector = loadable(() =>
-  import("components/VerticalImageSelector")
-);
+// const VerticalImageSelector = loadable(() =>
+//   import("components/VerticalImageSelector")
+// );
 // const ProductDetails = loadable(() => import("./components/productDetails"));
 import ProductDetails from "./components/productDetails";
+import PdpSlider from "components/PdpSlider";
 import activeGrid from "images/plpIcons/active_grid.svg";
 import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
@@ -156,13 +157,13 @@ class PDPContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
-    if (
-      !this.props.device.mobile &&
-      this.imageOffsets.length < 1 &&
-      this.props.data
-    ) {
-      this.getImageOffset();
-    }
+    // if (
+    //   !this.props.device.mobile &&
+    //   this.imageOffsets.length < 1 &&
+    //   this.props.data
+    // ) {
+    //   this.getImageOffset();
+    // }
     dataLayer.push(function(this: any) {
       this.reset();
     });
@@ -459,42 +460,43 @@ class PDPContainer extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   };
 
-  getImageOffset = () => {
-    const productImages = this.getProductImagesData();
-    productImages?.map((image, index) => {
-      const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
-      const { clientHeight } = ele;
-      this.imageOffsets[index] = clientHeight;
-    });
-  };
+  // getImageOffset = () => {
+  // const productImages = this.getProductImagesData();
+  // productImages?.map((image, index) => {
+  //   const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
+  //   const { clientHeight } = ele;
+  //   this.imageOffsets[index] = clientHeight;
+  // });
+  // };
 
   getProductImages() {
     const productImages = this.getProductImagesData();
     if (productImages.length > 0) {
-      return productImages?.map((image, index) => {
-        const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
-          const ele = event.currentTarget;
-          const { naturalHeight, naturalWidth } = ele;
-          const height = (ele.width * naturalHeight) / naturalWidth;
-          this.imageOffsets[index] = height;
-        };
+      const img = productImages?.[this.state.activeImage];
+      // return productImages?.map((image, index) => {
+      const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
+        const ele = event.currentTarget;
+        const { naturalHeight, naturalWidth } = ele;
+        const height = (ele.width * naturalHeight) / naturalWidth;
+        this.imageOffsets[0] = height;
+      };
 
-        return (
-          <div
-            className={styles.productImageContainer}
-            key={image.id}
-            id={`img-${image.id}`}
-          >
-            <PdpImage
-              alt={this.props.data.altText || this.props.data.title}
-              {...image}
-              index={index}
-              onClick={this.onImageClick}
-              onLoad={onImageLoad}
-            />
-          </div>
-        );
-      });
+      return (
+        <div
+          className={styles.productImageContainer}
+          key={img.id}
+          id={`img-${img.id}`}
+        >
+          <PdpImage
+            alt={this.props.data.altText || this.props.data.title}
+            {...img}
+            index={this.state.activeImage}
+            onClick={this.onImageClick}
+            onLoad={onImageLoad}
+          />
+        </div>
+      );
+      // });
     } else {
       return [1, 2, 3].map((image, index) => {
         return (
@@ -639,18 +641,18 @@ class PDPContainer extends React.Component<Props, State> {
     );
   }
   onSliderImageClick = (index: number) => {
-    const images = this.getProductImagesData();
-    const { id } = images[index];
-    const imageContainer = document.getElementById(`img-${id}`);
+    // const images = this.getProductImagesData();
+    // const { id } = images[index];
+    // const imageContainer = document.getElementById(`img-${id}`);
 
-    if (!imageContainer) {
-      return;
-    }
+    // if (!imageContainer) {
+    //   return;
+    // }
 
-    const { top } = imageContainer?.getBoundingClientRect();
+    // const { top } = imageContainer?.getBoundingClientRect();
 
-    const scrollBy = top - PDP_TOP_OFFSET;
-    window.scrollBy(0, scrollBy);
+    // const scrollBy = top - PDP_TOP_OFFSET;
+    // window.scrollBy(0, scrollBy);
 
     this.setState({
       activeImage: index
@@ -756,8 +758,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       currency,
       device: { mobile },
-      data,
-      showTimer
+      data
     } = this.props;
     return data ? (
       <>
@@ -1118,7 +1119,7 @@ class PDPContainer extends React.Component<Props, State> {
                 { [styles.tabletSliderContainer]: tablet }
               )}
             >
-              <MobileSlider val={this.state.goToIndex}>
+              <MobileSlider val={this.state.goToIndex} type={"pdp"}>
                 {mobileSlides}
               </MobileSlider>
               {this.state.showLooks && mobile && (
@@ -1132,7 +1133,7 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             </div>
           )}
-          {!mobile && (
+          {/* {!mobile && (
             <div
               className={cs(
                 bootstrap.colMd1,
@@ -1153,19 +1154,33 @@ class PDPContainer extends React.Component<Props, State> {
                   )}
                   activeIndex={activeImage}
                   onImageClick={this.onSliderImageClick}
-                />
+                /> 
               </div>
             </div>
-          )}
+          )} */}
           {!mobile && (
             <div
               className={cs(
-                bootstrap.colMd4,
+                bootstrap.colMd5,
                 bootstrap.dNone,
-                bootstrap.dMdBlock
+                bootstrap.dMdBlock,
+                bootstrap.offsetMd1
               )}
             >
               {this.getProductImages()}
+              {images && (
+                <PdpSlider
+                  alt={data.altText || data.title}
+                  images={images}
+                  className={cs(
+                    bootstrap.colSm10,
+                    bootstrap.offsetSm1,
+                    bootstrap.offsetMd0
+                  )}
+                  activeIndex={activeImage}
+                  onImageClick={this.onSliderImageClick}
+                />
+              )}
               {this.state.showLooks && !mobile && (
                 <div
                   id="looks-btn"

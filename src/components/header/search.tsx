@@ -314,13 +314,23 @@ class Search extends React.Component<Props, State> {
                   onChange={this.handleChange.bind(this)}
                 />
                 <span
-                  className={styles.linkResults}
+                  className={cs(styles.linkResults, {
+                    [styles.mobileLinkResults]: mobile
+                  })}
                   onClick={this.onClickSearch}
                 >
                   {`view all results${
                     this.state.count ? `  (${this.state.count})` : ""
                   }`}
                 </span>
+                <i
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconSearch,
+                    styles.iconSearchPopup
+                  )}
+                  onClick={this.onClickSearch}
+                ></i>
                 {!mobile && (
                   <i
                     className={cs(
@@ -627,9 +637,9 @@ class Search extends React.Component<Props, State> {
                                   )}
                                 </div>
                                 <div className={styles.imageContent}>
-                                  <p className={styles.productH}>
+                                  {/* <p className={styles.productH}>
                                     {data.collections}
-                                  </p>
+                                  </p> */}
                                   <p className={styles.productN}>
                                     <Link
                                       to={data.url}

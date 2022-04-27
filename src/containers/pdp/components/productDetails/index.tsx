@@ -13,12 +13,13 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import PdpQuantity from "components/quantity/pdpquantity";
+import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
 import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
 import PdpAccordion from "components/Accordion/pdpAccordion";
 import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
+
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "components/Loader";
