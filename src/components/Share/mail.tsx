@@ -1,7 +1,6 @@
 import React from "react";
-import globalStyles from "../../styles/global.scss";
-import iconStyles from "../../styles/iconFonts.scss";
-import cs from "classnames";
+import mail from "../../images/mail.svg";
+import styles from "./styles.scss";
 
 type Props = {
   link: string;
@@ -11,8 +10,9 @@ type Props = {
 const Mail: React.FC<Props> = ({ link, className }) => {
   return (
     <p>
-      <span className={globalStyles.gold}>
-        <i className={cs(iconStyles.icon, iconStyles.iconMail)} />
+      {/* <span className={globalStyles.gold}> */}
+      <div>
+        <img src={mail} className={styles.mailIcon} />
         <a
           target="_blank"
           href={link}
@@ -21,7 +21,8 @@ const Mail: React.FC<Props> = ({ link, className }) => {
         >
           Share via email
         </a>
-      </span>
+      </div>
+      {/* </span> */}
     </p>
     // <a
     //   target="_blank"

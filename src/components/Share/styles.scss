@@ -4,9 +4,9 @@
 
 .social-icon {
     width: 40px;
-    display: inline-block;
-    margin-right: 10px;
-
+    display: inline;
+    margin:12px;
+    color: $gold;
     svg {
         width: 100%;
     }
@@ -55,3 +55,13 @@
     letter-spacing: 0.28px;
     color: #9B7D50;
 }
+.copy-icon
+{
+    width:25px;
+    margin: 5px;
+}
+ .mail-icon
+ {
+     width: 25px;
+     margin: 5px;
+ }
