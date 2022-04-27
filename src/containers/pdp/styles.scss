@@ -31,8 +31,8 @@ $pdp-top: $header-height + $secondary-header-height;
 }
 
 .product-image-container {
-    padding-left: 40px;
-
+    // padding-left: 40px;
+    margin-top: 40px;
     img {
         cursor: url(../../images/cursorZoom.png), auto;
     }
