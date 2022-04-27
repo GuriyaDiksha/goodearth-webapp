@@ -29,16 +29,16 @@
 }
 
 .discounted-price {
-    color: $cerise;
-    font-family: $font-Lato;
-    font-size: 22px;
+    color: $gold;
+    font-family: $font-Montserrat;
+    font-size: 20px;
 }
 
 .old-price {
-    font-size: 14px;
+    font-size: 10px;
     text-decoration: line-through;
-    color: tint(#000, 50%) !important;
-    font-family: $font-Lato;
+    color: tint(#9f9f9f, 50%) !important;
+    font-family: $font-Montserrat;
 }
 
 .label {
@@ -77,6 +77,8 @@
     left: 5px;
     font-family: $font-Lora;
     font-size: 14px;
+    font-style: normal;
+    font-weight:normal;
 }
 
 .bridal-ring {
@@ -117,13 +119,17 @@
     @include error-msg();
     font-family: $font-Lora;
     font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
 }
 
 .filler-container {
     display: flex;
     align-items: center;
+    color: $charcoal19;
     a {
         text-decoration: underline;
+        color: $charcoal19;
     }
 }
 .cushion-error
@@ -164,7 +170,6 @@
 .sku {
     @include pdp_breadcrumbs();
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 @media screen and (max-width: 992px) {
@@ -280,6 +285,7 @@
     text-transform: none;
     letter-spacing: 1px;
     cursor: pointer;
+    font-family: $font-Montserrat;
 }
 .mobile-margin{
     margin-top: 5px;
@@ -287,23 +293,23 @@
 .compliance-container {
     align-items: flex-start;
     .compliance {
-        font-family: 'LatoFont';
-        font-size: 13px;
-        color: #9C7D50;
-        letter-spacing: .5px;
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        color: $gold;
+        letter-spacing: .36px;
         p{
-            font-family: 'LatoFont';
-            font-size: 13px;
-            color: #9C7D50;
-            letter-spacing: .5px;
+            font-family: $font-Montserrat;
+            font-size: 12px;
+            color: $gold;
+            letter-spacing: .36px;
             a{
-                color: #9C7D50;
+                color: $gold;
                 text-decoration: underline;
                 cursor: pointer;
             }
         }
         a{
-            color: #9C7D50;
+            color: $gold;
             text-decoration: underline;
             cursor: pointer;
         }

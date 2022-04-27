@@ -15,5 +15,8 @@ export type Props = {
   headerClassName?: string;
   bodyClassName?: string;
   headerClosedClassName?: string;
+  openClass?: string;
+  closedClass?: string;
   setHideScroll?: any;
+  headerOpenClassName?: string;
 };

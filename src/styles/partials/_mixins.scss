@@ -234,50 +234,92 @@
   line-height: 30px;
 }
 
+// @mixin pdp_prod_title {
+//   font-size: 18px;
+//   color: #000;
+//   font-family: $font-Lato;
+//   letter-spacing: 0.5px;
+// }
 @mixin pdp_prod_title {
-  font-size: 18px;
-  color: #000;
-  font-family: $font-Lato;
-  letter-spacing: 0.5px;
+  font-size: 24px;
+  color: $charcoal19;
+  font-family: $font-Lora;
+  letter-spacing: 0.48px;
 }
 
+// @mixin pdp_label {
+//   font-family: $font-Lato;
+//   font-size: 9px;
+//   text-transform: uppercase;
+//   color: tint(#000, 70%);
+//   letter-spacing: 2px;
+// }
 @mixin pdp_label {
-  font-family: $font-Lato;
-  font-size: 9px;
-  text-transform: uppercase;
-  color: tint(#000, 70%);
-  letter-spacing: 2px;
-}
-
-@mixin cta_white {
-  font-weight: bold;
+  font-family: $font-Montserrat;
   font-size: 12px;
   text-transform: uppercase;
-  font-family: $font-Lato;
-  letter-spacing: 1px;
+  color: $charcoal19;
+  letter-spacing: 0.36px;
 }
 
-@mixin pdp_copy_head {
-  font-size: 13px;
-  font-family: $font-Lato;
+// @mixin cta_white {
+//   font-weight: bold;
+//   font-size: 12px;
+//   text-transform: uppercase;
+//   font-family: $font-Lato;
+//   letter-spacing: 1px;
+// }
+@mixin cta_white {
+  font-weight: bold;
+  font-size: 14px;
   text-transform: uppercase;
-  color: #000;
-  letter-spacing: 1px;
+  font-family: $font-Montserrat;
+  letter-spacing: 0.48px;
 }
 
+// @mixin pdp_copy_head {
+//   font-size: 13px;
+//   font-family: $font-Lato;
+//   text-transform: uppercase;
+//   color: #000;
+//   letter-spacing: 1px;
+// }
+@mixin pdp_copy_head {
+  font-weight: bold;
+  font-size: 14px;
+  font-family: $font-Montserrat;
+  text-transform: uppercase;
+  color: $charcoal19;
+  letter-spacing: 0.36px;
+}
+
+// @mixin pdp_copy_body {
+//   font-size: 15px;
+//   font-family: $font-Serif;
+//   color: #000;
+//   text-transform: none;
+//   //line-height: 20px;
+//   margin-top: 15px;
+// }
 @mixin pdp_copy_body {
-  font-size: 15px;
-  font-family: $font-Serif;
-  color: #000;
+  font-size: 12px;
+  font-family: $font-Montserrat;
+  color: $charcoal19;
   text-transform: none;
   //line-height: 20px;
   margin-top: 15px;
+  letter-spacing: 0.36px;
 }
-
+// @mixin pdp_prod_title_mobile {
+//   font-size: 16px;
+//   font-family: $font-Lato;
+//   color: #000;
+//   text-transform: capitalize;
+// }
 @mixin pdp_prod_title_mobile {
-  font-size: 16px;
-  font-family: $font-Lato;
-  color: #000;
+  font-size: 24px;
+  font-family: $font-Lora;
+  color: $charcoal19;
   text-transform: capitalize;
 }
 
