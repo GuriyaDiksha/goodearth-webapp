@@ -242,7 +242,7 @@
 // }
 @mixin pdp_prod_title {
   font-size: 24px;
-  color:$charcoal19;
+  color: $charcoal19;
   font-family: $font-Lora;
   letter-spacing: 0.48px;
 }
@@ -274,9 +274,8 @@
   font-size: 14px;
   text-transform: uppercase;
   font-family: $font-Montserrat;
-  // letter-spacing: px;
+  letter-spacing: 0.48px;
 }
-
 
 // @mixin pdp_copy_head {
 //   font-size: 13px;
@@ -294,26 +293,23 @@
   letter-spacing: 0.36px;
 }
 
-
 // @mixin pdp_copy_body {
 //   font-size: 15px;
 //   font-family: $font-Serif;
 //   color: #000;
 //   text-transform: none;
-//   line-height: 20px;
+//   //line-height: 20px;
 //   margin-top: 15px;
 // }
-
 @mixin pdp_copy_body {
   font-size: 12px;
   font-family: $font-Montserrat;
-  color:$charcoal19;
+  color: $charcoal19;
   text-transform: none;
   //line-height: 20px;
   margin-top: 15px;
   letter-spacing: 0.36px;
 }
-
 // @mixin pdp_prod_title_mobile {
 //   font-size: 16px;
 //   font-family: $font-Lato;
@@ -323,9 +319,10 @@
 @mixin pdp_prod_title_mobile {
   font-size: 24px;
   font-family: $font-Lora;
-  color:$charcoal19;
+  color: $charcoal19;
   text-transform: capitalize;
 }
+
 @mixin plp_prod_name_desktop {
   font-size: 14px;
   font-family: $font-Lato;

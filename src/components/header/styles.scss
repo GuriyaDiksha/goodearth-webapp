@@ -23,7 +23,7 @@
   z-index: 6;
   width: 100%;
   background-color: rgb(249, 248, 245);
-  height: 50px;
+  height: 60px;
   transition: bottom 0.3s;
   &.hide {
     bottom: -50px;
@@ -916,6 +916,9 @@ a {
     cursor: pointer;
     @include more-details();
     font-size: 10px;
+    &.gold-color{
+      color: #9C7D50
+    }
   }
   .icon-search-popup {
     cursor: pointer;
@@ -1116,9 +1119,9 @@ input {
 font-size: 20px;
 letter-spacing: 1px;
 color: tint(#000, 50%);
-span {
-  color: #9C7D50;
-}
+  span {
+    color: $cerise;
+  }
 }
 
 @media screen and (max-width: 992px) {
@@ -1139,6 +1142,10 @@ span {
     .link-results {
       right: 12%;
       top: 15%;
+      &.mobile-link-results{
+        right: 12%;
+        font-size: 9px;
+      }
     }
   }
 }
