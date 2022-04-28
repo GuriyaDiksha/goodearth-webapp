@@ -979,7 +979,7 @@ class PLP extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
-        {mobile && this.state.count > 0 && (
+        {mobile && this.state.count > -1 && (
           <ProductCounter
             current={this.state.count}
             total={this.props.data.results.data.length}
