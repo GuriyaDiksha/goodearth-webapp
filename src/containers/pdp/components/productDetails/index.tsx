@@ -95,7 +95,8 @@ const ProductDetails: React.FC<Props> = ({
     badgeType,
     invisibleFields,
     partner,
-    sizeChart
+    sizeChart,
+    badgeMessage
   },
   data,
   corporatePDP,
