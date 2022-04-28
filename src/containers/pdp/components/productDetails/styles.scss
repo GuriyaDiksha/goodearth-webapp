@@ -170,6 +170,9 @@
 .sku {
     @include pdp_breadcrumbs();
     text-transform: uppercase;
+    font-family: $font-Montserrat;
+    font-size: 10px;
+    color: #9f9f9f;
 }
 
 @media screen and (max-width: 992px) {
