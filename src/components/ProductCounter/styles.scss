@@ -21,13 +21,21 @@ z-index: 10;
         display:flex;
         border: none;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
         padding: 0 10px;
         .counter-number {
             font-family: $font-Lato;
             display:flex;
             letter-spacing: 0px;
             border:none;
+        }
+        .arrow-container{
+            height: 19px;
+            width: 19px;
+            background-color: #F7F7F7;
+            display: flex;
+            justify-content: space-around;
+            border-radius: 100%;
         }
         .icon {
             font-size: 20px;
