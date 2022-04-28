@@ -23,12 +23,16 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr />);
     } else {
-      const date = moment(mydata[0] ? mydata[0].date : new Date()).format(
+      const date = moment(mydata[0] ? mydata[0]?.date : new Date()).format(
         "D-MMM-YYYY"
       );
       html.push(
@@ -53,7 +57,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr />);
@@ -61,7 +69,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr className={styles.cerisehr} />);
@@ -79,15 +91,27 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.whitebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr />);
     } else if (status > 3) {
+      console.log(
+        moment(mydata[0]?.date).format("D-MMM-YYYY"),
+        mydata[0]?.date
+      );
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr className={styles.cerisehr} />);
@@ -112,7 +136,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr className={styles.cerisehr} />);
@@ -121,7 +149,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
         <div className={styles.relative}>
           <div className={cs(styles.mainBlock, styles.whitebg)}>
             <p>{text}</p>
-            <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
           </div>
           <div className={styles.txtRight}>
             <img src={liveImg} width="30" /> Live Status Update:{" "}
@@ -150,7 +182,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
     } else {
