@@ -126,12 +126,12 @@ class Search extends React.Component<Props, State> {
   };
 
   handleChange = (e: any) => {
-    const regex = /^[A-Za-z0-9 ]+$/;
-    const key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-    if (!regex.test(key)) {
-      e.preventDefault();
-      return false;
-    }
+    // const regex = /^[A-Za-z0-9 ]+$/;
+    // const key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    // if (!regex.test(key)) {
+    //   e.preventDefault();
+    //   return false;
+    // }
     this.setState({ searchValue: e.target.value });
   };
 
@@ -208,14 +208,15 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValue = (event: any) => {
-    const regex = /^[A-Za-z0-9% ]+$/;
-    const key = String.fromCharCode(
-      !event.charCode ? event.which : event.charCode
-    );
+    // const regex = /^[A-Za-z0-9% ]+$/;
+    // const key = String.fromCharCode(
+    //   !event.charCode ? event.which : event.charCode
+    // );
     if (
-      event.type != "paste" &&
-      !regex.test(key) &&
-      (!event.charCode ? event.which : event.charCode) != 13
+      event.type != "paste"
+      // &&
+      // !regex.test(key) &&
+      // (!event.charCode ? event.which : event.charCode) != 13
     ) {
       event.preventDefault();
       return false;
@@ -226,22 +227,21 @@ class Search extends React.Component<Props, State> {
     if (event.target.value.trim().length > 2) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         this.props.history.push(
-          "/search?q=" +
-            encodeURIComponent(event.target.value.replace(/[^A-Z0-9% ]+/i, ""))
+          "/search?q=" + encodeURIComponent(event.target.value)
         );
         this.closeSearch();
         return false;
       }
       this.setState({
-        searchValue: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
+        searchValue: event.target.value
       });
-      this.getSearchDataApi(event.target.value.replace(/[^A-Z0-9% ]+/i, ""));
+      this.getSearchDataApi(event.target.value);
     } else {
       this.setState({
         productData: [],
         count: 0,
         url: "/search",
-        searchValue: event.target.value.replace(/[^A-Z0-9% ]+/i, "")
+        searchValue: event.target.value
       });
     }
   };
@@ -308,8 +308,8 @@ class Search extends React.Component<Props, State> {
                   type="text"
                   placeholder="Looking for something?"
                   ref={this.searchBoxRef}
-                  onKeyPress={this.checkSearchValue}
-                  onPaste={this.checkSearchValue}
+                  // onKeyPress={this.checkSearchValue}
+                  // onPaste={this.checkSearchValue}
                   onKeyUp={this.checkSearchValueUp}
                   onChange={this.handleChange.bind(this)}
                 />
