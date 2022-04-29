@@ -710,8 +710,7 @@ const ProductDetails: React.FC<Props> = ({
       <div className={bootstrap.row}>
         <div
           className={cs(
-            bootstrap.col10,
-            bootstrap.offset1,
+            bootstrap.col11,
             bootstrap.colMd11,
             styles.sideContainer,
             { [styles.marginT0]: withBadge }
@@ -758,16 +757,14 @@ const ProductDetails: React.FC<Props> = ({
                 </Link>
               )}
             </div>
-            <div
-              className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}
-            >
+            <div className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}>
               {productTitle}
               {subtitle && <p>({subtitle.split(")")[0]})</p>}
             </div>
             {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
               <div
                 className={cs(
-                  bootstrap.col12,
+                  bootstrap.col4,
                   bootstrap.colMd4,
                   styles.priceContainer,
                   { [globalStyles.textCenter]: !mobile }
@@ -946,7 +943,8 @@ const ProductDetails: React.FC<Props> = ({
             </span>
           )}
           <div
-            className={cs(bootstrap.row, globalStyles.marginT30, {
+            className={cs(bootstrap.row, {
+              [globalStyles.marginT30]: !mobile,
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
@@ -1156,7 +1154,6 @@ const ProductDetails: React.FC<Props> = ({
                 className={styles.shopAvailability}
                 onClick={checkAvailability}
               >
-                {" "}
                 Check in-shop availability{" "}
               </span>
             </div>
@@ -1189,7 +1186,7 @@ const ProductDetails: React.FC<Props> = ({
           <div
             className={cs(
               bootstrap.col12,
-              bootstrap.colMd9,
+              bootstrap.colMd12,
               globalStyles.voffset3
             )}
           >
