@@ -356,7 +356,7 @@ class PLP extends React.Component<
         if (element) {
           const productID = element.children[0].children[0].id;
           const index = cardIDs.findIndex((e: string) => e == productID);
-          if (index > -1) {
+          if (index > -1 && !this.state.flag) {
             this.setState({ count: index + 1 });
           }
         } else {
@@ -980,10 +980,7 @@ class PLP extends React.Component<
           />
         )}
         {mobile && this.state.count > -1 && (
-          <ProductCounter
-            current={this.state.count}
-            total={this.props.data.results.data.length}
-          />
+          <ProductCounter current={this.state.count} total={count} />
         )}
       </div>
     );
