@@ -10,14 +10,19 @@
 
 .side-container{
     margin-top: 30px;
+    margin-left:8.33333%
 }
 
 .title {
     @include pdp_prod_title();
 
-     p {
-        font-style: italic;
-    }
+         p {
+            // font-style: italic;
+            font-family: $font-Montserrat;
+            font-size: 14px;
+            font-style: normal;
+            font-weight:normal;
+           }
 }
 
 .price-container {
@@ -25,7 +30,9 @@
     @include pdp_prod_title();
     font-family: $font-Montserrat;
     font-size: 20px;
-    font-weight: bold;
+    // font-weight: bold;
+    text-align: right !important;
+    padding: 10px 0px;
 }
 
 .discounted-price {
@@ -50,8 +57,9 @@
         color: #000;
         text-decoration: underline;
         text-transform: none;
-        letter-spacing: 1px;
+        // letter-spacing: 1px;
         cursor: pointer;
+        text-underline-offset: 2px;
     }
 
     &.colour {
@@ -79,6 +87,7 @@
     font-size: 14px;
     font-style: normal;
     font-weight:normal;
+    letter-spacing: 0.28px;
 }
 
 .bridal-ring {
@@ -130,6 +139,7 @@
     a {
         text-decoration: underline;
         color: $charcoal19;
+        text-underline-offset: 2px;
     }
 }
 .cushion-error
@@ -142,7 +152,7 @@
 }
 .accordion-header {
     @include pdp_copy_head();
-    font-weight: bold;
+    //   font-weight: bold;
    // margin-top: 20px;
 }
 
@@ -183,7 +193,7 @@
 
     .title, .price-container {
         @include pdp_prod_title_mobile();
-        padding-bottom: 10px;
+        // padding-bottom: 10px;
     }
     .price-container{
         @include pdp_prod_title_mobile();
@@ -226,10 +236,15 @@
         padding: 0;
 
         .mobile-wishlist-icon {
-            font-size: 36px;
+            font-size: 30px;
             color: tint(#000,60%);
             line-height: 50px;
         }
+    }
+
+    .side-container
+    {
+        margin-left: 20px;
     }
 
 }
@@ -289,6 +304,7 @@
     letter-spacing: 1px;
     cursor: pointer;
     font-family: $font-Montserrat;
+    text-underline-offset: 2px;
 }
 .mobile-margin{
     margin-top: 5px;
@@ -309,12 +325,14 @@
                 color: $gold;
                 text-decoration: underline;
                 cursor: pointer;
+                text-underline-offset: 2px;
             }
         }
         a{
             color: $gold;
             text-decoration: underline;
             cursor: pointer;
+            text-underline-offset: 2px;
         }
     }
 }
