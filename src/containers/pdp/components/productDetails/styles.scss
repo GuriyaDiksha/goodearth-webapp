@@ -88,6 +88,7 @@
     font-style: normal;
     font-weight:normal;
     letter-spacing: 0.28px;
+    padding: 3px 0px 4px 0px;
 }
 
 .bridal-ring {
@@ -172,9 +173,10 @@
 }
 .accordion-body {
     @include pdp_copy_body();
-    letter-spacing: .5px;
+    // letter-spacing: .5px;
     border-bottom: lightgrey solid 1px;
     //padding: 10px;
+    font-weight:normal;
 }
 
 .sku {
@@ -245,6 +247,11 @@
     .side-container
     {
         margin-left: 20px;
+    }
+
+    .padding
+    {
+    padding: 2px 0px 0px 0px;
     }
 
 }
@@ -335,4 +342,8 @@
             text-underline-offset: 2px;
         }
     }
+}
+.wishlist-text
+{
+    padding: 8px;
 }
