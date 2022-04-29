@@ -594,7 +594,7 @@ class PDPContainer extends React.Component<Props, State> {
       data: { collectionProducts = [] },
       device: { mobile }
     } = this.props;
-
+    console.log(collectionProducts);
     if (
       collectionProducts.length < (mobile ? 2 : 4) ||
       typeof document == "undefined"
