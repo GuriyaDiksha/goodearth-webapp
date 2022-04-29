@@ -31,17 +31,6 @@ export interface CartItems {
   total: string;
   totalWithOutGCItems: number;
 }
-export type CartProps = {
-  cart: Basket;
-  currency: Currency;
-  active: boolean;
-  toggleBag: () => void;
-  showShipping: (
-    remainingAmount: number,
-    freeShippingApplicable: number
-  ) => void;
-};
-
 export interface State {
   stockError: string;
   shipping: boolean;
