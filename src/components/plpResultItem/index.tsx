@@ -196,11 +196,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
       </div>
       <div className={styles.imageContent}>
-        {isCollection ? (
-          <p className={styles.collectionName}>{product.collections}</p>
+        {/* {isCollection ? (
+          <p className={styles.collectionName}>{product.collection}</p>
         ) : (
           ""
-        )}
+        )} */}
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>

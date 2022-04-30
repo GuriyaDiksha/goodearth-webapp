@@ -41,7 +41,7 @@ const CartItems: React.FC<BasketItem> = memo(
 
     const {
       images,
-      collections,
+      collection,
       title,
       url,
       priceRecords,
@@ -94,7 +94,7 @@ const CartItems: React.FC<BasketItem> = memo(
           quantity: quantity,
           price: +price,
           Currency: currency,
-          "Collection name": collections,
+          "Collection name": collection,
           "Category name": categories[0]
         });
         dataLayer.push({
@@ -310,9 +310,7 @@ const CartItems: React.FC<BasketItem> = memo(
               <div className={cs(bootstrap.colLg6, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div>
-                    <div className={styles.collectionName}>
-                      {collections[0]}
-                    </div>
+                    <div className={styles.collectionName}>{collection}</div>
                     <div className={styles.productName}>
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>

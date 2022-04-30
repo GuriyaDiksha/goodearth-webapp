@@ -71,7 +71,8 @@ const BaseDropdownMenu = ({
       <div
         className={cs(
           styles.label,
-          { [styles.disabled]: disabled }
+          { [styles.disabled]: disabled },
+          { [styles.menuClose]: !menuOpen }
           // { [styles.goldColor]: id == "currency-dropdown-sidemenu" },
           // { [globalStyles.cerise]: id == "currency-dropdown-sidemenu" }
         )}
