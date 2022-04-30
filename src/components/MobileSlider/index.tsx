@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cs from "classnames";
 import "./styles.css";
 // import globalStyles from "styles/global.scss";
 
 import Slider, { Settings } from "react-slick";
+import Counter from "components/ProductCounter/counter";
 
 type Props = {
   dots?: boolean;
@@ -17,6 +18,7 @@ const MobileSlider: React.FC<Props> = ({
   val,
   type
 }) => {
+  const [counter, setCounter] = useState(1);
   let set = {};
   const settings: Settings = {
     dots: true,
@@ -65,9 +67,18 @@ const MobileSlider: React.FC<Props> = ({
   return (
     <div className={cs("mobile-slider", { "pdp-slider": type == "pdp" })}>
       {Object.keys(children || {}).length > 0 && (
-        <Slider {...{ ...settings, ...set }} ref={sliderRef}>
+        <Slider
+          {...{ ...settings, ...set }}
+          ref={sliderRef}
+          afterChange={index => {
+            setCounter(index + 1);
+          }}
+        >
           {children}
         </Slider>
+      )}
+      {type == "pdp" && (
+        <Counter current={counter} total={Object.keys(children || {}).length} />
       )}
     </div>
   );
