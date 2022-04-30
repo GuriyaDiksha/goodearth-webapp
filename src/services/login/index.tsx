@@ -546,7 +546,7 @@ export default {
     });
     return res;
   },
-  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: number) => {
+  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: string) => {
     const res = await API.post<{
       success: boolean;
       expired: boolean;
