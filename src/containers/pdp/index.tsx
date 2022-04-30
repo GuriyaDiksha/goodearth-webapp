@@ -55,6 +55,7 @@ import activeGrid from "images/plpIcons/active_grid.svg";
 import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
+import Counter from "components/ProductCounter/counter";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -494,6 +495,12 @@ class PDPContainer extends React.Component<Props, State> {
             onClick={this.onImageClick}
             onLoad={onImageLoad}
           />
+          <div>
+            <Counter
+              current={this.state.activeImage + 1}
+              total={productImages.length}
+            />
+          </div>
         </div>
       );
       // });
