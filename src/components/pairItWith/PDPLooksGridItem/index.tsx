@@ -192,7 +192,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       </div>
       <div className={styles.imageContent}>
         {isCollection ? (
-          <p className={styles.collectionName}>{product.collections}</p>
+          <p className={styles.collectionName}>{product.collection}</p>
         ) : (
           ""
         )}

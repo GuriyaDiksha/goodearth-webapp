@@ -145,7 +145,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           />
         </Link>
         <div className={styles.moreBlock}>
-          <p className={styles.productH}>{item.collectionName}</p>
+          <p className={styles.productH}>{item.collection}</p>
           <p className={styles.productN}>
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>

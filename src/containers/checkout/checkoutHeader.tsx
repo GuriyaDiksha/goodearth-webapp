@@ -173,13 +173,14 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
 
   render() {
     const { meta, mobile, currency } = this.props;
-    const items: DropdownItem[] = this.props.currencyList.map(data => {
+    const curryList = this.props.currencyList.map(data => {
       // return data.currencyCode
       return {
         label: data.currencyCode + " " + data.currencySymbol,
         value: data.currencyCode
       };
     });
+    const items: DropdownItem[] = curryList;
 
     let heading = null;
     if (this.props.location.pathname.indexOf("cart") > -1) {
