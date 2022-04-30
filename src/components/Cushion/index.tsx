@@ -4,13 +4,12 @@ import cs from "classnames";
 import { State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
-// import { NavLink, Link } from "react-router-dom";
-import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
 import LazyImage from "components/LazyImage";
+import CartSlider from "components/CartSlider";
 // import * as util from "../../utils/validate";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -39,7 +38,11 @@ class CushionBag extends React.Component<Props, State> {
       shipping: false,
       value: 1,
       freeShipping: false, // for all_free_shipping_india
-      isSuspended: true // for is_covid19
+      isSuspended: true, // for is_covid19
+      goToIndex: {
+        index: -1,
+        value: ""
+      }
     };
   }
 
@@ -68,7 +71,7 @@ class CushionBag extends React.Component<Props, State> {
       });
     }
 
-    return <div>{mobileSlides}</div>;
+    return <CartSlider val={this.state.goToIndex}>{mobileSlides}</CartSlider>;
   }
 
   getProductImagesData = () => {
@@ -131,6 +134,7 @@ class CushionBag extends React.Component<Props, State> {
             { [styles.active]: show },
             { [styles.smoothOut]: !show }
           )}
+          id="cartslider"
         >
           <div
             className={cs(

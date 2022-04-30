@@ -37,4 +37,5 @@ export interface State {
   value: number;
   freeShipping: boolean;
   isSuspended: boolean;
+  goToIndex: any;
 }

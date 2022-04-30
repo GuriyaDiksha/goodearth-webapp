@@ -1,0 +1,25 @@
+
+.slick-active .pageritem {
+    opacity: 1;
+    background-color: #4C4C4C;
+    border-radius: 0;
+    height: 2px;
+    padding: 0px;
+    /* top: 0px; */
+    margin-bottom: 15px;
+}
+
+.pdp-slider .slick-dots {
+    position: relative;
+    width: 95%;
+    display: block;
+    bottom: 0;
+    background-color: #D8D8D8;
+    height: 2px;
+    top: 4px;
+    left: 10px;
+}
+
+.pdp-slider .slick-next:hover {
+    background-color: #fff;
+}
