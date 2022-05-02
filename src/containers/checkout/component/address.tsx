@@ -57,7 +57,9 @@ const AddressSection: React.FC<AddressProps & {
   const amountPrice = {
     INR: 200000,
     USD: 2500,
-    GBP: 1800
+    GBP: 1800,
+    AED: 9300,
+    SGD: 3500
   };
 
   const [sameAsShipping, setSameAsShipping] = useState(sameShipping);
