@@ -588,9 +588,11 @@
       padding: 0;
 
       .mobile-wishlist-icon {
-          font-size: 30px;
-          color: tint(#000,60%);
-          line-height: 50px;
+        font-size: 31px;
+        cursor: pointer;
+        margin-top: 16px;
+        margin-bottom: 5px;
+        margin-left: 9px;
       }
   }
 
@@ -696,3 +698,12 @@ margin-top: 0;
 .inner-container {
   padding: 0px 10px;
 }
+
+.mobile-wishlist-icon {
+  font-size: 31px !important;
+  cursor: pointer !important;
+  margin-top: 16px !important;
+  margin-bottom: 5px !important;
+  margin-left: 9px !important;
+}
+
