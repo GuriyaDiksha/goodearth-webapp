@@ -309,7 +309,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   >
                     <div className={cs(styles.imageContent, styles.textLeft)}>
                       <p className={cs(styles.productH, styles.itemPadding)}>
-                        {item.collection}
+                        {item.product.collection}
                       </p>
                       <p className={cs(styles.productN, styles.itemPadding)}>
                         {item.title}
