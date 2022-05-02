@@ -24,6 +24,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import PdpButton from "components/Button/pdpButton";
 import { updateQuickviewId } from "actions/quickview";
+import { updatefillerProduct, updateshowFiller } from "actions/filler";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -51,6 +52,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     updatequickview: () => {
       dispatch(updateQuickviewId(0));
+      dispatch(updateshowFiller(false));
+    },
+    updateshowFiller: () => {
+      dispatch(updateshowFiller(false));
     }
   };
 };
@@ -620,7 +625,9 @@ class CushionBag extends React.Component<Props, State> {
             <div className={styles.heading}>PURCHASE INSERT</div>
             <div
               className={globalStyles.pointer}
-              // onClick={() => {}}
+              onClick={() => {
+                this.props.updateshowFiller();
+              }}
             >
               <i
                 className={cs(
