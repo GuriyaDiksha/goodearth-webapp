@@ -11,13 +11,15 @@ const ProductCounter: React.FC<ProductCounterProps> = ({ current, total }) => {
         <div className={cs(styles.counterNumber)}>
           <div>{current}</div>/<div>{total}</div>
         </div>
-        <img
-          alt="arrow-up"
-          src={arrow}
-          style={{
-            width: "10px"
-          }}
-        ></img>
+        <div className={cs(styles.arrowContainer)}>
+          <img
+            alt="arrow-up"
+            src={arrow}
+            style={{
+              width: "8px"
+            }}
+          ></img>
+        </div>
       </div>
     </div>
   );
