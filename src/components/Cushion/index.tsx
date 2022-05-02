@@ -24,7 +24,8 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import PdpButton from "components/Button/pdpButton";
 import { updateQuickviewId } from "actions/quickview";
-import { updatefillerProduct, updateshowFiller } from "actions/filler";
+import { updateshowFiller } from "actions/filler";
+import WishlistButton from "components/WishlistButton";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -377,22 +378,6 @@ class CushionBag extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-
-          {/* <WishlistButtonpdp
-            gtmListType={gtmListType}
-            title={title}
-            parentWidth={true}
-            childAttributes={childAttributes}
-            priceRecords={priceRecords}
-            discountedPriceRecords={discountedPriceRecords}
-            categories={categories}
-            id={id}
-            showText={!mobile}
-            size={selectedSize ? selectedSize.size : undefined}
-            iconClassName={cs({
-              [styles.mobileWishlistIcon]: mobile
-            })}
-          /> */}
         </div>
       </div>
     );
@@ -537,7 +522,14 @@ class CushionBag extends React.Component<Props, State> {
     const {
       data: { childAttributes }
     } = this.props.filler;
-    // const {mobile,isSale, currency} = this.props;
+    const {
+      mobile,
+      isSale,
+      currency,
+      filler: {
+        data: { title, categories, id, priceRecords, discountedPriceRecords }
+      }
+    } = this.props;
     const { selectedSize, apiTrigger, addedToBag } = this.state;
     let allOutOfStock = true;
     childAttributes?.forEach(({ stock }) => {
@@ -579,8 +571,25 @@ class CushionBag extends React.Component<Props, State> {
 
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={cs(styles.iconCart, globalStyles.pointer)}></div>
-            <div>
-              <PdpButton label={buttonText} onClick={action} />
+            <div className={bootstrap.row}>
+              <div className={bootstrap.col10}>
+                <PdpButton label={buttonText} onClick={action} />
+              </div>
+              <div className={bootstrap.col2}>
+                <WishlistButton
+                  gtmListType={"pdp"}
+                  title={title}
+                  parentWidth={true}
+                  childAttributes={childAttributes}
+                  priceRecords={priceRecords}
+                  discountedPriceRecords={discountedPriceRecords}
+                  categories={categories}
+                  id={id}
+                  showText={false}
+                  size={selectedSize ? selectedSize.size : undefined}
+                  iconClassName={styles.mobileWishlistIcon}
+                />
+              </div>
             </div>
           </div>
         </div>
