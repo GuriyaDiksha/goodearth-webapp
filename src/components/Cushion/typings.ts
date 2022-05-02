@@ -38,4 +38,9 @@ export interface State {
   freeShipping: boolean;
   isSuspended: boolean;
   goToIndex: any;
+  selectedSize: any;
+  sizeError: string;
+  quantity: number;
+  addedToBag: boolean;
+  apiTrigger: boolean;
 }
