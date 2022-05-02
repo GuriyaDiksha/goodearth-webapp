@@ -254,7 +254,7 @@ class CushionBag extends React.Component<Props, State> {
                       >
                         <SizeSelector
                           isCorporatePDP={false}
-                          sizes={childAttributes}
+                          sizes={childAttributes ? childAttributes : []}
                           onChange={this.onSizeSelect}
                           selected={selectedSize ? selectedSize.id : undefined}
                         />
