@@ -340,7 +340,7 @@ class PLP extends React.Component<
 
     const observer = new IntersectionObserver(
       entries => {
-        const maxIndex = -Infinity;
+        let maxIndex = -Infinity;
         let element: any;
         entries.forEach((entry, index) => {
           if (
@@ -351,6 +351,7 @@ class PLP extends React.Component<
             const productID = entry.target.children[0].children[0].id;
             const idx = cardIDs.findIndex((e: string) => e == productID);
             if (idx > maxIndex) {
+              maxIndex = idx;
               element = entry.target;
             }
           }
