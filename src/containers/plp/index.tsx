@@ -166,6 +166,7 @@ class PLP extends React.Component<
         this.setState({ count: -1 });
       }
     }
+    this.setProductCount();
   }
 
   componentWillUnmount() {
@@ -339,25 +340,27 @@ class PLP extends React.Component<
 
     const observer = new IntersectionObserver(
       entries => {
-        let xMax = -Infinity;
-        let yMax = -Infinity;
+        const maxIndex = -Infinity;
         let element: any;
         entries.forEach((entry, index) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
-            const y: number = entry.target.getBoundingClientRect().y;
-            const x: number = entry.target.getBoundingClientRect().x;
-            if (x >= xMax && y >= yMax) {
-              xMax = x;
-              yMax = y;
+          if (
+            entry.isIntersecting &&
+            entry.target.getBoundingClientRect().bottom <
+              window.innerHeight - 50
+          ) {
+            const productID = entry.target.children[0].children[0].id;
+            const idx = cardIDs.findIndex((e: string) => e == productID);
+            if (idx > maxIndex) {
               element = entry.target;
             }
           }
         });
+
         if (element) {
           const productID = element.children[0].children[0].id;
-          const index = cardIDs.findIndex((e: string) => e == productID);
-          if (index > -1 && !this.state.flag) {
-            this.setState({ count: index + 1 });
+          const idx = cardIDs.findIndex((e: string) => e == productID);
+          if (idx > -1 && !this.state.flag) {
+            this.setState({ count: idx + 1 });
           }
         } else {
           if (cards[0].getBoundingClientRect().y > 330) {
@@ -738,13 +741,13 @@ class PLP extends React.Component<
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {})}
               >
-                {/* <span>
+                <span>
                   {count > 1
                     ? (!this.state.corporoateGifting ? count + 1 : count) +
                       " products found"
                     : (!this.state.corporoateGifting ? count + 1 : count) +
                       " product found"}{" "}
-                  </span> */}
+                </span>
               </div>
             )}
             <div
@@ -902,17 +905,26 @@ class PLP extends React.Component<
               <div
                 className={
                   !mobile || this.props.plpMobileView == "grid"
-                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth)
+                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth, {
+                        ["product-container"]: !this.state.corporoateGifting
+                      })
                     : cs(
                         bootstrap.colLg4,
                         bootstrap.col12,
                         styles.setWidth,
-                        styles.listViewContainer
+                        styles.listViewContainer,
+                        { ["product-container"]: !this.state.corporoateGifting }
                       )
                 }
                 key={1}
               >
-                {this.state.corporoateGifting ? "" : <GiftcardItem />}
+                {this.state.corporoateGifting ? (
+                  ""
+                ) : (
+                  <GiftcardItem
+                    isCorporateGifting={!this.state.corporoateGifting}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -980,7 +992,10 @@ class PLP extends React.Component<
           />
         )}
         {mobile && this.state.count > -1 && (
-          <ProductCounter current={this.state.count} total={count} />
+          <ProductCounter
+            current={this.state.count}
+            total={!this.state.corporoateGifting ? count + 1 : count}
+          />
         )}
       </div>
     );
