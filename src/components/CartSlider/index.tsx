@@ -29,7 +29,6 @@ const CartSlider: React.FC<Props> = ({ dots = true, children, val }) => {
         const element: any = document.getElementById("cartslider") || "";
         const screenWidth = element.offsetWidth;
         const total = Object.keys(children || {}).length;
-        console.log(screenWidth, total);
         width = (screenWidth / total - total * 2 - 4) * 0.9 + "px";
       }
       return (
