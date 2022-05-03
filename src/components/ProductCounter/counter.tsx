@@ -8,9 +8,8 @@ const Counter: React.FC<ProductCounterProps> = ({
   total,
   isclass
 }) => {
-  const newclass = isclass ? isclass : styles.counterstyle;
   return (
-    <div className={cs(newclass)}>
+    <div className={cs(styles.counterstyle, isclass)}>
       <div className={cs(styles.counter)}>
         <div className={cs(styles.counterNumber)}>
           <div>{current}</div>/<div>{total}</div>
