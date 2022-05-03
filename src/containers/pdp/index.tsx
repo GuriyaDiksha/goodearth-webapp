@@ -497,6 +497,7 @@ class PDPContainer extends React.Component<Props, State> {
           />
           <div>
             <Counter
+              id="pdp-image-counter"
               current={this.state.activeImage + 1}
               total={productImages.length}
             />
@@ -1168,7 +1169,7 @@ class PDPContainer extends React.Component<Props, State> {
           {!mobile && (
             <div
               className={cs(
-                bootstrap.colMd5,
+                bootstrap.colMd4,
                 bootstrap.dNone,
                 bootstrap.dMdBlock,
                 bootstrap.offsetMd1
