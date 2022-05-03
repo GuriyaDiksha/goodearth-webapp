@@ -296,6 +296,7 @@ class Bag extends React.Component<Props, State> {
       totalWithoutShipping &&
       totalWithoutShipping >= freeShippingThreshold &&
       totalWithoutShipping < freeShippingApplicable &&
+      this.props.currency == "INR" &&
       this.props.cart.shippable
     ) {
       this.props.showShipping(
@@ -334,9 +335,10 @@ class Bag extends React.Component<Props, State> {
       this.state.shipping == false &&
       this.props.cart.shippable
     ) {
-      this.setState({
-        shipping: true
-      });
+      this.props.currency == "INR" &&
+        this.setState({
+          shipping: true
+        });
     } else if (
       totalWithoutShipping &&
       (totalWithoutShipping < freeShippingThreshold ||
@@ -400,6 +402,7 @@ class Bag extends React.Component<Props, State> {
           </div>
           {this.state.shipping &&
           totalWithoutShipping &&
+          this.props.currency == "INR" &&
           totalWithoutShipping >= freeShippingThreshold &&
           totalWithoutShipping < freeShippingApplicable &&
           this.props.cart.shippable ? (
