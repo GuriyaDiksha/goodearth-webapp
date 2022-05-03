@@ -25,7 +25,7 @@ import { POPUP } from "constants/components";
 import PdpButton from "components/Button/pdpButton";
 import { updateQuickviewId } from "actions/quickview";
 import { updateshowFiller } from "actions/filler";
-import WishlistButton from "components/WishlistButton";
+import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -572,11 +572,11 @@ class CushionBag extends React.Component<Props, State> {
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={cs(styles.iconCart, globalStyles.pointer)}></div>
             <div className={bootstrap.row}>
-              <div className={bootstrap.col10}>
+              <div className={bootstrap.col9}>
                 <PdpButton label={buttonText} onClick={action} />
               </div>
-              <div className={bootstrap.col2}>
-                <WishlistButton
+              <div className={bootstrap.col3}>
+                <WishlistButtonpdp
                   gtmListType={"pdp"}
                   title={title}
                   parentWidth={true}

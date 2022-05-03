@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cs from "classnames";
 import "./styles.css";
 // import globalStyles from "styles/global.scss";
-
+import styles from "./styles.scss";
 import Slider, { Settings } from "react-slick";
+import Counter from "components/ProductCounter/counter";
 
 type Props = {
   dots?: boolean;
@@ -21,7 +22,7 @@ const CartSlider: React.FC<Props> = ({ dots = true, children, val }) => {
     useTransform: true,
     cssEase: "ease-in-out"
   };
-
+  const [counter, setCounter] = useState(1);
   const set = {
     customPaging: (index: number) => {
       let width = "0px";
@@ -57,10 +58,23 @@ const CartSlider: React.FC<Props> = ({ dots = true, children, val }) => {
   return (
     <div className={cs("mobile-slider", "pdp-slider")}>
       {Object.keys(children || {}).length > 0 && (
-        <Slider {...{ ...settings, ...set }} ref={sliderRef}>
+        <Slider
+          {...{ ...settings, ...set }}
+          ref={sliderRef}
+          afterChange={index => {
+            setCounter(index + 1);
+          }}
+        >
           {children}
         </Slider>
       )}
+      <div>
+        <Counter
+          current={counter}
+          total={Object.keys(children || {}).length}
+          isclass={styles.countclass}
+        />
+      </div>
     </div>
   );
 };
