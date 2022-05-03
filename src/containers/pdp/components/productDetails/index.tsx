@@ -1057,30 +1057,6 @@ const ProductDetails: React.FC<Props> = ({
             )}
           >
             <div
-              className={cs(bootstrap.col4, globalStyles.textCenter, {
-                [styles.wishlistText]: !mobile,
-                [styles.wishlistBtnContainer]: mobile,
-                [globalStyles.voffset1]: mobile,
-                [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
-              })}
-            >
-              <WishlistButtonpdp
-                gtmListType={gtmListType}
-                title={title}
-                parentWidth={true}
-                childAttributes={childAttributes}
-                priceRecords={priceRecords}
-                discountedPriceRecords={discountedPriceRecords}
-                categories={categories}
-                id={id}
-                showText={!mobile}
-                size={selectedSize ? selectedSize.size : undefined}
-                iconClassName={cs({
-                  [styles.mobileWishlistIcon]: mobile
-                })}
-              />
-            </div>
-            <div
               id="yourElement"
               className={cs(globalStyles.textCenter, globalStyles.voffset1, {
                 [bootstrap.col8]: !corporatePDP,
@@ -1116,6 +1092,30 @@ const ProductDetails: React.FC<Props> = ({
               ) : (
                 ""
               )}
+            </div>
+            <div
+              className={cs(bootstrap.col4, globalStyles.textCenter, {
+                [styles.wishlistText]: !mobile,
+                [styles.wishlistBtnContainer]: mobile,
+                [globalStyles.voffset1]: mobile,
+                [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+              })}
+            >
+              <WishlistButtonpdp
+                gtmListType={gtmListType}
+                title={title}
+                parentWidth={true}
+                childAttributes={childAttributes}
+                priceRecords={priceRecords}
+                discountedPriceRecords={discountedPriceRecords}
+                categories={categories}
+                id={id}
+                showText={!mobile}
+                size={selectedSize ? selectedSize.size : undefined}
+                iconClassName={cs({
+                  [styles.mobileWishlistIcon]: mobile
+                })}
+              />
             </div>
           </div>
           <div
