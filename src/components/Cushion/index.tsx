@@ -40,6 +40,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     showGrowlMessage: async () => {
       valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
     },
+    showerrorMessage: async (text: string) => {
+      valid.showGrowlMessage(dispatch, text);
+    },
     updateComponentModal: (
       component: string,
       props: any,
@@ -236,13 +239,11 @@ class CushionBag extends React.Component<Props, State> {
             {this.showSize() ? (
               !(invisibleFields && invisibleFields.indexOf("size") > -1) && (
                 <div className={cs(bootstrap.row, styles.spacer)}>
-                  <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
+                  <div className={bootstrap.col12}>
                     <div className={bootstrap.row}>
                       <div
                         className={cs(
-                          bootstrap.col12,
-                          bootstrap.colSm3,
-                          { [bootstrap.colMd8]: mobile },
+                          bootstrap.col4,
                           styles.label,
                           styles.size,
                           { [styles.mobileMargin]: mobile }
@@ -250,14 +251,7 @@ class CushionBag extends React.Component<Props, State> {
                       >
                         Size
                       </div>
-                      <div
-                        className={cs(
-                          bootstrap.col12,
-                          { [bootstrap.colMd4]: mobile },
-                          bootstrap.colSm9,
-                          styles.sizeContainer
-                        )}
-                      >
+                      <div className={cs(bootstrap.col8, styles.sizeContainer)}>
                         <SizeSelector
                           isCorporatePDP={false}
                           sizes={childAttributes ? childAttributes : []}
@@ -308,11 +302,10 @@ class CushionBag extends React.Component<Props, State> {
                 {!(
                   invisibleFields && invisibleFields.indexOf("quantity") > -1
                 ) && (
-                  <div className={bootstrap.row}>
+                  <div className={cs(bootstrap.row, globalStyles.voffset4)}>
                     <div
                       className={cs(
-                        bootstrap.col12,
-                        bootstrap.colSm3,
+                        bootstrap.col4,
                         styles.label,
                         styles.quantity,
                         { [styles.mobileMargin]: mobile }
@@ -320,14 +313,7 @@ class CushionBag extends React.Component<Props, State> {
                     >
                       Quantity
                     </div>
-                    <div
-                      className={cs(
-                        bootstrap.col12,
-                        bootstrap.colSm9,
-                        { [bootstrap.colMd4]: mobile },
-                        styles.widgetQty
-                      )}
-                    >
+                    <div className={cs(bootstrap.col8, styles.widgetQty)}>
                       <PdpQuantity
                         source="pdp"
                         key={selectedSize?.sku}
@@ -458,7 +444,7 @@ class CushionBag extends React.Component<Props, State> {
             apiTrigger: false
           });
           // if (typeof err.response.data != "object") {
-          //   valid.showGrowlMessage(dispatch, err.response.data);
+          this.props.showerrorMessage(err.response.data);
           //   valid.errorTracking([err.response.data], window.location.href);
           // }
         });
