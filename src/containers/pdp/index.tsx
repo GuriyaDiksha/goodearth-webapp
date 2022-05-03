@@ -1126,9 +1126,11 @@ class PDPContainer extends React.Component<Props, State> {
                 { [styles.tabletSliderContainer]: tablet }
               )}
             >
-              <MobileSlider val={this.state.goToIndex} type={"pdp"}>
-                {mobileSlides}
-              </MobileSlider>
+              {typeof document == "object" && (
+                <MobileSlider val={this.state.goToIndex} type={"pdp"}>
+                  {mobileSlides}
+                </MobileSlider>
+              )}
               {this.state.showLooks && mobile && (
                 <div
                   id="looks-btn-mobile"
