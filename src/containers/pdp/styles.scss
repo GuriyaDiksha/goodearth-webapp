@@ -36,10 +36,10 @@ $pdp-top: $header-height + $secondary-header-height;
     img {
         cursor: url(../../images/cursorZoom.png), auto;
     }
-
     &:not(:last-child) {
         margin-bottom: 6px;
     }
+    position: relative;
 }
 
 .product-section {
@@ -287,3 +287,33 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     top: 34%;
     transform: translateY(-50%);
   }
+
+.image-arrow-left {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    font-size: 60px;
+    display: none;
+    &:hover{
+        cursor: pointer;
+    }
+    &.show{
+        display: block;
+    }
+}
+
+.image-arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    font-size: 60px;
+    display: none;
+    &:hover{
+        cursor: pointer;
+    }
+    &.show{
+        display: block;
+    }
+}
