@@ -47,8 +47,9 @@
     }
 
     &.selected {
-        border: 1.5px solid #799999;
+        border: 1px solid #799999;
         background-color: white;
-        font-size:13px;
+        font-size:12px;
+        color: #799999;
     }
 }

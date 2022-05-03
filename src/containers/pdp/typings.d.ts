@@ -16,4 +16,5 @@ export type State = {
   showSecondary: boolean;
   goToIndex: any;
   loaded: boolean;
+  imageHover?: boolean;
 };

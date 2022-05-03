@@ -57,6 +57,8 @@ import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
 
+import fontStyles from "styles/iconFonts.scss";
+
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
 
@@ -112,7 +114,8 @@ class PDPContainer extends React.Component<Props, State> {
     goToIndex: {
       index: -1,
       value: ""
-    }
+    },
+    imageHover: false
   };
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
@@ -461,6 +464,20 @@ class PDPContainer extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   };
 
+  onClickImageArrowLeft = () => {
+    // const productImages = this.getProductImagesData();
+    //   this.setState({
+    //     activeImage: (this.state.activeImage-1) % productImages.length
+    //   })
+  };
+
+  onClickImageArrowRight = () => {
+    // const productImages = this.getProductImagesData();
+    //   this.setState({
+    //     activeImage: (productImages.length+this.state.activeImage) % productImages.length
+    //   })
+  };
+
   // getImageOffset = () => {
   // const productImages = this.getProductImagesData();
   // productImages?.map((image, index) => {
@@ -487,6 +504,12 @@ class PDPContainer extends React.Component<Props, State> {
           className={styles.productImageContainer}
           key={img.id}
           id={`img-${img.id}`}
+          onMouseEnter={() => {
+            this.setState({ imageHover: true });
+          }}
+          onMouseLeave={() => {
+            this.setState({ imageHover: false });
+          }}
         >
           <PdpImage
             alt={this.props.data.altText || this.props.data.title}
@@ -502,6 +525,24 @@ class PDPContainer extends React.Component<Props, State> {
               total={productImages.length}
             />
           </div>
+          <i
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconArrowLeft,
+              styles.imageArrowLeft,
+              { [styles.show]: this.state.imageHover }
+            )}
+            onClick={this.onClickImageArrowLeft}
+          ></i>
+          <i
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconArrowRight,
+              styles.imageArrowRight,
+              { [styles.show]: this.state.imageHover }
+            )}
+            onClick={this.onClickImageArrowRight}
+          ></i>
         </div>
       );
       // });
@@ -971,6 +1012,7 @@ class PDPContainer extends React.Component<Props, State> {
         }
       ]
     };
+
     return (
       <PairItWithSlider
         data={pairItWithProducts}
