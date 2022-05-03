@@ -183,23 +183,31 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     );
   });
   return (
-    <div
-      className={cs(
-        styles.recommendBg,
-        bootstrapStyles.colMd12,
-        "we-recommend"
-      )}
-    >
-      <div className={cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)}>
-        <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
-          We Recommend
-        </h2>
-        <div className={bootstrapStyles.col12}>
-          {!mobile && <Slider {...setting}>{items}</Slider>}
-          {mobile && <div className={bootstrapStyles.row}>{items}</div>}
+    <React.Fragment>
+      {items.length > 0 ? (
+        <div
+          className={cs(
+            styles.recommendBg,
+            bootstrapStyles.colMd12,
+            "we-recommend"
+          )}
+        >
+          <div
+            className={cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)}
+          >
+            <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
+              We Recommend
+            </h2>
+            <div className={bootstrapStyles.col12}>
+              {!mobile && <Slider {...setting}>{items}</Slider>}
+              {mobile && <div className={bootstrapStyles.row}>{items}</div>}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        ""
+      )}
+    </React.Fragment>
   );
 };
 
