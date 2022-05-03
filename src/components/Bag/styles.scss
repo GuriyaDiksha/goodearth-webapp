@@ -108,7 +108,9 @@
         .section {
           margin-top: 15px;
         }
-  
+        &.spacingError{
+          padding: 40px 15px;
+        }
         .product-image {
           width: 100%;
           margin-right: 10px;
@@ -157,6 +159,7 @@
   
         .widget-qty {
           margin-top: 10px;
+          margin-bottom: 12px;
           max-width: 178px;
           display: -webkit-box;
           display: -ms-flexbox;
