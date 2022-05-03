@@ -60,7 +60,7 @@
     height: 15px;
     line-height: 15px;
     position: absolute;
-    bottom: -15px;
+    bottom: -12px;
     // left: 5px;
     color: $cerise;
     font-family: $font-Lora;
@@ -70,6 +70,10 @@
     font-weight: normal;
     padding: 3px 0px 6px 0px;
     margin-bottom: 10px;
+    &.fontStyle {
+        font-size: 12px;
+        font-family: $font-Lato;
+    }
 }
 
 .left {
