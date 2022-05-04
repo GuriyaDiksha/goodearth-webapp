@@ -107,6 +107,11 @@
         background-color: $white;
         .section {
           margin-top: 15px;
+          .stock-left {
+            position: relative;
+            text-align: center;
+            top: 25px;
+          }
         }
         &.spacingError{
           padding: 40px 15px;
@@ -344,11 +349,4 @@
     width: 100%;
     margin: 5px;
   }
-}
-
-.stock-left {
-  position: relative;
-  top: 10px;
-  text-align: center;
-  top: 25px;
 }
