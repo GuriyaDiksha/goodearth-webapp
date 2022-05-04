@@ -73,6 +73,7 @@ const CartSlider: React.FC<Props> = ({ dots = true, children, val }) => {
           current={counter}
           total={Object.keys(children || {}).length}
           isclass={styles.countclass}
+          id="pdp-image-counter"
         />
       </div>
     </div>
