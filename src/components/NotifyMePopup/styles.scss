@@ -110,6 +110,9 @@
     left: 0;
     background-color: $aquablue !important;
     color: white;
+    &:hover{
+        color: white !important
+    }
 }
 
 .success-msg {
