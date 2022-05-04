@@ -1213,8 +1213,7 @@ class PDPContainer extends React.Component<Props, State> {
               className={cs(
                 bootstrap.colMd4,
                 bootstrap.dNone,
-                bootstrap.dMdBlock,
-                bootstrap.offsetMd1
+                bootstrap.dMdBlock
               )}
             >
               {this.getProductImages()}
