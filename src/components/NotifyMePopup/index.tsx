@@ -353,22 +353,24 @@ const NotifyMePopup: React.FC<Props> = ({
           {sizeExists ? (
             <>
               <div className={cs(styles.label, styles.sizeLabel)}> SIZE</div>
-              <SizeSelector
-                sizes={childAttributes}
-                onChange={onSizeSelect}
-                sizeClassName={styles.sizeBox}
-                selected={selectedSize ? selectedSize.id : undefined}
-              />
-              {sizeErrorMsg && (
-                <span className={styles.sizeError}>{sizeErrorMsg}</span>
-              )}
-              <span className={cs(styles.sizeError)}>
-                {isSale &&
-                  selectedSize &&
-                  selectedSize.stock > 0 &&
-                  selectedSize.showStockThreshold &&
-                  `Only ${selectedSize.stock} Left!`}
-              </span>
+              <div>
+                <SizeSelector
+                  sizes={childAttributes}
+                  onChange={onSizeSelect}
+                  sizeClassName={styles.sizeBox}
+                  selected={selectedSize ? selectedSize.id : undefined}
+                />
+                {sizeErrorMsg && (
+                  <span className={styles.sizeError}>{sizeErrorMsg}</span>
+                )}
+                <span className={cs(styles.sizeError)}>
+                  {isSale &&
+                    selectedSize &&
+                    selectedSize.stock > 0 &&
+                    selectedSize.showStockThreshold &&
+                    `Only ${selectedSize.stock} Left!`}
+                </span>
+              </div>
             </>
           ) : (
             <span className={cs(styles.sizeError)}>
