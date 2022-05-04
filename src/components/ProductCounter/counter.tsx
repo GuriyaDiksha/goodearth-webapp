@@ -6,12 +6,17 @@ import styles from "./styles.scss";
 const Counter: React.FC<ProductCounterProps> = ({
   current,
   total,
+  id,
   isclass
 }) => {
   return (
     <div className={cs(styles.counterstyle, isclass)}>
       <div className={cs(styles.counter)}>
-        <div className={cs(styles.counterNumber)}>
+        <div
+          className={cs(styles.counterNumber, {
+            [styles.pdpImageCounter]: id == "pdp-image-counter"
+          })}
+        >
           <div>{current}</div>/<div>{total}</div>
         </div>
       </div>

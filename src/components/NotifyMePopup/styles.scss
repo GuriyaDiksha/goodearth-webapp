@@ -35,24 +35,33 @@
     color: $charcoal19;
 }
 
+.subtitle {
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight:normal;
+}
+
 .label {
     @include pdp_label();
+    width:100px;
 }
 
 .size-label {
-    margin-top: 10px;
-    margin-bottom: 8px;
+    height: 40px;
+    line-height: 40px;
 }
 
 .qty-label {
-    margin-top: 15px;
+    height: 40px;
+    line-height: 40px;
+    margin-right: 6px;
 }
 
 .price {
     font-size: 20px;
     line-height: 30px;
     font-family: $font-Montserrat;
-    margin-top: 0;
 }
 .qty-container {
     display: flex;
@@ -71,7 +80,7 @@
 
 
 .email-input {
-    width: 70%;
+    width: 100%;
     margin: 0 auto 30px;
 }
 
@@ -109,15 +118,14 @@
 }
 span{
     &.discountprice {
-        color: $cerise;
+        color: $gold;
         font-family: $font-Lato;
         font-size: 14px;
-        color:$cerise;
       }
       &.strikeprice {
         font-size: 14px;
         text-decoration: line-through;
-        color: tint(#000, 50%) !important;
+        color: #9F9F9F !important;
         font-family: $font-Lato;
       }
 }
@@ -125,9 +133,38 @@ span{
 
 @media screen and (min-width: 992px) {
     .container {
-        width: 430px;
+        width: auto;
         max-width: 50vw;
         min-height: 20vh;
     }
+    .content-container {
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+    }
 
+}
+.content-container {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
+    .info-container {
+        display: flex;
+        justify-content: space-between;
+        .details-container{
+            width: 70%
+        }
+    }
+    .size-container {
+        display: flex;
+        padding: 20px 0px;
+    }
+    .quantity-container{
+        display: flex;
+    }
+    .input-container{
+        display: flex;
+        flex-direction: column;
+    }
 }
