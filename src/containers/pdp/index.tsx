@@ -465,27 +465,19 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   onClickImageArrowLeft = () => {
-    // const productImages = this.getProductImagesData();
-    //   this.setState({
-    //     activeImage: (this.state.activeImage-1) % productImages.length
-    //   })
+    const len = this.getProductImagesData().length;
+    const active = this.state.activeImage;
+    this.setState({
+      activeImage: (len + ((active - 1) % len)) % len
+    });
   };
 
   onClickImageArrowRight = () => {
-    // const productImages = this.getProductImagesData();
-    //   this.setState({
-    //     activeImage: (productImages.length+this.state.activeImage) % productImages.length
-    //   })
+    const len = this.getProductImagesData().length;
+    this.setState({
+      activeImage: (this.state.activeImage + 1) % len
+    });
   };
-
-  // getImageOffset = () => {
-  // const productImages = this.getProductImagesData();
-  // productImages?.map((image, index) => {
-  //   const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
-  //   const { clientHeight } = ele;
-  //   this.imageOffsets[index] = clientHeight;
-  // });
-  // };
 
   getProductImages() {
     const productImages = this.getProductImagesData();
@@ -1215,8 +1207,7 @@ class PDPContainer extends React.Component<Props, State> {
               className={cs(
                 bootstrap.colMd4,
                 bootstrap.dNone,
-                bootstrap.dMdBlock,
-                bootstrap.offsetMd1
+                bootstrap.dMdBlock
               )}
             >
               {this.getProductImages()}
