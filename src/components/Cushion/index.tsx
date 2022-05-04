@@ -12,7 +12,6 @@ import LazyImage from "components/LazyImage";
 import CartSlider from "components/CartSlider";
 import { Link } from "react-router-dom";
 import { currencyCodes } from "constants/currency";
-// import * as util from "../../utils/validate";
 import ModalStyles from "components/Modal/styles.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import SizeSelector from "components/SizeSelector";
@@ -187,7 +186,9 @@ class CushionBag extends React.Component<Props, State> {
     return (
       <div className={bootstrap.row}>
         <div className={cs(bootstrap.col12, styles.margin0)}>
-          <CartSlider val={this.state.goToIndex}>{mobileSlides}</CartSlider>
+          {typeof document == "object" && (
+            <CartSlider val={this.state.goToIndex}>{mobileSlides}</CartSlider>
+          )}
           <div className={styles.innerContainer}>
             <div className={cs(bootstrap.row, globalStyles.voffset4)}>
               <div
@@ -291,11 +292,7 @@ class CushionBag extends React.Component<Props, State> {
                     ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
               </span>
             )}
-            <div
-              className={cs(bootstrap.row, {
-                [globalStyles.marginT30]: !mobile
-              })}
-            >
+            <div>
               <div
                 className={cs(bootstrap.col12, { [bootstrap.colMd12]: mobile })}
               >
@@ -547,16 +544,7 @@ class CushionBag extends React.Component<Props, State> {
     if (this.props.filler.show) {
       return (
         <div className={styles.bagFooter}>
-          <div
-            className={cs(
-              globalStyles.flex,
-              globalStyles.gutterBetween,
-              styles.containerCost
-            )}
-          ></div>
-
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
-            <div className={cs(styles.iconCart, globalStyles.pointer)}></div>
             <div className={bootstrap.row}>
               <div className={bootstrap.col9}>
                 <PdpButton label={buttonText} onClick={action} />

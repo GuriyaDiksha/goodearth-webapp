@@ -50,7 +50,7 @@
     -webkit-flex-direction: column;
     flex-direction: column;
     position: fixed;
-    background-color: #f9f8f5;
+    background-color: #fff;
     animation-name :slideLeft;
     animation-duration:0.4s;
   
@@ -608,7 +608,7 @@
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1px;
-  color: #333;
+  color: #191919;
   line-height: 80px;
   &:hover {
       text-decoration: underline;
