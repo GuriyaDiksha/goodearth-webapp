@@ -41,5 +41,8 @@
     &.notify-me-cta{
         background-color: #9F9F9F;
         border: none;
+        &:hover{
+            color: white;
+        }
     }
 }
