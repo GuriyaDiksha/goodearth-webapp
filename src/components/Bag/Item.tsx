@@ -46,7 +46,7 @@ const LineItems: React.FC<BasketItem> = memo(
 
     const {
       images,
-      collections,
+      collection,
       title,
       url,
       priceRecords,
@@ -197,7 +197,7 @@ const LineItems: React.FC<BasketItem> = memo(
             </div>
           </div>
           <div className={cs(bootstrap.col8, styles.cartPadding)}>
-            <div className={styles.collectionName}>{collections[0]}</div>
+            <div className={styles.collectionName}>{collection}</div>
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col10, styles.name)}>
                 <div>
