@@ -325,9 +325,6 @@ const LineItems: React.FC<BasketItem> = memo(
                 className={cs(
                   globalStyles.errorMsg,
                   styles.stockLeft,
-                  {
-                    [styles.stockLeftWithError]: qtyError
-                  },
                   quantityStyles.errorMsg,
                   quantityStyles.fontStyle
                 )}
