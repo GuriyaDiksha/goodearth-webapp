@@ -110,6 +110,9 @@
     left: 0;
     background-color: $aquablue !important;
     color: white;
+    &:hover{
+        color: white !important
+    }
 }
 
 .success-msg {
@@ -141,6 +144,7 @@ span{
         width: auto;
         max-width: 50vw;
         min-height: 20vh;
+        min-width: 600px;
     }
     .content-container {
         padding-left: 50px !important;
