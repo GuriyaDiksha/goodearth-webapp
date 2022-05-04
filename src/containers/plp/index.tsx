@@ -166,7 +166,6 @@ class PLP extends React.Component<
         this.setState({ count: -1 });
       }
     }
-    this.setProductCount();
   }
 
   componentWillUnmount() {
@@ -356,7 +355,6 @@ class PLP extends React.Component<
             }
           }
         });
-
         if (element) {
           const productID = element.children[0].children[0].id;
           const idx = cardIDs.findIndex((e: string) => e == productID);
@@ -364,9 +362,7 @@ class PLP extends React.Component<
             this.setState({ count: idx + 1 });
           }
         } else {
-          if (cards[0].getBoundingClientRect().y > 330) {
-            this.setState({ count: -1 });
-          }
+          this.setState({ count: -1 });
         }
         observer.disconnect();
       },
