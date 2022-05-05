@@ -3,7 +3,8 @@ import React, {
   ReactNode,
   useState,
   useCallback,
-  useEffect
+  useEffect,
+  useRef
 } from "react";
 import cs from "classnames";
 
@@ -48,6 +49,8 @@ const PdpSlider: React.FC<Props> = memo(
       ]
     };
 
+    const sliderRef: any = useRef();
+
     useEffect(() => {
       if (currentIndex !== activeIndex) {
         setCurrentIndex(activeIndex);
@@ -77,6 +80,14 @@ const PdpSlider: React.FC<Props> = memo(
       }
     );
 
+    useEffect(() => {
+      if (config.slidesToShow) {
+        if (activeIndex % config.slidesToShow == 0) {
+          sliderRef.current ? sliderRef.current.slickGoTo(activeIndex) : "";
+        }
+      }
+    }, [activeIndex]);
+
     const tempNode: ReactNode[] = imageNodes.map((data, index) => {
       return (
         <div key={index} className={cs(styles.imageContainer)}>
@@ -93,7 +104,9 @@ const PdpSlider: React.FC<Props> = memo(
         })}
       >
         {images.length > 2 ? (
-          <Slider {...config}>{imageNodes}</Slider>
+          <Slider ref={sliderRef} {...config}>
+            {imageNodes}
+          </Slider>
         ) : (
           imageNodes
         )}
