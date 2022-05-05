@@ -14,6 +14,7 @@ import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
+import quantityStyles from "../quantity/styles.scss";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -45,7 +46,7 @@ const LineItems: React.FC<BasketItem> = memo(
 
     const {
       images,
-      collections,
+      collection,
       title,
       url,
       priceRecords,
@@ -78,7 +79,7 @@ const LineItems: React.FC<BasketItem> = memo(
         quantity: quantity,
         price: +price,
         Currency: currency,
-        "Collection name": product.collections,
+        "Collection name": product.collection,
         "Category name": categoryname,
         "Sub Category Name": subcategoryname
       });
@@ -147,7 +148,12 @@ const LineItems: React.FC<BasketItem> = memo(
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
     return (
       <div
-        className={cs(styles.cartItem, styles.gutter15, "cart-item")}
+        className={cs(styles.cartItem, styles.gutter15, "cart-item", {
+          [styles.spacingError]:
+            saleStatus &&
+            childAttributes[0].showStockThreshold &&
+            childAttributes[0].stock > 0
+        })}
         data-sku={product.childAttributes[0].sku}
       >
         <div className={bootstrap.row}>
@@ -191,7 +197,7 @@ const LineItems: React.FC<BasketItem> = memo(
             </div>
           </div>
           <div className={cs(bootstrap.col8, styles.cartPadding)}>
-            <div className={styles.collectionName}>{collections[0]}</div>
+            <div className={styles.collectionName}>{collection}</div>
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col10, styles.name)}>
                 <div>
@@ -255,7 +261,7 @@ const LineItems: React.FC<BasketItem> = memo(
             >
               <div className={bootstrap.col10}>
                 {getSize(product.attributes)}
-                <div className={styles.widgetQty}>
+                <div className={cs(styles.widgetQty)}>
                   <Quantity
                     source="bag"
                     key={id}
@@ -316,15 +322,17 @@ const LineItems: React.FC<BasketItem> = memo(
                 </div>
               )}
               <span
-                className={cs(globalStyles.errorMsg, styles.stockLeft, {
-                  [styles.stockLeftWithError]: qtyError
-                })}
+                className={cs(
+                  globalStyles.errorMsg,
+                  styles.stockLeft,
+                  quantityStyles.errorMsg,
+                  quantityStyles.fontStyle
+                )}
               >
                 {saleStatus &&
                   childAttributes[0].showStockThreshold &&
                   childAttributes[0].stock > 0 &&
                   `Only ${childAttributes[0].stock} Left!`}
-                <br />
                 {saleStatus &&
                   childAttributes[0].showStockThreshold &&
                   childAttributes[0].stock > 0 &&

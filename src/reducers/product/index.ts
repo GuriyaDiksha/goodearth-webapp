@@ -13,13 +13,15 @@ export const PRODUCT_INIT_STATE: PartialProductItem = {
     INR: -1,
     GBP: -1,
     USD: -1,
-    AED: -1
+    AED: -1,
+    SGD: -1
   },
   discountedPriceRecords: {
     INR: -1,
     GBP: -1,
     USD: -1,
-    AED: -1
+    AED: -1,
+    SGD: -1
   },
   gaVariant: "",
   partial: true,

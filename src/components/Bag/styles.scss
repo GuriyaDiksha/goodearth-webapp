@@ -107,8 +107,15 @@
         background-color: $white;
         .section {
           margin-top: 15px;
+          .stock-left {
+            position: relative;
+            text-align: center;
+            top: 25px;
+          }
         }
-  
+        &.spacingError{
+          padding: 40px 15px;
+        }
         .product-image {
           width: 100%;
           margin-right: 10px;
@@ -157,6 +164,7 @@
   
         .widget-qty {
           margin-top: 10px;
+          margin-bottom: 12px;
           max-width: 178px;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -341,13 +349,4 @@
     width: 100%;
     margin: 5px;
   }
-}
-
-.stock-left {
-  position: relative;
-  top: 10px;
-  text-align: center;
-}
-.stock-left-with-error {
-  top: 25px;
 }
