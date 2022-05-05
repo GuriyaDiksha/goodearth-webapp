@@ -8,6 +8,7 @@ type Props = {
   id: string;
   className?: string;
   headerClosedClassName?: string;
+  headerOpenClassName?: string;
   open: boolean;
   openIconClass: string;
   closedIconClass: string;
@@ -24,6 +25,7 @@ const Header: React.FC<Props> = memo(
     openIconClass = styles.iconOpen,
     closedIconClass = styles.iconClosed,
     headerClosedClassName = "",
+    headerOpenClassName = "",
     onClick,
     setHideScroll
   }) => {
@@ -38,7 +40,8 @@ const Header: React.FC<Props> = memo(
     return (
       <div
         className={cs(className, styles.accordionHeader, {
-          [headerClosedClassName]: !open
+          [headerClosedClassName]: !open,
+          [headerOpenClassName]: open
         })}
         onClick={onHeaderClick}
       >

@@ -35,3 +35,38 @@ z-index: 10;
         }
     }
 }
+
+.counterstyle {
+    background: #fff 0% 0% no-repeat padding-box;
+    top: 25px;
+    height: 24px;
+    background-color: white;
+    border-radius: 19px;
+    box-shadow: 3px 3px 10px #00000029;
+    opacity: 1;
+    right: 25px;
+    color: #D8D8D8;
+    position: absolute;
+    .counter {
+        height: 100%;
+        color: #000000CC;
+        opacity: 1;
+        font-size: 12px;
+        display:flex;
+        border: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        font-weight: bold;
+        .counter-number {
+            font-family: $font-Lato;
+            display:flex;
+            letter-spacing: 0px;
+            border:none;
+        }
+        .pdp-image-counter{
+            font-family: $font-Montserrat;
+            color: #987E56;
+        }
+    }
+}

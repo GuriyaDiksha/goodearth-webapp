@@ -13,12 +13,13 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useStore, useSelector } from "react-redux";
 // components
-import Quantity from "components/quantity";
+import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
-import Button from "components/Button";
+import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
-import Accordion from "components/Accordion";
-import WishlistButton from "components/WishlistButton";
+import PdpAccordion from "components/Accordion/pdpAccordion";
+import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
+
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "components/Loader";
@@ -54,11 +55,11 @@ import {
 import { MESSAGE } from "constants/messages";
 import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
-import CustomerCareInfo from "components/CustomerCareInfo";
+import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
-import cushionFiller from "images/cushionFiller.svg";
+import asset from "images/asset.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
@@ -311,6 +312,31 @@ const ProductDetails: React.FC<Props> = ({
         header: "Shipping & Handling",
         body: <div>{ReactHtmlParser(shipping)}</div>,
         id: "shippAndHandle"
+      },
+      {
+        header: "For Any queries or Assistance",
+        body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
+        id: "queries"
+      },
+      {
+        header: "Share",
+        body: (
+          <div>
+            {!isQuickview && (
+              <Share
+                mobile={mobile}
+                link={`${__DOMAIN__}${location.pathname}`}
+                mailSubject="Gifting Ideas"
+                mailText={`${
+                  corporatePDP
+                    ? `Here's what I found, check it out on Good Earth's web boutique`
+                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
+              />
+            )}
+          </div>
+        ),
+        id: "share"
       }
     ];
     if (manufactureInfo) {
@@ -587,7 +613,7 @@ const ProductDetails: React.FC<Props> = ({
     showError();
   };
 
-  const button = useMemo(() => {
+  const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
       buttonText = "Enquire Now";
@@ -610,7 +636,7 @@ const ProductDetails: React.FC<Props> = ({
       // setSizeerror(false);
     }
 
-    return <Button label={buttonText} onClick={action} />;
+    return <PdpButton label={buttonText} onClick={action} />;
   }, [
     corporatePDP,
     selectedSize,
@@ -675,7 +701,7 @@ const ProductDetails: React.FC<Props> = ({
       {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
-          buttoncall={button}
+          buttoncall={Pdpbutton}
           showPrice={invisibleFields && invisibleFields.indexOf("price") > -1}
           price={price}
           discountPrice={discountPrices}
@@ -684,8 +710,7 @@ const ProductDetails: React.FC<Props> = ({
       <div className={bootstrap.row}>
         <div
           className={cs(
-            bootstrap.col10,
-            bootstrap.offset1,
+            bootstrap.col11,
             bootstrap.colMd11,
             styles.sideContainer,
             { [styles.marginT0]: withBadge }
@@ -732,16 +757,14 @@ const ProductDetails: React.FC<Props> = ({
                 </Link>
               )}
             </div>
-            <div
-              className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}
-            >
+            <div className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}>
               {productTitle}
               {subtitle && <p>({subtitle.split(")")[0]})</p>}
             </div>
             {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
               <div
                 className={cs(
-                  bootstrap.col12,
+                  bootstrap.col4,
                   bootstrap.colMd4,
                   styles.priceContainer,
                   { [globalStyles.textCenter]: !mobile }
@@ -870,7 +893,7 @@ const ProductDetails: React.FC<Props> = ({
                 {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
-                      [globalStyles.textCenter]: !mobile
+                      [globalStyles.textRight]: !mobile
                     })}
                   >
                     <span
@@ -920,7 +943,8 @@ const ProductDetails: React.FC<Props> = ({
             </span>
           )}
           <div
-            className={cs(bootstrap.row, globalStyles.marginT30, {
+            className={cs(bootstrap.row, {
+              [globalStyles.marginT30]: !mobile,
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
@@ -951,7 +975,7 @@ const ProductDetails: React.FC<Props> = ({
                       styles.widgetQty
                     )}
                   >
-                    <Quantity
+                    <PdpQuantity
                       source="pdp"
                       key={selectedSize?.sku}
                       id={selectedSize?.id || 0}
@@ -1004,18 +1028,18 @@ const ProductDetails: React.FC<Props> = ({
                 bootstrap.col12,
                 bootstrap.colMd10,
                 globalStyles.voffset3,
-                styles.errorMsg,
+                styles.cushionError,
                 styles.fillerContainer
               )}
             >
               <img
-                src={cushionFiller}
+                src={asset}
                 className={styles.cushionFiller}
                 alt="cushion-filler-icon"
               />
               <div>
                 Insert not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here</Link> to purchase.
+                <Link to={fillerUrl || "#"}>Click here to purchase.</Link>
               </div>
             </div>
           ) : (
@@ -1042,7 +1066,7 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.hidden]: mobile && !showAddToBagMobile
               })}
             >
-              {button}
+              {Pdpbutton}
               {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
                 <p className={cs(styles.errorMsg, styles.notEligible)}>
                   This product is not eligible for Cerise points accumulation.
@@ -1071,12 +1095,13 @@ const ProductDetails: React.FC<Props> = ({
             </div>
             <div
               className={cs(bootstrap.col4, globalStyles.textCenter, {
+                [styles.wishlistText]: !mobile,
                 [styles.wishlistBtnContainer]: mobile,
                 [globalStyles.voffset1]: mobile,
                 [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
               })}
             >
-              <WishlistButton
+              <WishlistButtonpdp
                 gtmListType={gtmListType}
                 title={title}
                 parentWidth={true}
@@ -1113,7 +1138,8 @@ const ProductDetails: React.FC<Props> = ({
               className={cs(
                 bootstrap.col12,
                 bootstrap.colMd9,
-                globalStyles.voffset3
+                globalStyles.voffset3,
+                styles.padding
               )}
             >
               <img
@@ -1130,7 +1156,6 @@ const ProductDetails: React.FC<Props> = ({
                 className={styles.shopAvailability}
                 onClick={checkAvailability}
               >
-                {" "}
                 Check in-shop availability{" "}
               </span>
             </div>
@@ -1163,7 +1188,7 @@ const ProductDetails: React.FC<Props> = ({
           <div
             className={cs(
               bootstrap.col12,
-              bootstrap.colMd9,
+              bootstrap.colMd12,
               globalStyles.voffset3
             )}
           >
@@ -1181,21 +1206,23 @@ const ProductDetails: React.FC<Props> = ({
           )} */}
             <div>
               {!isQuickview && (
-                <Accordion
+                <PdpAccordion
                   sections={accordionSections}
                   headerClassName={styles.accordionHeader}
                   bodyClassName={styles.accordionBody}
+                  headerClosedClassName={styles.headerClosedClassName}
+                  headerOpenClassName={styles.headerOpenClassName}
                   defaultOpen="details"
                 />
               )}
             </div>
-            {!isQuickview && (
+            {/* {!isQuickview && (
               <div className={cs(styles.sku, globalStyles.voffset4)}>
                 Vref. {setSelectedSKU()}
               </div>
-            )}
-            {!isQuickview && <CustomerCareInfo />}
-            {!isQuickview && (
+            )} */}
+            {/* {!isQuickview && <CustomerCareInfo />} */}
+            {/* {!isQuickview && (
               <Share
                 mobile={mobile}
                 link={`${__DOMAIN__}${location.pathname}`}
@@ -1206,6 +1233,11 @@ const ProductDetails: React.FC<Props> = ({
                     : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
                 } ${__DOMAIN__}${location.pathname}`}
               />
+            )} */}
+            {!isQuickview && (
+              <div className={cs(styles.sku, globalStyles.voffset4)}>
+                Vref. {setSelectedSKU()}
+              </div>
             )}
           </div>
         </div>

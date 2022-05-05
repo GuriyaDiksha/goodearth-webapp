@@ -56,6 +56,8 @@ const Section2: React.FC<Section2Props> = ({
         newCountry = "United Kingdom";
       } else if (currency == "AED") {
         newCountry = "United Arab Emirates";
+      } else if (currency == "SGD") {
+        newCountry = "Singapore";
       } else if (currency == "USD") {
         if (countryData[country] != currency && country) {
           newCountry = "";
