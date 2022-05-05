@@ -11,7 +11,8 @@ class PdpButton extends React.Component<ButtonProps> {
       <button
         className={cs(styles.pdpPrimaryButton, props.className, {
           [globalStyles.disabled]: props.disabled,
-          [globalStyles.ceriseBtn]: !props.disabled
+          [globalStyles.ceriseBtn]: !props.disabled,
+          [styles.notifyMeCta]: props.label == "Notify Me"
         })}
         onClick={(event): void => {
           if (props.onClick) {

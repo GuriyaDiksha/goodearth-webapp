@@ -895,7 +895,7 @@ const ProductDetails: React.FC<Props> = ({
                 {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
-                      [globalStyles.textCenter]: !mobile
+                      [globalStyles.textRight]: !mobile
                     })}
                   >
                     <span

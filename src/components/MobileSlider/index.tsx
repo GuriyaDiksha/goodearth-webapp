@@ -78,7 +78,11 @@ const MobileSlider: React.FC<Props> = ({
         </Slider>
       )}
       {type == "pdp" && (
-        <Counter current={counter} total={Object.keys(children || {}).length} />
+        <Counter
+          id="pdp-image-counter"
+          current={counter}
+          total={Object.keys(children || {}).length}
+        />
       )}
     </div>
   );
