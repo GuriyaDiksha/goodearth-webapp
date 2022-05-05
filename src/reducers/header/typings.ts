@@ -26,7 +26,7 @@ export type SizeChartResponse = {
   };
 };
 export type SizeChartData = {
-  data: SizeChartResponse;
+  data: SizeChartResponse | string;
   show: boolean;
   sizes: ChildProductAttributes[];
   selected: number | undefined;
@@ -39,6 +39,7 @@ export type HeaderState = {
   timerData: null | SaleTimerData;
   storeData: StoreData;
   sizeChartData: SizeChartData;
+  mobileMenuOpenState: boolean;
 };
 
 export type HeaderActions = ActionType<typeof Actions>;

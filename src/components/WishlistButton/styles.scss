@@ -10,7 +10,6 @@
 @media screen and (min-width:992px) {
     .wishlist-icon {
         font-size: 22px;
-        color: gray;
         cursor: pointer;
         margin-top: 5px;
         margin-bottom: 5px;
@@ -25,7 +24,7 @@
 }
 
 .added-to-wishlist {
-    color: $cerise !important;
+  color: $cerise !important;
 }
 
 .mobile-wishlist {

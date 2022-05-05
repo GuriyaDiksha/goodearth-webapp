@@ -64,6 +64,10 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
           dispatch(updateCollectionData(collectionData));
         }
       }
+    },
+    removeInitialState: (filterData: any) => {
+      filterData["selectValue"] = [];
+      dispatch(updateCollectionFilter({ ...filterData }));
     }
   };
 };
@@ -109,6 +113,9 @@ class CollectionLanding extends React.Component<
       );
     }
   };
+  componentWillUnmount() {
+    this.props.removeInitialState(this.props.data);
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.data.selectValue?.[0] && !this.state.onloadState) {
