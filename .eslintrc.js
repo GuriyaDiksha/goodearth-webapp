@@ -21,10 +21,18 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint"],
   rules: {
+      "@typescript-eslint/no-this-alias": [
+        "error",
+        {
+          "allowDestructuring": true, // Allow `const { props, state } = this`; false by default
+          "allowedNames": ["that"] // Allow `const that= this`; `[]` by default
+        }
+      ]
+    ,
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/prop-types": 0,
-    "react/display-name": 0
+    "react/display-name": 0,
   },
   globals: {
     __DOMAIN__: false,
