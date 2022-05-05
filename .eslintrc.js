@@ -25,7 +25,7 @@ module.exports = {
         "error",
         {
           "allowDestructuring": true, // Allow `const { props, state } = this`; false by default
-          "allowedNames": ["that"] // Allow `const vm= this`; `[]` by default
+          "allowedNames": ["that"] // Allow `const that= this`; `[]` by default
         }
       ]
     ,
