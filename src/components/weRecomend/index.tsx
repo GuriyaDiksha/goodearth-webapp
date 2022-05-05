@@ -92,7 +92,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     );
   }, []);
 
-  const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
+  const items = withoutZeroPriceData?.map((item: any, i: number) => {
     return (
       <div
         onMouseEnter={() => setCurrentId(item.id)}
@@ -145,7 +145,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           />
         </Link>
         <div className={styles.moreBlock}>
-          <p className={styles.productH}>{item.collectionName}</p>
+          <p className={styles.productH}>{item.collection}</p>
           <p className={styles.productN}>
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
