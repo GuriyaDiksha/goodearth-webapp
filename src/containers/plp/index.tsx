@@ -392,6 +392,11 @@ class PLP extends React.Component<
       CookieService.setCookie("plpMobileView", plpMobileView);
       util.viewSelectionGTM(plpMobileView);
       const cards = document.querySelectorAll(".product-container");
+      const cardIDs: any = [];
+
+      cards.forEach(card => {
+        cardIDs.push(card.children[0].children[0].id);
+      });
 
       const observer = new IntersectionObserver(
         entries => {
@@ -412,10 +417,12 @@ class PLP extends React.Component<
             }
           });
           if (leftMostPos != Infinity) {
+            const productID = leftMostElement.children[0].children[0].id;
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
             window.scrollBy({ top: top, behavior: "smooth" });
+            if (productID == cardIDs[0]) this.setState({ count: -1 });
           } else {
             this.props.updateMobileView(plpMobileView);
           }
