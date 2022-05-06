@@ -893,7 +893,7 @@ const ProductDetails: React.FC<Props> = ({
                 {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
-                      [globalStyles.textCenter]: !mobile
+                      [globalStyles.textRight]: !mobile
                     })}
                   >
                     <span
@@ -1095,6 +1095,7 @@ const ProductDetails: React.FC<Props> = ({
             </div>
             <div
               className={cs(bootstrap.col4, globalStyles.textCenter, {
+                [styles.wishlistText]: !mobile,
                 [styles.wishlistBtnContainer]: mobile,
                 [globalStyles.voffset1]: mobile,
                 [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
@@ -1137,7 +1138,8 @@ const ProductDetails: React.FC<Props> = ({
               className={cs(
                 bootstrap.col12,
                 bootstrap.colMd9,
-                globalStyles.voffset3
+                globalStyles.voffset3,
+                styles.padding
               )}
             >
               <img

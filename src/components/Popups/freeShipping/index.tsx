@@ -69,8 +69,8 @@ const FreeShipping: React.FC<PopupProps> = props => {
             <div className={globalStyles.voffset3}>
               {" "}
               <span>
-                *Orders above {String.fromCharCode(...currencyCodes[currency])}{" "}
-                {amountINR} are eligible for free shipping
+                *Orders within India above Rs. {amountINR} are eligible for free
+                shipping
               </span>
             </div>
             <div className={globalStyles.voffset3}>

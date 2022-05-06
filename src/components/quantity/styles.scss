@@ -60,7 +60,7 @@
     height: 15px;
     line-height: 15px;
     position: absolute;
-    bottom: -15px;
+    bottom: -12px;
     // left: 5px;
     color: $cerise;
     font-family: $font-Lora;
@@ -69,7 +69,11 @@
     font-style: normal;
     font-weight: normal;
     padding: 3px 0px 6px 0px;
-
+    margin-bottom: 10px;
+    &.fontStyle {
+        font-size: 12px;
+        font-family: $font-Lato;
+    }
 }
 
 .left {
@@ -88,7 +92,8 @@
     border: #E5E5E5;
     border-radius: 12px;
     border-style: solid;
-    border-width: 1px
+    border-width: 1px;
+    margin-bottom: 20px;
 }
 .quantity-pdp
 {
@@ -111,4 +116,12 @@
     font-family: $font-Montserrat;
     font-size: 14px;
     letter-spacing: 0.36px;
+}
+
+.cart-page-fixes {
+    bottom: -22px;
+    font-style: italic;
+    font-size: 10px !important;
+    font-weight: bold;
+    letter-spacing: 1px;
 }

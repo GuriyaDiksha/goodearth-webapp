@@ -19,7 +19,7 @@ const mapActionsToProps = (dispatch: Dispatch) => {
         id
       );
 
-      if (products && products.length) {
+      if (products) {
         dispatch(updateCollectionProducts(id, products));
       }
     },

@@ -92,7 +92,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     );
   }, []);
 
-  const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
+  const items = withoutZeroPriceData?.map((item: any, i: number) => {
     return (
       <div
         onMouseEnter={() => setCurrentId(item.id)}
@@ -183,31 +183,23 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     );
   });
   return (
-    <React.Fragment>
-      {items.length > 0 ? (
-        <div
-          className={cs(
-            styles.recommendBg,
-            bootstrapStyles.colMd12,
-            "we-recommend"
-          )}
-        >
-          <div
-            className={cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)}
-          >
-            <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
-              We Recommend
-            </h2>
-            <div className={bootstrapStyles.col12}>
-              {!mobile && <Slider {...setting}>{items}</Slider>}
-              {mobile && <div className={bootstrapStyles.row}>{items}</div>}
-            </div>
-          </div>
-        </div>
-      ) : (
-        ""
+    <div
+      className={cs(
+        styles.recommendBg,
+        bootstrapStyles.colMd12,
+        "we-recommend"
       )}
-    </React.Fragment>
+    >
+      <div className={cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)}>
+        <h2 className={cs(styles.recommendHeader, globalStyles.voffset5)}>
+          We Recommend
+        </h2>
+        <div className={bootstrapStyles.col12}>
+          {!mobile && <Slider {...setting}>{items}</Slider>}
+          {mobile && <div className={bootstrapStyles.row}>{items}</div>}
+        </div>
+      </div>
+    </div>
   );
 };
 

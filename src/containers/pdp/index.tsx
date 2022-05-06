@@ -55,6 +55,9 @@ import activeGrid from "images/plpIcons/active_grid.svg";
 import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
+import Counter from "components/ProductCounter/counter";
+
+import fontStyles from "styles/iconFonts.scss";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -111,7 +114,8 @@ class PDPContainer extends React.Component<Props, State> {
     goToIndex: {
       index: -1,
       value: ""
-    }
+    },
+    imageHover: false
   };
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
@@ -460,14 +464,20 @@ class PDPContainer extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   };
 
-  // getImageOffset = () => {
-  // const productImages = this.getProductImagesData();
-  // productImages?.map((image, index) => {
-  //   const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
-  //   const { clientHeight } = ele;
-  //   this.imageOffsets[index] = clientHeight;
-  // });
-  // };
+  onClickImageArrowLeft = () => {
+    const len = this.getProductImagesData().length;
+    const active = this.state.activeImage;
+    this.setState({
+      activeImage: (len + ((active - 1) % len)) % len
+    });
+  };
+
+  onClickImageArrowRight = () => {
+    const len = this.getProductImagesData().length;
+    this.setState({
+      activeImage: (this.state.activeImage + 1) % len
+    });
+  };
 
   getProductImages() {
     const productImages = this.getProductImagesData();
@@ -486,6 +496,12 @@ class PDPContainer extends React.Component<Props, State> {
           className={styles.productImageContainer}
           key={img.id}
           id={`img-${img.id}`}
+          onMouseEnter={() => {
+            this.setState({ imageHover: true });
+          }}
+          onMouseLeave={() => {
+            this.setState({ imageHover: false });
+          }}
         >
           <PdpImage
             alt={this.props.data.altText || this.props.data.title}
@@ -494,6 +510,31 @@ class PDPContainer extends React.Component<Props, State> {
             onClick={this.onImageClick}
             onLoad={onImageLoad}
           />
+          <div>
+            <Counter
+              id="pdp-image-counter"
+              current={this.state.activeImage + 1}
+              total={productImages.length}
+            />
+          </div>
+          <i
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconArrowLeft,
+              styles.imageArrowLeft,
+              { [styles.show]: this.state.imageHover }
+            )}
+            onClick={this.onClickImageArrowLeft}
+          ></i>
+          <i
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconArrowRight,
+              styles.imageArrowRight,
+              { [styles.show]: this.state.imageHover }
+            )}
+            onClick={this.onClickImageArrowRight}
+          ></i>
         </div>
       );
       // });
@@ -963,6 +1004,7 @@ class PDPContainer extends React.Component<Props, State> {
         }
       ]
     };
+
     return (
       <PairItWithSlider
         data={pairItWithProducts}
@@ -1119,9 +1161,11 @@ class PDPContainer extends React.Component<Props, State> {
                 { [styles.tabletSliderContainer]: tablet }
               )}
             >
-              <MobileSlider val={this.state.goToIndex} type={"pdp"}>
-                {mobileSlides}
-              </MobileSlider>
+              {typeof document == "object" && (
+                <MobileSlider val={this.state.goToIndex} type={"pdp"}>
+                  {mobileSlides}
+                </MobileSlider>
+              )}
               {this.state.showLooks && mobile && (
                 <div
                   id="looks-btn-mobile"
@@ -1161,10 +1205,9 @@ class PDPContainer extends React.Component<Props, State> {
           {!mobile && (
             <div
               className={cs(
-                bootstrap.colMd5,
+                bootstrap.colMd4,
                 bootstrap.dNone,
-                bootstrap.dMdBlock,
-                bootstrap.offsetMd1
+                bootstrap.dMdBlock
               )}
             >
               {this.getProductImages()}
