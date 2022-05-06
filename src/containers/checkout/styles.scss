@@ -794,6 +794,9 @@
       font-family: $font-Lato;
     }
   }
+  input[type="text"].panError{
+    border: 1px solid $cerise;
+  }
 }
 
 .same-text {
