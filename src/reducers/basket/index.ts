@@ -29,7 +29,8 @@ const initialState: State = {
   freeShippingApplicable: 1000000000,
   freeShippingThreshold: 1000000000,
   updatedRemovedItems: [],
-  redirectHomepage: false
+  redirectHomepage: false,
+  subTotalWithShipping: 0
 };
 
 export const basket = (state = initialState, action: BasketActions): State => {

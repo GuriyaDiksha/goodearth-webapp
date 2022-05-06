@@ -26,7 +26,7 @@ import BottomMenu from "./bottomMenu";
 import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 const StoreDetails = loadable(() => import("../StoreDetails/index"));
-
+const CushionBag = loadable(() => import("../Cushion"));
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
@@ -56,7 +56,9 @@ const mapStateToProps = (state: AppState) => {
     timerData: state.header.timerData,
     customerGroup: state.user.customerGroup,
     showStock: state.header.storeData.visible,
-    showSizeChart: state.header.sizeChartData.show
+    showSizeChart: state.header.sizeChartData.show,
+    mobileMenuOpenState: state.header.mobileMenuOpenState,
+    filler: state.filler
   };
 };
 
@@ -401,6 +403,7 @@ class Header extends React.Component<Props, State> {
 
   clickToggle = () => {
     const isMobileMenuOpen = !this.state.showMenu;
+    this.props.updateMobileMenuOpenState(!this.props.mobileMenuOpenState);
 
     if (isMobileMenuOpen) {
       document.body.classList.add(globalStyles.noScroll);
@@ -979,6 +982,7 @@ class Header extends React.Component<Props, State> {
             currency={this.props.currency}
           />
         )}
+        {this.props.filler.show && <CushionBag />}
         {this.state.showBag && (
           <Bag
             showShipping={this.props.showShipping}

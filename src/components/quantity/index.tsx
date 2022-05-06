@@ -117,6 +117,12 @@ class Quantity extends React.Component<QuantityItem, State> {
             { [styles.left]: source == "pdp" },
             {
               // [styles.noBottom]: props.source == "cartpage"
+            },
+            {
+              [styles.fontStyle]: source == "bag" || source == "cartpage"
+            },
+            {
+              [styles.cartPageFixes]: source == "cartpage"
             }
           )}
         >
