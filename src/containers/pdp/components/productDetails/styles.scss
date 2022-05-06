@@ -42,9 +42,9 @@
 }
 
 .old-price {
-    font-size: 10px;
+    font-size: 16px;
     text-decoration: line-through;
-    color: tint(#9f9f9f, 50%) !important;
+    color: #9f9f9f !important;
     font-family: $font-Montserrat;
 }
 
@@ -66,10 +66,12 @@
         line-height: 85px;
     }
     &.size {
-        line-height: 50px;
+        line-height: 40px;
+        height: 40px;
     }
     &.quantity {
         line-height: 40px;
+        height: 40px
     }
 }
 
@@ -88,6 +90,7 @@
     font-style: normal;
     font-weight:normal;
     letter-spacing: 0.28px;
+    // padding: 3px 0px 4px 0px;
 }
 
 .bridal-ring {
@@ -172,9 +175,13 @@
 }
 .accordion-body {
     @include pdp_copy_body();
-    letter-spacing: .5px;
+    // letter-spacing: .5px;
     border-bottom: lightgrey solid 1px;
     //padding: 10px;
+    font-weight:normal;
+    a {
+        color: #987E56;
+    }
 }
 
 .sku {
@@ -227,7 +234,7 @@
         left: 0;
         right: 0;
         z-index: 6;
-        flex-direction: row-reverse;
+        // flex-direction: row-reverse;
         margin: 0;
     }
 
@@ -237,7 +244,7 @@
 
         .mobile-wishlist-icon {
             font-size: 30px;
-            color: tint(#000,60%);
+            color: $gold;
             line-height: 50px;
         }
     }
@@ -245,6 +252,11 @@
     .side-container
     {
         margin-left: 20px;
+    }
+
+    .padding
+    {
+    padding: 2px 0px 0px 0px;
     }
 
 }
@@ -271,7 +283,7 @@
     // display: inline-flex;
     // background-color: #f1f1f1;
     // border-radius: 10px;
-    padding: 2px 0;
+    // padding: 2px 0;
     // font-size: 12px;
     // line-height: 12px;
 }
@@ -282,7 +294,7 @@
 
 
 .badge-img {
-    padding: 15px 0;
+    margin-top: 40px
 }
 .not-eligible {
     text-align: left;
@@ -335,4 +347,8 @@
             text-underline-offset: 2px;
         }
     }
+}
+.wishlist-text
+{
+    padding: 8px;
 }
