@@ -154,7 +154,7 @@ class Search extends React.Component<Props, State> {
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
-    const products = [];
+    const products: any = [];
     if (!data) return false;
     let category = "";
     if (itemData.categories) {
@@ -164,26 +164,25 @@ class Search extends React.Component<Props, State> {
     }
     const listPath = `SearchResults`;
     CookieService.setCookie("listPath", listPath);
-    products.push(
-      (itemData.childAttributes as ChildProductAttributes[])?.map(
-        (child: any) => {
-          return Object.assign(
-            {},
-            {
-              name: data.title,
-              id: itemData.childAttributes?.[0].sku,
-              price: child.discountedPriceRecords
-                ? child.discountedPriceRecords[this.props.currency]
-                : child.priceRecords[this.props.currency],
-              brand: "Goodearth",
-              category: category,
-              variant: itemData.childAttributes?.[0].size || "",
-              position: indices
-            }
-          );
-        }
-      )
+    const attr = (itemData.childAttributes as ChildProductAttributes[])?.map(
+      (child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: data.title,
+            id: itemData.childAttributes?.[0].sku,
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[this.props.currency]
+              : child.priceRecords[this.props.currency],
+            brand: "Goodearth",
+            category: category,
+            variant: itemData.childAttributes?.[0].size || "",
+            position: indices
+          }
+        );
+      }
     );
+    products.concat(attr);
     dataLayer.push({
       event: "productClick",
       ecommerce: {
