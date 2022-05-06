@@ -60,8 +60,20 @@
     height: 15px;
     line-height: 15px;
     position: absolute;
-    bottom: -15px;
+    bottom: -12px;
     // left: 5px;
+    color: $cerise;
+    font-family: $font-Lora;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    font-style: normal;
+    font-weight: normal;
+    padding: 3px 0px 6px 0px;
+    margin-bottom: 10px;
+    &.fontStyle {
+        font-size: 12px;
+        font-family: $font-Lato;
+    }
 }
 
 .left {
@@ -74,3 +86,42 @@
 //     // display: flex;
 //     // width: 100%;
 // }
+.quantity-holder
+{
+    display: flex;
+    border: #E5E5E5;
+    border-radius: 12px;
+    border-style: solid;
+    border-width: 1px;
+    margin-bottom: 20px;
+}
+.quantity-pdp
+{
+    color: #191919;
+    padding: 9px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+    border: #212529
+}
+.input-quantity
+{
+    max-width: 70px;
+    border: 0;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    text-align: center;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    letter-spacing: 0.36px;
+}
+
+.cart-page-fixes {
+    bottom: -22px;
+    font-style: italic;
+    font-size: 10px !important;
+    font-weight: bold;
+    letter-spacing: 1px;
+}

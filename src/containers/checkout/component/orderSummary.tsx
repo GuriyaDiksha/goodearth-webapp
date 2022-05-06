@@ -133,7 +133,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   className={cs(globalStyles.flex, globalStyles.gutterBetween)}
                 >
                   <span className={styles.collectionName}>
-                    {item.product.collections}
+                    {item.product.collection}
                   </span>
                   <span></span>
                 </div>

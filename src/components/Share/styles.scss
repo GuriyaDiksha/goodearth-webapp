@@ -1,8 +1,12 @@
+@import "../../styles/partials/mixins";
+@import "../../styles/partials/variables";
+
+
 .social-icon {
     width: 40px;
-    display: inline-block;
-    margin-right: 10px;
-
+    display: inline;
+    margin:12px;
+    color: $gold;
     svg {
         width: 100%;
     }
@@ -12,7 +16,7 @@
     padding: 3px;
 }
 .share-label {
-    margin-top: 30px;
+    //margin-top: 30px;
     font-size: 14px;
     letter-spacing: 1px;
     font-weight: bold;
@@ -20,14 +24,14 @@
     cursor: pointer;
 }
 .share-container {
-    height: 70px;
+    // height: 70px;
     position: relative;
 }
-.share-inner-container {
-    position: absolute;
-    top: 20px;
-    transition: opacity 0.2s, top 0.2s;
-}
+// .share-inner-container {
+//     position: absolute;
+//     top: 20px;
+//     transition: opacity 0.2s, top 0.2s;
+// }
 .show {
     opacity: 1;
 }
@@ -37,3 +41,27 @@
     cursor: default;
     pointer-events: none;
 }
+.mail
+{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    color: #9B7D50;
+}
+.link
+{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    color: #9B7D50;
+}
+.copy-icon
+{
+    width:25px;
+    margin: 5px;
+}
+ .mail-icon
+ {
+     width: 25px;
+     margin: 5px;
+ }
