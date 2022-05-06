@@ -92,7 +92,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
     );
   }, []);
 
-  const items = withoutZeroPriceData?.map((item: RecommendData, i: number) => {
+  const items = withoutZeroPriceData?.map((item: any, i: number) => {
     return (
       <div
         onMouseEnter={() => setCurrentId(item.id)}
