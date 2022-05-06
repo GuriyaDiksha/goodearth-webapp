@@ -33,7 +33,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
   const [currentId, setCurrentId] = useState(-1);
   const gtmPushWeRecommendClick = (e: any, data: RecommendData, i: number) => {
     try {
-      const products = [];
+      const products: any = [];
       const index = recommendedProducts[i].categories
         ? recommendedProducts[i].categories.length - 1
         : 0;
@@ -45,24 +45,23 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
       category = category.replace(/>/g, "/");
       const listPath = `WeRecommend`;
       CookieService.setCookie("listPath", listPath);
-      products.push(
-        recommendedProducts[i].childAttributes.map((child: any) => {
-          return Object.assign(
-            {},
-            {
-              name: recommendedProducts[i].title,
-              id: child.sku,
-              price:
-                child.discountedPriceRecords[currency] ||
-                child.priceRecords[currency],
-              brand: "Goodearth",
-              category: category,
-              variant: child.size || "",
-              position: i
-            }
-          );
-        })
-      );
+      const attr = recommendedProducts[i].childAttributes.map((child: any) => {
+        return Object.assign(
+          {},
+          {
+            name: recommendedProducts[i].title,
+            id: child.sku,
+            price:
+              child.discountedPriceRecords[currency] ||
+              child.priceRecords[currency],
+            brand: "Goodearth",
+            category: category,
+            variant: child.size || "",
+            position: i
+          }
+        );
+      });
+      products.concat(attr);
       dataLayer.push({
         event: "productClick",
         ecommerce: {

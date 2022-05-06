@@ -696,7 +696,7 @@ export function plpProductClick(
   position?: any
 ) {
   try {
-    const products = [];
+    const products: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
@@ -708,25 +708,24 @@ export function plpProductClick(
         : "";
       category = category.replace(/>/g, "/");
     }
-    products.push(
-      data.childAttributes.map((child: any) => {
-        return Object.assign(
-          {},
-          {
-            name: data.title,
-            id: child.sku,
-            category: category,
-            // list: list,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords[currency],
-            brand: "Goodearth",
-            position: position + 1,
-            variant: child.size || ""
-          }
-        );
-      })
-    );
+    const attr = data.childAttributes.map((child: any) => {
+      return Object.assign(
+        {},
+        {
+          name: data.title,
+          id: child.sku,
+          category: category,
+          // list: list,
+          price: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency],
+          brand: "Goodearth",
+          position: position + 1,
+          variant: child.size || ""
+        }
+      );
+    });
+    products.concat(attr);
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
@@ -840,7 +839,7 @@ export function MoreFromCollectionProductClick(
   currency: Currency,
   position: number
 ) {
-  const products = [];
+  const products: any = [];
   if (!data) return false;
   if (data.length < 1) return false;
   let category = "";
@@ -851,24 +850,23 @@ export function MoreFromCollectionProductClick(
       : "";
     category = category.replace(/>/g, "/");
   }
-  products.push(
-    data.childAttributes.map((child: any) => {
-      return Object.assign(
-        {},
-        {
-          name: data.title,
-          id: child.sku,
-          price: child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency],
-          brand: "Goodearth",
-          category: category,
-          variant: child.size || "",
-          position: position
-        }
-      );
-    })
-  );
+  const attr = data.childAttributes.map((child: any) => {
+    return Object.assign(
+      {},
+      {
+        name: data.title,
+        id: child.sku,
+        price: child.discountedPriceRecords
+          ? child.discountedPriceRecords[currency]
+          : child.priceRecords[currency],
+        brand: "Goodearth",
+        category: category,
+        variant: child.size || "",
+        position: position
+      }
+    );
+  });
+  products.concat(attr);
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   dataLayer.push({
