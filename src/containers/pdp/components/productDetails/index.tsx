@@ -1043,8 +1043,11 @@ const ProductDetails: React.FC<Props> = ({
                 Insert not included.{" "}
                 <Link
                   onClick={e => {
-                    dispatch(updatefillerProduct(fillerProduct));
-                    dispatch(updateshowFiller(true));
+                    if (Object.keys(fillerProduct)?.length > 0) {
+                      dispatch(updatefillerProduct(fillerProduct));
+                      dispatch(updateshowFiller(true));
+                    }
+
                     e.preventDefault();
                   }}
                   to={fillerUrl || "#"}
