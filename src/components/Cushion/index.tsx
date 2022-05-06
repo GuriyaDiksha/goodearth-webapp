@@ -186,9 +186,7 @@ class CushionBag extends React.Component<Props, State> {
     return (
       <div className={bootstrap.row}>
         <div className={cs(bootstrap.col12, styles.margin0)}>
-          {typeof document == "object" && (
-            <CartSlider val={this.state.goToIndex}>{mobileSlides}</CartSlider>
-          )}
+          <CartSlider val={this.state.goToIndex}>{mobileSlides}</CartSlider>
           <div className={styles.innerContainer}>
             <div className={cs(bootstrap.row, globalStyles.voffset4)}>
               <div
