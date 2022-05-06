@@ -98,6 +98,7 @@ const ProductDetails: React.FC<Props> = ({
     invisibleFields,
     partner,
     sizeChart,
+    badgeMessage,
     fillerProduct
   },
   data,
@@ -112,7 +113,7 @@ const ProductDetails: React.FC<Props> = ({
   source,
   showAddToBagMobile,
   loading
-}) => {
+}): JSX.Element => {
   const [productTitle, subtitle] = title.split("(");
   const {
     info,
