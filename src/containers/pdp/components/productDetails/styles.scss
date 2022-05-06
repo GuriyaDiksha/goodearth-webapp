@@ -10,14 +10,19 @@
 
 .side-container{
     margin-top: 30px;
+    margin-left:8.33333%
 }
 
 .title {
     @include pdp_prod_title();
 
-     p {
-        font-style: italic;
-    }
+         p {
+            // font-style: italic;
+            font-family: $font-Montserrat;
+            font-size: 14px;
+            font-style: normal;
+            font-weight:normal;
+           }
 }
 
 .price-container {
@@ -25,7 +30,9 @@
     @include pdp_prod_title();
     font-family: $font-Montserrat;
     font-size: 20px;
-    font-weight: bold;
+    // font-weight: bold;
+    text-align: right !important;
+    padding: 10px 0px;
 }
 
 .discounted-price {
@@ -35,9 +42,9 @@
 }
 
 .old-price {
-    font-size: 10px;
+    font-size: 16px;
     text-decoration: line-through;
-    color: tint(#9f9f9f, 50%) !important;
+    color: #9f9f9f !important;
     font-family: $font-Montserrat;
 }
 
@@ -50,18 +57,21 @@
         color: #000;
         text-decoration: underline;
         text-transform: none;
-        letter-spacing: 1px;
+        // letter-spacing: 1px;
         cursor: pointer;
+        text-underline-offset: 2px;
     }
 
     &.colour {
         line-height: 85px;
     }
     &.size {
-        line-height: 50px;
+        line-height: 40px;
+        height: 40px;
     }
     &.quantity {
         line-height: 40px;
+        height: 40px
     }
 }
 
@@ -79,6 +89,8 @@
     font-size: 14px;
     font-style: normal;
     font-weight:normal;
+    letter-spacing: 0.28px;
+    // padding: 3px 0px 4px 0px;
 }
 
 .bridal-ring {
@@ -130,6 +142,7 @@
     a {
         text-decoration: underline;
         color: $charcoal19;
+        text-underline-offset: 2px;
     }
 }
 .cushion-error
@@ -142,7 +155,7 @@
 }
 .accordion-header {
     @include pdp_copy_head();
-    font-weight: bold;
+    //   font-weight: bold;
    // margin-top: 20px;
 }
 
@@ -162,14 +175,21 @@
 }
 .accordion-body {
     @include pdp_copy_body();
-    letter-spacing: .5px;
+    // letter-spacing: .5px;
     border-bottom: lightgrey solid 1px;
     //padding: 10px;
+    font-weight:normal;
+    a {
+        color: #987E56;
+    }
 }
 
 .sku {
     @include pdp_breadcrumbs();
     text-transform: uppercase;
+    font-family: $font-Montserrat;
+    font-size: 10px;
+    color: #9f9f9f;
 }
 
 @media screen and (max-width: 992px) {
@@ -180,7 +200,7 @@
 
     .title, .price-container {
         @include pdp_prod_title_mobile();
-        padding-bottom: 10px;
+        // padding-bottom: 10px;
     }
     .price-container{
         @include pdp_prod_title_mobile();
@@ -214,7 +234,7 @@
         left: 0;
         right: 0;
         z-index: 6;
-        flex-direction: row-reverse;
+        // flex-direction: row-reverse;
         margin: 0;
     }
 
@@ -223,10 +243,20 @@
         padding: 0;
 
         .mobile-wishlist-icon {
-            font-size: 36px;
-            color: tint(#000,60%);
+            font-size: 30px;
+            color: $gold;
             line-height: 50px;
         }
+    }
+
+    .side-container
+    {
+        margin-left: 20px;
+    }
+
+    .padding
+    {
+    padding: 2px 0px 0px 0px;
     }
 
 }
@@ -253,7 +283,7 @@
     // display: inline-flex;
     // background-color: #f1f1f1;
     // border-radius: 10px;
-    padding: 2px 0;
+    // padding: 2px 0;
     // font-size: 12px;
     // line-height: 12px;
 }
@@ -264,7 +294,7 @@
 
 
 .badge-img {
-    padding: 15px 0;
+    margin-top: 40px
 }
 .not-eligible {
     text-align: left;
@@ -286,6 +316,7 @@
     letter-spacing: 1px;
     cursor: pointer;
     font-family: $font-Montserrat;
+    text-underline-offset: 2px;
 }
 .mobile-margin{
     margin-top: 5px;
@@ -306,12 +337,18 @@
                 color: $gold;
                 text-decoration: underline;
                 cursor: pointer;
+                text-underline-offset: 2px;
             }
         }
         a{
             color: $gold;
             text-decoration: underline;
             cursor: pointer;
+            text-underline-offset: 2px;
         }
     }
+}
+.wishlist-text
+{
+    padding: 8px;
 }

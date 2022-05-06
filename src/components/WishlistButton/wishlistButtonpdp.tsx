@@ -192,7 +192,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
               [stylespdp.addedToWishlist]: addedToWishlist
             })}
           >
-            {addedToWishlist ? "REMOVE FROM SAVED ITEMS" : "SAVE FOR LATER"}
+            {addedToWishlist ? "SAVED!" : "SAVE FOR LATER"}
           </div>
         )}
       </div>

@@ -57,6 +57,7 @@ import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
+import { updatefillerProduct, updateshowFiller } from "actions/filler";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
@@ -96,7 +97,9 @@ const ProductDetails: React.FC<Props> = ({
     badgeType,
     invisibleFields,
     partner,
-    sizeChart
+    sizeChart,
+    badgeMessage,
+    fillerProduct
   },
   data,
   corporatePDP,
@@ -110,7 +113,7 @@ const ProductDetails: React.FC<Props> = ({
   source,
   showAddToBagMobile,
   loading
-}) => {
+}): JSX.Element => {
   const [productTitle, subtitle] = title.split("(");
   const {
     info,
@@ -710,8 +713,7 @@ const ProductDetails: React.FC<Props> = ({
       <div className={bootstrap.row}>
         <div
           className={cs(
-            bootstrap.col10,
-            bootstrap.offset1,
+            bootstrap.col11,
             bootstrap.colMd11,
             styles.sideContainer,
             { [styles.marginT0]: withBadge }
@@ -758,16 +760,14 @@ const ProductDetails: React.FC<Props> = ({
                 </Link>
               )}
             </div>
-            <div
-              className={cs(bootstrap.col12, bootstrap.colMd8, styles.title)}
-            >
+            <div className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}>
               {productTitle}
               {subtitle && <p>({subtitle.split(")")[0]})</p>}
             </div>
             {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
               <div
                 className={cs(
-                  bootstrap.col12,
+                  bootstrap.col4,
                   bootstrap.colMd4,
                   styles.priceContainer,
                   { [globalStyles.textCenter]: !mobile }
@@ -896,7 +896,7 @@ const ProductDetails: React.FC<Props> = ({
                 {sizeChart && !isQuickview && (
                   <div
                     className={cs(bootstrap.colSm4, styles.label, {
-                      [globalStyles.textCenter]: !mobile
+                      [globalStyles.textRight]: !mobile
                     })}
                   >
                     <span
@@ -946,7 +946,8 @@ const ProductDetails: React.FC<Props> = ({
             </span>
           )}
           <div
-            className={cs(bootstrap.row, globalStyles.marginT30, {
+            className={cs(bootstrap.row, {
+              [globalStyles.marginT30]: !mobile,
               [styles.spacerQuickview]: isQuickview && withBadge
             })}
           >
@@ -1041,7 +1042,16 @@ const ProductDetails: React.FC<Props> = ({
               />
               <div>
                 Insert not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here to purchase.</Link>
+                <Link
+                  onClick={e => {
+                    dispatch(updatefillerProduct(fillerProduct));
+                    dispatch(updateshowFiller(true));
+                    e.preventDefault();
+                  }}
+                  to={fillerUrl || "#"}
+                >
+                  Click here to purchase.
+                </Link>
               </div>
             </div>
           ) : (
@@ -1097,6 +1107,7 @@ const ProductDetails: React.FC<Props> = ({
             </div>
             <div
               className={cs(bootstrap.col4, globalStyles.textCenter, {
+                [styles.wishlistText]: !mobile,
                 [styles.wishlistBtnContainer]: mobile,
                 [globalStyles.voffset1]: mobile,
                 [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
@@ -1139,7 +1150,8 @@ const ProductDetails: React.FC<Props> = ({
               className={cs(
                 bootstrap.col12,
                 bootstrap.colMd9,
-                globalStyles.voffset3
+                globalStyles.voffset3,
+                styles.padding
               )}
             >
               <img
@@ -1156,7 +1168,6 @@ const ProductDetails: React.FC<Props> = ({
                 className={styles.shopAvailability}
                 onClick={checkAvailability}
               >
-                {" "}
                 Check in-shop availability{" "}
               </span>
             </div>
@@ -1189,7 +1200,7 @@ const ProductDetails: React.FC<Props> = ({
           <div
             className={cs(
               bootstrap.col12,
-              bootstrap.colMd9,
+              bootstrap.colMd12,
               globalStyles.voffset3
             )}
           >

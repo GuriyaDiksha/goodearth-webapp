@@ -6,7 +6,7 @@ import iconStyles from "../../styles/iconFonts.scss";
 
 const pdpCustomerCareInfo: React.FC = () => {
   return (
-    <div className={cs(globalStyles.voffset3, styles.customercare)}>
+    <div className={cs(styles.pdpcustomercare)}>
       <p>
         <span className={globalStyles.gold}>
           <i
@@ -20,7 +20,7 @@ const pdpCustomerCareInfo: React.FC = () => {
           </a>
         </span>
       </p>
-      <p>
+      <p className={styles.pdpinfo}>
         <span className={globalStyles.gold}>
           <i
             className={cs(iconStyles.icon, iconStyles.iconPhone, styles.icon)}
