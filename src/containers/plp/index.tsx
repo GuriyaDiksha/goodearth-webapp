@@ -110,6 +110,7 @@ class PLP extends React.Component<
   };
 
   componentDidMount() {
+    const that = this;
     dataLayer.push(function(this: any) {
       this.reset();
     });
@@ -160,12 +161,21 @@ class PLP extends React.Component<
       plpMaker: true
     });
     util.moveChatDown();
-    const cards = document.querySelectorAll(".product-container");
-    if (cards.length > 0) {
-      if (cards[0].getBoundingClientRect().y > 330) {
-        this.setState({ count: -1 });
+    // const cards = document.querySelectorAll(".product-container");
+    // if (cards.length > 0) {
+    //   if (cards[0].getBoundingClientRect().y > 330) {
+    //     this.setState({ count: -1 });
+    //   }
+    // }
+    let previousUrl = "";
+    const observer = new MutationObserver(function(mutations) {
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        that.setState({ count: -1 });
       }
-    }
+    });
+    const config = { subtree: true, childList: true };
+    observer.observe(document, config);
   }
 
   componentWillUnmount() {
@@ -361,7 +371,9 @@ class PLP extends React.Component<
           if (idx > -1 && !this.state.flag) {
             this.setState({ count: idx + 1 });
           }
-        } else {
+        } else if (
+          cards[cards.length - 1].getBoundingClientRect().bottom < 130
+        ) {
           this.setState({ count: -1 });
         }
         observer.disconnect();
