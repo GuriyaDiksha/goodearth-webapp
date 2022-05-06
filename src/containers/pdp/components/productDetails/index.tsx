@@ -57,6 +57,7 @@ import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
+import { updatefillerProduct, updateshowFiller } from "actions/filler";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
@@ -96,7 +97,8 @@ const ProductDetails: React.FC<Props> = ({
     badgeType,
     invisibleFields,
     partner,
-    sizeChart
+    sizeChart,
+    fillerProduct
   },
   data,
   corporatePDP,
@@ -1039,7 +1041,16 @@ const ProductDetails: React.FC<Props> = ({
               />
               <div>
                 Insert not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here to purchase.</Link>
+                <Link
+                  onClick={e => {
+                    dispatch(updatefillerProduct(fillerProduct));
+                    dispatch(updateshowFiller(true));
+                    e.preventDefault();
+                  }}
+                  to={fillerUrl || "#"}
+                >
+                  Click here to purchase.
+                </Link>
               </div>
             </div>
           ) : (

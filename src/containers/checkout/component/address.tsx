@@ -394,10 +394,10 @@ const AddressSection: React.FC<AddressProps & {
     if (props.activeStep == Steps.STEP_BILLING) {
       const pass =
         currency == "INR"
-          ? "WE WOULD NEED YOUR PERMANANT ACCOUNT NUMBER (PAN) SINCE YOUR ORDER IS ABOVE 2 LAKHS. PLEASE CONFIRM THE SAME BELOW"
-          : "WE WOULD NEED YOUR PASSPORT NUMBER  SINCE YOUR ORDER IS ABOVE " +
+          ? "AS PER RBI GOVERNMENT REGULATIONS, PAN DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE RS. 2 LAKHS."
+          : "AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE" +
             amountPrice[currency] +
-            ". PLEASE CONFIRM THE SAME BELOW";
+            ".";
       const panText =
         currency == "INR" ? "PAN Card Number*" : " Passport Number*";
       return (
@@ -520,7 +520,8 @@ const AddressSection: React.FC<AddressProps & {
                       className={cs(
                         { [styles.disabledInput]: !!user.panPassport },
                         styles.input,
-                        styles.marginR10
+                        styles.marginR10,
+                        { [styles.panError]: panError }
                       )}
                       onChange={onPanChange}
                       disabled={!!user.panPassport}
