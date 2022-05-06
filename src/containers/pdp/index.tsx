@@ -89,7 +89,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     plpMobileView: state.plplist.plpMobileView,
     scrollDown: state.info.scrollDown,
     showTimer: state.info.showTimer,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    meta: state.meta
   };
 };
 
@@ -560,7 +561,8 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile },
       updateComponentModal,
       changeModalState,
-      corporatePDP
+      corporatePDP,
+      meta
     } = this.props;
     return (
       <ProductDetails
@@ -574,7 +576,7 @@ class PDPContainer extends React.Component<Props, State> {
         wishlist={[]}
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
-        loading={false}
+        loading={meta.templateType == "" ? true : false}
       />
     );
   };
@@ -635,7 +637,6 @@ class PDPContainer extends React.Component<Props, State> {
       data: { collectionProducts = [] },
       device: { mobile }
     } = this.props;
-
     if (
       collectionProducts.length < (mobile ? 2 : 4) ||
       typeof document == "undefined"
