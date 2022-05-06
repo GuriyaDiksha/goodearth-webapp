@@ -5,13 +5,19 @@ import styles from "./styles.scss";
 import arrow from "../../images/arrow-counter-02.svg";
 
 const ProductCounter: React.FC<ProductCounterProps> = ({ current, total }) => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
   return (
     <div className={cs(styles.scrollDownUp)}>
       <div className={cs(styles.counter)}>
         <div className={cs(styles.counterNumber)}>
           <div>{current}</div>/<div>{total}</div>
         </div>
-        <div className={cs(styles.arrowContainer)}>
+        <div className={cs(styles.arrowContainer)} onClick={scrollToTop}>
           <img
             alt="arrow-up"
             src={arrow}
