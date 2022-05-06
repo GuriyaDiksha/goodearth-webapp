@@ -90,7 +90,6 @@ const ProductDetails: React.FC<Props> = ({
     groupedProducts,
     salesBadgeImage,
     fillerMessage,
-    showFillerMessage,
     complianceLine,
     fillerUrl,
     justAddedBadge,
@@ -1024,7 +1023,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
           </div>
-          {showFillerMessage && !isQuickview ? (
+          {fillerProduct && !isQuickview ? (
             <div
               className={cs(
                 bootstrap.col12,
