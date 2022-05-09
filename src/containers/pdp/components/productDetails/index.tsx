@@ -97,6 +97,7 @@ const ProductDetails: React.FC<Props> = ({
     invisibleFields,
     partner,
     sizeChart,
+    badgeMessage,
     fillerProduct
   },
   data,
