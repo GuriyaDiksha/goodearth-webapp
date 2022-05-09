@@ -44,7 +44,9 @@ class GiftCard extends React.Component<
       selectedCountry: "",
       productData: [],
       countryData: [],
-      finalData: {},
+      finalData: {
+        imageUrl: "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png"
+      },
       giftimages: [
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
         "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.png",
@@ -71,6 +73,8 @@ class GiftCard extends React.Component<
         newCountry = "United Kingdom";
       } else if (this.props.currency == "AED") {
         newCountry = "United Arab Emirates";
+      } else if (this.props.currency == "SGD") {
+        newCountry = "Singapore";
       }
       newCountry &&
         this.setState({
@@ -81,7 +85,10 @@ class GiftCard extends React.Component<
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.currency !== this.props.currency) {
+    if (
+      nextProps.currency !== this.props.currency &&
+      this.state.currentSection != "card"
+    ) {
       this.goback("amount");
       const newCurrency = this.state.countryData[this.state.selectedCountry];
       if (nextProps.currency != newCurrency) {
@@ -147,6 +154,8 @@ class GiftCard extends React.Component<
         newCountry = "United Kingdom";
       } else if (this.props.currency == "AED") {
         newCountry = "United Arab Emirates";
+      } else if (this.props.currency == "SGD") {
+        newCountry = "Singapore";
       }
       this.setState({
         selectedCountry: newCountry

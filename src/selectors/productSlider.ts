@@ -13,11 +13,7 @@ export const getProductSliderItems = (
 
     sliderItems.push({
       id: id,
-      collectionName:
-        (product.collections &&
-          product.collections.length &&
-          product.collections[0]) ||
-        "",
+      collection: product.collection || "",
       productUrl: product.url,
       productImage:
         (product.images &&
