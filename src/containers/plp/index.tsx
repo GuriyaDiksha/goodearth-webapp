@@ -371,8 +371,12 @@ class PLP extends React.Component<
           if (idx > -1 && !this.state.flag) {
             this.setState({ count: idx + 1 });
           }
+          if (window.scrollY < 120) {
+            this.setState({ count: -1 });
+          }
         } else if (
-          cards[cards.length - 1].getBoundingClientRect().bottom < 130
+          cards[cards.length - 1].getBoundingClientRect().bottom < 130 ||
+          window.scrollY < 120
         ) {
           this.setState({ count: -1 });
         }
