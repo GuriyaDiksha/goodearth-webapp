@@ -71,6 +71,8 @@ class GiftCard extends React.Component<
         newCountry = "United Kingdom";
       } else if (this.props.currency == "AED") {
         newCountry = "United Arab Emirates";
+      } else if (this.props.currency == "SGD") {
+        newCountry = "Singapore";
       }
       newCountry &&
         this.setState({
@@ -147,6 +149,8 @@ class GiftCard extends React.Component<
         newCountry = "United Kingdom";
       } else if (this.props.currency == "AED") {
         newCountry = "United Arab Emirates";
+      } else if (this.props.currency == "SGD") {
+        newCountry = "Singapore";
       }
       this.setState({
         selectedCountry: newCountry
