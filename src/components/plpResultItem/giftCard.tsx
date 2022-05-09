@@ -2,10 +2,12 @@ import React, { memo } from "react";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 
-const GiftcardItem: React.FC<{}> = memo(() => {
+const GiftcardItem: React.FC<{
+  isCorporateGifting: boolean;
+}> = memo(() => {
   return (
     <div className={styles.plpMain}>
-      <div className={styles.imageBoxnew} id="1">
+      <div className={styles.imageBoxnew} id="gift-card-item">
         <Link to="/giftcard">
           <img
             alt="giftcard-tile"

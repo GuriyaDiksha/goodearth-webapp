@@ -57,6 +57,7 @@ import { useLocation, useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import PdpCustomerCareInfo from "components/CustomerCareInfo/pdpCustomerCare";
 import { updateProduct } from "actions/product";
+import { updatefillerProduct, updateshowFiller } from "actions/filler";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
@@ -89,14 +90,14 @@ const ProductDetails: React.FC<Props> = ({
     groupedProducts,
     salesBadgeImage,
     fillerMessage,
-    showFillerMessage,
     complianceLine,
     fillerUrl,
     justAddedBadge,
     badgeType,
     invisibleFields,
     partner,
-    sizeChart
+    sizeChart,
+    fillerProduct
   },
   data,
   corporatePDP,
@@ -1022,7 +1023,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
           </div>
-          {showFillerMessage && !isQuickview ? (
+          {fillerProduct && !isQuickview ? (
             <div
               className={cs(
                 bootstrap.col12,
@@ -1039,7 +1040,19 @@ const ProductDetails: React.FC<Props> = ({
               />
               <div>
                 Insert not included.{" "}
-                <Link to={fillerUrl || "#"}>Click here to purchase.</Link>
+                <Link
+                  onClick={e => {
+                    if (Object.keys(fillerProduct)?.length > 0) {
+                      dispatch(updatefillerProduct(fillerProduct));
+                      dispatch(updateshowFiller(true));
+                    }
+
+                    e.preventDefault();
+                  }}
+                  to={fillerUrl || "#"}
+                >
+                  Click here to purchase.
+                </Link>
               </div>
             </div>
           ) : (
