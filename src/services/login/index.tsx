@@ -506,7 +506,7 @@ export default {
         .then(resp => resp.json())
         .then(data => {
           if (data.currency) {
-            if (["GBP", "INR", "AED", "SGD"].indexOf(data.currency.code) > -1) {
+            if (data.currency.code == "INR" || data.currency.code == "GBP") {
               resolve(data.currency.code);
             } else {
               resolve("USD");
@@ -546,7 +546,7 @@ export default {
     });
     return res;
   },
-  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: number) => {
+  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: string) => {
     const res = await API.post<{
       success: boolean;
       expired: boolean;

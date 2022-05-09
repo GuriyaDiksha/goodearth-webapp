@@ -332,6 +332,7 @@ class Bag extends React.Component<Props, State> {
       totalWithoutShipping >= freeShippingThreshold &&
       totalWithoutShipping < freeShippingApplicable &&
       this.state.shipping == false &&
+      this.props.currency == "INR" &&
       this.props.cart.shippable
     ) {
       this.setState({
