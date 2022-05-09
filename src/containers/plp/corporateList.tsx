@@ -98,7 +98,7 @@ class CorporateFilter extends React.Component<Props, State> {
     const vars: any = {};
     const { history } = this.props;
     const url = decodeURI(history.location.search.replace(/\+/g, " "));
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
     let match;
     while ((match = re.exec(url))) {
@@ -140,7 +140,8 @@ class CorporateFilter extends React.Component<Props, State> {
                 cc[i] == "Corporate Gifting" ||
                 cc[i] == "Souk" ||
                 cc[i] == "Pero" ||
-                cc[i] == "Eka"
+                cc[i] == "Eka" ||
+                cc[i] == "EkaaTest"
               ) {
                 this.haveCorporate = true;
               } else {
@@ -345,7 +346,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   afterChangeValue = (value: any) => {
     if (value[0] == value[1]) return false;
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     filter.price["min_price"] = value[0];
     filter.price["max_price"] = value[1];
     this.setState({
@@ -569,6 +570,7 @@ class CorporateFilter extends React.Component<Props, State> {
       action == "PUSH" &&
       location.pathname.includes("/catalogue/category/")
     ) {
+      console.log("Called");
       this.setState(
         {
           filter: {
@@ -592,11 +594,38 @@ class CorporateFilter extends React.Component<Props, State> {
     }
   };
 
+  // componentDidMount() {
+  //   valid.moveChatDown();
+  //   window.addEventListener("scroll", this.handleScroll, { passive: true });
+  //   this.props.updateScrollDown(false);
+  //   this.unlisten = this.props.history.listen(this.stateChange);
+  // }
+
   componentDidMount() {
-    valid.moveChatDown();
+    const that = this;
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
+    let previousUrl = "";
+    const observer = new MutationObserver(function(mutations) {
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        that.setState({
+          filter: {
+            currentColor: {},
+            availableSize: {},
+            categoryShop: {},
+            price: {},
+            currency: {},
+            sortBy: {},
+            productType: {},
+            availableDiscount: {}
+          }
+        });
+      }
+    });
+    const config = { subtree: true, childList: true };
+    observer.observe(document, config);
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
@@ -683,7 +712,7 @@ class CorporateFilter extends React.Component<Props, State> {
       subCategories: any = [],
       categoryNames: any = [],
       categoryObj: any = {};
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
 
     let selectIndex: any = -1;
 
@@ -793,7 +822,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   onClickLevel4 = (event: any) => {
     const id = event.target.id;
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     filter.productType[id] = event.target.checked;
     // this.old_level4Value = event.target.value;
     this.setState({
@@ -805,7 +834,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   onClickDiscount = (event: any) => {
     const id = event.target.id;
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     filter.availableDiscount[id] = {
       isChecked: event.target.checked,
       value: event.target.value
@@ -1034,7 +1063,8 @@ class CorporateFilter extends React.Component<Props, State> {
     const categoryObj = this.state.filter.categoryShop,
       viewData = event.target.id.split(">");
     viewData.length > 2 ? viewData.pop() : "";
-    const { filter, isViewAll } = this.state;
+    const { isViewAll } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     let viewAll = isViewAll;
     //code for checked view all true
     if (event.target.name.indexOf("View all") > -1 && !event.target.checked) {
@@ -1129,7 +1159,7 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   handleClickColor = (event: any) => {
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     filter.currentColor[event.target.id] = {
       isChecked: event.target.checked,
       value: event.target.value
@@ -1144,7 +1174,7 @@ class CorporateFilter extends React.Component<Props, State> {
   createColorCheckbox = (facets: any) => {
     if (!facets.currentColor || facets.length == 0) return false;
     const html: any = [];
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     facets.currentColor.map((data: any, i: number) => {
       const color: any = {
         "--my-color-var": "#" + data[0].split("-")[0]
@@ -1172,7 +1202,7 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   handleClickSize = (event: any) => {
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     filter.availableSize[event.target.value] = {
       isChecked: event.target.checked,
       value: event.target.value
@@ -1185,7 +1215,7 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   deleteFilter = (event: any, key: string, value: any) => {
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     if (key == "price") {
       filter[key] = {};
     } else if (key == "productType") {
@@ -1213,7 +1243,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   clearFilter = (event: any, key: string, ischange?: boolean) => {
     const elementCount: any = document.getElementById("currentFilter");
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     if ((elementCount ? elementCount.childElementCount : null) == 0)
       return false;
     switch (key) {
@@ -1538,7 +1568,7 @@ class CorporateFilter extends React.Component<Props, State> {
   };
 
   changeValue = (event: any, sort: any) => {
-    const { filter } = this.state;
+    const filter = Object.assign({}, this.state.filter);
     if (sort == "price_asc") {
       filter.sortBy = { sortBy: "price_asc" };
     } else if (sort == "price_desc") {
