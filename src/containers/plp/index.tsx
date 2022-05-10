@@ -1015,6 +1015,7 @@ class PLP extends React.Component<
           <ProductCounter
             current={this.state.count}
             total={!this.state.corporoateGifting ? count + 1 : count}
+            id="plp-product-counter"
           />
         )}
       </div>
