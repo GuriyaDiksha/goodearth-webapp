@@ -57,7 +57,7 @@ const PdpSlider: React.FC<Props> = memo(
       }
     }, [activeIndex]);
 
-    const imageslist = images;
+    const imageslist = images.length == 1 ? images.concat(images[0]) : images;
     const imageNodes: ReactNode[] = imageslist.map(
       ({ productImage, id, icon }, index) => {
         return (
