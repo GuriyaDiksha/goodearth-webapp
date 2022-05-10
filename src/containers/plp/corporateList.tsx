@@ -605,7 +605,7 @@ class CorporateFilter extends React.Component<Props, State> {
     const that = this;
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
-    this.unlisten = this.props.history.listen(this.stateChange);
+    // this.unlisten = this.props.history.listen(this.stateChange);
     let previousUrl = "";
     const observer = new MutationObserver(function(mutations) {
       if (location.href !== previousUrl) {
