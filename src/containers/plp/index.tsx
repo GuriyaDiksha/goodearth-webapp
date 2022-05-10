@@ -777,13 +777,13 @@ class PLP extends React.Component<
                     ? cs(
                         bootstrap.row,
                         styles.imageContainerMobileBanner,
-                        globalStyles.paddTop20,
+                        globalStyles.paddTop10,
                         "products_container"
                       )
                     : cs(
                         bootstrap.row,
                         styles.imageContainerMobile,
-                        globalStyles.paddTop20,
+                        globalStyles.paddTop10,
                         "products_container"
                       )
                   : cs(

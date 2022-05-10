@@ -23,7 +23,9 @@ const ProductCounter: React.FC<ProductCounterProps> = ({
             [styles.plpProductCounter]: id == "plp-product-counter"
           })}
         >
-          <div>{current}</div>/<div>{total}</div>
+          <div className={cs(styles.current)}>{current}</div>
+          <div>/</div>
+          <div className={cs(styles.total)}>{total}</div>
         </div>
         <div className={cs(styles.arrowContainer)} onClick={scrollToTop}>
           <img
