@@ -229,6 +229,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         }
       ];
     }
+
+    if (currency == "AED") {
+      methods = methods.filter(data => {
+        return data.key != "paypal";
+      });
+    }
     return methods;
   }, [currency]);
 

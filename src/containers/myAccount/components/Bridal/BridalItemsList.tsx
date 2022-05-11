@@ -33,7 +33,7 @@ const BridalItemsList: React.FC<Props> = props => {
   };
 
   const getCurrency = () => {
-    return String.fromCharCode(currencyCode[props.currency]);
+    return String.fromCharCode(...currencyCode[props.currency]);
   };
   const dispatch = useDispatch();
   const increaseState = () => {
