@@ -371,8 +371,12 @@ class PLP extends React.Component<
           if (idx > -1 && !this.state.flag) {
             this.setState({ count: idx + 1 });
           }
+          if (window.scrollY < 120) {
+            this.setState({ count: -1 });
+          }
         } else if (
-          cards[cards.length - 1].getBoundingClientRect().bottom < 130
+          cards[cards.length - 1].getBoundingClientRect().bottom < 130 ||
+          window.scrollY < 120
         ) {
           this.setState({ count: -1 });
         }
@@ -392,6 +396,11 @@ class PLP extends React.Component<
       CookieService.setCookie("plpMobileView", plpMobileView);
       util.viewSelectionGTM(plpMobileView);
       const cards = document.querySelectorAll(".product-container");
+      const cardIDs: any = [];
+
+      cards.forEach(card => {
+        cardIDs.push(card.children[0].children[0].id);
+      });
 
       const observer = new IntersectionObserver(
         entries => {
@@ -412,10 +421,12 @@ class PLP extends React.Component<
             }
           });
           if (leftMostPos != Infinity) {
+            const productID = leftMostElement.children[0].children[0].id;
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
             window.scrollBy({ top: top, behavior: "smooth" });
+            if (productID == cardIDs[0]) this.setState({ count: -1 });
           } else {
             this.props.updateMobileView(plpMobileView);
           }
@@ -766,13 +777,13 @@ class PLP extends React.Component<
                     ? cs(
                         bootstrap.row,
                         styles.imageContainerMobileBanner,
-                        globalStyles.paddTop20,
+                        globalStyles.paddTop10,
                         "products_container"
                       )
                     : cs(
                         bootstrap.row,
                         styles.imageContainerMobile,
-                        globalStyles.paddTop20,
+                        globalStyles.paddTop10,
                         "products_container"
                       )
                   : cs(
@@ -1004,6 +1015,7 @@ class PLP extends React.Component<
           <ProductCounter
             current={this.state.count}
             total={!this.state.corporoateGifting ? count + 1 : count}
+            id="plp-product-counter"
           />
         )}
       </div>
