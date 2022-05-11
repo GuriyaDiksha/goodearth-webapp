@@ -352,3 +352,24 @@
 {
     padding: 8px;
 }
+.sales-offer
+{
+    display: inline-flex;
+    align-items: center;
+}
+.offer-message
+{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: 0.36px;
+    color: $charcoal19;  
+    margin: 10px;
+}
+.offer-image
+{
+    width: 40px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
