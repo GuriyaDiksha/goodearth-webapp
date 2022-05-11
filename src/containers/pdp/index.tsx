@@ -591,7 +591,11 @@ class PDPContainer extends React.Component<Props, State> {
       corporatePDP
     } = this.props;
 
-    if (recommendedSliderItems.length < 4 || typeof document == "undefined") {
+    if (
+      recommendedSliderItems.length < 4 ||
+      typeof document == "undefined" ||
+      recommendedSliderItems.length == 0
+    ) {
       return null;
     }
 
