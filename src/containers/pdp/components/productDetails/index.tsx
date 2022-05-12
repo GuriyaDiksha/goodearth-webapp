@@ -61,7 +61,7 @@ import { updatefillerProduct, updateshowFiller } from "actions/filler";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
-import offer20 from "images/offer20.svg";
+import offer from "images/offer.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
@@ -1034,7 +1034,7 @@ const ProductDetails: React.FC<Props> = ({
               )}
             >
               <img
-                src={offer20}
+                src={offer}
                 className={styles.offerImage}
                 alt="offer20-icon"
               />
