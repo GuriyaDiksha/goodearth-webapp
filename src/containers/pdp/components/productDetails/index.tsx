@@ -1029,7 +1029,7 @@ const ProductDetails: React.FC<Props> = ({
             <div
               className={cs(
                 bootstrap.col12,
-                bootstrap.colMd10,
+                bootstrap.colMd12,
                 styles.salesOffer
               )}
             >
@@ -1199,7 +1199,7 @@ const ProductDetails: React.FC<Props> = ({
             <div
               className={cs(
                 bootstrap.col12,
-                bootstrap.colMd9,
+                bootstrap.colMd12,
                 globalStyles.voffset2
               )}
             >
