@@ -356,6 +356,13 @@
 {
     display: inline-flex;
     align-items: center;
+     a
+     {
+          text-decoration: underline;
+          text-underline-offset: 2px;
+          color: $charcoal19;
+          cursor:pointer;
+     }
 }
 .offer-message
 {
@@ -369,7 +376,6 @@
 }
 .offer-image
 {
-    width: 35px;
-    padding-right: 10px;
+    width: 22px;
     vertical-align: middle;
 }
