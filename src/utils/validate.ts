@@ -725,7 +725,6 @@ export function plpProductClick(
         }
       );
     });
-    products.concat(attr);
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
@@ -734,7 +733,7 @@ export function plpProductClick(
         currencyCode: currency,
         click: {
           actionField: { list: listPath },
-          products: products
+          products: products.concat(attr)
         }
       }
     });
@@ -866,7 +865,6 @@ export function MoreFromCollectionProductClick(
       }
     );
   });
-  products.concat(attr);
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   dataLayer.push({
@@ -875,7 +873,7 @@ export function MoreFromCollectionProductClick(
       currencyCode: currency,
       click: {
         actionField: { list: listPath },
-        products: products
+        products: products.concat(attr)
       }
     }
   });
