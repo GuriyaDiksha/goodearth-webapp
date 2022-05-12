@@ -182,7 +182,6 @@ class Search extends React.Component<Props, State> {
         );
       }
     );
-    products.concat(attr);
     dataLayer.push({
       event: "productClick",
       ecommerce: {
@@ -190,7 +189,7 @@ class Search extends React.Component<Props, State> {
         click: {
           // actionField: { list: "Search Popup" },
           actionField: { list: listPath },
-          products: products
+          products: products.concat(attr)
         }
       }
     });

@@ -61,7 +61,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           }
         );
       });
-      products.concat(attr);
+
       dataLayer.push({
         event: "productClick",
         ecommerce: {
@@ -69,7 +69,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           click: {
             // actionField: { list: "We Recommend" },
             actionField: { list: listPath },
-            products: products
+            products: products.concat(attr)
           }
         }
       });
