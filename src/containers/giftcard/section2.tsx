@@ -176,9 +176,9 @@ const Section2: React.FC<Section2Props> = ({
         if (+value < 100) {
           status = true;
           msg = `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
-            currencyCode[currency]
+            ...currencyCode[currency]
           )} 100. Please enter a value greater than or equal to ${String.fromCharCode(
-            currencyCode[currency]
+            ...currencyCode[currency]
           )} 100.`;
         }
         break;
