@@ -113,7 +113,7 @@ const ProductDetails: React.FC<Props> = ({
   source,
   showAddToBagMobile,
   loading
-}) => {
+}): JSX.Element => {
   const [productTitle, subtitle] = title.split("(");
   const {
     info,
@@ -791,7 +791,7 @@ const ProductDetails: React.FC<Props> = ({
                   </span>
                 ) : (
                   <span
-                    className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                    className={badgeType == "B_flat" ? globalStyles.gold : ""}
                   >
                     {" "}
                     {String.fromCharCode(...currencyCodes[currency])}
