@@ -92,7 +92,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
         }
       })
       .catch(error => {
-        const msg = error.response?.data?.[0];
+        const msg = error.response.data.msg;
         this.setState(
           {
             error: msg
