@@ -13,7 +13,8 @@ const Body: React.FC<Props> = memo(({ className, open, children }) => {
     <div
       className={cs(className, styles.accordionBody, {
         [styles.open]: open,
-        [styles.closed]: !open
+        [styles.closed]: !open,
+        [styles.sizeGuideAccordion]: className == "size-guide-accordion"
       })}
     >
       {children}
