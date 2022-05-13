@@ -790,7 +790,7 @@ const ProductDetails: React.FC<Props> = ({
                   </span>
                 ) : (
                   <span
-                    className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                    className={badgeType == "B_flat" ? globalStyles.gold : ""}
                   >
                     {" "}
                     {String.fromCharCode(...currencyCodes[currency])}
