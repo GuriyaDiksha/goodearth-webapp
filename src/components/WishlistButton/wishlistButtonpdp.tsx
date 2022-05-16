@@ -163,7 +163,10 @@ const WishlistButtonpdp: React.FC<Props> = ({
 
   return (
     <>
-      <div className={className}>
+      <div
+        className={cs(className, stylespdp.wishlistButtonPdp)}
+        onClick={onClick}
+      >
         <div
           style={parentWidth ? { width: "100%" } : {}}
           className={cs(
@@ -184,7 +187,6 @@ const WishlistButtonpdp: React.FC<Props> = ({
                 : "Move to Saved Items"
               : ""
           }
-          onClick={onClick}
         ></div>
         {showText && (
           <div
