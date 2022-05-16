@@ -18,7 +18,7 @@
     line-height: 40px;
     padding: 0 5px;
     letter-spacing: 0.36px;
-    
+    position: relative;
     &:hover {
       border: 1px solid #799999;
       background-color: #f9f8f5;
@@ -33,7 +33,7 @@
 
     &.unavailable {
       color: #E5E5E5;
-      text-decoration: line-through;
+      // text-decoration: line-through;
       border: #E5E5E5;
       border-style: solid;
       border-width: 1px;
@@ -51,5 +51,16 @@
         background-color: white;
         font-size:12px;
         color: #799999;
+    }
+
+    .strike-size{
+      width: calc(1.414 * 35px);
+      transform: rotate(315deg);
+      transform-origin: top right;
+      border-top: 1px solid;
+      position: absolute;
+      top: 2px;
+      left: -13px;
+      box-sizing: border-box;
     }
 }
