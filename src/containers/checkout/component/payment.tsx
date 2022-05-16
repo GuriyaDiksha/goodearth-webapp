@@ -39,7 +39,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
   const [gbpError, setGbpError] = useState("");
-  const [getMethods, setGetMethods] = useState([]);
+  const [getMethods, setGetMethods] = useState<any[]>([]);
   const dispatch = useDispatch();
 
   const toggleInput = () => {
