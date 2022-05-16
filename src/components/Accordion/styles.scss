@@ -24,8 +24,6 @@
 }
 
 .accordion-body {
-    visibility: hidden;
-    height: 0px;
     line-height: 20px;
     &.open {
         visibility: visible;
@@ -33,7 +31,15 @@
         padding-bottom:15px;
     }
     &.closed {
+        visibility: hidden;
+        height: 0px;
         margin-top: 0px;
         margin-bottom: 0px;
+        position: relative;
+        top:-10000px;
     }
+}
+
+.size-guide-accordion{
+    position:relative;
 }

@@ -316,7 +316,7 @@ const ProductDetails: React.FC<Props> = ({
         id: "shippAndHandle"
       },
       {
-        header: "For Any queries or Assistance",
+        header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
       },
