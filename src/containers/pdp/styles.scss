@@ -32,7 +32,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .product-image-container {
     // padding-left: 40px;
-    margin-top: 40px;
+    // margin-top: 40px;
     img {
         cursor: url(../../images/cursorZoom.png), auto;
     }
@@ -318,4 +318,8 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     &.show{
         display: block;
     }
+}
+
+.breadcrumbs-section{
+    justify-content: center;
 }

@@ -744,21 +744,19 @@ const ProductDetails: React.FC<Props> = ({
               />
             </div>
           )} */}
-            <div
-              className={cs(bootstrap.col12, styles.collectionHeader, {
-                [globalStyles.voffset3]: !withBadge
-              })}
-            >
-              {collection && (
-                <Link
-                  to={collectionUrl || "#"}
-                  onClick={closeModal ? closeModal : () => null}
-                >
-                  {" "}
-                  {collection}{" "}
-                </Link>
-              )}
-            </div>
+            {collection && (
+              <div className={cs(bootstrap.col12, styles.collectionHeader, {})}>
+                {collection && (
+                  <Link
+                    to={collectionUrl || "#"}
+                    onClick={closeModal ? closeModal : () => null}
+                  >
+                    {" "}
+                    {collection}{" "}
+                  </Link>
+                )}
+              </div>
+            )}
             <div className={cs(bootstrap.col8, bootstrap.colMd8, styles.title)}>
               {productTitle}
               {subtitle && <p>({subtitle.split(")")[0]})</p>}

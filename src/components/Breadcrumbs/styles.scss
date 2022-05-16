@@ -10,7 +10,7 @@
         
         @include pdp_breadcrumbs();
         &:last-child {
-            color: tint(#000, 40%);
+            color: #191919;
         }
         
     }
