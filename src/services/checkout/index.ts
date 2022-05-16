@@ -76,5 +76,12 @@ export default {
     );
     dispatch(updateBasket(res));
     return res;
+  },
+  getPaymentList: async function(dispatch: Dispatch) {
+    const res = await API.get<ApiResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/checkout/fetch_payment_methods"}`
+    );
+    return res;
   }
 };
