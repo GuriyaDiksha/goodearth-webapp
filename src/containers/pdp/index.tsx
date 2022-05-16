@@ -1140,15 +1140,17 @@ class PDPContainer extends React.Component<Props, State> {
           }
         )}
       >
-        {!mobile && showSecondary && (
-          <SecondaryHeader>
+        {/* {!mobile && showSecondary && (
+          // <SecondaryHeader>
             <Breadcrumbs
               levels={breadcrumbs}
-              className={cs(bootstrap.colMd7, bootstrap.offsetMd1)}
+              className={cs(bootstrap.row, bootstrap.col12, styles.breadcrumbs)}
             />
-          </SecondaryHeader>
-        )}
-
+          // </SecondaryHeader>
+        )} */}
+        <div className={cs(styles.breadcrumbsSection, bootstrap.row)}>
+          <Breadcrumbs levels={breadcrumbs} className={cs(bootstrap.colMd9)} />
+        </div>
         <div
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
