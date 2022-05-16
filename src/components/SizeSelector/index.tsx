@@ -34,6 +34,9 @@ const SizeSelector: React.FC<Props> = ({
           onClick={getSizeClickHandler(child)}
         >
           {size}
+          {stock === 0 && !isCorporatePDP && (
+            <div className={styles.strikeSize}></div>
+          )}
         </div>
       );
     });
