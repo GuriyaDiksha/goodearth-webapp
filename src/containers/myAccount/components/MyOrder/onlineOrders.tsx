@@ -283,6 +283,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             {data.lines.map((item: any) => {
               const isDiscount =
                 +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
+              const price1 =
+                +parseFloat(item.priceInclTax).toFixed(2) / +item.quantity;
+              const price2 =
+                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                +item.quantity;
+              const price3 =
+                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                +item.quantity;
               return (
                 <div
                   className={cs(
@@ -320,8 +328,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                             {String.fromCharCode(
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
-                            {+parseFloat(item.priceInclTax).toFixed(2) /
-                              +item.quantity}
+                            {Number.isSafeInteger(+price1)
+                              ? price1
+                              : price1.toFixed(2) + ""}
                             &nbsp;{" "}
                           </span>
                         ) : (
@@ -332,9 +341,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                             {String.fromCharCode(
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
-                            {+parseFloat(
-                              item.priceExclTaxExclDiscounts
-                            ).toFixed(2) / +item.quantity}
+                            {Number.isSafeInteger(+price2)
+                              ? price2
+                              : price2.toFixed(2) + ""}
                             &nbsp;{" "}
                           </span>
                         ) : (
@@ -351,9 +360,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
                             &nbsp;{" "}
-                            {+parseFloat(
-                              item.priceExclTaxExclDiscounts
-                            ).toFixed(2) / +item.quantity}
+                            {Number.isSafeInteger(+price3)
+                              ? price3
+                              : price3.toFixed(2) + ""}
                           </span>
                         )}
                       </p>
