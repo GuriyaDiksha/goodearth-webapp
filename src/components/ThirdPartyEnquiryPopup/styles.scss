@@ -227,3 +227,16 @@
     // font-weight: bold;
     font-weight: 600;
 }
+
+textarea[disabled] {
+  -webkit-text-fill-color: gray;
+}
+
+input[disabled] {
+  -webkit-text-fill-color: gray;
+}
+
+select[disabled] {
+  -webkit-text-fill-color: gray;
+}
+
