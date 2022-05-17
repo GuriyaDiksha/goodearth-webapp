@@ -14,6 +14,7 @@ import * as valid from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
 import { updateShowCookie } from "actions/info";
+import "./style.css";
 
 const mapStateToProps = (state: AppState) => {
   return {
