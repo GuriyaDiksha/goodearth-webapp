@@ -518,24 +518,18 @@ class PDPContainer extends React.Component<Props, State> {
               total={productImages.length}
             />
           </div>
-          <i
-            className={cs(
-              fontStyles.icon,
-              fontStyles.iconArrowLeft,
-              styles.imageArrowLeft,
-              { [styles.show]: this.state.imageHover }
-            )}
+          <div
+            className={cs(styles.imageArrowLeft, {
+              [styles.show]: this.state.imageHover
+            })}
             onClick={this.onClickImageArrowLeft}
-          ></i>
-          <i
-            className={cs(
-              fontStyles.icon,
-              fontStyles.iconArrowRight,
-              styles.imageArrowRight,
-              { [styles.show]: this.state.imageHover }
-            )}
+          ></div>
+          <div
+            className={cs(styles.imageArrowRight, {
+              [styles.show]: this.state.imageHover
+            })}
             onClick={this.onClickImageArrowRight}
-          ></i>
+          ></div>
         </div>
       );
       // });
