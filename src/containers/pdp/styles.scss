@@ -6,7 +6,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .pdp-container {
     margin-top: $header-height;
-    
+    padding-bottom: 100px;
     &:not(.mobile) {
         margin-top: $pdp-top;
     }
