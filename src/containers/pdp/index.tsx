@@ -13,7 +13,6 @@ import {
   PLPProductItem,
   Product
 } from "typings/product";
-import SecondaryHeader from "components/SecondaryHeader";
 import Breadcrumbs from "components/Breadcrumbs";
 import PdpImage from "./components/pdpImage";
 import WeRecommendSlider from "components/weRecomend";
@@ -56,8 +55,6 @@ import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
-
-import fontStyles from "styles/iconFonts.scss";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
