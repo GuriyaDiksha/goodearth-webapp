@@ -72,6 +72,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
           Moengage.add_email(user.profileObj.email);
           Moengage.add_mobile("");
           Moengage.add_gender("");
+          Moengage.add_unique_user_id(user.profileObj.email);
         })
         .catch(err => {
           const data = err.response?.data;
