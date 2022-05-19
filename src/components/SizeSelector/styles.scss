@@ -37,7 +37,7 @@
       border: #E5E5E5;
       border-style: solid;
       border-width: 1px;
-
+      background: linear-gradient(to left top, transparent 47.75%, currentColor 50.5%, currentColor 49.5%, transparent 51.25%);
       &:hover {
         // background-color: tint(#000,95%);
         border: #E5E5E5;
@@ -51,16 +51,5 @@
         background-color: white;
         font-size:12px;
         color: #799999;
-    }
-
-    .strike-size{
-      width: calc(1.414 * 35px);
-      transform: rotate(315deg);
-      transform-origin: top right;
-      border-top: 1px solid;
-      position: absolute;
-      top: 2px;
-      left: -13px;
-      box-sizing: border-box;
     }
 }
