@@ -12,6 +12,10 @@
   // 100% wide container at all breakpoints
   .container-fluid {
     @include make-container();
+    &.no-pad {
+      padding-right: 0px;
+      padding-left: 0px;
+    }
   }
 
   // Responsive containers that are 100% wide until a breakpoint
