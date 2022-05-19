@@ -6,7 +6,7 @@ $pdp-top: $header-height + $secondary-header-height;
 
 .pdp-container {
     margin-top: $header-height;
-    padding-bottom: 100px;
+    // padding-bottom: 100px;
     &:not(.mobile) {
         margin-top: $pdp-top;
     }
@@ -330,4 +330,15 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 
 .breadcrumbs-section{
     justify-content: center;
+}
+
+.bottomPanel{
+    width: 100%;
+    height: 80px;
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0px;
+    z-index: 12;
+    box-shadow: 0px -8px 10px #e6e6e6;
+    background: #fff;
 }
