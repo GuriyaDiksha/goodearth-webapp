@@ -552,6 +552,20 @@ export function PDP(data: any, currency: Currency) {
         }
       }
     });
+    // dataLayer.push(
+    //   {
+    //   'Event Category':'GA Ecommerce',
+    //   'Event Action':'PDP ',
+    //   'Event Label':'Pass the L3 product category',
+    //   'Product Category':category,
+    //   "Login Status": this.props.isLoggedIn
+    //           ? "logged in"
+    //           : "logged out",
+    //   "Time Stamp": new Date().toISOString(),
+    //   "Page Url": location.href,
+    //   "Page Type": util.getPageType(),
+    //   "Page referrer url": CookieService.getCookie("prevUrl")
+    //   });
   } catch (e) {
     console.log(e);
     console.log("PDP impression error");
@@ -1102,13 +1116,13 @@ export const megaMenuNavigationGTM = ({
   }
 };
 
-export const pageViewGTM = (title: string) => {
+export const pageViewGTM = (Title: string) => {
   try {
     dataLayer.push({
       event: "pageview",
-      page: {
+      Page: {
         path: location.pathname,
-        title
+        Title
       }
     });
   } catch (e) {
