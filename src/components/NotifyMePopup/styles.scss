@@ -123,6 +123,11 @@
 
 .size-error {
     @include error-msg();
+    font-size: 14px;
+    font-family: $font-Lora;
+    font-style: italic;
+    font-weight: normal;
+    letter-spacing: 0.3px;
 }
 span{
     &.discountprice {

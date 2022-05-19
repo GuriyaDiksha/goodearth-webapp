@@ -25,6 +25,7 @@ import { Context as ModalContext } from "components/Modal/context";
 // styles
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
+import inputStyles from "./../NotifyMePopup/styles.scss";
 import { ChildProductAttributes } from "typings/product";
 import { MESSAGE } from "constants/messages";
 import { Currency } from "typings/currency";
@@ -407,7 +408,7 @@ const NotifyMePopup: React.FC<Props> = ({
                 value={email}
                 onChange={onEmailChange}
                 validator={validator}
-                className={styles.field}
+                className="notify-me-email-input"
                 label="Email"
                 placeholder="Email Address"
                 errorMsg={emailError}
