@@ -88,7 +88,14 @@ const InputField: React.FC<Props> = ({
         />
         {focused && !disabled && <div className={styles.label}>{label}</div>}
         {(error || errorMsg) && (
-          <span className={styles.inputError}>{error || errorMsg}</span>
+          <span
+            className={cs(styles.inputError, {
+              [styles.notifyMeEmailInputError]:
+                className == "notify-me-email-input"
+            })}
+          >
+            {error || errorMsg}
+          </span>
         )}
       </div>
     </>

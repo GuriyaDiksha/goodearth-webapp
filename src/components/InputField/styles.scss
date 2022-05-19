@@ -34,6 +34,13 @@ input.input {
 
 .input-error {
   @include error-msg();
+  &.notify-me-email-input-error{
+    font-size: 14px;
+    font-family: $font-Lora;
+    font-style: italic;
+    font-weight: normal;
+    letter-spacing: 0.3px;
+  }
 }
 
 .label {
