@@ -5,9 +5,10 @@ input.input {
     background-color: #fff;
     border: 1px solid #eee;
     width: 100%;
-    padding: 10px;
+    padding: 10px 18px;
     font-size: 14px;
-    line-height: 25px;
+    line-height: 50px;
+    height: 50px;
     text-align: left;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -28,7 +29,7 @@ input.input {
     }
 
     &.disabled {
-      background-color: $disabled-input;
+      color: #C1C1C1;
     }
 }
 
@@ -46,11 +47,11 @@ input.input {
 .label {
   position: absolute;
   top: -10px;
-  left: 10px;
+  left: 15px;
   font-weight: 100;
-  font-size: 10px;
+  font-size: 14px;
   color: #999;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   background-color: #fff;
   padding: 3px;
 }

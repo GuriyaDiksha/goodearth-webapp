@@ -86,7 +86,7 @@ const InputField: React.FC<Props> = ({
             [styles.disabled]: disabled
           })}
         />
-        {focused && !disabled && <div className={styles.label}>{label}</div>}
+        {<div className={styles.label}>{label}</div>}
         {(error || errorMsg) && (
           <span
             className={cs(styles.inputError, {
