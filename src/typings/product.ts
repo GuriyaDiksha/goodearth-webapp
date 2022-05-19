@@ -72,6 +72,8 @@ export interface Product<T = ProductID> extends PartialProductItem {
   complianceLine?: string;
   manufactureInfo: string;
   sizeChart: string | SizeChartResponse;
+  badgeMessage?: string;
+  fillerProduct: PartialProductItem | any;
 }
 
 export interface PartialChildProductAttributes {
