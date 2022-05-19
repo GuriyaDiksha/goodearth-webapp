@@ -1155,6 +1155,7 @@ class PDPContainer extends React.Component<Props, State> {
           // { [styles.pdpSecondcontainer]: !showSecondary },
           { [styles.pdpContainerTimer]: this.props.showTimer },
           bootstrap.containerFluid,
+          bootstrap.noPad,
           {
             [styles.mobile]: mobile
           }
@@ -1291,7 +1292,9 @@ class PDPContainer extends React.Component<Props, State> {
           {!this.state.showLooks && this.getMoreCollectionProductsSection()}
         </div>
         {!mobile && this.state.showDock && (
-          <div className={cs(styles.bottomPanel)}>Okay</div>
+          <div className={cs(styles.bottomPanel)}>
+            <div className={cs(styles.content)}>Okay</div>
+          </div>
         )}
       </div>
     );
