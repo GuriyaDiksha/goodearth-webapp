@@ -1,10 +1,12 @@
 // import loadable from "@loadable/component";
 import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
+import throttle from "lodash/throttle";
 import cs from "classnames";
 import { Props as PDPProps, State } from "./typings.d";
 import initAction from "./initAction";
 import metaAction from "./metaAction";
+import DockedPanel from "./docked";
 import MakerEnhance from "maker-enhance";
 import { getProductIdFromSlug } from "utils/url";
 import { AppState } from "reducers/typings";
@@ -55,6 +57,8 @@ import inactiveGrid from "images/plpIcons/inactive_grid.svg";
 import activeList from "images/plpIcons/active_list.svg";
 import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
+import { SingleEntryPlugin } from "webpack";
+import { isConstructorDeclaration } from "typescript";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -113,7 +117,8 @@ class PDPContainer extends React.Component<Props, State> {
       index: -1,
       value: ""
     },
-    imageHover: false
+    imageHover: false,
+    showDock: false
   };
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
@@ -157,6 +162,29 @@ class PDPContainer extends React.Component<Props, State> {
     localStorage.setItem("pdpProductScroll", pdpProductScroll);
   };
 
+  setShowDock = () => {
+    //bottom banner code
+    const pdpCta = document.querySelectorAll(
+      ".src-containers-pdp-components-productDetails-_styles_action-buttons-container"
+    )[0];
+    const observer = new IntersectionObserver(
+      entries => {
+        //Check for CTA not visible
+        const entry = entries[0] as IntersectionObserverEntry;
+        if (entry.target.getBoundingClientRect().bottom <= 115) {
+          this.setState({ showDock: true });
+        }
+        if (entry.target.getBoundingClientRect().bottom > 115) {
+          this.setState({ showDock: false });
+        }
+      },
+      {
+        rootMargin: "-110px 0px 0px 0px"
+      }
+    );
+    observer.observe(pdpCta);
+  };
+
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
     // if (
@@ -192,19 +220,14 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
-    // if (this.props.device.mobile) {
-    //   this.getProductImagesData();
-    //   const elem = document.getElementById("pincode-bar");
-    //   elem && elem.classList.add(globalStyles.hiddenEye);
-    //   const chatButtonElem = document.getElementById("chat-button");
-    //   const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    //   if (scrollToTopButtonElem) {
-    //     scrollToTopButtonElem.style.bottom = "65px";
-    //   }
-    //   if (chatButtonElem) {
-    //     chatButtonElem.style.bottom = "10px";
-    //   }
-    // }
+
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        this.setShowDock();
+      }, 50)
+    );
+
     this.setState(
       {
         mounted: true
@@ -242,6 +265,12 @@ class PDPContainer extends React.Component<Props, State> {
       //   chatButtonElem.style.bottom = "10px";
       // }
     }
+    window.removeEventListener(
+      "scroll",
+      throttle(() => {
+        this.setShowDock();
+      }, 100)
+    );
     valid.moveChatUp();
   }
 
@@ -1261,6 +1290,9 @@ class PDPContainer extends React.Component<Props, State> {
         <div className={cs(bootstrap.row)}>
           {!this.state.showLooks && this.getMoreCollectionProductsSection()}
         </div>
+        {!mobile && this.state.showDock && (
+          <div className={cs(styles.bottomPanel)}>Okay</div>
+        )}
       </div>
     );
   }

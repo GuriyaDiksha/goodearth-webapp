@@ -17,4 +17,5 @@ export type State = {
   goToIndex: any;
   loaded: boolean;
   imageHover?: boolean;
+  showDock?: boolean;
 };
