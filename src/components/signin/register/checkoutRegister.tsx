@@ -164,6 +164,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           "Date of birth": moment(dateOfBirth).format("YYYY-MM-DD"),
           "Contact Number": code + phone
         });
+        Moengage.add_first_name(firstName);
+        Moengage.add_last_name(lastName);
+        Moengage.add_email(email);
+        Moengage.add_mobile(code + phone);
+        Moengage.add_gender(gender);
+        Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
         this.gtmPushRegister();
         // this.props.nextStep?.();
         this.setState({
