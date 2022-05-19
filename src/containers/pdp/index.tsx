@@ -1155,7 +1155,7 @@ class PDPContainer extends React.Component<Props, State> {
           // { [styles.pdpSecondcontainer]: !showSecondary },
           { [styles.pdpContainerTimer]: this.props.showTimer },
           bootstrap.containerFluid,
-          bootstrap.noPad,
+          { [bootstrap.noPad]: !mobile },
           {
             [styles.mobile]: mobile
           }
