@@ -21,13 +21,34 @@ z-index: 10;
         display:flex;
         border: none;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
         padding: 0 10px;
         .counter-number {
             font-family: $font-Lato;
             display:flex;
             letter-spacing: 0px;
             border:none;
+            &.plp-product-counter {
+                div{
+                    font-family: $font-Montserrat;
+                    font-size: 12px;
+                    letter-spacing: 2px;
+                }
+                .current{
+                    padding-right: 3px;
+                }
+                .total{
+                    padding-left: 3px;
+                }
+            }
+        }
+        .arrow-container{
+            height: 20px;
+            width: 20px;
+            background-color: #F7F7F7;
+            display: flex;
+            justify-content: space-around;
+            border-radius: 50%;
         }
         .icon {
             font-size: 20px;
