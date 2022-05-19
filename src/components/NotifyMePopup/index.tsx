@@ -34,6 +34,7 @@ import { ProductID } from "typings/id";
 import * as util from "utils/validate";
 import Loader from "components/Loader";
 import { AppState } from "reducers/typings";
+import { staticMenu } from "components/dropdown/stories";
 
 type Props = {
   basketLineId?: ProductID;
@@ -88,6 +89,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const [sizeerror, setSizeerror] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+  const mobile = useSelector((state: AppState) => state.device.mobile);
 
   const [productTitle, subtitle] = title.split("(");
 
@@ -307,7 +309,7 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   });
   return (
-    <div className={cs(styles.container)}>
+    <div className={cs(styles.container, { [styles.mobile]: mobile })}>
       <div className={styles.header}>
         <CloseButton className={styles.closeBtn} />
       </div>
