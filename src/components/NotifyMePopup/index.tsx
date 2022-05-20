@@ -254,6 +254,10 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   };
 
+  window.onpopstate = e => {
+    closeModal();
+  };
+
   const sizeSelectClick = () => {
     setSizeerror(true);
   };
