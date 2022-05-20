@@ -70,17 +70,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         console.log("Popups Api ERROR === " + err);
       });
       // }
-      // if (page?.includes("/category_landing/")) {
-      //   // L
-      // }
+      if (!page?.includes("/wishlist")) {
+        WishlistService.updateWishlist(
+          dispatch,
+          sortBy == "discount" ? "added_on" : sortBy
+        );
+      }
       // HeaderService.fetchHomepageData(dispatch).catch(err => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
 
-      WishlistService.updateWishlist(
-        dispatch,
-        sortBy == "discount" ? "added_on" : sortBy
-      );
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
