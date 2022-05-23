@@ -513,7 +513,9 @@ class Wishlist extends React.Component<Props, State> {
         >
           {String.fromCharCode(...currencyCodes[this.props.currency]) +
             " " +
-            this.state.totalPrice}
+            (Number.isSafeInteger(+this.state.totalPrice)
+              ? this.state.totalPrice
+              : this.state.totalPrice.toFixed(2) + "")}
         </span>
       </div>
     );

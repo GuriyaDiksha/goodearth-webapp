@@ -483,7 +483,9 @@ class PDPContainer extends React.Component<Props, State> {
   getProductImages() {
     const productImages = this.getProductImagesData();
     if (productImages.length > 0) {
-      const img = productImages?.[this.state.activeImage];
+      const img =
+        productImages?.[this.state.activeImage] ||
+        productImages?.[this.state.activeImage - 1];
       // return productImages?.map((image, index) => {
       const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
         const ele = event.currentTarget;
@@ -589,7 +591,11 @@ class PDPContainer extends React.Component<Props, State> {
       corporatePDP
     } = this.props;
 
-    if (recommendedSliderItems.length < 4 || typeof document == "undefined") {
+    if (
+      recommendedSliderItems.length < 4 ||
+      typeof document == "undefined" ||
+      recommendedSliderItems.length == 0
+    ) {
       return null;
     }
 

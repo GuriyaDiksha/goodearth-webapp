@@ -61,6 +61,7 @@ import { updatefillerProduct, updateshowFiller } from "actions/filler";
 import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import asset from "images/asset.svg";
+import offer from "images/offer.svg";
 import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
@@ -790,7 +791,7 @@ const ProductDetails: React.FC<Props> = ({
                   </span>
                 ) : (
                   <span
-                    className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                    className={badgeType == "B_flat" ? globalStyles.gold : ""}
                   >
                     {" "}
                     {String.fromCharCode(...currencyCodes[currency])}
@@ -1024,6 +1025,26 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
           </div>
+          {badgeMessage && !isQuickview ? (
+            <div
+              className={cs(
+                bootstrap.col12,
+                bootstrap.colMd12,
+                styles.salesOffer
+              )}
+            >
+              <img
+                src={offer}
+                className={styles.offerImage}
+                alt="offer20-icon"
+              />
+              <div className={cs(styles.offerMessage)}>
+                {ReactHtmlParser(badgeMessage)}
+              </div>
+            </div>
+          ) : (
+            " "
+          )}
           {fillerProduct && !isQuickview ? (
             <div
               className={cs(
@@ -1178,7 +1199,7 @@ const ProductDetails: React.FC<Props> = ({
             <div
               className={cs(
                 bootstrap.col12,
-                bootstrap.colMd9,
+                bootstrap.colMd12,
                 globalStyles.voffset2
               )}
             >
