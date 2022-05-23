@@ -613,6 +613,7 @@ class FilterList extends React.Component<Props, State> {
         },
         () => {
           this.createUrlfromFilter();
+          nextProps.mobile ? this.updateDataFromAPI("load") : "";
         }
       );
     }
