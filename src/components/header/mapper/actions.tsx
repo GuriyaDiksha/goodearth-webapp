@@ -31,10 +31,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       basketcall: boolean,
       cookies: Cookies,
       bridalKey?: string,
-      sortBy = "added_on"
+      sortBy = "added_on",
+      page?: string
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      WishlistService.updateWishlist(dispatch, sortBy);
+      if (!page?.includes("/wishlist")) {
+        WishlistService.updateWishlist(dispatch, sortBy);
+      }
+
       BasketService.fetchBasket(dispatch);
     },
     changeCurrency: async (data: { currency: Currency }) => {
