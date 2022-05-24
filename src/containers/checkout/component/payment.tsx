@@ -30,7 +30,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
-  const [subscribegbp, setSubscribegbp] = useState(false);
+  const [subscribegbp, setSubscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
   const [isactiveredeem, setIsactiveredeem] = useState(false);
   const [giftwrap, setGiftwrap] = useState(false);
@@ -58,21 +58,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     setGbpError("");
   };
 
-  const closeModal = () => {
-    // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
-    dispatch(updateModal(false));
-  };
+  // const closeModal = () => {
+  //   // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
+  //   dispatch(updateModal(false));
+  // };
 
   const onClikcSubscribeGbp = (event: any) => {
     if (!subscribegbp) {
-      dispatch(
-        updateComponent(
-          POPUP.SHIPPINGPOPUP,
-          { closeModal: closeModal, acceptCondition: setAccept },
-          true
-        )
-      );
-      dispatch(updateModal(true));
+      // dispatch(
+      //   updateComponent(
+      //     POPUP.SHIPPINGPOPUP,
+      //     { closeModal: closeModal, acceptCondition: setAccept },
+      //     true
+      //   )
+      // );
+      // dispatch(updateModal(true));
     } else {
       setSubscribegbp(false);
       setGbpError("");
