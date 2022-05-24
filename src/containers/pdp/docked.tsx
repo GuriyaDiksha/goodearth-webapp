@@ -30,7 +30,7 @@ const DockedPanel: React.FC<Props> = ({
   return (
     <div
       className={cs(
-        styles.secondaryHeaderContainer,
+        styles.bottomPanel,
         { [styles.secondaryHeaderContainerTimer]: showTimer },
         bootstrap.row
       )}
