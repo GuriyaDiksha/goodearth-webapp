@@ -1,5 +1,11 @@
 // import loadable from "@loadable/component";
-import React, { RefObject, SyntheticEvent } from "react";
+import React, {
+  EventHandler,
+  RefObject,
+  SyntheticEvent,
+  useMemo,
+  MouseEvent
+} from "react";
 import { connect } from "react-redux";
 import throttle from "lodash/throttle";
 import cs from "classnames";
@@ -59,6 +65,8 @@ import inactiveList from "images/plpIcons/inactive_list.svg";
 import Counter from "components/ProductCounter/counter";
 import { SingleEntryPlugin } from "webpack";
 import { isConstructorDeclaration } from "typescript";
+import PdpButton from "components/Button/pdpButton";
+import { currency } from "reducers/currency";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -91,7 +99,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     scrollDown: state.info.scrollDown,
     showTimer: state.info.showTimer,
     customerGroup: state.user.customerGroup,
-    meta: state.meta
+    meta: state.meta,
+    selectedSizeId: state.header.sizeChartData.selected
   };
 };
 
@@ -118,7 +127,9 @@ class PDPContainer extends React.Component<Props, State> {
       value: ""
     },
     imageHover: false,
-    showDock: false
+    showDock: false,
+    selectedSize: null,
+    pdpButton: null
   };
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
@@ -187,13 +198,6 @@ class PDPContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
-    // if (
-    //   !this.props.device.mobile &&
-    //   this.imageOffsets.length < 1 &&
-    //   this.props.data
-    // ) {
-    //   this.getImageOffset();
-    // }
     dataLayer.push(function(this: any) {
       this.reset();
     });
@@ -342,7 +346,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(props: Props) {
-    const { data } = this.props;
+    const { data, currency } = this.props;
     if (!data) {
       return;
     }
@@ -597,6 +601,7 @@ class PDPContainer extends React.Component<Props, State> {
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
         loading={meta.templateType == "" ? true : false}
+        setPDPButton={this.getPDPButton}
       />
     );
   };
@@ -1058,15 +1063,40 @@ class PDPContainer extends React.Component<Props, State> {
     });
   };
 
+  getPDPButton = (button: JSX.Element) => {
+    this.setState({ pdpButton: button });
+  };
+
+  returnPDPButton = () => {
+    return this.state.pdpButton;
+  };
+
   render() {
     const {
       data,
-      device: { mobile, tablet }
+      device: { mobile, tablet },
+      corporatePDP,
+      currency,
+      selectedSizeId
     } = this.props;
 
     if (!data) {
       return null;
     }
+
+    const selectedSize = data.childAttributes.filter(
+      item => item.id == selectedSizeId
+    )[0];
+
+    const price = corporatePDP
+      ? data.priceRecords[currency]
+      : selectedSize && selectedSize.priceRecords
+      ? selectedSize.priceRecords[currency]
+      : data.priceRecords[currency];
+    const discountPrices =
+      selectedSize && selectedSize.discountedPriceRecords
+        ? selectedSize.discountedPriceRecords[currency]
+        : data.discountedPriceRecords[currency];
 
     const { breadcrumbs } = data;
     const images: any[] = this.getProductImagesData();
@@ -1293,7 +1323,16 @@ class PDPContainer extends React.Component<Props, State> {
         </div>
         {!mobile && this.state.showDock && (
           <div className={cs(styles.bottomPanel)}>
-            <div className={cs(styles.content)}>Okay</div>
+            <DockedPanel
+              data={data}
+              buttoncall={this.returnPDPButton()}
+              showPrice={
+                data.invisibleFields &&
+                data.invisibleFields.indexOf("price") > -1
+              }
+              price={price}
+              discountPrice={discountPrices}
+            />
           </div>
         )}
       </div>

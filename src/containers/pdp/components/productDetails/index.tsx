@@ -111,7 +111,8 @@ const ProductDetails: React.FC<Props> = ({
   toggelHeader,
   source,
   showAddToBagMobile,
-  loading
+  loading,
+  setPDPButton
 }): JSX.Element => {
   const [productTitle, subtitle] = title.split("(");
   const {
@@ -637,7 +638,7 @@ const ProductDetails: React.FC<Props> = ({
         : addToBasket;
       // setSizeerror(false);
     }
-
+    setPDPButton?.(<PdpButton label={buttonText} onClick={action} />);
     return <PdpButton label={buttonText} onClick={action} />;
   }, [
     corporatePDP,
@@ -700,7 +701,7 @@ const ProductDetails: React.FC<Props> = ({
   const withBadge = images && images.length && images[0].badgeImagePdp;
   return (
     <Fragment>
-      {/* {!mobile && !isQuickview && showDock && (
+      {!mobile && !isQuickview && showDock && (
         <DockedPanel
           data={data}
           buttoncall={Pdpbutton}
@@ -708,7 +709,7 @@ const ProductDetails: React.FC<Props> = ({
           price={price}
           discountPrice={discountPrices}
         />
-      )} */}
+      )}
       <div className={bootstrap.row}>
         <div
           className={cs(

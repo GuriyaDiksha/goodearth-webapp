@@ -1,4 +1,5 @@
 // import { Product, PartialProductItem } from "typings/product";
+import { ChildProductAttributes } from "typings/product";
 
 export type Props = {
   slug: string;
@@ -18,4 +19,6 @@ export type State = {
   loaded: boolean;
   imageHover?: boolean;
   showDock?: boolean;
+  selectedSize?: ChildProductAttributes | null;
+  pdpButton?: JSX.Element | null;
 };
