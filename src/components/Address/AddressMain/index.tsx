@@ -20,6 +20,7 @@ import RegistryAddress from "containers/myAccount/components/Bridal/RegistryAddr
 import EditRegistryAddress from "../../../containers/myAccount/components/Bridal/EditRegistryAddress";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import myAccountStyles from "containers/myAccount/styles.scss";
+import { data } from "jquery";
 // import AddressDataList from "../../../../components/Address/AddressDataList.json";
 
 // import AddressMainComponent from '../../components/common/address/addressMain';
@@ -40,21 +41,21 @@ const AddressMain: React.FC<Props> = props => {
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
   // const [ pincodeList, setPincodeList ] = useState([]);
   const {
-    data: { userAddress }
+    data: { userAddress, occasion }
   } = useContext(BridalContext);
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (Object.keys(pinCodeData).length < 1) {
-  //     setIsLoading(true);
-  //     AddressService.fetchPinCodeData(dispatch).then(data => {
-  //       setIsLoading(false);
-  //       const pinCodeList = Object.keys(data);
-  //       dispatch(updatePinCodeList(data, pinCodeList));
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (props.currentCallBackComponent == "bridal") {
+      dataLayer.push({
+        event: "registry",
+        "Event Category": "Registry",
+        "Event Action": "Shipping address page",
+        "Event Label": occasion
+      });
+    }
+  }, []);
   const [mode, setMode] = useState<AddressModes>("list");
 
   useEffect(() => {
