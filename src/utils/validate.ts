@@ -974,6 +974,23 @@ export const headerClickGTM = (
   }
 };
 
+export const footerClickGTM = (
+  clickType: string,
+  location: "Top" | "Bottom",
+  isLoggedIn: boolean
+) => {
+  try {
+    dataLayer.push({
+      event: "Footer Click",
+      clickType,
+      location,
+      userStatus: isLoggedIn ? "logged in" : "logged out"
+    });
+  } catch (e) {
+    console.log("Header click GTM error!");
+  }
+};
+
 export const getInnerText = (input: string) => {
   if (input) {
     if (typeof document == "undefined") {
