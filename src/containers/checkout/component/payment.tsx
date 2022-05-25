@@ -524,7 +524,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </label>
             </div>
           </label>
-          {currency == "GBP" && (
+          {/* {currency == "GBP" && (
             <label
               className={cs(
                 globalStyles.flex,
@@ -568,7 +568,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             data-name="error-msg"
           >
             {gbpError}
-          </div>
+          </div> */}
           {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {
