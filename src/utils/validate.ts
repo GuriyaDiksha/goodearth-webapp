@@ -987,7 +987,7 @@ export const footerClickGTM = (
       userStatus: isLoggedIn ? "logged in" : "logged out"
     });
   } catch (e) {
-    console.log("Header click GTM error!");
+    console.log("Footer click GTM error!");
   }
 };
 
