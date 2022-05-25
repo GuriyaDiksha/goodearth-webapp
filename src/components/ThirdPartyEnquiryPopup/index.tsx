@@ -503,7 +503,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
         ) : (
           ""
         )}
-        <div className={styles.marginBottom50}>
+        <div className={styles.marginBottom90}>
           {enquiryMessage && (
             <p className={styles.enquireError}>{enquiryMessage}</p>
           )}
