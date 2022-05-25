@@ -18,7 +18,8 @@
     max-height: 90vh;
     &.inner-container-mobile {
       height: 90vh;
-      max-height: none;
+      // max-height: none;
+
     }
 }
 .header {
@@ -201,6 +202,10 @@
 
 .margin-bottom-50 {
   margin-bottom: 50px !important;
+}
+
+.margin-bottom-90 {
+  margin-bottom: 90px !important;
 }
 
 .time {
