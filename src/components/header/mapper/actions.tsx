@@ -7,7 +7,11 @@ import MetaService from "services/meta";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
-import { updateMobileMenuOpenState, updateSizeChartShow } from "actions/header";
+import {
+  updateMobileMenuOpenState,
+  updateSizeChartShow,
+  updateStoreState
+} from "actions/header";
 import { Currency } from "typings/currency";
 import Api from "services/api";
 import HeaderService from "services/headerFooter";
@@ -147,6 +151,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     closeModal: () => {
       dispatch(updateModal(false));
+    },
+    closeInShopAvailability: () => {
+      dispatch(updateStoreState(false));
     }
   };
 };
