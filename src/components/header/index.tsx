@@ -303,6 +303,7 @@ class Header extends React.Component<Props, State> {
       this.props.mobile,
       this.props.isLoggedIn
     );
+    util.footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 
   gtmPushWishlistClick = () => {
