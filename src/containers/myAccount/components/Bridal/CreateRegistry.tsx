@@ -31,6 +31,11 @@ const CreateRegistry: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
+    dataLayer.push({
+      event: "registry",
+      "Event Category": "Registry",
+      "Event Action": "Registry page"
+    });
   }, []);
 
   return (
