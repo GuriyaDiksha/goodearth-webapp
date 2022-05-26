@@ -54,6 +54,10 @@
 
 .error-msg{
     @include error-msg();
+}
+
+.pdp-error-msg{
+    @include error-msg();
     text-align: center;
     width: 100%;
     word-break: break-word;
