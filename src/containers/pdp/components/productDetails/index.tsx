@@ -522,6 +522,16 @@ const ProductDetails: React.FC<Props> = ({
       .then(res => {
         valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
         const registry = Object.assign({}, isRegistry);
+        dataLayer.push({
+          event: "registry",
+          "Event Category": "Registry",
+          "Event Action": "Product added",
+          // 'Event Label': bridalItem,
+          "Product Name": productTitle,
+          "Product ID": productId,
+          Variant: selectedSize?.size
+        });
+
         if (selectedSize) {
           registry[selectedSize.size] = true;
           setIsRegistry(registry);

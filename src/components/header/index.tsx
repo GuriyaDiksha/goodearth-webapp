@@ -135,7 +135,8 @@ class Header extends React.Component<Props, State> {
       this.props.isLoggedIn,
       this.props.cookies,
       bridalKey,
-      this.props.sortBy
+      this.props.sortBy,
+      this.props.location.pathname
     );
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -302,6 +303,7 @@ class Header extends React.Component<Props, State> {
       this.props.mobile,
       this.props.isLoggedIn
     );
+    util.footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 
   gtmPushWishlistClick = () => {

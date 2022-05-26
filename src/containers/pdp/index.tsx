@@ -44,11 +44,6 @@ import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 import CookieService from "services/cookie";
 // import PdpSkeleton from "./components/pdpSkeleton"
 import Skeleton from "react-loading-skeleton";
-
-// const VerticalImageSelector = loadable(() =>
-//   import("components/VerticalImageSelector")
-// );
-// const ProductDetails = loadable(() => import("./components/productDetails"));
 import ProductDetails from "./components/productDetails";
 import PdpSlider from "components/PdpSlider";
 import activeGrid from "images/plpIcons/active_grid.svg";
@@ -90,7 +85,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     scrollDown: state.info.scrollDown,
     showTimer: state.info.showTimer,
     customerGroup: state.user.customerGroup,
-    meta: state.meta
+    meta: state.meta,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
@@ -183,6 +179,36 @@ class PDPContainer extends React.Component<Props, State> {
       "Page Name": "PdpView"
     });
     const { data, currency } = this.props;
+
+    let category = "",
+      categoryname = "",
+      subcategoryname = "";
+    if (data.categories) {
+      const index = data.categories.length - 1;
+      category = data.categories[index]
+        ? data.categories[index].replace(/\s/g, "")
+        : "";
+      const arr = category.split(">");
+      categoryname = arr[arr.length - 2];
+      subcategoryname = arr[arr.length - 1];
+      category = category.replace(/>/g, "/");
+    }
+    // dataLayer.push(
+    //   {
+    //   'Event Category':'GA Ecommerce','Event Action':'PDP','Event Label':'Pass the L3 product category', 'Client ID':'Pass the client ID','Session ID':'Pass the session ID','Time Stamp':Pass the time stamp','Page Url':'Pass the url of the page','Page Type':'Pass the page type of the page','Product Category':'Pass the product category L1 - L2 - L3','Login Status':'Pass the logged in or guest state of user', 'Page referrer url':'Pass the previous page url','Product Name':'Pass the product name','Product ID':'Pass the product ID','Variant':'Pass size, color,etc,'
+    //   });
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "PDP ",
+      "Event Label": subcategoryname,
+      "Product Category": category.replace("/", "-"),
+      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Page Type": valid.getPageType(),
+      "Page referrer url": CookieService.getCookie("prevUrl")
+    });
+
     valid.PDP(data, currency);
     const list = CookieService.getCookie("listPath");
     this.listPath = list || "";

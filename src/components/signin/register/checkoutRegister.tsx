@@ -170,6 +170,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         Moengage.add_mobile(code + phone);
         Moengage.add_gender(gender);
         Moengage.add_birthday(moment(dateOfBirth).format("YYYY-MM-DD"));
+        Moengage.add_unique_user_id(email);
         this.gtmPushRegister();
         // this.props.nextStep?.();
         this.setState({
