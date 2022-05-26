@@ -570,7 +570,6 @@ class CorporateFilter extends React.Component<Props, State> {
       action == "PUSH" &&
       location.pathname.includes("/catalogue/category/")
     ) {
-      console.log("Called");
       this.setState(
         {
           filter: {
@@ -607,21 +606,29 @@ class CorporateFilter extends React.Component<Props, State> {
     this.props.updateScrollDown(false);
     // this.unlisten = this.props.history.listen(this.stateChange);
     let previousUrl = "";
+    let previousCategory = "";
     const observer = new MutationObserver(function(mutations) {
       if (location.href !== previousUrl) {
         previousUrl = location.href;
-        that.setState({
-          filter: {
-            currentColor: {},
-            availableSize: {},
-            categoryShop: {},
-            price: {},
-            currency: {},
-            sortBy: {},
-            productType: {},
-            availableDiscount: {}
-          }
-        });
+        const pathnameArr = location.pathname.split("/");
+        const currentCategory = pathnameArr.filter(
+          i => i != "" && i != "catalogue" && i != "category"
+        )[0];
+        if (previousCategory != currentCategory) {
+          previousCategory = currentCategory;
+          that.setState({
+            filter: {
+              currentColor: {},
+              availableSize: {},
+              categoryShop: {},
+              price: {},
+              currency: {},
+              sortBy: {},
+              productType: {},
+              availableDiscount: {}
+            }
+          });
+        }
       }
     });
     const config = { subtree: true, childList: true };
