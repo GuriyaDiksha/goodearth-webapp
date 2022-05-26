@@ -364,8 +364,10 @@ const NotifyMePopup: React.FC<Props> = ({
                   sizeClassName={styles.sizeBox}
                   selected={selectedSize ? selectedSize.id : undefined}
                 />
-                {sizeErrorMsg && (
-                  <span className={styles.sizeError}>{sizeErrorMsg}</span>
+                {sizeerror && (
+                  <p className={styles.sizeError}>
+                    Please select a size to proceed
+                  </p>
                 )}
                 <span className={cs(styles.sizeError)}>
                   {isSale &&
@@ -418,9 +420,6 @@ const NotifyMePopup: React.FC<Props> = ({
                 disabled={userExists}
               />
             </div>
-          )}
-          {sizeerror && (
-            <p className={styles.sizeError}>Please select a size to proceed</p>
           )}
         </div>
         <div className={styles.buttonContainer}>{Pdpbutton}</div>

@@ -123,6 +123,9 @@
 
 .size-error {
     @include error-msg();
+    position: relative;
+    top: 8px;
+
 }
 span{
     &.discountprice {
