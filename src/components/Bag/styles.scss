@@ -341,12 +341,11 @@
 }
 
 .badge-position-plp-mobile {
-    width: 50%;
-    top: 0;
-    position: absolute;
+    position: relative;
     z-index: 4;
   img {
-    width: 100%;
-    margin: 5px;
+    position: absolute;
+    width: 60%;
+    top: 5px;
   }
 }
