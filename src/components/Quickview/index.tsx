@@ -220,6 +220,14 @@ class Quickview extends React.Component<Props, State> {
           className={cs(bootstrap.row, styles.productSection)}
           ref={this.containerRef}
         >
+          <button
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconCrossNarrowBig,
+              styles.quickviewClose
+            )}
+            onClick={this.closeModal}
+          />
           {!mobile && (
             <div
               className={cs(bootstrap.colMd1, styles.sidebar)}
@@ -255,14 +263,6 @@ class Quickview extends React.Component<Props, State> {
           <div className={cs(bootstrap.colMd6)} ref={this.detailsRef}>
             {this.getProductDetails()}
           </div>
-          <button
-            className={cs(
-              fontStyles.icon,
-              fontStyles.iconCrossNarrowBig,
-              styles.quickviewClose
-            )}
-            onClick={this.closeModal}
-          />
         </div>
         <div
           className={cs({
