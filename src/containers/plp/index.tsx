@@ -647,6 +647,7 @@ class PLP extends React.Component<
               <CorporateFilter
                 onRef={(el: any) => (this.child = el)}
                 onChangeFilterState={this.onChangeFilterState}
+                setFilterCount={this.setFilterCount}
                 key="corporate-plp-filter"
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}

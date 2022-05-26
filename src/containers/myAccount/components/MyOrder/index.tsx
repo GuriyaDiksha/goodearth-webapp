@@ -31,6 +31,9 @@ const PastOrders: React.FC<Props> = (props: Props) => {
     setHasShopped(true);
     setIsLoading(false);
     setIsData(false);
+    if (!hasShopped) {
+      setHasShopped(false);
+    }
   };
 
   const isDataAvaliable = (data: boolean) => {
@@ -43,6 +46,9 @@ const PastOrders: React.FC<Props> = (props: Props) => {
     setHasShopped(true);
     setIsLoading(false);
     setIsData(false);
+    if (!hasShopped) {
+      setHasShopped(false);
+    }
   };
   const browseButton = (
     <div className={styles.browseButton}>
