@@ -352,7 +352,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 [styles.highlight]: currentUrl == data.link
               })}
             >
-              <span>{ReactHtmlParser(data.text)}</span>
+              <span>{ReactHtmlParser(data.ctaName || data.text)}</span>
             </Link>
           </li>
         ) : (
