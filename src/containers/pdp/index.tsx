@@ -68,6 +68,8 @@ import { isConstructorDeclaration } from "typescript";
 import PdpButton from "components/Button/pdpButton";
 import { currency } from "reducers/currency";
 
+import { config } from "components/PdpSlider/sliderConfig";
+
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
 
@@ -131,6 +133,7 @@ class PDPContainer extends React.Component<Props, State> {
     selectedSize: null,
     pdpButton: null
   };
+
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
@@ -138,6 +141,7 @@ class PDPContainer extends React.Component<Props, State> {
   containerRef: RefObject<HTMLDivElement> = React.createRef();
   pdpURL = "";
   listPath = "";
+
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -201,22 +205,27 @@ class PDPContainer extends React.Component<Props, State> {
     dataLayer.push(function(this: any) {
       this.reset();
     });
+
     valid.pageViewGTM("PDP");
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
       PageTitle: "virtual_pdp_view"
     });
+
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PdpView"
     });
+
     const { data, currency } = this.props;
     valid.PDP(data, currency);
+
     const list = CookieService.getCookie("listPath");
     this.listPath = list || "";
     CookieService.setCookie("listPath", "");
     valid.moveChatDown();
+
     if (data && data.looksProducts && data.looksProducts.length >= 2) {
       valid.MoreFromCollectionProductImpression(
         data.looksProducts,
@@ -242,6 +251,7 @@ class PDPContainer extends React.Component<Props, State> {
         }, 100);
       }
     );
+
     window.setTimeout(() => {
       if (this.state.loaded == false) {
         this.setState({
@@ -249,7 +259,10 @@ class PDPContainer extends React.Component<Props, State> {
         });
       }
     }, 1000);
+
     this.fetchMoreProductsFromCollection(this.props.id);
+
+    setInterval(this.onClickImageArrowRight, 4000);
   }
 
   componentWillUnmount() {
@@ -707,6 +720,7 @@ class PDPContainer extends React.Component<Props, State> {
       />
     );
   }
+
   onSliderImageClick = (index: number) => {
     // const images = this.getProductImagesData();
     // const { id } = images[index];
@@ -821,6 +835,7 @@ class PDPContainer extends React.Component<Props, State> {
     );
     changeModalState(true);
   };
+
   getLooksSection = () => {
     const {
       currency,
