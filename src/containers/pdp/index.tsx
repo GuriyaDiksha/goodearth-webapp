@@ -141,6 +141,7 @@ class PDPContainer extends React.Component<Props, State> {
   containerRef: RefObject<HTMLDivElement> = React.createRef();
   pdpURL = "";
   listPath = "";
+  imageIntervalID: null | number = null;
 
   onImageClick = (index: number) => {
     const {
@@ -262,7 +263,7 @@ class PDPContainer extends React.Component<Props, State> {
 
     this.fetchMoreProductsFromCollection(this.props.id);
 
-    setInterval(this.onClickImageArrowRight, 4000);
+    this.startImageAutoScroll();
   }
 
   componentWillUnmount() {
@@ -289,6 +290,10 @@ class PDPContainer extends React.Component<Props, State> {
       }, 100)
     );
     valid.moveChatUp();
+
+    if (this.imageIntervalID) {
+      clearInterval(this.imageIntervalID);
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -508,19 +513,55 @@ class PDPContainer extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   };
 
-  onClickImageArrowLeft = () => {
+  prevImage = (afterStateChangeCallback?: () => void) => {
     const len = this.getProductImagesData().length;
     const active = this.state.activeImage;
-    this.setState({
-      activeImage: (len + ((active - 1) % len)) % len
-    });
+    this.setState(
+      {
+        activeImage: (len + ((active - 1) % len)) % len
+      },
+      () => {
+        afterStateChangeCallback?.();
+      }
+    );
+  };
+
+  nextImage = (afterStateChangeCallback?: () => void) => {
+    const len = this.getProductImagesData().length;
+    const active = this.state.activeImage;
+    this.setState(
+      {
+        activeImage: (active + 1) % len
+      },
+      () => {
+        afterStateChangeCallback?.();
+      }
+    );
+  };
+
+  stopAutoimageScroll = () => {
+    if (this.imageIntervalID) {
+      clearInterval(this.imageIntervalID);
+    }
+  };
+
+  startImageAutoScroll = () => {
+    this.imageIntervalID = setInterval(this.nextImage, 4000);
+  };
+
+  resetAutoImageScroll = () => {
+    if (this.imageIntervalID) {
+      clearInterval(this.imageIntervalID);
+    }
+    this.startImageAutoScroll();
+  };
+
+  onClickImageArrowLeft = () => {
+    this.prevImage(this.resetAutoImageScroll);
   };
 
   onClickImageArrowRight = () => {
-    const len = this.getProductImagesData().length;
-    this.setState({
-      activeImage: (this.state.activeImage + 1) % len
-    });
+    this.nextImage(this.resetAutoImageScroll);
   };
 
   getProductImages() {
