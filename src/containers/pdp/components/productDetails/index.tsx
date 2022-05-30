@@ -65,6 +65,7 @@ import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
+import NewAccordion from "components/Accordion/newAccordion";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -1219,7 +1220,7 @@ const ProductDetails: React.FC<Props> = ({
           )} */}
             <div>
               {!isQuickview && (
-                <PdpAccordion
+                <NewAccordion
                   sections={accordionSections}
                   headerClassName={styles.accordionHeader}
                   bodyClassName={styles.accordionBody}
