@@ -193,18 +193,33 @@ class PDPContainer extends React.Component<Props, State> {
       subcategoryname = arr[arr.length - 1];
       category = category.replace(/>/g, "/");
     }
-    // dataLayer.push(
-    //   {
-    //   'Event Category':'GA Ecommerce','Event Action':'PDP','Event Label':'Pass the L3 product category', 'Client ID':'Pass the client ID','Session ID':'Pass the session ID','Time Stamp':Pass the time stamp','Page Url':'Pass the url of the page','Page Type':'Pass the page type of the page','Product Category':'Pass the product category L1 - L2 - L3','Login Status':'Pass the logged in or guest state of user', 'Page referrer url':'Pass the previous page url','Product Name':'Pass the product name','Product ID':'Pass the product ID','Variant':'Pass size, color,etc,'
-    //   });
+
+    let skus = "";
+    let variants = "";
+    let prices = "";
+
+    data.childAttributes.map((child: any) => {
+      skus += "," + child.sku;
+      variants += "," + child.size;
+      prices +=
+        "," +
+        (child.discountedPriceRecords
+          ? child.discountedPriceRecords[currency]
+          : child.priceRecords
+          ? child.priceRecords[currency]
+          : data.priceRecords[currency]);
+    });
     dataLayer.push({
       "Event Category": "GA Ecommerce",
-      "Event Action": "PDP ",
+      "Event Action": "PDP",
       "Event Label": subcategoryname,
       "Product Category": category.replace("/", "-"),
       "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
       "Time Stamp": new Date().toISOString(),
       "Page Url": location.href,
+      "Product Name": data.title,
+      "Product ID": data.id,
+      Variant: variants,
       "Page Type": valid.getPageType(),
       "Page referrer url": CookieService.getCookie("prevUrl")
     });
