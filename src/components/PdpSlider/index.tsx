@@ -39,10 +39,13 @@ const PdpSlider: React.FC<Props> = memo(
         setCurrentIndex(activeIndex);
       }
     }, [activeIndex]);
-
     const imageslist = images.length == 1 ? images.concat(images[0]) : images;
+    let iconcount = 0;
     const imageNodes: ReactNode[] = imageslist.map(
       ({ productImage, id, icon }, index) => {
+        if (icon) {
+          iconcount++;
+        }
         return (
           <div
             key={id}
@@ -57,7 +60,9 @@ const PdpSlider: React.FC<Props> = memo(
               className={globalStyles.imgResponsive}
               src={productImage}
             ></img>
-            {icon && <img src={overlay} className={styles.overlay}></img>}
+            {icon && iconcount == 1 && (
+              <img src={overlay} className={styles.overlay}></img>
+            )}
           </div>
         );
       }

@@ -552,6 +552,20 @@ export function PDP(data: any, currency: Currency) {
         }
       }
     });
+    // dataLayer.push(
+    //   {
+    //   'Event Category':'GA Ecommerce',
+    //   'Event Action':'PDP ',
+    //   'Event Label':'Pass the L3 product category',
+    //   'Product Category':category,
+    //   "Login Status": this.props.isLoggedIn
+    //           ? "logged in"
+    //           : "logged out",
+    //   "Time Stamp": new Date().toISOString(),
+    //   "Page Url": location.href,
+    //   "Page Type": util.getPageType(),
+    //   "Page referrer url": CookieService.getCookie("prevUrl")
+    //   });
   } catch (e) {
     console.log(e);
     console.log("PDP impression error");
@@ -696,7 +710,7 @@ export function plpProductClick(
   position?: any
 ) {
   try {
-    const products = [];
+    const products: any = [];
     position = position || 0;
     if (!data) return false;
     if (data.length < 1) return false;
@@ -708,25 +722,23 @@ export function plpProductClick(
         : "";
       category = category.replace(/>/g, "/");
     }
-    products.push(
-      data.childAttributes.map((child: any) => {
-        return Object.assign(
-          {},
-          {
-            name: data.title,
-            id: child.sku,
-            category: category,
-            // list: list,
-            price: child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
-              : child.priceRecords[currency],
-            brand: "Goodearth",
-            position: position + 1,
-            variant: child.size || ""
-          }
-        );
-      })
-    );
+    const attr = data.childAttributes.map((child: any) => {
+      return Object.assign(
+        {},
+        {
+          name: data.title,
+          id: child.sku,
+          category: category,
+          // list: list,
+          price: child.discountedPriceRecords
+            ? child.discountedPriceRecords[currency]
+            : child.priceRecords[currency],
+          brand: "Goodearth",
+          position: position + 1,
+          variant: child.size || ""
+        }
+      );
+    });
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     dataLayer.push({
@@ -735,7 +747,7 @@ export function plpProductClick(
         currencyCode: currency,
         click: {
           actionField: { list: listPath },
-          products: products
+          products: products.concat(attr)
         }
       }
     });
@@ -840,7 +852,7 @@ export function MoreFromCollectionProductClick(
   currency: Currency,
   position: number
 ) {
-  const products = [];
+  const products: any = [];
   if (!data) return false;
   if (data.length < 1) return false;
   let category = "";
@@ -851,24 +863,22 @@ export function MoreFromCollectionProductClick(
       : "";
     category = category.replace(/>/g, "/");
   }
-  products.push(
-    data.childAttributes.map((child: any) => {
-      return Object.assign(
-        {},
-        {
-          name: data.title,
-          id: child.sku,
-          price: child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : child.priceRecords[currency],
-          brand: "Goodearth",
-          category: category,
-          variant: child.size || "",
-          position: position
-        }
-      );
-    })
-  );
+  const attr = data.childAttributes.map((child: any) => {
+    return Object.assign(
+      {},
+      {
+        name: data.title,
+        id: child.sku,
+        price: child.discountedPriceRecords
+          ? child.discountedPriceRecords[currency]
+          : child.priceRecords[currency],
+        brand: "Goodearth",
+        category: category,
+        variant: child.size || "",
+        position: position
+      }
+    );
+  });
   const listPath = `${list}`;
   CookieService.setCookie("listPath", listPath);
   dataLayer.push({
@@ -877,7 +887,7 @@ export function MoreFromCollectionProductClick(
       currencyCode: currency,
       click: {
         actionField: { list: listPath },
-        products: products
+        products: products.concat(attr)
       }
     }
   });
@@ -1106,13 +1116,13 @@ export const megaMenuNavigationGTM = ({
   }
 };
 
-export const pageViewGTM = (title: string) => {
+export const pageViewGTM = (Title: string) => {
   try {
     dataLayer.push({
       event: "pageview",
-      page: {
+      Page: {
         path: location.pathname,
-        title
+        Title
       }
     });
   } catch (e) {

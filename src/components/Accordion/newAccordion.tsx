@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Props } from "./typings";
 import cs from "classnames";
 import styles from "./newStyles.scss";
+import fontStyles from "styles/iconFonts.scss";
 
 const NewAccordion: React.FC<Props> = ({
   sections,
@@ -14,18 +15,30 @@ const NewAccordion: React.FC<Props> = ({
   openClass = styles.arrowUp,
   closedClass = styles.arrowDown
 }) => {
-  const handleHeaderClick = (event: any) => {
-    const header = event.target as HTMLElement;
+  const sectionsRef = useRef(new Array(sections.length));
+
+  const handleHeaderClick = (event: any, i: number) => {
+    console.log(sectionsRef.current[i]);
+    const header = sectionsRef.current[i] as HTMLElement;
     const body = header.nextElementSibling as HTMLElement;
-    if (header.classList.toggle("active")) {
+    if (header.classList.toggle(styles.active)) {
+      header.children[0].classList.remove(closedClass);
+      header.children[0].classList.add(openClass);
       body.style.maxHeight = body.scrollHeight + "px";
     } else {
+      header.children[0].classList.remove(openClass);
+      header.children[0].classList.add(closedClass);
       body.style.maxHeight = 0 + "px";
     }
-    const items = document.querySelectorAll(`.${styles.accordionItemHeader}`);
+    const items = sectionsRef.current;
     items.forEach(item => {
-      if (item !== event.target) {
-        item.classList.remove("active");
+      if (
+        item !== sectionsRef.current[i] &&
+        item.classList.contains(styles.active)
+      ) {
+        item.classList.remove(styles.active);
+        item.children[0].classList.remove(closedClass);
+        item.children[0].classList.add(openClass);
         const itemBody = item.nextElementSibling as HTMLElement;
         itemBody.style.maxHeight = 0 + "px";
       }
@@ -34,31 +47,30 @@ const NewAccordion: React.FC<Props> = ({
 
   useEffect(() => {
     if (defaultOpen !== "") {
-      console.log();
       const header = document.querySelector(
-        `.${styles.accordionItemHeader}.active`
+        `.${styles.accordionItemHeader}.${styles.active}`
       );
       const body = header?.nextElementSibling as HTMLElement;
-      if (header && header.classList.toggle("active")) {
-        body.style.maxHeight = body.scrollHeight + "px";
-      } else {
-        body.style.maxHeight = 0 + "px";
-      }
+      header?.children[0].classList.remove(closedClass);
+      header?.children[0].classList.add(openClass);
+      body.style.maxHeight = body.scrollHeight + "px";
     }
   }, []);
 
-  const accordionSections = sections.map(({ id, header, body }) => {
+  const accordionSections = sections.map(({ id, header, body }, i) => {
     return (
       <div className={cs(styles.accordionItem)} id={id} key={id}>
         <div
           className={cs(styles.accordionItemHeader, {
-            ["active"]: id == defaultOpen
+            [styles.active]: id == defaultOpen
           })}
           onClick={e => {
-            handleHeaderClick(e);
+            handleHeaderClick(e, i);
           }}
+          ref={el => (sectionsRef.current[i] = el)}
         >
           {header}
+          <span className={cs(fontStyles.icon, styles.arrowDown)}></span>
         </div>
         <div className={cs(styles.accordionItemBody)}>
           <div className={cs(styles.accordionItemBodyContent)}>{body}</div>
@@ -67,7 +79,7 @@ const NewAccordion: React.FC<Props> = ({
     );
   });
 
-  return <div className="accordion">{accordionSections}</div>;
+  return <div className={className}>{accordionSections}</div>;
 };
 
 export default NewAccordion;

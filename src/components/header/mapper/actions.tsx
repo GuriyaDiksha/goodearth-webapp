@@ -7,7 +7,11 @@ import MetaService from "services/meta";
 import { Cookies } from "typings/cookies";
 import { MESSAGE } from "constants/messages";
 import { updateComponent, updateModal } from "actions/modal";
-import { updateMobileMenuOpenState } from "actions/header";
+import {
+  updateMobileMenuOpenState,
+  updateSizeChartShow,
+  updateStoreState
+} from "actions/header";
 import { Currency } from "typings/currency";
 import Api from "services/api";
 import HeaderService from "services/headerFooter";
@@ -31,10 +35,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       basketcall: boolean,
       cookies: Cookies,
       bridalKey?: string,
-      sortBy = "added_on"
+      sortBy = "added_on",
+      page?: string
     ) => {
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      WishlistService.updateWishlist(dispatch, sortBy);
+      if (!page?.includes("/wishlist")) {
+        WishlistService.updateWishlist(dispatch, sortBy);
+      }
+
       BasketService.fetchBasket(dispatch);
     },
     changeCurrency: async (data: { currency: Currency }) => {
@@ -70,17 +78,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         console.log("Popups Api ERROR === " + err);
       });
       // }
-      // if (page?.includes("/category_landing/")) {
-      //   // L
-      // }
+      if (!page?.includes("/wishlist")) {
+        WishlistService.updateWishlist(
+          dispatch,
+          sortBy == "discount" ? "added_on" : sortBy
+        );
+      }
       // HeaderService.fetchHomepageData(dispatch).catch(err => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
 
-      WishlistService.updateWishlist(
-        dispatch,
-        sortBy == "discount" ? "added_on" : sortBy
-      );
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       util.showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
@@ -138,6 +145,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     updateMobileMenuOpenState: (state: boolean) => {
       dispatch(updateMobileMenuOpenState(state));
+    },
+    closeSizeChart: () => {
+      dispatch(updateSizeChartShow(false));
+    },
+    closeModal: () => {
+      dispatch(updateModal(false));
+    },
+    closeInShopAvailability: () => {
+      dispatch(updateStoreState(false));
     }
   };
 };
