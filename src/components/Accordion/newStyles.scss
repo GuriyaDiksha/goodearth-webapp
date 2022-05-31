@@ -1,6 +1,10 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
+strong {
+  font-weight: bold;
+}
+
 .accordion {
   max-width: 1000px;
   margin: 2rem auto;
@@ -44,7 +48,7 @@
 }
 
 .accordion-item-body-content {
-  line-height: 1.5rem;
+  line-height: 1.5;
 }
 
 .arrowUp::before{
