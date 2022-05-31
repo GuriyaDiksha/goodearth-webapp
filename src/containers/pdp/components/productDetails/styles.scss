@@ -176,9 +176,6 @@
 }
 .accordion-body {
     @include pdp_copy_body();
-    // letter-spacing: .5px;
-    border-bottom: lightgrey solid 1px;
-    //padding: 10px;
     font-weight:normal;
     a {
         color: #987E56;
