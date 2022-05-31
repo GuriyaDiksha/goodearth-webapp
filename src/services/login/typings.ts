@@ -28,6 +28,9 @@ export type loginResponse = {
   userId: string;
   email: string;
   firstName: string;
+  lastName: string;
+  phoneNo: string;
+  gender: string;
   oldBasketHasItems: boolean;
   publishRemove: boolean;
   updated: boolean;

@@ -17,6 +17,7 @@ import * as valid from "utils/validate";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import * as util from "../../../utils/validate";
+import CheckoutService from "services/checkout";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -29,7 +30,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const { isActive, currency, checkout } = props;
   const [paymentError, setPaymentError] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
-  const [subscribegbp, setSubscribegbp] = useState(false);
+  const [subscribegbp, setSubscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
   const [isactiveredeem, setIsactiveredeem] = useState(false);
   const [giftwrap, setGiftwrap] = useState(false);
@@ -38,7 +39,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
   const [gbpError, setGbpError] = useState("");
-
+  const [getMethods, setGetMethods] = useState<any[]>([]);
   const dispatch = useDispatch();
 
   const toggleInput = () => {
@@ -57,21 +58,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     setGbpError("");
   };
 
-  const closeModal = () => {
-    // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
-    dispatch(updateModal(false));
-  };
+  // const closeModal = () => {
+  //   // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
+  //   dispatch(updateModal(false));
+  // };
 
   const onClikcSubscribeGbp = (event: any) => {
     if (!subscribegbp) {
-      dispatch(
-        updateComponent(
-          POPUP.SHIPPINGPOPUP,
-          { closeModal: closeModal, acceptCondition: setAccept },
-          true
-        )
-      );
-      dispatch(updateModal(true));
+      // dispatch(
+      //   updateComponent(
+      //     POPUP.SHIPPINGPOPUP,
+      //     { closeModal: closeModal, acceptCondition: setAccept },
+      //     true
+      //   )
+      // );
+      // dispatch(updateModal(true));
     } else {
       setSubscribegbp(false);
       setGbpError("");
@@ -181,56 +182,73 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
   }, [basket.giftCards, basket.loyalty]);
 
-  const getMethods = useMemo(() => {
-    let methods = [
-      {
-        key: "payu",
-        value: "CREDIT CARD",
-        mode: "CC"
-      },
-      {
-        key: "payu",
-        value: "DEBIT CARD",
-        mode: "DC"
-      },
-      {
-        key: "payu",
-        value: "NET BANKING",
-        mode: "NB"
-      },
-      {
-        key: "payu",
-        value: "WALLETS",
-        mode: "CASH"
-      },
-      {
-        key: "payu",
-        value: "UPI",
-        mode: "UPI"
-      }
-    ];
-
-    if (currency != "INR") {
-      methods = [
-        {
-          key: "payu",
-          value: "CREDIT CARD",
-          mode: "CC"
-        },
-        {
-          key: "payu",
-          value: "DEBIT CARD",
-          mode: "DC"
-        },
-        {
-          key: "paypal",
-          value: "PAYPAL",
-          mode: "NA"
-        }
-      ];
-    }
-    return methods;
+  useEffect(() => {
+    CheckoutService.getPaymentList(dispatch)
+      .then((res: any) => {
+        // console.log(res.methods);
+        setGetMethods(res.methods);
+      })
+      .catch(err => {
+        console.group(err);
+      });
   }, [currency]);
+
+  // const getMethods = useMemo(() => {
+  //   let methods = [
+  //     {
+  //       key: "payu",
+  //       value: "CREDIT CARD",
+  //       mode: "CC"
+  //     },
+  //     {
+  //       key: "payu",
+  //       value: "DEBIT CARD",
+  //       mode: "DC"
+  //     },
+  //     {
+  //       key: "payu",
+  //       value: "NET BANKING",
+  //       mode: "NB"
+  //     },
+  //     {
+  //       key: "payu",
+  //       value: "WALLETS",
+  //       mode: "CASH"
+  //     },
+  //     {
+  //       key: "payu",
+  //       value: "UPI",
+  //       mode: "UPI"
+  //     }
+  //   ];
+
+  //   if (currency != "INR") {
+  //     methods = [
+  //       {
+  //         key: "payu",
+  //         value: "CREDIT CARD",
+  //         mode: "CC"
+  //       },
+  //       {
+  //         key: "payu",
+  //         value: "DEBIT CARD",
+  //         mode: "DC"
+  //       },
+  //       {
+  //         key: "paypal",
+  //         value: "PAYPAL",
+  //         mode: "NA"
+  //       }
+  //     ];
+  //   }
+
+  //   if (currency == "AED") {
+  //     methods = methods.filter(data => {
+  //       return data.key != "paypal";
+  //     });
+  //   }
+  //   return methods;
+  // }, [currency]);
 
   const onMethodChange = (event: any, method: any) => {
     if (event.target.checked) {
@@ -506,7 +524,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               </label>
             </div>
           </label>
-          {currency == "GBP" && (
+          {/* {currency == "GBP" && (
             <label
               className={cs(
                 globalStyles.flex,
@@ -550,7 +568,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             data-name="error-msg"
           >
             {gbpError}
-          </div>
+          </div> */}
           {isLoading && <Loader />}
           <button
             className={cs(globalStyles.marginT10, globalStyles.ceriseBtn, {

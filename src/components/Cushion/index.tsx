@@ -544,10 +544,10 @@ class CushionBag extends React.Component<Props, State> {
         <div className={styles.bagFooter}>
           <div className={cs(globalStyles.flex, styles.bagFlex)}>
             <div className={bootstrap.row}>
-              <div className={bootstrap.col9}>
+              <div className={bootstrap.col8}>
                 <PdpButton label={buttonText} onClick={action} />
               </div>
-              <div className={bootstrap.col3}>
+              <div className={bootstrap.col4}>
                 <WishlistButtonpdp
                   gtmListType={"pdp"}
                   title={title}
