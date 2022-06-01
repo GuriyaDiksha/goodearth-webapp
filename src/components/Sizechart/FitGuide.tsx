@@ -11,9 +11,20 @@ const FitGuide: React.FC = () => {
     <div className={styles.fitGuide}>
       <img src={image} />
       <ol>
-        {pointers.map((point, index) => (
-          <li key={index}>{point}</li>
-        ))}
+        {pointers.map(
+          (
+            point:
+              | boolean
+              | React.ReactChild
+              | React.ReactFragment
+              | React.ReactPortal
+              | null
+              | undefined,
+            index: React.Key | undefined
+          ) => (
+            <li key={index}>{point}</li>
+          )
+        )}
       </ol>
     </div>
   );

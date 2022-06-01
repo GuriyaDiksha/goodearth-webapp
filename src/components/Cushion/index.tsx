@@ -403,13 +403,7 @@ class CushionBag extends React.Component<Props, State> {
 
   addToBasket = () => {
     // const {mobile,isSale, currency} = this.props;
-    const {
-      selectedSize,
-      sizeError,
-      quantity,
-      addedToBag,
-      apiTrigger
-    } = this.state;
+    const { selectedSize, quantity } = this.state;
 
     if (!selectedSize) {
       this.setState({
@@ -504,9 +498,6 @@ class CushionBag extends React.Component<Props, State> {
       data: { childAttributes }
     } = this.props.filler;
     const {
-      mobile,
-      isSale,
-      currency,
       filler: {
         data: { title, categories, id, priceRecords, discountedPriceRecords }
       }
