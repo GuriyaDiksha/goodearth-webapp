@@ -194,20 +194,14 @@ class PDPContainer extends React.Component<Props, State> {
       category = category.replace(/>/g, "/");
     }
 
-    let skus = "";
     let variants = "";
-    let prices = "";
 
     data.childAttributes.map((child: any) => {
-      skus += "," + child.sku;
-      variants += "," + child.size;
-      prices +=
-        "," +
-        (child.discountedPriceRecords
-          ? child.discountedPriceRecords[currency]
-          : child.priceRecords
-          ? child.priceRecords[currency]
-          : data.priceRecords[currency]);
+      if (variants) {
+        variants += "," + child.size;
+      } else {
+        variants += child.size;
+      }
     });
     dataLayer.push({
       "Event Category": "GA Ecommerce",
