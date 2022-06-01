@@ -17,7 +17,7 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
 import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
-import PdpAccordion from "components/Accordion/pdpAccordion";
+// import Accordion from "components/Accordion";
 import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
 
 import ColorSelector from "components/ColorSelector";
@@ -66,7 +66,7 @@ import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
-import NewAccordion from "components/Accordion/newAccordion";
+import Accordion from "components/NewAccordion";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -1241,13 +1241,14 @@ const ProductDetails: React.FC<Props> = ({
           )} */}
             <div>
               {!isQuickview && (
-                <NewAccordion
+                <Accordion
                   sections={accordionSections}
+                  className="pdp-accordion"
                   headerClassName={styles.accordionHeader}
-                  bodyClassName={styles.accordionBody}
-                  headerClosedClassName={styles.headerClosedClassName}
-                  headerOpenClassName={styles.headerOpenClassName}
-                  defaultOpen="details"
+                  // bodyClassName={styles.accordionBody}
+                  // headerClosedClassName={styles.headerClosedClassName}
+                  // headerOpenClassName={styles.headerOpenClassName}
+                  // defaultOpen="details"
                 />
               )}
             </div>

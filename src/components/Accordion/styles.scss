@@ -25,18 +25,14 @@
 
 .accordion-body {
     line-height: 20px;
+    transition: max-height 0.5s ease-in;
     &.open {
-        visibility: visible;
+        max-height: 1000px;
         height: auto;
-        padding-bottom:15px;
     }
     &.closed {
-        visibility: hidden;
-        height: 0px;
-        margin-top: 0px;
-        margin-bottom: 0px;
-        position: relative;
-        top:-10000px;
+        max-height: 0px;
+        overflow: hidden;
     }
 }
 
