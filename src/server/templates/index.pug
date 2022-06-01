@@ -1,6 +1,7 @@
 doctype html  
 html(lang='en')
     head  !{head.title.toString()}
+        script(src="https://www.googleoptimize.com/optimize.js?id=GTM-WX6K5P2")
         script.
           window.dataLayer = window.dataLayer || [];
           var isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(window.navigator.userAgent);
@@ -54,7 +55,6 @@ html(lang='en')
         link(rel="preload", href=`${cdn}/media/fonts/Lato%20300italic.ttf`, as="font", crossorigin)
         link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700|Bellefair|Amiri", crossorigin)
         script(src="https://player.vimeo.com/api/player.js")
-        script(src="https://www.googleoptimize.com/optimize.js?id=GTM-WX6K5P2")
         each stylesheet in styles
           style !{stylesheet}
         if (typeof(state) !== 'undefined')
