@@ -181,7 +181,6 @@ class PDPContainer extends React.Component<Props, State> {
     const { data, currency } = this.props;
 
     let category = "",
-      categoryname = "",
       subcategoryname = "";
     if (data.categories) {
       const index = data.categories.length - 1;
@@ -189,7 +188,6 @@ class PDPContainer extends React.Component<Props, State> {
         ? data.categories[index].replace(/\s/g, "")
         : "";
       const arr = category.split(">");
-      categoryname = arr[arr.length - 2];
       subcategoryname = arr[arr.length - 1];
       category = category.replace(/>/g, "/");
     }
