@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
-import NewAccordion from "components/Accordion/newAccordion";
+import Accordion from "components/NewAccordion";
 import { Section } from "components/Accordion/typings";
 import { SizeChartProps } from "./typings";
 import FitGuide from "./FitGuide";
@@ -70,16 +70,16 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
           {image == "" ? (
             <SizeGuide isSingleSection={true} />
           ) : (
-            <NewAccordion
+            <Accordion
               sections={sections}
-              defaultOpen="sizeGuide"
+              // defaultOpen="sizeGuide"
               className="size-guide-accordion"
               headerClassName={styles.header}
-              bodyClassName={styles.body}
-              headerClosedClassName={styles.headerClosed}
-              openIconClass={cs(styles.arrow, styles.open)}
-              closedIconClass={cs(styles.arrow, styles.close)}
-              setHideScroll={setHideScroll}
+              // bodyClassName={styles.body}
+              // headerClosedClassName={styles.headerClosed}
+              openIconClassName={cs(styles.arrow, styles.open)}
+              closedIconClassName={cs(styles.arrow, styles.close)}
+              // setHideScroll={setHideScroll}
             />
           )}
         </div>

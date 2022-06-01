@@ -1,0 +1,29 @@
+@import "../../styles/partials/variables";
+@import "../../styles/partials/mixins";
+
+.accordion-section {
+    border-bottom: 1px solid lightgray;
+}
+
+.accordion-header {
+    padding: 15px 0px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.arrow {
+    height: 12px;
+    width: 12px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    position: absolute;
+    right: 20px;
+    transition: transform 0.2s ease-in;
+    &.open {
+      transform: rotate(45deg);
+    }
+    &.close {
+      transform: rotate(-135deg);
+    }
+  }
