@@ -1245,10 +1245,8 @@ const ProductDetails: React.FC<Props> = ({
                   sections={accordionSections}
                   className="pdp-accordion"
                   headerClassName={styles.accordionHeader}
-                  // bodyClassName={styles.accordionBody}
-                  // headerClosedClassName={styles.headerClosedClassName}
-                  // headerOpenClassName={styles.headerOpenClassName}
-                  // defaultOpen="details"
+                  bodyClassName={styles.accordionBody}
+                  defaultOpen="details"
                 />
               )}
             </div>

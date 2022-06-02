@@ -8,8 +8,11 @@ export type Section = {
 
 export type Props = {
   sections: Section[];
+  defaultOpen?: string;
   className: string;
   headerClassName: string;
   closedIconClassName?: string;
   openIconClassName?: string;
+  bodyClassName?: string;
+  sectionClassName?: string;
 };
