@@ -585,14 +585,14 @@ class PDPContainer extends React.Component<Props, State> {
     );
   };
 
-  stopAutoimageScroll = () => {
+  stopAutoImageScroll = () => {
     if (this.imageIntervalID) {
       clearInterval(this.imageIntervalID);
     }
   };
 
   startImageAutoScroll = () => {
-    this.imageIntervalID = setInterval(this.nextImage, 4000);
+    this.imageIntervalID = setInterval(this.nextImage, 8000);
   };
 
   resetAutoImageScroll = () => {
@@ -603,11 +603,11 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   onClickImageArrowLeft = () => {
-    this.prevImage(this.resetAutoImageScroll);
+    this.prevImage(this.stopAutoImageScroll);
   };
 
   onClickImageArrowRight = () => {
-    this.nextImage(this.resetAutoImageScroll);
+    this.nextImage(this.stopAutoImageScroll);
   };
 
   getProductImages() {
@@ -815,19 +815,7 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   onSliderImageClick = (index: number) => {
-    // const images = this.getProductImagesData();
-    // const { id } = images[index];
-    // const imageContainer = document.getElementById(`img-${id}`);
-
-    // if (!imageContainer) {
-    //   return;
-    // }
-
-    // const { top } = imageContainer?.getBoundingClientRect();
-
-    // const scrollBy = top - PDP_TOP_OFFSET;
-    // window.scrollBy(0, scrollBy);
-
+    this.stopAutoImageScroll();
     this.setState({
       activeImage: index
     });
