@@ -7,13 +7,11 @@ import FormInput from "components/Formsy/FormInput";
 import Loader from "components/Loader";
 import * as valid from "utils/validate";
 import { useDispatch, useSelector } from "react-redux";
-import { AppState } from "reducers/typings";
-import mubaarakDesktop from "../../images/mubaarakDesktop.jpg";
-import mubaarakMobile from "../../images/mubaarakMobile.jpg";
 import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
 import { Link, useHistory } from "react-router-dom";
-import LazyImage from "components/LazyImage";
 import HeaderService from "services/headerFooter";
+import MakerEnhance from "components/maker";
+import { AppState } from "reducers/typings";
 
 const NotificationForm: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -264,11 +262,16 @@ const NotificationForm: React.FC = () => {
             })}
           >
             <div className={styles.careersImage}>
-              <LazyImage
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                href={`${location.pathname}?${location.search}`}
+              />
+              {/* <LazyImage
                 src={mobile ? mubaarakMobile : mubaarakDesktop}
                 className={globalStyles.imgResponsive}
                 aspectRatio={mobile ? "0.96:1" : "3.77:1"}
-              />
+              /> */}
             </div>
           </div>
         }

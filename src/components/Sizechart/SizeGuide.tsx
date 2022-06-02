@@ -64,7 +64,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
             <tr>
               <th scope="col">Measurements</th>
             </tr>
-            {measurements.map((measurement, i) => (
+            {measurements.map((measurement: any, i: React.Key | undefined) => (
               <tr key={i}>
                 <th className={styles.sizeChartLegend} scope="row">
                   {ReactHtmlParser(measurement)}
@@ -101,7 +101,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((dataRow, i) => {
+            {data.map((dataRow: any[], i: React.Key | undefined) => {
               return (
                 <tr key={i}>
                   {dataRow.map((dataItem, j) => (

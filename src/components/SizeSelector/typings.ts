@@ -1,7 +1,10 @@
-import { ChildProductAttributes } from "typings/product";
+import {
+  ChildProductAttributes,
+  PartialChildProductAttributes
+} from "typings/product";
 
 export type Props = {
-  sizes: ChildProductAttributes[] | [];
+  sizes: ChildProductAttributes[] | PartialChildProductAttributes[] | [];
   onChange: (selected: ChildProductAttributes) => void;
   selected?: number;
   sizeClassName?: string;
