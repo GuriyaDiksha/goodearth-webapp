@@ -203,9 +203,10 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     letter-spacing: 1px;
     line-height: 43px;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 15px;
     padding-left: 10px;
+    font-family: $font-Lora
 }
 
 .mobile3d {
@@ -341,4 +342,13 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     z-index: 11;
     box-shadow: -1px -2px 12px #0000001d;
     background: #fff;
+    display: flex;
+    padding: 0% 8%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bottom-dock-price{
+    font-size: 20px !important;
+    font-family: $font-Montserrat !important;
 }
