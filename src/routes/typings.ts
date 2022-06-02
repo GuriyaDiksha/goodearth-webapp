@@ -36,7 +36,7 @@ export const enum ROUTES {
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
   BRIDALPUBLIC = "/bridal/:id",
-  MUBARAK = "/mubaarak-hour-notification",
+  MUBARAK = "/Joy20-reminders",
   WITHMAKER = "/withmaker",
   WITHOUTMAKER = "/withoutmaker",
   MICROSITE = "/microsite/:id?",
