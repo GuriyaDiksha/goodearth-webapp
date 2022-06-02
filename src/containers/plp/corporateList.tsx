@@ -702,7 +702,7 @@ class CorporateFilter extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-    this.unlisten();
+    // this.unlisten();
     valid.moveChatUp();
   }
 

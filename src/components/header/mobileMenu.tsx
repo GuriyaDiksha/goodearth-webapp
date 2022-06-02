@@ -216,7 +216,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const childComponentData = child.componentData as MenuComponentImageData;
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.heading,
-                  link: childComponentData.link
+                  link: childComponentData.link,
+                  ctaName: childComponentData.ctaName
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -237,7 +238,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const childComponentData = child.componentData as MenuComponentL2L3Data;
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.text,
-                  link: childComponentData.link
+                  link: childComponentData.link,
+                  ctaName: childComponentData.ctaName
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -254,7 +256,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 const childComponentData = child.componentData as MenuComponentImageData;
                 const l3MenuData: L2MenuData = {
                   text: childComponentData.heading,
-                  link: childComponentData.link
+                  link: childComponentData.link,
+                  ctaName: childComponentData.ctaName
                 };
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
@@ -352,7 +355,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 [styles.highlight]: currentUrl == data.link
               })}
             >
-              <span>{ReactHtmlParser(data.text)}</span>
+              <span>{ReactHtmlParser(data.ctaName || data.text)}</span>
             </Link>
           </li>
         ) : (
@@ -468,7 +471,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                             { [styles.highlight]: currentUrl == innerdata.link }
                           )}
                         >
-                          {ReactHtmlParser(innerdata.text.toLowerCase())}
+                          {ReactHtmlParser(
+                            innerdata.ctaName || innerdata.text.toLowerCase()
+                          )}
                         </Link>
                       </li>
                     );
