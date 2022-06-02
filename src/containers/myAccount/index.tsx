@@ -168,7 +168,6 @@ const MyAccount: React.FC<Props> = props => {
     }
     getLoyaltyTransactions();
     // window.scrollTo(0, 0);
-    util.pageViewGTM("MyAccount");
   }, []);
 
   const accountMenuItems: AccountMenuItem[] = [
