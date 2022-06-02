@@ -4,7 +4,7 @@ import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
-import Accordion from "components/NewAccordion";
+import Accordion from "components/Accordion";
 import { Section } from "components/Accordion/typings";
 import { SizeChartProps } from "./typings";
 import FitGuide from "./FitGuide";

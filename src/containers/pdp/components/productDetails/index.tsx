@@ -66,7 +66,7 @@ import inshop from "../../../../images/inShop.svg";
 import legal from "../../../../images/legal.svg";
 import DockedPanel from "../../docked";
 import { updateQuickviewId } from "../../../../actions/quickview";
-import Accordion from "components/NewAccordion";
+import Accordion from "components/Accordion";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
