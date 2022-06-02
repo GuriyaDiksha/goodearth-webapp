@@ -1408,6 +1408,9 @@ class PDPContainer extends React.Component<Props, State> {
               bootstrap.col12,
               {
                 [globalStyles.pageStickyElement]: !mobile && detailStickyEnabled
+              },
+              {
+                [globalStyles.paddTop20]: mobile
               }
             )}
             ref={this.detailsRef}
