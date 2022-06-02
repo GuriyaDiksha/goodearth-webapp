@@ -72,14 +72,13 @@ const Sizechart: React.FC<SizeChartProps> = ({ active }) => {
           ) : (
             <Accordion
               sections={sections}
-              // defaultOpen="sizeGuide"
+              defaultOpen="sizeGuide"
               className="size-guide-accordion"
               headerClassName={styles.header}
-              // bodyClassName={styles.body}
-              // headerClosedClassName={styles.headerClosed}
+              bodyClassName={styles.accordionBody}
+              sectionClassName={styles.accordionSection}
               openIconClassName={cs(styles.arrow, styles.open)}
               closedIconClassName={cs(styles.arrow, styles.close)}
-              // setHideScroll={setHideScroll}
             />
           )}
         </div>
