@@ -1,41 +1,40 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-.icon-open::before {
-    content: "[-]";
-    margin: 0 5px;
+strong {
+    font-weight: bold;
 }
 
-.icon-closed::before {
-    content: "[+]";
-    margin: 0 5px;
-}
-.arrowUp::before{
-    content:"\f123";
-    margin: 0 8px;
-  }
-.arrowDown::before{
-    content:"\f10c";
-    margin: 0 8px;   
+.accordion-section {
+    box-shadow: 0px 1px 0px lightgrey;
 }
 
 .accordion-header {
+    padding: 15px 0px;
+    display: flex;
+    justify-content: space-between;
     cursor: pointer;
 }
 
-.accordion-body {
-    line-height: 20px;
-    transition: max-height 0.5s ease-in;
-    &.open {
-        max-height: 1000px;
-        height: auto;
-    }
-    &.closed {
-        max-height: 0px;
-        overflow: hidden;
-    }
+//Add padding when show
+.accordion-body{
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in;
 }
 
-.size-guide-accordion{
-    position:relative;
-}
+.arrow {
+    height: 12px;
+    width: 12px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    position: absolute;
+    right: 20px;
+    transition: transform 0.2s ease-in;
+    &.open {
+      transform: rotate(45deg);
+    }
+    &.close {
+      transform: rotate(-135deg);
+    }
+  }
