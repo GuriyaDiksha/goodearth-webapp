@@ -111,6 +111,14 @@ const BottomMenu: React.FC<Props> = ({
       className={cs(styles.headerContainerMenu, {
         [styles.hide]: isPLP && scrollDown
       })}
+      // onClick={() => {
+      // dataLayer.push({
+      //   event: "Footer Click",
+      //   clickType: "",
+      //   location: "Bottom",
+      //   userStatus: isLoggedIn ? "logged in" : "logged out"
+      // });
+      // }}
     >
       <div className={bootstrap.row}>
         {/* <div className={cs(bootstrap.col)}>

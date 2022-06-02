@@ -51,11 +51,6 @@ import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 import CookieService from "services/cookie";
 // import PdpSkeleton from "./components/pdpSkeleton"
 import Skeleton from "react-loading-skeleton";
-
-// const VerticalImageSelector = loadable(() =>
-//   import("components/VerticalImageSelector")
-// );
-// const ProductDetails = loadable(() => import("./components/productDetails"));
 import ProductDetails from "./components/productDetails";
 import PdpSlider from "components/PdpSlider";
 import activeGrid from "images/plpIcons/active_grid.svg";
@@ -102,7 +97,8 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     showTimer: state.info.showTimer,
     customerGroup: state.user.customerGroup,
     meta: state.meta,
-    selectedSizeId: state.header.sizeChartData.selected
+    selectedSizeId: state.header.sizeChartData.selected,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
@@ -220,6 +216,43 @@ class PDPContainer extends React.Component<Props, State> {
     });
 
     const { data, currency } = this.props;
+
+    let category = "",
+      subcategoryname = "";
+    if (data?.categories) {
+      const index = data.categories.length - 1;
+      category = data.categories[index]
+        ? data.categories[index].replace(/\s/g, "")
+        : "";
+      const arr = category.split(">");
+      subcategoryname = arr[arr.length - 1];
+      category = category.replace(/>/g, "/");
+    }
+
+    let variants = "";
+
+    data.childAttributes.map((child: any) => {
+      if (variants) {
+        variants += "," + child.size;
+      } else {
+        variants += child.size;
+      }
+    });
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "PDP",
+      "Event Label": subcategoryname,
+      "Product Category": category.replace("/", "-"),
+      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Product Name": data.title,
+      "Product ID": data.id,
+      Variant: variants,
+      "Page Type": valid.getPageType(),
+      "Page referrer url": CookieService.getCookie("prevUrl")
+    });
+
     valid.PDP(data, currency);
 
     const list = CookieService.getCookie("listPath");
@@ -242,6 +275,19 @@ class PDPContainer extends React.Component<Props, State> {
       }, 50)
     );
 
+    if (this.props.device.mobile) {
+      this.getProductImagesData();
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
     this.setState(
       {
         mounted: true
@@ -274,14 +320,14 @@ class PDPContainer extends React.Component<Props, State> {
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
-      // const chatButtonElem = document.getElementById("chat-button");
-      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      // if (scrollToTopButtonElem) {
-      //   scrollToTopButtonElem.style.bottom = "65px";
-      // }
-      // if (chatButtonElem) {
-      //   chatButtonElem.style.bottom = "10px";
-      // }
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
     }
     window.removeEventListener(
       "scroll",

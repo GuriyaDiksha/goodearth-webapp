@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 // import {render} from 'react-dom';
 // import * as mapper from "mappers/header"
 // import {connect} from 'react-redux'
@@ -53,6 +53,15 @@ const DateSelect: React.FC = () => {
   const OnOutsideClick = () => {
     pickerRef.setOpen(true);
   };
+
+  useEffect(() => {
+    dataLayer.push({
+      event: "registry",
+      "Event Category": "Registry",
+      "Event Action": "Date selection page",
+      "Event Label": data.occasion
+    });
+  }, []);
 
   return (
     <>
