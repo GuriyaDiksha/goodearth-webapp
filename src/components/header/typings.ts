@@ -59,6 +59,7 @@ export type MenuComponentImageData = {
   heading: string;
   subHeading: string;
   link: string;
+  ctaName?: string;
 };
 export interface MenuComponent {
   componentType: string;

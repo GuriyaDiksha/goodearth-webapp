@@ -182,7 +182,7 @@ class PDPContainer extends React.Component<Props, State> {
 
     let category = "",
       subcategoryname = "";
-    if (data.categories) {
+    if (data?.categories) {
       const index = data.categories.length - 1;
       category = data.categories[index]
         ? data.categories[index].replace(/\s/g, "")
