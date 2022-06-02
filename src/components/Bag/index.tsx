@@ -299,7 +299,8 @@ class Bag extends React.Component<Props, State> {
       this.props.cart.shippable
     ) {
       this.props.showShipping(
-        freeShippingApplicable - parseFloat(totalWithoutShipping.toString()),
+        freeShippingApplicable -
+          parseInt((totalWithoutShipping || 0).toString()),
         freeShippingApplicable
       );
       event.preventDefault();
