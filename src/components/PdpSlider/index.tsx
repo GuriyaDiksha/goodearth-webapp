@@ -58,7 +58,7 @@ const PdpSlider: React.FC<Props> = memo(
             <img
               alt={alt}
               className={globalStyles.imgResponsive}
-              src={productImage}
+              src={productImage.replace("/Micro/", "/Medium/")}
             ></img>
             {icon && iconcount == 1 && (
               <img src={overlay} className={styles.overlay}></img>

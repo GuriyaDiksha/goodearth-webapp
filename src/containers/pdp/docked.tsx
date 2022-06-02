@@ -30,7 +30,6 @@ const DockedPanel: React.FC<Props> = ({
   return (
     <div
       className={cs(
-        styles.bottomPanel,
         { [styles.secondaryHeaderContainerTimer]: showTimer },
         bootstrap.row
       )}
@@ -38,7 +37,7 @@ const DockedPanel: React.FC<Props> = ({
       <div className={cs(bootstrap.col8, globalStyles.flex)}>
         <div className={styles.imgcontainer}>
           <img
-            className={globalStyles.imgResponsive}
+            className={cs(globalStyles.imgResponsive)}
             src={data.images?.[0].productImage.replace("/Medium/", "/Micro/")}
           />
         </div>
@@ -54,6 +53,7 @@ const DockedPanel: React.FC<Props> = ({
             discountPrice={discountPrice}
             discount={data.discount}
             badgeType={data.badgeType}
+            className={styles.bottomDockPrice}
           />
         )}
       </div>
