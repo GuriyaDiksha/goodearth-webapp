@@ -5,6 +5,7 @@ import cs from "classnames";
 import { updateAddressList } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch } from "react-redux";
+import * as util from "utils/validate";
 
 const MyAddress = (props: {
   mode: string;
@@ -18,6 +19,7 @@ const MyAddress = (props: {
     AddressService.fetchAddressList(dispatch).then(addressList => {
       dispatch(updateAddressList(addressList));
     });
+    util.pageViewGTM("MyAccount");
   }, []);
 
   return (
