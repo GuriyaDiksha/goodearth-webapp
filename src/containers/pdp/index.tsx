@@ -181,7 +181,6 @@ class PDPContainer extends React.Component<Props, State> {
     const { data, currency } = this.props;
 
     let category = "",
-      categoryname = "",
       subcategoryname = "";
     if (data?.categories) {
       const index = data.categories.length - 1;
@@ -189,22 +188,30 @@ class PDPContainer extends React.Component<Props, State> {
         ? data.categories[index].replace(/\s/g, "")
         : "";
       const arr = category.split(">");
-      categoryname = arr[arr.length - 2];
       subcategoryname = arr[arr.length - 1];
       category = category.replace(/>/g, "/");
     }
-    // dataLayer.push(
-    //   {
-    //   'Event Category':'GA Ecommerce','Event Action':'PDP','Event Label':'Pass the L3 product category', 'Client ID':'Pass the client ID','Session ID':'Pass the session ID','Time Stamp':Pass the time stamp','Page Url':'Pass the url of the page','Page Type':'Pass the page type of the page','Product Category':'Pass the product category L1 - L2 - L3','Login Status':'Pass the logged in or guest state of user', 'Page referrer url':'Pass the previous page url','Product Name':'Pass the product name','Product ID':'Pass the product ID','Variant':'Pass size, color,etc,'
-    //   });
+
+    let variants = "";
+
+    data.childAttributes.map((child: any) => {
+      if (variants) {
+        variants += "," + child.size;
+      } else {
+        variants += child.size;
+      }
+    });
     dataLayer.push({
       "Event Category": "GA Ecommerce",
-      "Event Action": "PDP ",
+      "Event Action": "PDP",
       "Event Label": subcategoryname,
       "Product Category": category.replace("/", "-"),
       "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
       "Time Stamp": new Date().toISOString(),
       "Page Url": location.href,
+      "Product Name": data.title,
+      "Product ID": data.id,
+      Variant: variants,
       "Page Type": valid.getPageType(),
       "Page referrer url": CookieService.getCookie("prevUrl")
     });
@@ -221,19 +228,19 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
-    // if (this.props.device.mobile) {
-    //   this.getProductImagesData();
-    //   const elem = document.getElementById("pincode-bar");
-    //   elem && elem.classList.add(globalStyles.hiddenEye);
-    //   const chatButtonElem = document.getElementById("chat-button");
-    //   const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    //   if (scrollToTopButtonElem) {
-    //     scrollToTopButtonElem.style.bottom = "65px";
-    //   }
-    //   if (chatButtonElem) {
-    //     chatButtonElem.style.bottom = "10px";
-    //   }
-    // }
+    if (this.props.device.mobile) {
+      this.getProductImagesData();
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
     this.setState(
       {
         mounted: true
@@ -262,14 +269,14 @@ class PDPContainer extends React.Component<Props, State> {
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
-      // const chatButtonElem = document.getElementById("chat-button");
-      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      // if (scrollToTopButtonElem) {
-      //   scrollToTopButtonElem.style.bottom = "65px";
-      // }
-      // if (chatButtonElem) {
-      //   chatButtonElem.style.bottom = "10px";
-      // }
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
     }
     valid.moveChatUp();
   }

@@ -29,7 +29,7 @@ const LineItems: React.FC<BasketItem> = memo(
     GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
-    const [qtyError, setQtyError] = useState(false);
+    // const [qtyError, setQtyError] = useState(false);
     const { tablet } = useSelector((state: AppState) => state.device);
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     const { dispatch } = useStore();
@@ -39,7 +39,7 @@ const LineItems: React.FC<BasketItem> = memo(
           setValue(value);
         })
         .catch(err => {
-          setQtyError(true);
+          // setQtyError(true);
           throw err;
         });
     };
@@ -104,7 +104,7 @@ const LineItems: React.FC<BasketItem> = memo(
       });
       const categoryList = product.categories
         ? product.categories.length > 0
-          ? product.categories[product.categories.length - 1].replaceAll(
+          ? product.categories[product.categories.length - 1]?.replaceAll(
               " > ",
               " - "
             )

@@ -47,6 +47,13 @@ const Section4: React.FC<Section4Props> = props => {
       setIsLoading(true);
       GiftcardService.addToGiftcard(dispatch, data)
         .then((res: any) => {
+          dataLayer.push({
+            event: "card_add_to_cart",
+            design: data.imageUrl,
+            location: props.selectedCountry,
+            value: data.customPrice
+          });
+
           const basket: Basket = res.data;
           dispatch(updateBasket(basket));
           valid.showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
