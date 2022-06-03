@@ -180,10 +180,15 @@ class PDPContainer extends React.Component<Props, State> {
     const pdpCta = document.querySelectorAll(
       ".src-containers-pdp-components-productDetails-_styles_action-buttons-container"
     )[0];
+    const footerStart = document.querySelector(
+      ".src-components-footer-_styles_footer-top"
+    );
+
     const observer = new IntersectionObserver(
       entries => {
         //Check for CTA not visible
         const entry = entries[0] as IntersectionObserverEntry;
+        console.log(entries[0].target.classList);
         if (entry.target.getBoundingClientRect().bottom <= 115) {
           this.setState({ showDock: true });
           this.bottomDockRef.current.style.maxHeight = 80 + "px";
