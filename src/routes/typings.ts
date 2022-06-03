@@ -36,7 +36,7 @@ export const enum ROUTES {
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
   BRIDALPUBLIC = "/bridal/:id",
-  MUBARAK = "/Joy20-reminders",
+  MUBARAK = "/mubaarak-hour-notification",
   WITHMAKER = "/withmaker",
   WITHOUTMAKER = "/withoutmaker",
   MICROSITE = "/microsite/:id?",
@@ -47,7 +47,7 @@ export const enum ROUTES {
   MUMTAZ = "/mumtaz-virtual-appointment",
   GCEMAIL = "/send-giftcard",
   AUTH = "/auth",
-  HFH = "/home-for-holidays-reminders",
+  HFH = "/Joy20-reminders",
   SITEMAP = "/sitemap"
 }
 
