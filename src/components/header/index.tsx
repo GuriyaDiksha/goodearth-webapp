@@ -297,12 +297,12 @@ class Header extends React.Component<Props, State> {
   };
 
   onBottomMenuClick = (clickType: string) => {
-    util.headerClickGTM(
-      clickType,
-      "Bottom",
-      this.props.mobile,
-      this.props.isLoggedIn
-    );
+    // util.headerClickGTM(
+    //   clickType,
+    //   "Bottom",
+    //   this.props.mobile,
+    //   this.props.isLoggedIn
+    // );
     util.footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 

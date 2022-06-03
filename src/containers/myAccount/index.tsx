@@ -27,7 +27,6 @@ import ActivateGiftCard from "./components/ActivateGiftCard";
 import TrackOrder from "./components/TrackOrder";
 import AccountServices from "services/account";
 import CeriseClubMain from "./components/CeriseClub/ceriseClubMain";
-import * as util from "utils/validate";
 
 type Props = {
   isBridal: boolean;
@@ -168,7 +167,6 @@ const MyAccount: React.FC<Props> = props => {
     }
     getLoyaltyTransactions();
     // window.scrollTo(0, 0);
-    util.pageViewGTM("MyAccount");
   }, []);
 
   const accountMenuItems: AccountMenuItem[] = [

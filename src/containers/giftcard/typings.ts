@@ -33,4 +33,5 @@ export type Section4Props = {
   mobile: boolean;
   next: (data: any, section: string) => void;
   goback: (section: string) => void;
+  selectedCountry: string;
 };
