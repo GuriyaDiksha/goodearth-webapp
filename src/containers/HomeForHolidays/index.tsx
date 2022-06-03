@@ -176,10 +176,7 @@ const NotificationForm: React.FC = () => {
         styles.loginForm
       )}
     >
-      {/* <h4>
-        Indulge in a season of magic and merriment with your favourites from
-        Good Earth, now at upto 50% OFF online. Sign up to get a reminder.
-      </h4> */}
+      <h4>Sign up to get a reminder for our Joy20 offer!</h4>
       <Formsy
         onValidSubmit={handleSubmit}
         onInvalidSubmit={handleInvalidSubmit}
