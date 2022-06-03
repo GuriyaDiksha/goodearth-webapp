@@ -19,6 +19,7 @@
     padding: 0 5px;
     letter-spacing: 0.36px;
     position: relative;
+    min-height: 40px;
     &:hover {
       border: 1px solid #799999;
       background-color: #f9f8f5;
@@ -37,7 +38,7 @@
       border: #E5E5E5;
       border-style: solid;
       border-width: 1px;
-      background: linear-gradient(to left top, transparent 47.75%, currentColor 50.5%, currentColor 49.5%, transparent 51.25%);
+      background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
       &:hover {
         // background-color: tint(#000,95%);
         border: #E5E5E5;

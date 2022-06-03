@@ -65,7 +65,11 @@ const InputField: React.FC<Props> = ({
 
   return (
     <>
-      <div className={cs(globalStyles.formFieldContainer, className)}>
+      <div
+        className={cs(globalStyles.formFieldContainer, className, {
+          [styles.notifyMeEmailInput]: className == "notify-me-email-input"
+        })}
+      >
         <input
           id={
             id ||
