@@ -131,6 +131,7 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   myref: RefObject<any> = React.createRef();
+  bottomDockRef: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
@@ -185,9 +186,11 @@ class PDPContainer extends React.Component<Props, State> {
         const entry = entries[0] as IntersectionObserverEntry;
         if (entry.target.getBoundingClientRect().bottom <= 115) {
           this.setState({ showDock: true });
+          this.bottomDockRef.current.style.maxHeight = 80 + "px";
         }
         if (entry.target.getBoundingClientRect().bottom > 115) {
           this.setState({ showDock: false });
+          this.bottomDockRef.current.style.maxHeight = 0 + "px";
         }
       },
       {
@@ -592,7 +595,7 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   startImageAutoScroll = () => {
-    this.imageIntervalID = setInterval(this.nextImage, 8000);
+    this.imageIntervalID = setInterval(this.nextImage, 7000);
   };
 
   resetAutoImageScroll = () => {
@@ -1420,8 +1423,8 @@ class PDPContainer extends React.Component<Props, State> {
         <div className={cs(bootstrap.row)}>
           {!this.state.showLooks && this.getMoreCollectionProductsSection()}
         </div>
-        {!mobile && this.state.showDock && (
-          <div className={cs(styles.bottomPanel)}>
+        {!mobile && (
+          <div className={cs(styles.bottomPanel)} ref={this.bottomDockRef}>
             <DockedPanel
               data={data}
               buttoncall={this.returnPDPButton()}
