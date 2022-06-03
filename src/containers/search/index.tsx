@@ -490,7 +490,7 @@ class Search extends React.Component<
                         }
                       />
                     ) : (
-                      <GiftcardItem />
+                      <GiftcardItem isCorporateGifting={false} />
                     )}
                   </div>
                 );

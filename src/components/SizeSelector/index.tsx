@@ -1,6 +1,7 @@
 import React, { memo, useMemo, useCallback } from "react";
 import cs from "classnames";
 
+import { ChildProductAttributes } from "typings/product";
 import { Props } from "./typings";
 
 import styles from "./styles.scss";
@@ -22,7 +23,7 @@ const SizeSelector: React.FC<Props> = ({
   );
 
   const sizesHTML = useMemo(() => {
-    return sizes.map(child => {
+    return sizes.map((child: ChildProductAttributes) => {
       const { id, size, stock, sku } = child;
       return (
         <div
