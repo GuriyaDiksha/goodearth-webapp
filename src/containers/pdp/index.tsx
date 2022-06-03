@@ -131,6 +131,7 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   myref: RefObject<any> = React.createRef();
+  bottomDockRef: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
   sidebarRef: RefObject<HTMLDivElement> = React.createRef();
   detailsRef: RefObject<HTMLDivElement> = React.createRef();
@@ -179,22 +180,60 @@ class PDPContainer extends React.Component<Props, State> {
     const pdpCta = document.querySelectorAll(
       ".src-containers-pdp-components-productDetails-_styles_action-buttons-container"
     )[0];
+    const footerStart = document.querySelectorAll(
+      ".src-components-footer-_styles_footer-top"
+    )[0];
+    let ctaVisible = false;
+    let footerVisible = false;
+    let footerAboveHeader = false;
     const observer = new IntersectionObserver(
       entries => {
         //Check for CTA not visible
-        const entry = entries[0] as IntersectionObserverEntry;
-        if (entry.target.getBoundingClientRect().bottom <= 115) {
-          this.setState({ showDock: true });
-        }
-        if (entry.target.getBoundingClientRect().bottom > 115) {
-          this.setState({ showDock: false });
-        }
+        entries.forEach(entry => {
+          if (
+            entry.target.classList.contains(
+              "src-containers-pdp-components-productDetails-_styles_action-buttons-container"
+            )
+          ) {
+            if (entry.target.getBoundingClientRect().bottom <= 115) {
+              ctaVisible = false;
+            }
+            if (entry.target.getBoundingClientRect().bottom > 115) {
+              ctaVisible = true;
+            }
+          }
+          if (
+            entry.target.classList.contains(
+              "src-components-footer-_styles_footer-top"
+            )
+          ) {
+            if (entry.intersectionRatio > 0.9) {
+              footerVisible = true;
+            } else if (entry.target.getBoundingClientRect().top < 90) {
+              footerAboveHeader = true;
+            } else {
+              footerVisible = false;
+            }
+          }
+          if (!ctaVisible && !footerVisible) {
+            this.setState({ showDock: true });
+            this.bottomDockRef.current.style.maxHeight = 80 + "px";
+          } else {
+            this.setState({ showDock: false });
+            this.bottomDockRef.current.style.maxHeight = 0 + "px";
+          }
+          if (!ctaVisible && !footerVisible && footerAboveHeader) {
+            this.setState({ showDock: false });
+            this.bottomDockRef.current.style.maxHeight = 0 + "px";
+          }
+        });
       },
       {
         rootMargin: "-110px 0px 0px 0px"
       }
     );
     observer.observe(pdpCta);
+    observer.observe(footerStart);
   };
 
   componentDidMount() {
@@ -443,6 +482,11 @@ class PDPContainer extends React.Component<Props, State> {
         mounted: true
       });
     }
+    if (this.state.showDock) {
+      this.bottomDockRef.current.style.maxHeight = 80 + "px";
+    } else {
+      this.bottomDockRef.current.style.maxHeight = 0 + "px";
+    }
   }
 
   onScroll = () => {
@@ -592,7 +636,7 @@ class PDPContainer extends React.Component<Props, State> {
   };
 
   startImageAutoScroll = () => {
-    this.imageIntervalID = setInterval(this.nextImage, 8000);
+    this.imageIntervalID = setInterval(this.nextImage, 7000);
   };
 
   resetAutoImageScroll = () => {
@@ -1420,8 +1464,8 @@ class PDPContainer extends React.Component<Props, State> {
         <div className={cs(bootstrap.row)}>
           {!this.state.showLooks && this.getMoreCollectionProductsSection()}
         </div>
-        {!mobile && this.state.showDock && (
-          <div className={cs(styles.bottomPanel)}>
+        {!mobile && (
+          <div className={cs(styles.bottomPanel)} ref={this.bottomDockRef}>
             <DockedPanel
               data={data}
               buttoncall={this.returnPDPButton()}
