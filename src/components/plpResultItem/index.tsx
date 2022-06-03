@@ -25,7 +25,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     onClickQuickView,
     mobile,
     isVisible,
-    isCollection,
+    // isCollection,
     isCorporate,
     position,
     page,
