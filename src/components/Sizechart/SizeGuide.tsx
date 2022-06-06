@@ -9,6 +9,7 @@ import { SizeGuideProps } from "./typings";
 import { ChildProductAttributes } from "typings/product";
 import { updateSizeChartSelected } from "actions/header";
 import ReactHtmlParser from "react-html-parser";
+import { SizeChartResponse } from "reducers/header/typings";
 
 const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   const {
@@ -17,7 +18,9 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
     },
     sizes,
     isCorporatePDP
-  } = useSelector((state: AppState) => state.header.sizeChartData);
+  }: SizeChartResponse | any = useSelector(
+    (state: AppState) => state.header.sizeChartData
+  );
   const selected = useSelector(
     (state: AppState) => state.header.sizeChartData.selected
   );
@@ -34,7 +37,9 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
   };
   useEffect(() => {
     if (selected && mobile) {
-      const selectedSize = sizes.filter(size => size.id == selected)[0];
+      const selectedSize = sizes.filter(
+        (size: ChildProductAttributes) => size.id == selected
+      )[0];
       const sizeBtn = document.getElementById(
         `size-guide-item-${selectedSize.size}`
       );
@@ -76,7 +81,7 @@ const SizeGuide: React.FC<SizeGuideProps> = memo(({ isSingleSection }) => {
         <table className={cs(styles.tableContent, styles.scrollable)}>
           <thead>
             <tr>
-              {sizes.map(child => {
+              {sizes.map((child: ChildProductAttributes) => {
                 const { id, size, stock, sku } = child;
                 return (
                   <th scope="col" key={sku}>

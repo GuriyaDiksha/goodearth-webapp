@@ -72,7 +72,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       "Time Stamp": new Date().toISOString(),
       "Page Url": location.href,
       "Page Type": valid.getPageType(),
-      "Product Category": category.replaceAll(">", "-"),
+      "Product Category": category.replace(/>/g, "-"),
       "Login Status": isLoggedIn ? "logged in" : "logged out",
       "Page referrer url": CookieService.getCookie("prevUrl"),
       "Product Name": product.title,

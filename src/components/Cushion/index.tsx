@@ -25,6 +25,10 @@ import PdpButton from "components/Button/pdpButton";
 import { updateQuickviewId } from "actions/quickview";
 import { updateshowFiller } from "actions/filler";
 import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
+import {
+  PartialChildProductAttributes,
+  ChildProductAttributes
+} from "typings/product";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -405,10 +409,10 @@ class CushionBag extends React.Component<Props, State> {
     // const {mobile,isSale, currency} = this.props;
     const {
       selectedSize,
-      sizeError,
-      quantity,
-      addedToBag,
-      apiTrigger
+      // sizeError,
+      quantity
+      // addedToBag,
+      // apiTrigger
     } = this.state;
 
     if (!selectedSize) {
@@ -466,7 +470,9 @@ class CushionBag extends React.Component<Props, State> {
       selectedSize && selectedSize.discountedPriceRecords
         ? selectedSize.discountedPriceRecords[currency]
         : discountedPriceRecords[currency];
-    childAttributes?.map((v: any, i) => {
+    (childAttributes as Array<
+      PartialChildProductAttributes | ChildProductAttributes
+    >)?.map((v: any, i) => {
       if (v.id === selectedSize?.id) {
         selectedIndex = i;
       }
@@ -504,9 +510,9 @@ class CushionBag extends React.Component<Props, State> {
       data: { childAttributes }
     } = this.props.filler;
     const {
-      mobile,
-      isSale,
-      currency,
+      // mobile,
+      // isSale,
+      // currency,
       filler: {
         data: { title, categories, id, priceRecords, discountedPriceRecords }
       }
