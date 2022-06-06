@@ -312,7 +312,7 @@ class Checkout extends React.Component<Props, State> {
     dataLayer.push({
       event: "checkoutView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_checkout_view"
+      Page_Title: "virtual_checkout_view"
     });
     dataLayer.push({
       "Event Category": "GA Ecommerce",

@@ -172,7 +172,7 @@ class PDPContainer extends React.Component<Props, State> {
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_pdp_view"
+      Page_Title: "virtual_pdp_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,

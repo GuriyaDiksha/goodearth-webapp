@@ -26,7 +26,7 @@ const Home: React.FC = () => {
     dataLayer.push({
       event: "HomePageView",
       PageURL: location.pathname,
-      PageTitle: "virtual_homePage_view"
+      Page_Title: "virtual_homePage_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": location.pathname,
