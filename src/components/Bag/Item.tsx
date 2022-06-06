@@ -15,6 +15,7 @@ import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
+import basket from "services/basket";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -23,14 +24,16 @@ const LineItems: React.FC<BasketItem> = memo(
     giftCardImage,
     quantity,
     product,
-    currency,
     saleStatus,
     toggleBag,
     GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
     // const [qtyError, setQtyError] = useState(false);
-    const { tablet } = useSelector((state: AppState) => state.device);
+    const {
+      device: { tablet },
+      basket: { currency }
+    } = useSelector((state: AppState) => state);
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     const { dispatch } = useStore();
     const handleChange = async (value: number) => {
