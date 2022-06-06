@@ -1,6 +1,7 @@
 import React, { memo, useMemo, useCallback } from "react";
 import cs from "classnames";
 
+import { ChildProductAttributes } from "typings/product";
 import { Props } from "./typings";
 
 import styles from "./styles.scss";
@@ -22,21 +23,23 @@ const SizeSelector: React.FC<Props> = ({
   );
 
   const sizesHTML = useMemo(() => {
-    return sizes.map(child => {
-      const { id, size, stock, sku } = child;
-      return (
-        <div
-          key={sku}
-          className={cs(styles.sizeButton, sizeClassName, {
-            [styles.selected]: id === selected,
-            [styles.unavailable]: stock === 0 && !isCorporatePDP
-          })}
-          onClick={getSizeClickHandler(child)}
-        >
-          {size}
-        </div>
-      );
-    });
+    return (sizes as Array<ChildProductAttributes>).map(
+      (child: ChildProductAttributes) => {
+        const { id, size, stock, sku } = child;
+        return (
+          <div
+            key={sku}
+            className={cs(styles.sizeButton, sizeClassName, {
+              [styles.selected]: id === selected,
+              [styles.unavailable]: stock === 0 && !isCorporatePDP
+            })}
+            onClick={getSizeClickHandler(child)}
+          >
+            {size}
+          </div>
+        );
+      }
+    );
   }, [sizes, selected]);
   return <div className={styles.sizeSelector}>{sizesHTML}</div>;
 };

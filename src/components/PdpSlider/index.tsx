@@ -93,13 +93,13 @@ const PdpSlider: React.FC<Props> = memo(
       }
     }, [activeIndex]);
 
-    const tempNode: ReactNode[] = imageNodes.map((data, index) => {
-      return (
-        <div key={index} className={cs(styles.imageContainer)}>
-          {data}
-        </div>
-      );
-    });
+    // const tempNode: ReactNode[] = imageNodes.map((data, index) => {
+    //   return (
+    //     <div key={index} className={cs(styles.imageContainer)}>
+    //       {data}
+    //     </div>
+    //   );
+    // });
     const newclass =
       imageslist.length <= 2 ? styles.newcontainer : styles.container;
     return (
