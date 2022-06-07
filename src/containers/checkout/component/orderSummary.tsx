@@ -15,26 +15,18 @@ import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
 
 const OrderSummary: React.FC<OrderProps> = props => {
-  const {
-    mobile,
-    basket,
-    currency,
-    page,
-    shippingAddress,
-    salestatus,
-    validbo
-  } = props;
+  const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
   const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
   const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
-  const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
-  const { isSale, showDeliveryInstruction } = useSelector(
+  const { isSale, showDeliveryInstruction, deliveryText } = useSelector(
     (state: AppState) => state.info
   );
-  const { deliveryText } = useSelector((state: AppState) => state.info);
+  const { currency } = useSelector((state: AppState) => state.basket);
+  const code = currencyCode[currency as Currency];
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
     setIsSuspended(true);

@@ -13,6 +13,7 @@ import cs from "classnames";
 import glasses from "../../../../images/bridal/glasses.svg";
 import bridalRing from "../../../../images/bridal/rings.svg";
 import { confirmPopup } from "utils/validate";
+import * as util from "utils/validate";
 
 const CreateRegistry: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -31,6 +32,12 @@ const CreateRegistry: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
+    util.pageViewGTM("MyAccount");
+    dataLayer.push({
+      event: "registry",
+      "Event Category": "Registry",
+      "Event Action": "Registry page"
+    });
   }, []);
 
   return (

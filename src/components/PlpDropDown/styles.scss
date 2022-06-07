@@ -20,7 +20,8 @@
       }
       .mobile-product {
         &:last-child {
-          border-left: 1px solid grey;
+          box-shadow: -2px 1px 0px -0.5px #888;
+
         }
         width: 50%;
         padding: 5px;
