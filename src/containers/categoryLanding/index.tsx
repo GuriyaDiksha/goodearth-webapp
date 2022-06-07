@@ -121,7 +121,7 @@ class CategoryLanding extends React.Component<
     dataLayer.push({
       event: "CategoryLandingView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_categoryLanding_view"
+      Page_Title: "virtual_categoryLanding_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,

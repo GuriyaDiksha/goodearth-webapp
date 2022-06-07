@@ -1,4 +1,10 @@
-import React, { useState, useRef, useContext, createRef } from "react";
+import React, {
+  useState,
+  useRef,
+  useContext,
+  createRef,
+  useEffect
+} from "react";
 import BridalContext from "./context";
 import styles from "./styles.scss";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
@@ -52,6 +58,15 @@ const BridalDetails: React.FC = () => {
       setUpdateProfile(false);
     }
   };
+
+  useEffect(() => {
+    dataLayer.push({
+      event: "registry",
+      "Event Category": "Registry",
+      "Event Action": "Details page",
+      "Event Label": data.occasion
+    });
+  }, []);
 
   return (
     <>

@@ -28,7 +28,6 @@ const CartItems: React.FC<BasketItem> = memo(
     giftCardImage,
     quantity,
     product,
-    currency,
     saleStatus,
     GCValue,
     onMoveToWishlist,
@@ -37,8 +36,8 @@ const CartItems: React.FC<BasketItem> = memo(
     const [value, setValue] = useState(quantity | 0);
     const [qtyError, setQtyError] = useState(false);
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+    const { currency } = useSelector((state: AppState) => state.basket);
     const { dispatch } = useStore();
-
     const {
       images,
       collection,
