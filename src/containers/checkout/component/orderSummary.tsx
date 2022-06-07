@@ -121,14 +121,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
           return (
             <div key={index}>
               <div className={globalStyles.voffset1}>
-                <div
+                {/* <div
                   className={cs(globalStyles.flex, globalStyles.gutterBetween)}
                 >
                   <span className={styles.collectionName}>
                     {item.product.collection}
                   </span>
                   <span></span>
-                </div>
+                </div> */}
                 <div
                   className={cs(globalStyles.flex, globalStyles.gutterBetween)}
                 >
