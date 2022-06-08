@@ -148,7 +148,7 @@ class PLP extends React.Component<
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
-      const chatButtonElem = document.getElementById("chat-button");
+      const chatButtonElem = document.getElementById("mobile-chat-container");
       const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
       if (scrollToTopButtonElem) {
         scrollToTopButtonElem.style.bottom = "65px";

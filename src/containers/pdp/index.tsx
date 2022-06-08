@@ -233,7 +233,7 @@ class PDPContainer extends React.Component<Props, State> {
       this.getProductImagesData();
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
-      const chatButtonElem = document.getElementById("chat-button");
+      const chatButtonElem = document.getElementById("mobile-chat-container");
       const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
       if (scrollToTopButtonElem) {
         scrollToTopButtonElem.style.bottom = "65px";
@@ -270,7 +270,7 @@ class PDPContainer extends React.Component<Props, State> {
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
-      const chatButtonElem = document.getElementById("chat-button");
+      const chatButtonElem = document.getElementById("mobile-chat-container");
       const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
       if (scrollToTopButtonElem) {
         scrollToTopButtonElem.style.bottom = "65px";
