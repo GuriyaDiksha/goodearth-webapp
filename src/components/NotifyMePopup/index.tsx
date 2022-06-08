@@ -370,6 +370,11 @@ const NotifyMePopup: React.FC<Props> = ({
                 {sizeErrorMsg && (
                   <span className={styles.sizeError}>{sizeErrorMsg}</span>
                 )}
+                {sizeerror && (
+                  <p className={styles.sizeError}>
+                    Please select a size to proceed
+                  </p>
+                )}
                 <span className={cs(styles.sizeError)}>
                   {isSale &&
                     selectedSize &&
@@ -422,9 +427,9 @@ const NotifyMePopup: React.FC<Props> = ({
               />
             </div>
           )}
-          {sizeerror && (
+          {/* {sizeerror && (
             <p className={styles.sizeError}>Please select a size to proceed</p>
-          )}
+          )} */}
         </div>
         <div className={styles.buttonContainer}>{Pdpbutton}</div>
       </div>
