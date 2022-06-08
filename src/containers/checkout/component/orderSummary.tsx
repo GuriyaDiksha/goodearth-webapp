@@ -15,26 +15,18 @@ import { updateDeliveryText } from "actions/info";
 import { POPUP } from "constants/components";
 
 const OrderSummary: React.FC<OrderProps> = props => {
-  const {
-    mobile,
-    basket,
-    currency,
-    page,
-    shippingAddress,
-    salestatus,
-    validbo
-  } = props;
+  const { mobile, basket, page, shippingAddress, salestatus, validbo } = props;
   const [showSummary, setShowSummary] = useState(mobile ? false : true);
   const [isSuspended, setIsSuspended] = useState(true);
   const [fullText, setFullText] = useState(false);
   const [freeShipping] = useState(false);
-  const code = currencyCode[currency as Currency];
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: AppState) => state.user);
-  const { isSale, showDeliveryInstruction } = useSelector(
+  const { isSale, showDeliveryInstruction, deliveryText } = useSelector(
     (state: AppState) => state.info
   );
-  const { deliveryText } = useSelector((state: AppState) => state.info);
+  const { currency } = useSelector((state: AppState) => state.basket);
+  const code = currencyCode[currency as Currency];
   const onArrowButtonClick = () => {
     setShowSummary(!showSummary);
     setIsSuspended(true);
@@ -133,7 +125,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   className={cs(globalStyles.flex, globalStyles.gutterBetween)}
                 >
                   <span className={styles.collectionName}>
-                    {item.product.collections}
+                    {item.product.collection}
                   </span>
                   <span></span>
                 </div>
@@ -432,7 +424,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
   const chkshipping = (event: any) => {
     const {
-      total,
+      totalWithoutShipping,
       freeShippingThreshold,
       freeShippingApplicable,
       shippable
@@ -445,8 +437,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (
       !freeShipping &&
-      total >= freeShippingThreshold &&
-      total < freeShippingApplicable &&
+      totalWithoutShipping &&
+      totalWithoutShipping >= freeShippingThreshold &&
+      totalWithoutShipping < freeShippingApplicable &&
       currency == "INR" &&
       shippable
     ) {
@@ -456,7 +449,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {
             remainingAmount:
               freeShippingApplicable -
-              parseInt((basket.total - basket.shippingCharge).toString()),
+              parseInt((basket.totalWithoutShipping || 0).toString()),
             freeShippingApplicable
           },
           true
@@ -718,7 +711,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 styles.total
               )}
             >
-              <span className={cs(styles.subtotal, globalStyles.voffset2)}>
+              <span
+                className={cs(
+                  styles.subtotal,
+                  globalStyles.voffset2,
+                  styles.font
+                )}
+              >
                 AMOUNT PAYABLE
               </span>
               <span className={cs(styles.grandTotal, globalStyles.voffset2)}>

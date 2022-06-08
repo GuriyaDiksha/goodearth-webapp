@@ -7,12 +7,12 @@ import React, {
   MouseEvent,
   useEffect
 } from "react";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import cs from "classnames";
 // components
-import Quantity from "components/quantity";
+import PdpQuantity from "components/quantity/pdpQuantity";
 import SizeSelector from "components/SizeSelector";
-import Button from "components/Button";
+import PdpButton from "components/Button/pdpButton";
 import CloseButton from "components/Modal/components/CloseButton";
 import InputField from "components/InputField";
 // services
@@ -32,6 +32,7 @@ import { currencyCodes } from "constants/currency";
 import { ProductID } from "typings/id";
 import * as util from "utils/validate";
 import Loader from "components/Loader";
+import { AppState } from "reducers/typings";
 
 type Props = {
   basketLineId?: ProductID;
@@ -85,6 +86,9 @@ const NotifyMePopup: React.FC<Props> = ({
   const maxQuantity = selectedSize ? selectedSize.stock : 1;
   const [sizeerror, setSizeerror] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
+  const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+
+  const [productTitle, subtitle] = title.split("(");
 
   const onQuantityChange = useCallback(
     value => {
@@ -144,6 +148,25 @@ const NotifyMePopup: React.FC<Props> = ({
     };
   };
   const gtmPushAddToBag = () => {
+    const categoryList = category;
+
+    let subcategoryname = categoryList ? categoryList.split(" > ") : "";
+    if (subcategoryname) {
+      subcategoryname = subcategoryname[subcategoryname.length - 1];
+    }
+    const size = selectedSize?.size || "";
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Add to Cart",
+      "Event Label": subcategoryname,
+      "Time Stamp": new Date().toISOString(),
+      "Cart Source": location.href,
+      "Product Category": categoryList,
+      "Login Status": isLoggedIn ? "logged in" : "logged out",
+      "Product Name": title,
+      "Product ID": selectedSize?.id,
+      Variant: size
+    });
     dataLayer.push({
       event: "addToCart",
       ecommerce: {
@@ -216,7 +239,6 @@ const NotifyMePopup: React.FC<Props> = ({
           selectedSize.id,
           email
         );
-
         if (!successful) {
           setEmailError(message);
           util.errorTracking([message], location.href);
@@ -232,11 +254,15 @@ const NotifyMePopup: React.FC<Props> = ({
     }
   };
 
+  window.onpopstate = () => {
+    closeModal();
+  };
+
   const sizeSelectClick = () => {
     setSizeerror(true);
   };
 
-  const button = useMemo(() => {
+  const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     let allOutOfStock = true;
     childAttributes.forEach(({ stock }) => {
@@ -254,15 +280,20 @@ const NotifyMePopup: React.FC<Props> = ({
       buttonText = "Add to Bag";
       action = addToBasket;
     }
-
+    if (msg == "Notify me request accepted successfully.") {
+      buttonText = "NOTIFICATION REQUEST RECEIVED!";
+      action = () => {
+        return undefined;
+      };
+    }
     return (
-      <Button
+      <PdpButton
         label={buttonText}
         onClick={action}
         className={cs(styles.button)}
       />
     );
-  }, [selectedSize, email, quantity]);
+  }, [selectedSize, email, quantity, msg]);
 
   useEffect(() => {
     setMsg("");
@@ -283,52 +314,74 @@ const NotifyMePopup: React.FC<Props> = ({
       <div className={styles.header}>
         <CloseButton className={styles.closeBtn} />
       </div>
-      <div className={globalStyles.textCenter}>
-        {msg && <div className={styles.successMsg}>{msg}</div>}
-        <div className={styles.collection}>{collection}</div>
-        <div className={styles.title}>{title}</div>
-        <div className={styles.price}>
-          <p className={styles.productN}>
-            {isSale && discount ? (
-              <span className={styles.discountprice}>
-                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
-                {selectedSize
-                  ? selectedSize.discountedPriceRecords[currency]
-                  : discountedPrice}
-                &nbsp;{" "}
-              </span>
-            ) : (
-              ""
+      {/* {msg && <div className={styles.successMsg}>{msg}</div>} */}
+      <div className={styles.contentContainer}>
+        <div className={styles.infoContainer}>
+          <div className={styles.detailsContainer}>
+            <div className={styles.collection}>{collection}</div>
+            <div className={styles.title}>{productTitle}</div>
+            {subtitle && (
+              <p className={styles.subtitle}>({subtitle.split(")")[0]})</p>
             )}
-            {isSale && discount ? (
-              <span className={styles.strikeprice}>
-                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
-                {selectedSize ? selectedSize.priceRecords[currency] : price}
-              </span>
-            ) : (
-              <span
-                className={badgeType == "B_flat" ? globalStyles.cerise : ""}
-              >
-                {String.fromCharCode(...currencyCodes[currency])}&nbsp;
-                {selectedSize ? selectedSize.priceRecords[currency] : price}
-              </span>
-            )}
-          </p>
+          </div>
+          <div className={styles.price}>
+            <p className={styles.productN}>
+              {isSale && discount ? (
+                <span className={styles.discountprice}>
+                  {String.fromCharCode(...currencyCodes[currency])}&nbsp;
+                  {selectedSize
+                    ? selectedSize.discountedPriceRecords[currency]
+                    : discountedPrice}
+                  &nbsp;{" "}
+                </span>
+              ) : (
+                ""
+              )}
+              {isSale && discount ? (
+                <span className={styles.strikeprice}>
+                  {String.fromCharCode(...currencyCodes[currency])}&nbsp;
+                  {selectedSize ? selectedSize.priceRecords[currency] : price}
+                </span>
+              ) : (
+                <span
+                  className={badgeType == "B_flat" ? globalStyles.cerise : ""}
+                >
+                  {String.fromCharCode(...currencyCodes[currency])}&nbsp;
+                  {selectedSize ? selectedSize.priceRecords[currency] : price}
+                </span>
+              )}
+            </p>
+          </div>
         </div>
-        {sizeExists ? (
-          <>
-            <div className={cs(styles.label, styles.sizeLabel)}>
-              SELECT SIZE
-            </div>
-            <SizeSelector
-              sizes={childAttributes}
-              onChange={onSizeSelect}
-              sizeClassName={styles.sizeBox}
-              selected={selectedSize ? selectedSize.id : undefined}
-            />
-            {sizeErrorMsg && (
-              <span className={styles.sizeError}>{sizeErrorMsg}</span>
-            )}
+        <div className={styles.sizeContainer}>
+          {sizeExists ? (
+            <>
+              <div className={cs(styles.label, styles.sizeLabel)}> SIZE</div>
+              <div>
+                <SizeSelector
+                  sizes={childAttributes}
+                  onChange={onSizeSelect}
+                  sizeClassName={styles.sizeBox}
+                  selected={selectedSize ? selectedSize.id : undefined}
+                />
+                {sizeErrorMsg && (
+                  <span className={styles.sizeError}>{sizeErrorMsg}</span>
+                )}
+                {sizeerror && (
+                  <p className={styles.sizeError}>
+                    Please select a size to proceed
+                  </p>
+                )}
+                <span className={cs(styles.sizeError)}>
+                  {isSale &&
+                    selectedSize &&
+                    selectedSize.stock > 0 &&
+                    selectedSize.showStockThreshold &&
+                    `Only ${selectedSize.stock} Left!`}
+                </span>
+              </div>
+            </>
+          ) : (
             <span className={cs(styles.sizeError)}>
               {isSale &&
                 selectedSize &&
@@ -336,51 +389,46 @@ const NotifyMePopup: React.FC<Props> = ({
                 selectedSize.showStockThreshold &&
                 `Only ${selectedSize.stock} Left!`}
             </span>
-          </>
-        ) : (
-          <span className={cs(styles.sizeError)}>
-            {isSale &&
-              selectedSize &&
-              selectedSize.stock > 0 &&
-              selectedSize.showStockThreshold &&
-              `Only ${selectedSize.stock} Left!`}
-          </span>
-        )}
-        <div className={cs(styles.label, styles.qtyLabel)}>SELECT QUANTITY</div>
-
-        <div className={styles.qtyContainer}>
-          <Quantity
-            source="notifyme"
-            id={selectedSize ? selectedSize.id : 0}
-            minValue={minQuantity}
-            maxValue={maxQuantity}
-            currentValue={quantity}
-            onChange={onQuantityChange}
-            // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-            disabled={(selectedSize && selectedSize.stock == 0) || false}
-            className={styles.quantityWrapper}
-            inputClass={styles.inputQuantity}
-          />
+          )}
         </div>
-        {((selectedSize && selectedSize.stock === 0) || allOutOfStock) && (
-          <div className={cs(styles.emailInput, globalStyles.textLeft)}>
-            <InputField
-              id="width"
-              value={email}
-              onChange={onEmailChange}
-              validator={validator}
-              className={styles.field}
-              label="Email"
-              placeholder="Email Address"
-              errorMsg={emailError}
-              disabled={userExists}
+        <div className={styles.quantityContainer}>
+          <div className={cs(styles.label, styles.qtyLabel)}> QUANTITY</div>
+          <div className={styles.qtyContainer}>
+            <PdpQuantity
+              source="notifyme"
+              id={selectedSize ? selectedSize.id : 0}
+              minValue={minQuantity}
+              maxValue={maxQuantity}
+              currentValue={quantity}
+              onChange={onQuantityChange}
+              // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+              disabled={(selectedSize && selectedSize.stock == 0) || false}
+              className={styles.quantityWrapper}
+              inputClass={styles.inputQuantity}
             />
           </div>
-        )}
-        {sizeerror && (
-          <p className={styles.sizeError}>Please select a size to proceed</p>
-        )}
-        {button}
+        </div>
+        <div className={styles.inputContainer}>
+          {((selectedSize && selectedSize.stock === 0) || allOutOfStock) && (
+            <div className={cs(styles.emailInput, globalStyles.textLeft)}>
+              <InputField
+                id="width"
+                value={email}
+                onChange={onEmailChange}
+                validator={validator}
+                className={styles.field}
+                label="Email"
+                placeholder="Email Address"
+                errorMsg={emailError}
+                disabled={userExists}
+              />
+            </div>
+          )}
+          {/* {sizeerror && (
+            <p className={styles.sizeError}>Please select a size to proceed</p>
+          )} */}
+        </div>
+        <div className={styles.buttonContainer}>{Pdpbutton}</div>
       </div>
       {showLoader && <Loader />}
     </div>

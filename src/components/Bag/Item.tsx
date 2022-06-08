@@ -14,6 +14,7 @@ import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
 import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
+import quantityStyles from "../quantity/styles.scss";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -22,14 +23,17 @@ const LineItems: React.FC<BasketItem> = memo(
     giftCardImage,
     quantity,
     product,
-    currency,
     saleStatus,
     toggleBag,
     GCValue
   }) => {
     const [value, setValue] = useState(quantity | 0);
-    const [qtyError, setQtyError] = useState(false);
-    const { tablet } = useSelector((state: AppState) => state.device);
+    // const [qtyError, setQtyError] = useState(false);
+    const {
+      device: { tablet },
+      basket: { currency }
+    } = useSelector((state: AppState) => state);
+    const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     const { dispatch } = useStore();
     const handleChange = async (value: number) => {
       await BasketService.updateToBasket(dispatch, id, value)
@@ -37,14 +41,13 @@ const LineItems: React.FC<BasketItem> = memo(
           setValue(value);
         })
         .catch(err => {
-          setQtyError(true);
           throw err;
         });
     };
 
     const {
       images,
-      collections,
+      collection,
       title,
       url,
       priceRecords,
@@ -71,14 +74,13 @@ const LineItems: React.FC<BasketItem> = memo(
       const arr = category.split(">");
       const categoryname = arr[arr.length - 2];
       const subcategoryname = arr[arr.length - 1];
-      console.log(categoryname, subcategoryname);
       Moengage.track_event("remove_from_cart", {
         "Product id": product.sku || product.childAttributes[0].sku,
         "Product name": product.title,
         quantity: quantity,
         price: +price,
         Currency: currency,
-        "Collection name": product.collections,
+        "Collection name": product.collection,
         "Category name": categoryname,
         "Sub Category Name": subcategoryname
       });
@@ -101,6 +103,28 @@ const LineItems: React.FC<BasketItem> = memo(
           }
         }
       });
+      const categoryList = product.categories
+        ? product.categories.length > 0
+          ? product.categories[product.categories.length - 1].replace(/>/g, "-")
+          : ""
+        : "";
+
+      let subcategory = categoryList ? categoryList.split(" > ") : "";
+      if (subcategory) {
+        subcategory = subcategory[subcategory.length - 1];
+      }
+      dataLayer.push({
+        "Event Category": "GA Ecommerce",
+        "Event Action": "Cart Removal",
+        "Event Label": subcategory,
+        "Time Stamp": new Date().toISOString(),
+        "Cart Source": location.href,
+        "Product Category": categoryList,
+        "Login Status": isLoggedIn ? "logged in" : "logged out",
+        "Product Name": product.title,
+        "Product ID": product.id,
+        Variant: size
+      });
     };
 
     const deleteItem = () => {
@@ -122,7 +146,12 @@ const LineItems: React.FC<BasketItem> = memo(
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
     return (
       <div
-        className={cs(styles.cartItem, styles.gutter15, "cart-item")}
+        className={cs(styles.cartItem, styles.gutter15, "cart-item", {
+          // [styles.spacingError]:
+          //   saleStatus &&
+          //   childAttributes[0].showStockThreshold &&
+          //   childAttributes[0].stock > 0
+        })}
         data-sku={product.childAttributes[0].sku}
       >
         <div className={bootstrap.row}>
@@ -166,7 +195,7 @@ const LineItems: React.FC<BasketItem> = memo(
             </div>
           </div>
           <div className={cs(bootstrap.col8, styles.cartPadding)}>
-            <div className={styles.collectionName}>{collections[0]}</div>
+            <div className={styles.collectionName}>{collection}</div>
             <div className={bootstrap.row}>
               <div className={cs(bootstrap.col10, styles.name)}>
                 <div>
@@ -230,7 +259,7 @@ const LineItems: React.FC<BasketItem> = memo(
             >
               <div className={bootstrap.col10}>
                 {getSize(product.attributes)}
-                <div className={styles.widgetQty}>
+                <div className={cs(styles.widgetQty)}>
                   <Quantity
                     source="bag"
                     key={id}
@@ -248,24 +277,6 @@ const LineItems: React.FC<BasketItem> = memo(
                     // errorMsg="Available qty in stock is"
                   />
                 </div>
-                {product.stockRecords ? (
-                  product.stockRecords[0].numInStock < 1 ? (
-                    <div
-                      className={cs(
-                        globalStyles.italic,
-                        globalStyles.marginT10,
-                        globalStyles.bold,
-                        globalStyles.errorMsg
-                      )}
-                    >
-                      Out of stock
-                    </div>
-                  ) : (
-                    ""
-                  )
-                ) : (
-                  ""
-                )}
               </div>
               {!bridalProfile && (
                 <div
@@ -290,16 +301,36 @@ const LineItems: React.FC<BasketItem> = memo(
                   />
                 </div>
               )}
+              {product.stockRecords ? (
+                product.stockRecords[0].numInStock < 1 ? (
+                  <div
+                    className={cs(
+                      globalStyles.errorMsg,
+                      styles.stockLeft,
+                      quantityStyles.errorMsg,
+                      quantityStyles.fontStyle
+                    )}
+                  >
+                    Out of stock
+                  </div>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}
               <span
-                className={cs(globalStyles.errorMsg, styles.stockLeft, {
-                  [styles.stockLeftWithError]: qtyError
-                })}
+                className={cs(
+                  globalStyles.errorMsg,
+                  styles.stockLeft,
+                  quantityStyles.errorMsg,
+                  quantityStyles.fontStyle
+                )}
               >
                 {saleStatus &&
                   childAttributes[0].showStockThreshold &&
                   childAttributes[0].stock > 0 &&
                   `Only ${childAttributes[0].stock} Left!`}
-                <br />
                 {saleStatus &&
                   childAttributes[0].showStockThreshold &&
                   childAttributes[0].stock > 0 &&

@@ -16,6 +16,8 @@ import MobileDropdownMenu from "components/MobileDropdown";
 import MakerEnhance from "maker-enhance";
 import CollectionService from "services/collection";
 import ReactHtmlParser from "react-html-parser";
+import metaActionCollection from "./metaAction";
+
 import {
   updateCollectionData,
   updateCollectionFilter
@@ -62,6 +64,10 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
           dispatch(updateCollectionData(collectionData));
         }
       }
+    },
+    removeInitialState: (filterData: any) => {
+      filterData["selectValue"] = [];
+      dispatch(updateCollectionFilter({ ...filterData }));
     }
   };
 };
@@ -107,6 +113,9 @@ class CollectionLanding extends React.Component<
       );
     }
   };
+  componentWillUnmount() {
+    this.props.removeInitialState(this.props.data);
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.data.selectValue?.[0] && !this.state.onloadState) {
@@ -118,15 +127,34 @@ class CollectionLanding extends React.Component<
       this.setState({
         filterData: "All"
       });
+    } else if (
+      nextProps.data.selectValue?.[0] &&
+      this.state.filterData == "All"
+    ) {
+      this.setState({
+        filterData: nextProps.data.selectValue?.[0]?.name
+      });
     }
     if (this.props.location.pathname != nextProps.location.pathname) {
+      const {
+        match: { params }
+      } = nextProps;
+      const { id } = params;
+      let newvalue: any = nextProps.data.selectValue?.[0];
+      if (+id != nextProps.data.selectValue?.[0]?.id) {
+        newvalue = nextProps.data.level2Categories?.filter(item => {
+          return item.id == +id;
+        });
+      }
       util.pageViewGTM("CollectionLanding");
       this.setState({
         landingMaker: false,
-        onloadState: false
+        filterData: newvalue[0]?.value
       });
     }
+
     if (this.props.currency != nextProps.currency) {
+      this.props.fetchCollectionMappingAndData();
       this.setState({
         landingMaker: false
       });
@@ -205,7 +233,6 @@ class CollectionLanding extends React.Component<
         }
       ]
     };
-
     return (
       <div>
         {isLivingpage && (
@@ -300,3 +327,4 @@ export default connect(
   mapDispatchToProps
 )(CollectionLandingRoute);
 export { initActionCollection };
+export { metaActionCollection };

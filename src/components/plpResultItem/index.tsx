@@ -16,7 +16,6 @@ import Price from "components/Price";
 import SkeletonImage from "./skeleton";
 import * as valid from "utils/validate";
 import CookieService from "services/cookie";
-
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
@@ -26,7 +25,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     onClickQuickView,
     mobile,
     isVisible,
-    isCollection,
     isCorporate,
     position,
     page,
@@ -35,7 +33,10 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
   const [primaryimage, setPrimaryimage] = useState(true);
-  const { info } = useSelector((state: AppState) => state);
+  const {
+    info,
+    user: { isLoggedIn }
+  } = useSelector((state: AppState) => state);
 
   const onMouseEnter = (): void => {
     product.plpImages?.[1] ? setPrimaryimage(false) : "";
@@ -59,6 +60,23 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
     valid.plpProductClick(product, page, currency, position);
+    const len = product.categories.length;
+    const category = product.categories[len - 1];
+    const l3Len = category.split(">").length;
+    const l3 = category.split(">")[l3Len - 1];
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "Product Click ",
+      "Event Label": l3,
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Page Type": valid.getPageType(),
+      "Product Category": category.replace(/>/g, "-"),
+      "Login Status": isLoggedIn ? "logged in" : "logged out",
+      "Page referrer url": CookieService.getCookie("prevUrl"),
+      "Product Name": product.title,
+      "Product ID": product.id
+    });
   };
   const image = primaryimage
     ? product.plpImages
@@ -177,11 +195,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
       </div>
       <div className={styles.imageContent}>
-        {isCollection ? (
-          <p className={styles.collectionName}>{product.collections}</p>
+        {/* {isCollection ? (
+          <p className={styles.collectionName}>{product.collection}</p>
         ) : (
           ""
-        )}
+        )} */}
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>

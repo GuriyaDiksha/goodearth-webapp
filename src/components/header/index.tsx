@@ -26,7 +26,7 @@ import BottomMenu from "./bottomMenu";
 import * as util from "../../utils/validate";
 const Bag = loadable(() => import("../Bag/index"));
 const StoreDetails = loadable(() => import("../StoreDetails/index"));
-
+const CushionBag = loadable(() => import("../Cushion"));
 const Mobilemenu = loadable(() => import("./mobileMenu"));
 import MegaMenu from "./megaMenu";
 import CountdownTimer from "./CountdownTimer";
@@ -40,6 +40,7 @@ const mapStateToProps = (state: AppState) => {
     megaMenuData: state.header.megaMenuData,
     announcement: state.header.announcementData,
     currency: state.currency,
+    currencyList: state.info.currencyList,
     mobile: state.device.mobile,
     tablet: state.device.tablet,
     wishlistData: state.wishlist.items,
@@ -55,7 +56,10 @@ const mapStateToProps = (state: AppState) => {
     timerData: state.header.timerData,
     customerGroup: state.user.customerGroup,
     showStock: state.header.storeData.visible,
-    showSizeChart: state.header.sizeChartData.show
+    showSizeChart: state.header.sizeChartData.show,
+    mobileMenuOpenState: state.header.mobileMenuOpenState,
+    filler: state.filler,
+    openModal: state.modal.openModal
   };
 };
 
@@ -132,7 +136,8 @@ class Header extends React.Component<Props, State> {
       this.props.isLoggedIn,
       this.props.cookies,
       bridalKey,
-      this.props.sortBy
+      this.props.sortBy,
+      this.props.location.pathname
     );
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -181,6 +186,28 @@ class Header extends React.Component<Props, State> {
     // add click listener for announcement bar
     this.listenAnnouncementBarClick("bar1");
     this.listenAnnouncementBarClick("bar2");
+
+    //Close Mini bag after URL Change
+    const that = this;
+    let previousUrl = "";
+    const observer = new MutationObserver(function(mutations) {
+      console.log(that.props.showStock);
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        that.setState({ showBag: false });
+        if (that.props.showSizeChart) {
+          that.props.closeSizeChart();
+        }
+        if (that.props.openModal) {
+          that.props.closeModal();
+        }
+        if (that.props.showStock) {
+          that.props.closeInShopAvailability();
+        }
+      }
+    });
+    const config = { subtree: true, childList: true };
+    observer.observe(document, config);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -293,12 +320,13 @@ class Header extends React.Component<Props, State> {
   };
 
   onBottomMenuClick = (clickType: string) => {
-    util.headerClickGTM(
-      clickType,
-      "Bottom",
-      this.props.mobile,
-      this.props.isLoggedIn
-    );
+    // util.headerClickGTM(
+    //   clickType,
+    //   "Bottom",
+    //   this.props.mobile,
+    //   this.props.isLoggedIn
+    // );
+    util.footerClickGTM(clickType, "Bottom", this.props.isLoggedIn);
   };
 
   gtmPushWishlistClick = () => {
@@ -400,6 +428,7 @@ class Header extends React.Component<Props, State> {
 
   clickToggle = () => {
     const isMobileMenuOpen = !this.state.showMenu;
+    this.props.updateMobileMenuOpenState(!this.props.mobileMenuOpenState);
 
     if (isMobileMenuOpen) {
       document.body.classList.add(globalStyles.noScroll);
@@ -787,7 +816,13 @@ class Header extends React.Component<Props, State> {
                 )}
                 {(mobile || tablet) && (
                   <ul className={cs(bootstrap.row)}>
-                    <li className={cs(styles.mobileSearch, bootstrap.col)}>
+                    <li
+                      className={cs(
+                        styles.mobileSearch,
+                        bootstrap.col,
+                        globalStyles.textCenter
+                      )}
+                    >
                       <div
                         onClick={() => {
                           !this.state.showSearch &&
@@ -814,6 +849,28 @@ class Header extends React.Component<Props, State> {
                         ></i>
                         {mobile || tablet ? "" : <span>Search</span>}
                       </div>
+                    </li>
+                    <li className={cs(styles.topBagItem, bootstrap.col)}>
+                      <i
+                        className={cs(
+                          iconStyles.icon,
+                          iconStyles.iconCart,
+                          styles.iconStyle,
+                          styles.topBagIconStyle
+                        )}
+                        onClick={(): void => {
+                          this.setShowBag(true);
+                          this.onBottomMenuClick("Cart");
+                        }}
+                      ></i>
+                      <span
+                        className={styles.topBadge}
+                        onClick={(): void => {
+                          this.setShowBag(true);
+                        }}
+                      >
+                        {bagCount}
+                      </span>
                     </li>
                     {this.state.showCartMobile && (
                       <>
@@ -849,24 +906,6 @@ class Header extends React.Component<Props, State> {
                             </div>
                           </li>
                         )}
-                        <li className={cs(styles.mobileSearch, bootstrap.col)}>
-                          <div
-                            onClick={() => {
-                              this.setShowBag(true);
-                              this.onSideMenuClick("Cart");
-                            }}
-                          >
-                            <i
-                              className={cs(
-                                iconStyles.icon,
-                                iconStyles.iconCart,
-                                styles.iconStyle,
-                                styles.iconDefaultColor
-                              )}
-                            ></i>
-                            <span className={styles.badge}>{bagCount}</span>
-                          </div>
-                        </li>
                       </>
                     )}
                   </ul>
@@ -963,10 +1002,12 @@ class Header extends React.Component<Props, State> {
             wishlistCount={wishlistCount}
             showMenu={this.state.showMenu}
             clickToggle={this.clickToggle}
-            goLogin={this.props.goLogin}
+            isLoggedIn={isLoggedIn}
             bagCount={bagCount}
+            currency={this.props.currency}
           />
         )}
+        {this.props.filler.show && <CushionBag />}
         {this.state.showBag && (
           <Bag
             showShipping={this.props.showShipping}

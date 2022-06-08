@@ -10,32 +10,42 @@
 
 .side-container{
     margin-top: 30px;
+    margin-left:8.33333%
 }
 
 .title {
     @include pdp_prod_title();
 
-    p {
-        font-style: italic;
-    }
+         p {
+            // font-style: italic;
+            font-family: $font-Montserrat;
+            font-size: 14px;
+            font-style: normal;
+            font-weight:normal;
+           }
 }
 
 .price-container {
 
     @include pdp_prod_title();
+    font-family: $font-Montserrat;
+    font-size: 20px;
+    // font-weight: bold;
+    text-align: right !important;
+    padding: 10px 0px;
 }
 
 .discounted-price {
-    color: $cerise;
-    font-family: $font-Lato;
-    font-size: 22px;
+    color: $gold;
+    font-family: $font-Montserrat;
+    font-size: 20px;
 }
 
 .old-price {
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: line-through;
-    color: tint(#000, 50%) !important;
-    font-family: $font-Lato;
+    color: #9f9f9f !important;
+    font-family: $font-Montserrat;
 }
 
 .label {
@@ -47,18 +57,21 @@
         color: #000;
         text-decoration: underline;
         text-transform: none;
-        letter-spacing: 1px;
+        // letter-spacing: 1px;
         cursor: pointer;
+        text-underline-offset: 2px;
     }
 
     &.colour {
         line-height: 85px;
     }
     &.size {
-        line-height: 50px;
+        line-height: 40px;
+        height: 40px;
     }
     &.quantity {
         line-height: 40px;
+        height: 40px
     }
 }
 
@@ -72,6 +85,12 @@
     // top: 45px;
     display: block;
     left: 5px;
+    font-family: $font-Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight:normal;
+    letter-spacing: 0.28px;
+    // padding: 3px 0px 4px 0px;
 }
 
 .bridal-ring {
@@ -110,29 +129,67 @@
 
 .error-msg {
     @include error-msg();
+    font-family: $font-Lora;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
 }
 
 .filler-container {
     display: flex;
     align-items: center;
+    color: $charcoal19;
     a {
         text-decoration: underline;
+        color: $charcoal19;
+        text-underline-offset: 2px;
     }
+}
+.cushion-error
+{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    letter-spacing: 0.36px;
+    font-style: normal;
+    
 }
 .accordion-header {
     @include pdp_copy_head();
-    margin-top: 20px;
+    //   font-weight: bold;
+   // margin-top: 20px;
 }
 
+.header-closed-class-name
+    {
+        border-bottom: lightgrey solid 1px;
+        padding: 15px 0px;
+        display: flex;
+        justify-content: space-between;
+
+    }
+.header-open-class-name
+{
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0px;
+}
 .accordion-body {
     @include pdp_copy_body();
-    letter-spacing: .5px;
+    // letter-spacing: .5px;
+    border-bottom: lightgrey solid 1px;
+    //padding: 10px;
+    font-weight:normal;
+    a {
+        color: #987E56;
+    }
 }
 
 .sku {
     @include pdp_breadcrumbs();
     text-transform: uppercase;
-    letter-spacing: 1px;
+    font-family: $font-Montserrat;
+    font-size: 10px;
+    color: #9f9f9f;
 }
 
 @media screen and (max-width: 992px) {
@@ -143,7 +200,12 @@
 
     .title, .price-container {
         @include pdp_prod_title_mobile();
-        padding-bottom: 10px;
+        // padding-bottom: 10px;
+    }
+    .price-container{
+        @include pdp_prod_title_mobile();
+        font-family: $font-Montserrat;
+        font-size: 20px;
     }
 
     .spacer {
@@ -172,7 +234,7 @@
         left: 0;
         right: 0;
         z-index: 6;
-        flex-direction: row-reverse;
+        // flex-direction: row-reverse;
         margin: 0;
     }
 
@@ -181,10 +243,20 @@
         padding: 0;
 
         .mobile-wishlist-icon {
-            font-size: 36px;
-            color: tint(#000,60%);
+            font-size: 30px;
+            color: $gold;
             line-height: 50px;
         }
+    }
+
+    .side-container
+    {
+        margin-left: 20px;
+    }
+
+    .padding
+    {
+    padding: 2px 0px 0px 0px;
     }
 
 }
@@ -211,7 +283,7 @@
     // display: inline-flex;
     // background-color: #f1f1f1;
     // border-radius: 10px;
-    padding: 2px 0;
+    // padding: 2px 0;
     // font-size: 12px;
     // line-height: 12px;
 }
@@ -222,15 +294,16 @@
 
 
 .badge-img {
-    padding: 15px 0;
+    margin-top: 40px;
+    padding: 0px 0px 10px;
 }
 .not-eligible {
     text-align: left;
     margin-top: 5px;
 }
 .cushion-filler {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     padding-right: 10px;
     vertical-align: middle;
 }
@@ -243,6 +316,8 @@
     text-transform: none;
     letter-spacing: 1px;
     cursor: pointer;
+    font-family: $font-Montserrat;
+    text-underline-offset: 2px;
 }
 .mobile-margin{
     margin-top: 5px;
@@ -250,25 +325,58 @@
 .compliance-container {
     align-items: flex-start;
     .compliance {
-        font-family: 'LatoFont';
-        font-size: 13px;
-        color: #9C7D50;
-        letter-spacing: .5px;
+        font-family: $font-Montserrat;
+        font-size: 12px;
+        color: $gold;
+        letter-spacing: .36px;
         p{
-            font-family: 'LatoFont';
-            font-size: 13px;
-            color: #9C7D50;
-            letter-spacing: .5px;
+            font-family: $font-Montserrat;
+            font-size: 12px;
+            color: $gold;
+            letter-spacing: .36px;
             a{
-                color: #9C7D50;
+                color: $gold;
                 text-decoration: underline;
                 cursor: pointer;
+                text-underline-offset: 2px;
             }
         }
         a{
-            color: #9C7D50;
+            color: $gold;
             text-decoration: underline;
             cursor: pointer;
+            text-underline-offset: 2px;
         }
     }
+}
+.wishlist-text
+{
+    padding: 8px;
+}
+.sales-offer
+{
+    display: inline-flex;
+    align-items: center;
+     a
+     {
+          text-decoration: underline;
+          text-underline-offset: 2px;
+          color: $charcoal19;
+          cursor:pointer;
+     }
+}
+.offer-message
+{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: 0.36px;
+    color: $charcoal19;  
+    margin: 10px;
+}
+.offer-image
+{
+    width: 22px;
+    vertical-align: middle;
 }

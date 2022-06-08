@@ -49,8 +49,9 @@ class MegaMenu extends React.Component<Props, MenuState> {
     }
   }
 
-  onHeaderMenuClick = (name: string, url: string) => {
+  onHeaderMenuClick = (name: string, url: string, index: number) => {
     this.props.hideSearch();
+    this.mouseLeave(index);
     const { mobile, isLoggedIn } = this.props;
     util.headerClickGTM("Main Menu", "Top", mobile, isLoggedIn);
     const obj = {
@@ -89,7 +90,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
           const highlightSale =
             util.getInnerText(data.text.toLowerCase()) == "sale";
           // const isGifting = data.text.toLowerCase() == "gifting" ? true : false;
-          const isEmpty = data.columns[0].templates.length == 0;
+          const isEmpty = data.columns[0]?.templates.length == 0;
           return (
             <li
               key={i + "header"}
@@ -136,7 +137,9 @@ class MegaMenu extends React.Component<Props, MenuState> {
                       }
                     )}
                     to={isBridalRegistryPage ? "" : data.url}
-                    onClick={() => this.onHeaderMenuClick(data.text, data.url)}
+                    onClick={() =>
+                      this.onHeaderMenuClick(data.text, data.url, i)
+                    }
                     // target="_blank"
                     // rel="noopener noreferrer"
                   >
@@ -146,7 +149,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
               ) : (
                 <Link
                   to={isBridalRegistryPage ? "#" : data.url}
-                  onClick={() => this.onHeaderMenuClick(data.text, data.url)}
+                  onClick={() => this.onHeaderMenuClick(data.text, data.url, i)}
                   className={cs(
                     styles.menuItemLink,
                     {
@@ -238,7 +241,13 @@ class MegaMenu extends React.Component<Props, MenuState> {
               href="/stories"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => this.onHeaderMenuClick("stories", "/stories")}
+              onClick={() =>
+                this.onHeaderMenuClick(
+                  "stories",
+                  "/stories",
+                  this.state.selectedCategory
+                )
+              }
             >
               {ReactHtmlParser("stories")}
             </a>

@@ -17,7 +17,7 @@ import GiftcardItem from "components/plpResultItem/giftCard";
 import PlpBreadcrumbs from "components/PlpBreadcrumbs";
 import mapDispatchToProps from "../../components/Modal/mapper/actions";
 import MakerEnhance from "maker-enhance";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PlpResultListViewItem from "components/plpResultListViewItem";
 import PlpResultTabItem from "components/plpResultTabItem";
 import ModalStyles from "components/Modal/styles.scss";
@@ -29,6 +29,12 @@ import CookieService from "services/cookie";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
 import ProductBanner from "./components/ProductBanner";
+import ProductCounter from "components/ProductCounter";
+import throttle from "lodash/throttle";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -46,6 +52,7 @@ const mapStateToProps = (state: AppState) => {
     plpTemplates: state.plplist.plpTemplates
   };
 };
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   DispatchProp;
@@ -63,6 +70,7 @@ class PLP extends React.Component<
     toggel: boolean;
     corporoateGifting: boolean;
     isThirdParty: boolean;
+    count: number;
   }
 > {
   constructor(props: Props) {
@@ -80,6 +88,7 @@ class PLP extends React.Component<
       flag: false,
       plpMaker: false,
       toggel: false,
+      count: -1,
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
@@ -101,6 +110,7 @@ class PLP extends React.Component<
   };
 
   componentDidMount() {
+    const that = this;
     dataLayer.push(function(this: any) {
       this.reset();
     });
@@ -108,32 +118,74 @@ class PLP extends React.Component<
     dataLayer.push({
       event: "PlpView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_plp_view"
+      Page_Title: "virtual_plp_view"
     });
+    // dataLayer.push(
+    //   {
+    //   'Event Category':'GA Ecommerce',
+    //   'Event Action':'PLP ',
+    //   'Event Label':'Pass the L3 product category',
+    //   'Product Category':'Pass the product category L1 - L2 - L3',
+    //   "Login Status": this.props.isLoggedIn
+    //           ? "logged in"
+    //           : "logged out",
+    //   "Time Stamp": new Date().toISOString(),
+    //   "Page Url": location.href,
+    //   "Page Type": util.getPageType(),
+    //   "Page referrer url": CookieService.getCookie("prevUrl")
+    //   });
+
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PlpView"
     });
-    // if (this.props.device.mobile) {
-    //   const elem = document.getElementById("pincode-bar");
-    //   elem && elem.classList.add(globalStyles.hiddenEye);
-    //   const chatButtonElem = document.getElementById("chat-button");
-    //   const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    //   if (scrollToTopButtonElem) {
-    //     scrollToTopButtonElem.style.bottom = "65px";
-    //   }
-    //   if (chatButtonElem) {
-    //     chatButtonElem.style.bottom = "10px";
-    //   }
-    // }
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 50)
+    );
+    if (this.props.device.mobile) {
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
     this.setState({
       plpMaker: true
     });
     util.moveChatDown();
+    // const cards = document.querySelectorAll(".product-container");
+    // if (cards.length > 0) {
+    //   if (cards[0].getBoundingClientRect().y > 330) {
+    //     this.setState({ count: -1 });
+    //   }
+    // }
+    let previousUrl = "";
+    const observer = new MutationObserver(function(mutations) {
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        that.setState({ count: -1 });
+      }
+    });
+    const config = { subtree: true, childList: true };
+    observer.observe(document, config);
   }
 
   componentWillUnmount() {
     util.moveChatUp();
+    window.removeEventListener(
+      "scroll",
+      throttle(() => {
+        this.setProductCount();
+      }, 100)
+    );
   }
 
   componentDidUpdate(nextProps: Props) {
@@ -260,17 +312,23 @@ class PLP extends React.Component<
   getVisibleProductID = () => {
     const count = this.props.data.results.data.length;
     let id = -1;
+    let currentIndex = -1;
+    const bannerElem = document.getElementById("product_images");
     if (count) {
       const isGrid = this.props.plpMobileView == "grid";
       const elem = document.getElementById(
         isGrid ? "first-grid-item" : "first-list-item"
       );
-      const height = elem?.clientHeight;
-      const offsetY = window.scrollY;
-      if (height) {
-        let currentIndex = Math.floor(
-          (offsetY + window.innerHeight / 2) / height
-        );
+      let height = elem?.clientHeight;
+      let offsetY = window.scrollY;
+      if (bannerElem) {
+        offsetY -= bannerElem.clientHeight;
+      }
+      if (height && offsetY > 0) {
+        if (elem) {
+          height = isGrid ? elem?.clientHeight : elem?.clientHeight + 30;
+        }
+        currentIndex = Math.floor((offsetY + window.innerHeight / 2) / height);
         currentIndex = isGrid ? currentIndex * 2 : currentIndex;
         if (currentIndex >= count) {
           currentIndex = count - 1;
@@ -278,24 +336,113 @@ class PLP extends React.Component<
         id = this.props.data.results.data[currentIndex].id;
       }
     }
-    return id;
+    return { id, currentIndex };
+  };
+
+  setProductCount = () => {
+    const cards = document.querySelectorAll(".product-container");
+    const cardIDs: any = [];
+
+    cards.forEach(card => {
+      cardIDs.push(
+        Array.from(card.children[0].children).filter(e => e.id != "")[0].id
+      );
+    });
+
+    const observer = new IntersectionObserver(
+      entries => {
+        let maxIndex = -Infinity;
+        let element: any;
+        let productID: any, idx: any;
+        entries.forEach((entry, index) => {
+          if (
+            entry.isIntersecting &&
+            entry.target.getBoundingClientRect().bottom <
+              window.innerHeight - 50
+          ) {
+            productID = Array.from(entry.target.children[0].children).filter(
+              e => e.id != ""
+            )[0].id;
+            idx = cardIDs.findIndex((e: string) => e == productID);
+            if (idx > maxIndex) {
+              maxIndex = idx;
+              element = entry.target;
+            }
+          }
+        });
+        if (element) {
+          if (idx > -1 && !this.state.flag) {
+            this.setState({ count: idx + 1 });
+          }
+          if (window.scrollY < 120) {
+            this.setState({ count: -1 });
+          }
+        } else if (
+          cards[cards.length - 1].getBoundingClientRect().bottom < 130 ||
+          window.scrollY < 120
+        ) {
+          this.setState({ count: -1 });
+        }
+        observer.disconnect();
+      },
+      {
+        rootMargin: "-130px 0px -90px 0px"
+      }
+    );
+    cards.forEach(card => {
+      observer.observe(card);
+    });
   };
 
   updateMobileView = (plpMobileView: "list" | "grid") => {
     if (this.props.plpMobileView != plpMobileView) {
-      this.props.updateMobileView(plpMobileView);
       CookieService.setCookie("plpMobileView", plpMobileView);
       util.viewSelectionGTM(plpMobileView);
-      const id = this.getVisibleProductID();
-      if (id != -1) {
-        window.setTimeout(() => {
-          const elem = document.getElementById(id.toString());
-          if (elem) {
-            const offsetPos = elem.getBoundingClientRect().top - 130;
-            window.scrollBy({ top: offsetPos, behavior: "smooth" });
+      const cards = document.querySelectorAll(".product-container");
+      const cardIDs: any = [];
+
+      cards.forEach(card => {
+        cardIDs.push(card.children[0].children[0].id);
+      });
+
+      const observer = new IntersectionObserver(
+        entries => {
+          let topMostPos = Infinity;
+          let leftMostPos = Infinity;
+          let leftMostElement: any;
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+              const y: number = entry.target.getBoundingClientRect().y;
+              const x: number = entry.target.getBoundingClientRect().x;
+              if (y < topMostPos) {
+                topMostPos = y;
+              }
+              if (x < leftMostPos) {
+                leftMostPos = x;
+                leftMostElement = entry.target;
+              }
+            }
+          });
+          if (leftMostPos != Infinity) {
+            const productID = leftMostElement.children[0].children[0].id;
+            this.props.updateMobileView(plpMobileView);
+            const top: number =
+              leftMostElement.getBoundingClientRect().top - 135;
+            window.scrollBy({ top: top, behavior: "smooth" });
+            if (productID == cardIDs[0]) this.setState({ count: -1 });
+          } else {
+            this.props.updateMobileView(plpMobileView);
           }
-        }, 500);
-      }
+          observer.disconnect();
+        },
+        {
+          rootMargin: "-130px 0px -90px 0px"
+        }
+      );
+
+      cards.forEach(card => {
+        observer.observe(card);
+      });
     }
   };
 
@@ -392,7 +539,6 @@ class PLP extends React.Component<
         }
       }
     }
-
     return (
       <div
         className={cs(
@@ -504,6 +650,7 @@ class PLP extends React.Component<
               <CorporateFilter
                 onRef={(el: any) => (this.child = el)}
                 onChangeFilterState={this.onChangeFilterState}
+                setFilterCount={this.setFilterCount}
                 key="corporate-plp-filter"
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
@@ -615,7 +762,17 @@ class PLP extends React.Component<
                 </span>
               </div>
             ) : (
-              ""
+              <div
+                className={cs(styles.productNumber, styles.imageContainer, {})}
+              >
+                <span>
+                  {count > 1
+                    ? (!this.state.corporoateGifting ? count + 1 : count) +
+                      " products found"
+                    : (!this.state.corporoateGifting ? count + 1 : count) +
+                      " product found"}{" "}
+                </span>
+              </div>
             )}
             <div
               className={
@@ -624,18 +781,21 @@ class PLP extends React.Component<
                     ? cs(
                         bootstrap.row,
                         styles.imageContainerMobileBanner,
-                        globalStyles.paddTop20
+                        globalStyles.paddTop10,
+                        "products_container"
                       )
                     : cs(
                         bootstrap.row,
                         styles.imageContainerMobile,
-                        globalStyles.paddTop20
+                        globalStyles.paddTop10,
+                        "products_container"
                       )
                   : cs(
                       bootstrap.row,
                       styles.imageContainer,
                       styles.minHeight,
-                      globalStyles.paddTop20
+                      globalStyles.paddTop20,
+                      "products_container"
                     )
               }
               id="product_images"
@@ -670,7 +830,8 @@ class PLP extends React.Component<
                           className={cs(
                             bootstrap.colLg4,
                             bootstrap.col6,
-                            styles.setWidth
+                            styles.setWidth,
+                            "product-container"
                           )}
                           key={item.id}
                           id={index == 0 ? "first-grid-item" : ""}
@@ -740,7 +901,8 @@ class PLP extends React.Component<
                             bootstrap.colLg4,
                             bootstrap.col12,
                             styles.setWidth,
-                            styles.listViewContainer
+                            styles.listViewContainer,
+                            "product-container"
                           )}
                           key={item.id}
                           id={index == 0 ? "first-list-item" : ""}
@@ -767,17 +929,26 @@ class PLP extends React.Component<
               <div
                 className={
                   !mobile || this.props.plpMobileView == "grid"
-                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth)
+                    ? cs(bootstrap.colLg4, bootstrap.col6, styles.setWidth, {
+                        ["product-container"]: !this.state.corporoateGifting
+                      })
                     : cs(
                         bootstrap.colLg4,
                         bootstrap.col12,
                         styles.setWidth,
-                        styles.listViewContainer
+                        styles.listViewContainer,
+                        { ["product-container"]: !this.state.corporoateGifting }
                       )
                 }
                 key={1}
               >
-                {this.state.corporoateGifting ? "" : <GiftcardItem />}
+                {this.state.corporoateGifting ? (
+                  ""
+                ) : (
+                  <GiftcardItem
+                    isCorporateGifting={!this.state.corporoateGifting}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -788,20 +959,46 @@ class PLP extends React.Component<
                 [styles.hide]: this.props.scrollDown
               })}
             >
-              <i
-                key="grid-icon"
-                className={cs(iconFonts.icon, iconFonts.iconGridView, {
-                  [styles.active]: this.props.plpMobileView == "grid"
-                })}
+              <div
+                className={styles.gridContainer}
                 onClick={() => this.updateMobileView("grid")}
-              />
-              <i
-                key="list-icon"
-                className={cs(iconFonts.icon, iconFonts.iconListView, {
-                  [styles.active]: this.props.plpMobileView == "list"
-                })}
+              >
+                <span
+                  className={cs(styles.gridSpan, {
+                    [styles.active]: this.props.plpMobileView == "grid"
+                  })}
+                >
+                  Grid
+                </span>
+                <img
+                  src={
+                    this.props.plpMobileView == "grid"
+                      ? activeGrid
+                      : inactiveGrid
+                  }
+                  className={cs(styles.gridIcon)}
+                />
+              </div>
+              <div
+                className={styles.listContainer}
                 onClick={() => this.updateMobileView("list")}
-              />
+              >
+                <img
+                  src={
+                    this.props.plpMobileView == "list"
+                      ? activeList
+                      : inactiveList
+                  }
+                  className={cs(styles.listIcon)}
+                />
+                <span
+                  className={cs(styles.listSpan, {
+                    [styles.active]: this.props.plpMobileView == "list"
+                  })}
+                >
+                  List
+                </span>
+              </div>
             </div>
           )}
         </div>
@@ -816,6 +1013,13 @@ class PLP extends React.Component<
             value={this.state.sortValue}
             key={"plpPageMobile"}
             sortedDiscount={facets.sortedDiscount}
+          />
+        )}
+        {mobile && this.state.count > -1 && (
+          <ProductCounter
+            current={this.state.count}
+            total={!this.state.corporoateGifting ? count + 1 : count}
+            id="plp-product-counter"
           />
         )}
       </div>

@@ -1,4 +1,4 @@
-import loadable from "@loadable/component";
+// import loadable from "@loadable/component";
 import React, { RefObject, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import cs from "classnames";
@@ -38,18 +38,21 @@ import ModalStyles from "components/Modal/styles.scss";
 import overlay from "images/3d/HelloARIcon.svg";
 // import { Link } from "react-router-dom";
 import noPlpImage from "images/noimageplp.png";
-import iconFonts from "../../styles/iconFonts.scss";
+// import iconFonts from "../../styles/iconFonts.scss";
 import PDPLooksGridItem from "components/pairItWith/PDPLooksGridItem";
 import PDPLooksItem from "components/pairItWith/PDPLooksItem";
 import CookieService from "services/cookie";
 // import PdpSkeleton from "./components/pdpSkeleton"
 import Skeleton from "react-loading-skeleton";
-
-const VerticalImageSelector = loadable(() =>
-  import("components/VerticalImageSelector")
-);
-// const ProductDetails = loadable(() => import("./components/productDetails"));
 import ProductDetails from "./components/productDetails";
+import PdpSlider from "components/PdpSlider";
+import activeGrid from "images/plpIcons/active_grid.svg";
+import inactiveGrid from "images/plpIcons/inactive_grid.svg";
+import activeList from "images/plpIcons/active_list.svg";
+import inactiveList from "images/plpIcons/inactive_list.svg";
+import Counter from "components/ProductCounter/counter";
+
+import fontStyles from "styles/iconFonts.scss";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
 const sidebarPosition = PDP_TOP_OFFSET + 23;
@@ -81,7 +84,9 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
     plpMobileView: state.plplist.plpMobileView,
     scrollDown: state.info.scrollDown,
     showTimer: state.info.showTimer,
-    customerGroup: state.user.customerGroup
+    customerGroup: state.user.customerGroup,
+    meta: state.meta,
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
@@ -106,7 +111,8 @@ class PDPContainer extends React.Component<Props, State> {
     goToIndex: {
       index: -1,
       value: ""
-    }
+    },
+    imageHover: false
   };
   myref: RefObject<any> = React.createRef();
   imageOffsets: number[] = [];
@@ -152,13 +158,13 @@ class PDPContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
-    if (
-      !this.props.device.mobile &&
-      this.imageOffsets.length < 1 &&
-      this.props.data
-    ) {
-      this.getImageOffset();
-    }
+    // if (
+    //   !this.props.device.mobile &&
+    //   this.imageOffsets.length < 1 &&
+    //   this.props.data
+    // ) {
+    //   this.getImageOffset();
+    // }
     dataLayer.push(function(this: any) {
       this.reset();
     });
@@ -166,13 +172,51 @@ class PDPContainer extends React.Component<Props, State> {
     dataLayer.push({
       event: "PdpView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_pdp_view"
+      Page_Title: "virtual_pdp_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
       "Page Name": "PdpView"
     });
     const { data, currency } = this.props;
+
+    let category = "",
+      subcategoryname = "";
+    if (data?.categories) {
+      const index = data.categories.length - 1;
+      category = data.categories[index]
+        ? data.categories[index].replace(/\s/g, "")
+        : "";
+      const arr = category.split(">");
+      subcategoryname = arr[arr.length - 1];
+      category = category.replace(/>/g, "/");
+    }
+
+    let variants = "";
+    if (data) {
+      data.childAttributes.map((child: any) => {
+        if (variants) {
+          variants += "," + child.size;
+        } else {
+          variants += child.size;
+        }
+      });
+    }
+    dataLayer.push({
+      "Event Category": "GA Ecommerce",
+      "Event Action": "PDP",
+      "Event Label": subcategoryname,
+      "Product Category": category.replace("/", "-"),
+      "Login Status": this.props.isLoggedIn ? "logged in" : "logged out",
+      "Time Stamp": new Date().toISOString(),
+      "Page Url": location.href,
+      "Product Name": data ? data.title : "",
+      "Product ID": data ? data.id : "",
+      Variant: variants,
+      "Page Type": valid.getPageType(),
+      "Page referrer url": CookieService.getCookie("prevUrl")
+    });
+
     valid.PDP(data, currency);
     const list = CookieService.getCookie("listPath");
     this.listPath = list || "";
@@ -185,19 +229,19 @@ class PDPContainer extends React.Component<Props, State> {
         currency
       );
     }
-    // if (this.props.device.mobile) {
-    //   this.getProductImagesData();
-    //   const elem = document.getElementById("pincode-bar");
-    //   elem && elem.classList.add(globalStyles.hiddenEye);
-    //   const chatButtonElem = document.getElementById("chat-button");
-    //   const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-    //   if (scrollToTopButtonElem) {
-    //     scrollToTopButtonElem.style.bottom = "65px";
-    //   }
-    //   if (chatButtonElem) {
-    //     chatButtonElem.style.bottom = "10px";
-    //   }
-    // }
+    if (this.props.device.mobile) {
+      this.getProductImagesData();
+      const elem = document.getElementById("pincode-bar");
+      elem && elem.classList.add(globalStyles.hiddenEye);
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
+    }
     this.setState(
       {
         mounted: true
@@ -226,14 +270,14 @@ class PDPContainer extends React.Component<Props, State> {
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
-      // const chatButtonElem = document.getElementById("chat-button");
-      // const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
-      // if (scrollToTopButtonElem) {
-      //   scrollToTopButtonElem.style.bottom = "65px";
-      // }
-      // if (chatButtonElem) {
-      //   chatButtonElem.style.bottom = "10px";
-      // }
+      const chatButtonElem = document.getElementById("chat-button");
+      const scrollToTopButtonElem = document.getElementById("scrollToTop-btn");
+      if (scrollToTopButtonElem) {
+        scrollToTopButtonElem.style.bottom = "65px";
+      }
+      if (chatButtonElem) {
+        chatButtonElem.style.bottom = "10px";
+      }
     }
     valid.moveChatUp();
   }
@@ -365,6 +409,10 @@ class PDPContainer extends React.Component<Props, State> {
             });
           }
         }
+      } else if (!this.state.showAddToBagMobile) {
+        this.setState({
+          showAddToBagMobile: true
+        });
       }
     }
     if (
@@ -451,42 +499,82 @@ class PDPContainer extends React.Component<Props, State> {
     return images ? images.concat(sliderImages || []) : [];
   };
 
-  getImageOffset = () => {
-    const productImages = this.getProductImagesData();
-    productImages?.map((image, index) => {
-      const ele = document.getElementById(`img-${image.id}`) as HTMLDivElement;
-      const { clientHeight } = ele;
-      this.imageOffsets[index] = clientHeight;
+  onClickImageArrowLeft = () => {
+    const len = this.getProductImagesData().length;
+    const active = this.state.activeImage;
+    this.setState({
+      activeImage: (len + ((active - 1) % len)) % len
+    });
+  };
+
+  onClickImageArrowRight = () => {
+    const len = this.getProductImagesData().length;
+    this.setState({
+      activeImage: (this.state.activeImage + 1) % len
     });
   };
 
   getProductImages() {
     const productImages = this.getProductImagesData();
     if (productImages.length > 0) {
-      return productImages?.map((image, index) => {
-        const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
-          const ele = event.currentTarget;
-          const { naturalHeight, naturalWidth } = ele;
-          const height = (ele.width * naturalHeight) / naturalWidth;
-          this.imageOffsets[index] = height;
-        };
+      const img =
+        productImages?.[this.state.activeImage] ||
+        productImages?.[this.state.activeImage - 1];
+      // return productImages?.map((image, index) => {
+      const onImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
+        const ele = event.currentTarget;
+        const { naturalHeight, naturalWidth } = ele;
+        const height = (ele.width * naturalHeight) / naturalWidth;
+        this.imageOffsets[0] = height;
+      };
 
-        return (
-          <div
-            className={styles.productImageContainer}
-            key={image.id}
-            id={`img-${image.id}`}
-          >
-            <PdpImage
-              alt={this.props.data.altText || this.props.data.title}
-              {...image}
-              index={index}
-              onClick={this.onImageClick}
-              onLoad={onImageLoad}
+      return (
+        <div
+          className={styles.productImageContainer}
+          key={img.id}
+          id={`img-${img.id}`}
+          onMouseEnter={() => {
+            this.setState({ imageHover: true });
+          }}
+          onMouseLeave={() => {
+            this.setState({ imageHover: false });
+          }}
+        >
+          <PdpImage
+            alt={this.props.data.altText || this.props.data.title}
+            {...img}
+            index={this.state.activeImage}
+            onClick={this.onImageClick}
+            onLoad={onImageLoad}
+          />
+          <div>
+            <Counter
+              id="pdp-image-counter"
+              current={this.state.activeImage + 1}
+              total={productImages.length}
             />
           </div>
-        );
-      });
+          <i
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconArrowLeft,
+              styles.imageArrowLeft,
+              { [styles.show]: this.state.imageHover }
+            )}
+            onClick={this.onClickImageArrowLeft}
+          ></i>
+          <i
+            className={cs(
+              fontStyles.icon,
+              fontStyles.iconArrowRight,
+              styles.imageArrowRight,
+              { [styles.show]: this.state.imageHover }
+            )}
+            onClick={this.onClickImageArrowRight}
+          ></i>
+        </div>
+      );
+      // });
     } else {
       return [1, 2, 3].map((image, index) => {
         return (
@@ -509,7 +597,8 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile },
       updateComponentModal,
       changeModalState,
-      corporatePDP
+      corporatePDP,
+      meta
     } = this.props;
     return (
       <ProductDetails
@@ -523,7 +612,7 @@ class PDPContainer extends React.Component<Props, State> {
         wishlist={[]}
         updateComponentModal={updateComponentModal}
         changeModalState={changeModalState}
-        loading={false}
+        loading={meta.templateType == "" ? true : false}
       />
     );
   };
@@ -536,7 +625,11 @@ class PDPContainer extends React.Component<Props, State> {
       corporatePDP
     } = this.props;
 
-    if (recommendedSliderItems.length < 4 || typeof document == "undefined") {
+    if (
+      recommendedSliderItems.length < 4 ||
+      typeof document == "undefined" ||
+      recommendedSliderItems.length == 0
+    ) {
       return null;
     }
 
@@ -584,7 +677,6 @@ class PDPContainer extends React.Component<Props, State> {
       data: { collectionProducts = [] },
       device: { mobile }
     } = this.props;
-
     if (
       collectionProducts.length < (mobile ? 2 : 4) ||
       typeof document == "undefined"
@@ -631,18 +723,18 @@ class PDPContainer extends React.Component<Props, State> {
     );
   }
   onSliderImageClick = (index: number) => {
-    const images = this.getProductImagesData();
-    const { id } = images[index];
-    const imageContainer = document.getElementById(`img-${id}`);
+    // const images = this.getProductImagesData();
+    // const { id } = images[index];
+    // const imageContainer = document.getElementById(`img-${id}`);
 
-    if (!imageContainer) {
-      return;
-    }
+    // if (!imageContainer) {
+    //   return;
+    // }
 
-    const { top } = imageContainer?.getBoundingClientRect();
+    // const { top } = imageContainer?.getBoundingClientRect();
 
-    const scrollBy = top - PDP_TOP_OFFSET;
-    window.scrollBy(0, scrollBy);
+    // const scrollBy = top - PDP_TOP_OFFSET;
+    // window.scrollBy(0, scrollBy);
 
     this.setState({
       activeImage: index
@@ -748,36 +840,53 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       currency,
       device: { mobile },
-      data,
-      showTimer
+      data
     } = this.props;
     return data ? (
       <>
         {mobile && (
           <div
-            className={cs(
-              styles.listGridBar,
-              { [styles.listGridBarTimer]: showTimer },
-              globalStyles.voffset5,
-              {
-                [styles.hide]: this.props.scrollDown
-              }
-            )}
+            className={cs(styles.listGridBar, {
+              [styles.listGridBarTimer]: this.props.showTimer,
+              [styles.hide]: this.props.scrollDown
+            })}
           >
-            <i
-              key="grid-icon"
-              className={cs(iconFonts.icon, iconFonts.iconGridView, {
-                [styles.active]: this.props.plpMobileView == "grid"
-              })}
+            <div
+              className={styles.gridContainer}
               onClick={() => this.updateMobileView("grid")}
-            />
-            <i
-              key="list-icon"
-              className={cs(iconFonts.icon, iconFonts.iconListView, {
-                [styles.active]: this.props.plpMobileView == "list"
-              })}
+            >
+              <span
+                className={cs(styles.gridSpan, {
+                  [styles.active]: this.props.plpMobileView == "grid"
+                })}
+              >
+                Grid
+              </span>
+              <img
+                src={
+                  this.props.plpMobileView == "grid" ? activeGrid : inactiveGrid
+                }
+                className={cs(styles.gridIcon)}
+              />
+            </div>
+            <div
+              className={styles.listContainer}
               onClick={() => this.updateMobileView("list")}
-            />
+            >
+              <img
+                src={
+                  this.props.plpMobileView == "list" ? activeList : inactiveList
+                }
+                className={cs(styles.listIcon)}
+              />
+              <span
+                className={cs(styles.listSpan, {
+                  [styles.active]: this.props.plpMobileView == "list"
+                })}
+              >
+                List
+              </span>
+            </div>
           </div>
         )}
         <div>
@@ -924,9 +1033,19 @@ class PDPContainer extends React.Component<Props, State> {
             slidesToScroll: 1,
             arrows: false
           }
+        },
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+            arrows: true
+          }
         }
       ]
     };
+
     return (
       <PairItWithSlider
         data={pairItWithProducts}
@@ -1083,9 +1202,11 @@ class PDPContainer extends React.Component<Props, State> {
                 { [styles.tabletSliderContainer]: tablet }
               )}
             >
-              <MobileSlider val={this.state.goToIndex}>
-                {mobileSlides}
-              </MobileSlider>
+              {typeof document == "object" && (
+                <MobileSlider val={this.state.goToIndex} type={"pdp"}>
+                  {mobileSlides}
+                </MobileSlider>
+              )}
               {this.state.showLooks && mobile && (
                 <div
                   id="looks-btn-mobile"
@@ -1097,7 +1218,7 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             </div>
           )}
-          {!mobile && (
+          {/* {!mobile && (
             <div
               className={cs(
                 bootstrap.colMd1,
@@ -1118,10 +1239,10 @@ class PDPContainer extends React.Component<Props, State> {
                   )}
                   activeIndex={activeImage}
                   onImageClick={this.onSliderImageClick}
-                />
+                /> 
               </div>
             </div>
-          )}
+          )} */}
           {!mobile && (
             <div
               className={cs(
@@ -1131,6 +1252,19 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             >
               {this.getProductImages()}
+              {images && (
+                <PdpSlider
+                  alt={data.altText || data.title}
+                  images={images}
+                  className={cs(
+                    bootstrap.colSm10,
+                    bootstrap.offsetSm1,
+                    bootstrap.offsetMd0
+                  )}
+                  activeIndex={activeImage}
+                  onImageClick={this.onSliderImageClick}
+                />
+              )}
               {this.state.showLooks && !mobile && (
                 <div
                   id="looks-btn"

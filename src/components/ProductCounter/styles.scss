@@ -1,0 +1,93 @@
+@import "../../styles/partials/variables";
+
+.scroll-down-up
+{  
+background: #fff 0% 0% no-repeat padding-box;
+top: 130px;
+left: calc(50% - 40px);
+width: 80px;
+height: 32px;
+background-color: white;
+border-radius: 19px;
+box-shadow: 3px 3px 10px #00000029;
+opacity: 1;
+position:fixed;
+z-index: 10;
+    .counter {
+        height: 100%;
+        color: #000000CC;
+        opacity: 1;
+        font-size: 14px;
+        display:flex;
+        border: none;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 10px;
+        .counter-number {
+            font-family: $font-Lato;
+            display:flex;
+            letter-spacing: 0px;
+            border:none;
+            &.plp-product-counter {
+                div{
+                    font-family: $font-Montserrat;
+                    font-size: 12px;
+                    letter-spacing: 2px;
+                }
+                .current{
+                    padding-right: 3px;
+                }
+                .total{
+                    padding-left: 3px;
+                }
+            }
+        }
+        .arrow-container{
+            height: 20px;
+            width: 20px;
+            background-color: #F7F7F7;
+            display: flex;
+            justify-content: space-around;
+            border-radius: 50%;
+        }
+        .icon {
+            font-size: 20px;
+            transform: rotate(-90deg);
+        }
+    }
+}
+
+.counterstyle {
+    background: #fff 0% 0% no-repeat padding-box;
+    top: 25px;
+    height: 24px;
+    background-color: white;
+    border-radius: 19px;
+    box-shadow: 3px 3px 10px #00000029;
+    opacity: 1;
+    right: 25px;
+    color: #D8D8D8;
+    position: absolute;
+    .counter {
+        height: 100%;
+        color: #000000CC;
+        opacity: 1;
+        font-size: 12px;
+        display:flex;
+        border: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        font-weight: bold;
+        .counter-number {
+            font-family: $font-Lato;
+            display:flex;
+            letter-spacing: 0px;
+            border:none;
+        }
+        .pdp-image-counter{
+            font-family: $font-Montserrat;
+            color: #987E56;
+        }
+    }
+}

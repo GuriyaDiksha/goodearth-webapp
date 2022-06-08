@@ -35,7 +35,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     currency: state.currency,
     device: state.device,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    scrollDown: state.info.scrollDown
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -153,7 +154,7 @@ class Search extends React.Component<
     dataLayer.push({
       event: "SearchView",
       PageURL: this.props.location.pathname,
-      PageTitle: "virtual_search_view"
+      Page_Title: "virtual_search_view"
     });
     Moengage.track_event("Page viewed", {
       "Page URL": this.props.location.pathname,
@@ -190,17 +191,19 @@ class Search extends React.Component<
   };
 
   handleChange = (event: any) => {
-    const regex = /^[A-Za-z0-9% ]+$/;
-    if (event.target.value == "" || regex.test(event.target.value)) {
-      this.setState({
-        searchText: event.target.value
-      });
-    }
+    // const regex = /^[A-Za-z0-9% ]+$/;
+    // if (event.target.value == "" || regex.test(event.target.value)) {
+    this.setState({
+      searchText: event.target.value
+    });
+    // }
   };
 
   onEnterSearch = (event: any) => {
-    if (event.keyCode == 13) {
-      this.child.changeSearchValue(this.state.searchText);
+    if (event.target.value.trim().length > 2) {
+      if (event.keyCode == 13) {
+        this.child.changeSearchValue(this.state.searchText);
+      }
     }
   };
 
@@ -261,7 +264,9 @@ class Search extends React.Component<
   };
 
   onClickSearch = (event: any) => {
-    this.child.changeSearchValue(this.state.searchText);
+    if (this.state.searchText.trim().length > 2) {
+      this.child.changeSearchValue(this.state.searchText);
+    }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -485,7 +490,7 @@ class Search extends React.Component<
                         }
                       />
                     ) : (
-                      <GiftcardItem />
+                      <GiftcardItem isCorporateGifting={false} />
                     )}
                   </div>
                 );
@@ -520,7 +525,7 @@ class Search extends React.Component<
                     false
                   )) ? (
                     <div className={styles.npfMsg}>
-                      No products were found matching &nbsp;
+                      {"Sorry, we couldn't find any matching result for"} &nbsp;
                       <span>{this.state.searchText}</span>
                     </div>
                   ) : (

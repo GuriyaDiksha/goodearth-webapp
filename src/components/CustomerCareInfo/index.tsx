@@ -10,7 +10,9 @@ const CustomerCareInfo: React.FC = () => {
       <h3>FOR ANY QUERIES OR ASSISTANCE</h3>
       <p>Write to us at:</p>
       <p>
+        {" "}
         <span className={globalStyles.cerise}>
+          <br />
           <i
             className={cs(iconStyles.icon, iconStyles.iconEmail, styles.icon)}
           />
@@ -18,7 +20,7 @@ const CustomerCareInfo: React.FC = () => {
             customercare@goodearth.in
           </a>
         </span>
-      </p>
+      </p>{" "}
       <p>Call us at:</p>
       <p>
         <span className={globalStyles.cerise}>

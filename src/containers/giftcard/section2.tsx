@@ -43,11 +43,11 @@ const Section2: React.FC<Section2Props> = ({
   const [errorBorder, setErrorBorder] = useState(false);
   const [isCustom, setIsCustom] = useState(false);
   const dispatch = useDispatch();
-  const RegisterFormRef = React.useRef<Formsy>(null);
+  const GiftSection = React.useRef<Formsy>(null);
   const [country, setCountry] = useState(selectedCountry);
   const { customerGroup } = useSelector((state: AppState) => state.user);
   useEffect(() => {
-    const form = RegisterFormRef.current;
+    const form = GiftSection.current;
     if (form) {
       let newCountry = country;
       if (currency == "INR") {
@@ -56,6 +56,8 @@ const Section2: React.FC<Section2Props> = ({
         newCountry = "United Kingdom";
       } else if (currency == "AED") {
         newCountry = "United Arab Emirates";
+      } else if (currency == "SGD") {
+        newCountry = "Singapore";
       } else if (currency == "USD") {
         if (countryData[country] != currency && country) {
           newCountry = "";
@@ -169,18 +171,25 @@ const Section2: React.FC<Section2Props> = ({
           )} 50.`;
         }
         break;
+      case "AED":
+      case "SGD":
+        if (+value < 100) {
+          status = true;
+          msg = `Sorry, the minimum value of Gift Card is ${String.fromCharCode(
+            ...currencyCode[currency]
+          )} 100. Please enter a value greater than or equal to ${String.fromCharCode(
+            ...currencyCode[currency]
+          )} 100.`;
+        }
+        break;
     }
     return { sta: status, message: msg };
   };
 
   const gotoNext = () => {
     const data: any = {};
-    if (!selectcurrency || !selectedCountry) {
-      // setCountrymsg("Please choose the country of shipment");
-      // valid.errorTracking(
-      //   ["Please choose the country of shipment"],
-      //   location.href
-      // );
+    if (selectcurrency != "INR" && !selectedCountry) {
+      // GiftSection.current?.validateForm();
       const select = document.getElementsByName("country")[0];
       select.scrollIntoView(false);
       return false;
@@ -287,158 +296,170 @@ const Section2: React.FC<Section2Props> = ({
             </div>
           </div>
         </div>
-        <div className={cs(bootstrapStyles.row, styles.nobg)}>
-          <Formsy ref={RegisterFormRef}>
-            <div
-              className={cs(
-                bootstrapStyles.col10,
-                bootstrapStyles.offset1,
-                bootstrapStyles.colLg4,
-                bootstrapStyles.offsetLg4,
-                globalStyles.textCenter,
-                styles.dropDiv2
-              )}
-            >
-              <div className={styles.selectGroup}>
-                <FormSelect
-                  required
-                  label=""
-                  value={selectedCountry}
-                  options={list}
-                  handleChange={onCountrySelect}
-                  placeholder="Select Country"
-                  name="country"
-                  validations={{
-                    isExisty: true
-                  }}
-                  validationErrors={{
-                    isExisty: "This field is required",
-                    isEmptyString: "This field is required"
-                  }}
-                />
+        <Formsy ref={GiftSection}>
+          <div>
+            <div className={cs(bootstrapStyles.row, styles.nobg)}>
+              <div
+                className={cs(
+                  bootstrapStyles.col10,
+                  bootstrapStyles.offset1,
+                  bootstrapStyles.colLg4,
+                  bootstrapStyles.offsetLg4,
+                  globalStyles.textCenter,
+                  styles.dropDiv2
+                )}
+              >
+                <div className={styles.selectGroup}>
+                  <FormSelect
+                    required
+                    label=""
+                    value={selectedCountry}
+                    options={list}
+                    handleChange={onCountrySelect}
+                    placeholder="Select Country"
+                    name="country"
+                    validations={{
+                      isExisty: true
+                    }}
+                    validationErrors={{
+                      isExisty: "This field is required"
+                    }}
+                  />
+                </div>
+                <p className={cs(globalStyles.voffset2, styles.clrP)}>
+                  Please note: Gift cards can only be redeemed in the currency
+                  they are bought in, so please choose the country based on your
+                  recipient&apos;s address
+                </p>
+                {countrymsg ? (
+                  <p className={globalStyles.errorMsg}>{countrymsg}</p>
+                ) : (
+                  <p className={globalStyles.errorMsg}></p>
+                )}
               </div>
-              <p className={cs(globalStyles.voffset2, styles.clrP)}>
-                Please note: Gift cards can only be redeemed in the currency
-                they are bought in, so please choose the country based on your
-                recipient&apos;s address
-              </p>
-              {countrymsg ? (
-                <p className={globalStyles.errorMsg}>{countrymsg}</p>
-              ) : (
-                <p className={globalStyles.errorMsg}></p>
-              )}
             </div>
-          </Formsy>
-        </div>
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset4)}>
-          <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.textCenter,
-              styles.priceBlock
-            )}
-          >
-            {productData.map((pro: any) => {
-              return pro.sku != sku ? (
-                <span
-                  key={pro.sku}
-                  onClick={() => {
-                    setValue(pro.id);
-                  }}
-                  data-value={pro.priceRecords[currency]}
-                  className={selectvalue == pro.id ? styles.valueHover : ""}
-                  id={pro.id}
-                >
-                  {String.fromCharCode(...code) +
-                    " " +
-                    pro.priceRecords[currency]}
-                </span>
-              ) : (
-                ""
-              );
-            })}
-          </div>
-        </div>
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset5)}>
-          <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.textCenter,
-              styles.priceBlock
-            )}
-          >
-            <p>(or choose your own value)</p>
-            <div
-              className={cs(
-                bootstrapStyles.col10,
-                bootstrapStyles.offset1,
-                bootstrapStyles.colLg2,
-                bootstrapStyles.offsetLg5,
-                globalStyles.voffset3
-              )}
-            >
-              <form>
+            <div className={cs(bootstrapStyles.row, globalStyles.voffset4)}>
+              <div
+                className={cs(
+                  bootstrapStyles.col10,
+                  bootstrapStyles.offset1,
+                  globalStyles.textCenter,
+                  styles.priceBlock
+                )}
+              >
                 {productData.map((pro: any) => {
-                  return pro.sku == sku ? (
-                    <div key={sku}>
-                      <input
-                        type="number"
-                        id={pro.id}
-                        className={errorBorder ? globalStyles.errorBorder : ""}
-                        placeholder="enter value"
-                        onClick={e => {
-                          setValuetext(e);
-                        }}
-                        onKeyUp={e => {
-                          setValuetext(e);
-                        }}
-                      />
-                      <div className={styles.curr}>
-                        {" "}
-                        {String.fromCharCode(...code)}{" "}
-                      </div>
-                    </div>
+                  return pro.sku != sku ? (
+                    <span
+                      key={pro.sku}
+                      onClick={() => {
+                        setValue(pro.id);
+                      }}
+                      data-value={pro.priceRecords[currency]}
+                      className={selectvalue == pro.id ? styles.valueHover : ""}
+                      id={pro.id}
+                    >
+                      {String.fromCharCode(...code) +
+                        " " +
+                        pro.priceRecords[currency]}
+                    </span>
                   ) : (
                     ""
                   );
                 })}
-              </form>
+              </div>
+            </div>
+            <div className={cs(bootstrapStyles.row, globalStyles.voffset5)}>
+              <div
+                className={cs(
+                  bootstrapStyles.col10,
+                  bootstrapStyles.offset1,
+                  globalStyles.textCenter,
+                  styles.priceBlock
+                )}
+              >
+                <p>(or choose your own value)</p>
+                <div
+                  className={cs(
+                    bootstrapStyles.col10,
+                    bootstrapStyles.offset1,
+                    bootstrapStyles.colLg2,
+                    bootstrapStyles.offsetLg5,
+                    globalStyles.voffset3
+                  )}
+                >
+                  <form>
+                    {productData.map((pro: any) => {
+                      return pro.sku == sku ? (
+                        <div key={sku}>
+                          <input
+                            type="number"
+                            id={pro.id}
+                            className={
+                              errorBorder ? globalStyles.errorBorder : ""
+                            }
+                            placeholder="enter value"
+                            onClick={e => {
+                              setValuetext(e);
+                            }}
+                            onKeyUp={e => {
+                              setValuetext(e);
+                            }}
+                          />
+                          <div className={styles.curr}>
+                            {" "}
+                            {String.fromCharCode(...code)}{" "}
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      );
+                    })}
+                  </form>
+                </div>
+                <div
+                  className={cs(
+                    bootstrapStyles.col10,
+                    bootstrapStyles.offset1,
+                    bootstrapStyles.colLg4,
+                    bootstrapStyles.offsetLg4,
+                    globalStyles.voffset2
+                  )}
+                >
+                  {numhighlight ? (
+                    <p
+                      className={cs(
+                        globalStyles.errorMsg,
+                        globalStyles.textCenter
+                      )}
+                    >
+                      {nummsg}
+                    </p>
+                  ) : (
+                    <p className={globalStyles.errorMsg}></p>
+                  )}
+                </div>
+              </div>
             </div>
             <div
               className={cs(
-                bootstrapStyles.col10,
-                bootstrapStyles.offset1,
-                bootstrapStyles.colLg4,
-                bootstrapStyles.offsetLg4,
-                globalStyles.voffset2
+                bootstrapStyles.row,
+                bootstrapStyles.col12,
+                globalStyles.textCenter,
+                globalStyles.voffset6
               )}
             >
-              {numhighlight ? (
-                <p
-                  className={cs(globalStyles.errorMsg, globalStyles.textCenter)}
-                >
-                  {nummsg}
-                </p>
-              ) : (
-                <p className={globalStyles.errorMsg}></p>
-              )}
+              <div className={bootstrapStyles.col12}>
+                <Button value="" onClick={gotoNext}>
+                  <input
+                    type="submit"
+                    className={styles.inputButton}
+                    value="proceed to filling details"
+                  />
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          className={cs(
-            bootstrapStyles.row,
-            bootstrapStyles.col12,
-            globalStyles.textCenter,
-            globalStyles.voffset6
-          )}
-        >
-          <div className={bootstrapStyles.col12}>
-            <Button value="proceed to filling details" onClick={gotoNext} />
-          </div>
-        </div>
+        </Formsy>
         <div
           className={cs(
             bootstrapStyles.row,

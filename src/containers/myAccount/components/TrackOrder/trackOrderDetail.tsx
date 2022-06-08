@@ -14,7 +14,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
   // const [hasShopped, setHasShopped] = useState(false);
   // const [isOpenAddressIndex, setIsOpenAddressIndex] = useState(-1);
 
-  const recieved = (data: any, text: string, status: number) => {
+  const received = (data: any, text: string, status: number) => {
     const html = [];
     const mydata = data.filter((a: any) => {
       return a.status == "Order Received";
@@ -23,12 +23,16 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr />);
     } else {
-      const date = moment(mydata[0] ? mydata[0].date : new Date()).format(
+      const date = moment(mydata[0] ? mydata[0]?.date : new Date()).format(
         "D-MMM-YYYY"
       );
       html.push(
@@ -53,7 +57,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr />);
@@ -61,7 +69,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr className={styles.cerisehr} />);
@@ -79,7 +91,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.whitebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr />);
@@ -87,7 +103,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr className={styles.cerisehr} />);
@@ -112,7 +132,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
       html.push(<hr className={styles.cerisehr} />);
@@ -121,7 +145,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
         <div className={styles.relative}>
           <div className={cs(styles.mainBlock, styles.whitebg)}>
             <p>{text}</p>
-            <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+            <p>
+              {mydata[0]?.date
+                ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+                : ""}
+            </p>
           </div>
           <div className={styles.txtRight}>
             <img src={liveImg} width="30" /> Live Status Update:{" "}
@@ -150,7 +178,11 @@ const TrackDetails: React.FC<OrdersProps> = props => {
       html.push(
         <div className={cs(styles.mainBlock, styles.cerisebg)}>
           <p>{text}</p>
-          <p>{moment(mydata[0].date).format("D-MMM-YYYY")}</p>
+          <p>
+            {mydata[0]?.date
+              ? moment(mydata[0]?.date).format("D-MMM-YYYY")
+              : ""}
+          </p>
         </div>
       );
     } else {
@@ -165,22 +197,26 @@ const TrackDetails: React.FC<OrdersProps> = props => {
   };
 
   const shippingTrack = () => {
-    if (!trackData.transition_data) return false;
+    if (!trackData.order_statuses) return false;
     const order = [
-        "Order Recieved",
+        "Order Received",
         "Ready to Pick",
         "Order Shipped",
-        "In Transit",
+        "Intransit",
         "Delivered"
       ],
       html = [],
-      child = [],
-      status = trackData.order_statuses.length;
-
+      child = [];
+    const value = trackData.order_statuses
+      .map((data: any) => {
+        return order.indexOf(data.status);
+      })
+      .sort();
+    const status = value.slice(-1)[0] + 1;
     for (let i = 0; i < 5; i++) {
       switch (true) {
         case i == 0:
-          child.push(recieved(trackData.order_statuses, order[i], status));
+          child.push(received(trackData.order_statuses, order[i], status));
           break;
         case i == 1:
           child.push(readyTopick(trackData.order_statuses, order[i], status));
@@ -189,7 +225,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
           child.push(shipped(trackData.order_statuses, order[i], status));
           break;
         case i == 3:
-          child.push(transit(trackData.order_statuses, order[i], status));
+          child.push(transit(trackData.order_statuses, "In Transit", status));
           break;
         case i == 4:
           child.push(delivered(trackData.order_statuses, order[i], status));
@@ -346,6 +382,14 @@ const TrackDetails: React.FC<OrdersProps> = props => {
             {data.lines.map((item: any) => {
               const isdisCount =
                 +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
+              const price1 =
+                +parseFloat(item.priceInclTax).toFixed(2) / +item.quantity;
+              const price2 =
+                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                +item.quantity;
+              const price3 =
+                +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
+                +item.quantity;
               return (
                 <div
                   className={cs(
@@ -383,8 +427,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                             {String.fromCharCode(
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
-                            {+parseFloat(item.priceInclTax).toFixed(2) /
-                              +item.quantity}
+                            {Number.isSafeInteger(+price1)
+                              ? price1
+                              : price1.toFixed(2) + ""}
                             &nbsp;{" "}
                           </span>
                         ) : (
@@ -395,9 +440,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                             {String.fromCharCode(
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
-                            {+parseFloat(
-                              item.priceExclTaxExclDiscounts
-                            ).toFixed(2) / +item.quantity}
+                            {Number.isSafeInteger(+price2)
+                              ? price2
+                              : price2.toFixed(2) + ""}
                             &nbsp;{" "}
                           </span>
                         ) : (
@@ -412,9 +457,10 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                               ...currencyCode[item.priceCurrency as Currency]
                             )}
                             &nbsp;{" "}
-                            {+parseFloat(
-                              item.priceExclTaxExclDiscounts
-                            ).toFixed(2) / +item.quantity}
+                            {Number.isSafeInteger(+price3)
+                              ? price3
+                              : price3.toFixed(2) + ""}
+                            &nbsp;{" "}
                           </span>
                         )}
                       </p>
